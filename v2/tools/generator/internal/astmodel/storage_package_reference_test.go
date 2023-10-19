@@ -19,8 +19,8 @@ func TestMakeStoragePackageReference(t *testing.T) {
 		version         string
 		expectedVersion string
 	}{
-		{"group", "1", "v1storage"},
-		{"microsoft.network", "2018-05-01", "v20180501storage"},
+		{"group", "1", "storage"},
+		{"microsoft.network", "2018-05-01", "storage"},
 	}
 
 	for _, c := range cases {
@@ -32,6 +32,7 @@ func TestMakeStoragePackageReference(t *testing.T) {
 			localRef := makeTestLocalPackageReference(c.group, c.version)
 			storageRef := MakeStoragePackageReference(localRef)
 
+			g.Expect(storageRef).To(BeAssignableToTypeOf(SubPackageReference{}))
 			g.Expect(storageRef.PackageName()).To(Equal(c.expectedVersion))
 		})
 	}

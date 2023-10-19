@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"fmt"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &BastionHost{}
 func (host *BastionHost) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220701s.BastionHost)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20220701storage/BastionHost but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20220701/storage/BastionHost but received %T instead", hub)
 	}
 
 	return host.AssignProperties_From_BastionHost(source)
@@ -61,7 +61,7 @@ func (host *BastionHost) ConvertFrom(hub conversion.Hub) error {
 func (host *BastionHost) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220701s.BastionHost)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20220701storage/BastionHost but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20220701/storage/BastionHost but received %T instead", hub)
 	}
 
 	return host.AssignProperties_To_BastionHost(destination)

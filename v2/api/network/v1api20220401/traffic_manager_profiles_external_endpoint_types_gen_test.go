@@ -5,7 +5,7 @@ package v1api20220401
 
 import (
 	"encoding/json"
-	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401storage"
+	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_TrafficManagerProfilesExternalEndpoint_WhenPropertiesConverted_RoundTr
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTrafficManagerProfilesExternalEndpoint tests if a specific instance of TrafficManagerProfilesExternalEndpoint can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForTrafficManagerProfilesExternalEndpoint tests if a specific instance of TrafficManagerProfilesExternalEndpoint can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTrafficManagerProfilesExternalEndpoint(subject TrafficManagerProfilesExternalEndpoint) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Trafficmanagerprofiles_ExternalEndpoint_Spec_WhenPropertiesConverted_R
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTrafficmanagerprofiles_ExternalEndpoint_Spec tests if a specific instance of Trafficmanagerprofiles_ExternalEndpoint_Spec can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForTrafficmanagerprofiles_ExternalEndpoint_Spec tests if a specific instance of Trafficmanagerprofiles_ExternalEndpoint_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTrafficmanagerprofiles_ExternalEndpoint_Spec(subject Trafficmanagerprofiles_ExternalEndpoint_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -313,7 +313,7 @@ func Test_Trafficmanagerprofiles_ExternalEndpoint_STATUS_WhenPropertiesConverted
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTrafficmanagerprofiles_ExternalEndpoint_STATUS tests if a specific instance of Trafficmanagerprofiles_ExternalEndpoint_STATUS can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForTrafficmanagerprofiles_ExternalEndpoint_STATUS tests if a specific instance of Trafficmanagerprofiles_ExternalEndpoint_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTrafficmanagerprofiles_ExternalEndpoint_STATUS(subject Trafficmanagerprofiles_ExternalEndpoint_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

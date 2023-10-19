@@ -5,7 +5,7 @@ package v1api20220401
 
 import (
 	"fmt"
-	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401storage"
+	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &TrafficManagerProfilesExternalEndpoint{}
 func (endpoint *TrafficManagerProfilesExternalEndpoint) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220401s.TrafficManagerProfilesExternalEndpoint)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20220401storage/TrafficManagerProfilesExternalEndpoint but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20220401/storage/TrafficManagerProfilesExternalEndpoint but received %T instead", hub)
 	}
 
 	return endpoint.AssignProperties_From_TrafficManagerProfilesExternalEndpoint(source)
@@ -61,7 +61,7 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint) ConvertFrom(hub conversi
 func (endpoint *TrafficManagerProfilesExternalEndpoint) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220401s.TrafficManagerProfilesExternalEndpoint)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20220401storage/TrafficManagerProfilesExternalEndpoint but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20220401/storage/TrafficManagerProfilesExternalEndpoint but received %T instead", hub)
 	}
 
 	return endpoint.AssignProperties_To_TrafficManagerProfilesExternalEndpoint(destination)

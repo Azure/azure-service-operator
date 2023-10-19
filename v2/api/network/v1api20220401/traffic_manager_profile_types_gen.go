@@ -6,7 +6,7 @@ package v1api20220401
 import (
 	"context"
 	"fmt"
-	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401storage"
+	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -56,7 +56,7 @@ var _ conversion.Convertible = &TrafficManagerProfile{}
 func (profile *TrafficManagerProfile) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220401s.TrafficManagerProfile)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20220401storage/TrafficManagerProfile but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20220401/storage/TrafficManagerProfile but received %T instead", hub)
 	}
 
 	return profile.AssignProperties_From_TrafficManagerProfile(source)
@@ -66,7 +66,7 @@ func (profile *TrafficManagerProfile) ConvertFrom(hub conversion.Hub) error {
 func (profile *TrafficManagerProfile) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220401s.TrafficManagerProfile)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20220401storage/TrafficManagerProfile but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20220401/storage/TrafficManagerProfile but received %T instead", hub)
 	}
 
 	return profile.AssignProperties_To_TrafficManagerProfile(destination)

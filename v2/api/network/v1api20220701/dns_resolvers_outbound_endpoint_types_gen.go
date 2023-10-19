@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"fmt"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &DnsResolversOutboundEndpoint{}
 func (endpoint *DnsResolversOutboundEndpoint) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220701s.DnsResolversOutboundEndpoint)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20220701storage/DnsResolversOutboundEndpoint but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20220701/storage/DnsResolversOutboundEndpoint but received %T instead", hub)
 	}
 
 	return endpoint.AssignProperties_From_DnsResolversOutboundEndpoint(source)
@@ -61,7 +61,7 @@ func (endpoint *DnsResolversOutboundEndpoint) ConvertFrom(hub conversion.Hub) er
 func (endpoint *DnsResolversOutboundEndpoint) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220701s.DnsResolversOutboundEndpoint)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20220701storage/DnsResolversOutboundEndpoint but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20220701/storage/DnsResolversOutboundEndpoint but received %T instead", hub)
 	}
 
 	return endpoint.AssignProperties_To_DnsResolversOutboundEndpoint(destination)

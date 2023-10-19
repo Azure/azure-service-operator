@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"fmt"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &PrivateEndpoint{}
 func (endpoint *PrivateEndpoint) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220701s.PrivateEndpoint)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20220701storage/PrivateEndpoint but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20220701/storage/PrivateEndpoint but received %T instead", hub)
 	}
 
 	return endpoint.AssignProperties_From_PrivateEndpoint(source)
@@ -61,7 +61,7 @@ func (endpoint *PrivateEndpoint) ConvertFrom(hub conversion.Hub) error {
 func (endpoint *PrivateEndpoint) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220701s.PrivateEndpoint)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20220701storage/PrivateEndpoint but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20220701/storage/PrivateEndpoint but received %T instead", hub)
 	}
 
 	return endpoint.AssignProperties_To_PrivateEndpoint(destination)

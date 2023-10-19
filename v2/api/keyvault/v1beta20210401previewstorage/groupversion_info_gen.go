@@ -10,6 +10,7 @@ Licensed under the MIT license.
 // All object properties are optional by default, this will be overridden when needed:
 // +kubebuilder:validation:Optional
 // +groupName=keyvault.azure.com
+// +versionName=v1beta20210401previewstorage
 package v1beta20210401previewstorage
 
 import (

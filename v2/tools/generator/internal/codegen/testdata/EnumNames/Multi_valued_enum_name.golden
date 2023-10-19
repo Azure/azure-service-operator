@@ -5,7 +5,7 @@ package v1api20200101
 
 import (
 	"fmt"
-	v20200101s "github.com/Azure/azure-service-operator/testing/test/v1api20200101storage"
+	v20200101s "github.com/Azure/azure-service-operator/testing/test/v1api20200101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -47,7 +47,7 @@ var _ conversion.Convertible = &AResource{}
 func (resource *AResource) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20200101s.AResource)
 	if !ok {
-		return fmt.Errorf("expected test/v1api20200101storage/AResource but received %T instead", hub)
+		return fmt.Errorf("expected test/v1api20200101/storage/AResource but received %T instead", hub)
 	}
 
 	return resource.AssignProperties_From_AResource(source)
@@ -57,7 +57,7 @@ func (resource *AResource) ConvertFrom(hub conversion.Hub) error {
 func (resource *AResource) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20200101s.AResource)
 	if !ok {
-		return fmt.Errorf("expected test/v1api20200101storage/AResource but received %T instead", hub)
+		return fmt.Errorf("expected test/v1api20200101/storage/AResource but received %T instead", hub)
 	}
 
 	return resource.AssignProperties_To_AResource(destination)

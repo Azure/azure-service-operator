@@ -7,7 +7,7 @@ package test
 
 import (
 	"bytes"
-	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
@@ -37,8 +37,8 @@ func AssertPackagesGenerateExpectedCode(
 	// Write a file for each package
 	for _, defs := range groups {
 		ref := defs[0].Name().InternalPackageReference()
-		group, version := ref.GroupVersion()
-		fileName := fmt.Sprintf("%s-%s", group, version)
+		fileName := strings.ReplaceAll(ref.FolderPath(), "/", "-")
+
 		AssertTypeDefinitionsGenerateExpectedCode(t, fileName, defs, options...)
 	}
 }

@@ -5,7 +5,7 @@ package v1api20201101
 
 import (
 	"encoding/json"
-	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_VirtualNetworkGateway_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkGateway tests if a specific instance of VirtualNetworkGateway can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetworkGateway tests if a specific instance of VirtualNetworkGateway can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkGateway(subject VirtualNetworkGateway) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_VirtualNetworkGateway_Spec_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkGateway_Spec tests if a specific instance of VirtualNetworkGateway_Spec can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetworkGateway_Spec tests if a specific instance of VirtualNetworkGateway_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkGateway_Spec(subject VirtualNetworkGateway_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -308,7 +308,7 @@ func Test_VirtualNetworkGateway_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkGateway_STATUS tests if a specific instance of VirtualNetworkGateway_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetworkGateway_STATUS tests if a specific instance of VirtualNetworkGateway_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkGateway_STATUS(subject VirtualNetworkGateway_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -451,7 +451,7 @@ func Test_BgpSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBgpSettings tests if a specific instance of BgpSettings can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForBgpSettings tests if a specific instance of BgpSettings can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBgpSettings(subject BgpSettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -569,7 +569,7 @@ func Test_BgpSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBgpSettings_STATUS tests if a specific instance of BgpSettings_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForBgpSettings_STATUS tests if a specific instance of BgpSettings_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBgpSettings_STATUS(subject BgpSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -687,7 +687,7 @@ func Test_VirtualNetworkGatewayIPConfiguration_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfiguration tests if a specific instance of VirtualNetworkGatewayIPConfiguration can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfiguration tests if a specific instance of VirtualNetworkGatewayIPConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfiguration(subject VirtualNetworkGatewayIPConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -806,7 +806,7 @@ func Test_VirtualNetworkGatewayIPConfiguration_STATUS_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfiguration_STATUS tests if a specific instance of VirtualNetworkGatewayIPConfiguration_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfiguration_STATUS tests if a specific instance of VirtualNetworkGatewayIPConfiguration_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfiguration_STATUS(subject VirtualNetworkGatewayIPConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -933,7 +933,7 @@ func Test_VirtualNetworkGatewaySku_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkGatewaySku tests if a specific instance of VirtualNetworkGatewaySku can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetworkGatewaySku tests if a specific instance of VirtualNetworkGatewaySku can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkGatewaySku(subject VirtualNetworkGatewaySku) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1071,7 +1071,7 @@ func Test_VirtualNetworkGatewaySku_STATUS_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkGatewaySku_STATUS tests if a specific instance of VirtualNetworkGatewaySku_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetworkGatewaySku_STATUS tests if a specific instance of VirtualNetworkGatewaySku_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkGatewaySku_STATUS(subject VirtualNetworkGatewaySku_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1210,7 +1210,7 @@ func Test_VpnClientConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVpnClientConfiguration tests if a specific instance of VpnClientConfiguration can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVpnClientConfiguration tests if a specific instance of VpnClientConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVpnClientConfiguration(subject VpnClientConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1337,7 +1337,7 @@ func Test_VpnClientConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVpnClientConfiguration_STATUS tests if a specific instance of VpnClientConfiguration_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVpnClientConfiguration_STATUS tests if a specific instance of VpnClientConfiguration_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVpnClientConfiguration_STATUS(subject VpnClientConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1464,7 +1464,7 @@ func Test_IPConfigurationBgpPeeringAddress_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddress tests if a specific instance of IPConfigurationBgpPeeringAddress can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddress tests if a specific instance of IPConfigurationBgpPeeringAddress can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddress(subject IPConfigurationBgpPeeringAddress) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1568,7 +1568,7 @@ func Test_IPConfigurationBgpPeeringAddress_STATUS_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddress_STATUS tests if a specific instance of IPConfigurationBgpPeeringAddress_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddress_STATUS tests if a specific instance of IPConfigurationBgpPeeringAddress_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddress_STATUS(subject IPConfigurationBgpPeeringAddress_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1674,7 +1674,7 @@ func Test_IpsecPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForIpsecPolicy tests if a specific instance of IpsecPolicy can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForIpsecPolicy tests if a specific instance of IpsecPolicy can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForIpsecPolicy(subject IpsecPolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1828,7 +1828,7 @@ func Test_IpsecPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForIpsecPolicy_STATUS tests if a specific instance of IpsecPolicy_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForIpsecPolicy_STATUS tests if a specific instance of IpsecPolicy_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForIpsecPolicy_STATUS(subject IpsecPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1982,7 +1982,7 @@ func Test_RadiusServer_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRadiusServer tests if a specific instance of RadiusServer can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForRadiusServer tests if a specific instance of RadiusServer can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRadiusServer(subject RadiusServer) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2086,7 +2086,7 @@ func Test_RadiusServer_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRadiusServer_STATUS tests if a specific instance of RadiusServer_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForRadiusServer_STATUS tests if a specific instance of RadiusServer_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRadiusServer_STATUS(subject RadiusServer_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2191,7 +2191,7 @@ func Test_VpnClientRevokedCertificate_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVpnClientRevokedCertificate tests if a specific instance of VpnClientRevokedCertificate can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVpnClientRevokedCertificate tests if a specific instance of VpnClientRevokedCertificate can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVpnClientRevokedCertificate(subject VpnClientRevokedCertificate) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2295,7 +2295,7 @@ func Test_VpnClientRevokedCertificate_STATUS_WhenPropertiesConverted_RoundTripsW
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVpnClientRevokedCertificate_STATUS tests if a specific instance of VpnClientRevokedCertificate_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVpnClientRevokedCertificate_STATUS tests if a specific instance of VpnClientRevokedCertificate_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVpnClientRevokedCertificate_STATUS(subject VpnClientRevokedCertificate_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2406,7 +2406,7 @@ func Test_VpnClientRootCertificate_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVpnClientRootCertificate tests if a specific instance of VpnClientRootCertificate can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVpnClientRootCertificate tests if a specific instance of VpnClientRootCertificate can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVpnClientRootCertificate(subject VpnClientRootCertificate) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2510,7 +2510,7 @@ func Test_VpnClientRootCertificate_STATUS_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVpnClientRootCertificate_STATUS tests if a specific instance of VpnClientRootCertificate_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVpnClientRootCertificate_STATUS tests if a specific instance of VpnClientRootCertificate_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVpnClientRootCertificate_STATUS(subject VpnClientRootCertificate_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

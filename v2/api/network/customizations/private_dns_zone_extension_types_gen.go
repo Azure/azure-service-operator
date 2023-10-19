@@ -5,9 +5,9 @@ package customizations
 
 import (
 	v20180901 "github.com/Azure/azure-service-operator/v2/api/network/v1api20180901"
-	v20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180901storage"
+	v20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180901/storage"
 	v1beta20180901 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901"
-	v1beta20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage"
+	v1beta20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 

@@ -5,7 +5,7 @@ package v1api20180501
 
 import (
 	"encoding/json"
-	v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage"
+	v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_DnsZonesMXRecord_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsZonesMXRecord tests if a specific instance of DnsZonesMXRecord can be assigned to v1api20180501storage and back losslessly
+// RunPropertyAssignmentTestForDnsZonesMXRecord tests if a specific instance of DnsZonesMXRecord can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsZonesMXRecord(subject DnsZonesMXRecord) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_DnsZones_MX_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsZones_MX_Spec tests if a specific instance of DnsZones_MX_Spec can be assigned to v1api20180501storage and back losslessly
+// RunPropertyAssignmentTestForDnsZones_MX_Spec tests if a specific instance of DnsZones_MX_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsZones_MX_Spec(subject DnsZones_MX_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -303,7 +303,7 @@ func Test_DnsZones_MX_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsZones_MX_STATUS tests if a specific instance of DnsZones_MX_STATUS can be assigned to v1api20180501storage and back losslessly
+// RunPropertyAssignmentTestForDnsZones_MX_STATUS tests if a specific instance of DnsZones_MX_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsZones_MX_STATUS(subject DnsZones_MX_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

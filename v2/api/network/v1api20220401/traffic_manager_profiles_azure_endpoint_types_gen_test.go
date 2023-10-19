@@ -5,7 +5,7 @@ package v1api20220401
 
 import (
 	"encoding/json"
-	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401storage"
+	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_TrafficManagerProfilesAzureEndpoint_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTrafficManagerProfilesAzureEndpoint tests if a specific instance of TrafficManagerProfilesAzureEndpoint can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForTrafficManagerProfilesAzureEndpoint tests if a specific instance of TrafficManagerProfilesAzureEndpoint can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTrafficManagerProfilesAzureEndpoint(subject TrafficManagerProfilesAzureEndpoint) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Trafficmanagerprofiles_AzureEndpoint_Spec_WhenPropertiesConverted_Roun
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTrafficmanagerprofiles_AzureEndpoint_Spec tests if a specific instance of Trafficmanagerprofiles_AzureEndpoint_Spec can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForTrafficmanagerprofiles_AzureEndpoint_Spec tests if a specific instance of Trafficmanagerprofiles_AzureEndpoint_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTrafficmanagerprofiles_AzureEndpoint_Spec(subject Trafficmanagerprofiles_AzureEndpoint_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -313,7 +313,7 @@ func Test_Trafficmanagerprofiles_AzureEndpoint_STATUS_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTrafficmanagerprofiles_AzureEndpoint_STATUS tests if a specific instance of Trafficmanagerprofiles_AzureEndpoint_STATUS can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForTrafficmanagerprofiles_AzureEndpoint_STATUS tests if a specific instance of Trafficmanagerprofiles_AzureEndpoint_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTrafficmanagerprofiles_AzureEndpoint_STATUS(subject Trafficmanagerprofiles_AzureEndpoint_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -452,7 +452,7 @@ func Test_EndpointProperties_CustomHeaders_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEndpointProperties_CustomHeaders tests if a specific instance of EndpointProperties_CustomHeaders can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForEndpointProperties_CustomHeaders tests if a specific instance of EndpointProperties_CustomHeaders can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEndpointProperties_CustomHeaders(subject EndpointProperties_CustomHeaders) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -556,7 +556,7 @@ func Test_EndpointProperties_CustomHeaders_STATUS_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEndpointProperties_CustomHeaders_STATUS tests if a specific instance of EndpointProperties_CustomHeaders_STATUS can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForEndpointProperties_CustomHeaders_STATUS tests if a specific instance of EndpointProperties_CustomHeaders_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEndpointProperties_CustomHeaders_STATUS(subject EndpointProperties_CustomHeaders_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -660,7 +660,7 @@ func Test_EndpointProperties_Subnets_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEndpointProperties_Subnets tests if a specific instance of EndpointProperties_Subnets can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForEndpointProperties_Subnets tests if a specific instance of EndpointProperties_Subnets can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEndpointProperties_Subnets(subject EndpointProperties_Subnets) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -765,7 +765,7 @@ func Test_EndpointProperties_Subnets_STATUS_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEndpointProperties_Subnets_STATUS tests if a specific instance of EndpointProperties_Subnets_STATUS can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForEndpointProperties_Subnets_STATUS tests if a specific instance of EndpointProperties_Subnets_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEndpointProperties_Subnets_STATUS(subject EndpointProperties_Subnets_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

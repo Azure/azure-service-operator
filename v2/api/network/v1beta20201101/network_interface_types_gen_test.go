@@ -5,8 +5,8 @@ package v1beta20201101
 
 import (
 	"encoding/json"
-	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
-	v1beta20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
+	v1beta20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_NetworkInterface_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkInterface tests if a specific instance of NetworkInterface can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkInterface tests if a specific instance of NetworkInterface can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterface(subject NetworkInterface) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_NetworkInterface_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkInterface_Spec tests if a specific instance of NetworkInterface_Spec can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkInterface_Spec tests if a specific instance of NetworkInterface_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterface_Spec(subject NetworkInterface_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -302,7 +302,7 @@ func Test_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded_WhenPrope
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(subject NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -450,7 +450,7 @@ func Test_NetworkInterfaceDnsSettings_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkInterfaceDnsSettings tests if a specific instance of NetworkInterfaceDnsSettings can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkInterfaceDnsSettings tests if a specific instance of NetworkInterfaceDnsSettings can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterfaceDnsSettings(subject NetworkInterfaceDnsSettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -554,7 +554,7 @@ func Test_NetworkInterfaceDnsSettings_STATUS_WhenPropertiesConverted_RoundTripsW
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkInterfaceDnsSettings_STATUS tests if a specific instance of NetworkInterfaceDnsSettings_STATUS can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkInterfaceDnsSettings_STATUS tests if a specific instance of NetworkInterfaceDnsSettings_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterfaceDnsSettings_STATUS(subject NetworkInterfaceDnsSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -661,7 +661,7 @@ func Test_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded_W
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded tests if a specific instance of NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded tests if a specific instance of NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded(subject NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -788,7 +788,7 @@ func Test_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmb
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(subject NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -924,7 +924,7 @@ func Test_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEm
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(subject NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1027,7 +1027,7 @@ func Test_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_WhenP
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(subject NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1130,7 +1130,7 @@ func Test_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_WhenProp
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded tests if a specific instance of NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded tests if a specific instance of NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(subject NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1227,7 +1227,7 @@ func Test_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_WhenProper
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(subject PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1330,7 +1330,7 @@ func Test_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_WhenPro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(subject PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1433,7 +1433,7 @@ func Test_PrivateLinkServiceSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateLinkServiceSpec tests if a specific instance of PrivateLinkServiceSpec can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForPrivateLinkServiceSpec tests if a specific instance of PrivateLinkServiceSpec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateLinkServiceSpec(subject PrivateLinkServiceSpec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1530,7 +1530,7 @@ func Test_SubResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubResource_STATUS tests if a specific instance of SubResource_STATUS can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForSubResource_STATUS tests if a specific instance of SubResource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1632,7 +1632,7 @@ func Test_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbed
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded tests if a specific instance of ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded tests if a specific instance of ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded(subject ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1729,7 +1729,7 @@ func Test_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResour
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(subject ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1833,7 +1833,7 @@ func Test_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_W
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(subject ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1936,7 +1936,7 @@ func Test_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_When
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded tests if a specific instance of ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded tests if a specific instance of ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(subject ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2033,7 +2033,7 @@ func Test_BackendAddressPool_NetworkInterface_SubResourceEmbedded_WhenProperties
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendAddressPool_NetworkInterface_SubResourceEmbedded tests if a specific instance of BackendAddressPool_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForBackendAddressPool_NetworkInterface_SubResourceEmbedded tests if a specific instance of BackendAddressPool_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendAddressPool_NetworkInterface_SubResourceEmbedded(subject BackendAddressPool_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2130,7 +2130,7 @@ func Test_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_WhenPro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(subject BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2233,7 +2233,7 @@ func Test_InboundNatRule_NetworkInterface_SubResourceEmbedded_WhenPropertiesConv
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForInboundNatRule_NetworkInterface_SubResourceEmbedded tests if a specific instance of InboundNatRule_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForInboundNatRule_NetworkInterface_SubResourceEmbedded tests if a specific instance of InboundNatRule_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForInboundNatRule_NetworkInterface_SubResourceEmbedded(subject InboundNatRule_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2330,7 +2330,7 @@ func Test_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropert
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(subject InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2433,7 +2433,7 @@ func Test_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS_
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS tests if a specific instance of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS tests if a specific instance of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(subject NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2538,7 +2538,7 @@ func Test_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_WhenProper
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(subject PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2641,7 +2641,7 @@ func Test_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded_WhenPropertie
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPAddressSpec_NetworkInterface_SubResourceEmbedded tests if a specific instance of PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForPublicIPAddressSpec_NetworkInterface_SubResourceEmbedded tests if a specific instance of PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddressSpec_NetworkInterface_SubResourceEmbedded(subject PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2738,7 +2738,7 @@ func Test_Subnet_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubnet_NetworkInterface_SubResourceEmbedded tests if a specific instance of Subnet_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForSubnet_NetworkInterface_SubResourceEmbedded tests if a specific instance of Subnet_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubnet_NetworkInterface_SubResourceEmbedded(subject Subnet_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2835,7 +2835,7 @@ func Test_Subnet_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConve
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubnet_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of Subnet_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForSubnet_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of Subnet_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubnet_STATUS_NetworkInterface_SubResourceEmbedded(subject Subnet_STATUS_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2938,7 +2938,7 @@ func Test_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded_WhenProp
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded tests if a specific instance of VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(subject VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3041,7 +3041,7 @@ func Test_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded_WhenPropert
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded tests if a specific instance of VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded tests if a specific instance of VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded(subject VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
