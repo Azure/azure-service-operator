@@ -11,9 +11,10 @@ import (
 	"math/rand"
 	"os"
 	"regexp"
+	"time"
+
 	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
-	"time"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
@@ -134,10 +135,10 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 			BindAddress: flgs.MetricsAddr,
 		},
 		WebhookServer: webhook.NewServer(webhook.Options{
-			Port: 9443,
+			Port:    flgs.WebhookPort,
+			CertDir: flgs.WebhookCertDir,
 		}),
 	})
-
 	if err != nil {
 		setupLog.Error(err, "unable to create manager")
 		os.Exit(1)
