@@ -5,8 +5,8 @@ package v1beta20201101
 
 import (
 	"encoding/json"
-	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
-	v1beta20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
+	v1beta20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_VirtualNetwork_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetwork tests if a specific instance of VirtualNetwork can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetwork tests if a specific instance of VirtualNetwork can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetwork(subject VirtualNetwork) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_VirtualNetwork_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetwork_Spec tests if a specific instance of VirtualNetwork_Spec can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetwork_Spec tests if a specific instance of VirtualNetwork_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetwork_Spec(subject VirtualNetwork_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -302,7 +302,7 @@ func Test_VirtualNetwork_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetwork_STATUS tests if a specific instance of VirtualNetwork_STATUS can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetwork_STATUS tests if a specific instance of VirtualNetwork_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetwork_STATUS(subject VirtualNetwork_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -437,7 +437,7 @@ func Test_AddressSpace_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAddressSpace tests if a specific instance of AddressSpace can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForAddressSpace tests if a specific instance of AddressSpace can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAddressSpace(subject AddressSpace) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -539,7 +539,7 @@ func Test_AddressSpace_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAddressSpace_STATUS tests if a specific instance of AddressSpace_STATUS can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForAddressSpace_STATUS tests if a specific instance of AddressSpace_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAddressSpace_STATUS(subject AddressSpace_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -642,7 +642,7 @@ func Test_DhcpOptions_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDhcpOptions tests if a specific instance of DhcpOptions can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForDhcpOptions tests if a specific instance of DhcpOptions can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDhcpOptions(subject DhcpOptions) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -744,7 +744,7 @@ func Test_DhcpOptions_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDhcpOptions_STATUS tests if a specific instance of DhcpOptions_STATUS can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForDhcpOptions_STATUS tests if a specific instance of DhcpOptions_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDhcpOptions_STATUS(subject DhcpOptions_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -846,7 +846,7 @@ func Test_VirtualNetworkBgpCommunities_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkBgpCommunities tests if a specific instance of VirtualNetworkBgpCommunities can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetworkBgpCommunities tests if a specific instance of VirtualNetworkBgpCommunities can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkBgpCommunities(subject VirtualNetworkBgpCommunities) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -949,7 +949,7 @@ func Test_VirtualNetworkBgpCommunities_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworkBgpCommunities_STATUS tests if a specific instance of VirtualNetworkBgpCommunities_STATUS can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetworkBgpCommunities_STATUS tests if a specific instance of VirtualNetworkBgpCommunities_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkBgpCommunities_STATUS(subject VirtualNetworkBgpCommunities_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

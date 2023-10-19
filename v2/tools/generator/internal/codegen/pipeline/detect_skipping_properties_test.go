@@ -203,8 +203,8 @@ func Test_DetectSkippingProperties_WhenPropertyTypesDiffer_ReturnsError(t *testi
 	)
 
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(err.Error()).To(ContainSubstring("person/v20200101storage/Person_Spec.VIP was discontinued"))
-	g.Expect(err.Error()).To(ContainSubstring("reintroduced as person/v20220630storage/Person_Spec.VIP"))
+	g.Expect(err.Error()).To(ContainSubstring("person/v20200101/storage/Person_Spec.VIP was discontinued"))
+	g.Expect(err.Error()).To(ContainSubstring("reintroduced as person/v20220630/storage/Person_Spec.VIP"))
 	// Make sure the error message links to GitHub
 	g.Expect(err.Error()).To(ContainSubstring("https://github.com/Azure/azure-service-operator/issues/1776"))
 }

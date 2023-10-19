@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_NatGateway_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNatGateway tests if a specific instance of NatGateway can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForNatGateway tests if a specific instance of NatGateway can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNatGateway(subject NatGateway) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_NatGateway_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNatGateway_Spec tests if a specific instance of NatGateway_Spec can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForNatGateway_Spec tests if a specific instance of NatGateway_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNatGateway_Spec(subject NatGateway_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -297,7 +297,7 @@ func Test_NatGateway_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNatGateway_STATUS tests if a specific instance of NatGateway_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForNatGateway_STATUS tests if a specific instance of NatGateway_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNatGateway_STATUS(subject NatGateway_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -429,7 +429,7 @@ func Test_ApplicationGatewaySubResource_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewaySubResource tests if a specific instance of ApplicationGatewaySubResource can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewaySubResource tests if a specific instance of ApplicationGatewaySubResource can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewaySubResource(subject ApplicationGatewaySubResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -526,7 +526,7 @@ func Test_ApplicationGatewaySubResource_STATUS_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewaySubResource_STATUS tests if a specific instance of ApplicationGatewaySubResource_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewaySubResource_STATUS tests if a specific instance of ApplicationGatewaySubResource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewaySubResource_STATUS(subject ApplicationGatewaySubResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -629,7 +629,7 @@ func Test_NatGatewaySku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNatGatewaySku tests if a specific instance of NatGatewaySku can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForNatGatewaySku tests if a specific instance of NatGatewaySku can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNatGatewaySku(subject NatGatewaySku) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -731,7 +731,7 @@ func Test_NatGatewaySku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNatGatewaySku_STATUS tests if a specific instance of NatGatewaySku_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForNatGatewaySku_STATUS tests if a specific instance of NatGatewaySku_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNatGatewaySku_STATUS(subject NatGatewaySku_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

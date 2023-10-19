@@ -5,7 +5,7 @@ package v1api20201101
 
 import (
 	"fmt"
-	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &PublicIPAddress{}
 func (address *PublicIPAddress) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20201101s.PublicIPAddress)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20201101storage/PublicIPAddress but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20201101/storage/PublicIPAddress but received %T instead", hub)
 	}
 
 	return address.AssignProperties_From_PublicIPAddress(source)
@@ -61,7 +61,7 @@ func (address *PublicIPAddress) ConvertFrom(hub conversion.Hub) error {
 func (address *PublicIPAddress) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20201101s.PublicIPAddress)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20201101storage/PublicIPAddress but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20201101/storage/PublicIPAddress but received %T instead", hub)
 	}
 
 	return address.AssignProperties_To_PublicIPAddress(destination)

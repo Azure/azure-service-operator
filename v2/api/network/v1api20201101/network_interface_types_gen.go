@@ -5,7 +5,7 @@ package v1api20201101
 
 import (
 	"fmt"
-	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &NetworkInterface{}
 func (networkInterface *NetworkInterface) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20201101s.NetworkInterface)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20201101storage/NetworkInterface but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20201101/storage/NetworkInterface but received %T instead", hub)
 	}
 
 	return networkInterface.AssignProperties_From_NetworkInterface(source)
@@ -61,7 +61,7 @@ func (networkInterface *NetworkInterface) ConvertFrom(hub conversion.Hub) error 
 func (networkInterface *NetworkInterface) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20201101s.NetworkInterface)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20201101storage/NetworkInterface but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20201101/storage/NetworkInterface but received %T instead", hub)
 	}
 
 	return networkInterface.AssignProperties_To_NetworkInterface(destination)

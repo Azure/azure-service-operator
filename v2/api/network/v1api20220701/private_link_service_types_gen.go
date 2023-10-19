@@ -6,7 +6,7 @@ package v1api20220701
 import (
 	"context"
 	"fmt"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -56,7 +56,7 @@ var _ conversion.Convertible = &PrivateLinkService{}
 func (service *PrivateLinkService) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220701s.PrivateLinkService)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20220701storage/PrivateLinkService but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20220701/storage/PrivateLinkService but received %T instead", hub)
 	}
 
 	return service.AssignProperties_From_PrivateLinkService(source)
@@ -66,7 +66,7 @@ func (service *PrivateLinkService) ConvertFrom(hub conversion.Hub) error {
 func (service *PrivateLinkService) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220701s.PrivateLinkService)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20220701storage/PrivateLinkService but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20220701/storage/PrivateLinkService but received %T instead", hub)
 	}
 
 	return service.AssignProperties_To_PrivateLinkService(destination)

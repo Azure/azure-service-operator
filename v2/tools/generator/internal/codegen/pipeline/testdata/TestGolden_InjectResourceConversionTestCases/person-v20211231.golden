@@ -5,7 +5,7 @@ package v20211231
 
 import (
 	"fmt"
-	v20211231s "github.com/Azure/azure-service-operator/testing/person/v20211231storage"
+	v20211231s "github.com/Azure/azure-service-operator/testing/person/v20211231/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -27,7 +27,7 @@ var _ conversion.Convertible = &Person{}
 func (person *Person) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20211231s.Person)
 	if !ok {
-		return fmt.Errorf("expected person/v20211231storage/Person but received %T instead", hub)
+		return fmt.Errorf("expected person/v20211231/storage/Person but received %T instead", hub)
 	}
 
 	return person.AssignProperties_From_Person(source)
@@ -37,7 +37,7 @@ func (person *Person) ConvertFrom(hub conversion.Hub) error {
 func (person *Person) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20211231s.Person)
 	if !ok {
-		return fmt.Errorf("expected person/v20211231storage/Person but received %T instead", hub)
+		return fmt.Errorf("expected person/v20211231/storage/Person but received %T instead", hub)
 	}
 
 	return person.AssignProperties_To_Person(destination)
