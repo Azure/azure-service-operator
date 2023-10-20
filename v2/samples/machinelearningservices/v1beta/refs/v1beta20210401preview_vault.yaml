@@ -1,7 +1,7 @@
 apiVersion: keyvault.azure.com/v1beta20210401preview
 kind: Vault
 metadata:
-  name: aso-ml-vault
+  name: aso-v-mls
   namespace: default
 spec:
   location: westus3
@@ -9,6 +9,7 @@ spec:
     name: aso-sample-rg
   properties:
     tenantId: "00000000-0000-0000-0000-000000000000"
+    createMode: createOrRecover
     sku:
       family: A
       name: standard
