@@ -111,7 +111,7 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(backupPolicy)
 
 	// Ensure that the resource group was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		string(dataprotection.APIVersion_Value),

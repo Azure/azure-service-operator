@@ -73,7 +73,7 @@ func Test_Storage_StorageAccount_20220901_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(acct)
 
 	// Ensure that the account was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		string(storage.APIVersion_Value))
