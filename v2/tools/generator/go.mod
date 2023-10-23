@@ -18,7 +18,7 @@ require (
 	github.com/go-openapi/jsonpointer v0.20.0
 	github.com/go-openapi/spec v0.20.9
 	github.com/gobuffalo/flect v1.0.2
-	github.com/google/go-cmp v0.5.9
+	github.com/google/go-cmp v0.6.0
 	github.com/kr/pretty v0.3.1
 	github.com/kylelemons/godebug v1.1.0
 	github.com/leanovate/gopter v0.2.9
