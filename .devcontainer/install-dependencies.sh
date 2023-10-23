@@ -72,10 +72,12 @@ write-error() {
 if [ "$DEVCONTAINER" = true ]; then 
     TOOL_DEST=/usr/local/bin
     KUBEBUILDER_DEST=/usr/local/kubebuilder
+    BUILDX_DEST=/usr/lib/docker/cli-plugins
 else
     TOOL_DEST=$(git rev-parse --show-toplevel)/hack/tools
     mkdir -p "$TOOL_DEST"
     KUBEBUILDER_DEST="$TOOL_DEST/kubebuilder"
+    BUILDX_DEST=$HOME/.docker/cli-plugins
 fi
 
 # Ensure we have the right version of GO
@@ -210,7 +212,6 @@ if should-install "$TOOL_DEST/cmctl"; then
     curl -L "https://github.com/jetstack/cert-manager/releases/latest/download/cmctl-${os}-${arch}.tar.gz" | tar -xz -C "$TOOL_DEST"
 fi
 
-BUILDX_DEST=/usr/lib/docker/cli-plugins
 write-verbose "Checking for $BUILDX_DEST/docker-buildx"
 if should-install "$BUILDX_DEST/docker-buildx"; then
     write-info "Installing buildx-${os}_${arch} to $BUILDX_DEST…"
