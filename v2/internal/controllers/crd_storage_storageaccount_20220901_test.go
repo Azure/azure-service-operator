@@ -235,7 +235,7 @@ func Test_Storage_StorageAccount_SecretsFromAzure(t *testing.T) {
 	tc.ListResources(configMapList, client.InNamespace(tc.Namespace))
 	tc.Expect(configMapList.Items).To(HaveLen(0))
 
-	// Run sub-tests on storage account
+	// Run sub-tests on storage account in sequence
 	tc.RunSubtests(
 		testcommon.Subtest{
 			Name: "SecretsWrittenToSameKubeSecret",

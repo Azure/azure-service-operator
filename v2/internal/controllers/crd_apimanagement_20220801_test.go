@@ -140,7 +140,7 @@ func APIM_Subscription_CRUD(tc *testcommon.KubePerTestContext, service client.Ob
 	tc.ListResources(secretList, client.InNamespace(tc.Namespace))
 	tc.Expect(secretList.Items).To(HaveLen(0))
 
-	// Run sub-tests on subscription
+	// Run sub-tests on subscription in sequence
 	tc.RunSubtests(
 		testcommon.Subtest{
 			Name: "SecretsWrittenToSameKubeSecret",
