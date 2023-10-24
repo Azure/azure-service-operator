@@ -190,6 +190,18 @@ typeTransformers:
   # remove the property'RedisProperties_Status.AccessKeys'
   # because it's only populated in a response from Azure 
   #
+  - group: kubernetesconfiguration
+    name: Extension_Properties_Spec
+    property: ConfigurationProtectedSettings
+    remove: true
+    because: TODO - revert this
+
+  - group: kubernetesconfiguration
+    name: Extension_Properties_Status
+    property: ConfigurationProtectedSettings
+    remove: true
+    because: TODO - revert this
+
   - group: cache
     name: RedisProperties_Status
     property: AccessKeys
@@ -1521,6 +1533,11 @@ objectModelConfiguration:
       VirtualNetworkRule:
         Id:
           $armReference: true
+  kubernetesconfiguration:
+    2022-11-01:
+      Extension:
+        $export: true
+        $supportedFrom: v2.4.0
   managedidentity:
     2018-11-30:
       UserAssignedIdentity:

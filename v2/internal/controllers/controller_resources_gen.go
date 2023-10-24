@@ -147,6 +147,9 @@ import (
 	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401previewstorage"
 	keyvault_v1beta20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview"
 	keyvault_v1beta20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewstorage"
+	kubernetesconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/customizations"
+	kubernetesconfiguration_v20221101 "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20221101"
+	kubernetesconfiguration_v20221101s "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20221101/storage"
 	machinelearningservices_customizations "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/customizations"
 	machinelearningservices_v20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701"
 	machinelearningservices_v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
@@ -653,6 +656,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(kubernetesconfiguration_v20221101s.Extension)})
 	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20210701s.Workspace)})
 	result = append(result, &registration.StorageType{
 		Obj: new(machinelearningservices_v20210701s.WorkspacesCompute),
@@ -1365,6 +1369,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(keyvault_v1beta20210401ps.Vault))
 	result = append(result, new(keyvault_v20210401p.Vault))
 	result = append(result, new(keyvault_v20210401ps.Vault))
+	result = append(result, new(kubernetesconfiguration_v20221101.Extension))
+	result = append(result, new(kubernetesconfiguration_v20221101s.Extension))
 	result = append(
 		result,
 		new(machinelearningservices_v1beta20210701.Workspace),
@@ -1852,6 +1858,8 @@ func createScheme() *runtime.Scheme {
 	_ = keyvault_v1beta20210401ps.AddToScheme(scheme)
 	_ = keyvault_v20210401p.AddToScheme(scheme)
 	_ = keyvault_v20210401ps.AddToScheme(scheme)
+	_ = kubernetesconfiguration_v20221101.AddToScheme(scheme)
+	_ = kubernetesconfiguration_v20221101s.AddToScheme(scheme)
 	_ = machinelearningservices_v1beta20210701.AddToScheme(scheme)
 	_ = machinelearningservices_v1beta20210701s.AddToScheme(scheme)
 	_ = machinelearningservices_v20210701.AddToScheme(scheme)
@@ -2000,6 +2008,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &insights_customizations.ScheduledQueryRuleExtension{})
 	result = append(result, &insights_customizations.WebtestExtension{})
 	result = append(result, &keyvault_customizations.VaultExtension{})
+	result = append(result, &kubernetesconfiguration_customizations.ExtensionExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspaceExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspacesComputeExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspacesConnectionExtension{})

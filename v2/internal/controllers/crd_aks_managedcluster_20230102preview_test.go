@@ -30,50 +30,11 @@ func Test_AKS_ManagedCluster_20230202Preview_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	region := to.Ptr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
-	//region := tc.AzureRegion
-
 	adminUsername := "adminUser"
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	identityKind := aks.ManagedClusterIdentity_Type_SystemAssigned
-	osType := aks.OSType_Linux
-	agentPoolMode := aks.AgentPoolMode_System
-
-	cluster := &aks.ManagedCluster{
-		ObjectMeta: tc.MakeObjectMeta("mc"),
-		Spec: aks.ManagedCluster_Spec{
-			Location:  region,
-			Owner:     testcommon.AsOwner(rg),
-			DnsPrefix: to.Ptr("aso"),
-			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
-				{
-					Name:   to.Ptr("ap1"),
-					Count:  to.Ptr(1),
-					VmSize: to.Ptr("Standard_DS2_v2"),
-					OsType: &osType,
-					Mode:   &agentPoolMode,
-				},
-			},
-			LinuxProfile: &aks.ContainerServiceLinuxProfile{
-				AdminUsername: &adminUsername,
-				Ssh: &aks.ContainerServiceSshConfiguration{
-					PublicKeys: []aks.ContainerServiceSshPublicKey{
-						{
-							KeyData: sshPublicKey,
-						},
-					},
-				},
-			},
-			Identity: &aks.ManagedClusterIdentity{
-				Type: &identityKind,
-			},
-			OidcIssuerProfile: &aks.ManagedClusterOIDCIssuerProfile{
-				Enabled: to.Ptr(true),
-			},
-		},
-	}
+	cluster := NewManagedCluster20230202preview(tc, rg, adminUsername, sshPublicKey)
 
 	tc.CreateResourceAndWait(cluster)
 
@@ -125,6 +86,47 @@ func Test_AKS_ManagedCluster_20230202Preview_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
+}
+
+func NewManagedCluster20230202preview(tc *testcommon.KubePerTestContext, rg *v1api20200601.ResourceGroup, adminUsername string, sshPublicKey *string) *aks.ManagedCluster {
+	region := to.Ptr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
+	//region := tc.AzureRegion
+
+	cluster := &aks.ManagedCluster{
+		ObjectMeta: tc.MakeObjectMeta("mc"),
+		Spec: aks.ManagedCluster_Spec{
+			Location:  region,
+			Owner:     testcommon.AsOwner(rg),
+			DnsPrefix: to.Ptr("aso"),
+			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
+				{
+					Name:   to.Ptr("ap1"),
+					Count:  to.Ptr(1),
+					VmSize: to.Ptr("Standard_DS2_v2"),
+					OsType: to.Ptr(aks.OSType_Linux),
+					Mode:   to.Ptr(aks.AgentPoolMode_System),
+				},
+			},
+			LinuxProfile: &aks.ContainerServiceLinuxProfile{
+				AdminUsername: &adminUsername,
+				Ssh: &aks.ContainerServiceSshConfiguration{
+					PublicKeys: []aks.ContainerServiceSshPublicKey{
+						{
+							KeyData: sshPublicKey,
+						},
+					},
+				},
+			},
+			Identity: &aks.ManagedClusterIdentity{
+				Type: to.Ptr(aks.ManagedClusterIdentity_Type_SystemAssigned),
+			},
+			OidcIssuerProfile: &aks.ManagedClusterOIDCIssuerProfile{
+				Enabled: to.Ptr(true),
+			},
+		},
+	}
+
+	return cluster
 }
 
 func AKS_ManagedCluster_AgentPool_20230102Preview_CRUD(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {

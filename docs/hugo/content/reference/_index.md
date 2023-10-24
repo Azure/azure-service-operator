@@ -537,6 +537,18 @@ These resource versions are deprecated and will be removed in an upcoming ASO re
 |--------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|-----------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------|
 | [Vault](https://azure.github.io/azure-service-operator/reference/keyvault/v1beta20210401preview/#keyvault.azure.com/v1beta20210401preview.Vault) | 2021-04-01-preview | v1beta20210401preview | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v1beta/v1beta20210401preview_vault.yaml) |
 
+## KubernetesConfiguration
+
+To install the CRDs for these resources, your ASO configuration must include `kubernetesconfiguration.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource  | ARM Version | CRD Version   | Supported From | Sample |
+|-----------|-------------|---------------|----------------|--------|
+| Extension | 2022-11-01  | v1api20221101 | v2.4.0         | -      |
+
 ## MachineLearningServices
 
 To install the CRDs for these resources, your ASO configuration must include `machinelearningservices.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
