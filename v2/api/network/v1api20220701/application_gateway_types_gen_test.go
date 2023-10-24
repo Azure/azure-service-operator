@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v1api20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForApplicationGateway(subject ApplicationGateway) 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20220701s.ApplicationGateway
+	var hub v20220701s.ApplicationGateway
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -72,13 +72,13 @@ func Test_ApplicationGateway_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGateway tests if a specific instance of ApplicationGateway can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGateway tests if a specific instance of ApplicationGateway can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGateway(subject ApplicationGateway) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGateway
+	var other v20220701s.ApplicationGateway
 	err := copied.AssignProperties_To_ApplicationGateway(&other)
 	if err != nil {
 		return err.Error()
@@ -175,13 +175,13 @@ func Test_ApplicationGateway_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGateway_Spec tests if a specific instance of ApplicationGateway_Spec can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGateway_Spec tests if a specific instance of ApplicationGateway_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGateway_Spec(subject ApplicationGateway_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGateway_Spec
+	var other v20220701s.ApplicationGateway_Spec
 	err := copied.AssignProperties_To_ApplicationGateway_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -326,13 +326,13 @@ func Test_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded_WhenP
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded tests if a specific instance of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded tests if a specific instance of ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(subject ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
+	var other v20220701s.ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -492,13 +492,13 @@ func Test_ApplicationGatewayAuthenticationCertificate_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayAuthenticationCertificate tests if a specific instance of ApplicationGatewayAuthenticationCertificate can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayAuthenticationCertificate tests if a specific instance of ApplicationGatewayAuthenticationCertificate can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayAuthenticationCertificate(subject ApplicationGatewayAuthenticationCertificate) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayAuthenticationCertificate
+	var other v20220701s.ApplicationGatewayAuthenticationCertificate
 	err := copied.AssignProperties_To_ApplicationGatewayAuthenticationCertificate(&other)
 	if err != nil {
 		return err.Error()
@@ -595,13 +595,13 @@ func Test_ApplicationGatewayAuthenticationCertificate_STATUS_WhenPropertiesConve
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayAuthenticationCertificate_STATUS tests if a specific instance of ApplicationGatewayAuthenticationCertificate_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayAuthenticationCertificate_STATUS tests if a specific instance of ApplicationGatewayAuthenticationCertificate_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayAuthenticationCertificate_STATUS(subject ApplicationGatewayAuthenticationCertificate_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayAuthenticationCertificate_STATUS
+	var other v20220701s.ApplicationGatewayAuthenticationCertificate_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayAuthenticationCertificate_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -698,13 +698,13 @@ func Test_ApplicationGatewayAutoscaleConfiguration_WhenPropertiesConverted_Round
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayAutoscaleConfiguration tests if a specific instance of ApplicationGatewayAutoscaleConfiguration can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayAutoscaleConfiguration tests if a specific instance of ApplicationGatewayAutoscaleConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayAutoscaleConfiguration(subject ApplicationGatewayAutoscaleConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayAutoscaleConfiguration
+	var other v20220701s.ApplicationGatewayAutoscaleConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayAutoscaleConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -802,13 +802,13 @@ func Test_ApplicationGatewayAutoscaleConfiguration_STATUS_WhenPropertiesConverte
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayAutoscaleConfiguration_STATUS tests if a specific instance of ApplicationGatewayAutoscaleConfiguration_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayAutoscaleConfiguration_STATUS tests if a specific instance of ApplicationGatewayAutoscaleConfiguration_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayAutoscaleConfiguration_STATUS(subject ApplicationGatewayAutoscaleConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayAutoscaleConfiguration_STATUS
+	var other v20220701s.ApplicationGatewayAutoscaleConfiguration_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayAutoscaleConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -906,13 +906,13 @@ func Test_ApplicationGatewayBackendAddressPool_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool tests if a specific instance of ApplicationGatewayBackendAddressPool can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool tests if a specific instance of ApplicationGatewayBackendAddressPool can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool(subject ApplicationGatewayBackendAddressPool) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayBackendAddressPool
+	var other v20220701s.ApplicationGatewayBackendAddressPool
 	err := copied.AssignProperties_To_ApplicationGatewayBackendAddressPool(&other)
 	if err != nil {
 		return err.Error()
@@ -1023,13 +1023,13 @@ func Test_ApplicationGatewayBackendAddressPool_STATUS_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool_STATUS tests if a specific instance of ApplicationGatewayBackendAddressPool_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool_STATUS tests if a specific instance of ApplicationGatewayBackendAddressPool_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool_STATUS(subject ApplicationGatewayBackendAddressPool_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayBackendAddressPool_STATUS
+	var other v20220701s.ApplicationGatewayBackendAddressPool_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1126,13 +1126,13 @@ func Test_ApplicationGatewayBackendHttpSettings_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayBackendHttpSettings tests if a specific instance of ApplicationGatewayBackendHttpSettings can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayBackendHttpSettings tests if a specific instance of ApplicationGatewayBackendHttpSettings can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayBackendHttpSettings(subject ApplicationGatewayBackendHttpSettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayBackendHttpSettings
+	var other v20220701s.ApplicationGatewayBackendHttpSettings
 	err := copied.AssignProperties_To_ApplicationGatewayBackendHttpSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -1259,13 +1259,13 @@ func Test_ApplicationGatewayBackendHttpSettings_STATUS_WhenPropertiesConverted_R
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayBackendHttpSettings_STATUS tests if a specific instance of ApplicationGatewayBackendHttpSettings_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayBackendHttpSettings_STATUS tests if a specific instance of ApplicationGatewayBackendHttpSettings_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayBackendHttpSettings_STATUS(subject ApplicationGatewayBackendHttpSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayBackendHttpSettings_STATUS
+	var other v20220701s.ApplicationGatewayBackendHttpSettings_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayBackendHttpSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1362,13 +1362,13 @@ func Test_ApplicationGatewayBackendSettings_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayBackendSettings tests if a specific instance of ApplicationGatewayBackendSettings can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayBackendSettings tests if a specific instance of ApplicationGatewayBackendSettings can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayBackendSettings(subject ApplicationGatewayBackendSettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayBackendSettings
+	var other v20220701s.ApplicationGatewayBackendSettings
 	err := copied.AssignProperties_To_ApplicationGatewayBackendSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -1489,13 +1489,13 @@ func Test_ApplicationGatewayBackendSettings_STATUS_WhenPropertiesConverted_Round
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayBackendSettings_STATUS tests if a specific instance of ApplicationGatewayBackendSettings_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayBackendSettings_STATUS tests if a specific instance of ApplicationGatewayBackendSettings_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayBackendSettings_STATUS(subject ApplicationGatewayBackendSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayBackendSettings_STATUS
+	var other v20220701s.ApplicationGatewayBackendSettings_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayBackendSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1592,13 +1592,13 @@ func Test_ApplicationGatewayCustomError_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayCustomError tests if a specific instance of ApplicationGatewayCustomError can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayCustomError tests if a specific instance of ApplicationGatewayCustomError can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayCustomError(subject ApplicationGatewayCustomError) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayCustomError
+	var other v20220701s.ApplicationGatewayCustomError
 	err := copied.AssignProperties_To_ApplicationGatewayCustomError(&other)
 	if err != nil {
 		return err.Error()
@@ -1696,13 +1696,13 @@ func Test_ApplicationGatewayCustomError_STATUS_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayCustomError_STATUS tests if a specific instance of ApplicationGatewayCustomError_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayCustomError_STATUS tests if a specific instance of ApplicationGatewayCustomError_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayCustomError_STATUS(subject ApplicationGatewayCustomError_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayCustomError_STATUS
+	var other v20220701s.ApplicationGatewayCustomError_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayCustomError_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1800,13 +1800,13 @@ func Test_ApplicationGatewayFrontendIPConfiguration_WhenPropertiesConverted_Roun
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayFrontendIPConfiguration tests if a specific instance of ApplicationGatewayFrontendIPConfiguration can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayFrontendIPConfiguration tests if a specific instance of ApplicationGatewayFrontendIPConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayFrontendIPConfiguration(subject ApplicationGatewayFrontendIPConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayFrontendIPConfiguration
+	var other v20220701s.ApplicationGatewayFrontendIPConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayFrontendIPConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -1921,13 +1921,13 @@ func Test_ApplicationGatewayFrontendIPConfiguration_STATUS_WhenPropertiesConvert
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayFrontendIPConfiguration_STATUS tests if a specific instance of ApplicationGatewayFrontendIPConfiguration_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayFrontendIPConfiguration_STATUS tests if a specific instance of ApplicationGatewayFrontendIPConfiguration_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayFrontendIPConfiguration_STATUS(subject ApplicationGatewayFrontendIPConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayFrontendIPConfiguration_STATUS
+	var other v20220701s.ApplicationGatewayFrontendIPConfiguration_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayFrontendIPConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2024,13 +2024,13 @@ func Test_ApplicationGatewayFrontendPort_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayFrontendPort tests if a specific instance of ApplicationGatewayFrontendPort can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayFrontendPort tests if a specific instance of ApplicationGatewayFrontendPort can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayFrontendPort(subject ApplicationGatewayFrontendPort) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayFrontendPort
+	var other v20220701s.ApplicationGatewayFrontendPort
 	err := copied.AssignProperties_To_ApplicationGatewayFrontendPort(&other)
 	if err != nil {
 		return err.Error()
@@ -2128,13 +2128,13 @@ func Test_ApplicationGatewayFrontendPort_STATUS_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayFrontendPort_STATUS tests if a specific instance of ApplicationGatewayFrontendPort_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayFrontendPort_STATUS tests if a specific instance of ApplicationGatewayFrontendPort_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayFrontendPort_STATUS(subject ApplicationGatewayFrontendPort_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayFrontendPort_STATUS
+	var other v20220701s.ApplicationGatewayFrontendPort_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayFrontendPort_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2231,13 +2231,13 @@ func Test_ApplicationGatewayGlobalConfiguration_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayGlobalConfiguration tests if a specific instance of ApplicationGatewayGlobalConfiguration can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayGlobalConfiguration tests if a specific instance of ApplicationGatewayGlobalConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayGlobalConfiguration(subject ApplicationGatewayGlobalConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayGlobalConfiguration
+	var other v20220701s.ApplicationGatewayGlobalConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayGlobalConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -2335,13 +2335,13 @@ func Test_ApplicationGatewayGlobalConfiguration_STATUS_WhenPropertiesConverted_R
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayGlobalConfiguration_STATUS tests if a specific instance of ApplicationGatewayGlobalConfiguration_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayGlobalConfiguration_STATUS tests if a specific instance of ApplicationGatewayGlobalConfiguration_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayGlobalConfiguration_STATUS(subject ApplicationGatewayGlobalConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayGlobalConfiguration_STATUS
+	var other v20220701s.ApplicationGatewayGlobalConfiguration_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayGlobalConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2439,13 +2439,13 @@ func Test_ApplicationGatewayHttpListener_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayHttpListener tests if a specific instance of ApplicationGatewayHttpListener can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayHttpListener tests if a specific instance of ApplicationGatewayHttpListener can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayHttpListener(subject ApplicationGatewayHttpListener) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayHttpListener
+	var other v20220701s.ApplicationGatewayHttpListener
 	err := copied.AssignProperties_To_ApplicationGatewayHttpListener(&other)
 	if err != nil {
 		return err.Error()
@@ -2569,13 +2569,13 @@ func Test_ApplicationGatewayHttpListener_STATUS_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayHttpListener_STATUS tests if a specific instance of ApplicationGatewayHttpListener_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayHttpListener_STATUS tests if a specific instance of ApplicationGatewayHttpListener_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayHttpListener_STATUS(subject ApplicationGatewayHttpListener_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayHttpListener_STATUS
+	var other v20220701s.ApplicationGatewayHttpListener_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayHttpListener_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2672,13 +2672,13 @@ func Test_ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedd
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded tests if a specific instance of ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded tests if a specific instance of ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded(subject ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded
+	var other v20220701s.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -2789,13 +2789,13 @@ func Test_ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourc
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded tests if a specific instance of ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded tests if a specific instance of ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded(subject ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded
+	var other v20220701s.ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -2893,13 +2893,13 @@ func Test_ApplicationGatewayListener_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayListener tests if a specific instance of ApplicationGatewayListener can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayListener tests if a specific instance of ApplicationGatewayListener can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayListener(subject ApplicationGatewayListener) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayListener
+	var other v20220701s.ApplicationGatewayListener
 	err := copied.AssignProperties_To_ApplicationGatewayListener(&other)
 	if err != nil {
 		return err.Error()
@@ -3018,13 +3018,13 @@ func Test_ApplicationGatewayListener_STATUS_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayListener_STATUS tests if a specific instance of ApplicationGatewayListener_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayListener_STATUS tests if a specific instance of ApplicationGatewayListener_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayListener_STATUS(subject ApplicationGatewayListener_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayListener_STATUS
+	var other v20220701s.ApplicationGatewayListener_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayListener_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3121,13 +3121,13 @@ func Test_ApplicationGatewayLoadDistributionPolicy_WhenPropertiesConverted_Round
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayLoadDistributionPolicy tests if a specific instance of ApplicationGatewayLoadDistributionPolicy can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayLoadDistributionPolicy tests if a specific instance of ApplicationGatewayLoadDistributionPolicy can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayLoadDistributionPolicy(subject ApplicationGatewayLoadDistributionPolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayLoadDistributionPolicy
+	var other v20220701s.ApplicationGatewayLoadDistributionPolicy
 	err := copied.AssignProperties_To_ApplicationGatewayLoadDistributionPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -3239,13 +3239,13 @@ func Test_ApplicationGatewayLoadDistributionPolicy_STATUS_WhenPropertiesConverte
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayLoadDistributionPolicy_STATUS tests if a specific instance of ApplicationGatewayLoadDistributionPolicy_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayLoadDistributionPolicy_STATUS tests if a specific instance of ApplicationGatewayLoadDistributionPolicy_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayLoadDistributionPolicy_STATUS(subject ApplicationGatewayLoadDistributionPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayLoadDistributionPolicy_STATUS
+	var other v20220701s.ApplicationGatewayLoadDistributionPolicy_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayLoadDistributionPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3342,13 +3342,13 @@ func Test_ApplicationGatewayPrivateEndpointConnection_STATUS_WhenPropertiesConve
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayPrivateEndpointConnection_STATUS tests if a specific instance of ApplicationGatewayPrivateEndpointConnection_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayPrivateEndpointConnection_STATUS tests if a specific instance of ApplicationGatewayPrivateEndpointConnection_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayPrivateEndpointConnection_STATUS(subject ApplicationGatewayPrivateEndpointConnection_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayPrivateEndpointConnection_STATUS
+	var other v20220701s.ApplicationGatewayPrivateEndpointConnection_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayPrivateEndpointConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3445,13 +3445,13 @@ func Test_ApplicationGatewayPrivateLinkConfiguration_WhenPropertiesConverted_Rou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayPrivateLinkConfiguration tests if a specific instance of ApplicationGatewayPrivateLinkConfiguration can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayPrivateLinkConfiguration tests if a specific instance of ApplicationGatewayPrivateLinkConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayPrivateLinkConfiguration(subject ApplicationGatewayPrivateLinkConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayPrivateLinkConfiguration
+	var other v20220701s.ApplicationGatewayPrivateLinkConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayPrivateLinkConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -3562,13 +3562,13 @@ func Test_ApplicationGatewayPrivateLinkConfiguration_STATUS_WhenPropertiesConver
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayPrivateLinkConfiguration_STATUS tests if a specific instance of ApplicationGatewayPrivateLinkConfiguration_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayPrivateLinkConfiguration_STATUS tests if a specific instance of ApplicationGatewayPrivateLinkConfiguration_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayPrivateLinkConfiguration_STATUS(subject ApplicationGatewayPrivateLinkConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayPrivateLinkConfiguration_STATUS
+	var other v20220701s.ApplicationGatewayPrivateLinkConfiguration_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayPrivateLinkConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3665,13 +3665,13 @@ func Test_ApplicationGatewayProbe_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayProbe tests if a specific instance of ApplicationGatewayProbe can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayProbe tests if a specific instance of ApplicationGatewayProbe can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayProbe(subject ApplicationGatewayProbe) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayProbe
+	var other v20220701s.ApplicationGatewayProbe
 	err := copied.AssignProperties_To_ApplicationGatewayProbe(&other)
 	if err != nil {
 		return err.Error()
@@ -3796,13 +3796,13 @@ func Test_ApplicationGatewayProbe_STATUS_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayProbe_STATUS tests if a specific instance of ApplicationGatewayProbe_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayProbe_STATUS tests if a specific instance of ApplicationGatewayProbe_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayProbe_STATUS(subject ApplicationGatewayProbe_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayProbe_STATUS
+	var other v20220701s.ApplicationGatewayProbe_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayProbe_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3899,13 +3899,13 @@ func Test_ApplicationGatewayRedirectConfiguration_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayRedirectConfiguration tests if a specific instance of ApplicationGatewayRedirectConfiguration can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayRedirectConfiguration tests if a specific instance of ApplicationGatewayRedirectConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayRedirectConfiguration(subject ApplicationGatewayRedirectConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayRedirectConfiguration
+	var other v20220701s.ApplicationGatewayRedirectConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayRedirectConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -4027,13 +4027,13 @@ func Test_ApplicationGatewayRedirectConfiguration_STATUS_WhenPropertiesConverted
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayRedirectConfiguration_STATUS tests if a specific instance of ApplicationGatewayRedirectConfiguration_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayRedirectConfiguration_STATUS tests if a specific instance of ApplicationGatewayRedirectConfiguration_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayRedirectConfiguration_STATUS(subject ApplicationGatewayRedirectConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayRedirectConfiguration_STATUS
+	var other v20220701s.ApplicationGatewayRedirectConfiguration_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayRedirectConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4130,13 +4130,13 @@ func Test_ApplicationGatewayRequestRoutingRule_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayRequestRoutingRule tests if a specific instance of ApplicationGatewayRequestRoutingRule can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayRequestRoutingRule tests if a specific instance of ApplicationGatewayRequestRoutingRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayRequestRoutingRule(subject ApplicationGatewayRequestRoutingRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayRequestRoutingRule
+	var other v20220701s.ApplicationGatewayRequestRoutingRule
 	err := copied.AssignProperties_To_ApplicationGatewayRequestRoutingRule(&other)
 	if err != nil {
 		return err.Error()
@@ -4255,13 +4255,13 @@ func Test_ApplicationGatewayRequestRoutingRule_STATUS_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayRequestRoutingRule_STATUS tests if a specific instance of ApplicationGatewayRequestRoutingRule_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayRequestRoutingRule_STATUS tests if a specific instance of ApplicationGatewayRequestRoutingRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayRequestRoutingRule_STATUS(subject ApplicationGatewayRequestRoutingRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayRequestRoutingRule_STATUS
+	var other v20220701s.ApplicationGatewayRequestRoutingRule_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayRequestRoutingRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4358,13 +4358,13 @@ func Test_ApplicationGatewayRewriteRuleSet_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayRewriteRuleSet tests if a specific instance of ApplicationGatewayRewriteRuleSet can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayRewriteRuleSet tests if a specific instance of ApplicationGatewayRewriteRuleSet can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayRewriteRuleSet(subject ApplicationGatewayRewriteRuleSet) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayRewriteRuleSet
+	var other v20220701s.ApplicationGatewayRewriteRuleSet
 	err := copied.AssignProperties_To_ApplicationGatewayRewriteRuleSet(&other)
 	if err != nil {
 		return err.Error()
@@ -4475,13 +4475,13 @@ func Test_ApplicationGatewayRewriteRuleSet_STATUS_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayRewriteRuleSet_STATUS tests if a specific instance of ApplicationGatewayRewriteRuleSet_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayRewriteRuleSet_STATUS tests if a specific instance of ApplicationGatewayRewriteRuleSet_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayRewriteRuleSet_STATUS(subject ApplicationGatewayRewriteRuleSet_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayRewriteRuleSet_STATUS
+	var other v20220701s.ApplicationGatewayRewriteRuleSet_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayRewriteRuleSet_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4578,13 +4578,13 @@ func Test_ApplicationGatewayRoutingRule_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayRoutingRule tests if a specific instance of ApplicationGatewayRoutingRule can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayRoutingRule tests if a specific instance of ApplicationGatewayRoutingRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayRoutingRule(subject ApplicationGatewayRoutingRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayRoutingRule
+	var other v20220701s.ApplicationGatewayRoutingRule
 	err := copied.AssignProperties_To_ApplicationGatewayRoutingRule(&other)
 	if err != nil {
 		return err.Error()
@@ -4699,13 +4699,13 @@ func Test_ApplicationGatewayRoutingRule_STATUS_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayRoutingRule_STATUS tests if a specific instance of ApplicationGatewayRoutingRule_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayRoutingRule_STATUS tests if a specific instance of ApplicationGatewayRoutingRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayRoutingRule_STATUS(subject ApplicationGatewayRoutingRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayRoutingRule_STATUS
+	var other v20220701s.ApplicationGatewayRoutingRule_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayRoutingRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4802,13 +4802,13 @@ func Test_ApplicationGatewaySku_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewaySku tests if a specific instance of ApplicationGatewaySku can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewaySku tests if a specific instance of ApplicationGatewaySku can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewaySku(subject ApplicationGatewaySku) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewaySku
+	var other v20220701s.ApplicationGatewaySku
 	err := copied.AssignProperties_To_ApplicationGatewaySku(&other)
 	if err != nil {
 		return err.Error()
@@ -4918,13 +4918,13 @@ func Test_ApplicationGatewaySku_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewaySku_STATUS tests if a specific instance of ApplicationGatewaySku_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewaySku_STATUS tests if a specific instance of ApplicationGatewaySku_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewaySku_STATUS(subject ApplicationGatewaySku_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewaySku_STATUS
+	var other v20220701s.ApplicationGatewaySku_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewaySku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5034,13 +5034,13 @@ func Test_ApplicationGatewaySslCertificate_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewaySslCertificate tests if a specific instance of ApplicationGatewaySslCertificate can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewaySslCertificate tests if a specific instance of ApplicationGatewaySslCertificate can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewaySslCertificate(subject ApplicationGatewaySslCertificate) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewaySslCertificate
+	var other v20220701s.ApplicationGatewaySslCertificate
 	err := copied.AssignProperties_To_ApplicationGatewaySslCertificate(&other)
 	if err != nil {
 		return err.Error()
@@ -5138,13 +5138,13 @@ func Test_ApplicationGatewaySslCertificate_STATUS_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewaySslCertificate_STATUS tests if a specific instance of ApplicationGatewaySslCertificate_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewaySslCertificate_STATUS tests if a specific instance of ApplicationGatewaySslCertificate_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewaySslCertificate_STATUS(subject ApplicationGatewaySslCertificate_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewaySslCertificate_STATUS
+	var other v20220701s.ApplicationGatewaySslCertificate_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewaySslCertificate_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5241,13 +5241,13 @@ func Test_ApplicationGatewaySslPolicy_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewaySslPolicy tests if a specific instance of ApplicationGatewaySslPolicy can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewaySslPolicy tests if a specific instance of ApplicationGatewaySslPolicy can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewaySslPolicy(subject ApplicationGatewaySslPolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewaySslPolicy
+	var other v20220701s.ApplicationGatewaySslPolicy
 	err := copied.AssignProperties_To_ApplicationGatewaySslPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -5389,13 +5389,13 @@ func Test_ApplicationGatewaySslPolicy_STATUS_WhenPropertiesConverted_RoundTripsW
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewaySslPolicy_STATUS tests if a specific instance of ApplicationGatewaySslPolicy_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewaySslPolicy_STATUS tests if a specific instance of ApplicationGatewaySslPolicy_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewaySslPolicy_STATUS(subject ApplicationGatewaySslPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewaySslPolicy_STATUS
+	var other v20220701s.ApplicationGatewaySslPolicy_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewaySslPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5537,13 +5537,13 @@ func Test_ApplicationGatewaySslProfile_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewaySslProfile tests if a specific instance of ApplicationGatewaySslProfile can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewaySslProfile tests if a specific instance of ApplicationGatewaySslProfile can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewaySslProfile(subject ApplicationGatewaySslProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewaySslProfile
+	var other v20220701s.ApplicationGatewaySslProfile
 	err := copied.AssignProperties_To_ApplicationGatewaySslProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -5656,13 +5656,13 @@ func Test_ApplicationGatewaySslProfile_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewaySslProfile_STATUS tests if a specific instance of ApplicationGatewaySslProfile_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewaySslProfile_STATUS tests if a specific instance of ApplicationGatewaySslProfile_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewaySslProfile_STATUS(subject ApplicationGatewaySslProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewaySslProfile_STATUS
+	var other v20220701s.ApplicationGatewaySslProfile_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewaySslProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5759,13 +5759,13 @@ func Test_ApplicationGatewaySubResource_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewaySubResource tests if a specific instance of ApplicationGatewaySubResource can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewaySubResource tests if a specific instance of ApplicationGatewaySubResource can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewaySubResource(subject ApplicationGatewaySubResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewaySubResource
+	var other v20220701s.ApplicationGatewaySubResource
 	err := copied.AssignProperties_To_ApplicationGatewaySubResource(&other)
 	if err != nil {
 		return err.Error()
@@ -5856,13 +5856,13 @@ func Test_ApplicationGatewaySubResource_STATUS_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewaySubResource_STATUS tests if a specific instance of ApplicationGatewaySubResource_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewaySubResource_STATUS tests if a specific instance of ApplicationGatewaySubResource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewaySubResource_STATUS(subject ApplicationGatewaySubResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewaySubResource_STATUS
+	var other v20220701s.ApplicationGatewaySubResource_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewaySubResource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5959,13 +5959,13 @@ func Test_ApplicationGatewayTrustedClientCertificate_WhenPropertiesConverted_Rou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayTrustedClientCertificate tests if a specific instance of ApplicationGatewayTrustedClientCertificate can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayTrustedClientCertificate tests if a specific instance of ApplicationGatewayTrustedClientCertificate can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayTrustedClientCertificate(subject ApplicationGatewayTrustedClientCertificate) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayTrustedClientCertificate
+	var other v20220701s.ApplicationGatewayTrustedClientCertificate
 	err := copied.AssignProperties_To_ApplicationGatewayTrustedClientCertificate(&other)
 	if err != nil {
 		return err.Error()
@@ -6062,13 +6062,13 @@ func Test_ApplicationGatewayTrustedClientCertificate_STATUS_WhenPropertiesConver
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayTrustedClientCertificate_STATUS tests if a specific instance of ApplicationGatewayTrustedClientCertificate_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayTrustedClientCertificate_STATUS tests if a specific instance of ApplicationGatewayTrustedClientCertificate_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayTrustedClientCertificate_STATUS(subject ApplicationGatewayTrustedClientCertificate_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayTrustedClientCertificate_STATUS
+	var other v20220701s.ApplicationGatewayTrustedClientCertificate_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayTrustedClientCertificate_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6165,13 +6165,13 @@ func Test_ApplicationGatewayTrustedRootCertificate_WhenPropertiesConverted_Round
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayTrustedRootCertificate tests if a specific instance of ApplicationGatewayTrustedRootCertificate can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayTrustedRootCertificate tests if a specific instance of ApplicationGatewayTrustedRootCertificate can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayTrustedRootCertificate(subject ApplicationGatewayTrustedRootCertificate) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayTrustedRootCertificate
+	var other v20220701s.ApplicationGatewayTrustedRootCertificate
 	err := copied.AssignProperties_To_ApplicationGatewayTrustedRootCertificate(&other)
 	if err != nil {
 		return err.Error()
@@ -6269,13 +6269,13 @@ func Test_ApplicationGatewayTrustedRootCertificate_STATUS_WhenPropertiesConverte
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayTrustedRootCertificate_STATUS tests if a specific instance of ApplicationGatewayTrustedRootCertificate_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayTrustedRootCertificate_STATUS tests if a specific instance of ApplicationGatewayTrustedRootCertificate_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayTrustedRootCertificate_STATUS(subject ApplicationGatewayTrustedRootCertificate_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayTrustedRootCertificate_STATUS
+	var other v20220701s.ApplicationGatewayTrustedRootCertificate_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayTrustedRootCertificate_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6372,13 +6372,13 @@ func Test_ApplicationGatewayUrlPathMap_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayUrlPathMap tests if a specific instance of ApplicationGatewayUrlPathMap can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayUrlPathMap tests if a specific instance of ApplicationGatewayUrlPathMap can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayUrlPathMap(subject ApplicationGatewayUrlPathMap) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayUrlPathMap
+	var other v20220701s.ApplicationGatewayUrlPathMap
 	err := copied.AssignProperties_To_ApplicationGatewayUrlPathMap(&other)
 	if err != nil {
 		return err.Error()
@@ -6494,13 +6494,13 @@ func Test_ApplicationGatewayUrlPathMap_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayUrlPathMap_STATUS tests if a specific instance of ApplicationGatewayUrlPathMap_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayUrlPathMap_STATUS tests if a specific instance of ApplicationGatewayUrlPathMap_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayUrlPathMap_STATUS(subject ApplicationGatewayUrlPathMap_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayUrlPathMap_STATUS
+	var other v20220701s.ApplicationGatewayUrlPathMap_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayUrlPathMap_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6597,13 +6597,13 @@ func Test_ApplicationGatewayWebApplicationFirewallConfiguration_WhenPropertiesCo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayWebApplicationFirewallConfiguration tests if a specific instance of ApplicationGatewayWebApplicationFirewallConfiguration can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayWebApplicationFirewallConfiguration tests if a specific instance of ApplicationGatewayWebApplicationFirewallConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayWebApplicationFirewallConfiguration(subject ApplicationGatewayWebApplicationFirewallConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayWebApplicationFirewallConfiguration
+	var other v20220701s.ApplicationGatewayWebApplicationFirewallConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayWebApplicationFirewallConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -6722,13 +6722,13 @@ func Test_ApplicationGatewayWebApplicationFirewallConfiguration_STATUS_WhenPrope
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayWebApplicationFirewallConfiguration_STATUS tests if a specific instance of ApplicationGatewayWebApplicationFirewallConfiguration_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayWebApplicationFirewallConfiguration_STATUS tests if a specific instance of ApplicationGatewayWebApplicationFirewallConfiguration_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayWebApplicationFirewallConfiguration_STATUS(subject ApplicationGatewayWebApplicationFirewallConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayWebApplicationFirewallConfiguration_STATUS
+	var other v20220701s.ApplicationGatewayWebApplicationFirewallConfiguration_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayWebApplicationFirewallConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6847,13 +6847,13 @@ func Test_ManagedServiceIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedServiceIdentity tests if a specific instance of ManagedServiceIdentity can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForManagedServiceIdentity tests if a specific instance of ManagedServiceIdentity can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagedServiceIdentity(subject ManagedServiceIdentity) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ManagedServiceIdentity
+	var other v20220701s.ManagedServiceIdentity
 	err := copied.AssignProperties_To_ManagedServiceIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -6968,13 +6968,13 @@ func Test_ManagedServiceIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedServiceIdentity_STATUS tests if a specific instance of ManagedServiceIdentity_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForManagedServiceIdentity_STATUS tests if a specific instance of ManagedServiceIdentity_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagedServiceIdentity_STATUS(subject ManagedServiceIdentity_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ManagedServiceIdentity_STATUS
+	var other v20220701s.ManagedServiceIdentity_STATUS
 	err := copied.AssignProperties_To_ManagedServiceIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -7091,13 +7091,13 @@ func Test_ApplicationGatewayBackendAddress_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayBackendAddress tests if a specific instance of ApplicationGatewayBackendAddress can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayBackendAddress tests if a specific instance of ApplicationGatewayBackendAddress can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayBackendAddress(subject ApplicationGatewayBackendAddress) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayBackendAddress
+	var other v20220701s.ApplicationGatewayBackendAddress
 	err := copied.AssignProperties_To_ApplicationGatewayBackendAddress(&other)
 	if err != nil {
 		return err.Error()
@@ -7195,13 +7195,13 @@ func Test_ApplicationGatewayClientAuthConfiguration_WhenPropertiesConverted_Roun
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayClientAuthConfiguration tests if a specific instance of ApplicationGatewayClientAuthConfiguration can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayClientAuthConfiguration tests if a specific instance of ApplicationGatewayClientAuthConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayClientAuthConfiguration(subject ApplicationGatewayClientAuthConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayClientAuthConfiguration
+	var other v20220701s.ApplicationGatewayClientAuthConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayClientAuthConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -7299,13 +7299,13 @@ func Test_ApplicationGatewayConnectionDraining_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayConnectionDraining tests if a specific instance of ApplicationGatewayConnectionDraining can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayConnectionDraining tests if a specific instance of ApplicationGatewayConnectionDraining can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayConnectionDraining(subject ApplicationGatewayConnectionDraining) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayConnectionDraining
+	var other v20220701s.ApplicationGatewayConnectionDraining
 	err := copied.AssignProperties_To_ApplicationGatewayConnectionDraining(&other)
 	if err != nil {
 		return err.Error()
@@ -7403,13 +7403,13 @@ func Test_ApplicationGatewayFirewallDisabledRuleGroup_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup tests if a specific instance of ApplicationGatewayFirewallDisabledRuleGroup can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup tests if a specific instance of ApplicationGatewayFirewallDisabledRuleGroup can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup(subject ApplicationGatewayFirewallDisabledRuleGroup) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayFirewallDisabledRuleGroup
+	var other v20220701s.ApplicationGatewayFirewallDisabledRuleGroup
 	err := copied.AssignProperties_To_ApplicationGatewayFirewallDisabledRuleGroup(&other)
 	if err != nil {
 		return err.Error()
@@ -7507,13 +7507,13 @@ func Test_ApplicationGatewayFirewallDisabledRuleGroup_STATUS_WhenPropertiesConve
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS tests if a specific instance of ApplicationGatewayFirewallDisabledRuleGroup_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS tests if a specific instance of ApplicationGatewayFirewallDisabledRuleGroup_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayFirewallDisabledRuleGroup_STATUS(subject ApplicationGatewayFirewallDisabledRuleGroup_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayFirewallDisabledRuleGroup_STATUS
+	var other v20220701s.ApplicationGatewayFirewallDisabledRuleGroup_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayFirewallDisabledRuleGroup_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -7611,13 +7611,13 @@ func Test_ApplicationGatewayFirewallExclusion_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion tests if a specific instance of ApplicationGatewayFirewallExclusion can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion tests if a specific instance of ApplicationGatewayFirewallExclusion can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion(subject ApplicationGatewayFirewallExclusion) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayFirewallExclusion
+	var other v20220701s.ApplicationGatewayFirewallExclusion
 	err := copied.AssignProperties_To_ApplicationGatewayFirewallExclusion(&other)
 	if err != nil {
 		return err.Error()
@@ -7716,13 +7716,13 @@ func Test_ApplicationGatewayFirewallExclusion_STATUS_WhenPropertiesConverted_Rou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion_STATUS tests if a specific instance of ApplicationGatewayFirewallExclusion_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion_STATUS tests if a specific instance of ApplicationGatewayFirewallExclusion_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayFirewallExclusion_STATUS(subject ApplicationGatewayFirewallExclusion_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayFirewallExclusion_STATUS
+	var other v20220701s.ApplicationGatewayFirewallExclusion_STATUS
 	err := copied.AssignProperties_To_ApplicationGatewayFirewallExclusion_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -7821,13 +7821,13 @@ func Test_ApplicationGatewayLoadDistributionTarget_WhenPropertiesConverted_Round
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayLoadDistributionTarget tests if a specific instance of ApplicationGatewayLoadDistributionTarget can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayLoadDistributionTarget tests if a specific instance of ApplicationGatewayLoadDistributionTarget can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayLoadDistributionTarget(subject ApplicationGatewayLoadDistributionTarget) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayLoadDistributionTarget
+	var other v20220701s.ApplicationGatewayLoadDistributionTarget
 	err := copied.AssignProperties_To_ApplicationGatewayLoadDistributionTarget(&other)
 	if err != nil {
 		return err.Error()
@@ -7918,13 +7918,13 @@ func Test_ApplicationGatewayPathRule_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayPathRule tests if a specific instance of ApplicationGatewayPathRule can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayPathRule tests if a specific instance of ApplicationGatewayPathRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayPathRule(subject ApplicationGatewayPathRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayPathRule
+	var other v20220701s.ApplicationGatewayPathRule
 	err := copied.AssignProperties_To_ApplicationGatewayPathRule(&other)
 	if err != nil {
 		return err.Error()
@@ -8015,13 +8015,13 @@ func Test_ApplicationGatewayPrivateLinkIpConfiguration_WhenPropertiesConverted_R
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayPrivateLinkIpConfiguration tests if a specific instance of ApplicationGatewayPrivateLinkIpConfiguration can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayPrivateLinkIpConfiguration tests if a specific instance of ApplicationGatewayPrivateLinkIpConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayPrivateLinkIpConfiguration(subject ApplicationGatewayPrivateLinkIpConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayPrivateLinkIpConfiguration
+	var other v20220701s.ApplicationGatewayPrivateLinkIpConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayPrivateLinkIpConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -8112,13 +8112,13 @@ func Test_ApplicationGatewayProbeHealthResponseMatch_WhenPropertiesConverted_Rou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayProbeHealthResponseMatch tests if a specific instance of ApplicationGatewayProbeHealthResponseMatch can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayProbeHealthResponseMatch tests if a specific instance of ApplicationGatewayProbeHealthResponseMatch can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayProbeHealthResponseMatch(subject ApplicationGatewayProbeHealthResponseMatch) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayProbeHealthResponseMatch
+	var other v20220701s.ApplicationGatewayProbeHealthResponseMatch
 	err := copied.AssignProperties_To_ApplicationGatewayProbeHealthResponseMatch(&other)
 	if err != nil {
 		return err.Error()
@@ -8216,13 +8216,13 @@ func Test_ApplicationGatewayRewriteRule_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayRewriteRule tests if a specific instance of ApplicationGatewayRewriteRule can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayRewriteRule tests if a specific instance of ApplicationGatewayRewriteRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayRewriteRule(subject ApplicationGatewayRewriteRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayRewriteRule
+	var other v20220701s.ApplicationGatewayRewriteRule
 	err := copied.AssignProperties_To_ApplicationGatewayRewriteRule(&other)
 	if err != nil {
 		return err.Error()
@@ -8335,13 +8335,13 @@ func Test_ManagedServiceIdentity_UserAssignedIdentities_STATUS_WhenPropertiesCon
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedServiceIdentity_UserAssignedIdentities_STATUS tests if a specific instance of ManagedServiceIdentity_UserAssignedIdentities_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForManagedServiceIdentity_UserAssignedIdentities_STATUS tests if a specific instance of ManagedServiceIdentity_UserAssignedIdentities_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagedServiceIdentity_UserAssignedIdentities_STATUS(subject ManagedServiceIdentity_UserAssignedIdentities_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ManagedServiceIdentity_UserAssignedIdentities_STATUS
+	var other v20220701s.ManagedServiceIdentity_UserAssignedIdentities_STATUS
 	err := copied.AssignProperties_To_ManagedServiceIdentity_UserAssignedIdentities_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -8439,13 +8439,13 @@ func Test_UserAssignedIdentityDetails_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForUserAssignedIdentityDetails tests if a specific instance of UserAssignedIdentityDetails can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForUserAssignedIdentityDetails tests if a specific instance of UserAssignedIdentityDetails can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssignedIdentityDetails) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.UserAssignedIdentityDetails
+	var other v20220701s.UserAssignedIdentityDetails
 	err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 	if err != nil {
 		return err.Error()
@@ -8536,13 +8536,13 @@ func Test_ApplicationGatewayRewriteRuleActionSet_WhenPropertiesConverted_RoundTr
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayRewriteRuleActionSet tests if a specific instance of ApplicationGatewayRewriteRuleActionSet can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayRewriteRuleActionSet tests if a specific instance of ApplicationGatewayRewriteRuleActionSet can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayRewriteRuleActionSet(subject ApplicationGatewayRewriteRuleActionSet) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayRewriteRuleActionSet
+	var other v20220701s.ApplicationGatewayRewriteRuleActionSet
 	err := copied.AssignProperties_To_ApplicationGatewayRewriteRuleActionSet(&other)
 	if err != nil {
 		return err.Error()
@@ -8641,13 +8641,13 @@ func Test_ApplicationGatewayRewriteRuleCondition_WhenPropertiesConverted_RoundTr
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayRewriteRuleCondition tests if a specific instance of ApplicationGatewayRewriteRuleCondition can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayRewriteRuleCondition tests if a specific instance of ApplicationGatewayRewriteRuleCondition can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayRewriteRuleCondition(subject ApplicationGatewayRewriteRuleCondition) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayRewriteRuleCondition
+	var other v20220701s.ApplicationGatewayRewriteRuleCondition
 	err := copied.AssignProperties_To_ApplicationGatewayRewriteRuleCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -8747,13 +8747,13 @@ func Test_ApplicationGatewayHeaderConfiguration_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayHeaderConfiguration tests if a specific instance of ApplicationGatewayHeaderConfiguration can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayHeaderConfiguration tests if a specific instance of ApplicationGatewayHeaderConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayHeaderConfiguration(subject ApplicationGatewayHeaderConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayHeaderConfiguration
+	var other v20220701s.ApplicationGatewayHeaderConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayHeaderConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -8851,13 +8851,13 @@ func Test_ApplicationGatewayUrlConfiguration_WhenPropertiesConverted_RoundTripsW
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationGatewayUrlConfiguration tests if a specific instance of ApplicationGatewayUrlConfiguration can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForApplicationGatewayUrlConfiguration tests if a specific instance of ApplicationGatewayUrlConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayUrlConfiguration(subject ApplicationGatewayUrlConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationGatewayUrlConfiguration
+	var other v20220701s.ApplicationGatewayUrlConfiguration
 	err := copied.AssignProperties_To_ApplicationGatewayUrlConfiguration(&other)
 	if err != nil {
 		return err.Error()
