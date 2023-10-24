@@ -13,9 +13,6 @@ import (
 	"regexp"
 	"time"
 
-	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
-	"sigs.k8s.io/controller-runtime/pkg/webhook"
-
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/benbjohnson/clock"
@@ -34,7 +31,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
+	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
+	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
 	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
@@ -156,40 +155,50 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 		setupLog.Error(err, "failed to initialize CRD client")
 		os.Exit(1)
 	}
-
-	goalCRDs, err := crdManager.LoadOperatorCRDs(crdmanagement.CRDLocation, cfg.PodNamespace)
-	if err != nil {
-		setupLog.Error(err, "failed to load CRDs from disk")
-		os.Exit(1)
-	}
-
 	existingCRDs, err := crdManager.ListOperatorCRDs(ctx)
 	if err != nil {
 		setupLog.Error(err, "failed to list current CRDs")
 		os.Exit(1)
 	}
 
-	// We only apply CRDs if we're in webhooks mode. No other mode will have CRD CRUD permissions
-	if cfg.OperatorMode.IncludesWebhooks() {
-		var installationInstructions []*crdmanagement.CRDInstallationInstruction
-		installationInstructions, err = crdManager.DetermineCRDsToInstallOrUpgrade(goalCRDs, existingCRDs, flgs.CRDPatterns)
+	// By default, assume the existing CRDs are the goal CRDs. If CRD management is enabled, we will
+	// load the goal CRDs from disk and apply them.
+	goalCRDs := existingCRDs
+	switch flgs.CRDManagementMode {
+	case "auto":
+		goalCRDs, err = crdManager.LoadOperatorCRDs(crdmanagement.CRDLocation, cfg.PodNamespace)
 		if err != nil {
-			setupLog.Error(err, "failed to determine CRDs to apply")
+			setupLog.Error(err, "failed to load CRDs from disk")
 			os.Exit(1)
 		}
 
-		included := crdmanagement.IncludedCRDs(installationInstructions)
-		if len(included) == 0 {
-			err = errors.New("No existing CRDs in cluster and no --crd-pattern specified")
-			setupLog.Error(err, "failed to apply CRDs")
-			os.Exit(1)
-		}
+		// We only apply CRDs if we're in webhooks mode. No other mode will have CRD CRUD permissions
+		if cfg.OperatorMode.IncludesWebhooks() {
+			var installationInstructions []*crdmanagement.CRDInstallationInstruction
+			installationInstructions, err = crdManager.DetermineCRDsToInstallOrUpgrade(goalCRDs, existingCRDs, flgs.CRDPatterns)
+			if err != nil {
+				setupLog.Error(err, "failed to determine CRDs to apply")
+				os.Exit(1)
+			}
 
-		err = crdManager.ApplyCRDs(ctx, installationInstructions)
-		if err != nil {
-			setupLog.Error(err, "failed to apply CRDs")
-			os.Exit(1)
+			included := crdmanagement.IncludedCRDs(installationInstructions)
+			if len(included) == 0 {
+				err = errors.New("No existing CRDs in cluster and no --crd-pattern specified")
+				setupLog.Error(err, "failed to apply CRDs")
+				os.Exit(1)
+			}
+
+			err = crdManager.ApplyCRDs(ctx, installationInstructions)
+			if err != nil {
+				setupLog.Error(err, "failed to apply CRDs")
+				os.Exit(1)
+			}
 		}
+	case "none":
+		setupLog.Info("CRD management mode was set to 'none', the operator will not manage CRDs and assumes they are already installed and matching the operator version")
+	default:
+		setupLog.Error(fmt.Errorf("invalid CRD management mode: %s", flgs.CRDManagementMode), "failed to initialize CRD client")
+		os.Exit(1)
 	}
 
 	// Of all the resources we know of, find any that aren't ready. We will use this collection
