@@ -235,7 +235,7 @@ func Test_Storage_StorageAccount_SecretsFromAzure(t *testing.T) {
 	tc.ListResources(configMapList, client.InNamespace(tc.Namespace))
 	tc.Expect(configMapList.Items).To(HaveLen(0))
 
-	// Run sub-tests on storage account
+	// Run sub-tests on storage account in sequence
 	tc.RunSubtests(
 		testcommon.Subtest{
 			Name: "SecretsWrittenToSameKubeSecret",
@@ -375,20 +375,17 @@ func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blo
 
 func newStorageAccount20220901(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
 	// Create a storage account
-	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
-	kind := storage.StorageAccount_Kind_Spec_StorageV2
-	sku := storage.SkuName_Standard_LRS
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccount_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Kind:     &kind,
+			Kind:     to.Ptr(storage.StorageAccount_Kind_Spec_StorageV2),
 			Sku: &storage.Sku{
-				Name: &sku,
+				Name: to.Ptr(storage.SkuName_Standard_LRS),
 			},
 			// TODO: They mark this property as optional but actually it is required
-			AccessTier: &accessTier,
+			AccessTier: to.Ptr(storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot),
 		},
 	}
 	return acct

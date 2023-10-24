@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"fmt"
-	v1api20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,9 +49,9 @@ var _ conversion.Convertible = &PrivateEndpoint{}
 
 // ConvertFrom populates our PrivateEndpoint from the provided hub PrivateEndpoint
 func (endpoint *PrivateEndpoint) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20220701s.PrivateEndpoint)
+	source, ok := hub.(*v20220701s.PrivateEndpoint)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20220701storage/PrivateEndpoint but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20220701/storage/PrivateEndpoint but received %T instead", hub)
 	}
 
 	return endpoint.AssignProperties_From_PrivateEndpoint(source)
@@ -59,9 +59,9 @@ func (endpoint *PrivateEndpoint) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub PrivateEndpoint from our PrivateEndpoint
 func (endpoint *PrivateEndpoint) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20220701s.PrivateEndpoint)
+	destination, ok := hub.(*v20220701s.PrivateEndpoint)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20220701storage/PrivateEndpoint but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20220701/storage/PrivateEndpoint but received %T instead", hub)
 	}
 
 	return endpoint.AssignProperties_To_PrivateEndpoint(destination)
@@ -141,11 +141,7 @@ func (endpoint *PrivateEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (endpoint *PrivateEndpoint) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(endpoint.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  endpoint.Spec.Owner.Name,
-	}
+	return endpoint.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (endpoint *PrivateEndpoint) ValidateUpdate(old runtime.Object) (admission.W
 
 // createValidations validates the creation of the resource
 func (endpoint *PrivateEndpoint) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){endpoint.validateResourceReferences}
+	return []func() (admission.Warnings, error){endpoint.validateResourceReferences, endpoint.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (endpoint *PrivateEndpoint) updateValidations() []func(old runtime.Object) 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return endpoint.validateResourceReferences()
 		},
-		endpoint.validateWriteOnceProperties}
+		endpoint.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return endpoint.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (endpoint *PrivateEndpoint) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(endpoint)
 }
 
 // validateResourceReferences validates all resource references
@@ -240,7 +245,7 @@ func (endpoint *PrivateEndpoint) validateWriteOnceProperties(old runtime.Object)
 }
 
 // AssignProperties_From_PrivateEndpoint populates our PrivateEndpoint from the provided source PrivateEndpoint
-func (endpoint *PrivateEndpoint) AssignProperties_From_PrivateEndpoint(source *v1api20220701s.PrivateEndpoint) error {
+func (endpoint *PrivateEndpoint) AssignProperties_From_PrivateEndpoint(source *v20220701s.PrivateEndpoint) error {
 
 	// ObjectMeta
 	endpoint.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +271,13 @@ func (endpoint *PrivateEndpoint) AssignProperties_From_PrivateEndpoint(source *v
 }
 
 // AssignProperties_To_PrivateEndpoint populates the provided destination PrivateEndpoint from our PrivateEndpoint
-func (endpoint *PrivateEndpoint) AssignProperties_To_PrivateEndpoint(destination *v1api20220701s.PrivateEndpoint) error {
+func (endpoint *PrivateEndpoint) AssignProperties_To_PrivateEndpoint(destination *v20220701s.PrivateEndpoint) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *endpoint.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20220701s.PrivateEndpoint_Spec
+	var spec v20220701s.PrivateEndpoint_Spec
 	err := endpoint.Spec.AssignProperties_To_PrivateEndpoint_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_Spec() to populate field Spec")
@@ -280,7 +285,7 @@ func (endpoint *PrivateEndpoint) AssignProperties_To_PrivateEndpoint(destination
 	destination.Spec = spec
 
 	// Status
-	var status v1api20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
+	var status v20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
 	err = endpoint.Status.AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field Status")
@@ -360,7 +365,7 @@ func (endpoint *PrivateEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &PrivateEndpoint_Spec_ARM{}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if endpoint.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*endpoint.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
@@ -370,16 +375,16 @@ func (endpoint *PrivateEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		result.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if endpoint.Location != nil {
 		location := *endpoint.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if endpoint.ApplicationSecurityGroups != nil ||
 		endpoint.CustomNetworkInterfaceName != nil ||
 		endpoint.IpConfigurations != nil ||
@@ -429,7 +434,7 @@ func (endpoint *PrivateEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		result.Properties.Subnet = &subnet
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if endpoint.Tags != nil {
 		result.Tags = make(map[string]string, len(endpoint.Tags))
 		for key, value := range endpoint.Tags {
@@ -451,7 +456,7 @@ func (endpoint *PrivateEndpoint_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpoint_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ApplicationSecurityGroups’:
+	// Set property "ApplicationSecurityGroups":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ApplicationSecurityGroups {
@@ -464,10 +469,10 @@ func (endpoint *PrivateEndpoint_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	endpoint.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘CustomNetworkInterfaceName’:
+	// Set property "CustomNetworkInterfaceName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CustomNetworkInterfaceName != nil {
@@ -476,7 +481,7 @@ func (endpoint *PrivateEndpoint_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -487,7 +492,7 @@ func (endpoint *PrivateEndpoint_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		endpoint.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘IpConfigurations’:
+	// Set property "IpConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpConfigurations {
@@ -500,13 +505,13 @@ func (endpoint *PrivateEndpoint_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		endpoint.Location = &location
 	}
 
-	// Set property ‘ManualPrivateLinkServiceConnections’:
+	// Set property "ManualPrivateLinkServiceConnections":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ManualPrivateLinkServiceConnections {
@@ -519,10 +524,13 @@ func (endpoint *PrivateEndpoint_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Owner’:
-	endpoint.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	endpoint.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘PrivateLinkServiceConnections’:
+	// Set property "PrivateLinkServiceConnections":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateLinkServiceConnections {
@@ -535,7 +543,7 @@ func (endpoint *PrivateEndpoint_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Subnet’:
+	// Set property "Subnet":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
@@ -549,7 +557,7 @@ func (endpoint *PrivateEndpoint_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		endpoint.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -565,14 +573,14 @@ var _ genruntime.ConvertibleSpec = &PrivateEndpoint_Spec{}
 
 // ConvertSpecFrom populates our PrivateEndpoint_Spec from the provided source
 func (endpoint *PrivateEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20220701s.PrivateEndpoint_Spec)
+	src, ok := source.(*v20220701s.PrivateEndpoint_Spec)
 	if ok {
 		// Populate our instance from source
 		return endpoint.AssignProperties_From_PrivateEndpoint_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220701s.PrivateEndpoint_Spec{}
+	src = &v20220701s.PrivateEndpoint_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -589,14 +597,14 @@ func (endpoint *PrivateEndpoint_Spec) ConvertSpecFrom(source genruntime.Converti
 
 // ConvertSpecTo populates the provided destination from our PrivateEndpoint_Spec
 func (endpoint *PrivateEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20220701s.PrivateEndpoint_Spec)
+	dst, ok := destination.(*v20220701s.PrivateEndpoint_Spec)
 	if ok {
 		// Populate destination from our instance
 		return endpoint.AssignProperties_To_PrivateEndpoint_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220701s.PrivateEndpoint_Spec{}
+	dst = &v20220701s.PrivateEndpoint_Spec{}
 	err := endpoint.AssignProperties_To_PrivateEndpoint_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -612,7 +620,7 @@ func (endpoint *PrivateEndpoint_Spec) ConvertSpecTo(destination genruntime.Conve
 }
 
 // AssignProperties_From_PrivateEndpoint_Spec populates our PrivateEndpoint_Spec from the provided source PrivateEndpoint_Spec
-func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec(source *v1api20220701s.PrivateEndpoint_Spec) error {
+func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec(source *v20220701s.PrivateEndpoint_Spec) error {
 
 	// ApplicationSecurityGroups
 	if source.ApplicationSecurityGroups != nil {
@@ -735,17 +743,17 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec
 }
 
 // AssignProperties_To_PrivateEndpoint_Spec populates the provided destination PrivateEndpoint_Spec from our PrivateEndpoint_Spec
-func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(destination *v1api20220701s.PrivateEndpoint_Spec) error {
+func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(destination *v20220701s.PrivateEndpoint_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ApplicationSecurityGroups
 	if endpoint.ApplicationSecurityGroups != nil {
-		applicationSecurityGroupList := make([]v1api20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded, len(endpoint.ApplicationSecurityGroups))
+		applicationSecurityGroupList := make([]v20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded, len(endpoint.ApplicationSecurityGroups))
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range endpoint.ApplicationSecurityGroups {
 			// Shadow the loop variable to avoid aliasing
 			applicationSecurityGroupItem := applicationSecurityGroupItem
-			var applicationSecurityGroup v1api20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
+			var applicationSecurityGroup v20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
 			err := applicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(&applicationSecurityGroup)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
@@ -765,7 +773,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 
 	// ExtendedLocation
 	if endpoint.ExtendedLocation != nil {
-		var extendedLocation v1api20220701s.ExtendedLocation
+		var extendedLocation v20220701s.ExtendedLocation
 		err := endpoint.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
@@ -777,11 +785,11 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 
 	// IpConfigurations
 	if endpoint.IpConfigurations != nil {
-		ipConfigurationList := make([]v1api20220701s.PrivateEndpointIPConfiguration, len(endpoint.IpConfigurations))
+		ipConfigurationList := make([]v20220701s.PrivateEndpointIPConfiguration, len(endpoint.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range endpoint.IpConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration v1api20220701s.PrivateEndpointIPConfiguration
+			var ipConfiguration v20220701s.PrivateEndpointIPConfiguration
 			err := ipConfigurationItem.AssignProperties_To_PrivateEndpointIPConfiguration(&ipConfiguration)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointIPConfiguration() to populate field IpConfigurations")
@@ -798,11 +806,11 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 
 	// ManualPrivateLinkServiceConnections
 	if endpoint.ManualPrivateLinkServiceConnections != nil {
-		manualPrivateLinkServiceConnectionList := make([]v1api20220701s.PrivateLinkServiceConnection, len(endpoint.ManualPrivateLinkServiceConnections))
+		manualPrivateLinkServiceConnectionList := make([]v20220701s.PrivateLinkServiceConnection, len(endpoint.ManualPrivateLinkServiceConnections))
 		for manualPrivateLinkServiceConnectionIndex, manualPrivateLinkServiceConnectionItem := range endpoint.ManualPrivateLinkServiceConnections {
 			// Shadow the loop variable to avoid aliasing
 			manualPrivateLinkServiceConnectionItem := manualPrivateLinkServiceConnectionItem
-			var manualPrivateLinkServiceConnection v1api20220701s.PrivateLinkServiceConnection
+			var manualPrivateLinkServiceConnection v20220701s.PrivateLinkServiceConnection
 			err := manualPrivateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection(&manualPrivateLinkServiceConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection() to populate field ManualPrivateLinkServiceConnections")
@@ -827,11 +835,11 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 
 	// PrivateLinkServiceConnections
 	if endpoint.PrivateLinkServiceConnections != nil {
-		privateLinkServiceConnectionList := make([]v1api20220701s.PrivateLinkServiceConnection, len(endpoint.PrivateLinkServiceConnections))
+		privateLinkServiceConnectionList := make([]v20220701s.PrivateLinkServiceConnection, len(endpoint.PrivateLinkServiceConnections))
 		for privateLinkServiceConnectionIndex, privateLinkServiceConnectionItem := range endpoint.PrivateLinkServiceConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkServiceConnectionItem := privateLinkServiceConnectionItem
-			var privateLinkServiceConnection v1api20220701s.PrivateLinkServiceConnection
+			var privateLinkServiceConnection v20220701s.PrivateLinkServiceConnection
 			err := privateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection(&privateLinkServiceConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection() to populate field PrivateLinkServiceConnections")
@@ -845,7 +853,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 
 	// Subnet
 	if endpoint.Subnet != nil {
-		var subnet v1api20220701s.Subnet_PrivateEndpoint_SubResourceEmbedded
+		var subnet v20220701s.Subnet_PrivateEndpoint_SubResourceEmbedded
 		err := endpoint.Subnet.AssignProperties_To_Subnet_PrivateEndpoint_SubResourceEmbedded(&subnet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Subnet_PrivateEndpoint_SubResourceEmbedded() to populate field Subnet")
@@ -1049,14 +1057,14 @@ var _ genruntime.ConvertibleStatus = &PrivateEndpoint_STATUS_PrivateEndpoint_Sub
 
 // ConvertStatusFrom populates our PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded from the provided source
 func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded)
+	src, ok := source.(*v20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded)
 	if ok {
 		// Populate our instance from source
 		return embedded.AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}
+	src = &v20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1073,14 +1081,14 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Conv
 
 // ConvertStatusTo populates the provided destination from our PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
 func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded)
+	dst, ok := destination.(*v20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded)
 	if ok {
 		// Populate destination from our instance
 		return embedded.AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}
+	dst = &v20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}
 	err := embedded.AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1109,7 +1117,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Popu
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ApplicationSecurityGroups’:
+	// Set property "ApplicationSecurityGroups":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ApplicationSecurityGroups {
@@ -1122,9 +1130,9 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Popu
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CustomDnsConfigs’:
+	// Set property "CustomDnsConfigs":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.CustomDnsConfigs {
@@ -1137,7 +1145,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Popu
 		}
 	}
 
-	// Set property ‘CustomNetworkInterfaceName’:
+	// Set property "CustomNetworkInterfaceName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CustomNetworkInterfaceName != nil {
@@ -1146,13 +1154,13 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Popu
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		embedded.Etag = &etag
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation_STATUS
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -1163,13 +1171,13 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Popu
 		embedded.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
 	}
 
-	// Set property ‘IpConfigurations’:
+	// Set property "IpConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpConfigurations {
@@ -1182,13 +1190,13 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Popu
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		embedded.Location = &location
 	}
 
-	// Set property ‘ManualPrivateLinkServiceConnections’:
+	// Set property "ManualPrivateLinkServiceConnections":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ManualPrivateLinkServiceConnections {
@@ -1201,13 +1209,13 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Popu
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		embedded.Name = &name
 	}
 
-	// Set property ‘NetworkInterfaces’:
+	// Set property "NetworkInterfaces":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.NetworkInterfaces {
@@ -1220,7 +1228,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Popu
 		}
 	}
 
-	// Set property ‘PrivateLinkServiceConnections’:
+	// Set property "PrivateLinkServiceConnections":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateLinkServiceConnections {
@@ -1233,7 +1241,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Popu
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1242,7 +1250,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Popu
 		}
 	}
 
-	// Set property ‘Subnet’:
+	// Set property "Subnet":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
@@ -1256,7 +1264,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Popu
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		embedded.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1264,7 +1272,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Popu
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		embedded.Type = &typeVar
@@ -1275,7 +1283,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Popu
 }
 
 // AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded populates our PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded from the provided source PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(source *v1api20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(source *v20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
 
 	// ApplicationSecurityGroups
 	if source.ApplicationSecurityGroups != nil {
@@ -1446,17 +1454,17 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 }
 
 // AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded populates the provided destination PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded from our PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(destination *v1api20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(destination *v20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ApplicationSecurityGroups
 	if embedded.ApplicationSecurityGroups != nil {
-		applicationSecurityGroupList := make([]v1api20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded, len(embedded.ApplicationSecurityGroups))
+		applicationSecurityGroupList := make([]v20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded, len(embedded.ApplicationSecurityGroups))
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range embedded.ApplicationSecurityGroups {
 			// Shadow the loop variable to avoid aliasing
 			applicationSecurityGroupItem := applicationSecurityGroupItem
-			var applicationSecurityGroup v1api20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
+			var applicationSecurityGroup v20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
 			err := applicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(&applicationSecurityGroup)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
@@ -1473,11 +1481,11 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 
 	// CustomDnsConfigs
 	if embedded.CustomDnsConfigs != nil {
-		customDnsConfigList := make([]v1api20220701s.CustomDnsConfigPropertiesFormat_STATUS, len(embedded.CustomDnsConfigs))
+		customDnsConfigList := make([]v20220701s.CustomDnsConfigPropertiesFormat_STATUS, len(embedded.CustomDnsConfigs))
 		for customDnsConfigIndex, customDnsConfigItem := range embedded.CustomDnsConfigs {
 			// Shadow the loop variable to avoid aliasing
 			customDnsConfigItem := customDnsConfigItem
-			var customDnsConfig v1api20220701s.CustomDnsConfigPropertiesFormat_STATUS
+			var customDnsConfig v20220701s.CustomDnsConfigPropertiesFormat_STATUS
 			err := customDnsConfigItem.AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS(&customDnsConfig)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS() to populate field CustomDnsConfigs")
@@ -1497,7 +1505,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 
 	// ExtendedLocation
 	if embedded.ExtendedLocation != nil {
-		var extendedLocation v1api20220701s.ExtendedLocation_STATUS
+		var extendedLocation v20220701s.ExtendedLocation_STATUS
 		err := embedded.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
@@ -1512,11 +1520,11 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 
 	// IpConfigurations
 	if embedded.IpConfigurations != nil {
-		ipConfigurationList := make([]v1api20220701s.PrivateEndpointIPConfiguration_STATUS, len(embedded.IpConfigurations))
+		ipConfigurationList := make([]v20220701s.PrivateEndpointIPConfiguration_STATUS, len(embedded.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range embedded.IpConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration v1api20220701s.PrivateEndpointIPConfiguration_STATUS
+			var ipConfiguration v20220701s.PrivateEndpointIPConfiguration_STATUS
 			err := ipConfigurationItem.AssignProperties_To_PrivateEndpointIPConfiguration_STATUS(&ipConfiguration)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointIPConfiguration_STATUS() to populate field IpConfigurations")
@@ -1533,11 +1541,11 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 
 	// ManualPrivateLinkServiceConnections
 	if embedded.ManualPrivateLinkServiceConnections != nil {
-		manualPrivateLinkServiceConnectionList := make([]v1api20220701s.PrivateLinkServiceConnection_STATUS, len(embedded.ManualPrivateLinkServiceConnections))
+		manualPrivateLinkServiceConnectionList := make([]v20220701s.PrivateLinkServiceConnection_STATUS, len(embedded.ManualPrivateLinkServiceConnections))
 		for manualPrivateLinkServiceConnectionIndex, manualPrivateLinkServiceConnectionItem := range embedded.ManualPrivateLinkServiceConnections {
 			// Shadow the loop variable to avoid aliasing
 			manualPrivateLinkServiceConnectionItem := manualPrivateLinkServiceConnectionItem
-			var manualPrivateLinkServiceConnection v1api20220701s.PrivateLinkServiceConnection_STATUS
+			var manualPrivateLinkServiceConnection v20220701s.PrivateLinkServiceConnection_STATUS
 			err := manualPrivateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection_STATUS(&manualPrivateLinkServiceConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection_STATUS() to populate field ManualPrivateLinkServiceConnections")
@@ -1554,11 +1562,11 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 
 	// NetworkInterfaces
 	if embedded.NetworkInterfaces != nil {
-		networkInterfaceList := make([]v1api20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded, len(embedded.NetworkInterfaces))
+		networkInterfaceList := make([]v20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded, len(embedded.NetworkInterfaces))
 		for networkInterfaceIndex, networkInterfaceItem := range embedded.NetworkInterfaces {
 			// Shadow the loop variable to avoid aliasing
 			networkInterfaceItem := networkInterfaceItem
-			var networkInterface v1api20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
+			var networkInterface v20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
 			err := networkInterfaceItem.AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(&networkInterface)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field NetworkInterfaces")
@@ -1572,11 +1580,11 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 
 	// PrivateLinkServiceConnections
 	if embedded.PrivateLinkServiceConnections != nil {
-		privateLinkServiceConnectionList := make([]v1api20220701s.PrivateLinkServiceConnection_STATUS, len(embedded.PrivateLinkServiceConnections))
+		privateLinkServiceConnectionList := make([]v20220701s.PrivateLinkServiceConnection_STATUS, len(embedded.PrivateLinkServiceConnections))
 		for privateLinkServiceConnectionIndex, privateLinkServiceConnectionItem := range embedded.PrivateLinkServiceConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkServiceConnectionItem := privateLinkServiceConnectionItem
-			var privateLinkServiceConnection v1api20220701s.PrivateLinkServiceConnection_STATUS
+			var privateLinkServiceConnection v20220701s.PrivateLinkServiceConnection_STATUS
 			err := privateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection_STATUS(&privateLinkServiceConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection_STATUS() to populate field PrivateLinkServiceConnections")
@@ -1598,7 +1606,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 
 	// Subnet
 	if embedded.Subnet != nil {
-		var subnet v1api20220701s.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
+		var subnet v20220701s.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
 		err := embedded.Subnet.AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(&subnet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field Subnet")
@@ -1645,7 +1653,7 @@ func (embedded *ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbed
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
@@ -1656,7 +1664,7 @@ func (embedded *ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbed
 }
 
 // AssignProperties_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded populates our ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded from the provided source ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(source *v1api20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(source *v20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -1666,7 +1674,7 @@ func (embedded *ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbed
 }
 
 // AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded populates the provided destination ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded from our ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(destination *v1api20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(destination *v20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1699,7 +1707,7 @@ func (embedded *ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
 	}
 	result := &ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if embedded.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*embedded.Reference)
 		if err != nil {
@@ -1723,14 +1731,14 @@ func (embedded *ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
 }
 
 // AssignProperties_From_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded populates our ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded from the provided source ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
-func (embedded *ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(source *v1api20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(source *v20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -1745,7 +1753,7 @@ func (embedded *ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
 }
 
 // AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded populates the provided destination ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded from our ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
-func (embedded *ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(destination *v1api20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(destination *v20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1806,13 +1814,13 @@ func (format *CustomDnsConfigPropertiesFormat_STATUS) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomDnsConfigPropertiesFormat_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Fqdn’:
+	// Set property "Fqdn":
 	if typedInput.Fqdn != nil {
 		fqdn := *typedInput.Fqdn
 		format.Fqdn = &fqdn
 	}
 
-	// Set property ‘IpAddresses’:
+	// Set property "IpAddresses":
 	for _, item := range typedInput.IpAddresses {
 		format.IpAddresses = append(format.IpAddresses, item)
 	}
@@ -1822,7 +1830,7 @@ func (format *CustomDnsConfigPropertiesFormat_STATUS) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS populates our CustomDnsConfigPropertiesFormat_STATUS from the provided source CustomDnsConfigPropertiesFormat_STATUS
-func (format *CustomDnsConfigPropertiesFormat_STATUS) AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS(source *v1api20220701s.CustomDnsConfigPropertiesFormat_STATUS) error {
+func (format *CustomDnsConfigPropertiesFormat_STATUS) AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS(source *v20220701s.CustomDnsConfigPropertiesFormat_STATUS) error {
 
 	// Fqdn
 	format.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
@@ -1835,7 +1843,7 @@ func (format *CustomDnsConfigPropertiesFormat_STATUS) AssignProperties_From_Cust
 }
 
 // AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS populates the provided destination CustomDnsConfigPropertiesFormat_STATUS from our CustomDnsConfigPropertiesFormat_STATUS
-func (format *CustomDnsConfigPropertiesFormat_STATUS) AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS(destination *v1api20220701s.CustomDnsConfigPropertiesFormat_STATUS) error {
+func (format *CustomDnsConfigPropertiesFormat_STATUS) AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS(destination *v20220701s.CustomDnsConfigPropertiesFormat_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1874,13 +1882,13 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &ExtendedLocation_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if location.Name != nil {
 		name := *location.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if location.Type != nil {
 		typeVar := *location.Type
 		result.Type = &typeVar
@@ -1900,13 +1908,13 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		location.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		location.Type = &typeVar
@@ -1917,7 +1925,7 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_ExtendedLocation populates our ExtendedLocation from the provided source ExtendedLocation
-func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source *v1api20220701s.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source *v20220701s.ExtendedLocation) error {
 
 	// Name
 	location.Name = genruntime.ClonePointerToString(source.Name)
@@ -1935,7 +1943,7 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 }
 
 // AssignProperties_To_ExtendedLocation populates the provided destination ExtendedLocation from our ExtendedLocation
-func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destination *v1api20220701s.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destination *v20220701s.ExtendedLocation) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2002,13 +2010,13 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		location.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		location.Type = &typeVar
@@ -2019,7 +2027,7 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_ExtendedLocation_STATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_STATUS(source *v1api20220701s.ExtendedLocation_STATUS) error {
+func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_STATUS(source *v20220701s.ExtendedLocation_STATUS) error {
 
 	// Name
 	location.Name = genruntime.ClonePointerToString(source.Name)
@@ -2037,7 +2045,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_
 }
 
 // AssignProperties_To_ExtendedLocation_STATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_STATUS(destination *v1api20220701s.ExtendedLocation_STATUS) error {
+func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_STATUS(destination *v20220701s.ExtendedLocation_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2083,7 +2091,7 @@ func (embedded *NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) Pop
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
@@ -2094,7 +2102,7 @@ func (embedded *NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) Pop
 }
 
 // AssignProperties_From_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded populates our NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded from the provided source NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(source *v1api20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(source *v20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -2104,7 +2112,7 @@ func (embedded *NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) Ass
 }
 
 // AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded populates the provided destination NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded from our NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(destination *v1api20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(destination *v20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2146,13 +2154,13 @@ func (configuration *PrivateEndpointIPConfiguration) ConvertToARM(resolved genru
 	}
 	result := &PrivateEndpointIPConfiguration_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if configuration.Name != nil {
 		name := *configuration.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if configuration.GroupId != nil ||
 		configuration.MemberName != nil ||
 		configuration.PrivateIPAddress != nil {
@@ -2185,7 +2193,7 @@ func (configuration *PrivateEndpointIPConfiguration) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointIPConfiguration_ARM, got %T", armInput)
 	}
 
-	// Set property ‘GroupId’:
+	// Set property "GroupId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GroupId != nil {
@@ -2194,7 +2202,7 @@ func (configuration *PrivateEndpointIPConfiguration) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘MemberName’:
+	// Set property "MemberName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MemberName != nil {
@@ -2203,13 +2211,13 @@ func (configuration *PrivateEndpointIPConfiguration) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		configuration.Name = &name
 	}
 
-	// Set property ‘PrivateIPAddress’:
+	// Set property "PrivateIPAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAddress != nil {
@@ -2223,7 +2231,7 @@ func (configuration *PrivateEndpointIPConfiguration) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_PrivateEndpointIPConfiguration populates our PrivateEndpointIPConfiguration from the provided source PrivateEndpointIPConfiguration
-func (configuration *PrivateEndpointIPConfiguration) AssignProperties_From_PrivateEndpointIPConfiguration(source *v1api20220701s.PrivateEndpointIPConfiguration) error {
+func (configuration *PrivateEndpointIPConfiguration) AssignProperties_From_PrivateEndpointIPConfiguration(source *v20220701s.PrivateEndpointIPConfiguration) error {
 
 	// GroupId
 	configuration.GroupId = genruntime.ClonePointerToString(source.GroupId)
@@ -2242,7 +2250,7 @@ func (configuration *PrivateEndpointIPConfiguration) AssignProperties_From_Priva
 }
 
 // AssignProperties_To_PrivateEndpointIPConfiguration populates the provided destination PrivateEndpointIPConfiguration from our PrivateEndpointIPConfiguration
-func (configuration *PrivateEndpointIPConfiguration) AssignProperties_To_PrivateEndpointIPConfiguration(destination *v1api20220701s.PrivateEndpointIPConfiguration) error {
+func (configuration *PrivateEndpointIPConfiguration) AssignProperties_To_PrivateEndpointIPConfiguration(destination *v20220701s.PrivateEndpointIPConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2323,13 +2331,13 @@ func (configuration *PrivateEndpointIPConfiguration_STATUS) PopulateFromARM(owne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointIPConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		configuration.Etag = &etag
 	}
 
-	// Set property ‘GroupId’:
+	// Set property "GroupId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GroupId != nil {
@@ -2338,7 +2346,7 @@ func (configuration *PrivateEndpointIPConfiguration_STATUS) PopulateFromARM(owne
 		}
 	}
 
-	// Set property ‘MemberName’:
+	// Set property "MemberName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MemberName != nil {
@@ -2347,13 +2355,13 @@ func (configuration *PrivateEndpointIPConfiguration_STATUS) PopulateFromARM(owne
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		configuration.Name = &name
 	}
 
-	// Set property ‘PrivateIPAddress’:
+	// Set property "PrivateIPAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAddress != nil {
@@ -2362,7 +2370,7 @@ func (configuration *PrivateEndpointIPConfiguration_STATUS) PopulateFromARM(owne
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		configuration.Type = &typeVar
@@ -2373,7 +2381,7 @@ func (configuration *PrivateEndpointIPConfiguration_STATUS) PopulateFromARM(owne
 }
 
 // AssignProperties_From_PrivateEndpointIPConfiguration_STATUS populates our PrivateEndpointIPConfiguration_STATUS from the provided source PrivateEndpointIPConfiguration_STATUS
-func (configuration *PrivateEndpointIPConfiguration_STATUS) AssignProperties_From_PrivateEndpointIPConfiguration_STATUS(source *v1api20220701s.PrivateEndpointIPConfiguration_STATUS) error {
+func (configuration *PrivateEndpointIPConfiguration_STATUS) AssignProperties_From_PrivateEndpointIPConfiguration_STATUS(source *v20220701s.PrivateEndpointIPConfiguration_STATUS) error {
 
 	// Etag
 	configuration.Etag = genruntime.ClonePointerToString(source.Etag)
@@ -2398,7 +2406,7 @@ func (configuration *PrivateEndpointIPConfiguration_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_PrivateEndpointIPConfiguration_STATUS populates the provided destination PrivateEndpointIPConfiguration_STATUS from our PrivateEndpointIPConfiguration_STATUS
-func (configuration *PrivateEndpointIPConfiguration_STATUS) AssignProperties_To_PrivateEndpointIPConfiguration_STATUS(destination *v1api20220701s.PrivateEndpointIPConfiguration_STATUS) error {
+func (configuration *PrivateEndpointIPConfiguration_STATUS) AssignProperties_To_PrivateEndpointIPConfiguration_STATUS(destination *v20220701s.PrivateEndpointIPConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2460,13 +2468,13 @@ func (connection *PrivateLinkServiceConnection) ConvertToARM(resolved genruntime
 	}
 	result := &PrivateLinkServiceConnection_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if connection.Name != nil {
 		name := *connection.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if connection.GroupIds != nil ||
 		connection.PrivateLinkServiceConnectionState != nil ||
 		connection.PrivateLinkServiceReference != nil ||
@@ -2511,7 +2519,7 @@ func (connection *PrivateLinkServiceConnection) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkServiceConnection_ARM, got %T", armInput)
 	}
 
-	// Set property ‘GroupIds’:
+	// Set property "GroupIds":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.GroupIds {
@@ -2519,13 +2527,13 @@ func (connection *PrivateLinkServiceConnection) PopulateFromARM(owner genruntime
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		connection.Name = &name
 	}
 
-	// Set property ‘PrivateLinkServiceConnectionState’:
+	// Set property "PrivateLinkServiceConnectionState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkServiceConnectionState != nil {
@@ -2539,9 +2547,9 @@ func (connection *PrivateLinkServiceConnection) PopulateFromARM(owner genruntime
 		}
 	}
 
-	// no assignment for property ‘PrivateLinkServiceReference’
+	// no assignment for property "PrivateLinkServiceReference"
 
-	// Set property ‘RequestMessage’:
+	// Set property "RequestMessage":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequestMessage != nil {
@@ -2555,7 +2563,7 @@ func (connection *PrivateLinkServiceConnection) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_PrivateLinkServiceConnection populates our PrivateLinkServiceConnection from the provided source PrivateLinkServiceConnection
-func (connection *PrivateLinkServiceConnection) AssignProperties_From_PrivateLinkServiceConnection(source *v1api20220701s.PrivateLinkServiceConnection) error {
+func (connection *PrivateLinkServiceConnection) AssignProperties_From_PrivateLinkServiceConnection(source *v20220701s.PrivateLinkServiceConnection) error {
 
 	// GroupIds
 	connection.GroupIds = genruntime.CloneSliceOfString(source.GroupIds)
@@ -2591,7 +2599,7 @@ func (connection *PrivateLinkServiceConnection) AssignProperties_From_PrivateLin
 }
 
 // AssignProperties_To_PrivateLinkServiceConnection populates the provided destination PrivateLinkServiceConnection from our PrivateLinkServiceConnection
-func (connection *PrivateLinkServiceConnection) AssignProperties_To_PrivateLinkServiceConnection(destination *v1api20220701s.PrivateLinkServiceConnection) error {
+func (connection *PrivateLinkServiceConnection) AssignProperties_To_PrivateLinkServiceConnection(destination *v20220701s.PrivateLinkServiceConnection) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2603,7 +2611,7 @@ func (connection *PrivateLinkServiceConnection) AssignProperties_To_PrivateLinkS
 
 	// PrivateLinkServiceConnectionState
 	if connection.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState v1api20220701s.PrivateLinkServiceConnectionState
+		var privateLinkServiceConnectionState v20220701s.PrivateLinkServiceConnectionState
 		err := connection.PrivateLinkServiceConnectionState.AssignProperties_To_PrivateLinkServiceConnectionState(&privateLinkServiceConnectionState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnectionState() to populate field PrivateLinkServiceConnectionState")
@@ -2717,13 +2725,13 @@ func (connection *PrivateLinkServiceConnection_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkServiceConnection_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		connection.Etag = &etag
 	}
 
-	// Set property ‘GroupIds’:
+	// Set property "GroupIds":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.GroupIds {
@@ -2731,19 +2739,19 @@ func (connection *PrivateLinkServiceConnection_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		connection.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		connection.Name = &name
 	}
 
-	// Set property ‘PrivateLinkServiceConnectionState’:
+	// Set property "PrivateLinkServiceConnectionState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkServiceConnectionState != nil {
@@ -2757,7 +2765,7 @@ func (connection *PrivateLinkServiceConnection_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘PrivateLinkServiceId’:
+	// Set property "PrivateLinkServiceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkServiceId != nil {
@@ -2766,7 +2774,7 @@ func (connection *PrivateLinkServiceConnection_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -2775,7 +2783,7 @@ func (connection *PrivateLinkServiceConnection_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘RequestMessage’:
+	// Set property "RequestMessage":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequestMessage != nil {
@@ -2784,7 +2792,7 @@ func (connection *PrivateLinkServiceConnection_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		connection.Type = &typeVar
@@ -2795,7 +2803,7 @@ func (connection *PrivateLinkServiceConnection_STATUS) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_PrivateLinkServiceConnection_STATUS populates our PrivateLinkServiceConnection_STATUS from the provided source PrivateLinkServiceConnection_STATUS
-func (connection *PrivateLinkServiceConnection_STATUS) AssignProperties_From_PrivateLinkServiceConnection_STATUS(source *v1api20220701s.PrivateLinkServiceConnection_STATUS) error {
+func (connection *PrivateLinkServiceConnection_STATUS) AssignProperties_From_PrivateLinkServiceConnection_STATUS(source *v20220701s.PrivateLinkServiceConnection_STATUS) error {
 
 	// Etag
 	connection.Etag = genruntime.ClonePointerToString(source.Etag)
@@ -2843,7 +2851,7 @@ func (connection *PrivateLinkServiceConnection_STATUS) AssignProperties_From_Pri
 }
 
 // AssignProperties_To_PrivateLinkServiceConnection_STATUS populates the provided destination PrivateLinkServiceConnection_STATUS from our PrivateLinkServiceConnection_STATUS
-func (connection *PrivateLinkServiceConnection_STATUS) AssignProperties_To_PrivateLinkServiceConnection_STATUS(destination *v1api20220701s.PrivateLinkServiceConnection_STATUS) error {
+func (connection *PrivateLinkServiceConnection_STATUS) AssignProperties_To_PrivateLinkServiceConnection_STATUS(destination *v20220701s.PrivateLinkServiceConnection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2861,7 +2869,7 @@ func (connection *PrivateLinkServiceConnection_STATUS) AssignProperties_To_Priva
 
 	// PrivateLinkServiceConnectionState
 	if connection.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState v1api20220701s.PrivateLinkServiceConnectionState_STATUS
+		var privateLinkServiceConnectionState v20220701s.PrivateLinkServiceConnectionState_STATUS
 		err := connection.PrivateLinkServiceConnectionState.AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(&privateLinkServiceConnectionState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
@@ -2914,7 +2922,7 @@ func (embedded *Subnet_PrivateEndpoint_SubResourceEmbedded) ConvertToARM(resolve
 	}
 	result := &Subnet_PrivateEndpoint_SubResourceEmbedded_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if embedded.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*embedded.Reference)
 		if err != nil {
@@ -2938,14 +2946,14 @@ func (embedded *Subnet_PrivateEndpoint_SubResourceEmbedded) PopulateFromARM(owne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_PrivateEndpoint_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
 }
 
 // AssignProperties_From_Subnet_PrivateEndpoint_SubResourceEmbedded populates our Subnet_PrivateEndpoint_SubResourceEmbedded from the provided source Subnet_PrivateEndpoint_SubResourceEmbedded
-func (embedded *Subnet_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_Subnet_PrivateEndpoint_SubResourceEmbedded(source *v1api20220701s.Subnet_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *Subnet_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_Subnet_PrivateEndpoint_SubResourceEmbedded(source *v20220701s.Subnet_PrivateEndpoint_SubResourceEmbedded) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -2960,7 +2968,7 @@ func (embedded *Subnet_PrivateEndpoint_SubResourceEmbedded) AssignProperties_Fro
 }
 
 // AssignProperties_To_Subnet_PrivateEndpoint_SubResourceEmbedded populates the provided destination Subnet_PrivateEndpoint_SubResourceEmbedded from our Subnet_PrivateEndpoint_SubResourceEmbedded
-func (embedded *Subnet_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_Subnet_PrivateEndpoint_SubResourceEmbedded(destination *v1api20220701s.Subnet_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *Subnet_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_Subnet_PrivateEndpoint_SubResourceEmbedded(destination *v20220701s.Subnet_PrivateEndpoint_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3018,7 +3026,7 @@ func (embedded *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) PopulateFromA
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
@@ -3029,7 +3037,7 @@ func (embedded *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) PopulateFromA
 }
 
 // AssignProperties_From_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded populates our Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded from the provided source Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(source *v1api20220701s.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(source *v20220701s.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -3039,7 +3047,7 @@ func (embedded *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignPropert
 }
 
 // AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded populates the provided destination Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded from our Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(destination *v1api20220701s.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(destination *v20220701s.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3078,19 +3086,19 @@ func (state *PrivateLinkServiceConnectionState) ConvertToARM(resolved genruntime
 	}
 	result := &PrivateLinkServiceConnectionState_ARM{}
 
-	// Set property ‘ActionsRequired’:
+	// Set property "ActionsRequired":
 	if state.ActionsRequired != nil {
 		actionsRequired := *state.ActionsRequired
 		result.ActionsRequired = &actionsRequired
 	}
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	if state.Description != nil {
 		description := *state.Description
 		result.Description = &description
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	if state.Status != nil {
 		status := *state.Status
 		result.Status = &status
@@ -3110,19 +3118,19 @@ func (state *PrivateLinkServiceConnectionState) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkServiceConnectionState_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ActionsRequired’:
+	// Set property "ActionsRequired":
 	if typedInput.ActionsRequired != nil {
 		actionsRequired := *typedInput.ActionsRequired
 		state.ActionsRequired = &actionsRequired
 	}
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	if typedInput.Description != nil {
 		description := *typedInput.Description
 		state.Description = &description
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	if typedInput.Status != nil {
 		status := *typedInput.Status
 		state.Status = &status
@@ -3133,7 +3141,7 @@ func (state *PrivateLinkServiceConnectionState) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_PrivateLinkServiceConnectionState populates our PrivateLinkServiceConnectionState from the provided source PrivateLinkServiceConnectionState
-func (state *PrivateLinkServiceConnectionState) AssignProperties_From_PrivateLinkServiceConnectionState(source *v1api20220701s.PrivateLinkServiceConnectionState) error {
+func (state *PrivateLinkServiceConnectionState) AssignProperties_From_PrivateLinkServiceConnectionState(source *v20220701s.PrivateLinkServiceConnectionState) error {
 
 	// ActionsRequired
 	state.ActionsRequired = genruntime.ClonePointerToString(source.ActionsRequired)
@@ -3149,7 +3157,7 @@ func (state *PrivateLinkServiceConnectionState) AssignProperties_From_PrivateLin
 }
 
 // AssignProperties_To_PrivateLinkServiceConnectionState populates the provided destination PrivateLinkServiceConnectionState from our PrivateLinkServiceConnectionState
-func (state *PrivateLinkServiceConnectionState) AssignProperties_To_PrivateLinkServiceConnectionState(destination *v1api20220701s.PrivateLinkServiceConnectionState) error {
+func (state *PrivateLinkServiceConnectionState) AssignProperties_To_PrivateLinkServiceConnectionState(destination *v20220701s.PrivateLinkServiceConnectionState) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3215,19 +3223,19 @@ func (state *PrivateLinkServiceConnectionState_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkServiceConnectionState_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ActionsRequired’:
+	// Set property "ActionsRequired":
 	if typedInput.ActionsRequired != nil {
 		actionsRequired := *typedInput.ActionsRequired
 		state.ActionsRequired = &actionsRequired
 	}
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	if typedInput.Description != nil {
 		description := *typedInput.Description
 		state.Description = &description
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	if typedInput.Status != nil {
 		status := *typedInput.Status
 		state.Status = &status
@@ -3238,7 +3246,7 @@ func (state *PrivateLinkServiceConnectionState_STATUS) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_PrivateLinkServiceConnectionState_STATUS populates our PrivateLinkServiceConnectionState_STATUS from the provided source PrivateLinkServiceConnectionState_STATUS
-func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(source *v1api20220701s.PrivateLinkServiceConnectionState_STATUS) error {
+func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(source *v20220701s.PrivateLinkServiceConnectionState_STATUS) error {
 
 	// ActionsRequired
 	state.ActionsRequired = genruntime.ClonePointerToString(source.ActionsRequired)
@@ -3254,7 +3262,7 @@ func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_From_Pri
 }
 
 // AssignProperties_To_PrivateLinkServiceConnectionState_STATUS populates the provided destination PrivateLinkServiceConnectionState_STATUS from our PrivateLinkServiceConnectionState_STATUS
-func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(destination *v1api20220701s.PrivateLinkServiceConnectionState_STATUS) error {
+func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(destination *v20220701s.PrivateLinkServiceConnectionState_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

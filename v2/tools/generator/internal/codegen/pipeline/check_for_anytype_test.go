@@ -25,8 +25,8 @@ func TestFindsAnyTypes(t *testing.T) {
 	p3 := test.MakeLocalPackageReference("wah.wah", "v20200730")
 
 	defs := make(astmodel.TypeDefinitionSet)
-	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
-		defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(p, n), t))
+	add := func(p astmodel.InternalPackageReference, n string, t astmodel.Type) {
+		defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(p, n), t))
 	}
 
 	// A couple of types in the same package...
@@ -56,8 +56,8 @@ func TestIgnoresExpectedAnyTypePackages(t *testing.T) {
 	p3 := test.MakeLocalPackageReference("wah.wah", "v20200730")
 
 	defs := make(astmodel.TypeDefinitionSet)
-	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
-		defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(p, n), t))
+	add := func(p astmodel.InternalPackageReference, n string, t astmodel.Type) {
+		defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(p, n), t))
 	}
 	// A couple of types in the same package...
 	add(p1, "A", astmodel.AnyType)
@@ -78,7 +78,7 @@ func TestIgnoresExpectedAnyTypePackages(t *testing.T) {
 
 	expected := make(astmodel.TypeDefinitionSet)
 	expected.Add(astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(p3, "C"), astmodel.NewArrayType(astmodel.IntType),
+		astmodel.MakeInternalTypeName(p3, "C"), astmodel.NewArrayType(astmodel.IntType),
 	))
 	g.Expect(finalState.Definitions()).To(Equal(expected))
 }
@@ -91,8 +91,8 @@ func TestComplainsAboutUnneededExclusions(t *testing.T) {
 	p3 := test.MakeLocalPackageReference("wah.wah", "v20200730")
 
 	defs := make(astmodel.TypeDefinitionSet)
-	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
-		defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(p, n), t))
+	add := func(p astmodel.InternalPackageReference, n string, t astmodel.Type) {
+		defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(p, n), t))
 	}
 	// A couple of types in the same package...
 	add(p1, "A", astmodel.AnyType)

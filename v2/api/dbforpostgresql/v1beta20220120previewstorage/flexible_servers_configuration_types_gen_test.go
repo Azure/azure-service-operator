@@ -5,7 +5,7 @@ package v1beta20220120previewstorage
 
 import (
 	"encoding/json"
-	v1api20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForFlexibleServersConfiguration(subject FlexibleSe
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20210601s.FlexibleServersConfiguration
+	var hub v20210601s.FlexibleServersConfiguration
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForFlexibleServersConfiguration(subject FlexibleSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.FlexibleServersConfiguration
+	var other v20210601s.FlexibleServersConfiguration
 	err := copied.AssignProperties_To_FlexibleServersConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForFlexibleServers_Configuration_Spec(subject Flex
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.FlexibleServers_Configuration_Spec
+	var other v20210601s.FlexibleServers_Configuration_Spec
 	err := copied.AssignProperties_To_FlexibleServers_Configuration_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -288,7 +288,7 @@ func RunPropertyAssignmentTestForFlexibleServers_Configuration_STATUS(subject Fl
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.FlexibleServers_Configuration_STATUS
+	var other v20210601s.FlexibleServers_Configuration_STATUS
 	err := copied.AssignProperties_To_FlexibleServers_Configuration_STATUS(&other)
 	if err != nil {
 		return err.Error()

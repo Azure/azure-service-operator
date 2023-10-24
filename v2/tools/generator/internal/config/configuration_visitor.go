@@ -16,7 +16,7 @@ import (
 // Only one handler should be present, as we don't do any traversal below an invoked handler (but a handler is free to
 // do independent visiting with a different instance if it chooses)
 type configurationVisitor struct {
-	ref            astmodel.PackageReference                         // Optional Package reference used to constrain the walk
+	ref            astmodel.InternalPackageReference                 // Optional Package reference used to constrain the walk
 	typeName       string                                            // Optional TypeName used to constrain the walk
 	property       *astmodel.PropertyName                            // Optional PropertyName used to constrain the walk
 	handleGroup    func(groupConfig *GroupConfiguration) error       // Optional handler for visiting a group
@@ -32,11 +32,11 @@ type configurationVisitor struct {
 // Returns (true, nil) if the property is found and the action successfully applied, (true, error) if the action returns
 // an error, and (false, nil) if the type or property does not exist.
 func newSinglePropertyConfigurationVisitor(
-	typeName astmodel.TypeName,
+	typeName astmodel.InternalTypeName,
 	property astmodel.PropertyName,
 	action func(configuration *PropertyConfiguration) error) *configurationVisitor {
 	return &configurationVisitor{
-		ref:            typeName.PackageReference,
+		ref:            typeName.InternalPackageReference(),
 		typeName:       typeName.Name(),
 		property:       &property,
 		handleProperty: action,
@@ -61,10 +61,10 @@ func newEveryPropertyConfigurationVisitor(
 // Returns (true, nil) if the type is found and the action successfully applied, (true, error) if the action returns
 // an error, and (false, nil) if the type does not exist.
 func newSingleTypeConfigurationVisitor(
-	typeName astmodel.TypeName,
+	typeName astmodel.InternalTypeName,
 	action func(configuration *TypeConfiguration) error) *configurationVisitor {
 	return &configurationVisitor{
-		ref:        typeName.PackageReference,
+		ref:        typeName.InternalPackageReference(),
 		typeName:   typeName.Name(),
 		handleType: action,
 	}
@@ -87,7 +87,7 @@ func newEveryTypeConfigurationVisitor(
 // Returns (true, nil) if the type is found and the action successfully applied, (true, error) if the action returns
 // an error, and (false, nil) if the type does not exist.
 func newSingleVersionConfigurationVisitor(
-	ref astmodel.PackageReference,
+	ref astmodel.InternalPackageReference,
 	action func(configuration *VersionConfiguration) error) *configurationVisitor {
 	return &configurationVisitor{
 		ref:           ref,
@@ -110,7 +110,7 @@ func newEveryVersionConfigurationVisitor(
 // Returns (true, nil) if the group is found and the action successfully applied, (true, error) if the action returns
 // an error, and (false, nil) if the group does not exist.
 func newSingleGroupConfigurationVisitor(
-	ref astmodel.PackageReference,
+	ref astmodel.InternalPackageReference,
 	action func(configuration *GroupConfiguration) error) *configurationVisitor {
 	return &configurationVisitor{
 		ref:         ref,

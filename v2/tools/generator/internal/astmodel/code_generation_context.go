@@ -17,19 +17,19 @@ import (
 // a disambiguation must occur and field types must ensure they correctly refer to the disambiguated types
 type CodeGenerationContext struct {
 	packageImports *PackageImportSet
-	currentPackage PackageReference
+	currentPackage InternalPackageReference
 	usedImports    *PackageImportSet
 
-	generatedPackages map[PackageReference]*PackageDefinition
+	generatedPackages map[InternalPackageReference]*PackageDefinition
 }
 
 var _ ReadonlyTypeDefinitions = &CodeGenerationContext{}
 
 // NewCodeGenerationContext creates a new immutable code generation context
 func NewCodeGenerationContext(
-	currentPackage PackageReference,
+	currentPackage InternalPackageReference,
 	packageImports *PackageImportSet,
-	generatedPackages map[PackageReference]*PackageDefinition) *CodeGenerationContext {
+	generatedPackages map[InternalPackageReference]*PackageDefinition) *CodeGenerationContext {
 
 	imports := NewPackageImportSet()
 	imports.Merge(packageImports)
@@ -42,7 +42,7 @@ func NewCodeGenerationContext(
 }
 
 // CurrentPackage returns the current package being generated
-func (ctx *CodeGenerationContext) CurrentPackage() PackageReference {
+func (ctx *CodeGenerationContext) CurrentPackage() InternalPackageReference {
 	return ctx.currentPackage
 }
 
@@ -85,7 +85,7 @@ func (ctx *CodeGenerationContext) MustGetImportedPackageName(reference PackageRe
 }
 
 // GetGeneratedPackage gets a reference to the PackageDefinition referred to by the provided reference
-func (ctx *CodeGenerationContext) GetGeneratedPackage(reference PackageReference) (*PackageDefinition, error) {
+func (ctx *CodeGenerationContext) GetGeneratedPackage(reference InternalPackageReference) (*PackageDefinition, error) {
 	// Make sure that we're actually importing that package -- don't want to allow references to things we aren't importing
 	_, err := ctx.GetImportedPackageName(reference)
 	if !reference.Equals(ctx.currentPackage) && err != nil {
@@ -100,8 +100,8 @@ func (ctx *CodeGenerationContext) GetGeneratedPackage(reference PackageReference
 }
 
 // GetDefinition looks up a particular type definition in a package available in this context
-func (ctx *CodeGenerationContext) GetDefinition(name TypeName) (TypeDefinition, error) {
-	pkg, err := ctx.GetGeneratedPackage(name.PackageReference)
+func (ctx *CodeGenerationContext) GetDefinition(name InternalTypeName) (TypeDefinition, error) {
+	pkg, err := ctx.GetGeneratedPackage(name.InternalPackageReference())
 
 	if err != nil {
 		return TypeDefinition{}, err
@@ -112,7 +112,7 @@ func (ctx *CodeGenerationContext) GetDefinition(name TypeName) (TypeDefinition, 
 
 // MustGetDefinition looks up a particular type definition in a package available in this context.
 // If it cannot be found, MustGetDefinition panics.
-func (ctx *CodeGenerationContext) MustGetDefinition(name TypeName) TypeDefinition {
+func (ctx *CodeGenerationContext) MustGetDefinition(name InternalTypeName) TypeDefinition {
 	result, err := ctx.GetDefinition(name)
 	if err != nil {
 		panic(err)
@@ -122,7 +122,7 @@ func (ctx *CodeGenerationContext) MustGetDefinition(name TypeName) TypeDefinitio
 }
 
 // GetDefinitionsInPackage returns the actual definitions from a specific package
-func (ctx *CodeGenerationContext) GetDefinitionsInPackage(packageRef PackageReference) (TypeDefinitionSet, bool) {
+func (ctx *CodeGenerationContext) GetDefinitionsInPackage(packageRef InternalPackageReference) (TypeDefinitionSet, bool) {
 	def, ok := ctx.generatedPackages[packageRef]
 	if !ok {
 		// Package reference not found
@@ -148,7 +148,12 @@ func (ctx *CodeGenerationContext) GetAllReachableDefinitions() TypeDefinitionSet
 	// Since we modify result, we make sure we're working with a copy of the set
 	result := ctx.GetDefinitionsInCurrentPackage().Copy()
 	for _, pkgImport := range ctx.packageImports.AsSlice() {
-		defs, found := ctx.GetDefinitionsInPackage(pkgImport.packageReference)
+		ipr, ok := pkgImport.packageReference.(InternalPackageReference)
+		if !ok {
+			// Skip non-internal references
+			continue
+		}
+		defs, found := ctx.GetDefinitionsInPackage(ipr)
 		if found {
 			for k, v := range defs {
 				result[k] = v

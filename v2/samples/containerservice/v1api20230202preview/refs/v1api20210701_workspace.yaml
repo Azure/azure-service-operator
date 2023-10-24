@@ -20,4 +20,4 @@ spec:
   keyVaultReference:
     group: keyvault.azure.com
     kind:  Vault
-    name:  mlworkspaces-vault
+    name:  aso-cs-vault

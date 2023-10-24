@@ -23,7 +23,7 @@ type ManagedCluster_Spec_ARM struct {
 	Sku *ManagedClusterSKU_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags map[string]string `json:"tags"`
 }
 
 var _ genruntime.ARMResourceSpec = &ManagedCluster_Spec_ARM{}
@@ -66,10 +66,10 @@ type ManagedClusterProperties_ARM struct {
 	AadProfile *ManagedClusterAADProfile_ARM `json:"aadProfile,omitempty"`
 
 	// AddonProfiles: The profile of managed cluster add-on.
-	AddonProfiles map[string]ManagedClusterAddonProfile_ARM `json:"addonProfiles,omitempty"`
+	AddonProfiles map[string]ManagedClusterAddonProfile_ARM `json:"addonProfiles"`
 
 	// AgentPoolProfiles: The agent pool properties.
-	AgentPoolProfiles []ManagedClusterAgentPoolProfile_ARM `json:"agentPoolProfiles,omitempty"`
+	AgentPoolProfiles []ManagedClusterAgentPoolProfile_ARM `json:"agentPoolProfiles"`
 
 	// ApiServerAccessProfile: The access profile for managed cluster API server.
 	ApiServerAccessProfile *ManagedClusterAPIServerAccessProfile_ARM `json:"apiServerAccessProfile,omitempty"`
@@ -119,7 +119,7 @@ type ManagedClusterProperties_ARM struct {
 	HttpProxyConfig *ManagedClusterHTTPProxyConfig_ARM `json:"httpProxyConfig,omitempty"`
 
 	// IdentityProfile: Identities associated with the cluster.
-	IdentityProfile map[string]UserAssignedIdentity_ARM `json:"identityProfile,omitempty"`
+	IdentityProfile map[string]UserAssignedIdentity_ARM `json:"identityProfile"`
 
 	// IngressProfile: Ingress profile for the managed cluster.
 	IngressProfile *ManagedClusterIngressProfile_ARM `json:"ingressProfile,omitempty"`
@@ -150,7 +150,7 @@ type ManagedClusterProperties_ARM struct {
 	PodIdentityProfile *ManagedClusterPodIdentityProfile_ARM `json:"podIdentityProfile,omitempty"`
 
 	// PrivateLinkResources: Private link resources associated with the cluster.
-	PrivateLinkResources []PrivateLinkResource_ARM `json:"privateLinkResources,omitempty"`
+	PrivateLinkResources []PrivateLinkResource_ARM `json:"privateLinkResources"`
 
 	// PublicNetworkAccess: Allow or deny public network access for AKS
 	PublicNetworkAccess *ManagedClusterProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
@@ -215,7 +215,7 @@ type ContainerServiceNetworkProfile_ARM struct {
 
 	// IpFamilies: IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value
 	// is IPv4. For dual-stack, the expected values are IPv4 and IPv6.
-	IpFamilies []ContainerServiceNetworkProfile_IpFamilies `json:"ipFamilies,omitempty"`
+	IpFamilies []ContainerServiceNetworkProfile_IpFamilies `json:"ipFamilies"`
 
 	// KubeProxyConfig: Holds configuration customizations for kube-proxy. Any values not defined will use the kube-proxy
 	// defaulting behavior. See https://v<version>.docs.kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/
@@ -257,7 +257,7 @@ type ContainerServiceNetworkProfile_ARM struct {
 
 	// PodCidrs: One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is
 	// expected for dual-stack networking.
-	PodCidrs []string `json:"podCidrs,omitempty"`
+	PodCidrs []string `json:"podCidrs"`
 
 	// ServiceCidr: A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP
 	// ranges.
@@ -265,7 +265,7 @@ type ContainerServiceNetworkProfile_ARM struct {
 
 	// ServiceCidrs: One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is
 	// expected for dual-stack networking. They must not overlap with any Subnet IP ranges.
-	ServiceCidrs []string `json:"serviceCidrs,omitempty"`
+	ServiceCidrs []string `json:"serviceCidrs"`
 }
 
 // Data used when creating a target resource from a source resource.
@@ -282,7 +282,7 @@ const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 // The Guardrails profile.
 type GuardrailsProfile_ARM struct {
 	// ExcludedNamespaces: List of namespaces excluded from guardrails checks
-	ExcludedNamespaces []string `json:"excludedNamespaces,omitempty"`
+	ExcludedNamespaces []string `json:"excludedNamespaces"`
 
 	// Level: The guardrails level to be used. By default, Guardrails is enabled for all namespaces except those that AKS
 	// excludes via systemExcludedNamespaces
@@ -295,7 +295,7 @@ type GuardrailsProfile_ARM struct {
 // For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 type ManagedClusterAADProfile_ARM struct {
 	// AdminGroupObjectIDs: The list of AAD group object IDs that will have admin role of the cluster.
-	AdminGroupObjectIDs []string `json:"adminGroupObjectIDs,omitempty"`
+	AdminGroupObjectIDs []string `json:"adminGroupObjectIDs"`
 
 	// ClientAppID: (DEPRECATED) The client AAD application ID. Learn more at https://aka.ms/aks/aad-legacy.
 	ClientAppID *string `json:"clientAppID,omitempty"`
@@ -320,7 +320,7 @@ type ManagedClusterAADProfile_ARM struct {
 // A Kubernetes add-on profile for a managed cluster.
 type ManagedClusterAddonProfile_ARM struct {
 	// Config: Key-value pairs for configuring an add-on.
-	Config map[string]string `json:"config,omitempty"`
+	Config map[string]string `json:"config"`
 
 	// Enabled: Whether the add-on is enabled or not.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -330,7 +330,7 @@ type ManagedClusterAddonProfile_ARM struct {
 type ManagedClusterAgentPoolProfile_ARM struct {
 	// AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
 	// property is 'VirtualMachineScaleSets'.
-	AvailabilityZones []string `json:"availabilityZones,omitempty"`
+	AvailabilityZones []string `json:"availabilityZones"`
 
 	// CapacityReservationGroupID: AKS will associate the specified agent pool with the Capacity Reservation Group.
 	CapacityReservationGroupID *string `json:"capacityReservationGroupID,omitempty"`
@@ -409,11 +409,11 @@ type ManagedClusterAgentPoolProfile_ARM struct {
 	NetworkProfile *AgentPoolNetworkProfile_ARM `json:"networkProfile,omitempty"`
 
 	// NodeLabels: The node labels to be persisted across all nodes in agent pool.
-	NodeLabels           map[string]string `json:"nodeLabels,omitempty"`
+	NodeLabels           map[string]string `json:"nodeLabels"`
 	NodePublicIPPrefixID *string           `json:"nodePublicIPPrefixID,omitempty"`
 
 	// NodeTaints: The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
-	NodeTaints []string `json:"nodeTaints,omitempty"`
+	NodeTaints []string `json:"nodeTaints"`
 
 	// OrchestratorVersion: Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is
 	// specified, the latest supported patch version is chosen automatically. Updating the agent pool with the same
@@ -461,7 +461,7 @@ type ManagedClusterAgentPoolProfile_ARM struct {
 	SpotMaxPrice *float64 `json:"spotMaxPrice,omitempty"`
 
 	// Tags: The tags to be persisted on the agent pool virtual machine scale set.
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags map[string]string `json:"tags"`
 
 	// Type: The type of Agent Pool.
 	Type *AgentPoolType `json:"type,omitempty"`
@@ -487,7 +487,7 @@ type ManagedClusterAPIServerAccessProfile_ARM struct {
 	// AuthorizedIPRanges: IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with
 	// clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API
 	// server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges).
-	AuthorizedIPRanges []string `json:"authorizedIPRanges,omitempty"`
+	AuthorizedIPRanges []string `json:"authorizedIPRanges"`
 
 	// DisableRunCommand: Whether to disable run command for the cluster or not.
 	DisableRunCommand *bool `json:"disableRunCommand,omitempty"`
@@ -537,7 +537,7 @@ type ManagedClusterHTTPProxyConfig_ARM struct {
 	HttpsProxy *string `json:"httpsProxy,omitempty"`
 
 	// NoProxy: The endpoints that should not go through proxy.
-	NoProxy []string `json:"noProxy,omitempty"`
+	NoProxy []string `json:"noProxy"`
 
 	// TrustedCa: Alternative CA cert to use for connecting to proxy servers.
 	TrustedCa *string `json:"trustedCa,omitempty"`
@@ -583,10 +583,10 @@ type ManagedClusterPodIdentityProfile_ARM struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// UserAssignedIdentities: The pod identities to use in the cluster.
-	UserAssignedIdentities []ManagedClusterPodIdentity_ARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities []ManagedClusterPodIdentity_ARM `json:"userAssignedIdentities"`
 
 	// UserAssignedIdentityExceptions: The pod identity exceptions to allow.
-	UserAssignedIdentityExceptions []ManagedClusterPodIdentityException_ARM `json:"userAssignedIdentityExceptions,omitempty"`
+	UserAssignedIdentityExceptions []ManagedClusterPodIdentityException_ARM `json:"userAssignedIdentityExceptions"`
 }
 
 type ManagedClusterProperties_AutoScalerProfile_ARM struct {
@@ -768,7 +768,7 @@ type PrivateLinkResource_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// RequiredMembers: The RequiredMembers of the resource
-	RequiredMembers []string `json:"requiredMembers,omitempty"`
+	RequiredMembers []string `json:"requiredMembers"`
 
 	// Type: The resource type.
 	Type *string `json:"type,omitempty"`
@@ -830,7 +830,7 @@ type ContainerServiceNetworkProfile_KubeProxyConfig_ARM struct {
 // SSH configuration for Linux-based VMs running on Azure.
 type ContainerServiceSshConfiguration_ARM struct {
 	// PublicKeys: The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified.
-	PublicKeys []ContainerServiceSshPublicKey_ARM `json:"publicKeys,omitempty"`
+	PublicKeys []ContainerServiceSshPublicKey_ARM `json:"publicKeys"`
 }
 
 // Istio service mesh configuration.
@@ -866,7 +866,7 @@ type ManagedClusterLoadBalancerProfile_ARM struct {
 	BackendPoolType *ManagedClusterLoadBalancerProfile_BackendPoolType `json:"backendPoolType,omitempty"`
 
 	// EffectiveOutboundIPs: The effective outbound IP resources of the cluster load balancer.
-	EffectiveOutboundIPs []ResourceReference_ARM `json:"effectiveOutboundIPs,omitempty"`
+	EffectiveOutboundIPs []ResourceReference_ARM `json:"effectiveOutboundIPs"`
 
 	// EnableMultipleStandardLoadBalancers: Enable multiple standard load balancers per AKS cluster or not.
 	EnableMultipleStandardLoadBalancers *bool `json:"enableMultipleStandardLoadBalancers,omitempty"`
@@ -888,7 +888,7 @@ type ManagedClusterLoadBalancerProfile_ARM struct {
 // Profile of the managed cluster NAT gateway.
 type ManagedClusterNATGatewayProfile_ARM struct {
 	// EffectiveOutboundIPs: The effective outbound IP resources of the cluster NAT gateway.
-	EffectiveOutboundIPs []ResourceReference_ARM `json:"effectiveOutboundIPs,omitempty"`
+	EffectiveOutboundIPs []ResourceReference_ARM `json:"effectiveOutboundIPs"`
 
 	// IdleTimeoutInMinutes: Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120
 	// (inclusive). The default value is 4 minutes.
@@ -923,7 +923,7 @@ type ManagedClusterPodIdentityException_ARM struct {
 	Namespace *string `json:"namespace,omitempty"`
 
 	// PodLabels: The pod labels to match.
-	PodLabels map[string]string `json:"podLabels,omitempty"`
+	PodLabels map[string]string `json:"podLabels"`
 }
 
 // Microsoft Defender settings for the security profile.
@@ -1005,7 +1005,7 @@ type ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ARM struct {
 // Settings for overrides when upgrading a cluster.
 type UpgradeOverrideSettings_ARM struct {
 	// ControlPlaneOverrides: List of upgrade overrides when upgrading a cluster's control plane.
-	ControlPlaneOverrides []ControlPlaneUpgradeOverride `json:"controlPlaneOverrides,omitempty"`
+	ControlPlaneOverrides []ControlPlaneUpgradeOverride `json:"controlPlaneOverrides"`
 
 	// Until: Until when the overrides are effective. Note that this only matches the start time of an upgrade, and the
 	// effectiveness won't change once an upgrade starts even if the `until` expires as upgrade proceeds. This field is not set
@@ -1052,7 +1052,7 @@ type ContainerServiceSshPublicKey_ARM struct {
 // Istio components configuration.
 type IstioComponents_ARM struct {
 	// IngressGateways: Istio ingress gateways.
-	IngressGateways []IstioIngressGateway_ARM `json:"ingressGateways,omitempty"`
+	IngressGateways []IstioIngressGateway_ARM `json:"ingressGateways"`
 }
 
 // Kube State Metrics for prometheus addon profile for the container service cluster
@@ -1078,12 +1078,12 @@ type ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_ARM struct {
 
 type ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_ARM struct {
 	// PublicIPPrefixes: A list of public IP prefix resources.
-	PublicIPPrefixes []ResourceReference_ARM `json:"publicIPPrefixes,omitempty"`
+	PublicIPPrefixes []ResourceReference_ARM `json:"publicIPPrefixes"`
 }
 
 type ManagedClusterLoadBalancerProfile_OutboundIPs_ARM struct {
 	// PublicIPs: A list of public IP resources.
-	PublicIPs []ResourceReference_ARM `json:"publicIPs,omitempty"`
+	PublicIPs []ResourceReference_ARM `json:"publicIPs"`
 }
 
 // Profile of the managed outbound IP resources of the managed cluster.

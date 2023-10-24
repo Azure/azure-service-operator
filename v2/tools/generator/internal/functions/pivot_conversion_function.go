@@ -123,7 +123,7 @@ func (fn *PivotConversionFunction) RequiredPackageReferences() *astmodel.Package
 		astmodel.ControllerRuntimeConversion,
 		astmodel.FmtReference,
 		astmodel.GenRuntimeReference,
-		fn.parameterType.PackageReference)
+		fn.parameterType.PackageReference())
 }
 
 func (fn *PivotConversionFunction) References() astmodel.TypeNameSet {
@@ -132,13 +132,14 @@ func (fn *PivotConversionFunction) References() astmodel.TypeNameSet {
 }
 
 func (fn *PivotConversionFunction) AsFunc(
-	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
-
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.InternalTypeName,
+) (*dst.FuncDecl, error) {
 	// Create a sensible name for our receiver
 	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
 
-	// We always use a pointer receiver so we can modify it
-	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)
+	// We always use a pointer receiver, so we can modify it
+	receiverType := astmodel.NewOptionalType(receiver).AsType(codeGenerationContext)
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
@@ -147,13 +148,13 @@ func (fn *PivotConversionFunction) AsFunc(
 	}
 
 	parameterName := fn.direction.SelectString("source", "destination")
-	funcDetails.AddParameter(parameterName, fn.parameterType.AsType(generationContext))
+	funcDetails.AddParameter(parameterName, fn.parameterType.AsType(codeGenerationContext))
 
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(fn.declarationDocComment(receiver, parameterName))
-	funcDetails.Body = fn.bodyForPivot(receiverName, parameterName, generationContext)
+	funcDetails.Body = fn.bodyForPivot(receiverName, parameterName, codeGenerationContext)
 
-	return funcDetails.DefineFunc()
+	return funcDetails.DefineFunc(), nil
 }
 
 // bodyForPivot is used to do the conversion if we hit the hub type without finding the conversion we need

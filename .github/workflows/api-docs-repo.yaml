@@ -71,6 +71,7 @@ jobs:
           docker exec "$container_id" task controller:gen-crd-docs
 
       # After generating the API docs (above), regenerate our index files as now new CRDs can be linked to their docs
+      # Have to force this to ensure the index files are updated
       - name: Generate Index files
         run: |
           container_id=${{ env.container_id }}

@@ -7,6 +7,7 @@ package armconversion
 
 import (
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -65,24 +66,46 @@ func (c *ARMConversionFunction) References() astmodel.TypeNameSet {
 }
 
 // AsFunc returns the function as a Go AST
-func (c *ConvertToARMFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+func (c *ConvertToARMFunction) AsFunc(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.InternalTypeName,
+) (*dst.FuncDecl, error) {
 	builder := newConvertToARMFunctionBuilder(
 		&c.ARMConversionFunction,
 		codeGenerationContext,
 		receiver,
 		c.Name())
 
-	return builder.functionDeclaration()
+	decl, err := builder.functionDeclaration()
+	if err != nil {
+		return nil, errors.Wrapf(
+			err,
+			"error generating ConvertToARM function for %s",
+			c.Name())
+	}
+
+	return decl, nil
 }
 
-func (c *PopulateFromARMFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+func (c *PopulateFromARMFunction) AsFunc(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.InternalTypeName,
+) (*dst.FuncDecl, error) {
 	builder := newConvertFromARMFunctionBuilder(
 		&c.ARMConversionFunction,
 		codeGenerationContext,
 		receiver,
 		c.Name())
 
-	return builder.functionDeclaration()
+	decl, err := builder.functionDeclaration()
+	if err != nil {
+		return nil, errors.Wrapf(
+			err,
+			"error generating ConvertFromARM function for %s",
+			c.Name())
+	}
+
+	return decl, nil
 }
 
 // Equals determines if this function is equal to the passed in function

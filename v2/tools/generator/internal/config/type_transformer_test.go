@@ -109,6 +109,105 @@ func Test_TransformCanTransform_ToComplexType(t *testing.T) {
 	g.Expect(transformer.TransformTypeName(tutor2019)).To(Equal(student2019))
 }
 
+func Test_TransformTypeName_WhenConfiguredWithMap_ReturnsExpectedMapType(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		Property: newFieldMatcher("tutor"),
+		Target: &config.TransformTarget{
+			Map: &config.MapType{
+				Key: config.TransformTarget{
+					Name: newFieldMatcher("string"),
+				},
+				Value: config.TransformTarget{
+					Name: newFieldMatcher("int"),
+				},
+			},
+		},
+	}
+	err := transformer.Initialize(test.MakeLocalPackageReference)
+	g.Expect(err).To(BeNil())
+
+	expected := astmodel.NewMapType(
+		astmodel.StringType,
+		astmodel.IntType)
+
+	g.Expect(transformer.TransformTypeName(tutor2019)).To(Equal(expected))
+}
+
+func Test_TransformTypeName_WhenConfiguredWithEnum_ReturnsExpectedEnumType(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		Property: newFieldMatcher("tutor"),
+		Target: &config.TransformTarget{
+			Enum: &config.EnumType{
+				Base: "string",
+				Values: []string{
+					"alpha",
+					"beta",
+					"preview",
+				},
+			},
+		},
+	}
+	err := transformer.Initialize(test.MakeLocalPackageReference)
+	g.Expect(err).To(BeNil())
+
+	expected := astmodel.NewEnumType(
+		astmodel.StringType,
+		astmodel.MakeEnumValue("Alpha", "\"alpha\""),
+		astmodel.MakeEnumValue("Beta", "\"beta\""),
+		astmodel.MakeEnumValue("Preview", "\"preview\""))
+
+	g.Expect(transformer.TransformTypeName(tutor2019)).To(Equal(expected))
+}
+
+func Test_TransformTypeName_WhenEnumMissingBase_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		Property: newFieldMatcher("tutor"),
+		Target: &config.TransformTarget{
+			Enum: &config.EnumType{
+				Values: []string{
+					"alpha",
+					"beta",
+					"preview",
+				},
+			},
+		},
+	}
+	err := transformer.Initialize(test.MakeLocalPackageReference)
+	g.Expect(err).ToNot(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring("requires a base type"))
+}
+
+func Test_TransformTypeName_WhenEnumHasInvalidBase_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		Property: newFieldMatcher("tutor"),
+		Target: &config.TransformTarget{
+			Enum: &config.EnumType{
+				Base: "flag",
+				Values: []string{
+					"alpha",
+					"beta",
+					"preview",
+				},
+			},
+		},
+	}
+	err := transformer.Initialize(test.MakeLocalPackageReference)
+	g.Expect(err).ToNot(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring("unknown primitive type"))
+}
+
 func Test_TransformCanTransform_ToNestedMapType(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
@@ -220,7 +319,7 @@ func Test_TransformWithRemoveAndTarget_ReportsError(t *testing.T) {
 	g.Expect(err).To(MatchError("remove and target can't both be set"))
 }
 
-func Test_TransformWithMultipleTargets_ReportsError(t *testing.T) {
+func Test_TransformWithBothNameAndMapTargets_ReportsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -243,7 +342,79 @@ func Test_TransformWithMultipleTargets_ReportsError(t *testing.T) {
 
 	err := transformer.Initialize(test.MakeLocalPackageReference)
 	g.Expect(err).To(Not(BeNil()))
-	g.Expect(err.Error()).To(ContainSubstring("multiple target types defined"))
+
+	// Check contents of error message to ensure it mentions both targets, don't need exact string match
+	g.Expect(err.Error()).To(SatisfyAll(
+		ContainSubstring("cannot specify both"),
+		ContainSubstring("Map transformation"),
+		ContainSubstring("Name transformation")))
+}
+
+func Test_TransformWithBothNameAndEnumTargets_ReportsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		TypeMatcher: config.TypeMatcher{
+			Name: newFieldMatcher("tutor"),
+		},
+		Target: &config.TransformTarget{
+			Name: newFieldMatcher("int"),
+			Enum: &config.EnumType{
+				Values: []string{
+					"alpha",
+					"beta",
+					"preview",
+				},
+			},
+		},
+	}
+
+	err := transformer.Initialize(test.MakeLocalPackageReference)
+	g.Expect(err).To(Not(BeNil()))
+
+	// Check contents of error message to ensure it mentions both targets, don't need exact string match
+	g.Expect(err.Error()).To(SatisfyAll(
+		ContainSubstring("cannot specify both"),
+		ContainSubstring("Enum transformation"),
+		ContainSubstring("Name transformation")))
+}
+
+func Test_TransformWithBothMapAndEnumTargets_ReportsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	transformer := config.TypeTransformer{
+		TypeMatcher: config.TypeMatcher{
+			Name: newFieldMatcher("tutor"),
+		},
+		Target: &config.TransformTarget{
+			Map: &config.MapType{
+				Key: config.TransformTarget{
+					Name: newFieldMatcher("string"),
+				},
+				Value: config.TransformTarget{
+					Name: newFieldMatcher("string"),
+				},
+			},
+			Enum: &config.EnumType{
+				Values: []string{
+					"alpha",
+					"beta",
+					"preview",
+				},
+			},
+		},
+	}
+
+	err := transformer.Initialize(test.MakeLocalPackageReference)
+	g.Expect(err).To(Not(BeNil()))
+
+	// Check contents of error message to ensure it mentions both targets, don't need exact string match
+	g.Expect(err.Error()).To(SatisfyAll(
+		ContainSubstring("cannot specify both"),
+		ContainSubstring("Enum transformation"),
+		ContainSubstring("Map transformation")))
 }
 
 func Test_TransformWithNonExistentPrimitive_ReportsError(t *testing.T) {
@@ -495,7 +666,7 @@ func TestTransformProperty_CanRemoveProperty(t *testing.T) {
 		Remove:   true,
 	}
 
-	resourceCopyType := astmodel.MakeTypeName(
+	resourceCopyType := astmodel.MakeInternalTypeName(
 		test.MakeLocalPackageReference("deploymenttemplate", "2019-04-01"),
 		"ResourceCopy")
 	copyProperty := astmodel.NewPropertyDefinition("Copy", "copy", astmodel.NewOptionalType(resourceCopyType))
@@ -596,7 +767,7 @@ func TestTypeTarget_AppliesToType_ReturnsExpectedResult(t *testing.T) {
 	}
 
 	nameType := astmodel.NewOptionalType(
-		astmodel.MakeTypeName(
+		astmodel.MakeInternalTypeName(
 			test.MakeLocalPackageReference("definitions", "v1"),
 			"ResourceCopy"))
 

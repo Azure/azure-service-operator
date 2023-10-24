@@ -8,7 +8,6 @@ package pipeline
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -52,8 +51,8 @@ func NewPackagesMatrixReport() *PackagesMatrixReport {
 func (report *PackagesMatrixReport) Summarize(definitions astmodel.TypeDefinitionSet) {
 	for _, t := range definitions {
 		typeName := t.Name().Name()
-		packageName := report.ServiceName(t.Name().PackageReference)
-		packageVersion := t.Name().PackageReference.PackageName()
+		packageName := report.ServiceName(t.Name().InternalPackageReference())
+		packageVersion := t.Name().PackageReference().PackageName()
 		table, ok := report.tables[packageName]
 		if !ok {
 			table = reporting.NewSparseTable(fmt.Sprintf("Type Definitions in package %q", packageName))
@@ -76,14 +75,9 @@ func (report *PackagesMatrixReport) WriteTo(outputPath string) error {
 	return kerrors.NewAggregate(errs)
 }
 
-func (report *PackagesMatrixReport) ServiceName(ref astmodel.PackageReference) string {
-	pathBits := strings.Split(ref.PackagePath(), "/")
-	index := len(pathBits) - 1
-	if index > 0 {
-		index--
-	}
-
-	return pathBits[index]
+func (report *PackagesMatrixReport) ServiceName(ref astmodel.InternalPackageReference) string {
+	grp, _ := ref.GroupVersion()
+	return grp
 }
 
 func (report *PackagesMatrixReport) WriteTableTo(table *reporting.SparseTable, pkg string, outputPath string) error {
@@ -106,5 +100,5 @@ func (report *PackagesMatrixReport) WriteTableTo(table *reporting.SparseTable, p
 	}
 
 	destination := filepath.Join(outputFolder, "versions_matrix.md")
-	return ioutil.WriteFile(destination, []byte(buffer.String()), 0600)
+	return os.WriteFile(destination, []byte(buffer.String()), 0600)
 }

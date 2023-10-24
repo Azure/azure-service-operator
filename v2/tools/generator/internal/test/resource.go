@@ -13,7 +13,7 @@ import (
 
 // CreateResource makes a resource for testing
 func CreateResource(
-	pkg astmodel.PackageReference,
+	pkg astmodel.InternalPackageReference,
 	name string,
 	spec astmodel.TypeDefinition,
 	status astmodel.TypeDefinition,
@@ -24,11 +24,11 @@ func CreateResource(
 		resourceType = resourceType.WithFunction(fn)
 	}
 
-	return astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pkg, name), resourceType)
+	return astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(pkg, name), resourceType)
 }
 
 func CreateARMResource(
-	pkg astmodel.PackageReference,
+	pkg astmodel.InternalPackageReference,
 	name string,
 	spec astmodel.TypeDefinition,
 	status astmodel.TypeDefinition,
@@ -50,18 +50,18 @@ func CreateARMResource(
 	apiVersionValue := enumType.Options()[0]
 	resourceType = resourceType.WithAPIVersion(apiVersion.Name(), apiVersionValue)
 
-	return astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pkg, name), resourceType)
+	return astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(pkg, name), resourceType)
 }
 
 func MakeSpecName(
-	pkg astmodel.PackageReference,
-	name string) astmodel.TypeName {
-	return astmodel.MakeTypeName(pkg, name+astmodel.SpecSuffix)
+	pkg astmodel.InternalPackageReference,
+	name string) astmodel.InternalTypeName {
+	return astmodel.MakeInternalTypeName(pkg, name+astmodel.SpecSuffix)
 }
 
 // CreateSpec makes a spec for testing
 func CreateSpec(
-	pkg astmodel.PackageReference,
+	pkg astmodel.InternalPackageReference,
 	name string,
 	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
 	specName := MakeSpecName(pkg, name)
@@ -71,14 +71,14 @@ func CreateSpec(
 }
 
 func MakeStatusName(
-	pkg astmodel.PackageReference,
-	name string) astmodel.TypeName {
-	return astmodel.MakeTypeName(pkg, name+astmodel.StatusSuffix)
+	pkg astmodel.InternalPackageReference,
+	name string) astmodel.InternalTypeName {
+	return astmodel.MakeInternalTypeName(pkg, name+astmodel.StatusSuffix)
 }
 
 // CreateStatus makes a status for testing
 func CreateStatus(
-	pkg astmodel.PackageReference,
+	pkg astmodel.InternalPackageReference,
 	name string,
 	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
 	statusName := MakeStatusName(pkg, name)
@@ -89,24 +89,24 @@ func CreateStatus(
 
 // CreateObjectDefinition makes a type definition with an object for testing
 func CreateObjectDefinition(
-	pkg astmodel.PackageReference,
+	pkg astmodel.InternalPackageReference,
 	name string,
 	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
 
-	typeName := astmodel.MakeTypeName(pkg, name)
+	typeName := astmodel.MakeInternalTypeName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		typeName,
 		CreateObjectType(properties...))
 }
 
-// CreateObjectDefinition makes an object with function for testing
+// CreateObjectDefinitionWithFunction makes an object with function for testing
 func CreateObjectDefinitionWithFunction(
-	pkg astmodel.PackageReference,
+	pkg astmodel.InternalPackageReference,
 	name string,
 	function astmodel.Function,
 	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
 
-	typeName := astmodel.MakeTypeName(pkg, name)
+	typeName := astmodel.MakeInternalTypeName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		typeName,
 		CreateObjectType(properties...).WithFunction(function))
@@ -117,7 +117,7 @@ func CreateObjectType(properties ...*astmodel.PropertyDefinition) *astmodel.Obje
 }
 
 func CreateSimpleResource(
-	pkg astmodel.PackageReference,
+	pkg astmodel.InternalPackageReference,
 	name string,
 	specProperties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
 	spec := CreateSpec(pkg, name, specProperties...)

@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v1api20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForPrivateLinkService(subject PrivateLinkService) 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20220701s.PrivateLinkService
+	var hub v20220701s.PrivateLinkService
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -72,13 +72,13 @@ func Test_PrivateLinkService_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateLinkService tests if a specific instance of PrivateLinkService can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPrivateLinkService tests if a specific instance of PrivateLinkService can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateLinkService(subject PrivateLinkService) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.PrivateLinkService
+	var other v20220701s.PrivateLinkService
 	err := copied.AssignProperties_To_PrivateLinkService(&other)
 	if err != nil {
 		return err.Error()
@@ -175,13 +175,13 @@ func Test_PrivateLinkService_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateLinkService_Spec tests if a specific instance of PrivateLinkService_Spec can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPrivateLinkService_Spec tests if a specific instance of PrivateLinkService_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateLinkService_Spec(subject PrivateLinkService_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.PrivateLinkService_Spec
+	var other v20220701s.PrivateLinkService_Spec
 	err := copied.AssignProperties_To_PrivateLinkService_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -301,13 +301,13 @@ func Test_PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded_WhenP
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded tests if a specific instance of PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded tests if a specific instance of PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(subject PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
+	var other v20220701s.PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
 	err := copied.AssignProperties_To_PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -437,13 +437,13 @@ func Test_FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded_WhenPro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded tests if a specific instance of FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForFrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded tests if a specific instance of FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded(subject FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded
+	var other v20220701s.FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded
 	err := copied.AssignProperties_To_FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -534,13 +534,13 @@ func Test_FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded_
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded tests if a specific instance of FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForFrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded tests if a specific instance of FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded(subject FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded
+	var other v20220701s.FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded
 	err := copied.AssignProperties_To_FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -637,13 +637,13 @@ func Test_NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded_WhenPro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded tests if a specific instance of NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForNetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded tests if a specific instance of NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded(subject NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded
+	var other v20220701s.NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded
 	err := copied.AssignProperties_To_NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -740,13 +740,13 @@ func Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS tests if a specific instance of PrivateEndpointConnection_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS tests if a specific instance of PrivateEndpointConnection_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS(subject PrivateEndpointConnection_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.PrivateEndpointConnection_STATUS
+	var other v20220701s.PrivateEndpointConnection_STATUS
 	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -843,13 +843,13 @@ func Test_PrivateLinkServiceIpConfiguration_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateLinkServiceIpConfiguration tests if a specific instance of PrivateLinkServiceIpConfiguration can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPrivateLinkServiceIpConfiguration tests if a specific instance of PrivateLinkServiceIpConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateLinkServiceIpConfiguration(subject PrivateLinkServiceIpConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.PrivateLinkServiceIpConfiguration
+	var other v20220701s.PrivateLinkServiceIpConfiguration
 	err := copied.AssignProperties_To_PrivateLinkServiceIpConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -964,13 +964,13 @@ func Test_PrivateLinkServiceIpConfiguration_STATUS_WhenPropertiesConverted_Round
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateLinkServiceIpConfiguration_STATUS tests if a specific instance of PrivateLinkServiceIpConfiguration_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPrivateLinkServiceIpConfiguration_STATUS tests if a specific instance of PrivateLinkServiceIpConfiguration_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateLinkServiceIpConfiguration_STATUS(subject PrivateLinkServiceIpConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.PrivateLinkServiceIpConfiguration_STATUS
+	var other v20220701s.PrivateLinkServiceIpConfiguration_STATUS
 	err := copied.AssignProperties_To_PrivateLinkServiceIpConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1093,13 +1093,13 @@ func Test_PrivateLinkServiceOperatorSpec_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateLinkServiceOperatorSpec tests if a specific instance of PrivateLinkServiceOperatorSpec can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPrivateLinkServiceOperatorSpec tests if a specific instance of PrivateLinkServiceOperatorSpec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateLinkServiceOperatorSpec(subject PrivateLinkServiceOperatorSpec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.PrivateLinkServiceOperatorSpec
+	var other v20220701s.PrivateLinkServiceOperatorSpec
 	err := copied.AssignProperties_To_PrivateLinkServiceOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -1196,13 +1196,13 @@ func Test_ResourceSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForResourceSet tests if a specific instance of ResourceSet can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForResourceSet tests if a specific instance of ResourceSet can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForResourceSet(subject ResourceSet) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ResourceSet
+	var other v20220701s.ResourceSet
 	err := copied.AssignProperties_To_ResourceSet(&other)
 	if err != nil {
 		return err.Error()
@@ -1298,13 +1298,13 @@ func Test_ResourceSet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForResourceSet_STATUS tests if a specific instance of ResourceSet_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForResourceSet_STATUS tests if a specific instance of ResourceSet_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForResourceSet_STATUS(subject ResourceSet_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ResourceSet_STATUS
+	var other v20220701s.ResourceSet_STATUS
 	err := copied.AssignProperties_To_ResourceSet_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1400,13 +1400,13 @@ func Test_PrivateLinkServiceOperatorConfigMaps_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateLinkServiceOperatorConfigMaps tests if a specific instance of PrivateLinkServiceOperatorConfigMaps can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPrivateLinkServiceOperatorConfigMaps tests if a specific instance of PrivateLinkServiceOperatorConfigMaps can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateLinkServiceOperatorConfigMaps(subject PrivateLinkServiceOperatorConfigMaps) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.PrivateLinkServiceOperatorConfigMaps
+	var other v20220701s.PrivateLinkServiceOperatorConfigMaps
 	err := copied.AssignProperties_To_PrivateLinkServiceOperatorConfigMaps(&other)
 	if err != nil {
 		return err.Error()
@@ -1497,13 +1497,13 @@ func Test_Subnet_PrivateLinkService_SubResourceEmbedded_WhenPropertiesConverted_
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubnet_PrivateLinkService_SubResourceEmbedded tests if a specific instance of Subnet_PrivateLinkService_SubResourceEmbedded can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForSubnet_PrivateLinkService_SubResourceEmbedded tests if a specific instance of Subnet_PrivateLinkService_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubnet_PrivateLinkService_SubResourceEmbedded(subject Subnet_PrivateLinkService_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.Subnet_PrivateLinkService_SubResourceEmbedded
+	var other v20220701s.Subnet_PrivateLinkService_SubResourceEmbedded
 	err := copied.AssignProperties_To_Subnet_PrivateLinkService_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1594,13 +1594,13 @@ func Test_Subnet_STATUS_PrivateLinkService_SubResourceEmbedded_WhenPropertiesCon
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubnet_STATUS_PrivateLinkService_SubResourceEmbedded tests if a specific instance of Subnet_STATUS_PrivateLinkService_SubResourceEmbedded can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForSubnet_STATUS_PrivateLinkService_SubResourceEmbedded tests if a specific instance of Subnet_STATUS_PrivateLinkService_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubnet_STATUS_PrivateLinkService_SubResourceEmbedded(subject Subnet_STATUS_PrivateLinkService_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.Subnet_STATUS_PrivateLinkService_SubResourceEmbedded
+	var other v20220701s.Subnet_STATUS_PrivateLinkService_SubResourceEmbedded
 	err := copied.AssignProperties_To_Subnet_STATUS_PrivateLinkService_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()

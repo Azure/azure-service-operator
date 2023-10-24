@@ -404,6 +404,7 @@ func Test_ListCRDs_ListsOnlyCRDsMatchingLabel(t *testing.T) {
 
 	crd3.Labels = map[string]string{
 		crdmanagement.ServiceOperatorVersionLabel: "123",
+		crdmanagement.ServiceOperatorAppLabel:     crdmanagement.ServiceOperatorAppValue,
 	}
 
 	g.Expect(kubeClient.Create(ctx, &crd1)).To(Succeed())
@@ -509,7 +510,7 @@ func makeBasicCRD(name string) apiextensions.CustomResourceDefinition {
 func makeBasicCRDWithVersion(name string, version string) apiextensions.CustomResourceDefinition {
 	crd := makeBasicCRD(name)
 	crd.Labels = map[string]string{
-		crdmanagement.ServiceOperatorVersionLabel: version,
+		crdmanagement.ServiceOperatorVersionLabelOld: version,
 	}
 
 	return crd

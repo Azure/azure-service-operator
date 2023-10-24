@@ -65,6 +65,7 @@ func TestCreateConversionGraph(t *testing.T) {
 
 	// Expect NOT to have a link from Storage2022
 	missing := graph.LookupTransition(storage2022)
+	g.Expect(missing).To(Equal(astmodel.InternalTypeName{}))
 	g.Expect(missing.IsEmpty()).To(BeTrue())
 
 	// Finally, check that the five links we've verified are the only ones there

@@ -4,12 +4,12 @@
 package customizations
 
 import (
-	v1api20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
-	v1api20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
-	v1api20220901 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
-	v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
-	v20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
-	v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
+	v20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
+	v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
+	v20220901 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v1beta20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
+	v1beta20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -19,10 +19,10 @@ type StorageAccountsQueueServicesQueueExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *StorageAccountsQueueServicesQueueExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20210401.StorageAccountsQueueServicesQueue{},
-		&v1api20210401s.StorageAccountsQueueServicesQueue{},
-		&v1api20220901.StorageAccountsQueueServicesQueue{},
-		&v1api20220901s.StorageAccountsQueueServicesQueue{},
 		&v20210401.StorageAccountsQueueServicesQueue{},
-		&v20210401s.StorageAccountsQueueServicesQueue{}}
+		&v20210401s.StorageAccountsQueueServicesQueue{},
+		&v20220901.StorageAccountsQueueServicesQueue{},
+		&v20220901s.StorageAccountsQueueServicesQueue{},
+		&v1beta20210401.StorageAccountsQueueServicesQueue{},
+		&v1beta20210401s.StorageAccountsQueueServicesQueue{}}
 }

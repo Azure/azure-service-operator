@@ -5,7 +5,7 @@ package v1api20210101preview
 
 import (
 	"fmt"
-	v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
+	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,22 +49,36 @@ var _ conversion.Convertible = &NamespacesQueue{}
 
 // ConvertFrom populates our NamespacesQueue from the provided hub NamespacesQueue
 func (queue *NamespacesQueue) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210101ps.NamespacesQueue)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20210101previewstorage/NamespacesQueue but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210101ps.NamespacesQueue
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return queue.AssignProperties_From_NamespacesQueue(source)
+	err = queue.AssignProperties_From_NamespacesQueue(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to queue")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesQueue from our NamespacesQueue
 func (queue *NamespacesQueue) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210101ps.NamespacesQueue)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20210101previewstorage/NamespacesQueue but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210101ps.NamespacesQueue
+	err := queue.AssignProperties_To_NamespacesQueue(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from queue")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return queue.AssignProperties_To_NamespacesQueue(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1api20210101preview-namespacesqueue,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1api20210101preview,name=default.v1api20210101preview.namespacesqueues.servicebus.azure.com,admissionReviewVersions=v1
@@ -89,17 +103,6 @@ func (queue *NamespacesQueue) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the NamespacesQueue resource
 func (queue *NamespacesQueue) defaultImpl() { queue.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &NamespacesQueue{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (queue *NamespacesQueue) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Namespaces_Queue_STATUS); ok {
-		return queue.Spec.Initialize_From_Namespaces_Queue_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Namespaces_Queue_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &NamespacesQueue{}
 
@@ -141,11 +144,7 @@ func (queue *NamespacesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (queue *NamespacesQueue) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(queue.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  queue.Spec.Owner.Name,
-	}
+	return queue.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +202,7 @@ func (queue *NamespacesQueue) ValidateUpdate(old runtime.Object) (admission.Warn
 
 // createValidations validates the creation of the resource
 func (queue *NamespacesQueue) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){queue.validateResourceReferences}
+	return []func() (admission.Warnings, error){queue.validateResourceReferences, queue.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +216,16 @@ func (queue *NamespacesQueue) updateValidations() []func(old runtime.Object) (ad
 		func(old runtime.Object) (admission.Warnings, error) {
 			return queue.validateResourceReferences()
 		},
-		queue.validateWriteOnceProperties}
+		queue.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return queue.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (queue *NamespacesQueue) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(queue)
 }
 
 // validateResourceReferences validates all resource references
@@ -240,7 +248,7 @@ func (queue *NamespacesQueue) validateWriteOnceProperties(old runtime.Object) (a
 }
 
 // AssignProperties_From_NamespacesQueue populates our NamespacesQueue from the provided source NamespacesQueue
-func (queue *NamespacesQueue) AssignProperties_From_NamespacesQueue(source *v1api20210101ps.NamespacesQueue) error {
+func (queue *NamespacesQueue) AssignProperties_From_NamespacesQueue(source *v20210101ps.NamespacesQueue) error {
 
 	// ObjectMeta
 	queue.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +274,13 @@ func (queue *NamespacesQueue) AssignProperties_From_NamespacesQueue(source *v1ap
 }
 
 // AssignProperties_To_NamespacesQueue populates the provided destination NamespacesQueue from our NamespacesQueue
-func (queue *NamespacesQueue) AssignProperties_To_NamespacesQueue(destination *v1api20210101ps.NamespacesQueue) error {
+func (queue *NamespacesQueue) AssignProperties_To_NamespacesQueue(destination *v20210101ps.NamespacesQueue) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *queue.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20210101ps.Namespaces_Queue_Spec
+	var spec v20210101ps.Namespaces_Queue_Spec
 	err := queue.Spec.AssignProperties_To_Namespaces_Queue_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Queue_Spec() to populate field Spec")
@@ -280,7 +288,7 @@ func (queue *NamespacesQueue) AssignProperties_To_NamespacesQueue(destination *v
 	destination.Spec = spec
 
 	// Status
-	var status v1api20210101ps.Namespaces_Queue_STATUS
+	var status v20210101ps.Namespaces_Queue_STATUS
 	err = queue.Status.AssignProperties_To_Namespaces_Queue_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Queue_STATUS() to populate field Status")
@@ -383,10 +391,10 @@ func (queue *Namespaces_Queue_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &Namespaces_Queue_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if queue.AutoDeleteOnIdle != nil ||
 		queue.DeadLetteringOnMessageExpiration != nil ||
 		queue.DefaultMessageTimeToLive != nil ||
@@ -474,7 +482,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Queue_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoDeleteOnIdle’:
+	// Set property "AutoDeleteOnIdle":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoDeleteOnIdle != nil {
@@ -483,10 +491,10 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	queue.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘DeadLetteringOnMessageExpiration’:
+	// Set property "DeadLetteringOnMessageExpiration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetteringOnMessageExpiration != nil {
@@ -495,7 +503,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘DefaultMessageTimeToLive’:
+	// Set property "DefaultMessageTimeToLive":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultMessageTimeToLive != nil {
@@ -504,7 +512,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘DuplicateDetectionHistoryTimeWindow’:
+	// Set property "DuplicateDetectionHistoryTimeWindow":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DuplicateDetectionHistoryTimeWindow != nil {
@@ -513,7 +521,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘EnableBatchedOperations’:
+	// Set property "EnableBatchedOperations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableBatchedOperations != nil {
@@ -522,7 +530,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘EnableExpress’:
+	// Set property "EnableExpress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableExpress != nil {
@@ -531,7 +539,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘EnablePartitioning’:
+	// Set property "EnablePartitioning":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnablePartitioning != nil {
@@ -540,7 +548,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘ForwardDeadLetteredMessagesTo’:
+	// Set property "ForwardDeadLetteredMessagesTo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardDeadLetteredMessagesTo != nil {
@@ -549,7 +557,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘ForwardTo’:
+	// Set property "ForwardTo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardTo != nil {
@@ -558,7 +566,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘LockDuration’:
+	// Set property "LockDuration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LockDuration != nil {
@@ -567,7 +575,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘MaxDeliveryCount’:
+	// Set property "MaxDeliveryCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxDeliveryCount != nil {
@@ -576,7 +584,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘MaxSizeInMegabytes’:
+	// Set property "MaxSizeInMegabytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxSizeInMegabytes != nil {
@@ -585,10 +593,13 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Owner’:
-	queue.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	queue.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘RequiresDuplicateDetection’:
+	// Set property "RequiresDuplicateDetection":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequiresDuplicateDetection != nil {
@@ -597,7 +608,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘RequiresSession’:
+	// Set property "RequiresSession":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequiresSession != nil {
@@ -614,14 +625,14 @@ var _ genruntime.ConvertibleSpec = &Namespaces_Queue_Spec{}
 
 // ConvertSpecFrom populates our Namespaces_Queue_Spec from the provided source
 func (queue *Namespaces_Queue_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20210101ps.Namespaces_Queue_Spec)
+	src, ok := source.(*v20210101ps.Namespaces_Queue_Spec)
 	if ok {
 		// Populate our instance from source
 		return queue.AssignProperties_From_Namespaces_Queue_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210101ps.Namespaces_Queue_Spec{}
+	src = &v20210101ps.Namespaces_Queue_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -638,14 +649,14 @@ func (queue *Namespaces_Queue_Spec) ConvertSpecFrom(source genruntime.Convertibl
 
 // ConvertSpecTo populates the provided destination from our Namespaces_Queue_Spec
 func (queue *Namespaces_Queue_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20210101ps.Namespaces_Queue_Spec)
+	dst, ok := destination.(*v20210101ps.Namespaces_Queue_Spec)
 	if ok {
 		// Populate destination from our instance
 		return queue.AssignProperties_To_Namespaces_Queue_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210101ps.Namespaces_Queue_Spec{}
+	dst = &v20210101ps.Namespaces_Queue_Spec{}
 	err := queue.AssignProperties_To_Namespaces_Queue_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -661,7 +672,7 @@ func (queue *Namespaces_Queue_Spec) ConvertSpecTo(destination genruntime.Convert
 }
 
 // AssignProperties_From_Namespaces_Queue_Spec populates our Namespaces_Queue_Spec from the provided source Namespaces_Queue_Spec
-func (queue *Namespaces_Queue_Spec) AssignProperties_From_Namespaces_Queue_Spec(source *v1api20210101ps.Namespaces_Queue_Spec) error {
+func (queue *Namespaces_Queue_Spec) AssignProperties_From_Namespaces_Queue_Spec(source *v20210101ps.Namespaces_Queue_Spec) error {
 
 	// AutoDeleteOnIdle
 	queue.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
@@ -751,7 +762,7 @@ func (queue *Namespaces_Queue_Spec) AssignProperties_From_Namespaces_Queue_Spec(
 }
 
 // AssignProperties_To_Namespaces_Queue_Spec populates the provided destination Namespaces_Queue_Spec from our Namespaces_Queue_Spec
-func (queue *Namespaces_Queue_Spec) AssignProperties_To_Namespaces_Queue_Spec(destination *v1api20210101ps.Namespaces_Queue_Spec) error {
+func (queue *Namespaces_Queue_Spec) AssignProperties_To_Namespaces_Queue_Spec(destination *v20210101ps.Namespaces_Queue_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -846,85 +857,6 @@ func (queue *Namespaces_Queue_Spec) AssignProperties_To_Namespaces_Queue_Spec(de
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Namespaces_Queue_STATUS populates our Namespaces_Queue_Spec from the provided source Namespaces_Queue_STATUS
-func (queue *Namespaces_Queue_Spec) Initialize_From_Namespaces_Queue_STATUS(source *Namespaces_Queue_STATUS) error {
-
-	// AutoDeleteOnIdle
-	queue.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
-
-	// DeadLetteringOnMessageExpiration
-	if source.DeadLetteringOnMessageExpiration != nil {
-		deadLetteringOnMessageExpiration := *source.DeadLetteringOnMessageExpiration
-		queue.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
-	} else {
-		queue.DeadLetteringOnMessageExpiration = nil
-	}
-
-	// DefaultMessageTimeToLive
-	queue.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
-
-	// DuplicateDetectionHistoryTimeWindow
-	queue.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
-
-	// EnableBatchedOperations
-	if source.EnableBatchedOperations != nil {
-		enableBatchedOperation := *source.EnableBatchedOperations
-		queue.EnableBatchedOperations = &enableBatchedOperation
-	} else {
-		queue.EnableBatchedOperations = nil
-	}
-
-	// EnableExpress
-	if source.EnableExpress != nil {
-		enableExpress := *source.EnableExpress
-		queue.EnableExpress = &enableExpress
-	} else {
-		queue.EnableExpress = nil
-	}
-
-	// EnablePartitioning
-	if source.EnablePartitioning != nil {
-		enablePartitioning := *source.EnablePartitioning
-		queue.EnablePartitioning = &enablePartitioning
-	} else {
-		queue.EnablePartitioning = nil
-	}
-
-	// ForwardDeadLetteredMessagesTo
-	queue.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(source.ForwardDeadLetteredMessagesTo)
-
-	// ForwardTo
-	queue.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
-
-	// LockDuration
-	queue.LockDuration = genruntime.ClonePointerToString(source.LockDuration)
-
-	// MaxDeliveryCount
-	queue.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
-
-	// MaxSizeInMegabytes
-	queue.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
-
-	// RequiresDuplicateDetection
-	if source.RequiresDuplicateDetection != nil {
-		requiresDuplicateDetection := *source.RequiresDuplicateDetection
-		queue.RequiresDuplicateDetection = &requiresDuplicateDetection
-	} else {
-		queue.RequiresDuplicateDetection = nil
-	}
-
-	// RequiresSession
-	if source.RequiresSession != nil {
-		requiresSession := *source.RequiresSession
-		queue.RequiresSession = &requiresSession
-	} else {
-		queue.RequiresSession = nil
 	}
 
 	// No error
@@ -1032,14 +964,14 @@ var _ genruntime.ConvertibleStatus = &Namespaces_Queue_STATUS{}
 
 // ConvertStatusFrom populates our Namespaces_Queue_STATUS from the provided source
 func (queue *Namespaces_Queue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20210101ps.Namespaces_Queue_STATUS)
+	src, ok := source.(*v20210101ps.Namespaces_Queue_STATUS)
 	if ok {
 		// Populate our instance from source
 		return queue.AssignProperties_From_Namespaces_Queue_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210101ps.Namespaces_Queue_STATUS{}
+	src = &v20210101ps.Namespaces_Queue_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1056,14 +988,14 @@ func (queue *Namespaces_Queue_STATUS) ConvertStatusFrom(source genruntime.Conver
 
 // ConvertStatusTo populates the provided destination from our Namespaces_Queue_STATUS
 func (queue *Namespaces_Queue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20210101ps.Namespaces_Queue_STATUS)
+	dst, ok := destination.(*v20210101ps.Namespaces_Queue_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return queue.AssignProperties_To_Namespaces_Queue_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210101ps.Namespaces_Queue_STATUS{}
+	dst = &v20210101ps.Namespaces_Queue_STATUS{}
 	err := queue.AssignProperties_To_Namespaces_Queue_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1092,7 +1024,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Queue_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessedAt’:
+	// Set property "AccessedAt":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AccessedAt != nil {
@@ -1101,7 +1033,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘AutoDeleteOnIdle’:
+	// Set property "AutoDeleteOnIdle":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoDeleteOnIdle != nil {
@@ -1110,9 +1042,9 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CountDetails’:
+	// Set property "CountDetails":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CountDetails != nil {
@@ -1126,7 +1058,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreatedAt != nil {
@@ -1135,7 +1067,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘DeadLetteringOnMessageExpiration’:
+	// Set property "DeadLetteringOnMessageExpiration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetteringOnMessageExpiration != nil {
@@ -1144,7 +1076,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘DefaultMessageTimeToLive’:
+	// Set property "DefaultMessageTimeToLive":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultMessageTimeToLive != nil {
@@ -1153,7 +1085,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘DuplicateDetectionHistoryTimeWindow’:
+	// Set property "DuplicateDetectionHistoryTimeWindow":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DuplicateDetectionHistoryTimeWindow != nil {
@@ -1162,7 +1094,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘EnableBatchedOperations’:
+	// Set property "EnableBatchedOperations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableBatchedOperations != nil {
@@ -1171,7 +1103,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘EnableExpress’:
+	// Set property "EnableExpress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableExpress != nil {
@@ -1180,7 +1112,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘EnablePartitioning’:
+	// Set property "EnablePartitioning":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnablePartitioning != nil {
@@ -1189,7 +1121,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘ForwardDeadLetteredMessagesTo’:
+	// Set property "ForwardDeadLetteredMessagesTo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardDeadLetteredMessagesTo != nil {
@@ -1198,7 +1130,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘ForwardTo’:
+	// Set property "ForwardTo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardTo != nil {
@@ -1207,13 +1139,13 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		queue.Id = &id
 	}
 
-	// Set property ‘LockDuration’:
+	// Set property "LockDuration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LockDuration != nil {
@@ -1222,7 +1154,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘MaxDeliveryCount’:
+	// Set property "MaxDeliveryCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxDeliveryCount != nil {
@@ -1231,7 +1163,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘MaxSizeInMegabytes’:
+	// Set property "MaxSizeInMegabytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxSizeInMegabytes != nil {
@@ -1240,7 +1172,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘MessageCount’:
+	// Set property "MessageCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MessageCount != nil {
@@ -1249,13 +1181,13 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		queue.Name = &name
 	}
 
-	// Set property ‘RequiresDuplicateDetection’:
+	// Set property "RequiresDuplicateDetection":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequiresDuplicateDetection != nil {
@@ -1264,7 +1196,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘RequiresSession’:
+	// Set property "RequiresSession":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequiresSession != nil {
@@ -1273,7 +1205,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘SizeInBytes’:
+	// Set property "SizeInBytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SizeInBytes != nil {
@@ -1282,7 +1214,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Status != nil {
@@ -1291,7 +1223,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -1302,13 +1234,13 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		queue.SystemData = &systemData
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		queue.Type = &typeVar
 	}
 
-	// Set property ‘UpdatedAt’:
+	// Set property "UpdatedAt":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UpdatedAt != nil {
@@ -1322,7 +1254,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_Namespaces_Queue_STATUS populates our Namespaces_Queue_STATUS from the provided source Namespaces_Queue_STATUS
-func (queue *Namespaces_Queue_STATUS) AssignProperties_From_Namespaces_Queue_STATUS(source *v1api20210101ps.Namespaces_Queue_STATUS) error {
+func (queue *Namespaces_Queue_STATUS) AssignProperties_From_Namespaces_Queue_STATUS(source *v20210101ps.Namespaces_Queue_STATUS) error {
 
 	// AccessedAt
 	queue.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
@@ -1460,7 +1392,7 @@ func (queue *Namespaces_Queue_STATUS) AssignProperties_From_Namespaces_Queue_STA
 }
 
 // AssignProperties_To_Namespaces_Queue_STATUS populates the provided destination Namespaces_Queue_STATUS from our Namespaces_Queue_STATUS
-func (queue *Namespaces_Queue_STATUS) AssignProperties_To_Namespaces_Queue_STATUS(destination *v1api20210101ps.Namespaces_Queue_STATUS) error {
+func (queue *Namespaces_Queue_STATUS) AssignProperties_To_Namespaces_Queue_STATUS(destination *v20210101ps.Namespaces_Queue_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1475,7 +1407,7 @@ func (queue *Namespaces_Queue_STATUS) AssignProperties_To_Namespaces_Queue_STATU
 
 	// CountDetails
 	if queue.CountDetails != nil {
-		var countDetail v1api20210101ps.MessageCountDetails_STATUS
+		var countDetail v20210101ps.MessageCountDetails_STATUS
 		err := queue.CountDetails.AssignProperties_To_MessageCountDetails_STATUS(&countDetail)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MessageCountDetails_STATUS() to populate field CountDetails")
@@ -1579,7 +1511,7 @@ func (queue *Namespaces_Queue_STATUS) AssignProperties_To_Namespaces_Queue_STATU
 
 	// SystemData
 	if queue.SystemData != nil {
-		var systemDatum v1api20210101ps.SystemData_STATUS
+		var systemDatum v20210101ps.SystemData_STATUS
 		err := queue.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1653,31 +1585,31 @@ func (details *MessageCountDetails_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MessageCountDetails_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ActiveMessageCount’:
+	// Set property "ActiveMessageCount":
 	if typedInput.ActiveMessageCount != nil {
 		activeMessageCount := *typedInput.ActiveMessageCount
 		details.ActiveMessageCount = &activeMessageCount
 	}
 
-	// Set property ‘DeadLetterMessageCount’:
+	// Set property "DeadLetterMessageCount":
 	if typedInput.DeadLetterMessageCount != nil {
 		deadLetterMessageCount := *typedInput.DeadLetterMessageCount
 		details.DeadLetterMessageCount = &deadLetterMessageCount
 	}
 
-	// Set property ‘ScheduledMessageCount’:
+	// Set property "ScheduledMessageCount":
 	if typedInput.ScheduledMessageCount != nil {
 		scheduledMessageCount := *typedInput.ScheduledMessageCount
 		details.ScheduledMessageCount = &scheduledMessageCount
 	}
 
-	// Set property ‘TransferDeadLetterMessageCount’:
+	// Set property "TransferDeadLetterMessageCount":
 	if typedInput.TransferDeadLetterMessageCount != nil {
 		transferDeadLetterMessageCount := *typedInput.TransferDeadLetterMessageCount
 		details.TransferDeadLetterMessageCount = &transferDeadLetterMessageCount
 	}
 
-	// Set property ‘TransferMessageCount’:
+	// Set property "TransferMessageCount":
 	if typedInput.TransferMessageCount != nil {
 		transferMessageCount := *typedInput.TransferMessageCount
 		details.TransferMessageCount = &transferMessageCount
@@ -1688,7 +1620,7 @@ func (details *MessageCountDetails_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_MessageCountDetails_STATUS populates our MessageCountDetails_STATUS from the provided source MessageCountDetails_STATUS
-func (details *MessageCountDetails_STATUS) AssignProperties_From_MessageCountDetails_STATUS(source *v1api20210101ps.MessageCountDetails_STATUS) error {
+func (details *MessageCountDetails_STATUS) AssignProperties_From_MessageCountDetails_STATUS(source *v20210101ps.MessageCountDetails_STATUS) error {
 
 	// ActiveMessageCount
 	details.ActiveMessageCount = genruntime.ClonePointerToInt(source.ActiveMessageCount)
@@ -1710,7 +1642,7 @@ func (details *MessageCountDetails_STATUS) AssignProperties_From_MessageCountDet
 }
 
 // AssignProperties_To_MessageCountDetails_STATUS populates the provided destination MessageCountDetails_STATUS from our MessageCountDetails_STATUS
-func (details *MessageCountDetails_STATUS) AssignProperties_To_MessageCountDetails_STATUS(destination *v1api20210101ps.MessageCountDetails_STATUS) error {
+func (details *MessageCountDetails_STATUS) AssignProperties_To_MessageCountDetails_STATUS(destination *v20210101ps.MessageCountDetails_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

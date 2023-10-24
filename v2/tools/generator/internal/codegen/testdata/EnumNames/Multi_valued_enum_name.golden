@@ -5,7 +5,7 @@ package v1api20200101
 
 import (
 	"fmt"
-	v1api20200101s "github.com/Azure/azure-service-operator/testing/test/v1api20200101storage"
+	v20200101s "github.com/Azure/azure-service-operator/testing/test/v1api20200101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -45,9 +45,9 @@ var _ conversion.Convertible = &AResource{}
 
 // ConvertFrom populates our AResource from the provided hub AResource
 func (resource *AResource) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20200101s.AResource)
+	source, ok := hub.(*v20200101s.AResource)
 	if !ok {
-		return fmt.Errorf("expected test/v1api20200101storage/AResource but received %T instead", hub)
+		return fmt.Errorf("expected test/v1api20200101/storage/AResource but received %T instead", hub)
 	}
 
 	return resource.AssignProperties_From_AResource(source)
@@ -55,9 +55,9 @@ func (resource *AResource) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub AResource from our AResource
 func (resource *AResource) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20200101s.AResource)
+	destination, ok := hub.(*v20200101s.AResource)
 	if !ok {
-		return fmt.Errorf("expected test/v1api20200101storage/AResource but received %T instead", hub)
+		return fmt.Errorf("expected test/v1api20200101/storage/AResource but received %T instead", hub)
 	}
 
 	return resource.AssignProperties_To_AResource(destination)
@@ -116,11 +116,7 @@ func (resource *AResource) GetType() string {
 // Owner returns the ResourceReference of the owner
 func (resource *AResource) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(resource.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  resource.Spec.Owner.Name,
-	}
+	return resource.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // +kubebuilder:webhook:path=/validate-test-azure-com-v1api20200101-aresource,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=aresources,verbs=create;update,versions=v1api20200101,name=validate.v1api20200101.aresources.test.azure.com,admissionReviewVersions=v1
@@ -159,7 +155,7 @@ func (resource *AResource) ValidateUpdate(old runtime.Object) (admission.Warning
 
 // createValidations validates the creation of the resource
 func (resource *AResource) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){resource.validateResourceReferences}
+	return []func() (admission.Warnings, error){resource.validateResourceReferences, resource.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -173,7 +169,16 @@ func (resource *AResource) updateValidations() []func(old runtime.Object) (admis
 		func(old runtime.Object) (admission.Warnings, error) {
 			return resource.validateResourceReferences()
 		},
-		resource.validateWriteOnceProperties}
+		resource.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return resource.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (resource *AResource) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(resource)
 }
 
 // validateResourceReferences validates all resource references
@@ -196,7 +201,7 @@ func (resource *AResource) validateWriteOnceProperties(old runtime.Object) (admi
 }
 
 // AssignProperties_From_AResource populates our AResource from the provided source AResource
-func (resource *AResource) AssignProperties_From_AResource(source *v1api20200101s.AResource) error {
+func (resource *AResource) AssignProperties_From_AResource(source *v20200101s.AResource) error {
 
 	// ObjectMeta
 	resource.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -214,13 +219,13 @@ func (resource *AResource) AssignProperties_From_AResource(source *v1api20200101
 }
 
 // AssignProperties_To_AResource populates the provided destination AResource from our AResource
-func (resource *AResource) AssignProperties_To_AResource(destination *v1api20200101s.AResource) error {
+func (resource *AResource) AssignProperties_To_AResource(destination *v20200101s.AResource) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *resource.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20200101s.AResource_Spec
+	var spec v20200101s.AResource_Spec
 	err := resource.Spec.AssignProperties_To_AResource_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_AResource_Spec() to populate field Spec")
@@ -308,13 +313,13 @@ func (resource *AResource_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &AResource_Spec_ARM{}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	result.APIVersion = resource.APIVersion
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	result.Type = resource.Type
 	return result, nil
 }
@@ -331,16 +336,19 @@ func (resource *AResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AResource_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	resource.APIVersion = typedInput.APIVersion
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Owner’:
-	resource.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	resource.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	resource.Type = typedInput.Type
 
 	// No error
@@ -351,14 +359,14 @@ var _ genruntime.ConvertibleSpec = &AResource_Spec{}
 
 // ConvertSpecFrom populates our AResource_Spec from the provided source
 func (resource *AResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20200101s.AResource_Spec)
+	src, ok := source.(*v20200101s.AResource_Spec)
 	if ok {
 		// Populate our instance from source
 		return resource.AssignProperties_From_AResource_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20200101s.AResource_Spec{}
+	src = &v20200101s.AResource_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -375,14 +383,14 @@ func (resource *AResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpe
 
 // ConvertSpecTo populates the provided destination from our AResource_Spec
 func (resource *AResource_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20200101s.AResource_Spec)
+	dst, ok := destination.(*v20200101s.AResource_Spec)
 	if ok {
 		// Populate destination from our instance
 		return resource.AssignProperties_To_AResource_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20200101s.AResource_Spec{}
+	dst = &v20200101s.AResource_Spec{}
 	err := resource.AssignProperties_To_AResource_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -398,7 +406,7 @@ func (resource *AResource_Spec) ConvertSpecTo(destination genruntime.Convertible
 }
 
 // AssignProperties_From_AResource_Spec populates our AResource_Spec from the provided source AResource_Spec
-func (resource *AResource_Spec) AssignProperties_From_AResource_Spec(source *v1api20200101s.AResource_Spec) error {
+func (resource *AResource_Spec) AssignProperties_From_AResource_Spec(source *v20200101s.AResource_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
@@ -431,7 +439,7 @@ func (resource *AResource_Spec) AssignProperties_From_AResource_Spec(source *v1a
 }
 
 // AssignProperties_To_AResource_Spec populates the provided destination AResource_Spec from our AResource_Spec
-func (resource *AResource_Spec) AssignProperties_To_AResource_Spec(destination *v1api20200101s.AResource_Spec) error {
+func (resource *AResource_Spec) AssignProperties_To_AResource_Spec(destination *v20200101s.AResource_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

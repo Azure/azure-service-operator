@@ -75,10 +75,10 @@ func (person *Person_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &Person_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if person.Properties != nil {
 		properties_ARM, err := (*person.Properties).ConvertToARM(resolved)
 		if err != nil {
@@ -102,10 +102,10 @@ func (person *Person_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Person_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	person.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		var properties1 PersonProperties
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -139,7 +139,7 @@ func (person *Person_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Person_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	person.Status = typedInput.Status
 
 	// No error
@@ -190,7 +190,7 @@ func (properties *PersonProperties) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &PersonProperties_ARM{}
 
-	// Set property ‘FamilyName’:
+	// Set property "FamilyName":
 	if properties.FamilyName != nil {
 		familyName := *properties.FamilyName
 		result.FamilyName = &familyName
@@ -204,17 +204,17 @@ func (properties *PersonProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		result.FamilyName = &familyName
 	}
 
-	// Set property ‘FullName’:
+	// Set property "FullName":
 	fullNameValue, err := resolved.ResolvedConfigMaps.Lookup(properties.FullName)
 	if err != nil {
 		return nil, errors.Wrap(err, "looking up configmap for property FullName")
 	}
 	result.FullName = fullNameValue
 
-	// Set property ‘KnownAs’:
+	// Set property "KnownAs":
 	result.KnownAs = properties.KnownAs
 
-	// Set property ‘RestrictedName’:
+	// Set property "RestrictedName":
 	if properties.RestrictedName != nil {
 		restrictedName := *properties.RestrictedName
 		result.RestrictedName = &restrictedName
@@ -242,26 +242,26 @@ func (properties *PersonProperties) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PersonProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘FamilyName’:
+	// Set property "FamilyName":
 	if typedInput.FamilyName != nil {
 		familyName := *typedInput.FamilyName
 		properties.FamilyName = &familyName
 	}
 
-	// no assignment for property ‘FamilyNameFromConfig’
+	// no assignment for property "FamilyNameFromConfig"
 
-	// no assignment for property ‘FullName’
+	// no assignment for property "FullName"
 
-	// Set property ‘KnownAs’:
+	// Set property "KnownAs":
 	properties.KnownAs = typedInput.KnownAs
 
-	// Set property ‘RestrictedName’:
+	// Set property "RestrictedName":
 	if typedInput.RestrictedName != nil {
 		restrictedName := *typedInput.RestrictedName
 		properties.RestrictedName = &restrictedName
 	}
 
-	// no assignment for property ‘RestrictedNameFromConfig’
+	// no assignment for property "RestrictedNameFromConfig"
 
 	// No error
 	return nil

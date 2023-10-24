@@ -5,8 +5,8 @@ package v1beta20201101
 
 import (
 	"encoding/json"
-	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
-	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
+	v1beta20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForLoadBalancer(subject LoadBalancer) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20201101s.LoadBalancer
+	var hub v20201101s.LoadBalancer
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -73,13 +73,13 @@ func Test_LoadBalancer_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancer tests if a specific instance of LoadBalancer can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForLoadBalancer tests if a specific instance of LoadBalancer can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForLoadBalancer(subject LoadBalancer) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.LoadBalancer
+	var other v1beta20201101s.LoadBalancer
 	err := copied.AssignProperties_To_LoadBalancer(&other)
 	if err != nil {
 		return err.Error()
@@ -176,13 +176,13 @@ func Test_LoadBalancer_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancer_Spec tests if a specific instance of LoadBalancer_Spec can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForLoadBalancer_Spec tests if a specific instance of LoadBalancer_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForLoadBalancer_Spec(subject LoadBalancer_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.LoadBalancer_Spec
+	var other v1beta20201101s.LoadBalancer_Spec
 	err := copied.AssignProperties_To_LoadBalancer_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -302,13 +302,13 @@ func Test_LoadBalancer_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancer_STATUS tests if a specific instance of LoadBalancer_STATUS can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForLoadBalancer_STATUS tests if a specific instance of LoadBalancer_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForLoadBalancer_STATUS(subject LoadBalancer_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.LoadBalancer_STATUS
+	var other v1beta20201101s.LoadBalancer_STATUS
 	err := copied.AssignProperties_To_LoadBalancer_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -438,13 +438,13 @@ func Test_BackendAddressPool_LoadBalancer_SubResourceEmbedded_WhenPropertiesConv
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendAddressPool_LoadBalancer_SubResourceEmbedded tests if a specific instance of BackendAddressPool_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForBackendAddressPool_LoadBalancer_SubResourceEmbedded tests if a specific instance of BackendAddressPool_LoadBalancer_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendAddressPool_LoadBalancer_SubResourceEmbedded(subject BackendAddressPool_LoadBalancer_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.BackendAddressPool_LoadBalancer_SubResourceEmbedded
+	var other v1beta20201101s.BackendAddressPool_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_BackendAddressPool_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -555,13 +555,13 @@ func Test_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded_WhenPropert
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded tests if a specific instance of BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded tests if a specific instance of BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(subject BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
+	var other v1beta20201101s.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -684,13 +684,13 @@ func Test_ExtendedLocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForExtendedLocation tests if a specific instance of ExtendedLocation can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForExtendedLocation tests if a specific instance of ExtendedLocation can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.ExtendedLocation
+	var other v1beta20201101s.ExtendedLocation
 	err := copied.AssignProperties_To_ExtendedLocation(&other)
 	if err != nil {
 		return err.Error()
@@ -787,13 +787,13 @@ func Test_ExtendedLocation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForExtendedLocation_STATUS tests if a specific instance of ExtendedLocation_STATUS can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForExtendedLocation_STATUS tests if a specific instance of ExtendedLocation_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForExtendedLocation_STATUS(subject ExtendedLocation_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.ExtendedLocation_STATUS
+	var other v1beta20201101s.ExtendedLocation_STATUS
 	err := copied.AssignProperties_To_ExtendedLocation_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -891,13 +891,13 @@ func Test_FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_WhenPropertie
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFrontendIPConfiguration_LoadBalancer_SubResourceEmbedded tests if a specific instance of FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForFrontendIPConfiguration_LoadBalancer_SubResourceEmbedded tests if a specific instance of FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFrontendIPConfiguration_LoadBalancer_SubResourceEmbedded(subject FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
+	var other v1beta20201101s.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1014,13 +1014,13 @@ func Test_FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_WhenPr
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded tests if a specific instance of FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded tests if a specific instance of FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(subject FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
+	var other v1beta20201101s.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1149,13 +1149,13 @@ func Test_InboundNatPool_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForInboundNatPool tests if a specific instance of InboundNatPool can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForInboundNatPool tests if a specific instance of InboundNatPool can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForInboundNatPool(subject InboundNatPool) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.InboundNatPool
+	var other v1beta20201101s.InboundNatPool
 	err := copied.AssignProperties_To_InboundNatPool(&other)
 	if err != nil {
 		return err.Error()
@@ -1272,13 +1272,13 @@ func Test_InboundNatPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForInboundNatPool_STATUS tests if a specific instance of InboundNatPool_STATUS can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForInboundNatPool_STATUS tests if a specific instance of InboundNatPool_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForInboundNatPool_STATUS(subject InboundNatPool_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.InboundNatPool_STATUS
+	var other v1beta20201101s.InboundNatPool_STATUS
 	err := copied.AssignProperties_To_InboundNatPool_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1404,13 +1404,13 @@ func Test_InboundNatRule_LoadBalancer_SubResourceEmbedded_WhenPropertiesConverte
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForInboundNatRule_LoadBalancer_SubResourceEmbedded tests if a specific instance of InboundNatRule_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForInboundNatRule_LoadBalancer_SubResourceEmbedded tests if a specific instance of InboundNatRule_LoadBalancer_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForInboundNatRule_LoadBalancer_SubResourceEmbedded(subject InboundNatRule_LoadBalancer_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.InboundNatRule_LoadBalancer_SubResourceEmbedded
+	var other v1beta20201101s.InboundNatRule_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_InboundNatRule_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1527,13 +1527,13 @@ func Test_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded_WhenPropertiesC
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded tests if a specific instance of InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded tests if a specific instance of InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(subject InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
+	var other v1beta20201101s.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1659,13 +1659,13 @@ func Test_LoadBalancerSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancerSku tests if a specific instance of LoadBalancerSku can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForLoadBalancerSku tests if a specific instance of LoadBalancerSku can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForLoadBalancerSku(subject LoadBalancerSku) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.LoadBalancerSku
+	var other v1beta20201101s.LoadBalancerSku
 	err := copied.AssignProperties_To_LoadBalancerSku(&other)
 	if err != nil {
 		return err.Error()
@@ -1762,13 +1762,13 @@ func Test_LoadBalancerSku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancerSku_STATUS tests if a specific instance of LoadBalancerSku_STATUS can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForLoadBalancerSku_STATUS tests if a specific instance of LoadBalancerSku_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForLoadBalancerSku_STATUS(subject LoadBalancerSku_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.LoadBalancerSku_STATUS
+	var other v1beta20201101s.LoadBalancerSku_STATUS
 	err := copied.AssignProperties_To_LoadBalancerSku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1866,13 +1866,13 @@ func Test_LoadBalancingRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancingRule tests if a specific instance of LoadBalancingRule can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForLoadBalancingRule tests if a specific instance of LoadBalancingRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForLoadBalancingRule(subject LoadBalancingRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.LoadBalancingRule
+	var other v1beta20201101s.LoadBalancingRule
 	err := copied.AssignProperties_To_LoadBalancingRule(&other)
 	if err != nil {
 		return err.Error()
@@ -1992,13 +1992,13 @@ func Test_LoadBalancingRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancingRule_STATUS tests if a specific instance of LoadBalancingRule_STATUS can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForLoadBalancingRule_STATUS tests if a specific instance of LoadBalancingRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForLoadBalancingRule_STATUS(subject LoadBalancingRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.LoadBalancingRule_STATUS
+	var other v1beta20201101s.LoadBalancingRule_STATUS
 	err := copied.AssignProperties_To_LoadBalancingRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2127,13 +2127,13 @@ func Test_OutboundRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForOutboundRule tests if a specific instance of OutboundRule can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForOutboundRule tests if a specific instance of OutboundRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForOutboundRule(subject OutboundRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.OutboundRule
+	var other v1beta20201101s.OutboundRule
 	err := copied.AssignProperties_To_OutboundRule(&other)
 	if err != nil {
 		return err.Error()
@@ -2248,13 +2248,13 @@ func Test_OutboundRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForOutboundRule_STATUS tests if a specific instance of OutboundRule_STATUS can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForOutboundRule_STATUS tests if a specific instance of OutboundRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForOutboundRule_STATUS(subject OutboundRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.OutboundRule_STATUS
+	var other v1beta20201101s.OutboundRule_STATUS
 	err := copied.AssignProperties_To_OutboundRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2378,13 +2378,13 @@ func Test_Probe_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForProbe tests if a specific instance of Probe can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForProbe tests if a specific instance of Probe can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForProbe(subject Probe) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.Probe
+	var other v1beta20201101s.Probe
 	err := copied.AssignProperties_To_Probe(&other)
 	if err != nil {
 		return err.Error()
@@ -2485,13 +2485,13 @@ func Test_Probe_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForProbe_STATUS tests if a specific instance of Probe_STATUS can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForProbe_STATUS tests if a specific instance of Probe_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForProbe_STATUS(subject Probe_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.Probe_STATUS
+	var other v1beta20201101s.Probe_STATUS
 	err := copied.AssignProperties_To_Probe_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2614,13 +2614,13 @@ func Test_LoadBalancerBackendAddress_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancerBackendAddress tests if a specific instance of LoadBalancerBackendAddress can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForLoadBalancerBackendAddress tests if a specific instance of LoadBalancerBackendAddress can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForLoadBalancerBackendAddress(subject LoadBalancerBackendAddress) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.LoadBalancerBackendAddress
+	var other v1beta20201101s.LoadBalancerBackendAddress
 	err := copied.AssignProperties_To_LoadBalancerBackendAddress(&other)
 	if err != nil {
 		return err.Error()
@@ -2734,13 +2734,13 @@ func Test_LoadBalancerBackendAddress_STATUS_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancerBackendAddress_STATUS tests if a specific instance of LoadBalancerBackendAddress_STATUS can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForLoadBalancerBackendAddress_STATUS tests if a specific instance of LoadBalancerBackendAddress_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForLoadBalancerBackendAddress_STATUS(subject LoadBalancerBackendAddress_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.LoadBalancerBackendAddress_STATUS
+	var other v1beta20201101s.LoadBalancerBackendAddress_STATUS
 	err := copied.AssignProperties_To_LoadBalancerBackendAddress_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2855,13 +2855,13 @@ func Test_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedde
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded tests if a specific instance of NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded tests if a specific instance of NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(subject NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
+	var other v1beta20201101s.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -2958,13 +2958,13 @@ func Test_PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded_WhenProperties
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded tests if a specific instance of PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded tests if a specific instance of PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(subject PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
+	var other v1beta20201101s.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -3061,13 +3061,13 @@ func Test_PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_WhenPropertiesCon
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPAddressSpec_LoadBalancer_SubResourceEmbedded tests if a specific instance of PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForPublicIPAddressSpec_LoadBalancer_SubResourceEmbedded tests if a specific instance of PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddressSpec_LoadBalancer_SubResourceEmbedded(subject PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded
+	var other v1beta20201101s.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -3158,13 +3158,13 @@ func Test_Subnet_LoadBalancer_SubResourceEmbedded_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubnet_LoadBalancer_SubResourceEmbedded tests if a specific instance of Subnet_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForSubnet_LoadBalancer_SubResourceEmbedded tests if a specific instance of Subnet_LoadBalancer_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubnet_LoadBalancer_SubResourceEmbedded(subject Subnet_LoadBalancer_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.Subnet_LoadBalancer_SubResourceEmbedded
+	var other v1beta20201101s.Subnet_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_Subnet_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -3255,13 +3255,13 @@ func Test_Subnet_STATUS_LoadBalancer_SubResourceEmbedded_WhenPropertiesConverted
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubnet_STATUS_LoadBalancer_SubResourceEmbedded tests if a specific instance of Subnet_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForSubnet_STATUS_LoadBalancer_SubResourceEmbedded tests if a specific instance of Subnet_STATUS_LoadBalancer_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubnet_STATUS_LoadBalancer_SubResourceEmbedded(subject Subnet_STATUS_LoadBalancer_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.Subnet_STATUS_LoadBalancer_SubResourceEmbedded
+	var other v1beta20201101s.Subnet_STATUS_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_Subnet_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()

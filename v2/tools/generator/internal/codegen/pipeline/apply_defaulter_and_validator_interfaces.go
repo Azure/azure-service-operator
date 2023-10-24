@@ -116,6 +116,15 @@ func getValidations(
 		},
 	}
 
+	if !resource.Owner().IsEmpty() {
+		validations[functions.ValidationKindCreate] = append(
+			validations[functions.ValidationKindCreate],
+			functions.NewValidateOwnerReferenceFunction(resource, idFactory))
+		validations[functions.ValidationKindUpdate] = append(
+			validations[functions.ValidationKindUpdate],
+			functions.NewValidateOwnerReferenceFunction(resource, idFactory))
+	}
+
 	secrets, err := getOperatorSpecSubType(defs, resource, astmodel.OperatorSpecSecretsProperty)
 	if err != nil {
 		return nil, err
@@ -223,7 +232,7 @@ func validateConfigMapDestinations(k *functions.ResourceFunction, codeGeneration
 
 	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
-	fn.AddComments("validates there are no colliding genruntime.ConfigMapDestinations's")
+	fn.AddComments("validates there are no colliding genruntime.ConfigMapDestinations")
 	return fn.DefineFunc()
 }
 
@@ -315,7 +324,7 @@ func getOperatorSpecType(defs astmodel.ReadonlyTypeDefinitions, resource *astmod
 		// No OperatorSpec property - this means no secrets
 		return nil, nil
 	}
-	operatorSpecTypeName, ok := astmodel.AsTypeName(operatorSpecProp.PropertyType())
+	operatorSpecTypeName, ok := astmodel.AsInternalTypeName(operatorSpecProp.PropertyType())
 	if !ok {
 		return nil, errors.Errorf(
 			"expected %s to be an astmodel.TypeName, but it was %T",
@@ -354,7 +363,7 @@ func getOperatorSpecSubType(defs astmodel.ReadonlyTypeDefinitions, resource *ast
 		return nil, nil
 	}
 
-	secretsTypeName, ok := astmodel.AsTypeName(secretsProp.PropertyType())
+	secretsTypeName, ok := astmodel.AsInternalTypeName(secretsProp.PropertyType())
 	if !ok {
 		return nil, errors.Errorf(
 			"expected %s to be an astmodel.TypeName, but it was %T",
@@ -376,14 +385,15 @@ func getOperatorSpecSubType(defs astmodel.ReadonlyTypeDefinitions, resource *ast
 // hasOptionalConfigMapReferencePairs returns true if the type has optional genruntime.ConfigMapReference pairs
 func hasOptionalConfigMapReferencePairs(resourceDef astmodel.TypeDefinition, defs astmodel.TypeDefinitionSet) (bool, error) {
 	result := false
-	visitor := astmodel.TypeVisitorBuilder{
-		VisitObjectType: astmodel.MakeIdentityVisitOfObjectType(func(ot *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx interface{}) (interface{}, error) {
-			if prop.HasTag(astmodel.OptionalConfigMapPairTag) {
-				result = true
-			}
+	visitor := astmodel.TypeVisitorBuilder[any]{
+		VisitObjectType: astmodel.MakeIdentityVisitOfObjectType(
+			func(ot *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx any) (any, error) {
+				if prop.HasTag(astmodel.OptionalConfigMapPairTag) {
+					result = true
+				}
 
-			return ctx, nil
-		}),
+				return ctx, nil
+			}),
 	}.Build()
 
 	walker := astmodel.NewTypeWalker(defs, visitor)

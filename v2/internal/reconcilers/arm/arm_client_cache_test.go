@@ -23,10 +23,11 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
+	config2 "github.com/Azure/azure-service-operator/v2/pkg/common/config"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
@@ -141,7 +142,9 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClientOverNamespacedClient(t *t
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := newResourceGroup("test-namespace")
-	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: perResourceCredentialName.Name}
+	rg.Annotations = map[string]string{
+		annotations.PerResourceSecret: perResourceCredentialName.Name,
+	}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -173,7 +176,9 @@ func Test_ARMClientCache_PerResourceSecretInDifferentNamespace_ReturnsError(t *t
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := newResourceGroup("test-namespace")
-	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: perResourceCredentialName.String()}
+	rg.Annotations = map[string]string{
+		annotations.PerResourceSecret: perResourceCredentialName.String(),
+	}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -198,7 +203,9 @@ func Test_ARMClientCache_ReturnsError_IfSecretNotFound(t *testing.T) {
 	}
 
 	rg := newResourceGroup("")
-	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: credentialNamespacedName.Name}
+	rg.Annotations = map[string]string{
+		annotations.PerResourceSecret: credentialNamespacedName.Name,
+	}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -229,7 +236,9 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClient(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := newResourceGroup("test-namespace")
-	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: credentialNamespacedName.Name}
+	rg.Annotations = map[string]string{
+		annotations.PerResourceSecret: credentialNamespacedName.Name,
+	}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -305,7 +314,7 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T
 
 	// change secret and check if we get a new client
 	old := secret
-	secret.Data[config.ClientIDVar] = []byte("11111111-1111-1111-1111-111111111111")
+	secret.Data[config2.AzureClientID] = []byte("11111111-1111-1111-1111-111111111111")
 	err = res.kubeClient.Patch(ctx, secret, MergeFrom(old))
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -339,10 +348,10 @@ func Test_ARMClientCache_ReturnsGlobalClient(t *testing.T) {
 
 func newSecret(namespacedName types.NamespacedName) *v1.Secret {
 	secretData := make(map[string][]byte)
-	secretData[config.ClientIDVar] = []byte(fakeID)
-	secretData[config.ClientSecretVar] = []byte(fakeID)
-	secretData[config.TenantIDVar] = []byte(fakeID)
-	secretData[config.SubscriptionIDVar] = []byte(fakeID)
+	secretData[config2.AzureClientID] = []byte(fakeID)
+	secretData[config2.AzureClientSecret] = []byte(fakeID)
+	secretData[config2.AzureTenantID] = []byte(fakeID)
+	secretData[config2.AzureSubscriptionID] = []byte(fakeID)
 
 	return &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{

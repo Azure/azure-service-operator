@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"fmt"
-	v1api20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,9 +49,9 @@ var _ conversion.Convertible = &DnsResolver{}
 
 // ConvertFrom populates our DnsResolver from the provided hub DnsResolver
 func (resolver *DnsResolver) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20220701s.DnsResolver)
+	source, ok := hub.(*v20220701s.DnsResolver)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20220701storage/DnsResolver but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20220701/storage/DnsResolver but received %T instead", hub)
 	}
 
 	return resolver.AssignProperties_From_DnsResolver(source)
@@ -59,9 +59,9 @@ func (resolver *DnsResolver) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub DnsResolver from our DnsResolver
 func (resolver *DnsResolver) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20220701s.DnsResolver)
+	destination, ok := hub.(*v20220701s.DnsResolver)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20220701storage/DnsResolver but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20220701/storage/DnsResolver but received %T instead", hub)
 	}
 
 	return resolver.AssignProperties_To_DnsResolver(destination)
@@ -141,11 +141,7 @@ func (resolver *DnsResolver) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (resolver *DnsResolver) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(resolver.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  resolver.Spec.Owner.Name,
-	}
+	return resolver.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (resolver *DnsResolver) ValidateUpdate(old runtime.Object) (admission.Warni
 
 // createValidations validates the creation of the resource
 func (resolver *DnsResolver) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){resolver.validateResourceReferences}
+	return []func() (admission.Warnings, error){resolver.validateResourceReferences, resolver.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (resolver *DnsResolver) updateValidations() []func(old runtime.Object) (adm
 		func(old runtime.Object) (admission.Warnings, error) {
 			return resolver.validateResourceReferences()
 		},
-		resolver.validateWriteOnceProperties}
+		resolver.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return resolver.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (resolver *DnsResolver) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(resolver)
 }
 
 // validateResourceReferences validates all resource references
@@ -240,7 +245,7 @@ func (resolver *DnsResolver) validateWriteOnceProperties(old runtime.Object) (ad
 }
 
 // AssignProperties_From_DnsResolver populates our DnsResolver from the provided source DnsResolver
-func (resolver *DnsResolver) AssignProperties_From_DnsResolver(source *v1api20220701s.DnsResolver) error {
+func (resolver *DnsResolver) AssignProperties_From_DnsResolver(source *v20220701s.DnsResolver) error {
 
 	// ObjectMeta
 	resolver.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +271,13 @@ func (resolver *DnsResolver) AssignProperties_From_DnsResolver(source *v1api2022
 }
 
 // AssignProperties_To_DnsResolver populates the provided destination DnsResolver from our DnsResolver
-func (resolver *DnsResolver) AssignProperties_To_DnsResolver(destination *v1api20220701s.DnsResolver) error {
+func (resolver *DnsResolver) AssignProperties_To_DnsResolver(destination *v20220701s.DnsResolver) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *resolver.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20220701s.DnsResolver_Spec
+	var spec v20220701s.DnsResolver_Spec
 	err := resolver.Spec.AssignProperties_To_DnsResolver_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_DnsResolver_Spec() to populate field Spec")
@@ -280,7 +285,7 @@ func (resolver *DnsResolver) AssignProperties_To_DnsResolver(destination *v1api2
 	destination.Spec = spec
 
 	// Status
-	var status v1api20220701s.DnsResolver_STATUS
+	var status v20220701s.DnsResolver_STATUS
 	err = resolver.Status.AssignProperties_To_DnsResolver_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_DnsResolver_STATUS() to populate field Status")
@@ -342,16 +347,16 @@ func (resolver *DnsResolver_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &DnsResolver_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if resolver.Location != nil {
 		location := *resolver.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if resolver.VirtualNetwork != nil {
 		result.Properties = &DnsResolverProperties_ARM{}
 	}
@@ -364,7 +369,7 @@ func (resolver *DnsResolver_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Properties.VirtualNetwork = &virtualNetwork
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if resolver.Tags != nil {
 		result.Tags = make(map[string]string, len(resolver.Tags))
 		for key, value := range resolver.Tags {
@@ -386,19 +391,22 @@ func (resolver *DnsResolver_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsResolver_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	resolver.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		resolver.Location = &location
 	}
 
-	// Set property ‘Owner’:
-	resolver.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	resolver.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		resolver.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -406,7 +414,7 @@ func (resolver *DnsResolver_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘VirtualNetwork’:
+	// Set property "VirtualNetwork":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetwork != nil {
@@ -428,14 +436,14 @@ var _ genruntime.ConvertibleSpec = &DnsResolver_Spec{}
 
 // ConvertSpecFrom populates our DnsResolver_Spec from the provided source
 func (resolver *DnsResolver_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20220701s.DnsResolver_Spec)
+	src, ok := source.(*v20220701s.DnsResolver_Spec)
 	if ok {
 		// Populate our instance from source
 		return resolver.AssignProperties_From_DnsResolver_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220701s.DnsResolver_Spec{}
+	src = &v20220701s.DnsResolver_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -452,14 +460,14 @@ func (resolver *DnsResolver_Spec) ConvertSpecFrom(source genruntime.ConvertibleS
 
 // ConvertSpecTo populates the provided destination from our DnsResolver_Spec
 func (resolver *DnsResolver_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20220701s.DnsResolver_Spec)
+	dst, ok := destination.(*v20220701s.DnsResolver_Spec)
 	if ok {
 		// Populate destination from our instance
 		return resolver.AssignProperties_To_DnsResolver_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220701s.DnsResolver_Spec{}
+	dst = &v20220701s.DnsResolver_Spec{}
 	err := resolver.AssignProperties_To_DnsResolver_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -475,7 +483,7 @@ func (resolver *DnsResolver_Spec) ConvertSpecTo(destination genruntime.Convertib
 }
 
 // AssignProperties_From_DnsResolver_Spec populates our DnsResolver_Spec from the provided source DnsResolver_Spec
-func (resolver *DnsResolver_Spec) AssignProperties_From_DnsResolver_Spec(source *v1api20220701s.DnsResolver_Spec) error {
+func (resolver *DnsResolver_Spec) AssignProperties_From_DnsResolver_Spec(source *v20220701s.DnsResolver_Spec) error {
 
 	// AzureName
 	resolver.AzureName = source.AzureName
@@ -511,7 +519,7 @@ func (resolver *DnsResolver_Spec) AssignProperties_From_DnsResolver_Spec(source 
 }
 
 // AssignProperties_To_DnsResolver_Spec populates the provided destination DnsResolver_Spec from our DnsResolver_Spec
-func (resolver *DnsResolver_Spec) AssignProperties_To_DnsResolver_Spec(destination *v1api20220701s.DnsResolver_Spec) error {
+func (resolver *DnsResolver_Spec) AssignProperties_To_DnsResolver_Spec(destination *v20220701s.DnsResolver_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -537,7 +545,7 @@ func (resolver *DnsResolver_Spec) AssignProperties_To_DnsResolver_Spec(destinati
 
 	// VirtualNetwork
 	if resolver.VirtualNetwork != nil {
-		var virtualNetwork v1api20220701s.DnsresolverSubResource
+		var virtualNetwork v20220701s.DnsresolverSubResource
 		err := resolver.VirtualNetwork.AssignProperties_To_DnsresolverSubResource(&virtualNetwork)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DnsresolverSubResource() to populate field VirtualNetwork")
@@ -637,14 +645,14 @@ var _ genruntime.ConvertibleStatus = &DnsResolver_STATUS{}
 
 // ConvertStatusFrom populates our DnsResolver_STATUS from the provided source
 func (resolver *DnsResolver_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20220701s.DnsResolver_STATUS)
+	src, ok := source.(*v20220701s.DnsResolver_STATUS)
 	if ok {
 		// Populate our instance from source
 		return resolver.AssignProperties_From_DnsResolver_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220701s.DnsResolver_STATUS{}
+	src = &v20220701s.DnsResolver_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -661,14 +669,14 @@ func (resolver *DnsResolver_STATUS) ConvertStatusFrom(source genruntime.Converti
 
 // ConvertStatusTo populates the provided destination from our DnsResolver_STATUS
 func (resolver *DnsResolver_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20220701s.DnsResolver_STATUS)
+	dst, ok := destination.(*v20220701s.DnsResolver_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return resolver.AssignProperties_To_DnsResolver_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220701s.DnsResolver_STATUS{}
+	dst = &v20220701s.DnsResolver_STATUS{}
 	err := resolver.AssignProperties_To_DnsResolver_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -697,9 +705,9 @@ func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsResolver_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘DnsResolverState’:
+	// Set property "DnsResolverState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DnsResolverState != nil {
@@ -708,31 +716,31 @@ func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		resolver.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resolver.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		resolver.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		resolver.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -741,7 +749,7 @@ func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘ResourceGuid’:
+	// Set property "ResourceGuid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGuid != nil {
@@ -750,7 +758,7 @@ func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -761,7 +769,7 @@ func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		resolver.SystemData = &systemData
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		resolver.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -769,13 +777,13 @@ func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		resolver.Type = &typeVar
 	}
 
-	// Set property ‘VirtualNetwork’:
+	// Set property "VirtualNetwork":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetwork != nil {
@@ -794,7 +802,7 @@ func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_DnsResolver_STATUS populates our DnsResolver_STATUS from the provided source DnsResolver_STATUS
-func (resolver *DnsResolver_STATUS) AssignProperties_From_DnsResolver_STATUS(source *v1api20220701s.DnsResolver_STATUS) error {
+func (resolver *DnsResolver_STATUS) AssignProperties_From_DnsResolver_STATUS(source *v20220701s.DnsResolver_STATUS) error {
 
 	// Conditions
 	resolver.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -865,7 +873,7 @@ func (resolver *DnsResolver_STATUS) AssignProperties_From_DnsResolver_STATUS(sou
 }
 
 // AssignProperties_To_DnsResolver_STATUS populates the provided destination DnsResolver_STATUS from our DnsResolver_STATUS
-func (resolver *DnsResolver_STATUS) AssignProperties_To_DnsResolver_STATUS(destination *v1api20220701s.DnsResolver_STATUS) error {
+func (resolver *DnsResolver_STATUS) AssignProperties_To_DnsResolver_STATUS(destination *v20220701s.DnsResolver_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -905,7 +913,7 @@ func (resolver *DnsResolver_STATUS) AssignProperties_To_DnsResolver_STATUS(desti
 
 	// SystemData
 	if resolver.SystemData != nil {
-		var systemDatum v1api20220701s.SystemData_STATUS
+		var systemDatum v20220701s.SystemData_STATUS
 		err := resolver.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -923,7 +931,7 @@ func (resolver *DnsResolver_STATUS) AssignProperties_To_DnsResolver_STATUS(desti
 
 	// VirtualNetwork
 	if resolver.VirtualNetwork != nil {
-		var virtualNetwork v1api20220701s.DnsresolverSubResource_STATUS
+		var virtualNetwork v20220701s.DnsresolverSubResource_STATUS
 		err := resolver.VirtualNetwork.AssignProperties_To_DnsresolverSubResource_STATUS(&virtualNetwork)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DnsresolverSubResource_STATUS() to populate field VirtualNetwork")

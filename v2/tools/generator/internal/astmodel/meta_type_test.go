@@ -19,7 +19,7 @@ func TestAsPrimitiveType(t *testing.T) {
 	mapType := NewMapType(StringType, StringType)
 	optionalType := NewOptionalType(arrayType)
 	enumType := NewEnumType(StringType)
-	nameType := MakeTypeName(makeTestLocalPackageReference("g", "v"), "foo")
+	nameType := MakeInternalTypeName(makeTestLocalPackageReference("g", "v"), "foo")
 
 	cases := []struct {
 		name     string
@@ -69,7 +69,7 @@ func TestAsObjectType(t *testing.T) {
 	mapType := NewMapType(StringType, StringType)
 	optionalType := OptionalStringType
 	enumType := NewEnumType(StringType)
-	nameType := MakeTypeName(makeTestLocalPackageReference("g", "v"), "foo")
+	nameType := MakeInternalTypeName(makeTestLocalPackageReference("g", "v"), "foo")
 
 	cases := []struct {
 		name     string
@@ -119,7 +119,7 @@ func TestAsArrayType(t *testing.T) {
 	mapType := NewMapType(StringType, StringType)
 	optionalType := NewOptionalType(objectType)
 	enumType := NewEnumType(StringType)
-	nameType := MakeTypeName(makeTestLocalPackageReference("g", "v"), "foo")
+	nameType := MakeInternalTypeName(makeTestLocalPackageReference("g", "v"), "foo")
 
 	cases := []struct {
 		name     string
@@ -169,7 +169,7 @@ func TestAsMapType(t *testing.T) {
 	mapType := NewMapType(StringType, StringType)
 	optionalType := NewOptionalType(objectType)
 	enumType := NewEnumType(StringType)
-	nameType := MakeTypeName(makeTestLocalPackageReference("g", "v"), "foo")
+	nameType := MakeInternalTypeName(makeTestLocalPackageReference("g", "v"), "foo")
 
 	cases := []struct {
 		name     string
@@ -219,7 +219,7 @@ func TestAsOptionalType(t *testing.T) {
 	mapType := NewMapType(StringType, StringType)
 	optionalType := NewOptionalType(objectType)
 	enumType := NewEnumType(StringType)
-	nameType := MakeTypeName(makeTestLocalPackageReference("g", "v"), "foo")
+	nameType := MakeInternalTypeName(makeTestLocalPackageReference("g", "v"), "foo")
 
 	cases := []struct {
 		name     string
@@ -267,7 +267,7 @@ func TestAsEnumType(t *testing.T) {
 	mapType := NewMapType(StringType, StringType)
 	optionalType := NewOptionalType(objectType)
 	enumType := NewEnumType(StringType)
-	nameType := MakeTypeName(makeTestLocalPackageReference("g", "v"), "foo")
+	nameType := MakeInternalTypeName(makeTestLocalPackageReference("g", "v"), "foo")
 
 	cases := []struct {
 		name     string
@@ -315,7 +315,7 @@ func TestAsTypeName(t *testing.T) {
 	mapType := NewMapType(StringType, StringType)
 	optionalType := NewOptionalType(objectType)
 	enumType := NewEnumType(StringType)
-	nameType := MakeTypeName(makeTestLocalPackageReference("g", "v"), "foo")
+	nameType := MakeInternalTypeName(makeTestLocalPackageReference("g", "v"), "foo")
 
 	cases := []struct {
 		name     string

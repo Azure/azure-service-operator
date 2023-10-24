@@ -23,11 +23,11 @@ func TestConversionGraph_WithTwoUnrelatedReferences_HasExpectedTransitions(t *te
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	person2020 := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	person2020s := astmodel.MakeTypeName(test.Pkg2020s, "Person")
+	person2020 := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
+	person2020s := astmodel.MakeInternalTypeName(test.Pkg2020s, "Person")
 
-	account2020 := astmodel.MakeTypeName(test.Pkg2020, "Account")
-	account2020s := astmodel.MakeTypeName(test.Pkg2020s, "Account")
+	account2020 := astmodel.MakeInternalTypeName(test.Pkg2020, "Account")
+	account2020s := astmodel.MakeInternalTypeName(test.Pkg2020s, "Account")
 
 	omc := config.NewObjectModelConfiguration()
 	builder := NewConversionGraphBuilder(omc, "v")
@@ -41,13 +41,13 @@ func TestConversionGraph_WithTwoUnrelatedReferences_HasExpectedTransitions(t *te
 
 	// Check for the expected transition from Person2020
 	next := graph.LookupTransition(person2020)
-	g.Expect(next).NotTo(Equal(astmodel.EmptyTypeName))
-	g.Expect(astmodel.IsStoragePackageReference(next.PackageReference)).To(BeTrue())
+	g.Expect(next).NotTo(BeNil())
+	g.Expect(astmodel.IsStoragePackageReference(next.PackageReference())).To(BeTrue())
 
 	// Check for the expected transition from Account2020
 	next = graph.LookupTransition(account2020)
-	g.Expect(next).NotTo(Equal(astmodel.EmptyTypeName))
-	g.Expect(astmodel.IsStoragePackageReference(next.PackageReference)).To(BeTrue())
+	g.Expect(next).NotTo(BeNil())
+	g.Expect(astmodel.IsStoragePackageReference(next.PackageReference())).To(BeTrue())
 }
 
 func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) {
@@ -102,8 +102,8 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 
 	cases := []struct {
 		name         string
-		start        astmodel.TypeName
-		expectedName astmodel.TypeName
+		start        astmodel.InternalTypeName
+		expectedName astmodel.InternalTypeName
 	}{
 		{"Hub type returns self", personHub, personHub},
 		{"Directly linked api resolves", person2022.Name(), personHub},
@@ -274,17 +274,17 @@ func TestConversionGraph_WithAResourceOnlyInPreviewVersions_HasExpectedTransitio
 	pkg2021p := test.MakeLocalPackageReference(test.Group, "v20211231preview")
 	pkg2021ps := astmodel.MakeStoragePackageReference(pkg2021p)
 
-	person2020 := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	person2020s := astmodel.MakeTypeName(test.Pkg2020s, "Person")
+	person2020 := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
+	person2020s := astmodel.MakeInternalTypeName(test.Pkg2020s, "Person")
 
-	person2021 := astmodel.MakeTypeName(test.Pkg2021, "Person")
-	person2021s := astmodel.MakeTypeName(test.Pkg2021s, "Person")
+	person2021 := astmodel.MakeInternalTypeName(test.Pkg2021, "Person")
+	person2021s := astmodel.MakeInternalTypeName(test.Pkg2021s, "Person")
 
-	address2020p := astmodel.MakeTypeName(pkg2020p, "Address")
-	address2020ps := astmodel.MakeTypeName(pkg2020ps, "Address")
+	address2020p := astmodel.MakeInternalTypeName(pkg2020p, "Address")
+	address2020ps := astmodel.MakeInternalTypeName(pkg2020ps, "Address")
 
-	address2021p := astmodel.MakeTypeName(pkg2021p, "Address")
-	address2021ps := astmodel.MakeTypeName(pkg2021ps, "Address")
+	address2021p := astmodel.MakeInternalTypeName(pkg2021p, "Address")
+	address2021ps := astmodel.MakeInternalTypeName(pkg2021ps, "Address")
 
 	omc := config.NewObjectModelConfiguration()
 	builder := NewConversionGraphBuilder(omc, "v")
@@ -300,8 +300,8 @@ func TestConversionGraph_WithAResourceOnlyInPreviewVersions_HasExpectedTransitio
 	g.Expect(graph.TransitionCount()).To(Equal(6))
 
 	expectedTransitions := []struct {
-		from astmodel.TypeName
-		to   astmodel.TypeName
+		from astmodel.InternalTypeName
+		to   astmodel.InternalTypeName
 	}{
 		{person2020, person2020s},
 		{person2021, person2021s},

@@ -5,7 +5,7 @@ package v1api20200601
 
 import (
 	"encoding/json"
-	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForPrivateDnsZonesMXRecord(subject PrivateDnsZones
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20200601s.PrivateDnsZonesMXRecord
+	var hub v20200601s.PrivateDnsZonesMXRecord
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -72,13 +72,13 @@ func Test_PrivateDnsZonesMXRecord_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZonesMXRecord tests if a specific instance of PrivateDnsZonesMXRecord can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForPrivateDnsZonesMXRecord tests if a specific instance of PrivateDnsZonesMXRecord can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateDnsZonesMXRecord(subject PrivateDnsZonesMXRecord) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.PrivateDnsZonesMXRecord
+	var other v20200601s.PrivateDnsZonesMXRecord
 	err := copied.AssignProperties_To_PrivateDnsZonesMXRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -176,13 +176,13 @@ func Test_PrivateDnsZones_MX_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZones_MX_Spec tests if a specific instance of PrivateDnsZones_MX_Spec can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForPrivateDnsZones_MX_Spec tests if a specific instance of PrivateDnsZones_MX_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateDnsZones_MX_Spec(subject PrivateDnsZones_MX_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.PrivateDnsZones_MX_Spec
+	var other v20200601s.PrivateDnsZones_MX_Spec
 	err := copied.AssignProperties_To_PrivateDnsZones_MX_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -303,13 +303,13 @@ func Test_PrivateDnsZones_MX_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZones_MX_STATUS tests if a specific instance of PrivateDnsZones_MX_STATUS can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForPrivateDnsZones_MX_STATUS tests if a specific instance of PrivateDnsZones_MX_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateDnsZones_MX_STATUS(subject PrivateDnsZones_MX_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.PrivateDnsZones_MX_STATUS
+	var other v20200601s.PrivateDnsZones_MX_STATUS
 	err := copied.AssignProperties_To_PrivateDnsZones_MX_STATUS(&other)
 	if err != nil {
 		return err.Error()

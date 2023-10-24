@@ -19,16 +19,16 @@ type renamer struct {
 }
 
 type renameAction func(
-	original astmodel.TypeName, // Original name of the resource type
-	associatedNames astmodel.TypeNameSet, // all the subresource names that copies have acquired
-	originalNames map[astmodel.TypeName]embeddedResourceTypeName, // map from the new names back to the original
+	original astmodel.InternalTypeName, // Original name of the resource type
+	associatedNames astmodel.InternalTypeNameSet, // all the subresource names that copies have acquired
+	originalNames map[astmodel.InternalTypeName]embeddedResourceTypeName, // map from the new names back to the original
 	log logr.Logger, // Log to use for reporting
 ) (astmodel.TypeAssociation, error)
 
 func (r renamer) simplifyEmbeddedNameToOriginalName(
-	original astmodel.TypeName,
-	associatedNames astmodel.TypeNameSet,
-	_ map[astmodel.TypeName]embeddedResourceTypeName,
+	original astmodel.InternalTypeName,
+	associatedNames astmodel.InternalTypeNameSet,
+	_ map[astmodel.InternalTypeName]embeddedResourceTypeName,
 	log logr.Logger,
 ) (astmodel.TypeAssociation, error) {
 	_, originalExists := r.definitions[original]
@@ -37,7 +37,8 @@ func (r renamer) simplifyEmbeddedNameToOriginalName(
 	}
 
 	renames := make(astmodel.TypeAssociation)
-	renames[associatedNames.Single()] = original
+	associated := associatedNames.Single()
+	renames[associated] = original
 
 	log.V(2).Info(
 		"Type not used, renaming for simplicity",
@@ -48,9 +49,9 @@ func (r renamer) simplifyEmbeddedNameToOriginalName(
 }
 
 func (r renamer) simplifyEmbeddedNameRemoveContextAndCount(
-	_ astmodel.TypeName,
-	associatedNames astmodel.TypeNameSet,
-	originalNames map[astmodel.TypeName]embeddedResourceTypeName,
+	_ astmodel.InternalTypeName,
+	associatedNames astmodel.InternalTypeNameSet,
+	originalNames map[astmodel.InternalTypeName]embeddedResourceTypeName,
 	log logr.Logger,
 ) (astmodel.TypeAssociation, error) {
 	if len(associatedNames) != 1 {
@@ -59,7 +60,6 @@ func (r renamer) simplifyEmbeddedNameRemoveContextAndCount(
 
 	renames := make(astmodel.TypeAssociation)
 	associated := associatedNames.Single()
-
 	embeddedName, ok := originalNames[associated]
 	if !ok {
 		return nil, errors.Errorf("could not find original name for %q", associated)
@@ -78,9 +78,9 @@ func (r renamer) simplifyEmbeddedNameRemoveContextAndCount(
 }
 
 func (r renamer) simplifyEmbeddedNameRemoveContext(
-	_ astmodel.TypeName,
-	associatedNames astmodel.TypeNameSet,
-	originalNames map[astmodel.TypeName]embeddedResourceTypeName,
+	_ astmodel.InternalTypeName,
+	associatedNames astmodel.InternalTypeNameSet,
+	originalNames map[astmodel.InternalTypeName]embeddedResourceTypeName,
 	log logr.Logger,
 ) (astmodel.TypeAssociation, error) {
 	// Gather information about the associated definitions
@@ -97,7 +97,7 @@ func (r renamer) simplifyEmbeddedNameRemoveContext(
 		return nil, nil
 	}
 
-	// If all updated names share the same context, the context is not adding any disambiguation value so we can remove it
+	// If all updated names share the same context, the context is not adding any disambiguation value, so we can remove it
 	renames := make(astmodel.TypeAssociation)
 	for associated := range associatedNames {
 		embeddedName, ok := originalNames[associated]
@@ -117,10 +117,10 @@ func (r renamer) simplifyEmbeddedNameRemoveContext(
 }
 
 func (r renamer) simplifyEmbeddedName(
-	_ astmodel.TypeName,
-	associatedNames astmodel.TypeNameSet,
-	originalNames map[astmodel.TypeName]embeddedResourceTypeName,
-	log logr.Logger,
+	_ astmodel.InternalTypeName,
+	associatedNames astmodel.InternalTypeNameSet,
+	originalNames map[astmodel.InternalTypeName]embeddedResourceTypeName,
+	_ logr.Logger,
 ) (astmodel.TypeAssociation, error) {
 	// remove _0, which especially for the cases where there's only a single
 	// kind of usage will make the type name much clearer
@@ -146,11 +146,12 @@ func (r renamer) performRenames(
 ) (astmodel.TypeDefinitionSet, error) {
 	result := make(astmodel.TypeDefinitionSet)
 
-	renamingVisitor := astmodel.TypeVisitorBuilder{
-		VisitTypeName: func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
+	renamingVisitor := astmodel.TypeVisitorBuilder[any]{
+		VisitInternalTypeName: func(this *astmodel.TypeVisitor[any], it astmodel.InternalTypeName, ctx any) (astmodel.Type, error) {
 			if newName, ok := renames[it]; ok {
 				return astmodel.IdentityVisitOfTypeName(this, newName, ctx)
 			}
+
 			return astmodel.IdentityVisitOfTypeName(this, it, ctx)
 		},
 	}.Build()
@@ -176,11 +177,11 @@ func (r renamer) performRenames(
 func simplifyTypeNames(
 	definitions astmodel.TypeDefinitionSet,
 	flag astmodel.TypeFlag,
-	originalNames map[astmodel.TypeName]embeddedResourceTypeName,
+	originalNames map[astmodel.InternalTypeName]embeddedResourceTypeName,
 	log logr.Logger,
 ) (astmodel.TypeDefinitionSet, error) {
-	// Find all of the type names that have the flag we're interested in
-	updatedNames := make(map[astmodel.TypeName]astmodel.TypeNameSet)
+	// Find all type names that have the flag we're interested in
+	updatedNames := make(map[astmodel.InternalTypeName]astmodel.InternalTypeNameSet, len(definitions))
 	for _, def := range definitions {
 		if flag.IsOn(def.Type()) {
 			en, ok := originalNames[def.Name()]
@@ -189,7 +190,7 @@ func simplifyTypeNames(
 			}
 
 			if updatedNames[en.original] == nil {
-				updatedNames[en.original] = astmodel.NewTypeNameSet(def.Name())
+				updatedNames[en.original] = astmodel.NewInternalTypeNameSet(def.Name())
 			} else {
 				updatedNames[en.original].Add(def.Name())
 			}
@@ -226,13 +227,13 @@ func simplifyTypeNames(
 }
 
 type embeddedResourceTypeName struct {
-	original astmodel.TypeName
+	original astmodel.InternalTypeName
 	context  string
 	suffix   string
 	count    int
 }
 
-func (e embeddedResourceTypeName) ToTypeName() astmodel.TypeName {
+func (e embeddedResourceTypeName) ToTypeName() astmodel.InternalTypeName {
 	if e.context == "" {
 		panic("context cannot be empty when making embedded resource type name")
 	}
@@ -247,7 +248,7 @@ func (e embeddedResourceTypeName) ToTypeName() astmodel.TypeName {
 	return makeContextualTypeName(e.original, nameContext, suffix, countString)
 }
 
-func (e embeddedResourceTypeName) ToSimplifiedTypeName() astmodel.TypeName {
+func (e embeddedResourceTypeName) ToSimplifiedTypeName() astmodel.InternalTypeName {
 	nameContext := ""
 	if e.context != "" {
 		nameContext = "_" + e.context
@@ -263,6 +264,11 @@ func (e embeddedResourceTypeName) ToSimplifiedTypeName() astmodel.TypeName {
 	return makeContextualTypeName(e.original, nameContext, suffix, countString)
 }
 
-func makeContextualTypeName(original astmodel.TypeName, context string, suffix string, count string) astmodel.TypeName {
-	return astmodel.MakeTypeName(original.PackageReference, original.Name()+context+suffix+count)
+func makeContextualTypeName(
+	original astmodel.InternalTypeName,
+	context string,
+	suffix string,
+	count string,
+) astmodel.InternalTypeName {
+	return original.WithName(original.Name() + context + suffix + count)
 }

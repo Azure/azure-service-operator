@@ -5,7 +5,7 @@ package v1beta20181130storage
 
 import (
 	"encoding/json"
-	v1api20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130storage"
+	v20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForUserAssignedIdentity(subject UserAssignedIdenti
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20181130s.UserAssignedIdentity
+	var hub v20181130s.UserAssignedIdentity
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentity(subject UserAssignedIdenti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20181130s.UserAssignedIdentity
+	var other v20181130s.UserAssignedIdentity
 	err := copied.AssignProperties_To_UserAssignedIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentity_Spec(subject UserAssignedI
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20181130s.UserAssignedIdentity_Spec
+	var other v20181130s.UserAssignedIdentity_Spec
 	err := copied.AssignProperties_To_UserAssignedIdentity_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -302,7 +302,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentity_STATUS(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20181130s.UserAssignedIdentity_STATUS
+	var other v20181130s.UserAssignedIdentity_STATUS
 	err := copied.AssignProperties_To_UserAssignedIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -412,7 +412,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityOperatorSpec(subject UserAs
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20181130s.UserAssignedIdentityOperatorSpec
+	var other v20181130s.UserAssignedIdentityOperatorSpec
 	err := copied.AssignProperties_To_UserAssignedIdentityOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -515,7 +515,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityOperatorConfigMaps(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20181130s.UserAssignedIdentityOperatorConfigMaps
+	var other v20181130s.UserAssignedIdentityOperatorConfigMaps
 	err := copied.AssignProperties_To_UserAssignedIdentityOperatorConfigMaps(&other)
 	if err != nil {
 		return err.Error()

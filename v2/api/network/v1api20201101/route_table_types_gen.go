@@ -5,7 +5,7 @@ package v1api20201101
 
 import (
 	"fmt"
-	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,9 +49,9 @@ var _ conversion.Convertible = &RouteTable{}
 
 // ConvertFrom populates our RouteTable from the provided hub RouteTable
 func (table *RouteTable) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20201101s.RouteTable)
+	source, ok := hub.(*v20201101s.RouteTable)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20201101storage/RouteTable but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20201101/storage/RouteTable but received %T instead", hub)
 	}
 
 	return table.AssignProperties_From_RouteTable(source)
@@ -59,9 +59,9 @@ func (table *RouteTable) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub RouteTable from our RouteTable
 func (table *RouteTable) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20201101s.RouteTable)
+	destination, ok := hub.(*v20201101s.RouteTable)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20201101storage/RouteTable but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20201101/storage/RouteTable but received %T instead", hub)
 	}
 
 	return table.AssignProperties_To_RouteTable(destination)
@@ -141,11 +141,7 @@ func (table *RouteTable) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (table *RouteTable) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(table.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  table.Spec.Owner.Name,
-	}
+	return table.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (table *RouteTable) ValidateUpdate(old runtime.Object) (admission.Warnings,
 
 // createValidations validates the creation of the resource
 func (table *RouteTable) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){table.validateResourceReferences}
+	return []func() (admission.Warnings, error){table.validateResourceReferences, table.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (table *RouteTable) updateValidations() []func(old runtime.Object) (admissi
 		func(old runtime.Object) (admission.Warnings, error) {
 			return table.validateResourceReferences()
 		},
-		table.validateWriteOnceProperties}
+		table.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return table.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (table *RouteTable) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(table)
 }
 
 // validateResourceReferences validates all resource references
@@ -240,7 +245,7 @@ func (table *RouteTable) validateWriteOnceProperties(old runtime.Object) (admiss
 }
 
 // AssignProperties_From_RouteTable populates our RouteTable from the provided source RouteTable
-func (table *RouteTable) AssignProperties_From_RouteTable(source *v1api20201101s.RouteTable) error {
+func (table *RouteTable) AssignProperties_From_RouteTable(source *v20201101s.RouteTable) error {
 
 	// ObjectMeta
 	table.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +271,13 @@ func (table *RouteTable) AssignProperties_From_RouteTable(source *v1api20201101s
 }
 
 // AssignProperties_To_RouteTable populates the provided destination RouteTable from our RouteTable
-func (table *RouteTable) AssignProperties_To_RouteTable(destination *v1api20201101s.RouteTable) error {
+func (table *RouteTable) AssignProperties_To_RouteTable(destination *v20201101s.RouteTable) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *table.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20201101s.RouteTable_Spec
+	var spec v20201101s.RouteTable_Spec
 	err := table.Spec.AssignProperties_To_RouteTable_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_RouteTable_Spec() to populate field Spec")
@@ -280,7 +285,7 @@ func (table *RouteTable) AssignProperties_To_RouteTable(destination *v1api202011
 	destination.Spec = spec
 
 	// Status
-	var status v1api20201101s.RouteTable_STATUS
+	var status v20201101s.RouteTable_STATUS
 	err = table.Status.AssignProperties_To_RouteTable_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_RouteTable_STATUS() to populate field Status")
@@ -340,16 +345,16 @@ func (table *RouteTable_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 	result := &RouteTable_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if table.Location != nil {
 		location := *table.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if table.DisableBgpRoutePropagation != nil {
 		result.Properties = &RouteTablePropertiesFormat_ARM{}
 	}
@@ -358,7 +363,7 @@ func (table *RouteTable_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.Properties.DisableBgpRoutePropagation = &disableBgpRoutePropagation
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if table.Tags != nil {
 		result.Tags = make(map[string]string, len(table.Tags))
 		for key, value := range table.Tags {
@@ -380,10 +385,10 @@ func (table *RouteTable_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTable_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	table.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘DisableBgpRoutePropagation’:
+	// Set property "DisableBgpRoutePropagation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableBgpRoutePropagation != nil {
@@ -392,16 +397,19 @@ func (table *RouteTable_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		table.Location = &location
 	}
 
-	// Set property ‘Owner’:
-	table.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	table.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		table.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -417,14 +425,14 @@ var _ genruntime.ConvertibleSpec = &RouteTable_Spec{}
 
 // ConvertSpecFrom populates our RouteTable_Spec from the provided source
 func (table *RouteTable_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20201101s.RouteTable_Spec)
+	src, ok := source.(*v20201101s.RouteTable_Spec)
 	if ok {
 		// Populate our instance from source
 		return table.AssignProperties_From_RouteTable_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20201101s.RouteTable_Spec{}
+	src = &v20201101s.RouteTable_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -441,14 +449,14 @@ func (table *RouteTable_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec)
 
 // ConvertSpecTo populates the provided destination from our RouteTable_Spec
 func (table *RouteTable_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20201101s.RouteTable_Spec)
+	dst, ok := destination.(*v20201101s.RouteTable_Spec)
 	if ok {
 		// Populate destination from our instance
 		return table.AssignProperties_To_RouteTable_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20201101s.RouteTable_Spec{}
+	dst = &v20201101s.RouteTable_Spec{}
 	err := table.AssignProperties_To_RouteTable_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -464,7 +472,7 @@ func (table *RouteTable_Spec) ConvertSpecTo(destination genruntime.ConvertibleSp
 }
 
 // AssignProperties_From_RouteTable_Spec populates our RouteTable_Spec from the provided source RouteTable_Spec
-func (table *RouteTable_Spec) AssignProperties_From_RouteTable_Spec(source *v1api20201101s.RouteTable_Spec) error {
+func (table *RouteTable_Spec) AssignProperties_From_RouteTable_Spec(source *v20201101s.RouteTable_Spec) error {
 
 	// AzureName
 	table.AzureName = source.AzureName
@@ -496,7 +504,7 @@ func (table *RouteTable_Spec) AssignProperties_From_RouteTable_Spec(source *v1ap
 }
 
 // AssignProperties_To_RouteTable_Spec populates the provided destination RouteTable_Spec from our RouteTable_Spec
-func (table *RouteTable_Spec) AssignProperties_To_RouteTable_Spec(destination *v1api20201101s.RouteTable_Spec) error {
+func (table *RouteTable_Spec) AssignProperties_To_RouteTable_Spec(destination *v20201101s.RouteTable_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -605,14 +613,14 @@ var _ genruntime.ConvertibleStatus = &RouteTable_STATUS{}
 
 // ConvertStatusFrom populates our RouteTable_STATUS from the provided source
 func (table *RouteTable_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20201101s.RouteTable_STATUS)
+	src, ok := source.(*v20201101s.RouteTable_STATUS)
 	if ok {
 		// Populate our instance from source
 		return table.AssignProperties_From_RouteTable_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20201101s.RouteTable_STATUS{}
+	src = &v20201101s.RouteTable_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -629,14 +637,14 @@ func (table *RouteTable_STATUS) ConvertStatusFrom(source genruntime.ConvertibleS
 
 // ConvertStatusTo populates the provided destination from our RouteTable_STATUS
 func (table *RouteTable_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20201101s.RouteTable_STATUS)
+	dst, ok := destination.(*v20201101s.RouteTable_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return table.AssignProperties_To_RouteTable_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20201101s.RouteTable_STATUS{}
+	dst = &v20201101s.RouteTable_STATUS{}
 	err := table.AssignProperties_To_RouteTable_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -665,9 +673,9 @@ func (table *RouteTable_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTable_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘DisableBgpRoutePropagation’:
+	// Set property "DisableBgpRoutePropagation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableBgpRoutePropagation != nil {
@@ -676,31 +684,31 @@ func (table *RouteTable_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		table.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		table.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		table.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		table.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -709,7 +717,7 @@ func (table *RouteTable_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘ResourceGuid’:
+	// Set property "ResourceGuid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGuid != nil {
@@ -718,7 +726,7 @@ func (table *RouteTable_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		table.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -726,7 +734,7 @@ func (table *RouteTable_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		table.Type = &typeVar
@@ -737,7 +745,7 @@ func (table *RouteTable_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_RouteTable_STATUS populates our RouteTable_STATUS from the provided source RouteTable_STATUS
-func (table *RouteTable_STATUS) AssignProperties_From_RouteTable_STATUS(source *v1api20201101s.RouteTable_STATUS) error {
+func (table *RouteTable_STATUS) AssignProperties_From_RouteTable_STATUS(source *v20201101s.RouteTable_STATUS) error {
 
 	// Conditions
 	table.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -784,7 +792,7 @@ func (table *RouteTable_STATUS) AssignProperties_From_RouteTable_STATUS(source *
 }
 
 // AssignProperties_To_RouteTable_STATUS populates the provided destination RouteTable_STATUS from our RouteTable_STATUS
-func (table *RouteTable_STATUS) AssignProperties_To_RouteTable_STATUS(destination *v1api20201101s.RouteTable_STATUS) error {
+func (table *RouteTable_STATUS) AssignProperties_To_RouteTable_STATUS(destination *v20201101s.RouteTable_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

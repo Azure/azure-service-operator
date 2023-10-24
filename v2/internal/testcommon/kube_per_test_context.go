@@ -225,7 +225,8 @@ func (tc *KubePerTestContext) CreateResourceGroupAndWait(rg *resources.ResourceG
 func (tc *KubePerTestContext) CreateResourceGroup(rg *resources.ResourceGroup) (*resources.ResourceGroup, error) {
 	ctx := context.Background()
 
-	tc.T.Logf("Creating test resource group %q", rg.Name)
+	tc.LogSubsectionf("Create test resource group %s", rg.Name)
+
 	err := tc.kubeClient.Create(ctx, rg)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating resource group")
@@ -364,6 +365,10 @@ func (tc *KubePerTestContext) CreateTestResourceGroupAndWait() *resources.Resour
 // CreateResource creates a resource and registers it for cleanup. It does not wait for the resource
 // to be created, use CreateResourceAndWait for that
 func (tc *KubePerTestContext) CreateResource(obj client.Object) {
+	tc.LogSubsectionf(
+		"Creating resource %s",
+		obj.GetName())
+
 	tc.CreateResourceUntracked(obj)
 	tc.registerCleanup(obj)
 }
@@ -389,6 +394,7 @@ func (tc *KubePerTestContext) CreateResourceExpectRequestFailure(obj client.Obje
 // change into the Provisioned state.
 func (tc *KubePerTestContext) CreateResourceAndWait(obj client.Object) {
 	tc.T.Helper()
+
 	gen := obj.GetGeneration()
 	tc.CreateResource(obj)
 	tc.Eventually(obj).Should(tc.Match.BeProvisioned(gen))
@@ -407,6 +413,11 @@ func (tc *KubePerTestContext) CreateResourceAndWaitWithoutCleanup(obj client.Obj
 // change into the Provisioned state.
 func (tc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
 	tc.T.Helper()
+
+	tc.LogSubsectionf(
+		"Creating %d resources",
+		len(objs))
+
 	for _, obj := range objs {
 		tc.CreateResource(obj)
 	}
@@ -427,7 +438,7 @@ func (tc *KubePerTestContext) CreateResourceAndWaitForState(
 
 	tc.T.Helper()
 	tc.CreateResource(obj)
-	tc.Eventually(obj).Should(tc.Match.BeInState(status, severity))
+	tc.Eventually(obj).Should(tc.Match.BeInState(status, severity, 0))
 }
 
 // CheckIfResourceExists tries to get the current state of the resource from K8s (not from Azure),
@@ -451,6 +462,20 @@ func (tc *KubePerTestContext) PatchResourceAndWait(old client.Object, new client
 	gen := old.GetGeneration()
 	tc.Patch(old, new)
 	tc.Eventually(new).Should(tc.Match.BeProvisioned(gen))
+}
+
+// PatchResourceAndWaitForState patches the resource in K8s and waits for the Ready condition to change into the specified
+// state
+func (tc *KubePerTestContext) PatchResourceAndWaitForState(
+	old client.Object,
+	new client.Object,
+	status metav1.ConditionStatus,
+	severity conditions.ConditionSeverity) {
+	gen := old.GetGeneration()
+
+	tc.T.Helper()
+	tc.Patch(old, new)
+	tc.Eventually(new).Should(tc.Match.BeInState(status, severity, gen))
 }
 
 // GetResource retrieves the current state of the resource from K8s (not from Azure).
@@ -493,6 +518,9 @@ func (tc *KubePerTestContext) PatchAndExpectError(old client.Object, new client.
 // DeleteResourceAndWait deletes the given resource in K8s and waits for
 // it to update to the Deleted state.
 func (tc *KubePerTestContext) DeleteResourceAndWait(obj client.Object) {
+	tc.LogSubsectionf(
+		"Deleting resource %s",
+		obj.GetName())
 	tc.DeleteResource(obj)
 	tc.Eventually(obj).Should(tc.Match.BeDeleted())
 }
@@ -552,10 +580,19 @@ func (tc *KubePerTestContext) ExpectResourceDoesNotExist(key types.NamespacedNam
 }
 
 // LogSection creates a distinctive header in the log to aid scanning
-func (tc *KubePerTestContext) LogSection(section string) {
-	line := strings.Repeat("=", 50)
+func (tc *KubePerTestContext) LogSectionf(section string, args ...any) {
+	tc.logHeader("=", fmt.Sprintf(section, args...))
+}
+
+// LogSection creates a distinctive header in the log to aid scanning
+func (tc *KubePerTestContext) LogSubsectionf(subsection string, args ...any) {
+	tc.logHeader("-", fmt.Sprintf(subsection, args...))
+}
+
+func (tc *KubePerTestContext) logHeader(lineType string, header string) {
+	line := strings.Repeat(lineType, len(header))
 	tc.T.Log(line)
-	tc.T.Log(section)
+	tc.T.Log(header)
 	tc.T.Log(line)
 }
 

@@ -30,8 +30,8 @@ func (pr ExternalPackageReference) PackageName() string {
 	return l[len(l)-1]
 }
 
-// PackagePath returns the fully qualified package path
-func (pr ExternalPackageReference) PackagePath() string {
+// ImportPath returns the path to use when importing this package
+func (pr ExternalPackageReference) ImportPath() string {
 	return pr.packagePath
 }
 
@@ -54,12 +54,13 @@ func (pr ExternalPackageReference) String() string {
 	return pr.packagePath
 }
 
-// TryGroupVersion returns the group and version of this external reference.
-func (pr ExternalPackageReference) TryGroupVersion() (string, string, bool) {
-	return "", "", false
-}
-
 // GroupVersion triggers a panic because external references don't have a group or version
 func (pr ExternalPackageReference) GroupVersion() (string, string) {
 	panic(fmt.Sprintf("external package reference %s doesn't have a group or version", pr))
+}
+
+// ImportAlias returns the import alias to use for this package reference
+func (pr ExternalPackageReference) ImportAlias(style PackageImportStyle) string {
+	msg := fmt.Sprintf("cannot create import alias for external package reference %s", pr.packagePath)
+	panic(msg)
 }

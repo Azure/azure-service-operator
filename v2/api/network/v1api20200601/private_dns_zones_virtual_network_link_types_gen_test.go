@@ -5,7 +5,7 @@ package v1api20200601
 
 import (
 	"encoding/json"
-	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForPrivateDnsZonesVirtualNetworkLink(subject Priva
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20200601s.PrivateDnsZonesVirtualNetworkLink
+	var hub v20200601s.PrivateDnsZonesVirtualNetworkLink
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -72,13 +72,13 @@ func Test_PrivateDnsZonesVirtualNetworkLink_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZonesVirtualNetworkLink tests if a specific instance of PrivateDnsZonesVirtualNetworkLink can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForPrivateDnsZonesVirtualNetworkLink tests if a specific instance of PrivateDnsZonesVirtualNetworkLink can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateDnsZonesVirtualNetworkLink(subject PrivateDnsZonesVirtualNetworkLink) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.PrivateDnsZonesVirtualNetworkLink
+	var other v20200601s.PrivateDnsZonesVirtualNetworkLink
 	err := copied.AssignProperties_To_PrivateDnsZonesVirtualNetworkLink(&other)
 	if err != nil {
 		return err.Error()
@@ -176,13 +176,13 @@ func Test_PrivateDnsZones_VirtualNetworkLink_Spec_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZones_VirtualNetworkLink_Spec tests if a specific instance of PrivateDnsZones_VirtualNetworkLink_Spec can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForPrivateDnsZones_VirtualNetworkLink_Spec tests if a specific instance of PrivateDnsZones_VirtualNetworkLink_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateDnsZones_VirtualNetworkLink_Spec(subject PrivateDnsZones_VirtualNetworkLink_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.PrivateDnsZones_VirtualNetworkLink_Spec
+	var other v20200601s.PrivateDnsZones_VirtualNetworkLink_Spec
 	err := copied.AssignProperties_To_PrivateDnsZones_VirtualNetworkLink_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -297,13 +297,13 @@ func Test_PrivateDnsZones_VirtualNetworkLink_STATUS_WhenPropertiesConverted_Roun
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZones_VirtualNetworkLink_STATUS tests if a specific instance of PrivateDnsZones_VirtualNetworkLink_STATUS can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForPrivateDnsZones_VirtualNetworkLink_STATUS tests if a specific instance of PrivateDnsZones_VirtualNetworkLink_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateDnsZones_VirtualNetworkLink_STATUS(subject PrivateDnsZones_VirtualNetworkLink_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.PrivateDnsZones_VirtualNetworkLink_STATUS
+	var other v20200601s.PrivateDnsZones_VirtualNetworkLink_STATUS
 	err := copied.AssignProperties_To_PrivateDnsZones_VirtualNetworkLink_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -428,13 +428,13 @@ func Test_SubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubResource tests if a specific instance of SubResource can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForSubResource tests if a specific instance of SubResource can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.SubResource
+	var other v20200601s.SubResource
 	err := copied.AssignProperties_To_SubResource(&other)
 	if err != nil {
 		return err.Error()
@@ -524,13 +524,13 @@ func Test_SubResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubResource_STATUS tests if a specific instance of SubResource_STATUS can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForSubResource_STATUS tests if a specific instance of SubResource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.SubResource_STATUS
+	var other v20200601s.SubResource_STATUS
 	err := copied.AssignProperties_To_SubResource_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -84,11 +84,7 @@ func (signalR *SignalR) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (signalR *SignalR) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(signalR.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  signalR.Spec.Owner.Name,
-	}
+	return signalR.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

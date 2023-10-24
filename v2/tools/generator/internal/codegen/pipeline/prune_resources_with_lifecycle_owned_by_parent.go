@@ -75,12 +75,15 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 	return stage
 }
 
-func flagPrunedEmptyProperties(defs astmodel.TypeDefinitionSet, emptyPrunedProps astmodel.TypeNameSet) (astmodel.TypeDefinitionSet, error) {
-	emptyObjectVisitor := astmodel.TypeVisitorBuilder{
+func flagPrunedEmptyProperties(
+	defs astmodel.TypeDefinitionSet,
+	emptyPrunedProps astmodel.InternalTypeNameSet,
+) (astmodel.TypeDefinitionSet, error) {
+	emptyObjectVisitor := astmodel.TypeVisitorBuilder[astmodel.InternalTypeNameSet]{
 		VisitObjectType: tagEmptyObjectARMProperty,
 	}.Build()
 
-	emptyPrunedPropertiesArm := astmodel.NewTypeNameSet()
+	emptyPrunedPropertiesArm := astmodel.NewInternalTypeNameSet()
 	for emptyPrunedProp := range emptyPrunedProps {
 		// we need to add the noConversion tag on ARM type for the empty pruned property to relax the validation for convertToARM function.
 		armDef, err := GetARMTypeDefinition(defs, emptyPrunedProp)
@@ -101,17 +104,17 @@ func flagPrunedEmptyProperties(defs astmodel.TypeDefinitionSet, emptyPrunedProps
 
 type misbehavingEmbeddedTypePruner struct {
 	configuration         *config.Configuration
-	emptyPrunedProperties astmodel.TypeNameSet
-	visitor               astmodel.TypeVisitor
+	emptyPrunedProperties astmodel.InternalTypeNameSet
+	visitor               astmodel.TypeVisitor[astmodel.InternalTypeName]
 }
 
 func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) *misbehavingEmbeddedTypePruner {
 	pruner := &misbehavingEmbeddedTypePruner{
 		configuration:         configuration,
-		emptyPrunedProperties: astmodel.NewTypeNameSet(),
+		emptyPrunedProperties: astmodel.NewInternalTypeNameSet(),
 	}
 
-	visitor := astmodel.TypeVisitorBuilder{
+	visitor := astmodel.TypeVisitorBuilder[astmodel.InternalTypeName]{
 		VisitObjectType: pruner.pruneMisbehavingEmbeddedResourceProperties,
 	}.Build()
 
@@ -120,16 +123,18 @@ func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) *mis
 }
 
 // tagEmptyObjectARMProperty finds the empty properties in an Object and adds the ConversionTag:NoARMConversionValue property tag.
-func tagEmptyObjectARMProperty(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	typeNameSet := ctx.(astmodel.TypeNameSet)
-
+func tagEmptyObjectARMProperty(
+	this *astmodel.TypeVisitor[astmodel.InternalTypeNameSet],
+	it *astmodel.ObjectType,
+	ctx astmodel.InternalTypeNameSet,
+) (astmodel.Type, error) {
 	prop, ok := it.Properties().Find(func(prop *astmodel.PropertyDefinition) bool {
 		typeName, ok := astmodel.ExtractTypeName(prop.PropertyType())
 		if !ok {
 			return false
 		}
 
-		return typeNameSet.Contains(typeName)
+		return ctx.Contains(typeName)
 	})
 
 	if ok {
@@ -140,10 +145,13 @@ func tagEmptyObjectARMProperty(this *astmodel.TypeVisitor, it *astmodel.ObjectTy
 	return astmodel.IdentityVisitOfObjectType(this, it, ctx)
 }
 
-func (m *misbehavingEmbeddedTypePruner) pruneMisbehavingEmbeddedResourceProperties(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	typeName := ctx.(astmodel.TypeName)
+func (m *misbehavingEmbeddedTypePruner) pruneMisbehavingEmbeddedResourceProperties(
+	this *astmodel.TypeVisitor[astmodel.InternalTypeName],
+	it *astmodel.ObjectType,
+	ctx astmodel.InternalTypeName,
+) (astmodel.Type, error) {
 	for _, prop := range it.Properties().Copy() {
-		_, err := m.configuration.ResourceLifecycleOwnedByParent(typeName, prop.PropertyName())
+		_, err := m.configuration.ResourceLifecycleOwnedByParent(ctx, prop.PropertyName())
 		if err != nil {
 			if config.IsNotConfiguredError(err) {
 				continue
@@ -154,7 +162,7 @@ func (m *misbehavingEmbeddedTypePruner) pruneMisbehavingEmbeddedResourceProperti
 
 		it = it.WithoutProperty(prop.PropertyName())
 		if it.Properties().Len() == 0 {
-			m.emptyPrunedProperties.Add(typeName)
+			m.emptyPrunedProperties.Add(ctx)
 		}
 	}
 

@@ -5,7 +5,7 @@ package v1beta20210501
 
 import (
 	"fmt"
-	v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
+	v1beta20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -48,7 +48,7 @@ var _ conversion.Convertible = &ManagedClustersAgentPool{}
 // ConvertFrom populates our ManagedClustersAgentPool from the provided hub ManagedClustersAgentPool
 func (pool *ManagedClustersAgentPool) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20210501s.ManagedClustersAgentPool
+	var source v1beta20210501s.ManagedClustersAgentPool
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -66,7 +66,7 @@ func (pool *ManagedClustersAgentPool) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub ManagedClustersAgentPool from our ManagedClustersAgentPool
 func (pool *ManagedClustersAgentPool) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20210501s.ManagedClustersAgentPool
+	var destination v1beta20210501s.ManagedClustersAgentPool
 	err := pool.AssignProperties_To_ManagedClustersAgentPool(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from pool")
@@ -142,11 +142,7 @@ func (pool *ManagedClustersAgentPool) NewEmptyStatus() genruntime.ConvertibleSta
 // Owner returns the ResourceReference of the owner
 func (pool *ManagedClustersAgentPool) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(pool.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  pool.Spec.Owner.Name,
-	}
+	return pool.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (pool *ManagedClustersAgentPool) ValidateUpdate(old runtime.Object) (admiss
 
 // createValidations validates the creation of the resource
 func (pool *ManagedClustersAgentPool) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){pool.validateResourceReferences}
+	return []func() (admission.Warnings, error){pool.validateResourceReferences, pool.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (pool *ManagedClustersAgentPool) updateValidations() []func(old runtime.Obj
 		func(old runtime.Object) (admission.Warnings, error) {
 			return pool.validateResourceReferences()
 		},
-		pool.validateWriteOnceProperties}
+		pool.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return pool.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (pool *ManagedClustersAgentPool) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(pool)
 }
 
 // validateResourceReferences validates all resource references
@@ -241,7 +246,7 @@ func (pool *ManagedClustersAgentPool) validateWriteOnceProperties(old runtime.Ob
 }
 
 // AssignProperties_From_ManagedClustersAgentPool populates our ManagedClustersAgentPool from the provided source ManagedClustersAgentPool
-func (pool *ManagedClustersAgentPool) AssignProperties_From_ManagedClustersAgentPool(source *v20210501s.ManagedClustersAgentPool) error {
+func (pool *ManagedClustersAgentPool) AssignProperties_From_ManagedClustersAgentPool(source *v1beta20210501s.ManagedClustersAgentPool) error {
 
 	// ObjectMeta
 	pool.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -267,13 +272,13 @@ func (pool *ManagedClustersAgentPool) AssignProperties_From_ManagedClustersAgent
 }
 
 // AssignProperties_To_ManagedClustersAgentPool populates the provided destination ManagedClustersAgentPool from our ManagedClustersAgentPool
-func (pool *ManagedClustersAgentPool) AssignProperties_To_ManagedClustersAgentPool(destination *v20210501s.ManagedClustersAgentPool) error {
+func (pool *ManagedClustersAgentPool) AssignProperties_To_ManagedClustersAgentPool(destination *v1beta20210501s.ManagedClustersAgentPool) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *pool.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210501s.ManagedClusters_AgentPool_Spec
+	var spec v1beta20210501s.ManagedClusters_AgentPool_Spec
 	err := pool.Spec.AssignProperties_To_ManagedClusters_AgentPool_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_ManagedClusters_AgentPool_Spec() to populate field Spec")
@@ -281,7 +286,7 @@ func (pool *ManagedClustersAgentPool) AssignProperties_To_ManagedClustersAgentPo
 	destination.Spec = spec
 
 	// Status
-	var status v20210501s.ManagedClusters_AgentPool_STATUS
+	var status v1beta20210501s.ManagedClusters_AgentPool_STATUS
 	err = pool.Status.AssignProperties_To_ManagedClusters_AgentPool_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_ManagedClusters_AgentPool_STATUS() to populate field Status")
@@ -364,10 +369,10 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 	}
 	result := &ManagedClusters_AgentPool_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if pool.AvailabilityZones != nil ||
 		pool.Count != nil ||
 		pool.EnableAutoScaling != nil ||
@@ -576,7 +581,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusters_AgentPool_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AvailabilityZones’:
+	// Set property "AvailabilityZones":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.AvailabilityZones {
@@ -584,10 +589,10 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	pool.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Count’:
+	// Set property "Count":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Count != nil {
@@ -596,7 +601,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘EnableAutoScaling’:
+	// Set property "EnableAutoScaling":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableAutoScaling != nil {
@@ -605,7 +610,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘EnableEncryptionAtHost’:
+	// Set property "EnableEncryptionAtHost":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableEncryptionAtHost != nil {
@@ -614,7 +619,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘EnableFIPS’:
+	// Set property "EnableFIPS":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableFIPS != nil {
@@ -623,7 +628,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘EnableNodePublicIP’:
+	// Set property "EnableNodePublicIP":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableNodePublicIP != nil {
@@ -632,7 +637,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘EnableUltraSSD’:
+	// Set property "EnableUltraSSD":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableUltraSSD != nil {
@@ -641,7 +646,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘GpuInstanceProfile’:
+	// Set property "GpuInstanceProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GpuInstanceProfile != nil {
@@ -650,7 +655,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘KubeletConfig’:
+	// Set property "KubeletConfig":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KubeletConfig != nil {
@@ -664,7 +669,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘KubeletDiskType’:
+	// Set property "KubeletDiskType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KubeletDiskType != nil {
@@ -673,7 +678,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘LinuxOSConfig’:
+	// Set property "LinuxOSConfig":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LinuxOSConfig != nil {
@@ -687,7 +692,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘MaxCount’:
+	// Set property "MaxCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxCount != nil {
@@ -696,7 +701,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘MaxPods’:
+	// Set property "MaxPods":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxPods != nil {
@@ -705,7 +710,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘MinCount’:
+	// Set property "MinCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinCount != nil {
@@ -714,7 +719,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Mode != nil {
@@ -723,7 +728,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘NodeLabels’:
+	// Set property "NodeLabels":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeLabels != nil {
@@ -734,9 +739,9 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// no assignment for property ‘NodePublicIPPrefixIDReference’
+	// no assignment for property "NodePublicIPPrefixIDReference"
 
-	// Set property ‘NodeTaints’:
+	// Set property "NodeTaints":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.NodeTaints {
@@ -744,7 +749,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘OrchestratorVersion’:
+	// Set property "OrchestratorVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OrchestratorVersion != nil {
@@ -753,7 +758,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘OsDiskSizeGB’:
+	// Set property "OsDiskSizeGB":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsDiskSizeGB != nil {
@@ -762,7 +767,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘OsDiskType’:
+	// Set property "OsDiskType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsDiskType != nil {
@@ -771,7 +776,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘OsSKU’:
+	// Set property "OsSKU":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsSKU != nil {
@@ -780,7 +785,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘OsType’:
+	// Set property "OsType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsType != nil {
@@ -789,12 +794,15 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Owner’:
-	pool.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	pool.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// no assignment for property ‘PodSubnetIDReference’
+	// no assignment for property "PodSubnetIDReference"
 
-	// Set property ‘ProximityPlacementGroupID’:
+	// Set property "ProximityPlacementGroupID":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProximityPlacementGroupID != nil {
@@ -803,7 +811,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘ScaleSetEvictionPolicy’:
+	// Set property "ScaleSetEvictionPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ScaleSetEvictionPolicy != nil {
@@ -812,7 +820,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘ScaleSetPriority’:
+	// Set property "ScaleSetPriority":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ScaleSetPriority != nil {
@@ -821,7 +829,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘SpotMaxPrice’:
+	// Set property "SpotMaxPrice":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SpotMaxPrice != nil {
@@ -830,7 +838,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Tags != nil {
@@ -841,7 +849,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Type != nil {
@@ -850,7 +858,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘UpgradeSettings’:
+	// Set property "UpgradeSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UpgradeSettings != nil {
@@ -864,7 +872,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘VmSize’:
+	// Set property "VmSize":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VmSize != nil {
@@ -873,7 +881,7 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// no assignment for property ‘VnetSubnetIDReference’
+	// no assignment for property "VnetSubnetIDReference"
 
 	// No error
 	return nil
@@ -883,14 +891,14 @@ var _ genruntime.ConvertibleSpec = &ManagedClusters_AgentPool_Spec{}
 
 // ConvertSpecFrom populates our ManagedClusters_AgentPool_Spec from the provided source
 func (pool *ManagedClusters_AgentPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210501s.ManagedClusters_AgentPool_Spec)
+	src, ok := source.(*v1beta20210501s.ManagedClusters_AgentPool_Spec)
 	if ok {
 		// Populate our instance from source
 		return pool.AssignProperties_From_ManagedClusters_AgentPool_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210501s.ManagedClusters_AgentPool_Spec{}
+	src = &v1beta20210501s.ManagedClusters_AgentPool_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -907,14 +915,14 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertSpecFrom(source genruntime.Co
 
 // ConvertSpecTo populates the provided destination from our ManagedClusters_AgentPool_Spec
 func (pool *ManagedClusters_AgentPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210501s.ManagedClusters_AgentPool_Spec)
+	dst, ok := destination.(*v1beta20210501s.ManagedClusters_AgentPool_Spec)
 	if ok {
 		// Populate destination from our instance
 		return pool.AssignProperties_To_ManagedClusters_AgentPool_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210501s.ManagedClusters_AgentPool_Spec{}
+	dst = &v1beta20210501s.ManagedClusters_AgentPool_Spec{}
 	err := pool.AssignProperties_To_ManagedClusters_AgentPool_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -930,7 +938,7 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertSpecTo(destination genruntime
 }
 
 // AssignProperties_From_ManagedClusters_AgentPool_Spec populates our ManagedClusters_AgentPool_Spec from the provided source ManagedClusters_AgentPool_Spec
-func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedClusters_AgentPool_Spec(source *v20210501s.ManagedClusters_AgentPool_Spec) error {
+func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedClusters_AgentPool_Spec(source *v1beta20210501s.ManagedClusters_AgentPool_Spec) error {
 
 	// AvailabilityZones
 	pool.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
@@ -1169,7 +1177,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 }
 
 // AssignProperties_To_ManagedClusters_AgentPool_Spec populates the provided destination ManagedClusters_AgentPool_Spec from our ManagedClusters_AgentPool_Spec
-func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_AgentPool_Spec(destination *v20210501s.ManagedClusters_AgentPool_Spec) error {
+func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_AgentPool_Spec(destination *v1beta20210501s.ManagedClusters_AgentPool_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1232,7 +1240,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_
 
 	// KubeletConfig
 	if pool.KubeletConfig != nil {
-		var kubeletConfig v20210501s.KubeletConfig
+		var kubeletConfig v1beta20210501s.KubeletConfig
 		err := pool.KubeletConfig.AssignProperties_To_KubeletConfig(&kubeletConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KubeletConfig() to populate field KubeletConfig")
@@ -1252,7 +1260,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_
 
 	// LinuxOSConfig
 	if pool.LinuxOSConfig != nil {
-		var linuxOSConfig v20210501s.LinuxOSConfig
+		var linuxOSConfig v1beta20210501s.LinuxOSConfig
 		err := pool.LinuxOSConfig.AssignProperties_To_LinuxOSConfig(&linuxOSConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_LinuxOSConfig() to populate field LinuxOSConfig")
@@ -1387,7 +1395,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_
 
 	// UpgradeSettings
 	if pool.UpgradeSettings != nil {
-		var upgradeSetting v20210501s.AgentPoolUpgradeSettings
+		var upgradeSetting v1beta20210501s.AgentPoolUpgradeSettings
 		err := pool.UpgradeSettings.AssignProperties_To_AgentPoolUpgradeSettings(&upgradeSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolUpgradeSettings() to populate field UpgradeSettings")
@@ -1479,14 +1487,14 @@ var _ genruntime.ConvertibleStatus = &ManagedClusters_AgentPool_STATUS{}
 
 // ConvertStatusFrom populates our ManagedClusters_AgentPool_STATUS from the provided source
 func (pool *ManagedClusters_AgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210501s.ManagedClusters_AgentPool_STATUS)
+	src, ok := source.(*v1beta20210501s.ManagedClusters_AgentPool_STATUS)
 	if ok {
 		// Populate our instance from source
 		return pool.AssignProperties_From_ManagedClusters_AgentPool_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210501s.ManagedClusters_AgentPool_STATUS{}
+	src = &v1beta20210501s.ManagedClusters_AgentPool_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1503,14 +1511,14 @@ func (pool *ManagedClusters_AgentPool_STATUS) ConvertStatusFrom(source genruntim
 
 // ConvertStatusTo populates the provided destination from our ManagedClusters_AgentPool_STATUS
 func (pool *ManagedClusters_AgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210501s.ManagedClusters_AgentPool_STATUS)
+	dst, ok := destination.(*v1beta20210501s.ManagedClusters_AgentPool_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return pool.AssignProperties_To_ManagedClusters_AgentPool_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210501s.ManagedClusters_AgentPool_STATUS{}
+	dst = &v1beta20210501s.ManagedClusters_AgentPool_STATUS{}
 	err := pool.AssignProperties_To_ManagedClusters_AgentPool_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1539,7 +1547,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusters_AgentPool_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AvailabilityZones’:
+	// Set property "AvailabilityZones":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.AvailabilityZones {
@@ -1547,9 +1555,9 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Count’:
+	// Set property "Count":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Count != nil {
@@ -1558,7 +1566,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘EnableAutoScaling’:
+	// Set property "EnableAutoScaling":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableAutoScaling != nil {
@@ -1567,7 +1575,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘EnableEncryptionAtHost’:
+	// Set property "EnableEncryptionAtHost":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableEncryptionAtHost != nil {
@@ -1576,7 +1584,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘EnableFIPS’:
+	// Set property "EnableFIPS":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableFIPS != nil {
@@ -1585,7 +1593,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘EnableNodePublicIP’:
+	// Set property "EnableNodePublicIP":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableNodePublicIP != nil {
@@ -1594,7 +1602,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘EnableUltraSSD’:
+	// Set property "EnableUltraSSD":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableUltraSSD != nil {
@@ -1603,7 +1611,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘GpuInstanceProfile’:
+	// Set property "GpuInstanceProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GpuInstanceProfile != nil {
@@ -1612,13 +1620,13 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		pool.Id = &id
 	}
 
-	// Set property ‘KubeletConfig’:
+	// Set property "KubeletConfig":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KubeletConfig != nil {
@@ -1632,7 +1640,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘KubeletDiskType’:
+	// Set property "KubeletDiskType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KubeletDiskType != nil {
@@ -1641,7 +1649,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘LinuxOSConfig’:
+	// Set property "LinuxOSConfig":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LinuxOSConfig != nil {
@@ -1655,7 +1663,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘MaxCount’:
+	// Set property "MaxCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxCount != nil {
@@ -1664,7 +1672,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘MaxPods’:
+	// Set property "MaxPods":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxPods != nil {
@@ -1673,7 +1681,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘MinCount’:
+	// Set property "MinCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinCount != nil {
@@ -1682,7 +1690,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Mode != nil {
@@ -1691,13 +1699,13 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		pool.Name = &name
 	}
 
-	// Set property ‘NodeImageVersion’:
+	// Set property "NodeImageVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeImageVersion != nil {
@@ -1706,7 +1714,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘NodeLabels’:
+	// Set property "NodeLabels":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeLabels != nil {
@@ -1717,7 +1725,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘NodePublicIPPrefixID’:
+	// Set property "NodePublicIPPrefixID":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodePublicIPPrefixID != nil {
@@ -1726,7 +1734,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘NodeTaints’:
+	// Set property "NodeTaints":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.NodeTaints {
@@ -1734,7 +1742,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘OrchestratorVersion’:
+	// Set property "OrchestratorVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OrchestratorVersion != nil {
@@ -1743,7 +1751,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘OsDiskSizeGB’:
+	// Set property "OsDiskSizeGB":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsDiskSizeGB != nil {
@@ -1752,7 +1760,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘OsDiskType’:
+	// Set property "OsDiskType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsDiskType != nil {
@@ -1761,7 +1769,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘OsSKU’:
+	// Set property "OsSKU":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsSKU != nil {
@@ -1770,7 +1778,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘OsType’:
+	// Set property "OsType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsType != nil {
@@ -1779,7 +1787,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘PodSubnetID’:
+	// Set property "PodSubnetID":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PodSubnetID != nil {
@@ -1788,7 +1796,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘PowerState’:
+	// Set property "PowerState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PowerState != nil {
@@ -1802,7 +1810,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘PropertiesType’:
+	// Set property "PropertiesType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Type != nil {
@@ -1811,7 +1819,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1820,7 +1828,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘ProximityPlacementGroupID’:
+	// Set property "ProximityPlacementGroupID":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProximityPlacementGroupID != nil {
@@ -1829,7 +1837,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘ScaleSetEvictionPolicy’:
+	// Set property "ScaleSetEvictionPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ScaleSetEvictionPolicy != nil {
@@ -1838,7 +1846,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘ScaleSetPriority’:
+	// Set property "ScaleSetPriority":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ScaleSetPriority != nil {
@@ -1847,7 +1855,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘SpotMaxPrice’:
+	// Set property "SpotMaxPrice":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SpotMaxPrice != nil {
@@ -1856,7 +1864,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Tags != nil {
@@ -1867,13 +1875,13 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		pool.Type = &typeVar
 	}
 
-	// Set property ‘UpgradeSettings’:
+	// Set property "UpgradeSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UpgradeSettings != nil {
@@ -1887,7 +1895,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘VmSize’:
+	// Set property "VmSize":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VmSize != nil {
@@ -1896,7 +1904,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘VnetSubnetID’:
+	// Set property "VnetSubnetID":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VnetSubnetID != nil {
@@ -1910,7 +1918,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_ManagedClusters_AgentPool_STATUS populates our ManagedClusters_AgentPool_STATUS from the provided source ManagedClusters_AgentPool_STATUS
-func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClusters_AgentPool_STATUS(source *v20210501s.ManagedClusters_AgentPool_STATUS) error {
+func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClusters_AgentPool_STATUS(source *v1beta20210501s.ManagedClusters_AgentPool_STATUS) error {
 
 	// AvailabilityZones
 	pool.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
@@ -2148,7 +2156,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 }
 
 // AssignProperties_To_ManagedClusters_AgentPool_STATUS populates the provided destination ManagedClusters_AgentPool_STATUS from our ManagedClusters_AgentPool_STATUS
-func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedClusters_AgentPool_STATUS(destination *v20210501s.ManagedClusters_AgentPool_STATUS) error {
+func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedClusters_AgentPool_STATUS(destination *v1beta20210501s.ManagedClusters_AgentPool_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2214,7 +2222,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedCluster
 
 	// KubeletConfig
 	if pool.KubeletConfig != nil {
-		var kubeletConfig v20210501s.KubeletConfig_STATUS
+		var kubeletConfig v1beta20210501s.KubeletConfig_STATUS
 		err := pool.KubeletConfig.AssignProperties_To_KubeletConfig_STATUS(&kubeletConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KubeletConfig_STATUS() to populate field KubeletConfig")
@@ -2234,7 +2242,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedCluster
 
 	// LinuxOSConfig
 	if pool.LinuxOSConfig != nil {
-		var linuxOSConfig v20210501s.LinuxOSConfig_STATUS
+		var linuxOSConfig v1beta20210501s.LinuxOSConfig_STATUS
 		err := pool.LinuxOSConfig.AssignProperties_To_LinuxOSConfig_STATUS(&linuxOSConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_LinuxOSConfig_STATUS() to populate field LinuxOSConfig")
@@ -2311,7 +2319,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedCluster
 
 	// PowerState
 	if pool.PowerState != nil {
-		var powerState v20210501s.PowerState_STATUS
+		var powerState v1beta20210501s.PowerState_STATUS
 		err := pool.PowerState.AssignProperties_To_PowerState_STATUS(&powerState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PowerState_STATUS() to populate field PowerState")
@@ -2367,7 +2375,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedCluster
 
 	// UpgradeSettings
 	if pool.UpgradeSettings != nil {
-		var upgradeSetting v20210501s.AgentPoolUpgradeSettings_STATUS
+		var upgradeSetting v1beta20210501s.AgentPoolUpgradeSettings_STATUS
 		err := pool.UpgradeSettings.AssignProperties_To_AgentPoolUpgradeSettings_STATUS(&upgradeSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolUpgradeSettings_STATUS() to populate field UpgradeSettings")
@@ -2442,7 +2450,7 @@ func (settings *AgentPoolUpgradeSettings) ConvertToARM(resolved genruntime.Conve
 	}
 	result := &AgentPoolUpgradeSettings_ARM{}
 
-	// Set property ‘MaxSurge’:
+	// Set property "MaxSurge":
 	if settings.MaxSurge != nil {
 		maxSurge := *settings.MaxSurge
 		result.MaxSurge = &maxSurge
@@ -2462,7 +2470,7 @@ func (settings *AgentPoolUpgradeSettings) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AgentPoolUpgradeSettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MaxSurge’:
+	// Set property "MaxSurge":
 	if typedInput.MaxSurge != nil {
 		maxSurge := *typedInput.MaxSurge
 		settings.MaxSurge = &maxSurge
@@ -2473,7 +2481,7 @@ func (settings *AgentPoolUpgradeSettings) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_AgentPoolUpgradeSettings populates our AgentPoolUpgradeSettings from the provided source AgentPoolUpgradeSettings
-func (settings *AgentPoolUpgradeSettings) AssignProperties_From_AgentPoolUpgradeSettings(source *v20210501s.AgentPoolUpgradeSettings) error {
+func (settings *AgentPoolUpgradeSettings) AssignProperties_From_AgentPoolUpgradeSettings(source *v1beta20210501s.AgentPoolUpgradeSettings) error {
 
 	// MaxSurge
 	settings.MaxSurge = genruntime.ClonePointerToString(source.MaxSurge)
@@ -2483,7 +2491,7 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_From_AgentPoolUpgrade
 }
 
 // AssignProperties_To_AgentPoolUpgradeSettings populates the provided destination AgentPoolUpgradeSettings from our AgentPoolUpgradeSettings
-func (settings *AgentPoolUpgradeSettings) AssignProperties_To_AgentPoolUpgradeSettings(destination *v20210501s.AgentPoolUpgradeSettings) error {
+func (settings *AgentPoolUpgradeSettings) AssignProperties_To_AgentPoolUpgradeSettings(destination *v1beta20210501s.AgentPoolUpgradeSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2520,7 +2528,7 @@ func (settings *AgentPoolUpgradeSettings_STATUS) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AgentPoolUpgradeSettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MaxSurge’:
+	// Set property "MaxSurge":
 	if typedInput.MaxSurge != nil {
 		maxSurge := *typedInput.MaxSurge
 		settings.MaxSurge = &maxSurge
@@ -2531,7 +2539,7 @@ func (settings *AgentPoolUpgradeSettings_STATUS) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_AgentPoolUpgradeSettings_STATUS populates our AgentPoolUpgradeSettings_STATUS from the provided source AgentPoolUpgradeSettings_STATUS
-func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_From_AgentPoolUpgradeSettings_STATUS(source *v20210501s.AgentPoolUpgradeSettings_STATUS) error {
+func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_From_AgentPoolUpgradeSettings_STATUS(source *v1beta20210501s.AgentPoolUpgradeSettings_STATUS) error {
 
 	// MaxSurge
 	settings.MaxSurge = genruntime.ClonePointerToString(source.MaxSurge)
@@ -2541,7 +2549,7 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_From_AgentPool
 }
 
 // AssignProperties_To_AgentPoolUpgradeSettings_STATUS populates the provided destination AgentPoolUpgradeSettings_STATUS from our AgentPoolUpgradeSettings_STATUS
-func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_To_AgentPoolUpgradeSettings_STATUS(destination *v20210501s.AgentPoolUpgradeSettings_STATUS) error {
+func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_To_AgentPoolUpgradeSettings_STATUS(destination *v1beta20210501s.AgentPoolUpgradeSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2613,66 +2621,66 @@ func (config *KubeletConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	}
 	result := &KubeletConfig_ARM{}
 
-	// Set property ‘AllowedUnsafeSysctls’:
+	// Set property "AllowedUnsafeSysctls":
 	for _, item := range config.AllowedUnsafeSysctls {
 		result.AllowedUnsafeSysctls = append(result.AllowedUnsafeSysctls, item)
 	}
 
-	// Set property ‘ContainerLogMaxFiles’:
+	// Set property "ContainerLogMaxFiles":
 	if config.ContainerLogMaxFiles != nil {
 		containerLogMaxFiles := *config.ContainerLogMaxFiles
 		result.ContainerLogMaxFiles = &containerLogMaxFiles
 	}
 
-	// Set property ‘ContainerLogMaxSizeMB’:
+	// Set property "ContainerLogMaxSizeMB":
 	if config.ContainerLogMaxSizeMB != nil {
 		containerLogMaxSizeMB := *config.ContainerLogMaxSizeMB
 		result.ContainerLogMaxSizeMB = &containerLogMaxSizeMB
 	}
 
-	// Set property ‘CpuCfsQuota’:
+	// Set property "CpuCfsQuota":
 	if config.CpuCfsQuota != nil {
 		cpuCfsQuota := *config.CpuCfsQuota
 		result.CpuCfsQuota = &cpuCfsQuota
 	}
 
-	// Set property ‘CpuCfsQuotaPeriod’:
+	// Set property "CpuCfsQuotaPeriod":
 	if config.CpuCfsQuotaPeriod != nil {
 		cpuCfsQuotaPeriod := *config.CpuCfsQuotaPeriod
 		result.CpuCfsQuotaPeriod = &cpuCfsQuotaPeriod
 	}
 
-	// Set property ‘CpuManagerPolicy’:
+	// Set property "CpuManagerPolicy":
 	if config.CpuManagerPolicy != nil {
 		cpuManagerPolicy := *config.CpuManagerPolicy
 		result.CpuManagerPolicy = &cpuManagerPolicy
 	}
 
-	// Set property ‘FailSwapOn’:
+	// Set property "FailSwapOn":
 	if config.FailSwapOn != nil {
 		failSwapOn := *config.FailSwapOn
 		result.FailSwapOn = &failSwapOn
 	}
 
-	// Set property ‘ImageGcHighThreshold’:
+	// Set property "ImageGcHighThreshold":
 	if config.ImageGcHighThreshold != nil {
 		imageGcHighThreshold := *config.ImageGcHighThreshold
 		result.ImageGcHighThreshold = &imageGcHighThreshold
 	}
 
-	// Set property ‘ImageGcLowThreshold’:
+	// Set property "ImageGcLowThreshold":
 	if config.ImageGcLowThreshold != nil {
 		imageGcLowThreshold := *config.ImageGcLowThreshold
 		result.ImageGcLowThreshold = &imageGcLowThreshold
 	}
 
-	// Set property ‘PodMaxPids’:
+	// Set property "PodMaxPids":
 	if config.PodMaxPids != nil {
 		podMaxPids := *config.PodMaxPids
 		result.PodMaxPids = &podMaxPids
 	}
 
-	// Set property ‘TopologyManagerPolicy’:
+	// Set property "TopologyManagerPolicy":
 	if config.TopologyManagerPolicy != nil {
 		topologyManagerPolicy := *config.TopologyManagerPolicy
 		result.TopologyManagerPolicy = &topologyManagerPolicy
@@ -2692,66 +2700,66 @@ func (config *KubeletConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KubeletConfig_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllowedUnsafeSysctls’:
+	// Set property "AllowedUnsafeSysctls":
 	for _, item := range typedInput.AllowedUnsafeSysctls {
 		config.AllowedUnsafeSysctls = append(config.AllowedUnsafeSysctls, item)
 	}
 
-	// Set property ‘ContainerLogMaxFiles’:
+	// Set property "ContainerLogMaxFiles":
 	if typedInput.ContainerLogMaxFiles != nil {
 		containerLogMaxFiles := *typedInput.ContainerLogMaxFiles
 		config.ContainerLogMaxFiles = &containerLogMaxFiles
 	}
 
-	// Set property ‘ContainerLogMaxSizeMB’:
+	// Set property "ContainerLogMaxSizeMB":
 	if typedInput.ContainerLogMaxSizeMB != nil {
 		containerLogMaxSizeMB := *typedInput.ContainerLogMaxSizeMB
 		config.ContainerLogMaxSizeMB = &containerLogMaxSizeMB
 	}
 
-	// Set property ‘CpuCfsQuota’:
+	// Set property "CpuCfsQuota":
 	if typedInput.CpuCfsQuota != nil {
 		cpuCfsQuota := *typedInput.CpuCfsQuota
 		config.CpuCfsQuota = &cpuCfsQuota
 	}
 
-	// Set property ‘CpuCfsQuotaPeriod’:
+	// Set property "CpuCfsQuotaPeriod":
 	if typedInput.CpuCfsQuotaPeriod != nil {
 		cpuCfsQuotaPeriod := *typedInput.CpuCfsQuotaPeriod
 		config.CpuCfsQuotaPeriod = &cpuCfsQuotaPeriod
 	}
 
-	// Set property ‘CpuManagerPolicy’:
+	// Set property "CpuManagerPolicy":
 	if typedInput.CpuManagerPolicy != nil {
 		cpuManagerPolicy := *typedInput.CpuManagerPolicy
 		config.CpuManagerPolicy = &cpuManagerPolicy
 	}
 
-	// Set property ‘FailSwapOn’:
+	// Set property "FailSwapOn":
 	if typedInput.FailSwapOn != nil {
 		failSwapOn := *typedInput.FailSwapOn
 		config.FailSwapOn = &failSwapOn
 	}
 
-	// Set property ‘ImageGcHighThreshold’:
+	// Set property "ImageGcHighThreshold":
 	if typedInput.ImageGcHighThreshold != nil {
 		imageGcHighThreshold := *typedInput.ImageGcHighThreshold
 		config.ImageGcHighThreshold = &imageGcHighThreshold
 	}
 
-	// Set property ‘ImageGcLowThreshold’:
+	// Set property "ImageGcLowThreshold":
 	if typedInput.ImageGcLowThreshold != nil {
 		imageGcLowThreshold := *typedInput.ImageGcLowThreshold
 		config.ImageGcLowThreshold = &imageGcLowThreshold
 	}
 
-	// Set property ‘PodMaxPids’:
+	// Set property "PodMaxPids":
 	if typedInput.PodMaxPids != nil {
 		podMaxPids := *typedInput.PodMaxPids
 		config.PodMaxPids = &podMaxPids
 	}
 
-	// Set property ‘TopologyManagerPolicy’:
+	// Set property "TopologyManagerPolicy":
 	if typedInput.TopologyManagerPolicy != nil {
 		topologyManagerPolicy := *typedInput.TopologyManagerPolicy
 		config.TopologyManagerPolicy = &topologyManagerPolicy
@@ -2762,7 +2770,7 @@ func (config *KubeletConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 }
 
 // AssignProperties_From_KubeletConfig populates our KubeletConfig from the provided source KubeletConfig
-func (config *KubeletConfig) AssignProperties_From_KubeletConfig(source *v20210501s.KubeletConfig) error {
+func (config *KubeletConfig) AssignProperties_From_KubeletConfig(source *v1beta20210501s.KubeletConfig) error {
 
 	// AllowedUnsafeSysctls
 	config.AllowedUnsafeSysctls = genruntime.CloneSliceOfString(source.AllowedUnsafeSysctls)
@@ -2817,7 +2825,7 @@ func (config *KubeletConfig) AssignProperties_From_KubeletConfig(source *v202105
 }
 
 // AssignProperties_To_KubeletConfig populates the provided destination KubeletConfig from our KubeletConfig
-func (config *KubeletConfig) AssignProperties_To_KubeletConfig(destination *v20210501s.KubeletConfig) error {
+func (config *KubeletConfig) AssignProperties_To_KubeletConfig(destination *v1beta20210501s.KubeletConfig) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2909,66 +2917,66 @@ func (config *KubeletConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KubeletConfig_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllowedUnsafeSysctls’:
+	// Set property "AllowedUnsafeSysctls":
 	for _, item := range typedInput.AllowedUnsafeSysctls {
 		config.AllowedUnsafeSysctls = append(config.AllowedUnsafeSysctls, item)
 	}
 
-	// Set property ‘ContainerLogMaxFiles’:
+	// Set property "ContainerLogMaxFiles":
 	if typedInput.ContainerLogMaxFiles != nil {
 		containerLogMaxFiles := *typedInput.ContainerLogMaxFiles
 		config.ContainerLogMaxFiles = &containerLogMaxFiles
 	}
 
-	// Set property ‘ContainerLogMaxSizeMB’:
+	// Set property "ContainerLogMaxSizeMB":
 	if typedInput.ContainerLogMaxSizeMB != nil {
 		containerLogMaxSizeMB := *typedInput.ContainerLogMaxSizeMB
 		config.ContainerLogMaxSizeMB = &containerLogMaxSizeMB
 	}
 
-	// Set property ‘CpuCfsQuota’:
+	// Set property "CpuCfsQuota":
 	if typedInput.CpuCfsQuota != nil {
 		cpuCfsQuota := *typedInput.CpuCfsQuota
 		config.CpuCfsQuota = &cpuCfsQuota
 	}
 
-	// Set property ‘CpuCfsQuotaPeriod’:
+	// Set property "CpuCfsQuotaPeriod":
 	if typedInput.CpuCfsQuotaPeriod != nil {
 		cpuCfsQuotaPeriod := *typedInput.CpuCfsQuotaPeriod
 		config.CpuCfsQuotaPeriod = &cpuCfsQuotaPeriod
 	}
 
-	// Set property ‘CpuManagerPolicy’:
+	// Set property "CpuManagerPolicy":
 	if typedInput.CpuManagerPolicy != nil {
 		cpuManagerPolicy := *typedInput.CpuManagerPolicy
 		config.CpuManagerPolicy = &cpuManagerPolicy
 	}
 
-	// Set property ‘FailSwapOn’:
+	// Set property "FailSwapOn":
 	if typedInput.FailSwapOn != nil {
 		failSwapOn := *typedInput.FailSwapOn
 		config.FailSwapOn = &failSwapOn
 	}
 
-	// Set property ‘ImageGcHighThreshold’:
+	// Set property "ImageGcHighThreshold":
 	if typedInput.ImageGcHighThreshold != nil {
 		imageGcHighThreshold := *typedInput.ImageGcHighThreshold
 		config.ImageGcHighThreshold = &imageGcHighThreshold
 	}
 
-	// Set property ‘ImageGcLowThreshold’:
+	// Set property "ImageGcLowThreshold":
 	if typedInput.ImageGcLowThreshold != nil {
 		imageGcLowThreshold := *typedInput.ImageGcLowThreshold
 		config.ImageGcLowThreshold = &imageGcLowThreshold
 	}
 
-	// Set property ‘PodMaxPids’:
+	// Set property "PodMaxPids":
 	if typedInput.PodMaxPids != nil {
 		podMaxPids := *typedInput.PodMaxPids
 		config.PodMaxPids = &podMaxPids
 	}
 
-	// Set property ‘TopologyManagerPolicy’:
+	// Set property "TopologyManagerPolicy":
 	if typedInput.TopologyManagerPolicy != nil {
 		topologyManagerPolicy := *typedInput.TopologyManagerPolicy
 		config.TopologyManagerPolicy = &topologyManagerPolicy
@@ -2979,7 +2987,7 @@ func (config *KubeletConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_KubeletConfig_STATUS populates our KubeletConfig_STATUS from the provided source KubeletConfig_STATUS
-func (config *KubeletConfig_STATUS) AssignProperties_From_KubeletConfig_STATUS(source *v20210501s.KubeletConfig_STATUS) error {
+func (config *KubeletConfig_STATUS) AssignProperties_From_KubeletConfig_STATUS(source *v1beta20210501s.KubeletConfig_STATUS) error {
 
 	// AllowedUnsafeSysctls
 	config.AllowedUnsafeSysctls = genruntime.CloneSliceOfString(source.AllowedUnsafeSysctls)
@@ -3029,7 +3037,7 @@ func (config *KubeletConfig_STATUS) AssignProperties_From_KubeletConfig_STATUS(s
 }
 
 // AssignProperties_To_KubeletConfig_STATUS populates the provided destination KubeletConfig_STATUS from our KubeletConfig_STATUS
-func (config *KubeletConfig_STATUS) AssignProperties_To_KubeletConfig_STATUS(destination *v20210501s.KubeletConfig_STATUS) error {
+func (config *KubeletConfig_STATUS) AssignProperties_To_KubeletConfig_STATUS(destination *v1beta20210501s.KubeletConfig_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3121,13 +3129,13 @@ func (config *LinuxOSConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	}
 	result := &LinuxOSConfig_ARM{}
 
-	// Set property ‘SwapFileSizeMB’:
+	// Set property "SwapFileSizeMB":
 	if config.SwapFileSizeMB != nil {
 		swapFileSizeMB := *config.SwapFileSizeMB
 		result.SwapFileSizeMB = &swapFileSizeMB
 	}
 
-	// Set property ‘Sysctls’:
+	// Set property "Sysctls":
 	if config.Sysctls != nil {
 		sysctls_ARM, err := (*config.Sysctls).ConvertToARM(resolved)
 		if err != nil {
@@ -3137,13 +3145,13 @@ func (config *LinuxOSConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Sysctls = &sysctls
 	}
 
-	// Set property ‘TransparentHugePageDefrag’:
+	// Set property "TransparentHugePageDefrag":
 	if config.TransparentHugePageDefrag != nil {
 		transparentHugePageDefrag := *config.TransparentHugePageDefrag
 		result.TransparentHugePageDefrag = &transparentHugePageDefrag
 	}
 
-	// Set property ‘TransparentHugePageEnabled’:
+	// Set property "TransparentHugePageEnabled":
 	if config.TransparentHugePageEnabled != nil {
 		transparentHugePageEnabled := *config.TransparentHugePageEnabled
 		result.TransparentHugePageEnabled = &transparentHugePageEnabled
@@ -3163,13 +3171,13 @@ func (config *LinuxOSConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxOSConfig_ARM, got %T", armInput)
 	}
 
-	// Set property ‘SwapFileSizeMB’:
+	// Set property "SwapFileSizeMB":
 	if typedInput.SwapFileSizeMB != nil {
 		swapFileSizeMB := *typedInput.SwapFileSizeMB
 		config.SwapFileSizeMB = &swapFileSizeMB
 	}
 
-	// Set property ‘Sysctls’:
+	// Set property "Sysctls":
 	if typedInput.Sysctls != nil {
 		var sysctls1 SysctlConfig
 		err := sysctls1.PopulateFromARM(owner, *typedInput.Sysctls)
@@ -3180,13 +3188,13 @@ func (config *LinuxOSConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		config.Sysctls = &sysctls
 	}
 
-	// Set property ‘TransparentHugePageDefrag’:
+	// Set property "TransparentHugePageDefrag":
 	if typedInput.TransparentHugePageDefrag != nil {
 		transparentHugePageDefrag := *typedInput.TransparentHugePageDefrag
 		config.TransparentHugePageDefrag = &transparentHugePageDefrag
 	}
 
-	// Set property ‘TransparentHugePageEnabled’:
+	// Set property "TransparentHugePageEnabled":
 	if typedInput.TransparentHugePageEnabled != nil {
 		transparentHugePageEnabled := *typedInput.TransparentHugePageEnabled
 		config.TransparentHugePageEnabled = &transparentHugePageEnabled
@@ -3197,7 +3205,7 @@ func (config *LinuxOSConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 }
 
 // AssignProperties_From_LinuxOSConfig populates our LinuxOSConfig from the provided source LinuxOSConfig
-func (config *LinuxOSConfig) AssignProperties_From_LinuxOSConfig(source *v20210501s.LinuxOSConfig) error {
+func (config *LinuxOSConfig) AssignProperties_From_LinuxOSConfig(source *v1beta20210501s.LinuxOSConfig) error {
 
 	// SwapFileSizeMB
 	config.SwapFileSizeMB = genruntime.ClonePointerToInt(source.SwapFileSizeMB)
@@ -3225,7 +3233,7 @@ func (config *LinuxOSConfig) AssignProperties_From_LinuxOSConfig(source *v202105
 }
 
 // AssignProperties_To_LinuxOSConfig populates the provided destination LinuxOSConfig from our LinuxOSConfig
-func (config *LinuxOSConfig) AssignProperties_To_LinuxOSConfig(destination *v20210501s.LinuxOSConfig) error {
+func (config *LinuxOSConfig) AssignProperties_To_LinuxOSConfig(destination *v1beta20210501s.LinuxOSConfig) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3234,7 +3242,7 @@ func (config *LinuxOSConfig) AssignProperties_To_LinuxOSConfig(destination *v202
 
 	// Sysctls
 	if config.Sysctls != nil {
-		var sysctl v20210501s.SysctlConfig
+		var sysctl v1beta20210501s.SysctlConfig
 		err := config.Sysctls.AssignProperties_To_SysctlConfig(&sysctl)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SysctlConfig() to populate field Sysctls")
@@ -3283,13 +3291,13 @@ func (config *LinuxOSConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LinuxOSConfig_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘SwapFileSizeMB’:
+	// Set property "SwapFileSizeMB":
 	if typedInput.SwapFileSizeMB != nil {
 		swapFileSizeMB := *typedInput.SwapFileSizeMB
 		config.SwapFileSizeMB = &swapFileSizeMB
 	}
 
-	// Set property ‘Sysctls’:
+	// Set property "Sysctls":
 	if typedInput.Sysctls != nil {
 		var sysctls1 SysctlConfig_STATUS
 		err := sysctls1.PopulateFromARM(owner, *typedInput.Sysctls)
@@ -3300,13 +3308,13 @@ func (config *LinuxOSConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		config.Sysctls = &sysctls
 	}
 
-	// Set property ‘TransparentHugePageDefrag’:
+	// Set property "TransparentHugePageDefrag":
 	if typedInput.TransparentHugePageDefrag != nil {
 		transparentHugePageDefrag := *typedInput.TransparentHugePageDefrag
 		config.TransparentHugePageDefrag = &transparentHugePageDefrag
 	}
 
-	// Set property ‘TransparentHugePageEnabled’:
+	// Set property "TransparentHugePageEnabled":
 	if typedInput.TransparentHugePageEnabled != nil {
 		transparentHugePageEnabled := *typedInput.TransparentHugePageEnabled
 		config.TransparentHugePageEnabled = &transparentHugePageEnabled
@@ -3317,7 +3325,7 @@ func (config *LinuxOSConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_LinuxOSConfig_STATUS populates our LinuxOSConfig_STATUS from the provided source LinuxOSConfig_STATUS
-func (config *LinuxOSConfig_STATUS) AssignProperties_From_LinuxOSConfig_STATUS(source *v20210501s.LinuxOSConfig_STATUS) error {
+func (config *LinuxOSConfig_STATUS) AssignProperties_From_LinuxOSConfig_STATUS(source *v1beta20210501s.LinuxOSConfig_STATUS) error {
 
 	// SwapFileSizeMB
 	config.SwapFileSizeMB = genruntime.ClonePointerToInt(source.SwapFileSizeMB)
@@ -3345,7 +3353,7 @@ func (config *LinuxOSConfig_STATUS) AssignProperties_From_LinuxOSConfig_STATUS(s
 }
 
 // AssignProperties_To_LinuxOSConfig_STATUS populates the provided destination LinuxOSConfig_STATUS from our LinuxOSConfig_STATUS
-func (config *LinuxOSConfig_STATUS) AssignProperties_To_LinuxOSConfig_STATUS(destination *v20210501s.LinuxOSConfig_STATUS) error {
+func (config *LinuxOSConfig_STATUS) AssignProperties_To_LinuxOSConfig_STATUS(destination *v1beta20210501s.LinuxOSConfig_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3354,7 +3362,7 @@ func (config *LinuxOSConfig_STATUS) AssignProperties_To_LinuxOSConfig_STATUS(des
 
 	// Sysctls
 	if config.Sysctls != nil {
-		var sysctl v20210501s.SysctlConfig_STATUS
+		var sysctl v1beta20210501s.SysctlConfig_STATUS
 		err := config.Sysctls.AssignProperties_To_SysctlConfig_STATUS(&sysctl)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SysctlConfig_STATUS() to populate field Sysctls")
@@ -3507,169 +3515,169 @@ func (config *SysctlConfig) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 	result := &SysctlConfig_ARM{}
 
-	// Set property ‘FsAioMaxNr’:
+	// Set property "FsAioMaxNr":
 	if config.FsAioMaxNr != nil {
 		fsAioMaxNr := *config.FsAioMaxNr
 		result.FsAioMaxNr = &fsAioMaxNr
 	}
 
-	// Set property ‘FsFileMax’:
+	// Set property "FsFileMax":
 	if config.FsFileMax != nil {
 		fsFileMax := *config.FsFileMax
 		result.FsFileMax = &fsFileMax
 	}
 
-	// Set property ‘FsInotifyMaxUserWatches’:
+	// Set property "FsInotifyMaxUserWatches":
 	if config.FsInotifyMaxUserWatches != nil {
 		fsInotifyMaxUserWatches := *config.FsInotifyMaxUserWatches
 		result.FsInotifyMaxUserWatches = &fsInotifyMaxUserWatches
 	}
 
-	// Set property ‘FsNrOpen’:
+	// Set property "FsNrOpen":
 	if config.FsNrOpen != nil {
 		fsNrOpen := *config.FsNrOpen
 		result.FsNrOpen = &fsNrOpen
 	}
 
-	// Set property ‘KernelThreadsMax’:
+	// Set property "KernelThreadsMax":
 	if config.KernelThreadsMax != nil {
 		kernelThreadsMax := *config.KernelThreadsMax
 		result.KernelThreadsMax = &kernelThreadsMax
 	}
 
-	// Set property ‘NetCoreNetdevMaxBacklog’:
+	// Set property "NetCoreNetdevMaxBacklog":
 	if config.NetCoreNetdevMaxBacklog != nil {
 		netCoreNetdevMaxBacklog := *config.NetCoreNetdevMaxBacklog
 		result.NetCoreNetdevMaxBacklog = &netCoreNetdevMaxBacklog
 	}
 
-	// Set property ‘NetCoreOptmemMax’:
+	// Set property "NetCoreOptmemMax":
 	if config.NetCoreOptmemMax != nil {
 		netCoreOptmemMax := *config.NetCoreOptmemMax
 		result.NetCoreOptmemMax = &netCoreOptmemMax
 	}
 
-	// Set property ‘NetCoreRmemDefault’:
+	// Set property "NetCoreRmemDefault":
 	if config.NetCoreRmemDefault != nil {
 		netCoreRmemDefault := *config.NetCoreRmemDefault
 		result.NetCoreRmemDefault = &netCoreRmemDefault
 	}
 
-	// Set property ‘NetCoreRmemMax’:
+	// Set property "NetCoreRmemMax":
 	if config.NetCoreRmemMax != nil {
 		netCoreRmemMax := *config.NetCoreRmemMax
 		result.NetCoreRmemMax = &netCoreRmemMax
 	}
 
-	// Set property ‘NetCoreSomaxconn’:
+	// Set property "NetCoreSomaxconn":
 	if config.NetCoreSomaxconn != nil {
 		netCoreSomaxconn := *config.NetCoreSomaxconn
 		result.NetCoreSomaxconn = &netCoreSomaxconn
 	}
 
-	// Set property ‘NetCoreWmemDefault’:
+	// Set property "NetCoreWmemDefault":
 	if config.NetCoreWmemDefault != nil {
 		netCoreWmemDefault := *config.NetCoreWmemDefault
 		result.NetCoreWmemDefault = &netCoreWmemDefault
 	}
 
-	// Set property ‘NetCoreWmemMax’:
+	// Set property "NetCoreWmemMax":
 	if config.NetCoreWmemMax != nil {
 		netCoreWmemMax := *config.NetCoreWmemMax
 		result.NetCoreWmemMax = &netCoreWmemMax
 	}
 
-	// Set property ‘NetIpv4IpLocalPortRange’:
+	// Set property "NetIpv4IpLocalPortRange":
 	if config.NetIpv4IpLocalPortRange != nil {
 		netIpv4IpLocalPortRange := *config.NetIpv4IpLocalPortRange
 		result.NetIpv4IpLocalPortRange = &netIpv4IpLocalPortRange
 	}
 
-	// Set property ‘NetIpv4NeighDefaultGcThresh1’:
+	// Set property "NetIpv4NeighDefaultGcThresh1":
 	if config.NetIpv4NeighDefaultGcThresh1 != nil {
 		netIpv4NeighDefaultGcThresh1 := *config.NetIpv4NeighDefaultGcThresh1
 		result.NetIpv4NeighDefaultGcThresh1 = &netIpv4NeighDefaultGcThresh1
 	}
 
-	// Set property ‘NetIpv4NeighDefaultGcThresh2’:
+	// Set property "NetIpv4NeighDefaultGcThresh2":
 	if config.NetIpv4NeighDefaultGcThresh2 != nil {
 		netIpv4NeighDefaultGcThresh2 := *config.NetIpv4NeighDefaultGcThresh2
 		result.NetIpv4NeighDefaultGcThresh2 = &netIpv4NeighDefaultGcThresh2
 	}
 
-	// Set property ‘NetIpv4NeighDefaultGcThresh3’:
+	// Set property "NetIpv4NeighDefaultGcThresh3":
 	if config.NetIpv4NeighDefaultGcThresh3 != nil {
 		netIpv4NeighDefaultGcThresh3 := *config.NetIpv4NeighDefaultGcThresh3
 		result.NetIpv4NeighDefaultGcThresh3 = &netIpv4NeighDefaultGcThresh3
 	}
 
-	// Set property ‘NetIpv4TcpFinTimeout’:
+	// Set property "NetIpv4TcpFinTimeout":
 	if config.NetIpv4TcpFinTimeout != nil {
 		netIpv4TcpFinTimeout := *config.NetIpv4TcpFinTimeout
 		result.NetIpv4TcpFinTimeout = &netIpv4TcpFinTimeout
 	}
 
-	// Set property ‘NetIpv4TcpKeepaliveProbes’:
+	// Set property "NetIpv4TcpKeepaliveProbes":
 	if config.NetIpv4TcpKeepaliveProbes != nil {
 		netIpv4TcpKeepaliveProbes := *config.NetIpv4TcpKeepaliveProbes
 		result.NetIpv4TcpKeepaliveProbes = &netIpv4TcpKeepaliveProbes
 	}
 
-	// Set property ‘NetIpv4TcpKeepaliveTime’:
+	// Set property "NetIpv4TcpKeepaliveTime":
 	if config.NetIpv4TcpKeepaliveTime != nil {
 		netIpv4TcpKeepaliveTime := *config.NetIpv4TcpKeepaliveTime
 		result.NetIpv4TcpKeepaliveTime = &netIpv4TcpKeepaliveTime
 	}
 
-	// Set property ‘NetIpv4TcpMaxSynBacklog’:
+	// Set property "NetIpv4TcpMaxSynBacklog":
 	if config.NetIpv4TcpMaxSynBacklog != nil {
 		netIpv4TcpMaxSynBacklog := *config.NetIpv4TcpMaxSynBacklog
 		result.NetIpv4TcpMaxSynBacklog = &netIpv4TcpMaxSynBacklog
 	}
 
-	// Set property ‘NetIpv4TcpMaxTwBuckets’:
+	// Set property "NetIpv4TcpMaxTwBuckets":
 	if config.NetIpv4TcpMaxTwBuckets != nil {
 		netIpv4TcpMaxTwBuckets := *config.NetIpv4TcpMaxTwBuckets
 		result.NetIpv4TcpMaxTwBuckets = &netIpv4TcpMaxTwBuckets
 	}
 
-	// Set property ‘NetIpv4TcpTwReuse’:
+	// Set property "NetIpv4TcpTwReuse":
 	if config.NetIpv4TcpTwReuse != nil {
 		netIpv4TcpTwReuse := *config.NetIpv4TcpTwReuse
 		result.NetIpv4TcpTwReuse = &netIpv4TcpTwReuse
 	}
 
-	// Set property ‘NetIpv4TcpkeepaliveIntvl’:
+	// Set property "NetIpv4TcpkeepaliveIntvl":
 	if config.NetIpv4TcpkeepaliveIntvl != nil {
 		netIpv4TcpkeepaliveIntvl := *config.NetIpv4TcpkeepaliveIntvl
 		result.NetIpv4TcpkeepaliveIntvl = &netIpv4TcpkeepaliveIntvl
 	}
 
-	// Set property ‘NetNetfilterNfConntrackBuckets’:
+	// Set property "NetNetfilterNfConntrackBuckets":
 	if config.NetNetfilterNfConntrackBuckets != nil {
 		netNetfilterNfConntrackBuckets := *config.NetNetfilterNfConntrackBuckets
 		result.NetNetfilterNfConntrackBuckets = &netNetfilterNfConntrackBuckets
 	}
 
-	// Set property ‘NetNetfilterNfConntrackMax’:
+	// Set property "NetNetfilterNfConntrackMax":
 	if config.NetNetfilterNfConntrackMax != nil {
 		netNetfilterNfConntrackMax := *config.NetNetfilterNfConntrackMax
 		result.NetNetfilterNfConntrackMax = &netNetfilterNfConntrackMax
 	}
 
-	// Set property ‘VmMaxMapCount’:
+	// Set property "VmMaxMapCount":
 	if config.VmMaxMapCount != nil {
 		vmMaxMapCount := *config.VmMaxMapCount
 		result.VmMaxMapCount = &vmMaxMapCount
 	}
 
-	// Set property ‘VmSwappiness’:
+	// Set property "VmSwappiness":
 	if config.VmSwappiness != nil {
 		vmSwappiness := *config.VmSwappiness
 		result.VmSwappiness = &vmSwappiness
 	}
 
-	// Set property ‘VmVfsCachePressure’:
+	// Set property "VmVfsCachePressure":
 	if config.VmVfsCachePressure != nil {
 		vmVfsCachePressure := *config.VmVfsCachePressure
 		result.VmVfsCachePressure = &vmVfsCachePressure
@@ -3689,169 +3697,169 @@ func (config *SysctlConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SysctlConfig_ARM, got %T", armInput)
 	}
 
-	// Set property ‘FsAioMaxNr’:
+	// Set property "FsAioMaxNr":
 	if typedInput.FsAioMaxNr != nil {
 		fsAioMaxNr := *typedInput.FsAioMaxNr
 		config.FsAioMaxNr = &fsAioMaxNr
 	}
 
-	// Set property ‘FsFileMax’:
+	// Set property "FsFileMax":
 	if typedInput.FsFileMax != nil {
 		fsFileMax := *typedInput.FsFileMax
 		config.FsFileMax = &fsFileMax
 	}
 
-	// Set property ‘FsInotifyMaxUserWatches’:
+	// Set property "FsInotifyMaxUserWatches":
 	if typedInput.FsInotifyMaxUserWatches != nil {
 		fsInotifyMaxUserWatches := *typedInput.FsInotifyMaxUserWatches
 		config.FsInotifyMaxUserWatches = &fsInotifyMaxUserWatches
 	}
 
-	// Set property ‘FsNrOpen’:
+	// Set property "FsNrOpen":
 	if typedInput.FsNrOpen != nil {
 		fsNrOpen := *typedInput.FsNrOpen
 		config.FsNrOpen = &fsNrOpen
 	}
 
-	// Set property ‘KernelThreadsMax’:
+	// Set property "KernelThreadsMax":
 	if typedInput.KernelThreadsMax != nil {
 		kernelThreadsMax := *typedInput.KernelThreadsMax
 		config.KernelThreadsMax = &kernelThreadsMax
 	}
 
-	// Set property ‘NetCoreNetdevMaxBacklog’:
+	// Set property "NetCoreNetdevMaxBacklog":
 	if typedInput.NetCoreNetdevMaxBacklog != nil {
 		netCoreNetdevMaxBacklog := *typedInput.NetCoreNetdevMaxBacklog
 		config.NetCoreNetdevMaxBacklog = &netCoreNetdevMaxBacklog
 	}
 
-	// Set property ‘NetCoreOptmemMax’:
+	// Set property "NetCoreOptmemMax":
 	if typedInput.NetCoreOptmemMax != nil {
 		netCoreOptmemMax := *typedInput.NetCoreOptmemMax
 		config.NetCoreOptmemMax = &netCoreOptmemMax
 	}
 
-	// Set property ‘NetCoreRmemDefault’:
+	// Set property "NetCoreRmemDefault":
 	if typedInput.NetCoreRmemDefault != nil {
 		netCoreRmemDefault := *typedInput.NetCoreRmemDefault
 		config.NetCoreRmemDefault = &netCoreRmemDefault
 	}
 
-	// Set property ‘NetCoreRmemMax’:
+	// Set property "NetCoreRmemMax":
 	if typedInput.NetCoreRmemMax != nil {
 		netCoreRmemMax := *typedInput.NetCoreRmemMax
 		config.NetCoreRmemMax = &netCoreRmemMax
 	}
 
-	// Set property ‘NetCoreSomaxconn’:
+	// Set property "NetCoreSomaxconn":
 	if typedInput.NetCoreSomaxconn != nil {
 		netCoreSomaxconn := *typedInput.NetCoreSomaxconn
 		config.NetCoreSomaxconn = &netCoreSomaxconn
 	}
 
-	// Set property ‘NetCoreWmemDefault’:
+	// Set property "NetCoreWmemDefault":
 	if typedInput.NetCoreWmemDefault != nil {
 		netCoreWmemDefault := *typedInput.NetCoreWmemDefault
 		config.NetCoreWmemDefault = &netCoreWmemDefault
 	}
 
-	// Set property ‘NetCoreWmemMax’:
+	// Set property "NetCoreWmemMax":
 	if typedInput.NetCoreWmemMax != nil {
 		netCoreWmemMax := *typedInput.NetCoreWmemMax
 		config.NetCoreWmemMax = &netCoreWmemMax
 	}
 
-	// Set property ‘NetIpv4IpLocalPortRange’:
+	// Set property "NetIpv4IpLocalPortRange":
 	if typedInput.NetIpv4IpLocalPortRange != nil {
 		netIpv4IpLocalPortRange := *typedInput.NetIpv4IpLocalPortRange
 		config.NetIpv4IpLocalPortRange = &netIpv4IpLocalPortRange
 	}
 
-	// Set property ‘NetIpv4NeighDefaultGcThresh1’:
+	// Set property "NetIpv4NeighDefaultGcThresh1":
 	if typedInput.NetIpv4NeighDefaultGcThresh1 != nil {
 		netIpv4NeighDefaultGcThresh1 := *typedInput.NetIpv4NeighDefaultGcThresh1
 		config.NetIpv4NeighDefaultGcThresh1 = &netIpv4NeighDefaultGcThresh1
 	}
 
-	// Set property ‘NetIpv4NeighDefaultGcThresh2’:
+	// Set property "NetIpv4NeighDefaultGcThresh2":
 	if typedInput.NetIpv4NeighDefaultGcThresh2 != nil {
 		netIpv4NeighDefaultGcThresh2 := *typedInput.NetIpv4NeighDefaultGcThresh2
 		config.NetIpv4NeighDefaultGcThresh2 = &netIpv4NeighDefaultGcThresh2
 	}
 
-	// Set property ‘NetIpv4NeighDefaultGcThresh3’:
+	// Set property "NetIpv4NeighDefaultGcThresh3":
 	if typedInput.NetIpv4NeighDefaultGcThresh3 != nil {
 		netIpv4NeighDefaultGcThresh3 := *typedInput.NetIpv4NeighDefaultGcThresh3
 		config.NetIpv4NeighDefaultGcThresh3 = &netIpv4NeighDefaultGcThresh3
 	}
 
-	// Set property ‘NetIpv4TcpFinTimeout’:
+	// Set property "NetIpv4TcpFinTimeout":
 	if typedInput.NetIpv4TcpFinTimeout != nil {
 		netIpv4TcpFinTimeout := *typedInput.NetIpv4TcpFinTimeout
 		config.NetIpv4TcpFinTimeout = &netIpv4TcpFinTimeout
 	}
 
-	// Set property ‘NetIpv4TcpKeepaliveProbes’:
+	// Set property "NetIpv4TcpKeepaliveProbes":
 	if typedInput.NetIpv4TcpKeepaliveProbes != nil {
 		netIpv4TcpKeepaliveProbes := *typedInput.NetIpv4TcpKeepaliveProbes
 		config.NetIpv4TcpKeepaliveProbes = &netIpv4TcpKeepaliveProbes
 	}
 
-	// Set property ‘NetIpv4TcpKeepaliveTime’:
+	// Set property "NetIpv4TcpKeepaliveTime":
 	if typedInput.NetIpv4TcpKeepaliveTime != nil {
 		netIpv4TcpKeepaliveTime := *typedInput.NetIpv4TcpKeepaliveTime
 		config.NetIpv4TcpKeepaliveTime = &netIpv4TcpKeepaliveTime
 	}
 
-	// Set property ‘NetIpv4TcpMaxSynBacklog’:
+	// Set property "NetIpv4TcpMaxSynBacklog":
 	if typedInput.NetIpv4TcpMaxSynBacklog != nil {
 		netIpv4TcpMaxSynBacklog := *typedInput.NetIpv4TcpMaxSynBacklog
 		config.NetIpv4TcpMaxSynBacklog = &netIpv4TcpMaxSynBacklog
 	}
 
-	// Set property ‘NetIpv4TcpMaxTwBuckets’:
+	// Set property "NetIpv4TcpMaxTwBuckets":
 	if typedInput.NetIpv4TcpMaxTwBuckets != nil {
 		netIpv4TcpMaxTwBuckets := *typedInput.NetIpv4TcpMaxTwBuckets
 		config.NetIpv4TcpMaxTwBuckets = &netIpv4TcpMaxTwBuckets
 	}
 
-	// Set property ‘NetIpv4TcpTwReuse’:
+	// Set property "NetIpv4TcpTwReuse":
 	if typedInput.NetIpv4TcpTwReuse != nil {
 		netIpv4TcpTwReuse := *typedInput.NetIpv4TcpTwReuse
 		config.NetIpv4TcpTwReuse = &netIpv4TcpTwReuse
 	}
 
-	// Set property ‘NetIpv4TcpkeepaliveIntvl’:
+	// Set property "NetIpv4TcpkeepaliveIntvl":
 	if typedInput.NetIpv4TcpkeepaliveIntvl != nil {
 		netIpv4TcpkeepaliveIntvl := *typedInput.NetIpv4TcpkeepaliveIntvl
 		config.NetIpv4TcpkeepaliveIntvl = &netIpv4TcpkeepaliveIntvl
 	}
 
-	// Set property ‘NetNetfilterNfConntrackBuckets’:
+	// Set property "NetNetfilterNfConntrackBuckets":
 	if typedInput.NetNetfilterNfConntrackBuckets != nil {
 		netNetfilterNfConntrackBuckets := *typedInput.NetNetfilterNfConntrackBuckets
 		config.NetNetfilterNfConntrackBuckets = &netNetfilterNfConntrackBuckets
 	}
 
-	// Set property ‘NetNetfilterNfConntrackMax’:
+	// Set property "NetNetfilterNfConntrackMax":
 	if typedInput.NetNetfilterNfConntrackMax != nil {
 		netNetfilterNfConntrackMax := *typedInput.NetNetfilterNfConntrackMax
 		config.NetNetfilterNfConntrackMax = &netNetfilterNfConntrackMax
 	}
 
-	// Set property ‘VmMaxMapCount’:
+	// Set property "VmMaxMapCount":
 	if typedInput.VmMaxMapCount != nil {
 		vmMaxMapCount := *typedInput.VmMaxMapCount
 		config.VmMaxMapCount = &vmMaxMapCount
 	}
 
-	// Set property ‘VmSwappiness’:
+	// Set property "VmSwappiness":
 	if typedInput.VmSwappiness != nil {
 		vmSwappiness := *typedInput.VmSwappiness
 		config.VmSwappiness = &vmSwappiness
 	}
 
-	// Set property ‘VmVfsCachePressure’:
+	// Set property "VmVfsCachePressure":
 	if typedInput.VmVfsCachePressure != nil {
 		vmVfsCachePressure := *typedInput.VmVfsCachePressure
 		config.VmVfsCachePressure = &vmVfsCachePressure
@@ -3862,7 +3870,7 @@ func (config *SysctlConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 }
 
 // AssignProperties_From_SysctlConfig populates our SysctlConfig from the provided source SysctlConfig
-func (config *SysctlConfig) AssignProperties_From_SysctlConfig(source *v20210501s.SysctlConfig) error {
+func (config *SysctlConfig) AssignProperties_From_SysctlConfig(source *v1beta20210501s.SysctlConfig) error {
 
 	// FsAioMaxNr
 	config.FsAioMaxNr = genruntime.ClonePointerToInt(source.FsAioMaxNr)
@@ -3958,7 +3966,7 @@ func (config *SysctlConfig) AssignProperties_From_SysctlConfig(source *v20210501
 }
 
 // AssignProperties_To_SysctlConfig populates the provided destination SysctlConfig from our SysctlConfig
-func (config *SysctlConfig) AssignProperties_To_SysctlConfig(destination *v20210501s.SysctlConfig) error {
+func (config *SysctlConfig) AssignProperties_To_SysctlConfig(destination *v1beta20210501s.SysctlConfig) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4108,169 +4116,169 @@ func (config *SysctlConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SysctlConfig_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘FsAioMaxNr’:
+	// Set property "FsAioMaxNr":
 	if typedInput.FsAioMaxNr != nil {
 		fsAioMaxNr := *typedInput.FsAioMaxNr
 		config.FsAioMaxNr = &fsAioMaxNr
 	}
 
-	// Set property ‘FsFileMax’:
+	// Set property "FsFileMax":
 	if typedInput.FsFileMax != nil {
 		fsFileMax := *typedInput.FsFileMax
 		config.FsFileMax = &fsFileMax
 	}
 
-	// Set property ‘FsInotifyMaxUserWatches’:
+	// Set property "FsInotifyMaxUserWatches":
 	if typedInput.FsInotifyMaxUserWatches != nil {
 		fsInotifyMaxUserWatches := *typedInput.FsInotifyMaxUserWatches
 		config.FsInotifyMaxUserWatches = &fsInotifyMaxUserWatches
 	}
 
-	// Set property ‘FsNrOpen’:
+	// Set property "FsNrOpen":
 	if typedInput.FsNrOpen != nil {
 		fsNrOpen := *typedInput.FsNrOpen
 		config.FsNrOpen = &fsNrOpen
 	}
 
-	// Set property ‘KernelThreadsMax’:
+	// Set property "KernelThreadsMax":
 	if typedInput.KernelThreadsMax != nil {
 		kernelThreadsMax := *typedInput.KernelThreadsMax
 		config.KernelThreadsMax = &kernelThreadsMax
 	}
 
-	// Set property ‘NetCoreNetdevMaxBacklog’:
+	// Set property "NetCoreNetdevMaxBacklog":
 	if typedInput.NetCoreNetdevMaxBacklog != nil {
 		netCoreNetdevMaxBacklog := *typedInput.NetCoreNetdevMaxBacklog
 		config.NetCoreNetdevMaxBacklog = &netCoreNetdevMaxBacklog
 	}
 
-	// Set property ‘NetCoreOptmemMax’:
+	// Set property "NetCoreOptmemMax":
 	if typedInput.NetCoreOptmemMax != nil {
 		netCoreOptmemMax := *typedInput.NetCoreOptmemMax
 		config.NetCoreOptmemMax = &netCoreOptmemMax
 	}
 
-	// Set property ‘NetCoreRmemDefault’:
+	// Set property "NetCoreRmemDefault":
 	if typedInput.NetCoreRmemDefault != nil {
 		netCoreRmemDefault := *typedInput.NetCoreRmemDefault
 		config.NetCoreRmemDefault = &netCoreRmemDefault
 	}
 
-	// Set property ‘NetCoreRmemMax’:
+	// Set property "NetCoreRmemMax":
 	if typedInput.NetCoreRmemMax != nil {
 		netCoreRmemMax := *typedInput.NetCoreRmemMax
 		config.NetCoreRmemMax = &netCoreRmemMax
 	}
 
-	// Set property ‘NetCoreSomaxconn’:
+	// Set property "NetCoreSomaxconn":
 	if typedInput.NetCoreSomaxconn != nil {
 		netCoreSomaxconn := *typedInput.NetCoreSomaxconn
 		config.NetCoreSomaxconn = &netCoreSomaxconn
 	}
 
-	// Set property ‘NetCoreWmemDefault’:
+	// Set property "NetCoreWmemDefault":
 	if typedInput.NetCoreWmemDefault != nil {
 		netCoreWmemDefault := *typedInput.NetCoreWmemDefault
 		config.NetCoreWmemDefault = &netCoreWmemDefault
 	}
 
-	// Set property ‘NetCoreWmemMax’:
+	// Set property "NetCoreWmemMax":
 	if typedInput.NetCoreWmemMax != nil {
 		netCoreWmemMax := *typedInput.NetCoreWmemMax
 		config.NetCoreWmemMax = &netCoreWmemMax
 	}
 
-	// Set property ‘NetIpv4IpLocalPortRange’:
+	// Set property "NetIpv4IpLocalPortRange":
 	if typedInput.NetIpv4IpLocalPortRange != nil {
 		netIpv4IpLocalPortRange := *typedInput.NetIpv4IpLocalPortRange
 		config.NetIpv4IpLocalPortRange = &netIpv4IpLocalPortRange
 	}
 
-	// Set property ‘NetIpv4NeighDefaultGcThresh1’:
+	// Set property "NetIpv4NeighDefaultGcThresh1":
 	if typedInput.NetIpv4NeighDefaultGcThresh1 != nil {
 		netIpv4NeighDefaultGcThresh1 := *typedInput.NetIpv4NeighDefaultGcThresh1
 		config.NetIpv4NeighDefaultGcThresh1 = &netIpv4NeighDefaultGcThresh1
 	}
 
-	// Set property ‘NetIpv4NeighDefaultGcThresh2’:
+	// Set property "NetIpv4NeighDefaultGcThresh2":
 	if typedInput.NetIpv4NeighDefaultGcThresh2 != nil {
 		netIpv4NeighDefaultGcThresh2 := *typedInput.NetIpv4NeighDefaultGcThresh2
 		config.NetIpv4NeighDefaultGcThresh2 = &netIpv4NeighDefaultGcThresh2
 	}
 
-	// Set property ‘NetIpv4NeighDefaultGcThresh3’:
+	// Set property "NetIpv4NeighDefaultGcThresh3":
 	if typedInput.NetIpv4NeighDefaultGcThresh3 != nil {
 		netIpv4NeighDefaultGcThresh3 := *typedInput.NetIpv4NeighDefaultGcThresh3
 		config.NetIpv4NeighDefaultGcThresh3 = &netIpv4NeighDefaultGcThresh3
 	}
 
-	// Set property ‘NetIpv4TcpFinTimeout’:
+	// Set property "NetIpv4TcpFinTimeout":
 	if typedInput.NetIpv4TcpFinTimeout != nil {
 		netIpv4TcpFinTimeout := *typedInput.NetIpv4TcpFinTimeout
 		config.NetIpv4TcpFinTimeout = &netIpv4TcpFinTimeout
 	}
 
-	// Set property ‘NetIpv4TcpKeepaliveProbes’:
+	// Set property "NetIpv4TcpKeepaliveProbes":
 	if typedInput.NetIpv4TcpKeepaliveProbes != nil {
 		netIpv4TcpKeepaliveProbes := *typedInput.NetIpv4TcpKeepaliveProbes
 		config.NetIpv4TcpKeepaliveProbes = &netIpv4TcpKeepaliveProbes
 	}
 
-	// Set property ‘NetIpv4TcpKeepaliveTime’:
+	// Set property "NetIpv4TcpKeepaliveTime":
 	if typedInput.NetIpv4TcpKeepaliveTime != nil {
 		netIpv4TcpKeepaliveTime := *typedInput.NetIpv4TcpKeepaliveTime
 		config.NetIpv4TcpKeepaliveTime = &netIpv4TcpKeepaliveTime
 	}
 
-	// Set property ‘NetIpv4TcpMaxSynBacklog’:
+	// Set property "NetIpv4TcpMaxSynBacklog":
 	if typedInput.NetIpv4TcpMaxSynBacklog != nil {
 		netIpv4TcpMaxSynBacklog := *typedInput.NetIpv4TcpMaxSynBacklog
 		config.NetIpv4TcpMaxSynBacklog = &netIpv4TcpMaxSynBacklog
 	}
 
-	// Set property ‘NetIpv4TcpMaxTwBuckets’:
+	// Set property "NetIpv4TcpMaxTwBuckets":
 	if typedInput.NetIpv4TcpMaxTwBuckets != nil {
 		netIpv4TcpMaxTwBuckets := *typedInput.NetIpv4TcpMaxTwBuckets
 		config.NetIpv4TcpMaxTwBuckets = &netIpv4TcpMaxTwBuckets
 	}
 
-	// Set property ‘NetIpv4TcpTwReuse’:
+	// Set property "NetIpv4TcpTwReuse":
 	if typedInput.NetIpv4TcpTwReuse != nil {
 		netIpv4TcpTwReuse := *typedInput.NetIpv4TcpTwReuse
 		config.NetIpv4TcpTwReuse = &netIpv4TcpTwReuse
 	}
 
-	// Set property ‘NetIpv4TcpkeepaliveIntvl’:
+	// Set property "NetIpv4TcpkeepaliveIntvl":
 	if typedInput.NetIpv4TcpkeepaliveIntvl != nil {
 		netIpv4TcpkeepaliveIntvl := *typedInput.NetIpv4TcpkeepaliveIntvl
 		config.NetIpv4TcpkeepaliveIntvl = &netIpv4TcpkeepaliveIntvl
 	}
 
-	// Set property ‘NetNetfilterNfConntrackBuckets’:
+	// Set property "NetNetfilterNfConntrackBuckets":
 	if typedInput.NetNetfilterNfConntrackBuckets != nil {
 		netNetfilterNfConntrackBuckets := *typedInput.NetNetfilterNfConntrackBuckets
 		config.NetNetfilterNfConntrackBuckets = &netNetfilterNfConntrackBuckets
 	}
 
-	// Set property ‘NetNetfilterNfConntrackMax’:
+	// Set property "NetNetfilterNfConntrackMax":
 	if typedInput.NetNetfilterNfConntrackMax != nil {
 		netNetfilterNfConntrackMax := *typedInput.NetNetfilterNfConntrackMax
 		config.NetNetfilterNfConntrackMax = &netNetfilterNfConntrackMax
 	}
 
-	// Set property ‘VmMaxMapCount’:
+	// Set property "VmMaxMapCount":
 	if typedInput.VmMaxMapCount != nil {
 		vmMaxMapCount := *typedInput.VmMaxMapCount
 		config.VmMaxMapCount = &vmMaxMapCount
 	}
 
-	// Set property ‘VmSwappiness’:
+	// Set property "VmSwappiness":
 	if typedInput.VmSwappiness != nil {
 		vmSwappiness := *typedInput.VmSwappiness
 		config.VmSwappiness = &vmSwappiness
 	}
 
-	// Set property ‘VmVfsCachePressure’:
+	// Set property "VmVfsCachePressure":
 	if typedInput.VmVfsCachePressure != nil {
 		vmVfsCachePressure := *typedInput.VmVfsCachePressure
 		config.VmVfsCachePressure = &vmVfsCachePressure
@@ -4281,7 +4289,7 @@ func (config *SysctlConfig_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_SysctlConfig_STATUS populates our SysctlConfig_STATUS from the provided source SysctlConfig_STATUS
-func (config *SysctlConfig_STATUS) AssignProperties_From_SysctlConfig_STATUS(source *v20210501s.SysctlConfig_STATUS) error {
+func (config *SysctlConfig_STATUS) AssignProperties_From_SysctlConfig_STATUS(source *v1beta20210501s.SysctlConfig_STATUS) error {
 
 	// FsAioMaxNr
 	config.FsAioMaxNr = genruntime.ClonePointerToInt(source.FsAioMaxNr)
@@ -4377,7 +4385,7 @@ func (config *SysctlConfig_STATUS) AssignProperties_From_SysctlConfig_STATUS(sou
 }
 
 // AssignProperties_To_SysctlConfig_STATUS populates the provided destination SysctlConfig_STATUS from our SysctlConfig_STATUS
-func (config *SysctlConfig_STATUS) AssignProperties_To_SysctlConfig_STATUS(destination *v20210501s.SysctlConfig_STATUS) error {
+func (config *SysctlConfig_STATUS) AssignProperties_To_SysctlConfig_STATUS(destination *v1beta20210501s.SysctlConfig_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

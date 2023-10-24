@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &ServersFirewallRule{}
 
 // ConvertFrom populates our ServersFirewallRule from the provided hub ServersFirewallRule
 func (rule *ServersFirewallRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20211101s.ServersFirewallRule)
+	source, ok := hub.(*v20211101s.ServersFirewallRule)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/ServersFirewallRule but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (rule *ServersFirewallRule) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub ServersFirewallRule from our ServersFirewallRule
 func (rule *ServersFirewallRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20211101s.ServersFirewallRule)
+	destination, ok := hub.(*v20211101s.ServersFirewallRule)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/ServersFirewallRule but received %T instead", hub)
 	}
@@ -141,11 +141,7 @@ func (rule *ServersFirewallRule) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (rule *ServersFirewallRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(rule.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  rule.Spec.Owner.Name,
-	}
+	return rule.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (rule *ServersFirewallRule) ValidateUpdate(old runtime.Object) (admission.W
 
 // createValidations validates the creation of the resource
 func (rule *ServersFirewallRule) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){rule.validateResourceReferences}
+	return []func() (admission.Warnings, error){rule.validateResourceReferences, rule.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (rule *ServersFirewallRule) updateValidations() []func(old runtime.Object) 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return rule.validateResourceReferences()
 		},
-		rule.validateWriteOnceProperties}
+		rule.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return rule.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (rule *ServersFirewallRule) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(rule)
 }
 
 // validateResourceReferences validates all resource references
@@ -240,7 +245,7 @@ func (rule *ServersFirewallRule) validateWriteOnceProperties(old runtime.Object)
 }
 
 // AssignProperties_From_ServersFirewallRule populates our ServersFirewallRule from the provided source ServersFirewallRule
-func (rule *ServersFirewallRule) AssignProperties_From_ServersFirewallRule(source *v1api20211101s.ServersFirewallRule) error {
+func (rule *ServersFirewallRule) AssignProperties_From_ServersFirewallRule(source *v20211101s.ServersFirewallRule) error {
 
 	// ObjectMeta
 	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +271,13 @@ func (rule *ServersFirewallRule) AssignProperties_From_ServersFirewallRule(sourc
 }
 
 // AssignProperties_To_ServersFirewallRule populates the provided destination ServersFirewallRule from our ServersFirewallRule
-func (rule *ServersFirewallRule) AssignProperties_To_ServersFirewallRule(destination *v1api20211101s.ServersFirewallRule) error {
+func (rule *ServersFirewallRule) AssignProperties_To_ServersFirewallRule(destination *v20211101s.ServersFirewallRule) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20211101s.Servers_FirewallRule_Spec
+	var spec v20211101s.Servers_FirewallRule_Spec
 	err := rule.Spec.AssignProperties_To_Servers_FirewallRule_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_FirewallRule_Spec() to populate field Spec")
@@ -280,7 +285,7 @@ func (rule *ServersFirewallRule) AssignProperties_To_ServersFirewallRule(destina
 	destination.Spec = spec
 
 	// Status
-	var status v1api20211101s.Servers_FirewallRule_STATUS
+	var status v20211101s.Servers_FirewallRule_STATUS
 	err = rule.Status.AssignProperties_To_Servers_FirewallRule_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_FirewallRule_STATUS() to populate field Status")
@@ -339,10 +344,10 @@ func (rule *Servers_FirewallRule_Spec) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &Servers_FirewallRule_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if rule.EndIpAddress != nil || rule.StartIpAddress != nil {
 		result.Properties = &ServerFirewallRuleProperties_ARM{}
 	}
@@ -369,10 +374,10 @@ func (rule *Servers_FirewallRule_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_FirewallRule_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	rule.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘EndIpAddress’:
+	// Set property "EndIpAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EndIpAddress != nil {
@@ -381,10 +386,13 @@ func (rule *Servers_FirewallRule_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Owner’:
-	rule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	rule.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘StartIpAddress’:
+	// Set property "StartIpAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StartIpAddress != nil {
@@ -401,14 +409,14 @@ var _ genruntime.ConvertibleSpec = &Servers_FirewallRule_Spec{}
 
 // ConvertSpecFrom populates our Servers_FirewallRule_Spec from the provided source
 func (rule *Servers_FirewallRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20211101s.Servers_FirewallRule_Spec)
+	src, ok := source.(*v20211101s.Servers_FirewallRule_Spec)
 	if ok {
 		// Populate our instance from source
 		return rule.AssignProperties_From_Servers_FirewallRule_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Servers_FirewallRule_Spec{}
+	src = &v20211101s.Servers_FirewallRule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -425,14 +433,14 @@ func (rule *Servers_FirewallRule_Spec) ConvertSpecFrom(source genruntime.Convert
 
 // ConvertSpecTo populates the provided destination from our Servers_FirewallRule_Spec
 func (rule *Servers_FirewallRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20211101s.Servers_FirewallRule_Spec)
+	dst, ok := destination.(*v20211101s.Servers_FirewallRule_Spec)
 	if ok {
 		// Populate destination from our instance
 		return rule.AssignProperties_To_Servers_FirewallRule_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Servers_FirewallRule_Spec{}
+	dst = &v20211101s.Servers_FirewallRule_Spec{}
 	err := rule.AssignProperties_To_Servers_FirewallRule_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -448,7 +456,7 @@ func (rule *Servers_FirewallRule_Spec) ConvertSpecTo(destination genruntime.Conv
 }
 
 // AssignProperties_From_Servers_FirewallRule_Spec populates our Servers_FirewallRule_Spec from the provided source Servers_FirewallRule_Spec
-func (rule *Servers_FirewallRule_Spec) AssignProperties_From_Servers_FirewallRule_Spec(source *v1api20211101s.Servers_FirewallRule_Spec) error {
+func (rule *Servers_FirewallRule_Spec) AssignProperties_From_Servers_FirewallRule_Spec(source *v20211101s.Servers_FirewallRule_Spec) error {
 
 	// AzureName
 	rule.AzureName = source.AzureName
@@ -472,7 +480,7 @@ func (rule *Servers_FirewallRule_Spec) AssignProperties_From_Servers_FirewallRul
 }
 
 // AssignProperties_To_Servers_FirewallRule_Spec populates the provided destination Servers_FirewallRule_Spec from our Servers_FirewallRule_Spec
-func (rule *Servers_FirewallRule_Spec) AssignProperties_To_Servers_FirewallRule_Spec(destination *v1api20211101s.Servers_FirewallRule_Spec) error {
+func (rule *Servers_FirewallRule_Spec) AssignProperties_To_Servers_FirewallRule_Spec(destination *v20211101s.Servers_FirewallRule_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -554,14 +562,14 @@ var _ genruntime.ConvertibleStatus = &Servers_FirewallRule_STATUS{}
 
 // ConvertStatusFrom populates our Servers_FirewallRule_STATUS from the provided source
 func (rule *Servers_FirewallRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20211101s.Servers_FirewallRule_STATUS)
+	src, ok := source.(*v20211101s.Servers_FirewallRule_STATUS)
 	if ok {
 		// Populate our instance from source
 		return rule.AssignProperties_From_Servers_FirewallRule_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Servers_FirewallRule_STATUS{}
+	src = &v20211101s.Servers_FirewallRule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -578,14 +586,14 @@ func (rule *Servers_FirewallRule_STATUS) ConvertStatusFrom(source genruntime.Con
 
 // ConvertStatusTo populates the provided destination from our Servers_FirewallRule_STATUS
 func (rule *Servers_FirewallRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20211101s.Servers_FirewallRule_STATUS)
+	dst, ok := destination.(*v20211101s.Servers_FirewallRule_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return rule.AssignProperties_To_Servers_FirewallRule_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Servers_FirewallRule_STATUS{}
+	dst = &v20211101s.Servers_FirewallRule_STATUS{}
 	err := rule.AssignProperties_To_Servers_FirewallRule_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -614,9 +622,9 @@ func (rule *Servers_FirewallRule_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_FirewallRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘EndIpAddress’:
+	// Set property "EndIpAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EndIpAddress != nil {
@@ -625,19 +633,19 @@ func (rule *Servers_FirewallRule_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		rule.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘StartIpAddress’:
+	// Set property "StartIpAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StartIpAddress != nil {
@@ -646,7 +654,7 @@ func (rule *Servers_FirewallRule_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		rule.Type = &typeVar
@@ -657,7 +665,7 @@ func (rule *Servers_FirewallRule_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_Servers_FirewallRule_STATUS populates our Servers_FirewallRule_STATUS from the provided source Servers_FirewallRule_STATUS
-func (rule *Servers_FirewallRule_STATUS) AssignProperties_From_Servers_FirewallRule_STATUS(source *v1api20211101s.Servers_FirewallRule_STATUS) error {
+func (rule *Servers_FirewallRule_STATUS) AssignProperties_From_Servers_FirewallRule_STATUS(source *v20211101s.Servers_FirewallRule_STATUS) error {
 
 	// Conditions
 	rule.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -682,7 +690,7 @@ func (rule *Servers_FirewallRule_STATUS) AssignProperties_From_Servers_FirewallR
 }
 
 // AssignProperties_To_Servers_FirewallRule_STATUS populates the provided destination Servers_FirewallRule_STATUS from our Servers_FirewallRule_STATUS
-func (rule *Servers_FirewallRule_STATUS) AssignProperties_To_Servers_FirewallRule_STATUS(destination *v1api20211101s.Servers_FirewallRule_STATUS) error {
+func (rule *Servers_FirewallRule_STATUS) AssignProperties_To_Servers_FirewallRule_STATUS(destination *v20211101s.Servers_FirewallRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

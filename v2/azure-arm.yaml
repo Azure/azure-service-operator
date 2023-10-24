@@ -31,7 +31,7 @@ supportedResourcesReport:
   # resourcePath is a template used for generating a file path for checking whether docs for a resource have been generated
   # specified relative to the directory of outputPath, and supports the same placeholders
   resourcePathTemplate: "{group}/{version}.md"
-  currentRelease: v2.2.0
+  currentRelease: v2.3.0
 
 #
 # These filters are used early in the processing pipeline. 
@@ -42,11 +42,15 @@ supportedResourcesReport:
 # Filters are applied in document order, with the earliest matching filter being applied for each type.
 #
 typeFilters:
-
+  - action: include
+    group: containerservice
+    version: v*20230315preview
+    because: We want to support Fleet
+    
   - action: include
     group: servicebus
-    version: v*20210101preview
-    because: We want to export this particular preview version
+    version: v*20210101preview;v*20221001preview
+    because: We want to export these particular preview versions
 
   - action: include
     group: keyvault
@@ -77,6 +81,11 @@ typeFilters:
     group: managedidentity
     version: v*20220131preview
     because: We want to export this particular preview version
+
+  # - action: include
+  #   group: apimanagement
+  #   version: v*20230501preview
+  #   because: This version of APIM is created in a matter of minutes
 
   - action: include
     group: common
@@ -126,8 +135,45 @@ typeFilters:
 # weird json or by handling them differently in the generator.
 anyTypePackages:
 
+
+# 
+# Type Transformers are used to make precision edits to the object model we've loaded from the 
+# original OpeanAPI/Swagger files.
+#
+# We need these because there is great variability in how different product groups define their 
+# APIs, and because some of the common constructs that are used can't be directly handled in Go.
+#
+# The available properties fall into two groups - the first used to select which type needs to be 
+# transformed, and the second to define the required transformation.
+#
+# Selection Properties
+#
+# group    - select types or properties in the specified group or groups
+# version  - select types or properties in the specified version or version(s)
+# name     - select types or properties with the specified name or name(s)
+# property - select properties with the given name or name(s)
+#
+# All of these properties are matchers:
+#
+# o They allow multiple values, semicolon (;) separated
+# o They allow glob style wildcards '*' and '?'
+#
+# ifType - matches a type or property only if it has the specified type
+#
+# target - defines a new type to replace the existing
+# remove - specifies a property should be deleted
+#
+# Every TypeTransformer has a 'because' property which should be used to explain (in human terms)
+# what's being done and why.
+#
+# Some of the transformations below have been commented to illustrate use.
+#
 typeTransformers:
-  # Deal with stuff that exists on ARM resources but doesn't make sense on CRDs
+  # 
+  # Match the property 'Tags' on any type,
+  # but only if it has the type 'map[string]any'
+  # and replace it with 'map[string]string'
+  #
   - name: "*"
     property: Tags
     ifType: 
@@ -143,133 +189,163 @@ typeTransformers:
         value:
           name: string
     because: Tags is defined as map[string]interface{} when it should be map[string]string
+
+  #
+  # In the group 'cache', 
+  # remove the property'RedisProperties_Status.AccessKeys'
+  # because it's only populated in a response from Azure 
+  #
   - group: cache
     name: RedisProperties_Status
     property: AccessKeys
     remove: true
     because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
 
-  # Properties that should have been marked as ReadOnly in the Swagger
-  - name: BackupVault_Spec
-    group: dataprotection
+  - group: keyvault
+    name: VaultProperties_CreateMode;VaultProperties_CreateMode_STATUS 
+    target:
+      enum:
+        base: string
+        values:
+          - default
+          - recover
+          - createOrRecover
+          - purgeThenCreate
+    because: "We're adding two new options to allow KeyVaults to goal-seek"
+  # 
+  # In the group 'apimanagement', 
+  # remove the property 'ApiManagementServiceProperties.PrivateEndpointConnections'
+  # 
+  - group: apimanagement
+    name: ApiManagementServiceProperties
+    property: PrivateEndpointConnections
+    remove: true
+    because: This property should be marked readonly
+
+  # 
+  # In the group 'dataprotection',
+  # from the type 'BackupVault_Spec',
+  # Remove the properties 'Etag' and 'SystemData'
+  #
+  - group: dataprotection
+    name: BackupVault_Spec
+    property: Etag;SystemData
+    remove: true
+    because: These properties should be marked readonly in Swagger
+
+  - group: dataprotection
+    name: BackupVaults_BackupPolicy_Spec
     property: SystemData
     remove: true
     because: This property should be marked readonly in Swagger
-  - name: BackupVault_Spec
-    group: dataprotection
-    property: Etag
-    remove: true
-    because: This property should be marked readonly in Swagger
-  - name: BackupVaults_BackupPolicy_Spec
-    group: dataprotection
-    property: SystemData
-    remove: true
-    because: This property should be marked readonly in Swagger
+
   - name: BackupVaults_BackupInstance_Spec
     group: dataprotection
     property: SystemData
     remove: true
     because: This property should be marked readonly in Swagger
+
   - name: IotHub_Spec
     group: devices
     property: Etag
     remove: true
     because: This property should be marked readonly
-  - name: SharedAccessSignatureAuthorizationRule
-    group: devices
-    property: PrimaryKey
-    remove: true
-    because: This property should be marked readonly
-  - name: SharedAccessSignatureAuthorizationRule
-    group: devices
-    property: SecondaryKey
-    remove: true
-  - name: SharedAccessSignatureAuthorizationRule_STATUS
-    group: devices
-    property: PrimaryKey
-    remove: true
-    because: This property should be marked readonly
-  - name: SharedAccessSignatureAuthorizationRule_STATUS
-    group: devices
-    property: SecondaryKey
-    remove: true
-    because: This property should be marked readonly
-  - name: Namespace_Properties_Spec
-    group: eventhub
-    property: PrivateEndpointConnections
-    remove: true
-    because: This property should be marked readonly
-  - name: PrivateEndpointConnectionProperties
-    group: eventhub
-    property: PrivateLinkServiceConnectionState
-    remove: true
-    because: This property should be marked readonly
-  - name: PrivateEndpointConnectionProperties
-    group: eventhub
-    property: ProvisioningState
+
+  # 
+  # In the group 'devices',
+  # from the types 'SharedAccessSignatureAuthorizationRule'
+  # and 'SharedAccessSignatureAuthorizationRule_STATUS'
+  # remove the properties 'PrimaryKey' and 'SecondaryKey'
+  #
+  - group: devices
+    name: SharedAccessSignatureAuthorizationRule;SharedAccessSignatureAuthorizationRule_STATUS
+    property: PrimaryKey;SecondaryKey
     remove: true
     because: This property should be marked readonly
 
+  #
+  # In the group 'eventhub',
+  # from the type 'Namespace_Properties_Spec'
+  # remove the property 'PrivateEndpointConnections'
+  #
+  - group: eventhub
+    name: Namespace_Properties_Spec
+    property: PrivateEndpointConnections
+    remove: true
+    because: This property should be marked readonly
+
+  #
+  # In the group 'eventhub'
+  # from the object 'PrivateEndpointConnectionProperties'
+  # remove the properties 'PrivateLinkServiceConnectionState' and 'ProvisioningState'
+  #
+  - group: eventhub
+    name: PrivateEndpointConnectionProperties
+    property: PrivateLinkServiceConnectionState; ProvisioningState
+    remove: true
+    because: These properties should be marked readonly
+
   - group: network
-    version: "*"
     name: RouteTables_Route_Spec
     property: Type
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
+
   - group: network
-    version: "*"
     name: NetworkInterfaceIPConfiguration
     property: Type
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
+
   - group: network
-    version: "*"
     name: NetworkInterfacePropertiesFormat
     property: MigrationPhase
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
+
   - group: network
-    version: "*"
     name: PublicIPAddressPropertiesFormat
     property: MigrationPhase
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
+  
+  # 
+  # In the group 'network'
+  # remove the property 'Type'
+  # from the following four types
+  #
+  # - Delegation
+  # - NetworkSecurityGroups_SecurityRule_Spec
+  # - VirtualNetworks_Subnet_Spec
+  # - VirtualNetworks_VirtualNetworkPeering_Spec
+  #
   - group: network
-    version: "*"
-    name: NetworkSecurityGroups_SecurityRule_Spec
+    name: Delegation;NetworkSecurityGroups_SecurityRule_Spec;VirtualNetworks_Subnet_Spec;VirtualNetworks_VirtualNetworkPeering_Spec
     property: Type
     remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
+    because: type is supposed to be marked ReadOnly in Swagger
+
+  # 
+  # In the group 'network'
+  # remove the property 'Etag'
+  # from the following nine types:
+  #
+  # - DnsZone_Spec
+  # - DnsZones_AAAA_Spec
+  # - DnsZones_CAA_Spec
+  # - DnsZones_CNAME_Spec
+  # - DnsZones_MX_Spec
+  # - DnsZones_NS_Spec
+  # - DnsZones_PTR_Spec
+  # - DnsZones_SRV_Spec
+  # - DnsZones_TXT_Spec
+  #
   - group: network
-    version: "*"
-    name: VirtualNetworks_Subnet_Spec
-    property: Type
-    remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
-  - group: network
-    version: "*"
-    name: VirtualNetworks_VirtualNetworkPeering_Spec
-    property: Type
-    remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
-  - group: network
-    version: "*"
-    name: Delegation
-    property: Type
-    remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
-  - group: network
-    version: "*"
-    name: DnsZone_Spec
+    name: DnsZone_Spec;DnsZones_AAAA_Spec;DnsZones_CAA_Spec;DnsZones_CNAME_Spec;DnsZones_MX_Spec;DnsZones_NS_Spec;DnsZones_PTR_Spec;DnsZones_SRV_Spec;DnsZones_TXT_Spec
     property: Etag
     remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
-  - group: network
-    version: "*"
-    name: DnsZones_AAAA_Spec;DnsZones_CAA_Spec;DnsZones_CNAME_Spec;DnsZones_MX_Spec;DnsZones_NS_Spec;DnsZones_PTR_Spec;DnsZones_SRV_Spec;DnsZones_TXT_Spec
-    property: Etag
-    remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
+    because: Etag is supposed to be marked ReadOnly in Swagger
+
   - group: network
     version: "*"
     name: Delegation
@@ -284,6 +360,7 @@ typeTransformers:
     #  4. Live with it.
     remove: true
     because: We don't handle this very well right now, manually remove until TODO above has been done
+
   - group: network
     version: "*"
     name: PrivateEndpointProperties
@@ -323,11 +400,13 @@ typeTransformers:
     property: Status
     remove: true
     because: This property should have been marked readonly but wasn't.
+
   - group: servicebus
     name: SBSubscriptionProperties  # This type is subsequently flattened into Namespaces_Topics_Subscription_Spec
     property: Status
     remove: true
     because: This property should have been marked readonly but wasn't.
+
   - group: documentdb
     name: Location  # This type is subsequently flattened into NamespacesTopics_Spec
     property: ProvisioningState
@@ -346,21 +425,25 @@ typeTransformers:
     property: Subnets
     remove: true
     because: This is an embedded resource
+
   - group: network
     name: VirtualNetworkPropertiesFormat_Status  # This type is subsequently flattened into VirtualNetwork_Status
     property: VirtualNetworkPeerings
     remove: true
     because: This is an embedded resource
+
   - group: network
     name: RouteTablePropertiesFormat_Status  # This type is subsequently flattened into RouteTable_Status
     property: Routes
     remove: true
     because: This is an embedded resource
+
   - group: network
     name: RouteTablePropertiesFormat_Status  # This type is subsequently flattened into RouteTable_Status
     property: Subnets
     remove: true
     because: This is an embedded resource
+
   - group: network
     name: NetworkSecurityGroupPropertiesFormat_Status  # This type is subsequently flattened into NetworkSecurityGroup_Status
     property: SecurityRules
@@ -679,6 +762,99 @@ status:
 #     sub-resource.
 #
 objectModelConfiguration:
+  apimanagement:
+    2022-08-01:
+      AdditionalLocation:
+        PublicIpAddressId:
+          $armReference: true
+      ApiCreateOrUpdateProperties:
+        ApiVersionSetId:
+          $armReference: true
+        SourceApiId:
+          $armReference: true
+      ApiVersionSetContractDetails:
+        Id: 
+          $armReference: true
+      ApiManagementServiceProperties:
+        PublicIpAddressId:
+          $armReference: true
+      BackendContractProperties:
+        ResourceId:
+          $armReference: true
+      BackendProxyContract:
+        Password:
+          $isSecret: true
+      CertificateInformation:
+        Expiry:
+          $importConfigMapMode: optional
+        Subject:
+          $importConfigMapMode: optional
+        Thumbprint:
+          $importConfigMapMode: optional
+      CertificateConfiguration:
+        CertificatePassword:
+          $isSecret: true
+      HostnameConfiguration:
+        CertificatePassword:
+          $isSecret: true
+        IdentityClientId:
+          $importConfigMapMode: optional
+      KeyVaultContractCreateProperties:
+        IdentityClientId:
+          $importConfigMapMode: optional
+      Service:
+        $export: true
+        $supportedFrom: v2.4.0
+      Service_Api:
+        $exportAs: Api
+        $supportedFrom: v2.4.0
+      Service_ApiVersionSet:
+        $exportAs: ApiVersionSet
+        $supportedFrom: v2.4.0
+      Service_Backend:
+        $exportAs: Backend
+        $supportedFrom: v2.4.0
+      Service_NamedValue:
+        $exportAs: NamedValue
+        $supportedFrom: v2.4.0
+      Service_Policy:
+        $exportAs: Policy
+        $supportedFrom: v2.4.0
+      Service_PolicyFragment:
+        $exportAs: PolicyFragment
+        $supportedFrom: v2.4.0
+      Service_Product:
+        $exportAs: Product
+        $supportedFrom: v2.4.0
+      Service_Subscription:
+        $exportAs: Subscription
+        $supportedFrom: v2.4.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
+      SubscriptionCreateParameterProperties:
+        PrimaryKey:
+          $isSecret: true
+        SecondaryKey:
+          $isSecret: true
+        OwnerId:
+          $armReference: true
+      VirtualNetworkConfiguration:
+        SubnetResourceId:
+          $armReference: true
+    # TODO: New APIM version
+    # 2023-05-01-preview:
+    #   Service:
+    #     $export: true
+    #     $supportedFrom: v2.5.0
+    #   CertificateConfiguration:
+    #     CertificatePassword:
+    #       $isSecret: true
+    #   HostnameConfiguration:
+    #     CertificatePassword:
+    #       $isSecret: true
+    #     IdentityClientId:
+    #       $importConfigMapMode: optional
   appconfiguration:
     2022-05-01:
       ConfigurationStore:
@@ -748,6 +924,36 @@ objectModelConfiguration:
       RedisEnterprise_Database:
         $exportAs: RedisEnterpriseDatabase
         $supportedFrom: v2.0.0-alpha.4
+    2023-04-01:
+      Redis:
+        $export: true
+        $supportedFrom: v2.3.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
+          - HostName
+          - Port
+          - SSLPort
+      # TODO: Does this need to be uncommented
+      #      RedisCreateProperties:
+      #        SubnetId:
+      #          $armReference: true
+      Redis_FirewallRule:
+        $exportAs: RedisFirewallRule
+        $supportedFrom: v2.3.0
+      Redis_LinkedServer:
+        $exportAs: RedisLinkedServer
+        $supportedFrom: v2.3.0
+      Redis_PatchSchedule:
+        $exportAs: RedisPatchSchedule
+        $supportedFrom: v2.3.0
+    2023-07-01:
+      RedisEnterprise:
+        $export: true
+        $supportedFrom: v2.3.0
+      RedisEnterprise_Database:
+        $exportAs: RedisEnterpriseDatabase
+        $supportedFrom: v2.3.0
   cdn:
     2021-06-01:
       DeepCreatedOriginGroup:
@@ -895,6 +1101,19 @@ objectModelConfiguration:
         $isResource: false
       VirtualMachineScaleSetNetworkConfiguration_STATUS:
         $isResource: false
+    2022-07-02:
+      DiskEncryptionSet:
+        $export: true
+        $supportedFrom: v2.3.0
+      SourceVault:
+        Id:
+          $armReference: true
+      KeyForDiskEncryptionSet:
+        KeyUrl:
+          $importConfigMapMode: optional
+      EncryptionSetProperties:
+        FederatedClientId:
+          $importConfigMapMode: optional
   containerinstance:
     2021-10-01:
       ContainerGroup:
@@ -915,6 +1134,7 @@ objectModelConfiguration:
         PrincipalId:
           $armReference: false
   containerservice:
+    $payloadType: explicitCollections
     2021-05-01:
       ManagedCluster:
         $export: true
@@ -979,6 +1199,18 @@ objectModelConfiguration:
       PrivateLinkResource:
         Id:
           $armReference: true
+    2023-03-15-preview:
+      Fleet:
+        $export: true
+        $supportedFrom: v2.4.0
+        $azureGeneratedSecrets:
+          - UserCredentials
+      Fleets_Member:
+        $exportAs: FleetsMember
+        $supportedFrom: v2.4.0
+      Fleets_UpdateRun:
+        $exportAs: FleetsUpdateRun
+        $supportedFrom: v2.4.0
   datafactory:
     2018-06-01:
       PurviewConfiguration:
@@ -1265,6 +1497,51 @@ objectModelConfiguration:
         $generatedConfigs:
           ConnectionString: $.Status.ConnectionString
           InstrumentationKey: $.Status.InstrumentationKey
+    2023-01-01:
+      ActionGroup:
+        $export: true
+        $supportedFrom: v2.4.0
+      AutomationRunbookReceiver:
+        WebhookResourceId:
+          $armReference: true
+      AzureFunctionReceiver:
+        FunctionAppResourceId:
+          $armReference: true
+      LogicAppReceiver:
+        ResourceId:
+          $armReference: true
+    2022-10-01:
+      AutoscaleSetting:
+        $export: true
+        $supportedFrom: v2.4.0
+        TargetResourceUri:
+          $armReference: true
+      MetricTrigger:
+        MetricResourceUri:
+          $armReference: true
+    2018-03-01:
+      MetricAlert:
+        $export: true
+        $supportedFrom: v2.4.0
+      WebtestLocationAvailabilityCriteria:
+        ComponentId:
+          $armReference: true
+      MetricAlertProperties:
+        Scopes:
+          $armReference: true
+    2022-06-15:
+      ScheduledQueryRule:
+        $export: true
+        $supportedFrom: v2.4.0
+      Actions:
+        ActionGroups:
+          $armReference: true
+      Condition:
+        ResourceIdColumn:
+          $armReference: true
+      ScheduledQueryRuleProperties:
+        Scopes:
+          $armReference: true
   keyvault:
     2021-04-01-preview:
       Vault:
@@ -1560,6 +1837,25 @@ objectModelConfiguration:
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
+    2022-04-01:
+      TrafficManagerProfile:
+        # Hacking around here to use camel case. Normally the resource gets exported as Trafficmanagerprofile
+        $exportAs: TrafficManagerProfile
+        $supportedFrom: v2.4.0
+        $generatedConfigs:
+          DnsConfigFqdn: $.Status.DnsConfig.Fqdn
+      TrafficManagerProfiles_AzureEndpoint:
+        $exportAs: TrafficManagerProfilesAzureEndpoint
+        $supportedFrom: v2.4.0
+      TrafficManagerProfiles_ExternalEndpoint:
+        $exportAs: TrafficManagerProfilesExternalEndpoint
+        $supportedFrom: v2.4.0
+      TrafficManagerProfiles_NestedEndpoint:
+        $exportAs: TrafficManagerProfilesNestedEndpoint
+        $supportedFrom: v2.4.0
+      EndpointProperties:
+        TargetResourceId:
+          $armReference: true
     2022-07-01:
       ApplicationGateway:
         $export: true
@@ -1700,6 +1996,8 @@ objectModelConfiguration:
           - QueryKey
   servicebus:
     2021-01-01-preview:
+      DictionaryValue_STATUS:
+        $nameInNextVersion: UserAssignedIdentity_STATUS
       Namespace:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
@@ -1732,6 +2030,72 @@ objectModelConfiguration:
       Namespaces_Topics_Subscriptions_Rule:
         $exportAs: NamespacesTopicsSubscriptionsRule
         $supportedFrom: v2.0.0-beta.3
+    2021-11-01:
+      Namespace:
+        $export: true
+        $supportedFrom: v2.3.0
+        $azureGeneratedSecrets:
+          - Endpoint
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
+      Namespaces_AuthorizationRule:
+        $exportAs: NamespacesAuthorizationRule
+        $supportedFrom: v2.3.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
+      Namespaces_Queue:
+        $exportAs: NamespacesQueue
+        $supportedFrom: v2.3.0
+      Namespaces_Topic:
+        $exportAs: NamespacesTopic
+        $supportedFrom: v2.3.0
+      UserAssignedIdentityProperties:
+        UserAssignedIdentity:
+          $armReference: true
+      Namespaces_Topics_Subscription:
+        $exportAs: NamespacesTopicsSubscription
+        $supportedFrom: v2.3.0
+      Namespaces_Topics_Subscriptions_Rule:
+        $exportAs: NamespacesTopicsSubscriptionsRule
+        $supportedFrom: v2.3.0
+    2022-10-01-preview:
+      Namespace:
+        $export: true
+        $supportedFrom: v2.3.0
+        $azureGeneratedSecrets:
+          - Endpoint
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
+      Namespaces_AuthorizationRule:
+        $exportAs: NamespacesAuthorizationRule
+        $supportedFrom: v2.3.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
+      Namespaces_Queue:
+        $exportAs: NamespacesQueue
+        $supportedFrom: v2.3.0
+      Namespaces_Topic:
+        $exportAs: NamespacesTopic
+        $supportedFrom: v2.3.0
+      UserAssignedIdentityProperties:
+        UserAssignedIdentity:
+          $armReference: true
+      Namespaces_Topics_Subscription:
+        $exportAs: NamespacesTopicsSubscription
+        $supportedFrom: v2.3.0
+      Namespaces_Topics_Subscriptions_Rule:
+        $exportAs: NamespacesTopicsSubscriptionsRule
+        $supportedFrom: v2.3.0
   signalrservice:
     2021-10-01:
       SignalR:

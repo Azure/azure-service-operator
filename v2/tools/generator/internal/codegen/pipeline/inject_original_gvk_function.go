@@ -31,7 +31,7 @@ func InjectOriginalGVKFunction(idFactory astmodel.IdentifierFactory) *Stage {
 			resources := astmodel.FindResourceDefinitions(definitions)
 			for name, def := range resources {
 				var fn *functions.OriginalGVKFunction
-				if astmodel.IsStoragePackageReference(name.PackageReference) {
+				if astmodel.IsStoragePackageReference(name.PackageReference()) {
 					fn = functions.NewOriginalGVKFunction(functions.ReadProperty, idFactory)
 				} else {
 					fn = functions.NewOriginalGVKFunction(functions.ReadFunction, idFactory)

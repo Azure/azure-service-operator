@@ -65,7 +65,7 @@ func loadTestConfig(path string) (GoldenTestConfig, error) {
 }
 
 func makeEmbeddedTestTypeDefinition() astmodel.TypeDefinition {
-	name := astmodel.MakeTypeName(goldenTestPackageReference, "EmbeddedTestType")
+	name := astmodel.MakeInternalTypeName(goldenTestPackageReference, "EmbeddedTestType")
 	t := astmodel.NewObjectType()
 	t = t.WithProperty(astmodel.NewPropertyDefinition("FancyProp", "fancyProp", astmodel.IntType))
 
@@ -262,14 +262,13 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) *pipeline.St
 			}
 
 			// Create package definitions
-			pkgs := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
+			pkgs := make(map[astmodel.InternalPackageReference]*astmodel.PackageDefinition)
 			nonStoragePackageCount := 0
 			for _, def := range state.Definitions() {
-				ref := def.Name().PackageReference
+				ref := def.Name().InternalPackageReference()
 				pkg, ok := pkgs[ref]
 				if !ok {
-					g, v := ref.GroupVersion()
-					pkg = astmodel.NewPackageDefinition(g, v)
+					pkg = astmodel.NewPackageDefinition(ref)
 					pkgs[ref] = pkg
 
 					if !astmodel.IsStoragePackageReference(ref) {
@@ -316,7 +315,7 @@ func stripUnusedTypesPipelineStage() *pipeline.Stage {
 		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
 			// The golden files always generate a top-level Test type - mark
 			// that as the root.
-			roots := astmodel.NewTypeNameSet(astmodel.MakeTypeName(goldenTestPackageReference, "Test"))
+			roots := astmodel.NewTypeNameSet(astmodel.MakeInternalTypeName(goldenTestPackageReference, "Test"))
 			defs, err := pipeline.StripUnusedDefinitions(roots, state.Definitions())
 			if err != nil {
 				return nil, errors.Wrapf(err, "could not strip unused types")
@@ -335,7 +334,10 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) *pi
 		"Add cross resource references for test",
 		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
 			defs := make(astmodel.TypeDefinitionSet)
-			isCrossResourceReference := func(_ astmodel.TypeName, prop *astmodel.PropertyDefinition) pipeline.ARMIDPropertyClassification {
+			isCrossResourceReference := func(
+				_ astmodel.InternalTypeName,
+				prop *astmodel.PropertyDefinition,
+			) pipeline.ARMIDPropertyClassification {
 				ref := pipeline.DoesPropertyLookLikeARMReference(prop)
 				if ref {
 					return pipeline.ARMIDPropertyClassificationSet

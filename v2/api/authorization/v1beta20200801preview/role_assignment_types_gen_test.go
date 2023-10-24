@@ -5,8 +5,8 @@ package v1beta20200801preview
 
 import (
 	"encoding/json"
-	v1api20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801previewstorage"
-	v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801previewstorage"
+	v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801previewstorage"
+	v1beta20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForRoleAssignment(subject RoleAssignment) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20200801ps.RoleAssignment
+	var hub v20200801ps.RoleAssignment
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForRoleAssignment(subject RoleAssignment) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200801ps.RoleAssignment
+	var other v1beta20200801ps.RoleAssignment
 	err := copied.AssignProperties_To_RoleAssignment(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForRoleAssignment_Spec(subject RoleAssignment_Spec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200801ps.RoleAssignment_Spec
+	var other v1beta20200801ps.RoleAssignment_Spec
 	err := copied.AssignProperties_To_RoleAssignment_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -295,7 +295,7 @@ func RunPropertyAssignmentTestForRoleAssignment_STATUS(subject RoleAssignment_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200801ps.RoleAssignment_STATUS
+	var other v1beta20200801ps.RoleAssignment_STATUS
 	err := copied.AssignProperties_To_RoleAssignment_STATUS(&other)
 	if err != nil {
 		return err.Error()

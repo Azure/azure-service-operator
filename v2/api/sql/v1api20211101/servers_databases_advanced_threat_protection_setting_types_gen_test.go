@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForServersDatabasesAdvancedThreatProtectionSetting
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20211101s.ServersDatabasesAdvancedThreatProtectionSetting
+	var hub v20211101s.ServersDatabasesAdvancedThreatProtectionSetting
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForServersDatabasesAdvancedThreatProtectionSetting
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20211101s.ServersDatabasesAdvancedThreatProtectionSetting
+	var other v20211101s.ServersDatabasesAdvancedThreatProtectionSetting
 	err := copied.AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForServers_Databases_AdvancedThreatProtectionSetti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20211101s.Servers_Databases_AdvancedThreatProtectionSetting_Spec
+	var other v20211101s.Servers_Databases_AdvancedThreatProtectionSetting_Spec
 	err := copied.AssignProperties_To_Servers_Databases_AdvancedThreatProtectionSetting_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -285,7 +285,7 @@ func RunPropertyAssignmentTestForServers_Databases_AdvancedThreatProtectionSetti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20211101s.Servers_Databases_AdvancedThreatProtectionSetting_STATUS
+	var other v20211101s.Servers_Databases_AdvancedThreatProtectionSetting_STATUS
 	err := copied.AssignProperties_To_Servers_Databases_AdvancedThreatProtectionSetting_STATUS(&other)
 	if err != nil {
 		return err.Error()

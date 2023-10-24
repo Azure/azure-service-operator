@@ -5,7 +5,7 @@ package v1beta20210515
 
 import (
 	"fmt"
-	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
+	v1beta20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -48,7 +48,7 @@ var _ conversion.Convertible = &MongodbDatabase{}
 // ConvertFrom populates our MongodbDatabase from the provided hub MongodbDatabase
 func (database *MongodbDatabase) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20210515s.MongodbDatabase
+	var source v1beta20210515s.MongodbDatabase
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -66,7 +66,7 @@ func (database *MongodbDatabase) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub MongodbDatabase from our MongodbDatabase
 func (database *MongodbDatabase) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20210515s.MongodbDatabase
+	var destination v1beta20210515s.MongodbDatabase
 	err := database.AssignProperties_To_MongodbDatabase(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from database")
@@ -142,11 +142,7 @@ func (database *MongodbDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (database *MongodbDatabase) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(database.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  database.Spec.Owner.Name,
-	}
+	return database.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (database *MongodbDatabase) ValidateUpdate(old runtime.Object) (admission.W
 
 // createValidations validates the creation of the resource
 func (database *MongodbDatabase) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){database.validateResourceReferences}
+	return []func() (admission.Warnings, error){database.validateResourceReferences, database.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (database *MongodbDatabase) updateValidations() []func(old runtime.Object) 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return database.validateResourceReferences()
 		},
-		database.validateWriteOnceProperties}
+		database.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return database.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (database *MongodbDatabase) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(database)
 }
 
 // validateResourceReferences validates all resource references
@@ -241,7 +246,7 @@ func (database *MongodbDatabase) validateWriteOnceProperties(old runtime.Object)
 }
 
 // AssignProperties_From_MongodbDatabase populates our MongodbDatabase from the provided source MongodbDatabase
-func (database *MongodbDatabase) AssignProperties_From_MongodbDatabase(source *v20210515s.MongodbDatabase) error {
+func (database *MongodbDatabase) AssignProperties_From_MongodbDatabase(source *v1beta20210515s.MongodbDatabase) error {
 
 	// ObjectMeta
 	database.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -267,13 +272,13 @@ func (database *MongodbDatabase) AssignProperties_From_MongodbDatabase(source *v
 }
 
 // AssignProperties_To_MongodbDatabase populates the provided destination MongodbDatabase from our MongodbDatabase
-func (database *MongodbDatabase) AssignProperties_To_MongodbDatabase(destination *v20210515s.MongodbDatabase) error {
+func (database *MongodbDatabase) AssignProperties_To_MongodbDatabase(destination *v1beta20210515s.MongodbDatabase) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *database.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210515s.DatabaseAccounts_MongodbDatabase_Spec
+	var spec v1beta20210515s.DatabaseAccounts_MongodbDatabase_Spec
 	err := database.Spec.AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec() to populate field Spec")
@@ -281,7 +286,7 @@ func (database *MongodbDatabase) AssignProperties_To_MongodbDatabase(destination
 	destination.Spec = spec
 
 	// Status
-	var status v20210515s.DatabaseAccounts_MongodbDatabase_STATUS
+	var status v1beta20210515s.DatabaseAccounts_MongodbDatabase_STATUS
 	err = database.Status.AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS() to populate field Status")
@@ -336,16 +341,16 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertToARM(resolved gen
 	}
 	result := &DatabaseAccounts_MongodbDatabase_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if database.Location != nil {
 		location := *database.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if database.Options != nil || database.Resource != nil {
 		result.Properties = &MongoDBDatabaseCreateUpdateProperties_ARM{}
 	}
@@ -366,7 +371,7 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertToARM(resolved gen
 		result.Properties.Resource = &resource
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if database.Tags != nil {
 		result.Tags = make(map[string]string, len(database.Tags))
 		for key, value := range database.Tags {
@@ -388,16 +393,16 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabase_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	database.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		database.Location = &location
 	}
 
-	// Set property ‘Options’:
+	// Set property "Options":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Options != nil {
@@ -411,10 +416,13 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Owner’:
-	database.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	database.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -428,7 +436,7 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		database.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -444,14 +452,14 @@ var _ genruntime.ConvertibleSpec = &DatabaseAccounts_MongodbDatabase_Spec{}
 
 // ConvertSpecFrom populates our DatabaseAccounts_MongodbDatabase_Spec from the provided source
 func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210515s.DatabaseAccounts_MongodbDatabase_Spec)
+	src, ok := source.(*v1beta20210515s.DatabaseAccounts_MongodbDatabase_Spec)
 	if ok {
 		// Populate our instance from source
 		return database.AssignProperties_From_DatabaseAccounts_MongodbDatabase_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210515s.DatabaseAccounts_MongodbDatabase_Spec{}
+	src = &v1beta20210515s.DatabaseAccounts_MongodbDatabase_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -468,14 +476,14 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertSpecFrom(source ge
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccounts_MongodbDatabase_Spec
 func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210515s.DatabaseAccounts_MongodbDatabase_Spec)
+	dst, ok := destination.(*v1beta20210515s.DatabaseAccounts_MongodbDatabase_Spec)
 	if ok {
 		// Populate destination from our instance
 		return database.AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210515s.DatabaseAccounts_MongodbDatabase_Spec{}
+	dst = &v1beta20210515s.DatabaseAccounts_MongodbDatabase_Spec{}
 	err := database.AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -491,7 +499,7 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertSpecTo(destination
 }
 
 // AssignProperties_From_DatabaseAccounts_MongodbDatabase_Spec populates our DatabaseAccounts_MongodbDatabase_Spec from the provided source DatabaseAccounts_MongodbDatabase_Spec
-func (database *DatabaseAccounts_MongodbDatabase_Spec) AssignProperties_From_DatabaseAccounts_MongodbDatabase_Spec(source *v20210515s.DatabaseAccounts_MongodbDatabase_Spec) error {
+func (database *DatabaseAccounts_MongodbDatabase_Spec) AssignProperties_From_DatabaseAccounts_MongodbDatabase_Spec(source *v1beta20210515s.DatabaseAccounts_MongodbDatabase_Spec) error {
 
 	// AzureName
 	database.AzureName = source.AzureName
@@ -539,7 +547,7 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) AssignProperties_From_Dat
 }
 
 // AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec populates the provided destination DatabaseAccounts_MongodbDatabase_Spec from our DatabaseAccounts_MongodbDatabase_Spec
-func (database *DatabaseAccounts_MongodbDatabase_Spec) AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec(destination *v20210515s.DatabaseAccounts_MongodbDatabase_Spec) error {
+func (database *DatabaseAccounts_MongodbDatabase_Spec) AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec(destination *v1beta20210515s.DatabaseAccounts_MongodbDatabase_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -551,7 +559,7 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) AssignProperties_To_Datab
 
 	// Options
 	if database.Options != nil {
-		var option v20210515s.CreateUpdateOptions
+		var option v1beta20210515s.CreateUpdateOptions
 		err := database.Options.AssignProperties_To_CreateUpdateOptions(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CreateUpdateOptions() to populate field Options")
@@ -574,7 +582,7 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) AssignProperties_To_Datab
 
 	// Resource
 	if database.Resource != nil {
-		var resource v20210515s.MongoDBDatabaseResource
+		var resource v1beta20210515s.MongoDBDatabaseResource
 		err := database.Resource.AssignProperties_To_MongoDBDatabaseResource(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MongoDBDatabaseResource() to populate field Resource")
@@ -625,14 +633,14 @@ var _ genruntime.ConvertibleStatus = &DatabaseAccounts_MongodbDatabase_STATUS{}
 
 // ConvertStatusFrom populates our DatabaseAccounts_MongodbDatabase_STATUS from the provided source
 func (database *DatabaseAccounts_MongodbDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210515s.DatabaseAccounts_MongodbDatabase_STATUS)
+	src, ok := source.(*v1beta20210515s.DatabaseAccounts_MongodbDatabase_STATUS)
 	if ok {
 		// Populate our instance from source
 		return database.AssignProperties_From_DatabaseAccounts_MongodbDatabase_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210515s.DatabaseAccounts_MongodbDatabase_STATUS{}
+	src = &v1beta20210515s.DatabaseAccounts_MongodbDatabase_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -649,14 +657,14 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) ConvertStatusFrom(sourc
 
 // ConvertStatusTo populates the provided destination from our DatabaseAccounts_MongodbDatabase_STATUS
 func (database *DatabaseAccounts_MongodbDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210515s.DatabaseAccounts_MongodbDatabase_STATUS)
+	dst, ok := destination.(*v1beta20210515s.DatabaseAccounts_MongodbDatabase_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return database.AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210515s.DatabaseAccounts_MongodbDatabase_STATUS{}
+	dst = &v1beta20210515s.DatabaseAccounts_MongodbDatabase_STATUS{}
 	err := database.AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -685,27 +693,27 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabase_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		database.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		database.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		database.Name = &name
 	}
 
-	// Set property ‘Options’:
+	// Set property "Options":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Options != nil {
@@ -719,7 +727,7 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -733,7 +741,7 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		database.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -741,7 +749,7 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		database.Type = &typeVar
@@ -752,7 +760,7 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) PopulateFromARM(owner g
 }
 
 // AssignProperties_From_DatabaseAccounts_MongodbDatabase_STATUS populates our DatabaseAccounts_MongodbDatabase_STATUS from the provided source DatabaseAccounts_MongodbDatabase_STATUS
-func (database *DatabaseAccounts_MongodbDatabase_STATUS) AssignProperties_From_DatabaseAccounts_MongodbDatabase_STATUS(source *v20210515s.DatabaseAccounts_MongodbDatabase_STATUS) error {
+func (database *DatabaseAccounts_MongodbDatabase_STATUS) AssignProperties_From_DatabaseAccounts_MongodbDatabase_STATUS(source *v1beta20210515s.DatabaseAccounts_MongodbDatabase_STATUS) error {
 
 	// Conditions
 	database.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -801,7 +809,7 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) AssignProperties_From_D
 }
 
 // AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS populates the provided destination DatabaseAccounts_MongodbDatabase_STATUS from our DatabaseAccounts_MongodbDatabase_STATUS
-func (database *DatabaseAccounts_MongodbDatabase_STATUS) AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS(destination *v20210515s.DatabaseAccounts_MongodbDatabase_STATUS) error {
+func (database *DatabaseAccounts_MongodbDatabase_STATUS) AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS(destination *v1beta20210515s.DatabaseAccounts_MongodbDatabase_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -819,7 +827,7 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) AssignProperties_To_Dat
 
 	// Options
 	if database.Options != nil {
-		var option v20210515s.OptionsResource_STATUS
+		var option v1beta20210515s.OptionsResource_STATUS
 		err := database.Options.AssignProperties_To_OptionsResource_STATUS(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OptionsResource_STATUS() to populate field Options")
@@ -831,7 +839,7 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) AssignProperties_To_Dat
 
 	// Resource
 	if database.Resource != nil {
-		var resource v20210515s.MongoDBDatabaseGetProperties_Resource_STATUS
+		var resource v1beta20210515s.MongoDBDatabaseGetProperties_Resource_STATUS
 		err := database.Resource.AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS() to populate field Resource")
@@ -873,7 +881,7 @@ func (options *CreateUpdateOptions) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &CreateUpdateOptions_ARM{}
 
-	// Set property ‘AutoscaleSettings’:
+	// Set property "AutoscaleSettings":
 	if options.AutoscaleSettings != nil {
 		autoscaleSettings_ARM, err := (*options.AutoscaleSettings).ConvertToARM(resolved)
 		if err != nil {
@@ -883,7 +891,7 @@ func (options *CreateUpdateOptions) ConvertToARM(resolved genruntime.ConvertToAR
 		result.AutoscaleSettings = &autoscaleSettings
 	}
 
-	// Set property ‘Throughput’:
+	// Set property "Throughput":
 	if options.Throughput != nil {
 		throughput := *options.Throughput
 		result.Throughput = &throughput
@@ -903,7 +911,7 @@ func (options *CreateUpdateOptions) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CreateUpdateOptions_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoscaleSettings’:
+	// Set property "AutoscaleSettings":
 	if typedInput.AutoscaleSettings != nil {
 		var autoscaleSettings1 AutoscaleSettings
 		err := autoscaleSettings1.PopulateFromARM(owner, *typedInput.AutoscaleSettings)
@@ -914,7 +922,7 @@ func (options *CreateUpdateOptions) PopulateFromARM(owner genruntime.ArbitraryOw
 		options.AutoscaleSettings = &autoscaleSettings
 	}
 
-	// Set property ‘Throughput’:
+	// Set property "Throughput":
 	if typedInput.Throughput != nil {
 		throughput := *typedInput.Throughput
 		options.Throughput = &throughput
@@ -925,7 +933,7 @@ func (options *CreateUpdateOptions) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_CreateUpdateOptions populates our CreateUpdateOptions from the provided source CreateUpdateOptions
-func (options *CreateUpdateOptions) AssignProperties_From_CreateUpdateOptions(source *v20210515s.CreateUpdateOptions) error {
+func (options *CreateUpdateOptions) AssignProperties_From_CreateUpdateOptions(source *v1beta20210515s.CreateUpdateOptions) error {
 
 	// AutoscaleSettings
 	if source.AutoscaleSettings != nil {
@@ -947,13 +955,13 @@ func (options *CreateUpdateOptions) AssignProperties_From_CreateUpdateOptions(so
 }
 
 // AssignProperties_To_CreateUpdateOptions populates the provided destination CreateUpdateOptions from our CreateUpdateOptions
-func (options *CreateUpdateOptions) AssignProperties_To_CreateUpdateOptions(destination *v20210515s.CreateUpdateOptions) error {
+func (options *CreateUpdateOptions) AssignProperties_To_CreateUpdateOptions(destination *v1beta20210515s.CreateUpdateOptions) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoscaleSettings
 	if options.AutoscaleSettings != nil {
-		var autoscaleSetting v20210515s.AutoscaleSettings
+		var autoscaleSetting v1beta20210515s.AutoscaleSettings
 		err := options.AutoscaleSettings.AssignProperties_To_AutoscaleSettings(&autoscaleSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoscaleSettings() to populate field AutoscaleSettings")
@@ -999,25 +1007,25 @@ func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBDatabaseGetProperties_Resource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		resource.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
 	}
 
-	// Set property ‘Rid’:
+	// Set property "Rid":
 	if typedInput.Rid != nil {
 		rid := *typedInput.Rid
 		resource.Rid = &rid
 	}
 
-	// Set property ‘Ts’:
+	// Set property "Ts":
 	if typedInput.Ts != nil {
 		ts := *typedInput.Ts
 		resource.Ts = &ts
@@ -1028,7 +1036,7 @@ func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) PopulateFromARM(ow
 }
 
 // AssignProperties_From_MongoDBDatabaseGetProperties_Resource_STATUS populates our MongoDBDatabaseGetProperties_Resource_STATUS from the provided source MongoDBDatabaseGetProperties_Resource_STATUS
-func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) AssignProperties_From_MongoDBDatabaseGetProperties_Resource_STATUS(source *v20210515s.MongoDBDatabaseGetProperties_Resource_STATUS) error {
+func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) AssignProperties_From_MongoDBDatabaseGetProperties_Resource_STATUS(source *v1beta20210515s.MongoDBDatabaseGetProperties_Resource_STATUS) error {
 
 	// Etag
 	resource.Etag = genruntime.ClonePointerToString(source.Etag)
@@ -1052,7 +1060,7 @@ func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS populates the provided destination MongoDBDatabaseGetProperties_Resource_STATUS from our MongoDBDatabaseGetProperties_Resource_STATUS
-func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS(destination *v20210515s.MongoDBDatabaseGetProperties_Resource_STATUS) error {
+func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS(destination *v1beta20210515s.MongoDBDatabaseGetProperties_Resource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1099,7 +1107,7 @@ func (resource *MongoDBDatabaseResource) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &MongoDBDatabaseResource_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if resource.Id != nil {
 		id := *resource.Id
 		result.Id = &id
@@ -1119,7 +1127,7 @@ func (resource *MongoDBDatabaseResource) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBDatabaseResource_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
@@ -1130,7 +1138,7 @@ func (resource *MongoDBDatabaseResource) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_MongoDBDatabaseResource populates our MongoDBDatabaseResource from the provided source MongoDBDatabaseResource
-func (resource *MongoDBDatabaseResource) AssignProperties_From_MongoDBDatabaseResource(source *v20210515s.MongoDBDatabaseResource) error {
+func (resource *MongoDBDatabaseResource) AssignProperties_From_MongoDBDatabaseResource(source *v1beta20210515s.MongoDBDatabaseResource) error {
 
 	// Id
 	resource.Id = genruntime.ClonePointerToString(source.Id)
@@ -1140,7 +1148,7 @@ func (resource *MongoDBDatabaseResource) AssignProperties_From_MongoDBDatabaseRe
 }
 
 // AssignProperties_To_MongoDBDatabaseResource populates the provided destination MongoDBDatabaseResource from our MongoDBDatabaseResource
-func (resource *MongoDBDatabaseResource) AssignProperties_To_MongoDBDatabaseResource(destination *v20210515s.MongoDBDatabaseResource) error {
+func (resource *MongoDBDatabaseResource) AssignProperties_To_MongoDBDatabaseResource(destination *v1beta20210515s.MongoDBDatabaseResource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1178,7 +1186,7 @@ func (resource *OptionsResource_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OptionsResource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoscaleSettings’:
+	// Set property "AutoscaleSettings":
 	if typedInput.AutoscaleSettings != nil {
 		var autoscaleSettings1 AutoscaleSettings_STATUS
 		err := autoscaleSettings1.PopulateFromARM(owner, *typedInput.AutoscaleSettings)
@@ -1189,7 +1197,7 @@ func (resource *OptionsResource_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		resource.AutoscaleSettings = &autoscaleSettings
 	}
 
-	// Set property ‘Throughput’:
+	// Set property "Throughput":
 	if typedInput.Throughput != nil {
 		throughput := *typedInput.Throughput
 		resource.Throughput = &throughput
@@ -1200,7 +1208,7 @@ func (resource *OptionsResource_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_OptionsResource_STATUS populates our OptionsResource_STATUS from the provided source OptionsResource_STATUS
-func (resource *OptionsResource_STATUS) AssignProperties_From_OptionsResource_STATUS(source *v20210515s.OptionsResource_STATUS) error {
+func (resource *OptionsResource_STATUS) AssignProperties_From_OptionsResource_STATUS(source *v1beta20210515s.OptionsResource_STATUS) error {
 
 	// AutoscaleSettings
 	if source.AutoscaleSettings != nil {
@@ -1222,13 +1230,13 @@ func (resource *OptionsResource_STATUS) AssignProperties_From_OptionsResource_ST
 }
 
 // AssignProperties_To_OptionsResource_STATUS populates the provided destination OptionsResource_STATUS from our OptionsResource_STATUS
-func (resource *OptionsResource_STATUS) AssignProperties_To_OptionsResource_STATUS(destination *v20210515s.OptionsResource_STATUS) error {
+func (resource *OptionsResource_STATUS) AssignProperties_To_OptionsResource_STATUS(destination *v1beta20210515s.OptionsResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoscaleSettings
 	if resource.AutoscaleSettings != nil {
-		var autoscaleSetting v20210515s.AutoscaleSettings_STATUS
+		var autoscaleSetting v1beta20210515s.AutoscaleSettings_STATUS
 		err := resource.AutoscaleSettings.AssignProperties_To_AutoscaleSettings_STATUS(&autoscaleSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoscaleSettings_STATUS() to populate field AutoscaleSettings")
@@ -1266,7 +1274,7 @@ func (settings *AutoscaleSettings) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &AutoscaleSettings_ARM{}
 
-	// Set property ‘MaxThroughput’:
+	// Set property "MaxThroughput":
 	if settings.MaxThroughput != nil {
 		maxThroughput := *settings.MaxThroughput
 		result.MaxThroughput = &maxThroughput
@@ -1286,7 +1294,7 @@ func (settings *AutoscaleSettings) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleSettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MaxThroughput’:
+	// Set property "MaxThroughput":
 	if typedInput.MaxThroughput != nil {
 		maxThroughput := *typedInput.MaxThroughput
 		settings.MaxThroughput = &maxThroughput
@@ -1297,7 +1305,7 @@ func (settings *AutoscaleSettings) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_AutoscaleSettings populates our AutoscaleSettings from the provided source AutoscaleSettings
-func (settings *AutoscaleSettings) AssignProperties_From_AutoscaleSettings(source *v20210515s.AutoscaleSettings) error {
+func (settings *AutoscaleSettings) AssignProperties_From_AutoscaleSettings(source *v1beta20210515s.AutoscaleSettings) error {
 
 	// MaxThroughput
 	settings.MaxThroughput = genruntime.ClonePointerToInt(source.MaxThroughput)
@@ -1307,7 +1315,7 @@ func (settings *AutoscaleSettings) AssignProperties_From_AutoscaleSettings(sourc
 }
 
 // AssignProperties_To_AutoscaleSettings populates the provided destination AutoscaleSettings from our AutoscaleSettings
-func (settings *AutoscaleSettings) AssignProperties_To_AutoscaleSettings(destination *v20210515s.AutoscaleSettings) error {
+func (settings *AutoscaleSettings) AssignProperties_To_AutoscaleSettings(destination *v1beta20210515s.AutoscaleSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1344,7 +1352,7 @@ func (settings *AutoscaleSettings_STATUS) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleSettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MaxThroughput’:
+	// Set property "MaxThroughput":
 	if typedInput.MaxThroughput != nil {
 		maxThroughput := *typedInput.MaxThroughput
 		settings.MaxThroughput = &maxThroughput
@@ -1355,7 +1363,7 @@ func (settings *AutoscaleSettings_STATUS) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_AutoscaleSettings_STATUS populates our AutoscaleSettings_STATUS from the provided source AutoscaleSettings_STATUS
-func (settings *AutoscaleSettings_STATUS) AssignProperties_From_AutoscaleSettings_STATUS(source *v20210515s.AutoscaleSettings_STATUS) error {
+func (settings *AutoscaleSettings_STATUS) AssignProperties_From_AutoscaleSettings_STATUS(source *v1beta20210515s.AutoscaleSettings_STATUS) error {
 
 	// MaxThroughput
 	settings.MaxThroughput = genruntime.ClonePointerToInt(source.MaxThroughput)
@@ -1365,7 +1373,7 @@ func (settings *AutoscaleSettings_STATUS) AssignProperties_From_AutoscaleSetting
 }
 
 // AssignProperties_To_AutoscaleSettings_STATUS populates the provided destination AutoscaleSettings_STATUS from our AutoscaleSettings_STATUS
-func (settings *AutoscaleSettings_STATUS) AssignProperties_To_AutoscaleSettings_STATUS(destination *v20210515s.AutoscaleSettings_STATUS) error {
+func (settings *AutoscaleSettings_STATUS) AssignProperties_To_AutoscaleSettings_STATUS(destination *v1beta20210515s.AutoscaleSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

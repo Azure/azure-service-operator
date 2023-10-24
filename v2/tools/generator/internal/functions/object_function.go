@@ -62,8 +62,11 @@ func (fn *ObjectFunction) References() astmodel.TypeNameSet {
 }
 
 // AsFunc renders the current instance as a Go abstract syntax tree
-func (fn *ObjectFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
-	return fn.asFunc(fn, codeGenerationContext, receiver, fn.name)
+func (fn *ObjectFunction) AsFunc(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.InternalTypeName,
+) (*dst.FuncDecl, error) {
+	return fn.asFunc(fn, codeGenerationContext, receiver, fn.name), nil
 }
 
 // Equals checks if this function is equal to the passed in function
@@ -90,6 +93,6 @@ func (fn *ObjectFunction) AddPackageReference(refs ...astmodel.PackageReference)
 func (fn *ObjectFunction) AddReferencedTypes(types ...astmodel.TypeName) {
 	for _, t := range types {
 		fn.referencedTypes.Add(t)
-		fn.requiredPackages.AddReference(t.PackageReference)
+		fn.requiredPackages.AddReference(t.PackageReference())
 	}
 }

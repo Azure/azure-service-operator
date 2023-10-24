@@ -5,7 +5,7 @@ package v1api20201101
 
 import (
 	"fmt"
-	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,9 +49,9 @@ var _ conversion.Convertible = &VirtualNetwork{}
 
 // ConvertFrom populates our VirtualNetwork from the provided hub VirtualNetwork
 func (network *VirtualNetwork) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20201101s.VirtualNetwork)
+	source, ok := hub.(*v20201101s.VirtualNetwork)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20201101storage/VirtualNetwork but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20201101/storage/VirtualNetwork but received %T instead", hub)
 	}
 
 	return network.AssignProperties_From_VirtualNetwork(source)
@@ -59,9 +59,9 @@ func (network *VirtualNetwork) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub VirtualNetwork from our VirtualNetwork
 func (network *VirtualNetwork) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20201101s.VirtualNetwork)
+	destination, ok := hub.(*v20201101s.VirtualNetwork)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20201101storage/VirtualNetwork but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20201101/storage/VirtualNetwork but received %T instead", hub)
 	}
 
 	return network.AssignProperties_To_VirtualNetwork(destination)
@@ -141,11 +141,7 @@ func (network *VirtualNetwork) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (network *VirtualNetwork) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(network.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  network.Spec.Owner.Name,
-	}
+	return network.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (network *VirtualNetwork) ValidateUpdate(old runtime.Object) (admission.War
 
 // createValidations validates the creation of the resource
 func (network *VirtualNetwork) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){network.validateResourceReferences}
+	return []func() (admission.Warnings, error){network.validateResourceReferences, network.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (network *VirtualNetwork) updateValidations() []func(old runtime.Object) (a
 		func(old runtime.Object) (admission.Warnings, error) {
 			return network.validateResourceReferences()
 		},
-		network.validateWriteOnceProperties}
+		network.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return network.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (network *VirtualNetwork) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(network)
 }
 
 // validateResourceReferences validates all resource references
@@ -240,7 +245,7 @@ func (network *VirtualNetwork) validateWriteOnceProperties(old runtime.Object) (
 }
 
 // AssignProperties_From_VirtualNetwork populates our VirtualNetwork from the provided source VirtualNetwork
-func (network *VirtualNetwork) AssignProperties_From_VirtualNetwork(source *v1api20201101s.VirtualNetwork) error {
+func (network *VirtualNetwork) AssignProperties_From_VirtualNetwork(source *v20201101s.VirtualNetwork) error {
 
 	// ObjectMeta
 	network.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +271,13 @@ func (network *VirtualNetwork) AssignProperties_From_VirtualNetwork(source *v1ap
 }
 
 // AssignProperties_To_VirtualNetwork populates the provided destination VirtualNetwork from our VirtualNetwork
-func (network *VirtualNetwork) AssignProperties_To_VirtualNetwork(destination *v1api20201101s.VirtualNetwork) error {
+func (network *VirtualNetwork) AssignProperties_To_VirtualNetwork(destination *v20201101s.VirtualNetwork) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *network.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20201101s.VirtualNetwork_Spec
+	var spec v20201101s.VirtualNetwork_Spec
 	err := network.Spec.AssignProperties_To_VirtualNetwork_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_VirtualNetwork_Spec() to populate field Spec")
@@ -280,7 +285,7 @@ func (network *VirtualNetwork) AssignProperties_To_VirtualNetwork(destination *v
 	destination.Spec = spec
 
 	// Status
-	var status v1api20201101s.VirtualNetwork_STATUS
+	var status v20201101s.VirtualNetwork_STATUS
 	err = network.Status.AssignProperties_To_VirtualNetwork_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_VirtualNetwork_STATUS() to populate field Status")
@@ -362,7 +367,7 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &VirtualNetwork_Spec_ARM{}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if network.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*network.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
@@ -372,16 +377,16 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if network.Location != nil {
 		location := *network.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if network.AddressSpace != nil ||
 		network.BgpCommunities != nil ||
 		network.DdosProtectionPlan != nil ||
@@ -439,7 +444,7 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.IpAllocations = append(result.Properties.IpAllocations, *item_ARM.(*SubResource_ARM))
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if network.Tags != nil {
 		result.Tags = make(map[string]string, len(network.Tags))
 		for key, value := range network.Tags {
@@ -461,7 +466,7 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetwork_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AddressSpace’:
+	// Set property "AddressSpace":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AddressSpace != nil {
@@ -475,10 +480,10 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	network.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘BgpCommunities’:
+	// Set property "BgpCommunities":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BgpCommunities != nil {
@@ -492,7 +497,7 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘DdosProtectionPlan’:
+	// Set property "DdosProtectionPlan":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DdosProtectionPlan != nil {
@@ -506,7 +511,7 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘DhcpOptions’:
+	// Set property "DhcpOptions":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DhcpOptions != nil {
@@ -520,7 +525,7 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘EnableDdosProtection’:
+	// Set property "EnableDdosProtection":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableDdosProtection != nil {
@@ -529,7 +534,7 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘EnableVmProtection’:
+	// Set property "EnableVmProtection":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableVmProtection != nil {
@@ -538,7 +543,7 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -549,7 +554,7 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		network.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘IpAllocations’:
+	// Set property "IpAllocations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpAllocations {
@@ -562,16 +567,19 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		network.Location = &location
 	}
 
-	// Set property ‘Owner’:
-	network.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	network.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		network.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -587,14 +595,14 @@ var _ genruntime.ConvertibleSpec = &VirtualNetwork_Spec{}
 
 // ConvertSpecFrom populates our VirtualNetwork_Spec from the provided source
 func (network *VirtualNetwork_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20201101s.VirtualNetwork_Spec)
+	src, ok := source.(*v20201101s.VirtualNetwork_Spec)
 	if ok {
 		// Populate our instance from source
 		return network.AssignProperties_From_VirtualNetwork_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20201101s.VirtualNetwork_Spec{}
+	src = &v20201101s.VirtualNetwork_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -611,14 +619,14 @@ func (network *VirtualNetwork_Spec) ConvertSpecFrom(source genruntime.Convertibl
 
 // ConvertSpecTo populates the provided destination from our VirtualNetwork_Spec
 func (network *VirtualNetwork_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20201101s.VirtualNetwork_Spec)
+	dst, ok := destination.(*v20201101s.VirtualNetwork_Spec)
 	if ok {
 		// Populate destination from our instance
 		return network.AssignProperties_To_VirtualNetwork_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20201101s.VirtualNetwork_Spec{}
+	dst = &v20201101s.VirtualNetwork_Spec{}
 	err := network.AssignProperties_To_VirtualNetwork_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -634,7 +642,7 @@ func (network *VirtualNetwork_Spec) ConvertSpecTo(destination genruntime.Convert
 }
 
 // AssignProperties_From_VirtualNetwork_Spec populates our VirtualNetwork_Spec from the provided source VirtualNetwork_Spec
-func (network *VirtualNetwork_Spec) AssignProperties_From_VirtualNetwork_Spec(source *v1api20201101s.VirtualNetwork_Spec) error {
+func (network *VirtualNetwork_Spec) AssignProperties_From_VirtualNetwork_Spec(source *v20201101s.VirtualNetwork_Spec) error {
 
 	// AddressSpace
 	if source.AddressSpace != nil {
@@ -752,13 +760,13 @@ func (network *VirtualNetwork_Spec) AssignProperties_From_VirtualNetwork_Spec(so
 }
 
 // AssignProperties_To_VirtualNetwork_Spec populates the provided destination VirtualNetwork_Spec from our VirtualNetwork_Spec
-func (network *VirtualNetwork_Spec) AssignProperties_To_VirtualNetwork_Spec(destination *v1api20201101s.VirtualNetwork_Spec) error {
+func (network *VirtualNetwork_Spec) AssignProperties_To_VirtualNetwork_Spec(destination *v20201101s.VirtualNetwork_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AddressSpace
 	if network.AddressSpace != nil {
-		var addressSpace v1api20201101s.AddressSpace
+		var addressSpace v20201101s.AddressSpace
 		err := network.AddressSpace.AssignProperties_To_AddressSpace(&addressSpace)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AddressSpace() to populate field AddressSpace")
@@ -773,7 +781,7 @@ func (network *VirtualNetwork_Spec) AssignProperties_To_VirtualNetwork_Spec(dest
 
 	// BgpCommunities
 	if network.BgpCommunities != nil {
-		var bgpCommunity v1api20201101s.VirtualNetworkBgpCommunities
+		var bgpCommunity v20201101s.VirtualNetworkBgpCommunities
 		err := network.BgpCommunities.AssignProperties_To_VirtualNetworkBgpCommunities(&bgpCommunity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkBgpCommunities() to populate field BgpCommunities")
@@ -785,7 +793,7 @@ func (network *VirtualNetwork_Spec) AssignProperties_To_VirtualNetwork_Spec(dest
 
 	// DdosProtectionPlan
 	if network.DdosProtectionPlan != nil {
-		var ddosProtectionPlan v1api20201101s.SubResource
+		var ddosProtectionPlan v20201101s.SubResource
 		err := network.DdosProtectionPlan.AssignProperties_To_SubResource(&ddosProtectionPlan)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DdosProtectionPlan")
@@ -797,7 +805,7 @@ func (network *VirtualNetwork_Spec) AssignProperties_To_VirtualNetwork_Spec(dest
 
 	// DhcpOptions
 	if network.DhcpOptions != nil {
-		var dhcpOption v1api20201101s.DhcpOptions
+		var dhcpOption v20201101s.DhcpOptions
 		err := network.DhcpOptions.AssignProperties_To_DhcpOptions(&dhcpOption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DhcpOptions() to populate field DhcpOptions")
@@ -825,7 +833,7 @@ func (network *VirtualNetwork_Spec) AssignProperties_To_VirtualNetwork_Spec(dest
 
 	// ExtendedLocation
 	if network.ExtendedLocation != nil {
-		var extendedLocation v1api20201101s.ExtendedLocation
+		var extendedLocation v20201101s.ExtendedLocation
 		err := network.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
@@ -837,11 +845,11 @@ func (network *VirtualNetwork_Spec) AssignProperties_To_VirtualNetwork_Spec(dest
 
 	// IpAllocations
 	if network.IpAllocations != nil {
-		ipAllocationList := make([]v1api20201101s.SubResource, len(network.IpAllocations))
+		ipAllocationList := make([]v20201101s.SubResource, len(network.IpAllocations))
 		for ipAllocationIndex, ipAllocationItem := range network.IpAllocations {
 			// Shadow the loop variable to avoid aliasing
 			ipAllocationItem := ipAllocationItem
-			var ipAllocation v1api20201101s.SubResource
+			var ipAllocation v20201101s.SubResource
 			err := ipAllocationItem.AssignProperties_To_SubResource(&ipAllocation)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field IpAllocations")
@@ -1055,14 +1063,14 @@ var _ genruntime.ConvertibleStatus = &VirtualNetwork_STATUS{}
 
 // ConvertStatusFrom populates our VirtualNetwork_STATUS from the provided source
 func (network *VirtualNetwork_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20201101s.VirtualNetwork_STATUS)
+	src, ok := source.(*v20201101s.VirtualNetwork_STATUS)
 	if ok {
 		// Populate our instance from source
 		return network.AssignProperties_From_VirtualNetwork_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20201101s.VirtualNetwork_STATUS{}
+	src = &v20201101s.VirtualNetwork_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1079,14 +1087,14 @@ func (network *VirtualNetwork_STATUS) ConvertStatusFrom(source genruntime.Conver
 
 // ConvertStatusTo populates the provided destination from our VirtualNetwork_STATUS
 func (network *VirtualNetwork_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20201101s.VirtualNetwork_STATUS)
+	dst, ok := destination.(*v20201101s.VirtualNetwork_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return network.AssignProperties_To_VirtualNetwork_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20201101s.VirtualNetwork_STATUS{}
+	dst = &v20201101s.VirtualNetwork_STATUS{}
 	err := network.AssignProperties_To_VirtualNetwork_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1115,7 +1123,7 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetwork_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AddressSpace’:
+	// Set property "AddressSpace":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AddressSpace != nil {
@@ -1129,7 +1137,7 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘BgpCommunities’:
+	// Set property "BgpCommunities":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BgpCommunities != nil {
@@ -1143,9 +1151,9 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘DdosProtectionPlan’:
+	// Set property "DdosProtectionPlan":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DdosProtectionPlan != nil {
@@ -1159,7 +1167,7 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘DhcpOptions’:
+	// Set property "DhcpOptions":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DhcpOptions != nil {
@@ -1173,7 +1181,7 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘EnableDdosProtection’:
+	// Set property "EnableDdosProtection":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableDdosProtection != nil {
@@ -1182,7 +1190,7 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘EnableVmProtection’:
+	// Set property "EnableVmProtection":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableVmProtection != nil {
@@ -1191,13 +1199,13 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		network.Etag = &etag
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation_STATUS
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -1208,13 +1216,13 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		network.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		network.Id = &id
 	}
 
-	// Set property ‘IpAllocations’:
+	// Set property "IpAllocations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpAllocations {
@@ -1227,19 +1235,19 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		network.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		network.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1248,7 +1256,7 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘ResourceGuid’:
+	// Set property "ResourceGuid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGuid != nil {
@@ -1257,7 +1265,7 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		network.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1265,7 +1273,7 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		network.Type = &typeVar
@@ -1276,7 +1284,7 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_VirtualNetwork_STATUS populates our VirtualNetwork_STATUS from the provided source VirtualNetwork_STATUS
-func (network *VirtualNetwork_STATUS) AssignProperties_From_VirtualNetwork_STATUS(source *v1api20201101s.VirtualNetwork_STATUS) error {
+func (network *VirtualNetwork_STATUS) AssignProperties_From_VirtualNetwork_STATUS(source *v20201101s.VirtualNetwork_STATUS) error {
 
 	// AddressSpace
 	if source.AddressSpace != nil {
@@ -1409,13 +1417,13 @@ func (network *VirtualNetwork_STATUS) AssignProperties_From_VirtualNetwork_STATU
 }
 
 // AssignProperties_To_VirtualNetwork_STATUS populates the provided destination VirtualNetwork_STATUS from our VirtualNetwork_STATUS
-func (network *VirtualNetwork_STATUS) AssignProperties_To_VirtualNetwork_STATUS(destination *v1api20201101s.VirtualNetwork_STATUS) error {
+func (network *VirtualNetwork_STATUS) AssignProperties_To_VirtualNetwork_STATUS(destination *v20201101s.VirtualNetwork_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AddressSpace
 	if network.AddressSpace != nil {
-		var addressSpace v1api20201101s.AddressSpace_STATUS
+		var addressSpace v20201101s.AddressSpace_STATUS
 		err := network.AddressSpace.AssignProperties_To_AddressSpace_STATUS(&addressSpace)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AddressSpace_STATUS() to populate field AddressSpace")
@@ -1427,7 +1435,7 @@ func (network *VirtualNetwork_STATUS) AssignProperties_To_VirtualNetwork_STATUS(
 
 	// BgpCommunities
 	if network.BgpCommunities != nil {
-		var bgpCommunity v1api20201101s.VirtualNetworkBgpCommunities_STATUS
+		var bgpCommunity v20201101s.VirtualNetworkBgpCommunities_STATUS
 		err := network.BgpCommunities.AssignProperties_To_VirtualNetworkBgpCommunities_STATUS(&bgpCommunity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkBgpCommunities_STATUS() to populate field BgpCommunities")
@@ -1442,7 +1450,7 @@ func (network *VirtualNetwork_STATUS) AssignProperties_To_VirtualNetwork_STATUS(
 
 	// DdosProtectionPlan
 	if network.DdosProtectionPlan != nil {
-		var ddosProtectionPlan v1api20201101s.SubResource_STATUS
+		var ddosProtectionPlan v20201101s.SubResource_STATUS
 		err := network.DdosProtectionPlan.AssignProperties_To_SubResource_STATUS(&ddosProtectionPlan)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DdosProtectionPlan")
@@ -1454,7 +1462,7 @@ func (network *VirtualNetwork_STATUS) AssignProperties_To_VirtualNetwork_STATUS(
 
 	// DhcpOptions
 	if network.DhcpOptions != nil {
-		var dhcpOption v1api20201101s.DhcpOptions_STATUS
+		var dhcpOption v20201101s.DhcpOptions_STATUS
 		err := network.DhcpOptions.AssignProperties_To_DhcpOptions_STATUS(&dhcpOption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DhcpOptions_STATUS() to populate field DhcpOptions")
@@ -1485,7 +1493,7 @@ func (network *VirtualNetwork_STATUS) AssignProperties_To_VirtualNetwork_STATUS(
 
 	// ExtendedLocation
 	if network.ExtendedLocation != nil {
-		var extendedLocation v1api20201101s.ExtendedLocation_STATUS
+		var extendedLocation v20201101s.ExtendedLocation_STATUS
 		err := network.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
@@ -1500,11 +1508,11 @@ func (network *VirtualNetwork_STATUS) AssignProperties_To_VirtualNetwork_STATUS(
 
 	// IpAllocations
 	if network.IpAllocations != nil {
-		ipAllocationList := make([]v1api20201101s.SubResource_STATUS, len(network.IpAllocations))
+		ipAllocationList := make([]v20201101s.SubResource_STATUS, len(network.IpAllocations))
 		for ipAllocationIndex, ipAllocationItem := range network.IpAllocations {
 			// Shadow the loop variable to avoid aliasing
 			ipAllocationItem := ipAllocationItem
-			var ipAllocation v1api20201101s.SubResource_STATUS
+			var ipAllocation v20201101s.SubResource_STATUS
 			err := ipAllocationItem.AssignProperties_To_SubResource_STATUS(&ipAllocation)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field IpAllocations")
@@ -1565,7 +1573,7 @@ func (space *AddressSpace) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &AddressSpace_ARM{}
 
-	// Set property ‘AddressPrefixes’:
+	// Set property "AddressPrefixes":
 	for _, item := range space.AddressPrefixes {
 		result.AddressPrefixes = append(result.AddressPrefixes, item)
 	}
@@ -1584,7 +1592,7 @@ func (space *AddressSpace) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AddressSpace_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AddressPrefixes’:
+	// Set property "AddressPrefixes":
 	for _, item := range typedInput.AddressPrefixes {
 		space.AddressPrefixes = append(space.AddressPrefixes, item)
 	}
@@ -1594,7 +1602,7 @@ func (space *AddressSpace) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 }
 
 // AssignProperties_From_AddressSpace populates our AddressSpace from the provided source AddressSpace
-func (space *AddressSpace) AssignProperties_From_AddressSpace(source *v1api20201101s.AddressSpace) error {
+func (space *AddressSpace) AssignProperties_From_AddressSpace(source *v20201101s.AddressSpace) error {
 
 	// AddressPrefixes
 	space.AddressPrefixes = genruntime.CloneSliceOfString(source.AddressPrefixes)
@@ -1604,7 +1612,7 @@ func (space *AddressSpace) AssignProperties_From_AddressSpace(source *v1api20201
 }
 
 // AssignProperties_To_AddressSpace populates the provided destination AddressSpace from our AddressSpace
-func (space *AddressSpace) AssignProperties_To_AddressSpace(destination *v1api20201101s.AddressSpace) error {
+func (space *AddressSpace) AssignProperties_To_AddressSpace(destination *v20201101s.AddressSpace) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1652,7 +1660,7 @@ func (space *AddressSpace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AddressSpace_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AddressPrefixes’:
+	// Set property "AddressPrefixes":
 	for _, item := range typedInput.AddressPrefixes {
 		space.AddressPrefixes = append(space.AddressPrefixes, item)
 	}
@@ -1662,7 +1670,7 @@ func (space *AddressSpace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_AddressSpace_STATUS populates our AddressSpace_STATUS from the provided source AddressSpace_STATUS
-func (space *AddressSpace_STATUS) AssignProperties_From_AddressSpace_STATUS(source *v1api20201101s.AddressSpace_STATUS) error {
+func (space *AddressSpace_STATUS) AssignProperties_From_AddressSpace_STATUS(source *v20201101s.AddressSpace_STATUS) error {
 
 	// AddressPrefixes
 	space.AddressPrefixes = genruntime.CloneSliceOfString(source.AddressPrefixes)
@@ -1672,7 +1680,7 @@ func (space *AddressSpace_STATUS) AssignProperties_From_AddressSpace_STATUS(sour
 }
 
 // AssignProperties_To_AddressSpace_STATUS populates the provided destination AddressSpace_STATUS from our AddressSpace_STATUS
-func (space *AddressSpace_STATUS) AssignProperties_To_AddressSpace_STATUS(destination *v1api20201101s.AddressSpace_STATUS) error {
+func (space *AddressSpace_STATUS) AssignProperties_To_AddressSpace_STATUS(destination *v20201101s.AddressSpace_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1706,7 +1714,7 @@ func (options *DhcpOptions) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 	result := &DhcpOptions_ARM{}
 
-	// Set property ‘DnsServers’:
+	// Set property "DnsServers":
 	for _, item := range options.DnsServers {
 		result.DnsServers = append(result.DnsServers, item)
 	}
@@ -1725,7 +1733,7 @@ func (options *DhcpOptions) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DhcpOptions_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DnsServers’:
+	// Set property "DnsServers":
 	for _, item := range typedInput.DnsServers {
 		options.DnsServers = append(options.DnsServers, item)
 	}
@@ -1735,7 +1743,7 @@ func (options *DhcpOptions) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 }
 
 // AssignProperties_From_DhcpOptions populates our DhcpOptions from the provided source DhcpOptions
-func (options *DhcpOptions) AssignProperties_From_DhcpOptions(source *v1api20201101s.DhcpOptions) error {
+func (options *DhcpOptions) AssignProperties_From_DhcpOptions(source *v20201101s.DhcpOptions) error {
 
 	// DnsServers
 	options.DnsServers = genruntime.CloneSliceOfString(source.DnsServers)
@@ -1745,7 +1753,7 @@ func (options *DhcpOptions) AssignProperties_From_DhcpOptions(source *v1api20201
 }
 
 // AssignProperties_To_DhcpOptions populates the provided destination DhcpOptions from our DhcpOptions
-func (options *DhcpOptions) AssignProperties_To_DhcpOptions(destination *v1api20201101s.DhcpOptions) error {
+func (options *DhcpOptions) AssignProperties_To_DhcpOptions(destination *v20201101s.DhcpOptions) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1794,7 +1802,7 @@ func (options *DhcpOptions_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DhcpOptions_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DnsServers’:
+	// Set property "DnsServers":
 	for _, item := range typedInput.DnsServers {
 		options.DnsServers = append(options.DnsServers, item)
 	}
@@ -1804,7 +1812,7 @@ func (options *DhcpOptions_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_DhcpOptions_STATUS populates our DhcpOptions_STATUS from the provided source DhcpOptions_STATUS
-func (options *DhcpOptions_STATUS) AssignProperties_From_DhcpOptions_STATUS(source *v1api20201101s.DhcpOptions_STATUS) error {
+func (options *DhcpOptions_STATUS) AssignProperties_From_DhcpOptions_STATUS(source *v20201101s.DhcpOptions_STATUS) error {
 
 	// DnsServers
 	options.DnsServers = genruntime.CloneSliceOfString(source.DnsServers)
@@ -1814,7 +1822,7 @@ func (options *DhcpOptions_STATUS) AssignProperties_From_DhcpOptions_STATUS(sour
 }
 
 // AssignProperties_To_DhcpOptions_STATUS populates the provided destination DhcpOptions_STATUS from our DhcpOptions_STATUS
-func (options *DhcpOptions_STATUS) AssignProperties_To_DhcpOptions_STATUS(destination *v1api20201101s.DhcpOptions_STATUS) error {
+func (options *DhcpOptions_STATUS) AssignProperties_To_DhcpOptions_STATUS(destination *v20201101s.DhcpOptions_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1848,7 +1856,7 @@ func (communities *VirtualNetworkBgpCommunities) ConvertToARM(resolved genruntim
 	}
 	result := &VirtualNetworkBgpCommunities_ARM{}
 
-	// Set property ‘VirtualNetworkCommunity’:
+	// Set property "VirtualNetworkCommunity":
 	if communities.VirtualNetworkCommunity != nil {
 		virtualNetworkCommunity := *communities.VirtualNetworkCommunity
 		result.VirtualNetworkCommunity = &virtualNetworkCommunity
@@ -1868,7 +1876,7 @@ func (communities *VirtualNetworkBgpCommunities) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkBgpCommunities_ARM, got %T", armInput)
 	}
 
-	// Set property ‘VirtualNetworkCommunity’:
+	// Set property "VirtualNetworkCommunity":
 	if typedInput.VirtualNetworkCommunity != nil {
 		virtualNetworkCommunity := *typedInput.VirtualNetworkCommunity
 		communities.VirtualNetworkCommunity = &virtualNetworkCommunity
@@ -1879,7 +1887,7 @@ func (communities *VirtualNetworkBgpCommunities) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_VirtualNetworkBgpCommunities populates our VirtualNetworkBgpCommunities from the provided source VirtualNetworkBgpCommunities
-func (communities *VirtualNetworkBgpCommunities) AssignProperties_From_VirtualNetworkBgpCommunities(source *v1api20201101s.VirtualNetworkBgpCommunities) error {
+func (communities *VirtualNetworkBgpCommunities) AssignProperties_From_VirtualNetworkBgpCommunities(source *v20201101s.VirtualNetworkBgpCommunities) error {
 
 	// VirtualNetworkCommunity
 	communities.VirtualNetworkCommunity = genruntime.ClonePointerToString(source.VirtualNetworkCommunity)
@@ -1889,7 +1897,7 @@ func (communities *VirtualNetworkBgpCommunities) AssignProperties_From_VirtualNe
 }
 
 // AssignProperties_To_VirtualNetworkBgpCommunities populates the provided destination VirtualNetworkBgpCommunities from our VirtualNetworkBgpCommunities
-func (communities *VirtualNetworkBgpCommunities) AssignProperties_To_VirtualNetworkBgpCommunities(destination *v1api20201101s.VirtualNetworkBgpCommunities) error {
+func (communities *VirtualNetworkBgpCommunities) AssignProperties_To_VirtualNetworkBgpCommunities(destination *v20201101s.VirtualNetworkBgpCommunities) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1940,13 +1948,13 @@ func (communities *VirtualNetworkBgpCommunities_STATUS) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkBgpCommunities_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘RegionalCommunity’:
+	// Set property "RegionalCommunity":
 	if typedInput.RegionalCommunity != nil {
 		regionalCommunity := *typedInput.RegionalCommunity
 		communities.RegionalCommunity = &regionalCommunity
 	}
 
-	// Set property ‘VirtualNetworkCommunity’:
+	// Set property "VirtualNetworkCommunity":
 	if typedInput.VirtualNetworkCommunity != nil {
 		virtualNetworkCommunity := *typedInput.VirtualNetworkCommunity
 		communities.VirtualNetworkCommunity = &virtualNetworkCommunity
@@ -1957,7 +1965,7 @@ func (communities *VirtualNetworkBgpCommunities_STATUS) PopulateFromARM(owner ge
 }
 
 // AssignProperties_From_VirtualNetworkBgpCommunities_STATUS populates our VirtualNetworkBgpCommunities_STATUS from the provided source VirtualNetworkBgpCommunities_STATUS
-func (communities *VirtualNetworkBgpCommunities_STATUS) AssignProperties_From_VirtualNetworkBgpCommunities_STATUS(source *v1api20201101s.VirtualNetworkBgpCommunities_STATUS) error {
+func (communities *VirtualNetworkBgpCommunities_STATUS) AssignProperties_From_VirtualNetworkBgpCommunities_STATUS(source *v20201101s.VirtualNetworkBgpCommunities_STATUS) error {
 
 	// RegionalCommunity
 	communities.RegionalCommunity = genruntime.ClonePointerToString(source.RegionalCommunity)
@@ -1970,7 +1978,7 @@ func (communities *VirtualNetworkBgpCommunities_STATUS) AssignProperties_From_Vi
 }
 
 // AssignProperties_To_VirtualNetworkBgpCommunities_STATUS populates the provided destination VirtualNetworkBgpCommunities_STATUS from our VirtualNetworkBgpCommunities_STATUS
-func (communities *VirtualNetworkBgpCommunities_STATUS) AssignProperties_To_VirtualNetworkBgpCommunities_STATUS(destination *v1api20201101s.VirtualNetworkBgpCommunities_STATUS) error {
+func (communities *VirtualNetworkBgpCommunities_STATUS) AssignProperties_To_VirtualNetworkBgpCommunities_STATUS(destination *v20201101s.VirtualNetworkBgpCommunities_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

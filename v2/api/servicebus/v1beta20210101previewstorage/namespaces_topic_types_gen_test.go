@@ -5,7 +5,8 @@ package v1beta20210101previewstorage
 
 import (
 	"encoding/json"
-	v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
+	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForNamespacesTopic(subject NamespacesTopic) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20210101ps.NamespacesTopic
+	var hub v20211101s.NamespacesTopic
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForNamespacesTopic(subject NamespacesTopic) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210101ps.NamespacesTopic
+	var other v20210101ps.NamespacesTopic
 	err := copied.AssignProperties_To_NamespacesTopic(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForNamespaces_Topic_Spec(subject Namespaces_Topic_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210101ps.Namespaces_Topic_Spec
+	var other v20210101ps.Namespaces_Topic_Spec
 	err := copied.AssignProperties_To_Namespaces_Topic_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -294,7 +295,7 @@ func RunPropertyAssignmentTestForNamespaces_Topic_STATUS(subject Namespaces_Topi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210101ps.Namespaces_Topic_STATUS
+	var other v20210101ps.Namespaces_Topic_STATUS
 	err := copied.AssignProperties_To_Namespaces_Topic_STATUS(&other)
 	if err != nil {
 		return err.Error()

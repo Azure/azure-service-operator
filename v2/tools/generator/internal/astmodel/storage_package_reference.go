@@ -7,6 +7,8 @@ package astmodel
 
 import (
 	"fmt"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
 const (
@@ -18,12 +20,66 @@ type StoragePackageReference struct {
 }
 
 var _ PackageReference = StoragePackageReference{}
-var _ LocalLikePackageReference = StoragePackageReference{}
+var _ InternalPackageReference = StoragePackageReference{}
+var _ DerivedPackageReference = StoragePackageReference{}
+
+// legacyStorageGroups is a set of groups for which we generate old style storage packages (siblings of the API
+// packages). We only do this to reduce the number of changes in a single PR. Once we've migrated all the packages
+// we can remove this.
+var legacyStorageGroups = set.Make(
+	"apimanagement",
+	"appconfiguration",
+	"authorization",
+	"batch",
+	"cache",
+	"cdn",
+	"compute",
+	"containerinstance",
+	"containerregistry",
+	"containerservice",
+	"datafactory",
+	"dataprotection",
+	"dbformariadb",
+	"dbformysql",
+	"dbforpostgresql",
+	"devices",
+	"documentdb",
+	"eventgrid",
+	"eventhub",
+	"insights",
+	"keyvault",
+	"machinelearningservices",
+	"managedidentity",
+	"operationalinsights",
+	"resources",
+	"search",
+	"servicebus",
+	"signalrservice",
+	"sql",
+	"storage",
+	"subscription",
+	"synapse",
+	"web",
+)
 
 // MakeStoragePackageReference creates a new storage package reference from a local package reference
-func MakeStoragePackageReference(local LocalPackageReference) StoragePackageReference {
-	return StoragePackageReference{
-		inner: local,
+func MakeStoragePackageReference(ref InternalPackageReference) InternalPackageReference {
+	switch r := ref.(type) {
+	case LocalPackageReference:
+		if legacyStorageGroups.Contains(r.group) {
+			return StoragePackageReference{
+				inner: r,
+			}
+		}
+
+		return MakeSubPackageReference(StoragePackageSuffix, r)
+	case StoragePackageReference:
+		return r
+	case SubPackageReference:
+		parent := MakeStoragePackageReference(r.parent)
+		return MakeSubPackageReference(r.name, parent)
+	default:
+		panic(fmt.Sprintf("unknown package reference type %T", ref))
 	}
 }
 
@@ -36,6 +92,16 @@ func (s StoragePackageReference) PackageName() string {
 func (s StoragePackageReference) PackagePath() string {
 	url := s.inner.localPathPrefix + "/" + s.inner.group + "/" + s.Version()
 	return url
+}
+
+// ImportPath returns the path to use when importing this package
+func (s StoragePackageReference) ImportPath() string {
+	return s.inner.ImportPath() + StoragePackageSuffix
+}
+
+// FolderPath returns the relative path to this package on disk.
+func (s StoragePackageReference) FolderPath() string {
+	return s.inner.FolderPath() + StoragePackageSuffix
 }
 
 func (s StoragePackageReference) Version() string {
@@ -70,19 +136,20 @@ func (s StoragePackageReference) IsPreview() bool {
 	return s.inner.IsPreview()
 }
 
-// IsStoragePackageReference returns true if the reference is to a storage package
+// IsStoragePackageReference returns true if the reference is to a storage package OR to a subpackage for storage
 func IsStoragePackageReference(reference PackageReference) bool {
-	_, ok := reference.(StoragePackageReference)
-	return ok
+	if _, ok := reference.(StoragePackageReference); ok {
+		return true
+	}
+
+	if sub, ok := reference.(SubPackageReference); ok {
+		return sub.name == StoragePackageSuffix
+	}
+
+	return false
 }
 
-// TryGroupVersion returns the group and version of this storage reference.
-func (s StoragePackageReference) TryGroupVersion() (string, string, bool) {
-	g, v, _ := s.inner.TryGroupVersion()
-	return g, v + StoragePackageSuffix, true
-}
-
-// MustGroupVersion returns the group and version of this storage reference.
+// GroupVersion returns the group and version of this storage reference.
 func (s StoragePackageReference) GroupVersion() (string, string) {
 	g, v := s.inner.GroupVersion()
 	return g, v + StoragePackageSuffix
@@ -90,5 +157,25 @@ func (s StoragePackageReference) GroupVersion() (string, string) {
 
 // Local returns the local package reference wrapped by this reference
 func (s StoragePackageReference) Local() LocalPackageReference {
+	return s.inner
+}
+
+// ImportAlias returns the import alias to use for this package reference
+func (s StoragePackageReference) ImportAlias(style PackageImportStyle) string {
+	base := s.inner.ImportAlias(style)
+	switch style {
+	case VersionOnly:
+		return base + "s"
+	case GroupOnly:
+		return base
+	case GroupAndVersion:
+		return base + "s"
+	default:
+		panic(fmt.Sprintf("didn't expect PackageImportStyle %q", style))
+	}
+}
+
+// Base implements DerivedPackageReference.
+func (s StoragePackageReference) Base() InternalPackageReference {
 	return s.inner
 }

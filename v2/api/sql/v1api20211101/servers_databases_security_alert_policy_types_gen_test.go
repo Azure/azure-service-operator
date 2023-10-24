@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForServersDatabasesSecurityAlertPolicy(subject Ser
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20211101s.ServersDatabasesSecurityAlertPolicy
+	var hub v20211101s.ServersDatabasesSecurityAlertPolicy
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForServersDatabasesSecurityAlertPolicy(subject Ser
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20211101s.ServersDatabasesSecurityAlertPolicy
+	var other v20211101s.ServersDatabasesSecurityAlertPolicy
 	err := copied.AssignProperties_To_ServersDatabasesSecurityAlertPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForServers_Databases_SecurityAlertPolicy_Spec(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20211101s.Servers_Databases_SecurityAlertPolicy_Spec
+	var other v20211101s.Servers_Databases_SecurityAlertPolicy_Spec
 	err := copied.AssignProperties_To_Servers_Databases_SecurityAlertPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -290,7 +290,7 @@ func RunPropertyAssignmentTestForServers_Databases_SecurityAlertPolicy_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20211101s.Servers_Databases_SecurityAlertPolicy_STATUS
+	var other v20211101s.Servers_Databases_SecurityAlertPolicy_STATUS
 	err := copied.AssignProperties_To_Servers_Databases_SecurityAlertPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()

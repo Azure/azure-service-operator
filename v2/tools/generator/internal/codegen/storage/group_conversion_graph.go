@@ -17,15 +17,15 @@ type GroupConversionGraph struct {
 	group           string                              // Name of the group of the resources needing conversions
 	configuration   *config.ObjectModelConfiguration    // Configuration used to look up renames
 	subGraphs       map[string]*ResourceConversionGraph // Nested graphs, one for each resource type, keyed by resource name
-	storagePackages []astmodel.PackageReference         // Sorted list of known storage packages in this group
+	storagePackages []astmodel.InternalPackageReference // Sorted list of known storage packages in this group
 }
 
 // LookupTransition accepts a type name and looks up the transition to the next version in the graph
 // Returns the next version if it's found, or an empty type name if not.
-func (graph *GroupConversionGraph) LookupTransition(name astmodel.TypeName) astmodel.TypeName {
+func (graph *GroupConversionGraph) LookupTransition(name astmodel.InternalTypeName) astmodel.InternalTypeName {
 	subgraph, ok := graph.subGraphs[name.Name()]
 	if !ok {
-		return astmodel.EmptyTypeName
+		return astmodel.InternalTypeName{}
 	}
 
 	return subgraph.LookupTransition(name)
@@ -48,23 +48,24 @@ func (graph *GroupConversionGraph) TransitionCount() int {
 // from an api package to a storage package because the storage versions are always synthesized with an exact match
 // on type names.
 func (graph *GroupConversionGraph) searchForRenamedType(
-	name astmodel.TypeName,
-	definitions astmodel.TypeDefinitionSet) (astmodel.TypeName, error) {
+	name astmodel.InternalTypeName,
+	definitions astmodel.TypeDefinitionSet,
+) (astmodel.InternalTypeName, error) {
 
 	// No configuration, or we're not looking at a storage package
-	if graph.configuration == nil || !astmodel.IsStoragePackageReference(name.PackageReference) {
-		return astmodel.EmptyTypeName, nil
+	if graph.configuration == nil || !astmodel.IsStoragePackageReference(name.PackageReference()) {
+		return astmodel.InternalTypeName{}, nil
 	}
 
 	rename, err := graph.configuration.TypeNameInNextVersion.Lookup(name)
 	if config.IsNotConfiguredError(err) {
 		// We found no configured rename, nothing to do
-		return astmodel.EmptyTypeName, nil
+		return astmodel.InternalTypeName{}, nil
 	}
 
 	// If we have any error other than a NotConfiguredError, something went wrong, and we must abort
 	if err != nil {
-		return astmodel.EmptyTypeName,
+		return astmodel.InternalTypeName{},
 			errors.Wrapf(err, "finding next type after %s", name)
 	}
 
@@ -72,7 +73,7 @@ func (graph *GroupConversionGraph) searchForRenamedType(
 	foundStart := false
 	for _, pkg := range graph.storagePackages {
 		// Look for the package that contains the type we're converting from
-		if pkg.Equals(name.PackageReference) {
+		if pkg.Equals(name.PackageReference()) {
 			foundStart = true
 			continue
 		}
@@ -90,6 +91,6 @@ func (graph *GroupConversionGraph) searchForRenamedType(
 	}
 
 	// Didn't find the type we're looking for
-	return astmodel.EmptyTypeName,
+	return astmodel.InternalTypeName{},
 		errors.Errorf("rename of %s invalid because no type with name %s was found in any later version", name, rename)
 }

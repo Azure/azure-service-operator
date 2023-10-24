@@ -15,19 +15,18 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
-	"github.com/Azure/azure-service-operator/v2/internal/controllers"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"github.com/vbauerster/mpb/v8"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
-
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
 type importableARMResource struct {
@@ -68,15 +67,20 @@ func NewImportableARMResource(
 }
 
 // GroupKind returns the GroupKind of the resource being imported.
-// (may be empty if the GK can't be determined)
+// Returned value may be empty if the GK can't be determined.
 func (i *importableARMResource) GroupKind() schema.GroupKind {
 	gk, _ := FindGroupKindForResourceType(i.armID.ResourceType.String())
 	return gk
 }
 
-// Name returns the ARM ID of the resource we're importing
+// Name returns the name of the resource we're importing
 func (i *importableARMResource) Name() string {
 	return i.armID.Name
+}
+
+// Id returns the full ARM ID of the resource we're importing
+func (i *importableARMResource) Id() string {
+	return i.armID.String()
 }
 
 // Resource returns the actual resource that is being imported.
@@ -87,22 +91,63 @@ func (i *importableARMResource) Resource() genruntime.MetaObject {
 
 // Import imports this single resource.
 // ctx is the context to use for the import.
-// Returns a slice of child resources needing to be imported (if any), and/or an error.
-// Both are returned to allow returning partial results in the case of a partial failure.
-func (i *importableARMResource) Import(ctx context.Context, bar *mpb.Bar) ([]ImportableResource, error) {
-	var ref genruntime.ResourceReference
-	ref, err := i.importResource(ctx, i.armID)
+func (i *importableARMResource) Import(
+	ctx context.Context,
+	log logr.Logger,
+) error {
+	// Create an importable blank object into which we capture the current state of the resource
+	importable, err := i.createImportableObjectFromID(i.owner, i.armID)
 	if err != nil {
-		return nil, err
+		// Error doesn't need additional context
+		return err
 	}
 
-	var result []ImportableResource
+	// Our resource might have an extension that can customize the import process,
+	// so we have a factory to create the loader function we call.
+	loader := i.createImportFunction(importable)
+	result, err := loader(ctx, importable, i.owner)
+	if err != nil {
+		return err
+	}
+
+	if because, skipped := result.Skipped(); skipped {
+		gk := importable.GetObjectKind().GroupVersionKind().GroupKind()
+		return NewImportSkippedError(gk, i.armID.Name, because, i)
+	}
+
+	i.resource = importable
+
+	return nil
+}
+
+// FindChildren returns any child resources that need to be imported.
+// ctx allows for cancellation of the import.
+// Returns any additional resources that also need to be imported, as well as any errors that occur.
+// Partial success is allowed, but the caller should be notified of any errors.
+func (i *importableARMResource) FindChildren(
+	ctx context.Context,
+	progress chan<- progressDelta,
+) ([]ImportableResource, error) {
+	if i.resource == nil {
+		// Nothing to do
+		return nil, nil
+	}
+
+	gvk := i.resource.GetObjectKind().GroupVersionKind()
+
+	ref := genruntime.ResourceReference{
+		Group: gvk.Group,
+		Kind:  gvk.Kind,
+		Name:  i.resource.GetName(),
+		ARMID: i.armID.String(),
+	}
 
 	// Find all child types that require this resource as a parent
 	rsrcType := i.armID.ResourceType.String()
 	childTypes := FindChildResourcesForResourceType(rsrcType)
 
-	// If we're not already looking at an extension type, look for any extensions as they can be parented by any resource
+	// If we're not already looking at an extension type, look for any extensions as they can be
+	// parented by any other resource
 	if !IsExtensionType(rsrcType) {
 		childTypes = append(childTypes, FindResourceTypesByScope(genruntime.ResourceScopeExtension)...)
 	}
@@ -112,59 +157,35 @@ func (i *importableARMResource) Import(ctx context.Context, bar *mpb.Bar) ([]Imp
 		childTypes = append(childTypes, FindResourceTypesByScope(genruntime.ResourceScopeResourceGroup)...)
 	}
 
-	total := int64(len(childTypes) + 1)
-	bar.SetTotal(total, false)
+	progress <- progressDelta{total: len(childTypes)} // all children pending
 
-	bar.SetCurrent(1)
-
+	// While we're looking for subresources, we need to treat any errors that occur as independent.
+	// Some potential subresource types can have limited accessibility (e.g. the subscriber may not
+	// be onboarded to a preview API), so we don't want to fail the entire import if we can't import
+	// a single candidate subresource type.
+	var result []ImportableResource
+	var errs []error
 	for _, subType := range childTypes {
 		subResources, err := i.importChildResources(ctx, ref, subType)
-		if err != nil {
+		if ctx.Err() != nil {
+			// Aborting, don't do anything
+		} else if err != nil {
+			// Something went wrong, but we still do the remaining child resource types
 			gk, _ := FindGroupKindForResourceType(subType) // If this was going to error, it would have already
-			return nil, errors.Wrapf(err, "importing %s/%s for resource %s", gk.Group, gk.Kind, i.armID)
+			errs = append(errs, errors.Wrapf(err, "importing %s/%s", gk.Group, gk.Kind))
+		} else {
+			// Collect all our subresources
+			result = append(result, subResources...)
 		}
 
-		result = append(result, subResources...)
-		bar.Increment()
+		progress <- progressDelta{complete: 1} // One child type done
 	}
 
-	return result, nil
-}
-
-// importResource imports the actual resource, returning a reference to the resource
-func (i *importableARMResource) importResource(
-	ctx context.Context,
-	id *arm.ResourceID,
-) (genruntime.ResourceReference, error) {
-	// Create an importable blank object into which we capture the current state of the resource
-	importable, err := i.createImportableObjectFromID(i.owner, id)
-	if err != nil {
-		// Error doesn't need additional context
-		return genruntime.ResourceReference{}, err
-	}
-
-	loader := i.createImportFunction(importable)
-	result, err := loader(ctx, importable, i.owner)
-	if err != nil {
-		return genruntime.ResourceReference{}, err
-	}
-
-	if because, skipped := result.Skipped(); skipped {
-		gk := importable.GetObjectKind().GroupVersionKind().GroupKind()
-		return genruntime.ResourceReference{}, NewImportSkippedError(gk, id.Name, because)
-	}
-
-	gvk := importable.GetObjectKind().GroupVersionKind()
-	i.resource = importable
-
-	ref := genruntime.ResourceReference{
-		Group: gvk.Group,
-		Kind:  gvk.Kind,
-		Name:  importable.GetName(),
-		ARMID: i.armID.String(),
-	}
-
-	return ref, nil
+	return result,
+		errors.Wrapf(
+			kerrors.NewAggregate(errs),
+			"importing childresources of %s",
+			i.armID)
 }
 
 func (i *importableARMResource) createImportFunction(

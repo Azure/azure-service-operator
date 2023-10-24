@@ -4,10 +4,14 @@
 package customizations
 
 import (
-	v1api20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
-	v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
-	v20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview"
-	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage"
+	v20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
+	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
+	v20211101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101storage"
+	v20221001p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview"
+	v20221001ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001previewstorage"
+	v1beta20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview"
+	v1beta20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +21,12 @@ type NamespacesTopicsSubscriptionExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *NamespacesTopicsSubscriptionExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20210101p.NamespacesTopicsSubscription{},
-		&v1api20210101ps.NamespacesTopicsSubscription{},
 		&v20210101p.NamespacesTopicsSubscription{},
-		&v20210101ps.NamespacesTopicsSubscription{}}
+		&v20210101ps.NamespacesTopicsSubscription{},
+		&v20211101.NamespacesTopicsSubscription{},
+		&v20211101s.NamespacesTopicsSubscription{},
+		&v20221001p.NamespacesTopicsSubscription{},
+		&v20221001ps.NamespacesTopicsSubscription{},
+		&v1beta20210101p.NamespacesTopicsSubscription{},
+		&v1beta20210101ps.NamespacesTopicsSubscription{}}
 }

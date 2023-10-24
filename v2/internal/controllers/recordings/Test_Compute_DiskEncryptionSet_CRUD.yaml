@@ -1,0 +1,926 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"location":"westus2","name":"asotest-rg-iwwxqu","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "93"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu","name":"asotest-rg-iwwxqu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "276"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu","name":"asotest-rg-iwwxqu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"asotest-mi-ucnovq"}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "49"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-ucnovq?api-version=2018-11-30
+    method: PUT
+  response:
+    body: '{"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-iwwxqu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-ucnovq","name":"asotest-mi-ucnovq","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"ca7ccb88-6a2b-4bc2-81b8-f5cf144a7806","clientId":"c448fe67-0a46-4b22-b211-49c90bbd6530"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "454"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - /subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-iwwxqu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-ucnovq
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"asotest-mi-ucnovq"}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "49"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-ucnovq?api-version=2018-11-30
+    method: PUT
+  response:
+    body: '{"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-iwwxqu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-ucnovq","name":"asotest-mi-ucnovq","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"ca7ccb88-6a2b-4bc2-81b8-f5cf144a7806","clientId":"c448fe67-0a46-4b22-b211-49c90bbd6530"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-ucnovq?api-version=2018-11-30
+    method: GET
+  response:
+    body: '{"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-iwwxqu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-ucnovq","name":"asotest-mi-ucnovq","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"ca7ccb88-6a2b-4bc2-81b8-f5cf144a7806","clientId":"c448fe67-0a46-4b22-b211-49c90bbd6530"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"asotest-kv-qlixyt","properties":{"accessPolicies":[{"applicationId":"c448fe67-0a46-4b22-b211-49c90bbd6530","objectId":"ca7ccb88-6a2b-4bc2-81b8-f5cf144a7806","permissions":{"certificates":["get"],"keys":["get","unwrapKey","wrapKey"],"secrets":["get"],"storage":["get"]},"tenantId":"00000000-0000-0000-0000-000000000000"}],"enabledForDiskEncryption":true,"sku":{"family":"A","name":"standard"},"softDeleteRetentionInDays":7,"tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "503"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt?api-version=2021-04-01-preview
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt","name":"asotest-kv-qlixyt","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"5fe8acba-4694-403d-8c10-581a22063ff8","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"5fe8acba-4694-403d-8c10-581a22063ff8","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"ca7ccb88-6a2b-4bc2-81b8-f5cf144a7806","applicationId":"c448fe67-0a46-4b22-b211-49c90bbd6530","permissions":{"certificates":["get"],"keys":["get","unwrapKey","wrapKey"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enabledForDiskEncryption":true,"enableSoftDelete":true,"softDeleteRetentionInDays":7,"vaultUri":"https://asotest-kv-qlixyt.vault.azure.net","provisioningState":"RegisteringDns"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.885.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt?api-version=2021-04-01-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt","name":"asotest-kv-qlixyt","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"5fe8acba-4694-403d-8c10-581a22063ff8","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"5fe8acba-4694-403d-8c10-581a22063ff8","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"ca7ccb88-6a2b-4bc2-81b8-f5cf144a7806","applicationId":"c448fe67-0a46-4b22-b211-49c90bbd6530","permissions":{"certificates":["get"],"keys":["get","unwrapKey","wrapKey"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enabledForDiskEncryption":true,"enableSoftDelete":true,"softDeleteRetentionInDays":7,"vaultUri":"https://asotest-kv-qlixyt.vault.azure.net/","provisioningState":"RegisteringDns"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.885.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt?api-version=2021-04-01-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt","name":"asotest-kv-qlixyt","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"5fe8acba-4694-403d-8c10-581a22063ff8","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"5fe8acba-4694-403d-8c10-581a22063ff8","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"ca7ccb88-6a2b-4bc2-81b8-f5cf144a7806","applicationId":"c448fe67-0a46-4b22-b211-49c90bbd6530","permissions":{"certificates":["get"],"keys":["get","unwrapKey","wrapKey"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enabledForDiskEncryption":true,"enableSoftDelete":true,"softDeleteRetentionInDays":7,"vaultUri":"https://asotest-kv-qlixyt.vault.azure.net/","provisioningState":"RegisteringDns"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.885.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt?api-version=2021-04-01-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt","name":"asotest-kv-qlixyt","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"5fe8acba-4694-403d-8c10-581a22063ff8","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"5fe8acba-4694-403d-8c10-581a22063ff8","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"ca7ccb88-6a2b-4bc2-81b8-f5cf144a7806","applicationId":"c448fe67-0a46-4b22-b211-49c90bbd6530","permissions":{"certificates":["get"],"keys":["get","unwrapKey","wrapKey"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enabledForDiskEncryption":true,"enableSoftDelete":true,"softDeleteRetentionInDays":7,"vaultUri":"https://asotest-kv-qlixyt.vault.azure.net/","provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.885.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt?api-version=2021-04-01-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt","name":"asotest-kv-qlixyt","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"5fe8acba-4694-403d-8c10-581a22063ff8","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"5fe8acba-4694-403d-8c10-581a22063ff8","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"ca7ccb88-6a2b-4bc2-81b8-f5cf144a7806","applicationId":"c448fe67-0a46-4b22-b211-49c90bbd6530","permissions":{"certificates":["get"],"keys":["get","unwrapKey","wrapKey"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enabledForDiskEncryption":true,"enableSoftDelete":true,"softDeleteRetentionInDays":7,"vaultUri":"https://asotest-kv-qlixyt.vault.azure.net/","provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.885.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"properties":{"attributes":{"enabled":true},"keySize":2048,"kty":"RSA"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "73"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt/keys/testkey?api-version=2023-02-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt/keys/testkey","name":"testkey","type":"Microsoft.KeyVault/vaults/keys","location":"westus2","properties":{"attributes":{"enabled":true,"created":1693003849,"updated":1693003849,"recoveryLevel":"CustomizedRecoverable+Purgeable","exportable":false},"kty":"RSA","keyOps":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"keySize":2048,"keyUri":"https://asotest-kv-qlixyt.vault.azure.net/keys/testkey","keyUriWithVersion":"https://asotest-kv-qlixyt.vault.azure.net/keys/testkey/8e214b81aecf4c2ab0542f7ddb8378b3"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.885.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"identity":{"type":"SystemAssigned"},"location":"westus2","name":"asotest-set-yyowxd","properties":{"activeKey":{"keyUrl":"https://asotest-kv-qlixyt.vault.azure.net/keys/testkey/8e214b81aecf4c2ab0542f7ddb8378b3","sourceVault":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt"}},"encryptionType":"EncryptionAtRestWithCustomerKey"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "428"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.Compute/diskEncryptionSets/asotest-set-yyowxd?api-version=2022-07-02
+    method: PUT
+  response:
+    body: "{\r\n  \"name\": \"asotest-set-yyowxd\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"identity\": {\r\n    \"type\": \"SystemAssigned\"\r\n  },\r\n  \"properties\":
+      {\r\n    \"activeKey\": {\r\n      \"sourceVault\": {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt\"\r\n
+      \     },\r\n      \"keyUrl\": \"https://asotest-kv-qlixyt.vault.azure.net/keys/testkey/8e214b81aecf4c2ab0542f7ddb8378b3\"\r\n
+      \   },\r\n    \"encryptionType\": \"EncryptionAtRestWithCustomerKey\",\r\n    \"provisioningState\":
+      \"Updating\"\r\n  }\r\n}"
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/c00adafc-cc5d-444d-bf0d-c254bb92d799?p=330bd1e4-9ec8-43c5-83fb-8151747429a9&api-version=2022-07-02
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "560"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/c00adafc-cc5d-444d-bf0d-c254bb92d799?p=330bd1e4-9ec8-43c5-83fb-8151747429a9&monitor=true&api-version=2022-07-02
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/CreateUpdateHighCostDiskEncryptionSet3Min;99,Microsoft.Compute/CreateUpdateHighCostDiskEncryptionSet30Min;299
+      X-Ms-Served-By:
+      - 330bd1e4-9ec8-43c5-83fb-8151747429a9_133242837544050696
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/c00adafc-cc5d-444d-bf0d-c254bb92d799?p=330bd1e4-9ec8-43c5-83fb-8151747429a9&api-version=2022-07-02
+    method: GET
+  response:
+    body: "{\r\n  \"startTime\": \"2023-08-25T22:50:52.4881497+00:00\",\r\n  \"endTime\":
+      \"2023-08-25T22:50:52.5662626+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"properties\":
+      {\r\n    \"output\": {\r\n  \"name\": \"asotest-set-yyowxd\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.Compute/diskEncryptionSets/asotest-set-yyowxd\",\r\n
+      \ \"type\": \"Microsoft.Compute/diskEncryptionSets\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"identity\": {\r\n    \"type\": \"SystemAssigned\",\r\n    \"principalId\":
+      \"793e9845-62ad-4eb8-912b-8521f72a5287\",\r\n    \"tenantId\": \"00000000-0000-0000-0000-000000000000\"\r\n
+      \ },\r\n  \"properties\": {\r\n    \"activeKey\": {\r\n      \"sourceVault\":
+      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt\"\r\n
+      \     },\r\n      \"keyUrl\": \"https://asotest-kv-qlixyt.vault.azure.net/keys/testkey/8e214b81aecf4c2ab0542f7ddb8378b3\"\r\n
+      \   },\r\n    \"encryptionType\": \"EncryptionAtRestWithCustomerKey\",\r\n    \"provisioningState\":
+      \"Succeeded\"\r\n  }\r\n}\r\n  },\r\n  \"name\": \"c00adafc-cc5d-444d-bf0d-c254bb92d799\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/GetOperation3Min;49999,Microsoft.Compute/GetOperation30Min;399999
+      X-Ms-Served-By:
+      - 330bd1e4-9ec8-43c5-83fb-8151747429a9_133242837544050696
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.Compute/diskEncryptionSets/asotest-set-yyowxd?api-version=2022-07-02
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-set-yyowxd\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.Compute/diskEncryptionSets/asotest-set-yyowxd\",\r\n
+      \ \"type\": \"Microsoft.Compute/diskEncryptionSets\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"identity\": {\r\n    \"type\": \"SystemAssigned\",\r\n    \"principalId\":
+      \"793e9845-62ad-4eb8-912b-8521f72a5287\",\r\n    \"tenantId\": \"00000000-0000-0000-0000-000000000000\"\r\n
+      \ },\r\n  \"properties\": {\r\n    \"activeKey\": {\r\n      \"sourceVault\":
+      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt\"\r\n
+      \     },\r\n      \"keyUrl\": \"https://asotest-kv-qlixyt.vault.azure.net/keys/testkey/8e214b81aecf4c2ab0542f7ddb8378b3\"\r\n
+      \   },\r\n    \"encryptionType\": \"EncryptionAtRestWithCustomerKey\",\r\n    \"provisioningState\":
+      \"Succeeded\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/LowCostGet3Min;14999,Microsoft.Compute/LowCostGet30Min;119999
+      X-Ms-Served-By:
+      - 330bd1e4-9ec8-43c5-83fb-8151747429a9_133242837544050696
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.Compute/diskEncryptionSets/asotest-set-yyowxd?api-version=2022-07-02
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-set-yyowxd\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.Compute/diskEncryptionSets/asotest-set-yyowxd\",\r\n
+      \ \"type\": \"Microsoft.Compute/diskEncryptionSets\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"identity\": {\r\n    \"type\": \"SystemAssigned\",\r\n    \"principalId\":
+      \"793e9845-62ad-4eb8-912b-8521f72a5287\",\r\n    \"tenantId\": \"00000000-0000-0000-0000-000000000000\"\r\n
+      \ },\r\n  \"properties\": {\r\n    \"activeKey\": {\r\n      \"sourceVault\":
+      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt\"\r\n
+      \     },\r\n      \"keyUrl\": \"https://asotest-kv-qlixyt.vault.azure.net/keys/testkey/8e214b81aecf4c2ab0542f7ddb8378b3\"\r\n
+      \   },\r\n    \"encryptionType\": \"EncryptionAtRestWithCustomerKey\",\r\n    \"provisioningState\":
+      \"Succeeded\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/LowCostGet3Min;14998,Microsoft.Compute/LowCostGet30Min;119998
+      X-Ms-Served-By:
+      - 330bd1e4-9ec8-43c5-83fb-8151747429a9_133242837544050696
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.Compute/diskEncryptionSets/asotest-set-yyowxd?api-version=2022-07-02
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/d02da823-d6f2-48c9-b939-c3b263c925a9?p=330bd1e4-9ec8-43c5-83fb-8151747429a9&api-version=2022-07-02
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/d02da823-d6f2-48c9-b939-c3b263c925a9?p=330bd1e4-9ec8-43c5-83fb-8151747429a9&monitor=true&api-version=2022-07-02
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/DeleteHighCostDiskEncryptionSet3Min;199,Microsoft.Compute/DeleteHighCostDiskEncryptionSet30Min;499
+      X-Ms-Served-By:
+      - 330bd1e4-9ec8-43c5-83fb-8151747429a9_133242837544050696
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/d02da823-d6f2-48c9-b939-c3b263c925a9?p=330bd1e4-9ec8-43c5-83fb-8151747429a9&api-version=2022-07-02
+    method: GET
+  response:
+    body: "{\r\n  \"startTime\": \"2023-08-25T22:51:00.8319957+00:00\",\r\n  \"endTime\":
+      \"2023-08-25T22:51:00.8944952+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"name\":
+      \"d02da823-d6f2-48c9-b939-c3b263c925a9\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/GetOperation3Min;49998,Microsoft.Compute/GetOperation30Min;399998
+      X-Ms-Served-By:
+      - 330bd1e4-9ec8-43c5-83fb-8151747429a9_133242837544050696
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.Compute/diskEncryptionSets/asotest-set-yyowxd?api-version=2022-07-02
+    method: GET
+  response:
+    body: "{\r\n  \"error\": {\r\n    \"code\": \"NotFound\",\r\n    \"message\":
+      \"DiskEncryptionSet 'asotest-set-yyowxd' was not found.\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "120"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/LowCostGet3Min;14997,Microsoft.Compute/LowCostGet30Min;119997
+      X-Ms-Served-By:
+      - 330bd1e4-9ec8-43c5-83fb-8151747429a9_133242837544050696
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRJV1dYUVUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRJV1dYUVUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRJV1dYUVUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRJV1dYUVUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRJV1dYUVUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRJV1dYUVUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRJV1dYUVUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRJV1dYUVUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRJV1dYUVUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRJV1dYUVUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-ucnovq?api-version=2018-11-30
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-iwwxqu''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-iwwxqu/providers/Microsoft.KeyVault/vaults/asotest-kv-qlixyt?api-version=2021-04-01-preview
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-iwwxqu''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""

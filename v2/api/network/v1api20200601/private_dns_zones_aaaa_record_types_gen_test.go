@@ -5,7 +5,7 @@ package v1api20200601
 
 import (
 	"encoding/json"
-	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForPrivateDnsZonesAAAARecord(subject PrivateDnsZon
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20200601s.PrivateDnsZonesAAAARecord
+	var hub v20200601s.PrivateDnsZonesAAAARecord
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -72,13 +72,13 @@ func Test_PrivateDnsZonesAAAARecord_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZonesAAAARecord tests if a specific instance of PrivateDnsZonesAAAARecord can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForPrivateDnsZonesAAAARecord tests if a specific instance of PrivateDnsZonesAAAARecord can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateDnsZonesAAAARecord(subject PrivateDnsZonesAAAARecord) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.PrivateDnsZonesAAAARecord
+	var other v20200601s.PrivateDnsZonesAAAARecord
 	err := copied.AssignProperties_To_PrivateDnsZonesAAAARecord(&other)
 	if err != nil {
 		return err.Error()
@@ -176,13 +176,13 @@ func Test_PrivateDnsZones_AAAA_Spec_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZones_AAAA_Spec tests if a specific instance of PrivateDnsZones_AAAA_Spec can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForPrivateDnsZones_AAAA_Spec tests if a specific instance of PrivateDnsZones_AAAA_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateDnsZones_AAAA_Spec(subject PrivateDnsZones_AAAA_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.PrivateDnsZones_AAAA_Spec
+	var other v20200601s.PrivateDnsZones_AAAA_Spec
 	err := copied.AssignProperties_To_PrivateDnsZones_AAAA_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -303,13 +303,13 @@ func Test_PrivateDnsZones_AAAA_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZones_AAAA_STATUS tests if a specific instance of PrivateDnsZones_AAAA_STATUS can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForPrivateDnsZones_AAAA_STATUS tests if a specific instance of PrivateDnsZones_AAAA_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateDnsZones_AAAA_STATUS(subject PrivateDnsZones_AAAA_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.PrivateDnsZones_AAAA_STATUS
+	var other v20200601s.PrivateDnsZones_AAAA_STATUS
 	err := copied.AssignProperties_To_PrivateDnsZones_AAAA_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -434,13 +434,13 @@ func Test_AaaaRecord_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAaaaRecord tests if a specific instance of AaaaRecord can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForAaaaRecord tests if a specific instance of AaaaRecord can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAaaaRecord(subject AaaaRecord) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.AaaaRecord
+	var other v20200601s.AaaaRecord
 	err := copied.AssignProperties_To_AaaaRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -536,13 +536,13 @@ func Test_AaaaRecord_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAaaaRecord_STATUS tests if a specific instance of AaaaRecord_STATUS can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForAaaaRecord_STATUS tests if a specific instance of AaaaRecord_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAaaaRecord_STATUS(subject AaaaRecord_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.AaaaRecord_STATUS
+	var other v20200601s.AaaaRecord_STATUS
 	err := copied.AssignProperties_To_AaaaRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -638,13 +638,13 @@ func Test_ARecord_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForARecord tests if a specific instance of ARecord can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForARecord tests if a specific instance of ARecord can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForARecord(subject ARecord) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.ARecord
+	var other v20200601s.ARecord
 	err := copied.AssignProperties_To_ARecord(&other)
 	if err != nil {
 		return err.Error()
@@ -740,13 +740,13 @@ func Test_ARecord_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForARecord_STATUS tests if a specific instance of ARecord_STATUS can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForARecord_STATUS tests if a specific instance of ARecord_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForARecord_STATUS(subject ARecord_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.ARecord_STATUS
+	var other v20200601s.ARecord_STATUS
 	err := copied.AssignProperties_To_ARecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -842,13 +842,13 @@ func Test_CnameRecord_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCnameRecord tests if a specific instance of CnameRecord can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForCnameRecord tests if a specific instance of CnameRecord can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCnameRecord(subject CnameRecord) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.CnameRecord
+	var other v20200601s.CnameRecord
 	err := copied.AssignProperties_To_CnameRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -944,13 +944,13 @@ func Test_CnameRecord_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCnameRecord_STATUS tests if a specific instance of CnameRecord_STATUS can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForCnameRecord_STATUS tests if a specific instance of CnameRecord_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCnameRecord_STATUS(subject CnameRecord_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.CnameRecord_STATUS
+	var other v20200601s.CnameRecord_STATUS
 	err := copied.AssignProperties_To_CnameRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1046,13 +1046,13 @@ func Test_MxRecord_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMxRecord tests if a specific instance of MxRecord can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForMxRecord tests if a specific instance of MxRecord can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMxRecord(subject MxRecord) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.MxRecord
+	var other v20200601s.MxRecord
 	err := copied.AssignProperties_To_MxRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -1149,13 +1149,13 @@ func Test_MxRecord_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMxRecord_STATUS tests if a specific instance of MxRecord_STATUS can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForMxRecord_STATUS tests if a specific instance of MxRecord_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMxRecord_STATUS(subject MxRecord_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.MxRecord_STATUS
+	var other v20200601s.MxRecord_STATUS
 	err := copied.AssignProperties_To_MxRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1252,13 +1252,13 @@ func Test_PtrRecord_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPtrRecord tests if a specific instance of PtrRecord can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForPtrRecord tests if a specific instance of PtrRecord can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPtrRecord(subject PtrRecord) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.PtrRecord
+	var other v20200601s.PtrRecord
 	err := copied.AssignProperties_To_PtrRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -1354,13 +1354,13 @@ func Test_PtrRecord_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPtrRecord_STATUS tests if a specific instance of PtrRecord_STATUS can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForPtrRecord_STATUS tests if a specific instance of PtrRecord_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPtrRecord_STATUS(subject PtrRecord_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.PtrRecord_STATUS
+	var other v20200601s.PtrRecord_STATUS
 	err := copied.AssignProperties_To_PtrRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1456,13 +1456,13 @@ func Test_SoaRecord_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSoaRecord tests if a specific instance of SoaRecord can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForSoaRecord tests if a specific instance of SoaRecord can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSoaRecord(subject SoaRecord) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.SoaRecord
+	var other v20200601s.SoaRecord
 	err := copied.AssignProperties_To_SoaRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -1564,13 +1564,13 @@ func Test_SoaRecord_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSoaRecord_STATUS tests if a specific instance of SoaRecord_STATUS can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForSoaRecord_STATUS tests if a specific instance of SoaRecord_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSoaRecord_STATUS(subject SoaRecord_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.SoaRecord_STATUS
+	var other v20200601s.SoaRecord_STATUS
 	err := copied.AssignProperties_To_SoaRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1672,13 +1672,13 @@ func Test_SrvRecord_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSrvRecord tests if a specific instance of SrvRecord can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForSrvRecord tests if a specific instance of SrvRecord can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSrvRecord(subject SrvRecord) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.SrvRecord
+	var other v20200601s.SrvRecord
 	err := copied.AssignProperties_To_SrvRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -1777,13 +1777,13 @@ func Test_SrvRecord_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSrvRecord_STATUS tests if a specific instance of SrvRecord_STATUS can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForSrvRecord_STATUS tests if a specific instance of SrvRecord_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSrvRecord_STATUS(subject SrvRecord_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.SrvRecord_STATUS
+	var other v20200601s.SrvRecord_STATUS
 	err := copied.AssignProperties_To_SrvRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1882,13 +1882,13 @@ func Test_TxtRecord_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTxtRecord tests if a specific instance of TxtRecord can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForTxtRecord tests if a specific instance of TxtRecord can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTxtRecord(subject TxtRecord) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.TxtRecord
+	var other v20200601s.TxtRecord
 	err := copied.AssignProperties_To_TxtRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -1984,13 +1984,13 @@ func Test_TxtRecord_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTxtRecord_STATUS tests if a specific instance of TxtRecord_STATUS can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForTxtRecord_STATUS tests if a specific instance of TxtRecord_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTxtRecord_STATUS(subject TxtRecord_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.TxtRecord_STATUS
+	var other v20200601s.TxtRecord_STATUS
 	err := copied.AssignProperties_To_TxtRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()

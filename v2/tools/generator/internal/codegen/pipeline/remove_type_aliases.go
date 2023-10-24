@@ -25,12 +25,12 @@ func RemoveTypeAliases() *Stage {
 		RemoveTypeAliasesStageID,
 		"Remove type aliases",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			simplifyAliases := func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
+			simplifyAliases := func(this *astmodel.TypeVisitor[any], it astmodel.InternalTypeName, ctx any) (astmodel.Type, error) {
 				return resolveTypeName(this, it, definitions)
 			}
 
-			visitor := astmodel.TypeVisitorBuilder{
-				VisitTypeName: simplifyAliases,
+			visitor := astmodel.TypeVisitorBuilder[any]{
+				VisitInternalTypeName: simplifyAliases,
 			}.Build()
 
 			result := make(astmodel.TypeDefinitionSet)
@@ -53,9 +53,13 @@ func RemoveTypeAliases() *Stage {
 		})
 }
 
-func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, definitions astmodel.TypeDefinitionSet) (astmodel.Type, error) {
+func resolveTypeName(
+	visitor *astmodel.TypeVisitor[any],
+	name astmodel.InternalTypeName,
+	definitions astmodel.TypeDefinitionSet,
+) (astmodel.Type, error) {
 	// Don't try to remove external refs
-	if _, _, ok := name.PackageReference.TryGroupVersion(); !ok {
+	if astmodel.IsExternalPackageReference(name.PackageReference()) {
 		return name, nil
 	}
 
@@ -79,7 +83,9 @@ func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, defi
 		return def.Name(), nil // must remain named as it is just wrapping objectType (and objectType remains named)
 	case *astmodel.InterfaceType:
 		return def.Name(), nil // must remain named
-	case astmodel.TypeName:
+	case *astmodel.ExternalTypeName:
+		return def.Name(), nil // must remain named
+	case astmodel.InternalTypeName:
 		// We need to resolve further because this type is an alias
 		return resolveTypeName(visitor, concreteType, definitions)
 	case *astmodel.PrimitiveType:

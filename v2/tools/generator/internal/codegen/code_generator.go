@@ -130,7 +130,7 @@ func createAllPipelineStages(
 		// Apply property type rewrites from the config file
 		// Must come after NameTypesForCRD ('nameTypes') and ConvertAllOfAndOneOfToObjects ('allof-anyof-objects') so
 		// that objects are all expanded
-		pipeline.ApplyPropertyRewrites(configuration, log),
+		pipeline.ApplyTypeRewrites(configuration, log),
 
 		pipeline.ApplyIsResourceOverrides(configuration),
 		pipeline.FixIDFields(),

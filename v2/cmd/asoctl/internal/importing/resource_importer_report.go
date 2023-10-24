@@ -98,8 +98,8 @@ func (r *resourceImportReport) WriteToLog(log logr.Logger) {
 	keys := maps.Keys(r.content)
 	slices.SortFunc(
 		keys,
-		func(left resourceImportReportKey, right resourceImportReportKey) bool {
-			return left.lessThan(right)
+		func(left resourceImportReportKey, right resourceImportReportKey) int {
+			return left.compareTo(right)
 		})
 
 	for _, key := range keys {
@@ -108,20 +108,32 @@ func (r *resourceImportReport) WriteToLog(log logr.Logger) {
 	}
 }
 
-func (k *resourceImportReportKey) lessThan(other resourceImportReportKey) bool {
-	if k.group != other.group {
-		return k.group < other.group
+func (k *resourceImportReportKey) compareTo(other resourceImportReportKey) int {
+	if k.group < other.group {
+		return -1
+	} else if k.group > other.group {
+		return 1
 	}
 
-	if k.kind != other.kind {
-		return k.kind < other.kind
+	if k.kind < other.kind {
+		return -1
+	} else if k.kind > other.kind {
+		return 1
 	}
 
-	if k.status != other.status {
-		return resourceImportReportStatusOrder[k.status] < resourceImportReportStatusOrder[other.status]
+	if k.status < other.status {
+		return -1
+	} else if k.status > other.status {
+		return 1
 	}
 
-	return k.reason < other.reason
+	if k.reason < other.reason {
+		return -1
+	} else if k.reason > other.reason {
+		return 1
+	}
+
+	return 0
 }
 
 func (k *resourceImportReportKey) WriteToLog(log logr.Logger, count int) {

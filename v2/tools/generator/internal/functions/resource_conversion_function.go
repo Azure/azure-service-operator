@@ -46,7 +46,7 @@ import (
 //	}
 type ResourceConversionFunction struct {
 	// hub is the TypeName of the canonical hub type, the final target or original source for conversion
-	hub astmodel.TypeName
+	hub astmodel.InternalTypeName
 	// propertyFunction is a reference to the function we will call to copy properties across
 	propertyFunction *PropertyAssignmentFunction
 	// idFactory is a reference to an identifier factory used for creating Go identifiers
@@ -60,7 +60,7 @@ var _ astmodel.Function = &ResourceConversionFunction{}
 // hub is the TypeName of our hub type
 // propertyFuntion is the function we use to copy properties across
 func NewResourceConversionFunction(
-	hub astmodel.TypeName,
+	hub astmodel.InternalTypeName,
 	propertyFunction *PropertyAssignmentFunction,
 	idFactory astmodel.IdentifierFactory) *ResourceConversionFunction {
 	result := &ResourceConversionFunction{
@@ -81,10 +81,10 @@ func (fn *ResourceConversionFunction) RequiredPackageReferences() *astmodel.Pack
 		astmodel.GitHubErrorsReference,
 		astmodel.ControllerRuntimeConversion,
 		astmodel.FmtReference,
-		fn.hub.PackageReference)
+		fn.hub.PackageReference())
 
 	// Include the package required by the parameter of the property assignment function
-	result.AddReference(fn.propertyFunction.ParameterType().PackageReference)
+	result.AddReference(fn.propertyFunction.ParameterType().PackageReference())
 
 	return result
 }
@@ -95,13 +95,15 @@ func (fn *ResourceConversionFunction) References() astmodel.TypeNameSet {
 }
 
 func (fn *ResourceConversionFunction) AsFunc(
-	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.InternalTypeName,
+) (*dst.FuncDecl, error) {
 
 	// Create a sensible name for our receiver
 	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
 
-	// We always use a pointer receiver so we can modify it
-	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)
+	// We always use a pointer receiver, so we can modify it
+	receiverType := astmodel.NewOptionalType(receiver).AsType(codeGenerationContext)
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
@@ -109,7 +111,7 @@ func (fn *ResourceConversionFunction) AsFunc(
 		Name:          fn.Name(),
 	}
 
-	conversionPackage := generationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeConversion)
+	conversionPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeConversion)
 
 	funcDetails.AddParameter("hub", astbuilder.QualifiedTypeName(conversionPackage, "Hub"))
 	funcDetails.AddReturns("error")
@@ -117,14 +119,14 @@ func (fn *ResourceConversionFunction) AsFunc(
 
 	if astmodel.TypeEquals(fn.hub, fn.propertyFunction.ParameterType()) {
 		// Not using an intermediate step
-		funcDetails.Body = fn.directConversion(receiverName, generationContext)
+		funcDetails.Body = fn.directConversion(receiverName, codeGenerationContext)
 	} else {
 		fn.propertyFunction.direction.
-			WhenFrom(func() { funcDetails.Body = fn.indirectConversionFromHub(receiverName, generationContext) }).
-			WhenTo(func() { funcDetails.Body = fn.indirectConversionToHub(receiverName, generationContext) })
+			WhenFrom(func() { funcDetails.Body = fn.indirectConversionFromHub(receiverName, codeGenerationContext) }).
+			WhenTo(func() { funcDetails.Body = fn.indirectConversionToHub(receiverName, codeGenerationContext) })
 	}
 
-	return funcDetails.DefineFunc()
+	return funcDetails.DefineFunc(), nil
 }
 
 // Direction returns this functions direction of conversion
@@ -150,7 +152,7 @@ func (fn *ResourceConversionFunction) directConversion(
 	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 	fmtPackage := generationContext.MustGetImportedPackageName(astmodel.FmtReference)
 
-	hubGroup, hubVersion := fn.hub.PackageReference.GroupVersion()
+	hubPackage := fn.hub.InternalPackageReference().FolderPath()
 	localId := fn.localVariableId()
 	localIdent := dst.NewIdent(localId)
 	hubIdent := dst.NewIdent("hub")
@@ -163,7 +165,7 @@ func (fn *ResourceConversionFunction) directConversion(
 	checkAssert := astbuilder.ReturnIfNotOk(
 		astbuilder.FormatError(
 			fmtPackage,
-			fmt.Sprintf("expected %s/%s/%s but received %%T instead", hubGroup, hubVersion, fn.Hub().Name()),
+			fmt.Sprintf("expected %s/%s but received %%T instead", hubPackage, fn.Hub().Name()),
 			hubIdent))
 
 	copyAndReturn := astbuilder.Returns(

@@ -8,7 +8,7 @@ supportedResourcesReport:
   outputFolder: apis
   # Path to documentation fragments to inject into the report
   fragmentPath: ../../docs/v2/crossplane/supported-resources
-  currentRelease: v2.2.0
+  currentRelease: v2.3.0
 
 pipeline: crossplane
 typeFilters:
@@ -172,6 +172,7 @@ typeTransformers:
     target:
       name: float
     matchRequired: false # TODO: Remove this if/when we actually require it
+    
   - name: "*"
     property: Tags
     ifType:
@@ -187,16 +188,6 @@ typeTransformers:
         value:
           name: string
     because: Tags is defined as map[string]interface{} when it should be map[string]string
-  - group: deploymenttemplate
-    name: ResourceLocations
-    target:
-      name: string
-    because: Modeling this as an enum doesn't work well in the context of CRDs because new regions are regularly added
-  - group: definitions
-    name: ResourceLocations
-    target:
-      name: string
-    because: Modeling this as an enum doesn't work well in the context of CRDs because new regions are regularly added
 
   # Deal with readonly properties that were not properly pruned in the JSON schema
   - name: ResourceIdentity

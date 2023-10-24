@@ -105,15 +105,15 @@ func (c *PropertyConversionContext) WithPackageReferenceSet(set *astmodel.Packag
 
 // ResolveType resolves a type that might be a type name into both the name and the actual
 // type it references, returning true iff it was a TypeName that could be resolved
-func (c *PropertyConversionContext) ResolveType(t astmodel.Type) (astmodel.TypeName, astmodel.Type, bool) {
-	name, ok := astmodel.AsTypeName(t)
+func (c *PropertyConversionContext) ResolveType(t astmodel.Type) (astmodel.InternalTypeName, astmodel.Type, bool) {
+	name, ok := astmodel.AsInternalTypeName(t)
 	if !ok {
-		return astmodel.EmptyTypeName, nil, false
+		return astmodel.InternalTypeName{}, nil, false
 	}
 
 	actualType, err := c.definitions.FullyResolve(name)
 	if err != nil {
-		return astmodel.EmptyTypeName, nil, false
+		return astmodel.InternalTypeName{}, nil, false
 	}
 
 	return name, actualType, true
@@ -127,7 +127,7 @@ func (c *PropertyConversionContext) PropertyBagName() string {
 // TypeRename looks up a type-rename for the specified type, returning the new name and nil if found, or empty string
 // and an error if not. If no configuration is available, acts as though there is no configuration for this rename,
 // returning "" and a NotConfiguredError
-func (c *PropertyConversionContext) TypeRename(name astmodel.TypeName) (string, error) {
+func (c *PropertyConversionContext) TypeRename(name astmodel.InternalTypeName) (string, error) {
 	if c.configuration == nil {
 		return "", config.NewNotConfiguredError("No configuration available")
 	}
@@ -137,9 +137,9 @@ func (c *PropertyConversionContext) TypeRename(name astmodel.TypeName) (string, 
 
 // FindNextType returns the next type in the storage conversion graph, if any.
 // If no conversion graph is available, returns an empty type name and no error.
-func (c *PropertyConversionContext) FindNextType(name astmodel.TypeName) (astmodel.TypeName, error) {
+func (c *PropertyConversionContext) FindNextType(name astmodel.InternalTypeName) (astmodel.InternalTypeName, error) {
 	if c.conversionGraph == nil {
-		return astmodel.EmptyTypeName, nil
+		return astmodel.InternalTypeName{}, nil
 	}
 
 	return c.conversionGraph.FindNextType(name, c.definitions)
@@ -165,11 +165,14 @@ func (c *PropertyConversionContext) clone() *PropertyConversionContext {
 }
 
 // validateTypeRename is used to validate two types with different names are a properly renamed pair
-func (c *PropertyConversionContext) validateTypeRename(sourceName astmodel.TypeName, destinationName astmodel.TypeName) error {
+func (c *PropertyConversionContext) validateTypeRename(
+	sourceName astmodel.InternalTypeName,
+	destinationName astmodel.InternalTypeName,
+) error {
 	// Work out which name represents the earlier package release
 	// (needed in order to do the lookup as the type rename is configured on the last type *before* the rename.)
-	var earlier astmodel.TypeName
-	var later astmodel.TypeName
+	var earlier astmodel.InternalTypeName
+	var later astmodel.InternalTypeName
 	if c.direction == ConvertTo {
 		earlier = sourceName
 		later = destinationName

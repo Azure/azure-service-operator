@@ -5,12 +5,18 @@
 
 package astmodel
 
-import "fmt"
+import (
+	"fmt"
+	"path"
+	"runtime"
+	"strings"
+)
 
-// TypeVisitorBuilder provides a flexible way to create a TypeVisitor. Fields should be initialized
-// with funcs matching one of the following forms:
+// TypeVisitorBuilder provides a flexible way to create a TypeVisitor.
+// C is the type to use for the context parameter in each visit method.
+// Fields should be initialized with funcs matching one of the following forms:
 //
-// func(this *TypeVisitor, it <sometype>, ctx interface{}) (Type, error)
+// func(this *TypeVisitor, it <sometype>, ctx any) (Type, error)
 // func(it <sometype>) (Type, error)
 // func(it <sometype>) Type
 //
@@ -19,390 +25,424 @@ import "fmt"
 //
 // Some examples:
 //
-// VisitTypeName = func(it TypeName) Type                                             // Works
-// VisitTypeName = func(this TypeVisitor, it TypeName, ctx interface{}) (Type, error) // Works
-// VisitTypeName = func(it *ObjectType) Type                                          // Fails - parameter is not a TypeName
-// VisitTypeName = func(it TypeName) TypeName                                         // Fails - return type is not Type
+// VisitInternalTypeName = func(it InternalTypeName) Type                                   // Works
+// VisitInternalTypeName = func(this TypeVisitor, it InternalTypeName, ctx C) (Type, error) // Works
+// VisitInternalTypeName = func(it *ObjectType) Type                                        // Fails - parameter is not a TypeName
+// VisitInternalTypeName = func(it TypeName) TypeName                                       // Fails - return type is not Type
 //
-// VisitObjectType = func(it *ObjectType) Type                                                // Works
-// VisitObjectType = func(this TypeVisitor, it *ObjectType, ctx interface{}) (Type, error)    // Works
-// VisitObjectType = func(it TypeName) Type                                                   // Fails - parameter is not an *ObjectType
-// VisitObjectType = func(this TypeVisitor, it TypeName, ctx interface{}) (ObjectType, error) // Fails -return is not Type
-type TypeVisitorBuilder struct {
-	VisitTypeName      interface{}
-	VisitOneOfType     interface{}
-	VisitAllOfType     interface{}
-	VisitArrayType     interface{}
-	VisitPrimitive     interface{}
-	VisitObjectType    interface{}
-	VisitMapType       interface{}
-	VisitOptionalType  interface{}
-	VisitEnumType      interface{}
-	VisitResourceType  interface{}
-	VisitFlaggedType   interface{}
-	VisitValidatedType interface{}
-	VisitErroredType   interface{}
-	VisitInterfaceType interface{}
+// VisitObjectType = func(it *ObjectType) Type                                      // Works
+// VisitObjectType = func(this TypeVisitor, it *ObjectType, ctx C) (Type, error)    // Works
+// VisitObjectType = func(it TypeName) Type                                         // Fails - parameter is not an *ObjectType
+// VisitObjectType = func(this TypeVisitor, it TypeName, ctx C) (ObjectType, error) // Fails -return is not Type
+type TypeVisitorBuilder[C any] struct {
+	VisitInternalTypeName any
+	VisitExternalTypeName any
+	VisitOneOfType        any
+	VisitAllOfType        any
+	VisitArrayType        any
+	VisitPrimitive        any
+	VisitObjectType       any
+	VisitMapType          any
+	VisitOptionalType     any
+	VisitEnumType         any
+	VisitResourceType     any
+	VisitFlaggedType      any
+	VisitValidatedType    any
+	VisitErroredType      any
+	VisitInterfaceType    any
 }
 
-func (b TypeVisitorBuilder) Build() TypeVisitor {
-	visitTypeNameIsIdentity, visitTypeName := b.buildVisitTypeName()
-	return TypeVisitor{
-		visitTypeNameIsIdentity: visitTypeNameIsIdentity,
-		visitTypeName:           visitTypeName,
-
-		visitOneOfType:     b.buildVisitOneOfType(),
-		visitAllOfType:     b.buildVisitAllOfType(),
-		visitArrayType:     b.buildVisitArrayType(),
-		visitPrimitive:     b.buildVisitPrimitive(),
-		visitObjectType:    b.buildVisitObjectType(),
-		visitMapType:       b.buildVisitMapType(),
-		visitOptionalType:  b.buildVisitOptionalType(),
-		visitEnumType:      b.buildVisitEnumType(),
-		visitResourceType:  b.buildVisitResourceType(),
-		visitFlaggedType:   b.buildVisitFlaggedType(),
-		visitValidatedType: b.buildVisitValidatedType(),
-		visitErroredType:   b.buildVisitErroredType(),
-		visitInterfaceType: b.buildVisitInterfaceType(),
+func (b TypeVisitorBuilder[C]) Build() TypeVisitor[C] {
+	return TypeVisitor[C]{
+		visitInternalTypeName: b.buildVisitInternalTypeName(),
+		visitExternalTypeName: b.buildVisitExternalTypeName(),
+		visitOneOfType:        b.buildVisitOneOfType(),
+		visitAllOfType:        b.buildVisitAllOfType(),
+		visitArrayType:        b.buildVisitArrayType(),
+		visitPrimitive:        b.buildVisitPrimitive(),
+		visitObjectType:       b.buildVisitObjectType(),
+		visitMapType:          b.buildVisitMapType(),
+		visitOptionalType:     b.buildVisitOptionalType(),
+		visitEnumType:         b.buildVisitEnumType(),
+		visitResourceType:     b.buildVisitResourceType(),
+		visitFlaggedType:      b.buildVisitFlaggedType(),
+		visitValidatedType:    b.buildVisitValidatedType(),
+		visitErroredType:      b.buildVisitErroredType(),
+		visitInterfaceType:    b.buildVisitInterfaceType(),
 	}
 }
 
-// buildVisitTypeName returns a function to use in the TypeVisitor
-// If the field VisitTypeName is nil, we return an identity visitor. Otherwise we attempt to
-// convert the func found in the field, triggering a panic if no suitable func is found.
-//
-// The boolean result indicates if this visitor is the identity visitor,
-// which allows it to be skipped in many cases. (See TypeVisitor.Visit & uses
-// of the field visitTypeNameIsIdentity for details).
-func (b *TypeVisitorBuilder) buildVisitTypeName() (bool, func(*TypeVisitor, TypeName, interface{}) (Type, error)) {
-	if b.VisitTypeName == nil {
-		return true, IdentityVisitOfTypeName
+// buildVisitInternalTypeName returns a function to use in the TypeVisitor
+// If the field VisitInternalTypeName is nil, we return nil, unlike other build functions.
+// We do this to avoid the boxing inherent with passing an InternalTypeName if there's nothing to be done.
+// Otherwise, we attempt to convert the func found in the field, triggering a panic if no suitable func is found.
+func (b *TypeVisitorBuilder[C]) buildVisitInternalTypeName() func(*TypeVisitor[C], InternalTypeName, C) (Type, error) {
+	if b.VisitInternalTypeName == nil {
+		return nil
 	}
 
-	switch v := b.VisitTypeName.(type) {
-	case func(*TypeVisitor, TypeName, interface{}) (Type, error):
-		return false, v
-	case func(TypeName) (Type, error):
-		return false, func(_ *TypeVisitor, it TypeName, _ interface{}) (Type, error) {
+	switch v := b.VisitInternalTypeName.(type) {
+	case func(*TypeVisitor[C], InternalTypeName, C) (Type, error):
+		return v
+	case func(InternalTypeName) (Type, error):
+		return func(_ *TypeVisitor[C], it InternalTypeName, _ C) (Type, error) {
 			return v(it)
 		}
-	case func(TypeName) Type:
-		return false, func(_ *TypeVisitor, it TypeName, _ interface{}) (Type, error) {
+	case func(InternalTypeName) Type:
+		return func(_ *TypeVisitor[C], it InternalTypeName, _ C) (Type, error) {
 			return v(it), nil
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected TypeName func %#v", b.VisitTypeName))
+	panic(fmt.Sprintf("unexpected InternalTypeName func %#v (%s)", b.VisitInternalTypeName, b.diagnosticClue()))
+}
+
+// buildVisitExternalTypeName returns a function to use in the TypeVisitor
+// If the field VisitExternalTypeName is nil, we return nil, unlike other build functions.
+// We do this to avoid the boxing inherent with passing an ExternalTypeName if there's nothing to be done.
+// Otherwise, we attempt to convert the func found in the field, triggering a panic if no suitable func is found.
+func (b *TypeVisitorBuilder[C]) buildVisitExternalTypeName() func(*TypeVisitor[C], ExternalTypeName, C) (Type, error) {
+	if b.VisitExternalTypeName == nil {
+		return nil
+	}
+
+	switch v := b.VisitExternalTypeName.(type) {
+	case func(*TypeVisitor[C], ExternalTypeName, C) (Type, error):
+		return v
+	case func(ExternalTypeName) (Type, error):
+		return func(_ *TypeVisitor[C], it ExternalTypeName, _ C) (Type, error) {
+			return v(it)
+		}
+	case func(ExternalTypeName) Type:
+		return func(_ *TypeVisitor[C], it ExternalTypeName, _ C) (Type, error) {
+			return v(it), nil
+		}
+	}
+
+	panic(fmt.Sprintf("unexpected ExternalTypeName func %#v (%s)", b.VisitExternalTypeName, b.diagnosticClue()))
 }
 
 // buildVisitOneOfType returns a function to use in the TypeVisitor
 // If the field VisitOneOfType is nil, we return an identity visitor. Otherwise we attempt to
 // convert the func found in the field, triggering a panic if no suitable func is found.
-func (b *TypeVisitorBuilder) buildVisitOneOfType() func(*TypeVisitor, *OneOfType, interface{}) (Type, error) {
+func (b *TypeVisitorBuilder[C]) buildVisitOneOfType() func(*TypeVisitor[C], *OneOfType, C) (Type, error) {
 	if b.VisitOneOfType == nil {
-		return IdentityVisitOfOneOfType
+		return IdentityVisitOfOneOfType[C]
 	}
 
 	switch v := b.VisitOneOfType.(type) {
-	case func(*TypeVisitor, *OneOfType, interface{}) (Type, error):
+	case func(*TypeVisitor[C], *OneOfType, C) (Type, error):
 		return v
 	case func(*OneOfType) (Type, error):
-		return func(_ *TypeVisitor, it *OneOfType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *OneOfType, _ C) (Type, error) {
 			return v(it)
 		}
 	case func(*OneOfType) Type:
-		return func(_ *TypeVisitor, it *OneOfType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *OneOfType, _ C) (Type, error) {
 			return v(it), nil
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected OneOfType func %#v", b.VisitOneOfType))
+	panic(fmt.Sprintf("unexpected OneOfType func %#v (%s)", b.VisitOneOfType, b.diagnosticClue()))
 }
 
 // buildVisitAllOfType returns a function to use in the TypeVisitor
 // If the field VisitAllOfType is nil, we return an identity visitor. Otherwise we attempt to
 // convert the func found in the field, triggering a panic if no suitable func is found.
-func (b *TypeVisitorBuilder) buildVisitAllOfType() func(*TypeVisitor, *AllOfType, interface{}) (Type, error) {
+func (b *TypeVisitorBuilder[C]) buildVisitAllOfType() func(*TypeVisitor[C], *AllOfType, C) (Type, error) {
 	if b.VisitAllOfType == nil {
-		return IdentityVisitOfAllOfType
+		return IdentityVisitOfAllOfType[C]
 	}
 
 	switch v := b.VisitAllOfType.(type) {
-	case func(*TypeVisitor, *AllOfType, interface{}) (Type, error):
+	case func(*TypeVisitor[C], *AllOfType, C) (Type, error):
 		return v
 	case func(*AllOfType) (Type, error):
-		return func(_ *TypeVisitor, it *AllOfType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *AllOfType, _ C) (Type, error) {
 			return v(it)
 		}
 	case func(*AllOfType) Type:
-		return func(_ *TypeVisitor, it *AllOfType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *AllOfType, _ C) (Type, error) {
 			return v(it), nil
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected AllOfType func %#v", b.VisitAllOfType))
+	panic(fmt.Sprintf("unexpected AllOfType func %#v (%s)", b.VisitAllOfType, b.diagnosticClue()))
 }
 
 // buildVisitArrayType returns a function to use in the TypeVisitor
 // If the field VisitArrayType is nil, we return an identity visitor. Otherwise we attempt to
 // convert the func found in the field, triggering a panic if no suitable func is found.
-func (b *TypeVisitorBuilder) buildVisitArrayType() func(*TypeVisitor, *ArrayType, interface{}) (Type, error) {
+func (b *TypeVisitorBuilder[C]) buildVisitArrayType() func(*TypeVisitor[C], *ArrayType, C) (Type, error) {
 	if b.VisitArrayType == nil {
-		return IdentityVisitOfArrayType
+		return IdentityVisitOfArrayType[C]
 	}
 
 	switch v := b.VisitArrayType.(type) {
-	case func(*TypeVisitor, *ArrayType, interface{}) (Type, error):
+	case func(*TypeVisitor[C], *ArrayType, C) (Type, error):
 		return v
 	case func(*ArrayType) (Type, error):
-		return func(_ *TypeVisitor, it *ArrayType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *ArrayType, _ C) (Type, error) {
 			return v(it)
 		}
 	case func(*ArrayType) Type:
-		return func(_ *TypeVisitor, it *ArrayType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *ArrayType, _ C) (Type, error) {
 			return v(it), nil
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected ArrayType func %#v", b.VisitArrayType))
+	panic(fmt.Sprintf("unexpected ArrayType func %#v (%s)", b.VisitArrayType, b.diagnosticClue()))
 }
 
 // buildVisitPrimitive returns a function to use in the TypeVisitor
 // If the field VisitPrimitive is nil, we return an identity visitor. Otherwise we attempt to
 // convert the func found in the field, triggering a panic if no suitable func is found.
-func (b *TypeVisitorBuilder) buildVisitPrimitive() func(*TypeVisitor, *PrimitiveType, interface{}) (Type, error) {
+func (b *TypeVisitorBuilder[C]) buildVisitPrimitive() func(*TypeVisitor[C], *PrimitiveType, C) (Type, error) {
 	if b.VisitPrimitive == nil {
-		return IdentityVisitOfPrimitiveType
+		return IdentityVisitOfPrimitiveType[C]
 	}
 
 	switch v := b.VisitPrimitive.(type) {
-	case func(*TypeVisitor, *PrimitiveType, interface{}) (Type, error):
+	case func(*TypeVisitor[C], *PrimitiveType, C) (Type, error):
 		return v
 	case func(*PrimitiveType) (Type, error):
-		return func(_ *TypeVisitor, it *PrimitiveType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *PrimitiveType, _ C) (Type, error) {
 			return v(it)
 		}
 	case func(*PrimitiveType) Type:
-		return func(_ *TypeVisitor, it *PrimitiveType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *PrimitiveType, _ C) (Type, error) {
 			return v(it), nil
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected Primitive func %#v", b.VisitPrimitive))
+	panic(fmt.Sprintf("unexpected Primitive func %#v (%s)", b.VisitPrimitive, b.diagnosticClue()))
 }
 
 // buildVisitObjectType returns a function to use in the TypeVisitor
 // If the field VisitObjectType is nil, we return an identity visitor. Otherwise we attempt to
 // convert the func found in the field, triggering a panic if no suitable func is found.
-func (b *TypeVisitorBuilder) buildVisitObjectType() func(*TypeVisitor, *ObjectType, interface{}) (Type, error) {
+func (b *TypeVisitorBuilder[C]) buildVisitObjectType() func(*TypeVisitor[C], *ObjectType, C) (Type, error) {
 	if b.VisitObjectType == nil {
-		return IdentityVisitOfObjectType
+		return IdentityVisitOfObjectType[C]
 	}
 
 	switch v := b.VisitObjectType.(type) {
-	case func(*TypeVisitor, *ObjectType, interface{}) (Type, error):
+	case func(*TypeVisitor[C], *ObjectType, C) (Type, error):
 		return v
 	case func(*ObjectType) (Type, error):
-		return func(_ *TypeVisitor, it *ObjectType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *ObjectType, _ C) (Type, error) {
 			return v(it)
 		}
 	case func(*ObjectType) Type:
-		return func(_ *TypeVisitor, it *ObjectType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *ObjectType, _ C) (Type, error) {
 			return v(it), nil
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected ObjectType func %#v", b.VisitObjectType))
+	panic(fmt.Sprintf("unexpected ObjectType func %#v (%s)", b.VisitObjectType, b.diagnosticClue()))
 }
 
 // buildVisitMapType returns a function to use in the TypeVisitor
 // If the field VisitMapType is nil, we return an identity visitor. Otherwise we attempt to
 // convert the func found in the field, triggering a panic if no suitable func is found.
-func (b *TypeVisitorBuilder) buildVisitMapType() func(*TypeVisitor, *MapType, interface{}) (Type, error) {
+func (b *TypeVisitorBuilder[C]) buildVisitMapType() func(*TypeVisitor[C], *MapType, C) (Type, error) {
 	if b.VisitMapType == nil {
-		return IdentityVisitOfMapType
+		return IdentityVisitOfMapType[C]
 	}
 
 	switch v := b.VisitMapType.(type) {
-	case func(*TypeVisitor, *MapType, interface{}) (Type, error):
+	case func(*TypeVisitor[C], *MapType, C) (Type, error):
 		return v
 	case func(*MapType) (Type, error):
-		return func(_ *TypeVisitor, it *MapType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *MapType, _ C) (Type, error) {
 			return v(it)
 		}
 	case func(*MapType) Type:
-		return func(_ *TypeVisitor, it *MapType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *MapType, _ C) (Type, error) {
 			return v(it), nil
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected MapType func %#v", b.VisitMapType))
+	panic(fmt.Sprintf("unexpected MapType func %#v (%s)", b.VisitMapType, b.diagnosticClue()))
 }
 
 // buildVisitOptionalType returns a function to use in the TypeVisitor
 // If the field VisitOptionalType is nil, we return an identity visitor. Otherwise we attempt to
 // convert the func found in the field, triggering a panic if no suitable func is found.
-func (b *TypeVisitorBuilder) buildVisitOptionalType() func(*TypeVisitor, *OptionalType, interface{}) (Type, error) {
+func (b *TypeVisitorBuilder[C]) buildVisitOptionalType() func(*TypeVisitor[C], *OptionalType, C) (Type, error) {
 	if b.VisitOptionalType == nil {
-		return IdentityVisitOfOptionalType
+		return IdentityVisitOfOptionalType[C]
 	}
 
 	switch v := b.VisitOptionalType.(type) {
-	case func(*TypeVisitor, *OptionalType, interface{}) (Type, error):
+	case func(*TypeVisitor[C], *OptionalType, C) (Type, error):
 		return v
 	case func(*OptionalType) (Type, error):
-		return func(_ *TypeVisitor, it *OptionalType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *OptionalType, _ C) (Type, error) {
 			return v(it)
 		}
 	case func(*OptionalType) Type:
-		return func(_ *TypeVisitor, it *OptionalType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *OptionalType, _ C) (Type, error) {
 			return v(it), nil
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected OptionalType func %#v", b.VisitOptionalType))
+	panic(fmt.Sprintf("unexpected OptionalType func %#v (%s)", b.VisitOptionalType, b.diagnosticClue()))
 }
 
 // buildVisitEnumType returns a function to use in the TypeVisitor
 // If the field VisitEnumType is nil, we return an identity visitor. Otherwise we attempt to
 // convert the func found in the field, triggering a panic if no suitable func is found.
-func (b *TypeVisitorBuilder) buildVisitEnumType() func(*TypeVisitor, *EnumType, interface{}) (Type, error) {
+func (b *TypeVisitorBuilder[C]) buildVisitEnumType() func(*TypeVisitor[C], *EnumType, C) (Type, error) {
 	if b.VisitEnumType == nil {
-		return IdentityVisitOfEnumType
+		return IdentityVisitOfEnumType[C]
 	}
 
 	switch v := b.VisitEnumType.(type) {
-	case func(*TypeVisitor, *EnumType, interface{}) (Type, error):
+	case func(*TypeVisitor[C], *EnumType, C) (Type, error):
 		return v
 	case func(*EnumType) (Type, error):
-		return func(_ *TypeVisitor, it *EnumType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *EnumType, _ C) (Type, error) {
 			return v(it)
 		}
 	case func(*EnumType) Type:
-		return func(_ *TypeVisitor, it *EnumType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *EnumType, _ C) (Type, error) {
 			return v(it), nil
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected EnumType func %#v", b.VisitEnumType))
+	panic(fmt.Sprintf("unexpected EnumType func %#v (%s)", b.VisitEnumType, b.diagnosticClue()))
 }
 
 // buildVisitResourceType returns a function to use in the TypeVisitor
 // If the field VisitResourceType is nil, we return an identity visitor. Otherwise we attempt to
 // convert the func found in the field, triggering a panic if no suitable func is found.
-func (b *TypeVisitorBuilder) buildVisitResourceType() func(*TypeVisitor, *ResourceType, interface{}) (Type, error) {
+func (b *TypeVisitorBuilder[C]) buildVisitResourceType() func(*TypeVisitor[C], *ResourceType, C) (Type, error) {
 	if b.VisitResourceType == nil {
-		return IdentityVisitOfResourceType
+		return IdentityVisitOfResourceType[C]
 	}
 
 	switch v := b.VisitResourceType.(type) {
-	case func(*TypeVisitor, *ResourceType, interface{}) (Type, error):
+	case func(*TypeVisitor[C], *ResourceType, C) (Type, error):
 		return v
 	case func(*ResourceType) (Type, error):
-		return func(_ *TypeVisitor, it *ResourceType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *ResourceType, _ C) (Type, error) {
 			return v(it)
 		}
 	case func(*ResourceType) Type:
-		return func(_ *TypeVisitor, it *ResourceType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *ResourceType, _ C) (Type, error) {
 			return v(it), nil
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected ResourceType func %#v", b.VisitResourceType))
+	panic(fmt.Sprintf("unexpected ResourceType func %#v (%s)", b.VisitResourceType, b.diagnosticClue()))
 }
 
 // buildVisitFlaggedType returns a function to use in the TypeVisitor
 // If the field VisitFlaggedType is nil, we return an identity visitor. Otherwise we attempt to
 // convert the func found in the field, triggering a panic if no suitable func is found.
-func (b *TypeVisitorBuilder) buildVisitFlaggedType() func(*TypeVisitor, *FlaggedType, interface{}) (Type, error) {
+func (b *TypeVisitorBuilder[C]) buildVisitFlaggedType() func(*TypeVisitor[C], *FlaggedType, C) (Type, error) {
 	if b.VisitFlaggedType == nil {
-		return IdentityVisitOfFlaggedType
+		return IdentityVisitOfFlaggedType[C]
 	}
 
 	switch v := b.VisitFlaggedType.(type) {
-	case func(*TypeVisitor, *FlaggedType, interface{}) (Type, error):
+	case func(*TypeVisitor[C], *FlaggedType, C) (Type, error):
 		return v
 	case func(*FlaggedType) (Type, error):
-		return func(_ *TypeVisitor, it *FlaggedType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *FlaggedType, _ C) (Type, error) {
 			return v(it)
 		}
 	case func(*FlaggedType) Type:
-		return func(_ *TypeVisitor, it *FlaggedType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *FlaggedType, _ C) (Type, error) {
 			return v(it), nil
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected FlaggedType func %#v", b.VisitFlaggedType))
+	panic(fmt.Sprintf("unexpected FlaggedType func %#v (%s)", b.VisitFlaggedType, b.diagnosticClue()))
 }
 
 // buildVisitValidatedType returns a function to use in the TypeVisitor
 // If the field VisitValidatedType is nil, we return an identity visitor. Otherwise we attempt to
 // convert the func found in the field, triggering a panic if no suitable func is found.
-func (b *TypeVisitorBuilder) buildVisitValidatedType() func(*TypeVisitor, *ValidatedType, interface{}) (Type, error) {
+func (b *TypeVisitorBuilder[C]) buildVisitValidatedType() func(*TypeVisitor[C], *ValidatedType, C) (Type, error) {
 	if b.VisitValidatedType == nil {
-		return IdentityVisitOfValidatedType
+		return IdentityVisitOfValidatedType[C]
 	}
 
 	switch v := b.VisitValidatedType.(type) {
-	case func(*TypeVisitor, *ValidatedType, interface{}) (Type, error):
+	case func(*TypeVisitor[C], *ValidatedType, C) (Type, error):
 		return v
 	case func(*ValidatedType) (Type, error):
-		return func(_ *TypeVisitor, it *ValidatedType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *ValidatedType, _ C) (Type, error) {
 			return v(it)
 		}
 	case func(*ValidatedType) Type:
-		return func(_ *TypeVisitor, it *ValidatedType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *ValidatedType, _ C) (Type, error) {
 			return v(it), nil
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected ValidatedType func %#v", b.VisitValidatedType))
+	panic(fmt.Sprintf("unexpected ValidatedType func %#v (%s)", b.VisitValidatedType, b.diagnosticClue()))
 }
 
 // buildVisitErroredType returns a function to use in the TypeVisitor
 // If the field VisitErroredType is nil, we return an identity visitor. Otherwise we attempt to
 // convert the func found in the field, triggering a panic if no suitable func is found.
-func (b *TypeVisitorBuilder) buildVisitErroredType() func(*TypeVisitor, *ErroredType, interface{}) (Type, error) {
+func (b *TypeVisitorBuilder[C]) buildVisitErroredType() func(*TypeVisitor[C], *ErroredType, C) (Type, error) {
 	if b.VisitErroredType == nil {
-		return IdentityVisitOfErroredType
+		return IdentityVisitOfErroredType[C]
 	}
 
 	switch v := b.VisitErroredType.(type) {
-	case func(*TypeVisitor, *ErroredType, interface{}) (Type, error):
+	case func(*TypeVisitor[C], *ErroredType, C) (Type, error):
 		return v
 	case func(*ErroredType) (Type, error):
-		return func(_ *TypeVisitor, it *ErroredType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *ErroredType, _ C) (Type, error) {
 			return v(it)
 		}
 	case func(*ErroredType) Type:
-		return func(_ *TypeVisitor, it *ErroredType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *ErroredType, _ C) (Type, error) {
 			return v(it), nil
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected ErroredType func %#v", b.VisitErroredType))
+	panic(fmt.Sprintf("unexpected ErroredType func %#v (%s)", b.VisitErroredType, b.diagnosticClue()))
 }
 
 // buildVisitInterfaceType returns a function to use in the TypeVisitor
 // If the field VisitInterfaceType is nil, we return an identity visitor. Otherwise we attempt to
 // convert the func found in the field, triggering a panic if no suitable func is found.
-func (b *TypeVisitorBuilder) buildVisitInterfaceType() func(*TypeVisitor, *InterfaceType, interface{}) (Type, error) {
+func (b *TypeVisitorBuilder[C]) buildVisitInterfaceType() func(*TypeVisitor[C], *InterfaceType, C) (Type, error) {
 	if b.VisitInterfaceType == nil {
-		return IdentityVisitOfInterfaceType
+		return IdentityVisitOfInterfaceType[C]
 	}
 
 	switch v := b.VisitInterfaceType.(type) {
-	case func(*TypeVisitor, *InterfaceType, interface{}) (Type, error):
+	case func(*TypeVisitor[C], *InterfaceType, C) (Type, error):
 		return v
 	case func(*InterfaceType) (Type, error):
-		return func(_ *TypeVisitor, it *InterfaceType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *InterfaceType, _ C) (Type, error) {
 			return v(it)
 		}
 	case func(*InterfaceType) Type:
-		return func(_ *TypeVisitor, it *InterfaceType, _ interface{}) (Type, error) {
+		return func(_ *TypeVisitor[C], it *InterfaceType, _ C) (Type, error) {
 			return v(it), nil
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected InterfaceType func %#v", b.VisitInterfaceType))
+	panic(fmt.Sprintf("unexpected InterfaceType func %#v (%s)", b.VisitInterfaceType, b.diagnosticClue()))
+}
+
+func (b *TypeVisitorBuilder[C]) diagnosticClue() string {
+	// Index up the stack three frames so we can give a clue as to where the problem is
+	// 1 frame up is the buildVisit* method that called us
+	// 2 frames up is the Build() method that called the buildVisit* method
+	// 3 frames up is the method calling Build(), which is usually the method configuring the builder
+	pc, _, _, _ := runtime.Caller(3)
+	caller := runtime.FuncForPC(pc)
+	parts := strings.Split(caller.Name(), "/")
+	fullpath, line := caller.FileLine(pc)
+	_, file := path.Split(fullpath)
+	return fmt.Sprintf("see %s in %s #%d", parts[len(parts)-1], file, line)
 }

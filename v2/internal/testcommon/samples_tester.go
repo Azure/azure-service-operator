@@ -52,6 +52,17 @@ var exclusions = []string{
 	"serversadministrator",
 	"serversazureadonlyauthentication",
 	"serversfailovergroup", // Requires creating multiple linked SQL servers which is hard to do in the samples
+
+	// TODO: Unable to test diskencryptionsets sample since it requires keyvault/key URI.
+	// TODO: we don't support Keyvault/Keys to automate the process
+	"diskencryptionset",
+
+	// Excluding APIM Product and Subscription as we need to pass deleteSubscription flag to delete the subscription
+	// when we delete the Product. https://github.com/Azure/azure-service-operator/issues/3408
+	"api",
+	"apiversionset",
+	"product",
+	"subscription",
 }
 
 type SamplesTester struct {
@@ -241,10 +252,12 @@ func setOwnersName(sample genruntime.ARMMetaObject, ownerName string) genruntime
 
 func IsFolderExcluded(path string, exclusions []string) bool {
 	for _, exclusion := range exclusions {
-		if strings.Contains(path, exclusion) {
+
+		if strings.Contains(path, "/"+exclusion+"/") {
 			return true
 		}
 	}
+
 	return false
 }
 

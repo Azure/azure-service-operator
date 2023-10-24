@@ -60,7 +60,7 @@ func Test_CanExtractTypeNameFromSameFile(t *testing.T) {
 
 	typeName, err := wrappedSchema.refTypeName()
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(typeName).To(Equal(astmodel.MakeTypeName(schemaPackage, "TheDefinition")))
+	g.Expect(typeName).To(Equal(astmodel.MakeInternalTypeName(schemaPackage, "TheDefinition")))
 }
 
 func Test_CanExtractTypeNameFromDifferentFile_AndInheritPackage(t *testing.T) {
@@ -110,7 +110,7 @@ func Test_CanExtractTypeNameFromDifferentFile_AndInheritPackage(t *testing.T) {
 
 	typeName, err := wrappedSchema.refTypeName()
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(typeName).To(Equal(astmodel.MakeTypeName(schemaPackage, "ExternalDefinition")))
+	g.Expect(typeName).To(Equal(astmodel.MakeInternalTypeName(schemaPackage, "ExternalDefinition")))
 }
 
 func Test_CanExtractTypeNameFromDifferentFile_AndUsePresetPackage(t *testing.T) {
@@ -162,7 +162,7 @@ func Test_CanExtractTypeNameFromDifferentFile_AndUsePresetPackage(t *testing.T) 
 
 	typeName, err := wrappedSchema.refTypeName()
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(typeName).To(Equal(astmodel.MakeTypeName(externalPackage, "ExternalDefinition")))
+	g.Expect(typeName).To(Equal(astmodel.MakeInternalTypeName(externalPackage, "ExternalDefinition")))
 }
 
 func Test_GeneratingCollidingTypeNamesReturnsError(t *testing.T) {

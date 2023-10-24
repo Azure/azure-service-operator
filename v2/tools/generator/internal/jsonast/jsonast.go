@@ -174,7 +174,7 @@ func (scanner *SchemaScanner) GenerateAllDefinitions(ctx context.Context, schema
 	rootPackage := scanner.configuration.MakeLocalPackageReference(
 		scanner.idFactory.CreateGroupName(rootGroup),
 		rootVersion)
-	rootTypeName := astmodel.MakeTypeName(rootPackage, rootName)
+	rootTypeName := astmodel.MakeInternalTypeName(rootPackage, rootName)
 
 	_, err = generateDefinitionsFor(ctx, scanner, rootTypeName, schema)
 	if err != nil {
@@ -627,29 +627,18 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, log 
 		return nil, nil // Skip entirely
 	}
 
-	// Target types according to configuration
-	transformation, because := scanner.configuration.TransformType(typeName)
-	if transformation != nil {
-		log.V(2).Info(
-			"Transforming type",
-			"type", typeName,
-			"because", because,
-			"transformation", transformation)
-		return transformation, nil
-	}
-
 	return generateDefinitionsFor(ctx, scanner, typeName, schema.refSchema())
 }
 
 func generateDefinitionsFor(
 	ctx context.Context,
 	scanner *SchemaScanner,
-	typeName astmodel.TypeName,
+	typeName astmodel.InternalTypeName,
 	schema Schema,
 ) (astmodel.TypeName, error) {
 	schemaType, err := getSubSchemaType(schema)
 	if err != nil {
-		return astmodel.EmptyTypeName, err
+		return nil, err
 	}
 
 	schemaUrl := schema.url()
@@ -665,7 +654,7 @@ func generateDefinitionsFor(
 	result, err := scanner.RunHandler(ctx, schemaType, schema)
 	if err != nil {
 		scanner.removeTypeDefinition(typeName) // we weren't able to generate it, remove placeholder
-		return astmodel.EmptyTypeName, err
+		return nil, err
 	}
 
 	// TODO: This code and below does nothing in the Swagger path as schema.url() is always empty.

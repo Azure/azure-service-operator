@@ -11,8 +11,8 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var t1 = MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "t1")
-var t2 = MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "t2")
+var t1 = MakeInternalTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "t1")
+var t2 = MakeInternalTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "t2")
 
 func TestEmptyTypeAssociation_AreEqual(t *testing.T) {
 	t.Parallel()

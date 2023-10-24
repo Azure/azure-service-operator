@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/onsi/gomega"
+	"github.com/onsi/gomega/format"
 	"k8s.io/klog/v2/klogr"
 	ctrl "sigs.k8s.io/controller-runtime"
 
@@ -29,6 +30,7 @@ func setup() error {
 
 	gomega.SetDefaultEventuallyTimeout(DefaultEventuallyTimeout)
 	gomega.SetDefaultEventuallyPollingInterval(5 * time.Second)
+	format.TruncateThreshold = 4000 // Force a longer truncate threshold
 
 	// setup global logger for controller-runtime:
 	ctrl.SetLogger(klogr.New())

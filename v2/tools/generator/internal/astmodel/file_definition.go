@@ -18,21 +18,21 @@ import (
 // FileDefinition is the content of a file we're generating
 type FileDefinition struct {
 	// the package this file is in
-	packageReference PackageReference
+	packageReference InternalPackageReference
 	// definitions to include in this file
 	definitions []TypeDefinition
 
 	// other packages whose references may be needed for code generation
-	generatedPackages map[PackageReference]*PackageDefinition
+	generatedPackages map[InternalPackageReference]*PackageDefinition
 }
 
 var _ GoSourceFile = &FileDefinition{}
 
 // NewFileDefinition creates a file definition containing specified definitions
 func NewFileDefinition(
-	packageRef PackageReference,
+	packageRef InternalPackageReference,
 	definitions []TypeDefinition,
-	generatedPackages map[PackageReference]*PackageDefinition) *FileDefinition {
+	generatedPackages map[InternalPackageReference]*PackageDefinition) *FileDefinition {
 
 	// Topological sort of the definitions, putting them in order of reference
 	ranks := calcRanks(definitions)
@@ -43,18 +43,19 @@ func NewFileDefinition(
 			return iRank < jRank
 		}
 
-		// Case insensitive sort
-		iName := definitions[i].Name().name
-		jName := definitions[j].Name().name
+		// Case-insensitive sort
+		iName := definitions[i].Name().Name()
+		jName := definitions[j].Name().Name()
 
-		iKey := strings.ToLower(iName)
-		jKey := strings.ToLower(jName)
-
-		return iKey < jKey
+		return strings.ToLower(iName) < strings.ToLower(jName)
 	})
 
 	// TODO: check that all definitions are from same package
-	return &FileDefinition{packageRef, definitions, generatedPackages}
+	return &FileDefinition{
+		packageReference:  packageRef,
+		definitions:       definitions,
+		generatedPackages: generatedPackages,
+	}
 }
 
 // Calculate the ranks for each type
@@ -64,10 +65,10 @@ func calcRanks(definitions []TypeDefinition) map[TypeName]int {
 
 	// First need a way to identify all the root type definers
 	// These are the ones not referenced by any other in this file
-	nonroots := make(map[TypeName]bool)
+	nonRoots := make(map[TypeName]bool)
 	for _, d := range definitions {
 		for ref := range d.References() {
-			nonroots[ref] = true
+			nonRoots[ref] = true
 		}
 	}
 
@@ -77,7 +78,7 @@ func calcRanks(definitions []TypeDefinition) map[TypeName]int {
 		if _, ok := d.Type().(*ResourceType); ok {
 			// Resources have rank 0
 			ranks[d.Name()] = 0
-		} else if _, ok := nonroots[d.Name()]; !ok {
+		} else if _, ok := nonRoots[d.Name()]; !ok {
 			// Roots have rank 0
 			ranks[d.Name()] = 0
 		}

@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v1api20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForDnsResolversOutboundEndpoint(subject DnsResolve
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20220701s.DnsResolversOutboundEndpoint
+	var hub v20220701s.DnsResolversOutboundEndpoint
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -72,13 +72,13 @@ func Test_DnsResolversOutboundEndpoint_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsResolversOutboundEndpoint tests if a specific instance of DnsResolversOutboundEndpoint can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForDnsResolversOutboundEndpoint tests if a specific instance of DnsResolversOutboundEndpoint can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsResolversOutboundEndpoint(subject DnsResolversOutboundEndpoint) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.DnsResolversOutboundEndpoint
+	var other v20220701s.DnsResolversOutboundEndpoint
 	err := copied.AssignProperties_To_DnsResolversOutboundEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -176,13 +176,13 @@ func Test_DnsResolvers_OutboundEndpoint_Spec_WhenPropertiesConverted_RoundTripsW
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsResolvers_OutboundEndpoint_Spec tests if a specific instance of DnsResolvers_OutboundEndpoint_Spec can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForDnsResolvers_OutboundEndpoint_Spec tests if a specific instance of DnsResolvers_OutboundEndpoint_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsResolvers_OutboundEndpoint_Spec(subject DnsResolvers_OutboundEndpoint_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.DnsResolvers_OutboundEndpoint_Spec
+	var other v20220701s.DnsResolvers_OutboundEndpoint_Spec
 	err := copied.AssignProperties_To_DnsResolvers_OutboundEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -295,13 +295,13 @@ func Test_DnsResolvers_OutboundEndpoint_STATUS_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsResolvers_OutboundEndpoint_STATUS tests if a specific instance of DnsResolvers_OutboundEndpoint_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForDnsResolvers_OutboundEndpoint_STATUS tests if a specific instance of DnsResolvers_OutboundEndpoint_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsResolvers_OutboundEndpoint_STATUS(subject DnsResolvers_OutboundEndpoint_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.DnsResolvers_OutboundEndpoint_STATUS
+	var other v20220701s.DnsResolvers_OutboundEndpoint_STATUS
 	err := copied.AssignProperties_To_DnsResolvers_OutboundEndpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()

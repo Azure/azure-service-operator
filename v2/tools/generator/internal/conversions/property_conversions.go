@@ -1577,7 +1577,7 @@ func assignObjectDirectlyFromObject(
 
 	// If the source and destination types are in different packages, we must consult the conversion graph to make sure
 	// this is an expected conversion.
-	if !sourceName.PackageReference.Equals(destinationName.PackageReference) {
+	if !sourceName.PackageReference().Equals(destinationName.PackageReference()) {
 
 		// If our two types are not adjacent in our conversion graph, this is not the conversion you're looking for
 		nextType, err := conversionContext.FindNextType(destinationName)
@@ -1701,7 +1701,7 @@ func assignObjectDirectlyToObject(
 
 	// If the source and destination types are in different packages, we must consult the conversion graph to make sure
 	// this is an expected conversion.
-	if !sourceName.PackageReference.Equals(destinationName.PackageReference) {
+	if !sourceName.PackageReference().Equals(destinationName.PackageReference()) {
 
 		// If our two types are not adjacent in our conversion graph, this is not the conversion you're looking for
 		// Check that
@@ -1831,7 +1831,7 @@ func assignObjectsViaIntermediateObject(
 	}
 
 	// If our two types are not adjacent in our conversion graph, this *IS* the conversion you're looking for
-	earlierName := conversionContext.direction.SelectType(destinationName, sourceName).(astmodel.TypeName)
+	earlierName := conversionContext.direction.SelectName(destinationName, sourceName)
 	intermediateName, err := conversionContext.FindNextType(earlierName)
 	if err != nil {
 		return nil, errors.Wrapf(
@@ -1845,7 +1845,7 @@ func assignObjectsViaIntermediateObject(
 	}
 
 	// Make sure we can reference our intermediate type when needed
-	conversionContext.AddPackageReference(intermediateName.PackageReference)
+	conversionContext.AddPackageReference(intermediateName.PackageReference())
 
 	// Need a pair of conversions, using our intermediate type
 	intermediateEndpoint := NewTypedConversionEndpoint(
@@ -2034,12 +2034,15 @@ func copyKnownType(name astmodel.TypeName, methodName string, returnKind knownTy
 	}
 }
 
-func createTypeDeclaration(name astmodel.TypeName, generationContext *astmodel.CodeGenerationContext) dst.Expr {
-	if name.PackageReference.Equals(generationContext.CurrentPackage()) {
+func createTypeDeclaration(
+	name astmodel.InternalTypeName,
+	generationContext *astmodel.CodeGenerationContext,
+) dst.Expr {
+	if name.InternalPackageReference().Equals(generationContext.CurrentPackage()) {
 		return dst.NewIdent(name.Name())
 	}
 
-	packageName := generationContext.MustGetImportedPackageName(name.PackageReference)
+	packageName := generationContext.MustGetImportedPackageName(name.InternalPackageReference())
 	return astbuilder.Selector(dst.NewIdent(packageName), name.Name())
 }
 

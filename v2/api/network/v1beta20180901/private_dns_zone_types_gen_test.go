@@ -5,8 +5,8 @@ package v1beta20180901
 
 import (
 	"encoding/json"
-	v1api20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180901storage"
-	v20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage"
+	v20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180901/storage"
+	v1beta20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForPrivateDnsZone(subject PrivateDnsZone) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20180901s.PrivateDnsZone
+	var hub v20180901s.PrivateDnsZone
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -73,13 +73,13 @@ func Test_PrivateDnsZone_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZone tests if a specific instance of PrivateDnsZone can be assigned to v1beta20180901storage and back losslessly
+// RunPropertyAssignmentTestForPrivateDnsZone tests if a specific instance of PrivateDnsZone can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateDnsZone(subject PrivateDnsZone) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180901s.PrivateDnsZone
+	var other v1beta20180901s.PrivateDnsZone
 	err := copied.AssignProperties_To_PrivateDnsZone(&other)
 	if err != nil {
 		return err.Error()
@@ -176,13 +176,13 @@ func Test_PrivateDnsZone_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZone_Spec tests if a specific instance of PrivateDnsZone_Spec can be assigned to v1beta20180901storage and back losslessly
+// RunPropertyAssignmentTestForPrivateDnsZone_Spec tests if a specific instance of PrivateDnsZone_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateDnsZone_Spec(subject PrivateDnsZone_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180901s.PrivateDnsZone_Spec
+	var other v1beta20180901s.PrivateDnsZone_Spec
 	err := copied.AssignProperties_To_PrivateDnsZone_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -282,13 +282,13 @@ func Test_PrivateDnsZone_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZone_STATUS tests if a specific instance of PrivateDnsZone_STATUS can be assigned to v1beta20180901storage and back losslessly
+// RunPropertyAssignmentTestForPrivateDnsZone_STATUS tests if a specific instance of PrivateDnsZone_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateDnsZone_STATUS(subject PrivateDnsZone_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180901s.PrivateDnsZone_STATUS
+	var other v1beta20180901s.PrivateDnsZone_STATUS
 	err := copied.AssignProperties_To_PrivateDnsZone_STATUS(&other)
 	if err != nil {
 		return err.Error()

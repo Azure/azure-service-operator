@@ -5,8 +5,8 @@ package v1beta20210401storage
 
 import (
 	"encoding/json"
-	v1api20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
-	v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForStorageAccountsBlobServicesContainer(subject St
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20220901s.StorageAccountsBlobServicesContainer
+	var hub v20220901s.StorageAccountsBlobServicesContainer
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForStorageAccountsBlobServicesContainer(subject St
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.StorageAccountsBlobServicesContainer
+	var other v20210401s.StorageAccountsBlobServicesContainer
 	err := copied.AssignProperties_To_StorageAccountsBlobServicesContainer(&other)
 	if err != nil {
 		return err.Error()
@@ -183,7 +183,7 @@ func RunPropertyAssignmentTestForStorageAccounts_BlobServices_Container_Spec(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.StorageAccounts_BlobServices_Container_Spec
+	var other v20210401s.StorageAccounts_BlobServices_Container_Spec
 	err := copied.AssignProperties_To_StorageAccounts_BlobServices_Container_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -305,7 +305,7 @@ func RunPropertyAssignmentTestForStorageAccounts_BlobServices_Container_STATUS(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.StorageAccounts_BlobServices_Container_STATUS
+	var other v20210401s.StorageAccounts_BlobServices_Container_STATUS
 	err := copied.AssignProperties_To_StorageAccounts_BlobServices_Container_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -441,7 +441,7 @@ func RunPropertyAssignmentTestForImmutabilityPolicyProperties_STATUS(subject Imm
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ImmutabilityPolicyProperties_STATUS
+	var other v20210401s.ImmutabilityPolicyProperties_STATUS
 	err := copied.AssignProperties_To_ImmutabilityPolicyProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -561,7 +561,7 @@ func RunPropertyAssignmentTestForImmutableStorageWithVersioning(subject Immutabl
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ImmutableStorageWithVersioning
+	var other v20210401s.ImmutableStorageWithVersioning
 	err := copied.AssignProperties_To_ImmutableStorageWithVersioning(&other)
 	if err != nil {
 		return err.Error()
@@ -664,7 +664,7 @@ func RunPropertyAssignmentTestForImmutableStorageWithVersioning_STATUS(subject I
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ImmutableStorageWithVersioning_STATUS
+	var other v20210401s.ImmutableStorageWithVersioning_STATUS
 	err := copied.AssignProperties_To_ImmutableStorageWithVersioning_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -769,7 +769,7 @@ func RunPropertyAssignmentTestForLegalHoldProperties_STATUS(subject LegalHoldPro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.LegalHoldProperties_STATUS
+	var other v20210401s.LegalHoldProperties_STATUS
 	err := copied.AssignProperties_To_LegalHoldProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -886,7 +886,7 @@ func RunPropertyAssignmentTestForTagProperty_STATUS(subject TagProperty_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.TagProperty_STATUS
+	var other v20210401s.TagProperty_STATUS
 	err := copied.AssignProperties_To_TagProperty_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -992,7 +992,7 @@ func RunPropertyAssignmentTestForUpdateHistoryProperty_STATUS(subject UpdateHist
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.UpdateHistoryProperty_STATUS
+	var other v20210401s.UpdateHistoryProperty_STATUS
 	err := copied.AssignProperties_To_UpdateHistoryProperty_STATUS(&other)
 	if err != nil {
 		return err.Error()

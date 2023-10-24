@@ -13,10 +13,8 @@ import (
 	"regexp"
 	"time"
 
-	apiextensionsclient "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"sigs.k8s.io/controller-runtime/pkg/manager"
+	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
+	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
@@ -24,7 +22,10 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+	apiextensionsclient "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/client-go/rest"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
@@ -32,21 +33,22 @@ import (
 	clientconfig "sigs.k8s.io/controller-runtime/pkg/client/config"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
+	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
-	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 
 	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/crdmanagement"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
+	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
+	common "github.com/Azure/azure-service-operator/v2/pkg/common/config"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -83,8 +85,11 @@ func SetupPreUpgradeCheck(ctx context.Context) error {
 		}
 
 		// If this CRD is annotated with "serviceoperator.azure.com/version", it must be >=2.0.0 and so safe
-		// as we didn't start using this label until 2.0.0
-		if _, ok := crd.Labels[crdmanagement.ServiceOperatorVersionLabel]; ok {
+		// as we didn't start using this label until 2.0.0. Same with "app.kubernetes.io/version" which was added in 2.3.0
+		// in favor of our custom serviceoperator.azure.com
+		_, hasOldLabel := crd.Labels[crdmanagement.ServiceOperatorVersionLabelOld]
+		_, hasNewLabel := crd.Labels[crdmanagement.ServiceOperatorVersionLabel]
+		if hasOldLabel || hasNewLabel {
 			continue
 		}
 
@@ -109,20 +114,31 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 
 	var cacheFunc cache.NewCacheFunc
 	if cfg.TargetNamespaces != nil && cfg.OperatorMode.IncludesWatchers() {
-		cacheFunc = cache.MultiNamespacedCacheBuilder(cfg.TargetNamespaces)
+		cacheFunc = func(config *rest.Config, opts cache.Options) (cache.Cache, error) {
+			opts.DefaultNamespaces = make(map[string]cache.Config, len(cfg.TargetNamespaces))
+			for _, ns := range cfg.TargetNamespaces {
+				opts.DefaultNamespaces[ns] = cache.Config{}
+			}
+
+			return cache.New(config, opts)
+		}
 	}
 
 	k8sConfig := ctrl.GetConfigOrDie()
 	mgr, err := ctrl.NewManager(k8sConfig, ctrl.Options{
 		Scheme:                 scheme,
-		MetricsBindAddress:     flgs.MetricsAddr,
 		NewCache:               cacheFunc,
 		LeaderElection:         flgs.EnableLeaderElection,
 		LeaderElectionID:       "controllers-leader-election-azinfra-generated",
-		Port:                   9443,
 		HealthProbeBindAddress: flgs.HealthAddr,
+		Metrics: server.Options{
+			BindAddress: flgs.MetricsAddr,
+		},
+		WebhookServer: webhook.NewServer(webhook.Options{
+			Port:    flgs.WebhookPort,
+			CertDir: flgs.WebhookCertDir,
+		}),
 	})
-
 	if err != nil {
 		setupLog.Error(err, "unable to create manager")
 		os.Exit(1)
@@ -253,7 +269,7 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 		credential, err := azidentity.NewWorkloadIdentityCredential(&azidentity.WorkloadIdentityCredentialOptions{
 			ClientID:      cfg.ClientID,
 			TenantID:      cfg.TenantID,
-			TokenFilePath: config.FederatedTokenFilePath,
+			TokenFilePath: identity.FederatedTokenFilePath,
 		})
 		if err != nil {
 			return nil, errors.Wrapf(err, "unable to get workload identity credential")
@@ -262,8 +278,8 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 		return credential, nil
 	}
 
-	if cert := os.Getenv(config.ClientCertificateVar); cert != "" {
-		certPassword := os.Getenv(config.ClientCertificatePasswordVar)
+	if cert := os.Getenv(common.AzureClientCertificate); cert != "" {
+		certPassword := os.Getenv(common.AzureClientCertificatePassword)
 		credential, err := identity.NewClientCertificateCredential(cfg.TenantID, cfg.ClientID, []byte(cert), []byte(certPassword))
 		if err != nil {
 			return nil, errors.Wrapf(err, "unable to get client certificate credential")

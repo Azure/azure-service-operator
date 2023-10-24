@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 
 	. "github.com/onsi/gomega"
 )
@@ -19,7 +20,10 @@ func TestConnectionChecker_Avoids_Cycles(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	makeName := func(name string) astmodel.TypeName {
-		return astmodel.MakeTypeName(astmodel.MakeExternalPackageReference(packagePath), name)
+
+		return astmodel.MakeInternalTypeName(
+			test.MakeLocalPackageReference("demo", "v1"),
+			name)
 	}
 
 	makeSet := func(names ...string) astmodel.TypeNameSet {

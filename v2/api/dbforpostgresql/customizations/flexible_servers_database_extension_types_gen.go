@@ -4,14 +4,14 @@
 package customizations
 
 import (
-	v1api20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
-	v1api20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
-	v1api20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview"
-	v1api20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120previewstorage"
-	v20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601"
-	v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
-	v20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120preview"
-	v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120previewstorage"
+	v20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
+	v20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview"
+	v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120previewstorage"
+	v1beta20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601"
+	v1beta20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
+	v1beta20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120preview"
+	v1beta20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120previewstorage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -21,12 +21,12 @@ type FlexibleServersDatabaseExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *FlexibleServersDatabaseExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20210601.FlexibleServersDatabase{},
-		&v1api20210601s.FlexibleServersDatabase{},
-		&v1api20220120p.FlexibleServersDatabase{},
-		&v1api20220120ps.FlexibleServersDatabase{},
 		&v20210601.FlexibleServersDatabase{},
 		&v20210601s.FlexibleServersDatabase{},
 		&v20220120p.FlexibleServersDatabase{},
-		&v20220120ps.FlexibleServersDatabase{}}
+		&v20220120ps.FlexibleServersDatabase{},
+		&v1beta20210601.FlexibleServersDatabase{},
+		&v1beta20210601s.FlexibleServersDatabase{},
+		&v1beta20220120p.FlexibleServersDatabase{},
+		&v1beta20220120ps.FlexibleServersDatabase{}}
 }

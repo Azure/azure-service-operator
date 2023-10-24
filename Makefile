@@ -11,7 +11,7 @@ else
 GOBIN=$(shell go env GOBIN)
 endif
 
-CRD_OPTIONS ?= "crd:crdVersions=v1"
+CRD_OPTIONS ?= crd:crdVersions=v1,allowDangerousTypes=true
 
 BUILD_ID ?= $(shell git rev-parse --short HEAD)
 timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
@@ -243,7 +243,7 @@ helm-chart-manifests: generate
 # Generate manifests e.g. CRD, RBAC etc.
 .PHONY: manifests
 manifests: install-tools
-	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
+	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./api/..." output:crd:artifacts:config=config/crd/bases
 	# update manifests to force preserveUnknownFields to false. We can't use controller-gen to set this to false because it has a bug...
 	# see: https://github.com/kubernetes-sigs/controller-tools/issues/476
 	# TODO: After this has been in the release for "a while" we can remove it since the default is also false and we just
@@ -362,7 +362,7 @@ install-test-tools: install-tools
 	&& go get github.com/axw/gocov/gocov \
 	&& go get github.com/AlekSi/gocov-xml \
 	&& go get github.com/wadey/gocovmerge \
-	&& go get sigs.k8s.io/kind@v0.18.0
+	&& go get sigs.k8s.io/kind@v0.20.0
 	rm -r $(TEST_TOOLS_MOD_DIR)
 
 .PHONY: install-tools
@@ -371,7 +371,7 @@ install-tools:
 	go install github.com/mikefarah/yq/v4@v4.23.1
 	go install k8s.io/code-generator/cmd/conversion-gen@v0.23.5
 	go install sigs.k8s.io/kustomize/kustomize/v4@v4.5.4 
-	go install sigs.k8s.io/controller-tools/cmd/controller-gen@v0.8.0
+	go install sigs.k8s.io/controller-tools/cmd/controller-gen@v0.13.0
     CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 
 # Operator-sdk release version

@@ -5,7 +5,7 @@ package v1api20210101preview
 
 import (
 	"fmt"
-	v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
+	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,22 +49,36 @@ var _ conversion.Convertible = &NamespacesTopicsSubscription{}
 
 // ConvertFrom populates our NamespacesTopicsSubscription from the provided hub NamespacesTopicsSubscription
 func (subscription *NamespacesTopicsSubscription) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210101ps.NamespacesTopicsSubscription)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20210101previewstorage/NamespacesTopicsSubscription but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210101ps.NamespacesTopicsSubscription
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return subscription.AssignProperties_From_NamespacesTopicsSubscription(source)
+	err = subscription.AssignProperties_From_NamespacesTopicsSubscription(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to subscription")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesTopicsSubscription from our NamespacesTopicsSubscription
 func (subscription *NamespacesTopicsSubscription) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210101ps.NamespacesTopicsSubscription)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20210101previewstorage/NamespacesTopicsSubscription but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210101ps.NamespacesTopicsSubscription
+	err := subscription.AssignProperties_To_NamespacesTopicsSubscription(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from subscription")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return subscription.AssignProperties_To_NamespacesTopicsSubscription(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1api20210101preview-namespacestopicssubscription,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacestopicssubscriptions,verbs=create;update,versions=v1api20210101preview,name=default.v1api20210101preview.namespacestopicssubscriptions.servicebus.azure.com,admissionReviewVersions=v1
@@ -89,17 +103,6 @@ func (subscription *NamespacesTopicsSubscription) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the NamespacesTopicsSubscription resource
 func (subscription *NamespacesTopicsSubscription) defaultImpl() { subscription.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &NamespacesTopicsSubscription{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (subscription *NamespacesTopicsSubscription) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Namespaces_Topics_Subscription_STATUS); ok {
-		return subscription.Spec.Initialize_From_Namespaces_Topics_Subscription_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Namespaces_Topics_Subscription_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &NamespacesTopicsSubscription{}
 
@@ -141,11 +144,7 @@ func (subscription *NamespacesTopicsSubscription) NewEmptyStatus() genruntime.Co
 // Owner returns the ResourceReference of the owner
 func (subscription *NamespacesTopicsSubscription) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(subscription.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  subscription.Spec.Owner.Name,
-	}
+	return subscription.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +202,7 @@ func (subscription *NamespacesTopicsSubscription) ValidateUpdate(old runtime.Obj
 
 // createValidations validates the creation of the resource
 func (subscription *NamespacesTopicsSubscription) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){subscription.validateResourceReferences}
+	return []func() (admission.Warnings, error){subscription.validateResourceReferences, subscription.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +216,16 @@ func (subscription *NamespacesTopicsSubscription) updateValidations() []func(old
 		func(old runtime.Object) (admission.Warnings, error) {
 			return subscription.validateResourceReferences()
 		},
-		subscription.validateWriteOnceProperties}
+		subscription.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return subscription.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (subscription *NamespacesTopicsSubscription) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(subscription)
 }
 
 // validateResourceReferences validates all resource references
@@ -240,7 +248,7 @@ func (subscription *NamespacesTopicsSubscription) validateWriteOnceProperties(ol
 }
 
 // AssignProperties_From_NamespacesTopicsSubscription populates our NamespacesTopicsSubscription from the provided source NamespacesTopicsSubscription
-func (subscription *NamespacesTopicsSubscription) AssignProperties_From_NamespacesTopicsSubscription(source *v1api20210101ps.NamespacesTopicsSubscription) error {
+func (subscription *NamespacesTopicsSubscription) AssignProperties_From_NamespacesTopicsSubscription(source *v20210101ps.NamespacesTopicsSubscription) error {
 
 	// ObjectMeta
 	subscription.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +274,13 @@ func (subscription *NamespacesTopicsSubscription) AssignProperties_From_Namespac
 }
 
 // AssignProperties_To_NamespacesTopicsSubscription populates the provided destination NamespacesTopicsSubscription from our NamespacesTopicsSubscription
-func (subscription *NamespacesTopicsSubscription) AssignProperties_To_NamespacesTopicsSubscription(destination *v1api20210101ps.NamespacesTopicsSubscription) error {
+func (subscription *NamespacesTopicsSubscription) AssignProperties_To_NamespacesTopicsSubscription(destination *v20210101ps.NamespacesTopicsSubscription) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *subscription.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20210101ps.Namespaces_Topics_Subscription_Spec
+	var spec v20210101ps.Namespaces_Topics_Subscription_Spec
 	err := subscription.Spec.AssignProperties_To_Namespaces_Topics_Subscription_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topics_Subscription_Spec() to populate field Spec")
@@ -280,7 +288,7 @@ func (subscription *NamespacesTopicsSubscription) AssignProperties_To_Namespaces
 	destination.Spec = spec
 
 	// Status
-	var status v1api20210101ps.Namespaces_Topics_Subscription_STATUS
+	var status v20210101ps.Namespaces_Topics_Subscription_STATUS
 	err = subscription.Status.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topics_Subscription_STATUS() to populate field Status")
@@ -372,10 +380,10 @@ func (subscription *Namespaces_Topics_Subscription_Spec) ConvertToARM(resolved g
 	}
 	result := &Namespaces_Topics_Subscription_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if subscription.AutoDeleteOnIdle != nil ||
 		subscription.DeadLetteringOnFilterEvaluationExceptions != nil ||
 		subscription.DeadLetteringOnMessageExpiration != nil ||
@@ -448,7 +456,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Topics_Subscription_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoDeleteOnIdle’:
+	// Set property "AutoDeleteOnIdle":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoDeleteOnIdle != nil {
@@ -457,10 +465,10 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	subscription.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘DeadLetteringOnFilterEvaluationExceptions’:
+	// Set property "DeadLetteringOnFilterEvaluationExceptions":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetteringOnFilterEvaluationExceptions != nil {
@@ -469,7 +477,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘DeadLetteringOnMessageExpiration’:
+	// Set property "DeadLetteringOnMessageExpiration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetteringOnMessageExpiration != nil {
@@ -478,7 +486,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘DefaultMessageTimeToLive’:
+	// Set property "DefaultMessageTimeToLive":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultMessageTimeToLive != nil {
@@ -487,7 +495,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘DuplicateDetectionHistoryTimeWindow’:
+	// Set property "DuplicateDetectionHistoryTimeWindow":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DuplicateDetectionHistoryTimeWindow != nil {
@@ -496,7 +504,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘EnableBatchedOperations’:
+	// Set property "EnableBatchedOperations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableBatchedOperations != nil {
@@ -505,7 +513,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘ForwardDeadLetteredMessagesTo’:
+	// Set property "ForwardDeadLetteredMessagesTo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardDeadLetteredMessagesTo != nil {
@@ -514,7 +522,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘ForwardTo’:
+	// Set property "ForwardTo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardTo != nil {
@@ -523,7 +531,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘LockDuration’:
+	// Set property "LockDuration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LockDuration != nil {
@@ -532,7 +540,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘MaxDeliveryCount’:
+	// Set property "MaxDeliveryCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxDeliveryCount != nil {
@@ -541,10 +549,13 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Owner’:
-	subscription.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	subscription.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘RequiresSession’:
+	// Set property "RequiresSession":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequiresSession != nil {
@@ -561,14 +572,14 @@ var _ genruntime.ConvertibleSpec = &Namespaces_Topics_Subscription_Spec{}
 
 // ConvertSpecFrom populates our Namespaces_Topics_Subscription_Spec from the provided source
 func (subscription *Namespaces_Topics_Subscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20210101ps.Namespaces_Topics_Subscription_Spec)
+	src, ok := source.(*v20210101ps.Namespaces_Topics_Subscription_Spec)
 	if ok {
 		// Populate our instance from source
 		return subscription.AssignProperties_From_Namespaces_Topics_Subscription_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210101ps.Namespaces_Topics_Subscription_Spec{}
+	src = &v20210101ps.Namespaces_Topics_Subscription_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -585,14 +596,14 @@ func (subscription *Namespaces_Topics_Subscription_Spec) ConvertSpecFrom(source 
 
 // ConvertSpecTo populates the provided destination from our Namespaces_Topics_Subscription_Spec
 func (subscription *Namespaces_Topics_Subscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20210101ps.Namespaces_Topics_Subscription_Spec)
+	dst, ok := destination.(*v20210101ps.Namespaces_Topics_Subscription_Spec)
 	if ok {
 		// Populate destination from our instance
 		return subscription.AssignProperties_To_Namespaces_Topics_Subscription_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210101ps.Namespaces_Topics_Subscription_Spec{}
+	dst = &v20210101ps.Namespaces_Topics_Subscription_Spec{}
 	err := subscription.AssignProperties_To_Namespaces_Topics_Subscription_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -608,7 +619,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) ConvertSpecTo(destinati
 }
 
 // AssignProperties_From_Namespaces_Topics_Subscription_Spec populates our Namespaces_Topics_Subscription_Spec from the provided source Namespaces_Topics_Subscription_Spec
-func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_Namespaces_Topics_Subscription_Spec(source *v1api20210101ps.Namespaces_Topics_Subscription_Spec) error {
+func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_Namespaces_Topics_Subscription_Spec(source *v20210101ps.Namespaces_Topics_Subscription_Spec) error {
 
 	// AutoDeleteOnIdle
 	subscription.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
@@ -679,7 +690,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_N
 }
 
 // AssignProperties_To_Namespaces_Topics_Subscription_Spec populates the provided destination Namespaces_Topics_Subscription_Spec from our Namespaces_Topics_Subscription_Spec
-func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Namespaces_Topics_Subscription_Spec(destination *v1api20210101ps.Namespaces_Topics_Subscription_Spec) error {
+func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Namespaces_Topics_Subscription_Spec(destination *v20210101ps.Namespaces_Topics_Subscription_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -755,66 +766,6 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Nam
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Namespaces_Topics_Subscription_STATUS populates our Namespaces_Topics_Subscription_Spec from the provided source Namespaces_Topics_Subscription_STATUS
-func (subscription *Namespaces_Topics_Subscription_Spec) Initialize_From_Namespaces_Topics_Subscription_STATUS(source *Namespaces_Topics_Subscription_STATUS) error {
-
-	// AutoDeleteOnIdle
-	subscription.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
-
-	// DeadLetteringOnFilterEvaluationExceptions
-	if source.DeadLetteringOnFilterEvaluationExceptions != nil {
-		deadLetteringOnFilterEvaluationException := *source.DeadLetteringOnFilterEvaluationExceptions
-		subscription.DeadLetteringOnFilterEvaluationExceptions = &deadLetteringOnFilterEvaluationException
-	} else {
-		subscription.DeadLetteringOnFilterEvaluationExceptions = nil
-	}
-
-	// DeadLetteringOnMessageExpiration
-	if source.DeadLetteringOnMessageExpiration != nil {
-		deadLetteringOnMessageExpiration := *source.DeadLetteringOnMessageExpiration
-		subscription.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
-	} else {
-		subscription.DeadLetteringOnMessageExpiration = nil
-	}
-
-	// DefaultMessageTimeToLive
-	subscription.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
-
-	// DuplicateDetectionHistoryTimeWindow
-	subscription.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
-
-	// EnableBatchedOperations
-	if source.EnableBatchedOperations != nil {
-		enableBatchedOperation := *source.EnableBatchedOperations
-		subscription.EnableBatchedOperations = &enableBatchedOperation
-	} else {
-		subscription.EnableBatchedOperations = nil
-	}
-
-	// ForwardDeadLetteredMessagesTo
-	subscription.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(source.ForwardDeadLetteredMessagesTo)
-
-	// ForwardTo
-	subscription.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
-
-	// LockDuration
-	subscription.LockDuration = genruntime.ClonePointerToString(source.LockDuration)
-
-	// MaxDeliveryCount
-	subscription.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
-
-	// RequiresSession
-	if source.RequiresSession != nil {
-		requiresSession := *source.RequiresSession
-		subscription.RequiresSession = &requiresSession
-	} else {
-		subscription.RequiresSession = nil
 	}
 
 	// No error
@@ -909,14 +860,14 @@ var _ genruntime.ConvertibleStatus = &Namespaces_Topics_Subscription_STATUS{}
 
 // ConvertStatusFrom populates our Namespaces_Topics_Subscription_STATUS from the provided source
 func (subscription *Namespaces_Topics_Subscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20210101ps.Namespaces_Topics_Subscription_STATUS)
+	src, ok := source.(*v20210101ps.Namespaces_Topics_Subscription_STATUS)
 	if ok {
 		// Populate our instance from source
 		return subscription.AssignProperties_From_Namespaces_Topics_Subscription_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210101ps.Namespaces_Topics_Subscription_STATUS{}
+	src = &v20210101ps.Namespaces_Topics_Subscription_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -933,14 +884,14 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) ConvertStatusFrom(sou
 
 // ConvertStatusTo populates the provided destination from our Namespaces_Topics_Subscription_STATUS
 func (subscription *Namespaces_Topics_Subscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20210101ps.Namespaces_Topics_Subscription_STATUS)
+	dst, ok := destination.(*v20210101ps.Namespaces_Topics_Subscription_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return subscription.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210101ps.Namespaces_Topics_Subscription_STATUS{}
+	dst = &v20210101ps.Namespaces_Topics_Subscription_STATUS{}
 	err := subscription.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -969,7 +920,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Topics_Subscription_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessedAt’:
+	// Set property "AccessedAt":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AccessedAt != nil {
@@ -978,7 +929,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘AutoDeleteOnIdle’:
+	// Set property "AutoDeleteOnIdle":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoDeleteOnIdle != nil {
@@ -987,9 +938,9 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CountDetails’:
+	// Set property "CountDetails":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CountDetails != nil {
@@ -1003,7 +954,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreatedAt != nil {
@@ -1012,7 +963,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘DeadLetteringOnFilterEvaluationExceptions’:
+	// Set property "DeadLetteringOnFilterEvaluationExceptions":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetteringOnFilterEvaluationExceptions != nil {
@@ -1021,7 +972,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘DeadLetteringOnMessageExpiration’:
+	// Set property "DeadLetteringOnMessageExpiration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetteringOnMessageExpiration != nil {
@@ -1030,7 +981,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘DefaultMessageTimeToLive’:
+	// Set property "DefaultMessageTimeToLive":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultMessageTimeToLive != nil {
@@ -1039,7 +990,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘DuplicateDetectionHistoryTimeWindow’:
+	// Set property "DuplicateDetectionHistoryTimeWindow":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DuplicateDetectionHistoryTimeWindow != nil {
@@ -1048,7 +999,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘EnableBatchedOperations’:
+	// Set property "EnableBatchedOperations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableBatchedOperations != nil {
@@ -1057,7 +1008,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘ForwardDeadLetteredMessagesTo’:
+	// Set property "ForwardDeadLetteredMessagesTo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardDeadLetteredMessagesTo != nil {
@@ -1066,7 +1017,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘ForwardTo’:
+	// Set property "ForwardTo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardTo != nil {
@@ -1075,13 +1026,13 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		subscription.Id = &id
 	}
 
-	// Set property ‘LockDuration’:
+	// Set property "LockDuration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LockDuration != nil {
@@ -1090,7 +1041,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘MaxDeliveryCount’:
+	// Set property "MaxDeliveryCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxDeliveryCount != nil {
@@ -1099,7 +1050,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘MessageCount’:
+	// Set property "MessageCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MessageCount != nil {
@@ -1108,13 +1059,13 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		subscription.Name = &name
 	}
 
-	// Set property ‘RequiresSession’:
+	// Set property "RequiresSession":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequiresSession != nil {
@@ -1123,7 +1074,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Status != nil {
@@ -1132,7 +1083,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -1143,13 +1094,13 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		subscription.SystemData = &systemData
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		subscription.Type = &typeVar
 	}
 
-	// Set property ‘UpdatedAt’:
+	// Set property "UpdatedAt":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UpdatedAt != nil {
@@ -1163,7 +1114,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 }
 
 // AssignProperties_From_Namespaces_Topics_Subscription_STATUS populates our Namespaces_Topics_Subscription_STATUS from the provided source Namespaces_Topics_Subscription_STATUS
-func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From_Namespaces_Topics_Subscription_STATUS(source *v1api20210101ps.Namespaces_Topics_Subscription_STATUS) error {
+func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From_Namespaces_Topics_Subscription_STATUS(source *v20210101ps.Namespaces_Topics_Subscription_STATUS) error {
 
 	// AccessedAt
 	subscription.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
@@ -1279,7 +1230,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_Namespaces_Topics_Subscription_STATUS populates the provided destination Namespaces_Topics_Subscription_STATUS from our Namespaces_Topics_Subscription_STATUS
-func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_Namespaces_Topics_Subscription_STATUS(destination *v1api20210101ps.Namespaces_Topics_Subscription_STATUS) error {
+func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_Namespaces_Topics_Subscription_STATUS(destination *v20210101ps.Namespaces_Topics_Subscription_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1294,7 +1245,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_N
 
 	// CountDetails
 	if subscription.CountDetails != nil {
-		var countDetail v1api20210101ps.MessageCountDetails_STATUS
+		var countDetail v20210101ps.MessageCountDetails_STATUS
 		err := subscription.CountDetails.AssignProperties_To_MessageCountDetails_STATUS(&countDetail)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MessageCountDetails_STATUS() to populate field CountDetails")
@@ -1376,7 +1327,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_N
 
 	// SystemData
 	if subscription.SystemData != nil {
-		var systemDatum v1api20210101ps.SystemData_STATUS
+		var systemDatum v20210101ps.SystemData_STATUS
 		err := subscription.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")

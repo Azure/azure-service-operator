@@ -83,7 +83,7 @@ var (
 
 	// Objects in Pkg2020
 	Pkg2020APIVersion = astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(Pkg2020, "APIVersion"),
+		astmodel.MakeInternalTypeName(Pkg2020, "APIVersion"),
 		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("v2020", "v2020")))
 
 	// Objects in Pkg2021

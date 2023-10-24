@@ -15,18 +15,18 @@ func TestPropertyReference_IsEmpty_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 
 	pkg := makeTestLocalPackageReference("Demo", "v1")
-	declaringType := MakeTypeName(pkg, "Person")
+	declaringType := MakeInternalTypeName(pkg, "Person")
 
 	cases := []struct {
 		name          string
-		declaringType TypeName
+		declaringType InternalTypeName
 		property      PropertyName
 		expected      bool
 	}{
-		{"Property name present means not empty", EmptyTypeName, "property", false},
+		{"Property name present means not empty", InternalTypeName{}, "property", false},
 		{"Declaring type present means not empty", declaringType, "", false},
 		{"Fully populated means not empty", declaringType, "property", false},
-		{"Totally empty not empty", EmptyTypeName, "", true},
+		{"Totally empty not empty", InternalTypeName{}, "", true},
 	}
 
 	for _, c := range cases {
@@ -44,7 +44,7 @@ func TestPropertyReference_String_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	pkg := makeTestLocalPackageReference("Demo", "1")
-	declaringType := MakeTypeName(pkg, "Person")
+	declaringType := MakeInternalTypeName(pkg, "Person")
 	property := PropertyName("FullName")
 
 	ref := MakePropertyReference(declaringType, property)

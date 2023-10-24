@@ -8,7 +8,7 @@ package astmodel
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 	"text/template"
@@ -20,25 +20,34 @@ import (
 
 // PackageDefinition is the definition of a package
 type PackageDefinition struct {
-	GroupName   string
-	PackageName string
-	definitions TypeDefinitionSet
+	PackageName string            // Name  of the package
+	GroupName   string            // Group to which the package belongs
+	Version     string            // Kubernetes version of this package
+	Path        string            // relative Path to the package
+	definitions TypeDefinitionSet // set of definitions in this package
 }
 
 // NewPackageDefinition constructs a new package definition
-func NewPackageDefinition(groupName string, packageName string) *PackageDefinition {
-	return &PackageDefinition{groupName, packageName, make(TypeDefinitionSet)}
+func NewPackageDefinition(ref InternalPackageReference) *PackageDefinition {
+	result := &PackageDefinition{
+		PackageName: ref.PackageName(),
+		GroupName:   ref.Group(),
+		Path:        ref.FolderPath(),
+		definitions: make(TypeDefinitionSet),
+	}
+
+	result.Version = result.createVersion(ref)
+
+	return result
 }
 
 func (p *PackageDefinition) Definitions() TypeDefinitionSet {
 	return p.definitions
 }
 
-func (p *PackageDefinition) GetDefinition(typeName TypeName) (TypeDefinition, error) {
-	for _, def := range p.definitions {
-		if TypeEquals(def.Name(), typeName) {
-			return def, nil
-		}
+func (p *PackageDefinition) GetDefinition(typeName InternalTypeName) (TypeDefinition, error) {
+	if def, ok := p.definitions[typeName]; ok {
+		return def, nil
 	}
 
 	return TypeDefinition{}, errors.Errorf("no type with name %s found", typeName)
@@ -50,7 +59,11 @@ func (p *PackageDefinition) AddDefinition(def TypeDefinition) {
 }
 
 // EmitDefinitions emits the PackageDefinition to an output directory
-func (p *PackageDefinition) EmitDefinitions(outputDir string, generatedPackages map[PackageReference]*PackageDefinition, emitDocFiles bool) (int, error) {
+func (p *PackageDefinition) EmitDefinitions(
+	outputDir string,
+	generatedPackages map[InternalPackageReference]*PackageDefinition,
+	emitDocFiles bool,
+) (int, error) {
 	filesToGenerate := allocateTypesToFiles(p.definitions)
 
 	err := p.emitFiles(filesToGenerate, outputDir, generatedPackages)
@@ -83,7 +96,11 @@ func (p *PackageDefinition) DefinitionCount() int {
 	return len(p.definitions)
 }
 
-func (p *PackageDefinition) emitFiles(filesToGenerate map[string][]TypeDefinition, outputDir string, generatedPackages map[PackageReference]*PackageDefinition) error {
+func (p *PackageDefinition) emitFiles(
+	filesToGenerate map[string][]TypeDefinition,
+	outputDir string,
+	generatedPackages map[InternalPackageReference]*PackageDefinition,
+) error {
 	var errs []error
 
 	for fileName, defs := range filesToGenerate {
@@ -116,9 +133,9 @@ func (p *PackageDefinition) emitFiles(filesToGenerate map[string][]TypeDefinitio
 func (p *PackageDefinition) writeCodeFile(
 	outputFile string,
 	defs []TypeDefinition,
-	packages map[PackageReference]*PackageDefinition,
+	packages map[InternalPackageReference]*PackageDefinition,
 ) error {
-	ref := defs[0].Name().PackageReference
+	ref := defs[0].Name().InternalPackageReference()
 	genFile := NewFileDefinition(ref, defs, packages)
 
 	fileWriter := NewGoSourceFileWriter(genFile)
@@ -133,7 +150,7 @@ func (p *PackageDefinition) writeCodeFile(
 func (p *PackageDefinition) writeTestFile(
 	outputFile string,
 	defs []TypeDefinition,
-	packages map[PackageReference]*PackageDefinition,
+	packages map[InternalPackageReference]*PackageDefinition,
 ) error {
 	// First check to see if we have test cases to write
 	haveTestCases := false
@@ -149,7 +166,7 @@ func (p *PackageDefinition) writeTestFile(
 		return nil
 	}
 
-	ref := defs[0].Name().PackageReference
+	ref := defs[0].Name().InternalPackageReference()
 	genFile := NewTestFileDefinition(ref, defs, packages)
 
 	fileWriter := NewGoSourceFileWriter(genFile)
@@ -159,6 +176,19 @@ func (p *PackageDefinition) writeTestFile(
 	}
 
 	return nil
+}
+
+func (p *PackageDefinition) createVersion(ref InternalPackageReference) string {
+	switch r := ref.(type) {
+	case LocalPackageReference:
+		return r.Version()
+	case StoragePackageReference:
+		return r.Version()
+	case DerivedPackageReference:
+		return p.createVersion(r.Base()) + ref.PackageName()
+	}
+
+	return ""
 }
 
 func allocateTypesToFiles(definitions TypeDefinitionSet) map[string][]TypeDefinition {
@@ -216,6 +246,7 @@ Licensed under the MIT license.
 // All object properties are optional by default, this will be overridden when needed:
 // +kubebuilder:validation:Optional
 // +groupName={{.GroupName}}.azure.com
+// +versionName={{.Version}}
 package {{.PackageName}}
 
 import (
@@ -225,7 +256,7 @@ import (
 
 var (
 	// GroupVersion is group version used to register these objects
-	GroupVersion = schema.GroupVersion{Group: "{{.GroupName}}.azure.com", Version: "{{.PackageName}}"}
+	GroupVersion = schema.GroupVersion{Group: "{{.GroupName}}.azure.com", Version: "{{.Version}}"}
 
 	// SchemeBuilder is used to add go types to the GroupVersionKind scheme
 	SchemeBuilder = &scheme.Builder{GroupVersion: GroupVersion}
@@ -249,7 +280,7 @@ Licensed under the MIT license.
 
 // Code generated by azure-service-operator-codegen. DO NOT EDIT.
 
-// Package {{.PackageName}} contains API Schema definitions for the {{.GroupName}} {{.PackageName}} API group
+// Package {{.PackageName}} contains API Schema definitions for the {{.GroupName}} {{.Version}} API group
 // +groupName={{.GroupName}}.azure.com
 package {{.PackageName}}
 `))
@@ -266,7 +297,7 @@ func emitTemplateFile(pkgDef *PackageDefinition, template *template.Template, fi
 		return err
 	}
 
-	err = ioutil.WriteFile(fileRef, buf.Bytes(), 0o600)
+	err = os.WriteFile(fileRef, buf.Bytes(), 0o600)
 	if err != nil {
 		return errors.Wrapf(err, "error writing file %q", fileRef)
 	}

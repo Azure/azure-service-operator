@@ -5,8 +5,8 @@ package v1beta20201101
 
 import (
 	"encoding/json"
-	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
-	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
+	v1beta20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForNetworkSecurityGroupsSecurityRule(subject Netwo
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20201101s.NetworkSecurityGroupsSecurityRule
+	var hub v20201101s.NetworkSecurityGroupsSecurityRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -73,13 +73,13 @@ func Test_NetworkSecurityGroupsSecurityRule_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRule tests if a specific instance of NetworkSecurityGroupsSecurityRule can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRule tests if a specific instance of NetworkSecurityGroupsSecurityRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRule(subject NetworkSecurityGroupsSecurityRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.NetworkSecurityGroupsSecurityRule
+	var other v1beta20201101s.NetworkSecurityGroupsSecurityRule
 	err := copied.AssignProperties_To_NetworkSecurityGroupsSecurityRule(&other)
 	if err != nil {
 		return err.Error()
@@ -177,13 +177,13 @@ func Test_NetworkSecurityGroups_SecurityRule_Spec_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkSecurityGroups_SecurityRule_Spec tests if a specific instance of NetworkSecurityGroups_SecurityRule_Spec can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkSecurityGroups_SecurityRule_Spec tests if a specific instance of NetworkSecurityGroups_SecurityRule_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkSecurityGroups_SecurityRule_Spec(subject NetworkSecurityGroups_SecurityRule_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.NetworkSecurityGroups_SecurityRule_Spec
+	var other v1beta20201101s.NetworkSecurityGroups_SecurityRule_Spec
 	err := copied.AssignProperties_To_NetworkSecurityGroups_SecurityRule_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -314,13 +314,13 @@ func Test_NetworkSecurityGroups_SecurityRule_STATUS_WhenPropertiesConverted_Roun
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkSecurityGroups_SecurityRule_STATUS tests if a specific instance of NetworkSecurityGroups_SecurityRule_STATUS can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkSecurityGroups_SecurityRule_STATUS tests if a specific instance of NetworkSecurityGroups_SecurityRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkSecurityGroups_SecurityRule_STATUS(subject NetworkSecurityGroups_SecurityRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.NetworkSecurityGroups_SecurityRule_STATUS
+	var other v1beta20201101s.NetworkSecurityGroups_SecurityRule_STATUS
 	err := copied.AssignProperties_To_NetworkSecurityGroups_SecurityRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -459,13 +459,13 @@ func Test_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_Sub
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded tests if a specific instance of ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded tests if a specific instance of ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(subject ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
+	var other v1beta20201101s.ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -563,13 +563,13 @@ func Test_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubRes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded tests if a specific instance of ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded tests if a specific instance of ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(subject ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
+	var other v1beta20201101s.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()

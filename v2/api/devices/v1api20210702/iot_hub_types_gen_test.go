@@ -5,7 +5,7 @@ package v1api20210702
 
 import (
 	"encoding/json"
-	v1api20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage"
+	v20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForIotHub(subject IotHub) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20210702s.IotHub
+	var hub v20210702s.IotHub
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForIotHub(subject IotHub) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.IotHub
+	var other v20210702s.IotHub
 	err := copied.AssignProperties_To_IotHub(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForIotHub_Spec(subject IotHub_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.IotHub_Spec
+	var other v20210702s.IotHub_Spec
 	err := copied.AssignProperties_To_IotHub_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -302,7 +302,7 @@ func RunPropertyAssignmentTestForIotHub_STATUS(subject IotHub_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.IotHub_STATUS
+	var other v20210702s.IotHub_STATUS
 	err := copied.AssignProperties_To_IotHub_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -426,7 +426,7 @@ func RunPropertyAssignmentTestForArmIdentity(subject ArmIdentity) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.ArmIdentity
+	var other v20210702s.ArmIdentity
 	err := copied.AssignProperties_To_ArmIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -546,7 +546,7 @@ func RunPropertyAssignmentTestForArmIdentity_STATUS(subject ArmIdentity_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.ArmIdentity_STATUS
+	var other v20210702s.ArmIdentity_STATUS
 	err := copied.AssignProperties_To_ArmIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -668,7 +668,7 @@ func RunPropertyAssignmentTestForIotHubOperatorSpec(subject IotHubOperatorSpec) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.IotHubOperatorSpec
+	var other v20210702s.IotHubOperatorSpec
 	err := copied.AssignProperties_To_IotHubOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -770,7 +770,7 @@ func RunPropertyAssignmentTestForIotHubProperties(subject IotHubProperties) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.IotHubProperties
+	var other v20210702s.IotHubProperties
 	err := copied.AssignProperties_To_IotHubProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -903,7 +903,7 @@ func RunPropertyAssignmentTestForIotHubProperties_STATUS(subject IotHubPropertie
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.IotHubProperties_STATUS
+	var other v20210702s.IotHubProperties_STATUS
 	err := copied.AssignProperties_To_IotHubProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1042,7 +1042,7 @@ func RunPropertyAssignmentTestForIotHubSkuInfo(subject IotHubSkuInfo) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.IotHubSkuInfo
+	var other v20210702s.IotHubSkuInfo
 	err := copied.AssignProperties_To_IotHubSkuInfo(&other)
 	if err != nil {
 		return err.Error()
@@ -1152,7 +1152,7 @@ func RunPropertyAssignmentTestForIotHubSkuInfo_STATUS(subject IotHubSkuInfo_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.IotHubSkuInfo_STATUS
+	var other v20210702s.IotHubSkuInfo_STATUS
 	err := copied.AssignProperties_To_IotHubSkuInfo_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1264,7 +1264,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.SystemData_STATUS
+	var other v20210702s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1379,7 +1379,7 @@ func RunPropertyAssignmentTestForArmUserIdentity_STATUS(subject ArmUserIdentity_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.ArmUserIdentity_STATUS
+	var other v20210702s.ArmUserIdentity_STATUS
 	err := copied.AssignProperties_To_ArmUserIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1483,7 +1483,7 @@ func RunPropertyAssignmentTestForCloudToDeviceProperties(subject CloudToDevicePr
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.CloudToDeviceProperties
+	var other v20210702s.CloudToDeviceProperties
 	err := copied.AssignProperties_To_CloudToDeviceProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -1601,7 +1601,7 @@ func RunPropertyAssignmentTestForCloudToDeviceProperties_STATUS(subject CloudToD
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.CloudToDeviceProperties_STATUS
+	var other v20210702s.CloudToDeviceProperties_STATUS
 	err := copied.AssignProperties_To_CloudToDeviceProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1719,7 +1719,7 @@ func RunPropertyAssignmentTestForEventHubProperties(subject EventHubProperties) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.EventHubProperties
+	var other v20210702s.EventHubProperties
 	err := copied.AssignProperties_To_EventHubProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -1822,7 +1822,7 @@ func RunPropertyAssignmentTestForEventHubProperties_STATUS(subject EventHubPrope
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.EventHubProperties_STATUS
+	var other v20210702s.EventHubProperties_STATUS
 	err := copied.AssignProperties_To_EventHubProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1929,7 +1929,7 @@ func RunPropertyAssignmentTestForIotHubLocationDescription_STATUS(subject IotHub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.IotHubLocationDescription_STATUS
+	var other v20210702s.IotHubLocationDescription_STATUS
 	err := copied.AssignProperties_To_IotHubLocationDescription_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2033,7 +2033,7 @@ func RunPropertyAssignmentTestForIotHubOperatorSecrets(subject IotHubOperatorSec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.IotHubOperatorSecrets
+	var other v20210702s.IotHubOperatorSecrets
 	err := copied.AssignProperties_To_IotHubOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()
@@ -2130,7 +2130,7 @@ func RunPropertyAssignmentTestForIpFilterRule(subject IpFilterRule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.IpFilterRule
+	var other v20210702s.IpFilterRule
 	err := copied.AssignProperties_To_IpFilterRule(&other)
 	if err != nil {
 		return err.Error()
@@ -2234,7 +2234,7 @@ func RunPropertyAssignmentTestForIpFilterRule_STATUS(subject IpFilterRule_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.IpFilterRule_STATUS
+	var other v20210702s.IpFilterRule_STATUS
 	err := copied.AssignProperties_To_IpFilterRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2339,7 +2339,7 @@ func RunPropertyAssignmentTestForMessagingEndpointProperties(subject MessagingEn
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.MessagingEndpointProperties
+	var other v20210702s.MessagingEndpointProperties
 	err := copied.AssignProperties_To_MessagingEndpointProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -2444,7 +2444,7 @@ func RunPropertyAssignmentTestForMessagingEndpointProperties_STATUS(subject Mess
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.MessagingEndpointProperties_STATUS
+	var other v20210702s.MessagingEndpointProperties_STATUS
 	err := copied.AssignProperties_To_MessagingEndpointProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2549,7 +2549,7 @@ func RunPropertyAssignmentTestForNetworkRuleSetProperties(subject NetworkRuleSet
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.NetworkRuleSetProperties
+	var other v20210702s.NetworkRuleSetProperties
 	err := copied.AssignProperties_To_NetworkRuleSetProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -2667,7 +2667,7 @@ func RunPropertyAssignmentTestForNetworkRuleSetProperties_STATUS(subject Network
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.NetworkRuleSetProperties_STATUS
+	var other v20210702s.NetworkRuleSetProperties_STATUS
 	err := copied.AssignProperties_To_NetworkRuleSetProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2785,7 +2785,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS(subject Privat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.PrivateEndpointConnection_STATUS
+	var other v20210702s.PrivateEndpointConnection_STATUS
 	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2888,7 +2888,7 @@ func RunPropertyAssignmentTestForRoutingProperties(subject RoutingProperties) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.RoutingProperties
+	var other v20210702s.RoutingProperties
 	err := copied.AssignProperties_To_RoutingProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -2993,7 +2993,7 @@ func RunPropertyAssignmentTestForRoutingProperties_STATUS(subject RoutingPropert
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.RoutingProperties_STATUS
+	var other v20210702s.RoutingProperties_STATUS
 	err := copied.AssignProperties_To_RoutingProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3099,7 +3099,7 @@ func RunPropertyAssignmentTestForSharedAccessSignatureAuthorizationRule(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.SharedAccessSignatureAuthorizationRule
+	var other v20210702s.SharedAccessSignatureAuthorizationRule
 	err := copied.AssignProperties_To_SharedAccessSignatureAuthorizationRule(&other)
 	if err != nil {
 		return err.Error()
@@ -3218,7 +3218,7 @@ func RunPropertyAssignmentTestForSharedAccessSignatureAuthorizationRule_STATUS(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.SharedAccessSignatureAuthorizationRule_STATUS
+	var other v20210702s.SharedAccessSignatureAuthorizationRule_STATUS
 	err := copied.AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3337,7 +3337,7 @@ func RunPropertyAssignmentTestForStorageEndpointProperties(subject StorageEndpoi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.StorageEndpointProperties
+	var other v20210702s.StorageEndpointProperties
 	err := copied.AssignProperties_To_StorageEndpointProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -3456,7 +3456,7 @@ func RunPropertyAssignmentTestForStorageEndpointProperties_STATUS(subject Storag
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.StorageEndpointProperties_STATUS
+	var other v20210702s.StorageEndpointProperties_STATUS
 	err := copied.AssignProperties_To_StorageEndpointProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3575,7 +3575,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.UserAssignedIdentityDetails
+	var other v20210702s.UserAssignedIdentityDetails
 	err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 	if err != nil {
 		return err.Error()
@@ -3672,7 +3672,7 @@ func RunPropertyAssignmentTestForEnrichmentProperties(subject EnrichmentProperti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.EnrichmentProperties
+	var other v20210702s.EnrichmentProperties
 	err := copied.AssignProperties_To_EnrichmentProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -3777,7 +3777,7 @@ func RunPropertyAssignmentTestForEnrichmentProperties_STATUS(subject EnrichmentP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.EnrichmentProperties_STATUS
+	var other v20210702s.EnrichmentProperties_STATUS
 	err := copied.AssignProperties_To_EnrichmentProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3882,7 +3882,7 @@ func RunPropertyAssignmentTestForFallbackRouteProperties(subject FallbackRoutePr
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.FallbackRouteProperties
+	var other v20210702s.FallbackRouteProperties
 	err := copied.AssignProperties_To_FallbackRouteProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -3989,7 +3989,7 @@ func RunPropertyAssignmentTestForFallbackRouteProperties_STATUS(subject Fallback
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.FallbackRouteProperties_STATUS
+	var other v20210702s.FallbackRouteProperties_STATUS
 	err := copied.AssignProperties_To_FallbackRouteProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4096,7 +4096,7 @@ func RunPropertyAssignmentTestForFeedbackProperties(subject FeedbackProperties) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.FeedbackProperties
+	var other v20210702s.FeedbackProperties
 	err := copied.AssignProperties_To_FeedbackProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -4200,7 +4200,7 @@ func RunPropertyAssignmentTestForFeedbackProperties_STATUS(subject FeedbackPrope
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.FeedbackProperties_STATUS
+	var other v20210702s.FeedbackProperties_STATUS
 	err := copied.AssignProperties_To_FeedbackProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4305,7 +4305,7 @@ func RunPropertyAssignmentTestForManagedIdentity(subject ManagedIdentity) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.ManagedIdentity
+	var other v20210702s.ManagedIdentity
 	err := copied.AssignProperties_To_ManagedIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -4407,7 +4407,7 @@ func RunPropertyAssignmentTestForManagedIdentity_STATUS(subject ManagedIdentity_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.ManagedIdentity_STATUS
+	var other v20210702s.ManagedIdentity_STATUS
 	err := copied.AssignProperties_To_ManagedIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4510,7 +4510,7 @@ func RunPropertyAssignmentTestForNetworkRuleSetIpRule(subject NetworkRuleSetIpRu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.NetworkRuleSetIpRule
+	var other v20210702s.NetworkRuleSetIpRule
 	err := copied.AssignProperties_To_NetworkRuleSetIpRule(&other)
 	if err != nil {
 		return err.Error()
@@ -4615,7 +4615,7 @@ func RunPropertyAssignmentTestForNetworkRuleSetIpRule_STATUS(subject NetworkRule
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.NetworkRuleSetIpRule_STATUS
+	var other v20210702s.NetworkRuleSetIpRule_STATUS
 	err := copied.AssignProperties_To_NetworkRuleSetIpRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4720,7 +4720,7 @@ func RunPropertyAssignmentTestForRouteProperties(subject RouteProperties) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.RouteProperties
+	var other v20210702s.RouteProperties
 	err := copied.AssignProperties_To_RouteProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -4832,7 +4832,7 @@ func RunPropertyAssignmentTestForRouteProperties_STATUS(subject RouteProperties_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.RouteProperties_STATUS
+	var other v20210702s.RouteProperties_STATUS
 	err := copied.AssignProperties_To_RouteProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4945,7 +4945,7 @@ func RunPropertyAssignmentTestForRoutingEndpoints(subject RoutingEndpoints) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.RoutingEndpoints
+	var other v20210702s.RoutingEndpoints
 	err := copied.AssignProperties_To_RoutingEndpoints(&other)
 	if err != nil {
 		return err.Error()
@@ -5050,7 +5050,7 @@ func RunPropertyAssignmentTestForRoutingEndpoints_STATUS(subject RoutingEndpoint
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.RoutingEndpoints_STATUS
+	var other v20210702s.RoutingEndpoints_STATUS
 	err := copied.AssignProperties_To_RoutingEndpoints_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5156,7 +5156,7 @@ func RunPropertyAssignmentTestForRoutingEventHubProperties(subject RoutingEventH
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.RoutingEventHubProperties
+	var other v20210702s.RoutingEventHubProperties
 	err := copied.AssignProperties_To_RoutingEventHubProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -5278,7 +5278,7 @@ func RunPropertyAssignmentTestForRoutingEventHubProperties_STATUS(subject Routin
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.RoutingEventHubProperties_STATUS
+	var other v20210702s.RoutingEventHubProperties_STATUS
 	err := copied.AssignProperties_To_RoutingEventHubProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5401,7 +5401,7 @@ func RunPropertyAssignmentTestForRoutingServiceBusQueueEndpointProperties(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.RoutingServiceBusQueueEndpointProperties
+	var other v20210702s.RoutingServiceBusQueueEndpointProperties
 	err := copied.AssignProperties_To_RoutingServiceBusQueueEndpointProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -5523,7 +5523,7 @@ func RunPropertyAssignmentTestForRoutingServiceBusQueueEndpointProperties_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.RoutingServiceBusQueueEndpointProperties_STATUS
+	var other v20210702s.RoutingServiceBusQueueEndpointProperties_STATUS
 	err := copied.AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5646,7 +5646,7 @@ func RunPropertyAssignmentTestForRoutingServiceBusTopicEndpointProperties(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.RoutingServiceBusTopicEndpointProperties
+	var other v20210702s.RoutingServiceBusTopicEndpointProperties
 	err := copied.AssignProperties_To_RoutingServiceBusTopicEndpointProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -5768,7 +5768,7 @@ func RunPropertyAssignmentTestForRoutingServiceBusTopicEndpointProperties_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.RoutingServiceBusTopicEndpointProperties_STATUS
+	var other v20210702s.RoutingServiceBusTopicEndpointProperties_STATUS
 	err := copied.AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5891,7 +5891,7 @@ func RunPropertyAssignmentTestForRoutingStorageContainerProperties(subject Routi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.RoutingStorageContainerProperties
+	var other v20210702s.RoutingStorageContainerProperties
 	err := copied.AssignProperties_To_RoutingStorageContainerProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -6017,7 +6017,7 @@ func RunPropertyAssignmentTestForRoutingStorageContainerProperties_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210702s.RoutingStorageContainerProperties_STATUS
+	var other v20210702s.RoutingStorageContainerProperties_STATUS
 	err := copied.AssignProperties_To_RoutingStorageContainerProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -5,7 +5,7 @@ package v1api20201101
 
 import (
 	"encoding/json"
-	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForPublicIPAddress(subject PublicIPAddress) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20201101s.PublicIPAddress
+	var hub v20201101s.PublicIPAddress
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -72,13 +72,13 @@ func Test_PublicIPAddress_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPAddress tests if a specific instance of PublicIPAddress can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForPublicIPAddress tests if a specific instance of PublicIPAddress can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddress(subject PublicIPAddress) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.PublicIPAddress
+	var other v20201101s.PublicIPAddress
 	err := copied.AssignProperties_To_PublicIPAddress(&other)
 	if err != nil {
 		return err.Error()
@@ -175,13 +175,13 @@ func Test_PublicIPAddress_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPAddress_Spec tests if a specific instance of PublicIPAddress_Spec can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForPublicIPAddress_Spec tests if a specific instance of PublicIPAddress_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddress_Spec(subject PublicIPAddress_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.PublicIPAddress_Spec
+	var other v20201101s.PublicIPAddress_Spec
 	err := copied.AssignProperties_To_PublicIPAddress_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -307,13 +307,13 @@ func Test_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded_WhenPropert
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded tests if a specific instance of PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForPublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded tests if a specific instance of PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded(subject PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded
+	var other v20201101s.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded
 	err := copied.AssignProperties_To_PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -453,13 +453,13 @@ func Test_DdosSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDdosSettings tests if a specific instance of DdosSettings can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForDdosSettings tests if a specific instance of DdosSettings can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDdosSettings(subject DdosSettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.DdosSettings
+	var other v20201101s.DdosSettings
 	err := copied.AssignProperties_To_DdosSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -570,13 +570,13 @@ func Test_DdosSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDdosSettings_STATUS tests if a specific instance of DdosSettings_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForDdosSettings_STATUS tests if a specific instance of DdosSettings_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDdosSettings_STATUS(subject DdosSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.DdosSettings_STATUS
+	var other v20201101s.DdosSettings_STATUS
 	err := copied.AssignProperties_To_DdosSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -688,13 +688,13 @@ func Test_IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded_WhenPropert
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForIPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded tests if a specific instance of IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForIPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded tests if a specific instance of IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForIPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded(subject IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded
+	var other v20201101s.IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded
 	err := copied.AssignProperties_To_IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -791,13 +791,13 @@ func Test_IpTag_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForIpTag tests if a specific instance of IpTag can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForIpTag tests if a specific instance of IpTag can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForIpTag(subject IpTag) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.IpTag
+	var other v20201101s.IpTag
 	err := copied.AssignProperties_To_IpTag(&other)
 	if err != nil {
 		return err.Error()
@@ -894,13 +894,13 @@ func Test_IpTag_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForIpTag_STATUS tests if a specific instance of IpTag_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForIpTag_STATUS tests if a specific instance of IpTag_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForIpTag_STATUS(subject IpTag_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.IpTag_STATUS
+	var other v20201101s.IpTag_STATUS
 	err := copied.AssignProperties_To_IpTag_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -997,13 +997,13 @@ func Test_NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded_WhenPropertiesCo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNatGateway_STATUS_PublicIPAddress_SubResourceEmbedded tests if a specific instance of NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForNatGateway_STATUS_PublicIPAddress_SubResourceEmbedded tests if a specific instance of NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNatGateway_STATUS_PublicIPAddress_SubResourceEmbedded(subject NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded
+	var other v20201101s.NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded
 	err := copied.AssignProperties_To_NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1100,13 +1100,13 @@ func Test_NatGatewaySpec_PublicIPAddress_SubResourceEmbedded_WhenPropertiesConve
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNatGatewaySpec_PublicIPAddress_SubResourceEmbedded tests if a specific instance of NatGatewaySpec_PublicIPAddress_SubResourceEmbedded can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForNatGatewaySpec_PublicIPAddress_SubResourceEmbedded tests if a specific instance of NatGatewaySpec_PublicIPAddress_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNatGatewaySpec_PublicIPAddress_SubResourceEmbedded(subject NatGatewaySpec_PublicIPAddress_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.NatGatewaySpec_PublicIPAddress_SubResourceEmbedded
+	var other v20201101s.NatGatewaySpec_PublicIPAddress_SubResourceEmbedded
 	err := copied.AssignProperties_To_NatGatewaySpec_PublicIPAddress_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1197,13 +1197,13 @@ func Test_PublicIPAddressDnsSettings_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPAddressDnsSettings tests if a specific instance of PublicIPAddressDnsSettings can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForPublicIPAddressDnsSettings tests if a specific instance of PublicIPAddressDnsSettings can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddressDnsSettings(subject PublicIPAddressDnsSettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.PublicIPAddressDnsSettings
+	var other v20201101s.PublicIPAddressDnsSettings
 	err := copied.AssignProperties_To_PublicIPAddressDnsSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -1302,13 +1302,13 @@ func Test_PublicIPAddressDnsSettings_STATUS_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPAddressDnsSettings_STATUS tests if a specific instance of PublicIPAddressDnsSettings_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForPublicIPAddressDnsSettings_STATUS tests if a specific instance of PublicIPAddressDnsSettings_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddressDnsSettings_STATUS(subject PublicIPAddressDnsSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.PublicIPAddressDnsSettings_STATUS
+	var other v20201101s.PublicIPAddressDnsSettings_STATUS
 	err := copied.AssignProperties_To_PublicIPAddressDnsSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1407,13 +1407,13 @@ func Test_PublicIPAddressSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPAddressSku tests if a specific instance of PublicIPAddressSku can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForPublicIPAddressSku tests if a specific instance of PublicIPAddressSku can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddressSku(subject PublicIPAddressSku) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.PublicIPAddressSku
+	var other v20201101s.PublicIPAddressSku
 	err := copied.AssignProperties_To_PublicIPAddressSku(&other)
 	if err != nil {
 		return err.Error()
@@ -1510,13 +1510,13 @@ func Test_PublicIPAddressSku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPAddressSku_STATUS tests if a specific instance of PublicIPAddressSku_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForPublicIPAddressSku_STATUS tests if a specific instance of PublicIPAddressSku_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddressSku_STATUS(subject PublicIPAddressSku_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.PublicIPAddressSku_STATUS
+	var other v20201101s.PublicIPAddressSku_STATUS
 	err := copied.AssignProperties_To_PublicIPAddressSku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1614,13 +1614,13 @@ func Test_PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded_WhenProperties
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded tests if a specific instance of PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForPublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded tests if a specific instance of PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded(subject PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded
+	var other v20201101s.PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded
 	err := copied.AssignProperties_To_PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()

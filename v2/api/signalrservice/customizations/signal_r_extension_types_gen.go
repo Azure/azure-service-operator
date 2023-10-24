@@ -4,10 +4,10 @@
 package customizations
 
 import (
-	v1api20211001 "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001"
-	v1api20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001storage"
-	v20211001 "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001"
-	v20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001storage"
+	v20211001 "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001"
+	v20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001storage"
+	v1beta20211001 "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001"
+	v1beta20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +17,8 @@ type SignalRExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *SignalRExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20211001.SignalR{},
-		&v1api20211001s.SignalR{},
 		&v20211001.SignalR{},
-		&v20211001s.SignalR{}}
+		&v20211001s.SignalR{},
+		&v1beta20211001.SignalR{},
+		&v1beta20211001s.SignalR{}}
 }

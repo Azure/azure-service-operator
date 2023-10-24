@@ -5,7 +5,7 @@ package v1api20210702
 
 import (
 	"fmt"
-	v1api20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage"
+	v20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &IotHub{}
 
 // ConvertFrom populates our IotHub from the provided hub IotHub
 func (iotHub *IotHub) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210702s.IotHub)
+	source, ok := hub.(*v20210702s.IotHub)
 	if !ok {
 		return fmt.Errorf("expected devices/v1api20210702storage/IotHub but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (iotHub *IotHub) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub IotHub from our IotHub
 func (iotHub *IotHub) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210702s.IotHub)
+	destination, ok := hub.(*v20210702s.IotHub)
 	if !ok {
 		return fmt.Errorf("expected devices/v1api20210702storage/IotHub but received %T instead", hub)
 	}
@@ -141,11 +141,7 @@ func (iotHub *IotHub) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (iotHub *IotHub) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(iotHub.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  iotHub.Spec.Owner.Name,
-	}
+	return iotHub.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (iotHub *IotHub) ValidateUpdate(old runtime.Object) (admission.Warnings, er
 
 // createValidations validates the creation of the resource
 func (iotHub *IotHub) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){iotHub.validateResourceReferences, iotHub.validateSecretDestinations}
+	return []func() (admission.Warnings, error){iotHub.validateResourceReferences, iotHub.validateOwnerReference, iotHub.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -219,9 +215,17 @@ func (iotHub *IotHub) updateValidations() []func(old runtime.Object) (admission.
 		},
 		iotHub.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return iotHub.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return iotHub.validateSecretDestinations()
 		},
 	}
+}
+
+// validateOwnerReference validates the owner field
+func (iotHub *IotHub) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(iotHub)
 }
 
 // validateResourceReferences validates all resource references
@@ -267,7 +271,7 @@ func (iotHub *IotHub) validateWriteOnceProperties(old runtime.Object) (admission
 }
 
 // AssignProperties_From_IotHub populates our IotHub from the provided source IotHub
-func (iotHub *IotHub) AssignProperties_From_IotHub(source *v1api20210702s.IotHub) error {
+func (iotHub *IotHub) AssignProperties_From_IotHub(source *v20210702s.IotHub) error {
 
 	// ObjectMeta
 	iotHub.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -293,13 +297,13 @@ func (iotHub *IotHub) AssignProperties_From_IotHub(source *v1api20210702s.IotHub
 }
 
 // AssignProperties_To_IotHub populates the provided destination IotHub from our IotHub
-func (iotHub *IotHub) AssignProperties_To_IotHub(destination *v1api20210702s.IotHub) error {
+func (iotHub *IotHub) AssignProperties_To_IotHub(destination *v20210702s.IotHub) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *iotHub.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20210702s.IotHub_Spec
+	var spec v20210702s.IotHub_Spec
 	err := iotHub.Spec.AssignProperties_To_IotHub_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_IotHub_Spec() to populate field Spec")
@@ -307,7 +311,7 @@ func (iotHub *IotHub) AssignProperties_To_IotHub(destination *v1api20210702s.Iot
 	destination.Spec = spec
 
 	// Status
-	var status v1api20210702s.IotHub_STATUS
+	var status v20210702s.IotHub_STATUS
 	err = iotHub.Status.AssignProperties_To_IotHub_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_IotHub_STATUS() to populate field Status")
@@ -384,7 +388,7 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &IotHub_Spec_ARM{}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if iotHub.Identity != nil {
 		identity_ARM, err := (*iotHub.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -394,16 +398,16 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Identity = &identity
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if iotHub.Location != nil {
 		location := *iotHub.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if iotHub.Properties != nil {
 		properties_ARM, err := (*iotHub.Properties).ConvertToARM(resolved)
 		if err != nil {
@@ -413,7 +417,7 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Properties = &properties
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if iotHub.Sku != nil {
 		sku_ARM, err := (*iotHub.Sku).ConvertToARM(resolved)
 		if err != nil {
@@ -423,7 +427,7 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if iotHub.Tags != nil {
 		result.Tags = make(map[string]string, len(iotHub.Tags))
 		for key, value := range iotHub.Tags {
@@ -445,10 +449,10 @@ func (iotHub *IotHub_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHub_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	iotHub.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ArmIdentity
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -459,18 +463,21 @@ func (iotHub *IotHub_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		iotHub.Identity = &identity
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		iotHub.Location = &location
 	}
 
-	// no assignment for property ‘OperatorSpec’
+	// no assignment for property "OperatorSpec"
 
-	// Set property ‘Owner’:
-	iotHub.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	iotHub.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		var properties1 IotHubProperties
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -481,7 +488,7 @@ func (iotHub *IotHub_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		iotHub.Properties = &properties
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 IotHubSkuInfo
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -492,7 +499,7 @@ func (iotHub *IotHub_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		iotHub.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		iotHub.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -508,14 +515,14 @@ var _ genruntime.ConvertibleSpec = &IotHub_Spec{}
 
 // ConvertSpecFrom populates our IotHub_Spec from the provided source
 func (iotHub *IotHub_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20210702s.IotHub_Spec)
+	src, ok := source.(*v20210702s.IotHub_Spec)
 	if ok {
 		// Populate our instance from source
 		return iotHub.AssignProperties_From_IotHub_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210702s.IotHub_Spec{}
+	src = &v20210702s.IotHub_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -532,14 +539,14 @@ func (iotHub *IotHub_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) er
 
 // ConvertSpecTo populates the provided destination from our IotHub_Spec
 func (iotHub *IotHub_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20210702s.IotHub_Spec)
+	dst, ok := destination.(*v20210702s.IotHub_Spec)
 	if ok {
 		// Populate destination from our instance
 		return iotHub.AssignProperties_To_IotHub_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210702s.IotHub_Spec{}
+	dst = &v20210702s.IotHub_Spec{}
 	err := iotHub.AssignProperties_To_IotHub_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -555,7 +562,7 @@ func (iotHub *IotHub_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 }
 
 // AssignProperties_From_IotHub_Spec populates our IotHub_Spec from the provided source IotHub_Spec
-func (iotHub *IotHub_Spec) AssignProperties_From_IotHub_Spec(source *v1api20210702s.IotHub_Spec) error {
+func (iotHub *IotHub_Spec) AssignProperties_From_IotHub_Spec(source *v20210702s.IotHub_Spec) error {
 
 	// AzureName
 	iotHub.AzureName = source.AzureName
@@ -627,7 +634,7 @@ func (iotHub *IotHub_Spec) AssignProperties_From_IotHub_Spec(source *v1api202107
 }
 
 // AssignProperties_To_IotHub_Spec populates the provided destination IotHub_Spec from our IotHub_Spec
-func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *v1api20210702s.IotHub_Spec) error {
+func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *v20210702s.IotHub_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -636,7 +643,7 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *v1api202
 
 	// Identity
 	if iotHub.Identity != nil {
-		var identity v1api20210702s.ArmIdentity
+		var identity v20210702s.ArmIdentity
 		err := iotHub.Identity.AssignProperties_To_ArmIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ArmIdentity() to populate field Identity")
@@ -651,7 +658,7 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *v1api202
 
 	// OperatorSpec
 	if iotHub.OperatorSpec != nil {
-		var operatorSpec v1api20210702s.IotHubOperatorSpec
+		var operatorSpec v20210702s.IotHubOperatorSpec
 		err := iotHub.OperatorSpec.AssignProperties_To_IotHubOperatorSpec(&operatorSpec)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IotHubOperatorSpec() to populate field OperatorSpec")
@@ -674,7 +681,7 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *v1api202
 
 	// Properties
 	if iotHub.Properties != nil {
-		var property v1api20210702s.IotHubProperties
+		var property v20210702s.IotHubProperties
 		err := iotHub.Properties.AssignProperties_To_IotHubProperties(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IotHubProperties() to populate field Properties")
@@ -686,7 +693,7 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *v1api202
 
 	// Sku
 	if iotHub.Sku != nil {
-		var sku v1api20210702s.IotHubSkuInfo
+		var sku v20210702s.IotHubSkuInfo
 		err := iotHub.Sku.AssignProperties_To_IotHubSkuInfo(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IotHubSkuInfo() to populate field Sku")
@@ -807,14 +814,14 @@ var _ genruntime.ConvertibleStatus = &IotHub_STATUS{}
 
 // ConvertStatusFrom populates our IotHub_STATUS from the provided source
 func (iotHub *IotHub_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20210702s.IotHub_STATUS)
+	src, ok := source.(*v20210702s.IotHub_STATUS)
 	if ok {
 		// Populate our instance from source
 		return iotHub.AssignProperties_From_IotHub_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210702s.IotHub_STATUS{}
+	src = &v20210702s.IotHub_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -831,14 +838,14 @@ func (iotHub *IotHub_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 
 // ConvertStatusTo populates the provided destination from our IotHub_STATUS
 func (iotHub *IotHub_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20210702s.IotHub_STATUS)
+	dst, ok := destination.(*v20210702s.IotHub_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return iotHub.AssignProperties_To_IotHub_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210702s.IotHub_STATUS{}
+	dst = &v20210702s.IotHub_STATUS{}
 	err := iotHub.AssignProperties_To_IotHub_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -867,21 +874,21 @@ func (iotHub *IotHub_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHub_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		iotHub.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		iotHub.Id = &id
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ArmIdentity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -892,19 +899,19 @@ func (iotHub *IotHub_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		iotHub.Identity = &identity
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		iotHub.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		iotHub.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		var properties1 IotHubProperties_STATUS
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -915,7 +922,7 @@ func (iotHub *IotHub_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		iotHub.Properties = &properties
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 IotHubSkuInfo_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -926,7 +933,7 @@ func (iotHub *IotHub_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		iotHub.Sku = &sku
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -937,7 +944,7 @@ func (iotHub *IotHub_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		iotHub.SystemData = &systemData
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		iotHub.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -945,7 +952,7 @@ func (iotHub *IotHub_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		iotHub.Type = &typeVar
@@ -956,7 +963,7 @@ func (iotHub *IotHub_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 }
 
 // AssignProperties_From_IotHub_STATUS populates our IotHub_STATUS from the provided source IotHub_STATUS
-func (iotHub *IotHub_STATUS) AssignProperties_From_IotHub_STATUS(source *v1api20210702s.IotHub_STATUS) error {
+func (iotHub *IotHub_STATUS) AssignProperties_From_IotHub_STATUS(source *v20210702s.IotHub_STATUS) error {
 
 	// Conditions
 	iotHub.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1032,7 +1039,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_From_IotHub_STATUS(source *v1api20
 }
 
 // AssignProperties_To_IotHub_STATUS populates the provided destination IotHub_STATUS from our IotHub_STATUS
-func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *v1api20210702s.IotHub_STATUS) error {
+func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *v20210702s.IotHub_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1047,7 +1054,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *v1ap
 
 	// Identity
 	if iotHub.Identity != nil {
-		var identity v1api20210702s.ArmIdentity_STATUS
+		var identity v20210702s.ArmIdentity_STATUS
 		err := iotHub.Identity.AssignProperties_To_ArmIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ArmIdentity_STATUS() to populate field Identity")
@@ -1065,7 +1072,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *v1ap
 
 	// Properties
 	if iotHub.Properties != nil {
-		var property v1api20210702s.IotHubProperties_STATUS
+		var property v20210702s.IotHubProperties_STATUS
 		err := iotHub.Properties.AssignProperties_To_IotHubProperties_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IotHubProperties_STATUS() to populate field Properties")
@@ -1077,7 +1084,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *v1ap
 
 	// Sku
 	if iotHub.Sku != nil {
-		var sku v1api20210702s.IotHubSkuInfo_STATUS
+		var sku v20210702s.IotHubSkuInfo_STATUS
 		err := iotHub.Sku.AssignProperties_To_IotHubSkuInfo_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IotHubSkuInfo_STATUS() to populate field Sku")
@@ -1089,7 +1096,7 @@ func (iotHub *IotHub_STATUS) AssignProperties_To_IotHub_STATUS(destination *v1ap
 
 	// SystemData
 	if iotHub.SystemData != nil {
-		var systemDatum v1api20210702s.SystemData_STATUS
+		var systemDatum v20210702s.SystemData_STATUS
 		err := iotHub.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1132,13 +1139,13 @@ func (identity *ArmIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	}
 	result := &ArmIdentity_ARM{}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if identity.Type != nil {
 		typeVar := *identity.Type
 		result.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
 	for _, ident := range identity.UserAssignedIdentities {
 		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
@@ -1163,20 +1170,20 @@ func (identity *ArmIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ArmIdentity_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// no assignment for property ‘UserAssignedIdentities’
+	// no assignment for property "UserAssignedIdentities"
 
 	// No error
 	return nil
 }
 
 // AssignProperties_From_ArmIdentity populates our ArmIdentity from the provided source ArmIdentity
-func (identity *ArmIdentity) AssignProperties_From_ArmIdentity(source *v1api20210702s.ArmIdentity) error {
+func (identity *ArmIdentity) AssignProperties_From_ArmIdentity(source *v20210702s.ArmIdentity) error {
 
 	// Type
 	if source.Type != nil {
@@ -1209,7 +1216,7 @@ func (identity *ArmIdentity) AssignProperties_From_ArmIdentity(source *v1api2021
 }
 
 // AssignProperties_To_ArmIdentity populates the provided destination ArmIdentity from our ArmIdentity
-func (identity *ArmIdentity) AssignProperties_To_ArmIdentity(destination *v1api20210702s.ArmIdentity) error {
+func (identity *ArmIdentity) AssignProperties_To_ArmIdentity(destination *v20210702s.ArmIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1223,11 +1230,11 @@ func (identity *ArmIdentity) AssignProperties_To_ArmIdentity(destination *v1api2
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]v1api20210702s.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
+		userAssignedIdentityList := make([]v20210702s.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity v1api20210702s.UserAssignedIdentityDetails
+			var userAssignedIdentity v20210702s.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
@@ -1304,25 +1311,25 @@ func (identity *ArmIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ArmIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identity.PrincipalId = &principalId
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		identity.TenantId = &tenantId
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	if typedInput.UserAssignedIdentities != nil {
 		identity.UserAssignedIdentities = make(map[string]ArmUserIdentity_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
@@ -1340,7 +1347,7 @@ func (identity *ArmIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_ArmIdentity_STATUS populates our ArmIdentity_STATUS from the provided source ArmIdentity_STATUS
-func (identity *ArmIdentity_STATUS) AssignProperties_From_ArmIdentity_STATUS(source *v1api20210702s.ArmIdentity_STATUS) error {
+func (identity *ArmIdentity_STATUS) AssignProperties_From_ArmIdentity_STATUS(source *v20210702s.ArmIdentity_STATUS) error {
 
 	// PrincipalId
 	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -1379,7 +1386,7 @@ func (identity *ArmIdentity_STATUS) AssignProperties_From_ArmIdentity_STATUS(sou
 }
 
 // AssignProperties_To_ArmIdentity_STATUS populates the provided destination ArmIdentity_STATUS from our ArmIdentity_STATUS
-func (identity *ArmIdentity_STATUS) AssignProperties_To_ArmIdentity_STATUS(destination *v1api20210702s.ArmIdentity_STATUS) error {
+func (identity *ArmIdentity_STATUS) AssignProperties_To_ArmIdentity_STATUS(destination *v20210702s.ArmIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1399,11 +1406,11 @@ func (identity *ArmIdentity_STATUS) AssignProperties_To_ArmIdentity_STATUS(desti
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1api20210702s.ArmUserIdentity_STATUS, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]v20210702s.ArmUserIdentity_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v1api20210702s.ArmUserIdentity_STATUS
+			var userAssignedIdentity v20210702s.ArmUserIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_ArmUserIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ArmUserIdentity_STATUS() to populate field UserAssignedIdentities")
@@ -1433,7 +1440,7 @@ type IotHubOperatorSpec struct {
 }
 
 // AssignProperties_From_IotHubOperatorSpec populates our IotHubOperatorSpec from the provided source IotHubOperatorSpec
-func (operator *IotHubOperatorSpec) AssignProperties_From_IotHubOperatorSpec(source *v1api20210702s.IotHubOperatorSpec) error {
+func (operator *IotHubOperatorSpec) AssignProperties_From_IotHubOperatorSpec(source *v20210702s.IotHubOperatorSpec) error {
 
 	// Secrets
 	if source.Secrets != nil {
@@ -1452,13 +1459,13 @@ func (operator *IotHubOperatorSpec) AssignProperties_From_IotHubOperatorSpec(sou
 }
 
 // AssignProperties_To_IotHubOperatorSpec populates the provided destination IotHubOperatorSpec from our IotHubOperatorSpec
-func (operator *IotHubOperatorSpec) AssignProperties_To_IotHubOperatorSpec(destination *v1api20210702s.IotHubOperatorSpec) error {
+func (operator *IotHubOperatorSpec) AssignProperties_To_IotHubOperatorSpec(destination *v20210702s.IotHubOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Secrets
 	if operator.Secrets != nil {
-		var secret v1api20210702s.IotHubOperatorSecrets
+		var secret v20210702s.IotHubOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_IotHubOperatorSecrets(&secret)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IotHubOperatorSecrets() to populate field Secrets")
@@ -1556,12 +1563,12 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &IotHubProperties_ARM{}
 
-	// Set property ‘AllowedFqdnList’:
+	// Set property "AllowedFqdnList":
 	for _, item := range properties.AllowedFqdnList {
 		result.AllowedFqdnList = append(result.AllowedFqdnList, item)
 	}
 
-	// Set property ‘AuthorizationPolicies’:
+	// Set property "AuthorizationPolicies":
 	for _, item := range properties.AuthorizationPolicies {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -1570,7 +1577,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		result.AuthorizationPolicies = append(result.AuthorizationPolicies, *item_ARM.(*SharedAccessSignatureAuthorizationRule_ARM))
 	}
 
-	// Set property ‘CloudToDevice’:
+	// Set property "CloudToDevice":
 	if properties.CloudToDevice != nil {
 		cloudToDevice_ARM, err := (*properties.CloudToDevice).ConvertToARM(resolved)
 		if err != nil {
@@ -1580,43 +1587,43 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		result.CloudToDevice = &cloudToDevice
 	}
 
-	// Set property ‘Comments’:
+	// Set property "Comments":
 	if properties.Comments != nil {
 		comments := *properties.Comments
 		result.Comments = &comments
 	}
 
-	// Set property ‘DisableDeviceSAS’:
+	// Set property "DisableDeviceSAS":
 	if properties.DisableDeviceSAS != nil {
 		disableDeviceSAS := *properties.DisableDeviceSAS
 		result.DisableDeviceSAS = &disableDeviceSAS
 	}
 
-	// Set property ‘DisableLocalAuth’:
+	// Set property "DisableLocalAuth":
 	if properties.DisableLocalAuth != nil {
 		disableLocalAuth := *properties.DisableLocalAuth
 		result.DisableLocalAuth = &disableLocalAuth
 	}
 
-	// Set property ‘DisableModuleSAS’:
+	// Set property "DisableModuleSAS":
 	if properties.DisableModuleSAS != nil {
 		disableModuleSAS := *properties.DisableModuleSAS
 		result.DisableModuleSAS = &disableModuleSAS
 	}
 
-	// Set property ‘EnableDataResidency’:
+	// Set property "EnableDataResidency":
 	if properties.EnableDataResidency != nil {
 		enableDataResidency := *properties.EnableDataResidency
 		result.EnableDataResidency = &enableDataResidency
 	}
 
-	// Set property ‘EnableFileUploadNotifications’:
+	// Set property "EnableFileUploadNotifications":
 	if properties.EnableFileUploadNotifications != nil {
 		enableFileUploadNotifications := *properties.EnableFileUploadNotifications
 		result.EnableFileUploadNotifications = &enableFileUploadNotifications
 	}
 
-	// Set property ‘EventHubEndpoints’:
+	// Set property "EventHubEndpoints":
 	if properties.EventHubEndpoints != nil {
 		result.EventHubEndpoints = make(map[string]EventHubProperties_ARM, len(properties.EventHubEndpoints))
 		for key, value := range properties.EventHubEndpoints {
@@ -1628,13 +1635,13 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		}
 	}
 
-	// Set property ‘Features’:
+	// Set property "Features":
 	if properties.Features != nil {
 		features := *properties.Features
 		result.Features = &features
 	}
 
-	// Set property ‘IpFilterRules’:
+	// Set property "IpFilterRules":
 	for _, item := range properties.IpFilterRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -1643,7 +1650,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		result.IpFilterRules = append(result.IpFilterRules, *item_ARM.(*IpFilterRule_ARM))
 	}
 
-	// Set property ‘MessagingEndpoints’:
+	// Set property "MessagingEndpoints":
 	if properties.MessagingEndpoints != nil {
 		result.MessagingEndpoints = make(map[string]MessagingEndpointProperties_ARM, len(properties.MessagingEndpoints))
 		for key, value := range properties.MessagingEndpoints {
@@ -1655,13 +1662,13 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		}
 	}
 
-	// Set property ‘MinTlsVersion’:
+	// Set property "MinTlsVersion":
 	if properties.MinTlsVersion != nil {
 		minTlsVersion := *properties.MinTlsVersion
 		result.MinTlsVersion = &minTlsVersion
 	}
 
-	// Set property ‘NetworkRuleSets’:
+	// Set property "NetworkRuleSets":
 	if properties.NetworkRuleSets != nil {
 		networkRuleSets_ARM, err := (*properties.NetworkRuleSets).ConvertToARM(resolved)
 		if err != nil {
@@ -1671,19 +1678,19 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		result.NetworkRuleSets = &networkRuleSets
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	if properties.PublicNetworkAccess != nil {
 		publicNetworkAccess := *properties.PublicNetworkAccess
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 
-	// Set property ‘RestrictOutboundNetworkAccess’:
+	// Set property "RestrictOutboundNetworkAccess":
 	if properties.RestrictOutboundNetworkAccess != nil {
 		restrictOutboundNetworkAccess := *properties.RestrictOutboundNetworkAccess
 		result.RestrictOutboundNetworkAccess = &restrictOutboundNetworkAccess
 	}
 
-	// Set property ‘Routing’:
+	// Set property "Routing":
 	if properties.Routing != nil {
 		routing_ARM, err := (*properties.Routing).ConvertToARM(resolved)
 		if err != nil {
@@ -1693,7 +1700,7 @@ func (properties *IotHubProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Routing = &routing
 	}
 
-	// Set property ‘StorageEndpoints’:
+	// Set property "StorageEndpoints":
 	if properties.StorageEndpoints != nil {
 		result.StorageEndpoints = make(map[string]StorageEndpointProperties_ARM, len(properties.StorageEndpoints))
 		for key, value := range properties.StorageEndpoints {
@@ -1719,12 +1726,12 @@ func (properties *IotHubProperties) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHubProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllowedFqdnList’:
+	// Set property "AllowedFqdnList":
 	for _, item := range typedInput.AllowedFqdnList {
 		properties.AllowedFqdnList = append(properties.AllowedFqdnList, item)
 	}
 
-	// Set property ‘AuthorizationPolicies’:
+	// Set property "AuthorizationPolicies":
 	for _, item := range typedInput.AuthorizationPolicies {
 		var item1 SharedAccessSignatureAuthorizationRule
 		err := item1.PopulateFromARM(owner, item)
@@ -1734,7 +1741,7 @@ func (properties *IotHubProperties) PopulateFromARM(owner genruntime.ArbitraryOw
 		properties.AuthorizationPolicies = append(properties.AuthorizationPolicies, item1)
 	}
 
-	// Set property ‘CloudToDevice’:
+	// Set property "CloudToDevice":
 	if typedInput.CloudToDevice != nil {
 		var cloudToDevice1 CloudToDeviceProperties
 		err := cloudToDevice1.PopulateFromARM(owner, *typedInput.CloudToDevice)
@@ -1745,43 +1752,43 @@ func (properties *IotHubProperties) PopulateFromARM(owner genruntime.ArbitraryOw
 		properties.CloudToDevice = &cloudToDevice
 	}
 
-	// Set property ‘Comments’:
+	// Set property "Comments":
 	if typedInput.Comments != nil {
 		comments := *typedInput.Comments
 		properties.Comments = &comments
 	}
 
-	// Set property ‘DisableDeviceSAS’:
+	// Set property "DisableDeviceSAS":
 	if typedInput.DisableDeviceSAS != nil {
 		disableDeviceSAS := *typedInput.DisableDeviceSAS
 		properties.DisableDeviceSAS = &disableDeviceSAS
 	}
 
-	// Set property ‘DisableLocalAuth’:
+	// Set property "DisableLocalAuth":
 	if typedInput.DisableLocalAuth != nil {
 		disableLocalAuth := *typedInput.DisableLocalAuth
 		properties.DisableLocalAuth = &disableLocalAuth
 	}
 
-	// Set property ‘DisableModuleSAS’:
+	// Set property "DisableModuleSAS":
 	if typedInput.DisableModuleSAS != nil {
 		disableModuleSAS := *typedInput.DisableModuleSAS
 		properties.DisableModuleSAS = &disableModuleSAS
 	}
 
-	// Set property ‘EnableDataResidency’:
+	// Set property "EnableDataResidency":
 	if typedInput.EnableDataResidency != nil {
 		enableDataResidency := *typedInput.EnableDataResidency
 		properties.EnableDataResidency = &enableDataResidency
 	}
 
-	// Set property ‘EnableFileUploadNotifications’:
+	// Set property "EnableFileUploadNotifications":
 	if typedInput.EnableFileUploadNotifications != nil {
 		enableFileUploadNotifications := *typedInput.EnableFileUploadNotifications
 		properties.EnableFileUploadNotifications = &enableFileUploadNotifications
 	}
 
-	// Set property ‘EventHubEndpoints’:
+	// Set property "EventHubEndpoints":
 	if typedInput.EventHubEndpoints != nil {
 		properties.EventHubEndpoints = make(map[string]EventHubProperties, len(typedInput.EventHubEndpoints))
 		for key, value := range typedInput.EventHubEndpoints {
@@ -1794,13 +1801,13 @@ func (properties *IotHubProperties) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Features’:
+	// Set property "Features":
 	if typedInput.Features != nil {
 		features := *typedInput.Features
 		properties.Features = &features
 	}
 
-	// Set property ‘IpFilterRules’:
+	// Set property "IpFilterRules":
 	for _, item := range typedInput.IpFilterRules {
 		var item1 IpFilterRule
 		err := item1.PopulateFromARM(owner, item)
@@ -1810,7 +1817,7 @@ func (properties *IotHubProperties) PopulateFromARM(owner genruntime.ArbitraryOw
 		properties.IpFilterRules = append(properties.IpFilterRules, item1)
 	}
 
-	// Set property ‘MessagingEndpoints’:
+	// Set property "MessagingEndpoints":
 	if typedInput.MessagingEndpoints != nil {
 		properties.MessagingEndpoints = make(map[string]MessagingEndpointProperties, len(typedInput.MessagingEndpoints))
 		for key, value := range typedInput.MessagingEndpoints {
@@ -1823,13 +1830,13 @@ func (properties *IotHubProperties) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘MinTlsVersion’:
+	// Set property "MinTlsVersion":
 	if typedInput.MinTlsVersion != nil {
 		minTlsVersion := *typedInput.MinTlsVersion
 		properties.MinTlsVersion = &minTlsVersion
 	}
 
-	// Set property ‘NetworkRuleSets’:
+	// Set property "NetworkRuleSets":
 	if typedInput.NetworkRuleSets != nil {
 		var networkRuleSets1 NetworkRuleSetProperties
 		err := networkRuleSets1.PopulateFromARM(owner, *typedInput.NetworkRuleSets)
@@ -1840,19 +1847,19 @@ func (properties *IotHubProperties) PopulateFromARM(owner genruntime.ArbitraryOw
 		properties.NetworkRuleSets = &networkRuleSets
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	if typedInput.PublicNetworkAccess != nil {
 		publicNetworkAccess := *typedInput.PublicNetworkAccess
 		properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 
-	// Set property ‘RestrictOutboundNetworkAccess’:
+	// Set property "RestrictOutboundNetworkAccess":
 	if typedInput.RestrictOutboundNetworkAccess != nil {
 		restrictOutboundNetworkAccess := *typedInput.RestrictOutboundNetworkAccess
 		properties.RestrictOutboundNetworkAccess = &restrictOutboundNetworkAccess
 	}
 
-	// Set property ‘Routing’:
+	// Set property "Routing":
 	if typedInput.Routing != nil {
 		var routing1 RoutingProperties
 		err := routing1.PopulateFromARM(owner, *typedInput.Routing)
@@ -1863,7 +1870,7 @@ func (properties *IotHubProperties) PopulateFromARM(owner genruntime.ArbitraryOw
 		properties.Routing = &routing
 	}
 
-	// Set property ‘StorageEndpoints’:
+	// Set property "StorageEndpoints":
 	if typedInput.StorageEndpoints != nil {
 		properties.StorageEndpoints = make(map[string]StorageEndpointProperties, len(typedInput.StorageEndpoints))
 		for key, value := range typedInput.StorageEndpoints {
@@ -1881,7 +1888,7 @@ func (properties *IotHubProperties) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_IotHubProperties populates our IotHubProperties from the provided source IotHubProperties
-func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(source *v1api20210702s.IotHubProperties) error {
+func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(source *v20210702s.IotHubProperties) error {
 
 	// AllowedFqdnList
 	properties.AllowedFqdnList = genruntime.CloneSliceOfString(source.AllowedFqdnList)
@@ -2087,7 +2094,7 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 }
 
 // AssignProperties_To_IotHubProperties populates the provided destination IotHubProperties from our IotHubProperties
-func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destination *v1api20210702s.IotHubProperties) error {
+func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destination *v20210702s.IotHubProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2096,11 +2103,11 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 
 	// AuthorizationPolicies
 	if properties.AuthorizationPolicies != nil {
-		authorizationPolicyList := make([]v1api20210702s.SharedAccessSignatureAuthorizationRule, len(properties.AuthorizationPolicies))
+		authorizationPolicyList := make([]v20210702s.SharedAccessSignatureAuthorizationRule, len(properties.AuthorizationPolicies))
 		for authorizationPolicyIndex, authorizationPolicyItem := range properties.AuthorizationPolicies {
 			// Shadow the loop variable to avoid aliasing
 			authorizationPolicyItem := authorizationPolicyItem
-			var authorizationPolicy v1api20210702s.SharedAccessSignatureAuthorizationRule
+			var authorizationPolicy v20210702s.SharedAccessSignatureAuthorizationRule
 			err := authorizationPolicyItem.AssignProperties_To_SharedAccessSignatureAuthorizationRule(&authorizationPolicy)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SharedAccessSignatureAuthorizationRule() to populate field AuthorizationPolicies")
@@ -2114,7 +2121,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 
 	// CloudToDevice
 	if properties.CloudToDevice != nil {
-		var cloudToDevice v1api20210702s.CloudToDeviceProperties
+		var cloudToDevice v20210702s.CloudToDeviceProperties
 		err := properties.CloudToDevice.AssignProperties_To_CloudToDeviceProperties(&cloudToDevice)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CloudToDeviceProperties() to populate field CloudToDevice")
@@ -2169,11 +2176,11 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 
 	// EventHubEndpoints
 	if properties.EventHubEndpoints != nil {
-		eventHubEndpointMap := make(map[string]v1api20210702s.EventHubProperties, len(properties.EventHubEndpoints))
+		eventHubEndpointMap := make(map[string]v20210702s.EventHubProperties, len(properties.EventHubEndpoints))
 		for eventHubEndpointKey, eventHubEndpointValue := range properties.EventHubEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			eventHubEndpointValue := eventHubEndpointValue
-			var eventHubEndpoint v1api20210702s.EventHubProperties
+			var eventHubEndpoint v20210702s.EventHubProperties
 			err := eventHubEndpointValue.AssignProperties_To_EventHubProperties(&eventHubEndpoint)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_EventHubProperties() to populate field EventHubEndpoints")
@@ -2195,11 +2202,11 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 
 	// IpFilterRules
 	if properties.IpFilterRules != nil {
-		ipFilterRuleList := make([]v1api20210702s.IpFilterRule, len(properties.IpFilterRules))
+		ipFilterRuleList := make([]v20210702s.IpFilterRule, len(properties.IpFilterRules))
 		for ipFilterRuleIndex, ipFilterRuleItem := range properties.IpFilterRules {
 			// Shadow the loop variable to avoid aliasing
 			ipFilterRuleItem := ipFilterRuleItem
-			var ipFilterRule v1api20210702s.IpFilterRule
+			var ipFilterRule v20210702s.IpFilterRule
 			err := ipFilterRuleItem.AssignProperties_To_IpFilterRule(&ipFilterRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_IpFilterRule() to populate field IpFilterRules")
@@ -2213,11 +2220,11 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 
 	// MessagingEndpoints
 	if properties.MessagingEndpoints != nil {
-		messagingEndpointMap := make(map[string]v1api20210702s.MessagingEndpointProperties, len(properties.MessagingEndpoints))
+		messagingEndpointMap := make(map[string]v20210702s.MessagingEndpointProperties, len(properties.MessagingEndpoints))
 		for messagingEndpointKey, messagingEndpointValue := range properties.MessagingEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			messagingEndpointValue := messagingEndpointValue
-			var messagingEndpoint v1api20210702s.MessagingEndpointProperties
+			var messagingEndpoint v20210702s.MessagingEndpointProperties
 			err := messagingEndpointValue.AssignProperties_To_MessagingEndpointProperties(&messagingEndpoint)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MessagingEndpointProperties() to populate field MessagingEndpoints")
@@ -2234,7 +2241,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 
 	// NetworkRuleSets
 	if properties.NetworkRuleSets != nil {
-		var networkRuleSet v1api20210702s.NetworkRuleSetProperties
+		var networkRuleSet v20210702s.NetworkRuleSetProperties
 		err := properties.NetworkRuleSets.AssignProperties_To_NetworkRuleSetProperties(&networkRuleSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSetProperties() to populate field NetworkRuleSets")
@@ -2262,7 +2269,7 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 
 	// Routing
 	if properties.Routing != nil {
-		var routing v1api20210702s.RoutingProperties
+		var routing v20210702s.RoutingProperties
 		err := properties.Routing.AssignProperties_To_RoutingProperties(&routing)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RoutingProperties() to populate field Routing")
@@ -2274,11 +2281,11 @@ func (properties *IotHubProperties) AssignProperties_To_IotHubProperties(destina
 
 	// StorageEndpoints
 	if properties.StorageEndpoints != nil {
-		storageEndpointMap := make(map[string]v1api20210702s.StorageEndpointProperties, len(properties.StorageEndpoints))
+		storageEndpointMap := make(map[string]v20210702s.StorageEndpointProperties, len(properties.StorageEndpoints))
 		for storageEndpointKey, storageEndpointValue := range properties.StorageEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			storageEndpointValue := storageEndpointValue
-			var storageEndpoint v1api20210702s.StorageEndpointProperties
+			var storageEndpoint v20210702s.StorageEndpointProperties
 			err := storageEndpointValue.AssignProperties_To_StorageEndpointProperties(&storageEndpoint)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_StorageEndpointProperties() to populate field StorageEndpoints")
@@ -2604,12 +2611,12 @@ func (properties *IotHubProperties_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHubProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllowedFqdnList’:
+	// Set property "AllowedFqdnList":
 	for _, item := range typedInput.AllowedFqdnList {
 		properties.AllowedFqdnList = append(properties.AllowedFqdnList, item)
 	}
 
-	// Set property ‘AuthorizationPolicies’:
+	// Set property "AuthorizationPolicies":
 	for _, item := range typedInput.AuthorizationPolicies {
 		var item1 SharedAccessSignatureAuthorizationRule_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -2619,7 +2626,7 @@ func (properties *IotHubProperties_STATUS) PopulateFromARM(owner genruntime.Arbi
 		properties.AuthorizationPolicies = append(properties.AuthorizationPolicies, item1)
 	}
 
-	// Set property ‘CloudToDevice’:
+	// Set property "CloudToDevice":
 	if typedInput.CloudToDevice != nil {
 		var cloudToDevice1 CloudToDeviceProperties_STATUS
 		err := cloudToDevice1.PopulateFromARM(owner, *typedInput.CloudToDevice)
@@ -2630,43 +2637,43 @@ func (properties *IotHubProperties_STATUS) PopulateFromARM(owner genruntime.Arbi
 		properties.CloudToDevice = &cloudToDevice
 	}
 
-	// Set property ‘Comments’:
+	// Set property "Comments":
 	if typedInput.Comments != nil {
 		comments := *typedInput.Comments
 		properties.Comments = &comments
 	}
 
-	// Set property ‘DisableDeviceSAS’:
+	// Set property "DisableDeviceSAS":
 	if typedInput.DisableDeviceSAS != nil {
 		disableDeviceSAS := *typedInput.DisableDeviceSAS
 		properties.DisableDeviceSAS = &disableDeviceSAS
 	}
 
-	// Set property ‘DisableLocalAuth’:
+	// Set property "DisableLocalAuth":
 	if typedInput.DisableLocalAuth != nil {
 		disableLocalAuth := *typedInput.DisableLocalAuth
 		properties.DisableLocalAuth = &disableLocalAuth
 	}
 
-	// Set property ‘DisableModuleSAS’:
+	// Set property "DisableModuleSAS":
 	if typedInput.DisableModuleSAS != nil {
 		disableModuleSAS := *typedInput.DisableModuleSAS
 		properties.DisableModuleSAS = &disableModuleSAS
 	}
 
-	// Set property ‘EnableDataResidency’:
+	// Set property "EnableDataResidency":
 	if typedInput.EnableDataResidency != nil {
 		enableDataResidency := *typedInput.EnableDataResidency
 		properties.EnableDataResidency = &enableDataResidency
 	}
 
-	// Set property ‘EnableFileUploadNotifications’:
+	// Set property "EnableFileUploadNotifications":
 	if typedInput.EnableFileUploadNotifications != nil {
 		enableFileUploadNotifications := *typedInput.EnableFileUploadNotifications
 		properties.EnableFileUploadNotifications = &enableFileUploadNotifications
 	}
 
-	// Set property ‘EventHubEndpoints’:
+	// Set property "EventHubEndpoints":
 	if typedInput.EventHubEndpoints != nil {
 		properties.EventHubEndpoints = make(map[string]EventHubProperties_STATUS, len(typedInput.EventHubEndpoints))
 		for key, value := range typedInput.EventHubEndpoints {
@@ -2679,19 +2686,19 @@ func (properties *IotHubProperties_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Features’:
+	// Set property "Features":
 	if typedInput.Features != nil {
 		features := *typedInput.Features
 		properties.Features = &features
 	}
 
-	// Set property ‘HostName’:
+	// Set property "HostName":
 	if typedInput.HostName != nil {
 		hostName := *typedInput.HostName
 		properties.HostName = &hostName
 	}
 
-	// Set property ‘IpFilterRules’:
+	// Set property "IpFilterRules":
 	for _, item := range typedInput.IpFilterRules {
 		var item1 IpFilterRule_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -2701,7 +2708,7 @@ func (properties *IotHubProperties_STATUS) PopulateFromARM(owner genruntime.Arbi
 		properties.IpFilterRules = append(properties.IpFilterRules, item1)
 	}
 
-	// Set property ‘Locations’:
+	// Set property "Locations":
 	for _, item := range typedInput.Locations {
 		var item1 IotHubLocationDescription_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -2711,7 +2718,7 @@ func (properties *IotHubProperties_STATUS) PopulateFromARM(owner genruntime.Arbi
 		properties.Locations = append(properties.Locations, item1)
 	}
 
-	// Set property ‘MessagingEndpoints’:
+	// Set property "MessagingEndpoints":
 	if typedInput.MessagingEndpoints != nil {
 		properties.MessagingEndpoints = make(map[string]MessagingEndpointProperties_STATUS, len(typedInput.MessagingEndpoints))
 		for key, value := range typedInput.MessagingEndpoints {
@@ -2724,13 +2731,13 @@ func (properties *IotHubProperties_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘MinTlsVersion’:
+	// Set property "MinTlsVersion":
 	if typedInput.MinTlsVersion != nil {
 		minTlsVersion := *typedInput.MinTlsVersion
 		properties.MinTlsVersion = &minTlsVersion
 	}
 
-	// Set property ‘NetworkRuleSets’:
+	// Set property "NetworkRuleSets":
 	if typedInput.NetworkRuleSets != nil {
 		var networkRuleSets1 NetworkRuleSetProperties_STATUS
 		err := networkRuleSets1.PopulateFromARM(owner, *typedInput.NetworkRuleSets)
@@ -2741,7 +2748,7 @@ func (properties *IotHubProperties_STATUS) PopulateFromARM(owner genruntime.Arbi
 		properties.NetworkRuleSets = &networkRuleSets
 	}
 
-	// Set property ‘PrivateEndpointConnections’:
+	// Set property "PrivateEndpointConnections":
 	for _, item := range typedInput.PrivateEndpointConnections {
 		var item1 PrivateEndpointConnection_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -2751,25 +2758,25 @@ func (properties *IotHubProperties_STATUS) PopulateFromARM(owner genruntime.Arbi
 		properties.PrivateEndpointConnections = append(properties.PrivateEndpointConnections, item1)
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
 		provisioningState := *typedInput.ProvisioningState
 		properties.ProvisioningState = &provisioningState
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	if typedInput.PublicNetworkAccess != nil {
 		publicNetworkAccess := *typedInput.PublicNetworkAccess
 		properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 
-	// Set property ‘RestrictOutboundNetworkAccess’:
+	// Set property "RestrictOutboundNetworkAccess":
 	if typedInput.RestrictOutboundNetworkAccess != nil {
 		restrictOutboundNetworkAccess := *typedInput.RestrictOutboundNetworkAccess
 		properties.RestrictOutboundNetworkAccess = &restrictOutboundNetworkAccess
 	}
 
-	// Set property ‘Routing’:
+	// Set property "Routing":
 	if typedInput.Routing != nil {
 		var routing1 RoutingProperties_STATUS
 		err := routing1.PopulateFromARM(owner, *typedInput.Routing)
@@ -2780,13 +2787,13 @@ func (properties *IotHubProperties_STATUS) PopulateFromARM(owner genruntime.Arbi
 		properties.Routing = &routing
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	if typedInput.State != nil {
 		state := *typedInput.State
 		properties.State = &state
 	}
 
-	// Set property ‘StorageEndpoints’:
+	// Set property "StorageEndpoints":
 	if typedInput.StorageEndpoints != nil {
 		properties.StorageEndpoints = make(map[string]StorageEndpointProperties_STATUS, len(typedInput.StorageEndpoints))
 		for key, value := range typedInput.StorageEndpoints {
@@ -2804,7 +2811,7 @@ func (properties *IotHubProperties_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_IotHubProperties_STATUS populates our IotHubProperties_STATUS from the provided source IotHubProperties_STATUS
-func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubProperties_STATUS(source *v1api20210702s.IotHubProperties_STATUS) error {
+func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubProperties_STATUS(source *v20210702s.IotHubProperties_STATUS) error {
 
 	// AllowedFqdnList
 	properties.AllowedFqdnList = genruntime.CloneSliceOfString(source.AllowedFqdnList)
@@ -3055,7 +3062,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 }
 
 // AssignProperties_To_IotHubProperties_STATUS populates the provided destination IotHubProperties_STATUS from our IotHubProperties_STATUS
-func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_STATUS(destination *v1api20210702s.IotHubProperties_STATUS) error {
+func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_STATUS(destination *v20210702s.IotHubProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3064,11 +3071,11 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// AuthorizationPolicies
 	if properties.AuthorizationPolicies != nil {
-		authorizationPolicyList := make([]v1api20210702s.SharedAccessSignatureAuthorizationRule_STATUS, len(properties.AuthorizationPolicies))
+		authorizationPolicyList := make([]v20210702s.SharedAccessSignatureAuthorizationRule_STATUS, len(properties.AuthorizationPolicies))
 		for authorizationPolicyIndex, authorizationPolicyItem := range properties.AuthorizationPolicies {
 			// Shadow the loop variable to avoid aliasing
 			authorizationPolicyItem := authorizationPolicyItem
-			var authorizationPolicy v1api20210702s.SharedAccessSignatureAuthorizationRule_STATUS
+			var authorizationPolicy v20210702s.SharedAccessSignatureAuthorizationRule_STATUS
 			err := authorizationPolicyItem.AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS(&authorizationPolicy)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS() to populate field AuthorizationPolicies")
@@ -3082,7 +3089,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// CloudToDevice
 	if properties.CloudToDevice != nil {
-		var cloudToDevice v1api20210702s.CloudToDeviceProperties_STATUS
+		var cloudToDevice v20210702s.CloudToDeviceProperties_STATUS
 		err := properties.CloudToDevice.AssignProperties_To_CloudToDeviceProperties_STATUS(&cloudToDevice)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CloudToDeviceProperties_STATUS() to populate field CloudToDevice")
@@ -3137,11 +3144,11 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// EventHubEndpoints
 	if properties.EventHubEndpoints != nil {
-		eventHubEndpointMap := make(map[string]v1api20210702s.EventHubProperties_STATUS, len(properties.EventHubEndpoints))
+		eventHubEndpointMap := make(map[string]v20210702s.EventHubProperties_STATUS, len(properties.EventHubEndpoints))
 		for eventHubEndpointKey, eventHubEndpointValue := range properties.EventHubEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			eventHubEndpointValue := eventHubEndpointValue
-			var eventHubEndpoint v1api20210702s.EventHubProperties_STATUS
+			var eventHubEndpoint v20210702s.EventHubProperties_STATUS
 			err := eventHubEndpointValue.AssignProperties_To_EventHubProperties_STATUS(&eventHubEndpoint)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_EventHubProperties_STATUS() to populate field EventHubEndpoints")
@@ -3166,11 +3173,11 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// IpFilterRules
 	if properties.IpFilterRules != nil {
-		ipFilterRuleList := make([]v1api20210702s.IpFilterRule_STATUS, len(properties.IpFilterRules))
+		ipFilterRuleList := make([]v20210702s.IpFilterRule_STATUS, len(properties.IpFilterRules))
 		for ipFilterRuleIndex, ipFilterRuleItem := range properties.IpFilterRules {
 			// Shadow the loop variable to avoid aliasing
 			ipFilterRuleItem := ipFilterRuleItem
-			var ipFilterRule v1api20210702s.IpFilterRule_STATUS
+			var ipFilterRule v20210702s.IpFilterRule_STATUS
 			err := ipFilterRuleItem.AssignProperties_To_IpFilterRule_STATUS(&ipFilterRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_IpFilterRule_STATUS() to populate field IpFilterRules")
@@ -3184,11 +3191,11 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// Locations
 	if properties.Locations != nil {
-		locationList := make([]v1api20210702s.IotHubLocationDescription_STATUS, len(properties.Locations))
+		locationList := make([]v20210702s.IotHubLocationDescription_STATUS, len(properties.Locations))
 		for locationIndex, locationItem := range properties.Locations {
 			// Shadow the loop variable to avoid aliasing
 			locationItem := locationItem
-			var location v1api20210702s.IotHubLocationDescription_STATUS
+			var location v20210702s.IotHubLocationDescription_STATUS
 			err := locationItem.AssignProperties_To_IotHubLocationDescription_STATUS(&location)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_IotHubLocationDescription_STATUS() to populate field Locations")
@@ -3202,11 +3209,11 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// MessagingEndpoints
 	if properties.MessagingEndpoints != nil {
-		messagingEndpointMap := make(map[string]v1api20210702s.MessagingEndpointProperties_STATUS, len(properties.MessagingEndpoints))
+		messagingEndpointMap := make(map[string]v20210702s.MessagingEndpointProperties_STATUS, len(properties.MessagingEndpoints))
 		for messagingEndpointKey, messagingEndpointValue := range properties.MessagingEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			messagingEndpointValue := messagingEndpointValue
-			var messagingEndpoint v1api20210702s.MessagingEndpointProperties_STATUS
+			var messagingEndpoint v20210702s.MessagingEndpointProperties_STATUS
 			err := messagingEndpointValue.AssignProperties_To_MessagingEndpointProperties_STATUS(&messagingEndpoint)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MessagingEndpointProperties_STATUS() to populate field MessagingEndpoints")
@@ -3223,7 +3230,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// NetworkRuleSets
 	if properties.NetworkRuleSets != nil {
-		var networkRuleSet v1api20210702s.NetworkRuleSetProperties_STATUS
+		var networkRuleSet v20210702s.NetworkRuleSetProperties_STATUS
 		err := properties.NetworkRuleSets.AssignProperties_To_NetworkRuleSetProperties_STATUS(&networkRuleSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSetProperties_STATUS() to populate field NetworkRuleSets")
@@ -3235,11 +3242,11 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// PrivateEndpointConnections
 	if properties.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v1api20210702s.PrivateEndpointConnection_STATUS, len(properties.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]v20210702s.PrivateEndpointConnection_STATUS, len(properties.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range properties.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v1api20210702s.PrivateEndpointConnection_STATUS
+			var privateEndpointConnection v20210702s.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
@@ -3272,7 +3279,7 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// Routing
 	if properties.Routing != nil {
-		var routing v1api20210702s.RoutingProperties_STATUS
+		var routing v20210702s.RoutingProperties_STATUS
 		err := properties.Routing.AssignProperties_To_RoutingProperties_STATUS(&routing)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RoutingProperties_STATUS() to populate field Routing")
@@ -3287,11 +3294,11 @@ func (properties *IotHubProperties_STATUS) AssignProperties_To_IotHubProperties_
 
 	// StorageEndpoints
 	if properties.StorageEndpoints != nil {
-		storageEndpointMap := make(map[string]v1api20210702s.StorageEndpointProperties_STATUS, len(properties.StorageEndpoints))
+		storageEndpointMap := make(map[string]v20210702s.StorageEndpointProperties_STATUS, len(properties.StorageEndpoints))
 		for storageEndpointKey, storageEndpointValue := range properties.StorageEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			storageEndpointValue := storageEndpointValue
-			var storageEndpoint v1api20210702s.StorageEndpointProperties_STATUS
+			var storageEndpoint v20210702s.StorageEndpointProperties_STATUS
 			err := storageEndpointValue.AssignProperties_To_StorageEndpointProperties_STATUS(&storageEndpoint)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_StorageEndpointProperties_STATUS() to populate field StorageEndpoints")
@@ -3334,13 +3341,13 @@ func (info *IotHubSkuInfo) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &IotHubSkuInfo_ARM{}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if info.Capacity != nil {
 		capacity := *info.Capacity
 		result.Capacity = &capacity
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if info.Name != nil {
 		name := *info.Name
 		result.Name = &name
@@ -3360,13 +3367,13 @@ func (info *IotHubSkuInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHubSkuInfo_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if typedInput.Capacity != nil {
 		capacity := *typedInput.Capacity
 		info.Capacity = &capacity
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		info.Name = &name
@@ -3377,7 +3384,7 @@ func (info *IotHubSkuInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 }
 
 // AssignProperties_From_IotHubSkuInfo populates our IotHubSkuInfo from the provided source IotHubSkuInfo
-func (info *IotHubSkuInfo) AssignProperties_From_IotHubSkuInfo(source *v1api20210702s.IotHubSkuInfo) error {
+func (info *IotHubSkuInfo) AssignProperties_From_IotHubSkuInfo(source *v20210702s.IotHubSkuInfo) error {
 
 	// Capacity
 	info.Capacity = genruntime.ClonePointerToInt(source.Capacity)
@@ -3395,7 +3402,7 @@ func (info *IotHubSkuInfo) AssignProperties_From_IotHubSkuInfo(source *v1api2021
 }
 
 // AssignProperties_To_IotHubSkuInfo populates the provided destination IotHubSkuInfo from our IotHubSkuInfo
-func (info *IotHubSkuInfo) AssignProperties_To_IotHubSkuInfo(destination *v1api20210702s.IotHubSkuInfo) error {
+func (info *IotHubSkuInfo) AssignProperties_To_IotHubSkuInfo(destination *v20210702s.IotHubSkuInfo) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3466,19 +3473,19 @@ func (info *IotHubSkuInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHubSkuInfo_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if typedInput.Capacity != nil {
 		capacity := *typedInput.Capacity
 		info.Capacity = &capacity
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		info.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		info.Tier = &tier
@@ -3489,7 +3496,7 @@ func (info *IotHubSkuInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_IotHubSkuInfo_STATUS populates our IotHubSkuInfo_STATUS from the provided source IotHubSkuInfo_STATUS
-func (info *IotHubSkuInfo_STATUS) AssignProperties_From_IotHubSkuInfo_STATUS(source *v1api20210702s.IotHubSkuInfo_STATUS) error {
+func (info *IotHubSkuInfo_STATUS) AssignProperties_From_IotHubSkuInfo_STATUS(source *v20210702s.IotHubSkuInfo_STATUS) error {
 
 	// Capacity
 	info.Capacity = genruntime.ClonePointerToInt(source.Capacity)
@@ -3515,7 +3522,7 @@ func (info *IotHubSkuInfo_STATUS) AssignProperties_From_IotHubSkuInfo_STATUS(sou
 }
 
 // AssignProperties_To_IotHubSkuInfo_STATUS populates the provided destination IotHubSkuInfo_STATUS from our IotHubSkuInfo_STATUS
-func (info *IotHubSkuInfo_STATUS) AssignProperties_To_IotHubSkuInfo_STATUS(destination *v1api20210702s.IotHubSkuInfo_STATUS) error {
+func (info *IotHubSkuInfo_STATUS) AssignProperties_To_IotHubSkuInfo_STATUS(destination *v20210702s.IotHubSkuInfo_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3584,37 +3591,37 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	if typedInput.CreatedAt != nil {
 		createdAt := *typedInput.CreatedAt
 		data.CreatedAt = &createdAt
 	}
 
-	// Set property ‘CreatedBy’:
+	// Set property "CreatedBy":
 	if typedInput.CreatedBy != nil {
 		createdBy := *typedInput.CreatedBy
 		data.CreatedBy = &createdBy
 	}
 
-	// Set property ‘CreatedByType’:
+	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
 		createdByType := *typedInput.CreatedByType
 		data.CreatedByType = &createdByType
 	}
 
-	// Set property ‘LastModifiedAt’:
+	// Set property "LastModifiedAt":
 	if typedInput.LastModifiedAt != nil {
 		lastModifiedAt := *typedInput.LastModifiedAt
 		data.LastModifiedAt = &lastModifiedAt
 	}
 
-	// Set property ‘LastModifiedBy’:
+	// Set property "LastModifiedBy":
 	if typedInput.LastModifiedBy != nil {
 		lastModifiedBy := *typedInput.LastModifiedBy
 		data.LastModifiedBy = &lastModifiedBy
 	}
 
-	// Set property ‘LastModifiedByType’:
+	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
 		lastModifiedByType := *typedInput.LastModifiedByType
 		data.LastModifiedByType = &lastModifiedByType
@@ -3625,7 +3632,7 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v1api20210702s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20210702s.SystemData_STATUS) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -3660,7 +3667,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v1api20210702s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20210702s.SystemData_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3722,13 +3729,13 @@ func (identity *ArmUserIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ArmUserIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if typedInput.ClientId != nil {
 		clientId := *typedInput.ClientId
 		identity.ClientId = &clientId
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identity.PrincipalId = &principalId
@@ -3739,7 +3746,7 @@ func (identity *ArmUserIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_ArmUserIdentity_STATUS populates our ArmUserIdentity_STATUS from the provided source ArmUserIdentity_STATUS
-func (identity *ArmUserIdentity_STATUS) AssignProperties_From_ArmUserIdentity_STATUS(source *v1api20210702s.ArmUserIdentity_STATUS) error {
+func (identity *ArmUserIdentity_STATUS) AssignProperties_From_ArmUserIdentity_STATUS(source *v20210702s.ArmUserIdentity_STATUS) error {
 
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -3752,7 +3759,7 @@ func (identity *ArmUserIdentity_STATUS) AssignProperties_From_ArmUserIdentity_ST
 }
 
 // AssignProperties_To_ArmUserIdentity_STATUS populates the provided destination ArmUserIdentity_STATUS from our ArmUserIdentity_STATUS
-func (identity *ArmUserIdentity_STATUS) AssignProperties_To_ArmUserIdentity_STATUS(destination *v1api20210702s.ArmUserIdentity_STATUS) error {
+func (identity *ArmUserIdentity_STATUS) AssignProperties_To_ArmUserIdentity_STATUS(destination *v20210702s.ArmUserIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3798,13 +3805,13 @@ func (properties *CloudToDeviceProperties) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &CloudToDeviceProperties_ARM{}
 
-	// Set property ‘DefaultTtlAsIso8601’:
+	// Set property "DefaultTtlAsIso8601":
 	if properties.DefaultTtlAsIso8601 != nil {
 		defaultTtlAsIso8601 := *properties.DefaultTtlAsIso8601
 		result.DefaultTtlAsIso8601 = &defaultTtlAsIso8601
 	}
 
-	// Set property ‘Feedback’:
+	// Set property "Feedback":
 	if properties.Feedback != nil {
 		feedback_ARM, err := (*properties.Feedback).ConvertToARM(resolved)
 		if err != nil {
@@ -3814,7 +3821,7 @@ func (properties *CloudToDeviceProperties) ConvertToARM(resolved genruntime.Conv
 		result.Feedback = &feedback
 	}
 
-	// Set property ‘MaxDeliveryCount’:
+	// Set property "MaxDeliveryCount":
 	if properties.MaxDeliveryCount != nil {
 		maxDeliveryCount := *properties.MaxDeliveryCount
 		result.MaxDeliveryCount = &maxDeliveryCount
@@ -3834,13 +3841,13 @@ func (properties *CloudToDeviceProperties) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CloudToDeviceProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DefaultTtlAsIso8601’:
+	// Set property "DefaultTtlAsIso8601":
 	if typedInput.DefaultTtlAsIso8601 != nil {
 		defaultTtlAsIso8601 := *typedInput.DefaultTtlAsIso8601
 		properties.DefaultTtlAsIso8601 = &defaultTtlAsIso8601
 	}
 
-	// Set property ‘Feedback’:
+	// Set property "Feedback":
 	if typedInput.Feedback != nil {
 		var feedback1 FeedbackProperties
 		err := feedback1.PopulateFromARM(owner, *typedInput.Feedback)
@@ -3851,7 +3858,7 @@ func (properties *CloudToDeviceProperties) PopulateFromARM(owner genruntime.Arbi
 		properties.Feedback = &feedback
 	}
 
-	// Set property ‘MaxDeliveryCount’:
+	// Set property "MaxDeliveryCount":
 	if typedInput.MaxDeliveryCount != nil {
 		maxDeliveryCount := *typedInput.MaxDeliveryCount
 		properties.MaxDeliveryCount = &maxDeliveryCount
@@ -3862,7 +3869,7 @@ func (properties *CloudToDeviceProperties) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_CloudToDeviceProperties populates our CloudToDeviceProperties from the provided source CloudToDeviceProperties
-func (properties *CloudToDeviceProperties) AssignProperties_From_CloudToDeviceProperties(source *v1api20210702s.CloudToDeviceProperties) error {
+func (properties *CloudToDeviceProperties) AssignProperties_From_CloudToDeviceProperties(source *v20210702s.CloudToDeviceProperties) error {
 
 	// DefaultTtlAsIso8601
 	properties.DefaultTtlAsIso8601 = genruntime.ClonePointerToString(source.DefaultTtlAsIso8601)
@@ -3892,7 +3899,7 @@ func (properties *CloudToDeviceProperties) AssignProperties_From_CloudToDevicePr
 }
 
 // AssignProperties_To_CloudToDeviceProperties populates the provided destination CloudToDeviceProperties from our CloudToDeviceProperties
-func (properties *CloudToDeviceProperties) AssignProperties_To_CloudToDeviceProperties(destination *v1api20210702s.CloudToDeviceProperties) error {
+func (properties *CloudToDeviceProperties) AssignProperties_To_CloudToDeviceProperties(destination *v20210702s.CloudToDeviceProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3901,7 +3908,7 @@ func (properties *CloudToDeviceProperties) AssignProperties_To_CloudToDeviceProp
 
 	// Feedback
 	if properties.Feedback != nil {
-		var feedback v1api20210702s.FeedbackProperties
+		var feedback v20210702s.FeedbackProperties
 		err := properties.Feedback.AssignProperties_To_FeedbackProperties(&feedback)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FeedbackProperties() to populate field Feedback")
@@ -3988,13 +3995,13 @@ func (properties *CloudToDeviceProperties_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CloudToDeviceProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DefaultTtlAsIso8601’:
+	// Set property "DefaultTtlAsIso8601":
 	if typedInput.DefaultTtlAsIso8601 != nil {
 		defaultTtlAsIso8601 := *typedInput.DefaultTtlAsIso8601
 		properties.DefaultTtlAsIso8601 = &defaultTtlAsIso8601
 	}
 
-	// Set property ‘Feedback’:
+	// Set property "Feedback":
 	if typedInput.Feedback != nil {
 		var feedback1 FeedbackProperties_STATUS
 		err := feedback1.PopulateFromARM(owner, *typedInput.Feedback)
@@ -4005,7 +4012,7 @@ func (properties *CloudToDeviceProperties_STATUS) PopulateFromARM(owner genrunti
 		properties.Feedback = &feedback
 	}
 
-	// Set property ‘MaxDeliveryCount’:
+	// Set property "MaxDeliveryCount":
 	if typedInput.MaxDeliveryCount != nil {
 		maxDeliveryCount := *typedInput.MaxDeliveryCount
 		properties.MaxDeliveryCount = &maxDeliveryCount
@@ -4016,7 +4023,7 @@ func (properties *CloudToDeviceProperties_STATUS) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_CloudToDeviceProperties_STATUS populates our CloudToDeviceProperties_STATUS from the provided source CloudToDeviceProperties_STATUS
-func (properties *CloudToDeviceProperties_STATUS) AssignProperties_From_CloudToDeviceProperties_STATUS(source *v1api20210702s.CloudToDeviceProperties_STATUS) error {
+func (properties *CloudToDeviceProperties_STATUS) AssignProperties_From_CloudToDeviceProperties_STATUS(source *v20210702s.CloudToDeviceProperties_STATUS) error {
 
 	// DefaultTtlAsIso8601
 	properties.DefaultTtlAsIso8601 = genruntime.ClonePointerToString(source.DefaultTtlAsIso8601)
@@ -4041,7 +4048,7 @@ func (properties *CloudToDeviceProperties_STATUS) AssignProperties_From_CloudToD
 }
 
 // AssignProperties_To_CloudToDeviceProperties_STATUS populates the provided destination CloudToDeviceProperties_STATUS from our CloudToDeviceProperties_STATUS
-func (properties *CloudToDeviceProperties_STATUS) AssignProperties_To_CloudToDeviceProperties_STATUS(destination *v1api20210702s.CloudToDeviceProperties_STATUS) error {
+func (properties *CloudToDeviceProperties_STATUS) AssignProperties_To_CloudToDeviceProperties_STATUS(destination *v20210702s.CloudToDeviceProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4050,7 +4057,7 @@ func (properties *CloudToDeviceProperties_STATUS) AssignProperties_To_CloudToDev
 
 	// Feedback
 	if properties.Feedback != nil {
-		var feedback v1api20210702s.FeedbackProperties_STATUS
+		var feedback v20210702s.FeedbackProperties_STATUS
 		err := properties.Feedback.AssignProperties_To_FeedbackProperties_STATUS(&feedback)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FeedbackProperties_STATUS() to populate field Feedback")
@@ -4094,13 +4101,13 @@ func (properties *EventHubProperties) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &EventHubProperties_ARM{}
 
-	// Set property ‘PartitionCount’:
+	// Set property "PartitionCount":
 	if properties.PartitionCount != nil {
 		partitionCount := *properties.PartitionCount
 		result.PartitionCount = &partitionCount
 	}
 
-	// Set property ‘RetentionTimeInDays’:
+	// Set property "RetentionTimeInDays":
 	if properties.RetentionTimeInDays != nil {
 		retentionTimeInDays := *properties.RetentionTimeInDays
 		result.RetentionTimeInDays = &retentionTimeInDays
@@ -4120,13 +4127,13 @@ func (properties *EventHubProperties) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventHubProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PartitionCount’:
+	// Set property "PartitionCount":
 	if typedInput.PartitionCount != nil {
 		partitionCount := *typedInput.PartitionCount
 		properties.PartitionCount = &partitionCount
 	}
 
-	// Set property ‘RetentionTimeInDays’:
+	// Set property "RetentionTimeInDays":
 	if typedInput.RetentionTimeInDays != nil {
 		retentionTimeInDays := *typedInput.RetentionTimeInDays
 		properties.RetentionTimeInDays = &retentionTimeInDays
@@ -4137,7 +4144,7 @@ func (properties *EventHubProperties) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_EventHubProperties populates our EventHubProperties from the provided source EventHubProperties
-func (properties *EventHubProperties) AssignProperties_From_EventHubProperties(source *v1api20210702s.EventHubProperties) error {
+func (properties *EventHubProperties) AssignProperties_From_EventHubProperties(source *v20210702s.EventHubProperties) error {
 
 	// PartitionCount
 	properties.PartitionCount = genruntime.ClonePointerToInt(source.PartitionCount)
@@ -4150,7 +4157,7 @@ func (properties *EventHubProperties) AssignProperties_From_EventHubProperties(s
 }
 
 // AssignProperties_To_EventHubProperties populates the provided destination EventHubProperties from our EventHubProperties
-func (properties *EventHubProperties) AssignProperties_To_EventHubProperties(destination *v1api20210702s.EventHubProperties) error {
+func (properties *EventHubProperties) AssignProperties_To_EventHubProperties(destination *v20210702s.EventHubProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4218,30 +4225,30 @@ func (properties *EventHubProperties_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventHubProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Endpoint’:
+	// Set property "Endpoint":
 	if typedInput.Endpoint != nil {
 		endpoint := *typedInput.Endpoint
 		properties.Endpoint = &endpoint
 	}
 
-	// Set property ‘PartitionCount’:
+	// Set property "PartitionCount":
 	if typedInput.PartitionCount != nil {
 		partitionCount := *typedInput.PartitionCount
 		properties.PartitionCount = &partitionCount
 	}
 
-	// Set property ‘PartitionIds’:
+	// Set property "PartitionIds":
 	for _, item := range typedInput.PartitionIds {
 		properties.PartitionIds = append(properties.PartitionIds, item)
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if typedInput.Path != nil {
 		path := *typedInput.Path
 		properties.Path = &path
 	}
 
-	// Set property ‘RetentionTimeInDays’:
+	// Set property "RetentionTimeInDays":
 	if typedInput.RetentionTimeInDays != nil {
 		retentionTimeInDays := *typedInput.RetentionTimeInDays
 		properties.RetentionTimeInDays = &retentionTimeInDays
@@ -4252,7 +4259,7 @@ func (properties *EventHubProperties_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_EventHubProperties_STATUS populates our EventHubProperties_STATUS from the provided source EventHubProperties_STATUS
-func (properties *EventHubProperties_STATUS) AssignProperties_From_EventHubProperties_STATUS(source *v1api20210702s.EventHubProperties_STATUS) error {
+func (properties *EventHubProperties_STATUS) AssignProperties_From_EventHubProperties_STATUS(source *v20210702s.EventHubProperties_STATUS) error {
 
 	// Endpoint
 	properties.Endpoint = genruntime.ClonePointerToString(source.Endpoint)
@@ -4274,7 +4281,7 @@ func (properties *EventHubProperties_STATUS) AssignProperties_From_EventHubPrope
 }
 
 // AssignProperties_To_EventHubProperties_STATUS populates the provided destination EventHubProperties_STATUS from our EventHubProperties_STATUS
-func (properties *EventHubProperties_STATUS) AssignProperties_To_EventHubProperties_STATUS(destination *v1api20210702s.EventHubProperties_STATUS) error {
+func (properties *EventHubProperties_STATUS) AssignProperties_To_EventHubProperties_STATUS(destination *v20210702s.EventHubProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4329,13 +4336,13 @@ func (description *IotHubLocationDescription_STATUS) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IotHubLocationDescription_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		description.Location = &location
 	}
 
-	// Set property ‘Role’:
+	// Set property "Role":
 	if typedInput.Role != nil {
 		role := *typedInput.Role
 		description.Role = &role
@@ -4346,7 +4353,7 @@ func (description *IotHubLocationDescription_STATUS) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_IotHubLocationDescription_STATUS populates our IotHubLocationDescription_STATUS from the provided source IotHubLocationDescription_STATUS
-func (description *IotHubLocationDescription_STATUS) AssignProperties_From_IotHubLocationDescription_STATUS(source *v1api20210702s.IotHubLocationDescription_STATUS) error {
+func (description *IotHubLocationDescription_STATUS) AssignProperties_From_IotHubLocationDescription_STATUS(source *v20210702s.IotHubLocationDescription_STATUS) error {
 
 	// Location
 	description.Location = genruntime.ClonePointerToString(source.Location)
@@ -4364,7 +4371,7 @@ func (description *IotHubLocationDescription_STATUS) AssignProperties_From_IotHu
 }
 
 // AssignProperties_To_IotHubLocationDescription_STATUS populates the provided destination IotHubLocationDescription_STATUS from our IotHubLocationDescription_STATUS
-func (description *IotHubLocationDescription_STATUS) AssignProperties_To_IotHubLocationDescription_STATUS(destination *v1api20210702s.IotHubLocationDescription_STATUS) error {
+func (description *IotHubLocationDescription_STATUS) AssignProperties_To_IotHubLocationDescription_STATUS(destination *v20210702s.IotHubLocationDescription_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4433,7 +4440,7 @@ type IotHubOperatorSecrets struct {
 }
 
 // AssignProperties_From_IotHubOperatorSecrets populates our IotHubOperatorSecrets from the provided source IotHubOperatorSecrets
-func (secrets *IotHubOperatorSecrets) AssignProperties_From_IotHubOperatorSecrets(source *v1api20210702s.IotHubOperatorSecrets) error {
+func (secrets *IotHubOperatorSecrets) AssignProperties_From_IotHubOperatorSecrets(source *v20210702s.IotHubOperatorSecrets) error {
 
 	// DevicePrimaryKey
 	if source.DevicePrimaryKey != nil {
@@ -4520,7 +4527,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_From_IotHubOperatorSecret
 }
 
 // AssignProperties_To_IotHubOperatorSecrets populates the provided destination IotHubOperatorSecrets from our IotHubOperatorSecrets
-func (secrets *IotHubOperatorSecrets) AssignProperties_To_IotHubOperatorSecrets(destination *v1api20210702s.IotHubOperatorSecrets) error {
+func (secrets *IotHubOperatorSecrets) AssignProperties_To_IotHubOperatorSecrets(destination *v20210702s.IotHubOperatorSecrets) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4639,19 +4646,19 @@ func (rule *IpFilterRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &IpFilterRule_ARM{}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if rule.Action != nil {
 		action := *rule.Action
 		result.Action = &action
 	}
 
-	// Set property ‘FilterName’:
+	// Set property "FilterName":
 	if rule.FilterName != nil {
 		filterName := *rule.FilterName
 		result.FilterName = &filterName
 	}
 
-	// Set property ‘IpMask’:
+	// Set property "IpMask":
 	if rule.IpMask != nil {
 		ipMask := *rule.IpMask
 		result.IpMask = &ipMask
@@ -4671,19 +4678,19 @@ func (rule *IpFilterRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpFilterRule_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if typedInput.Action != nil {
 		action := *typedInput.Action
 		rule.Action = &action
 	}
 
-	// Set property ‘FilterName’:
+	// Set property "FilterName":
 	if typedInput.FilterName != nil {
 		filterName := *typedInput.FilterName
 		rule.FilterName = &filterName
 	}
 
-	// Set property ‘IpMask’:
+	// Set property "IpMask":
 	if typedInput.IpMask != nil {
 		ipMask := *typedInput.IpMask
 		rule.IpMask = &ipMask
@@ -4694,7 +4701,7 @@ func (rule *IpFilterRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 }
 
 // AssignProperties_From_IpFilterRule populates our IpFilterRule from the provided source IpFilterRule
-func (rule *IpFilterRule) AssignProperties_From_IpFilterRule(source *v1api20210702s.IpFilterRule) error {
+func (rule *IpFilterRule) AssignProperties_From_IpFilterRule(source *v20210702s.IpFilterRule) error {
 
 	// Action
 	if source.Action != nil {
@@ -4715,7 +4722,7 @@ func (rule *IpFilterRule) AssignProperties_From_IpFilterRule(source *v1api202107
 }
 
 // AssignProperties_To_IpFilterRule populates the provided destination IpFilterRule from our IpFilterRule
-func (rule *IpFilterRule) AssignProperties_To_IpFilterRule(destination *v1api20210702s.IpFilterRule) error {
+func (rule *IpFilterRule) AssignProperties_To_IpFilterRule(destination *v20210702s.IpFilterRule) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4791,19 +4798,19 @@ func (rule *IpFilterRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpFilterRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if typedInput.Action != nil {
 		action := *typedInput.Action
 		rule.Action = &action
 	}
 
-	// Set property ‘FilterName’:
+	// Set property "FilterName":
 	if typedInput.FilterName != nil {
 		filterName := *typedInput.FilterName
 		rule.FilterName = &filterName
 	}
 
-	// Set property ‘IpMask’:
+	// Set property "IpMask":
 	if typedInput.IpMask != nil {
 		ipMask := *typedInput.IpMask
 		rule.IpMask = &ipMask
@@ -4814,7 +4821,7 @@ func (rule *IpFilterRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_IpFilterRule_STATUS populates our IpFilterRule_STATUS from the provided source IpFilterRule_STATUS
-func (rule *IpFilterRule_STATUS) AssignProperties_From_IpFilterRule_STATUS(source *v1api20210702s.IpFilterRule_STATUS) error {
+func (rule *IpFilterRule_STATUS) AssignProperties_From_IpFilterRule_STATUS(source *v20210702s.IpFilterRule_STATUS) error {
 
 	// Action
 	if source.Action != nil {
@@ -4835,7 +4842,7 @@ func (rule *IpFilterRule_STATUS) AssignProperties_From_IpFilterRule_STATUS(sourc
 }
 
 // AssignProperties_To_IpFilterRule_STATUS populates the provided destination IpFilterRule_STATUS from our IpFilterRule_STATUS
-func (rule *IpFilterRule_STATUS) AssignProperties_To_IpFilterRule_STATUS(destination *v1api20210702s.IpFilterRule_STATUS) error {
+func (rule *IpFilterRule_STATUS) AssignProperties_To_IpFilterRule_STATUS(destination *v20210702s.IpFilterRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4889,19 +4896,19 @@ func (properties *MessagingEndpointProperties) ConvertToARM(resolved genruntime.
 	}
 	result := &MessagingEndpointProperties_ARM{}
 
-	// Set property ‘LockDurationAsIso8601’:
+	// Set property "LockDurationAsIso8601":
 	if properties.LockDurationAsIso8601 != nil {
 		lockDurationAsIso8601 := *properties.LockDurationAsIso8601
 		result.LockDurationAsIso8601 = &lockDurationAsIso8601
 	}
 
-	// Set property ‘MaxDeliveryCount’:
+	// Set property "MaxDeliveryCount":
 	if properties.MaxDeliveryCount != nil {
 		maxDeliveryCount := *properties.MaxDeliveryCount
 		result.MaxDeliveryCount = &maxDeliveryCount
 	}
 
-	// Set property ‘TtlAsIso8601’:
+	// Set property "TtlAsIso8601":
 	if properties.TtlAsIso8601 != nil {
 		ttlAsIso8601 := *properties.TtlAsIso8601
 		result.TtlAsIso8601 = &ttlAsIso8601
@@ -4921,19 +4928,19 @@ func (properties *MessagingEndpointProperties) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MessagingEndpointProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘LockDurationAsIso8601’:
+	// Set property "LockDurationAsIso8601":
 	if typedInput.LockDurationAsIso8601 != nil {
 		lockDurationAsIso8601 := *typedInput.LockDurationAsIso8601
 		properties.LockDurationAsIso8601 = &lockDurationAsIso8601
 	}
 
-	// Set property ‘MaxDeliveryCount’:
+	// Set property "MaxDeliveryCount":
 	if typedInput.MaxDeliveryCount != nil {
 		maxDeliveryCount := *typedInput.MaxDeliveryCount
 		properties.MaxDeliveryCount = &maxDeliveryCount
 	}
 
-	// Set property ‘TtlAsIso8601’:
+	// Set property "TtlAsIso8601":
 	if typedInput.TtlAsIso8601 != nil {
 		ttlAsIso8601 := *typedInput.TtlAsIso8601
 		properties.TtlAsIso8601 = &ttlAsIso8601
@@ -4944,7 +4951,7 @@ func (properties *MessagingEndpointProperties) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_MessagingEndpointProperties populates our MessagingEndpointProperties from the provided source MessagingEndpointProperties
-func (properties *MessagingEndpointProperties) AssignProperties_From_MessagingEndpointProperties(source *v1api20210702s.MessagingEndpointProperties) error {
+func (properties *MessagingEndpointProperties) AssignProperties_From_MessagingEndpointProperties(source *v20210702s.MessagingEndpointProperties) error {
 
 	// LockDurationAsIso8601
 	properties.LockDurationAsIso8601 = genruntime.ClonePointerToString(source.LockDurationAsIso8601)
@@ -4965,7 +4972,7 @@ func (properties *MessagingEndpointProperties) AssignProperties_From_MessagingEn
 }
 
 // AssignProperties_To_MessagingEndpointProperties populates the provided destination MessagingEndpointProperties from our MessagingEndpointProperties
-func (properties *MessagingEndpointProperties) AssignProperties_To_MessagingEndpointProperties(destination *v1api20210702s.MessagingEndpointProperties) error {
+func (properties *MessagingEndpointProperties) AssignProperties_To_MessagingEndpointProperties(destination *v20210702s.MessagingEndpointProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5043,19 +5050,19 @@ func (properties *MessagingEndpointProperties_STATUS) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MessagingEndpointProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘LockDurationAsIso8601’:
+	// Set property "LockDurationAsIso8601":
 	if typedInput.LockDurationAsIso8601 != nil {
 		lockDurationAsIso8601 := *typedInput.LockDurationAsIso8601
 		properties.LockDurationAsIso8601 = &lockDurationAsIso8601
 	}
 
-	// Set property ‘MaxDeliveryCount’:
+	// Set property "MaxDeliveryCount":
 	if typedInput.MaxDeliveryCount != nil {
 		maxDeliveryCount := *typedInput.MaxDeliveryCount
 		properties.MaxDeliveryCount = &maxDeliveryCount
 	}
 
-	// Set property ‘TtlAsIso8601’:
+	// Set property "TtlAsIso8601":
 	if typedInput.TtlAsIso8601 != nil {
 		ttlAsIso8601 := *typedInput.TtlAsIso8601
 		properties.TtlAsIso8601 = &ttlAsIso8601
@@ -5066,7 +5073,7 @@ func (properties *MessagingEndpointProperties_STATUS) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_MessagingEndpointProperties_STATUS populates our MessagingEndpointProperties_STATUS from the provided source MessagingEndpointProperties_STATUS
-func (properties *MessagingEndpointProperties_STATUS) AssignProperties_From_MessagingEndpointProperties_STATUS(source *v1api20210702s.MessagingEndpointProperties_STATUS) error {
+func (properties *MessagingEndpointProperties_STATUS) AssignProperties_From_MessagingEndpointProperties_STATUS(source *v20210702s.MessagingEndpointProperties_STATUS) error {
 
 	// LockDurationAsIso8601
 	properties.LockDurationAsIso8601 = genruntime.ClonePointerToString(source.LockDurationAsIso8601)
@@ -5082,7 +5089,7 @@ func (properties *MessagingEndpointProperties_STATUS) AssignProperties_From_Mess
 }
 
 // AssignProperties_To_MessagingEndpointProperties_STATUS populates the provided destination MessagingEndpointProperties_STATUS from our MessagingEndpointProperties_STATUS
-func (properties *MessagingEndpointProperties_STATUS) AssignProperties_To_MessagingEndpointProperties_STATUS(destination *v1api20210702s.MessagingEndpointProperties_STATUS) error {
+func (properties *MessagingEndpointProperties_STATUS) AssignProperties_To_MessagingEndpointProperties_STATUS(destination *v20210702s.MessagingEndpointProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5129,19 +5136,19 @@ func (properties *NetworkRuleSetProperties) ConvertToARM(resolved genruntime.Con
 	}
 	result := &NetworkRuleSetProperties_ARM{}
 
-	// Set property ‘ApplyToBuiltInEventHubEndpoint’:
+	// Set property "ApplyToBuiltInEventHubEndpoint":
 	if properties.ApplyToBuiltInEventHubEndpoint != nil {
 		applyToBuiltInEventHubEndpoint := *properties.ApplyToBuiltInEventHubEndpoint
 		result.ApplyToBuiltInEventHubEndpoint = &applyToBuiltInEventHubEndpoint
 	}
 
-	// Set property ‘DefaultAction’:
+	// Set property "DefaultAction":
 	if properties.DefaultAction != nil {
 		defaultAction := *properties.DefaultAction
 		result.DefaultAction = &defaultAction
 	}
 
-	// Set property ‘IpRules’:
+	// Set property "IpRules":
 	for _, item := range properties.IpRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -5164,19 +5171,19 @@ func (properties *NetworkRuleSetProperties) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkRuleSetProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ApplyToBuiltInEventHubEndpoint’:
+	// Set property "ApplyToBuiltInEventHubEndpoint":
 	if typedInput.ApplyToBuiltInEventHubEndpoint != nil {
 		applyToBuiltInEventHubEndpoint := *typedInput.ApplyToBuiltInEventHubEndpoint
 		properties.ApplyToBuiltInEventHubEndpoint = &applyToBuiltInEventHubEndpoint
 	}
 
-	// Set property ‘DefaultAction’:
+	// Set property "DefaultAction":
 	if typedInput.DefaultAction != nil {
 		defaultAction := *typedInput.DefaultAction
 		properties.DefaultAction = &defaultAction
 	}
 
-	// Set property ‘IpRules’:
+	// Set property "IpRules":
 	for _, item := range typedInput.IpRules {
 		var item1 NetworkRuleSetIpRule
 		err := item1.PopulateFromARM(owner, item)
@@ -5191,7 +5198,7 @@ func (properties *NetworkRuleSetProperties) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_NetworkRuleSetProperties populates our NetworkRuleSetProperties from the provided source NetworkRuleSetProperties
-func (properties *NetworkRuleSetProperties) AssignProperties_From_NetworkRuleSetProperties(source *v1api20210702s.NetworkRuleSetProperties) error {
+func (properties *NetworkRuleSetProperties) AssignProperties_From_NetworkRuleSetProperties(source *v20210702s.NetworkRuleSetProperties) error {
 
 	// ApplyToBuiltInEventHubEndpoint
 	if source.ApplyToBuiltInEventHubEndpoint != nil {
@@ -5232,7 +5239,7 @@ func (properties *NetworkRuleSetProperties) AssignProperties_From_NetworkRuleSet
 }
 
 // AssignProperties_To_NetworkRuleSetProperties populates the provided destination NetworkRuleSetProperties from our NetworkRuleSetProperties
-func (properties *NetworkRuleSetProperties) AssignProperties_To_NetworkRuleSetProperties(destination *v1api20210702s.NetworkRuleSetProperties) error {
+func (properties *NetworkRuleSetProperties) AssignProperties_To_NetworkRuleSetProperties(destination *v20210702s.NetworkRuleSetProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5254,11 +5261,11 @@ func (properties *NetworkRuleSetProperties) AssignProperties_To_NetworkRuleSetPr
 
 	// IpRules
 	if properties.IpRules != nil {
-		ipRuleList := make([]v1api20210702s.NetworkRuleSetIpRule, len(properties.IpRules))
+		ipRuleList := make([]v20210702s.NetworkRuleSetIpRule, len(properties.IpRules))
 		for ipRuleIndex, ipRuleItem := range properties.IpRules {
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
-			var ipRule v1api20210702s.NetworkRuleSetIpRule
+			var ipRule v20210702s.NetworkRuleSetIpRule
 			err := ipRuleItem.AssignProperties_To_NetworkRuleSetIpRule(&ipRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSetIpRule() to populate field IpRules")
@@ -5348,19 +5355,19 @@ func (properties *NetworkRuleSetProperties_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkRuleSetProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ApplyToBuiltInEventHubEndpoint’:
+	// Set property "ApplyToBuiltInEventHubEndpoint":
 	if typedInput.ApplyToBuiltInEventHubEndpoint != nil {
 		applyToBuiltInEventHubEndpoint := *typedInput.ApplyToBuiltInEventHubEndpoint
 		properties.ApplyToBuiltInEventHubEndpoint = &applyToBuiltInEventHubEndpoint
 	}
 
-	// Set property ‘DefaultAction’:
+	// Set property "DefaultAction":
 	if typedInput.DefaultAction != nil {
 		defaultAction := *typedInput.DefaultAction
 		properties.DefaultAction = &defaultAction
 	}
 
-	// Set property ‘IpRules’:
+	// Set property "IpRules":
 	for _, item := range typedInput.IpRules {
 		var item1 NetworkRuleSetIpRule_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -5375,7 +5382,7 @@ func (properties *NetworkRuleSetProperties_STATUS) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_NetworkRuleSetProperties_STATUS populates our NetworkRuleSetProperties_STATUS from the provided source NetworkRuleSetProperties_STATUS
-func (properties *NetworkRuleSetProperties_STATUS) AssignProperties_From_NetworkRuleSetProperties_STATUS(source *v1api20210702s.NetworkRuleSetProperties_STATUS) error {
+func (properties *NetworkRuleSetProperties_STATUS) AssignProperties_From_NetworkRuleSetProperties_STATUS(source *v20210702s.NetworkRuleSetProperties_STATUS) error {
 
 	// ApplyToBuiltInEventHubEndpoint
 	if source.ApplyToBuiltInEventHubEndpoint != nil {
@@ -5416,7 +5423,7 @@ func (properties *NetworkRuleSetProperties_STATUS) AssignProperties_From_Network
 }
 
 // AssignProperties_To_NetworkRuleSetProperties_STATUS populates the provided destination NetworkRuleSetProperties_STATUS from our NetworkRuleSetProperties_STATUS
-func (properties *NetworkRuleSetProperties_STATUS) AssignProperties_To_NetworkRuleSetProperties_STATUS(destination *v1api20210702s.NetworkRuleSetProperties_STATUS) error {
+func (properties *NetworkRuleSetProperties_STATUS) AssignProperties_To_NetworkRuleSetProperties_STATUS(destination *v20210702s.NetworkRuleSetProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5438,11 +5445,11 @@ func (properties *NetworkRuleSetProperties_STATUS) AssignProperties_To_NetworkRu
 
 	// IpRules
 	if properties.IpRules != nil {
-		ipRuleList := make([]v1api20210702s.NetworkRuleSetIpRule_STATUS, len(properties.IpRules))
+		ipRuleList := make([]v20210702s.NetworkRuleSetIpRule_STATUS, len(properties.IpRules))
 		for ipRuleIndex, ipRuleItem := range properties.IpRules {
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
-			var ipRule v1api20210702s.NetworkRuleSetIpRule_STATUS
+			var ipRule v20210702s.NetworkRuleSetIpRule_STATUS
 			err := ipRuleItem.AssignProperties_To_NetworkRuleSetIpRule_STATUS(&ipRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSetIpRule_STATUS() to populate field IpRules")
@@ -5485,7 +5492,7 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		connection.Id = &id
@@ -5496,7 +5503,7 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_PrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v1api20210702s.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v20210702s.PrivateEndpointConnection_STATUS) error {
 
 	// Id
 	connection.Id = genruntime.ClonePointerToString(source.Id)
@@ -5506,7 +5513,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 }
 
 // AssignProperties_To_PrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *v1api20210702s.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *v20210702s.PrivateEndpointConnection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5555,7 +5562,7 @@ func (properties *RoutingProperties) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	result := &RoutingProperties_ARM{}
 
-	// Set property ‘Endpoints’:
+	// Set property "Endpoints":
 	if properties.Endpoints != nil {
 		endpoints_ARM, err := (*properties.Endpoints).ConvertToARM(resolved)
 		if err != nil {
@@ -5565,7 +5572,7 @@ func (properties *RoutingProperties) ConvertToARM(resolved genruntime.ConvertToA
 		result.Endpoints = &endpoints
 	}
 
-	// Set property ‘Enrichments’:
+	// Set property "Enrichments":
 	for _, item := range properties.Enrichments {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -5574,7 +5581,7 @@ func (properties *RoutingProperties) ConvertToARM(resolved genruntime.ConvertToA
 		result.Enrichments = append(result.Enrichments, *item_ARM.(*EnrichmentProperties_ARM))
 	}
 
-	// Set property ‘FallbackRoute’:
+	// Set property "FallbackRoute":
 	if properties.FallbackRoute != nil {
 		fallbackRoute_ARM, err := (*properties.FallbackRoute).ConvertToARM(resolved)
 		if err != nil {
@@ -5584,7 +5591,7 @@ func (properties *RoutingProperties) ConvertToARM(resolved genruntime.ConvertToA
 		result.FallbackRoute = &fallbackRoute
 	}
 
-	// Set property ‘Routes’:
+	// Set property "Routes":
 	for _, item := range properties.Routes {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -5607,7 +5614,7 @@ func (properties *RoutingProperties) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Endpoints’:
+	// Set property "Endpoints":
 	if typedInput.Endpoints != nil {
 		var endpoints1 RoutingEndpoints
 		err := endpoints1.PopulateFromARM(owner, *typedInput.Endpoints)
@@ -5618,7 +5625,7 @@ func (properties *RoutingProperties) PopulateFromARM(owner genruntime.ArbitraryO
 		properties.Endpoints = &endpoints
 	}
 
-	// Set property ‘Enrichments’:
+	// Set property "Enrichments":
 	for _, item := range typedInput.Enrichments {
 		var item1 EnrichmentProperties
 		err := item1.PopulateFromARM(owner, item)
@@ -5628,7 +5635,7 @@ func (properties *RoutingProperties) PopulateFromARM(owner genruntime.ArbitraryO
 		properties.Enrichments = append(properties.Enrichments, item1)
 	}
 
-	// Set property ‘FallbackRoute’:
+	// Set property "FallbackRoute":
 	if typedInput.FallbackRoute != nil {
 		var fallbackRoute1 FallbackRouteProperties
 		err := fallbackRoute1.PopulateFromARM(owner, *typedInput.FallbackRoute)
@@ -5639,7 +5646,7 @@ func (properties *RoutingProperties) PopulateFromARM(owner genruntime.ArbitraryO
 		properties.FallbackRoute = &fallbackRoute
 	}
 
-	// Set property ‘Routes’:
+	// Set property "Routes":
 	for _, item := range typedInput.Routes {
 		var item1 RouteProperties
 		err := item1.PopulateFromARM(owner, item)
@@ -5654,7 +5661,7 @@ func (properties *RoutingProperties) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_RoutingProperties populates our RoutingProperties from the provided source RoutingProperties
-func (properties *RoutingProperties) AssignProperties_From_RoutingProperties(source *v1api20210702s.RoutingProperties) error {
+func (properties *RoutingProperties) AssignProperties_From_RoutingProperties(source *v20210702s.RoutingProperties) error {
 
 	// Endpoints
 	if source.Endpoints != nil {
@@ -5721,13 +5728,13 @@ func (properties *RoutingProperties) AssignProperties_From_RoutingProperties(sou
 }
 
 // AssignProperties_To_RoutingProperties populates the provided destination RoutingProperties from our RoutingProperties
-func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(destination *v1api20210702s.RoutingProperties) error {
+func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(destination *v20210702s.RoutingProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Endpoints
 	if properties.Endpoints != nil {
-		var endpoint v1api20210702s.RoutingEndpoints
+		var endpoint v20210702s.RoutingEndpoints
 		err := properties.Endpoints.AssignProperties_To_RoutingEndpoints(&endpoint)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RoutingEndpoints() to populate field Endpoints")
@@ -5739,11 +5746,11 @@ func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(desti
 
 	// Enrichments
 	if properties.Enrichments != nil {
-		enrichmentList := make([]v1api20210702s.EnrichmentProperties, len(properties.Enrichments))
+		enrichmentList := make([]v20210702s.EnrichmentProperties, len(properties.Enrichments))
 		for enrichmentIndex, enrichmentItem := range properties.Enrichments {
 			// Shadow the loop variable to avoid aliasing
 			enrichmentItem := enrichmentItem
-			var enrichment v1api20210702s.EnrichmentProperties
+			var enrichment v20210702s.EnrichmentProperties
 			err := enrichmentItem.AssignProperties_To_EnrichmentProperties(&enrichment)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_EnrichmentProperties() to populate field Enrichments")
@@ -5757,7 +5764,7 @@ func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(desti
 
 	// FallbackRoute
 	if properties.FallbackRoute != nil {
-		var fallbackRoute v1api20210702s.FallbackRouteProperties
+		var fallbackRoute v20210702s.FallbackRouteProperties
 		err := properties.FallbackRoute.AssignProperties_To_FallbackRouteProperties(&fallbackRoute)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FallbackRouteProperties() to populate field FallbackRoute")
@@ -5769,11 +5776,11 @@ func (properties *RoutingProperties) AssignProperties_To_RoutingProperties(desti
 
 	// Routes
 	if properties.Routes != nil {
-		routeList := make([]v1api20210702s.RouteProperties, len(properties.Routes))
+		routeList := make([]v20210702s.RouteProperties, len(properties.Routes))
 		for routeIndex, routeItem := range properties.Routes {
 			// Shadow the loop variable to avoid aliasing
 			routeItem := routeItem
-			var route v1api20210702s.RouteProperties
+			var route v20210702s.RouteProperties
 			err := routeItem.AssignProperties_To_RouteProperties(&route)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RouteProperties() to populate field Routes")
@@ -5899,7 +5906,7 @@ func (properties *RoutingProperties_STATUS) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Endpoints’:
+	// Set property "Endpoints":
 	if typedInput.Endpoints != nil {
 		var endpoints1 RoutingEndpoints_STATUS
 		err := endpoints1.PopulateFromARM(owner, *typedInput.Endpoints)
@@ -5910,7 +5917,7 @@ func (properties *RoutingProperties_STATUS) PopulateFromARM(owner genruntime.Arb
 		properties.Endpoints = &endpoints
 	}
 
-	// Set property ‘Enrichments’:
+	// Set property "Enrichments":
 	for _, item := range typedInput.Enrichments {
 		var item1 EnrichmentProperties_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -5920,7 +5927,7 @@ func (properties *RoutingProperties_STATUS) PopulateFromARM(owner genruntime.Arb
 		properties.Enrichments = append(properties.Enrichments, item1)
 	}
 
-	// Set property ‘FallbackRoute’:
+	// Set property "FallbackRoute":
 	if typedInput.FallbackRoute != nil {
 		var fallbackRoute1 FallbackRouteProperties_STATUS
 		err := fallbackRoute1.PopulateFromARM(owner, *typedInput.FallbackRoute)
@@ -5931,7 +5938,7 @@ func (properties *RoutingProperties_STATUS) PopulateFromARM(owner genruntime.Arb
 		properties.FallbackRoute = &fallbackRoute
 	}
 
-	// Set property ‘Routes’:
+	// Set property "Routes":
 	for _, item := range typedInput.Routes {
 		var item1 RouteProperties_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -5946,7 +5953,7 @@ func (properties *RoutingProperties_STATUS) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_RoutingProperties_STATUS populates our RoutingProperties_STATUS from the provided source RoutingProperties_STATUS
-func (properties *RoutingProperties_STATUS) AssignProperties_From_RoutingProperties_STATUS(source *v1api20210702s.RoutingProperties_STATUS) error {
+func (properties *RoutingProperties_STATUS) AssignProperties_From_RoutingProperties_STATUS(source *v20210702s.RoutingProperties_STATUS) error {
 
 	// Endpoints
 	if source.Endpoints != nil {
@@ -6013,13 +6020,13 @@ func (properties *RoutingProperties_STATUS) AssignProperties_From_RoutingPropert
 }
 
 // AssignProperties_To_RoutingProperties_STATUS populates the provided destination RoutingProperties_STATUS from our RoutingProperties_STATUS
-func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingProperties_STATUS(destination *v1api20210702s.RoutingProperties_STATUS) error {
+func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingProperties_STATUS(destination *v20210702s.RoutingProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Endpoints
 	if properties.Endpoints != nil {
-		var endpoint v1api20210702s.RoutingEndpoints_STATUS
+		var endpoint v20210702s.RoutingEndpoints_STATUS
 		err := properties.Endpoints.AssignProperties_To_RoutingEndpoints_STATUS(&endpoint)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RoutingEndpoints_STATUS() to populate field Endpoints")
@@ -6031,11 +6038,11 @@ func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingPropertie
 
 	// Enrichments
 	if properties.Enrichments != nil {
-		enrichmentList := make([]v1api20210702s.EnrichmentProperties_STATUS, len(properties.Enrichments))
+		enrichmentList := make([]v20210702s.EnrichmentProperties_STATUS, len(properties.Enrichments))
 		for enrichmentIndex, enrichmentItem := range properties.Enrichments {
 			// Shadow the loop variable to avoid aliasing
 			enrichmentItem := enrichmentItem
-			var enrichment v1api20210702s.EnrichmentProperties_STATUS
+			var enrichment v20210702s.EnrichmentProperties_STATUS
 			err := enrichmentItem.AssignProperties_To_EnrichmentProperties_STATUS(&enrichment)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_EnrichmentProperties_STATUS() to populate field Enrichments")
@@ -6049,7 +6056,7 @@ func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingPropertie
 
 	// FallbackRoute
 	if properties.FallbackRoute != nil {
-		var fallbackRoute v1api20210702s.FallbackRouteProperties_STATUS
+		var fallbackRoute v20210702s.FallbackRouteProperties_STATUS
 		err := properties.FallbackRoute.AssignProperties_To_FallbackRouteProperties_STATUS(&fallbackRoute)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FallbackRouteProperties_STATUS() to populate field FallbackRoute")
@@ -6061,11 +6068,11 @@ func (properties *RoutingProperties_STATUS) AssignProperties_To_RoutingPropertie
 
 	// Routes
 	if properties.Routes != nil {
-		routeList := make([]v1api20210702s.RouteProperties_STATUS, len(properties.Routes))
+		routeList := make([]v20210702s.RouteProperties_STATUS, len(properties.Routes))
 		for routeIndex, routeItem := range properties.Routes {
 			// Shadow the loop variable to avoid aliasing
 			routeItem := routeItem
-			var route v1api20210702s.RouteProperties_STATUS
+			var route v20210702s.RouteProperties_STATUS
 			err := routeItem.AssignProperties_To_RouteProperties_STATUS(&route)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RouteProperties_STATUS() to populate field Routes")
@@ -6108,13 +6115,13 @@ func (rule *SharedAccessSignatureAuthorizationRule) ConvertToARM(resolved genrun
 	}
 	result := &SharedAccessSignatureAuthorizationRule_ARM{}
 
-	// Set property ‘KeyName’:
+	// Set property "KeyName":
 	if rule.KeyName != nil {
 		keyName := *rule.KeyName
 		result.KeyName = &keyName
 	}
 
-	// Set property ‘Rights’:
+	// Set property "Rights":
 	if rule.Rights != nil {
 		rights := *rule.Rights
 		result.Rights = &rights
@@ -6134,13 +6141,13 @@ func (rule *SharedAccessSignatureAuthorizationRule) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SharedAccessSignatureAuthorizationRule_ARM, got %T", armInput)
 	}
 
-	// Set property ‘KeyName’:
+	// Set property "KeyName":
 	if typedInput.KeyName != nil {
 		keyName := *typedInput.KeyName
 		rule.KeyName = &keyName
 	}
 
-	// Set property ‘Rights’:
+	// Set property "Rights":
 	if typedInput.Rights != nil {
 		rights := *typedInput.Rights
 		rule.Rights = &rights
@@ -6151,7 +6158,7 @@ func (rule *SharedAccessSignatureAuthorizationRule) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_SharedAccessSignatureAuthorizationRule populates our SharedAccessSignatureAuthorizationRule from the provided source SharedAccessSignatureAuthorizationRule
-func (rule *SharedAccessSignatureAuthorizationRule) AssignProperties_From_SharedAccessSignatureAuthorizationRule(source *v1api20210702s.SharedAccessSignatureAuthorizationRule) error {
+func (rule *SharedAccessSignatureAuthorizationRule) AssignProperties_From_SharedAccessSignatureAuthorizationRule(source *v20210702s.SharedAccessSignatureAuthorizationRule) error {
 
 	// KeyName
 	rule.KeyName = genruntime.ClonePointerToString(source.KeyName)
@@ -6169,7 +6176,7 @@ func (rule *SharedAccessSignatureAuthorizationRule) AssignProperties_From_Shared
 }
 
 // AssignProperties_To_SharedAccessSignatureAuthorizationRule populates the provided destination SharedAccessSignatureAuthorizationRule from our SharedAccessSignatureAuthorizationRule
-func (rule *SharedAccessSignatureAuthorizationRule) AssignProperties_To_SharedAccessSignatureAuthorizationRule(destination *v1api20210702s.SharedAccessSignatureAuthorizationRule) error {
+func (rule *SharedAccessSignatureAuthorizationRule) AssignProperties_To_SharedAccessSignatureAuthorizationRule(destination *v20210702s.SharedAccessSignatureAuthorizationRule) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6236,13 +6243,13 @@ func (rule *SharedAccessSignatureAuthorizationRule_STATUS) PopulateFromARM(owner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SharedAccessSignatureAuthorizationRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘KeyName’:
+	// Set property "KeyName":
 	if typedInput.KeyName != nil {
 		keyName := *typedInput.KeyName
 		rule.KeyName = &keyName
 	}
 
-	// Set property ‘Rights’:
+	// Set property "Rights":
 	if typedInput.Rights != nil {
 		rights := *typedInput.Rights
 		rule.Rights = &rights
@@ -6253,7 +6260,7 @@ func (rule *SharedAccessSignatureAuthorizationRule_STATUS) PopulateFromARM(owner
 }
 
 // AssignProperties_From_SharedAccessSignatureAuthorizationRule_STATUS populates our SharedAccessSignatureAuthorizationRule_STATUS from the provided source SharedAccessSignatureAuthorizationRule_STATUS
-func (rule *SharedAccessSignatureAuthorizationRule_STATUS) AssignProperties_From_SharedAccessSignatureAuthorizationRule_STATUS(source *v1api20210702s.SharedAccessSignatureAuthorizationRule_STATUS) error {
+func (rule *SharedAccessSignatureAuthorizationRule_STATUS) AssignProperties_From_SharedAccessSignatureAuthorizationRule_STATUS(source *v20210702s.SharedAccessSignatureAuthorizationRule_STATUS) error {
 
 	// KeyName
 	rule.KeyName = genruntime.ClonePointerToString(source.KeyName)
@@ -6271,7 +6278,7 @@ func (rule *SharedAccessSignatureAuthorizationRule_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS populates the provided destination SharedAccessSignatureAuthorizationRule_STATUS from our SharedAccessSignatureAuthorizationRule_STATUS
-func (rule *SharedAccessSignatureAuthorizationRule_STATUS) AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS(destination *v1api20210702s.SharedAccessSignatureAuthorizationRule_STATUS) error {
+func (rule *SharedAccessSignatureAuthorizationRule_STATUS) AssignProperties_To_SharedAccessSignatureAuthorizationRule_STATUS(destination *v20210702s.SharedAccessSignatureAuthorizationRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6328,26 +6335,26 @@ func (properties *StorageEndpointProperties) ConvertToARM(resolved genruntime.Co
 	}
 	result := &StorageEndpointProperties_ARM{}
 
-	// Set property ‘AuthenticationType’:
+	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
 		authenticationType := *properties.AuthenticationType
 		result.AuthenticationType = &authenticationType
 	}
 
-	// Set property ‘ConnectionString’:
+	// Set property "ConnectionString":
 	connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(properties.ConnectionString)
 	if err != nil {
 		return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
 	}
 	result.ConnectionString = connectionStringSecret
 
-	// Set property ‘ContainerName’:
+	// Set property "ContainerName":
 	if properties.ContainerName != nil {
 		containerName := *properties.ContainerName
 		result.ContainerName = &containerName
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if properties.Identity != nil {
 		identity_ARM, err := (*properties.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -6357,7 +6364,7 @@ func (properties *StorageEndpointProperties) ConvertToARM(resolved genruntime.Co
 		result.Identity = &identity
 	}
 
-	// Set property ‘SasTtlAsIso8601’:
+	// Set property "SasTtlAsIso8601":
 	if properties.SasTtlAsIso8601 != nil {
 		sasTtlAsIso8601 := *properties.SasTtlAsIso8601
 		result.SasTtlAsIso8601 = &sasTtlAsIso8601
@@ -6377,21 +6384,21 @@ func (properties *StorageEndpointProperties) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageEndpointProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthenticationType’:
+	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
 		authenticationType := *typedInput.AuthenticationType
 		properties.AuthenticationType = &authenticationType
 	}
 
-	// no assignment for property ‘ConnectionString’
+	// no assignment for property "ConnectionString"
 
-	// Set property ‘ContainerName’:
+	// Set property "ContainerName":
 	if typedInput.ContainerName != nil {
 		containerName := *typedInput.ContainerName
 		properties.ContainerName = &containerName
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ManagedIdentity
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -6402,7 +6409,7 @@ func (properties *StorageEndpointProperties) PopulateFromARM(owner genruntime.Ar
 		properties.Identity = &identity
 	}
 
-	// Set property ‘SasTtlAsIso8601’:
+	// Set property "SasTtlAsIso8601":
 	if typedInput.SasTtlAsIso8601 != nil {
 		sasTtlAsIso8601 := *typedInput.SasTtlAsIso8601
 		properties.SasTtlAsIso8601 = &sasTtlAsIso8601
@@ -6413,7 +6420,7 @@ func (properties *StorageEndpointProperties) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_StorageEndpointProperties populates our StorageEndpointProperties from the provided source StorageEndpointProperties
-func (properties *StorageEndpointProperties) AssignProperties_From_StorageEndpointProperties(source *v1api20210702s.StorageEndpointProperties) error {
+func (properties *StorageEndpointProperties) AssignProperties_From_StorageEndpointProperties(source *v20210702s.StorageEndpointProperties) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -6453,7 +6460,7 @@ func (properties *StorageEndpointProperties) AssignProperties_From_StorageEndpoi
 }
 
 // AssignProperties_To_StorageEndpointProperties populates the provided destination StorageEndpointProperties from our StorageEndpointProperties
-func (properties *StorageEndpointProperties) AssignProperties_To_StorageEndpointProperties(destination *v1api20210702s.StorageEndpointProperties) error {
+func (properties *StorageEndpointProperties) AssignProperties_To_StorageEndpointProperties(destination *v20210702s.StorageEndpointProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6474,7 +6481,7 @@ func (properties *StorageEndpointProperties) AssignProperties_To_StorageEndpoint
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v1api20210702s.ManagedIdentity
+		var identity v20210702s.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
@@ -6562,19 +6569,19 @@ func (properties *StorageEndpointProperties_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageEndpointProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthenticationType’:
+	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
 		authenticationType := *typedInput.AuthenticationType
 		properties.AuthenticationType = &authenticationType
 	}
 
-	// Set property ‘ContainerName’:
+	// Set property "ContainerName":
 	if typedInput.ContainerName != nil {
 		containerName := *typedInput.ContainerName
 		properties.ContainerName = &containerName
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ManagedIdentity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -6585,7 +6592,7 @@ func (properties *StorageEndpointProperties_STATUS) PopulateFromARM(owner genrun
 		properties.Identity = &identity
 	}
 
-	// Set property ‘SasTtlAsIso8601’:
+	// Set property "SasTtlAsIso8601":
 	if typedInput.SasTtlAsIso8601 != nil {
 		sasTtlAsIso8601 := *typedInput.SasTtlAsIso8601
 		properties.SasTtlAsIso8601 = &sasTtlAsIso8601
@@ -6596,7 +6603,7 @@ func (properties *StorageEndpointProperties_STATUS) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_StorageEndpointProperties_STATUS populates our StorageEndpointProperties_STATUS from the provided source StorageEndpointProperties_STATUS
-func (properties *StorageEndpointProperties_STATUS) AssignProperties_From_StorageEndpointProperties_STATUS(source *v1api20210702s.StorageEndpointProperties_STATUS) error {
+func (properties *StorageEndpointProperties_STATUS) AssignProperties_From_StorageEndpointProperties_STATUS(source *v20210702s.StorageEndpointProperties_STATUS) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -6629,7 +6636,7 @@ func (properties *StorageEndpointProperties_STATUS) AssignProperties_From_Storag
 }
 
 // AssignProperties_To_StorageEndpointProperties_STATUS populates the provided destination StorageEndpointProperties_STATUS from our StorageEndpointProperties_STATUS
-func (properties *StorageEndpointProperties_STATUS) AssignProperties_To_StorageEndpointProperties_STATUS(destination *v1api20210702s.StorageEndpointProperties_STATUS) error {
+func (properties *StorageEndpointProperties_STATUS) AssignProperties_To_StorageEndpointProperties_STATUS(destination *v20210702s.StorageEndpointProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6646,7 +6653,7 @@ func (properties *StorageEndpointProperties_STATUS) AssignProperties_To_StorageE
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v1api20210702s.ManagedIdentity_STATUS
+		var identity v20210702s.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
@@ -6676,7 +6683,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v1api20210702s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20210702s.UserAssignedIdentityDetails) error {
 
 	// Reference
 	details.Reference = source.Reference.Copy()
@@ -6686,7 +6693,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 }
 
 // AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v1api20210702s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20210702s.UserAssignedIdentityDetails) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6729,18 +6736,18 @@ func (properties *EnrichmentProperties) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &EnrichmentProperties_ARM{}
 
-	// Set property ‘EndpointNames’:
+	// Set property "EndpointNames":
 	for _, item := range properties.EndpointNames {
 		result.EndpointNames = append(result.EndpointNames, item)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if properties.Key != nil {
 		key := *properties.Key
 		result.Key = &key
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if properties.Value != nil {
 		value := *properties.Value
 		result.Value = &value
@@ -6760,18 +6767,18 @@ func (properties *EnrichmentProperties) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EnrichmentProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointNames’:
+	// Set property "EndpointNames":
 	for _, item := range typedInput.EndpointNames {
 		properties.EndpointNames = append(properties.EndpointNames, item)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		properties.Key = &key
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		properties.Value = &value
@@ -6782,7 +6789,7 @@ func (properties *EnrichmentProperties) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_EnrichmentProperties populates our EnrichmentProperties from the provided source EnrichmentProperties
-func (properties *EnrichmentProperties) AssignProperties_From_EnrichmentProperties(source *v1api20210702s.EnrichmentProperties) error {
+func (properties *EnrichmentProperties) AssignProperties_From_EnrichmentProperties(source *v20210702s.EnrichmentProperties) error {
 
 	// EndpointNames
 	if source.EndpointNames != nil {
@@ -6808,7 +6815,7 @@ func (properties *EnrichmentProperties) AssignProperties_From_EnrichmentProperti
 }
 
 // AssignProperties_To_EnrichmentProperties populates the provided destination EnrichmentProperties from our EnrichmentProperties
-func (properties *EnrichmentProperties) AssignProperties_To_EnrichmentProperties(destination *v1api20210702s.EnrichmentProperties) error {
+func (properties *EnrichmentProperties) AssignProperties_To_EnrichmentProperties(destination *v20210702s.EnrichmentProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6894,18 +6901,18 @@ func (properties *EnrichmentProperties_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EnrichmentProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointNames’:
+	// Set property "EndpointNames":
 	for _, item := range typedInput.EndpointNames {
 		properties.EndpointNames = append(properties.EndpointNames, item)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		properties.Key = &key
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		properties.Value = &value
@@ -6916,7 +6923,7 @@ func (properties *EnrichmentProperties_STATUS) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_EnrichmentProperties_STATUS populates our EnrichmentProperties_STATUS from the provided source EnrichmentProperties_STATUS
-func (properties *EnrichmentProperties_STATUS) AssignProperties_From_EnrichmentProperties_STATUS(source *v1api20210702s.EnrichmentProperties_STATUS) error {
+func (properties *EnrichmentProperties_STATUS) AssignProperties_From_EnrichmentProperties_STATUS(source *v20210702s.EnrichmentProperties_STATUS) error {
 
 	// EndpointNames
 	properties.EndpointNames = genruntime.CloneSliceOfString(source.EndpointNames)
@@ -6932,7 +6939,7 @@ func (properties *EnrichmentProperties_STATUS) AssignProperties_From_EnrichmentP
 }
 
 // AssignProperties_To_EnrichmentProperties_STATUS populates the provided destination EnrichmentProperties_STATUS from our EnrichmentProperties_STATUS
-func (properties *EnrichmentProperties_STATUS) AssignProperties_To_EnrichmentProperties_STATUS(destination *v1api20210702s.EnrichmentProperties_STATUS) error {
+func (properties *EnrichmentProperties_STATUS) AssignProperties_To_EnrichmentProperties_STATUS(destination *v20210702s.EnrichmentProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6992,30 +6999,30 @@ func (properties *FallbackRouteProperties) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &FallbackRouteProperties_ARM{}
 
-	// Set property ‘Condition’:
+	// Set property "Condition":
 	if properties.Condition != nil {
 		condition := *properties.Condition
 		result.Condition = &condition
 	}
 
-	// Set property ‘EndpointNames’:
+	// Set property "EndpointNames":
 	for _, item := range properties.EndpointNames {
 		result.EndpointNames = append(result.EndpointNames, item)
 	}
 
-	// Set property ‘IsEnabled’:
+	// Set property "IsEnabled":
 	if properties.IsEnabled != nil {
 		isEnabled := *properties.IsEnabled
 		result.IsEnabled = &isEnabled
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if properties.Name != nil {
 		name := *properties.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Source’:
+	// Set property "Source":
 	if properties.Source != nil {
 		source := *properties.Source
 		result.Source = &source
@@ -7035,30 +7042,30 @@ func (properties *FallbackRouteProperties) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FallbackRouteProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Condition’:
+	// Set property "Condition":
 	if typedInput.Condition != nil {
 		condition := *typedInput.Condition
 		properties.Condition = &condition
 	}
 
-	// Set property ‘EndpointNames’:
+	// Set property "EndpointNames":
 	for _, item := range typedInput.EndpointNames {
 		properties.EndpointNames = append(properties.EndpointNames, item)
 	}
 
-	// Set property ‘IsEnabled’:
+	// Set property "IsEnabled":
 	if typedInput.IsEnabled != nil {
 		isEnabled := *typedInput.IsEnabled
 		properties.IsEnabled = &isEnabled
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		properties.Name = &name
 	}
 
-	// Set property ‘Source’:
+	// Set property "Source":
 	if typedInput.Source != nil {
 		source := *typedInput.Source
 		properties.Source = &source
@@ -7069,7 +7076,7 @@ func (properties *FallbackRouteProperties) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_FallbackRouteProperties populates our FallbackRouteProperties from the provided source FallbackRouteProperties
-func (properties *FallbackRouteProperties) AssignProperties_From_FallbackRouteProperties(source *v1api20210702s.FallbackRouteProperties) error {
+func (properties *FallbackRouteProperties) AssignProperties_From_FallbackRouteProperties(source *v20210702s.FallbackRouteProperties) error {
 
 	// Condition
 	properties.Condition = genruntime.ClonePointerToString(source.Condition)
@@ -7111,7 +7118,7 @@ func (properties *FallbackRouteProperties) AssignProperties_From_FallbackRoutePr
 }
 
 // AssignProperties_To_FallbackRouteProperties populates the provided destination FallbackRouteProperties from our FallbackRouteProperties
-func (properties *FallbackRouteProperties) AssignProperties_To_FallbackRouteProperties(destination *v1api20210702s.FallbackRouteProperties) error {
+func (properties *FallbackRouteProperties) AssignProperties_To_FallbackRouteProperties(destination *v20210702s.FallbackRouteProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7239,30 +7246,30 @@ func (properties *FallbackRouteProperties_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FallbackRouteProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Condition’:
+	// Set property "Condition":
 	if typedInput.Condition != nil {
 		condition := *typedInput.Condition
 		properties.Condition = &condition
 	}
 
-	// Set property ‘EndpointNames’:
+	// Set property "EndpointNames":
 	for _, item := range typedInput.EndpointNames {
 		properties.EndpointNames = append(properties.EndpointNames, item)
 	}
 
-	// Set property ‘IsEnabled’:
+	// Set property "IsEnabled":
 	if typedInput.IsEnabled != nil {
 		isEnabled := *typedInput.IsEnabled
 		properties.IsEnabled = &isEnabled
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		properties.Name = &name
 	}
 
-	// Set property ‘Source’:
+	// Set property "Source":
 	if typedInput.Source != nil {
 		source := *typedInput.Source
 		properties.Source = &source
@@ -7273,7 +7280,7 @@ func (properties *FallbackRouteProperties_STATUS) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_FallbackRouteProperties_STATUS populates our FallbackRouteProperties_STATUS from the provided source FallbackRouteProperties_STATUS
-func (properties *FallbackRouteProperties_STATUS) AssignProperties_From_FallbackRouteProperties_STATUS(source *v1api20210702s.FallbackRouteProperties_STATUS) error {
+func (properties *FallbackRouteProperties_STATUS) AssignProperties_From_FallbackRouteProperties_STATUS(source *v20210702s.FallbackRouteProperties_STATUS) error {
 
 	// Condition
 	properties.Condition = genruntime.ClonePointerToString(source.Condition)
@@ -7305,7 +7312,7 @@ func (properties *FallbackRouteProperties_STATUS) AssignProperties_From_Fallback
 }
 
 // AssignProperties_To_FallbackRouteProperties_STATUS populates the provided destination FallbackRouteProperties_STATUS from our FallbackRouteProperties_STATUS
-func (properties *FallbackRouteProperties_STATUS) AssignProperties_To_FallbackRouteProperties_STATUS(destination *v1api20210702s.FallbackRouteProperties_STATUS) error {
+func (properties *FallbackRouteProperties_STATUS) AssignProperties_To_FallbackRouteProperties_STATUS(destination *v20210702s.FallbackRouteProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7371,19 +7378,19 @@ func (properties *FeedbackProperties) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &FeedbackProperties_ARM{}
 
-	// Set property ‘LockDurationAsIso8601’:
+	// Set property "LockDurationAsIso8601":
 	if properties.LockDurationAsIso8601 != nil {
 		lockDurationAsIso8601 := *properties.LockDurationAsIso8601
 		result.LockDurationAsIso8601 = &lockDurationAsIso8601
 	}
 
-	// Set property ‘MaxDeliveryCount’:
+	// Set property "MaxDeliveryCount":
 	if properties.MaxDeliveryCount != nil {
 		maxDeliveryCount := *properties.MaxDeliveryCount
 		result.MaxDeliveryCount = &maxDeliveryCount
 	}
 
-	// Set property ‘TtlAsIso8601’:
+	// Set property "TtlAsIso8601":
 	if properties.TtlAsIso8601 != nil {
 		ttlAsIso8601 := *properties.TtlAsIso8601
 		result.TtlAsIso8601 = &ttlAsIso8601
@@ -7403,19 +7410,19 @@ func (properties *FeedbackProperties) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FeedbackProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘LockDurationAsIso8601’:
+	// Set property "LockDurationAsIso8601":
 	if typedInput.LockDurationAsIso8601 != nil {
 		lockDurationAsIso8601 := *typedInput.LockDurationAsIso8601
 		properties.LockDurationAsIso8601 = &lockDurationAsIso8601
 	}
 
-	// Set property ‘MaxDeliveryCount’:
+	// Set property "MaxDeliveryCount":
 	if typedInput.MaxDeliveryCount != nil {
 		maxDeliveryCount := *typedInput.MaxDeliveryCount
 		properties.MaxDeliveryCount = &maxDeliveryCount
 	}
 
-	// Set property ‘TtlAsIso8601’:
+	// Set property "TtlAsIso8601":
 	if typedInput.TtlAsIso8601 != nil {
 		ttlAsIso8601 := *typedInput.TtlAsIso8601
 		properties.TtlAsIso8601 = &ttlAsIso8601
@@ -7426,7 +7433,7 @@ func (properties *FeedbackProperties) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_FeedbackProperties populates our FeedbackProperties from the provided source FeedbackProperties
-func (properties *FeedbackProperties) AssignProperties_From_FeedbackProperties(source *v1api20210702s.FeedbackProperties) error {
+func (properties *FeedbackProperties) AssignProperties_From_FeedbackProperties(source *v20210702s.FeedbackProperties) error {
 
 	// LockDurationAsIso8601
 	properties.LockDurationAsIso8601 = genruntime.ClonePointerToString(source.LockDurationAsIso8601)
@@ -7447,7 +7454,7 @@ func (properties *FeedbackProperties) AssignProperties_From_FeedbackProperties(s
 }
 
 // AssignProperties_To_FeedbackProperties populates the provided destination FeedbackProperties from our FeedbackProperties
-func (properties *FeedbackProperties) AssignProperties_To_FeedbackProperties(destination *v1api20210702s.FeedbackProperties) error {
+func (properties *FeedbackProperties) AssignProperties_To_FeedbackProperties(destination *v20210702s.FeedbackProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7526,19 +7533,19 @@ func (properties *FeedbackProperties_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FeedbackProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘LockDurationAsIso8601’:
+	// Set property "LockDurationAsIso8601":
 	if typedInput.LockDurationAsIso8601 != nil {
 		lockDurationAsIso8601 := *typedInput.LockDurationAsIso8601
 		properties.LockDurationAsIso8601 = &lockDurationAsIso8601
 	}
 
-	// Set property ‘MaxDeliveryCount’:
+	// Set property "MaxDeliveryCount":
 	if typedInput.MaxDeliveryCount != nil {
 		maxDeliveryCount := *typedInput.MaxDeliveryCount
 		properties.MaxDeliveryCount = &maxDeliveryCount
 	}
 
-	// Set property ‘TtlAsIso8601’:
+	// Set property "TtlAsIso8601":
 	if typedInput.TtlAsIso8601 != nil {
 		ttlAsIso8601 := *typedInput.TtlAsIso8601
 		properties.TtlAsIso8601 = &ttlAsIso8601
@@ -7549,7 +7556,7 @@ func (properties *FeedbackProperties_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_FeedbackProperties_STATUS populates our FeedbackProperties_STATUS from the provided source FeedbackProperties_STATUS
-func (properties *FeedbackProperties_STATUS) AssignProperties_From_FeedbackProperties_STATUS(source *v1api20210702s.FeedbackProperties_STATUS) error {
+func (properties *FeedbackProperties_STATUS) AssignProperties_From_FeedbackProperties_STATUS(source *v20210702s.FeedbackProperties_STATUS) error {
 
 	// LockDurationAsIso8601
 	properties.LockDurationAsIso8601 = genruntime.ClonePointerToString(source.LockDurationAsIso8601)
@@ -7565,7 +7572,7 @@ func (properties *FeedbackProperties_STATUS) AssignProperties_From_FeedbackPrope
 }
 
 // AssignProperties_To_FeedbackProperties_STATUS populates the provided destination FeedbackProperties_STATUS from our FeedbackProperties_STATUS
-func (properties *FeedbackProperties_STATUS) AssignProperties_To_FeedbackProperties_STATUS(destination *v1api20210702s.FeedbackProperties_STATUS) error {
+func (properties *FeedbackProperties_STATUS) AssignProperties_To_FeedbackProperties_STATUS(destination *v20210702s.FeedbackProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7604,7 +7611,7 @@ func (identity *ManagedIdentity) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &ManagedIdentity_ARM{}
 
-	// Set property ‘UserAssignedIdentity’:
+	// Set property "UserAssignedIdentity":
 	if identity.UserAssignedIdentity != nil {
 		userAssignedIdentity := *identity.UserAssignedIdentity
 		result.UserAssignedIdentity = &userAssignedIdentity
@@ -7624,7 +7631,7 @@ func (identity *ManagedIdentity) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedIdentity_ARM, got %T", armInput)
 	}
 
-	// Set property ‘UserAssignedIdentity’:
+	// Set property "UserAssignedIdentity":
 	if typedInput.UserAssignedIdentity != nil {
 		userAssignedIdentity := *typedInput.UserAssignedIdentity
 		identity.UserAssignedIdentity = &userAssignedIdentity
@@ -7635,7 +7642,7 @@ func (identity *ManagedIdentity) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_ManagedIdentity populates our ManagedIdentity from the provided source ManagedIdentity
-func (identity *ManagedIdentity) AssignProperties_From_ManagedIdentity(source *v1api20210702s.ManagedIdentity) error {
+func (identity *ManagedIdentity) AssignProperties_From_ManagedIdentity(source *v20210702s.ManagedIdentity) error {
 
 	// UserAssignedIdentity
 	identity.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
@@ -7645,7 +7652,7 @@ func (identity *ManagedIdentity) AssignProperties_From_ManagedIdentity(source *v
 }
 
 // AssignProperties_To_ManagedIdentity populates the provided destination ManagedIdentity from our ManagedIdentity
-func (identity *ManagedIdentity) AssignProperties_To_ManagedIdentity(destination *v1api20210702s.ManagedIdentity) error {
+func (identity *ManagedIdentity) AssignProperties_To_ManagedIdentity(destination *v20210702s.ManagedIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7693,7 +7700,7 @@ func (identity *ManagedIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘UserAssignedIdentity’:
+	// Set property "UserAssignedIdentity":
 	if typedInput.UserAssignedIdentity != nil {
 		userAssignedIdentity := *typedInput.UserAssignedIdentity
 		identity.UserAssignedIdentity = &userAssignedIdentity
@@ -7704,7 +7711,7 @@ func (identity *ManagedIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_ManagedIdentity_STATUS populates our ManagedIdentity_STATUS from the provided source ManagedIdentity_STATUS
-func (identity *ManagedIdentity_STATUS) AssignProperties_From_ManagedIdentity_STATUS(source *v1api20210702s.ManagedIdentity_STATUS) error {
+func (identity *ManagedIdentity_STATUS) AssignProperties_From_ManagedIdentity_STATUS(source *v20210702s.ManagedIdentity_STATUS) error {
 
 	// UserAssignedIdentity
 	identity.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
@@ -7714,7 +7721,7 @@ func (identity *ManagedIdentity_STATUS) AssignProperties_From_ManagedIdentity_ST
 }
 
 // AssignProperties_To_ManagedIdentity_STATUS populates the provided destination ManagedIdentity_STATUS from our ManagedIdentity_STATUS
-func (identity *ManagedIdentity_STATUS) AssignProperties_To_ManagedIdentity_STATUS(destination *v1api20210702s.ManagedIdentity_STATUS) error {
+func (identity *ManagedIdentity_STATUS) AssignProperties_To_ManagedIdentity_STATUS(destination *v20210702s.ManagedIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7755,19 +7762,19 @@ func (rule *NetworkRuleSetIpRule) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &NetworkRuleSetIpRule_ARM{}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if rule.Action != nil {
 		action := *rule.Action
 		result.Action = &action
 	}
 
-	// Set property ‘FilterName’:
+	// Set property "FilterName":
 	if rule.FilterName != nil {
 		filterName := *rule.FilterName
 		result.FilterName = &filterName
 	}
 
-	// Set property ‘IpMask’:
+	// Set property "IpMask":
 	if rule.IpMask != nil {
 		ipMask := *rule.IpMask
 		result.IpMask = &ipMask
@@ -7787,19 +7794,19 @@ func (rule *NetworkRuleSetIpRule) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkRuleSetIpRule_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if typedInput.Action != nil {
 		action := *typedInput.Action
 		rule.Action = &action
 	}
 
-	// Set property ‘FilterName’:
+	// Set property "FilterName":
 	if typedInput.FilterName != nil {
 		filterName := *typedInput.FilterName
 		rule.FilterName = &filterName
 	}
 
-	// Set property ‘IpMask’:
+	// Set property "IpMask":
 	if typedInput.IpMask != nil {
 		ipMask := *typedInput.IpMask
 		rule.IpMask = &ipMask
@@ -7810,7 +7817,7 @@ func (rule *NetworkRuleSetIpRule) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_NetworkRuleSetIpRule populates our NetworkRuleSetIpRule from the provided source NetworkRuleSetIpRule
-func (rule *NetworkRuleSetIpRule) AssignProperties_From_NetworkRuleSetIpRule(source *v1api20210702s.NetworkRuleSetIpRule) error {
+func (rule *NetworkRuleSetIpRule) AssignProperties_From_NetworkRuleSetIpRule(source *v20210702s.NetworkRuleSetIpRule) error {
 
 	// Action
 	if source.Action != nil {
@@ -7831,7 +7838,7 @@ func (rule *NetworkRuleSetIpRule) AssignProperties_From_NetworkRuleSetIpRule(sou
 }
 
 // AssignProperties_To_NetworkRuleSetIpRule populates the provided destination NetworkRuleSetIpRule from our NetworkRuleSetIpRule
-func (rule *NetworkRuleSetIpRule) AssignProperties_To_NetworkRuleSetIpRule(destination *v1api20210702s.NetworkRuleSetIpRule) error {
+func (rule *NetworkRuleSetIpRule) AssignProperties_To_NetworkRuleSetIpRule(destination *v20210702s.NetworkRuleSetIpRule) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7907,19 +7914,19 @@ func (rule *NetworkRuleSetIpRule_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkRuleSetIpRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if typedInput.Action != nil {
 		action := *typedInput.Action
 		rule.Action = &action
 	}
 
-	// Set property ‘FilterName’:
+	// Set property "FilterName":
 	if typedInput.FilterName != nil {
 		filterName := *typedInput.FilterName
 		rule.FilterName = &filterName
 	}
 
-	// Set property ‘IpMask’:
+	// Set property "IpMask":
 	if typedInput.IpMask != nil {
 		ipMask := *typedInput.IpMask
 		rule.IpMask = &ipMask
@@ -7930,7 +7937,7 @@ func (rule *NetworkRuleSetIpRule_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_NetworkRuleSetIpRule_STATUS populates our NetworkRuleSetIpRule_STATUS from the provided source NetworkRuleSetIpRule_STATUS
-func (rule *NetworkRuleSetIpRule_STATUS) AssignProperties_From_NetworkRuleSetIpRule_STATUS(source *v1api20210702s.NetworkRuleSetIpRule_STATUS) error {
+func (rule *NetworkRuleSetIpRule_STATUS) AssignProperties_From_NetworkRuleSetIpRule_STATUS(source *v20210702s.NetworkRuleSetIpRule_STATUS) error {
 
 	// Action
 	if source.Action != nil {
@@ -7951,7 +7958,7 @@ func (rule *NetworkRuleSetIpRule_STATUS) AssignProperties_From_NetworkRuleSetIpR
 }
 
 // AssignProperties_To_NetworkRuleSetIpRule_STATUS populates the provided destination NetworkRuleSetIpRule_STATUS from our NetworkRuleSetIpRule_STATUS
-func (rule *NetworkRuleSetIpRule_STATUS) AssignProperties_To_NetworkRuleSetIpRule_STATUS(destination *v1api20210702s.NetworkRuleSetIpRule_STATUS) error {
+func (rule *NetworkRuleSetIpRule_STATUS) AssignProperties_To_NetworkRuleSetIpRule_STATUS(destination *v20210702s.NetworkRuleSetIpRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8017,30 +8024,30 @@ func (properties *RouteProperties) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &RouteProperties_ARM{}
 
-	// Set property ‘Condition’:
+	// Set property "Condition":
 	if properties.Condition != nil {
 		condition := *properties.Condition
 		result.Condition = &condition
 	}
 
-	// Set property ‘EndpointNames’:
+	// Set property "EndpointNames":
 	for _, item := range properties.EndpointNames {
 		result.EndpointNames = append(result.EndpointNames, item)
 	}
 
-	// Set property ‘IsEnabled’:
+	// Set property "IsEnabled":
 	if properties.IsEnabled != nil {
 		isEnabled := *properties.IsEnabled
 		result.IsEnabled = &isEnabled
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if properties.Name != nil {
 		name := *properties.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Source’:
+	// Set property "Source":
 	if properties.Source != nil {
 		source := *properties.Source
 		result.Source = &source
@@ -8060,30 +8067,30 @@ func (properties *RouteProperties) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Condition’:
+	// Set property "Condition":
 	if typedInput.Condition != nil {
 		condition := *typedInput.Condition
 		properties.Condition = &condition
 	}
 
-	// Set property ‘EndpointNames’:
+	// Set property "EndpointNames":
 	for _, item := range typedInput.EndpointNames {
 		properties.EndpointNames = append(properties.EndpointNames, item)
 	}
 
-	// Set property ‘IsEnabled’:
+	// Set property "IsEnabled":
 	if typedInput.IsEnabled != nil {
 		isEnabled := *typedInput.IsEnabled
 		properties.IsEnabled = &isEnabled
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		properties.Name = &name
 	}
 
-	// Set property ‘Source’:
+	// Set property "Source":
 	if typedInput.Source != nil {
 		source := *typedInput.Source
 		properties.Source = &source
@@ -8094,7 +8101,7 @@ func (properties *RouteProperties) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_RouteProperties populates our RouteProperties from the provided source RouteProperties
-func (properties *RouteProperties) AssignProperties_From_RouteProperties(source *v1api20210702s.RouteProperties) error {
+func (properties *RouteProperties) AssignProperties_From_RouteProperties(source *v20210702s.RouteProperties) error {
 
 	// Condition
 	properties.Condition = genruntime.ClonePointerToString(source.Condition)
@@ -8141,7 +8148,7 @@ func (properties *RouteProperties) AssignProperties_From_RouteProperties(source 
 }
 
 // AssignProperties_To_RouteProperties populates the provided destination RouteProperties from our RouteProperties
-func (properties *RouteProperties) AssignProperties_To_RouteProperties(destination *v1api20210702s.RouteProperties) error {
+func (properties *RouteProperties) AssignProperties_To_RouteProperties(destination *v20210702s.RouteProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8278,30 +8285,30 @@ func (properties *RouteProperties_STATUS) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Condition’:
+	// Set property "Condition":
 	if typedInput.Condition != nil {
 		condition := *typedInput.Condition
 		properties.Condition = &condition
 	}
 
-	// Set property ‘EndpointNames’:
+	// Set property "EndpointNames":
 	for _, item := range typedInput.EndpointNames {
 		properties.EndpointNames = append(properties.EndpointNames, item)
 	}
 
-	// Set property ‘IsEnabled’:
+	// Set property "IsEnabled":
 	if typedInput.IsEnabled != nil {
 		isEnabled := *typedInput.IsEnabled
 		properties.IsEnabled = &isEnabled
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		properties.Name = &name
 	}
 
-	// Set property ‘Source’:
+	// Set property "Source":
 	if typedInput.Source != nil {
 		source := *typedInput.Source
 		properties.Source = &source
@@ -8312,7 +8319,7 @@ func (properties *RouteProperties_STATUS) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_RouteProperties_STATUS populates our RouteProperties_STATUS from the provided source RouteProperties_STATUS
-func (properties *RouteProperties_STATUS) AssignProperties_From_RouteProperties_STATUS(source *v1api20210702s.RouteProperties_STATUS) error {
+func (properties *RouteProperties_STATUS) AssignProperties_From_RouteProperties_STATUS(source *v20210702s.RouteProperties_STATUS) error {
 
 	// Condition
 	properties.Condition = genruntime.ClonePointerToString(source.Condition)
@@ -8344,7 +8351,7 @@ func (properties *RouteProperties_STATUS) AssignProperties_From_RouteProperties_
 }
 
 // AssignProperties_To_RouteProperties_STATUS populates the provided destination RouteProperties_STATUS from our RouteProperties_STATUS
-func (properties *RouteProperties_STATUS) AssignProperties_To_RouteProperties_STATUS(destination *v1api20210702s.RouteProperties_STATUS) error {
+func (properties *RouteProperties_STATUS) AssignProperties_To_RouteProperties_STATUS(destination *v20210702s.RouteProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8413,7 +8420,7 @@ func (endpoints *RoutingEndpoints) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &RoutingEndpoints_ARM{}
 
-	// Set property ‘EventHubs’:
+	// Set property "EventHubs":
 	for _, item := range endpoints.EventHubs {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -8422,7 +8429,7 @@ func (endpoints *RoutingEndpoints) ConvertToARM(resolved genruntime.ConvertToARM
 		result.EventHubs = append(result.EventHubs, *item_ARM.(*RoutingEventHubProperties_ARM))
 	}
 
-	// Set property ‘ServiceBusQueues’:
+	// Set property "ServiceBusQueues":
 	for _, item := range endpoints.ServiceBusQueues {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -8431,7 +8438,7 @@ func (endpoints *RoutingEndpoints) ConvertToARM(resolved genruntime.ConvertToARM
 		result.ServiceBusQueues = append(result.ServiceBusQueues, *item_ARM.(*RoutingServiceBusQueueEndpointProperties_ARM))
 	}
 
-	// Set property ‘ServiceBusTopics’:
+	// Set property "ServiceBusTopics":
 	for _, item := range endpoints.ServiceBusTopics {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -8440,7 +8447,7 @@ func (endpoints *RoutingEndpoints) ConvertToARM(resolved genruntime.ConvertToARM
 		result.ServiceBusTopics = append(result.ServiceBusTopics, *item_ARM.(*RoutingServiceBusTopicEndpointProperties_ARM))
 	}
 
-	// Set property ‘StorageContainers’:
+	// Set property "StorageContainers":
 	for _, item := range endpoints.StorageContainers {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -8463,7 +8470,7 @@ func (endpoints *RoutingEndpoints) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingEndpoints_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EventHubs’:
+	// Set property "EventHubs":
 	for _, item := range typedInput.EventHubs {
 		var item1 RoutingEventHubProperties
 		err := item1.PopulateFromARM(owner, item)
@@ -8473,7 +8480,7 @@ func (endpoints *RoutingEndpoints) PopulateFromARM(owner genruntime.ArbitraryOwn
 		endpoints.EventHubs = append(endpoints.EventHubs, item1)
 	}
 
-	// Set property ‘ServiceBusQueues’:
+	// Set property "ServiceBusQueues":
 	for _, item := range typedInput.ServiceBusQueues {
 		var item1 RoutingServiceBusQueueEndpointProperties
 		err := item1.PopulateFromARM(owner, item)
@@ -8483,7 +8490,7 @@ func (endpoints *RoutingEndpoints) PopulateFromARM(owner genruntime.ArbitraryOwn
 		endpoints.ServiceBusQueues = append(endpoints.ServiceBusQueues, item1)
 	}
 
-	// Set property ‘ServiceBusTopics’:
+	// Set property "ServiceBusTopics":
 	for _, item := range typedInput.ServiceBusTopics {
 		var item1 RoutingServiceBusTopicEndpointProperties
 		err := item1.PopulateFromARM(owner, item)
@@ -8493,7 +8500,7 @@ func (endpoints *RoutingEndpoints) PopulateFromARM(owner genruntime.ArbitraryOwn
 		endpoints.ServiceBusTopics = append(endpoints.ServiceBusTopics, item1)
 	}
 
-	// Set property ‘StorageContainers’:
+	// Set property "StorageContainers":
 	for _, item := range typedInput.StorageContainers {
 		var item1 RoutingStorageContainerProperties
 		err := item1.PopulateFromARM(owner, item)
@@ -8508,7 +8515,7 @@ func (endpoints *RoutingEndpoints) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_RoutingEndpoints populates our RoutingEndpoints from the provided source RoutingEndpoints
-func (endpoints *RoutingEndpoints) AssignProperties_From_RoutingEndpoints(source *v1api20210702s.RoutingEndpoints) error {
+func (endpoints *RoutingEndpoints) AssignProperties_From_RoutingEndpoints(source *v20210702s.RoutingEndpoints) error {
 
 	// EventHubs
 	if source.EventHubs != nil {
@@ -8587,17 +8594,17 @@ func (endpoints *RoutingEndpoints) AssignProperties_From_RoutingEndpoints(source
 }
 
 // AssignProperties_To_RoutingEndpoints populates the provided destination RoutingEndpoints from our RoutingEndpoints
-func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destination *v1api20210702s.RoutingEndpoints) error {
+func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destination *v20210702s.RoutingEndpoints) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EventHubs
 	if endpoints.EventHubs != nil {
-		eventHubList := make([]v1api20210702s.RoutingEventHubProperties, len(endpoints.EventHubs))
+		eventHubList := make([]v20210702s.RoutingEventHubProperties, len(endpoints.EventHubs))
 		for eventHubIndex, eventHubItem := range endpoints.EventHubs {
 			// Shadow the loop variable to avoid aliasing
 			eventHubItem := eventHubItem
-			var eventHub v1api20210702s.RoutingEventHubProperties
+			var eventHub v20210702s.RoutingEventHubProperties
 			err := eventHubItem.AssignProperties_To_RoutingEventHubProperties(&eventHub)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RoutingEventHubProperties() to populate field EventHubs")
@@ -8611,11 +8618,11 @@ func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destinat
 
 	// ServiceBusQueues
 	if endpoints.ServiceBusQueues != nil {
-		serviceBusQueueList := make([]v1api20210702s.RoutingServiceBusQueueEndpointProperties, len(endpoints.ServiceBusQueues))
+		serviceBusQueueList := make([]v20210702s.RoutingServiceBusQueueEndpointProperties, len(endpoints.ServiceBusQueues))
 		for serviceBusQueueIndex, serviceBusQueueItem := range endpoints.ServiceBusQueues {
 			// Shadow the loop variable to avoid aliasing
 			serviceBusQueueItem := serviceBusQueueItem
-			var serviceBusQueue v1api20210702s.RoutingServiceBusQueueEndpointProperties
+			var serviceBusQueue v20210702s.RoutingServiceBusQueueEndpointProperties
 			err := serviceBusQueueItem.AssignProperties_To_RoutingServiceBusQueueEndpointProperties(&serviceBusQueue)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RoutingServiceBusQueueEndpointProperties() to populate field ServiceBusQueues")
@@ -8629,11 +8636,11 @@ func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destinat
 
 	// ServiceBusTopics
 	if endpoints.ServiceBusTopics != nil {
-		serviceBusTopicList := make([]v1api20210702s.RoutingServiceBusTopicEndpointProperties, len(endpoints.ServiceBusTopics))
+		serviceBusTopicList := make([]v20210702s.RoutingServiceBusTopicEndpointProperties, len(endpoints.ServiceBusTopics))
 		for serviceBusTopicIndex, serviceBusTopicItem := range endpoints.ServiceBusTopics {
 			// Shadow the loop variable to avoid aliasing
 			serviceBusTopicItem := serviceBusTopicItem
-			var serviceBusTopic v1api20210702s.RoutingServiceBusTopicEndpointProperties
+			var serviceBusTopic v20210702s.RoutingServiceBusTopicEndpointProperties
 			err := serviceBusTopicItem.AssignProperties_To_RoutingServiceBusTopicEndpointProperties(&serviceBusTopic)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RoutingServiceBusTopicEndpointProperties() to populate field ServiceBusTopics")
@@ -8647,11 +8654,11 @@ func (endpoints *RoutingEndpoints) AssignProperties_To_RoutingEndpoints(destinat
 
 	// StorageContainers
 	if endpoints.StorageContainers != nil {
-		storageContainerList := make([]v1api20210702s.RoutingStorageContainerProperties, len(endpoints.StorageContainers))
+		storageContainerList := make([]v20210702s.RoutingStorageContainerProperties, len(endpoints.StorageContainers))
 		for storageContainerIndex, storageContainerItem := range endpoints.StorageContainers {
 			// Shadow the loop variable to avoid aliasing
 			storageContainerItem := storageContainerItem
-			var storageContainer v1api20210702s.RoutingStorageContainerProperties
+			var storageContainer v20210702s.RoutingStorageContainerProperties
 			err := storageContainerItem.AssignProperties_To_RoutingStorageContainerProperties(&storageContainer)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RoutingStorageContainerProperties() to populate field StorageContainers")
@@ -8787,7 +8794,7 @@ func (endpoints *RoutingEndpoints_STATUS) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingEndpoints_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EventHubs’:
+	// Set property "EventHubs":
 	for _, item := range typedInput.EventHubs {
 		var item1 RoutingEventHubProperties_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -8797,7 +8804,7 @@ func (endpoints *RoutingEndpoints_STATUS) PopulateFromARM(owner genruntime.Arbit
 		endpoints.EventHubs = append(endpoints.EventHubs, item1)
 	}
 
-	// Set property ‘ServiceBusQueues’:
+	// Set property "ServiceBusQueues":
 	for _, item := range typedInput.ServiceBusQueues {
 		var item1 RoutingServiceBusQueueEndpointProperties_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -8807,7 +8814,7 @@ func (endpoints *RoutingEndpoints_STATUS) PopulateFromARM(owner genruntime.Arbit
 		endpoints.ServiceBusQueues = append(endpoints.ServiceBusQueues, item1)
 	}
 
-	// Set property ‘ServiceBusTopics’:
+	// Set property "ServiceBusTopics":
 	for _, item := range typedInput.ServiceBusTopics {
 		var item1 RoutingServiceBusTopicEndpointProperties_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -8817,7 +8824,7 @@ func (endpoints *RoutingEndpoints_STATUS) PopulateFromARM(owner genruntime.Arbit
 		endpoints.ServiceBusTopics = append(endpoints.ServiceBusTopics, item1)
 	}
 
-	// Set property ‘StorageContainers’:
+	// Set property "StorageContainers":
 	for _, item := range typedInput.StorageContainers {
 		var item1 RoutingStorageContainerProperties_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -8832,7 +8839,7 @@ func (endpoints *RoutingEndpoints_STATUS) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_RoutingEndpoints_STATUS populates our RoutingEndpoints_STATUS from the provided source RoutingEndpoints_STATUS
-func (endpoints *RoutingEndpoints_STATUS) AssignProperties_From_RoutingEndpoints_STATUS(source *v1api20210702s.RoutingEndpoints_STATUS) error {
+func (endpoints *RoutingEndpoints_STATUS) AssignProperties_From_RoutingEndpoints_STATUS(source *v20210702s.RoutingEndpoints_STATUS) error {
 
 	// EventHubs
 	if source.EventHubs != nil {
@@ -8911,17 +8918,17 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_From_RoutingEndpoints
 }
 
 // AssignProperties_To_RoutingEndpoints_STATUS populates the provided destination RoutingEndpoints_STATUS from our RoutingEndpoints_STATUS
-func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_STATUS(destination *v1api20210702s.RoutingEndpoints_STATUS) error {
+func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_STATUS(destination *v20210702s.RoutingEndpoints_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EventHubs
 	if endpoints.EventHubs != nil {
-		eventHubList := make([]v1api20210702s.RoutingEventHubProperties_STATUS, len(endpoints.EventHubs))
+		eventHubList := make([]v20210702s.RoutingEventHubProperties_STATUS, len(endpoints.EventHubs))
 		for eventHubIndex, eventHubItem := range endpoints.EventHubs {
 			// Shadow the loop variable to avoid aliasing
 			eventHubItem := eventHubItem
-			var eventHub v1api20210702s.RoutingEventHubProperties_STATUS
+			var eventHub v20210702s.RoutingEventHubProperties_STATUS
 			err := eventHubItem.AssignProperties_To_RoutingEventHubProperties_STATUS(&eventHub)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RoutingEventHubProperties_STATUS() to populate field EventHubs")
@@ -8935,11 +8942,11 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_S
 
 	// ServiceBusQueues
 	if endpoints.ServiceBusQueues != nil {
-		serviceBusQueueList := make([]v1api20210702s.RoutingServiceBusQueueEndpointProperties_STATUS, len(endpoints.ServiceBusQueues))
+		serviceBusQueueList := make([]v20210702s.RoutingServiceBusQueueEndpointProperties_STATUS, len(endpoints.ServiceBusQueues))
 		for serviceBusQueueIndex, serviceBusQueueItem := range endpoints.ServiceBusQueues {
 			// Shadow the loop variable to avoid aliasing
 			serviceBusQueueItem := serviceBusQueueItem
-			var serviceBusQueue v1api20210702s.RoutingServiceBusQueueEndpointProperties_STATUS
+			var serviceBusQueue v20210702s.RoutingServiceBusQueueEndpointProperties_STATUS
 			err := serviceBusQueueItem.AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS(&serviceBusQueue)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS() to populate field ServiceBusQueues")
@@ -8953,11 +8960,11 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_S
 
 	// ServiceBusTopics
 	if endpoints.ServiceBusTopics != nil {
-		serviceBusTopicList := make([]v1api20210702s.RoutingServiceBusTopicEndpointProperties_STATUS, len(endpoints.ServiceBusTopics))
+		serviceBusTopicList := make([]v20210702s.RoutingServiceBusTopicEndpointProperties_STATUS, len(endpoints.ServiceBusTopics))
 		for serviceBusTopicIndex, serviceBusTopicItem := range endpoints.ServiceBusTopics {
 			// Shadow the loop variable to avoid aliasing
 			serviceBusTopicItem := serviceBusTopicItem
-			var serviceBusTopic v1api20210702s.RoutingServiceBusTopicEndpointProperties_STATUS
+			var serviceBusTopic v20210702s.RoutingServiceBusTopicEndpointProperties_STATUS
 			err := serviceBusTopicItem.AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS(&serviceBusTopic)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS() to populate field ServiceBusTopics")
@@ -8971,11 +8978,11 @@ func (endpoints *RoutingEndpoints_STATUS) AssignProperties_To_RoutingEndpoints_S
 
 	// StorageContainers
 	if endpoints.StorageContainers != nil {
-		storageContainerList := make([]v1api20210702s.RoutingStorageContainerProperties_STATUS, len(endpoints.StorageContainers))
+		storageContainerList := make([]v20210702s.RoutingStorageContainerProperties_STATUS, len(endpoints.StorageContainers))
 		for storageContainerIndex, storageContainerItem := range endpoints.StorageContainers {
 			// Shadow the loop variable to avoid aliasing
 			storageContainerItem := storageContainerItem
-			var storageContainer v1api20210702s.RoutingStorageContainerProperties_STATUS
+			var storageContainer v20210702s.RoutingStorageContainerProperties_STATUS
 			err := storageContainerItem.AssignProperties_To_RoutingStorageContainerProperties_STATUS(&storageContainer)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_RoutingStorageContainerProperties_STATUS() to populate field StorageContainers")
@@ -9041,13 +9048,13 @@ func (properties *RoutingEventHubProperties) ConvertToARM(resolved genruntime.Co
 	}
 	result := &RoutingEventHubProperties_ARM{}
 
-	// Set property ‘AuthenticationType’:
+	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
 		authenticationType := *properties.AuthenticationType
 		result.AuthenticationType = &authenticationType
 	}
 
-	// Set property ‘ConnectionString’:
+	// Set property "ConnectionString":
 	if properties.ConnectionString != nil {
 		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
 		if err != nil {
@@ -9057,19 +9064,19 @@ func (properties *RoutingEventHubProperties) ConvertToARM(resolved genruntime.Co
 		result.ConnectionString = &connectionString
 	}
 
-	// Set property ‘EndpointUri’:
+	// Set property "EndpointUri":
 	if properties.EndpointUri != nil {
 		endpointUri := *properties.EndpointUri
 		result.EndpointUri = &endpointUri
 	}
 
-	// Set property ‘EntityPath’:
+	// Set property "EntityPath":
 	if properties.EntityPath != nil {
 		entityPath := *properties.EntityPath
 		result.EntityPath = &entityPath
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if properties.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.Reference)
 		if err != nil {
@@ -9079,7 +9086,7 @@ func (properties *RoutingEventHubProperties) ConvertToARM(resolved genruntime.Co
 		result.Id = &reference
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if properties.Identity != nil {
 		identity_ARM, err := (*properties.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -9089,19 +9096,19 @@ func (properties *RoutingEventHubProperties) ConvertToARM(resolved genruntime.Co
 		result.Identity = &identity
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if properties.Name != nil {
 		name := *properties.Name
 		result.Name = &name
 	}
 
-	// Set property ‘ResourceGroup’:
+	// Set property "ResourceGroup":
 	if properties.ResourceGroup != nil {
 		resourceGroup := *properties.ResourceGroup
 		result.ResourceGroup = &resourceGroup
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if properties.SubscriptionId != nil {
 		subscriptionId := *properties.SubscriptionId
 		result.SubscriptionId = &subscriptionId
@@ -9121,27 +9128,27 @@ func (properties *RoutingEventHubProperties) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingEventHubProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthenticationType’:
+	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
 		authenticationType := *typedInput.AuthenticationType
 		properties.AuthenticationType = &authenticationType
 	}
 
-	// no assignment for property ‘ConnectionString’
+	// no assignment for property "ConnectionString"
 
-	// Set property ‘EndpointUri’:
+	// Set property "EndpointUri":
 	if typedInput.EndpointUri != nil {
 		endpointUri := *typedInput.EndpointUri
 		properties.EndpointUri = &endpointUri
 	}
 
-	// Set property ‘EntityPath’:
+	// Set property "EntityPath":
 	if typedInput.EntityPath != nil {
 		entityPath := *typedInput.EntityPath
 		properties.EntityPath = &entityPath
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ManagedIdentity
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -9152,21 +9159,21 @@ func (properties *RoutingEventHubProperties) PopulateFromARM(owner genruntime.Ar
 		properties.Identity = &identity
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		properties.Name = &name
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
-	// Set property ‘ResourceGroup’:
+	// Set property "ResourceGroup":
 	if typedInput.ResourceGroup != nil {
 		resourceGroup := *typedInput.ResourceGroup
 		properties.ResourceGroup = &resourceGroup
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if typedInput.SubscriptionId != nil {
 		subscriptionId := *typedInput.SubscriptionId
 		properties.SubscriptionId = &subscriptionId
@@ -9177,7 +9184,7 @@ func (properties *RoutingEventHubProperties) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_RoutingEventHubProperties populates our RoutingEventHubProperties from the provided source RoutingEventHubProperties
-func (properties *RoutingEventHubProperties) AssignProperties_From_RoutingEventHubProperties(source *v1api20210702s.RoutingEventHubProperties) error {
+func (properties *RoutingEventHubProperties) AssignProperties_From_RoutingEventHubProperties(source *v20210702s.RoutingEventHubProperties) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -9240,7 +9247,7 @@ func (properties *RoutingEventHubProperties) AssignProperties_From_RoutingEventH
 }
 
 // AssignProperties_To_RoutingEventHubProperties populates the provided destination RoutingEventHubProperties from our RoutingEventHubProperties
-func (properties *RoutingEventHubProperties) AssignProperties_To_RoutingEventHubProperties(destination *v1api20210702s.RoutingEventHubProperties) error {
+func (properties *RoutingEventHubProperties) AssignProperties_To_RoutingEventHubProperties(destination *v20210702s.RoutingEventHubProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9268,7 +9275,7 @@ func (properties *RoutingEventHubProperties) AssignProperties_To_RoutingEventHub
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v1api20210702s.ManagedIdentity
+		var identity v20210702s.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
@@ -9409,31 +9416,31 @@ func (properties *RoutingEventHubProperties_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingEventHubProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthenticationType’:
+	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
 		authenticationType := *typedInput.AuthenticationType
 		properties.AuthenticationType = &authenticationType
 	}
 
-	// Set property ‘EndpointUri’:
+	// Set property "EndpointUri":
 	if typedInput.EndpointUri != nil {
 		endpointUri := *typedInput.EndpointUri
 		properties.EndpointUri = &endpointUri
 	}
 
-	// Set property ‘EntityPath’:
+	// Set property "EntityPath":
 	if typedInput.EntityPath != nil {
 		entityPath := *typedInput.EntityPath
 		properties.EntityPath = &entityPath
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		properties.Id = &id
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ManagedIdentity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -9444,19 +9451,19 @@ func (properties *RoutingEventHubProperties_STATUS) PopulateFromARM(owner genrun
 		properties.Identity = &identity
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		properties.Name = &name
 	}
 
-	// Set property ‘ResourceGroup’:
+	// Set property "ResourceGroup":
 	if typedInput.ResourceGroup != nil {
 		resourceGroup := *typedInput.ResourceGroup
 		properties.ResourceGroup = &resourceGroup
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if typedInput.SubscriptionId != nil {
 		subscriptionId := *typedInput.SubscriptionId
 		properties.SubscriptionId = &subscriptionId
@@ -9467,7 +9474,7 @@ func (properties *RoutingEventHubProperties_STATUS) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_RoutingEventHubProperties_STATUS populates our RoutingEventHubProperties_STATUS from the provided source RoutingEventHubProperties_STATUS
-func (properties *RoutingEventHubProperties_STATUS) AssignProperties_From_RoutingEventHubProperties_STATUS(source *v1api20210702s.RoutingEventHubProperties_STATUS) error {
+func (properties *RoutingEventHubProperties_STATUS) AssignProperties_From_RoutingEventHubProperties_STATUS(source *v20210702s.RoutingEventHubProperties_STATUS) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -9512,7 +9519,7 @@ func (properties *RoutingEventHubProperties_STATUS) AssignProperties_From_Routin
 }
 
 // AssignProperties_To_RoutingEventHubProperties_STATUS populates the provided destination RoutingEventHubProperties_STATUS from our RoutingEventHubProperties_STATUS
-func (properties *RoutingEventHubProperties_STATUS) AssignProperties_To_RoutingEventHubProperties_STATUS(destination *v1api20210702s.RoutingEventHubProperties_STATUS) error {
+func (properties *RoutingEventHubProperties_STATUS) AssignProperties_To_RoutingEventHubProperties_STATUS(destination *v20210702s.RoutingEventHubProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9535,7 +9542,7 @@ func (properties *RoutingEventHubProperties_STATUS) AssignProperties_To_RoutingE
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v1api20210702s.ManagedIdentity_STATUS
+		var identity v20210702s.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
@@ -9608,13 +9615,13 @@ func (properties *RoutingServiceBusQueueEndpointProperties) ConvertToARM(resolve
 	}
 	result := &RoutingServiceBusQueueEndpointProperties_ARM{}
 
-	// Set property ‘AuthenticationType’:
+	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
 		authenticationType := *properties.AuthenticationType
 		result.AuthenticationType = &authenticationType
 	}
 
-	// Set property ‘ConnectionString’:
+	// Set property "ConnectionString":
 	if properties.ConnectionString != nil {
 		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
 		if err != nil {
@@ -9624,19 +9631,19 @@ func (properties *RoutingServiceBusQueueEndpointProperties) ConvertToARM(resolve
 		result.ConnectionString = &connectionString
 	}
 
-	// Set property ‘EndpointUri’:
+	// Set property "EndpointUri":
 	if properties.EndpointUri != nil {
 		endpointUri := *properties.EndpointUri
 		result.EndpointUri = &endpointUri
 	}
 
-	// Set property ‘EntityPath’:
+	// Set property "EntityPath":
 	if properties.EntityPath != nil {
 		entityPath := *properties.EntityPath
 		result.EntityPath = &entityPath
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if properties.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.Reference)
 		if err != nil {
@@ -9646,7 +9653,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) ConvertToARM(resolve
 		result.Id = &reference
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if properties.Identity != nil {
 		identity_ARM, err := (*properties.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -9656,19 +9663,19 @@ func (properties *RoutingServiceBusQueueEndpointProperties) ConvertToARM(resolve
 		result.Identity = &identity
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if properties.Name != nil {
 		name := *properties.Name
 		result.Name = &name
 	}
 
-	// Set property ‘ResourceGroup’:
+	// Set property "ResourceGroup":
 	if properties.ResourceGroup != nil {
 		resourceGroup := *properties.ResourceGroup
 		result.ResourceGroup = &resourceGroup
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if properties.SubscriptionId != nil {
 		subscriptionId := *properties.SubscriptionId
 		result.SubscriptionId = &subscriptionId
@@ -9688,27 +9695,27 @@ func (properties *RoutingServiceBusQueueEndpointProperties) PopulateFromARM(owne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingServiceBusQueueEndpointProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthenticationType’:
+	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
 		authenticationType := *typedInput.AuthenticationType
 		properties.AuthenticationType = &authenticationType
 	}
 
-	// no assignment for property ‘ConnectionString’
+	// no assignment for property "ConnectionString"
 
-	// Set property ‘EndpointUri’:
+	// Set property "EndpointUri":
 	if typedInput.EndpointUri != nil {
 		endpointUri := *typedInput.EndpointUri
 		properties.EndpointUri = &endpointUri
 	}
 
-	// Set property ‘EntityPath’:
+	// Set property "EntityPath":
 	if typedInput.EntityPath != nil {
 		entityPath := *typedInput.EntityPath
 		properties.EntityPath = &entityPath
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ManagedIdentity
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -9719,21 +9726,21 @@ func (properties *RoutingServiceBusQueueEndpointProperties) PopulateFromARM(owne
 		properties.Identity = &identity
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		properties.Name = &name
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
-	// Set property ‘ResourceGroup’:
+	// Set property "ResourceGroup":
 	if typedInput.ResourceGroup != nil {
 		resourceGroup := *typedInput.ResourceGroup
 		properties.ResourceGroup = &resourceGroup
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if typedInput.SubscriptionId != nil {
 		subscriptionId := *typedInput.SubscriptionId
 		properties.SubscriptionId = &subscriptionId
@@ -9744,7 +9751,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) PopulateFromARM(owne
 }
 
 // AssignProperties_From_RoutingServiceBusQueueEndpointProperties populates our RoutingServiceBusQueueEndpointProperties from the provided source RoutingServiceBusQueueEndpointProperties
-func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_From_RoutingServiceBusQueueEndpointProperties(source *v1api20210702s.RoutingServiceBusQueueEndpointProperties) error {
+func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_From_RoutingServiceBusQueueEndpointProperties(source *v20210702s.RoutingServiceBusQueueEndpointProperties) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -9807,7 +9814,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_Fro
 }
 
 // AssignProperties_To_RoutingServiceBusQueueEndpointProperties populates the provided destination RoutingServiceBusQueueEndpointProperties from our RoutingServiceBusQueueEndpointProperties
-func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_To_RoutingServiceBusQueueEndpointProperties(destination *v1api20210702s.RoutingServiceBusQueueEndpointProperties) error {
+func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_To_RoutingServiceBusQueueEndpointProperties(destination *v20210702s.RoutingServiceBusQueueEndpointProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9835,7 +9842,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_To_
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v1api20210702s.ManagedIdentity
+		var identity v20210702s.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
@@ -9976,31 +9983,31 @@ func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) PopulateFromA
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingServiceBusQueueEndpointProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthenticationType’:
+	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
 		authenticationType := *typedInput.AuthenticationType
 		properties.AuthenticationType = &authenticationType
 	}
 
-	// Set property ‘EndpointUri’:
+	// Set property "EndpointUri":
 	if typedInput.EndpointUri != nil {
 		endpointUri := *typedInput.EndpointUri
 		properties.EndpointUri = &endpointUri
 	}
 
-	// Set property ‘EntityPath’:
+	// Set property "EntityPath":
 	if typedInput.EntityPath != nil {
 		entityPath := *typedInput.EntityPath
 		properties.EntityPath = &entityPath
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		properties.Id = &id
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ManagedIdentity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -10011,19 +10018,19 @@ func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) PopulateFromA
 		properties.Identity = &identity
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		properties.Name = &name
 	}
 
-	// Set property ‘ResourceGroup’:
+	// Set property "ResourceGroup":
 	if typedInput.ResourceGroup != nil {
 		resourceGroup := *typedInput.ResourceGroup
 		properties.ResourceGroup = &resourceGroup
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if typedInput.SubscriptionId != nil {
 		subscriptionId := *typedInput.SubscriptionId
 		properties.SubscriptionId = &subscriptionId
@@ -10034,7 +10041,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) PopulateFromA
 }
 
 // AssignProperties_From_RoutingServiceBusQueueEndpointProperties_STATUS populates our RoutingServiceBusQueueEndpointProperties_STATUS from the provided source RoutingServiceBusQueueEndpointProperties_STATUS
-func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignProperties_From_RoutingServiceBusQueueEndpointProperties_STATUS(source *v1api20210702s.RoutingServiceBusQueueEndpointProperties_STATUS) error {
+func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignProperties_From_RoutingServiceBusQueueEndpointProperties_STATUS(source *v20210702s.RoutingServiceBusQueueEndpointProperties_STATUS) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -10079,7 +10086,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignPropert
 }
 
 // AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS populates the provided destination RoutingServiceBusQueueEndpointProperties_STATUS from our RoutingServiceBusQueueEndpointProperties_STATUS
-func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS(destination *v1api20210702s.RoutingServiceBusQueueEndpointProperties_STATUS) error {
+func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignProperties_To_RoutingServiceBusQueueEndpointProperties_STATUS(destination *v20210702s.RoutingServiceBusQueueEndpointProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10102,7 +10109,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignPropert
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v1api20210702s.ManagedIdentity_STATUS
+		var identity v20210702s.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
@@ -10175,13 +10182,13 @@ func (properties *RoutingServiceBusTopicEndpointProperties) ConvertToARM(resolve
 	}
 	result := &RoutingServiceBusTopicEndpointProperties_ARM{}
 
-	// Set property ‘AuthenticationType’:
+	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
 		authenticationType := *properties.AuthenticationType
 		result.AuthenticationType = &authenticationType
 	}
 
-	// Set property ‘ConnectionString’:
+	// Set property "ConnectionString":
 	if properties.ConnectionString != nil {
 		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
 		if err != nil {
@@ -10191,19 +10198,19 @@ func (properties *RoutingServiceBusTopicEndpointProperties) ConvertToARM(resolve
 		result.ConnectionString = &connectionString
 	}
 
-	// Set property ‘EndpointUri’:
+	// Set property "EndpointUri":
 	if properties.EndpointUri != nil {
 		endpointUri := *properties.EndpointUri
 		result.EndpointUri = &endpointUri
 	}
 
-	// Set property ‘EntityPath’:
+	// Set property "EntityPath":
 	if properties.EntityPath != nil {
 		entityPath := *properties.EntityPath
 		result.EntityPath = &entityPath
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if properties.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.Reference)
 		if err != nil {
@@ -10213,7 +10220,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) ConvertToARM(resolve
 		result.Id = &reference
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if properties.Identity != nil {
 		identity_ARM, err := (*properties.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -10223,19 +10230,19 @@ func (properties *RoutingServiceBusTopicEndpointProperties) ConvertToARM(resolve
 		result.Identity = &identity
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if properties.Name != nil {
 		name := *properties.Name
 		result.Name = &name
 	}
 
-	// Set property ‘ResourceGroup’:
+	// Set property "ResourceGroup":
 	if properties.ResourceGroup != nil {
 		resourceGroup := *properties.ResourceGroup
 		result.ResourceGroup = &resourceGroup
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if properties.SubscriptionId != nil {
 		subscriptionId := *properties.SubscriptionId
 		result.SubscriptionId = &subscriptionId
@@ -10255,27 +10262,27 @@ func (properties *RoutingServiceBusTopicEndpointProperties) PopulateFromARM(owne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingServiceBusTopicEndpointProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthenticationType’:
+	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
 		authenticationType := *typedInput.AuthenticationType
 		properties.AuthenticationType = &authenticationType
 	}
 
-	// no assignment for property ‘ConnectionString’
+	// no assignment for property "ConnectionString"
 
-	// Set property ‘EndpointUri’:
+	// Set property "EndpointUri":
 	if typedInput.EndpointUri != nil {
 		endpointUri := *typedInput.EndpointUri
 		properties.EndpointUri = &endpointUri
 	}
 
-	// Set property ‘EntityPath’:
+	// Set property "EntityPath":
 	if typedInput.EntityPath != nil {
 		entityPath := *typedInput.EntityPath
 		properties.EntityPath = &entityPath
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ManagedIdentity
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -10286,21 +10293,21 @@ func (properties *RoutingServiceBusTopicEndpointProperties) PopulateFromARM(owne
 		properties.Identity = &identity
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		properties.Name = &name
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
-	// Set property ‘ResourceGroup’:
+	// Set property "ResourceGroup":
 	if typedInput.ResourceGroup != nil {
 		resourceGroup := *typedInput.ResourceGroup
 		properties.ResourceGroup = &resourceGroup
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if typedInput.SubscriptionId != nil {
 		subscriptionId := *typedInput.SubscriptionId
 		properties.SubscriptionId = &subscriptionId
@@ -10311,7 +10318,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) PopulateFromARM(owne
 }
 
 // AssignProperties_From_RoutingServiceBusTopicEndpointProperties populates our RoutingServiceBusTopicEndpointProperties from the provided source RoutingServiceBusTopicEndpointProperties
-func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_From_RoutingServiceBusTopicEndpointProperties(source *v1api20210702s.RoutingServiceBusTopicEndpointProperties) error {
+func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_From_RoutingServiceBusTopicEndpointProperties(source *v20210702s.RoutingServiceBusTopicEndpointProperties) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -10374,7 +10381,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_Fro
 }
 
 // AssignProperties_To_RoutingServiceBusTopicEndpointProperties populates the provided destination RoutingServiceBusTopicEndpointProperties from our RoutingServiceBusTopicEndpointProperties
-func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_To_RoutingServiceBusTopicEndpointProperties(destination *v1api20210702s.RoutingServiceBusTopicEndpointProperties) error {
+func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_To_RoutingServiceBusTopicEndpointProperties(destination *v20210702s.RoutingServiceBusTopicEndpointProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10402,7 +10409,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_To_
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v1api20210702s.ManagedIdentity
+		var identity v20210702s.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
@@ -10543,31 +10550,31 @@ func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) PopulateFromA
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingServiceBusTopicEndpointProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthenticationType’:
+	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
 		authenticationType := *typedInput.AuthenticationType
 		properties.AuthenticationType = &authenticationType
 	}
 
-	// Set property ‘EndpointUri’:
+	// Set property "EndpointUri":
 	if typedInput.EndpointUri != nil {
 		endpointUri := *typedInput.EndpointUri
 		properties.EndpointUri = &endpointUri
 	}
 
-	// Set property ‘EntityPath’:
+	// Set property "EntityPath":
 	if typedInput.EntityPath != nil {
 		entityPath := *typedInput.EntityPath
 		properties.EntityPath = &entityPath
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		properties.Id = &id
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ManagedIdentity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -10578,19 +10585,19 @@ func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) PopulateFromA
 		properties.Identity = &identity
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		properties.Name = &name
 	}
 
-	// Set property ‘ResourceGroup’:
+	// Set property "ResourceGroup":
 	if typedInput.ResourceGroup != nil {
 		resourceGroup := *typedInput.ResourceGroup
 		properties.ResourceGroup = &resourceGroup
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if typedInput.SubscriptionId != nil {
 		subscriptionId := *typedInput.SubscriptionId
 		properties.SubscriptionId = &subscriptionId
@@ -10601,7 +10608,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) PopulateFromA
 }
 
 // AssignProperties_From_RoutingServiceBusTopicEndpointProperties_STATUS populates our RoutingServiceBusTopicEndpointProperties_STATUS from the provided source RoutingServiceBusTopicEndpointProperties_STATUS
-func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignProperties_From_RoutingServiceBusTopicEndpointProperties_STATUS(source *v1api20210702s.RoutingServiceBusTopicEndpointProperties_STATUS) error {
+func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignProperties_From_RoutingServiceBusTopicEndpointProperties_STATUS(source *v20210702s.RoutingServiceBusTopicEndpointProperties_STATUS) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -10646,7 +10653,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignPropert
 }
 
 // AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS populates the provided destination RoutingServiceBusTopicEndpointProperties_STATUS from our RoutingServiceBusTopicEndpointProperties_STATUS
-func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS(destination *v1api20210702s.RoutingServiceBusTopicEndpointProperties_STATUS) error {
+func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignProperties_To_RoutingServiceBusTopicEndpointProperties_STATUS(destination *v20210702s.RoutingServiceBusTopicEndpointProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10669,7 +10676,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignPropert
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v1api20210702s.ManagedIdentity_STATUS
+		var identity v20210702s.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")
@@ -10763,19 +10770,19 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 	}
 	result := &RoutingStorageContainerProperties_ARM{}
 
-	// Set property ‘AuthenticationType’:
+	// Set property "AuthenticationType":
 	if properties.AuthenticationType != nil {
 		authenticationType := *properties.AuthenticationType
 		result.AuthenticationType = &authenticationType
 	}
 
-	// Set property ‘BatchFrequencyInSeconds’:
+	// Set property "BatchFrequencyInSeconds":
 	if properties.BatchFrequencyInSeconds != nil {
 		batchFrequencyInSeconds := *properties.BatchFrequencyInSeconds
 		result.BatchFrequencyInSeconds = &batchFrequencyInSeconds
 	}
 
-	// Set property ‘ConnectionString’:
+	// Set property "ConnectionString":
 	if properties.ConnectionString != nil {
 		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
 		if err != nil {
@@ -10785,31 +10792,31 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 		result.ConnectionString = &connectionString
 	}
 
-	// Set property ‘ContainerName’:
+	// Set property "ContainerName":
 	if properties.ContainerName != nil {
 		containerName := *properties.ContainerName
 		result.ContainerName = &containerName
 	}
 
-	// Set property ‘Encoding’:
+	// Set property "Encoding":
 	if properties.Encoding != nil {
 		encoding := *properties.Encoding
 		result.Encoding = &encoding
 	}
 
-	// Set property ‘EndpointUri’:
+	// Set property "EndpointUri":
 	if properties.EndpointUri != nil {
 		endpointUri := *properties.EndpointUri
 		result.EndpointUri = &endpointUri
 	}
 
-	// Set property ‘FileNameFormat’:
+	// Set property "FileNameFormat":
 	if properties.FileNameFormat != nil {
 		fileNameFormat := *properties.FileNameFormat
 		result.FileNameFormat = &fileNameFormat
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if properties.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.Reference)
 		if err != nil {
@@ -10819,7 +10826,7 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 		result.Id = &reference
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if properties.Identity != nil {
 		identity_ARM, err := (*properties.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -10829,25 +10836,25 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 		result.Identity = &identity
 	}
 
-	// Set property ‘MaxChunkSizeInBytes’:
+	// Set property "MaxChunkSizeInBytes":
 	if properties.MaxChunkSizeInBytes != nil {
 		maxChunkSizeInBytes := *properties.MaxChunkSizeInBytes
 		result.MaxChunkSizeInBytes = &maxChunkSizeInBytes
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if properties.Name != nil {
 		name := *properties.Name
 		result.Name = &name
 	}
 
-	// Set property ‘ResourceGroup’:
+	// Set property "ResourceGroup":
 	if properties.ResourceGroup != nil {
 		resourceGroup := *properties.ResourceGroup
 		result.ResourceGroup = &resourceGroup
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if properties.SubscriptionId != nil {
 		subscriptionId := *properties.SubscriptionId
 		result.SubscriptionId = &subscriptionId
@@ -10867,45 +10874,45 @@ func (properties *RoutingStorageContainerProperties) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingStorageContainerProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthenticationType’:
+	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
 		authenticationType := *typedInput.AuthenticationType
 		properties.AuthenticationType = &authenticationType
 	}
 
-	// Set property ‘BatchFrequencyInSeconds’:
+	// Set property "BatchFrequencyInSeconds":
 	if typedInput.BatchFrequencyInSeconds != nil {
 		batchFrequencyInSeconds := *typedInput.BatchFrequencyInSeconds
 		properties.BatchFrequencyInSeconds = &batchFrequencyInSeconds
 	}
 
-	// no assignment for property ‘ConnectionString’
+	// no assignment for property "ConnectionString"
 
-	// Set property ‘ContainerName’:
+	// Set property "ContainerName":
 	if typedInput.ContainerName != nil {
 		containerName := *typedInput.ContainerName
 		properties.ContainerName = &containerName
 	}
 
-	// Set property ‘Encoding’:
+	// Set property "Encoding":
 	if typedInput.Encoding != nil {
 		encoding := *typedInput.Encoding
 		properties.Encoding = &encoding
 	}
 
-	// Set property ‘EndpointUri’:
+	// Set property "EndpointUri":
 	if typedInput.EndpointUri != nil {
 		endpointUri := *typedInput.EndpointUri
 		properties.EndpointUri = &endpointUri
 	}
 
-	// Set property ‘FileNameFormat’:
+	// Set property "FileNameFormat":
 	if typedInput.FileNameFormat != nil {
 		fileNameFormat := *typedInput.FileNameFormat
 		properties.FileNameFormat = &fileNameFormat
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ManagedIdentity
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -10916,27 +10923,27 @@ func (properties *RoutingStorageContainerProperties) PopulateFromARM(owner genru
 		properties.Identity = &identity
 	}
 
-	// Set property ‘MaxChunkSizeInBytes’:
+	// Set property "MaxChunkSizeInBytes":
 	if typedInput.MaxChunkSizeInBytes != nil {
 		maxChunkSizeInBytes := *typedInput.MaxChunkSizeInBytes
 		properties.MaxChunkSizeInBytes = &maxChunkSizeInBytes
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		properties.Name = &name
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
-	// Set property ‘ResourceGroup’:
+	// Set property "ResourceGroup":
 	if typedInput.ResourceGroup != nil {
 		resourceGroup := *typedInput.ResourceGroup
 		properties.ResourceGroup = &resourceGroup
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if typedInput.SubscriptionId != nil {
 		subscriptionId := *typedInput.SubscriptionId
 		properties.SubscriptionId = &subscriptionId
@@ -10947,7 +10954,7 @@ func (properties *RoutingStorageContainerProperties) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_RoutingStorageContainerProperties populates our RoutingStorageContainerProperties from the provided source RoutingStorageContainerProperties
-func (properties *RoutingStorageContainerProperties) AssignProperties_From_RoutingStorageContainerProperties(source *v1api20210702s.RoutingStorageContainerProperties) error {
+func (properties *RoutingStorageContainerProperties) AssignProperties_From_RoutingStorageContainerProperties(source *v20210702s.RoutingStorageContainerProperties) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -11037,7 +11044,7 @@ func (properties *RoutingStorageContainerProperties) AssignProperties_From_Routi
 }
 
 // AssignProperties_To_RoutingStorageContainerProperties populates the provided destination RoutingStorageContainerProperties from our RoutingStorageContainerProperties
-func (properties *RoutingStorageContainerProperties) AssignProperties_To_RoutingStorageContainerProperties(destination *v1api20210702s.RoutingStorageContainerProperties) error {
+func (properties *RoutingStorageContainerProperties) AssignProperties_To_RoutingStorageContainerProperties(destination *v20210702s.RoutingStorageContainerProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11084,7 +11091,7 @@ func (properties *RoutingStorageContainerProperties) AssignProperties_To_Routing
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v1api20210702s.ManagedIdentity
+		var identity v20210702s.ManagedIdentity
 		err := properties.Identity.AssignProperties_To_ManagedIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity() to populate field Identity")
@@ -11276,49 +11283,49 @@ func (properties *RoutingStorageContainerProperties_STATUS) PopulateFromARM(owne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingStorageContainerProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthenticationType’:
+	// Set property "AuthenticationType":
 	if typedInput.AuthenticationType != nil {
 		authenticationType := *typedInput.AuthenticationType
 		properties.AuthenticationType = &authenticationType
 	}
 
-	// Set property ‘BatchFrequencyInSeconds’:
+	// Set property "BatchFrequencyInSeconds":
 	if typedInput.BatchFrequencyInSeconds != nil {
 		batchFrequencyInSeconds := *typedInput.BatchFrequencyInSeconds
 		properties.BatchFrequencyInSeconds = &batchFrequencyInSeconds
 	}
 
-	// Set property ‘ContainerName’:
+	// Set property "ContainerName":
 	if typedInput.ContainerName != nil {
 		containerName := *typedInput.ContainerName
 		properties.ContainerName = &containerName
 	}
 
-	// Set property ‘Encoding’:
+	// Set property "Encoding":
 	if typedInput.Encoding != nil {
 		encoding := *typedInput.Encoding
 		properties.Encoding = &encoding
 	}
 
-	// Set property ‘EndpointUri’:
+	// Set property "EndpointUri":
 	if typedInput.EndpointUri != nil {
 		endpointUri := *typedInput.EndpointUri
 		properties.EndpointUri = &endpointUri
 	}
 
-	// Set property ‘FileNameFormat’:
+	// Set property "FileNameFormat":
 	if typedInput.FileNameFormat != nil {
 		fileNameFormat := *typedInput.FileNameFormat
 		properties.FileNameFormat = &fileNameFormat
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		properties.Id = &id
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ManagedIdentity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -11329,25 +11336,25 @@ func (properties *RoutingStorageContainerProperties_STATUS) PopulateFromARM(owne
 		properties.Identity = &identity
 	}
 
-	// Set property ‘MaxChunkSizeInBytes’:
+	// Set property "MaxChunkSizeInBytes":
 	if typedInput.MaxChunkSizeInBytes != nil {
 		maxChunkSizeInBytes := *typedInput.MaxChunkSizeInBytes
 		properties.MaxChunkSizeInBytes = &maxChunkSizeInBytes
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		properties.Name = &name
 	}
 
-	// Set property ‘ResourceGroup’:
+	// Set property "ResourceGroup":
 	if typedInput.ResourceGroup != nil {
 		resourceGroup := *typedInput.ResourceGroup
 		properties.ResourceGroup = &resourceGroup
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if typedInput.SubscriptionId != nil {
 		subscriptionId := *typedInput.SubscriptionId
 		properties.SubscriptionId = &subscriptionId
@@ -11358,7 +11365,7 @@ func (properties *RoutingStorageContainerProperties_STATUS) PopulateFromARM(owne
 }
 
 // AssignProperties_From_RoutingStorageContainerProperties_STATUS populates our RoutingStorageContainerProperties_STATUS from the provided source RoutingStorageContainerProperties_STATUS
-func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_From_RoutingStorageContainerProperties_STATUS(source *v1api20210702s.RoutingStorageContainerProperties_STATUS) error {
+func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_From_RoutingStorageContainerProperties_STATUS(source *v20210702s.RoutingStorageContainerProperties_STATUS) error {
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
@@ -11420,7 +11427,7 @@ func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_RoutingStorageContainerProperties_STATUS populates the provided destination RoutingStorageContainerProperties_STATUS from our RoutingStorageContainerProperties_STATUS
-func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_To_RoutingStorageContainerProperties_STATUS(destination *v1api20210702s.RoutingStorageContainerProperties_STATUS) error {
+func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_To_RoutingStorageContainerProperties_STATUS(destination *v20210702s.RoutingStorageContainerProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11457,7 +11464,7 @@ func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_To_
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v1api20210702s.ManagedIdentity_STATUS
+		var identity v20210702s.ManagedIdentity_STATUS
 		err := properties.Identity.AssignProperties_To_ManagedIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedIdentity_STATUS() to populate field Identity")

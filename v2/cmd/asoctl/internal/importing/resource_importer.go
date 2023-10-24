@@ -8,7 +8,6 @@ package importing
 import (
 	"context"
 	"fmt"
-	"sync"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -16,9 +15,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/vbauerster/mpb/v8"
 	"github.com/vbauerster/mpb/v8/decor"
-	"golang.org/x/sync/errgroup"
 	"k8s.io/apimachinery/pkg/runtime"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
@@ -26,16 +23,24 @@ import (
 // ResourceImporter is the entry point for importing resources.
 // Factory methods here provide ways to instantiate importers for different kinds of resources.
 type ResourceImporter struct {
-	scheme   *runtime.Scheme                 // a reference to the scheme used by asoctl
-	client   *genericarmclient.GenericClient // Client to use when talking to ARM
-	pending  map[string]ImportableResource   // A set of importers that are pending import
-	imported map[string]ImportableResource   // A set of importers that have been successfully imported
-	unique   set.Set[string]                 // A set used to ensure we don't process the same resource twice
-	queue    []string                        // Queue of names of resources to import (so we do things in a reasonable order)
-	lock     sync.Mutex                      // Lock to protect the above maps
-	log      logr.Logger                     // Logger to use for logging
-	progress *mpb.Progress                   // Progress bar to use for showing progress
-	report   *resourceImportReport           // Report to summarise the import
+	scheme    *runtime.Scheme                 // a reference to the scheme used by asoctl
+	client    *genericarmclient.GenericClient // Client to use when talking to ARM
+	resources []ImportableResource            // A slice of resources to be imported
+
+	imported map[string]ImportableResource // A set of importers that have been successfully imported
+	log      logr.Logger                   // Logger to use for logging
+	progress *mpb.Progress                 // Progress bar to use for showing progress
+}
+
+type ImportResourceResult struct {
+	resource ImportableResource
+	pending  []ImportableResource
+	err      error
+}
+
+type progressDelta struct {
+	complete int
+	total    int
 }
 
 // NewResourceImporter creates a new factory with the scheme baked in
@@ -47,22 +52,15 @@ func NewResourceImporter(
 	return &ResourceImporter{
 		scheme:   scheme,
 		client:   client,
-		pending:  make(map[string]ImportableResource),
 		imported: make(map[string]ImportableResource),
-		unique:   set.Make[string](),
 		log:      log,
 		progress: progress,
-		report:   newResourceImportReport(),
 	}
 }
 
 // Add adds an importer to the list of resources to import.
 func (ri *ResourceImporter) Add(importer ImportableResource) {
-	// Lock while we're modifying the maps
-	ri.lock.Lock()
-	defer ri.lock.Unlock()
-
-	ri.addImpl(importer)
+	ri.resources = append(ri.resources, importer)
 }
 
 // AddARMID adds an ARM ID to the list of resources to import.
@@ -76,82 +74,50 @@ func (ri *ResourceImporter) AddARMID(armID string) error {
 	return nil
 }
 
-// addImpl is the internal implementation of Add that assumes the lock is already held
-// This allows us to call it from other methods that already have the lock
-func (ri *ResourceImporter) addImpl(importer ImportableResource) {
-	// If we've already seen this resource, skip it
-	// This happens frequently with extension resources as they can be inherited onto many regular resources
-	// and we don't want to attempt to import them more than once.
-	// It can also happen with regular resources if they are referenced by multiple other resources.
-	if ri.unique.Contains(importer.Name()) {
-		return
-	}
-
-	// Add it to our map and our queue
-	ri.queue = append(ri.queue, importer.Name())
-	ri.pending[importer.Name()] = importer
-	ri.unique.Add(importer.Name())
-}
-
 // Import imports all the resources that have been added to the importer.
 // Partial results are returned even in the case of an error.
 func (ri *ResourceImporter) Import(
 	ctx context.Context,
 ) (*ResourceImportResult, error) {
-	var processed int64 = 0
 
-	globalBar := ri.progress.AddBar(
-		0, // zero total because we don't know how much work will be needed,
-		mpb.PrependDecorators(
-			decor.Name("Import Azure Resources", decor.WCSyncSpaceR)),
-		mpb.AppendDecorators(decor.Percentage(decor.WC{W: 5})))
-	globalBar.SetPriority(-1) // must display at the top
+	workers := 1
+	candidates := make(chan ImportableResource)  // candidates that need to be deduped
+	pending := make(chan ImportableResource)     // importers that are pending import
+	completed := make(chan ImportResourceResult) // importers that have been executed successfully
+	done := make(chan struct{})                  // signal that we're done
 
-	// Why the nested loop?
-	// We can potentially trigger all the pending resources listed in ri.queue to be imported in parallel
-	// and end up with nothing on the queue because they're still running.
-	// The outer loop gives us a last look at the queue and allows us to keep going if there are new items
-	// requiring import.
-	var errs []error
-	for len(ri.queue) > 0 {
-		var eg errgroup.Group
+	progress := ri.createProgressBar("Import Azure Resources", done)
 
-		// Limit concurrent processing, so we don't do too much at once
-		// The exact value isn't too important
-		eg.SetLimit(8)
+	// Dedupe candidates so we import each distinct resource only once
+	go ri.queueUniqueImporters(candidates, pending, progress)
 
-		for {
-			if ctx.Err() != nil {
-				// Context cancelled, time to stop
-				return nil, errors.Wrapf(ctx.Err(), "cancelled while importing")
-			}
-
-			rsrc, ok := ri.DequeueResource()
-			if !ok {
-				// No more resources to import
-				break
-			}
-
-			eg.Go(func() error {
-				err := ri.ImportResource(ctx, rsrc)
-
-				// Update our global progress too
-				processed++
-				globalBar.SetTotal(processed+int64(len(ri.queue)), false)
-				globalBar.SetCurrent(processed)
-
-				return err
-			})
-		}
-
-		// Wait for all the running imports to complete
-		err := eg.Wait()
-		if err != nil {
-			errs = append(errs, err)
-		}
+	// Create workers to run the import
+	for i := 0; i < workers; i++ {
+		go ri.importWorker(ctx, pending, completed, progress)
 	}
 
-	globalBar.SetTotal(processed, true)
+	// Collate the results
+	go ri.collateResults(completed, candidates, progress)
+
+	// Set up by adding our initial resources
+	for _, rsrc := range ri.resources {
+		candidates <- rsrc
+		progress <- progressDelta{total: 1}
+	}
+
+	// Wait while everything runs
+	<-done
+
+	// Check for an abort, and return the error if so
+	if ctx.Err() != nil {
+		ri.log.Error(ctx.Err(), "Cancelling import.")
+		return nil, ctx.Err()
+	}
+
+	// Close channels so final reporting and other cleanup occurs
+	close(candidates)
+	close(pending)
+	close(completed)
 
 	// Now we've imported everything, return the resources
 	// We do this even if there's an error so that we can return partial results
@@ -160,17 +126,220 @@ func (ri *ResourceImporter) Import(
 		resources = append(resources, importer.Resource())
 	}
 
-	ri.report.WriteToLog(ri.log)
-
 	return &ResourceImportResult{
 		resources: resources,
-	}, kerrors.NewAggregate(errs)
+	}, nil
 }
 
-func (ri *ResourceImporter) ImportResource(ctx context.Context, rsrc ImportableResource) error {
+// queueUniqueImporters reads from the candidates channel, putting each importer onto pending exactly once.
+// This ensures each distinct resource is only imported once, regardless of how many times we
+// encounter it. We also proactively buffer the pending channel to avoid blocking. Any fixed size channel
+// would risk deadlock for a sufficiently large resource graph.
+func (ri *ResourceImporter) queueUniqueImporters(
+	candidates <-chan ImportableResource,
+	pending chan<- ImportableResource,
+	progress chan<- progressDelta,
+) {
+	seen := set.Make[string]()
+	var queue []ImportableResource
+	var current ImportableResource = nil
+
+	var running = true
+	for running {
+		// Dequeue from our internal buffer if needed
+		if current == nil && len(queue) > 0 {
+			current = queue[0]
+			queue = queue[1:]
+		}
+
+		// If we have a current importable to send, use the pending queue
+		var upstream chan<- ImportableResource = nil
+		if current != nil {
+			upstream = pending
+		}
+
+		select {
+		case rsrc, ok := <-candidates:
+			if !ok {
+				// Channel closed
+				running = false
+			} else if seen.Contains(rsrc.Id()) {
+				// We've already seen this resource (we've already queued it for import)
+				// So remove it from our count of work to be done
+				ri.log.V(2).Info("Skipping duplicate import", "resource", rsrc.Id())
+				progress <- progressDelta{total: -1}
+			} else {
+				// Remember we've seen this, and add it to our queue
+				seen.Add(rsrc.Id())
+				queue = append(queue, rsrc)
+				ri.log.V(2).Info("Buffering import", "resource", rsrc.Id())
+			}
+		case upstream <- current:
+			// We've sent the current importable, so clear it
+			ri.log.V(2).Info("Queued import", "resource", current.Id())
+			current = nil
+		}
+	}
+}
+
+func (ri *ResourceImporter) importWorker(
+	ctx context.Context,
+	pending <-chan ImportableResource,
+	completed chan<- ImportResourceResult,
+	progress chan<- progressDelta,
+) {
+	for rsrc := range pending {
+		if ctx.Err() != nil {
+			// If we're aborting, just discard everything until it's all gone
+			progress <- progressDelta{total: -1}
+			continue
+		}
+
+		// We have a resource to import
+		ri.log.V(1).Info("Importing", "resource", rsrc.Id())
+		result := ri.ImportResource(ctx, rsrc, progress)
+		completed <- result
+	}
+}
+
+func (ri *ResourceImporter) collateResults(
+	completed <-chan ImportResourceResult,
+	candidates chan<- ImportableResource,
+	progress chan<- progressDelta,
+) {
+	report := newResourceImportReport()
+
+	for importResult := range completed {
+		rsrc := importResult.resource
+		gk := rsrc.GroupKind()
+
+		// Enqueue any child resources we found
+		progress <- progressDelta{total: len(importResult.pending)}
+		for _, p := range importResult.pending {
+			candidates <- p
+		}
+
+		if importResult.err != nil {
+			var skipped *ImportSkippedError
+			if errors.As(importResult.err, &skipped) {
+				ri.log.V(1).Info(
+					"Skipped",
+					"kind", gk,
+					"name", rsrc.Name(),
+					"because", skipped.Because)
+				report.AddSkippedImport(rsrc, skipped.Because)
+			} else {
+				ri.log.Error(importResult.err,
+					"Failed",
+					"kind", gk,
+					"name", rsrc.Name())
+
+				report.AddFailedImport(rsrc, importResult.err.Error())
+			}
+		} else {
+			ri.log.Info(
+				"Imported",
+				"kind", gk,
+				"name", rsrc.Name())
+
+			report.AddSuccessfulImport(rsrc)
+			ri.imported[rsrc.Id()] = rsrc
+		}
+
+		// Flag the main resource as complete
+		// We do this after everything else because it might indicate we're finished
+		progress <- progressDelta{complete: 1}
+	}
+
+	report.WriteToLog(ri.log)
+}
+
+func (ri *ResourceImporter) ImportResource(
+	ctx context.Context,
+	rsrc ImportableResource,
+	parent chan<- progressDelta,
+) ImportResourceResult {
 	// Import it
 	gk := rsrc.GroupKind()
 	name := fmt.Sprintf("%s %s", gk, rsrc.Name())
+
+	// Create our progress indicator and ensure it's closed when we're done
+	progress := ri.createSubProgressBar(name, parent)
+	defer func() {
+		close(progress)
+	}()
+
+	// Prepare our result for when we're done
+	result := ImportResourceResult{
+		resource: rsrc,
+	}
+
+	// Our main resource is pending
+	progress <- progressDelta{total: 1}
+
+	// Import the resource itself
+	result.err = rsrc.Import(ctx, ri.log)
+
+	// If the main resource was imported ok, look for any children
+	if result.err == nil {
+		result.pending, result.err = rsrc.FindChildren(ctx, progress)
+	}
+
+	// Indicate the main resource is complete
+	// (we must only do this after checking for children, to ensure we don't appear complete too early)
+	progress <- progressDelta{complete: 1}
+
+	return result
+}
+
+func (ri *ResourceImporter) createProgressBar(
+	name string,
+	done chan struct{},
+) chan progressDelta {
+	result := make(chan progressDelta)
+
+	// Create a new progress bar
+	bar := ri.progress.AddBar(
+		0, // zero total because we don't know how much work will be needed
+		mpb.PrependDecorators(
+			decor.Name(name, decor.WCSyncSpaceR)),
+		mpb.AppendDecorators(
+			decor.Percentage(decor.WC{W: 5})))
+
+	// Monitor for progress updates
+	go func() {
+		var complete int64
+		var total int64
+		for delta := range result {
+			complete += int64(delta.complete)
+			total += int64(delta.total)
+			bar.SetTotal(total, false)
+			bar.SetCurrent(complete)
+
+			if total > 0 && complete >= total {
+				close(done)
+				break
+			}
+		}
+
+		if total == 0 {
+			total = 1
+		}
+
+		bar.SetCurrent(total)
+		bar.SetTotal(total, true)
+	}()
+
+	return result
+}
+
+func (ri *ResourceImporter) createSubProgressBar(
+	name string,
+	parent chan<- progressDelta,
+) chan progressDelta {
+	result := make(chan progressDelta)
+
+	// Create a new progress bar
 	bar := ri.progress.AddBar(
 		0, // zero total because we don't know how much work will be needed
 		mpb.BarRemoveOnComplete(),
@@ -178,76 +347,25 @@ func (ri *ResourceImporter) ImportResource(ctx context.Context, rsrc ImportableR
 			decor.Name(name, decor.WCSyncSpaceR)),
 		mpb.AppendDecorators(decor.Percentage(decor.WC{W: 5})))
 
-	defer func() {
-		// Ensure the progress bar is always updated when we're done
-		// We're done with this resource, so remove it from the progress bar
-		bar.Increment()
-		bar.SetTotal(bar.Current(), true)
-	}()
-
-	pending, err := rsrc.Import(ctx, bar)
-	if err != nil {
-		var skipped *ImportSkippedError
-		if errors.As(err, &skipped) {
-			ri.log.V(1).Info(
-				"Skipped",
-				"kind", gk,
-				"name", rsrc.Name(),
-				"because", skipped.Because)
-			ri.report.AddSkippedImport(rsrc, skipped.Because)
-			return nil
+	// Monitor for progress updates
+	go func() {
+		var complete int64
+		var total int64
+		for delta := range result {
+			complete += int64(delta.complete)
+			total += int64(delta.total)
+			bar.SetTotal(total, false)
+			bar.SetCurrent(complete)
+			parent <- delta
 		}
 
-		ri.log.Error(err,
-			"Failed",
-			"kind", gk,
-			"name", rsrc.Name())
+		if total == 0 {
+			total = 1
+		}
 
-		ri.report.AddFailedImport(rsrc, err.Error())
+		bar.SetCurrent(total)
+		bar.SetTotal(total, true)
+	}()
 
-		// Don't need to wrap the error, it's already been logged (we don't want to log it twice)
-		return errors.Errorf("failed during import of %s", rsrc.Name())
-	}
-
-	ri.log.Info(
-		"Imported",
-		"kind", gk,
-		"name", rsrc.Name())
-
-	ri.report.AddSuccessfulImport(rsrc)
-
-	ri.Complete(rsrc, pending)
-	return nil
-}
-
-// DequeueResource returns the next resource to import.
-func (ri *ResourceImporter) DequeueResource() (ImportableResource, bool) {
-	// Lock while we're modifying the maps
-	ri.lock.Lock()
-	defer ri.lock.Unlock()
-
-	if len(ri.pending) == 0 {
-		return nil, false
-	}
-
-	// Remove the first pending importer
-	head := ri.queue[0]
-	ri.queue = ri.queue[1:]
-
-	importer := ri.pending[head]
-	delete(ri.pending, head)
-
-	return importer, true
-}
-
-func (ri *ResourceImporter) Complete(importer ImportableResource, pending []ImportableResource) {
-	// Lock while we're modifying the maps
-	ri.lock.Lock()
-	defer ri.lock.Unlock()
-
-	// Add it to our map and our queue
-	ri.imported[importer.Name()] = importer
-	for _, p := range pending {
-		ri.addImpl(p)
-	}
+	return result
 }

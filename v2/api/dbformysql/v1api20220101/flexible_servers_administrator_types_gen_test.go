@@ -5,7 +5,7 @@ package v1api20220101
 
 import (
 	"encoding/json"
-	v1api20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101storage"
+	v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForFlexibleServersAdministrator(subject FlexibleSe
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20220101s.FlexibleServersAdministrator
+	var hub v20220101s.FlexibleServersAdministrator
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForFlexibleServersAdministrator(subject FlexibleSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220101s.FlexibleServersAdministrator
+	var other v20220101s.FlexibleServersAdministrator
 	err := copied.AssignProperties_To_FlexibleServersAdministrator(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForFlexibleServers_Administrator_Spec(subject Flex
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220101s.FlexibleServers_Administrator_Spec
+	var other v20220101s.FlexibleServers_Administrator_Spec
 	err := copied.AssignProperties_To_FlexibleServers_Administrator_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -288,7 +288,7 @@ func RunPropertyAssignmentTestForFlexibleServers_Administrator_STATUS(subject Fl
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220101s.FlexibleServers_Administrator_STATUS
+	var other v20220101s.FlexibleServers_Administrator_STATUS
 	err := copied.AssignProperties_To_FlexibleServers_Administrator_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -412,7 +412,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220101s.SystemData_STATUS
+	var other v20220101s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()

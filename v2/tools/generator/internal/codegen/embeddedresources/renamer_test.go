@@ -21,15 +21,15 @@ var (
 	resourceTypeName2 = newTestName("Resource2")
 )
 
-func newTestName(name string) astmodel.TypeName {
-	return astmodel.MakeTypeName(test.MakeLocalPackageReference("group", "2020-01-01"), name)
+func newTestName(name string) astmodel.InternalTypeName {
+	return astmodel.MakeInternalTypeName(test.MakeLocalPackageReference("group", "2020-01-01"), name)
 }
 
-func newTestObject(name astmodel.TypeName, fields ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
+func newTestObject(name astmodel.InternalTypeName, fields ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
 	return astmodel.MakeTypeDefinition(name, astmodel.NewObjectType().WithProperties(fields...))
 }
 
-func typesWithSubresourceTypeNoOriginalNameUsage() (astmodel.TypeDefinitionSet, map[astmodel.TypeName]embeddedResourceTypeName) {
+func typesWithSubresourceTypeNoOriginalNameUsage() (astmodel.TypeDefinitionSet, map[astmodel.InternalTypeName]embeddedResourceTypeName) {
 	result := make(astmodel.TypeDefinitionSet)
 
 	suffix := "TestSuffix"
@@ -48,13 +48,13 @@ func typesWithSubresourceTypeNoOriginalNameUsage() (astmodel.TypeDefinitionSet, 
 	resource := newTestObject(resourceTypeName, prop)
 	result.Add(resource)
 
-	originalNames := make(map[astmodel.TypeName]embeddedResourceTypeName)
+	originalNames := make(map[astmodel.InternalTypeName]embeddedResourceTypeName)
 	originalNames[modifiedTypeName] = embeddedName
 
 	return result, originalNames
 }
 
-func typesWithSubresourceTypeOriginalNameUsage() (astmodel.TypeDefinitionSet, map[astmodel.TypeName]embeddedResourceTypeName) {
+func typesWithSubresourceTypeOriginalNameUsage() (astmodel.TypeDefinitionSet, map[astmodel.InternalTypeName]embeddedResourceTypeName) {
 	result := make(astmodel.TypeDefinitionSet)
 
 	suffix := "TestSuffix"
@@ -78,13 +78,13 @@ func typesWithSubresourceTypeOriginalNameUsage() (astmodel.TypeDefinitionSet, ma
 	resource := newTestObject(resourceTypeName, prop1, prop2)
 	result.Add(resource)
 
-	originalNames := make(map[astmodel.TypeName]embeddedResourceTypeName)
+	originalNames := make(map[astmodel.InternalTypeName]embeddedResourceTypeName)
 	originalNames[modifiedTypeName] = embeddedName
 
 	return result, originalNames
 }
 
-func typesWithSubresourceTypeMultipleUsageContextsOneResource() (astmodel.TypeDefinitionSet, map[astmodel.TypeName]embeddedResourceTypeName) {
+func typesWithSubresourceTypeMultipleUsageContextsOneResource() (astmodel.TypeDefinitionSet, map[astmodel.InternalTypeName]embeddedResourceTypeName) {
 	result := make(astmodel.TypeDefinitionSet)
 
 	suffix := "TestSuffix"
@@ -114,14 +114,14 @@ func typesWithSubresourceTypeMultipleUsageContextsOneResource() (astmodel.TypeDe
 	resource := newTestObject(resourceTypeName, prop1, prop2)
 	result.Add(resource)
 
-	originalNames := make(map[astmodel.TypeName]embeddedResourceTypeName)
+	originalNames := make(map[astmodel.InternalTypeName]embeddedResourceTypeName)
 	originalNames[modifiedTypeName1] = embeddedName1
 	originalNames[modifiedTypeName2] = embeddedName2
 
 	return result, originalNames
 }
 
-func typesWithSubresourceTypeMultipleResourcesOneUsageContextEach() (astmodel.TypeDefinitionSet, map[astmodel.TypeName]embeddedResourceTypeName) {
+func typesWithSubresourceTypeMultipleResourcesOneUsageContextEach() (astmodel.TypeDefinitionSet, map[astmodel.InternalTypeName]embeddedResourceTypeName) {
 	result := make(astmodel.TypeDefinitionSet)
 
 	suffix := "TestSuffix"
@@ -149,7 +149,7 @@ func typesWithSubresourceTypeMultipleResourcesOneUsageContextEach() (astmodel.Ty
 	resource := newTestObject(resourceTypeName, prop1, prop2)
 	result.Add(resource)
 
-	originalNames := make(map[astmodel.TypeName]embeddedResourceTypeName)
+	originalNames := make(map[astmodel.InternalTypeName]embeddedResourceTypeName)
 	originalNames[modifiedTypeName1] = embeddedName1
 	originalNames[modifiedTypeName2] = embeddedName2
 

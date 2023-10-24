@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &ServersDatabasesSecurityAlertPolicy{}
 
 // ConvertFrom populates our ServersDatabasesSecurityAlertPolicy from the provided hub ServersDatabasesSecurityAlertPolicy
 func (policy *ServersDatabasesSecurityAlertPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20211101s.ServersDatabasesSecurityAlertPolicy)
+	source, ok := hub.(*v20211101s.ServersDatabasesSecurityAlertPolicy)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/ServersDatabasesSecurityAlertPolicy but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (policy *ServersDatabasesSecurityAlertPolicy) ConvertFrom(hub conversion.Hu
 
 // ConvertTo populates the provided hub ServersDatabasesSecurityAlertPolicy from our ServersDatabasesSecurityAlertPolicy
 func (policy *ServersDatabasesSecurityAlertPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20211101s.ServersDatabasesSecurityAlertPolicy)
+	destination, ok := hub.(*v20211101s.ServersDatabasesSecurityAlertPolicy)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/ServersDatabasesSecurityAlertPolicy but received %T instead", hub)
 	}
@@ -134,11 +134,7 @@ func (policy *ServersDatabasesSecurityAlertPolicy) NewEmptyStatus() genruntime.C
 // Owner returns the ResourceReference of the owner
 func (policy *ServersDatabasesSecurityAlertPolicy) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(policy.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  policy.Spec.Owner.Name,
-	}
+	return policy.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -196,7 +192,7 @@ func (policy *ServersDatabasesSecurityAlertPolicy) ValidateUpdate(old runtime.Ob
 
 // createValidations validates the creation of the resource
 func (policy *ServersDatabasesSecurityAlertPolicy) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){policy.validateResourceReferences}
+	return []func() (admission.Warnings, error){policy.validateResourceReferences, policy.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -210,7 +206,16 @@ func (policy *ServersDatabasesSecurityAlertPolicy) updateValidations() []func(ol
 		func(old runtime.Object) (admission.Warnings, error) {
 			return policy.validateResourceReferences()
 		},
-		policy.validateWriteOnceProperties}
+		policy.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return policy.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (policy *ServersDatabasesSecurityAlertPolicy) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(policy)
 }
 
 // validateResourceReferences validates all resource references
@@ -233,7 +238,7 @@ func (policy *ServersDatabasesSecurityAlertPolicy) validateWriteOnceProperties(o
 }
 
 // AssignProperties_From_ServersDatabasesSecurityAlertPolicy populates our ServersDatabasesSecurityAlertPolicy from the provided source ServersDatabasesSecurityAlertPolicy
-func (policy *ServersDatabasesSecurityAlertPolicy) AssignProperties_From_ServersDatabasesSecurityAlertPolicy(source *v1api20211101s.ServersDatabasesSecurityAlertPolicy) error {
+func (policy *ServersDatabasesSecurityAlertPolicy) AssignProperties_From_ServersDatabasesSecurityAlertPolicy(source *v20211101s.ServersDatabasesSecurityAlertPolicy) error {
 
 	// ObjectMeta
 	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -259,13 +264,13 @@ func (policy *ServersDatabasesSecurityAlertPolicy) AssignProperties_From_Servers
 }
 
 // AssignProperties_To_ServersDatabasesSecurityAlertPolicy populates the provided destination ServersDatabasesSecurityAlertPolicy from our ServersDatabasesSecurityAlertPolicy
-func (policy *ServersDatabasesSecurityAlertPolicy) AssignProperties_To_ServersDatabasesSecurityAlertPolicy(destination *v1api20211101s.ServersDatabasesSecurityAlertPolicy) error {
+func (policy *ServersDatabasesSecurityAlertPolicy) AssignProperties_To_ServersDatabasesSecurityAlertPolicy(destination *v20211101s.ServersDatabasesSecurityAlertPolicy) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20211101s.Servers_Databases_SecurityAlertPolicy_Spec
+	var spec v20211101s.Servers_Databases_SecurityAlertPolicy_Spec
 	err := policy.Spec.AssignProperties_To_Servers_Databases_SecurityAlertPolicy_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_Databases_SecurityAlertPolicy_Spec() to populate field Spec")
@@ -273,7 +278,7 @@ func (policy *ServersDatabasesSecurityAlertPolicy) AssignProperties_To_ServersDa
 	destination.Spec = spec
 
 	// Status
-	var status v1api20211101s.Servers_Databases_SecurityAlertPolicy_STATUS
+	var status v20211101s.Servers_Databases_SecurityAlertPolicy_STATUS
 	err = policy.Status.AssignProperties_To_Servers_Databases_SecurityAlertPolicy_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_Databases_SecurityAlertPolicy_STATUS() to populate field Status")
@@ -345,10 +350,10 @@ func (policy *Servers_Databases_SecurityAlertPolicy_Spec) ConvertToARM(resolved 
 	}
 	result := &Servers_Databases_SecurityAlertPolicy_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if policy.DisabledAlerts != nil ||
 		policy.EmailAccountAdmins != nil ||
 		policy.EmailAddresses != nil ||
@@ -403,7 +408,7 @@ func (policy *Servers_Databases_SecurityAlertPolicy_Spec) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Databases_SecurityAlertPolicy_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DisabledAlerts’:
+	// Set property "DisabledAlerts":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.DisabledAlerts {
@@ -411,7 +416,7 @@ func (policy *Servers_Databases_SecurityAlertPolicy_Spec) PopulateFromARM(owner 
 		}
 	}
 
-	// Set property ‘EmailAccountAdmins’:
+	// Set property "EmailAccountAdmins":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EmailAccountAdmins != nil {
@@ -420,7 +425,7 @@ func (policy *Servers_Databases_SecurityAlertPolicy_Spec) PopulateFromARM(owner 
 		}
 	}
 
-	// Set property ‘EmailAddresses’:
+	// Set property "EmailAddresses":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.EmailAddresses {
@@ -428,10 +433,13 @@ func (policy *Servers_Databases_SecurityAlertPolicy_Spec) PopulateFromARM(owner 
 		}
 	}
 
-	// Set property ‘Owner’:
-	policy.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	policy.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘RetentionDays’:
+	// Set property "RetentionDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetentionDays != nil {
@@ -440,7 +448,7 @@ func (policy *Servers_Databases_SecurityAlertPolicy_Spec) PopulateFromARM(owner 
 		}
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
@@ -449,9 +457,9 @@ func (policy *Servers_Databases_SecurityAlertPolicy_Spec) PopulateFromARM(owner 
 		}
 	}
 
-	// no assignment for property ‘StorageAccountAccessKey’
+	// no assignment for property "StorageAccountAccessKey"
 
-	// Set property ‘StorageEndpoint’:
+	// Set property "StorageEndpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageEndpoint != nil {
@@ -468,14 +476,14 @@ var _ genruntime.ConvertibleSpec = &Servers_Databases_SecurityAlertPolicy_Spec{}
 
 // ConvertSpecFrom populates our Servers_Databases_SecurityAlertPolicy_Spec from the provided source
 func (policy *Servers_Databases_SecurityAlertPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20211101s.Servers_Databases_SecurityAlertPolicy_Spec)
+	src, ok := source.(*v20211101s.Servers_Databases_SecurityAlertPolicy_Spec)
 	if ok {
 		// Populate our instance from source
 		return policy.AssignProperties_From_Servers_Databases_SecurityAlertPolicy_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Servers_Databases_SecurityAlertPolicy_Spec{}
+	src = &v20211101s.Servers_Databases_SecurityAlertPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -492,14 +500,14 @@ func (policy *Servers_Databases_SecurityAlertPolicy_Spec) ConvertSpecFrom(source
 
 // ConvertSpecTo populates the provided destination from our Servers_Databases_SecurityAlertPolicy_Spec
 func (policy *Servers_Databases_SecurityAlertPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20211101s.Servers_Databases_SecurityAlertPolicy_Spec)
+	dst, ok := destination.(*v20211101s.Servers_Databases_SecurityAlertPolicy_Spec)
 	if ok {
 		// Populate destination from our instance
 		return policy.AssignProperties_To_Servers_Databases_SecurityAlertPolicy_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Servers_Databases_SecurityAlertPolicy_Spec{}
+	dst = &v20211101s.Servers_Databases_SecurityAlertPolicy_Spec{}
 	err := policy.AssignProperties_To_Servers_Databases_SecurityAlertPolicy_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -515,7 +523,7 @@ func (policy *Servers_Databases_SecurityAlertPolicy_Spec) ConvertSpecTo(destinat
 }
 
 // AssignProperties_From_Servers_Databases_SecurityAlertPolicy_Spec populates our Servers_Databases_SecurityAlertPolicy_Spec from the provided source Servers_Databases_SecurityAlertPolicy_Spec
-func (policy *Servers_Databases_SecurityAlertPolicy_Spec) AssignProperties_From_Servers_Databases_SecurityAlertPolicy_Spec(source *v1api20211101s.Servers_Databases_SecurityAlertPolicy_Spec) error {
+func (policy *Servers_Databases_SecurityAlertPolicy_Spec) AssignProperties_From_Servers_Databases_SecurityAlertPolicy_Spec(source *v20211101s.Servers_Databases_SecurityAlertPolicy_Spec) error {
 
 	// DisabledAlerts
 	policy.DisabledAlerts = genruntime.CloneSliceOfString(source.DisabledAlerts)
@@ -566,7 +574,7 @@ func (policy *Servers_Databases_SecurityAlertPolicy_Spec) AssignProperties_From_
 }
 
 // AssignProperties_To_Servers_Databases_SecurityAlertPolicy_Spec populates the provided destination Servers_Databases_SecurityAlertPolicy_Spec from our Servers_Databases_SecurityAlertPolicy_Spec
-func (policy *Servers_Databases_SecurityAlertPolicy_Spec) AssignProperties_To_Servers_Databases_SecurityAlertPolicy_Spec(destination *v1api20211101s.Servers_Databases_SecurityAlertPolicy_Spec) error {
+func (policy *Servers_Databases_SecurityAlertPolicy_Spec) AssignProperties_To_Servers_Databases_SecurityAlertPolicy_Spec(destination *v20211101s.Servers_Databases_SecurityAlertPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -713,14 +721,14 @@ var _ genruntime.ConvertibleStatus = &Servers_Databases_SecurityAlertPolicy_STAT
 
 // ConvertStatusFrom populates our Servers_Databases_SecurityAlertPolicy_STATUS from the provided source
 func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20211101s.Servers_Databases_SecurityAlertPolicy_STATUS)
+	src, ok := source.(*v20211101s.Servers_Databases_SecurityAlertPolicy_STATUS)
 	if ok {
 		// Populate our instance from source
 		return policy.AssignProperties_From_Servers_Databases_SecurityAlertPolicy_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Servers_Databases_SecurityAlertPolicy_STATUS{}
+	src = &v20211101s.Servers_Databases_SecurityAlertPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -737,14 +745,14 @@ func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) ConvertStatusFrom(so
 
 // ConvertStatusTo populates the provided destination from our Servers_Databases_SecurityAlertPolicy_STATUS
 func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20211101s.Servers_Databases_SecurityAlertPolicy_STATUS)
+	dst, ok := destination.(*v20211101s.Servers_Databases_SecurityAlertPolicy_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return policy.AssignProperties_To_Servers_Databases_SecurityAlertPolicy_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Servers_Databases_SecurityAlertPolicy_STATUS{}
+	dst = &v20211101s.Servers_Databases_SecurityAlertPolicy_STATUS{}
 	err := policy.AssignProperties_To_Servers_Databases_SecurityAlertPolicy_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -773,9 +781,9 @@ func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) PopulateFromARM(owne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Databases_SecurityAlertPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CreationTime’:
+	// Set property "CreationTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreationTime != nil {
@@ -784,7 +792,7 @@ func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) PopulateFromARM(owne
 		}
 	}
 
-	// Set property ‘DisabledAlerts’:
+	// Set property "DisabledAlerts":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.DisabledAlerts {
@@ -792,7 +800,7 @@ func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) PopulateFromARM(owne
 		}
 	}
 
-	// Set property ‘EmailAccountAdmins’:
+	// Set property "EmailAccountAdmins":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EmailAccountAdmins != nil {
@@ -801,7 +809,7 @@ func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) PopulateFromARM(owne
 		}
 	}
 
-	// Set property ‘EmailAddresses’:
+	// Set property "EmailAddresses":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.EmailAddresses {
@@ -809,19 +817,19 @@ func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) PopulateFromARM(owne
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		policy.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		policy.Name = &name
 	}
 
-	// Set property ‘RetentionDays’:
+	// Set property "RetentionDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetentionDays != nil {
@@ -830,7 +838,7 @@ func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) PopulateFromARM(owne
 		}
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
@@ -839,7 +847,7 @@ func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) PopulateFromARM(owne
 		}
 	}
 
-	// Set property ‘StorageEndpoint’:
+	// Set property "StorageEndpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageEndpoint != nil {
@@ -848,7 +856,7 @@ func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) PopulateFromARM(owne
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -859,7 +867,7 @@ func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) PopulateFromARM(owne
 		policy.SystemData = &systemData
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		policy.Type = &typeVar
@@ -870,7 +878,7 @@ func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) PopulateFromARM(owne
 }
 
 // AssignProperties_From_Servers_Databases_SecurityAlertPolicy_STATUS populates our Servers_Databases_SecurityAlertPolicy_STATUS from the provided source Servers_Databases_SecurityAlertPolicy_STATUS
-func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) AssignProperties_From_Servers_Databases_SecurityAlertPolicy_STATUS(source *v1api20211101s.Servers_Databases_SecurityAlertPolicy_STATUS) error {
+func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) AssignProperties_From_Servers_Databases_SecurityAlertPolicy_STATUS(source *v20211101s.Servers_Databases_SecurityAlertPolicy_STATUS) error {
 
 	// Conditions
 	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -932,7 +940,7 @@ func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_Servers_Databases_SecurityAlertPolicy_STATUS populates the provided destination Servers_Databases_SecurityAlertPolicy_STATUS from our Servers_Databases_SecurityAlertPolicy_STATUS
-func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) AssignProperties_To_Servers_Databases_SecurityAlertPolicy_STATUS(destination *v1api20211101s.Servers_Databases_SecurityAlertPolicy_STATUS) error {
+func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) AssignProperties_To_Servers_Databases_SecurityAlertPolicy_STATUS(destination *v20211101s.Servers_Databases_SecurityAlertPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -978,7 +986,7 @@ func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) AssignProperties_To_
 
 	// SystemData
 	if policy.SystemData != nil {
-		var systemDatum v1api20211101s.SystemData_STATUS
+		var systemDatum v20211101s.SystemData_STATUS
 		err := policy.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")

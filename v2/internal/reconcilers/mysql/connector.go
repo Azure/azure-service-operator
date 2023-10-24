@@ -25,14 +25,20 @@ type Connector interface {
 
 func getServerFQDN(ctx context.Context, resourceResolver *resolver.Resolver, user *asomysql.User) (string, error) {
 	// Get the owner - at this point it must exist
-	owner, err := resourceResolver.ResolveOwner(ctx, user)
+	ownerDetails, err := resourceResolver.ResolveOwner(ctx, user)
 	if err != nil {
 		return "", err
 	}
 
-	flexibleServer, ok := owner.(*dbformysql.FlexibleServer)
+	// Note that this is not actually possible for this type because we don't allow ARMID references for these owners,
+	// but protecting against it here anyway.
+	if !ownerDetails.FoundKubernetesOwner() {
+		return "", errors.Errorf("user owner must exist in Kubernetes for user %s", user.Name)
+	}
+
+	flexibleServer, ok := ownerDetails.Owner.(*dbformysql.FlexibleServer)
 	if !ok {
-		return "", errors.Errorf("owner was not type FlexibleServer, instead: %T", owner)
+		return "", errors.Errorf("owner was not type FlexibleServer, instead: %T", ownerDetails)
 	}
 
 	// Magical assertion to ensure that this is still the storage type

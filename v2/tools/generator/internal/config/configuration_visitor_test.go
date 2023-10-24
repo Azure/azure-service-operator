@@ -58,7 +58,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificType_VisitsExpectedType(t *te
 
 	omc := createTestObjectModelConfigurationForVisitor()
 	seen := set.Make[string]()
-	name := astmodel.MakeTypeName(test.Pkg2022, "Person")
+	name := astmodel.MakeInternalTypeName(test.Pkg2022, "Person")
 	visitor := newSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
@@ -98,7 +98,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificProperty_VisitsExpectedProper
 
 	omc := createTestObjectModelConfigurationForVisitor()
 	seen := set.Make[string]()
-	name := astmodel.MakeTypeName(test.Pkg2022, "Person")
+	name := astmodel.MakeInternalTypeName(test.Pkg2022, "Person")
 	visitor := newSinglePropertyConfigurationVisitor(
 		name,
 		"KnownAs",

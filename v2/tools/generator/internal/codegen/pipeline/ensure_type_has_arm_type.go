@@ -29,7 +29,7 @@ func EnsureARMTypeExistsForEveryResource() *Stage {
 // definitions which do not have a matching ARM type.
 func validateExpectedTypesHaveARMType(definitions astmodel.TypeDefinitionSet) error {
 	findARMType := func(t astmodel.Type) error {
-		name, ok := astmodel.AsTypeName(t)
+		name, ok := astmodel.AsInternalTypeName(t)
 		if !ok {
 			return errors.Errorf("type was not of type TypeName, instead %T", t)
 		}
@@ -47,7 +47,7 @@ func validateExpectedTypesHaveARMType(definitions astmodel.TypeDefinitionSet) er
 
 	for name, def := range definitions {
 
-		if astmodel.IsStoragePackageReference(name.PackageReference) {
+		if astmodel.IsStoragePackageReference(name.PackageReference()) {
 			// Don't need ARM types within Storage Packages
 			continue
 		}

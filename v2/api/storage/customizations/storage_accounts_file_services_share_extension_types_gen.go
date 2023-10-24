@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	v1api20220901 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
-	v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +15,6 @@ type StorageAccountsFileServicesShareExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *StorageAccountsFileServicesShareExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20220901.StorageAccountsFileServicesShare{},
-		&v1api20220901s.StorageAccountsFileServicesShare{}}
+		&v20220901.StorageAccountsFileServicesShare{},
+		&v20220901s.StorageAccountsFileServicesShare{}}
 }

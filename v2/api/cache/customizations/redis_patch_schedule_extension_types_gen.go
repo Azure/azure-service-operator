@@ -4,10 +4,12 @@
 package customizations
 
 import (
-	v1api20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
-	v1api20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
-	v20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201"
-	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
+	v20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
+	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
+	v20230401 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401"
+	v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401storage"
+	v1beta20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201"
+	v1beta20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +19,10 @@ type RedisPatchScheduleExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *RedisPatchScheduleExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20201201.RedisPatchSchedule{},
-		&v1api20201201s.RedisPatchSchedule{},
 		&v20201201.RedisPatchSchedule{},
-		&v20201201s.RedisPatchSchedule{}}
+		&v20201201s.RedisPatchSchedule{},
+		&v20230401.RedisPatchSchedule{},
+		&v20230401s.RedisPatchSchedule{},
+		&v1beta20201201.RedisPatchSchedule{},
+		&v1beta20201201s.RedisPatchSchedule{}}
 }

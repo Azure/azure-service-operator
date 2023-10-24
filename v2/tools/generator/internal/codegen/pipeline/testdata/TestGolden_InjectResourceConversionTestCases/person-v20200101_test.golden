@@ -5,8 +5,8 @@ package v20200101
 
 import (
 	"encoding/json"
-	v20200101s "github.com/Azure/azure-service-operator/testing/person/v20200101storage"
-	v20211231s "github.com/Azure/azure-service-operator/testing/person/v20211231storage"
+	v20200101s "github.com/Azure/azure-service-operator/testing/person/v20200101/storage"
+	v20211231s "github.com/Azure/azure-service-operator/testing/person/v20211231/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_Person_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPerson tests if a specific instance of Person can be assigned to v20200101storage and back losslessly
+// RunPropertyAssignmentTestForPerson tests if a specific instance of Person can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPerson(subject Person) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Person_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPerson_Spec tests if a specific instance of Person_Spec can be assigned to v20200101storage and back losslessly
+// RunPropertyAssignmentTestForPerson_Spec tests if a specific instance of Person_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPerson_Spec(subject Person_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -280,7 +280,7 @@ func Test_Person_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPerson_STATUS tests if a specific instance of Person_STATUS can be assigned to v20200101storage and back losslessly
+// RunPropertyAssignmentTestForPerson_STATUS tests if a specific instance of Person_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPerson_STATUS(subject Person_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

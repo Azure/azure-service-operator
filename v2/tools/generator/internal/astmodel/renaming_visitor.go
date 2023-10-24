@@ -12,14 +12,14 @@ import (
 
 // RenamingVisitor is a visitor for performing simple TypeName renames
 type RenamingVisitor struct {
-	f func(TypeName) TypeName
+	f func(InternalTypeName) InternalTypeName
 	// renames map[TypeName]TypeName
-	visitor TypeVisitor
+	visitor TypeVisitor[any]
 }
 
 // NewRenamingVisitor creates a new visitor which performs the renames specified
-func NewRenamingVisitor(renames map[TypeName]TypeName) *RenamingVisitor {
-	rename := func(name TypeName) TypeName {
+func NewRenamingVisitor(renames map[InternalTypeName]InternalTypeName) *RenamingVisitor {
+	rename := func(name InternalTypeName) InternalTypeName {
 		typeName := name
 		rename, ok := renames[name]
 		if ok {
@@ -33,29 +33,27 @@ func NewRenamingVisitor(renames map[TypeName]TypeName) *RenamingVisitor {
 }
 
 // NewRenamingVisitorFromLambda creates a new visitor which performs renames using the specified lambda
-func NewRenamingVisitorFromLambda(f func(name TypeName) TypeName) *RenamingVisitor {
+func NewRenamingVisitorFromLambda(f func(name InternalTypeName) InternalTypeName) *RenamingVisitor {
 	r := &RenamingVisitor{
 		f: f,
 	}
 
-	r.visitor = TypeVisitorBuilder{
-		VisitTypeName:     r.updateTypeName,
-		VisitResourceType: r.updateResourceOwner,
+	r.visitor = TypeVisitorBuilder[any]{
+		VisitInternalTypeName: r.updateTypeName,
+		VisitResourceType:     r.updateResourceOwner,
 	}.Build()
 
 	return r
 }
 
-func (r *RenamingVisitor) updateTypeName(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error) {
-	newName := r.f(it)
-	return IdentityVisitOfTypeName(this, newName, ctx)
+func (r *RenamingVisitor) updateTypeName(it InternalTypeName) (Type, error) {
+	return r.f(it), nil
 }
 
-func (r *RenamingVisitor) updateResourceOwner(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error) {
-	if it.Owner() != nil {
+func (r *RenamingVisitor) updateResourceOwner(this *TypeVisitor[any], it *ResourceType, ctx any) (Type, error) {
+	if !it.Owner().IsEmpty() {
 		// TODO: Should this actually happen in TypeVisitor itself?
-		newOwner := r.f(*it.Owner())
-		it = it.WithOwner(&newOwner)
+		it = it.WithOwner(r.f(it.Owner()))
 	}
 	return IdentityVisitOfResourceType(this, it, ctx)
 }

@@ -18,12 +18,12 @@ func TestWriteDebugDescription(t *testing.T) {
 	here := MakeLocalPackageReference("local", "test", "v", "1")
 	there := MakeLocalPackageReference("local", "test", "v", "2")
 
-	age := MakeTypeName(here, "Age")
+	age := MakeInternalTypeName(here, "Age")
 
-	personId := MakeTypeName(here, "PersonId")
-	otherPersonId := MakeTypeName(there, "PersonId")
+	personId := MakeInternalTypeName(here, "PersonId")
+	otherPersonId := MakeInternalTypeName(there, "PersonId")
 
-	suit := MakeTypeName(here, "Suit")
+	suit := MakeInternalTypeName(here, "Suit")
 	diamonds := MakeEnumValue("diamonds", "Diamonds")
 	hearts := MakeEnumValue("hearts", "Hearts")
 	clubs := MakeEnumValue("clubs", "Clubs")
@@ -103,9 +103,6 @@ func TestWriteDebugDescriptionNils(t *testing.T) {
 
 	var f *FlaggedType
 	g.Expect(func() { f.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())
-
-	var n TypeName
-	g.Expect(func() { n.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())
 
 	var all *AllOfType
 	g.Expect(func() { all.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())

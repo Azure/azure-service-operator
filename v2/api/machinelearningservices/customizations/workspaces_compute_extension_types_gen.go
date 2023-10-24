@@ -4,10 +4,10 @@
 package customizations
 
 import (
-	v1api20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701"
-	v1api20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
-	v20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701"
-	v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701storage"
+	v20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701"
+	v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
+	v1beta20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701"
+	v1beta20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +17,8 @@ type WorkspacesComputeExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *WorkspacesComputeExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20210701.WorkspacesCompute{},
-		&v1api20210701s.WorkspacesCompute{},
 		&v20210701.WorkspacesCompute{},
-		&v20210701s.WorkspacesCompute{}}
+		&v20210701s.WorkspacesCompute{},
+		&v1beta20210701.WorkspacesCompute{},
+		&v1beta20210701s.WorkspacesCompute{}}
 }

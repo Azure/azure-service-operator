@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForServersSecurityAlertPolicy(subject ServersSecur
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20211101s.ServersSecurityAlertPolicy
+	var hub v20211101s.ServersSecurityAlertPolicy
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForServersSecurityAlertPolicy(subject ServersSecur
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20211101s.ServersSecurityAlertPolicy
+	var other v20211101s.ServersSecurityAlertPolicy
 	err := copied.AssignProperties_To_ServersSecurityAlertPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForServers_SecurityAlertPolicy_Spec(subject Server
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20211101s.Servers_SecurityAlertPolicy_Spec
+	var other v20211101s.Servers_SecurityAlertPolicy_Spec
 	err := copied.AssignProperties_To_Servers_SecurityAlertPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -290,7 +290,7 @@ func RunPropertyAssignmentTestForServers_SecurityAlertPolicy_STATUS(subject Serv
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20211101s.Servers_SecurityAlertPolicy_STATUS
+	var other v20211101s.Servers_SecurityAlertPolicy_STATUS
 	err := copied.AssignProperties_To_Servers_SecurityAlertPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()

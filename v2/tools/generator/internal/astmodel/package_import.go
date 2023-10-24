@@ -7,8 +7,6 @@ package astmodel
 
 import (
 	"fmt"
-	"strings"
-
 	"github.com/dave/dst"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -43,7 +41,7 @@ func (pi PackageImport) AsImportSpec() *dst.ImportSpec {
 
 	return &dst.ImportSpec{
 		Name: name,
-		Path: astbuilder.StringLiteral(pi.packageReference.PackagePath()),
+		Path: astbuilder.StringLiteral(pi.packageReference.ImportPath()),
 	}
 }
 
@@ -79,85 +77,6 @@ func (pi PackageImport) String() string {
 
 // WithImportAlias creates a copy of this import with a name following the specified rules
 func (pi PackageImport) WithImportAlias(style PackageImportStyle) PackageImport {
-	var alias string
-	switch ref := pi.packageReference.(type) {
-	case LocalPackageReference:
-		alias = pi.createImportAliasForLocalPackageReference(ref, style)
-	case StoragePackageReference:
-		alias = pi.createImportAliasForStoragePackageReference(ref, style)
-	default:
-		msg := fmt.Sprintf("cannot create import alias for external package reference %s", pi.packageReference)
-		panic(msg)
-	}
-
+	alias := pi.packageReference.ImportAlias(style)
 	return pi.WithName(alias)
-}
-
-// createImportAliasForLocalPackageReference creates a custom alias for importing this reference
-// ref is the local package reference for which we want an alias
-// style is the kind of alias to generate
-func (pi PackageImport) createImportAliasForLocalPackageReference(
-	ref LocalPackageReference,
-	style PackageImportStyle) string {
-	switch style {
-	case VersionOnly:
-		return fmt.Sprintf(
-			"%s%s",
-			pi.simplifiedGeneratorVersion(ref.GeneratorVersion()),
-			pi.simplifiedApiVersion(ref.ApiVersion()))
-	case GroupOnly:
-		return ref.Group()
-	case GroupAndVersion:
-		return fmt.Sprintf(
-			"%s_%s%s",
-			ref.Group(),
-			pi.simplifiedGeneratorVersion(ref.GeneratorVersion()),
-			pi.simplifiedApiVersion(ref.ApiVersion()))
-	default:
-		panic(fmt.Sprintf("didn't expect PackageImportStyle %q", style))
-	}
-}
-
-// createImportAliasForStoragePackageReference creates a custom alias for importing this reference
-func (pi PackageImport) createImportAliasForStoragePackageReference(
-	ref StoragePackageReference,
-	style PackageImportStyle) string {
-	localImport := pi.createImportAliasForLocalPackageReference(ref.Local(), style)
-	switch style {
-	case VersionOnly:
-		return localImport + "s"
-	case GroupOnly:
-		return localImport
-	case GroupAndVersion:
-		return localImport + "s"
-	}
-
-	panic(fmt.Sprintf("didn't expect PackageImportStyle %q", style))
-}
-
-func (pi PackageImport) simplifiedApiVersion(version string) string {
-	return strings.ToLower(pi.simplify(version, apiVersionSimplifications))
-}
-
-var apiVersionSimplifications = map[string]string{
-	"alpha":   "a",
-	"beta":    "b",
-	"preview": "p",
-	"-":       "",
-}
-
-func (pi PackageImport) simplifiedGeneratorVersion(version string) string {
-	return pi.simplify(version, generatorVersionSimplifications)
-}
-
-var generatorVersionSimplifications = map[string]string{
-	"v1alpha1api": "alpha",
-	"v1beta":      "v",
-}
-
-func (pi PackageImport) simplify(result string, simplifications map[string]string) string {
-	for l, s := range simplifications {
-		result = strings.Replace(result, l, s, -1)
-	}
-	return result
 }

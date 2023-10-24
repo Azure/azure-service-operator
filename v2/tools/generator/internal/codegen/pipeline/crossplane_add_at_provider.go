@@ -64,7 +64,7 @@ func nestStatusIntoAtProvider(
 		return nil, nil // TODO: Some definitions don't have status yet
 	}
 
-	statusName, ok := astmodel.AsTypeName(resource.StatusType())
+	statusName, ok := astmodel.AsInternalTypeName(resource.StatusType())
 	if !ok {
 		return nil, errors.Errorf("resource %q status was not of type TypeName, instead: %T", resourceName, resource.StatusType())
 	}

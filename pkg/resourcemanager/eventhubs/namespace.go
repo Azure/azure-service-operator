@@ -9,9 +9,10 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/pkg/errors"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
-	"github.com/pkg/errors"
 
 	"github.com/Azure/go-autorest/autorest"
 
@@ -338,6 +339,7 @@ func (ns *azureEventHubNamespaceManager) Ensure(ctx context.Context, obj runtime
 
 					unrecoverableErrors := []string{
 						errhelp.BadRequest, // error we get when namespace is "Basic" SKU, invalid rule etc.
+						"InvalidSkuForNetworkRuleSet",
 					}
 
 					if helpers.ContainsString(ignorableErrors, azerr.Type) {

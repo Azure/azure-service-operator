@@ -59,12 +59,16 @@ func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) *Stage 
 		})
 }
 
-func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisitor {
-	builder := astmodel.TypeVisitorBuilder{}
+func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisitor[resourceFieldSelector] {
+	builder := astmodel.TypeVisitorBuilder[resourceFieldSelector]{}
 
 	// the context here is whether we are selecting spec or status fields
-	builder.VisitAllOfType = func(this *astmodel.TypeVisitor, it *astmodel.AllOfType, ctx interface{}) (astmodel.Type, error) {
-		synth := baseSynthesizer.forField(ctx.(resourceFieldSelector))
+	builder.VisitAllOfType = func(
+		this *astmodel.TypeVisitor[resourceFieldSelector],
+		it *astmodel.AllOfType,
+		ctx resourceFieldSelector,
+	) (astmodel.Type, error) {
+		synth := baseSynthesizer.forField(ctx)
 
 		object, err := synth.allOfObject(it)
 		if err != nil {
@@ -76,8 +80,12 @@ func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisit
 		return this.Visit(object, ctx)
 	}
 
-	builder.VisitOneOfType = func(this *astmodel.TypeVisitor, it *astmodel.OneOfType, ctx interface{}) (astmodel.Type, error) {
-		synth := baseSynthesizer.forField(ctx.(resourceFieldSelector))
+	builder.VisitOneOfType = func(
+		this *astmodel.TypeVisitor[resourceFieldSelector],
+		it *astmodel.OneOfType,
+		ctx resourceFieldSelector,
+	) (astmodel.Type, error) {
+		synth := baseSynthesizer.forField(ctx)
 
 		t, err := synth.oneOfToObject(it)
 		if err != nil {
@@ -88,7 +96,11 @@ func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisit
 		return this.Visit(t, ctx)
 	}
 
-	builder.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
+	builder.VisitResourceType = func(
+		this *astmodel.TypeVisitor[resourceFieldSelector],
+		it *astmodel.ResourceType,
+		ctx resourceFieldSelector,
+	) (astmodel.Type, error) {
 		spec, err := this.Visit(it.SpecType(), chooseSpec)
 		if err != nil {
 			return nil, errors.Wrapf(err, "visiting resource spec type")
@@ -102,7 +114,9 @@ func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisit
 		return it.WithSpec(spec).WithStatus(status), nil
 	}
 
-	builder.VisitErroredType = func(_ *astmodel.TypeVisitor, it *astmodel.ErroredType, ctx interface{}) (astmodel.Type, error) {
+	builder.VisitErroredType = func(
+		it *astmodel.ErroredType,
+	) (astmodel.Type, error) {
 		// Nothing we can do to resolve errors, so just return the type as-is
 		return it, nil
 	}
@@ -250,7 +264,7 @@ func commonUppercasedSuffix(x, y string) string {
 
 func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames, error) {
 	switch concreteType := t.(type) {
-	case astmodel.TypeName:
+	case astmodel.InternalTypeName:
 
 		if def, ok := s.defs[concreteType]; ok {
 			// TypeName represents one of our definitions; if we can get a good name from the content
@@ -263,6 +277,14 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 
 		// JSON name is unimportant here because we will implement the JSON marshaller anyway,
 		// but we still need it for controller-gen
+		return propertyNames{
+			golang:     s.idFactory.CreatePropertyName(concreteType.Name(), astmodel.Exported),
+			json:       s.idFactory.CreateStringIdentifier(concreteType.Name(), astmodel.NotExported),
+			isGoodName: true, // a typename name is good (little else is)
+		}, nil
+
+	case astmodel.ExternalTypeName:
+		// Similar to handling for InternalTypeName, but we already know this can't identify a TypeDefinition
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(concreteType.Name(), astmodel.Exported),
 			json:       s.idFactory.CreateStringIdentifier(concreteType.Name(), astmodel.NotExported),
@@ -711,7 +733,7 @@ func (s synthesizer) handleOneOf(leftOneOf *astmodel.OneOfType, right astmodel.T
 	return s.oneOfToObject(oneOf)
 }
 
-func (s synthesizer) handleTypeName(leftName astmodel.TypeName, right astmodel.Type) (astmodel.Type, error) {
+func (s synthesizer) handleTypeName(leftName astmodel.InternalTypeName, right astmodel.Type) (astmodel.Type, error) {
 	found, ok := s.defs[leftName]
 	if !ok {
 		return nil, errors.Errorf("couldn't find type %s", leftName)
@@ -758,7 +780,7 @@ func (s synthesizer) handleTypeName(leftName astmodel.TypeName, right astmodel.T
 	}
 
 	// Check to see if we've already redefined this type even though there is only one references
-	//// (this can happen with nesting of typenames and allOfs because we process things interatively pair-by-pair).
+	//// (this can happen with nesting of typeNames and allOfs because we process things iteratively pair-by-pair).
 	// If we have, we need to merge our new changes with the changes already made.
 	redefined, ok := s.updatedDefs[leftName]
 	for ok {
@@ -881,7 +903,7 @@ func (s synthesizer) allOfSlice(types []astmodel.Type) (astmodel.Type, error) {
 	foundName := false
 	for i, t := range types {
 		// if we find a type name, resolve it to the underlying type
-		if tn, ok := astmodel.AsTypeName(t); ok {
+		if tn, ok := astmodel.AsInternalTypeName(t); ok {
 			if def, ok := s.defs[tn]; ok {
 				toMerge[i] = def.Type()
 				foundName = true
@@ -922,8 +944,8 @@ func (s synthesizer) handleFlaggedType(left *astmodel.FlaggedType, right astmode
 func countTypeReferences(defs astmodel.TypeDefinitionSet) map[astmodel.TypeName]int {
 	referenceCounts := make(map[astmodel.TypeName]int)
 
-	visitor := astmodel.TypeVisitorBuilder{
-		VisitTypeName: func(tn astmodel.TypeName) astmodel.Type {
+	visitor := astmodel.TypeVisitorBuilder[any]{
+		VisitInternalTypeName: func(tn astmodel.InternalTypeName) astmodel.Type {
 			referenceCounts[tn]++
 			return tn
 		},

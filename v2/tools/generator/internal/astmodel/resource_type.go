@@ -7,7 +7,9 @@ package astmodel
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"go/token"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sort"
 	"strings"
 
@@ -37,7 +39,7 @@ type ResourceType struct {
 	spec                Type
 	status              Type
 	isStorageVersion    bool
-	owner               *TypeName
+	owner               InternalTypeName
 	properties          PropertySet
 	functions           map[string]Function
 	testcases           map[string]TestCase
@@ -45,7 +47,7 @@ type ResourceType struct {
 	scope               ResourceScope
 	armType             string
 	armURI              string
-	apiVersionTypeName  TypeName
+	apiVersionTypeName  InternalTypeName
 	apiVersionEnumValue EnumValue
 	InterfaceImplementer
 }
@@ -54,7 +56,7 @@ type ResourceType struct {
 func NewResourceType(specType Type, statusType Type) *ResourceType {
 	result := &ResourceType{
 		isStorageVersion:     false,
-		owner:                nil,
+		owner:                InternalTypeName{},
 		functions:            make(map[string]Function),
 		testcases:            make(map[string]TestCase),
 		scope:                ResourceScopeResourceGroup,
@@ -177,7 +179,7 @@ func (resource *ResourceType) WithSpec(specType Type) *ResourceType {
 	}
 
 	if specResource, ok := specType.(*ResourceType); ok {
-		// type is a resource, take its SpecType instead
+		// type is a resource, take its SpecType instead,
 		// so we don't nest resources
 		return resource.WithSpec(specResource.SpecType())
 	}
@@ -281,7 +283,10 @@ func (resource *ResourceType) ARMURI() string {
 }
 
 // WithAPIVersion returns a new ResourceType with the specified API version (type and value).
-func (resource *ResourceType) WithAPIVersion(apiVersionTypeName TypeName, apiVersionEnumValue EnumValue) *ResourceType {
+func (resource *ResourceType) WithAPIVersion(
+	apiVersionTypeName InternalTypeName,
+	apiVersionEnumValue EnumValue,
+) *ResourceType {
 	result := resource.copy()
 	result.apiVersionTypeName = apiVersionTypeName
 	result.apiVersionEnumValue = apiVersionEnumValue
@@ -376,7 +381,7 @@ func (resource *ResourceType) Equals(other Type, override EqualityOverrides) boo
 // EmbeddedProperties returns all the embedded properties for this resource type
 // An ordered slice is returned to preserve immutability and provide determinism
 func (resource *ResourceType) EmbeddedProperties() []*PropertyDefinition {
-	typeMetaType := MakeTypeName(MetaV1Reference, "TypeMeta")
+	typeMetaType := MakeExternalTypeName(MetaV1Reference, "TypeMeta")
 	typeMetaProperty := NewPropertyDefinition("", "", typeMetaType).
 		WithTag("json", "inline").WithoutTag("json", "omitempty")
 
@@ -438,7 +443,7 @@ func (resource *ResourceType) HasAPIVersion() bool {
 }
 
 // APIVersionTypeName returns the type name of the API version
-func (resource *ResourceType) APIVersionTypeName() TypeName {
+func (resource *ResourceType) APIVersionTypeName() InternalTypeName {
 	if !resource.HasAPIVersion() {
 		panic("resource has no APIVersion TypeName to return")
 	}
@@ -494,7 +499,7 @@ func (resource *ResourceType) References() TypeNameSet {
 }
 
 // Owner returns the name of the owner type
-func (resource *ResourceType) Owner() *TypeName {
+func (resource *ResourceType) Owner() InternalTypeName {
 	return resource.owner
 }
 
@@ -506,7 +511,7 @@ func (resource *ResourceType) MarkAsStorageVersion() *ResourceType {
 }
 
 // WithOwner updates the owner of the resource and returns a copy of the resource
-func (resource *ResourceType) WithOwner(owner *TypeName) *ResourceType {
+func (resource *ResourceType) WithOwner(owner InternalTypeName) *ResourceType {
 	result := resource.copy()
 	result.owner = owner
 	return result
@@ -579,14 +584,14 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 	// Add required RBAC annotations, only on storage version
 	if resource.isStorageVersion {
-		group, _ := declContext.Name.PackageReference.GroupVersion()
+		group := declContext.Name.InternalPackageReference().Group()
 		group = strings.ToLower(group + GroupSuffix)
 		resourceName := strings.ToLower(declContext.Name.Plural().Name())
 
 		astbuilder.AddComment(&comments, fmt.Sprintf("// +kubebuilder:rbac:groups=%s,resources=%s,verbs=get;list;watch;create;update;patch;delete", group, resourceName))
 		astbuilder.AddComment(&comments, fmt.Sprintf("// +kubebuilder:rbac:groups=%s,resources={%s/status,%s/finalizers},verbs=get;update;patch", group, resourceName, resourceName))
 
-		// This newline is REQUIRED for controller-gen to realize these comments are here. Without it they are silently ignored, see:
+		// This newline is REQUIRED for controller-gen to realize these comments are here. Without it, they are silently ignored, see:
 		// https://github.com/kubernetes-sigs/controller-tools/issues/436
 		comments = append(comments, "\n")
 	}
@@ -623,32 +628,50 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 	var declarations []dst.Decl
 	declarations = append(declarations, resourceDeclaration)
 	declarations = append(declarations, resource.InterfaceImplementer.AsDeclarations(codeGenerationContext, declContext.Name, nil)...)
-	declarations = append(declarations, resource.generateMethodDecls(codeGenerationContext, declContext.Name)...)
+
+	decls, err := resource.generateMethodDecls(codeGenerationContext, declContext.Name)
+	if err != nil {
+		// Something went wrong; once AsDeclarations is refactored to have an error return,
+		// we can return them, but in the meantime panic
+		panic(err)
+	}
+
+	declarations = append(declarations, decls...)
+
 	declarations = append(declarations, resource.resourceListTypeDecls(codeGenerationContext, declContext.Name, declContext.Description)...)
 
 	return declarations
 }
 
-func (resource *ResourceType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName TypeName) []dst.Decl {
+func (resource *ResourceType) generateMethodDecls(
+	codeGenerationContext *CodeGenerationContext,
+	typeName InternalTypeName,
+) ([]dst.Decl, error) {
 	funcs := resource.Functions()
 	result := make([]dst.Decl, 0, len(funcs))
+	var errs []error
 	for _, f := range funcs {
-		funcDef := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
+		funcDef, err := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
+		if err != nil {
+			errs = append(errs, err)
+			continue
+		}
+
 		result = append(result, funcDef)
 	}
 
-	return result
+	return result, kerrors.NewAggregate(errs)
 }
 
-func (resource *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
-	return MakeTypeName(
-		name.PackageReference,
+func (resource *ResourceType) makeResourceListTypeName(name InternalTypeName) TypeName {
+	return MakeInternalTypeName(
+		name.InternalPackageReference(),
 		name.Name()+"List")
 }
 
 func (resource *ResourceType) resourceListTypeDecls(
 	codeGenerationContext *CodeGenerationContext,
-	resourceTypeName TypeName,
+	resourceTypeName InternalTypeName,
 	description []string,
 ) []dst.Decl {
 	typeName := resource.makeResourceListTypeName(resourceTypeName)
@@ -691,7 +714,7 @@ func (resource *ResourceType) resourceListTypeDecls(
 
 // SchemeTypes returns the types represented by this resource which must be registered
 // with the controller Scheme
-func (resource *ResourceType) SchemeTypes(name TypeName) []TypeName {
+func (resource *ResourceType) SchemeTypes(name InternalTypeName) []TypeName {
 	return []TypeName{
 		name,
 		resource.makeResourceListTypeName(name),
@@ -740,10 +763,10 @@ func (resource *ResourceType) HasTestCases() bool {
 	return len(resource.testcases) > 0
 }
 
-// WriteDebugDescription adds a description of the current type to the passed builder
-// builder receives the full description, including nested types
-// definitions is a dictionary for resolving named types
-func (resource *ResourceType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
+// WriteDebugDescription adds a description of the current type to the passed builder.
+// builder receives the full description, including nested types.
+// definitions is a dictionary for resolving named types.
+func (resource *ResourceType) WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference) {
 	if resource == nil {
 		builder.WriteString("<nilResource>")
 		return
@@ -763,17 +786,25 @@ func (resource *ResourceType) WriteDebugDescription(builder *strings.Builder, cu
 // generateMethodDeclForFunction generates the AST for a function; if a panic occurs, the identity of the type and
 // function being generated will be wrapped around the existing panic details to aid in debugging.
 func generateMethodDeclForFunction(
-	typeName TypeName,
+	typeName InternalTypeName,
 	f Function,
 	codeGenerationContext *CodeGenerationContext,
-) *dst.FuncDecl {
+) (decl *dst.FuncDecl, err error) {
 	defer func() {
-		if err := recover(); err != nil {
-			panic(fmt.Sprintf(
-				"generating method declaration for %s.%s: %s",
-				typeName.Name(),
-				f.Name(),
-				err))
+		if r := recover(); r != nil {
+			if e, ok := r.(error); ok {
+				err = errors.Wrapf(
+					e,
+					"generating method declaration for %s.%s",
+					typeName.Name(),
+					f.Name())
+			} else {
+				err = errors.Errorf(
+					"generating method declaration for %s.%s: %s",
+					typeName.Name(),
+					f.Name(),
+					r)
+			}
 		}
 	}()
 

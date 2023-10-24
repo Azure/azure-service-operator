@@ -89,15 +89,19 @@ func removeReferencesToTypes(
 }
 
 type visitorCtx struct {
-	typeName *astmodel.TypeName
+	typeName astmodel.InternalTypeName
 }
 
 func makeRemovedTypeVisitor(
 	toRemove astmodel.TypeNameSet,
 	log logr.Logger,
-) astmodel.TypeVisitor {
+) astmodel.TypeVisitor[*visitorCtx] {
 	// This is basically copied from IdentityVisitOfObjectType, but since it has/needs a per-property context we can't use that
-	removeReferencesToEmptyTypes := func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+	removeReferencesToEmptyTypes := func(
+		this *astmodel.TypeVisitor[*visitorCtx],
+		it *astmodel.ObjectType,
+		ctx *visitorCtx,
+	) (astmodel.Type, error) {
 		// just map the property types
 		var errs []error
 		var newProps []*astmodel.PropertyDefinition
@@ -106,13 +110,13 @@ func makeRemovedTypeVisitor(
 			p, err := this.Visit(prop.PropertyType(), ctx)
 			if err != nil {
 				errs = append(errs, err)
-			} else if ctx.typeName == nil || !toRemove.Contains(*ctx.typeName) {
+			} else if ctx.typeName.IsEmpty() || !toRemove.Contains(ctx.typeName) {
 				newProps = append(newProps, prop.WithType(p))
-			} else if toRemove.Contains(*ctx.typeName) {
+			} else if toRemove.Contains(ctx.typeName) {
 				log.V(1).Info(
 					"Removing reference to empty type",
 					"property", prop.PropertyName(),
-					"referencing", *ctx.typeName)
+					"referencing", ctx.typeName)
 			}
 		})
 
@@ -127,7 +131,7 @@ func makeRemovedTypeVisitor(
 			p, err := this.Visit(prop.PropertyType(), ctx)
 			if err != nil {
 				errs = append(errs, err)
-			} else if ctx.typeName != nil && !toRemove.Contains(*ctx.typeName) {
+			} else if !ctx.typeName.IsEmpty() && !toRemove.Contains(ctx.typeName) {
 				newEmbeddedProps = append(newEmbeddedProps, prop.WithType(p))
 			}
 		}
@@ -147,21 +151,26 @@ func makeRemovedTypeVisitor(
 		return result, nil
 	}
 
-	typeNameVisitWithSafetyCheck := func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
-		typedCtx, ok := ctx.(*visitorCtx)
-		if ok {
-			// Safety check that we're not overwriting typeName
-			if typedCtx.typeName != nil {
-				return nil, errors.Errorf("would've overwritten ctx.typeName %q", typedCtx.typeName)
+	typeNameVisitWithSafetyCheck := func(
+		this *astmodel.TypeVisitor[*visitorCtx],
+		it astmodel.InternalTypeName,
+		ctx *visitorCtx,
+	) (astmodel.Type, error) {
+		// Safety check that we're not overwriting typeName
+		if ctx != nil {
+			if !ctx.typeName.IsEmpty() {
+				return nil, errors.Errorf("would've overwritten ctx.typeName %q", ctx.typeName)
 			}
-			typedCtx.typeName = &it
+
+			ctx.typeName = it
 		}
+
 		return astmodel.IdentityVisitOfTypeName(this, it, ctx)
 	}
 
-	visitor := astmodel.TypeVisitorBuilder{
-		VisitObjectType: removeReferencesToEmptyTypes,
-		VisitTypeName:   typeNameVisitWithSafetyCheck,
+	visitor := astmodel.TypeVisitorBuilder[*visitorCtx]{
+		VisitObjectType:       removeReferencesToEmptyTypes,
+		VisitInternalTypeName: typeNameVisitWithSafetyCheck,
 	}.Build()
 
 	return visitor

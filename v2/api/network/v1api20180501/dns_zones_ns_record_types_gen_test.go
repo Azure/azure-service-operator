@@ -5,7 +5,7 @@ package v1api20180501
 
 import (
 	"encoding/json"
-	v1api20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage"
+	v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForDnsZonesNSRecord(subject DnsZonesNSRecord) stri
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20180501s.DnsZonesNSRecord
+	var hub v20180501s.DnsZonesNSRecord
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -72,13 +72,13 @@ func Test_DnsZonesNSRecord_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsZonesNSRecord tests if a specific instance of DnsZonesNSRecord can be assigned to v1api20180501storage and back losslessly
+// RunPropertyAssignmentTestForDnsZonesNSRecord tests if a specific instance of DnsZonesNSRecord can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsZonesNSRecord(subject DnsZonesNSRecord) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20180501s.DnsZonesNSRecord
+	var other v20180501s.DnsZonesNSRecord
 	err := copied.AssignProperties_To_DnsZonesNSRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -175,13 +175,13 @@ func Test_DnsZones_NS_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsZones_NS_Spec tests if a specific instance of DnsZones_NS_Spec can be assigned to v1api20180501storage and back losslessly
+// RunPropertyAssignmentTestForDnsZones_NS_Spec tests if a specific instance of DnsZones_NS_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsZones_NS_Spec(subject DnsZones_NS_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20180501s.DnsZones_NS_Spec
+	var other v20180501s.DnsZones_NS_Spec
 	err := copied.AssignProperties_To_DnsZones_NS_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -303,13 +303,13 @@ func Test_DnsZones_NS_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsZones_NS_STATUS tests if a specific instance of DnsZones_NS_STATUS can be assigned to v1api20180501storage and back losslessly
+// RunPropertyAssignmentTestForDnsZones_NS_STATUS tests if a specific instance of DnsZones_NS_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsZones_NS_STATUS(subject DnsZones_NS_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20180501s.DnsZones_NS_STATUS
+	var other v20180501s.DnsZones_NS_STATUS
 	err := copied.AssignProperties_To_DnsZones_NS_STATUS(&other)
 	if err != nil {
 		return err.Error()

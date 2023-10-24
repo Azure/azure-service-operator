@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"go/token"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sort"
 
 	"github.com/dave/dst"
@@ -62,7 +63,7 @@ func (i InterfaceImplementer) References() TypeNameSet {
 
 func (i InterfaceImplementer) AsDeclarations(
 	codeGenerationContext *CodeGenerationContext,
-	typeName TypeName,
+	typeName InternalTypeName,
 	_ []string,
 ) []dst.Decl {
 	// interfaces must be ordered by name for deterministic output
@@ -73,7 +74,7 @@ func (i InterfaceImplementer) AsDeclarations(
 	}
 
 	sort.Slice(interfaces, func(i int, j int) bool {
-		return interfaces[i].Name().name < interfaces[j].Name().name
+		return interfaces[i].Name().Name() < interfaces[j].Name().Name()
 	})
 
 	result := make([]dst.Decl, 0, len(interfaces))
@@ -85,9 +86,22 @@ func (i InterfaceImplementer) AsDeclarations(
 			return functions[i].Name() < functions[j].Name()
 		})
 
+		var errs []error
 		for _, f := range functions {
-			decl := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
+			decl, err := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
+			if err != nil {
+				errs = append(errs, err)
+				continue
+			}
+
 			result = append(result, decl)
+		}
+
+		if len(errs) > 0 {
+			// Something went wrong; once AsDeclarations is refactored to have an error return,
+			// we can return them, but in the meantime panic
+			err := kerrors.NewAggregate(errs)
+			panic(err)
 		}
 	}
 
@@ -127,7 +141,7 @@ func (i InterfaceImplementer) generateInterfaceImplAssertion(
 	iface *InterfaceImplementation,
 	typeName TypeName,
 ) dst.Decl {
-	ifacePackageName, err := codeGenerationContext.GetImportedPackageName(iface.name.PackageReference)
+	ifacePackageName, err := codeGenerationContext.GetImportedPackageName(iface.name.PackageReference())
 	if err != nil {
 		panic(err)
 	}
@@ -150,14 +164,14 @@ func (i InterfaceImplementer) generateInterfaceImplAssertion(
 			&dst.ValueSpec{
 				Type: astbuilder.Selector(
 					dst.NewIdent(ifacePackageName),
-					iface.name.name),
+					iface.name.Name()),
 				Names: []*dst.Ident{
 					dst.NewIdent("_"),
 				},
 				Values: astbuilder.Expressions(
 					astbuilder.AddrOf(
 						&dst.CompositeLit{
-							Type: dst.NewIdent(typeName.name),
+							Type: dst.NewIdent(typeName.Name()),
 						})),
 			},
 		},

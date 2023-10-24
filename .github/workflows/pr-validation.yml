@@ -13,6 +13,7 @@ on:
   merge_group:
     branches:
       - main
+    types: [checks_requested]
 
 jobs:
   test-go-get:
@@ -41,7 +42,22 @@ jobs:
             sha='${{ github.sha }}'
           fi
 
-          go get "$repo/v2@$sha"
+          # Give GitHub some time to make the commit available
+          sleep 10
+
+          # Sometimes it can take https://proxy.golang.org up to a minute for the latest commit to be available.
+          # See the FAQ at https://proxy.golang.org/
+          FAILED=1
+          for i in {1..5}; do
+            if go get "$repo/v2@$sha" ; then
+              FAILED=0
+              break
+            fi
+            echo "Failed to 'go get' $repo/v2@$sha, retrying in 60 seconds…"
+            sleep 60
+          done
+
+          exit $FAILED
 
   test-generator:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
@@ -54,6 +70,9 @@ jobs:
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
+
+      - name: Force docker to SSD
+        run: sudo scripts/v2/linux-docker-use-ssd.sh --containerd true
 
       - name: check-changes
         id: check-changes
@@ -141,7 +160,12 @@ jobs:
   # TODO: Changing this name requires changing the github API calls in pr-validation-fork.yml
   integration-tests:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
-    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    if: 
+      # Run on pull requests in this repository that are not from @dependabot, and run for merge groups
+      github.event_name == 'merge_group' ||
+      ( github.event_name == 'pull_request' &&
+        github.actor != 'dependabot[bot]' &&
+        github.event.pull_request.head.repo.full_name == github.repository )
     permissions:
       packages: read
       checks: write
@@ -152,6 +176,9 @@ jobs:
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
+
+      - name: Force docker to SSD
+        run: sudo scripts/v2/linux-docker-use-ssd.sh --containerd true
 
       - name: check-changes
         id: check-changes
@@ -208,36 +235,51 @@ jobs:
           AZURE_CLIENT_ID_MULTITENANT: ${{ secrets.AZURE_CLIENT_ID_MULTITENANT }}
           AZURE_CLIENT_ID_CERT_AUTH: ${{ secrets.AZURE_CLIENT_ID_CERT_AUTH }}
           AZURE_CLIENT_SECRET_CERT_AUTH: ${{ secrets.AZURE_CLIENT_SECRET_CERT_AUTH }}
-        if: steps.check-changes.outputs.code-changed == 'true'
+        if: 
+          steps.check-changes.outputs.code-changed == 'true' 
 
+      - name: Get Job ID from GH API
+        id: get-job-id
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
+          job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
+          echo "job_id=$job_id" >> $GITHUB_ENV
+    
       # Update check run called "integration-tests-fork"
       - name: update-integration-tests-result
         uses: actions/github-script@v6
         id: update-check-run
         if: ${{ always() }}
         env:
-          number: ${{ github.event.number }}
+          repo: ${{ github.repository }}
+          owner: ${{ github.repository_owner }}
+          run_id: ${{ env.job_id }}
+          server_url: ${{ github.server_url }}
           integration_test_job: 'integration-tests-fork' # This is the name of the job defined in pr-validation-fork.yml
           # Conveniently, job.status maps to https://developer.github.com/v3/checks/runs/#update-a-check-run
           conclusion: ${{ job.status }}
-          server_url: ${{ github.server_url }}
-          repo: ${{ github.repository }}
-          run_id: ${{ github.run_id }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const url = `${process.env.server_url}/${process.env.repo}/actions/runs/${process.env.run_id}`
-            const { data: pull } = await github.rest.pulls.get({
-              ...context.repo,
-              pull_number: process.env.number
+            // Get all the details of the check run that's currently executing
+            // This lets us get the SHA we're building regardless of WHY we're building it
+            const { data: check } = await github.rest.checks.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              check_run_id: process.env.run_id
             });
-            const ref = pull.head.sha;
+
+            // update the check result for `integration-tests-fork`
+            const url = `${process.env.server_url}/${process.env.repo}/actions/runs/${process.env.run_id}`
             const { data: result } = await github.rest.checks.create({
               ...context.repo,
               name: process.env.integration_test_job,
-              head_sha: ref,
+              head_sha: check.head_sha,
               status: 'completed',
               conclusion: process.env.conclusion,
               details_url: url,
             });
+
             return result;

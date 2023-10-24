@@ -4,12 +4,12 @@
 package customizations
 
 import (
-	v1api20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
-	v1api20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
-	v1api20220901 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
-	v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
-	v20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
-	v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
+	v20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
+	v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
+	v20220901 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v1beta20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
+	v1beta20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -19,10 +19,10 @@ type StorageAccountExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *StorageAccountExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20210401.StorageAccount{},
-		&v1api20210401s.StorageAccount{},
-		&v1api20220901.StorageAccount{},
-		&v1api20220901s.StorageAccount{},
 		&v20210401.StorageAccount{},
-		&v20210401s.StorageAccount{}}
+		&v20210401s.StorageAccount{},
+		&v20220901.StorageAccount{},
+		&v20220901s.StorageAccount{},
+		&v1beta20210401.StorageAccount{},
+		&v1beta20210401s.StorageAccount{}}
 }

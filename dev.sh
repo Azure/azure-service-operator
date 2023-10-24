@@ -10,7 +10,7 @@ $GIT_ROOT/.devcontainer/install-dependencies.sh --skip-installed
 
 # Setup envtest binaries and define KUBEBUILDER_ASSETS
 # NB: if you change this, .devcontainer/Dockerfile also likely needs updating
-if ! ENVTEST=$("$TOOL_DEST/setup-envtest" use --print env 1.26.1) ; then
+if ! ENVTEST=$("$TOOL_DEST/setup-envtest" use --print env 1.27.1) ; then
     echo "Failed to setup envtest"
     exit 1
 fi

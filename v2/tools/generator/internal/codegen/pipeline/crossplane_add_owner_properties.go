@@ -20,10 +20,10 @@ func AddCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) *Stage {
 		"addCrossplaneOwnerProperties",
 		"Add the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			referenceTypeName := astmodel.MakeTypeName(
+			referenceTypeName := astmodel.MakeExternalTypeName(
 				CrossplaneRuntimeV1Package,
 				idFactory.CreateIdentifier("Reference", astmodel.Exported))
-			selectorTypeName := astmodel.MakeTypeName(
+			selectorTypeName := astmodel.MakeExternalTypeName(
 				CrossplaneRuntimeV1Package,
 				idFactory.CreateIdentifier("Selector", astmodel.Exported))
 
@@ -101,15 +101,18 @@ func lookupOwners(defs astmodel.TypeDefinitionSet, resourceDef astmodel.TypeDefi
 		return nil, errors.Errorf("type %s is not a resource", resourceDef.Name())
 	}
 
-	if resourceType.Owner() == nil {
+	if resourceType.Owner().IsEmpty() {
 		return []astmodel.TypeName{resourceDef.Name()}, nil
 	}
 
 	if resourceType.Owner().Name() == "ResourceGroup" {
-		return []astmodel.TypeName{*resourceType.Owner(), resourceDef.Name()}, nil
+		return []astmodel.TypeName{
+			resourceType.Owner(),
+			resourceDef.Name(),
+		}, nil
 	}
 
-	owner := *resourceType.Owner()
+	owner := resourceType.Owner()
 	ownerDef, ok := defs[owner]
 	if !ok {
 		return nil, errors.Errorf("couldn't find definition for owner %s", owner)

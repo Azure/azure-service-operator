@@ -5,7 +5,7 @@ package v1beta20200601
 
 import (
 	"fmt"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
+	v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -48,7 +48,7 @@ var _ conversion.Convertible = &EventSubscription{}
 // ConvertFrom populates our EventSubscription from the provided hub EventSubscription
 func (subscription *EventSubscription) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20200601s.EventSubscription
+	var source v1beta20200601s.EventSubscription
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -66,7 +66,7 @@ func (subscription *EventSubscription) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub EventSubscription from our EventSubscription
 func (subscription *EventSubscription) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20200601s.EventSubscription
+	var destination v1beta20200601s.EventSubscription
 	err := subscription.AssignProperties_To_EventSubscription(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from subscription")
@@ -141,11 +141,7 @@ func (subscription *EventSubscription) NewEmptyStatus() genruntime.ConvertibleSt
 
 // Owner returns the ResourceReference of the owner
 func (subscription *EventSubscription) Owner() *genruntime.ResourceReference {
-	return &genruntime.ResourceReference{
-		Group: subscription.Spec.Owner.Group,
-		Kind:  subscription.Spec.Owner.Kind,
-		Name:  subscription.Spec.Owner.Name,
-	}
+	return subscription.Spec.Owner.AsResourceReference()
 }
 
 // SetStatus sets the status of this resource
@@ -240,7 +236,7 @@ func (subscription *EventSubscription) validateWriteOnceProperties(old runtime.O
 }
 
 // AssignProperties_From_EventSubscription populates our EventSubscription from the provided source EventSubscription
-func (subscription *EventSubscription) AssignProperties_From_EventSubscription(source *v20200601s.EventSubscription) error {
+func (subscription *EventSubscription) AssignProperties_From_EventSubscription(source *v1beta20200601s.EventSubscription) error {
 
 	// ObjectMeta
 	subscription.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +262,13 @@ func (subscription *EventSubscription) AssignProperties_From_EventSubscription(s
 }
 
 // AssignProperties_To_EventSubscription populates the provided destination EventSubscription from our EventSubscription
-func (subscription *EventSubscription) AssignProperties_To_EventSubscription(destination *v20200601s.EventSubscription) error {
+func (subscription *EventSubscription) AssignProperties_To_EventSubscription(destination *v1beta20200601s.EventSubscription) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *subscription.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20200601s.EventSubscription_Spec
+	var spec v1beta20200601s.EventSubscription_Spec
 	err := subscription.Spec.AssignProperties_To_EventSubscription_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_EventSubscription_Spec() to populate field Spec")
@@ -280,7 +276,7 @@ func (subscription *EventSubscription) AssignProperties_To_EventSubscription(des
 	destination.Spec = spec
 
 	// Status
-	var status v20200601s.EventSubscription_STATUS
+	var status v1beta20200601s.EventSubscription_STATUS
 	err = subscription.Status.AssignProperties_To_EventSubscription_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_EventSubscription_STATUS() to populate field Status")
@@ -336,10 +332,10 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 	}
 	result := &EventSubscription_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if subscription.DeadLetterDestination != nil ||
 		subscription.Destination != nil ||
 		subscription.EventDeliverySchema != nil ||
@@ -407,10 +403,10 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscription_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	subscription.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘DeadLetterDestination’:
+	// Set property "DeadLetterDestination":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetterDestination != nil {
@@ -424,7 +420,7 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Destination’:
+	// Set property "Destination":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Destination != nil {
@@ -438,7 +434,7 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘EventDeliverySchema’:
+	// Set property "EventDeliverySchema":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EventDeliverySchema != nil {
@@ -447,7 +443,7 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘ExpirationTimeUtc’:
+	// Set property "ExpirationTimeUtc":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ExpirationTimeUtc != nil {
@@ -456,7 +452,7 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Filter’:
+	// Set property "Filter":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Filter != nil {
@@ -470,7 +466,7 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Labels’:
+	// Set property "Labels":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Labels {
@@ -478,10 +474,10 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	subscription.Owner = &owner
 
-	// Set property ‘RetryPolicy’:
+	// Set property "RetryPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetryPolicy != nil {
@@ -503,14 +499,14 @@ var _ genruntime.ConvertibleSpec = &EventSubscription_Spec{}
 
 // ConvertSpecFrom populates our EventSubscription_Spec from the provided source
 func (subscription *EventSubscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20200601s.EventSubscription_Spec)
+	src, ok := source.(*v1beta20200601s.EventSubscription_Spec)
 	if ok {
 		// Populate our instance from source
 		return subscription.AssignProperties_From_EventSubscription_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200601s.EventSubscription_Spec{}
+	src = &v1beta20200601s.EventSubscription_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -527,14 +523,14 @@ func (subscription *EventSubscription_Spec) ConvertSpecFrom(source genruntime.Co
 
 // ConvertSpecTo populates the provided destination from our EventSubscription_Spec
 func (subscription *EventSubscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20200601s.EventSubscription_Spec)
+	dst, ok := destination.(*v1beta20200601s.EventSubscription_Spec)
 	if ok {
 		// Populate destination from our instance
 		return subscription.AssignProperties_To_EventSubscription_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200601s.EventSubscription_Spec{}
+	dst = &v1beta20200601s.EventSubscription_Spec{}
 	err := subscription.AssignProperties_To_EventSubscription_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -550,7 +546,7 @@ func (subscription *EventSubscription_Spec) ConvertSpecTo(destination genruntime
 }
 
 // AssignProperties_From_EventSubscription_Spec populates our EventSubscription_Spec from the provided source EventSubscription_Spec
-func (subscription *EventSubscription_Spec) AssignProperties_From_EventSubscription_Spec(source *v20200601s.EventSubscription_Spec) error {
+func (subscription *EventSubscription_Spec) AssignProperties_From_EventSubscription_Spec(source *v1beta20200601s.EventSubscription_Spec) error {
 
 	// AzureName
 	subscription.AzureName = source.AzureName
@@ -630,7 +626,7 @@ func (subscription *EventSubscription_Spec) AssignProperties_From_EventSubscript
 }
 
 // AssignProperties_To_EventSubscription_Spec populates the provided destination EventSubscription_Spec from our EventSubscription_Spec
-func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscription_Spec(destination *v20200601s.EventSubscription_Spec) error {
+func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscription_Spec(destination *v1beta20200601s.EventSubscription_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -639,7 +635,7 @@ func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscriptio
 
 	// DeadLetterDestination
 	if subscription.DeadLetterDestination != nil {
-		var deadLetterDestination v20200601s.DeadLetterDestination
+		var deadLetterDestination v1beta20200601s.DeadLetterDestination
 		err := subscription.DeadLetterDestination.AssignProperties_To_DeadLetterDestination(&deadLetterDestination)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeadLetterDestination() to populate field DeadLetterDestination")
@@ -651,7 +647,7 @@ func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscriptio
 
 	// Destination
 	if subscription.Destination != nil {
-		var destinationLocal v20200601s.EventSubscriptionDestination
+		var destinationLocal v1beta20200601s.EventSubscriptionDestination
 		err := subscription.Destination.AssignProperties_To_EventSubscriptionDestination(&destinationLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EventSubscriptionDestination() to populate field Destination")
@@ -674,7 +670,7 @@ func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscriptio
 
 	// Filter
 	if subscription.Filter != nil {
-		var filter v20200601s.EventSubscriptionFilter
+		var filter v1beta20200601s.EventSubscriptionFilter
 		err := subscription.Filter.AssignProperties_To_EventSubscriptionFilter(&filter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EventSubscriptionFilter() to populate field Filter")
@@ -700,7 +696,7 @@ func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscriptio
 
 	// RetryPolicy
 	if subscription.RetryPolicy != nil {
-		var retryPolicy v20200601s.RetryPolicy
+		var retryPolicy v1beta20200601s.RetryPolicy
 		err := subscription.RetryPolicy.AssignProperties_To_RetryPolicy(&retryPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RetryPolicy() to populate field RetryPolicy")
@@ -754,14 +750,14 @@ var _ genruntime.ConvertibleStatus = &EventSubscription_STATUS{}
 
 // ConvertStatusFrom populates our EventSubscription_STATUS from the provided source
 func (subscription *EventSubscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20200601s.EventSubscription_STATUS)
+	src, ok := source.(*v1beta20200601s.EventSubscription_STATUS)
 	if ok {
 		// Populate our instance from source
 		return subscription.AssignProperties_From_EventSubscription_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200601s.EventSubscription_STATUS{}
+	src = &v1beta20200601s.EventSubscription_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -778,14 +774,14 @@ func (subscription *EventSubscription_STATUS) ConvertStatusFrom(source genruntim
 
 // ConvertStatusTo populates the provided destination from our EventSubscription_STATUS
 func (subscription *EventSubscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20200601s.EventSubscription_STATUS)
+	dst, ok := destination.(*v1beta20200601s.EventSubscription_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return subscription.AssignProperties_To_EventSubscription_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200601s.EventSubscription_STATUS{}
+	dst = &v1beta20200601s.EventSubscription_STATUS{}
 	err := subscription.AssignProperties_To_EventSubscription_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -814,9 +810,9 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscription_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘DeadLetterDestination’:
+	// Set property "DeadLetterDestination":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetterDestination != nil {
@@ -830,7 +826,7 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Destination’:
+	// Set property "Destination":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Destination != nil {
@@ -844,7 +840,7 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘EventDeliverySchema’:
+	// Set property "EventDeliverySchema":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EventDeliverySchema != nil {
@@ -853,7 +849,7 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘ExpirationTimeUtc’:
+	// Set property "ExpirationTimeUtc":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ExpirationTimeUtc != nil {
@@ -862,7 +858,7 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Filter’:
+	// Set property "Filter":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Filter != nil {
@@ -876,13 +872,13 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		subscription.Id = &id
 	}
 
-	// Set property ‘Labels’:
+	// Set property "Labels":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Labels {
@@ -890,13 +886,13 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		subscription.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -905,7 +901,7 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘RetryPolicy’:
+	// Set property "RetryPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetryPolicy != nil {
@@ -919,7 +915,7 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -930,7 +926,7 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		subscription.SystemData = &systemData
 	}
 
-	// Set property ‘Topic’:
+	// Set property "Topic":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Topic != nil {
@@ -939,7 +935,7 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		subscription.Type = &typeVar
@@ -950,7 +946,7 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_EventSubscription_STATUS populates our EventSubscription_STATUS from the provided source EventSubscription_STATUS
-func (subscription *EventSubscription_STATUS) AssignProperties_From_EventSubscription_STATUS(source *v20200601s.EventSubscription_STATUS) error {
+func (subscription *EventSubscription_STATUS) AssignProperties_From_EventSubscription_STATUS(source *v1beta20200601s.EventSubscription_STATUS) error {
 
 	// Conditions
 	subscription.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1054,7 +1050,7 @@ func (subscription *EventSubscription_STATUS) AssignProperties_From_EventSubscri
 }
 
 // AssignProperties_To_EventSubscription_STATUS populates the provided destination EventSubscription_STATUS from our EventSubscription_STATUS
-func (subscription *EventSubscription_STATUS) AssignProperties_To_EventSubscription_STATUS(destination *v20200601s.EventSubscription_STATUS) error {
+func (subscription *EventSubscription_STATUS) AssignProperties_To_EventSubscription_STATUS(destination *v1beta20200601s.EventSubscription_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1063,7 +1059,7 @@ func (subscription *EventSubscription_STATUS) AssignProperties_To_EventSubscript
 
 	// DeadLetterDestination
 	if subscription.DeadLetterDestination != nil {
-		var deadLetterDestination v20200601s.DeadLetterDestination_STATUS
+		var deadLetterDestination v1beta20200601s.DeadLetterDestination_STATUS
 		err := subscription.DeadLetterDestination.AssignProperties_To_DeadLetterDestination_STATUS(&deadLetterDestination)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeadLetterDestination_STATUS() to populate field DeadLetterDestination")
@@ -1075,7 +1071,7 @@ func (subscription *EventSubscription_STATUS) AssignProperties_To_EventSubscript
 
 	// Destination
 	if subscription.Destination != nil {
-		var destinationLocal v20200601s.EventSubscriptionDestination_STATUS
+		var destinationLocal v1beta20200601s.EventSubscriptionDestination_STATUS
 		err := subscription.Destination.AssignProperties_To_EventSubscriptionDestination_STATUS(&destinationLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EventSubscriptionDestination_STATUS() to populate field Destination")
@@ -1098,7 +1094,7 @@ func (subscription *EventSubscription_STATUS) AssignProperties_To_EventSubscript
 
 	// Filter
 	if subscription.Filter != nil {
-		var filter v20200601s.EventSubscriptionFilter_STATUS
+		var filter v1beta20200601s.EventSubscriptionFilter_STATUS
 		err := subscription.Filter.AssignProperties_To_EventSubscriptionFilter_STATUS(&filter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EventSubscriptionFilter_STATUS() to populate field Filter")
@@ -1127,7 +1123,7 @@ func (subscription *EventSubscription_STATUS) AssignProperties_To_EventSubscript
 
 	// RetryPolicy
 	if subscription.RetryPolicy != nil {
-		var retryPolicy v20200601s.RetryPolicy_STATUS
+		var retryPolicy v1beta20200601s.RetryPolicy_STATUS
 		err := subscription.RetryPolicy.AssignProperties_To_RetryPolicy_STATUS(&retryPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RetryPolicy_STATUS() to populate field RetryPolicy")
@@ -1139,7 +1135,7 @@ func (subscription *EventSubscription_STATUS) AssignProperties_To_EventSubscript
 
 	// SystemData
 	if subscription.SystemData != nil {
-		var systemDatum v20200601s.SystemData_STATUS
+		var systemDatum v1beta20200601s.SystemData_STATUS
 		err := subscription.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1180,7 +1176,7 @@ func (destination *DeadLetterDestination) ConvertToARM(resolved genruntime.Conve
 	}
 	result := &DeadLetterDestination_ARM{}
 
-	// Set property ‘StorageBlob’:
+	// Set property "StorageBlob":
 	if destination.StorageBlob != nil {
 		storageBlob_ARM, err := (*destination.StorageBlob).ConvertToARM(resolved)
 		if err != nil {
@@ -1204,7 +1200,7 @@ func (destination *DeadLetterDestination) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeadLetterDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘StorageBlob’:
+	// Set property "StorageBlob":
 	if typedInput.StorageBlob != nil {
 		var storageBlob1 StorageBlobDeadLetterDestination
 		err := storageBlob1.PopulateFromARM(owner, *typedInput.StorageBlob)
@@ -1220,7 +1216,7 @@ func (destination *DeadLetterDestination) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_DeadLetterDestination populates our DeadLetterDestination from the provided source DeadLetterDestination
-func (destination *DeadLetterDestination) AssignProperties_From_DeadLetterDestination(source *v20200601s.DeadLetterDestination) error {
+func (destination *DeadLetterDestination) AssignProperties_From_DeadLetterDestination(source *v1beta20200601s.DeadLetterDestination) error {
 
 	// StorageBlob
 	if source.StorageBlob != nil {
@@ -1239,13 +1235,13 @@ func (destination *DeadLetterDestination) AssignProperties_From_DeadLetterDestin
 }
 
 // AssignProperties_To_DeadLetterDestination populates the provided destination DeadLetterDestination from our DeadLetterDestination
-func (destination *DeadLetterDestination) AssignProperties_To_DeadLetterDestination(target *v20200601s.DeadLetterDestination) error {
+func (destination *DeadLetterDestination) AssignProperties_To_DeadLetterDestination(target *v1beta20200601s.DeadLetterDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// StorageBlob
 	if destination.StorageBlob != nil {
-		var storageBlob v20200601s.StorageBlobDeadLetterDestination
+		var storageBlob v1beta20200601s.StorageBlobDeadLetterDestination
 		err := destination.StorageBlob.AssignProperties_To_StorageBlobDeadLetterDestination(&storageBlob)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StorageBlobDeadLetterDestination() to populate field StorageBlob")
@@ -1285,7 +1281,7 @@ func (destination *DeadLetterDestination_STATUS) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeadLetterDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘StorageBlob’:
+	// Set property "StorageBlob":
 	if typedInput.StorageBlob != nil {
 		var storageBlob1 StorageBlobDeadLetterDestination_STATUS
 		err := storageBlob1.PopulateFromARM(owner, *typedInput.StorageBlob)
@@ -1301,7 +1297,7 @@ func (destination *DeadLetterDestination_STATUS) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_DeadLetterDestination_STATUS populates our DeadLetterDestination_STATUS from the provided source DeadLetterDestination_STATUS
-func (destination *DeadLetterDestination_STATUS) AssignProperties_From_DeadLetterDestination_STATUS(source *v20200601s.DeadLetterDestination_STATUS) error {
+func (destination *DeadLetterDestination_STATUS) AssignProperties_From_DeadLetterDestination_STATUS(source *v1beta20200601s.DeadLetterDestination_STATUS) error {
 
 	// StorageBlob
 	if source.StorageBlob != nil {
@@ -1320,13 +1316,13 @@ func (destination *DeadLetterDestination_STATUS) AssignProperties_From_DeadLette
 }
 
 // AssignProperties_To_DeadLetterDestination_STATUS populates the provided destination DeadLetterDestination_STATUS from our DeadLetterDestination_STATUS
-func (destination *DeadLetterDestination_STATUS) AssignProperties_To_DeadLetterDestination_STATUS(target *v20200601s.DeadLetterDestination_STATUS) error {
+func (destination *DeadLetterDestination_STATUS) AssignProperties_To_DeadLetterDestination_STATUS(target *v1beta20200601s.DeadLetterDestination_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// StorageBlob
 	if destination.StorageBlob != nil {
-		var storageBlob v20200601s.StorageBlobDeadLetterDestination_STATUS
+		var storageBlob v1beta20200601s.StorageBlobDeadLetterDestination_STATUS
 		err := destination.StorageBlob.AssignProperties_To_StorageBlobDeadLetterDestination_STATUS(&storageBlob)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StorageBlobDeadLetterDestination_STATUS() to populate field StorageBlob")
@@ -1367,7 +1363,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 	}
 	result := &EventSubscriptionDestination_ARM{}
 
-	// Set property ‘AzureFunction’:
+	// Set property "AzureFunction":
 	if destination.AzureFunction != nil {
 		azureFunction_ARM, err := (*destination.AzureFunction).ConvertToARM(resolved)
 		if err != nil {
@@ -1377,7 +1373,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		result.AzureFunction = &azureFunction
 	}
 
-	// Set property ‘EventHub’:
+	// Set property "EventHub":
 	if destination.EventHub != nil {
 		eventHub_ARM, err := (*destination.EventHub).ConvertToARM(resolved)
 		if err != nil {
@@ -1387,7 +1383,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		result.EventHub = &eventHub
 	}
 
-	// Set property ‘HybridConnection’:
+	// Set property "HybridConnection":
 	if destination.HybridConnection != nil {
 		hybridConnection_ARM, err := (*destination.HybridConnection).ConvertToARM(resolved)
 		if err != nil {
@@ -1397,7 +1393,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		result.HybridConnection = &hybridConnection
 	}
 
-	// Set property ‘ServiceBusQueue’:
+	// Set property "ServiceBusQueue":
 	if destination.ServiceBusQueue != nil {
 		serviceBusQueue_ARM, err := (*destination.ServiceBusQueue).ConvertToARM(resolved)
 		if err != nil {
@@ -1407,7 +1403,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		result.ServiceBusQueue = &serviceBusQueue
 	}
 
-	// Set property ‘ServiceBusTopic’:
+	// Set property "ServiceBusTopic":
 	if destination.ServiceBusTopic != nil {
 		serviceBusTopic_ARM, err := (*destination.ServiceBusTopic).ConvertToARM(resolved)
 		if err != nil {
@@ -1417,7 +1413,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		result.ServiceBusTopic = &serviceBusTopic
 	}
 
-	// Set property ‘StorageQueue’:
+	// Set property "StorageQueue":
 	if destination.StorageQueue != nil {
 		storageQueue_ARM, err := (*destination.StorageQueue).ConvertToARM(resolved)
 		if err != nil {
@@ -1427,7 +1423,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		result.StorageQueue = &storageQueue
 	}
 
-	// Set property ‘WebHook’:
+	// Set property "WebHook":
 	if destination.WebHook != nil {
 		webHook_ARM, err := (*destination.WebHook).ConvertToARM(resolved)
 		if err != nil {
@@ -1451,7 +1447,7 @@ func (destination *EventSubscriptionDestination) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureFunction’:
+	// Set property "AzureFunction":
 	if typedInput.AzureFunction != nil {
 		var azureFunction1 AzureFunctionEventSubscriptionDestination
 		err := azureFunction1.PopulateFromARM(owner, *typedInput.AzureFunction)
@@ -1462,7 +1458,7 @@ func (destination *EventSubscriptionDestination) PopulateFromARM(owner genruntim
 		destination.AzureFunction = &azureFunction
 	}
 
-	// Set property ‘EventHub’:
+	// Set property "EventHub":
 	if typedInput.EventHub != nil {
 		var eventHub1 EventHubEventSubscriptionDestination
 		err := eventHub1.PopulateFromARM(owner, *typedInput.EventHub)
@@ -1473,7 +1469,7 @@ func (destination *EventSubscriptionDestination) PopulateFromARM(owner genruntim
 		destination.EventHub = &eventHub
 	}
 
-	// Set property ‘HybridConnection’:
+	// Set property "HybridConnection":
 	if typedInput.HybridConnection != nil {
 		var hybridConnection1 HybridConnectionEventSubscriptionDestination
 		err := hybridConnection1.PopulateFromARM(owner, *typedInput.HybridConnection)
@@ -1484,7 +1480,7 @@ func (destination *EventSubscriptionDestination) PopulateFromARM(owner genruntim
 		destination.HybridConnection = &hybridConnection
 	}
 
-	// Set property ‘ServiceBusQueue’:
+	// Set property "ServiceBusQueue":
 	if typedInput.ServiceBusQueue != nil {
 		var serviceBusQueue1 ServiceBusQueueEventSubscriptionDestination
 		err := serviceBusQueue1.PopulateFromARM(owner, *typedInput.ServiceBusQueue)
@@ -1495,7 +1491,7 @@ func (destination *EventSubscriptionDestination) PopulateFromARM(owner genruntim
 		destination.ServiceBusQueue = &serviceBusQueue
 	}
 
-	// Set property ‘ServiceBusTopic’:
+	// Set property "ServiceBusTopic":
 	if typedInput.ServiceBusTopic != nil {
 		var serviceBusTopic1 ServiceBusTopicEventSubscriptionDestination
 		err := serviceBusTopic1.PopulateFromARM(owner, *typedInput.ServiceBusTopic)
@@ -1506,7 +1502,7 @@ func (destination *EventSubscriptionDestination) PopulateFromARM(owner genruntim
 		destination.ServiceBusTopic = &serviceBusTopic
 	}
 
-	// Set property ‘StorageQueue’:
+	// Set property "StorageQueue":
 	if typedInput.StorageQueue != nil {
 		var storageQueue1 StorageQueueEventSubscriptionDestination
 		err := storageQueue1.PopulateFromARM(owner, *typedInput.StorageQueue)
@@ -1517,7 +1513,7 @@ func (destination *EventSubscriptionDestination) PopulateFromARM(owner genruntim
 		destination.StorageQueue = &storageQueue
 	}
 
-	// Set property ‘WebHook’:
+	// Set property "WebHook":
 	if typedInput.WebHook != nil {
 		var webHook1 WebHookEventSubscriptionDestination
 		err := webHook1.PopulateFromARM(owner, *typedInput.WebHook)
@@ -1533,7 +1529,7 @@ func (destination *EventSubscriptionDestination) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_EventSubscriptionDestination populates our EventSubscriptionDestination from the provided source EventSubscriptionDestination
-func (destination *EventSubscriptionDestination) AssignProperties_From_EventSubscriptionDestination(source *v20200601s.EventSubscriptionDestination) error {
+func (destination *EventSubscriptionDestination) AssignProperties_From_EventSubscriptionDestination(source *v1beta20200601s.EventSubscriptionDestination) error {
 
 	// AzureFunction
 	if source.AzureFunction != nil {
@@ -1624,13 +1620,13 @@ func (destination *EventSubscriptionDestination) AssignProperties_From_EventSubs
 }
 
 // AssignProperties_To_EventSubscriptionDestination populates the provided destination EventSubscriptionDestination from our EventSubscriptionDestination
-func (destination *EventSubscriptionDestination) AssignProperties_To_EventSubscriptionDestination(target *v20200601s.EventSubscriptionDestination) error {
+func (destination *EventSubscriptionDestination) AssignProperties_To_EventSubscriptionDestination(target *v1beta20200601s.EventSubscriptionDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureFunction
 	if destination.AzureFunction != nil {
-		var azureFunction v20200601s.AzureFunctionEventSubscriptionDestination
+		var azureFunction v1beta20200601s.AzureFunctionEventSubscriptionDestination
 		err := destination.AzureFunction.AssignProperties_To_AzureFunctionEventSubscriptionDestination(&azureFunction)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AzureFunctionEventSubscriptionDestination() to populate field AzureFunction")
@@ -1642,7 +1638,7 @@ func (destination *EventSubscriptionDestination) AssignProperties_To_EventSubscr
 
 	// EventHub
 	if destination.EventHub != nil {
-		var eventHub v20200601s.EventHubEventSubscriptionDestination
+		var eventHub v1beta20200601s.EventHubEventSubscriptionDestination
 		err := destination.EventHub.AssignProperties_To_EventHubEventSubscriptionDestination(&eventHub)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EventHubEventSubscriptionDestination() to populate field EventHub")
@@ -1654,7 +1650,7 @@ func (destination *EventSubscriptionDestination) AssignProperties_To_EventSubscr
 
 	// HybridConnection
 	if destination.HybridConnection != nil {
-		var hybridConnection v20200601s.HybridConnectionEventSubscriptionDestination
+		var hybridConnection v1beta20200601s.HybridConnectionEventSubscriptionDestination
 		err := destination.HybridConnection.AssignProperties_To_HybridConnectionEventSubscriptionDestination(&hybridConnection)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HybridConnectionEventSubscriptionDestination() to populate field HybridConnection")
@@ -1666,7 +1662,7 @@ func (destination *EventSubscriptionDestination) AssignProperties_To_EventSubscr
 
 	// ServiceBusQueue
 	if destination.ServiceBusQueue != nil {
-		var serviceBusQueue v20200601s.ServiceBusQueueEventSubscriptionDestination
+		var serviceBusQueue v1beta20200601s.ServiceBusQueueEventSubscriptionDestination
 		err := destination.ServiceBusQueue.AssignProperties_To_ServiceBusQueueEventSubscriptionDestination(&serviceBusQueue)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServiceBusQueueEventSubscriptionDestination() to populate field ServiceBusQueue")
@@ -1678,7 +1674,7 @@ func (destination *EventSubscriptionDestination) AssignProperties_To_EventSubscr
 
 	// ServiceBusTopic
 	if destination.ServiceBusTopic != nil {
-		var serviceBusTopic v20200601s.ServiceBusTopicEventSubscriptionDestination
+		var serviceBusTopic v1beta20200601s.ServiceBusTopicEventSubscriptionDestination
 		err := destination.ServiceBusTopic.AssignProperties_To_ServiceBusTopicEventSubscriptionDestination(&serviceBusTopic)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServiceBusTopicEventSubscriptionDestination() to populate field ServiceBusTopic")
@@ -1690,7 +1686,7 @@ func (destination *EventSubscriptionDestination) AssignProperties_To_EventSubscr
 
 	// StorageQueue
 	if destination.StorageQueue != nil {
-		var storageQueue v20200601s.StorageQueueEventSubscriptionDestination
+		var storageQueue v1beta20200601s.StorageQueueEventSubscriptionDestination
 		err := destination.StorageQueue.AssignProperties_To_StorageQueueEventSubscriptionDestination(&storageQueue)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StorageQueueEventSubscriptionDestination() to populate field StorageQueue")
@@ -1702,7 +1698,7 @@ func (destination *EventSubscriptionDestination) AssignProperties_To_EventSubscr
 
 	// WebHook
 	if destination.WebHook != nil {
-		var webHook v20200601s.WebHookEventSubscriptionDestination
+		var webHook v1beta20200601s.WebHookEventSubscriptionDestination
 		err := destination.WebHook.AssignProperties_To_WebHookEventSubscriptionDestination(&webHook)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WebHookEventSubscriptionDestination() to populate field WebHook")
@@ -1748,7 +1744,7 @@ func (destination *EventSubscriptionDestination_STATUS) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureFunction’:
+	// Set property "AzureFunction":
 	if typedInput.AzureFunction != nil {
 		var azureFunction1 AzureFunctionEventSubscriptionDestination_STATUS
 		err := azureFunction1.PopulateFromARM(owner, *typedInput.AzureFunction)
@@ -1759,7 +1755,7 @@ func (destination *EventSubscriptionDestination_STATUS) PopulateFromARM(owner ge
 		destination.AzureFunction = &azureFunction
 	}
 
-	// Set property ‘EventHub’:
+	// Set property "EventHub":
 	if typedInput.EventHub != nil {
 		var eventHub1 EventHubEventSubscriptionDestination_STATUS
 		err := eventHub1.PopulateFromARM(owner, *typedInput.EventHub)
@@ -1770,7 +1766,7 @@ func (destination *EventSubscriptionDestination_STATUS) PopulateFromARM(owner ge
 		destination.EventHub = &eventHub
 	}
 
-	// Set property ‘HybridConnection’:
+	// Set property "HybridConnection":
 	if typedInput.HybridConnection != nil {
 		var hybridConnection1 HybridConnectionEventSubscriptionDestination_STATUS
 		err := hybridConnection1.PopulateFromARM(owner, *typedInput.HybridConnection)
@@ -1781,7 +1777,7 @@ func (destination *EventSubscriptionDestination_STATUS) PopulateFromARM(owner ge
 		destination.HybridConnection = &hybridConnection
 	}
 
-	// Set property ‘ServiceBusQueue’:
+	// Set property "ServiceBusQueue":
 	if typedInput.ServiceBusQueue != nil {
 		var serviceBusQueue1 ServiceBusQueueEventSubscriptionDestination_STATUS
 		err := serviceBusQueue1.PopulateFromARM(owner, *typedInput.ServiceBusQueue)
@@ -1792,7 +1788,7 @@ func (destination *EventSubscriptionDestination_STATUS) PopulateFromARM(owner ge
 		destination.ServiceBusQueue = &serviceBusQueue
 	}
 
-	// Set property ‘ServiceBusTopic’:
+	// Set property "ServiceBusTopic":
 	if typedInput.ServiceBusTopic != nil {
 		var serviceBusTopic1 ServiceBusTopicEventSubscriptionDestination_STATUS
 		err := serviceBusTopic1.PopulateFromARM(owner, *typedInput.ServiceBusTopic)
@@ -1803,7 +1799,7 @@ func (destination *EventSubscriptionDestination_STATUS) PopulateFromARM(owner ge
 		destination.ServiceBusTopic = &serviceBusTopic
 	}
 
-	// Set property ‘StorageQueue’:
+	// Set property "StorageQueue":
 	if typedInput.StorageQueue != nil {
 		var storageQueue1 StorageQueueEventSubscriptionDestination_STATUS
 		err := storageQueue1.PopulateFromARM(owner, *typedInput.StorageQueue)
@@ -1814,7 +1810,7 @@ func (destination *EventSubscriptionDestination_STATUS) PopulateFromARM(owner ge
 		destination.StorageQueue = &storageQueue
 	}
 
-	// Set property ‘WebHook’:
+	// Set property "WebHook":
 	if typedInput.WebHook != nil {
 		var webHook1 WebHookEventSubscriptionDestination_STATUS
 		err := webHook1.PopulateFromARM(owner, *typedInput.WebHook)
@@ -1830,7 +1826,7 @@ func (destination *EventSubscriptionDestination_STATUS) PopulateFromARM(owner ge
 }
 
 // AssignProperties_From_EventSubscriptionDestination_STATUS populates our EventSubscriptionDestination_STATUS from the provided source EventSubscriptionDestination_STATUS
-func (destination *EventSubscriptionDestination_STATUS) AssignProperties_From_EventSubscriptionDestination_STATUS(source *v20200601s.EventSubscriptionDestination_STATUS) error {
+func (destination *EventSubscriptionDestination_STATUS) AssignProperties_From_EventSubscriptionDestination_STATUS(source *v1beta20200601s.EventSubscriptionDestination_STATUS) error {
 
 	// AzureFunction
 	if source.AzureFunction != nil {
@@ -1921,13 +1917,13 @@ func (destination *EventSubscriptionDestination_STATUS) AssignProperties_From_Ev
 }
 
 // AssignProperties_To_EventSubscriptionDestination_STATUS populates the provided destination EventSubscriptionDestination_STATUS from our EventSubscriptionDestination_STATUS
-func (destination *EventSubscriptionDestination_STATUS) AssignProperties_To_EventSubscriptionDestination_STATUS(target *v20200601s.EventSubscriptionDestination_STATUS) error {
+func (destination *EventSubscriptionDestination_STATUS) AssignProperties_To_EventSubscriptionDestination_STATUS(target *v1beta20200601s.EventSubscriptionDestination_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureFunction
 	if destination.AzureFunction != nil {
-		var azureFunction v20200601s.AzureFunctionEventSubscriptionDestination_STATUS
+		var azureFunction v1beta20200601s.AzureFunctionEventSubscriptionDestination_STATUS
 		err := destination.AzureFunction.AssignProperties_To_AzureFunctionEventSubscriptionDestination_STATUS(&azureFunction)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AzureFunctionEventSubscriptionDestination_STATUS() to populate field AzureFunction")
@@ -1939,7 +1935,7 @@ func (destination *EventSubscriptionDestination_STATUS) AssignProperties_To_Even
 
 	// EventHub
 	if destination.EventHub != nil {
-		var eventHub v20200601s.EventHubEventSubscriptionDestination_STATUS
+		var eventHub v1beta20200601s.EventHubEventSubscriptionDestination_STATUS
 		err := destination.EventHub.AssignProperties_To_EventHubEventSubscriptionDestination_STATUS(&eventHub)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EventHubEventSubscriptionDestination_STATUS() to populate field EventHub")
@@ -1951,7 +1947,7 @@ func (destination *EventSubscriptionDestination_STATUS) AssignProperties_To_Even
 
 	// HybridConnection
 	if destination.HybridConnection != nil {
-		var hybridConnection v20200601s.HybridConnectionEventSubscriptionDestination_STATUS
+		var hybridConnection v1beta20200601s.HybridConnectionEventSubscriptionDestination_STATUS
 		err := destination.HybridConnection.AssignProperties_To_HybridConnectionEventSubscriptionDestination_STATUS(&hybridConnection)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HybridConnectionEventSubscriptionDestination_STATUS() to populate field HybridConnection")
@@ -1963,7 +1959,7 @@ func (destination *EventSubscriptionDestination_STATUS) AssignProperties_To_Even
 
 	// ServiceBusQueue
 	if destination.ServiceBusQueue != nil {
-		var serviceBusQueue v20200601s.ServiceBusQueueEventSubscriptionDestination_STATUS
+		var serviceBusQueue v1beta20200601s.ServiceBusQueueEventSubscriptionDestination_STATUS
 		err := destination.ServiceBusQueue.AssignProperties_To_ServiceBusQueueEventSubscriptionDestination_STATUS(&serviceBusQueue)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServiceBusQueueEventSubscriptionDestination_STATUS() to populate field ServiceBusQueue")
@@ -1975,7 +1971,7 @@ func (destination *EventSubscriptionDestination_STATUS) AssignProperties_To_Even
 
 	// ServiceBusTopic
 	if destination.ServiceBusTopic != nil {
-		var serviceBusTopic v20200601s.ServiceBusTopicEventSubscriptionDestination_STATUS
+		var serviceBusTopic v1beta20200601s.ServiceBusTopicEventSubscriptionDestination_STATUS
 		err := destination.ServiceBusTopic.AssignProperties_To_ServiceBusTopicEventSubscriptionDestination_STATUS(&serviceBusTopic)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServiceBusTopicEventSubscriptionDestination_STATUS() to populate field ServiceBusTopic")
@@ -1987,7 +1983,7 @@ func (destination *EventSubscriptionDestination_STATUS) AssignProperties_To_Even
 
 	// StorageQueue
 	if destination.StorageQueue != nil {
-		var storageQueue v20200601s.StorageQueueEventSubscriptionDestination_STATUS
+		var storageQueue v1beta20200601s.StorageQueueEventSubscriptionDestination_STATUS
 		err := destination.StorageQueue.AssignProperties_To_StorageQueueEventSubscriptionDestination_STATUS(&storageQueue)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StorageQueueEventSubscriptionDestination_STATUS() to populate field StorageQueue")
@@ -1999,7 +1995,7 @@ func (destination *EventSubscriptionDestination_STATUS) AssignProperties_To_Even
 
 	// WebHook
 	if destination.WebHook != nil {
-		var webHook v20200601s.WebHookEventSubscriptionDestination_STATUS
+		var webHook v1beta20200601s.WebHookEventSubscriptionDestination_STATUS
 		err := destination.WebHook.AssignProperties_To_WebHookEventSubscriptionDestination_STATUS(&webHook)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WebHookEventSubscriptionDestination_STATUS() to populate field WebHook")
@@ -2038,7 +2034,7 @@ func (filter *EventSubscriptionFilter) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &EventSubscriptionFilter_ARM{}
 
-	// Set property ‘AdvancedFilters’:
+	// Set property "AdvancedFilters":
 	for _, item := range filter.AdvancedFilters {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -2047,24 +2043,24 @@ func (filter *EventSubscriptionFilter) ConvertToARM(resolved genruntime.ConvertT
 		result.AdvancedFilters = append(result.AdvancedFilters, *item_ARM.(*AdvancedFilter_ARM))
 	}
 
-	// Set property ‘IncludedEventTypes’:
+	// Set property "IncludedEventTypes":
 	for _, item := range filter.IncludedEventTypes {
 		result.IncludedEventTypes = append(result.IncludedEventTypes, item)
 	}
 
-	// Set property ‘IsSubjectCaseSensitive’:
+	// Set property "IsSubjectCaseSensitive":
 	if filter.IsSubjectCaseSensitive != nil {
 		isSubjectCaseSensitive := *filter.IsSubjectCaseSensitive
 		result.IsSubjectCaseSensitive = &isSubjectCaseSensitive
 	}
 
-	// Set property ‘SubjectBeginsWith’:
+	// Set property "SubjectBeginsWith":
 	if filter.SubjectBeginsWith != nil {
 		subjectBeginsWith := *filter.SubjectBeginsWith
 		result.SubjectBeginsWith = &subjectBeginsWith
 	}
 
-	// Set property ‘SubjectEndsWith’:
+	// Set property "SubjectEndsWith":
 	if filter.SubjectEndsWith != nil {
 		subjectEndsWith := *filter.SubjectEndsWith
 		result.SubjectEndsWith = &subjectEndsWith
@@ -2084,7 +2080,7 @@ func (filter *EventSubscriptionFilter) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdvancedFilters’:
+	// Set property "AdvancedFilters":
 	for _, item := range typedInput.AdvancedFilters {
 		var item1 AdvancedFilter
 		err := item1.PopulateFromARM(owner, item)
@@ -2094,24 +2090,24 @@ func (filter *EventSubscriptionFilter) PopulateFromARM(owner genruntime.Arbitrar
 		filter.AdvancedFilters = append(filter.AdvancedFilters, item1)
 	}
 
-	// Set property ‘IncludedEventTypes’:
+	// Set property "IncludedEventTypes":
 	for _, item := range typedInput.IncludedEventTypes {
 		filter.IncludedEventTypes = append(filter.IncludedEventTypes, item)
 	}
 
-	// Set property ‘IsSubjectCaseSensitive’:
+	// Set property "IsSubjectCaseSensitive":
 	if typedInput.IsSubjectCaseSensitive != nil {
 		isSubjectCaseSensitive := *typedInput.IsSubjectCaseSensitive
 		filter.IsSubjectCaseSensitive = &isSubjectCaseSensitive
 	}
 
-	// Set property ‘SubjectBeginsWith’:
+	// Set property "SubjectBeginsWith":
 	if typedInput.SubjectBeginsWith != nil {
 		subjectBeginsWith := *typedInput.SubjectBeginsWith
 		filter.SubjectBeginsWith = &subjectBeginsWith
 	}
 
-	// Set property ‘SubjectEndsWith’:
+	// Set property "SubjectEndsWith":
 	if typedInput.SubjectEndsWith != nil {
 		subjectEndsWith := *typedInput.SubjectEndsWith
 		filter.SubjectEndsWith = &subjectEndsWith
@@ -2122,7 +2118,7 @@ func (filter *EventSubscriptionFilter) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_EventSubscriptionFilter populates our EventSubscriptionFilter from the provided source EventSubscriptionFilter
-func (filter *EventSubscriptionFilter) AssignProperties_From_EventSubscriptionFilter(source *v20200601s.EventSubscriptionFilter) error {
+func (filter *EventSubscriptionFilter) AssignProperties_From_EventSubscriptionFilter(source *v1beta20200601s.EventSubscriptionFilter) error {
 
 	// AdvancedFilters
 	if source.AdvancedFilters != nil {
@@ -2164,17 +2160,17 @@ func (filter *EventSubscriptionFilter) AssignProperties_From_EventSubscriptionFi
 }
 
 // AssignProperties_To_EventSubscriptionFilter populates the provided destination EventSubscriptionFilter from our EventSubscriptionFilter
-func (filter *EventSubscriptionFilter) AssignProperties_To_EventSubscriptionFilter(destination *v20200601s.EventSubscriptionFilter) error {
+func (filter *EventSubscriptionFilter) AssignProperties_To_EventSubscriptionFilter(destination *v1beta20200601s.EventSubscriptionFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdvancedFilters
 	if filter.AdvancedFilters != nil {
-		advancedFilterList := make([]v20200601s.AdvancedFilter, len(filter.AdvancedFilters))
+		advancedFilterList := make([]v1beta20200601s.AdvancedFilter, len(filter.AdvancedFilters))
 		for advancedFilterIndex, advancedFilterItem := range filter.AdvancedFilters {
 			// Shadow the loop variable to avoid aliasing
 			advancedFilterItem := advancedFilterItem
-			var advancedFilter v20200601s.AdvancedFilter
+			var advancedFilter v1beta20200601s.AdvancedFilter
 			err := advancedFilterItem.AssignProperties_To_AdvancedFilter(&advancedFilter)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AdvancedFilter() to populate field AdvancedFilters")
@@ -2237,7 +2233,7 @@ func (filter *EventSubscriptionFilter_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdvancedFilters’:
+	// Set property "AdvancedFilters":
 	for _, item := range typedInput.AdvancedFilters {
 		var item1 AdvancedFilter_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -2247,24 +2243,24 @@ func (filter *EventSubscriptionFilter_STATUS) PopulateFromARM(owner genruntime.A
 		filter.AdvancedFilters = append(filter.AdvancedFilters, item1)
 	}
 
-	// Set property ‘IncludedEventTypes’:
+	// Set property "IncludedEventTypes":
 	for _, item := range typedInput.IncludedEventTypes {
 		filter.IncludedEventTypes = append(filter.IncludedEventTypes, item)
 	}
 
-	// Set property ‘IsSubjectCaseSensitive’:
+	// Set property "IsSubjectCaseSensitive":
 	if typedInput.IsSubjectCaseSensitive != nil {
 		isSubjectCaseSensitive := *typedInput.IsSubjectCaseSensitive
 		filter.IsSubjectCaseSensitive = &isSubjectCaseSensitive
 	}
 
-	// Set property ‘SubjectBeginsWith’:
+	// Set property "SubjectBeginsWith":
 	if typedInput.SubjectBeginsWith != nil {
 		subjectBeginsWith := *typedInput.SubjectBeginsWith
 		filter.SubjectBeginsWith = &subjectBeginsWith
 	}
 
-	// Set property ‘SubjectEndsWith’:
+	// Set property "SubjectEndsWith":
 	if typedInput.SubjectEndsWith != nil {
 		subjectEndsWith := *typedInput.SubjectEndsWith
 		filter.SubjectEndsWith = &subjectEndsWith
@@ -2275,7 +2271,7 @@ func (filter *EventSubscriptionFilter_STATUS) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_EventSubscriptionFilter_STATUS populates our EventSubscriptionFilter_STATUS from the provided source EventSubscriptionFilter_STATUS
-func (filter *EventSubscriptionFilter_STATUS) AssignProperties_From_EventSubscriptionFilter_STATUS(source *v20200601s.EventSubscriptionFilter_STATUS) error {
+func (filter *EventSubscriptionFilter_STATUS) AssignProperties_From_EventSubscriptionFilter_STATUS(source *v1beta20200601s.EventSubscriptionFilter_STATUS) error {
 
 	// AdvancedFilters
 	if source.AdvancedFilters != nil {
@@ -2317,17 +2313,17 @@ func (filter *EventSubscriptionFilter_STATUS) AssignProperties_From_EventSubscri
 }
 
 // AssignProperties_To_EventSubscriptionFilter_STATUS populates the provided destination EventSubscriptionFilter_STATUS from our EventSubscriptionFilter_STATUS
-func (filter *EventSubscriptionFilter_STATUS) AssignProperties_To_EventSubscriptionFilter_STATUS(destination *v20200601s.EventSubscriptionFilter_STATUS) error {
+func (filter *EventSubscriptionFilter_STATUS) AssignProperties_To_EventSubscriptionFilter_STATUS(destination *v1beta20200601s.EventSubscriptionFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdvancedFilters
 	if filter.AdvancedFilters != nil {
-		advancedFilterList := make([]v20200601s.AdvancedFilter_STATUS, len(filter.AdvancedFilters))
+		advancedFilterList := make([]v1beta20200601s.AdvancedFilter_STATUS, len(filter.AdvancedFilters))
 		for advancedFilterIndex, advancedFilterItem := range filter.AdvancedFilters {
 			// Shadow the loop variable to avoid aliasing
 			advancedFilterItem := advancedFilterItem
-			var advancedFilter v20200601s.AdvancedFilter_STATUS
+			var advancedFilter v1beta20200601s.AdvancedFilter_STATUS
 			err := advancedFilterItem.AssignProperties_To_AdvancedFilter_STATUS(&advancedFilter)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AdvancedFilter_STATUS() to populate field AdvancedFilters")
@@ -2417,13 +2413,13 @@ func (policy *RetryPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &RetryPolicy_ARM{}
 
-	// Set property ‘EventTimeToLiveInMinutes’:
+	// Set property "EventTimeToLiveInMinutes":
 	if policy.EventTimeToLiveInMinutes != nil {
 		eventTimeToLiveInMinutes := *policy.EventTimeToLiveInMinutes
 		result.EventTimeToLiveInMinutes = &eventTimeToLiveInMinutes
 	}
 
-	// Set property ‘MaxDeliveryAttempts’:
+	// Set property "MaxDeliveryAttempts":
 	if policy.MaxDeliveryAttempts != nil {
 		maxDeliveryAttempts := *policy.MaxDeliveryAttempts
 		result.MaxDeliveryAttempts = &maxDeliveryAttempts
@@ -2443,13 +2439,13 @@ func (policy *RetryPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RetryPolicy_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EventTimeToLiveInMinutes’:
+	// Set property "EventTimeToLiveInMinutes":
 	if typedInput.EventTimeToLiveInMinutes != nil {
 		eventTimeToLiveInMinutes := *typedInput.EventTimeToLiveInMinutes
 		policy.EventTimeToLiveInMinutes = &eventTimeToLiveInMinutes
 	}
 
-	// Set property ‘MaxDeliveryAttempts’:
+	// Set property "MaxDeliveryAttempts":
 	if typedInput.MaxDeliveryAttempts != nil {
 		maxDeliveryAttempts := *typedInput.MaxDeliveryAttempts
 		policy.MaxDeliveryAttempts = &maxDeliveryAttempts
@@ -2460,7 +2456,7 @@ func (policy *RetryPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 }
 
 // AssignProperties_From_RetryPolicy populates our RetryPolicy from the provided source RetryPolicy
-func (policy *RetryPolicy) AssignProperties_From_RetryPolicy(source *v20200601s.RetryPolicy) error {
+func (policy *RetryPolicy) AssignProperties_From_RetryPolicy(source *v1beta20200601s.RetryPolicy) error {
 
 	// EventTimeToLiveInMinutes
 	policy.EventTimeToLiveInMinutes = genruntime.ClonePointerToInt(source.EventTimeToLiveInMinutes)
@@ -2473,7 +2469,7 @@ func (policy *RetryPolicy) AssignProperties_From_RetryPolicy(source *v20200601s.
 }
 
 // AssignProperties_To_RetryPolicy populates the provided destination RetryPolicy from our RetryPolicy
-func (policy *RetryPolicy) AssignProperties_To_RetryPolicy(destination *v20200601s.RetryPolicy) error {
+func (policy *RetryPolicy) AssignProperties_To_RetryPolicy(destination *v1beta20200601s.RetryPolicy) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2514,13 +2510,13 @@ func (policy *RetryPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RetryPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EventTimeToLiveInMinutes’:
+	// Set property "EventTimeToLiveInMinutes":
 	if typedInput.EventTimeToLiveInMinutes != nil {
 		eventTimeToLiveInMinutes := *typedInput.EventTimeToLiveInMinutes
 		policy.EventTimeToLiveInMinutes = &eventTimeToLiveInMinutes
 	}
 
-	// Set property ‘MaxDeliveryAttempts’:
+	// Set property "MaxDeliveryAttempts":
 	if typedInput.MaxDeliveryAttempts != nil {
 		maxDeliveryAttempts := *typedInput.MaxDeliveryAttempts
 		policy.MaxDeliveryAttempts = &maxDeliveryAttempts
@@ -2531,7 +2527,7 @@ func (policy *RetryPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_RetryPolicy_STATUS populates our RetryPolicy_STATUS from the provided source RetryPolicy_STATUS
-func (policy *RetryPolicy_STATUS) AssignProperties_From_RetryPolicy_STATUS(source *v20200601s.RetryPolicy_STATUS) error {
+func (policy *RetryPolicy_STATUS) AssignProperties_From_RetryPolicy_STATUS(source *v1beta20200601s.RetryPolicy_STATUS) error {
 
 	// EventTimeToLiveInMinutes
 	policy.EventTimeToLiveInMinutes = genruntime.ClonePointerToInt(source.EventTimeToLiveInMinutes)
@@ -2544,7 +2540,7 @@ func (policy *RetryPolicy_STATUS) AssignProperties_From_RetryPolicy_STATUS(sourc
 }
 
 // AssignProperties_To_RetryPolicy_STATUS populates the provided destination RetryPolicy_STATUS from our RetryPolicy_STATUS
-func (policy *RetryPolicy_STATUS) AssignProperties_To_RetryPolicy_STATUS(destination *v20200601s.RetryPolicy_STATUS) error {
+func (policy *RetryPolicy_STATUS) AssignProperties_To_RetryPolicy_STATUS(destination *v1beta20200601s.RetryPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2590,7 +2586,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 	result := &AdvancedFilter_ARM{}
 
-	// Set property ‘BoolEquals’:
+	// Set property "BoolEquals":
 	if filter.BoolEquals != nil {
 		boolEquals_ARM, err := (*filter.BoolEquals).ConvertToARM(resolved)
 		if err != nil {
@@ -2600,7 +2596,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.BoolEquals = &boolEquals
 	}
 
-	// Set property ‘NumberGreaterThan’:
+	// Set property "NumberGreaterThan":
 	if filter.NumberGreaterThan != nil {
 		numberGreaterThan_ARM, err := (*filter.NumberGreaterThan).ConvertToARM(resolved)
 		if err != nil {
@@ -2610,7 +2606,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.NumberGreaterThan = &numberGreaterThan
 	}
 
-	// Set property ‘NumberGreaterThanOrEquals’:
+	// Set property "NumberGreaterThanOrEquals":
 	if filter.NumberGreaterThanOrEquals != nil {
 		numberGreaterThanOrEquals_ARM, err := (*filter.NumberGreaterThanOrEquals).ConvertToARM(resolved)
 		if err != nil {
@@ -2620,7 +2616,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.NumberGreaterThanOrEquals = &numberGreaterThanOrEquals
 	}
 
-	// Set property ‘NumberIn’:
+	// Set property "NumberIn":
 	if filter.NumberIn != nil {
 		numberIn_ARM, err := (*filter.NumberIn).ConvertToARM(resolved)
 		if err != nil {
@@ -2630,7 +2626,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.NumberIn = &numberIn
 	}
 
-	// Set property ‘NumberLessThan’:
+	// Set property "NumberLessThan":
 	if filter.NumberLessThan != nil {
 		numberLessThan_ARM, err := (*filter.NumberLessThan).ConvertToARM(resolved)
 		if err != nil {
@@ -2640,7 +2636,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.NumberLessThan = &numberLessThan
 	}
 
-	// Set property ‘NumberLessThanOrEquals’:
+	// Set property "NumberLessThanOrEquals":
 	if filter.NumberLessThanOrEquals != nil {
 		numberLessThanOrEquals_ARM, err := (*filter.NumberLessThanOrEquals).ConvertToARM(resolved)
 		if err != nil {
@@ -2650,7 +2646,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.NumberLessThanOrEquals = &numberLessThanOrEquals
 	}
 
-	// Set property ‘NumberNotIn’:
+	// Set property "NumberNotIn":
 	if filter.NumberNotIn != nil {
 		numberNotIn_ARM, err := (*filter.NumberNotIn).ConvertToARM(resolved)
 		if err != nil {
@@ -2660,7 +2656,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.NumberNotIn = &numberNotIn
 	}
 
-	// Set property ‘StringBeginsWith’:
+	// Set property "StringBeginsWith":
 	if filter.StringBeginsWith != nil {
 		stringBeginsWith_ARM, err := (*filter.StringBeginsWith).ConvertToARM(resolved)
 		if err != nil {
@@ -2670,7 +2666,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.StringBeginsWith = &stringBeginsWith
 	}
 
-	// Set property ‘StringContains’:
+	// Set property "StringContains":
 	if filter.StringContains != nil {
 		stringContains_ARM, err := (*filter.StringContains).ConvertToARM(resolved)
 		if err != nil {
@@ -2680,7 +2676,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.StringContains = &stringContains
 	}
 
-	// Set property ‘StringEndsWith’:
+	// Set property "StringEndsWith":
 	if filter.StringEndsWith != nil {
 		stringEndsWith_ARM, err := (*filter.StringEndsWith).ConvertToARM(resolved)
 		if err != nil {
@@ -2690,7 +2686,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.StringEndsWith = &stringEndsWith
 	}
 
-	// Set property ‘StringIn’:
+	// Set property "StringIn":
 	if filter.StringIn != nil {
 		stringIn_ARM, err := (*filter.StringIn).ConvertToARM(resolved)
 		if err != nil {
@@ -2700,7 +2696,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.StringIn = &stringIn
 	}
 
-	// Set property ‘StringNotIn’:
+	// Set property "StringNotIn":
 	if filter.StringNotIn != nil {
 		stringNotIn_ARM, err := (*filter.StringNotIn).ConvertToARM(resolved)
 		if err != nil {
@@ -2724,7 +2720,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BoolEquals’:
+	// Set property "BoolEquals":
 	if typedInput.BoolEquals != nil {
 		var boolEquals1 BoolEqualsAdvancedFilter
 		err := boolEquals1.PopulateFromARM(owner, *typedInput.BoolEquals)
@@ -2735,7 +2731,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.BoolEquals = &boolEquals
 	}
 
-	// Set property ‘NumberGreaterThan’:
+	// Set property "NumberGreaterThan":
 	if typedInput.NumberGreaterThan != nil {
 		var numberGreaterThan1 NumberGreaterThanAdvancedFilter
 		err := numberGreaterThan1.PopulateFromARM(owner, *typedInput.NumberGreaterThan)
@@ -2746,7 +2742,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.NumberGreaterThan = &numberGreaterThan
 	}
 
-	// Set property ‘NumberGreaterThanOrEquals’:
+	// Set property "NumberGreaterThanOrEquals":
 	if typedInput.NumberGreaterThanOrEquals != nil {
 		var numberGreaterThanOrEquals1 NumberGreaterThanOrEqualsAdvancedFilter
 		err := numberGreaterThanOrEquals1.PopulateFromARM(owner, *typedInput.NumberGreaterThanOrEquals)
@@ -2757,7 +2753,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.NumberGreaterThanOrEquals = &numberGreaterThanOrEquals
 	}
 
-	// Set property ‘NumberIn’:
+	// Set property "NumberIn":
 	if typedInput.NumberIn != nil {
 		var numberIn1 NumberInAdvancedFilter
 		err := numberIn1.PopulateFromARM(owner, *typedInput.NumberIn)
@@ -2768,7 +2764,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.NumberIn = &numberIn
 	}
 
-	// Set property ‘NumberLessThan’:
+	// Set property "NumberLessThan":
 	if typedInput.NumberLessThan != nil {
 		var numberLessThan1 NumberLessThanAdvancedFilter
 		err := numberLessThan1.PopulateFromARM(owner, *typedInput.NumberLessThan)
@@ -2779,7 +2775,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.NumberLessThan = &numberLessThan
 	}
 
-	// Set property ‘NumberLessThanOrEquals’:
+	// Set property "NumberLessThanOrEquals":
 	if typedInput.NumberLessThanOrEquals != nil {
 		var numberLessThanOrEquals1 NumberLessThanOrEqualsAdvancedFilter
 		err := numberLessThanOrEquals1.PopulateFromARM(owner, *typedInput.NumberLessThanOrEquals)
@@ -2790,7 +2786,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.NumberLessThanOrEquals = &numberLessThanOrEquals
 	}
 
-	// Set property ‘NumberNotIn’:
+	// Set property "NumberNotIn":
 	if typedInput.NumberNotIn != nil {
 		var numberNotIn1 NumberNotInAdvancedFilter
 		err := numberNotIn1.PopulateFromARM(owner, *typedInput.NumberNotIn)
@@ -2801,7 +2797,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.NumberNotIn = &numberNotIn
 	}
 
-	// Set property ‘StringBeginsWith’:
+	// Set property "StringBeginsWith":
 	if typedInput.StringBeginsWith != nil {
 		var stringBeginsWith1 StringBeginsWithAdvancedFilter
 		err := stringBeginsWith1.PopulateFromARM(owner, *typedInput.StringBeginsWith)
@@ -2812,7 +2808,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.StringBeginsWith = &stringBeginsWith
 	}
 
-	// Set property ‘StringContains’:
+	// Set property "StringContains":
 	if typedInput.StringContains != nil {
 		var stringContains1 StringContainsAdvancedFilter
 		err := stringContains1.PopulateFromARM(owner, *typedInput.StringContains)
@@ -2823,7 +2819,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.StringContains = &stringContains
 	}
 
-	// Set property ‘StringEndsWith’:
+	// Set property "StringEndsWith":
 	if typedInput.StringEndsWith != nil {
 		var stringEndsWith1 StringEndsWithAdvancedFilter
 		err := stringEndsWith1.PopulateFromARM(owner, *typedInput.StringEndsWith)
@@ -2834,7 +2830,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.StringEndsWith = &stringEndsWith
 	}
 
-	// Set property ‘StringIn’:
+	// Set property "StringIn":
 	if typedInput.StringIn != nil {
 		var stringIn1 StringInAdvancedFilter
 		err := stringIn1.PopulateFromARM(owner, *typedInput.StringIn)
@@ -2845,7 +2841,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.StringIn = &stringIn
 	}
 
-	// Set property ‘StringNotIn’:
+	// Set property "StringNotIn":
 	if typedInput.StringNotIn != nil {
 		var stringNotIn1 StringNotInAdvancedFilter
 		err := stringNotIn1.PopulateFromARM(owner, *typedInput.StringNotIn)
@@ -2861,7 +2857,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 }
 
 // AssignProperties_From_AdvancedFilter populates our AdvancedFilter from the provided source AdvancedFilter
-func (filter *AdvancedFilter) AssignProperties_From_AdvancedFilter(source *v20200601s.AdvancedFilter) error {
+func (filter *AdvancedFilter) AssignProperties_From_AdvancedFilter(source *v1beta20200601s.AdvancedFilter) error {
 
 	// BoolEquals
 	if source.BoolEquals != nil {
@@ -3012,13 +3008,13 @@ func (filter *AdvancedFilter) AssignProperties_From_AdvancedFilter(source *v2020
 }
 
 // AssignProperties_To_AdvancedFilter populates the provided destination AdvancedFilter from our AdvancedFilter
-func (filter *AdvancedFilter) AssignProperties_To_AdvancedFilter(destination *v20200601s.AdvancedFilter) error {
+func (filter *AdvancedFilter) AssignProperties_To_AdvancedFilter(destination *v1beta20200601s.AdvancedFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BoolEquals
 	if filter.BoolEquals != nil {
-		var boolEqual v20200601s.BoolEqualsAdvancedFilter
+		var boolEqual v1beta20200601s.BoolEqualsAdvancedFilter
 		err := filter.BoolEquals.AssignProperties_To_BoolEqualsAdvancedFilter(&boolEqual)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BoolEqualsAdvancedFilter() to populate field BoolEquals")
@@ -3030,7 +3026,7 @@ func (filter *AdvancedFilter) AssignProperties_To_AdvancedFilter(destination *v2
 
 	// NumberGreaterThan
 	if filter.NumberGreaterThan != nil {
-		var numberGreaterThan v20200601s.NumberGreaterThanAdvancedFilter
+		var numberGreaterThan v1beta20200601s.NumberGreaterThanAdvancedFilter
 		err := filter.NumberGreaterThan.AssignProperties_To_NumberGreaterThanAdvancedFilter(&numberGreaterThan)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NumberGreaterThanAdvancedFilter() to populate field NumberGreaterThan")
@@ -3042,7 +3038,7 @@ func (filter *AdvancedFilter) AssignProperties_To_AdvancedFilter(destination *v2
 
 	// NumberGreaterThanOrEquals
 	if filter.NumberGreaterThanOrEquals != nil {
-		var numberGreaterThanOrEqual v20200601s.NumberGreaterThanOrEqualsAdvancedFilter
+		var numberGreaterThanOrEqual v1beta20200601s.NumberGreaterThanOrEqualsAdvancedFilter
 		err := filter.NumberGreaterThanOrEquals.AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter(&numberGreaterThanOrEqual)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter() to populate field NumberGreaterThanOrEquals")
@@ -3054,7 +3050,7 @@ func (filter *AdvancedFilter) AssignProperties_To_AdvancedFilter(destination *v2
 
 	// NumberIn
 	if filter.NumberIn != nil {
-		var numberIn v20200601s.NumberInAdvancedFilter
+		var numberIn v1beta20200601s.NumberInAdvancedFilter
 		err := filter.NumberIn.AssignProperties_To_NumberInAdvancedFilter(&numberIn)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NumberInAdvancedFilter() to populate field NumberIn")
@@ -3066,7 +3062,7 @@ func (filter *AdvancedFilter) AssignProperties_To_AdvancedFilter(destination *v2
 
 	// NumberLessThan
 	if filter.NumberLessThan != nil {
-		var numberLessThan v20200601s.NumberLessThanAdvancedFilter
+		var numberLessThan v1beta20200601s.NumberLessThanAdvancedFilter
 		err := filter.NumberLessThan.AssignProperties_To_NumberLessThanAdvancedFilter(&numberLessThan)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NumberLessThanAdvancedFilter() to populate field NumberLessThan")
@@ -3078,7 +3074,7 @@ func (filter *AdvancedFilter) AssignProperties_To_AdvancedFilter(destination *v2
 
 	// NumberLessThanOrEquals
 	if filter.NumberLessThanOrEquals != nil {
-		var numberLessThanOrEqual v20200601s.NumberLessThanOrEqualsAdvancedFilter
+		var numberLessThanOrEqual v1beta20200601s.NumberLessThanOrEqualsAdvancedFilter
 		err := filter.NumberLessThanOrEquals.AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter(&numberLessThanOrEqual)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter() to populate field NumberLessThanOrEquals")
@@ -3090,7 +3086,7 @@ func (filter *AdvancedFilter) AssignProperties_To_AdvancedFilter(destination *v2
 
 	// NumberNotIn
 	if filter.NumberNotIn != nil {
-		var numberNotIn v20200601s.NumberNotInAdvancedFilter
+		var numberNotIn v1beta20200601s.NumberNotInAdvancedFilter
 		err := filter.NumberNotIn.AssignProperties_To_NumberNotInAdvancedFilter(&numberNotIn)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NumberNotInAdvancedFilter() to populate field NumberNotIn")
@@ -3102,7 +3098,7 @@ func (filter *AdvancedFilter) AssignProperties_To_AdvancedFilter(destination *v2
 
 	// StringBeginsWith
 	if filter.StringBeginsWith != nil {
-		var stringBeginsWith v20200601s.StringBeginsWithAdvancedFilter
+		var stringBeginsWith v1beta20200601s.StringBeginsWithAdvancedFilter
 		err := filter.StringBeginsWith.AssignProperties_To_StringBeginsWithAdvancedFilter(&stringBeginsWith)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StringBeginsWithAdvancedFilter() to populate field StringBeginsWith")
@@ -3114,7 +3110,7 @@ func (filter *AdvancedFilter) AssignProperties_To_AdvancedFilter(destination *v2
 
 	// StringContains
 	if filter.StringContains != nil {
-		var stringContain v20200601s.StringContainsAdvancedFilter
+		var stringContain v1beta20200601s.StringContainsAdvancedFilter
 		err := filter.StringContains.AssignProperties_To_StringContainsAdvancedFilter(&stringContain)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StringContainsAdvancedFilter() to populate field StringContains")
@@ -3126,7 +3122,7 @@ func (filter *AdvancedFilter) AssignProperties_To_AdvancedFilter(destination *v2
 
 	// StringEndsWith
 	if filter.StringEndsWith != nil {
-		var stringEndsWith v20200601s.StringEndsWithAdvancedFilter
+		var stringEndsWith v1beta20200601s.StringEndsWithAdvancedFilter
 		err := filter.StringEndsWith.AssignProperties_To_StringEndsWithAdvancedFilter(&stringEndsWith)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StringEndsWithAdvancedFilter() to populate field StringEndsWith")
@@ -3138,7 +3134,7 @@ func (filter *AdvancedFilter) AssignProperties_To_AdvancedFilter(destination *v2
 
 	// StringIn
 	if filter.StringIn != nil {
-		var stringIn v20200601s.StringInAdvancedFilter
+		var stringIn v1beta20200601s.StringInAdvancedFilter
 		err := filter.StringIn.AssignProperties_To_StringInAdvancedFilter(&stringIn)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StringInAdvancedFilter() to populate field StringIn")
@@ -3150,7 +3146,7 @@ func (filter *AdvancedFilter) AssignProperties_To_AdvancedFilter(destination *v2
 
 	// StringNotIn
 	if filter.StringNotIn != nil {
-		var stringNotIn v20200601s.StringNotInAdvancedFilter
+		var stringNotIn v1beta20200601s.StringNotInAdvancedFilter
 		err := filter.StringNotIn.AssignProperties_To_StringNotInAdvancedFilter(&stringNotIn)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StringNotInAdvancedFilter() to populate field StringNotIn")
@@ -3201,7 +3197,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BoolEquals’:
+	// Set property "BoolEquals":
 	if typedInput.BoolEquals != nil {
 		var boolEquals1 BoolEqualsAdvancedFilter_STATUS
 		err := boolEquals1.PopulateFromARM(owner, *typedInput.BoolEquals)
@@ -3212,7 +3208,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.BoolEquals = &boolEquals
 	}
 
-	// Set property ‘NumberGreaterThan’:
+	// Set property "NumberGreaterThan":
 	if typedInput.NumberGreaterThan != nil {
 		var numberGreaterThan1 NumberGreaterThanAdvancedFilter_STATUS
 		err := numberGreaterThan1.PopulateFromARM(owner, *typedInput.NumberGreaterThan)
@@ -3223,7 +3219,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.NumberGreaterThan = &numberGreaterThan
 	}
 
-	// Set property ‘NumberGreaterThanOrEquals’:
+	// Set property "NumberGreaterThanOrEquals":
 	if typedInput.NumberGreaterThanOrEquals != nil {
 		var numberGreaterThanOrEquals1 NumberGreaterThanOrEqualsAdvancedFilter_STATUS
 		err := numberGreaterThanOrEquals1.PopulateFromARM(owner, *typedInput.NumberGreaterThanOrEquals)
@@ -3234,7 +3230,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.NumberGreaterThanOrEquals = &numberGreaterThanOrEquals
 	}
 
-	// Set property ‘NumberIn’:
+	// Set property "NumberIn":
 	if typedInput.NumberIn != nil {
 		var numberIn1 NumberInAdvancedFilter_STATUS
 		err := numberIn1.PopulateFromARM(owner, *typedInput.NumberIn)
@@ -3245,7 +3241,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.NumberIn = &numberIn
 	}
 
-	// Set property ‘NumberLessThan’:
+	// Set property "NumberLessThan":
 	if typedInput.NumberLessThan != nil {
 		var numberLessThan1 NumberLessThanAdvancedFilter_STATUS
 		err := numberLessThan1.PopulateFromARM(owner, *typedInput.NumberLessThan)
@@ -3256,7 +3252,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.NumberLessThan = &numberLessThan
 	}
 
-	// Set property ‘NumberLessThanOrEquals’:
+	// Set property "NumberLessThanOrEquals":
 	if typedInput.NumberLessThanOrEquals != nil {
 		var numberLessThanOrEquals1 NumberLessThanOrEqualsAdvancedFilter_STATUS
 		err := numberLessThanOrEquals1.PopulateFromARM(owner, *typedInput.NumberLessThanOrEquals)
@@ -3267,7 +3263,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.NumberLessThanOrEquals = &numberLessThanOrEquals
 	}
 
-	// Set property ‘NumberNotIn’:
+	// Set property "NumberNotIn":
 	if typedInput.NumberNotIn != nil {
 		var numberNotIn1 NumberNotInAdvancedFilter_STATUS
 		err := numberNotIn1.PopulateFromARM(owner, *typedInput.NumberNotIn)
@@ -3278,7 +3274,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.NumberNotIn = &numberNotIn
 	}
 
-	// Set property ‘StringBeginsWith’:
+	// Set property "StringBeginsWith":
 	if typedInput.StringBeginsWith != nil {
 		var stringBeginsWith1 StringBeginsWithAdvancedFilter_STATUS
 		err := stringBeginsWith1.PopulateFromARM(owner, *typedInput.StringBeginsWith)
@@ -3289,7 +3285,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.StringBeginsWith = &stringBeginsWith
 	}
 
-	// Set property ‘StringContains’:
+	// Set property "StringContains":
 	if typedInput.StringContains != nil {
 		var stringContains1 StringContainsAdvancedFilter_STATUS
 		err := stringContains1.PopulateFromARM(owner, *typedInput.StringContains)
@@ -3300,7 +3296,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.StringContains = &stringContains
 	}
 
-	// Set property ‘StringEndsWith’:
+	// Set property "StringEndsWith":
 	if typedInput.StringEndsWith != nil {
 		var stringEndsWith1 StringEndsWithAdvancedFilter_STATUS
 		err := stringEndsWith1.PopulateFromARM(owner, *typedInput.StringEndsWith)
@@ -3311,7 +3307,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.StringEndsWith = &stringEndsWith
 	}
 
-	// Set property ‘StringIn’:
+	// Set property "StringIn":
 	if typedInput.StringIn != nil {
 		var stringIn1 StringInAdvancedFilter_STATUS
 		err := stringIn1.PopulateFromARM(owner, *typedInput.StringIn)
@@ -3322,7 +3318,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.StringIn = &stringIn
 	}
 
-	// Set property ‘StringNotIn’:
+	// Set property "StringNotIn":
 	if typedInput.StringNotIn != nil {
 		var stringNotIn1 StringNotInAdvancedFilter_STATUS
 		err := stringNotIn1.PopulateFromARM(owner, *typedInput.StringNotIn)
@@ -3338,7 +3334,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_AdvancedFilter_STATUS populates our AdvancedFilter_STATUS from the provided source AdvancedFilter_STATUS
-func (filter *AdvancedFilter_STATUS) AssignProperties_From_AdvancedFilter_STATUS(source *v20200601s.AdvancedFilter_STATUS) error {
+func (filter *AdvancedFilter_STATUS) AssignProperties_From_AdvancedFilter_STATUS(source *v1beta20200601s.AdvancedFilter_STATUS) error {
 
 	// BoolEquals
 	if source.BoolEquals != nil {
@@ -3489,13 +3485,13 @@ func (filter *AdvancedFilter_STATUS) AssignProperties_From_AdvancedFilter_STATUS
 }
 
 // AssignProperties_To_AdvancedFilter_STATUS populates the provided destination AdvancedFilter_STATUS from our AdvancedFilter_STATUS
-func (filter *AdvancedFilter_STATUS) AssignProperties_To_AdvancedFilter_STATUS(destination *v20200601s.AdvancedFilter_STATUS) error {
+func (filter *AdvancedFilter_STATUS) AssignProperties_To_AdvancedFilter_STATUS(destination *v1beta20200601s.AdvancedFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BoolEquals
 	if filter.BoolEquals != nil {
-		var boolEqual v20200601s.BoolEqualsAdvancedFilter_STATUS
+		var boolEqual v1beta20200601s.BoolEqualsAdvancedFilter_STATUS
 		err := filter.BoolEquals.AssignProperties_To_BoolEqualsAdvancedFilter_STATUS(&boolEqual)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BoolEqualsAdvancedFilter_STATUS() to populate field BoolEquals")
@@ -3507,7 +3503,7 @@ func (filter *AdvancedFilter_STATUS) AssignProperties_To_AdvancedFilter_STATUS(d
 
 	// NumberGreaterThan
 	if filter.NumberGreaterThan != nil {
-		var numberGreaterThan v20200601s.NumberGreaterThanAdvancedFilter_STATUS
+		var numberGreaterThan v1beta20200601s.NumberGreaterThanAdvancedFilter_STATUS
 		err := filter.NumberGreaterThan.AssignProperties_To_NumberGreaterThanAdvancedFilter_STATUS(&numberGreaterThan)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NumberGreaterThanAdvancedFilter_STATUS() to populate field NumberGreaterThan")
@@ -3519,7 +3515,7 @@ func (filter *AdvancedFilter_STATUS) AssignProperties_To_AdvancedFilter_STATUS(d
 
 	// NumberGreaterThanOrEquals
 	if filter.NumberGreaterThanOrEquals != nil {
-		var numberGreaterThanOrEqual v20200601s.NumberGreaterThanOrEqualsAdvancedFilter_STATUS
+		var numberGreaterThanOrEqual v1beta20200601s.NumberGreaterThanOrEqualsAdvancedFilter_STATUS
 		err := filter.NumberGreaterThanOrEquals.AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter_STATUS(&numberGreaterThanOrEqual)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter_STATUS() to populate field NumberGreaterThanOrEquals")
@@ -3531,7 +3527,7 @@ func (filter *AdvancedFilter_STATUS) AssignProperties_To_AdvancedFilter_STATUS(d
 
 	// NumberIn
 	if filter.NumberIn != nil {
-		var numberIn v20200601s.NumberInAdvancedFilter_STATUS
+		var numberIn v1beta20200601s.NumberInAdvancedFilter_STATUS
 		err := filter.NumberIn.AssignProperties_To_NumberInAdvancedFilter_STATUS(&numberIn)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NumberInAdvancedFilter_STATUS() to populate field NumberIn")
@@ -3543,7 +3539,7 @@ func (filter *AdvancedFilter_STATUS) AssignProperties_To_AdvancedFilter_STATUS(d
 
 	// NumberLessThan
 	if filter.NumberLessThan != nil {
-		var numberLessThan v20200601s.NumberLessThanAdvancedFilter_STATUS
+		var numberLessThan v1beta20200601s.NumberLessThanAdvancedFilter_STATUS
 		err := filter.NumberLessThan.AssignProperties_To_NumberLessThanAdvancedFilter_STATUS(&numberLessThan)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NumberLessThanAdvancedFilter_STATUS() to populate field NumberLessThan")
@@ -3555,7 +3551,7 @@ func (filter *AdvancedFilter_STATUS) AssignProperties_To_AdvancedFilter_STATUS(d
 
 	// NumberLessThanOrEquals
 	if filter.NumberLessThanOrEquals != nil {
-		var numberLessThanOrEqual v20200601s.NumberLessThanOrEqualsAdvancedFilter_STATUS
+		var numberLessThanOrEqual v1beta20200601s.NumberLessThanOrEqualsAdvancedFilter_STATUS
 		err := filter.NumberLessThanOrEquals.AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter_STATUS(&numberLessThanOrEqual)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter_STATUS() to populate field NumberLessThanOrEquals")
@@ -3567,7 +3563,7 @@ func (filter *AdvancedFilter_STATUS) AssignProperties_To_AdvancedFilter_STATUS(d
 
 	// NumberNotIn
 	if filter.NumberNotIn != nil {
-		var numberNotIn v20200601s.NumberNotInAdvancedFilter_STATUS
+		var numberNotIn v1beta20200601s.NumberNotInAdvancedFilter_STATUS
 		err := filter.NumberNotIn.AssignProperties_To_NumberNotInAdvancedFilter_STATUS(&numberNotIn)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NumberNotInAdvancedFilter_STATUS() to populate field NumberNotIn")
@@ -3579,7 +3575,7 @@ func (filter *AdvancedFilter_STATUS) AssignProperties_To_AdvancedFilter_STATUS(d
 
 	// StringBeginsWith
 	if filter.StringBeginsWith != nil {
-		var stringBeginsWith v20200601s.StringBeginsWithAdvancedFilter_STATUS
+		var stringBeginsWith v1beta20200601s.StringBeginsWithAdvancedFilter_STATUS
 		err := filter.StringBeginsWith.AssignProperties_To_StringBeginsWithAdvancedFilter_STATUS(&stringBeginsWith)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StringBeginsWithAdvancedFilter_STATUS() to populate field StringBeginsWith")
@@ -3591,7 +3587,7 @@ func (filter *AdvancedFilter_STATUS) AssignProperties_To_AdvancedFilter_STATUS(d
 
 	// StringContains
 	if filter.StringContains != nil {
-		var stringContain v20200601s.StringContainsAdvancedFilter_STATUS
+		var stringContain v1beta20200601s.StringContainsAdvancedFilter_STATUS
 		err := filter.StringContains.AssignProperties_To_StringContainsAdvancedFilter_STATUS(&stringContain)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StringContainsAdvancedFilter_STATUS() to populate field StringContains")
@@ -3603,7 +3599,7 @@ func (filter *AdvancedFilter_STATUS) AssignProperties_To_AdvancedFilter_STATUS(d
 
 	// StringEndsWith
 	if filter.StringEndsWith != nil {
-		var stringEndsWith v20200601s.StringEndsWithAdvancedFilter_STATUS
+		var stringEndsWith v1beta20200601s.StringEndsWithAdvancedFilter_STATUS
 		err := filter.StringEndsWith.AssignProperties_To_StringEndsWithAdvancedFilter_STATUS(&stringEndsWith)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StringEndsWithAdvancedFilter_STATUS() to populate field StringEndsWith")
@@ -3615,7 +3611,7 @@ func (filter *AdvancedFilter_STATUS) AssignProperties_To_AdvancedFilter_STATUS(d
 
 	// StringIn
 	if filter.StringIn != nil {
-		var stringIn v20200601s.StringInAdvancedFilter_STATUS
+		var stringIn v1beta20200601s.StringInAdvancedFilter_STATUS
 		err := filter.StringIn.AssignProperties_To_StringInAdvancedFilter_STATUS(&stringIn)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StringInAdvancedFilter_STATUS() to populate field StringIn")
@@ -3627,7 +3623,7 @@ func (filter *AdvancedFilter_STATUS) AssignProperties_To_AdvancedFilter_STATUS(d
 
 	// StringNotIn
 	if filter.StringNotIn != nil {
-		var stringNotIn v20200601s.StringNotInAdvancedFilter_STATUS
+		var stringNotIn v1beta20200601s.StringNotInAdvancedFilter_STATUS
 		err := filter.StringNotIn.AssignProperties_To_StringNotInAdvancedFilter_STATUS(&stringNotIn)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StringNotInAdvancedFilter_STATUS() to populate field StringNotIn")
@@ -3666,12 +3662,12 @@ func (destination *AzureFunctionEventSubscriptionDestination) ConvertToARM(resol
 	}
 	result := &AzureFunctionEventSubscriptionDestination_ARM{}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	if destination.EndpointType != nil {
 		result.EndpointType = *destination.EndpointType
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if destination.MaxEventsPerBatch != nil ||
 		destination.PreferredBatchSizeInKilobytes != nil ||
 		destination.ResourceReference != nil {
@@ -3708,10 +3704,10 @@ func (destination *AzureFunctionEventSubscriptionDestination) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureFunctionEventSubscriptionDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘MaxEventsPerBatch’:
+	// Set property "MaxEventsPerBatch":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxEventsPerBatch != nil {
@@ -3720,7 +3716,7 @@ func (destination *AzureFunctionEventSubscriptionDestination) PopulateFromARM(ow
 		}
 	}
 
-	// Set property ‘PreferredBatchSizeInKilobytes’:
+	// Set property "PreferredBatchSizeInKilobytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PreferredBatchSizeInKilobytes != nil {
@@ -3729,14 +3725,14 @@ func (destination *AzureFunctionEventSubscriptionDestination) PopulateFromARM(ow
 		}
 	}
 
-	// no assignment for property ‘ResourceReference’
+	// no assignment for property "ResourceReference"
 
 	// No error
 	return nil
 }
 
 // AssignProperties_From_AzureFunctionEventSubscriptionDestination populates our AzureFunctionEventSubscriptionDestination from the provided source AzureFunctionEventSubscriptionDestination
-func (destination *AzureFunctionEventSubscriptionDestination) AssignProperties_From_AzureFunctionEventSubscriptionDestination(source *v20200601s.AzureFunctionEventSubscriptionDestination) error {
+func (destination *AzureFunctionEventSubscriptionDestination) AssignProperties_From_AzureFunctionEventSubscriptionDestination(source *v1beta20200601s.AzureFunctionEventSubscriptionDestination) error {
 
 	// EndpointType
 	if source.EndpointType != nil {
@@ -3765,7 +3761,7 @@ func (destination *AzureFunctionEventSubscriptionDestination) AssignProperties_F
 }
 
 // AssignProperties_To_AzureFunctionEventSubscriptionDestination populates the provided destination AzureFunctionEventSubscriptionDestination from our AzureFunctionEventSubscriptionDestination
-func (destination *AzureFunctionEventSubscriptionDestination) AssignProperties_To_AzureFunctionEventSubscriptionDestination(target *v20200601s.AzureFunctionEventSubscriptionDestination) error {
+func (destination *AzureFunctionEventSubscriptionDestination) AssignProperties_To_AzureFunctionEventSubscriptionDestination(target *v1beta20200601s.AzureFunctionEventSubscriptionDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3824,10 +3820,10 @@ func (destination *AzureFunctionEventSubscriptionDestination_STATUS) PopulateFro
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureFunctionEventSubscriptionDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘MaxEventsPerBatch’:
+	// Set property "MaxEventsPerBatch":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxEventsPerBatch != nil {
@@ -3836,7 +3832,7 @@ func (destination *AzureFunctionEventSubscriptionDestination_STATUS) PopulateFro
 		}
 	}
 
-	// Set property ‘PreferredBatchSizeInKilobytes’:
+	// Set property "PreferredBatchSizeInKilobytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PreferredBatchSizeInKilobytes != nil {
@@ -3845,7 +3841,7 @@ func (destination *AzureFunctionEventSubscriptionDestination_STATUS) PopulateFro
 		}
 	}
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceId != nil {
@@ -3859,7 +3855,7 @@ func (destination *AzureFunctionEventSubscriptionDestination_STATUS) PopulateFro
 }
 
 // AssignProperties_From_AzureFunctionEventSubscriptionDestination_STATUS populates our AzureFunctionEventSubscriptionDestination_STATUS from the provided source AzureFunctionEventSubscriptionDestination_STATUS
-func (destination *AzureFunctionEventSubscriptionDestination_STATUS) AssignProperties_From_AzureFunctionEventSubscriptionDestination_STATUS(source *v20200601s.AzureFunctionEventSubscriptionDestination_STATUS) error {
+func (destination *AzureFunctionEventSubscriptionDestination_STATUS) AssignProperties_From_AzureFunctionEventSubscriptionDestination_STATUS(source *v1beta20200601s.AzureFunctionEventSubscriptionDestination_STATUS) error {
 
 	// EndpointType
 	if source.EndpointType != nil {
@@ -3883,7 +3879,7 @@ func (destination *AzureFunctionEventSubscriptionDestination_STATUS) AssignPrope
 }
 
 // AssignProperties_To_AzureFunctionEventSubscriptionDestination_STATUS populates the provided destination AzureFunctionEventSubscriptionDestination_STATUS from our AzureFunctionEventSubscriptionDestination_STATUS
-func (destination *AzureFunctionEventSubscriptionDestination_STATUS) AssignProperties_To_AzureFunctionEventSubscriptionDestination_STATUS(target *v20200601s.AzureFunctionEventSubscriptionDestination_STATUS) error {
+func (destination *AzureFunctionEventSubscriptionDestination_STATUS) AssignProperties_To_AzureFunctionEventSubscriptionDestination_STATUS(target *v1beta20200601s.AzureFunctionEventSubscriptionDestination_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3931,12 +3927,12 @@ func (destination *EventHubEventSubscriptionDestination) ConvertToARM(resolved g
 	}
 	result := &EventHubEventSubscriptionDestination_ARM{}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	if destination.EndpointType != nil {
 		result.EndpointType = *destination.EndpointType
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if destination.ResourceReference != nil {
 		result.Properties = &EventHubEventSubscriptionDestinationProperties_ARM{}
 	}
@@ -3963,17 +3959,17 @@ func (destination *EventHubEventSubscriptionDestination) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventHubEventSubscriptionDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// no assignment for property ‘ResourceReference’
+	// no assignment for property "ResourceReference"
 
 	// No error
 	return nil
 }
 
 // AssignProperties_From_EventHubEventSubscriptionDestination populates our EventHubEventSubscriptionDestination from the provided source EventHubEventSubscriptionDestination
-func (destination *EventHubEventSubscriptionDestination) AssignProperties_From_EventHubEventSubscriptionDestination(source *v20200601s.EventHubEventSubscriptionDestination) error {
+func (destination *EventHubEventSubscriptionDestination) AssignProperties_From_EventHubEventSubscriptionDestination(source *v1beta20200601s.EventHubEventSubscriptionDestination) error {
 
 	// EndpointType
 	if source.EndpointType != nil {
@@ -3996,7 +3992,7 @@ func (destination *EventHubEventSubscriptionDestination) AssignProperties_From_E
 }
 
 // AssignProperties_To_EventHubEventSubscriptionDestination populates the provided destination EventHubEventSubscriptionDestination from our EventHubEventSubscriptionDestination
-func (destination *EventHubEventSubscriptionDestination) AssignProperties_To_EventHubEventSubscriptionDestination(target *v20200601s.EventHubEventSubscriptionDestination) error {
+func (destination *EventHubEventSubscriptionDestination) AssignProperties_To_EventHubEventSubscriptionDestination(target *v1beta20200601s.EventHubEventSubscriptionDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4047,10 +4043,10 @@ func (destination *EventHubEventSubscriptionDestination_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventHubEventSubscriptionDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceId != nil {
@@ -4064,7 +4060,7 @@ func (destination *EventHubEventSubscriptionDestination_STATUS) PopulateFromARM(
 }
 
 // AssignProperties_From_EventHubEventSubscriptionDestination_STATUS populates our EventHubEventSubscriptionDestination_STATUS from the provided source EventHubEventSubscriptionDestination_STATUS
-func (destination *EventHubEventSubscriptionDestination_STATUS) AssignProperties_From_EventHubEventSubscriptionDestination_STATUS(source *v20200601s.EventHubEventSubscriptionDestination_STATUS) error {
+func (destination *EventHubEventSubscriptionDestination_STATUS) AssignProperties_From_EventHubEventSubscriptionDestination_STATUS(source *v1beta20200601s.EventHubEventSubscriptionDestination_STATUS) error {
 
 	// EndpointType
 	if source.EndpointType != nil {
@@ -4082,7 +4078,7 @@ func (destination *EventHubEventSubscriptionDestination_STATUS) AssignProperties
 }
 
 // AssignProperties_To_EventHubEventSubscriptionDestination_STATUS populates the provided destination EventHubEventSubscriptionDestination_STATUS from our EventHubEventSubscriptionDestination_STATUS
-func (destination *EventHubEventSubscriptionDestination_STATUS) AssignProperties_To_EventHubEventSubscriptionDestination_STATUS(target *v20200601s.EventHubEventSubscriptionDestination_STATUS) error {
+func (destination *EventHubEventSubscriptionDestination_STATUS) AssignProperties_To_EventHubEventSubscriptionDestination_STATUS(target *v1beta20200601s.EventHubEventSubscriptionDestination_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4124,12 +4120,12 @@ func (destination *HybridConnectionEventSubscriptionDestination) ConvertToARM(re
 	}
 	result := &HybridConnectionEventSubscriptionDestination_ARM{}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	if destination.EndpointType != nil {
 		result.EndpointType = *destination.EndpointType
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if destination.ResourceReference != nil {
 		result.Properties = &HybridConnectionEventSubscriptionDestinationProperties_ARM{}
 	}
@@ -4156,17 +4152,17 @@ func (destination *HybridConnectionEventSubscriptionDestination) PopulateFromARM
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HybridConnectionEventSubscriptionDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// no assignment for property ‘ResourceReference’
+	// no assignment for property "ResourceReference"
 
 	// No error
 	return nil
 }
 
 // AssignProperties_From_HybridConnectionEventSubscriptionDestination populates our HybridConnectionEventSubscriptionDestination from the provided source HybridConnectionEventSubscriptionDestination
-func (destination *HybridConnectionEventSubscriptionDestination) AssignProperties_From_HybridConnectionEventSubscriptionDestination(source *v20200601s.HybridConnectionEventSubscriptionDestination) error {
+func (destination *HybridConnectionEventSubscriptionDestination) AssignProperties_From_HybridConnectionEventSubscriptionDestination(source *v1beta20200601s.HybridConnectionEventSubscriptionDestination) error {
 
 	// EndpointType
 	if source.EndpointType != nil {
@@ -4189,7 +4185,7 @@ func (destination *HybridConnectionEventSubscriptionDestination) AssignPropertie
 }
 
 // AssignProperties_To_HybridConnectionEventSubscriptionDestination populates the provided destination HybridConnectionEventSubscriptionDestination from our HybridConnectionEventSubscriptionDestination
-func (destination *HybridConnectionEventSubscriptionDestination) AssignProperties_To_HybridConnectionEventSubscriptionDestination(target *v20200601s.HybridConnectionEventSubscriptionDestination) error {
+func (destination *HybridConnectionEventSubscriptionDestination) AssignProperties_To_HybridConnectionEventSubscriptionDestination(target *v1beta20200601s.HybridConnectionEventSubscriptionDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4240,10 +4236,10 @@ func (destination *HybridConnectionEventSubscriptionDestination_STATUS) Populate
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HybridConnectionEventSubscriptionDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceId != nil {
@@ -4257,7 +4253,7 @@ func (destination *HybridConnectionEventSubscriptionDestination_STATUS) Populate
 }
 
 // AssignProperties_From_HybridConnectionEventSubscriptionDestination_STATUS populates our HybridConnectionEventSubscriptionDestination_STATUS from the provided source HybridConnectionEventSubscriptionDestination_STATUS
-func (destination *HybridConnectionEventSubscriptionDestination_STATUS) AssignProperties_From_HybridConnectionEventSubscriptionDestination_STATUS(source *v20200601s.HybridConnectionEventSubscriptionDestination_STATUS) error {
+func (destination *HybridConnectionEventSubscriptionDestination_STATUS) AssignProperties_From_HybridConnectionEventSubscriptionDestination_STATUS(source *v1beta20200601s.HybridConnectionEventSubscriptionDestination_STATUS) error {
 
 	// EndpointType
 	if source.EndpointType != nil {
@@ -4275,7 +4271,7 @@ func (destination *HybridConnectionEventSubscriptionDestination_STATUS) AssignPr
 }
 
 // AssignProperties_To_HybridConnectionEventSubscriptionDestination_STATUS populates the provided destination HybridConnectionEventSubscriptionDestination_STATUS from our HybridConnectionEventSubscriptionDestination_STATUS
-func (destination *HybridConnectionEventSubscriptionDestination_STATUS) AssignProperties_To_HybridConnectionEventSubscriptionDestination_STATUS(target *v20200601s.HybridConnectionEventSubscriptionDestination_STATUS) error {
+func (destination *HybridConnectionEventSubscriptionDestination_STATUS) AssignProperties_To_HybridConnectionEventSubscriptionDestination_STATUS(target *v1beta20200601s.HybridConnectionEventSubscriptionDestination_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4317,12 +4313,12 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) ConvertToARM(res
 	}
 	result := &ServiceBusQueueEventSubscriptionDestination_ARM{}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	if destination.EndpointType != nil {
 		result.EndpointType = *destination.EndpointType
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if destination.ResourceReference != nil {
 		result.Properties = &ServiceBusQueueEventSubscriptionDestinationProperties_ARM{}
 	}
@@ -4349,17 +4345,17 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceBusQueueEventSubscriptionDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// no assignment for property ‘ResourceReference’
+	// no assignment for property "ResourceReference"
 
 	// No error
 	return nil
 }
 
 // AssignProperties_From_ServiceBusQueueEventSubscriptionDestination populates our ServiceBusQueueEventSubscriptionDestination from the provided source ServiceBusQueueEventSubscriptionDestination
-func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties_From_ServiceBusQueueEventSubscriptionDestination(source *v20200601s.ServiceBusQueueEventSubscriptionDestination) error {
+func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties_From_ServiceBusQueueEventSubscriptionDestination(source *v1beta20200601s.ServiceBusQueueEventSubscriptionDestination) error {
 
 	// EndpointType
 	if source.EndpointType != nil {
@@ -4382,7 +4378,7 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties
 }
 
 // AssignProperties_To_ServiceBusQueueEventSubscriptionDestination populates the provided destination ServiceBusQueueEventSubscriptionDestination from our ServiceBusQueueEventSubscriptionDestination
-func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties_To_ServiceBusQueueEventSubscriptionDestination(target *v20200601s.ServiceBusQueueEventSubscriptionDestination) error {
+func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties_To_ServiceBusQueueEventSubscriptionDestination(target *v1beta20200601s.ServiceBusQueueEventSubscriptionDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4433,10 +4429,10 @@ func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) PopulateF
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceBusQueueEventSubscriptionDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceId != nil {
@@ -4450,7 +4446,7 @@ func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) PopulateF
 }
 
 // AssignProperties_From_ServiceBusQueueEventSubscriptionDestination_STATUS populates our ServiceBusQueueEventSubscriptionDestination_STATUS from the provided source ServiceBusQueueEventSubscriptionDestination_STATUS
-func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) AssignProperties_From_ServiceBusQueueEventSubscriptionDestination_STATUS(source *v20200601s.ServiceBusQueueEventSubscriptionDestination_STATUS) error {
+func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) AssignProperties_From_ServiceBusQueueEventSubscriptionDestination_STATUS(source *v1beta20200601s.ServiceBusQueueEventSubscriptionDestination_STATUS) error {
 
 	// EndpointType
 	if source.EndpointType != nil {
@@ -4468,7 +4464,7 @@ func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) AssignPro
 }
 
 // AssignProperties_To_ServiceBusQueueEventSubscriptionDestination_STATUS populates the provided destination ServiceBusQueueEventSubscriptionDestination_STATUS from our ServiceBusQueueEventSubscriptionDestination_STATUS
-func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) AssignProperties_To_ServiceBusQueueEventSubscriptionDestination_STATUS(target *v20200601s.ServiceBusQueueEventSubscriptionDestination_STATUS) error {
+func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) AssignProperties_To_ServiceBusQueueEventSubscriptionDestination_STATUS(target *v1beta20200601s.ServiceBusQueueEventSubscriptionDestination_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4510,12 +4506,12 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) ConvertToARM(res
 	}
 	result := &ServiceBusTopicEventSubscriptionDestination_ARM{}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	if destination.EndpointType != nil {
 		result.EndpointType = *destination.EndpointType
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if destination.ResourceReference != nil {
 		result.Properties = &ServiceBusTopicEventSubscriptionDestinationProperties_ARM{}
 	}
@@ -4542,17 +4538,17 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceBusTopicEventSubscriptionDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// no assignment for property ‘ResourceReference’
+	// no assignment for property "ResourceReference"
 
 	// No error
 	return nil
 }
 
 // AssignProperties_From_ServiceBusTopicEventSubscriptionDestination populates our ServiceBusTopicEventSubscriptionDestination from the provided source ServiceBusTopicEventSubscriptionDestination
-func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties_From_ServiceBusTopicEventSubscriptionDestination(source *v20200601s.ServiceBusTopicEventSubscriptionDestination) error {
+func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties_From_ServiceBusTopicEventSubscriptionDestination(source *v1beta20200601s.ServiceBusTopicEventSubscriptionDestination) error {
 
 	// EndpointType
 	if source.EndpointType != nil {
@@ -4575,7 +4571,7 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties
 }
 
 // AssignProperties_To_ServiceBusTopicEventSubscriptionDestination populates the provided destination ServiceBusTopicEventSubscriptionDestination from our ServiceBusTopicEventSubscriptionDestination
-func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties_To_ServiceBusTopicEventSubscriptionDestination(target *v20200601s.ServiceBusTopicEventSubscriptionDestination) error {
+func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties_To_ServiceBusTopicEventSubscriptionDestination(target *v1beta20200601s.ServiceBusTopicEventSubscriptionDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4626,10 +4622,10 @@ func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) PopulateF
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceBusTopicEventSubscriptionDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceId != nil {
@@ -4643,7 +4639,7 @@ func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) PopulateF
 }
 
 // AssignProperties_From_ServiceBusTopicEventSubscriptionDestination_STATUS populates our ServiceBusTopicEventSubscriptionDestination_STATUS from the provided source ServiceBusTopicEventSubscriptionDestination_STATUS
-func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) AssignProperties_From_ServiceBusTopicEventSubscriptionDestination_STATUS(source *v20200601s.ServiceBusTopicEventSubscriptionDestination_STATUS) error {
+func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) AssignProperties_From_ServiceBusTopicEventSubscriptionDestination_STATUS(source *v1beta20200601s.ServiceBusTopicEventSubscriptionDestination_STATUS) error {
 
 	// EndpointType
 	if source.EndpointType != nil {
@@ -4661,7 +4657,7 @@ func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) AssignPro
 }
 
 // AssignProperties_To_ServiceBusTopicEventSubscriptionDestination_STATUS populates the provided destination ServiceBusTopicEventSubscriptionDestination_STATUS from our ServiceBusTopicEventSubscriptionDestination_STATUS
-func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) AssignProperties_To_ServiceBusTopicEventSubscriptionDestination_STATUS(target *v20200601s.ServiceBusTopicEventSubscriptionDestination_STATUS) error {
+func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) AssignProperties_To_ServiceBusTopicEventSubscriptionDestination_STATUS(target *v1beta20200601s.ServiceBusTopicEventSubscriptionDestination_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4705,12 +4701,12 @@ func (destination *StorageBlobDeadLetterDestination) ConvertToARM(resolved genru
 	}
 	result := &StorageBlobDeadLetterDestination_ARM{}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	if destination.EndpointType != nil {
 		result.EndpointType = *destination.EndpointType
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if destination.BlobContainerName != nil || destination.ResourceReference != nil {
 		result.Properties = &StorageBlobDeadLetterDestinationProperties_ARM{}
 	}
@@ -4741,7 +4737,7 @@ func (destination *StorageBlobDeadLetterDestination) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageBlobDeadLetterDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BlobContainerName’:
+	// Set property "BlobContainerName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BlobContainerName != nil {
@@ -4750,17 +4746,17 @@ func (destination *StorageBlobDeadLetterDestination) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// no assignment for property ‘ResourceReference’
+	// no assignment for property "ResourceReference"
 
 	// No error
 	return nil
 }
 
 // AssignProperties_From_StorageBlobDeadLetterDestination populates our StorageBlobDeadLetterDestination from the provided source StorageBlobDeadLetterDestination
-func (destination *StorageBlobDeadLetterDestination) AssignProperties_From_StorageBlobDeadLetterDestination(source *v20200601s.StorageBlobDeadLetterDestination) error {
+func (destination *StorageBlobDeadLetterDestination) AssignProperties_From_StorageBlobDeadLetterDestination(source *v1beta20200601s.StorageBlobDeadLetterDestination) error {
 
 	// BlobContainerName
 	destination.BlobContainerName = genruntime.ClonePointerToString(source.BlobContainerName)
@@ -4786,7 +4782,7 @@ func (destination *StorageBlobDeadLetterDestination) AssignProperties_From_Stora
 }
 
 // AssignProperties_To_StorageBlobDeadLetterDestination populates the provided destination StorageBlobDeadLetterDestination from our StorageBlobDeadLetterDestination
-func (destination *StorageBlobDeadLetterDestination) AssignProperties_To_StorageBlobDeadLetterDestination(target *v20200601s.StorageBlobDeadLetterDestination) error {
+func (destination *StorageBlobDeadLetterDestination) AssignProperties_To_StorageBlobDeadLetterDestination(target *v1beta20200601s.StorageBlobDeadLetterDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4841,7 +4837,7 @@ func (destination *StorageBlobDeadLetterDestination_STATUS) PopulateFromARM(owne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageBlobDeadLetterDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BlobContainerName’:
+	// Set property "BlobContainerName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BlobContainerName != nil {
@@ -4850,10 +4846,10 @@ func (destination *StorageBlobDeadLetterDestination_STATUS) PopulateFromARM(owne
 		}
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceId != nil {
@@ -4867,7 +4863,7 @@ func (destination *StorageBlobDeadLetterDestination_STATUS) PopulateFromARM(owne
 }
 
 // AssignProperties_From_StorageBlobDeadLetterDestination_STATUS populates our StorageBlobDeadLetterDestination_STATUS from the provided source StorageBlobDeadLetterDestination_STATUS
-func (destination *StorageBlobDeadLetterDestination_STATUS) AssignProperties_From_StorageBlobDeadLetterDestination_STATUS(source *v20200601s.StorageBlobDeadLetterDestination_STATUS) error {
+func (destination *StorageBlobDeadLetterDestination_STATUS) AssignProperties_From_StorageBlobDeadLetterDestination_STATUS(source *v1beta20200601s.StorageBlobDeadLetterDestination_STATUS) error {
 
 	// BlobContainerName
 	destination.BlobContainerName = genruntime.ClonePointerToString(source.BlobContainerName)
@@ -4888,7 +4884,7 @@ func (destination *StorageBlobDeadLetterDestination_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_StorageBlobDeadLetterDestination_STATUS populates the provided destination StorageBlobDeadLetterDestination_STATUS from our StorageBlobDeadLetterDestination_STATUS
-func (destination *StorageBlobDeadLetterDestination_STATUS) AssignProperties_To_StorageBlobDeadLetterDestination_STATUS(target *v20200601s.StorageBlobDeadLetterDestination_STATUS) error {
+func (destination *StorageBlobDeadLetterDestination_STATUS) AssignProperties_To_StorageBlobDeadLetterDestination_STATUS(target *v1beta20200601s.StorageBlobDeadLetterDestination_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4934,12 +4930,12 @@ func (destination *StorageQueueEventSubscriptionDestination) ConvertToARM(resolv
 	}
 	result := &StorageQueueEventSubscriptionDestination_ARM{}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	if destination.EndpointType != nil {
 		result.EndpointType = *destination.EndpointType
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if destination.QueueName != nil || destination.ResourceReference != nil {
 		result.Properties = &StorageQueueEventSubscriptionDestinationProperties_ARM{}
 	}
@@ -4970,10 +4966,10 @@ func (destination *StorageQueueEventSubscriptionDestination) PopulateFromARM(own
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageQueueEventSubscriptionDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘QueueName’:
+	// Set property "QueueName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.QueueName != nil {
@@ -4982,14 +4978,14 @@ func (destination *StorageQueueEventSubscriptionDestination) PopulateFromARM(own
 		}
 	}
 
-	// no assignment for property ‘ResourceReference’
+	// no assignment for property "ResourceReference"
 
 	// No error
 	return nil
 }
 
 // AssignProperties_From_StorageQueueEventSubscriptionDestination populates our StorageQueueEventSubscriptionDestination from the provided source StorageQueueEventSubscriptionDestination
-func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_From_StorageQueueEventSubscriptionDestination(source *v20200601s.StorageQueueEventSubscriptionDestination) error {
+func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_From_StorageQueueEventSubscriptionDestination(source *v1beta20200601s.StorageQueueEventSubscriptionDestination) error {
 
 	// EndpointType
 	if source.EndpointType != nil {
@@ -5015,7 +5011,7 @@ func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_Fr
 }
 
 // AssignProperties_To_StorageQueueEventSubscriptionDestination populates the provided destination StorageQueueEventSubscriptionDestination from our StorageQueueEventSubscriptionDestination
-func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_To_StorageQueueEventSubscriptionDestination(target *v20200601s.StorageQueueEventSubscriptionDestination) error {
+func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_To_StorageQueueEventSubscriptionDestination(target *v1beta20200601s.StorageQueueEventSubscriptionDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5070,10 +5066,10 @@ func (destination *StorageQueueEventSubscriptionDestination_STATUS) PopulateFrom
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageQueueEventSubscriptionDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘QueueName’:
+	// Set property "QueueName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.QueueName != nil {
@@ -5082,7 +5078,7 @@ func (destination *StorageQueueEventSubscriptionDestination_STATUS) PopulateFrom
 		}
 	}
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceId != nil {
@@ -5096,7 +5092,7 @@ func (destination *StorageQueueEventSubscriptionDestination_STATUS) PopulateFrom
 }
 
 // AssignProperties_From_StorageQueueEventSubscriptionDestination_STATUS populates our StorageQueueEventSubscriptionDestination_STATUS from the provided source StorageQueueEventSubscriptionDestination_STATUS
-func (destination *StorageQueueEventSubscriptionDestination_STATUS) AssignProperties_From_StorageQueueEventSubscriptionDestination_STATUS(source *v20200601s.StorageQueueEventSubscriptionDestination_STATUS) error {
+func (destination *StorageQueueEventSubscriptionDestination_STATUS) AssignProperties_From_StorageQueueEventSubscriptionDestination_STATUS(source *v1beta20200601s.StorageQueueEventSubscriptionDestination_STATUS) error {
 
 	// EndpointType
 	if source.EndpointType != nil {
@@ -5117,7 +5113,7 @@ func (destination *StorageQueueEventSubscriptionDestination_STATUS) AssignProper
 }
 
 // AssignProperties_To_StorageQueueEventSubscriptionDestination_STATUS populates the provided destination StorageQueueEventSubscriptionDestination_STATUS from our StorageQueueEventSubscriptionDestination_STATUS
-func (destination *StorageQueueEventSubscriptionDestination_STATUS) AssignProperties_To_StorageQueueEventSubscriptionDestination_STATUS(target *v20200601s.StorageQueueEventSubscriptionDestination_STATUS) error {
+func (destination *StorageQueueEventSubscriptionDestination_STATUS) AssignProperties_To_StorageQueueEventSubscriptionDestination_STATUS(target *v1beta20200601s.StorageQueueEventSubscriptionDestination_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5167,12 +5163,12 @@ func (destination *WebHookEventSubscriptionDestination) ConvertToARM(resolved ge
 	}
 	result := &WebHookEventSubscriptionDestination_ARM{}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	if destination.EndpointType != nil {
 		result.EndpointType = *destination.EndpointType
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if destination.AzureActiveDirectoryApplicationIdOrUri != nil ||
 		destination.AzureActiveDirectoryTenantId != nil ||
 		destination.EndpointUrl != nil ||
@@ -5219,7 +5215,7 @@ func (destination *WebHookEventSubscriptionDestination) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebHookEventSubscriptionDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureActiveDirectoryApplicationIdOrUri’:
+	// Set property "AzureActiveDirectoryApplicationIdOrUri":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AzureActiveDirectoryApplicationIdOrUri != nil {
@@ -5228,7 +5224,7 @@ func (destination *WebHookEventSubscriptionDestination) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘AzureActiveDirectoryTenantId’:
+	// Set property "AzureActiveDirectoryTenantId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AzureActiveDirectoryTenantId != nil {
@@ -5237,12 +5233,12 @@ func (destination *WebHookEventSubscriptionDestination) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// no assignment for property ‘EndpointUrl’
+	// no assignment for property "EndpointUrl"
 
-	// Set property ‘MaxEventsPerBatch’:
+	// Set property "MaxEventsPerBatch":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxEventsPerBatch != nil {
@@ -5251,7 +5247,7 @@ func (destination *WebHookEventSubscriptionDestination) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘PreferredBatchSizeInKilobytes’:
+	// Set property "PreferredBatchSizeInKilobytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PreferredBatchSizeInKilobytes != nil {
@@ -5265,7 +5261,7 @@ func (destination *WebHookEventSubscriptionDestination) PopulateFromARM(owner ge
 }
 
 // AssignProperties_From_WebHookEventSubscriptionDestination populates our WebHookEventSubscriptionDestination from the provided source WebHookEventSubscriptionDestination
-func (destination *WebHookEventSubscriptionDestination) AssignProperties_From_WebHookEventSubscriptionDestination(source *v20200601s.WebHookEventSubscriptionDestination) error {
+func (destination *WebHookEventSubscriptionDestination) AssignProperties_From_WebHookEventSubscriptionDestination(source *v1beta20200601s.WebHookEventSubscriptionDestination) error {
 
 	// AzureActiveDirectoryApplicationIdOrUri
 	destination.AzureActiveDirectoryApplicationIdOrUri = genruntime.ClonePointerToString(source.AzureActiveDirectoryApplicationIdOrUri)
@@ -5300,7 +5296,7 @@ func (destination *WebHookEventSubscriptionDestination) AssignProperties_From_We
 }
 
 // AssignProperties_To_WebHookEventSubscriptionDestination populates the provided destination WebHookEventSubscriptionDestination from our WebHookEventSubscriptionDestination
-func (destination *WebHookEventSubscriptionDestination) AssignProperties_To_WebHookEventSubscriptionDestination(target *v20200601s.WebHookEventSubscriptionDestination) error {
+func (destination *WebHookEventSubscriptionDestination) AssignProperties_To_WebHookEventSubscriptionDestination(target *v1beta20200601s.WebHookEventSubscriptionDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5367,7 +5363,7 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) PopulateFromARM(o
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebHookEventSubscriptionDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureActiveDirectoryApplicationIdOrUri’:
+	// Set property "AzureActiveDirectoryApplicationIdOrUri":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AzureActiveDirectoryApplicationIdOrUri != nil {
@@ -5376,7 +5372,7 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) PopulateFromARM(o
 		}
 	}
 
-	// Set property ‘AzureActiveDirectoryTenantId’:
+	// Set property "AzureActiveDirectoryTenantId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AzureActiveDirectoryTenantId != nil {
@@ -5385,7 +5381,7 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) PopulateFromARM(o
 		}
 	}
 
-	// Set property ‘EndpointBaseUrl’:
+	// Set property "EndpointBaseUrl":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EndpointBaseUrl != nil {
@@ -5394,10 +5390,10 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) PopulateFromARM(o
 		}
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘MaxEventsPerBatch’:
+	// Set property "MaxEventsPerBatch":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxEventsPerBatch != nil {
@@ -5406,7 +5402,7 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) PopulateFromARM(o
 		}
 	}
 
-	// Set property ‘PreferredBatchSizeInKilobytes’:
+	// Set property "PreferredBatchSizeInKilobytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PreferredBatchSizeInKilobytes != nil {
@@ -5420,7 +5416,7 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) PopulateFromARM(o
 }
 
 // AssignProperties_From_WebHookEventSubscriptionDestination_STATUS populates our WebHookEventSubscriptionDestination_STATUS from the provided source WebHookEventSubscriptionDestination_STATUS
-func (destination *WebHookEventSubscriptionDestination_STATUS) AssignProperties_From_WebHookEventSubscriptionDestination_STATUS(source *v20200601s.WebHookEventSubscriptionDestination_STATUS) error {
+func (destination *WebHookEventSubscriptionDestination_STATUS) AssignProperties_From_WebHookEventSubscriptionDestination_STATUS(source *v1beta20200601s.WebHookEventSubscriptionDestination_STATUS) error {
 
 	// AzureActiveDirectoryApplicationIdOrUri
 	destination.AzureActiveDirectoryApplicationIdOrUri = genruntime.ClonePointerToString(source.AzureActiveDirectoryApplicationIdOrUri)
@@ -5450,7 +5446,7 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) AssignProperties_
 }
 
 // AssignProperties_To_WebHookEventSubscriptionDestination_STATUS populates the provided destination WebHookEventSubscriptionDestination_STATUS from our WebHookEventSubscriptionDestination_STATUS
-func (destination *WebHookEventSubscriptionDestination_STATUS) AssignProperties_To_WebHookEventSubscriptionDestination_STATUS(target *v20200601s.WebHookEventSubscriptionDestination_STATUS) error {
+func (destination *WebHookEventSubscriptionDestination_STATUS) AssignProperties_To_WebHookEventSubscriptionDestination_STATUS(target *v1beta20200601s.WebHookEventSubscriptionDestination_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5519,18 +5515,18 @@ func (filter *BoolEqualsAdvancedFilter) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &BoolEqualsAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if filter.Value != nil {
 		value := *filter.Value
 		result.Value = &value
@@ -5550,16 +5546,16 @@ func (filter *BoolEqualsAdvancedFilter) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BoolEqualsAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -5570,7 +5566,7 @@ func (filter *BoolEqualsAdvancedFilter) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_BoolEqualsAdvancedFilter populates our BoolEqualsAdvancedFilter from the provided source BoolEqualsAdvancedFilter
-func (filter *BoolEqualsAdvancedFilter) AssignProperties_From_BoolEqualsAdvancedFilter(source *v20200601s.BoolEqualsAdvancedFilter) error {
+func (filter *BoolEqualsAdvancedFilter) AssignProperties_From_BoolEqualsAdvancedFilter(source *v1beta20200601s.BoolEqualsAdvancedFilter) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -5596,7 +5592,7 @@ func (filter *BoolEqualsAdvancedFilter) AssignProperties_From_BoolEqualsAdvanced
 }
 
 // AssignProperties_To_BoolEqualsAdvancedFilter populates the provided destination BoolEqualsAdvancedFilter from our BoolEqualsAdvancedFilter
-func (filter *BoolEqualsAdvancedFilter) AssignProperties_To_BoolEqualsAdvancedFilter(destination *v20200601s.BoolEqualsAdvancedFilter) error {
+func (filter *BoolEqualsAdvancedFilter) AssignProperties_To_BoolEqualsAdvancedFilter(destination *v1beta20200601s.BoolEqualsAdvancedFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5651,16 +5647,16 @@ func (filter *BoolEqualsAdvancedFilter_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BoolEqualsAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -5671,7 +5667,7 @@ func (filter *BoolEqualsAdvancedFilter_STATUS) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_BoolEqualsAdvancedFilter_STATUS populates our BoolEqualsAdvancedFilter_STATUS from the provided source BoolEqualsAdvancedFilter_STATUS
-func (filter *BoolEqualsAdvancedFilter_STATUS) AssignProperties_From_BoolEqualsAdvancedFilter_STATUS(source *v20200601s.BoolEqualsAdvancedFilter_STATUS) error {
+func (filter *BoolEqualsAdvancedFilter_STATUS) AssignProperties_From_BoolEqualsAdvancedFilter_STATUS(source *v1beta20200601s.BoolEqualsAdvancedFilter_STATUS) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -5697,7 +5693,7 @@ func (filter *BoolEqualsAdvancedFilter_STATUS) AssignProperties_From_BoolEqualsA
 }
 
 // AssignProperties_To_BoolEqualsAdvancedFilter_STATUS populates the provided destination BoolEqualsAdvancedFilter_STATUS from our BoolEqualsAdvancedFilter_STATUS
-func (filter *BoolEqualsAdvancedFilter_STATUS) AssignProperties_To_BoolEqualsAdvancedFilter_STATUS(destination *v20200601s.BoolEqualsAdvancedFilter_STATUS) error {
+func (filter *BoolEqualsAdvancedFilter_STATUS) AssignProperties_To_BoolEqualsAdvancedFilter_STATUS(destination *v1beta20200601s.BoolEqualsAdvancedFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5775,18 +5771,18 @@ func (filter *NumberGreaterThanAdvancedFilter) ConvertToARM(resolved genruntime.
 	}
 	result := &NumberGreaterThanAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if filter.Value != nil {
 		value := *filter.Value
 		result.Value = &value
@@ -5806,16 +5802,16 @@ func (filter *NumberGreaterThanAdvancedFilter) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberGreaterThanAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -5826,7 +5822,7 @@ func (filter *NumberGreaterThanAdvancedFilter) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_NumberGreaterThanAdvancedFilter populates our NumberGreaterThanAdvancedFilter from the provided source NumberGreaterThanAdvancedFilter
-func (filter *NumberGreaterThanAdvancedFilter) AssignProperties_From_NumberGreaterThanAdvancedFilter(source *v20200601s.NumberGreaterThanAdvancedFilter) error {
+func (filter *NumberGreaterThanAdvancedFilter) AssignProperties_From_NumberGreaterThanAdvancedFilter(source *v1beta20200601s.NumberGreaterThanAdvancedFilter) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -5852,7 +5848,7 @@ func (filter *NumberGreaterThanAdvancedFilter) AssignProperties_From_NumberGreat
 }
 
 // AssignProperties_To_NumberGreaterThanAdvancedFilter populates the provided destination NumberGreaterThanAdvancedFilter from our NumberGreaterThanAdvancedFilter
-func (filter *NumberGreaterThanAdvancedFilter) AssignProperties_To_NumberGreaterThanAdvancedFilter(destination *v20200601s.NumberGreaterThanAdvancedFilter) error {
+func (filter *NumberGreaterThanAdvancedFilter) AssignProperties_To_NumberGreaterThanAdvancedFilter(destination *v1beta20200601s.NumberGreaterThanAdvancedFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5907,16 +5903,16 @@ func (filter *NumberGreaterThanAdvancedFilter_STATUS) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberGreaterThanAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -5927,7 +5923,7 @@ func (filter *NumberGreaterThanAdvancedFilter_STATUS) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_NumberGreaterThanAdvancedFilter_STATUS populates our NumberGreaterThanAdvancedFilter_STATUS from the provided source NumberGreaterThanAdvancedFilter_STATUS
-func (filter *NumberGreaterThanAdvancedFilter_STATUS) AssignProperties_From_NumberGreaterThanAdvancedFilter_STATUS(source *v20200601s.NumberGreaterThanAdvancedFilter_STATUS) error {
+func (filter *NumberGreaterThanAdvancedFilter_STATUS) AssignProperties_From_NumberGreaterThanAdvancedFilter_STATUS(source *v1beta20200601s.NumberGreaterThanAdvancedFilter_STATUS) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -5953,7 +5949,7 @@ func (filter *NumberGreaterThanAdvancedFilter_STATUS) AssignProperties_From_Numb
 }
 
 // AssignProperties_To_NumberGreaterThanAdvancedFilter_STATUS populates the provided destination NumberGreaterThanAdvancedFilter_STATUS from our NumberGreaterThanAdvancedFilter_STATUS
-func (filter *NumberGreaterThanAdvancedFilter_STATUS) AssignProperties_To_NumberGreaterThanAdvancedFilter_STATUS(destination *v20200601s.NumberGreaterThanAdvancedFilter_STATUS) error {
+func (filter *NumberGreaterThanAdvancedFilter_STATUS) AssignProperties_To_NumberGreaterThanAdvancedFilter_STATUS(destination *v1beta20200601s.NumberGreaterThanAdvancedFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6005,18 +6001,18 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) ConvertToARM(resolved gen
 	}
 	result := &NumberGreaterThanOrEqualsAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if filter.Value != nil {
 		value := *filter.Value
 		result.Value = &value
@@ -6036,16 +6032,16 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberGreaterThanOrEqualsAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -6056,7 +6052,7 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_NumberGreaterThanOrEqualsAdvancedFilter populates our NumberGreaterThanOrEqualsAdvancedFilter from the provided source NumberGreaterThanOrEqualsAdvancedFilter
-func (filter *NumberGreaterThanOrEqualsAdvancedFilter) AssignProperties_From_NumberGreaterThanOrEqualsAdvancedFilter(source *v20200601s.NumberGreaterThanOrEqualsAdvancedFilter) error {
+func (filter *NumberGreaterThanOrEqualsAdvancedFilter) AssignProperties_From_NumberGreaterThanOrEqualsAdvancedFilter(source *v1beta20200601s.NumberGreaterThanOrEqualsAdvancedFilter) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -6082,7 +6078,7 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) AssignProperties_From_Num
 }
 
 // AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter populates the provided destination NumberGreaterThanOrEqualsAdvancedFilter from our NumberGreaterThanOrEqualsAdvancedFilter
-func (filter *NumberGreaterThanOrEqualsAdvancedFilter) AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter(destination *v20200601s.NumberGreaterThanOrEqualsAdvancedFilter) error {
+func (filter *NumberGreaterThanOrEqualsAdvancedFilter) AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter(destination *v1beta20200601s.NumberGreaterThanOrEqualsAdvancedFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6137,16 +6133,16 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -6157,7 +6153,7 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) PopulateFromARM(ow
 }
 
 // AssignProperties_From_NumberGreaterThanOrEqualsAdvancedFilter_STATUS populates our NumberGreaterThanOrEqualsAdvancedFilter_STATUS from the provided source NumberGreaterThanOrEqualsAdvancedFilter_STATUS
-func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) AssignProperties_From_NumberGreaterThanOrEqualsAdvancedFilter_STATUS(source *v20200601s.NumberGreaterThanOrEqualsAdvancedFilter_STATUS) error {
+func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) AssignProperties_From_NumberGreaterThanOrEqualsAdvancedFilter_STATUS(source *v1beta20200601s.NumberGreaterThanOrEqualsAdvancedFilter_STATUS) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -6183,7 +6179,7 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter_STATUS populates the provided destination NumberGreaterThanOrEqualsAdvancedFilter_STATUS from our NumberGreaterThanOrEqualsAdvancedFilter_STATUS
-func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter_STATUS(destination *v20200601s.NumberGreaterThanOrEqualsAdvancedFilter_STATUS) error {
+func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter_STATUS(destination *v1beta20200601s.NumberGreaterThanOrEqualsAdvancedFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6235,18 +6231,18 @@ func (filter *NumberInAdvancedFilter) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &NumberInAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range filter.Values {
 		result.Values = append(result.Values, item)
 	}
@@ -6265,16 +6261,16 @@ func (filter *NumberInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberInAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -6284,7 +6280,7 @@ func (filter *NumberInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_NumberInAdvancedFilter populates our NumberInAdvancedFilter from the provided source NumberInAdvancedFilter
-func (filter *NumberInAdvancedFilter) AssignProperties_From_NumberInAdvancedFilter(source *v20200601s.NumberInAdvancedFilter) error {
+func (filter *NumberInAdvancedFilter) AssignProperties_From_NumberInAdvancedFilter(source *v1beta20200601s.NumberInAdvancedFilter) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -6315,7 +6311,7 @@ func (filter *NumberInAdvancedFilter) AssignProperties_From_NumberInAdvancedFilt
 }
 
 // AssignProperties_To_NumberInAdvancedFilter populates the provided destination NumberInAdvancedFilter from our NumberInAdvancedFilter
-func (filter *NumberInAdvancedFilter) AssignProperties_To_NumberInAdvancedFilter(destination *v20200601s.NumberInAdvancedFilter) error {
+func (filter *NumberInAdvancedFilter) AssignProperties_To_NumberInAdvancedFilter(destination *v1beta20200601s.NumberInAdvancedFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6375,16 +6371,16 @@ func (filter *NumberInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberInAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -6394,7 +6390,7 @@ func (filter *NumberInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_NumberInAdvancedFilter_STATUS populates our NumberInAdvancedFilter_STATUS from the provided source NumberInAdvancedFilter_STATUS
-func (filter *NumberInAdvancedFilter_STATUS) AssignProperties_From_NumberInAdvancedFilter_STATUS(source *v20200601s.NumberInAdvancedFilter_STATUS) error {
+func (filter *NumberInAdvancedFilter_STATUS) AssignProperties_From_NumberInAdvancedFilter_STATUS(source *v1beta20200601s.NumberInAdvancedFilter_STATUS) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -6425,7 +6421,7 @@ func (filter *NumberInAdvancedFilter_STATUS) AssignProperties_From_NumberInAdvan
 }
 
 // AssignProperties_To_NumberInAdvancedFilter_STATUS populates the provided destination NumberInAdvancedFilter_STATUS from our NumberInAdvancedFilter_STATUS
-func (filter *NumberInAdvancedFilter_STATUS) AssignProperties_To_NumberInAdvancedFilter_STATUS(destination *v20200601s.NumberInAdvancedFilter_STATUS) error {
+func (filter *NumberInAdvancedFilter_STATUS) AssignProperties_To_NumberInAdvancedFilter_STATUS(destination *v1beta20200601s.NumberInAdvancedFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6482,18 +6478,18 @@ func (filter *NumberLessThanAdvancedFilter) ConvertToARM(resolved genruntime.Con
 	}
 	result := &NumberLessThanAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if filter.Value != nil {
 		value := *filter.Value
 		result.Value = &value
@@ -6513,16 +6509,16 @@ func (filter *NumberLessThanAdvancedFilter) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberLessThanAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -6533,7 +6529,7 @@ func (filter *NumberLessThanAdvancedFilter) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_NumberLessThanAdvancedFilter populates our NumberLessThanAdvancedFilter from the provided source NumberLessThanAdvancedFilter
-func (filter *NumberLessThanAdvancedFilter) AssignProperties_From_NumberLessThanAdvancedFilter(source *v20200601s.NumberLessThanAdvancedFilter) error {
+func (filter *NumberLessThanAdvancedFilter) AssignProperties_From_NumberLessThanAdvancedFilter(source *v1beta20200601s.NumberLessThanAdvancedFilter) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -6559,7 +6555,7 @@ func (filter *NumberLessThanAdvancedFilter) AssignProperties_From_NumberLessThan
 }
 
 // AssignProperties_To_NumberLessThanAdvancedFilter populates the provided destination NumberLessThanAdvancedFilter from our NumberLessThanAdvancedFilter
-func (filter *NumberLessThanAdvancedFilter) AssignProperties_To_NumberLessThanAdvancedFilter(destination *v20200601s.NumberLessThanAdvancedFilter) error {
+func (filter *NumberLessThanAdvancedFilter) AssignProperties_To_NumberLessThanAdvancedFilter(destination *v1beta20200601s.NumberLessThanAdvancedFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6614,16 +6610,16 @@ func (filter *NumberLessThanAdvancedFilter_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberLessThanAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -6634,7 +6630,7 @@ func (filter *NumberLessThanAdvancedFilter_STATUS) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_NumberLessThanAdvancedFilter_STATUS populates our NumberLessThanAdvancedFilter_STATUS from the provided source NumberLessThanAdvancedFilter_STATUS
-func (filter *NumberLessThanAdvancedFilter_STATUS) AssignProperties_From_NumberLessThanAdvancedFilter_STATUS(source *v20200601s.NumberLessThanAdvancedFilter_STATUS) error {
+func (filter *NumberLessThanAdvancedFilter_STATUS) AssignProperties_From_NumberLessThanAdvancedFilter_STATUS(source *v1beta20200601s.NumberLessThanAdvancedFilter_STATUS) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -6660,7 +6656,7 @@ func (filter *NumberLessThanAdvancedFilter_STATUS) AssignProperties_From_NumberL
 }
 
 // AssignProperties_To_NumberLessThanAdvancedFilter_STATUS populates the provided destination NumberLessThanAdvancedFilter_STATUS from our NumberLessThanAdvancedFilter_STATUS
-func (filter *NumberLessThanAdvancedFilter_STATUS) AssignProperties_To_NumberLessThanAdvancedFilter_STATUS(destination *v20200601s.NumberLessThanAdvancedFilter_STATUS) error {
+func (filter *NumberLessThanAdvancedFilter_STATUS) AssignProperties_To_NumberLessThanAdvancedFilter_STATUS(destination *v1beta20200601s.NumberLessThanAdvancedFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6712,18 +6708,18 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) ConvertToARM(resolved genrun
 	}
 	result := &NumberLessThanOrEqualsAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if filter.Value != nil {
 		value := *filter.Value
 		result.Value = &value
@@ -6743,16 +6739,16 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberLessThanOrEqualsAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -6763,7 +6759,7 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_NumberLessThanOrEqualsAdvancedFilter populates our NumberLessThanOrEqualsAdvancedFilter from the provided source NumberLessThanOrEqualsAdvancedFilter
-func (filter *NumberLessThanOrEqualsAdvancedFilter) AssignProperties_From_NumberLessThanOrEqualsAdvancedFilter(source *v20200601s.NumberLessThanOrEqualsAdvancedFilter) error {
+func (filter *NumberLessThanOrEqualsAdvancedFilter) AssignProperties_From_NumberLessThanOrEqualsAdvancedFilter(source *v1beta20200601s.NumberLessThanOrEqualsAdvancedFilter) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -6789,7 +6785,7 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) AssignProperties_From_Number
 }
 
 // AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter populates the provided destination NumberLessThanOrEqualsAdvancedFilter from our NumberLessThanOrEqualsAdvancedFilter
-func (filter *NumberLessThanOrEqualsAdvancedFilter) AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter(destination *v20200601s.NumberLessThanOrEqualsAdvancedFilter) error {
+func (filter *NumberLessThanOrEqualsAdvancedFilter) AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter(destination *v1beta20200601s.NumberLessThanOrEqualsAdvancedFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6844,16 +6840,16 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) PopulateFromARM(owner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -6864,7 +6860,7 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) PopulateFromARM(owner
 }
 
 // AssignProperties_From_NumberLessThanOrEqualsAdvancedFilter_STATUS populates our NumberLessThanOrEqualsAdvancedFilter_STATUS from the provided source NumberLessThanOrEqualsAdvancedFilter_STATUS
-func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) AssignProperties_From_NumberLessThanOrEqualsAdvancedFilter_STATUS(source *v20200601s.NumberLessThanOrEqualsAdvancedFilter_STATUS) error {
+func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) AssignProperties_From_NumberLessThanOrEqualsAdvancedFilter_STATUS(source *v1beta20200601s.NumberLessThanOrEqualsAdvancedFilter_STATUS) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -6890,7 +6886,7 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter_STATUS populates the provided destination NumberLessThanOrEqualsAdvancedFilter_STATUS from our NumberLessThanOrEqualsAdvancedFilter_STATUS
-func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter_STATUS(destination *v20200601s.NumberLessThanOrEqualsAdvancedFilter_STATUS) error {
+func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter_STATUS(destination *v1beta20200601s.NumberLessThanOrEqualsAdvancedFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6942,18 +6938,18 @@ func (filter *NumberNotInAdvancedFilter) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &NumberNotInAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range filter.Values {
 		result.Values = append(result.Values, item)
 	}
@@ -6972,16 +6968,16 @@ func (filter *NumberNotInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberNotInAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -6991,7 +6987,7 @@ func (filter *NumberNotInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_NumberNotInAdvancedFilter populates our NumberNotInAdvancedFilter from the provided source NumberNotInAdvancedFilter
-func (filter *NumberNotInAdvancedFilter) AssignProperties_From_NumberNotInAdvancedFilter(source *v20200601s.NumberNotInAdvancedFilter) error {
+func (filter *NumberNotInAdvancedFilter) AssignProperties_From_NumberNotInAdvancedFilter(source *v1beta20200601s.NumberNotInAdvancedFilter) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -7022,7 +7018,7 @@ func (filter *NumberNotInAdvancedFilter) AssignProperties_From_NumberNotInAdvanc
 }
 
 // AssignProperties_To_NumberNotInAdvancedFilter populates the provided destination NumberNotInAdvancedFilter from our NumberNotInAdvancedFilter
-func (filter *NumberNotInAdvancedFilter) AssignProperties_To_NumberNotInAdvancedFilter(destination *v20200601s.NumberNotInAdvancedFilter) error {
+func (filter *NumberNotInAdvancedFilter) AssignProperties_To_NumberNotInAdvancedFilter(destination *v1beta20200601s.NumberNotInAdvancedFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7082,16 +7078,16 @@ func (filter *NumberNotInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberNotInAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -7101,7 +7097,7 @@ func (filter *NumberNotInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_NumberNotInAdvancedFilter_STATUS populates our NumberNotInAdvancedFilter_STATUS from the provided source NumberNotInAdvancedFilter_STATUS
-func (filter *NumberNotInAdvancedFilter_STATUS) AssignProperties_From_NumberNotInAdvancedFilter_STATUS(source *v20200601s.NumberNotInAdvancedFilter_STATUS) error {
+func (filter *NumberNotInAdvancedFilter_STATUS) AssignProperties_From_NumberNotInAdvancedFilter_STATUS(source *v1beta20200601s.NumberNotInAdvancedFilter_STATUS) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -7132,7 +7128,7 @@ func (filter *NumberNotInAdvancedFilter_STATUS) AssignProperties_From_NumberNotI
 }
 
 // AssignProperties_To_NumberNotInAdvancedFilter_STATUS populates the provided destination NumberNotInAdvancedFilter_STATUS from our NumberNotInAdvancedFilter_STATUS
-func (filter *NumberNotInAdvancedFilter_STATUS) AssignProperties_To_NumberNotInAdvancedFilter_STATUS(destination *v20200601s.NumberNotInAdvancedFilter_STATUS) error {
+func (filter *NumberNotInAdvancedFilter_STATUS) AssignProperties_To_NumberNotInAdvancedFilter_STATUS(destination *v1beta20200601s.NumberNotInAdvancedFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7241,18 +7237,18 @@ func (filter *StringBeginsWithAdvancedFilter) ConvertToARM(resolved genruntime.C
 	}
 	result := &StringBeginsWithAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range filter.Values {
 		result.Values = append(result.Values, item)
 	}
@@ -7271,16 +7267,16 @@ func (filter *StringBeginsWithAdvancedFilter) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringBeginsWithAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -7290,7 +7286,7 @@ func (filter *StringBeginsWithAdvancedFilter) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_StringBeginsWithAdvancedFilter populates our StringBeginsWithAdvancedFilter from the provided source StringBeginsWithAdvancedFilter
-func (filter *StringBeginsWithAdvancedFilter) AssignProperties_From_StringBeginsWithAdvancedFilter(source *v20200601s.StringBeginsWithAdvancedFilter) error {
+func (filter *StringBeginsWithAdvancedFilter) AssignProperties_From_StringBeginsWithAdvancedFilter(source *v1beta20200601s.StringBeginsWithAdvancedFilter) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -7311,7 +7307,7 @@ func (filter *StringBeginsWithAdvancedFilter) AssignProperties_From_StringBegins
 }
 
 // AssignProperties_To_StringBeginsWithAdvancedFilter populates the provided destination StringBeginsWithAdvancedFilter from our StringBeginsWithAdvancedFilter
-func (filter *StringBeginsWithAdvancedFilter) AssignProperties_To_StringBeginsWithAdvancedFilter(destination *v20200601s.StringBeginsWithAdvancedFilter) error {
+func (filter *StringBeginsWithAdvancedFilter) AssignProperties_To_StringBeginsWithAdvancedFilter(destination *v1beta20200601s.StringBeginsWithAdvancedFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7361,16 +7357,16 @@ func (filter *StringBeginsWithAdvancedFilter_STATUS) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringBeginsWithAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -7380,7 +7376,7 @@ func (filter *StringBeginsWithAdvancedFilter_STATUS) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_StringBeginsWithAdvancedFilter_STATUS populates our StringBeginsWithAdvancedFilter_STATUS from the provided source StringBeginsWithAdvancedFilter_STATUS
-func (filter *StringBeginsWithAdvancedFilter_STATUS) AssignProperties_From_StringBeginsWithAdvancedFilter_STATUS(source *v20200601s.StringBeginsWithAdvancedFilter_STATUS) error {
+func (filter *StringBeginsWithAdvancedFilter_STATUS) AssignProperties_From_StringBeginsWithAdvancedFilter_STATUS(source *v1beta20200601s.StringBeginsWithAdvancedFilter_STATUS) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -7401,7 +7397,7 @@ func (filter *StringBeginsWithAdvancedFilter_STATUS) AssignProperties_From_Strin
 }
 
 // AssignProperties_To_StringBeginsWithAdvancedFilter_STATUS populates the provided destination StringBeginsWithAdvancedFilter_STATUS from our StringBeginsWithAdvancedFilter_STATUS
-func (filter *StringBeginsWithAdvancedFilter_STATUS) AssignProperties_To_StringBeginsWithAdvancedFilter_STATUS(destination *v20200601s.StringBeginsWithAdvancedFilter_STATUS) error {
+func (filter *StringBeginsWithAdvancedFilter_STATUS) AssignProperties_To_StringBeginsWithAdvancedFilter_STATUS(destination *v1beta20200601s.StringBeginsWithAdvancedFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7448,18 +7444,18 @@ func (filter *StringContainsAdvancedFilter) ConvertToARM(resolved genruntime.Con
 	}
 	result := &StringContainsAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range filter.Values {
 		result.Values = append(result.Values, item)
 	}
@@ -7478,16 +7474,16 @@ func (filter *StringContainsAdvancedFilter) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringContainsAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -7497,7 +7493,7 @@ func (filter *StringContainsAdvancedFilter) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_StringContainsAdvancedFilter populates our StringContainsAdvancedFilter from the provided source StringContainsAdvancedFilter
-func (filter *StringContainsAdvancedFilter) AssignProperties_From_StringContainsAdvancedFilter(source *v20200601s.StringContainsAdvancedFilter) error {
+func (filter *StringContainsAdvancedFilter) AssignProperties_From_StringContainsAdvancedFilter(source *v1beta20200601s.StringContainsAdvancedFilter) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -7518,7 +7514,7 @@ func (filter *StringContainsAdvancedFilter) AssignProperties_From_StringContains
 }
 
 // AssignProperties_To_StringContainsAdvancedFilter populates the provided destination StringContainsAdvancedFilter from our StringContainsAdvancedFilter
-func (filter *StringContainsAdvancedFilter) AssignProperties_To_StringContainsAdvancedFilter(destination *v20200601s.StringContainsAdvancedFilter) error {
+func (filter *StringContainsAdvancedFilter) AssignProperties_To_StringContainsAdvancedFilter(destination *v1beta20200601s.StringContainsAdvancedFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7568,16 +7564,16 @@ func (filter *StringContainsAdvancedFilter_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringContainsAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -7587,7 +7583,7 @@ func (filter *StringContainsAdvancedFilter_STATUS) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_StringContainsAdvancedFilter_STATUS populates our StringContainsAdvancedFilter_STATUS from the provided source StringContainsAdvancedFilter_STATUS
-func (filter *StringContainsAdvancedFilter_STATUS) AssignProperties_From_StringContainsAdvancedFilter_STATUS(source *v20200601s.StringContainsAdvancedFilter_STATUS) error {
+func (filter *StringContainsAdvancedFilter_STATUS) AssignProperties_From_StringContainsAdvancedFilter_STATUS(source *v1beta20200601s.StringContainsAdvancedFilter_STATUS) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -7608,7 +7604,7 @@ func (filter *StringContainsAdvancedFilter_STATUS) AssignProperties_From_StringC
 }
 
 // AssignProperties_To_StringContainsAdvancedFilter_STATUS populates the provided destination StringContainsAdvancedFilter_STATUS from our StringContainsAdvancedFilter_STATUS
-func (filter *StringContainsAdvancedFilter_STATUS) AssignProperties_To_StringContainsAdvancedFilter_STATUS(destination *v20200601s.StringContainsAdvancedFilter_STATUS) error {
+func (filter *StringContainsAdvancedFilter_STATUS) AssignProperties_To_StringContainsAdvancedFilter_STATUS(destination *v1beta20200601s.StringContainsAdvancedFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7655,18 +7651,18 @@ func (filter *StringEndsWithAdvancedFilter) ConvertToARM(resolved genruntime.Con
 	}
 	result := &StringEndsWithAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range filter.Values {
 		result.Values = append(result.Values, item)
 	}
@@ -7685,16 +7681,16 @@ func (filter *StringEndsWithAdvancedFilter) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringEndsWithAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -7704,7 +7700,7 @@ func (filter *StringEndsWithAdvancedFilter) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_StringEndsWithAdvancedFilter populates our StringEndsWithAdvancedFilter from the provided source StringEndsWithAdvancedFilter
-func (filter *StringEndsWithAdvancedFilter) AssignProperties_From_StringEndsWithAdvancedFilter(source *v20200601s.StringEndsWithAdvancedFilter) error {
+func (filter *StringEndsWithAdvancedFilter) AssignProperties_From_StringEndsWithAdvancedFilter(source *v1beta20200601s.StringEndsWithAdvancedFilter) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -7725,7 +7721,7 @@ func (filter *StringEndsWithAdvancedFilter) AssignProperties_From_StringEndsWith
 }
 
 // AssignProperties_To_StringEndsWithAdvancedFilter populates the provided destination StringEndsWithAdvancedFilter from our StringEndsWithAdvancedFilter
-func (filter *StringEndsWithAdvancedFilter) AssignProperties_To_StringEndsWithAdvancedFilter(destination *v20200601s.StringEndsWithAdvancedFilter) error {
+func (filter *StringEndsWithAdvancedFilter) AssignProperties_To_StringEndsWithAdvancedFilter(destination *v1beta20200601s.StringEndsWithAdvancedFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7775,16 +7771,16 @@ func (filter *StringEndsWithAdvancedFilter_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringEndsWithAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -7794,7 +7790,7 @@ func (filter *StringEndsWithAdvancedFilter_STATUS) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_StringEndsWithAdvancedFilter_STATUS populates our StringEndsWithAdvancedFilter_STATUS from the provided source StringEndsWithAdvancedFilter_STATUS
-func (filter *StringEndsWithAdvancedFilter_STATUS) AssignProperties_From_StringEndsWithAdvancedFilter_STATUS(source *v20200601s.StringEndsWithAdvancedFilter_STATUS) error {
+func (filter *StringEndsWithAdvancedFilter_STATUS) AssignProperties_From_StringEndsWithAdvancedFilter_STATUS(source *v1beta20200601s.StringEndsWithAdvancedFilter_STATUS) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -7815,7 +7811,7 @@ func (filter *StringEndsWithAdvancedFilter_STATUS) AssignProperties_From_StringE
 }
 
 // AssignProperties_To_StringEndsWithAdvancedFilter_STATUS populates the provided destination StringEndsWithAdvancedFilter_STATUS from our StringEndsWithAdvancedFilter_STATUS
-func (filter *StringEndsWithAdvancedFilter_STATUS) AssignProperties_To_StringEndsWithAdvancedFilter_STATUS(destination *v20200601s.StringEndsWithAdvancedFilter_STATUS) error {
+func (filter *StringEndsWithAdvancedFilter_STATUS) AssignProperties_To_StringEndsWithAdvancedFilter_STATUS(destination *v1beta20200601s.StringEndsWithAdvancedFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7862,18 +7858,18 @@ func (filter *StringInAdvancedFilter) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &StringInAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range filter.Values {
 		result.Values = append(result.Values, item)
 	}
@@ -7892,16 +7888,16 @@ func (filter *StringInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringInAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -7911,7 +7907,7 @@ func (filter *StringInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_StringInAdvancedFilter populates our StringInAdvancedFilter from the provided source StringInAdvancedFilter
-func (filter *StringInAdvancedFilter) AssignProperties_From_StringInAdvancedFilter(source *v20200601s.StringInAdvancedFilter) error {
+func (filter *StringInAdvancedFilter) AssignProperties_From_StringInAdvancedFilter(source *v1beta20200601s.StringInAdvancedFilter) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -7932,7 +7928,7 @@ func (filter *StringInAdvancedFilter) AssignProperties_From_StringInAdvancedFilt
 }
 
 // AssignProperties_To_StringInAdvancedFilter populates the provided destination StringInAdvancedFilter from our StringInAdvancedFilter
-func (filter *StringInAdvancedFilter) AssignProperties_To_StringInAdvancedFilter(destination *v20200601s.StringInAdvancedFilter) error {
+func (filter *StringInAdvancedFilter) AssignProperties_To_StringInAdvancedFilter(destination *v1beta20200601s.StringInAdvancedFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7982,16 +7978,16 @@ func (filter *StringInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringInAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -8001,7 +7997,7 @@ func (filter *StringInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_StringInAdvancedFilter_STATUS populates our StringInAdvancedFilter_STATUS from the provided source StringInAdvancedFilter_STATUS
-func (filter *StringInAdvancedFilter_STATUS) AssignProperties_From_StringInAdvancedFilter_STATUS(source *v20200601s.StringInAdvancedFilter_STATUS) error {
+func (filter *StringInAdvancedFilter_STATUS) AssignProperties_From_StringInAdvancedFilter_STATUS(source *v1beta20200601s.StringInAdvancedFilter_STATUS) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -8022,7 +8018,7 @@ func (filter *StringInAdvancedFilter_STATUS) AssignProperties_From_StringInAdvan
 }
 
 // AssignProperties_To_StringInAdvancedFilter_STATUS populates the provided destination StringInAdvancedFilter_STATUS from our StringInAdvancedFilter_STATUS
-func (filter *StringInAdvancedFilter_STATUS) AssignProperties_To_StringInAdvancedFilter_STATUS(destination *v20200601s.StringInAdvancedFilter_STATUS) error {
+func (filter *StringInAdvancedFilter_STATUS) AssignProperties_To_StringInAdvancedFilter_STATUS(destination *v1beta20200601s.StringInAdvancedFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8069,18 +8065,18 @@ func (filter *StringNotInAdvancedFilter) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &StringNotInAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range filter.Values {
 		result.Values = append(result.Values, item)
 	}
@@ -8099,16 +8095,16 @@ func (filter *StringNotInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringNotInAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -8118,7 +8114,7 @@ func (filter *StringNotInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_StringNotInAdvancedFilter populates our StringNotInAdvancedFilter from the provided source StringNotInAdvancedFilter
-func (filter *StringNotInAdvancedFilter) AssignProperties_From_StringNotInAdvancedFilter(source *v20200601s.StringNotInAdvancedFilter) error {
+func (filter *StringNotInAdvancedFilter) AssignProperties_From_StringNotInAdvancedFilter(source *v1beta20200601s.StringNotInAdvancedFilter) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -8139,7 +8135,7 @@ func (filter *StringNotInAdvancedFilter) AssignProperties_From_StringNotInAdvanc
 }
 
 // AssignProperties_To_StringNotInAdvancedFilter populates the provided destination StringNotInAdvancedFilter from our StringNotInAdvancedFilter
-func (filter *StringNotInAdvancedFilter) AssignProperties_To_StringNotInAdvancedFilter(destination *v20200601s.StringNotInAdvancedFilter) error {
+func (filter *StringNotInAdvancedFilter) AssignProperties_To_StringNotInAdvancedFilter(destination *v1beta20200601s.StringNotInAdvancedFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8189,16 +8185,16 @@ func (filter *StringNotInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringNotInAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -8208,7 +8204,7 @@ func (filter *StringNotInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_StringNotInAdvancedFilter_STATUS populates our StringNotInAdvancedFilter_STATUS from the provided source StringNotInAdvancedFilter_STATUS
-func (filter *StringNotInAdvancedFilter_STATUS) AssignProperties_From_StringNotInAdvancedFilter_STATUS(source *v20200601s.StringNotInAdvancedFilter_STATUS) error {
+func (filter *StringNotInAdvancedFilter_STATUS) AssignProperties_From_StringNotInAdvancedFilter_STATUS(source *v1beta20200601s.StringNotInAdvancedFilter_STATUS) error {
 
 	// Key
 	filter.Key = genruntime.ClonePointerToString(source.Key)
@@ -8229,7 +8225,7 @@ func (filter *StringNotInAdvancedFilter_STATUS) AssignProperties_From_StringNotI
 }
 
 // AssignProperties_To_StringNotInAdvancedFilter_STATUS populates the provided destination StringNotInAdvancedFilter_STATUS from our StringNotInAdvancedFilter_STATUS
-func (filter *StringNotInAdvancedFilter_STATUS) AssignProperties_To_StringNotInAdvancedFilter_STATUS(destination *v20200601s.StringNotInAdvancedFilter_STATUS) error {
+func (filter *StringNotInAdvancedFilter_STATUS) AssignProperties_To_StringNotInAdvancedFilter_STATUS(destination *v1beta20200601s.StringNotInAdvancedFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

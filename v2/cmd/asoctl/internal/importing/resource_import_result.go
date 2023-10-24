@@ -11,6 +11,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
@@ -100,30 +101,46 @@ func (*ResourceImportResult) writeTo(resources []genruntime.MetaObject, destinat
 	}
 
 	// Sort objects into a deterministic order
-	slices.SortFunc(resources, func(left genruntime.MetaObject, right genruntime.MetaObject) bool {
-		leftGVK := left.GetObjectKind().GroupVersionKind()
-		rightGVK := right.GetObjectKind().GroupVersionKind()
+	slices.SortFunc(
+		resources,
+		func(left genruntime.MetaObject, right genruntime.MetaObject) int {
+			leftGVK := left.GetObjectKind().GroupVersionKind()
+			rightGVK := right.GetObjectKind().GroupVersionKind()
 
-		if leftGVK.Group != rightGVK.Group {
-			return leftGVK.Group < rightGVK.Group
-		}
+			if leftGVK.Group < rightGVK.Group {
+				return -1
+			} else if leftGVK.Group > rightGVK.Group {
+				return 1
+			}
 
-		if leftGVK.Version != rightGVK.Version {
-			return leftGVK.Version < rightGVK.Version
-		}
+			if leftGVK.Version < rightGVK.Version {
+				return -1
+			} else if leftGVK.Version > rightGVK.Version {
+				return 1
+			}
 
-		if leftGVK.Kind != rightGVK.Kind {
-			return leftGVK.Kind < rightGVK.Kind
-		}
+			if leftGVK.Kind < rightGVK.Kind {
+				return -1
+			} else if leftGVK.Kind > rightGVK.Kind {
+				return 1
+			}
 
-		return left.GetName() < right.GetName()
-	})
+			if left.GetName() < right.GetName() {
+				return -1
+			} else if left.GetName() > right.GetName() {
+				return 1
+			}
+
+			return 0
+		})
 
 	for _, resource := range resources {
 		data, err := yaml.Marshal(resource)
 		if err != nil {
 			return errors.Wrap(err, "unable to save to writer")
 		}
+
+		data = redactStatus(data)
 
 		_, err = buf.Write(data)
 		if err != nil {
@@ -137,4 +154,14 @@ func (*ResourceImportResult) writeTo(resources []genruntime.MetaObject, destinat
 	}
 
 	return nil
+}
+
+// redactStatus removes any empty `status { }` blocks from the yaml.
+// If we start redacting other things, we should rename this method
+// and possibly consider using a more general purpose technique,
+// such as a yaml parser.
+func redactStatus(data []byte) []byte {
+	content := string(data)
+	content = strings.Replace(content, "status: {}", "", -1)
+	return []byte(content)
 }

@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForServersDatabasesAuditingSetting(subject Servers
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20211101s.ServersDatabasesAuditingSetting
+	var hub v20211101s.ServersDatabasesAuditingSetting
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForServersDatabasesAuditingSetting(subject Servers
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20211101s.ServersDatabasesAuditingSetting
+	var other v20211101s.ServersDatabasesAuditingSetting
 	err := copied.AssignProperties_To_ServersDatabasesAuditingSetting(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForServers_Databases_AuditingSetting_Spec(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20211101s.Servers_Databases_AuditingSetting_Spec
+	var other v20211101s.Servers_Databases_AuditingSetting_Spec
 	err := copied.AssignProperties_To_Servers_Databases_AuditingSetting_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -293,7 +293,7 @@ func RunPropertyAssignmentTestForServers_Databases_AuditingSetting_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20211101s.Servers_Databases_AuditingSetting_STATUS
+	var other v20211101s.Servers_Databases_AuditingSetting_STATUS
 	err := copied.AssignProperties_To_Servers_Databases_AuditingSetting_STATUS(&other)
 	if err != nil {
 		return err.Error()

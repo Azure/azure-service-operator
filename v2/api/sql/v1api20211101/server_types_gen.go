@@ -6,7 +6,7 @@ package v1api20211101
 import (
 	"context"
 	"fmt"
-	v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -54,7 +54,7 @@ var _ conversion.Convertible = &Server{}
 
 // ConvertFrom populates our Server from the provided hub Server
 func (server *Server) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20211101s.Server)
+	source, ok := hub.(*v20211101s.Server)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/Server but received %T instead", hub)
 	}
@@ -64,7 +64,7 @@ func (server *Server) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Server from our Server
 func (server *Server) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20211101s.Server)
+	destination, ok := hub.(*v20211101s.Server)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/Server but received %T instead", hub)
 	}
@@ -163,11 +163,7 @@ func (server *Server) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (server *Server) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(server.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  server.Spec.Owner.Name,
-	}
+	return server.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -225,7 +221,7 @@ func (server *Server) ValidateUpdate(old runtime.Object) (admission.Warnings, er
 
 // createValidations validates the creation of the resource
 func (server *Server) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){server.validateResourceReferences, server.validateConfigMapDestinations}
+	return []func() (admission.Warnings, error){server.validateResourceReferences, server.validateOwnerReference, server.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -241,12 +237,15 @@ func (server *Server) updateValidations() []func(old runtime.Object) (admission.
 		},
 		server.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return server.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return server.validateConfigMapDestinations()
 		},
 	}
 }
 
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
 func (server *Server) validateConfigMapDestinations() (admission.Warnings, error) {
 	if server.Spec.OperatorSpec == nil {
 		return nil, nil
@@ -258,6 +257,11 @@ func (server *Server) validateConfigMapDestinations() (admission.Warnings, error
 		server.Spec.OperatorSpec.ConfigMaps.FullyQualifiedDomainName,
 	}
 	return genruntime.ValidateConfigMapDestinations(toValidate)
+}
+
+// validateOwnerReference validates the owner field
+func (server *Server) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(server)
 }
 
 // validateResourceReferences validates all resource references
@@ -280,7 +284,7 @@ func (server *Server) validateWriteOnceProperties(old runtime.Object) (admission
 }
 
 // AssignProperties_From_Server populates our Server from the provided source Server
-func (server *Server) AssignProperties_From_Server(source *v1api20211101s.Server) error {
+func (server *Server) AssignProperties_From_Server(source *v20211101s.Server) error {
 
 	// ObjectMeta
 	server.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -306,13 +310,13 @@ func (server *Server) AssignProperties_From_Server(source *v1api20211101s.Server
 }
 
 // AssignProperties_To_Server populates the provided destination Server from our Server
-func (server *Server) AssignProperties_To_Server(destination *v1api20211101s.Server) error {
+func (server *Server) AssignProperties_To_Server(destination *v20211101s.Server) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *server.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20211101s.Server_Spec
+	var spec v20211101s.Server_Spec
 	err := server.Spec.AssignProperties_To_Server_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Server_Spec() to populate field Spec")
@@ -320,7 +324,7 @@ func (server *Server) AssignProperties_To_Server(destination *v1api20211101s.Ser
 	destination.Spec = spec
 
 	// Status
-	var status v1api20211101s.Server_STATUS
+	var status v20211101s.Server_STATUS
 	err = server.Status.AssignProperties_To_Server_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Server_STATUS() to populate field Status")
@@ -423,7 +427,7 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &Server_Spec_ARM{}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if server.Identity != nil {
 		identity_ARM, err := (*server.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -433,16 +437,16 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Identity = &identity
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if server.Location != nil {
 		location := *server.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if server.AdministratorLogin != nil ||
 		server.AdministratorLoginPassword != nil ||
 		server.Administrators != nil ||
@@ -508,7 +512,7 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Properties.Version = &version
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if server.Tags != nil {
 		result.Tags = make(map[string]string, len(server.Tags))
 		for key, value := range server.Tags {
@@ -530,7 +534,7 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorLogin’:
+	// Set property "AdministratorLogin":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdministratorLogin != nil {
@@ -539,9 +543,9 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// no assignment for property ‘AdministratorLoginPassword’
+	// no assignment for property "AdministratorLoginPassword"
 
-	// Set property ‘Administrators’:
+	// Set property "Administrators":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Administrators != nil {
@@ -555,10 +559,10 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	server.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘FederatedClientId’:
+	// Set property "FederatedClientId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FederatedClientId != nil {
@@ -567,7 +571,7 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ResourceIdentity
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -578,7 +582,7 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		server.Identity = &identity
 	}
 
-	// Set property ‘KeyId’:
+	// Set property "KeyId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KeyId != nil {
@@ -587,13 +591,13 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		server.Location = &location
 	}
 
-	// Set property ‘MinimalTlsVersion’:
+	// Set property "MinimalTlsVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimalTlsVersion != nil {
@@ -602,14 +606,17 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// no assignment for property ‘OperatorSpec’
+	// no assignment for property "OperatorSpec"
 
-	// Set property ‘Owner’:
-	server.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	server.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// no assignment for property ‘PrimaryUserAssignedIdentityReference’
+	// no assignment for property "PrimaryUserAssignedIdentityReference"
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -618,7 +625,7 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘RestrictOutboundNetworkAccess’:
+	// Set property "RestrictOutboundNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RestrictOutboundNetworkAccess != nil {
@@ -627,7 +634,7 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		server.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -635,7 +642,7 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Version != nil {
@@ -652,14 +659,14 @@ var _ genruntime.ConvertibleSpec = &Server_Spec{}
 
 // ConvertSpecFrom populates our Server_Spec from the provided source
 func (server *Server_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20211101s.Server_Spec)
+	src, ok := source.(*v20211101s.Server_Spec)
 	if ok {
 		// Populate our instance from source
 		return server.AssignProperties_From_Server_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Server_Spec{}
+	src = &v20211101s.Server_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -676,14 +683,14 @@ func (server *Server_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) er
 
 // ConvertSpecTo populates the provided destination from our Server_Spec
 func (server *Server_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20211101s.Server_Spec)
+	dst, ok := destination.(*v20211101s.Server_Spec)
 	if ok {
 		// Populate destination from our instance
 		return server.AssignProperties_To_Server_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Server_Spec{}
+	dst = &v20211101s.Server_Spec{}
 	err := server.AssignProperties_To_Server_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -699,7 +706,7 @@ func (server *Server_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 }
 
 // AssignProperties_From_Server_Spec populates our Server_Spec from the provided source Server_Spec
-func (server *Server_Spec) AssignProperties_From_Server_Spec(source *v1api20211101s.Server_Spec) error {
+func (server *Server_Spec) AssignProperties_From_Server_Spec(source *v20211101s.Server_Spec) error {
 
 	// AdministratorLogin
 	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
@@ -811,7 +818,7 @@ func (server *Server_Spec) AssignProperties_From_Server_Spec(source *v1api202111
 }
 
 // AssignProperties_To_Server_Spec populates the provided destination Server_Spec from our Server_Spec
-func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *v1api20211101s.Server_Spec) error {
+func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *v20211101s.Server_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -828,7 +835,7 @@ func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *v1api202
 
 	// Administrators
 	if server.Administrators != nil {
-		var administrator v1api20211101s.ServerExternalAdministrator
+		var administrator v20211101s.ServerExternalAdministrator
 		err := server.Administrators.AssignProperties_To_ServerExternalAdministrator(&administrator)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServerExternalAdministrator() to populate field Administrators")
@@ -851,7 +858,7 @@ func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *v1api202
 
 	// Identity
 	if server.Identity != nil {
-		var identity v1api20211101s.ResourceIdentity
+		var identity v20211101s.ResourceIdentity
 		err := server.Identity.AssignProperties_To_ResourceIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceIdentity() to populate field Identity")
@@ -872,7 +879,7 @@ func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *v1api202
 
 	// OperatorSpec
 	if server.OperatorSpec != nil {
-		var operatorSpec v1api20211101s.ServerOperatorSpec
+		var operatorSpec v20211101s.ServerOperatorSpec
 		err := server.OperatorSpec.AssignProperties_To_ServerOperatorSpec(&operatorSpec)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServerOperatorSpec() to populate field OperatorSpec")
@@ -1095,14 +1102,14 @@ var _ genruntime.ConvertibleStatus = &Server_STATUS{}
 
 // ConvertStatusFrom populates our Server_STATUS from the provided source
 func (server *Server_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20211101s.Server_STATUS)
+	src, ok := source.(*v20211101s.Server_STATUS)
 	if ok {
 		// Populate our instance from source
 		return server.AssignProperties_From_Server_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Server_STATUS{}
+	src = &v20211101s.Server_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1119,14 +1126,14 @@ func (server *Server_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 
 // ConvertStatusTo populates the provided destination from our Server_STATUS
 func (server *Server_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20211101s.Server_STATUS)
+	dst, ok := destination.(*v20211101s.Server_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return server.AssignProperties_To_Server_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Server_STATUS{}
+	dst = &v20211101s.Server_STATUS{}
 	err := server.AssignProperties_To_Server_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1155,7 +1162,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorLogin’:
+	// Set property "AdministratorLogin":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdministratorLogin != nil {
@@ -1164,7 +1171,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Administrators’:
+	// Set property "Administrators":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Administrators != nil {
@@ -1178,9 +1185,9 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘FederatedClientId’:
+	// Set property "FederatedClientId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FederatedClientId != nil {
@@ -1189,7 +1196,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘FullyQualifiedDomainName’:
+	// Set property "FullyQualifiedDomainName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FullyQualifiedDomainName != nil {
@@ -1198,13 +1205,13 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		server.Id = &id
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ResourceIdentity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -1215,7 +1222,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		server.Identity = &identity
 	}
 
-	// Set property ‘KeyId’:
+	// Set property "KeyId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KeyId != nil {
@@ -1224,19 +1231,19 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		server.Kind = &kind
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		server.Location = &location
 	}
 
-	// Set property ‘MinimalTlsVersion’:
+	// Set property "MinimalTlsVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimalTlsVersion != nil {
@@ -1245,13 +1252,13 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		server.Name = &name
 	}
 
-	// Set property ‘PrimaryUserAssignedIdentityId’:
+	// Set property "PrimaryUserAssignedIdentityId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrimaryUserAssignedIdentityId != nil {
@@ -1260,7 +1267,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘PrivateEndpointConnections’:
+	// Set property "PrivateEndpointConnections":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
@@ -1273,7 +1280,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -1282,7 +1289,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘RestrictOutboundNetworkAccess’:
+	// Set property "RestrictOutboundNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RestrictOutboundNetworkAccess != nil {
@@ -1291,7 +1298,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
@@ -1300,7 +1307,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		server.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1308,13 +1315,13 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		server.Type = &typeVar
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Version != nil {
@@ -1323,7 +1330,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘WorkspaceFeature’:
+	// Set property "WorkspaceFeature":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WorkspaceFeature != nil {
@@ -1337,7 +1344,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 }
 
 // AssignProperties_From_Server_STATUS populates our Server_STATUS from the provided source Server_STATUS
-func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *v1api20211101s.Server_STATUS) error {
+func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *v20211101s.Server_STATUS) error {
 
 	// AdministratorLogin
 	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
@@ -1455,7 +1462,7 @@ func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *v1api20
 }
 
 // AssignProperties_To_Server_STATUS populates the provided destination Server_STATUS from our Server_STATUS
-func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *v1api20211101s.Server_STATUS) error {
+func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *v20211101s.Server_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1464,7 +1471,7 @@ func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *v1ap
 
 	// Administrators
 	if server.Administrators != nil {
-		var administrator v1api20211101s.ServerExternalAdministrator_STATUS
+		var administrator v20211101s.ServerExternalAdministrator_STATUS
 		err := server.Administrators.AssignProperties_To_ServerExternalAdministrator_STATUS(&administrator)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServerExternalAdministrator_STATUS() to populate field Administrators")
@@ -1488,7 +1495,7 @@ func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *v1ap
 
 	// Identity
 	if server.Identity != nil {
-		var identity v1api20211101s.ResourceIdentity_STATUS
+		var identity v20211101s.ResourceIdentity_STATUS
 		err := server.Identity.AssignProperties_To_ResourceIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceIdentity_STATUS() to populate field Identity")
@@ -1518,11 +1525,11 @@ func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *v1ap
 
 	// PrivateEndpointConnections
 	if server.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v1api20211101s.ServerPrivateEndpointConnection_STATUS, len(server.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]v20211101s.ServerPrivateEndpointConnection_STATUS, len(server.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range server.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v1api20211101s.ServerPrivateEndpointConnection_STATUS
+			var privateEndpointConnection v20211101s.ServerPrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_ServerPrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ServerPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
@@ -1600,13 +1607,13 @@ func (identity *ResourceIdentity) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &ResourceIdentity_ARM{}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if identity.Type != nil {
 		typeVar := *identity.Type
 		result.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
 	for _, ident := range identity.UserAssignedIdentities {
 		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
@@ -1631,20 +1638,20 @@ func (identity *ResourceIdentity) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceIdentity_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// no assignment for property ‘UserAssignedIdentities’
+	// no assignment for property "UserAssignedIdentities"
 
 	// No error
 	return nil
 }
 
 // AssignProperties_From_ResourceIdentity populates our ResourceIdentity from the provided source ResourceIdentity
-func (identity *ResourceIdentity) AssignProperties_From_ResourceIdentity(source *v1api20211101s.ResourceIdentity) error {
+func (identity *ResourceIdentity) AssignProperties_From_ResourceIdentity(source *v20211101s.ResourceIdentity) error {
 
 	// Type
 	if source.Type != nil {
@@ -1677,7 +1684,7 @@ func (identity *ResourceIdentity) AssignProperties_From_ResourceIdentity(source 
 }
 
 // AssignProperties_To_ResourceIdentity populates the provided destination ResourceIdentity from our ResourceIdentity
-func (identity *ResourceIdentity) AssignProperties_To_ResourceIdentity(destination *v1api20211101s.ResourceIdentity) error {
+func (identity *ResourceIdentity) AssignProperties_To_ResourceIdentity(destination *v20211101s.ResourceIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1691,11 +1698,11 @@ func (identity *ResourceIdentity) AssignProperties_To_ResourceIdentity(destinati
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]v1api20211101s.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
+		userAssignedIdentityList := make([]v20211101s.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity v1api20211101s.UserAssignedIdentityDetails
+			var userAssignedIdentity v20211101s.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
@@ -1775,25 +1782,25 @@ func (identity *ResourceIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identity.PrincipalId = &principalId
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		identity.TenantId = &tenantId
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	if typedInput.UserAssignedIdentities != nil {
 		identity.UserAssignedIdentities = make(map[string]UserIdentity_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
@@ -1811,7 +1818,7 @@ func (identity *ResourceIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_ResourceIdentity_STATUS populates our ResourceIdentity_STATUS from the provided source ResourceIdentity_STATUS
-func (identity *ResourceIdentity_STATUS) AssignProperties_From_ResourceIdentity_STATUS(source *v1api20211101s.ResourceIdentity_STATUS) error {
+func (identity *ResourceIdentity_STATUS) AssignProperties_From_ResourceIdentity_STATUS(source *v20211101s.ResourceIdentity_STATUS) error {
 
 	// PrincipalId
 	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -1850,7 +1857,7 @@ func (identity *ResourceIdentity_STATUS) AssignProperties_From_ResourceIdentity_
 }
 
 // AssignProperties_To_ResourceIdentity_STATUS populates the provided destination ResourceIdentity_STATUS from our ResourceIdentity_STATUS
-func (identity *ResourceIdentity_STATUS) AssignProperties_To_ResourceIdentity_STATUS(destination *v1api20211101s.ResourceIdentity_STATUS) error {
+func (identity *ResourceIdentity_STATUS) AssignProperties_To_ResourceIdentity_STATUS(destination *v20211101s.ResourceIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1870,11 +1877,11 @@ func (identity *ResourceIdentity_STATUS) AssignProperties_To_ResourceIdentity_ST
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1api20211101s.UserIdentity_STATUS, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]v20211101s.UserIdentity_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v1api20211101s.UserIdentity_STATUS
+			var userAssignedIdentity v20211101s.UserIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserIdentity_STATUS() to populate field UserAssignedIdentities")
@@ -1929,37 +1936,37 @@ func (administrator *ServerExternalAdministrator) ConvertToARM(resolved genrunti
 	}
 	result := &ServerExternalAdministrator_ARM{}
 
-	// Set property ‘AdministratorType’:
+	// Set property "AdministratorType":
 	if administrator.AdministratorType != nil {
 		administratorType := *administrator.AdministratorType
 		result.AdministratorType = &administratorType
 	}
 
-	// Set property ‘AzureADOnlyAuthentication’:
+	// Set property "AzureADOnlyAuthentication":
 	if administrator.AzureADOnlyAuthentication != nil {
 		azureADOnlyAuthentication := *administrator.AzureADOnlyAuthentication
 		result.AzureADOnlyAuthentication = &azureADOnlyAuthentication
 	}
 
-	// Set property ‘Login’:
+	// Set property "Login":
 	if administrator.Login != nil {
 		login := *administrator.Login
 		result.Login = &login
 	}
 
-	// Set property ‘PrincipalType’:
+	// Set property "PrincipalType":
 	if administrator.PrincipalType != nil {
 		principalType := *administrator.PrincipalType
 		result.PrincipalType = &principalType
 	}
 
-	// Set property ‘Sid’:
+	// Set property "Sid":
 	if administrator.Sid != nil {
 		sid := *administrator.Sid
 		result.Sid = &sid
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if administrator.TenantId != nil {
 		tenantId := *administrator.TenantId
 		result.TenantId = &tenantId
@@ -1979,37 +1986,37 @@ func (administrator *ServerExternalAdministrator) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerExternalAdministrator_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorType’:
+	// Set property "AdministratorType":
 	if typedInput.AdministratorType != nil {
 		administratorType := *typedInput.AdministratorType
 		administrator.AdministratorType = &administratorType
 	}
 
-	// Set property ‘AzureADOnlyAuthentication’:
+	// Set property "AzureADOnlyAuthentication":
 	if typedInput.AzureADOnlyAuthentication != nil {
 		azureADOnlyAuthentication := *typedInput.AzureADOnlyAuthentication
 		administrator.AzureADOnlyAuthentication = &azureADOnlyAuthentication
 	}
 
-	// Set property ‘Login’:
+	// Set property "Login":
 	if typedInput.Login != nil {
 		login := *typedInput.Login
 		administrator.Login = &login
 	}
 
-	// Set property ‘PrincipalType’:
+	// Set property "PrincipalType":
 	if typedInput.PrincipalType != nil {
 		principalType := *typedInput.PrincipalType
 		administrator.PrincipalType = &principalType
 	}
 
-	// Set property ‘Sid’:
+	// Set property "Sid":
 	if typedInput.Sid != nil {
 		sid := *typedInput.Sid
 		administrator.Sid = &sid
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		administrator.TenantId = &tenantId
@@ -2020,7 +2027,7 @@ func (administrator *ServerExternalAdministrator) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_ServerExternalAdministrator populates our ServerExternalAdministrator from the provided source ServerExternalAdministrator
-func (administrator *ServerExternalAdministrator) AssignProperties_From_ServerExternalAdministrator(source *v1api20211101s.ServerExternalAdministrator) error {
+func (administrator *ServerExternalAdministrator) AssignProperties_From_ServerExternalAdministrator(source *v20211101s.ServerExternalAdministrator) error {
 
 	// AdministratorType
 	if source.AdministratorType != nil {
@@ -2070,7 +2077,7 @@ func (administrator *ServerExternalAdministrator) AssignProperties_From_ServerEx
 }
 
 // AssignProperties_To_ServerExternalAdministrator populates the provided destination ServerExternalAdministrator from our ServerExternalAdministrator
-func (administrator *ServerExternalAdministrator) AssignProperties_To_ServerExternalAdministrator(destination *v1api20211101s.ServerExternalAdministrator) error {
+func (administrator *ServerExternalAdministrator) AssignProperties_To_ServerExternalAdministrator(destination *v20211101s.ServerExternalAdministrator) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2213,37 +2220,37 @@ func (administrator *ServerExternalAdministrator_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerExternalAdministrator_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorType’:
+	// Set property "AdministratorType":
 	if typedInput.AdministratorType != nil {
 		administratorType := *typedInput.AdministratorType
 		administrator.AdministratorType = &administratorType
 	}
 
-	// Set property ‘AzureADOnlyAuthentication’:
+	// Set property "AzureADOnlyAuthentication":
 	if typedInput.AzureADOnlyAuthentication != nil {
 		azureADOnlyAuthentication := *typedInput.AzureADOnlyAuthentication
 		administrator.AzureADOnlyAuthentication = &azureADOnlyAuthentication
 	}
 
-	// Set property ‘Login’:
+	// Set property "Login":
 	if typedInput.Login != nil {
 		login := *typedInput.Login
 		administrator.Login = &login
 	}
 
-	// Set property ‘PrincipalType’:
+	// Set property "PrincipalType":
 	if typedInput.PrincipalType != nil {
 		principalType := *typedInput.PrincipalType
 		administrator.PrincipalType = &principalType
 	}
 
-	// Set property ‘Sid’:
+	// Set property "Sid":
 	if typedInput.Sid != nil {
 		sid := *typedInput.Sid
 		administrator.Sid = &sid
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		administrator.TenantId = &tenantId
@@ -2254,7 +2261,7 @@ func (administrator *ServerExternalAdministrator_STATUS) PopulateFromARM(owner g
 }
 
 // AssignProperties_From_ServerExternalAdministrator_STATUS populates our ServerExternalAdministrator_STATUS from the provided source ServerExternalAdministrator_STATUS
-func (administrator *ServerExternalAdministrator_STATUS) AssignProperties_From_ServerExternalAdministrator_STATUS(source *v1api20211101s.ServerExternalAdministrator_STATUS) error {
+func (administrator *ServerExternalAdministrator_STATUS) AssignProperties_From_ServerExternalAdministrator_STATUS(source *v20211101s.ServerExternalAdministrator_STATUS) error {
 
 	// AdministratorType
 	if source.AdministratorType != nil {
@@ -2294,7 +2301,7 @@ func (administrator *ServerExternalAdministrator_STATUS) AssignProperties_From_S
 }
 
 // AssignProperties_To_ServerExternalAdministrator_STATUS populates the provided destination ServerExternalAdministrator_STATUS from our ServerExternalAdministrator_STATUS
-func (administrator *ServerExternalAdministrator_STATUS) AssignProperties_To_ServerExternalAdministrator_STATUS(destination *v1api20211101s.ServerExternalAdministrator_STATUS) error {
+func (administrator *ServerExternalAdministrator_STATUS) AssignProperties_To_ServerExternalAdministrator_STATUS(destination *v20211101s.ServerExternalAdministrator_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2349,7 +2356,7 @@ type ServerOperatorSpec struct {
 }
 
 // AssignProperties_From_ServerOperatorSpec populates our ServerOperatorSpec from the provided source ServerOperatorSpec
-func (operator *ServerOperatorSpec) AssignProperties_From_ServerOperatorSpec(source *v1api20211101s.ServerOperatorSpec) error {
+func (operator *ServerOperatorSpec) AssignProperties_From_ServerOperatorSpec(source *v20211101s.ServerOperatorSpec) error {
 
 	// ConfigMaps
 	if source.ConfigMaps != nil {
@@ -2368,13 +2375,13 @@ func (operator *ServerOperatorSpec) AssignProperties_From_ServerOperatorSpec(sou
 }
 
 // AssignProperties_To_ServerOperatorSpec populates the provided destination ServerOperatorSpec from our ServerOperatorSpec
-func (operator *ServerOperatorSpec) AssignProperties_To_ServerOperatorSpec(destination *v1api20211101s.ServerOperatorSpec) error {
+func (operator *ServerOperatorSpec) AssignProperties_To_ServerOperatorSpec(destination *v20211101s.ServerOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ConfigMaps
 	if operator.ConfigMaps != nil {
-		var configMap v1api20211101s.ServerOperatorConfigMaps
+		var configMap v20211101s.ServerOperatorConfigMaps
 		err := operator.ConfigMaps.AssignProperties_To_ServerOperatorConfigMaps(&configMap)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServerOperatorConfigMaps() to populate field ConfigMaps")
@@ -2418,13 +2425,13 @@ func (connection *ServerPrivateEndpointConnection_STATUS) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateEndpointConnection_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		connection.Id = &id
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		var properties1 PrivateEndpointConnectionProperties_STATUS
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -2440,7 +2447,7 @@ func (connection *ServerPrivateEndpointConnection_STATUS) PopulateFromARM(owner 
 }
 
 // AssignProperties_From_ServerPrivateEndpointConnection_STATUS populates our ServerPrivateEndpointConnection_STATUS from the provided source ServerPrivateEndpointConnection_STATUS
-func (connection *ServerPrivateEndpointConnection_STATUS) AssignProperties_From_ServerPrivateEndpointConnection_STATUS(source *v1api20211101s.ServerPrivateEndpointConnection_STATUS) error {
+func (connection *ServerPrivateEndpointConnection_STATUS) AssignProperties_From_ServerPrivateEndpointConnection_STATUS(source *v20211101s.ServerPrivateEndpointConnection_STATUS) error {
 
 	// Id
 	connection.Id = genruntime.ClonePointerToString(source.Id)
@@ -2462,7 +2469,7 @@ func (connection *ServerPrivateEndpointConnection_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_ServerPrivateEndpointConnection_STATUS populates the provided destination ServerPrivateEndpointConnection_STATUS from our ServerPrivateEndpointConnection_STATUS
-func (connection *ServerPrivateEndpointConnection_STATUS) AssignProperties_To_ServerPrivateEndpointConnection_STATUS(destination *v1api20211101s.ServerPrivateEndpointConnection_STATUS) error {
+func (connection *ServerPrivateEndpointConnection_STATUS) AssignProperties_To_ServerPrivateEndpointConnection_STATUS(destination *v20211101s.ServerPrivateEndpointConnection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2471,7 +2478,7 @@ func (connection *ServerPrivateEndpointConnection_STATUS) AssignProperties_To_Se
 
 	// Properties
 	if connection.Properties != nil {
-		var property v1api20211101s.PrivateEndpointConnectionProperties_STATUS
+		var property v20211101s.PrivateEndpointConnectionProperties_STATUS
 		err := connection.Properties.AssignProperties_To_PrivateEndpointConnectionProperties_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnectionProperties_STATUS() to populate field Properties")
@@ -2558,12 +2565,12 @@ func (properties *PrivateEndpointConnectionProperties_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnectionProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘GroupIds’:
+	// Set property "GroupIds":
 	for _, item := range typedInput.GroupIds {
 		properties.GroupIds = append(properties.GroupIds, item)
 	}
 
-	// Set property ‘PrivateEndpoint’:
+	// Set property "PrivateEndpoint":
 	if typedInput.PrivateEndpoint != nil {
 		var privateEndpoint1 PrivateEndpointProperty_STATUS
 		err := privateEndpoint1.PopulateFromARM(owner, *typedInput.PrivateEndpoint)
@@ -2574,7 +2581,7 @@ func (properties *PrivateEndpointConnectionProperties_STATUS) PopulateFromARM(ow
 		properties.PrivateEndpoint = &privateEndpoint
 	}
 
-	// Set property ‘PrivateLinkServiceConnectionState’:
+	// Set property "PrivateLinkServiceConnectionState":
 	if typedInput.PrivateLinkServiceConnectionState != nil {
 		var privateLinkServiceConnectionState1 PrivateLinkServiceConnectionStateProperty_STATUS
 		err := privateLinkServiceConnectionState1.PopulateFromARM(owner, *typedInput.PrivateLinkServiceConnectionState)
@@ -2585,7 +2592,7 @@ func (properties *PrivateEndpointConnectionProperties_STATUS) PopulateFromARM(ow
 		properties.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
 		provisioningState := *typedInput.ProvisioningState
 		properties.ProvisioningState = &provisioningState
@@ -2596,7 +2603,7 @@ func (properties *PrivateEndpointConnectionProperties_STATUS) PopulateFromARM(ow
 }
 
 // AssignProperties_From_PrivateEndpointConnectionProperties_STATUS populates our PrivateEndpointConnectionProperties_STATUS from the provided source PrivateEndpointConnectionProperties_STATUS
-func (properties *PrivateEndpointConnectionProperties_STATUS) AssignProperties_From_PrivateEndpointConnectionProperties_STATUS(source *v1api20211101s.PrivateEndpointConnectionProperties_STATUS) error {
+func (properties *PrivateEndpointConnectionProperties_STATUS) AssignProperties_From_PrivateEndpointConnectionProperties_STATUS(source *v20211101s.PrivateEndpointConnectionProperties_STATUS) error {
 
 	// GroupIds
 	properties.GroupIds = genruntime.CloneSliceOfString(source.GroupIds)
@@ -2638,7 +2645,7 @@ func (properties *PrivateEndpointConnectionProperties_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_PrivateEndpointConnectionProperties_STATUS populates the provided destination PrivateEndpointConnectionProperties_STATUS from our PrivateEndpointConnectionProperties_STATUS
-func (properties *PrivateEndpointConnectionProperties_STATUS) AssignProperties_To_PrivateEndpointConnectionProperties_STATUS(destination *v1api20211101s.PrivateEndpointConnectionProperties_STATUS) error {
+func (properties *PrivateEndpointConnectionProperties_STATUS) AssignProperties_To_PrivateEndpointConnectionProperties_STATUS(destination *v20211101s.PrivateEndpointConnectionProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2647,7 +2654,7 @@ func (properties *PrivateEndpointConnectionProperties_STATUS) AssignProperties_T
 
 	// PrivateEndpoint
 	if properties.PrivateEndpoint != nil {
-		var privateEndpoint v1api20211101s.PrivateEndpointProperty_STATUS
+		var privateEndpoint v20211101s.PrivateEndpointProperty_STATUS
 		err := properties.PrivateEndpoint.AssignProperties_To_PrivateEndpointProperty_STATUS(&privateEndpoint)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointProperty_STATUS() to populate field PrivateEndpoint")
@@ -2659,7 +2666,7 @@ func (properties *PrivateEndpointConnectionProperties_STATUS) AssignProperties_T
 
 	// PrivateLinkServiceConnectionState
 	if properties.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState v1api20211101s.PrivateLinkServiceConnectionStateProperty_STATUS
+		var privateLinkServiceConnectionState v20211101s.PrivateLinkServiceConnectionStateProperty_STATUS
 		err := properties.PrivateLinkServiceConnectionState.AssignProperties_To_PrivateLinkServiceConnectionStateProperty_STATUS(&privateLinkServiceConnectionState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnectionStateProperty_STATUS() to populate field PrivateLinkServiceConnectionState")
@@ -2721,7 +2728,7 @@ type ServerOperatorConfigMaps struct {
 }
 
 // AssignProperties_From_ServerOperatorConfigMaps populates our ServerOperatorConfigMaps from the provided source ServerOperatorConfigMaps
-func (maps *ServerOperatorConfigMaps) AssignProperties_From_ServerOperatorConfigMaps(source *v1api20211101s.ServerOperatorConfigMaps) error {
+func (maps *ServerOperatorConfigMaps) AssignProperties_From_ServerOperatorConfigMaps(source *v20211101s.ServerOperatorConfigMaps) error {
 
 	// FullyQualifiedDomainName
 	if source.FullyQualifiedDomainName != nil {
@@ -2736,7 +2743,7 @@ func (maps *ServerOperatorConfigMaps) AssignProperties_From_ServerOperatorConfig
 }
 
 // AssignProperties_To_ServerOperatorConfigMaps populates the provided destination ServerOperatorConfigMaps from our ServerOperatorConfigMaps
-func (maps *ServerOperatorConfigMaps) AssignProperties_To_ServerOperatorConfigMaps(destination *v1api20211101s.ServerOperatorConfigMaps) error {
+func (maps *ServerOperatorConfigMaps) AssignProperties_To_ServerOperatorConfigMaps(destination *v20211101s.ServerOperatorConfigMaps) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2765,7 +2772,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v1api20211101s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20211101s.UserAssignedIdentityDetails) error {
 
 	// Reference
 	details.Reference = source.Reference.Copy()
@@ -2775,7 +2782,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 }
 
 // AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v1api20211101s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20211101s.UserAssignedIdentityDetails) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2816,13 +2823,13 @@ func (identity *UserIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if typedInput.ClientId != nil {
 		clientId := *typedInput.ClientId
 		identity.ClientId = &clientId
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identity.PrincipalId = &principalId
@@ -2833,7 +2840,7 @@ func (identity *UserIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_UserIdentity_STATUS populates our UserIdentity_STATUS from the provided source UserIdentity_STATUS
-func (identity *UserIdentity_STATUS) AssignProperties_From_UserIdentity_STATUS(source *v1api20211101s.UserIdentity_STATUS) error {
+func (identity *UserIdentity_STATUS) AssignProperties_From_UserIdentity_STATUS(source *v20211101s.UserIdentity_STATUS) error {
 
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -2846,7 +2853,7 @@ func (identity *UserIdentity_STATUS) AssignProperties_From_UserIdentity_STATUS(s
 }
 
 // AssignProperties_To_UserIdentity_STATUS populates the provided destination UserIdentity_STATUS from our UserIdentity_STATUS
-func (identity *UserIdentity_STATUS) AssignProperties_To_UserIdentity_STATUS(destination *v1api20211101s.UserIdentity_STATUS) error {
+func (identity *UserIdentity_STATUS) AssignProperties_To_UserIdentity_STATUS(destination *v20211101s.UserIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2896,7 +2903,7 @@ func (property *PrivateEndpointProperty_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointProperty_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		property.Id = &id
@@ -2907,7 +2914,7 @@ func (property *PrivateEndpointProperty_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_PrivateEndpointProperty_STATUS populates our PrivateEndpointProperty_STATUS from the provided source PrivateEndpointProperty_STATUS
-func (property *PrivateEndpointProperty_STATUS) AssignProperties_From_PrivateEndpointProperty_STATUS(source *v1api20211101s.PrivateEndpointProperty_STATUS) error {
+func (property *PrivateEndpointProperty_STATUS) AssignProperties_From_PrivateEndpointProperty_STATUS(source *v20211101s.PrivateEndpointProperty_STATUS) error {
 
 	// Id
 	property.Id = genruntime.ClonePointerToString(source.Id)
@@ -2917,7 +2924,7 @@ func (property *PrivateEndpointProperty_STATUS) AssignProperties_From_PrivateEnd
 }
 
 // AssignProperties_To_PrivateEndpointProperty_STATUS populates the provided destination PrivateEndpointProperty_STATUS from our PrivateEndpointProperty_STATUS
-func (property *PrivateEndpointProperty_STATUS) AssignProperties_To_PrivateEndpointProperty_STATUS(destination *v1api20211101s.PrivateEndpointProperty_STATUS) error {
+func (property *PrivateEndpointProperty_STATUS) AssignProperties_To_PrivateEndpointProperty_STATUS(destination *v20211101s.PrivateEndpointProperty_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2960,19 +2967,19 @@ func (property *PrivateLinkServiceConnectionStateProperty_STATUS) PopulateFromAR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkServiceConnectionStateProperty_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ActionsRequired’:
+	// Set property "ActionsRequired":
 	if typedInput.ActionsRequired != nil {
 		actionsRequired := *typedInput.ActionsRequired
 		property.ActionsRequired = &actionsRequired
 	}
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	if typedInput.Description != nil {
 		description := *typedInput.Description
 		property.Description = &description
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	if typedInput.Status != nil {
 		status := *typedInput.Status
 		property.Status = &status
@@ -2983,7 +2990,7 @@ func (property *PrivateLinkServiceConnectionStateProperty_STATUS) PopulateFromAR
 }
 
 // AssignProperties_From_PrivateLinkServiceConnectionStateProperty_STATUS populates our PrivateLinkServiceConnectionStateProperty_STATUS from the provided source PrivateLinkServiceConnectionStateProperty_STATUS
-func (property *PrivateLinkServiceConnectionStateProperty_STATUS) AssignProperties_From_PrivateLinkServiceConnectionStateProperty_STATUS(source *v1api20211101s.PrivateLinkServiceConnectionStateProperty_STATUS) error {
+func (property *PrivateLinkServiceConnectionStateProperty_STATUS) AssignProperties_From_PrivateLinkServiceConnectionStateProperty_STATUS(source *v20211101s.PrivateLinkServiceConnectionStateProperty_STATUS) error {
 
 	// ActionsRequired
 	if source.ActionsRequired != nil {
@@ -3009,7 +3016,7 @@ func (property *PrivateLinkServiceConnectionStateProperty_STATUS) AssignProperti
 }
 
 // AssignProperties_To_PrivateLinkServiceConnectionStateProperty_STATUS populates the provided destination PrivateLinkServiceConnectionStateProperty_STATUS from our PrivateLinkServiceConnectionStateProperty_STATUS
-func (property *PrivateLinkServiceConnectionStateProperty_STATUS) AssignProperties_To_PrivateLinkServiceConnectionStateProperty_STATUS(destination *v1api20211101s.PrivateLinkServiceConnectionStateProperty_STATUS) error {
+func (property *PrivateLinkServiceConnectionStateProperty_STATUS) AssignProperties_To_PrivateLinkServiceConnectionStateProperty_STATUS(destination *v20211101s.PrivateLinkServiceConnectionStateProperty_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

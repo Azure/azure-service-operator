@@ -5,7 +5,7 @@ package v1api20200601
 
 import (
 	"encoding/json"
-	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForResourceGroup(subject ResourceGroup) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20200601s.ResourceGroup
+	var hub v20200601s.ResourceGroup
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForResourceGroup(subject ResourceGroup) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.ResourceGroup
+	var other v20200601s.ResourceGroup
 	err := copied.AssignProperties_To_ResourceGroup(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForResourceGroup_Spec(subject ResourceGroup_Spec) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.ResourceGroup_Spec
+	var other v20200601s.ResourceGroup_Spec
 	err := copied.AssignProperties_To_ResourceGroup_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -286,7 +286,7 @@ func RunPropertyAssignmentTestForResourceGroup_STATUS(subject ResourceGroup_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.ResourceGroup_STATUS
+	var other v20200601s.ResourceGroup_STATUS
 	err := copied.AssignProperties_To_ResourceGroup_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -408,7 +408,7 @@ func RunPropertyAssignmentTestForResourceGroupProperties_STATUS(subject Resource
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.ResourceGroupProperties_STATUS
+	var other v20200601s.ResourceGroupProperties_STATUS
 	err := copied.AssignProperties_To_ResourceGroupProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()

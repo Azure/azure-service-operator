@@ -5,7 +5,7 @@ package v1api20220901
 
 import (
 	"fmt"
-	v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &StorageAccountsTableServicesTable{}
 
 // ConvertFrom populates our StorageAccountsTableServicesTable from the provided hub StorageAccountsTableServicesTable
 func (table *StorageAccountsTableServicesTable) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20220901s.StorageAccountsTableServicesTable)
+	source, ok := hub.(*v20220901s.StorageAccountsTableServicesTable)
 	if !ok {
 		return fmt.Errorf("expected storage/v1api20220901storage/StorageAccountsTableServicesTable but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (table *StorageAccountsTableServicesTable) ConvertFrom(hub conversion.Hub) 
 
 // ConvertTo populates the provided hub StorageAccountsTableServicesTable from our StorageAccountsTableServicesTable
 func (table *StorageAccountsTableServicesTable) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20220901s.StorageAccountsTableServicesTable)
+	destination, ok := hub.(*v20220901s.StorageAccountsTableServicesTable)
 	if !ok {
 		return fmt.Errorf("expected storage/v1api20220901storage/StorageAccountsTableServicesTable but received %T instead", hub)
 	}
@@ -141,11 +141,7 @@ func (table *StorageAccountsTableServicesTable) NewEmptyStatus() genruntime.Conv
 // Owner returns the ResourceReference of the owner
 func (table *StorageAccountsTableServicesTable) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(table.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  table.Spec.Owner.Name,
-	}
+	return table.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (table *StorageAccountsTableServicesTable) ValidateUpdate(old runtime.Objec
 
 // createValidations validates the creation of the resource
 func (table *StorageAccountsTableServicesTable) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){table.validateResourceReferences}
+	return []func() (admission.Warnings, error){table.validateResourceReferences, table.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (table *StorageAccountsTableServicesTable) updateValidations() []func(old r
 		func(old runtime.Object) (admission.Warnings, error) {
 			return table.validateResourceReferences()
 		},
-		table.validateWriteOnceProperties}
+		table.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return table.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (table *StorageAccountsTableServicesTable) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(table)
 }
 
 // validateResourceReferences validates all resource references
@@ -240,7 +245,7 @@ func (table *StorageAccountsTableServicesTable) validateWriteOnceProperties(old 
 }
 
 // AssignProperties_From_StorageAccountsTableServicesTable populates our StorageAccountsTableServicesTable from the provided source StorageAccountsTableServicesTable
-func (table *StorageAccountsTableServicesTable) AssignProperties_From_StorageAccountsTableServicesTable(source *v1api20220901s.StorageAccountsTableServicesTable) error {
+func (table *StorageAccountsTableServicesTable) AssignProperties_From_StorageAccountsTableServicesTable(source *v20220901s.StorageAccountsTableServicesTable) error {
 
 	// ObjectMeta
 	table.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +271,13 @@ func (table *StorageAccountsTableServicesTable) AssignProperties_From_StorageAcc
 }
 
 // AssignProperties_To_StorageAccountsTableServicesTable populates the provided destination StorageAccountsTableServicesTable from our StorageAccountsTableServicesTable
-func (table *StorageAccountsTableServicesTable) AssignProperties_To_StorageAccountsTableServicesTable(destination *v1api20220901s.StorageAccountsTableServicesTable) error {
+func (table *StorageAccountsTableServicesTable) AssignProperties_To_StorageAccountsTableServicesTable(destination *v20220901s.StorageAccountsTableServicesTable) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *table.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20220901s.StorageAccounts_TableServices_Table_Spec
+	var spec v20220901s.StorageAccounts_TableServices_Table_Spec
 	err := table.Spec.AssignProperties_To_StorageAccounts_TableServices_Table_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_TableServices_Table_Spec() to populate field Spec")
@@ -280,7 +285,7 @@ func (table *StorageAccountsTableServicesTable) AssignProperties_To_StorageAccou
 	destination.Spec = spec
 
 	// Status
-	var status v1api20220901s.StorageAccounts_TableServices_Table_STATUS
+	var status v20220901s.StorageAccounts_TableServices_Table_STATUS
 	err = table.Status.AssignProperties_To_StorageAccounts_TableServices_Table_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_TableServices_Table_STATUS() to populate field Status")
@@ -337,10 +342,10 @@ func (table *StorageAccounts_TableServices_Table_Spec) ConvertToARM(resolved gen
 	}
 	result := &StorageAccounts_TableServices_Table_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if table.SignedIdentifiers != nil {
 		result.Properties = &TableProperties_ARM{}
 	}
@@ -366,13 +371,16 @@ func (table *StorageAccounts_TableServices_Table_Spec) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_TableServices_Table_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	table.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Owner’:
-	table.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	table.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘SignedIdentifiers’:
+	// Set property "SignedIdentifiers":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SignedIdentifiers {
@@ -393,14 +401,14 @@ var _ genruntime.ConvertibleSpec = &StorageAccounts_TableServices_Table_Spec{}
 
 // ConvertSpecFrom populates our StorageAccounts_TableServices_Table_Spec from the provided source
 func (table *StorageAccounts_TableServices_Table_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20220901s.StorageAccounts_TableServices_Table_Spec)
+	src, ok := source.(*v20220901s.StorageAccounts_TableServices_Table_Spec)
 	if ok {
 		// Populate our instance from source
 		return table.AssignProperties_From_StorageAccounts_TableServices_Table_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220901s.StorageAccounts_TableServices_Table_Spec{}
+	src = &v20220901s.StorageAccounts_TableServices_Table_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -417,14 +425,14 @@ func (table *StorageAccounts_TableServices_Table_Spec) ConvertSpecFrom(source ge
 
 // ConvertSpecTo populates the provided destination from our StorageAccounts_TableServices_Table_Spec
 func (table *StorageAccounts_TableServices_Table_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20220901s.StorageAccounts_TableServices_Table_Spec)
+	dst, ok := destination.(*v20220901s.StorageAccounts_TableServices_Table_Spec)
 	if ok {
 		// Populate destination from our instance
 		return table.AssignProperties_To_StorageAccounts_TableServices_Table_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220901s.StorageAccounts_TableServices_Table_Spec{}
+	dst = &v20220901s.StorageAccounts_TableServices_Table_Spec{}
 	err := table.AssignProperties_To_StorageAccounts_TableServices_Table_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -440,7 +448,7 @@ func (table *StorageAccounts_TableServices_Table_Spec) ConvertSpecTo(destination
 }
 
 // AssignProperties_From_StorageAccounts_TableServices_Table_Spec populates our StorageAccounts_TableServices_Table_Spec from the provided source StorageAccounts_TableServices_Table_Spec
-func (table *StorageAccounts_TableServices_Table_Spec) AssignProperties_From_StorageAccounts_TableServices_Table_Spec(source *v1api20220901s.StorageAccounts_TableServices_Table_Spec) error {
+func (table *StorageAccounts_TableServices_Table_Spec) AssignProperties_From_StorageAccounts_TableServices_Table_Spec(source *v20220901s.StorageAccounts_TableServices_Table_Spec) error {
 
 	// AzureName
 	table.AzureName = source.AzureName
@@ -476,7 +484,7 @@ func (table *StorageAccounts_TableServices_Table_Spec) AssignProperties_From_Sto
 }
 
 // AssignProperties_To_StorageAccounts_TableServices_Table_Spec populates the provided destination StorageAccounts_TableServices_Table_Spec from our StorageAccounts_TableServices_Table_Spec
-func (table *StorageAccounts_TableServices_Table_Spec) AssignProperties_To_StorageAccounts_TableServices_Table_Spec(destination *v1api20220901s.StorageAccounts_TableServices_Table_Spec) error {
+func (table *StorageAccounts_TableServices_Table_Spec) AssignProperties_To_StorageAccounts_TableServices_Table_Spec(destination *v20220901s.StorageAccounts_TableServices_Table_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -496,11 +504,11 @@ func (table *StorageAccounts_TableServices_Table_Spec) AssignProperties_To_Stora
 
 	// SignedIdentifiers
 	if table.SignedIdentifiers != nil {
-		signedIdentifierList := make([]v1api20220901s.TableSignedIdentifier, len(table.SignedIdentifiers))
+		signedIdentifierList := make([]v20220901s.TableSignedIdentifier, len(table.SignedIdentifiers))
 		for signedIdentifierIndex, signedIdentifierItem := range table.SignedIdentifiers {
 			// Shadow the loop variable to avoid aliasing
 			signedIdentifierItem := signedIdentifierItem
-			var signedIdentifier v1api20220901s.TableSignedIdentifier
+			var signedIdentifier v20220901s.TableSignedIdentifier
 			err := signedIdentifierItem.AssignProperties_To_TableSignedIdentifier(&signedIdentifier)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_TableSignedIdentifier() to populate field SignedIdentifiers")
@@ -583,14 +591,14 @@ var _ genruntime.ConvertibleStatus = &StorageAccounts_TableServices_Table_STATUS
 
 // ConvertStatusFrom populates our StorageAccounts_TableServices_Table_STATUS from the provided source
 func (table *StorageAccounts_TableServices_Table_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20220901s.StorageAccounts_TableServices_Table_STATUS)
+	src, ok := source.(*v20220901s.StorageAccounts_TableServices_Table_STATUS)
 	if ok {
 		// Populate our instance from source
 		return table.AssignProperties_From_StorageAccounts_TableServices_Table_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220901s.StorageAccounts_TableServices_Table_STATUS{}
+	src = &v20220901s.StorageAccounts_TableServices_Table_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -607,14 +615,14 @@ func (table *StorageAccounts_TableServices_Table_STATUS) ConvertStatusFrom(sourc
 
 // ConvertStatusTo populates the provided destination from our StorageAccounts_TableServices_Table_STATUS
 func (table *StorageAccounts_TableServices_Table_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20220901s.StorageAccounts_TableServices_Table_STATUS)
+	dst, ok := destination.(*v20220901s.StorageAccounts_TableServices_Table_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return table.AssignProperties_To_StorageAccounts_TableServices_Table_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220901s.StorageAccounts_TableServices_Table_STATUS{}
+	dst = &v20220901s.StorageAccounts_TableServices_Table_STATUS{}
 	err := table.AssignProperties_To_StorageAccounts_TableServices_Table_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -643,21 +651,21 @@ func (table *StorageAccounts_TableServices_Table_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_TableServices_Table_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		table.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		table.Name = &name
 	}
 
-	// Set property ‘SignedIdentifiers’:
+	// Set property "SignedIdentifiers":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SignedIdentifiers {
@@ -670,7 +678,7 @@ func (table *StorageAccounts_TableServices_Table_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘TableName’:
+	// Set property "TableName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TableName != nil {
@@ -679,7 +687,7 @@ func (table *StorageAccounts_TableServices_Table_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		table.Type = &typeVar
@@ -690,7 +698,7 @@ func (table *StorageAccounts_TableServices_Table_STATUS) PopulateFromARM(owner g
 }
 
 // AssignProperties_From_StorageAccounts_TableServices_Table_STATUS populates our StorageAccounts_TableServices_Table_STATUS from the provided source StorageAccounts_TableServices_Table_STATUS
-func (table *StorageAccounts_TableServices_Table_STATUS) AssignProperties_From_StorageAccounts_TableServices_Table_STATUS(source *v1api20220901s.StorageAccounts_TableServices_Table_STATUS) error {
+func (table *StorageAccounts_TableServices_Table_STATUS) AssignProperties_From_StorageAccounts_TableServices_Table_STATUS(source *v20220901s.StorageAccounts_TableServices_Table_STATUS) error {
 
 	// Conditions
 	table.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -730,7 +738,7 @@ func (table *StorageAccounts_TableServices_Table_STATUS) AssignProperties_From_S
 }
 
 // AssignProperties_To_StorageAccounts_TableServices_Table_STATUS populates the provided destination StorageAccounts_TableServices_Table_STATUS from our StorageAccounts_TableServices_Table_STATUS
-func (table *StorageAccounts_TableServices_Table_STATUS) AssignProperties_To_StorageAccounts_TableServices_Table_STATUS(destination *v1api20220901s.StorageAccounts_TableServices_Table_STATUS) error {
+func (table *StorageAccounts_TableServices_Table_STATUS) AssignProperties_To_StorageAccounts_TableServices_Table_STATUS(destination *v20220901s.StorageAccounts_TableServices_Table_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -745,11 +753,11 @@ func (table *StorageAccounts_TableServices_Table_STATUS) AssignProperties_To_Sto
 
 	// SignedIdentifiers
 	if table.SignedIdentifiers != nil {
-		signedIdentifierList := make([]v1api20220901s.TableSignedIdentifier_STATUS, len(table.SignedIdentifiers))
+		signedIdentifierList := make([]v20220901s.TableSignedIdentifier_STATUS, len(table.SignedIdentifiers))
 		for signedIdentifierIndex, signedIdentifierItem := range table.SignedIdentifiers {
 			// Shadow the loop variable to avoid aliasing
 			signedIdentifierItem := signedIdentifierItem
-			var signedIdentifier v1api20220901s.TableSignedIdentifier_STATUS
+			var signedIdentifier v20220901s.TableSignedIdentifier_STATUS
 			err := signedIdentifierItem.AssignProperties_To_TableSignedIdentifier_STATUS(&signedIdentifier)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_TableSignedIdentifier_STATUS() to populate field SignedIdentifiers")
@@ -797,7 +805,7 @@ func (identifier *TableSignedIdentifier) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &TableSignedIdentifier_ARM{}
 
-	// Set property ‘AccessPolicy’:
+	// Set property "AccessPolicy":
 	if identifier.AccessPolicy != nil {
 		accessPolicy_ARM, err := (*identifier.AccessPolicy).ConvertToARM(resolved)
 		if err != nil {
@@ -807,7 +815,7 @@ func (identifier *TableSignedIdentifier) ConvertToARM(resolved genruntime.Conver
 		result.AccessPolicy = &accessPolicy
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if identifier.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*identifier.Reference)
 		if err != nil {
@@ -831,7 +839,7 @@ func (identifier *TableSignedIdentifier) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TableSignedIdentifier_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessPolicy’:
+	// Set property "AccessPolicy":
 	if typedInput.AccessPolicy != nil {
 		var accessPolicy1 TableAccessPolicy
 		err := accessPolicy1.PopulateFromARM(owner, *typedInput.AccessPolicy)
@@ -842,14 +850,14 @@ func (identifier *TableSignedIdentifier) PopulateFromARM(owner genruntime.Arbitr
 		identifier.AccessPolicy = &accessPolicy
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
 }
 
 // AssignProperties_From_TableSignedIdentifier populates our TableSignedIdentifier from the provided source TableSignedIdentifier
-func (identifier *TableSignedIdentifier) AssignProperties_From_TableSignedIdentifier(source *v1api20220901s.TableSignedIdentifier) error {
+func (identifier *TableSignedIdentifier) AssignProperties_From_TableSignedIdentifier(source *v20220901s.TableSignedIdentifier) error {
 
 	// AccessPolicy
 	if source.AccessPolicy != nil {
@@ -876,13 +884,13 @@ func (identifier *TableSignedIdentifier) AssignProperties_From_TableSignedIdenti
 }
 
 // AssignProperties_To_TableSignedIdentifier populates the provided destination TableSignedIdentifier from our TableSignedIdentifier
-func (identifier *TableSignedIdentifier) AssignProperties_To_TableSignedIdentifier(destination *v1api20220901s.TableSignedIdentifier) error {
+func (identifier *TableSignedIdentifier) AssignProperties_To_TableSignedIdentifier(destination *v20220901s.TableSignedIdentifier) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AccessPolicy
 	if identifier.AccessPolicy != nil {
-		var accessPolicy v1api20220901s.TableAccessPolicy
+		var accessPolicy v20220901s.TableAccessPolicy
 		err := identifier.AccessPolicy.AssignProperties_To_TableAccessPolicy(&accessPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_TableAccessPolicy() to populate field AccessPolicy")
@@ -961,7 +969,7 @@ func (identifier *TableSignedIdentifier_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TableSignedIdentifier_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessPolicy’:
+	// Set property "AccessPolicy":
 	if typedInput.AccessPolicy != nil {
 		var accessPolicy1 TableAccessPolicy_STATUS
 		err := accessPolicy1.PopulateFromARM(owner, *typedInput.AccessPolicy)
@@ -972,7 +980,7 @@ func (identifier *TableSignedIdentifier_STATUS) PopulateFromARM(owner genruntime
 		identifier.AccessPolicy = &accessPolicy
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		identifier.Id = &id
@@ -983,7 +991,7 @@ func (identifier *TableSignedIdentifier_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_TableSignedIdentifier_STATUS populates our TableSignedIdentifier_STATUS from the provided source TableSignedIdentifier_STATUS
-func (identifier *TableSignedIdentifier_STATUS) AssignProperties_From_TableSignedIdentifier_STATUS(source *v1api20220901s.TableSignedIdentifier_STATUS) error {
+func (identifier *TableSignedIdentifier_STATUS) AssignProperties_From_TableSignedIdentifier_STATUS(source *v20220901s.TableSignedIdentifier_STATUS) error {
 
 	// AccessPolicy
 	if source.AccessPolicy != nil {
@@ -1005,13 +1013,13 @@ func (identifier *TableSignedIdentifier_STATUS) AssignProperties_From_TableSigne
 }
 
 // AssignProperties_To_TableSignedIdentifier_STATUS populates the provided destination TableSignedIdentifier_STATUS from our TableSignedIdentifier_STATUS
-func (identifier *TableSignedIdentifier_STATUS) AssignProperties_To_TableSignedIdentifier_STATUS(destination *v1api20220901s.TableSignedIdentifier_STATUS) error {
+func (identifier *TableSignedIdentifier_STATUS) AssignProperties_To_TableSignedIdentifier_STATUS(destination *v20220901s.TableSignedIdentifier_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AccessPolicy
 	if identifier.AccessPolicy != nil {
-		var accessPolicy v1api20220901s.TableAccessPolicy_STATUS
+		var accessPolicy v20220901s.TableAccessPolicy_STATUS
 		err := identifier.AccessPolicy.AssignProperties_To_TableAccessPolicy_STATUS(&accessPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_TableAccessPolicy_STATUS() to populate field AccessPolicy")
@@ -1057,19 +1065,19 @@ func (policy *TableAccessPolicy) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &TableAccessPolicy_ARM{}
 
-	// Set property ‘ExpiryTime’:
+	// Set property "ExpiryTime":
 	if policy.ExpiryTime != nil {
 		expiryTime := *policy.ExpiryTime
 		result.ExpiryTime = &expiryTime
 	}
 
-	// Set property ‘Permission’:
+	// Set property "Permission":
 	if policy.Permission != nil {
 		permission := *policy.Permission
 		result.Permission = &permission
 	}
 
-	// Set property ‘StartTime’:
+	// Set property "StartTime":
 	if policy.StartTime != nil {
 		startTime := *policy.StartTime
 		result.StartTime = &startTime
@@ -1089,19 +1097,19 @@ func (policy *TableAccessPolicy) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TableAccessPolicy_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ExpiryTime’:
+	// Set property "ExpiryTime":
 	if typedInput.ExpiryTime != nil {
 		expiryTime := *typedInput.ExpiryTime
 		policy.ExpiryTime = &expiryTime
 	}
 
-	// Set property ‘Permission’:
+	// Set property "Permission":
 	if typedInput.Permission != nil {
 		permission := *typedInput.Permission
 		policy.Permission = &permission
 	}
 
-	// Set property ‘StartTime’:
+	// Set property "StartTime":
 	if typedInput.StartTime != nil {
 		startTime := *typedInput.StartTime
 		policy.StartTime = &startTime
@@ -1112,7 +1120,7 @@ func (policy *TableAccessPolicy) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_TableAccessPolicy populates our TableAccessPolicy from the provided source TableAccessPolicy
-func (policy *TableAccessPolicy) AssignProperties_From_TableAccessPolicy(source *v1api20220901s.TableAccessPolicy) error {
+func (policy *TableAccessPolicy) AssignProperties_From_TableAccessPolicy(source *v20220901s.TableAccessPolicy) error {
 
 	// ExpiryTime
 	policy.ExpiryTime = genruntime.ClonePointerToString(source.ExpiryTime)
@@ -1128,7 +1136,7 @@ func (policy *TableAccessPolicy) AssignProperties_From_TableAccessPolicy(source 
 }
 
 // AssignProperties_To_TableAccessPolicy populates the provided destination TableAccessPolicy from our TableAccessPolicy
-func (policy *TableAccessPolicy) AssignProperties_To_TableAccessPolicy(destination *v1api20220901s.TableAccessPolicy) error {
+func (policy *TableAccessPolicy) AssignProperties_To_TableAccessPolicy(destination *v20220901s.TableAccessPolicy) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1194,19 +1202,19 @@ func (policy *TableAccessPolicy_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TableAccessPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ExpiryTime’:
+	// Set property "ExpiryTime":
 	if typedInput.ExpiryTime != nil {
 		expiryTime := *typedInput.ExpiryTime
 		policy.ExpiryTime = &expiryTime
 	}
 
-	// Set property ‘Permission’:
+	// Set property "Permission":
 	if typedInput.Permission != nil {
 		permission := *typedInput.Permission
 		policy.Permission = &permission
 	}
 
-	// Set property ‘StartTime’:
+	// Set property "StartTime":
 	if typedInput.StartTime != nil {
 		startTime := *typedInput.StartTime
 		policy.StartTime = &startTime
@@ -1217,7 +1225,7 @@ func (policy *TableAccessPolicy_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_TableAccessPolicy_STATUS populates our TableAccessPolicy_STATUS from the provided source TableAccessPolicy_STATUS
-func (policy *TableAccessPolicy_STATUS) AssignProperties_From_TableAccessPolicy_STATUS(source *v1api20220901s.TableAccessPolicy_STATUS) error {
+func (policy *TableAccessPolicy_STATUS) AssignProperties_From_TableAccessPolicy_STATUS(source *v20220901s.TableAccessPolicy_STATUS) error {
 
 	// ExpiryTime
 	policy.ExpiryTime = genruntime.ClonePointerToString(source.ExpiryTime)
@@ -1233,7 +1241,7 @@ func (policy *TableAccessPolicy_STATUS) AssignProperties_From_TableAccessPolicy_
 }
 
 // AssignProperties_To_TableAccessPolicy_STATUS populates the provided destination TableAccessPolicy_STATUS from our TableAccessPolicy_STATUS
-func (policy *TableAccessPolicy_STATUS) AssignProperties_To_TableAccessPolicy_STATUS(destination *v1api20220901s.TableAccessPolicy_STATUS) error {
+func (policy *TableAccessPolicy_STATUS) AssignProperties_To_TableAccessPolicy_STATUS(destination *v20220901s.TableAccessPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

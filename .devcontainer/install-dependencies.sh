@@ -72,10 +72,12 @@ write-error() {
 if [ "$DEVCONTAINER" = true ]; then 
     TOOL_DEST=/usr/local/bin
     KUBEBUILDER_DEST=/usr/local/kubebuilder
+    BUILDX_DEST=/usr/lib/docker/cli-plugins
 else
     TOOL_DEST=$(git rev-parse --show-toplevel)/hack/tools
     mkdir -p "$TOOL_DEST"
     KUBEBUILDER_DEST="$TOOL_DEST/kubebuilder"
+    BUILDX_DEST=$HOME/.docker/cli-plugins
 fi
 
 # Ensure we have the right version of GO
@@ -143,9 +145,9 @@ go-install() {
     fi
 }
 
-go-install conversion-gen k8s.io/code-generator/cmd/conversion-gen@v0.26.4
-go-install controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen@v0.11.3
-go-install kind sigs.k8s.io/kind@v0.18.0
+go-install conversion-gen k8s.io/code-generator/cmd/conversion-gen@v0.28.0
+go-install controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen@v0.13.0
+go-install kind sigs.k8s.io/kind@v0.20.0
 go-install kustomize sigs.k8s.io/kustomize/kustomize/v4@v4.5.7
 
 # for docs site
@@ -174,7 +176,7 @@ fi
 write-verbose "Checking for $TOOL_DEST/go-task"
 if should-install "$TOOL_DEST/task"; then 
     write-info "Installing go-task"
-    curl -sL "https://github.com/go-task/task/releases/download/v3.22.0/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
+    curl -sL "https://github.com/go-task/task/releases/download/v3.31.0/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
 fi
 
 # Install Trivy
@@ -210,6 +212,14 @@ if should-install "$TOOL_DEST/cmctl"; then
     curl -L "https://github.com/jetstack/cert-manager/releases/latest/download/cmctl-${os}-${arch}.tar.gz" | tar -xz -C "$TOOL_DEST"
 fi
 
+write-verbose "Checking for $BUILDX_DEST/docker-buildx"
+if should-install "$BUILDX_DEST/docker-buildx"; then
+    write-info "Installing buildx-${os}_${arch} to $BUILDX_DEST…"
+    mkdir -p "$BUILDX_DEST"
+    curl  -o "$BUILDX_DEST/docker-buildx" -L "https://github.com/docker/buildx/releases/download/v0.11.2/buildx-v0.11.2.${os}-${arch}"
+    chmod +x "$BUILDX_DEST/docker-buildx"
+fi
+
 # Install azwi
 write-verbose "Checking for $TOOL_DEST/azwi"
 if should-install "$TOOL_DEST/azwi"; then
@@ -219,7 +229,7 @@ fi
 
 # Ensure tooling for Hugo is available
 write-verbose "Checking for /usr/bin/postcss"
-if ! which postcss; then 
+if ! which postcss  > /dev/null 2>&1; then 
     write-info "Installing postcss"
     npm install --global postcss postcss-cli autoprefixer
 fi

@@ -5,7 +5,7 @@ package v1api20210601
 
 import (
 	"fmt"
-	v1api20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601storage"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &WorkspacesBigDataPool{}
 
 // ConvertFrom populates our WorkspacesBigDataPool from the provided hub WorkspacesBigDataPool
 func (pool *WorkspacesBigDataPool) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210601s.WorkspacesBigDataPool)
+	source, ok := hub.(*v20210601s.WorkspacesBigDataPool)
 	if !ok {
 		return fmt.Errorf("expected synapse/v1api20210601storage/WorkspacesBigDataPool but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (pool *WorkspacesBigDataPool) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub WorkspacesBigDataPool from our WorkspacesBigDataPool
 func (pool *WorkspacesBigDataPool) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210601s.WorkspacesBigDataPool)
+	destination, ok := hub.(*v20210601s.WorkspacesBigDataPool)
 	if !ok {
 		return fmt.Errorf("expected synapse/v1api20210601storage/WorkspacesBigDataPool but received %T instead", hub)
 	}
@@ -141,11 +141,7 @@ func (pool *WorkspacesBigDataPool) NewEmptyStatus() genruntime.ConvertibleStatus
 // Owner returns the ResourceReference of the owner
 func (pool *WorkspacesBigDataPool) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(pool.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  pool.Spec.Owner.Name,
-	}
+	return pool.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (pool *WorkspacesBigDataPool) ValidateUpdate(old runtime.Object) (admission
 
 // createValidations validates the creation of the resource
 func (pool *WorkspacesBigDataPool) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){pool.validateResourceReferences}
+	return []func() (admission.Warnings, error){pool.validateResourceReferences, pool.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (pool *WorkspacesBigDataPool) updateValidations() []func(old runtime.Object
 		func(old runtime.Object) (admission.Warnings, error) {
 			return pool.validateResourceReferences()
 		},
-		pool.validateWriteOnceProperties}
+		pool.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return pool.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (pool *WorkspacesBigDataPool) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(pool)
 }
 
 // validateResourceReferences validates all resource references
@@ -240,7 +245,7 @@ func (pool *WorkspacesBigDataPool) validateWriteOnceProperties(old runtime.Objec
 }
 
 // AssignProperties_From_WorkspacesBigDataPool populates our WorkspacesBigDataPool from the provided source WorkspacesBigDataPool
-func (pool *WorkspacesBigDataPool) AssignProperties_From_WorkspacesBigDataPool(source *v1api20210601s.WorkspacesBigDataPool) error {
+func (pool *WorkspacesBigDataPool) AssignProperties_From_WorkspacesBigDataPool(source *v20210601s.WorkspacesBigDataPool) error {
 
 	// ObjectMeta
 	pool.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +271,13 @@ func (pool *WorkspacesBigDataPool) AssignProperties_From_WorkspacesBigDataPool(s
 }
 
 // AssignProperties_To_WorkspacesBigDataPool populates the provided destination WorkspacesBigDataPool from our WorkspacesBigDataPool
-func (pool *WorkspacesBigDataPool) AssignProperties_To_WorkspacesBigDataPool(destination *v1api20210601s.WorkspacesBigDataPool) error {
+func (pool *WorkspacesBigDataPool) AssignProperties_To_WorkspacesBigDataPool(destination *v20210601s.WorkspacesBigDataPool) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *pool.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20210601s.Workspaces_BigDataPool_Spec
+	var spec v20210601s.Workspaces_BigDataPool_Spec
 	err := pool.Spec.AssignProperties_To_Workspaces_BigDataPool_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_BigDataPool_Spec() to populate field Spec")
@@ -280,7 +285,7 @@ func (pool *WorkspacesBigDataPool) AssignProperties_To_WorkspacesBigDataPool(des
 	destination.Spec = spec
 
 	// Status
-	var status v1api20210601s.Workspaces_BigDataPool_STATUS
+	var status v20210601s.Workspaces_BigDataPool_STATUS
 	err = pool.Status.AssignProperties_To_Workspaces_BigDataPool_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_BigDataPool_STATUS() to populate field Status")
@@ -386,16 +391,16 @@ func (pool *Workspaces_BigDataPool_Spec) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &Workspaces_BigDataPool_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if pool.Location != nil {
 		location := *pool.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if pool.AutoPause != nil ||
 		pool.AutoScale != nil ||
 		pool.CustomLibraries != nil ||
@@ -502,7 +507,7 @@ func (pool *Workspaces_BigDataPool_Spec) ConvertToARM(resolved genruntime.Conver
 		result.Properties.SparkVersion = &sparkVersion
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if pool.Tags != nil {
 		result.Tags = make(map[string]string, len(pool.Tags))
 		for key, value := range pool.Tags {
@@ -524,7 +529,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_BigDataPool_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoPause’:
+	// Set property "AutoPause":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoPause != nil {
@@ -538,7 +543,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘AutoScale’:
+	// Set property "AutoScale":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoScale != nil {
@@ -552,10 +557,10 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	pool.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘CustomLibraries’:
+	// Set property "CustomLibraries":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.CustomLibraries {
@@ -568,7 +573,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘DefaultSparkLogFolder’:
+	// Set property "DefaultSparkLogFolder":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultSparkLogFolder != nil {
@@ -577,7 +582,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘DynamicExecutorAllocation’:
+	// Set property "DynamicExecutorAllocation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DynamicExecutorAllocation != nil {
@@ -591,7 +596,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘IsAutotuneEnabled’:
+	// Set property "IsAutotuneEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsAutotuneEnabled != nil {
@@ -600,7 +605,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘IsComputeIsolationEnabled’:
+	// Set property "IsComputeIsolationEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsComputeIsolationEnabled != nil {
@@ -609,7 +614,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘LibraryRequirements’:
+	// Set property "LibraryRequirements":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LibraryRequirements != nil {
@@ -623,13 +628,13 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		pool.Location = &location
 	}
 
-	// Set property ‘NodeCount’:
+	// Set property "NodeCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeCount != nil {
@@ -638,7 +643,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘NodeSize’:
+	// Set property "NodeSize":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeSize != nil {
@@ -647,7 +652,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘NodeSizeFamily’:
+	// Set property "NodeSizeFamily":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeSizeFamily != nil {
@@ -656,10 +661,13 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Owner’:
-	pool.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	pool.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -668,7 +676,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘SessionLevelPackagesEnabled’:
+	// Set property "SessionLevelPackagesEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SessionLevelPackagesEnabled != nil {
@@ -677,7 +685,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘SparkConfigProperties’:
+	// Set property "SparkConfigProperties":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SparkConfigProperties != nil {
@@ -691,7 +699,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘SparkEventsFolder’:
+	// Set property "SparkEventsFolder":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SparkEventsFolder != nil {
@@ -700,7 +708,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘SparkVersion’:
+	// Set property "SparkVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SparkVersion != nil {
@@ -709,7 +717,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		pool.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -725,14 +733,14 @@ var _ genruntime.ConvertibleSpec = &Workspaces_BigDataPool_Spec{}
 
 // ConvertSpecFrom populates our Workspaces_BigDataPool_Spec from the provided source
 func (pool *Workspaces_BigDataPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20210601s.Workspaces_BigDataPool_Spec)
+	src, ok := source.(*v20210601s.Workspaces_BigDataPool_Spec)
 	if ok {
 		// Populate our instance from source
 		return pool.AssignProperties_From_Workspaces_BigDataPool_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210601s.Workspaces_BigDataPool_Spec{}
+	src = &v20210601s.Workspaces_BigDataPool_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -749,14 +757,14 @@ func (pool *Workspaces_BigDataPool_Spec) ConvertSpecFrom(source genruntime.Conve
 
 // ConvertSpecTo populates the provided destination from our Workspaces_BigDataPool_Spec
 func (pool *Workspaces_BigDataPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20210601s.Workspaces_BigDataPool_Spec)
+	dst, ok := destination.(*v20210601s.Workspaces_BigDataPool_Spec)
 	if ok {
 		// Populate destination from our instance
 		return pool.AssignProperties_To_Workspaces_BigDataPool_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210601s.Workspaces_BigDataPool_Spec{}
+	dst = &v20210601s.Workspaces_BigDataPool_Spec{}
 	err := pool.AssignProperties_To_Workspaces_BigDataPool_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -772,7 +780,7 @@ func (pool *Workspaces_BigDataPool_Spec) ConvertSpecTo(destination genruntime.Co
 }
 
 // AssignProperties_From_Workspaces_BigDataPool_Spec populates our Workspaces_BigDataPool_Spec from the provided source Workspaces_BigDataPool_Spec
-func (pool *Workspaces_BigDataPool_Spec) AssignProperties_From_Workspaces_BigDataPool_Spec(source *v1api20210601s.Workspaces_BigDataPool_Spec) error {
+func (pool *Workspaces_BigDataPool_Spec) AssignProperties_From_Workspaces_BigDataPool_Spec(source *v20210601s.Workspaces_BigDataPool_Spec) error {
 
 	// AutoPause
 	if source.AutoPause != nil {
@@ -929,13 +937,13 @@ func (pool *Workspaces_BigDataPool_Spec) AssignProperties_From_Workspaces_BigDat
 }
 
 // AssignProperties_To_Workspaces_BigDataPool_Spec populates the provided destination Workspaces_BigDataPool_Spec from our Workspaces_BigDataPool_Spec
-func (pool *Workspaces_BigDataPool_Spec) AssignProperties_To_Workspaces_BigDataPool_Spec(destination *v1api20210601s.Workspaces_BigDataPool_Spec) error {
+func (pool *Workspaces_BigDataPool_Spec) AssignProperties_To_Workspaces_BigDataPool_Spec(destination *v20210601s.Workspaces_BigDataPool_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoPause
 	if pool.AutoPause != nil {
-		var autoPause v1api20210601s.AutoPauseProperties
+		var autoPause v20210601s.AutoPauseProperties
 		err := pool.AutoPause.AssignProperties_To_AutoPauseProperties(&autoPause)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoPauseProperties() to populate field AutoPause")
@@ -947,7 +955,7 @@ func (pool *Workspaces_BigDataPool_Spec) AssignProperties_To_Workspaces_BigDataP
 
 	// AutoScale
 	if pool.AutoScale != nil {
-		var autoScale v1api20210601s.AutoScaleProperties
+		var autoScale v20210601s.AutoScaleProperties
 		err := pool.AutoScale.AssignProperties_To_AutoScaleProperties(&autoScale)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoScaleProperties() to populate field AutoScale")
@@ -962,11 +970,11 @@ func (pool *Workspaces_BigDataPool_Spec) AssignProperties_To_Workspaces_BigDataP
 
 	// CustomLibraries
 	if pool.CustomLibraries != nil {
-		customLibraryList := make([]v1api20210601s.LibraryInfo, len(pool.CustomLibraries))
+		customLibraryList := make([]v20210601s.LibraryInfo, len(pool.CustomLibraries))
 		for customLibraryIndex, customLibraryItem := range pool.CustomLibraries {
 			// Shadow the loop variable to avoid aliasing
 			customLibraryItem := customLibraryItem
-			var customLibrary v1api20210601s.LibraryInfo
+			var customLibrary v20210601s.LibraryInfo
 			err := customLibraryItem.AssignProperties_To_LibraryInfo(&customLibrary)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_LibraryInfo() to populate field CustomLibraries")
@@ -983,7 +991,7 @@ func (pool *Workspaces_BigDataPool_Spec) AssignProperties_To_Workspaces_BigDataP
 
 	// DynamicExecutorAllocation
 	if pool.DynamicExecutorAllocation != nil {
-		var dynamicExecutorAllocation v1api20210601s.DynamicExecutorAllocation
+		var dynamicExecutorAllocation v20210601s.DynamicExecutorAllocation
 		err := pool.DynamicExecutorAllocation.AssignProperties_To_DynamicExecutorAllocation(&dynamicExecutorAllocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DynamicExecutorAllocation() to populate field DynamicExecutorAllocation")
@@ -1011,7 +1019,7 @@ func (pool *Workspaces_BigDataPool_Spec) AssignProperties_To_Workspaces_BigDataP
 
 	// LibraryRequirements
 	if pool.LibraryRequirements != nil {
-		var libraryRequirement v1api20210601s.LibraryRequirements
+		var libraryRequirement v20210601s.LibraryRequirements
 		err := pool.LibraryRequirements.AssignProperties_To_LibraryRequirements(&libraryRequirement)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_LibraryRequirements() to populate field LibraryRequirements")
@@ -1067,7 +1075,7 @@ func (pool *Workspaces_BigDataPool_Spec) AssignProperties_To_Workspaces_BigDataP
 
 	// SparkConfigProperties
 	if pool.SparkConfigProperties != nil {
-		var sparkConfigProperty v1api20210601s.SparkConfigProperties
+		var sparkConfigProperty v20210601s.SparkConfigProperties
 		err := pool.SparkConfigProperties.AssignProperties_To_SparkConfigProperties(&sparkConfigProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SparkConfigProperties() to populate field SparkConfigProperties")
@@ -1333,14 +1341,14 @@ var _ genruntime.ConvertibleStatus = &Workspaces_BigDataPool_STATUS{}
 
 // ConvertStatusFrom populates our Workspaces_BigDataPool_STATUS from the provided source
 func (pool *Workspaces_BigDataPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20210601s.Workspaces_BigDataPool_STATUS)
+	src, ok := source.(*v20210601s.Workspaces_BigDataPool_STATUS)
 	if ok {
 		// Populate our instance from source
 		return pool.AssignProperties_From_Workspaces_BigDataPool_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210601s.Workspaces_BigDataPool_STATUS{}
+	src = &v20210601s.Workspaces_BigDataPool_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1357,14 +1365,14 @@ func (pool *Workspaces_BigDataPool_STATUS) ConvertStatusFrom(source genruntime.C
 
 // ConvertStatusTo populates the provided destination from our Workspaces_BigDataPool_STATUS
 func (pool *Workspaces_BigDataPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20210601s.Workspaces_BigDataPool_STATUS)
+	dst, ok := destination.(*v20210601s.Workspaces_BigDataPool_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return pool.AssignProperties_To_Workspaces_BigDataPool_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210601s.Workspaces_BigDataPool_STATUS{}
+	dst = &v20210601s.Workspaces_BigDataPool_STATUS{}
 	err := pool.AssignProperties_To_Workspaces_BigDataPool_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1393,7 +1401,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_BigDataPool_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoPause’:
+	// Set property "AutoPause":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoPause != nil {
@@ -1407,7 +1415,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘AutoScale’:
+	// Set property "AutoScale":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoScale != nil {
@@ -1421,7 +1429,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘CacheSize’:
+	// Set property "CacheSize":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CacheSize != nil {
@@ -1430,9 +1438,9 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CreationDate’:
+	// Set property "CreationDate":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreationDate != nil {
@@ -1441,7 +1449,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘CustomLibraries’:
+	// Set property "CustomLibraries":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.CustomLibraries {
@@ -1454,7 +1462,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘DefaultSparkLogFolder’:
+	// Set property "DefaultSparkLogFolder":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultSparkLogFolder != nil {
@@ -1463,7 +1471,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘DynamicExecutorAllocation’:
+	// Set property "DynamicExecutorAllocation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DynamicExecutorAllocation != nil {
@@ -1477,13 +1485,13 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		pool.Id = &id
 	}
 
-	// Set property ‘IsAutotuneEnabled’:
+	// Set property "IsAutotuneEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsAutotuneEnabled != nil {
@@ -1492,7 +1500,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘IsComputeIsolationEnabled’:
+	// Set property "IsComputeIsolationEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsComputeIsolationEnabled != nil {
@@ -1501,7 +1509,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘LastSucceededTimestamp’:
+	// Set property "LastSucceededTimestamp":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LastSucceededTimestamp != nil {
@@ -1510,7 +1518,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘LibraryRequirements’:
+	// Set property "LibraryRequirements":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LibraryRequirements != nil {
@@ -1524,19 +1532,19 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		pool.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		pool.Name = &name
 	}
 
-	// Set property ‘NodeCount’:
+	// Set property "NodeCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeCount != nil {
@@ -1545,7 +1553,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘NodeSize’:
+	// Set property "NodeSize":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeSize != nil {
@@ -1554,7 +1562,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘NodeSizeFamily’:
+	// Set property "NodeSizeFamily":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeSizeFamily != nil {
@@ -1563,7 +1571,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1572,7 +1580,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘SessionLevelPackagesEnabled’:
+	// Set property "SessionLevelPackagesEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SessionLevelPackagesEnabled != nil {
@@ -1581,7 +1589,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘SparkConfigProperties’:
+	// Set property "SparkConfigProperties":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SparkConfigProperties != nil {
@@ -1595,7 +1603,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘SparkEventsFolder’:
+	// Set property "SparkEventsFolder":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SparkEventsFolder != nil {
@@ -1604,7 +1612,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘SparkVersion’:
+	// Set property "SparkVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SparkVersion != nil {
@@ -1613,7 +1621,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		pool.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1621,7 +1629,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		pool.Type = &typeVar
@@ -1632,7 +1640,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_Workspaces_BigDataPool_STATUS populates our Workspaces_BigDataPool_STATUS from the provided source Workspaces_BigDataPool_STATUS
-func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_From_Workspaces_BigDataPool_STATUS(source *v1api20210601s.Workspaces_BigDataPool_STATUS) error {
+func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_From_Workspaces_BigDataPool_STATUS(source *v20210601s.Workspaces_BigDataPool_STATUS) error {
 
 	// AutoPause
 	if source.AutoPause != nil {
@@ -1799,13 +1807,13 @@ func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_From_Workspaces_BigD
 }
 
 // AssignProperties_To_Workspaces_BigDataPool_STATUS populates the provided destination Workspaces_BigDataPool_STATUS from our Workspaces_BigDataPool_STATUS
-func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_To_Workspaces_BigDataPool_STATUS(destination *v1api20210601s.Workspaces_BigDataPool_STATUS) error {
+func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_To_Workspaces_BigDataPool_STATUS(destination *v20210601s.Workspaces_BigDataPool_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoPause
 	if pool.AutoPause != nil {
-		var autoPause v1api20210601s.AutoPauseProperties_STATUS
+		var autoPause v20210601s.AutoPauseProperties_STATUS
 		err := pool.AutoPause.AssignProperties_To_AutoPauseProperties_STATUS(&autoPause)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoPauseProperties_STATUS() to populate field AutoPause")
@@ -1817,7 +1825,7 @@ func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_To_Workspaces_BigDat
 
 	// AutoScale
 	if pool.AutoScale != nil {
-		var autoScale v1api20210601s.AutoScaleProperties_STATUS
+		var autoScale v20210601s.AutoScaleProperties_STATUS
 		err := pool.AutoScale.AssignProperties_To_AutoScaleProperties_STATUS(&autoScale)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoScaleProperties_STATUS() to populate field AutoScale")
@@ -1838,11 +1846,11 @@ func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_To_Workspaces_BigDat
 
 	// CustomLibraries
 	if pool.CustomLibraries != nil {
-		customLibraryList := make([]v1api20210601s.LibraryInfo_STATUS, len(pool.CustomLibraries))
+		customLibraryList := make([]v20210601s.LibraryInfo_STATUS, len(pool.CustomLibraries))
 		for customLibraryIndex, customLibraryItem := range pool.CustomLibraries {
 			// Shadow the loop variable to avoid aliasing
 			customLibraryItem := customLibraryItem
-			var customLibrary v1api20210601s.LibraryInfo_STATUS
+			var customLibrary v20210601s.LibraryInfo_STATUS
 			err := customLibraryItem.AssignProperties_To_LibraryInfo_STATUS(&customLibrary)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_LibraryInfo_STATUS() to populate field CustomLibraries")
@@ -1859,7 +1867,7 @@ func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_To_Workspaces_BigDat
 
 	// DynamicExecutorAllocation
 	if pool.DynamicExecutorAllocation != nil {
-		var dynamicExecutorAllocation v1api20210601s.DynamicExecutorAllocation_STATUS
+		var dynamicExecutorAllocation v20210601s.DynamicExecutorAllocation_STATUS
 		err := pool.DynamicExecutorAllocation.AssignProperties_To_DynamicExecutorAllocation_STATUS(&dynamicExecutorAllocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DynamicExecutorAllocation_STATUS() to populate field DynamicExecutorAllocation")
@@ -1893,7 +1901,7 @@ func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_To_Workspaces_BigDat
 
 	// LibraryRequirements
 	if pool.LibraryRequirements != nil {
-		var libraryRequirement v1api20210601s.LibraryRequirements_STATUS
+		var libraryRequirement v20210601s.LibraryRequirements_STATUS
 		err := pool.LibraryRequirements.AssignProperties_To_LibraryRequirements_STATUS(&libraryRequirement)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_LibraryRequirements_STATUS() to populate field LibraryRequirements")
@@ -1941,7 +1949,7 @@ func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_To_Workspaces_BigDat
 
 	// SparkConfigProperties
 	if pool.SparkConfigProperties != nil {
-		var sparkConfigProperty v1api20210601s.SparkConfigProperties_STATUS
+		var sparkConfigProperty v20210601s.SparkConfigProperties_STATUS
 		err := pool.SparkConfigProperties.AssignProperties_To_SparkConfigProperties_STATUS(&sparkConfigProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SparkConfigProperties_STATUS() to populate field SparkConfigProperties")
@@ -1992,13 +2000,13 @@ func (properties *AutoPauseProperties) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &AutoPauseProperties_ARM{}
 
-	// Set property ‘DelayInMinutes’:
+	// Set property "DelayInMinutes":
 	if properties.DelayInMinutes != nil {
 		delayInMinutes := *properties.DelayInMinutes
 		result.DelayInMinutes = &delayInMinutes
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if properties.Enabled != nil {
 		enabled := *properties.Enabled
 		result.Enabled = &enabled
@@ -2018,13 +2026,13 @@ func (properties *AutoPauseProperties) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoPauseProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DelayInMinutes’:
+	// Set property "DelayInMinutes":
 	if typedInput.DelayInMinutes != nil {
 		delayInMinutes := *typedInput.DelayInMinutes
 		properties.DelayInMinutes = &delayInMinutes
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		properties.Enabled = &enabled
@@ -2035,7 +2043,7 @@ func (properties *AutoPauseProperties) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_AutoPauseProperties populates our AutoPauseProperties from the provided source AutoPauseProperties
-func (properties *AutoPauseProperties) AssignProperties_From_AutoPauseProperties(source *v1api20210601s.AutoPauseProperties) error {
+func (properties *AutoPauseProperties) AssignProperties_From_AutoPauseProperties(source *v20210601s.AutoPauseProperties) error {
 
 	// DelayInMinutes
 	properties.DelayInMinutes = genruntime.ClonePointerToInt(source.DelayInMinutes)
@@ -2053,7 +2061,7 @@ func (properties *AutoPauseProperties) AssignProperties_From_AutoPauseProperties
 }
 
 // AssignProperties_To_AutoPauseProperties populates the provided destination AutoPauseProperties from our AutoPauseProperties
-func (properties *AutoPauseProperties) AssignProperties_To_AutoPauseProperties(destination *v1api20210601s.AutoPauseProperties) error {
+func (properties *AutoPauseProperties) AssignProperties_To_AutoPauseProperties(destination *v20210601s.AutoPauseProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2120,13 +2128,13 @@ func (properties *AutoPauseProperties_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoPauseProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DelayInMinutes’:
+	// Set property "DelayInMinutes":
 	if typedInput.DelayInMinutes != nil {
 		delayInMinutes := *typedInput.DelayInMinutes
 		properties.DelayInMinutes = &delayInMinutes
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		properties.Enabled = &enabled
@@ -2137,7 +2145,7 @@ func (properties *AutoPauseProperties_STATUS) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_AutoPauseProperties_STATUS populates our AutoPauseProperties_STATUS from the provided source AutoPauseProperties_STATUS
-func (properties *AutoPauseProperties_STATUS) AssignProperties_From_AutoPauseProperties_STATUS(source *v1api20210601s.AutoPauseProperties_STATUS) error {
+func (properties *AutoPauseProperties_STATUS) AssignProperties_From_AutoPauseProperties_STATUS(source *v20210601s.AutoPauseProperties_STATUS) error {
 
 	// DelayInMinutes
 	properties.DelayInMinutes = genruntime.ClonePointerToInt(source.DelayInMinutes)
@@ -2155,7 +2163,7 @@ func (properties *AutoPauseProperties_STATUS) AssignProperties_From_AutoPausePro
 }
 
 // AssignProperties_To_AutoPauseProperties_STATUS populates the provided destination AutoPauseProperties_STATUS from our AutoPauseProperties_STATUS
-func (properties *AutoPauseProperties_STATUS) AssignProperties_To_AutoPauseProperties_STATUS(destination *v1api20210601s.AutoPauseProperties_STATUS) error {
+func (properties *AutoPauseProperties_STATUS) AssignProperties_To_AutoPauseProperties_STATUS(destination *v20210601s.AutoPauseProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2202,19 +2210,19 @@ func (properties *AutoScaleProperties) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &AutoScaleProperties_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if properties.Enabled != nil {
 		enabled := *properties.Enabled
 		result.Enabled = &enabled
 	}
 
-	// Set property ‘MaxNodeCount’:
+	// Set property "MaxNodeCount":
 	if properties.MaxNodeCount != nil {
 		maxNodeCount := *properties.MaxNodeCount
 		result.MaxNodeCount = &maxNodeCount
 	}
 
-	// Set property ‘MinNodeCount’:
+	// Set property "MinNodeCount":
 	if properties.MinNodeCount != nil {
 		minNodeCount := *properties.MinNodeCount
 		result.MinNodeCount = &minNodeCount
@@ -2234,19 +2242,19 @@ func (properties *AutoScaleProperties) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoScaleProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		properties.Enabled = &enabled
 	}
 
-	// Set property ‘MaxNodeCount’:
+	// Set property "MaxNodeCount":
 	if typedInput.MaxNodeCount != nil {
 		maxNodeCount := *typedInput.MaxNodeCount
 		properties.MaxNodeCount = &maxNodeCount
 	}
 
-	// Set property ‘MinNodeCount’:
+	// Set property "MinNodeCount":
 	if typedInput.MinNodeCount != nil {
 		minNodeCount := *typedInput.MinNodeCount
 		properties.MinNodeCount = &minNodeCount
@@ -2257,7 +2265,7 @@ func (properties *AutoScaleProperties) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_AutoScaleProperties populates our AutoScaleProperties from the provided source AutoScaleProperties
-func (properties *AutoScaleProperties) AssignProperties_From_AutoScaleProperties(source *v1api20210601s.AutoScaleProperties) error {
+func (properties *AutoScaleProperties) AssignProperties_From_AutoScaleProperties(source *v20210601s.AutoScaleProperties) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -2278,7 +2286,7 @@ func (properties *AutoScaleProperties) AssignProperties_From_AutoScaleProperties
 }
 
 // AssignProperties_To_AutoScaleProperties populates the provided destination AutoScaleProperties from our AutoScaleProperties
-func (properties *AutoScaleProperties) AssignProperties_To_AutoScaleProperties(destination *v1api20210601s.AutoScaleProperties) error {
+func (properties *AutoScaleProperties) AssignProperties_To_AutoScaleProperties(destination *v20210601s.AutoScaleProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2354,19 +2362,19 @@ func (properties *AutoScaleProperties_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoScaleProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		properties.Enabled = &enabled
 	}
 
-	// Set property ‘MaxNodeCount’:
+	// Set property "MaxNodeCount":
 	if typedInput.MaxNodeCount != nil {
 		maxNodeCount := *typedInput.MaxNodeCount
 		properties.MaxNodeCount = &maxNodeCount
 	}
 
-	// Set property ‘MinNodeCount’:
+	// Set property "MinNodeCount":
 	if typedInput.MinNodeCount != nil {
 		minNodeCount := *typedInput.MinNodeCount
 		properties.MinNodeCount = &minNodeCount
@@ -2377,7 +2385,7 @@ func (properties *AutoScaleProperties_STATUS) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_AutoScaleProperties_STATUS populates our AutoScaleProperties_STATUS from the provided source AutoScaleProperties_STATUS
-func (properties *AutoScaleProperties_STATUS) AssignProperties_From_AutoScaleProperties_STATUS(source *v1api20210601s.AutoScaleProperties_STATUS) error {
+func (properties *AutoScaleProperties_STATUS) AssignProperties_From_AutoScaleProperties_STATUS(source *v20210601s.AutoScaleProperties_STATUS) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -2398,7 +2406,7 @@ func (properties *AutoScaleProperties_STATUS) AssignProperties_From_AutoScalePro
 }
 
 // AssignProperties_To_AutoScaleProperties_STATUS populates the provided destination AutoScaleProperties_STATUS from our AutoScaleProperties_STATUS
-func (properties *AutoScaleProperties_STATUS) AssignProperties_To_AutoScaleProperties_STATUS(destination *v1api20210601s.AutoScaleProperties_STATUS) error {
+func (properties *AutoScaleProperties_STATUS) AssignProperties_To_AutoScaleProperties_STATUS(destination *v20210601s.AutoScaleProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2492,19 +2500,19 @@ func (allocation *DynamicExecutorAllocation) ConvertToARM(resolved genruntime.Co
 	}
 	result := &DynamicExecutorAllocation_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if allocation.Enabled != nil {
 		enabled := *allocation.Enabled
 		result.Enabled = &enabled
 	}
 
-	// Set property ‘MaxExecutors’:
+	// Set property "MaxExecutors":
 	if allocation.MaxExecutors != nil {
 		maxExecutors := *allocation.MaxExecutors
 		result.MaxExecutors = &maxExecutors
 	}
 
-	// Set property ‘MinExecutors’:
+	// Set property "MinExecutors":
 	if allocation.MinExecutors != nil {
 		minExecutors := *allocation.MinExecutors
 		result.MinExecutors = &minExecutors
@@ -2524,19 +2532,19 @@ func (allocation *DynamicExecutorAllocation) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DynamicExecutorAllocation_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		allocation.Enabled = &enabled
 	}
 
-	// Set property ‘MaxExecutors’:
+	// Set property "MaxExecutors":
 	if typedInput.MaxExecutors != nil {
 		maxExecutors := *typedInput.MaxExecutors
 		allocation.MaxExecutors = &maxExecutors
 	}
 
-	// Set property ‘MinExecutors’:
+	// Set property "MinExecutors":
 	if typedInput.MinExecutors != nil {
 		minExecutors := *typedInput.MinExecutors
 		allocation.MinExecutors = &minExecutors
@@ -2547,7 +2555,7 @@ func (allocation *DynamicExecutorAllocation) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_DynamicExecutorAllocation populates our DynamicExecutorAllocation from the provided source DynamicExecutorAllocation
-func (allocation *DynamicExecutorAllocation) AssignProperties_From_DynamicExecutorAllocation(source *v1api20210601s.DynamicExecutorAllocation) error {
+func (allocation *DynamicExecutorAllocation) AssignProperties_From_DynamicExecutorAllocation(source *v20210601s.DynamicExecutorAllocation) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -2568,7 +2576,7 @@ func (allocation *DynamicExecutorAllocation) AssignProperties_From_DynamicExecut
 }
 
 // AssignProperties_To_DynamicExecutorAllocation populates the provided destination DynamicExecutorAllocation from our DynamicExecutorAllocation
-func (allocation *DynamicExecutorAllocation) AssignProperties_To_DynamicExecutorAllocation(destination *v1api20210601s.DynamicExecutorAllocation) error {
+func (allocation *DynamicExecutorAllocation) AssignProperties_To_DynamicExecutorAllocation(destination *v20210601s.DynamicExecutorAllocation) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2644,19 +2652,19 @@ func (allocation *DynamicExecutorAllocation_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DynamicExecutorAllocation_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		allocation.Enabled = &enabled
 	}
 
-	// Set property ‘MaxExecutors’:
+	// Set property "MaxExecutors":
 	if typedInput.MaxExecutors != nil {
 		maxExecutors := *typedInput.MaxExecutors
 		allocation.MaxExecutors = &maxExecutors
 	}
 
-	// Set property ‘MinExecutors’:
+	// Set property "MinExecutors":
 	if typedInput.MinExecutors != nil {
 		minExecutors := *typedInput.MinExecutors
 		allocation.MinExecutors = &minExecutors
@@ -2667,7 +2675,7 @@ func (allocation *DynamicExecutorAllocation_STATUS) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_DynamicExecutorAllocation_STATUS populates our DynamicExecutorAllocation_STATUS from the provided source DynamicExecutorAllocation_STATUS
-func (allocation *DynamicExecutorAllocation_STATUS) AssignProperties_From_DynamicExecutorAllocation_STATUS(source *v1api20210601s.DynamicExecutorAllocation_STATUS) error {
+func (allocation *DynamicExecutorAllocation_STATUS) AssignProperties_From_DynamicExecutorAllocation_STATUS(source *v20210601s.DynamicExecutorAllocation_STATUS) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -2688,7 +2696,7 @@ func (allocation *DynamicExecutorAllocation_STATUS) AssignProperties_From_Dynami
 }
 
 // AssignProperties_To_DynamicExecutorAllocation_STATUS populates the provided destination DynamicExecutorAllocation_STATUS from our DynamicExecutorAllocation_STATUS
-func (allocation *DynamicExecutorAllocation_STATUS) AssignProperties_To_DynamicExecutorAllocation_STATUS(destination *v1api20210601s.DynamicExecutorAllocation_STATUS) error {
+func (allocation *DynamicExecutorAllocation_STATUS) AssignProperties_To_DynamicExecutorAllocation_STATUS(destination *v20210601s.DynamicExecutorAllocation_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2741,25 +2749,25 @@ func (info *LibraryInfo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &LibraryInfo_ARM{}
 
-	// Set property ‘ContainerName’:
+	// Set property "ContainerName":
 	if info.ContainerName != nil {
 		containerName := *info.ContainerName
 		result.ContainerName = &containerName
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if info.Name != nil {
 		name := *info.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if info.Path != nil {
 		path := *info.Path
 		result.Path = &path
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if info.Type != nil {
 		typeVar := *info.Type
 		result.Type = &typeVar
@@ -2779,25 +2787,25 @@ func (info *LibraryInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LibraryInfo_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ContainerName’:
+	// Set property "ContainerName":
 	if typedInput.ContainerName != nil {
 		containerName := *typedInput.ContainerName
 		info.ContainerName = &containerName
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		info.Name = &name
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if typedInput.Path != nil {
 		path := *typedInput.Path
 		info.Path = &path
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		info.Type = &typeVar
@@ -2808,7 +2816,7 @@ func (info *LibraryInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 }
 
 // AssignProperties_From_LibraryInfo populates our LibraryInfo from the provided source LibraryInfo
-func (info *LibraryInfo) AssignProperties_From_LibraryInfo(source *v1api20210601s.LibraryInfo) error {
+func (info *LibraryInfo) AssignProperties_From_LibraryInfo(source *v20210601s.LibraryInfo) error {
 
 	// ContainerName
 	info.ContainerName = genruntime.ClonePointerToString(source.ContainerName)
@@ -2827,7 +2835,7 @@ func (info *LibraryInfo) AssignProperties_From_LibraryInfo(source *v1api20210601
 }
 
 // AssignProperties_To_LibraryInfo populates the provided destination LibraryInfo from our LibraryInfo
-func (info *LibraryInfo) AssignProperties_To_LibraryInfo(destination *v1api20210601s.LibraryInfo) error {
+func (info *LibraryInfo) AssignProperties_To_LibraryInfo(destination *v20210601s.LibraryInfo) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2911,43 +2919,43 @@ func (info *LibraryInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LibraryInfo_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ContainerName’:
+	// Set property "ContainerName":
 	if typedInput.ContainerName != nil {
 		containerName := *typedInput.ContainerName
 		info.ContainerName = &containerName
 	}
 
-	// Set property ‘CreatorId’:
+	// Set property "CreatorId":
 	if typedInput.CreatorId != nil {
 		creatorId := *typedInput.CreatorId
 		info.CreatorId = &creatorId
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		info.Name = &name
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if typedInput.Path != nil {
 		path := *typedInput.Path
 		info.Path = &path
 	}
 
-	// Set property ‘ProvisioningStatus’:
+	// Set property "ProvisioningStatus":
 	if typedInput.ProvisioningStatus != nil {
 		provisioningStatus := *typedInput.ProvisioningStatus
 		info.ProvisioningStatus = &provisioningStatus
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		info.Type = &typeVar
 	}
 
-	// Set property ‘UploadedTimestamp’:
+	// Set property "UploadedTimestamp":
 	if typedInput.UploadedTimestamp != nil {
 		uploadedTimestamp := *typedInput.UploadedTimestamp
 		info.UploadedTimestamp = &uploadedTimestamp
@@ -2958,7 +2966,7 @@ func (info *LibraryInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_LibraryInfo_STATUS populates our LibraryInfo_STATUS from the provided source LibraryInfo_STATUS
-func (info *LibraryInfo_STATUS) AssignProperties_From_LibraryInfo_STATUS(source *v1api20210601s.LibraryInfo_STATUS) error {
+func (info *LibraryInfo_STATUS) AssignProperties_From_LibraryInfo_STATUS(source *v20210601s.LibraryInfo_STATUS) error {
 
 	// ContainerName
 	info.ContainerName = genruntime.ClonePointerToString(source.ContainerName)
@@ -2986,7 +2994,7 @@ func (info *LibraryInfo_STATUS) AssignProperties_From_LibraryInfo_STATUS(source 
 }
 
 // AssignProperties_To_LibraryInfo_STATUS populates the provided destination LibraryInfo_STATUS from our LibraryInfo_STATUS
-func (info *LibraryInfo_STATUS) AssignProperties_To_LibraryInfo_STATUS(destination *v1api20210601s.LibraryInfo_STATUS) error {
+func (info *LibraryInfo_STATUS) AssignProperties_To_LibraryInfo_STATUS(destination *v20210601s.LibraryInfo_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3040,13 +3048,13 @@ func (requirements *LibraryRequirements) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &LibraryRequirements_ARM{}
 
-	// Set property ‘Content’:
+	// Set property "Content":
 	if requirements.Content != nil {
 		content := *requirements.Content
 		result.Content = &content
 	}
 
-	// Set property ‘Filename’:
+	// Set property "Filename":
 	if requirements.Filename != nil {
 		filename := *requirements.Filename
 		result.Filename = &filename
@@ -3066,13 +3074,13 @@ func (requirements *LibraryRequirements) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LibraryRequirements_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Content’:
+	// Set property "Content":
 	if typedInput.Content != nil {
 		content := *typedInput.Content
 		requirements.Content = &content
 	}
 
-	// Set property ‘Filename’:
+	// Set property "Filename":
 	if typedInput.Filename != nil {
 		filename := *typedInput.Filename
 		requirements.Filename = &filename
@@ -3083,7 +3091,7 @@ func (requirements *LibraryRequirements) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_LibraryRequirements populates our LibraryRequirements from the provided source LibraryRequirements
-func (requirements *LibraryRequirements) AssignProperties_From_LibraryRequirements(source *v1api20210601s.LibraryRequirements) error {
+func (requirements *LibraryRequirements) AssignProperties_From_LibraryRequirements(source *v20210601s.LibraryRequirements) error {
 
 	// Content
 	requirements.Content = genruntime.ClonePointerToString(source.Content)
@@ -3096,7 +3104,7 @@ func (requirements *LibraryRequirements) AssignProperties_From_LibraryRequiremen
 }
 
 // AssignProperties_To_LibraryRequirements populates the provided destination LibraryRequirements from our LibraryRequirements
-func (requirements *LibraryRequirements) AssignProperties_To_LibraryRequirements(destination *v1api20210601s.LibraryRequirements) error {
+func (requirements *LibraryRequirements) AssignProperties_To_LibraryRequirements(destination *v20210601s.LibraryRequirements) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3156,19 +3164,19 @@ func (requirements *LibraryRequirements_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LibraryRequirements_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Content’:
+	// Set property "Content":
 	if typedInput.Content != nil {
 		content := *typedInput.Content
 		requirements.Content = &content
 	}
 
-	// Set property ‘Filename’:
+	// Set property "Filename":
 	if typedInput.Filename != nil {
 		filename := *typedInput.Filename
 		requirements.Filename = &filename
 	}
 
-	// Set property ‘Time’:
+	// Set property "Time":
 	if typedInput.Time != nil {
 		time := *typedInput.Time
 		requirements.Time = &time
@@ -3179,7 +3187,7 @@ func (requirements *LibraryRequirements_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_LibraryRequirements_STATUS populates our LibraryRequirements_STATUS from the provided source LibraryRequirements_STATUS
-func (requirements *LibraryRequirements_STATUS) AssignProperties_From_LibraryRequirements_STATUS(source *v1api20210601s.LibraryRequirements_STATUS) error {
+func (requirements *LibraryRequirements_STATUS) AssignProperties_From_LibraryRequirements_STATUS(source *v20210601s.LibraryRequirements_STATUS) error {
 
 	// Content
 	requirements.Content = genruntime.ClonePointerToString(source.Content)
@@ -3195,7 +3203,7 @@ func (requirements *LibraryRequirements_STATUS) AssignProperties_From_LibraryReq
 }
 
 // AssignProperties_To_LibraryRequirements_STATUS populates the provided destination LibraryRequirements_STATUS from our LibraryRequirements_STATUS
-func (requirements *LibraryRequirements_STATUS) AssignProperties_To_LibraryRequirements_STATUS(destination *v1api20210601s.LibraryRequirements_STATUS) error {
+func (requirements *LibraryRequirements_STATUS) AssignProperties_To_LibraryRequirements_STATUS(destination *v20210601s.LibraryRequirements_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3240,19 +3248,19 @@ func (properties *SparkConfigProperties) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &SparkConfigProperties_ARM{}
 
-	// Set property ‘ConfigurationType’:
+	// Set property "ConfigurationType":
 	if properties.ConfigurationType != nil {
 		configurationType := *properties.ConfigurationType
 		result.ConfigurationType = &configurationType
 	}
 
-	// Set property ‘Content’:
+	// Set property "Content":
 	if properties.Content != nil {
 		content := *properties.Content
 		result.Content = &content
 	}
 
-	// Set property ‘Filename’:
+	// Set property "Filename":
 	if properties.Filename != nil {
 		filename := *properties.Filename
 		result.Filename = &filename
@@ -3272,19 +3280,19 @@ func (properties *SparkConfigProperties) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SparkConfigProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ConfigurationType’:
+	// Set property "ConfigurationType":
 	if typedInput.ConfigurationType != nil {
 		configurationType := *typedInput.ConfigurationType
 		properties.ConfigurationType = &configurationType
 	}
 
-	// Set property ‘Content’:
+	// Set property "Content":
 	if typedInput.Content != nil {
 		content := *typedInput.Content
 		properties.Content = &content
 	}
 
-	// Set property ‘Filename’:
+	// Set property "Filename":
 	if typedInput.Filename != nil {
 		filename := *typedInput.Filename
 		properties.Filename = &filename
@@ -3295,7 +3303,7 @@ func (properties *SparkConfigProperties) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_SparkConfigProperties populates our SparkConfigProperties from the provided source SparkConfigProperties
-func (properties *SparkConfigProperties) AssignProperties_From_SparkConfigProperties(source *v1api20210601s.SparkConfigProperties) error {
+func (properties *SparkConfigProperties) AssignProperties_From_SparkConfigProperties(source *v20210601s.SparkConfigProperties) error {
 
 	// ConfigurationType
 	if source.ConfigurationType != nil {
@@ -3316,7 +3324,7 @@ func (properties *SparkConfigProperties) AssignProperties_From_SparkConfigProper
 }
 
 // AssignProperties_To_SparkConfigProperties populates the provided destination SparkConfigProperties from our SparkConfigProperties
-func (properties *SparkConfigProperties) AssignProperties_To_SparkConfigProperties(destination *v1api20210601s.SparkConfigProperties) error {
+func (properties *SparkConfigProperties) AssignProperties_To_SparkConfigProperties(destination *v20210601s.SparkConfigProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3395,25 +3403,25 @@ func (properties *SparkConfigProperties_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SparkConfigProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ConfigurationType’:
+	// Set property "ConfigurationType":
 	if typedInput.ConfigurationType != nil {
 		configurationType := *typedInput.ConfigurationType
 		properties.ConfigurationType = &configurationType
 	}
 
-	// Set property ‘Content’:
+	// Set property "Content":
 	if typedInput.Content != nil {
 		content := *typedInput.Content
 		properties.Content = &content
 	}
 
-	// Set property ‘Filename’:
+	// Set property "Filename":
 	if typedInput.Filename != nil {
 		filename := *typedInput.Filename
 		properties.Filename = &filename
 	}
 
-	// Set property ‘Time’:
+	// Set property "Time":
 	if typedInput.Time != nil {
 		time := *typedInput.Time
 		properties.Time = &time
@@ -3424,7 +3432,7 @@ func (properties *SparkConfigProperties_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_SparkConfigProperties_STATUS populates our SparkConfigProperties_STATUS from the provided source SparkConfigProperties_STATUS
-func (properties *SparkConfigProperties_STATUS) AssignProperties_From_SparkConfigProperties_STATUS(source *v1api20210601s.SparkConfigProperties_STATUS) error {
+func (properties *SparkConfigProperties_STATUS) AssignProperties_From_SparkConfigProperties_STATUS(source *v20210601s.SparkConfigProperties_STATUS) error {
 
 	// ConfigurationType
 	if source.ConfigurationType != nil {
@@ -3448,7 +3456,7 @@ func (properties *SparkConfigProperties_STATUS) AssignProperties_From_SparkConfi
 }
 
 // AssignProperties_To_SparkConfigProperties_STATUS populates the provided destination SparkConfigProperties_STATUS from our SparkConfigProperties_STATUS
-func (properties *SparkConfigProperties_STATUS) AssignProperties_To_SparkConfigProperties_STATUS(destination *v1api20210601s.SparkConfigProperties_STATUS) error {
+func (properties *SparkConfigProperties_STATUS) AssignProperties_To_SparkConfigProperties_STATUS(destination *v20210601s.SparkConfigProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

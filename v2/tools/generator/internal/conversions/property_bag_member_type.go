@@ -88,7 +88,7 @@ func (b *PropertyBagMemberType) String() string {
 // WriteDebugDescription adds a description of the current type to the passed builder
 // builder receives the full description, including nested definitions
 // definitions is a dictionary for resolving named definitions
-func (b *PropertyBagMemberType) WriteDebugDescription(builder *strings.Builder, currentPackage astmodel.PackageReference) {
+func (b *PropertyBagMemberType) WriteDebugDescription(builder *strings.Builder, currentPackage astmodel.InternalPackageReference) {
 	builder.WriteString("Bag[")
 	b.element.WriteDebugDescription(builder, currentPackage)
 	builder.WriteString("]")

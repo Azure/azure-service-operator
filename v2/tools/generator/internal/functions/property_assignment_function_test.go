@@ -34,20 +34,20 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 	beta := astmodel.MakeEnumValue("Beta", "beta")
 
 	enumType := astmodel.NewEnumType(astmodel.StringType, alpha, beta)
-	currentEnum := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vCurrent, "Bucket"), enumType)
-	nextEnum := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vNext, "Bucket"), enumType)
+	currentEnum := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vCurrent, "Bucket"), enumType)
+	nextEnum := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vNext, "Bucket"), enumType)
 
 	jsonObjectType := astmodel.NewMapType(astmodel.StringType, astmodel.JSONType)
 
 	// Aliases of primitive types
-	currentAge := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vCurrent, "Age"), astmodel.IntType)
-	nextAge := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vNext, "Age"), astmodel.IntType)
+	currentAge := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vCurrent, "Age"), astmodel.IntType)
+	nextAge := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vNext, "Age"), astmodel.IntType)
 
 	// Aliases of collection types
-	currentPhoneNumbers := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vCurrent, "PhoneNumbers"), astmodel.NewValidatedType(astmodel.NewArrayType(astmodel.StringType), astmodel.ArrayValidations{}))
-	nextPhoneNumbers := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vNext, "PhoneNumbers"), astmodel.NewValidatedType(astmodel.NewArrayType(astmodel.StringType), astmodel.ArrayValidations{}))
-	currentAddresses := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vCurrent, "Addresses"), astmodel.NewValidatedType(astmodel.NewMapType(astmodel.StringType, astmodel.StringType), nil))
-	nextAddresses := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vNext, "Addresses"), astmodel.NewValidatedType(astmodel.NewMapType(astmodel.StringType, astmodel.StringType), nil))
+	currentPhoneNumbers := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vCurrent, "PhoneNumbers"), astmodel.NewValidatedType(astmodel.NewArrayType(astmodel.StringType), astmodel.ArrayValidations{}))
+	nextPhoneNumbers := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vNext, "PhoneNumbers"), astmodel.NewValidatedType(astmodel.NewArrayType(astmodel.StringType), astmodel.ArrayValidations{}))
+	currentAddresses := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vCurrent, "Addresses"), astmodel.NewValidatedType(astmodel.NewMapType(astmodel.StringType, astmodel.StringType), nil))
+	nextAddresses := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vNext, "Addresses"), astmodel.NewValidatedType(astmodel.NewMapType(astmodel.StringType, astmodel.StringType), nil))
 
 	requiredStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType)
 	optionalStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.OptionalStringType)
@@ -66,8 +66,8 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 	optionalHubEnumProperty := astmodel.NewPropertyDefinition("Release", "release", astmodel.NewOptionalType(nextEnum.Name()))
 
 	roleType := astmodel.NewObjectType().WithProperty(requiredStringProperty).WithProperty(arrayOfRequiredIntProperty)
-	currentRole := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vCurrent, "Release"), roleType)
-	hubRole := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vNext, "Release"), roleType)
+	currentRole := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vCurrent, "Release"), roleType)
+	hubRole := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vNext, "Release"), roleType)
 
 	requiredCurrentRoleProperty := astmodel.NewPropertyDefinition("Role", "role", currentRole.Name())
 	requiredHubRoleProperty := astmodel.NewPropertyDefinition("Role", "role", hubRole.Name())
@@ -147,12 +147,12 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 
 		currentType := astmodel.NewObjectType().WithProperty(currentProperty)
 		currentDefinition := astmodel.MakeTypeDefinition(
-			astmodel.MakeTypeName(vCurrent, "Person"),
+			astmodel.MakeInternalTypeName(vCurrent, "Person"),
 			currentType)
 
 		hubType := astmodel.NewObjectType().WithProperty(hubProperty)
 		hubDefinition := astmodel.MakeTypeDefinition(
-			astmodel.MakeTypeName(vNext, "Person"),
+			astmodel.MakeInternalTypeName(vNext, "Person"),
 			hubType)
 
 		defs := make(astmodel.TypeDefinitionSet)
@@ -175,12 +175,12 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 
 		currentType := astmodel.NewObjectType().WithFunction(function)
 		currentDefinition := astmodel.MakeTypeDefinition(
-			astmodel.MakeTypeName(vCurrent, "Person"),
+			astmodel.MakeInternalTypeName(vCurrent, "Person"),
 			currentType)
 
 		hubType := astmodel.NewObjectType().WithProperty(property)
 		hubDefinition := astmodel.MakeTypeDefinition(
-			astmodel.MakeTypeName(vNext, "Person"),
+			astmodel.MakeInternalTypeName(vNext, "Person"),
 			hubType)
 
 		defs := make(astmodel.TypeDefinitionSet)
@@ -565,7 +565,7 @@ func TestGolden_PropertyAssignmentFunction_WhenOverrideInterfacePresent(t *testi
 		test.FullNameProperty,
 		test.PropertyBagProperty)
 
-	overrideInterfaceName := astmodel.MakeTypeName(test.Pkg2020, "personAssignable")
+	overrideInterfaceName := astmodel.MakeInternalTypeName(test.Pkg2020, "personAssignable")
 
 	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, make(astmodel.TypeDefinitionSet), idFactory)
 	assignFromBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2021, conversions.ConvertFrom)

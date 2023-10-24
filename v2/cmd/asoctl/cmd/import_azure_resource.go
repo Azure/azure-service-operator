@@ -7,7 +7,6 @@ package cmd
 
 import (
 	"context"
-	"os"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
@@ -56,7 +55,7 @@ func importAzureResource(ctx context.Context, armIDs []string, options importAzu
 
 	log, progress := CreateLoggerAndProgressBar()
 
-	//TODO: Support other clouds
+	//TODO: Support other Azure clouds
 	activeCloud := cloud.AzurePublic
 	creds, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
@@ -82,10 +81,9 @@ func importAzureResource(ctx context.Context, armIDs []string, options importAzu
 
 	result, err := importer.Import(ctx)
 
-	// Wait for progress bar to finish & flush
-	defer func() {
-		progress.Wait()
-	}()
+	if ctx.Err() != nil {
+		return ctx.Err()
+	}
 
 	if err != nil {
 		if result.Count() == 0 {
@@ -118,11 +116,14 @@ func importAzureResource(ctx context.Context, armIDs []string, options importAzu
 			return errors.Wrapf(err, "failed to write into folder %s", folder)
 		}
 	} else {
-		err := result.SaveToWriter(os.Stdout)
+		err := result.SaveToWriter(progress)
 		if err != nil {
 			return errors.Wrapf(err, "failed to write to stdout")
 		}
 	}
+
+	// No error, wait for progress bar to finish & flush
+	progress.Wait()
 
 	return nil
 }

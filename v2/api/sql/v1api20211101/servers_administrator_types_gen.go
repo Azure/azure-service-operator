@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &ServersAdministrator{}
 
 // ConvertFrom populates our ServersAdministrator from the provided hub ServersAdministrator
 func (administrator *ServersAdministrator) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20211101s.ServersAdministrator)
+	source, ok := hub.(*v20211101s.ServersAdministrator)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/ServersAdministrator but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (administrator *ServersAdministrator) ConvertFrom(hub conversion.Hub) error
 
 // ConvertTo populates the provided hub ServersAdministrator from our ServersAdministrator
 func (administrator *ServersAdministrator) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20211101s.ServersAdministrator)
+	destination, ok := hub.(*v20211101s.ServersAdministrator)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/ServersAdministrator but received %T instead", hub)
 	}
@@ -134,11 +134,7 @@ func (administrator *ServersAdministrator) NewEmptyStatus() genruntime.Convertib
 // Owner returns the ResourceReference of the owner
 func (administrator *ServersAdministrator) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(administrator.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  administrator.Spec.Owner.Name,
-	}
+	return administrator.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -196,7 +192,7 @@ func (administrator *ServersAdministrator) ValidateUpdate(old runtime.Object) (a
 
 // createValidations validates the creation of the resource
 func (administrator *ServersAdministrator) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){administrator.validateResourceReferences, administrator.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){administrator.validateResourceReferences, administrator.validateOwnerReference, administrator.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -212,6 +208,9 @@ func (administrator *ServersAdministrator) updateValidations() []func(old runtim
 		},
 		administrator.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return administrator.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return administrator.validateOptionalConfigMapReferences()
 		},
 	}
@@ -224,6 +223,11 @@ func (administrator *ServersAdministrator) validateOptionalConfigMapReferences()
 		return nil, err
 	}
 	return genruntime.ValidateOptionalConfigMapReferences(refs)
+}
+
+// validateOwnerReference validates the owner field
+func (administrator *ServersAdministrator) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(administrator)
 }
 
 // validateResourceReferences validates all resource references
@@ -246,7 +250,7 @@ func (administrator *ServersAdministrator) validateWriteOnceProperties(old runti
 }
 
 // AssignProperties_From_ServersAdministrator populates our ServersAdministrator from the provided source ServersAdministrator
-func (administrator *ServersAdministrator) AssignProperties_From_ServersAdministrator(source *v1api20211101s.ServersAdministrator) error {
+func (administrator *ServersAdministrator) AssignProperties_From_ServersAdministrator(source *v20211101s.ServersAdministrator) error {
 
 	// ObjectMeta
 	administrator.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -272,13 +276,13 @@ func (administrator *ServersAdministrator) AssignProperties_From_ServersAdminist
 }
 
 // AssignProperties_To_ServersAdministrator populates the provided destination ServersAdministrator from our ServersAdministrator
-func (administrator *ServersAdministrator) AssignProperties_To_ServersAdministrator(destination *v1api20211101s.ServersAdministrator) error {
+func (administrator *ServersAdministrator) AssignProperties_To_ServersAdministrator(destination *v20211101s.ServersAdministrator) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *administrator.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20211101s.Servers_Administrator_Spec
+	var spec v20211101s.Servers_Administrator_Spec
 	err := administrator.Spec.AssignProperties_To_Servers_Administrator_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_Administrator_Spec() to populate field Spec")
@@ -286,7 +290,7 @@ func (administrator *ServersAdministrator) AssignProperties_To_ServersAdministra
 	destination.Spec = spec
 
 	// Status
-	var status v1api20211101s.Servers_Administrator_STATUS
+	var status v20211101s.Servers_Administrator_STATUS
 	err = administrator.Status.AssignProperties_To_Servers_Administrator_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_Administrator_STATUS() to populate field Status")
@@ -355,10 +359,10 @@ func (administrator *Servers_Administrator_Spec) ConvertToARM(resolved genruntim
 	}
 	result := &Servers_Administrator_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if administrator.AdministratorType != nil ||
 		administrator.Login != nil ||
 		administrator.Sid != nil ||
@@ -414,7 +418,7 @@ func (administrator *Servers_Administrator_Spec) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Administrator_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorType’:
+	// Set property "AdministratorType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdministratorType != nil {
@@ -423,7 +427,7 @@ func (administrator *Servers_Administrator_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘Login’:
+	// Set property "Login":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Login != nil {
@@ -432,10 +436,13 @@ func (administrator *Servers_Administrator_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘Owner’:
-	administrator.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	administrator.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘Sid’:
+	// Set property "Sid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Sid != nil {
@@ -444,9 +451,9 @@ func (administrator *Servers_Administrator_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// no assignment for property ‘SidFromConfig’
+	// no assignment for property "SidFromConfig"
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TenantId != nil {
@@ -455,7 +462,7 @@ func (administrator *Servers_Administrator_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// no assignment for property ‘TenantIdFromConfig’
+	// no assignment for property "TenantIdFromConfig"
 
 	// No error
 	return nil
@@ -465,14 +472,14 @@ var _ genruntime.ConvertibleSpec = &Servers_Administrator_Spec{}
 
 // ConvertSpecFrom populates our Servers_Administrator_Spec from the provided source
 func (administrator *Servers_Administrator_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20211101s.Servers_Administrator_Spec)
+	src, ok := source.(*v20211101s.Servers_Administrator_Spec)
 	if ok {
 		// Populate our instance from source
 		return administrator.AssignProperties_From_Servers_Administrator_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Servers_Administrator_Spec{}
+	src = &v20211101s.Servers_Administrator_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -489,14 +496,14 @@ func (administrator *Servers_Administrator_Spec) ConvertSpecFrom(source genrunti
 
 // ConvertSpecTo populates the provided destination from our Servers_Administrator_Spec
 func (administrator *Servers_Administrator_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20211101s.Servers_Administrator_Spec)
+	dst, ok := destination.(*v20211101s.Servers_Administrator_Spec)
 	if ok {
 		// Populate destination from our instance
 		return administrator.AssignProperties_To_Servers_Administrator_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Servers_Administrator_Spec{}
+	dst = &v20211101s.Servers_Administrator_Spec{}
 	err := administrator.AssignProperties_To_Servers_Administrator_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -512,7 +519,7 @@ func (administrator *Servers_Administrator_Spec) ConvertSpecTo(destination genru
 }
 
 // AssignProperties_From_Servers_Administrator_Spec populates our Servers_Administrator_Spec from the provided source Servers_Administrator_Spec
-func (administrator *Servers_Administrator_Spec) AssignProperties_From_Servers_Administrator_Spec(source *v1api20211101s.Servers_Administrator_Spec) error {
+func (administrator *Servers_Administrator_Spec) AssignProperties_From_Servers_Administrator_Spec(source *v20211101s.Servers_Administrator_Spec) error {
 
 	// AdministratorType
 	if source.AdministratorType != nil {
@@ -570,7 +577,7 @@ func (administrator *Servers_Administrator_Spec) AssignProperties_From_Servers_A
 }
 
 // AssignProperties_To_Servers_Administrator_Spec populates the provided destination Servers_Administrator_Spec from our Servers_Administrator_Spec
-func (administrator *Servers_Administrator_Spec) AssignProperties_To_Servers_Administrator_Spec(destination *v1api20211101s.Servers_Administrator_Spec) error {
+func (administrator *Servers_Administrator_Spec) AssignProperties_To_Servers_Administrator_Spec(destination *v20211101s.Servers_Administrator_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -711,14 +718,14 @@ var _ genruntime.ConvertibleStatus = &Servers_Administrator_STATUS{}
 
 // ConvertStatusFrom populates our Servers_Administrator_STATUS from the provided source
 func (administrator *Servers_Administrator_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20211101s.Servers_Administrator_STATUS)
+	src, ok := source.(*v20211101s.Servers_Administrator_STATUS)
 	if ok {
 		// Populate our instance from source
 		return administrator.AssignProperties_From_Servers_Administrator_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Servers_Administrator_STATUS{}
+	src = &v20211101s.Servers_Administrator_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -735,14 +742,14 @@ func (administrator *Servers_Administrator_STATUS) ConvertStatusFrom(source genr
 
 // ConvertStatusTo populates the provided destination from our Servers_Administrator_STATUS
 func (administrator *Servers_Administrator_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20211101s.Servers_Administrator_STATUS)
+	dst, ok := destination.(*v20211101s.Servers_Administrator_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return administrator.AssignProperties_To_Servers_Administrator_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Servers_Administrator_STATUS{}
+	dst = &v20211101s.Servers_Administrator_STATUS{}
 	err := administrator.AssignProperties_To_Servers_Administrator_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -771,7 +778,7 @@ func (administrator *Servers_Administrator_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Administrator_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorType’:
+	// Set property "AdministratorType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdministratorType != nil {
@@ -780,7 +787,7 @@ func (administrator *Servers_Administrator_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘AzureADOnlyAuthentication’:
+	// Set property "AzureADOnlyAuthentication":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AzureADOnlyAuthentication != nil {
@@ -789,15 +796,15 @@ func (administrator *Servers_Administrator_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		administrator.Id = &id
 	}
 
-	// Set property ‘Login’:
+	// Set property "Login":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Login != nil {
@@ -806,13 +813,13 @@ func (administrator *Servers_Administrator_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		administrator.Name = &name
 	}
 
-	// Set property ‘Sid’:
+	// Set property "Sid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Sid != nil {
@@ -821,7 +828,7 @@ func (administrator *Servers_Administrator_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TenantId != nil {
@@ -830,7 +837,7 @@ func (administrator *Servers_Administrator_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		administrator.Type = &typeVar
@@ -841,7 +848,7 @@ func (administrator *Servers_Administrator_STATUS) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_Servers_Administrator_STATUS populates our Servers_Administrator_STATUS from the provided source Servers_Administrator_STATUS
-func (administrator *Servers_Administrator_STATUS) AssignProperties_From_Servers_Administrator_STATUS(source *v1api20211101s.Servers_Administrator_STATUS) error {
+func (administrator *Servers_Administrator_STATUS) AssignProperties_From_Servers_Administrator_STATUS(source *v20211101s.Servers_Administrator_STATUS) error {
 
 	// AdministratorType
 	if source.AdministratorType != nil {
@@ -885,7 +892,7 @@ func (administrator *Servers_Administrator_STATUS) AssignProperties_From_Servers
 }
 
 // AssignProperties_To_Servers_Administrator_STATUS populates the provided destination Servers_Administrator_STATUS from our Servers_Administrator_STATUS
-func (administrator *Servers_Administrator_STATUS) AssignProperties_To_Servers_Administrator_STATUS(destination *v1api20211101s.Servers_Administrator_STATUS) error {
+func (administrator *Servers_Administrator_STATUS) AssignProperties_To_Servers_Administrator_STATUS(destination *v20211101s.Servers_Administrator_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &ServersConnectionPolicy{}
 
 // ConvertFrom populates our ServersConnectionPolicy from the provided hub ServersConnectionPolicy
 func (policy *ServersConnectionPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20211101s.ServersConnectionPolicy)
+	source, ok := hub.(*v20211101s.ServersConnectionPolicy)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/ServersConnectionPolicy but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (policy *ServersConnectionPolicy) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub ServersConnectionPolicy from our ServersConnectionPolicy
 func (policy *ServersConnectionPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20211101s.ServersConnectionPolicy)
+	destination, ok := hub.(*v20211101s.ServersConnectionPolicy)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/ServersConnectionPolicy but received %T instead", hub)
 	}
@@ -134,11 +134,7 @@ func (policy *ServersConnectionPolicy) NewEmptyStatus() genruntime.ConvertibleSt
 // Owner returns the ResourceReference of the owner
 func (policy *ServersConnectionPolicy) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(policy.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  policy.Spec.Owner.Name,
-	}
+	return policy.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -196,7 +192,7 @@ func (policy *ServersConnectionPolicy) ValidateUpdate(old runtime.Object) (admis
 
 // createValidations validates the creation of the resource
 func (policy *ServersConnectionPolicy) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){policy.validateResourceReferences}
+	return []func() (admission.Warnings, error){policy.validateResourceReferences, policy.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -210,7 +206,16 @@ func (policy *ServersConnectionPolicy) updateValidations() []func(old runtime.Ob
 		func(old runtime.Object) (admission.Warnings, error) {
 			return policy.validateResourceReferences()
 		},
-		policy.validateWriteOnceProperties}
+		policy.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return policy.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (policy *ServersConnectionPolicy) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(policy)
 }
 
 // validateResourceReferences validates all resource references
@@ -233,7 +238,7 @@ func (policy *ServersConnectionPolicy) validateWriteOnceProperties(old runtime.O
 }
 
 // AssignProperties_From_ServersConnectionPolicy populates our ServersConnectionPolicy from the provided source ServersConnectionPolicy
-func (policy *ServersConnectionPolicy) AssignProperties_From_ServersConnectionPolicy(source *v1api20211101s.ServersConnectionPolicy) error {
+func (policy *ServersConnectionPolicy) AssignProperties_From_ServersConnectionPolicy(source *v20211101s.ServersConnectionPolicy) error {
 
 	// ObjectMeta
 	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -259,13 +264,13 @@ func (policy *ServersConnectionPolicy) AssignProperties_From_ServersConnectionPo
 }
 
 // AssignProperties_To_ServersConnectionPolicy populates the provided destination ServersConnectionPolicy from our ServersConnectionPolicy
-func (policy *ServersConnectionPolicy) AssignProperties_To_ServersConnectionPolicy(destination *v1api20211101s.ServersConnectionPolicy) error {
+func (policy *ServersConnectionPolicy) AssignProperties_To_ServersConnectionPolicy(destination *v20211101s.ServersConnectionPolicy) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20211101s.Servers_ConnectionPolicy_Spec
+	var spec v20211101s.Servers_ConnectionPolicy_Spec
 	err := policy.Spec.AssignProperties_To_Servers_ConnectionPolicy_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_ConnectionPolicy_Spec() to populate field Spec")
@@ -273,7 +278,7 @@ func (policy *ServersConnectionPolicy) AssignProperties_To_ServersConnectionPoli
 	destination.Spec = spec
 
 	// Status
-	var status v1api20211101s.Servers_ConnectionPolicy_STATUS
+	var status v20211101s.Servers_ConnectionPolicy_STATUS
 	err = policy.Status.AssignProperties_To_Servers_ConnectionPolicy_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_ConnectionPolicy_STATUS() to populate field Status")
@@ -324,10 +329,10 @@ func (policy *Servers_ConnectionPolicy_Spec) ConvertToARM(resolved genruntime.Co
 	}
 	result := &Servers_ConnectionPolicy_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if policy.ConnectionType != nil {
 		result.Properties = &ServerConnectionPolicyProperties_ARM{}
 	}
@@ -350,7 +355,7 @@ func (policy *Servers_ConnectionPolicy_Spec) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_ConnectionPolicy_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ConnectionType’:
+	// Set property "ConnectionType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ConnectionType != nil {
@@ -359,8 +364,11 @@ func (policy *Servers_ConnectionPolicy_Spec) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘Owner’:
-	policy.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	policy.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// No error
 	return nil
@@ -370,14 +378,14 @@ var _ genruntime.ConvertibleSpec = &Servers_ConnectionPolicy_Spec{}
 
 // ConvertSpecFrom populates our Servers_ConnectionPolicy_Spec from the provided source
 func (policy *Servers_ConnectionPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20211101s.Servers_ConnectionPolicy_Spec)
+	src, ok := source.(*v20211101s.Servers_ConnectionPolicy_Spec)
 	if ok {
 		// Populate our instance from source
 		return policy.AssignProperties_From_Servers_ConnectionPolicy_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Servers_ConnectionPolicy_Spec{}
+	src = &v20211101s.Servers_ConnectionPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -394,14 +402,14 @@ func (policy *Servers_ConnectionPolicy_Spec) ConvertSpecFrom(source genruntime.C
 
 // ConvertSpecTo populates the provided destination from our Servers_ConnectionPolicy_Spec
 func (policy *Servers_ConnectionPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20211101s.Servers_ConnectionPolicy_Spec)
+	dst, ok := destination.(*v20211101s.Servers_ConnectionPolicy_Spec)
 	if ok {
 		// Populate destination from our instance
 		return policy.AssignProperties_To_Servers_ConnectionPolicy_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Servers_ConnectionPolicy_Spec{}
+	dst = &v20211101s.Servers_ConnectionPolicy_Spec{}
 	err := policy.AssignProperties_To_Servers_ConnectionPolicy_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -417,7 +425,7 @@ func (policy *Servers_ConnectionPolicy_Spec) ConvertSpecTo(destination genruntim
 }
 
 // AssignProperties_From_Servers_ConnectionPolicy_Spec populates our Servers_ConnectionPolicy_Spec from the provided source Servers_ConnectionPolicy_Spec
-func (policy *Servers_ConnectionPolicy_Spec) AssignProperties_From_Servers_ConnectionPolicy_Spec(source *v1api20211101s.Servers_ConnectionPolicy_Spec) error {
+func (policy *Servers_ConnectionPolicy_Spec) AssignProperties_From_Servers_ConnectionPolicy_Spec(source *v20211101s.Servers_ConnectionPolicy_Spec) error {
 
 	// ConnectionType
 	if source.ConnectionType != nil {
@@ -440,7 +448,7 @@ func (policy *Servers_ConnectionPolicy_Spec) AssignProperties_From_Servers_Conne
 }
 
 // AssignProperties_To_Servers_ConnectionPolicy_Spec populates the provided destination Servers_ConnectionPolicy_Spec from our Servers_ConnectionPolicy_Spec
-func (policy *Servers_ConnectionPolicy_Spec) AssignProperties_To_Servers_ConnectionPolicy_Spec(destination *v1api20211101s.Servers_ConnectionPolicy_Spec) error {
+func (policy *Servers_ConnectionPolicy_Spec) AssignProperties_To_Servers_ConnectionPolicy_Spec(destination *v20211101s.Servers_ConnectionPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -521,14 +529,14 @@ var _ genruntime.ConvertibleStatus = &Servers_ConnectionPolicy_STATUS{}
 
 // ConvertStatusFrom populates our Servers_ConnectionPolicy_STATUS from the provided source
 func (policy *Servers_ConnectionPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20211101s.Servers_ConnectionPolicy_STATUS)
+	src, ok := source.(*v20211101s.Servers_ConnectionPolicy_STATUS)
 	if ok {
 		// Populate our instance from source
 		return policy.AssignProperties_From_Servers_ConnectionPolicy_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Servers_ConnectionPolicy_STATUS{}
+	src = &v20211101s.Servers_ConnectionPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -545,14 +553,14 @@ func (policy *Servers_ConnectionPolicy_STATUS) ConvertStatusFrom(source genrunti
 
 // ConvertStatusTo populates the provided destination from our Servers_ConnectionPolicy_STATUS
 func (policy *Servers_ConnectionPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20211101s.Servers_ConnectionPolicy_STATUS)
+	dst, ok := destination.(*v20211101s.Servers_ConnectionPolicy_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return policy.AssignProperties_To_Servers_ConnectionPolicy_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Servers_ConnectionPolicy_STATUS{}
+	dst = &v20211101s.Servers_ConnectionPolicy_STATUS{}
 	err := policy.AssignProperties_To_Servers_ConnectionPolicy_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -581,9 +589,9 @@ func (policy *Servers_ConnectionPolicy_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_ConnectionPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘ConnectionType’:
+	// Set property "ConnectionType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ConnectionType != nil {
@@ -592,31 +600,31 @@ func (policy *Servers_ConnectionPolicy_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		policy.Id = &id
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		policy.Kind = &kind
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		policy.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		policy.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		policy.Type = &typeVar
@@ -627,7 +635,7 @@ func (policy *Servers_ConnectionPolicy_STATUS) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_Servers_ConnectionPolicy_STATUS populates our Servers_ConnectionPolicy_STATUS from the provided source Servers_ConnectionPolicy_STATUS
-func (policy *Servers_ConnectionPolicy_STATUS) AssignProperties_From_Servers_ConnectionPolicy_STATUS(source *v1api20211101s.Servers_ConnectionPolicy_STATUS) error {
+func (policy *Servers_ConnectionPolicy_STATUS) AssignProperties_From_Servers_ConnectionPolicy_STATUS(source *v20211101s.Servers_ConnectionPolicy_STATUS) error {
 
 	// Conditions
 	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -660,7 +668,7 @@ func (policy *Servers_ConnectionPolicy_STATUS) AssignProperties_From_Servers_Con
 }
 
 // AssignProperties_To_Servers_ConnectionPolicy_STATUS populates the provided destination Servers_ConnectionPolicy_STATUS from our Servers_ConnectionPolicy_STATUS
-func (policy *Servers_ConnectionPolicy_STATUS) AssignProperties_To_Servers_ConnectionPolicy_STATUS(destination *v1api20211101s.Servers_ConnectionPolicy_STATUS) error {
+func (policy *Servers_ConnectionPolicy_STATUS) AssignProperties_To_Servers_ConnectionPolicy_STATUS(destination *v20211101s.Servers_ConnectionPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

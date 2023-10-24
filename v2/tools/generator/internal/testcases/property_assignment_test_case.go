@@ -106,7 +106,7 @@ func (p *PropertyAssignmentTestCase) RequiredImports() *astmodel.PackageImportSe
 	result.AddImportOfReference(astmodel.DiffReference)
 	result.AddImportOfReference(astmodel.PrettyReference)
 
-	result.AddImportOfReference(p.toFn.ParameterType().PackageReference)
+	result.AddImportOfReference(p.toFn.ParameterType().PackageReference())
 
 	return result
 }
@@ -352,7 +352,7 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 	fn.AddComments(fmt.Sprintf(
 		"tests if a specific instance of %s can be assigned to %s and back losslessly",
 		p.subject.Name(),
-		p.fromFn.ParameterType().PackageReference.PackageName()))
+		p.fromFn.ParameterType().PackageReference().PackageName()))
 	fn.AddReturns("string")
 
 	return fn.DefineFunc()

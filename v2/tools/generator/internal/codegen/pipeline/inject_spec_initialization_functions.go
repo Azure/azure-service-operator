@@ -43,29 +43,32 @@ func InjectSpecInitializationFunctions(
 			functionInjector := astmodel.NewFunctionInjector()
 			newDefs := make(astmodel.TypeDefinitionSet, len(mappings))
 			var errs []error
-			for specName, statusName := range mappings {
+			for specName, statuses := range mappings {
 				spec := defs[specName]
-				status := defs[statusName]
 
-				// Create the initialization function
-				assignmentContext := conversions.NewPropertyConversionContext(conversions.InitializationMethodPrefix, defs, idFactory).
-					WithConfiguration(configuration.ObjectModelConfiguration)
+				for statusName := range statuses {
+					status := defs[statusName]
 
-				initializationBuilder := functions.NewPropertyAssignmentFunctionBuilder(spec, status, conversions.ConvertFrom)
-				initializationBuilder.AddSuffixMatchingAssignmentSelector("Id", "Reference")
-				initializationFn, err := initializationBuilder.Build(assignmentContext)
-				if err != nil {
-					errs = append(errs, errors.Wrapf(err, "creating Initialize_From_*() function for %q", specName))
-					continue
+					// Create the initialization function
+					assignmentContext := conversions.NewPropertyConversionContext(conversions.InitializationMethodPrefix, defs, idFactory).
+						WithConfiguration(configuration.ObjectModelConfiguration)
+
+					initializationBuilder := functions.NewPropertyAssignmentFunctionBuilder(spec, status, conversions.ConvertFrom)
+					initializationBuilder.AddSuffixMatchingAssignmentSelector("Id", "Reference")
+					initializationFn, err := initializationBuilder.Build(assignmentContext)
+					if err != nil {
+						errs = append(errs, errors.Wrapf(err, "creating Initialize_From_*() function for %q", specName))
+						continue
+					}
+
+					spec, err = functionInjector.Inject(spec, initializationFn)
+					if err != nil {
+						errs = append(errs, errors.Wrapf(err, "failed to inject %s function into %q", initializationFn.Name(), specName))
+						continue
+					}
 				}
 
-				newSpec, err := functionInjector.Inject(spec, initializationFn)
-				if err != nil {
-					errs = append(errs, errors.Wrapf(err, "failed to inject %s function into %q", initializationFn.Name(), specName))
-					continue
-				}
-
-				newDefs[specName] = newSpec
+				newDefs[specName] = spec
 			}
 
 			if len(errs) > 0 {
@@ -81,11 +84,11 @@ func InjectSpecInitializationFunctions(
 }
 
 type specInitializationScanner struct {
-	defs            astmodel.TypeDefinitionSet              // A set of all known types, used to follow references
-	conversionGraph *storage.ConversionGraph                // Conversion graph between resource versions
-	config          *config.ObjectModelConfiguration        // Configuration for which resources are importable and which are not
-	specToStatus    map[astmodel.TypeName]astmodel.TypeName // maps spec types to corresponding status types
-	visitor         astmodel.TypeVisitor                    // used to walk resources to find the mappings
+	defs            astmodel.TypeDefinitionSet                                 // A set of all known types, used to follow references
+	conversionGraph *storage.ConversionGraph                                   // Conversion graph between resource versions
+	config          *config.ObjectModelConfiguration                           // Configuration for which resources are importable and which are not
+	specToStatus    map[astmodel.InternalTypeName]astmodel.InternalTypeNameSet // maps spec types to one (or more) corresponding status types
+	visitor         astmodel.TypeVisitor[astmodel.Type]                        // used to walk resources to find the mappings
 }
 
 func newSpecInitializationScanner(
@@ -101,14 +104,14 @@ func newSpecInitializationScanner(
 		defs:            defs,
 		conversionGraph: conversionGraph,
 		config:          config.ObjectModelConfiguration,
-		specToStatus:    make(map[astmodel.TypeName]astmodel.TypeName, capacity),
+		specToStatus:    make(map[astmodel.InternalTypeName]astmodel.InternalTypeNameSet, capacity),
 	}
 
-	builder := astmodel.TypeVisitorBuilder{
-		VisitTypeName:   result.visitTypeName,
-		VisitObjectType: result.visitObjectType,
-		VisitMapType:    result.visitMapType,
-		VisitArrayType:  result.visitArrayType,
+	builder := astmodel.TypeVisitorBuilder[astmodel.Type]{
+		VisitInternalTypeName: result.visitInternalTypeName,
+		VisitObjectType:       result.visitObjectType,
+		VisitMapType:          result.visitMapType,
+		VisitArrayType:        result.visitArrayType,
 	}
 
 	result.visitor = builder.Build()
@@ -116,7 +119,7 @@ func newSpecInitializationScanner(
 }
 
 // scanResources does a scan for all the non-storage ResourceTypes in the supplied set
-func (s *specInitializationScanner) scanResources() (map[astmodel.TypeName]astmodel.TypeName, error) {
+func (s *specInitializationScanner) scanResources() (map[astmodel.InternalTypeName]astmodel.InternalTypeNameSet, error) {
 	rsrcs, err := s.findResources()
 	if err != nil {
 		// Don't need to wrap this error, it's already wrapped
@@ -146,7 +149,7 @@ func (s *specInitializationScanner) findResources() (astmodel.TypeDefinitionSet,
 	result := make(astmodel.TypeDefinitionSet, capacity)
 	for _, def := range astmodel.FindResourceDefinitions(s.defs) {
 		// Skip storage types, only need spec initialization on API resources
-		if astmodel.IsStoragePackageReference(def.Name().PackageReference) {
+		if astmodel.IsStoragePackageReference(def.Name().PackageReference()) {
 			continue
 		}
 
@@ -190,18 +193,12 @@ func (s *specInitializationScanner) findResources() (astmodel.TypeDefinitionSet,
 }
 
 // visitTypeName is called for each TypeName in the spec and status types of a resource
-func (s *specInitializationScanner) visitTypeName(
-	visitor *astmodel.TypeVisitor,
-	specName astmodel.TypeName,
-	statusAny interface{},
+func (s *specInitializationScanner) visitInternalTypeName(
+	visitor *astmodel.TypeVisitor[astmodel.Type],
+	specName astmodel.InternalTypeName,
+	ctx astmodel.Type,
 ) (astmodel.Type, error) {
-	statusType, isType := statusAny.(astmodel.Type)
-	if !isType {
-		// Don't have a type name, nothing to do
-		return specName, nil
-	}
-
-	statusName, ok := astmodel.AsTypeName(statusType)
+	statusName, ok := astmodel.AsInternalTypeName(ctx)
 	if !ok {
 		// Don't have a type name, nothing to do
 		return specName, nil
@@ -223,18 +220,23 @@ func (s *specInitializationScanner) visitTypeName(
 	// If we already have this specToStatus, we're done (as we've already visited their underlying definitions).
 	// If we have a different specToStatus, we have an error.
 	// If we have no specToStatus, we need to add one.
-	if existing, ok := s.specToStatus[specName]; ok {
-		if existing != statusName {
-			return nil, errors.Errorf("found multiple status types %q and %q for spec type %q", existing, statusName, specName)
-		}
+	existing, ok := s.specToStatus[specName]
+	if ok {
+		existing.Add(statusName)
 	} else {
-		s.specToStatus[specName] = statusName
+		existing = astmodel.NewInternalTypeNameSet(statusName)
+		s.specToStatus[specName] = existing
 	}
 
 	// Recursively visit the definitions of these types
 	_, err := visitor.Visit(specDef.Type(), statusDef.Type())
 	if err != nil {
-		return nil, errors.Wrapf(err, "visiting definitions of spec type %s and status type %s", specName, statusName)
+		return nil, errors.Wrapf(
+			err,
+			"visiting definitions of spec type %s and status type %s in package %s",
+			specName.Name(),
+			statusName.Name(),
+			specName.InternalPackageReference().FolderPath())
 	}
 
 	return specName, nil
@@ -242,11 +244,11 @@ func (s *specInitializationScanner) visitTypeName(
 
 // visitObjectType is called for each Object pair in the spec and status types of a resource
 func (s *specInitializationScanner) visitObjectType(
-	visitor *astmodel.TypeVisitor,
+	visitor *astmodel.TypeVisitor[astmodel.Type],
 	spec *astmodel.ObjectType,
-	statusAny interface{},
+	ctx astmodel.Type,
 ) (astmodel.Type, error) {
-	status, ok := astmodel.AsObjectType(statusAny.(astmodel.Type))
+	status, ok := astmodel.AsObjectType(ctx)
 	if !ok {
 		// Don't have an object, nothing to do
 		return spec, nil
@@ -265,10 +267,10 @@ func (s *specInitializationScanner) visitObjectType(
 
 		_, err := visitor.Visit(specProperty.PropertyType(), statusProperty.PropertyType())
 		if err != nil {
-			// I know that both the property names will be the same, but being explicit should make the message
-			// less confusing to anyone reading it
+			// I know that both the property names will be the same, so only log once
+			// (including the name twice was tried, but was confusing)
 			errs = append(errs, errors.Wrapf(
-				err, "visiting properties %q and %q", specProperty.PropertyName(), statusProperty.PropertyName()))
+				err, "visiting spec and status properties %s", specProperty.PropertyName()))
 		}
 	}
 
@@ -277,11 +279,11 @@ func (s *specInitializationScanner) visitObjectType(
 
 // visitMapType is called for each Map pair in the spec and status types of a resource
 func (s *specInitializationScanner) visitMapType(
-	visitor *astmodel.TypeVisitor,
+	visitor *astmodel.TypeVisitor[astmodel.Type],
 	spec *astmodel.MapType,
-	statusAny interface{},
+	ctx astmodel.Type,
 ) (astmodel.Type, error) {
-	status, ok := astmodel.AsMapType(statusAny.(astmodel.Type))
+	status, ok := astmodel.AsMapType(ctx)
 	if !ok {
 		// If the status type DOESN'T have a map here, something is awry - they should have very similar structures
 		// as they're both created from the same Swagger spec
@@ -304,15 +306,15 @@ func (s *specInitializationScanner) visitMapType(
 
 // visitArrayType is called for each Array pair in the spec and status types of a resource
 func (s *specInitializationScanner) visitArrayType(
-	visitor *astmodel.TypeVisitor,
+	visitor *astmodel.TypeVisitor[astmodel.Type],
 	spec *astmodel.ArrayType,
-	statusAny interface{},
+	ctx astmodel.Type,
 ) (astmodel.Type, error) {
-	status, ok := astmodel.AsArrayType(statusAny.(astmodel.Type))
+	status, ok := astmodel.AsArrayType(ctx)
 	if !ok {
 		// If the conversion is map -> array, we allow it but only for the special UserAssignedIdentityDetails type (for now).
 		// We can expand this in the future if there are other map->array scenarios we want to support
-		if _, ok := astmodel.AsMapType(statusAny.(astmodel.Type)); ok {
+		if _, ok := astmodel.AsMapType(ctx); ok {
 			typeName, ok := astmodel.AsTypeName(spec.Element())
 			if ok {
 				if typeName.Name() == astmodel.UserAssignedIdentitiesTypeName {

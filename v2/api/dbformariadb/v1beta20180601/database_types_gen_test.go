@@ -5,8 +5,8 @@ package v1beta20180601
 
 import (
 	"encoding/json"
-	v1api20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601storage"
-	v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storage"
+	v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601storage"
+	v1beta20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForDatabase(subject Database) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20180601s.Database
+	var hub v20180601s.Database
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForDatabase(subject Database) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.Database
+	var other v1beta20180601s.Database
 	err := copied.AssignProperties_To_Database(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForServers_Database_Spec(subject Servers_Database_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.Servers_Database_Spec
+	var other v1beta20180601s.Servers_Database_Spec
 	err := copied.AssignProperties_To_Servers_Database_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -287,7 +287,7 @@ func RunPropertyAssignmentTestForServers_Database_STATUS(subject Servers_Databas
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20180601s.Servers_Database_STATUS
+	var other v1beta20180601s.Servers_Database_STATUS
 	err := copied.AssignProperties_To_Servers_Database_STATUS(&other)
 	if err != nil {
 		return err.Error()

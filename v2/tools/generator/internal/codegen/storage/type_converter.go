@@ -17,7 +17,7 @@ import (
 // TypeConverter is used to create a storage variant of an API type
 type TypeConverter struct {
 	// visitor used to apply the modification
-	visitor astmodel.TypeVisitor
+	visitor astmodel.TypeVisitor[any]
 	// definitions contains all the definitions for this group
 	definitions astmodel.TypeDefinitionSet
 	// propertyConverter is used to modify properties
@@ -31,12 +31,12 @@ func NewTypeConverter(definitions astmodel.TypeDefinitionSet) *TypeConverter {
 		propertyConverter: NewPropertyConverter(definitions),
 	}
 
-	result.visitor = astmodel.TypeVisitorBuilder{
-		VisitObjectType:    result.convertObjectType,
-		VisitResourceType:  result.convertResourceType,
-		VisitTypeName:      result.redirectTypeNamesToStoragePackage,
-		VisitValidatedType: result.stripAllValidations,
-		VisitFlaggedType:   result.stripAllFlags,
+	result.visitor = astmodel.TypeVisitorBuilder[any]{
+		VisitObjectType:       result.convertObjectType,
+		VisitResourceType:     result.convertResourceType,
+		VisitInternalTypeName: result.redirectTypeNamesToStoragePackage,
+		VisitValidatedType:    result.stripAllValidations,
+		VisitFlaggedType:      result.stripAllFlags,
 	}.Build()
 
 	return result
@@ -62,9 +62,9 @@ func (t *TypeConverter) ConvertDefinition(def astmodel.TypeDefinition) (astmodel
 
 // convertResourceType creates a storage variation of a resource type
 func (t *TypeConverter) convertResourceType(
-	tv *astmodel.TypeVisitor,
+	tv *astmodel.TypeVisitor[any],
 	resource *astmodel.ResourceType,
-	ctx interface{},
+	ctx any,
 ) (astmodel.Type, error) {
 	// storage resource definitions do not need defaulter/validator interfaces, they have no webhooks
 	result := resource.WithoutInterface(astmodel.DefaulterInterfaceName).
@@ -75,7 +75,7 @@ func (t *TypeConverter) convertResourceType(
 
 // convertObjectType creates a storage variation of an object type
 func (t *TypeConverter) convertObjectType(
-	_ *astmodel.TypeVisitor, object *astmodel.ObjectType, _ interface{},
+	_ *astmodel.TypeVisitor[any], object *astmodel.ObjectType, _ any,
 ) (astmodel.Type, error) {
 	var errs []error
 	properties := object.Properties().Copy()
@@ -110,9 +110,7 @@ func (t *TypeConverter) convertObjectType(
 }
 
 // redirectTypeNamesToStoragePackage modifies TypeNames to reference the current storage package
-func (t *TypeConverter) redirectTypeNamesToStoragePackage(
-	_ *astmodel.TypeVisitor, name astmodel.TypeName, _ interface{},
-) (astmodel.Type, error) {
+func (t *TypeConverter) redirectTypeNamesToStoragePackage(name astmodel.InternalTypeName) (astmodel.Type, error) {
 	if result, ok := t.tryConvertToStoragePackage(name); ok {
 		return result, nil
 	}
@@ -123,7 +121,7 @@ func (t *TypeConverter) redirectTypeNamesToStoragePackage(
 
 // stripAllValidations removes all validations
 func (t *TypeConverter) stripAllValidations(
-	this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{},
+	this *astmodel.TypeVisitor[any], v *astmodel.ValidatedType, ctx any,
 ) (astmodel.Type, error) {
 	// strip all type validations from storage definitions,
 	// act as if they do not exist
@@ -132,9 +130,9 @@ func (t *TypeConverter) stripAllValidations(
 
 // stripAllFlags removes all flags
 func (t *TypeConverter) stripAllFlags(
-	tv *astmodel.TypeVisitor,
+	tv *astmodel.TypeVisitor[any],
 	flaggedType *astmodel.FlaggedType,
-	ctx interface{},
+	ctx any,
 ) (astmodel.Type, error) {
 	if flaggedType.HasFlag(astmodel.ARMFlag) {
 		// We don't want to do anything with ARM definitions
@@ -146,10 +144,10 @@ func (t *TypeConverter) stripAllFlags(
 
 // tryConvertToStoragePackage converts the supplied TypeName to reference the parallel type in a storage package if it
 // is a local reference; if not, it returns false.
-func (t *TypeConverter) tryConvertToStoragePackage(name astmodel.TypeName) (astmodel.TypeName, bool) {
-	local, ok := name.PackageReference.(astmodel.LocalPackageReference)
+func (t *TypeConverter) tryConvertToStoragePackage(name astmodel.InternalTypeName) (astmodel.InternalTypeName, bool) {
+	local, ok := name.PackageReference().(astmodel.LocalPackageReference)
 	if !ok {
-		return astmodel.EmptyTypeName, false
+		return astmodel.InternalTypeName{}, false
 	}
 
 	storage := astmodel.MakeStoragePackageReference(local)
@@ -159,7 +157,7 @@ func (t *TypeConverter) tryConvertToStoragePackage(name astmodel.TypeName) (astm
 // descriptionForStorageVariant creates a description for a storage variant, indicating which
 // original type it is based upon
 func (_ *TypeConverter) descriptionForStorageVariant(definition astmodel.TypeDefinition) []string {
-	pkg := definition.Name().PackageReference.PackageName()
+	pkg := definition.Name().PackageReference().PackageName()
 
 	result := []string{
 		fmt.Sprintf("Storage version of %s.%s", pkg, definition.Name().Name()),

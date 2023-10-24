@@ -5,7 +5,7 @@ package v1api20220901
 
 import (
 	"fmt"
-	v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &StorageAccountsFileServicesShare{}
 
 // ConvertFrom populates our StorageAccountsFileServicesShare from the provided hub StorageAccountsFileServicesShare
 func (share *StorageAccountsFileServicesShare) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20220901s.StorageAccountsFileServicesShare)
+	source, ok := hub.(*v20220901s.StorageAccountsFileServicesShare)
 	if !ok {
 		return fmt.Errorf("expected storage/v1api20220901storage/StorageAccountsFileServicesShare but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (share *StorageAccountsFileServicesShare) ConvertFrom(hub conversion.Hub) e
 
 // ConvertTo populates the provided hub StorageAccountsFileServicesShare from our StorageAccountsFileServicesShare
 func (share *StorageAccountsFileServicesShare) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20220901s.StorageAccountsFileServicesShare)
+	destination, ok := hub.(*v20220901s.StorageAccountsFileServicesShare)
 	if !ok {
 		return fmt.Errorf("expected storage/v1api20220901storage/StorageAccountsFileServicesShare but received %T instead", hub)
 	}
@@ -141,11 +141,7 @@ func (share *StorageAccountsFileServicesShare) NewEmptyStatus() genruntime.Conve
 // Owner returns the ResourceReference of the owner
 func (share *StorageAccountsFileServicesShare) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(share.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  share.Spec.Owner.Name,
-	}
+	return share.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (share *StorageAccountsFileServicesShare) ValidateUpdate(old runtime.Object
 
 // createValidations validates the creation of the resource
 func (share *StorageAccountsFileServicesShare) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){share.validateResourceReferences}
+	return []func() (admission.Warnings, error){share.validateResourceReferences, share.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (share *StorageAccountsFileServicesShare) updateValidations() []func(old ru
 		func(old runtime.Object) (admission.Warnings, error) {
 			return share.validateResourceReferences()
 		},
-		share.validateWriteOnceProperties}
+		share.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return share.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (share *StorageAccountsFileServicesShare) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(share)
 }
 
 // validateResourceReferences validates all resource references
@@ -240,7 +245,7 @@ func (share *StorageAccountsFileServicesShare) validateWriteOnceProperties(old r
 }
 
 // AssignProperties_From_StorageAccountsFileServicesShare populates our StorageAccountsFileServicesShare from the provided source StorageAccountsFileServicesShare
-func (share *StorageAccountsFileServicesShare) AssignProperties_From_StorageAccountsFileServicesShare(source *v1api20220901s.StorageAccountsFileServicesShare) error {
+func (share *StorageAccountsFileServicesShare) AssignProperties_From_StorageAccountsFileServicesShare(source *v20220901s.StorageAccountsFileServicesShare) error {
 
 	// ObjectMeta
 	share.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +271,13 @@ func (share *StorageAccountsFileServicesShare) AssignProperties_From_StorageAcco
 }
 
 // AssignProperties_To_StorageAccountsFileServicesShare populates the provided destination StorageAccountsFileServicesShare from our StorageAccountsFileServicesShare
-func (share *StorageAccountsFileServicesShare) AssignProperties_To_StorageAccountsFileServicesShare(destination *v1api20220901s.StorageAccountsFileServicesShare) error {
+func (share *StorageAccountsFileServicesShare) AssignProperties_To_StorageAccountsFileServicesShare(destination *v20220901s.StorageAccountsFileServicesShare) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *share.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20220901s.StorageAccounts_FileServices_Share_Spec
+	var spec v20220901s.StorageAccounts_FileServices_Share_Spec
 	err := share.Spec.AssignProperties_To_StorageAccounts_FileServices_Share_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_FileServices_Share_Spec() to populate field Spec")
@@ -280,7 +285,7 @@ func (share *StorageAccountsFileServicesShare) AssignProperties_To_StorageAccoun
 	destination.Spec = spec
 
 	// Status
-	var status v1api20220901s.StorageAccounts_FileServices_Share_STATUS
+	var status v20220901s.StorageAccounts_FileServices_Share_STATUS
 	err = share.Status.AssignProperties_To_StorageAccounts_FileServices_Share_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_FileServices_Share_STATUS() to populate field Status")
@@ -356,10 +361,10 @@ func (share *StorageAccounts_FileServices_Share_Spec) ConvertToARM(resolved genr
 	}
 	result := &StorageAccounts_FileServices_Share_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if share.AccessTier != nil ||
 		share.EnabledProtocols != nil ||
 		share.Metadata != nil ||
@@ -412,7 +417,7 @@ func (share *StorageAccounts_FileServices_Share_Spec) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_FileServices_Share_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessTier’:
+	// Set property "AccessTier":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AccessTier != nil {
@@ -421,10 +426,10 @@ func (share *StorageAccounts_FileServices_Share_Spec) PopulateFromARM(owner genr
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	share.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘EnabledProtocols’:
+	// Set property "EnabledProtocols":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnabledProtocols != nil {
@@ -433,7 +438,7 @@ func (share *StorageAccounts_FileServices_Share_Spec) PopulateFromARM(owner genr
 		}
 	}
 
-	// Set property ‘Metadata’:
+	// Set property "Metadata":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
@@ -444,10 +449,13 @@ func (share *StorageAccounts_FileServices_Share_Spec) PopulateFromARM(owner genr
 		}
 	}
 
-	// Set property ‘Owner’:
-	share.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	share.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘RootSquash’:
+	// Set property "RootSquash":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RootSquash != nil {
@@ -456,7 +464,7 @@ func (share *StorageAccounts_FileServices_Share_Spec) PopulateFromARM(owner genr
 		}
 	}
 
-	// Set property ‘ShareQuota’:
+	// Set property "ShareQuota":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ShareQuota != nil {
@@ -465,7 +473,7 @@ func (share *StorageAccounts_FileServices_Share_Spec) PopulateFromARM(owner genr
 		}
 	}
 
-	// Set property ‘SignedIdentifiers’:
+	// Set property "SignedIdentifiers":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SignedIdentifiers {
@@ -486,14 +494,14 @@ var _ genruntime.ConvertibleSpec = &StorageAccounts_FileServices_Share_Spec{}
 
 // ConvertSpecFrom populates our StorageAccounts_FileServices_Share_Spec from the provided source
 func (share *StorageAccounts_FileServices_Share_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20220901s.StorageAccounts_FileServices_Share_Spec)
+	src, ok := source.(*v20220901s.StorageAccounts_FileServices_Share_Spec)
 	if ok {
 		// Populate our instance from source
 		return share.AssignProperties_From_StorageAccounts_FileServices_Share_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220901s.StorageAccounts_FileServices_Share_Spec{}
+	src = &v20220901s.StorageAccounts_FileServices_Share_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -510,14 +518,14 @@ func (share *StorageAccounts_FileServices_Share_Spec) ConvertSpecFrom(source gen
 
 // ConvertSpecTo populates the provided destination from our StorageAccounts_FileServices_Share_Spec
 func (share *StorageAccounts_FileServices_Share_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20220901s.StorageAccounts_FileServices_Share_Spec)
+	dst, ok := destination.(*v20220901s.StorageAccounts_FileServices_Share_Spec)
 	if ok {
 		// Populate destination from our instance
 		return share.AssignProperties_To_StorageAccounts_FileServices_Share_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220901s.StorageAccounts_FileServices_Share_Spec{}
+	dst = &v20220901s.StorageAccounts_FileServices_Share_Spec{}
 	err := share.AssignProperties_To_StorageAccounts_FileServices_Share_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -533,7 +541,7 @@ func (share *StorageAccounts_FileServices_Share_Spec) ConvertSpecTo(destination 
 }
 
 // AssignProperties_From_StorageAccounts_FileServices_Share_Spec populates our StorageAccounts_FileServices_Share_Spec from the provided source StorageAccounts_FileServices_Share_Spec
-func (share *StorageAccounts_FileServices_Share_Spec) AssignProperties_From_StorageAccounts_FileServices_Share_Spec(source *v1api20220901s.StorageAccounts_FileServices_Share_Spec) error {
+func (share *StorageAccounts_FileServices_Share_Spec) AssignProperties_From_StorageAccounts_FileServices_Share_Spec(source *v20220901s.StorageAccounts_FileServices_Share_Spec) error {
 
 	// AccessTier
 	if source.AccessTier != nil {
@@ -604,7 +612,7 @@ func (share *StorageAccounts_FileServices_Share_Spec) AssignProperties_From_Stor
 }
 
 // AssignProperties_To_StorageAccounts_FileServices_Share_Spec populates the provided destination StorageAccounts_FileServices_Share_Spec from our StorageAccounts_FileServices_Share_Spec
-func (share *StorageAccounts_FileServices_Share_Spec) AssignProperties_To_StorageAccounts_FileServices_Share_Spec(destination *v1api20220901s.StorageAccounts_FileServices_Share_Spec) error {
+func (share *StorageAccounts_FileServices_Share_Spec) AssignProperties_To_StorageAccounts_FileServices_Share_Spec(destination *v20220901s.StorageAccounts_FileServices_Share_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -659,11 +667,11 @@ func (share *StorageAccounts_FileServices_Share_Spec) AssignProperties_To_Storag
 
 	// SignedIdentifiers
 	if share.SignedIdentifiers != nil {
-		signedIdentifierList := make([]v1api20220901s.SignedIdentifier, len(share.SignedIdentifiers))
+		signedIdentifierList := make([]v20220901s.SignedIdentifier, len(share.SignedIdentifiers))
 		for signedIdentifierIndex, signedIdentifierItem := range share.SignedIdentifiers {
 			// Shadow the loop variable to avoid aliasing
 			signedIdentifierItem := signedIdentifierItem
-			var signedIdentifier v1api20220901s.SignedIdentifier
+			var signedIdentifier v20220901s.SignedIdentifier
 			err := signedIdentifierItem.AssignProperties_To_SignedIdentifier(&signedIdentifier)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SignedIdentifier() to populate field SignedIdentifiers")
@@ -836,14 +844,14 @@ var _ genruntime.ConvertibleStatus = &StorageAccounts_FileServices_Share_STATUS{
 
 // ConvertStatusFrom populates our StorageAccounts_FileServices_Share_STATUS from the provided source
 func (share *StorageAccounts_FileServices_Share_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20220901s.StorageAccounts_FileServices_Share_STATUS)
+	src, ok := source.(*v20220901s.StorageAccounts_FileServices_Share_STATUS)
 	if ok {
 		// Populate our instance from source
 		return share.AssignProperties_From_StorageAccounts_FileServices_Share_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220901s.StorageAccounts_FileServices_Share_STATUS{}
+	src = &v20220901s.StorageAccounts_FileServices_Share_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -860,14 +868,14 @@ func (share *StorageAccounts_FileServices_Share_STATUS) ConvertStatusFrom(source
 
 // ConvertStatusTo populates the provided destination from our StorageAccounts_FileServices_Share_STATUS
 func (share *StorageAccounts_FileServices_Share_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20220901s.StorageAccounts_FileServices_Share_STATUS)
+	dst, ok := destination.(*v20220901s.StorageAccounts_FileServices_Share_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return share.AssignProperties_To_StorageAccounts_FileServices_Share_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220901s.StorageAccounts_FileServices_Share_STATUS{}
+	dst = &v20220901s.StorageAccounts_FileServices_Share_STATUS{}
 	err := share.AssignProperties_To_StorageAccounts_FileServices_Share_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -896,7 +904,7 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_FileServices_Share_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessTier’:
+	// Set property "AccessTier":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AccessTier != nil {
@@ -905,7 +913,7 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘AccessTierChangeTime’:
+	// Set property "AccessTierChangeTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AccessTierChangeTime != nil {
@@ -914,7 +922,7 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘AccessTierStatus’:
+	// Set property "AccessTierStatus":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AccessTierStatus != nil {
@@ -923,9 +931,9 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Deleted’:
+	// Set property "Deleted":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Deleted != nil {
@@ -934,7 +942,7 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘DeletedTime’:
+	// Set property "DeletedTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeletedTime != nil {
@@ -943,7 +951,7 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘EnabledProtocols’:
+	// Set property "EnabledProtocols":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnabledProtocols != nil {
@@ -952,19 +960,19 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		share.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		share.Id = &id
 	}
 
-	// Set property ‘LastModifiedTime’:
+	// Set property "LastModifiedTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LastModifiedTime != nil {
@@ -973,7 +981,7 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘LeaseDuration’:
+	// Set property "LeaseDuration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LeaseDuration != nil {
@@ -982,7 +990,7 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘LeaseState’:
+	// Set property "LeaseState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LeaseState != nil {
@@ -991,7 +999,7 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘LeaseStatus’:
+	// Set property "LeaseStatus":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LeaseStatus != nil {
@@ -1000,7 +1008,7 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘Metadata’:
+	// Set property "Metadata":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
@@ -1011,13 +1019,13 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		share.Name = &name
 	}
 
-	// Set property ‘RemainingRetentionDays’:
+	// Set property "RemainingRetentionDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RemainingRetentionDays != nil {
@@ -1026,7 +1034,7 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘RootSquash’:
+	// Set property "RootSquash":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RootSquash != nil {
@@ -1035,7 +1043,7 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘ShareQuota’:
+	// Set property "ShareQuota":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ShareQuota != nil {
@@ -1044,7 +1052,7 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘ShareUsageBytes’:
+	// Set property "ShareUsageBytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ShareUsageBytes != nil {
@@ -1053,7 +1061,7 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘SignedIdentifiers’:
+	// Set property "SignedIdentifiers":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SignedIdentifiers {
@@ -1066,7 +1074,7 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘SnapshotTime’:
+	// Set property "SnapshotTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SnapshotTime != nil {
@@ -1075,13 +1083,13 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		share.Type = &typeVar
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Version != nil {
@@ -1095,7 +1103,7 @@ func (share *StorageAccounts_FileServices_Share_STATUS) PopulateFromARM(owner ge
 }
 
 // AssignProperties_From_StorageAccounts_FileServices_Share_STATUS populates our StorageAccounts_FileServices_Share_STATUS from the provided source StorageAccounts_FileServices_Share_STATUS
-func (share *StorageAccounts_FileServices_Share_STATUS) AssignProperties_From_StorageAccounts_FileServices_Share_STATUS(source *v1api20220901s.StorageAccounts_FileServices_Share_STATUS) error {
+func (share *StorageAccounts_FileServices_Share_STATUS) AssignProperties_From_StorageAccounts_FileServices_Share_STATUS(source *v20220901s.StorageAccounts_FileServices_Share_STATUS) error {
 
 	// AccessTier
 	if source.AccessTier != nil {
@@ -1221,7 +1229,7 @@ func (share *StorageAccounts_FileServices_Share_STATUS) AssignProperties_From_St
 }
 
 // AssignProperties_To_StorageAccounts_FileServices_Share_STATUS populates the provided destination StorageAccounts_FileServices_Share_STATUS from our StorageAccounts_FileServices_Share_STATUS
-func (share *StorageAccounts_FileServices_Share_STATUS) AssignProperties_To_StorageAccounts_FileServices_Share_STATUS(destination *v1api20220901s.StorageAccounts_FileServices_Share_STATUS) error {
+func (share *StorageAccounts_FileServices_Share_STATUS) AssignProperties_To_StorageAccounts_FileServices_Share_STATUS(destination *v20220901s.StorageAccounts_FileServices_Share_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1319,11 +1327,11 @@ func (share *StorageAccounts_FileServices_Share_STATUS) AssignProperties_To_Stor
 
 	// SignedIdentifiers
 	if share.SignedIdentifiers != nil {
-		signedIdentifierList := make([]v1api20220901s.SignedIdentifier_STATUS, len(share.SignedIdentifiers))
+		signedIdentifierList := make([]v20220901s.SignedIdentifier_STATUS, len(share.SignedIdentifiers))
 		for signedIdentifierIndex, signedIdentifierItem := range share.SignedIdentifiers {
 			// Shadow the loop variable to avoid aliasing
 			signedIdentifierItem := signedIdentifierItem
-			var signedIdentifier v1api20220901s.SignedIdentifier_STATUS
+			var signedIdentifier v20220901s.SignedIdentifier_STATUS
 			err := signedIdentifierItem.AssignProperties_To_SignedIdentifier_STATUS(&signedIdentifier)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SignedIdentifier_STATUS() to populate field SignedIdentifiers")
@@ -1447,7 +1455,7 @@ func (identifier *SignedIdentifier) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &SignedIdentifier_ARM{}
 
-	// Set property ‘AccessPolicy’:
+	// Set property "AccessPolicy":
 	if identifier.AccessPolicy != nil {
 		accessPolicy_ARM, err := (*identifier.AccessPolicy).ConvertToARM(resolved)
 		if err != nil {
@@ -1457,7 +1465,7 @@ func (identifier *SignedIdentifier) ConvertToARM(resolved genruntime.ConvertToAR
 		result.AccessPolicy = &accessPolicy
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if identifier.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*identifier.Reference)
 		if err != nil {
@@ -1481,7 +1489,7 @@ func (identifier *SignedIdentifier) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SignedIdentifier_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessPolicy’:
+	// Set property "AccessPolicy":
 	if typedInput.AccessPolicy != nil {
 		var accessPolicy1 AccessPolicy
 		err := accessPolicy1.PopulateFromARM(owner, *typedInput.AccessPolicy)
@@ -1492,14 +1500,14 @@ func (identifier *SignedIdentifier) PopulateFromARM(owner genruntime.ArbitraryOw
 		identifier.AccessPolicy = &accessPolicy
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
 }
 
 // AssignProperties_From_SignedIdentifier populates our SignedIdentifier from the provided source SignedIdentifier
-func (identifier *SignedIdentifier) AssignProperties_From_SignedIdentifier(source *v1api20220901s.SignedIdentifier) error {
+func (identifier *SignedIdentifier) AssignProperties_From_SignedIdentifier(source *v20220901s.SignedIdentifier) error {
 
 	// AccessPolicy
 	if source.AccessPolicy != nil {
@@ -1526,13 +1534,13 @@ func (identifier *SignedIdentifier) AssignProperties_From_SignedIdentifier(sourc
 }
 
 // AssignProperties_To_SignedIdentifier populates the provided destination SignedIdentifier from our SignedIdentifier
-func (identifier *SignedIdentifier) AssignProperties_To_SignedIdentifier(destination *v1api20220901s.SignedIdentifier) error {
+func (identifier *SignedIdentifier) AssignProperties_To_SignedIdentifier(destination *v20220901s.SignedIdentifier) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AccessPolicy
 	if identifier.AccessPolicy != nil {
-		var accessPolicy v1api20220901s.AccessPolicy
+		var accessPolicy v20220901s.AccessPolicy
 		err := identifier.AccessPolicy.AssignProperties_To_AccessPolicy(&accessPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AccessPolicy() to populate field AccessPolicy")
@@ -1610,7 +1618,7 @@ func (identifier *SignedIdentifier_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SignedIdentifier_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessPolicy’:
+	// Set property "AccessPolicy":
 	if typedInput.AccessPolicy != nil {
 		var accessPolicy1 AccessPolicy_STATUS
 		err := accessPolicy1.PopulateFromARM(owner, *typedInput.AccessPolicy)
@@ -1621,7 +1629,7 @@ func (identifier *SignedIdentifier_STATUS) PopulateFromARM(owner genruntime.Arbi
 		identifier.AccessPolicy = &accessPolicy
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		identifier.Id = &id
@@ -1632,7 +1640,7 @@ func (identifier *SignedIdentifier_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_SignedIdentifier_STATUS populates our SignedIdentifier_STATUS from the provided source SignedIdentifier_STATUS
-func (identifier *SignedIdentifier_STATUS) AssignProperties_From_SignedIdentifier_STATUS(source *v1api20220901s.SignedIdentifier_STATUS) error {
+func (identifier *SignedIdentifier_STATUS) AssignProperties_From_SignedIdentifier_STATUS(source *v20220901s.SignedIdentifier_STATUS) error {
 
 	// AccessPolicy
 	if source.AccessPolicy != nil {
@@ -1654,13 +1662,13 @@ func (identifier *SignedIdentifier_STATUS) AssignProperties_From_SignedIdentifie
 }
 
 // AssignProperties_To_SignedIdentifier_STATUS populates the provided destination SignedIdentifier_STATUS from our SignedIdentifier_STATUS
-func (identifier *SignedIdentifier_STATUS) AssignProperties_To_SignedIdentifier_STATUS(destination *v1api20220901s.SignedIdentifier_STATUS) error {
+func (identifier *SignedIdentifier_STATUS) AssignProperties_To_SignedIdentifier_STATUS(destination *v20220901s.SignedIdentifier_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AccessPolicy
 	if identifier.AccessPolicy != nil {
-		var accessPolicy v1api20220901s.AccessPolicy_STATUS
+		var accessPolicy v20220901s.AccessPolicy_STATUS
 		err := identifier.AccessPolicy.AssignProperties_To_AccessPolicy_STATUS(&accessPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AccessPolicy_STATUS() to populate field AccessPolicy")
@@ -1704,19 +1712,19 @@ func (policy *AccessPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 	result := &AccessPolicy_ARM{}
 
-	// Set property ‘ExpiryTime’:
+	// Set property "ExpiryTime":
 	if policy.ExpiryTime != nil {
 		expiryTime := *policy.ExpiryTime
 		result.ExpiryTime = &expiryTime
 	}
 
-	// Set property ‘Permission’:
+	// Set property "Permission":
 	if policy.Permission != nil {
 		permission := *policy.Permission
 		result.Permission = &permission
 	}
 
-	// Set property ‘StartTime’:
+	// Set property "StartTime":
 	if policy.StartTime != nil {
 		startTime := *policy.StartTime
 		result.StartTime = &startTime
@@ -1736,19 +1744,19 @@ func (policy *AccessPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AccessPolicy_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ExpiryTime’:
+	// Set property "ExpiryTime":
 	if typedInput.ExpiryTime != nil {
 		expiryTime := *typedInput.ExpiryTime
 		policy.ExpiryTime = &expiryTime
 	}
 
-	// Set property ‘Permission’:
+	// Set property "Permission":
 	if typedInput.Permission != nil {
 		permission := *typedInput.Permission
 		policy.Permission = &permission
 	}
 
-	// Set property ‘StartTime’:
+	// Set property "StartTime":
 	if typedInput.StartTime != nil {
 		startTime := *typedInput.StartTime
 		policy.StartTime = &startTime
@@ -1759,7 +1767,7 @@ func (policy *AccessPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 }
 
 // AssignProperties_From_AccessPolicy populates our AccessPolicy from the provided source AccessPolicy
-func (policy *AccessPolicy) AssignProperties_From_AccessPolicy(source *v1api20220901s.AccessPolicy) error {
+func (policy *AccessPolicy) AssignProperties_From_AccessPolicy(source *v20220901s.AccessPolicy) error {
 
 	// ExpiryTime
 	policy.ExpiryTime = genruntime.ClonePointerToString(source.ExpiryTime)
@@ -1775,7 +1783,7 @@ func (policy *AccessPolicy) AssignProperties_From_AccessPolicy(source *v1api2022
 }
 
 // AssignProperties_To_AccessPolicy populates the provided destination AccessPolicy from our AccessPolicy
-func (policy *AccessPolicy) AssignProperties_To_AccessPolicy(destination *v1api20220901s.AccessPolicy) error {
+func (policy *AccessPolicy) AssignProperties_To_AccessPolicy(destination *v20220901s.AccessPolicy) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1840,19 +1848,19 @@ func (policy *AccessPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AccessPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ExpiryTime’:
+	// Set property "ExpiryTime":
 	if typedInput.ExpiryTime != nil {
 		expiryTime := *typedInput.ExpiryTime
 		policy.ExpiryTime = &expiryTime
 	}
 
-	// Set property ‘Permission’:
+	// Set property "Permission":
 	if typedInput.Permission != nil {
 		permission := *typedInput.Permission
 		policy.Permission = &permission
 	}
 
-	// Set property ‘StartTime’:
+	// Set property "StartTime":
 	if typedInput.StartTime != nil {
 		startTime := *typedInput.StartTime
 		policy.StartTime = &startTime
@@ -1863,7 +1871,7 @@ func (policy *AccessPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_AccessPolicy_STATUS populates our AccessPolicy_STATUS from the provided source AccessPolicy_STATUS
-func (policy *AccessPolicy_STATUS) AssignProperties_From_AccessPolicy_STATUS(source *v1api20220901s.AccessPolicy_STATUS) error {
+func (policy *AccessPolicy_STATUS) AssignProperties_From_AccessPolicy_STATUS(source *v20220901s.AccessPolicy_STATUS) error {
 
 	// ExpiryTime
 	policy.ExpiryTime = genruntime.ClonePointerToString(source.ExpiryTime)
@@ -1879,7 +1887,7 @@ func (policy *AccessPolicy_STATUS) AssignProperties_From_AccessPolicy_STATUS(sou
 }
 
 // AssignProperties_To_AccessPolicy_STATUS populates the provided destination AccessPolicy_STATUS from our AccessPolicy_STATUS
-func (policy *AccessPolicy_STATUS) AssignProperties_To_AccessPolicy_STATUS(destination *v1api20220901s.AccessPolicy_STATUS) error {
+func (policy *AccessPolicy_STATUS) AssignProperties_To_AccessPolicy_STATUS(destination *v20220901s.AccessPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

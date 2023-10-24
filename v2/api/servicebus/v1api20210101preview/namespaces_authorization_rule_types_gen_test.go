@@ -5,7 +5,8 @@ package v1api20210101preview
 
 import (
 	"encoding/json"
-	v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
+	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForNamespacesAuthorizationRule(subject NamespacesA
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20210101ps.NamespacesAuthorizationRule
+	var hub v20211101s.NamespacesAuthorizationRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForNamespacesAuthorizationRule(subject NamespacesA
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210101ps.NamespacesAuthorizationRule
+	var other v20210101ps.NamespacesAuthorizationRule
 	err := copied.AssignProperties_To_NamespacesAuthorizationRule(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForNamespaces_AuthorizationRule_Spec(subject Names
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210101ps.Namespaces_AuthorizationRule_Spec
+	var other v20210101ps.Namespaces_AuthorizationRule_Spec
 	err := copied.AssignProperties_To_Namespaces_AuthorizationRule_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -300,7 +301,7 @@ func RunPropertyAssignmentTestForNamespaces_AuthorizationRule_STATUS(subject Nam
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210101ps.Namespaces_AuthorizationRule_STATUS
+	var other v20210101ps.Namespaces_AuthorizationRule_STATUS
 	err := copied.AssignProperties_To_Namespaces_AuthorizationRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -420,7 +421,7 @@ func RunPropertyAssignmentTestForNamespacesAuthorizationRuleOperatorSpec(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210101ps.NamespacesAuthorizationRuleOperatorSpec
+	var other v20210101ps.NamespacesAuthorizationRuleOperatorSpec
 	err := copied.AssignProperties_To_NamespacesAuthorizationRuleOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -523,7 +524,7 @@ func RunPropertyAssignmentTestForNamespacesAuthorizationRuleOperatorSecrets(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210101ps.NamespacesAuthorizationRuleOperatorSecrets
+	var other v20210101ps.NamespacesAuthorizationRuleOperatorSecrets
 	err := copied.AssignProperties_To_NamespacesAuthorizationRuleOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()

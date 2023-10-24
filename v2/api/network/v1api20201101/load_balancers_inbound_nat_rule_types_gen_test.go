@@ -5,7 +5,7 @@ package v1api20201101
 
 import (
 	"encoding/json"
-	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForLoadBalancersInboundNatRule(subject LoadBalance
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20201101s.LoadBalancersInboundNatRule
+	var hub v20201101s.LoadBalancersInboundNatRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -72,13 +72,13 @@ func Test_LoadBalancersInboundNatRule_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancersInboundNatRule tests if a specific instance of LoadBalancersInboundNatRule can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForLoadBalancersInboundNatRule tests if a specific instance of LoadBalancersInboundNatRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForLoadBalancersInboundNatRule(subject LoadBalancersInboundNatRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.LoadBalancersInboundNatRule
+	var other v20201101s.LoadBalancersInboundNatRule
 	err := copied.AssignProperties_To_LoadBalancersInboundNatRule(&other)
 	if err != nil {
 		return err.Error()
@@ -176,13 +176,13 @@ func Test_LoadBalancers_InboundNatRule_Spec_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancers_InboundNatRule_Spec tests if a specific instance of LoadBalancers_InboundNatRule_Spec can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForLoadBalancers_InboundNatRule_Spec tests if a specific instance of LoadBalancers_InboundNatRule_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForLoadBalancers_InboundNatRule_Spec(subject LoadBalancers_InboundNatRule_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.LoadBalancers_InboundNatRule_Spec
+	var other v20201101s.LoadBalancers_InboundNatRule_Spec
 	err := copied.AssignProperties_To_LoadBalancers_InboundNatRule_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -299,13 +299,13 @@ func Test_LoadBalancers_InboundNatRule_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLoadBalancers_InboundNatRule_STATUS tests if a specific instance of LoadBalancers_InboundNatRule_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForLoadBalancers_InboundNatRule_STATUS tests if a specific instance of LoadBalancers_InboundNatRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForLoadBalancers_InboundNatRule_STATUS(subject LoadBalancers_InboundNatRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.LoadBalancers_InboundNatRule_STATUS
+	var other v20201101s.LoadBalancers_InboundNatRule_STATUS
 	err := copied.AssignProperties_To_LoadBalancers_InboundNatRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -431,13 +431,13 @@ func Test_NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_Su
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded tests if a specific instance of NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded tests if a specific instance of NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded(subject NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded
+	var other v20201101s.NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded
 	err := copied.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -535,13 +535,13 @@ func Test_SubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubResource tests if a specific instance of SubResource can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForSubResource tests if a specific instance of SubResource can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.SubResource
+	var other v20201101s.SubResource
 	err := copied.AssignProperties_To_SubResource(&other)
 	if err != nil {
 		return err.Error()
@@ -631,13 +631,13 @@ func Test_SubResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubResource_STATUS tests if a specific instance of SubResource_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForSubResource_STATUS tests if a specific instance of SubResource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.SubResource_STATUS
+	var other v20201101s.SubResource_STATUS
 	err := copied.AssignProperties_To_SubResource_STATUS(&other)
 	if err != nil {
 		return err.Error()

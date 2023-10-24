@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	v1api20210601 "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601"
-	v1api20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601storage"
+	v20210601 "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +15,6 @@ type WorkspacesBigDataPoolExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *WorkspacesBigDataPoolExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20210601.WorkspacesBigDataPool{},
-		&v1api20210601s.WorkspacesBigDataPool{}}
+		&v20210601.WorkspacesBigDataPool{},
+		&v20210601s.WorkspacesBigDataPool{}}
 }

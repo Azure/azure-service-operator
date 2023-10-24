@@ -25,9 +25,9 @@ func Test_NewFileDefinition_GivenValues_InitializesFields(t *testing.T) {
 		NewStringPropertyDefinition("knownAs"),
 		NewStringPropertyDefinition("familyName"),
 	)
-	file := NewFileDefinition(person.Name().PackageReference, []TypeDefinition{person}, nil)
+	file := NewFileDefinition(person.Name().InternalPackageReference(), []TypeDefinition{person}, nil)
 
-	g.Expect(file.packageReference).To(Equal(person.Name().PackageReference))
+	g.Expect(file.packageReference).To(Equal(person.Name().PackageReference()))
 	g.Expect(file.definitions).To(HaveLen(1))
 }
 
@@ -251,7 +251,7 @@ func Test_CalcRanks_GivenDiamondWithReverseBar_AssignRanksInOrder(t *testing.T) 
  */
 
 func NewTestObject(name string, fields ...*PropertyDefinition) TypeDefinition {
-	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), name)
+	ref := MakeInternalTypeName(makeTestLocalPackageReference("group", "2020-01-01"), name)
 	return MakeTypeDefinition(ref, NewObjectType().WithProperties(fields...))
 }
 

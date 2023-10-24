@@ -5,7 +5,7 @@ package v1api20220101
 
 import (
 	"fmt"
-	v1api20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101storage"
+	v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &FlexibleServersAdministrator{}
 
 // ConvertFrom populates our FlexibleServersAdministrator from the provided hub FlexibleServersAdministrator
 func (administrator *FlexibleServersAdministrator) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20220101s.FlexibleServersAdministrator)
+	source, ok := hub.(*v20220101s.FlexibleServersAdministrator)
 	if !ok {
 		return fmt.Errorf("expected dbformysql/v1api20220101storage/FlexibleServersAdministrator but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (administrator *FlexibleServersAdministrator) ConvertFrom(hub conversion.Hu
 
 // ConvertTo populates the provided hub FlexibleServersAdministrator from our FlexibleServersAdministrator
 func (administrator *FlexibleServersAdministrator) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20220101s.FlexibleServersAdministrator)
+	destination, ok := hub.(*v20220101s.FlexibleServersAdministrator)
 	if !ok {
 		return fmt.Errorf("expected dbformysql/v1api20220101storage/FlexibleServersAdministrator but received %T instead", hub)
 	}
@@ -134,11 +134,7 @@ func (administrator *FlexibleServersAdministrator) NewEmptyStatus() genruntime.C
 // Owner returns the ResourceReference of the owner
 func (administrator *FlexibleServersAdministrator) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(administrator.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  administrator.Spec.Owner.Name,
-	}
+	return administrator.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -196,7 +192,7 @@ func (administrator *FlexibleServersAdministrator) ValidateUpdate(old runtime.Ob
 
 // createValidations validates the creation of the resource
 func (administrator *FlexibleServersAdministrator) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){administrator.validateResourceReferences, administrator.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){administrator.validateResourceReferences, administrator.validateOwnerReference, administrator.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -212,6 +208,9 @@ func (administrator *FlexibleServersAdministrator) updateValidations() []func(ol
 		},
 		administrator.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return administrator.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return administrator.validateOptionalConfigMapReferences()
 		},
 	}
@@ -224,6 +223,11 @@ func (administrator *FlexibleServersAdministrator) validateOptionalConfigMapRefe
 		return nil, err
 	}
 	return genruntime.ValidateOptionalConfigMapReferences(refs)
+}
+
+// validateOwnerReference validates the owner field
+func (administrator *FlexibleServersAdministrator) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(administrator)
 }
 
 // validateResourceReferences validates all resource references
@@ -246,7 +250,7 @@ func (administrator *FlexibleServersAdministrator) validateWriteOnceProperties(o
 }
 
 // AssignProperties_From_FlexibleServersAdministrator populates our FlexibleServersAdministrator from the provided source FlexibleServersAdministrator
-func (administrator *FlexibleServersAdministrator) AssignProperties_From_FlexibleServersAdministrator(source *v1api20220101s.FlexibleServersAdministrator) error {
+func (administrator *FlexibleServersAdministrator) AssignProperties_From_FlexibleServersAdministrator(source *v20220101s.FlexibleServersAdministrator) error {
 
 	// ObjectMeta
 	administrator.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -272,13 +276,13 @@ func (administrator *FlexibleServersAdministrator) AssignProperties_From_Flexibl
 }
 
 // AssignProperties_To_FlexibleServersAdministrator populates the provided destination FlexibleServersAdministrator from our FlexibleServersAdministrator
-func (administrator *FlexibleServersAdministrator) AssignProperties_To_FlexibleServersAdministrator(destination *v1api20220101s.FlexibleServersAdministrator) error {
+func (administrator *FlexibleServersAdministrator) AssignProperties_To_FlexibleServersAdministrator(destination *v20220101s.FlexibleServersAdministrator) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *administrator.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20220101s.FlexibleServers_Administrator_Spec
+	var spec v20220101s.FlexibleServers_Administrator_Spec
 	err := administrator.Spec.AssignProperties_To_FlexibleServers_Administrator_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Administrator_Spec() to populate field Spec")
@@ -286,7 +290,7 @@ func (administrator *FlexibleServersAdministrator) AssignProperties_To_FlexibleS
 	destination.Spec = spec
 
 	// Status
-	var status v1api20220101s.FlexibleServers_Administrator_STATUS
+	var status v20220101s.FlexibleServers_Administrator_STATUS
 	err = administrator.Status.AssignProperties_To_FlexibleServers_Administrator_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Administrator_STATUS() to populate field Status")
@@ -359,10 +363,10 @@ func (administrator *FlexibleServers_Administrator_Spec) ConvertToARM(resolved g
 	}
 	result := &FlexibleServers_Administrator_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if administrator.AdministratorType != nil ||
 		administrator.IdentityResourceReference != nil ||
 		administrator.Login != nil ||
@@ -427,7 +431,7 @@ func (administrator *FlexibleServers_Administrator_Spec) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServers_Administrator_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorType’:
+	// Set property "AdministratorType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdministratorType != nil {
@@ -436,9 +440,9 @@ func (administrator *FlexibleServers_Administrator_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// no assignment for property ‘IdentityResourceReference’
+	// no assignment for property "IdentityResourceReference"
 
-	// Set property ‘Login’:
+	// Set property "Login":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Login != nil {
@@ -447,10 +451,13 @@ func (administrator *FlexibleServers_Administrator_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Owner’:
-	administrator.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	administrator.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘Sid’:
+	// Set property "Sid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Sid != nil {
@@ -459,9 +466,9 @@ func (administrator *FlexibleServers_Administrator_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// no assignment for property ‘SidFromConfig’
+	// no assignment for property "SidFromConfig"
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TenantId != nil {
@@ -470,7 +477,7 @@ func (administrator *FlexibleServers_Administrator_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// no assignment for property ‘TenantIdFromConfig’
+	// no assignment for property "TenantIdFromConfig"
 
 	// No error
 	return nil
@@ -480,14 +487,14 @@ var _ genruntime.ConvertibleSpec = &FlexibleServers_Administrator_Spec{}
 
 // ConvertSpecFrom populates our FlexibleServers_Administrator_Spec from the provided source
 func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20220101s.FlexibleServers_Administrator_Spec)
+	src, ok := source.(*v20220101s.FlexibleServers_Administrator_Spec)
 	if ok {
 		// Populate our instance from source
 		return administrator.AssignProperties_From_FlexibleServers_Administrator_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220101s.FlexibleServers_Administrator_Spec{}
+	src = &v20220101s.FlexibleServers_Administrator_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -504,14 +511,14 @@ func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecFrom(source 
 
 // ConvertSpecTo populates the provided destination from our FlexibleServers_Administrator_Spec
 func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20220101s.FlexibleServers_Administrator_Spec)
+	dst, ok := destination.(*v20220101s.FlexibleServers_Administrator_Spec)
 	if ok {
 		// Populate destination from our instance
 		return administrator.AssignProperties_To_FlexibleServers_Administrator_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220101s.FlexibleServers_Administrator_Spec{}
+	dst = &v20220101s.FlexibleServers_Administrator_Spec{}
 	err := administrator.AssignProperties_To_FlexibleServers_Administrator_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -527,7 +534,7 @@ func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecTo(destinati
 }
 
 // AssignProperties_From_FlexibleServers_Administrator_Spec populates our FlexibleServers_Administrator_Spec from the provided source FlexibleServers_Administrator_Spec
-func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_From_FlexibleServers_Administrator_Spec(source *v1api20220101s.FlexibleServers_Administrator_Spec) error {
+func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_From_FlexibleServers_Administrator_Spec(source *v20220101s.FlexibleServers_Administrator_Spec) error {
 
 	// AdministratorType
 	if source.AdministratorType != nil {
@@ -583,7 +590,7 @@ func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_From_F
 }
 
 // AssignProperties_To_FlexibleServers_Administrator_Spec populates the provided destination FlexibleServers_Administrator_Spec from our FlexibleServers_Administrator_Spec
-func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_To_FlexibleServers_Administrator_Spec(destination *v1api20220101s.FlexibleServers_Administrator_Spec) error {
+func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_To_FlexibleServers_Administrator_Spec(destination *v20220101s.FlexibleServers_Administrator_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -724,14 +731,14 @@ var _ genruntime.ConvertibleStatus = &FlexibleServers_Administrator_STATUS{}
 
 // ConvertStatusFrom populates our FlexibleServers_Administrator_STATUS from the provided source
 func (administrator *FlexibleServers_Administrator_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20220101s.FlexibleServers_Administrator_STATUS)
+	src, ok := source.(*v20220101s.FlexibleServers_Administrator_STATUS)
 	if ok {
 		// Populate our instance from source
 		return administrator.AssignProperties_From_FlexibleServers_Administrator_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220101s.FlexibleServers_Administrator_STATUS{}
+	src = &v20220101s.FlexibleServers_Administrator_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -748,14 +755,14 @@ func (administrator *FlexibleServers_Administrator_STATUS) ConvertStatusFrom(sou
 
 // ConvertStatusTo populates the provided destination from our FlexibleServers_Administrator_STATUS
 func (administrator *FlexibleServers_Administrator_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20220101s.FlexibleServers_Administrator_STATUS)
+	dst, ok := destination.(*v20220101s.FlexibleServers_Administrator_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return administrator.AssignProperties_To_FlexibleServers_Administrator_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220101s.FlexibleServers_Administrator_STATUS{}
+	dst = &v20220101s.FlexibleServers_Administrator_STATUS{}
 	err := administrator.AssignProperties_To_FlexibleServers_Administrator_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -784,7 +791,7 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServers_Administrator_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorType’:
+	// Set property "AdministratorType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdministratorType != nil {
@@ -793,15 +800,15 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		administrator.Id = &id
 	}
 
-	// Set property ‘IdentityResourceId’:
+	// Set property "IdentityResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdentityResourceId != nil {
@@ -810,7 +817,7 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘Login’:
+	// Set property "Login":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Login != nil {
@@ -819,13 +826,13 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		administrator.Name = &name
 	}
 
-	// Set property ‘Sid’:
+	// Set property "Sid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Sid != nil {
@@ -834,7 +841,7 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -845,7 +852,7 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 		administrator.SystemData = &systemData
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TenantId != nil {
@@ -854,7 +861,7 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		administrator.Type = &typeVar
@@ -865,7 +872,7 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 }
 
 // AssignProperties_From_FlexibleServers_Administrator_STATUS populates our FlexibleServers_Administrator_STATUS from the provided source FlexibleServers_Administrator_STATUS
-func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_From_FlexibleServers_Administrator_STATUS(source *v1api20220101s.FlexibleServers_Administrator_STATUS) error {
+func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_From_FlexibleServers_Administrator_STATUS(source *v20220101s.FlexibleServers_Administrator_STATUS) error {
 
 	// AdministratorType
 	if source.AdministratorType != nil {
@@ -916,7 +923,7 @@ func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_FlexibleServers_Administrator_STATUS populates the provided destination FlexibleServers_Administrator_STATUS from our FlexibleServers_Administrator_STATUS
-func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_To_FlexibleServers_Administrator_STATUS(destination *v1api20220101s.FlexibleServers_Administrator_STATUS) error {
+func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_To_FlexibleServers_Administrator_STATUS(destination *v20220101s.FlexibleServers_Administrator_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -948,7 +955,7 @@ func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_To_F
 
 	// SystemData
 	if administrator.SystemData != nil {
-		var systemDatum v1api20220101s.SystemData_STATUS
+		var systemDatum v20220101s.SystemData_STATUS
 		err := administrator.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1019,37 +1026,37 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	if typedInput.CreatedAt != nil {
 		createdAt := *typedInput.CreatedAt
 		data.CreatedAt = &createdAt
 	}
 
-	// Set property ‘CreatedBy’:
+	// Set property "CreatedBy":
 	if typedInput.CreatedBy != nil {
 		createdBy := *typedInput.CreatedBy
 		data.CreatedBy = &createdBy
 	}
 
-	// Set property ‘CreatedByType’:
+	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
 		createdByType := *typedInput.CreatedByType
 		data.CreatedByType = &createdByType
 	}
 
-	// Set property ‘LastModifiedAt’:
+	// Set property "LastModifiedAt":
 	if typedInput.LastModifiedAt != nil {
 		lastModifiedAt := *typedInput.LastModifiedAt
 		data.LastModifiedAt = &lastModifiedAt
 	}
 
-	// Set property ‘LastModifiedBy’:
+	// Set property "LastModifiedBy":
 	if typedInput.LastModifiedBy != nil {
 		lastModifiedBy := *typedInput.LastModifiedBy
 		data.LastModifiedBy = &lastModifiedBy
 	}
 
-	// Set property ‘LastModifiedByType’:
+	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
 		lastModifiedByType := *typedInput.LastModifiedByType
 		data.LastModifiedByType = &lastModifiedByType
@@ -1060,7 +1067,7 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v1api20220101s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20220101s.SystemData_STATUS) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -1095,7 +1102,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v1api20220101s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20220101s.SystemData_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

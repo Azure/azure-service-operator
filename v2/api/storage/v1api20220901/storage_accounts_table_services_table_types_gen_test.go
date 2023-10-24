@@ -5,7 +5,7 @@ package v1api20220901
 
 import (
 	"encoding/json"
-	v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForStorageAccountsTableServicesTable(subject Stora
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20220901s.StorageAccountsTableServicesTable
+	var hub v20220901s.StorageAccountsTableServicesTable
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForStorageAccountsTableServicesTable(subject Stora
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220901s.StorageAccountsTableServicesTable
+	var other v20220901s.StorageAccountsTableServicesTable
 	err := copied.AssignProperties_To_StorageAccountsTableServicesTable(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForStorageAccounts_TableServices_Table_Spec(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220901s.StorageAccounts_TableServices_Table_Spec
+	var other v20220901s.StorageAccounts_TableServices_Table_Spec
 	err := copied.AssignProperties_To_StorageAccounts_TableServices_Table_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -299,7 +299,7 @@ func RunPropertyAssignmentTestForStorageAccounts_TableServices_Table_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220901s.StorageAccounts_TableServices_Table_STATUS
+	var other v20220901s.StorageAccounts_TableServices_Table_STATUS
 	err := copied.AssignProperties_To_StorageAccounts_TableServices_Table_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -419,7 +419,7 @@ func RunPropertyAssignmentTestForTableSignedIdentifier(subject TableSignedIdenti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220901s.TableSignedIdentifier
+	var other v20220901s.TableSignedIdentifier
 	err := copied.AssignProperties_To_TableSignedIdentifier(&other)
 	if err != nil {
 		return err.Error()
@@ -522,7 +522,7 @@ func RunPropertyAssignmentTestForTableSignedIdentifier_STATUS(subject TableSigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220901s.TableSignedIdentifier_STATUS
+	var other v20220901s.TableSignedIdentifier_STATUS
 	err := copied.AssignProperties_To_TableSignedIdentifier_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -639,7 +639,7 @@ func RunPropertyAssignmentTestForTableAccessPolicy(subject TableAccessPolicy) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220901s.TableAccessPolicy
+	var other v20220901s.TableAccessPolicy
 	err := copied.AssignProperties_To_TableAccessPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -743,7 +743,7 @@ func RunPropertyAssignmentTestForTableAccessPolicy_STATUS(subject TableAccessPol
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220901s.TableAccessPolicy_STATUS
+	var other v20220901s.TableAccessPolicy_STATUS
 	err := copied.AssignProperties_To_TableAccessPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()

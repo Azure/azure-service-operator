@@ -5,7 +5,7 @@ package v1api20201101
 
 import (
 	"encoding/json"
-	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForVirtualNetworksVirtualNetworkPeering(subject Vi
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20201101s.VirtualNetworksVirtualNetworkPeering
+	var hub v20201101s.VirtualNetworksVirtualNetworkPeering
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -72,13 +72,13 @@ func Test_VirtualNetworksVirtualNetworkPeering_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering tests if a specific instance of VirtualNetworksVirtualNetworkPeering can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering tests if a specific instance of VirtualNetworksVirtualNetworkPeering can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering(subject VirtualNetworksVirtualNetworkPeering) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.VirtualNetworksVirtualNetworkPeering
+	var other v20201101s.VirtualNetworksVirtualNetworkPeering
 	err := copied.AssignProperties_To_VirtualNetworksVirtualNetworkPeering(&other)
 	if err != nil {
 		return err.Error()
@@ -176,13 +176,13 @@ func Test_VirtualNetworks_VirtualNetworkPeering_Spec_WhenPropertiesConverted_Rou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworks_VirtualNetworkPeering_Spec tests if a specific instance of VirtualNetworks_VirtualNetworkPeering_Spec can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetworks_VirtualNetworkPeering_Spec tests if a specific instance of VirtualNetworks_VirtualNetworkPeering_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworks_VirtualNetworkPeering_Spec(subject VirtualNetworks_VirtualNetworkPeering_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.VirtualNetworks_VirtualNetworkPeering_Spec
+	var other v20201101s.VirtualNetworks_VirtualNetworkPeering_Spec
 	err := copied.AssignProperties_To_VirtualNetworks_VirtualNetworkPeering_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -301,13 +301,13 @@ func Test_VirtualNetworks_VirtualNetworkPeering_STATUS_WhenPropertiesConverted_R
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworks_VirtualNetworkPeering_STATUS tests if a specific instance of VirtualNetworks_VirtualNetworkPeering_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetworks_VirtualNetworkPeering_STATUS tests if a specific instance of VirtualNetworks_VirtualNetworkPeering_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworks_VirtualNetworkPeering_STATUS(subject VirtualNetworks_VirtualNetworkPeering_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.VirtualNetworks_VirtualNetworkPeering_STATUS
+	var other v20201101s.VirtualNetworks_VirtualNetworkPeering_STATUS
 	err := copied.AssignProperties_To_VirtualNetworks_VirtualNetworkPeering_STATUS(&other)
 	if err != nil {
 		return err.Error()

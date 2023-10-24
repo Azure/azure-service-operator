@@ -6,6 +6,8 @@
 package genruntime
 
 import (
+	"strings"
+
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -90,4 +92,18 @@ func GetAPIVersion(metaObject ARMMetaObject, scheme *runtime.Scheme) (string, er
 	}
 
 	return rsrc.GetAPIVersion(), nil
+}
+
+// GetResourceTypeAndProvider returns the provider and the array of resource types which represent the resource.
+// For example: Microsoft.Compute/virtualMachineScaleSets would return ("Microsoft.Compute", []string{"virtualMachineScaleSets"}, nil)
+func GetResourceTypeAndProvider(res ARMMetaObject) (string, []string, error) {
+	rawType := res.GetType()
+
+	split := strings.Split(rawType, "/")
+	if len(split) <= 1 {
+		return "", nil, errors.Errorf("unexpected resource type format: %q", rawType)
+	}
+
+	// The first item is always the provider
+	return split[0], split[1:], nil
 }

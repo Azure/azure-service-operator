@@ -17,19 +17,19 @@ type ReferenceGraph struct {
 	references map[TypeName]TypeNameSet
 }
 
-// CollectARMSpecAndStatusDefinitions returns a TypeNameSet of all of the ARM spec definitions
+// CollectARMSpecAndStatusDefinitions returns a TypeNameSet of all the ARM spec definitions
 // passed in.
 func CollectARMSpecAndStatusDefinitions(definitions TypeDefinitionSet) TypeNameSet {
-	findARMType := func(t Type) (TypeName, error) {
-		name, ok := t.(TypeName)
+	findARMType := func(t Type) (InternalTypeName, error) {
+		name, ok := AsInternalTypeName(t)
 		if !ok {
-			return TypeName{}, errors.Errorf("type was not of type TypeName, instead %T", t)
+			return InternalTypeName{}, errors.Errorf("type was not of type InternalTypeName, instead %T", t)
 		}
 
 		armName := CreateARMTypeName(name)
 
 		if _, ok = definitions[armName]; !ok {
-			return TypeName{}, errors.Errorf("couldn't find ARM type %q", armName)
+			return InternalTypeName{}, errors.Errorf("couldn't find ARM type %q", armName)
 		}
 
 		return armName, nil
@@ -99,7 +99,7 @@ func (reachable ReachableTypes) Contains(tn TypeName) bool {
 
 // Connected returns the set of types that are reachable from the roots.
 func (c ReferenceGraph) Connected() ReachableTypes {
-	// Make a non-nil set so we don't need to worry about passing it back down.
+	// Make a non-nil set, so we don't need to worry about passing it back down.
 	connectedTypes := make(ReachableTypes)
 	for node := range c.roots {
 		c.collectTypes(0, node, connectedTypes)

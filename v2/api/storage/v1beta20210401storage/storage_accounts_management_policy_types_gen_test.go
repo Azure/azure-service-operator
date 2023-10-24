@@ -5,8 +5,8 @@ package v1beta20210401storage
 
 import (
 	"encoding/json"
-	v1api20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
-	v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForStorageAccountsManagementPolicy(subject Storage
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20220901s.StorageAccountsManagementPolicy
+	var hub v20220901s.StorageAccountsManagementPolicy
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForStorageAccountsManagementPolicy(subject Storage
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.StorageAccountsManagementPolicy
+	var other v20210401s.StorageAccountsManagementPolicy
 	err := copied.AssignProperties_To_StorageAccountsManagementPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -183,7 +183,7 @@ func RunPropertyAssignmentTestForStorageAccounts_ManagementPolicy_Spec(subject S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.StorageAccounts_ManagementPolicy_Spec
+	var other v20210401s.StorageAccounts_ManagementPolicy_Spec
 	err := copied.AssignProperties_To_StorageAccounts_ManagementPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -300,7 +300,7 @@ func RunPropertyAssignmentTestForStorageAccounts_ManagementPolicy_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.StorageAccounts_ManagementPolicy_STATUS
+	var other v20210401s.StorageAccounts_ManagementPolicy_STATUS
 	err := copied.AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -420,7 +420,7 @@ func RunPropertyAssignmentTestForManagementPolicySchema(subject ManagementPolicy
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ManagementPolicySchema
+	var other v20210401s.ManagementPolicySchema
 	err := copied.AssignProperties_To_ManagementPolicySchema(&other)
 	if err != nil {
 		return err.Error()
@@ -523,7 +523,7 @@ func RunPropertyAssignmentTestForManagementPolicySchema_STATUS(subject Managemen
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ManagementPolicySchema_STATUS
+	var other v20210401s.ManagementPolicySchema_STATUS
 	err := copied.AssignProperties_To_ManagementPolicySchema_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -626,7 +626,7 @@ func RunPropertyAssignmentTestForManagementPolicyRule(subject ManagementPolicyRu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ManagementPolicyRule
+	var other v20210401s.ManagementPolicyRule
 	err := copied.AssignProperties_To_ManagementPolicyRule(&other)
 	if err != nil {
 		return err.Error()
@@ -745,7 +745,7 @@ func RunPropertyAssignmentTestForManagementPolicyRule_STATUS(subject ManagementP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ManagementPolicyRule_STATUS
+	var other v20210401s.ManagementPolicyRule_STATUS
 	err := copied.AssignProperties_To_ManagementPolicyRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -864,7 +864,7 @@ func RunPropertyAssignmentTestForManagementPolicyDefinition(subject ManagementPo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ManagementPolicyDefinition
+	var other v20210401s.ManagementPolicyDefinition
 	err := copied.AssignProperties_To_ManagementPolicyDefinition(&other)
 	if err != nil {
 		return err.Error()
@@ -968,7 +968,7 @@ func RunPropertyAssignmentTestForManagementPolicyDefinition_STATUS(subject Manag
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ManagementPolicyDefinition_STATUS
+	var other v20210401s.ManagementPolicyDefinition_STATUS
 	err := copied.AssignProperties_To_ManagementPolicyDefinition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1072,7 +1072,7 @@ func RunPropertyAssignmentTestForManagementPolicyAction(subject ManagementPolicy
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ManagementPolicyAction
+	var other v20210401s.ManagementPolicyAction
 	err := copied.AssignProperties_To_ManagementPolicyAction(&other)
 	if err != nil {
 		return err.Error()
@@ -1177,7 +1177,7 @@ func RunPropertyAssignmentTestForManagementPolicyAction_STATUS(subject Managemen
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ManagementPolicyAction_STATUS
+	var other v20210401s.ManagementPolicyAction_STATUS
 	err := copied.AssignProperties_To_ManagementPolicyAction_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1282,7 +1282,7 @@ func RunPropertyAssignmentTestForManagementPolicyFilter(subject ManagementPolicy
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ManagementPolicyFilter
+	var other v20210401s.ManagementPolicyFilter
 	err := copied.AssignProperties_To_ManagementPolicyFilter(&other)
 	if err != nil {
 		return err.Error()
@@ -1400,7 +1400,7 @@ func RunPropertyAssignmentTestForManagementPolicyFilter_STATUS(subject Managemen
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ManagementPolicyFilter_STATUS
+	var other v20210401s.ManagementPolicyFilter_STATUS
 	err := copied.AssignProperties_To_ManagementPolicyFilter_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1518,7 +1518,7 @@ func RunPropertyAssignmentTestForManagementPolicyBaseBlob(subject ManagementPoli
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ManagementPolicyBaseBlob
+	var other v20210401s.ManagementPolicyBaseBlob
 	err := copied.AssignProperties_To_ManagementPolicyBaseBlob(&other)
 	if err != nil {
 		return err.Error()
@@ -1637,7 +1637,7 @@ func RunPropertyAssignmentTestForManagementPolicyBaseBlob_STATUS(subject Managem
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ManagementPolicyBaseBlob_STATUS
+	var other v20210401s.ManagementPolicyBaseBlob_STATUS
 	err := copied.AssignProperties_To_ManagementPolicyBaseBlob_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1756,7 +1756,7 @@ func RunPropertyAssignmentTestForManagementPolicySnapShot(subject ManagementPoli
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ManagementPolicySnapShot
+	var other v20210401s.ManagementPolicySnapShot
 	err := copied.AssignProperties_To_ManagementPolicySnapShot(&other)
 	if err != nil {
 		return err.Error()
@@ -1861,7 +1861,7 @@ func RunPropertyAssignmentTestForManagementPolicySnapShot_STATUS(subject Managem
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ManagementPolicySnapShot_STATUS
+	var other v20210401s.ManagementPolicySnapShot_STATUS
 	err := copied.AssignProperties_To_ManagementPolicySnapShot_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1966,7 +1966,7 @@ func RunPropertyAssignmentTestForManagementPolicyVersion(subject ManagementPolic
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ManagementPolicyVersion
+	var other v20210401s.ManagementPolicyVersion
 	err := copied.AssignProperties_To_ManagementPolicyVersion(&other)
 	if err != nil {
 		return err.Error()
@@ -2071,7 +2071,7 @@ func RunPropertyAssignmentTestForManagementPolicyVersion_STATUS(subject Manageme
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.ManagementPolicyVersion_STATUS
+	var other v20210401s.ManagementPolicyVersion_STATUS
 	err := copied.AssignProperties_To_ManagementPolicyVersion_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2176,7 +2176,7 @@ func RunPropertyAssignmentTestForTagFilter(subject TagFilter) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.TagFilter
+	var other v20210401s.TagFilter
 	err := copied.AssignProperties_To_TagFilter(&other)
 	if err != nil {
 		return err.Error()
@@ -2280,7 +2280,7 @@ func RunPropertyAssignmentTestForTagFilter_STATUS(subject TagFilter_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.TagFilter_STATUS
+	var other v20210401s.TagFilter_STATUS
 	err := copied.AssignProperties_To_TagFilter_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2384,7 +2384,7 @@ func RunPropertyAssignmentTestForDateAfterCreation(subject DateAfterCreation) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.DateAfterCreation
+	var other v20210401s.DateAfterCreation
 	err := copied.AssignProperties_To_DateAfterCreation(&other)
 	if err != nil {
 		return err.Error()
@@ -2486,7 +2486,7 @@ func RunPropertyAssignmentTestForDateAfterCreation_STATUS(subject DateAfterCreat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.DateAfterCreation_STATUS
+	var other v20210401s.DateAfterCreation_STATUS
 	err := copied.AssignProperties_To_DateAfterCreation_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2589,7 +2589,7 @@ func RunPropertyAssignmentTestForDateAfterModification(subject DateAfterModifica
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.DateAfterModification
+	var other v20210401s.DateAfterModification
 	err := copied.AssignProperties_To_DateAfterModification(&other)
 	if err != nil {
 		return err.Error()
@@ -2693,7 +2693,7 @@ func RunPropertyAssignmentTestForDateAfterModification_STATUS(subject DateAfterM
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210401s.DateAfterModification_STATUS
+	var other v20210401s.DateAfterModification_STATUS
 	err := copied.AssignProperties_To_DateAfterModification_STATUS(&other)
 	if err != nil {
 		return err.Error()

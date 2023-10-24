@@ -5,7 +5,7 @@ package v1api20210101preview
 
 import (
 	"fmt"
-	v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
+	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,22 +49,36 @@ var _ conversion.Convertible = &NamespacesTopicsSubscriptionsRule{}
 
 // ConvertFrom populates our NamespacesTopicsSubscriptionsRule from the provided hub NamespacesTopicsSubscriptionsRule
 func (rule *NamespacesTopicsSubscriptionsRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210101ps.NamespacesTopicsSubscriptionsRule)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20210101previewstorage/NamespacesTopicsSubscriptionsRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210101ps.NamespacesTopicsSubscriptionsRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_NamespacesTopicsSubscriptionsRule(source)
+	err = rule.AssignProperties_From_NamespacesTopicsSubscriptionsRule(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesTopicsSubscriptionsRule from our NamespacesTopicsSubscriptionsRule
 func (rule *NamespacesTopicsSubscriptionsRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210101ps.NamespacesTopicsSubscriptionsRule)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20210101previewstorage/NamespacesTopicsSubscriptionsRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210101ps.NamespacesTopicsSubscriptionsRule
+	err := rule.AssignProperties_To_NamespacesTopicsSubscriptionsRule(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_NamespacesTopicsSubscriptionsRule(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1api20210101preview-namespacestopicssubscriptionsrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacestopicssubscriptionsrules,verbs=create;update,versions=v1api20210101preview,name=default.v1api20210101preview.namespacestopicssubscriptionsrules.servicebus.azure.com,admissionReviewVersions=v1
@@ -89,17 +103,6 @@ func (rule *NamespacesTopicsSubscriptionsRule) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the NamespacesTopicsSubscriptionsRule resource
 func (rule *NamespacesTopicsSubscriptionsRule) defaultImpl() { rule.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &NamespacesTopicsSubscriptionsRule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (rule *NamespacesTopicsSubscriptionsRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Namespaces_Topics_Subscriptions_Rule_STATUS); ok {
-		return rule.Spec.Initialize_From_Namespaces_Topics_Subscriptions_Rule_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Namespaces_Topics_Subscriptions_Rule_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &NamespacesTopicsSubscriptionsRule{}
 
@@ -141,11 +144,7 @@ func (rule *NamespacesTopicsSubscriptionsRule) NewEmptyStatus() genruntime.Conve
 // Owner returns the ResourceReference of the owner
 func (rule *NamespacesTopicsSubscriptionsRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(rule.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  rule.Spec.Owner.Name,
-	}
+	return rule.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +202,7 @@ func (rule *NamespacesTopicsSubscriptionsRule) ValidateUpdate(old runtime.Object
 
 // createValidations validates the creation of the resource
 func (rule *NamespacesTopicsSubscriptionsRule) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){rule.validateResourceReferences}
+	return []func() (admission.Warnings, error){rule.validateResourceReferences, rule.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +216,16 @@ func (rule *NamespacesTopicsSubscriptionsRule) updateValidations() []func(old ru
 		func(old runtime.Object) (admission.Warnings, error) {
 			return rule.validateResourceReferences()
 		},
-		rule.validateWriteOnceProperties}
+		rule.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return rule.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (rule *NamespacesTopicsSubscriptionsRule) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(rule)
 }
 
 // validateResourceReferences validates all resource references
@@ -240,7 +248,7 @@ func (rule *NamespacesTopicsSubscriptionsRule) validateWriteOnceProperties(old r
 }
 
 // AssignProperties_From_NamespacesTopicsSubscriptionsRule populates our NamespacesTopicsSubscriptionsRule from the provided source NamespacesTopicsSubscriptionsRule
-func (rule *NamespacesTopicsSubscriptionsRule) AssignProperties_From_NamespacesTopicsSubscriptionsRule(source *v1api20210101ps.NamespacesTopicsSubscriptionsRule) error {
+func (rule *NamespacesTopicsSubscriptionsRule) AssignProperties_From_NamespacesTopicsSubscriptionsRule(source *v20210101ps.NamespacesTopicsSubscriptionsRule) error {
 
 	// ObjectMeta
 	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +274,13 @@ func (rule *NamespacesTopicsSubscriptionsRule) AssignProperties_From_NamespacesT
 }
 
 // AssignProperties_To_NamespacesTopicsSubscriptionsRule populates the provided destination NamespacesTopicsSubscriptionsRule from our NamespacesTopicsSubscriptionsRule
-func (rule *NamespacesTopicsSubscriptionsRule) AssignProperties_To_NamespacesTopicsSubscriptionsRule(destination *v1api20210101ps.NamespacesTopicsSubscriptionsRule) error {
+func (rule *NamespacesTopicsSubscriptionsRule) AssignProperties_To_NamespacesTopicsSubscriptionsRule(destination *v20210101ps.NamespacesTopicsSubscriptionsRule) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec
+	var spec v20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec
 	err := rule.Spec.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_Spec() to populate field Spec")
@@ -280,7 +288,7 @@ func (rule *NamespacesTopicsSubscriptionsRule) AssignProperties_To_NamespacesTop
 	destination.Spec = spec
 
 	// Status
-	var status v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS
+	var status v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS
 	err = rule.Status.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS() to populate field Status")
@@ -346,10 +354,10 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) ConvertToARM(resolved gen
 	}
 	result := &Namespaces_Topics_Subscriptions_Rule_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if rule.Action != nil ||
 		rule.CorrelationFilter != nil ||
 		rule.FilterType != nil ||
@@ -399,7 +407,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Topics_Subscriptions_Rule_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Action != nil {
@@ -413,10 +421,10 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	rule.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘CorrelationFilter’:
+	// Set property "CorrelationFilter":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CorrelationFilter != nil {
@@ -430,7 +438,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘FilterType’:
+	// Set property "FilterType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FilterType != nil {
@@ -439,10 +447,13 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Owner’:
-	rule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	rule.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘SqlFilter’:
+	// Set property "SqlFilter":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SqlFilter != nil {
@@ -464,14 +475,14 @@ var _ genruntime.ConvertibleSpec = &Namespaces_Topics_Subscriptions_Rule_Spec{}
 
 // ConvertSpecFrom populates our Namespaces_Topics_Subscriptions_Rule_Spec from the provided source
 func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec)
+	src, ok := source.(*v20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec)
 	if ok {
 		// Populate our instance from source
 		return rule.AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec{}
+	src = &v20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -488,14 +499,14 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) ConvertSpecFrom(source ge
 
 // ConvertSpecTo populates the provided destination from our Namespaces_Topics_Subscriptions_Rule_Spec
 func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec)
+	dst, ok := destination.(*v20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec)
 	if ok {
 		// Populate destination from our instance
 		return rule.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec{}
+	dst = &v20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec{}
 	err := rule.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -511,7 +522,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) ConvertSpecTo(destination
 }
 
 // AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_Spec populates our Namespaces_Topics_Subscriptions_Rule_Spec from the provided source Namespaces_Topics_Subscriptions_Rule_Spec
-func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_Spec(source *v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec) error {
+func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_Spec(source *v20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec) error {
 
 	// Action
 	if source.Action != nil {
@@ -573,13 +584,13 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_From_Nam
 }
 
 // AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_Spec populates the provided destination Namespaces_Topics_Subscriptions_Rule_Spec from our Namespaces_Topics_Subscriptions_Rule_Spec
-func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_Spec(destination *v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec) error {
+func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_Spec(destination *v20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Action
 	if rule.Action != nil {
-		var action v1api20210101ps.Action
+		var action v20210101ps.Action
 		err := rule.Action.AssignProperties_To_Action(&action)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Action() to populate field Action")
@@ -594,7 +605,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_To_Names
 
 	// CorrelationFilter
 	if rule.CorrelationFilter != nil {
-		var correlationFilter v1api20210101ps.CorrelationFilter
+		var correlationFilter v20210101ps.CorrelationFilter
 		err := rule.CorrelationFilter.AssignProperties_To_CorrelationFilter(&correlationFilter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CorrelationFilter() to populate field CorrelationFilter")
@@ -625,7 +636,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_To_Names
 
 	// SqlFilter
 	if rule.SqlFilter != nil {
-		var sqlFilter v1api20210101ps.SqlFilter
+		var sqlFilter v20210101ps.SqlFilter
 		err := rule.SqlFilter.AssignProperties_To_SqlFilter(&sqlFilter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SqlFilter() to populate field SqlFilter")
@@ -640,57 +651,6 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_To_Names
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Namespaces_Topics_Subscriptions_Rule_STATUS populates our Namespaces_Topics_Subscriptions_Rule_Spec from the provided source Namespaces_Topics_Subscriptions_Rule_STATUS
-func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) Initialize_From_Namespaces_Topics_Subscriptions_Rule_STATUS(source *Namespaces_Topics_Subscriptions_Rule_STATUS) error {
-
-	// Action
-	if source.Action != nil {
-		var action Action
-		err := action.Initialize_From_Action_STATUS(source.Action)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Action_STATUS() to populate field Action")
-		}
-		rule.Action = &action
-	} else {
-		rule.Action = nil
-	}
-
-	// CorrelationFilter
-	if source.CorrelationFilter != nil {
-		var correlationFilter CorrelationFilter
-		err := correlationFilter.Initialize_From_CorrelationFilter_STATUS(source.CorrelationFilter)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CorrelationFilter_STATUS() to populate field CorrelationFilter")
-		}
-		rule.CorrelationFilter = &correlationFilter
-	} else {
-		rule.CorrelationFilter = nil
-	}
-
-	// FilterType
-	if source.FilterType != nil {
-		filterType := FilterType(*source.FilterType)
-		rule.FilterType = &filterType
-	} else {
-		rule.FilterType = nil
-	}
-
-	// SqlFilter
-	if source.SqlFilter != nil {
-		var sqlFilter SqlFilter
-		err := sqlFilter.Initialize_From_SqlFilter_STATUS(source.SqlFilter)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SqlFilter_STATUS() to populate field SqlFilter")
-		}
-		rule.SqlFilter = &sqlFilter
-	} else {
-		rule.SqlFilter = nil
 	}
 
 	// No error
@@ -741,14 +701,14 @@ var _ genruntime.ConvertibleStatus = &Namespaces_Topics_Subscriptions_Rule_STATU
 
 // ConvertStatusFrom populates our Namespaces_Topics_Subscriptions_Rule_STATUS from the provided source
 func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS)
+	src, ok := source.(*v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS)
 	if ok {
 		// Populate our instance from source
 		return rule.AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS{}
+	src = &v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -765,14 +725,14 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) ConvertStatusFrom(sourc
 
 // ConvertStatusTo populates the provided destination from our Namespaces_Topics_Subscriptions_Rule_STATUS
 func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS)
+	dst, ok := destination.(*v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return rule.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS{}
+	dst = &v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS{}
 	err := rule.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -801,7 +761,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Topics_Subscriptions_Rule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Action != nil {
@@ -815,9 +775,9 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CorrelationFilter’:
+	// Set property "CorrelationFilter":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CorrelationFilter != nil {
@@ -831,7 +791,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘FilterType’:
+	// Set property "FilterType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FilterType != nil {
@@ -840,19 +800,19 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		rule.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘SqlFilter’:
+	// Set property "SqlFilter":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SqlFilter != nil {
@@ -866,7 +826,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -877,7 +837,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) PopulateFromARM(owner g
 		rule.SystemData = &systemData
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		rule.Type = &typeVar
@@ -888,7 +848,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) PopulateFromARM(owner g
 }
 
 // AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS populates our Namespaces_Topics_Subscriptions_Rule_STATUS from the provided source Namespaces_Topics_Subscriptions_Rule_STATUS
-func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS(source *v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS) error {
+func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS(source *v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS) error {
 
 	// Action
 	if source.Action != nil {
@@ -963,13 +923,13 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_From_N
 }
 
 // AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS populates the provided destination Namespaces_Topics_Subscriptions_Rule_STATUS from our Namespaces_Topics_Subscriptions_Rule_STATUS
-func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS(destination *v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS) error {
+func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS(destination *v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Action
 	if rule.Action != nil {
-		var action v1api20210101ps.Action_STATUS
+		var action v20210101ps.Action_STATUS
 		err := rule.Action.AssignProperties_To_Action_STATUS(&action)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Action_STATUS() to populate field Action")
@@ -984,7 +944,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_To_Nam
 
 	// CorrelationFilter
 	if rule.CorrelationFilter != nil {
-		var correlationFilter v1api20210101ps.CorrelationFilter_STATUS
+		var correlationFilter v20210101ps.CorrelationFilter_STATUS
 		err := rule.CorrelationFilter.AssignProperties_To_CorrelationFilter_STATUS(&correlationFilter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CorrelationFilter_STATUS() to populate field CorrelationFilter")
@@ -1010,7 +970,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_To_Nam
 
 	// SqlFilter
 	if rule.SqlFilter != nil {
-		var sqlFilter v1api20210101ps.SqlFilter_STATUS
+		var sqlFilter v20210101ps.SqlFilter_STATUS
 		err := rule.SqlFilter.AssignProperties_To_SqlFilter_STATUS(&sqlFilter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SqlFilter_STATUS() to populate field SqlFilter")
@@ -1022,7 +982,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_To_Nam
 
 	// SystemData
 	if rule.SystemData != nil {
-		var systemDatum v1api20210101ps.SystemData_STATUS
+		var systemDatum v20210101ps.SystemData_STATUS
 		err := rule.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1069,19 +1029,19 @@ func (action *Action) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	}
 	result := &Action_ARM{}
 
-	// Set property ‘CompatibilityLevel’:
+	// Set property "CompatibilityLevel":
 	if action.CompatibilityLevel != nil {
 		compatibilityLevel := *action.CompatibilityLevel
 		result.CompatibilityLevel = &compatibilityLevel
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if action.RequiresPreprocessing != nil {
 		requiresPreprocessing := *action.RequiresPreprocessing
 		result.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SqlExpression’:
+	// Set property "SqlExpression":
 	if action.SqlExpression != nil {
 		sqlExpression := *action.SqlExpression
 		result.SqlExpression = &sqlExpression
@@ -1101,19 +1061,19 @@ func (action *Action) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Action_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CompatibilityLevel’:
+	// Set property "CompatibilityLevel":
 	if typedInput.CompatibilityLevel != nil {
 		compatibilityLevel := *typedInput.CompatibilityLevel
 		action.CompatibilityLevel = &compatibilityLevel
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if typedInput.RequiresPreprocessing != nil {
 		requiresPreprocessing := *typedInput.RequiresPreprocessing
 		action.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SqlExpression’:
+	// Set property "SqlExpression":
 	if typedInput.SqlExpression != nil {
 		sqlExpression := *typedInput.SqlExpression
 		action.SqlExpression = &sqlExpression
@@ -1124,7 +1084,7 @@ func (action *Action) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 }
 
 // AssignProperties_From_Action populates our Action from the provided source Action
-func (action *Action) AssignProperties_From_Action(source *v1api20210101ps.Action) error {
+func (action *Action) AssignProperties_From_Action(source *v20210101ps.Action) error {
 
 	// CompatibilityLevel
 	action.CompatibilityLevel = genruntime.ClonePointerToInt(source.CompatibilityLevel)
@@ -1145,7 +1105,7 @@ func (action *Action) AssignProperties_From_Action(source *v1api20210101ps.Actio
 }
 
 // AssignProperties_To_Action populates the provided destination Action from our Action
-func (action *Action) AssignProperties_To_Action(destination *v1api20210101ps.Action) error {
+func (action *Action) AssignProperties_To_Action(destination *v20210101ps.Action) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1169,27 +1129,6 @@ func (action *Action) AssignProperties_To_Action(destination *v1api20210101ps.Ac
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Action_STATUS populates our Action from the provided source Action_STATUS
-func (action *Action) Initialize_From_Action_STATUS(source *Action_STATUS) error {
-
-	// CompatibilityLevel
-	action.CompatibilityLevel = genruntime.ClonePointerToInt(source.CompatibilityLevel)
-
-	// RequiresPreprocessing
-	if source.RequiresPreprocessing != nil {
-		requiresPreprocessing := *source.RequiresPreprocessing
-		action.RequiresPreprocessing = &requiresPreprocessing
-	} else {
-		action.RequiresPreprocessing = nil
-	}
-
-	// SqlExpression
-	action.SqlExpression = genruntime.ClonePointerToString(source.SqlExpression)
 
 	// No error
 	return nil
@@ -1223,19 +1162,19 @@ func (action *Action_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Action_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CompatibilityLevel’:
+	// Set property "CompatibilityLevel":
 	if typedInput.CompatibilityLevel != nil {
 		compatibilityLevel := *typedInput.CompatibilityLevel
 		action.CompatibilityLevel = &compatibilityLevel
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if typedInput.RequiresPreprocessing != nil {
 		requiresPreprocessing := *typedInput.RequiresPreprocessing
 		action.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SqlExpression’:
+	// Set property "SqlExpression":
 	if typedInput.SqlExpression != nil {
 		sqlExpression := *typedInput.SqlExpression
 		action.SqlExpression = &sqlExpression
@@ -1246,7 +1185,7 @@ func (action *Action_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 }
 
 // AssignProperties_From_Action_STATUS populates our Action_STATUS from the provided source Action_STATUS
-func (action *Action_STATUS) AssignProperties_From_Action_STATUS(source *v1api20210101ps.Action_STATUS) error {
+func (action *Action_STATUS) AssignProperties_From_Action_STATUS(source *v20210101ps.Action_STATUS) error {
 
 	// CompatibilityLevel
 	action.CompatibilityLevel = genruntime.ClonePointerToInt(source.CompatibilityLevel)
@@ -1267,7 +1206,7 @@ func (action *Action_STATUS) AssignProperties_From_Action_STATUS(source *v1api20
 }
 
 // AssignProperties_To_Action_STATUS populates the provided destination Action_STATUS from our Action_STATUS
-func (action *Action_STATUS) AssignProperties_To_Action_STATUS(destination *v1api20210101ps.Action_STATUS) error {
+func (action *Action_STATUS) AssignProperties_To_Action_STATUS(destination *v20210101ps.Action_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1338,31 +1277,31 @@ func (filter *CorrelationFilter) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &CorrelationFilter_ARM{}
 
-	// Set property ‘ContentType’:
+	// Set property "ContentType":
 	if filter.ContentType != nil {
 		contentType := *filter.ContentType
 		result.ContentType = &contentType
 	}
 
-	// Set property ‘CorrelationId’:
+	// Set property "CorrelationId":
 	if filter.CorrelationId != nil {
 		correlationId := *filter.CorrelationId
 		result.CorrelationId = &correlationId
 	}
 
-	// Set property ‘Label’:
+	// Set property "Label":
 	if filter.Label != nil {
 		label := *filter.Label
 		result.Label = &label
 	}
 
-	// Set property ‘MessageId’:
+	// Set property "MessageId":
 	if filter.MessageId != nil {
 		messageId := *filter.MessageId
 		result.MessageId = &messageId
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if filter.Properties != nil {
 		result.Properties = make(map[string]string, len(filter.Properties))
 		for key, value := range filter.Properties {
@@ -1370,31 +1309,31 @@ func (filter *CorrelationFilter) ConvertToARM(resolved genruntime.ConvertToARMRe
 		}
 	}
 
-	// Set property ‘ReplyTo’:
+	// Set property "ReplyTo":
 	if filter.ReplyTo != nil {
 		replyTo := *filter.ReplyTo
 		result.ReplyTo = &replyTo
 	}
 
-	// Set property ‘ReplyToSessionId’:
+	// Set property "ReplyToSessionId":
 	if filter.ReplyToSessionId != nil {
 		replyToSessionId := *filter.ReplyToSessionId
 		result.ReplyToSessionId = &replyToSessionId
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if filter.RequiresPreprocessing != nil {
 		requiresPreprocessing := *filter.RequiresPreprocessing
 		result.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SessionId’:
+	// Set property "SessionId":
 	if filter.SessionId != nil {
 		sessionId := *filter.SessionId
 		result.SessionId = &sessionId
 	}
 
-	// Set property ‘To’:
+	// Set property "To":
 	if filter.To != nil {
 		to := *filter.To
 		result.To = &to
@@ -1414,31 +1353,31 @@ func (filter *CorrelationFilter) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorrelationFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ContentType’:
+	// Set property "ContentType":
 	if typedInput.ContentType != nil {
 		contentType := *typedInput.ContentType
 		filter.ContentType = &contentType
 	}
 
-	// Set property ‘CorrelationId’:
+	// Set property "CorrelationId":
 	if typedInput.CorrelationId != nil {
 		correlationId := *typedInput.CorrelationId
 		filter.CorrelationId = &correlationId
 	}
 
-	// Set property ‘Label’:
+	// Set property "Label":
 	if typedInput.Label != nil {
 		label := *typedInput.Label
 		filter.Label = &label
 	}
 
-	// Set property ‘MessageId’:
+	// Set property "MessageId":
 	if typedInput.MessageId != nil {
 		messageId := *typedInput.MessageId
 		filter.MessageId = &messageId
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		filter.Properties = make(map[string]string, len(typedInput.Properties))
 		for key, value := range typedInput.Properties {
@@ -1446,31 +1385,31 @@ func (filter *CorrelationFilter) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘ReplyTo’:
+	// Set property "ReplyTo":
 	if typedInput.ReplyTo != nil {
 		replyTo := *typedInput.ReplyTo
 		filter.ReplyTo = &replyTo
 	}
 
-	// Set property ‘ReplyToSessionId’:
+	// Set property "ReplyToSessionId":
 	if typedInput.ReplyToSessionId != nil {
 		replyToSessionId := *typedInput.ReplyToSessionId
 		filter.ReplyToSessionId = &replyToSessionId
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if typedInput.RequiresPreprocessing != nil {
 		requiresPreprocessing := *typedInput.RequiresPreprocessing
 		filter.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SessionId’:
+	// Set property "SessionId":
 	if typedInput.SessionId != nil {
 		sessionId := *typedInput.SessionId
 		filter.SessionId = &sessionId
 	}
 
-	// Set property ‘To’:
+	// Set property "To":
 	if typedInput.To != nil {
 		to := *typedInput.To
 		filter.To = &to
@@ -1481,7 +1420,7 @@ func (filter *CorrelationFilter) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_CorrelationFilter populates our CorrelationFilter from the provided source CorrelationFilter
-func (filter *CorrelationFilter) AssignProperties_From_CorrelationFilter(source *v1api20210101ps.CorrelationFilter) error {
+func (filter *CorrelationFilter) AssignProperties_From_CorrelationFilter(source *v20210101ps.CorrelationFilter) error {
 
 	// ContentType
 	filter.ContentType = genruntime.ClonePointerToString(source.ContentType)
@@ -1523,7 +1462,7 @@ func (filter *CorrelationFilter) AssignProperties_From_CorrelationFilter(source 
 }
 
 // AssignProperties_To_CorrelationFilter populates the provided destination CorrelationFilter from our CorrelationFilter
-func (filter *CorrelationFilter) AssignProperties_To_CorrelationFilter(destination *v1api20210101ps.CorrelationFilter) error {
+func (filter *CorrelationFilter) AssignProperties_To_CorrelationFilter(destination *v20210101ps.CorrelationFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1568,48 +1507,6 @@ func (filter *CorrelationFilter) AssignProperties_To_CorrelationFilter(destinati
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CorrelationFilter_STATUS populates our CorrelationFilter from the provided source CorrelationFilter_STATUS
-func (filter *CorrelationFilter) Initialize_From_CorrelationFilter_STATUS(source *CorrelationFilter_STATUS) error {
-
-	// ContentType
-	filter.ContentType = genruntime.ClonePointerToString(source.ContentType)
-
-	// CorrelationId
-	filter.CorrelationId = genruntime.ClonePointerToString(source.CorrelationId)
-
-	// Label
-	filter.Label = genruntime.ClonePointerToString(source.Label)
-
-	// MessageId
-	filter.MessageId = genruntime.ClonePointerToString(source.MessageId)
-
-	// Properties
-	filter.Properties = genruntime.CloneMapOfStringToString(source.Properties)
-
-	// ReplyTo
-	filter.ReplyTo = genruntime.ClonePointerToString(source.ReplyTo)
-
-	// ReplyToSessionId
-	filter.ReplyToSessionId = genruntime.ClonePointerToString(source.ReplyToSessionId)
-
-	// RequiresPreprocessing
-	if source.RequiresPreprocessing != nil {
-		requiresPreprocessing := *source.RequiresPreprocessing
-		filter.RequiresPreprocessing = &requiresPreprocessing
-	} else {
-		filter.RequiresPreprocessing = nil
-	}
-
-	// SessionId
-	filter.SessionId = genruntime.ClonePointerToString(source.SessionId)
-
-	// To
-	filter.To = genruntime.ClonePointerToString(source.To)
 
 	// No error
 	return nil
@@ -1662,31 +1559,31 @@ func (filter *CorrelationFilter_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorrelationFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ContentType’:
+	// Set property "ContentType":
 	if typedInput.ContentType != nil {
 		contentType := *typedInput.ContentType
 		filter.ContentType = &contentType
 	}
 
-	// Set property ‘CorrelationId’:
+	// Set property "CorrelationId":
 	if typedInput.CorrelationId != nil {
 		correlationId := *typedInput.CorrelationId
 		filter.CorrelationId = &correlationId
 	}
 
-	// Set property ‘Label’:
+	// Set property "Label":
 	if typedInput.Label != nil {
 		label := *typedInput.Label
 		filter.Label = &label
 	}
 
-	// Set property ‘MessageId’:
+	// Set property "MessageId":
 	if typedInput.MessageId != nil {
 		messageId := *typedInput.MessageId
 		filter.MessageId = &messageId
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		filter.Properties = make(map[string]string, len(typedInput.Properties))
 		for key, value := range typedInput.Properties {
@@ -1694,31 +1591,31 @@ func (filter *CorrelationFilter_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘ReplyTo’:
+	// Set property "ReplyTo":
 	if typedInput.ReplyTo != nil {
 		replyTo := *typedInput.ReplyTo
 		filter.ReplyTo = &replyTo
 	}
 
-	// Set property ‘ReplyToSessionId’:
+	// Set property "ReplyToSessionId":
 	if typedInput.ReplyToSessionId != nil {
 		replyToSessionId := *typedInput.ReplyToSessionId
 		filter.ReplyToSessionId = &replyToSessionId
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if typedInput.RequiresPreprocessing != nil {
 		requiresPreprocessing := *typedInput.RequiresPreprocessing
 		filter.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SessionId’:
+	// Set property "SessionId":
 	if typedInput.SessionId != nil {
 		sessionId := *typedInput.SessionId
 		filter.SessionId = &sessionId
 	}
 
-	// Set property ‘To’:
+	// Set property "To":
 	if typedInput.To != nil {
 		to := *typedInput.To
 		filter.To = &to
@@ -1729,7 +1626,7 @@ func (filter *CorrelationFilter_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_CorrelationFilter_STATUS populates our CorrelationFilter_STATUS from the provided source CorrelationFilter_STATUS
-func (filter *CorrelationFilter_STATUS) AssignProperties_From_CorrelationFilter_STATUS(source *v1api20210101ps.CorrelationFilter_STATUS) error {
+func (filter *CorrelationFilter_STATUS) AssignProperties_From_CorrelationFilter_STATUS(source *v20210101ps.CorrelationFilter_STATUS) error {
 
 	// ContentType
 	filter.ContentType = genruntime.ClonePointerToString(source.ContentType)
@@ -1771,7 +1668,7 @@ func (filter *CorrelationFilter_STATUS) AssignProperties_From_CorrelationFilter_
 }
 
 // AssignProperties_To_CorrelationFilter_STATUS populates the provided destination CorrelationFilter_STATUS from our CorrelationFilter_STATUS
-func (filter *CorrelationFilter_STATUS) AssignProperties_To_CorrelationFilter_STATUS(destination *v1api20210101ps.CorrelationFilter_STATUS) error {
+func (filter *CorrelationFilter_STATUS) AssignProperties_To_CorrelationFilter_STATUS(destination *v20210101ps.CorrelationFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1862,19 +1759,19 @@ func (filter *SqlFilter) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &SqlFilter_ARM{}
 
-	// Set property ‘CompatibilityLevel’:
+	// Set property "CompatibilityLevel":
 	if filter.CompatibilityLevel != nil {
 		compatibilityLevel := *filter.CompatibilityLevel
 		result.CompatibilityLevel = &compatibilityLevel
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if filter.RequiresPreprocessing != nil {
 		requiresPreprocessing := *filter.RequiresPreprocessing
 		result.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SqlExpression’:
+	// Set property "SqlExpression":
 	if filter.SqlExpression != nil {
 		sqlExpression := *filter.SqlExpression
 		result.SqlExpression = &sqlExpression
@@ -1894,19 +1791,19 @@ func (filter *SqlFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CompatibilityLevel’:
+	// Set property "CompatibilityLevel":
 	if typedInput.CompatibilityLevel != nil {
 		compatibilityLevel := *typedInput.CompatibilityLevel
 		filter.CompatibilityLevel = &compatibilityLevel
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if typedInput.RequiresPreprocessing != nil {
 		requiresPreprocessing := *typedInput.RequiresPreprocessing
 		filter.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SqlExpression’:
+	// Set property "SqlExpression":
 	if typedInput.SqlExpression != nil {
 		sqlExpression := *typedInput.SqlExpression
 		filter.SqlExpression = &sqlExpression
@@ -1917,7 +1814,7 @@ func (filter *SqlFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 }
 
 // AssignProperties_From_SqlFilter populates our SqlFilter from the provided source SqlFilter
-func (filter *SqlFilter) AssignProperties_From_SqlFilter(source *v1api20210101ps.SqlFilter) error {
+func (filter *SqlFilter) AssignProperties_From_SqlFilter(source *v20210101ps.SqlFilter) error {
 
 	// CompatibilityLevel
 	if source.CompatibilityLevel != nil {
@@ -1943,7 +1840,7 @@ func (filter *SqlFilter) AssignProperties_From_SqlFilter(source *v1api20210101ps
 }
 
 // AssignProperties_To_SqlFilter populates the provided destination SqlFilter from our SqlFilter
-func (filter *SqlFilter) AssignProperties_To_SqlFilter(destination *v1api20210101ps.SqlFilter) error {
+func (filter *SqlFilter) AssignProperties_To_SqlFilter(destination *v20210101ps.SqlFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1977,32 +1874,6 @@ func (filter *SqlFilter) AssignProperties_To_SqlFilter(destination *v1api2021010
 	return nil
 }
 
-// Initialize_From_SqlFilter_STATUS populates our SqlFilter from the provided source SqlFilter_STATUS
-func (filter *SqlFilter) Initialize_From_SqlFilter_STATUS(source *SqlFilter_STATUS) error {
-
-	// CompatibilityLevel
-	if source.CompatibilityLevel != nil {
-		compatibilityLevel := *source.CompatibilityLevel
-		filter.CompatibilityLevel = &compatibilityLevel
-	} else {
-		filter.CompatibilityLevel = nil
-	}
-
-	// RequiresPreprocessing
-	if source.RequiresPreprocessing != nil {
-		requiresPreprocessing := *source.RequiresPreprocessing
-		filter.RequiresPreprocessing = &requiresPreprocessing
-	} else {
-		filter.RequiresPreprocessing = nil
-	}
-
-	// SqlExpression
-	filter.SqlExpression = genruntime.ClonePointerToString(source.SqlExpression)
-
-	// No error
-	return nil
-}
-
 // Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
 type SqlFilter_STATUS struct {
 	// CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
@@ -2030,19 +1901,19 @@ func (filter *SqlFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CompatibilityLevel’:
+	// Set property "CompatibilityLevel":
 	if typedInput.CompatibilityLevel != nil {
 		compatibilityLevel := *typedInput.CompatibilityLevel
 		filter.CompatibilityLevel = &compatibilityLevel
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if typedInput.RequiresPreprocessing != nil {
 		requiresPreprocessing := *typedInput.RequiresPreprocessing
 		filter.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SqlExpression’:
+	// Set property "SqlExpression":
 	if typedInput.SqlExpression != nil {
 		sqlExpression := *typedInput.SqlExpression
 		filter.SqlExpression = &sqlExpression
@@ -2053,7 +1924,7 @@ func (filter *SqlFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_SqlFilter_STATUS populates our SqlFilter_STATUS from the provided source SqlFilter_STATUS
-func (filter *SqlFilter_STATUS) AssignProperties_From_SqlFilter_STATUS(source *v1api20210101ps.SqlFilter_STATUS) error {
+func (filter *SqlFilter_STATUS) AssignProperties_From_SqlFilter_STATUS(source *v20210101ps.SqlFilter_STATUS) error {
 
 	// CompatibilityLevel
 	filter.CompatibilityLevel = genruntime.ClonePointerToInt(source.CompatibilityLevel)
@@ -2074,7 +1945,7 @@ func (filter *SqlFilter_STATUS) AssignProperties_From_SqlFilter_STATUS(source *v
 }
 
 // AssignProperties_To_SqlFilter_STATUS populates the provided destination SqlFilter_STATUS from our SqlFilter_STATUS
-func (filter *SqlFilter_STATUS) AssignProperties_To_SqlFilter_STATUS(destination *v1api20210101ps.SqlFilter_STATUS) error {
+func (filter *SqlFilter_STATUS) AssignProperties_To_SqlFilter_STATUS(destination *v20210101ps.SqlFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

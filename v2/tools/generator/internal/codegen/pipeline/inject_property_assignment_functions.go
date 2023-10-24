@@ -67,27 +67,27 @@ func InjectPropertyAssignmentFunctions(
 					continue
 				}
 
-				var augmentationInterface *astmodel.TypeName
-				if astmodel.IsStoragePackageReference(def.Name().PackageReference) {
+				var augmentationInterface astmodel.InternalTypeName
+				if astmodel.IsStoragePackageReference(def.Name().PackageReference()) {
 					ifaceType := astmodel.NewInterfaceType()
 
 					assignPropertiesToFunc := functions.NewObjectFunction(
 						"AssignPropertiesTo",
 						idFactory,
 						createAssignPropertiesOverrideStub("dst", astmodel.NewOptionalType(nextDef.Name())))
-					assignPropertiesToFunc.AddPackageReference(nextDef.Name().PackageReference)
+					assignPropertiesToFunc.AddPackageReference(nextDef.Name().PackageReference())
 
 					assignPropertiesFromFunc := functions.NewObjectFunction(
 						"AssignPropertiesFrom",
 						idFactory,
 						createAssignPropertiesOverrideStub("src", astmodel.NewOptionalType(nextDef.Name())))
-					assignPropertiesFromFunc.AddPackageReference(nextDef.Name().PackageReference)
+					assignPropertiesFromFunc.AddPackageReference(nextDef.Name().PackageReference())
 
 					ifaceType = ifaceType.WithFunction(assignPropertiesToFunc).WithFunction(assignPropertiesFromFunc)
 
 					augmentationInterfaceName := "augmentConversionFor" + idFactory.CreateIdentifier(def.Name().Name(), astmodel.Exported)
 					augmentationInterfaceTypeName := def.Name().WithName(augmentationInterfaceName)
-					augmentationInterface = &augmentationInterfaceTypeName
+					augmentationInterface = augmentationInterfaceTypeName
 					ifaceDef := astmodel.MakeTypeDefinition(
 						augmentationInterfaceTypeName,
 						ifaceType)
@@ -138,7 +138,7 @@ func newPropertyAssignmentFunctionsFactory(
 func (f propertyAssignmentFunctionsFactory) injectBetween(
 	upstreamDef astmodel.TypeDefinition,
 	downstreamDef astmodel.TypeDefinition,
-	augmentationInterface *astmodel.TypeName) (astmodel.TypeDefinition, error) {
+	augmentationInterface astmodel.InternalTypeName) (astmodel.TypeDefinition, error) {
 
 	assignmentContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, f.definitions, f.idFactory).
 		WithConfiguration(f.configuration.ObjectModelConfiguration).
@@ -146,8 +146,8 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 
 	// Create conversion functions
 	assignFromBuilder := functions.NewPropertyAssignmentFunctionBuilder(upstreamDef, downstreamDef, conversions.ConvertFrom)
-	if augmentationInterface != nil {
-		assignFromBuilder.UseAugmentationInterface(*augmentationInterface)
+	if !augmentationInterface.IsEmpty() {
+		assignFromBuilder.UseAugmentationInterface(augmentationInterface)
 	}
 
 	assignFromFn, err := assignFromBuilder.Build(assignmentContext)
@@ -157,8 +157,8 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 	}
 
 	assignToBuilder := functions.NewPropertyAssignmentFunctionBuilder(upstreamDef, downstreamDef, conversions.ConvertTo)
-	if augmentationInterface != nil {
-		assignToBuilder.UseAugmentationInterface(*augmentationInterface)
+	if !augmentationInterface.IsEmpty() {
+		assignToBuilder.UseAugmentationInterface(augmentationInterface)
 	}
 
 	assignToFn, err := assignToBuilder.Build(assignmentContext)

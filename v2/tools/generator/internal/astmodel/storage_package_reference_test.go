@@ -19,8 +19,8 @@ func TestMakeStoragePackageReference(t *testing.T) {
 		version         string
 		expectedVersion string
 	}{
-		{"group", "1", "v1storage"},
-		{"microsoft.network", "2018-05-01", "v20180501storage"},
+		{"group", "1", "storage"},
+		{"microsoft.network", "2018-05-01", "storage"},
 	}
 
 	for _, c := range cases {
@@ -32,6 +32,7 @@ func TestMakeStoragePackageReference(t *testing.T) {
 			localRef := makeTestLocalPackageReference(c.group, c.version)
 			storageRef := MakeStoragePackageReference(localRef)
 
+			g.Expect(storageRef).To(BeAssignableToTypeOf(SubPackageReference{}))
 			g.Expect(storageRef.PackageName()).To(Equal(c.expectedVersion))
 		})
 	}
@@ -46,8 +47,8 @@ func TestStoragePackageReferenceEquals(t *testing.T) {
 
 	cases := []struct {
 		name          string
-		storageRef    StoragePackageReference
-		otherRef      PackageReference
+		storageRef    InternalPackageReference
+		otherRef      InternalPackageReference
 		expectedEqual bool
 	}{
 		{"Equal to self", storageRef, storageRef, true},
@@ -95,6 +96,47 @@ func TestStoragePackageReferenceIsPreview(t *testing.T) {
 			ref := MakeStoragePackageReference(local)
 
 			g.Expect(ref.IsPreview()).To(Equal(c.isPreview))
+		})
+	}
+}
+
+func Test_StoragePackageReference_ImportAlias_ReturnsExpectedAlias(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name             string
+		group            string
+		generatorVersion string
+		apiVersion       string
+		style            PackageImportStyle
+		expected         string
+	}{
+		// Current generator version
+		{"GeneratorVersionOnly", "storage", GeneratorVersion, "20200901", VersionOnly, "v20200901s"},
+		{"GeneratorGroupOnly", "storage", GeneratorVersion, "20200901", GroupOnly, "storage"},
+		{"GeneratorGroupAndVersion", "storage", GeneratorVersion, "20200901", GroupAndVersion, "storage_v20200901s"},
+		{"GeneratorPreviewVersionOnly", "storage", GeneratorVersion, "20200901preview", VersionOnly, "v20200901ps"},
+		{"GeneratorPreviewGroupOnly", "storage", GeneratorVersion, "20200901preview", GroupOnly, "storage"},
+		{"GeneratorPreviewGroupAndVersion", "storage", GeneratorVersion, "20200901preview", GroupAndVersion, "storage_v20200901ps"},
+		// Hard coded to v1api
+		{"v1apiVersionOnly", "storage", "v1api", "20200901", VersionOnly, "v20200901s"},
+		{"v1apiGroupOnly", "storage", "v1api", "20200901", GroupOnly, "storage"},
+		{"v1apiGroupAndVersion", "storage", "v1api", "20200901", GroupAndVersion, "storage_v20200901s"},
+		// Hard coded to v1beta
+		{"v1betaVersionOnly", "storage", "v1beta", "20200901", VersionOnly, "v1beta20200901s"},
+		{"v1betaGroupOnly", "storage", "v1beta", "20200901", GroupOnly, "storage"},
+		{"v1betaGroupAndVersion", "storage", "v1beta", "20200901", GroupAndVersion, "storage_v1beta20200901s"},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			lpr := MakeLocalPackageReference("v", c.group, c.generatorVersion, c.apiVersion)
+			ref := MakeStoragePackageReference(lpr)
+			g.Expect(ref.ImportAlias(c.style)).To(Equal(c.expected))
 		})
 	}
 }

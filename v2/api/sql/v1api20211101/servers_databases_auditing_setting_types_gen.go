@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &ServersDatabasesAuditingSetting{}
 
 // ConvertFrom populates our ServersDatabasesAuditingSetting from the provided hub ServersDatabasesAuditingSetting
 func (setting *ServersDatabasesAuditingSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20211101s.ServersDatabasesAuditingSetting)
+	source, ok := hub.(*v20211101s.ServersDatabasesAuditingSetting)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/ServersDatabasesAuditingSetting but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (setting *ServersDatabasesAuditingSetting) ConvertFrom(hub conversion.Hub) 
 
 // ConvertTo populates the provided hub ServersDatabasesAuditingSetting from our ServersDatabasesAuditingSetting
 func (setting *ServersDatabasesAuditingSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20211101s.ServersDatabasesAuditingSetting)
+	destination, ok := hub.(*v20211101s.ServersDatabasesAuditingSetting)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/ServersDatabasesAuditingSetting but received %T instead", hub)
 	}
@@ -134,11 +134,7 @@ func (setting *ServersDatabasesAuditingSetting) NewEmptyStatus() genruntime.Conv
 // Owner returns the ResourceReference of the owner
 func (setting *ServersDatabasesAuditingSetting) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  setting.Spec.Owner.Name,
-	}
+	return setting.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -196,7 +192,7 @@ func (setting *ServersDatabasesAuditingSetting) ValidateUpdate(old runtime.Objec
 
 // createValidations validates the creation of the resource
 func (setting *ServersDatabasesAuditingSetting) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){setting.validateResourceReferences}
+	return []func() (admission.Warnings, error){setting.validateResourceReferences, setting.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -210,7 +206,16 @@ func (setting *ServersDatabasesAuditingSetting) updateValidations() []func(old r
 		func(old runtime.Object) (admission.Warnings, error) {
 			return setting.validateResourceReferences()
 		},
-		setting.validateWriteOnceProperties}
+		setting.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return setting.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (setting *ServersDatabasesAuditingSetting) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(setting)
 }
 
 // validateResourceReferences validates all resource references
@@ -233,7 +238,7 @@ func (setting *ServersDatabasesAuditingSetting) validateWriteOnceProperties(old 
 }
 
 // AssignProperties_From_ServersDatabasesAuditingSetting populates our ServersDatabasesAuditingSetting from the provided source ServersDatabasesAuditingSetting
-func (setting *ServersDatabasesAuditingSetting) AssignProperties_From_ServersDatabasesAuditingSetting(source *v1api20211101s.ServersDatabasesAuditingSetting) error {
+func (setting *ServersDatabasesAuditingSetting) AssignProperties_From_ServersDatabasesAuditingSetting(source *v20211101s.ServersDatabasesAuditingSetting) error {
 
 	// ObjectMeta
 	setting.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -259,13 +264,13 @@ func (setting *ServersDatabasesAuditingSetting) AssignProperties_From_ServersDat
 }
 
 // AssignProperties_To_ServersDatabasesAuditingSetting populates the provided destination ServersDatabasesAuditingSetting from our ServersDatabasesAuditingSetting
-func (setting *ServersDatabasesAuditingSetting) AssignProperties_To_ServersDatabasesAuditingSetting(destination *v1api20211101s.ServersDatabasesAuditingSetting) error {
+func (setting *ServersDatabasesAuditingSetting) AssignProperties_To_ServersDatabasesAuditingSetting(destination *v20211101s.ServersDatabasesAuditingSetting) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *setting.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20211101s.Servers_Databases_AuditingSetting_Spec
+	var spec v20211101s.Servers_Databases_AuditingSetting_Spec
 	err := setting.Spec.AssignProperties_To_Servers_Databases_AuditingSetting_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_Databases_AuditingSetting_Spec() to populate field Spec")
@@ -273,7 +278,7 @@ func (setting *ServersDatabasesAuditingSetting) AssignProperties_To_ServersDatab
 	destination.Spec = spec
 
 	// Status
-	var status v1api20211101s.Servers_Databases_AuditingSetting_STATUS
+	var status v20211101s.Servers_Databases_AuditingSetting_STATUS
 	err = setting.Status.AssignProperties_To_Servers_Databases_AuditingSetting_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_Databases_AuditingSetting_STATUS() to populate field Status")
@@ -428,10 +433,10 @@ func (setting *Servers_Databases_AuditingSetting_Spec) ConvertToARM(resolved gen
 	}
 	result := &Servers_Databases_AuditingSetting_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if setting.AuditActionsAndGroups != nil ||
 		setting.IsAzureMonitorTargetEnabled != nil ||
 		setting.IsManagedIdentityInUse != nil ||
@@ -502,7 +507,7 @@ func (setting *Servers_Databases_AuditingSetting_Spec) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Databases_AuditingSetting_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuditActionsAndGroups’:
+	// Set property "AuditActionsAndGroups":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.AuditActionsAndGroups {
@@ -510,7 +515,7 @@ func (setting *Servers_Databases_AuditingSetting_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘IsAzureMonitorTargetEnabled’:
+	// Set property "IsAzureMonitorTargetEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsAzureMonitorTargetEnabled != nil {
@@ -519,7 +524,7 @@ func (setting *Servers_Databases_AuditingSetting_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘IsManagedIdentityInUse’:
+	// Set property "IsManagedIdentityInUse":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsManagedIdentityInUse != nil {
@@ -528,7 +533,7 @@ func (setting *Servers_Databases_AuditingSetting_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘IsStorageSecondaryKeyInUse’:
+	// Set property "IsStorageSecondaryKeyInUse":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsStorageSecondaryKeyInUse != nil {
@@ -537,10 +542,13 @@ func (setting *Servers_Databases_AuditingSetting_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Owner’:
-	setting.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	setting.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘QueueDelayMs’:
+	// Set property "QueueDelayMs":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.QueueDelayMs != nil {
@@ -549,7 +557,7 @@ func (setting *Servers_Databases_AuditingSetting_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘RetentionDays’:
+	// Set property "RetentionDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetentionDays != nil {
@@ -558,7 +566,7 @@ func (setting *Servers_Databases_AuditingSetting_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
@@ -567,9 +575,9 @@ func (setting *Servers_Databases_AuditingSetting_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// no assignment for property ‘StorageAccountAccessKey’
+	// no assignment for property "StorageAccountAccessKey"
 
-	// Set property ‘StorageAccountSubscriptionId’:
+	// Set property "StorageAccountSubscriptionId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageAccountSubscriptionId != nil {
@@ -578,7 +586,7 @@ func (setting *Servers_Databases_AuditingSetting_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘StorageEndpoint’:
+	// Set property "StorageEndpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageEndpoint != nil {
@@ -595,14 +603,14 @@ var _ genruntime.ConvertibleSpec = &Servers_Databases_AuditingSetting_Spec{}
 
 // ConvertSpecFrom populates our Servers_Databases_AuditingSetting_Spec from the provided source
 func (setting *Servers_Databases_AuditingSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20211101s.Servers_Databases_AuditingSetting_Spec)
+	src, ok := source.(*v20211101s.Servers_Databases_AuditingSetting_Spec)
 	if ok {
 		// Populate our instance from source
 		return setting.AssignProperties_From_Servers_Databases_AuditingSetting_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Servers_Databases_AuditingSetting_Spec{}
+	src = &v20211101s.Servers_Databases_AuditingSetting_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -619,14 +627,14 @@ func (setting *Servers_Databases_AuditingSetting_Spec) ConvertSpecFrom(source ge
 
 // ConvertSpecTo populates the provided destination from our Servers_Databases_AuditingSetting_Spec
 func (setting *Servers_Databases_AuditingSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20211101s.Servers_Databases_AuditingSetting_Spec)
+	dst, ok := destination.(*v20211101s.Servers_Databases_AuditingSetting_Spec)
 	if ok {
 		// Populate destination from our instance
 		return setting.AssignProperties_To_Servers_Databases_AuditingSetting_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Servers_Databases_AuditingSetting_Spec{}
+	dst = &v20211101s.Servers_Databases_AuditingSetting_Spec{}
 	err := setting.AssignProperties_To_Servers_Databases_AuditingSetting_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -642,7 +650,7 @@ func (setting *Servers_Databases_AuditingSetting_Spec) ConvertSpecTo(destination
 }
 
 // AssignProperties_From_Servers_Databases_AuditingSetting_Spec populates our Servers_Databases_AuditingSetting_Spec from the provided source Servers_Databases_AuditingSetting_Spec
-func (setting *Servers_Databases_AuditingSetting_Spec) AssignProperties_From_Servers_Databases_AuditingSetting_Spec(source *v1api20211101s.Servers_Databases_AuditingSetting_Spec) error {
+func (setting *Servers_Databases_AuditingSetting_Spec) AssignProperties_From_Servers_Databases_AuditingSetting_Spec(source *v20211101s.Servers_Databases_AuditingSetting_Spec) error {
 
 	// AuditActionsAndGroups
 	setting.AuditActionsAndGroups = genruntime.CloneSliceOfString(source.AuditActionsAndGroups)
@@ -717,7 +725,7 @@ func (setting *Servers_Databases_AuditingSetting_Spec) AssignProperties_From_Ser
 }
 
 // AssignProperties_To_Servers_Databases_AuditingSetting_Spec populates the provided destination Servers_Databases_AuditingSetting_Spec from our Servers_Databases_AuditingSetting_Spec
-func (setting *Servers_Databases_AuditingSetting_Spec) AssignProperties_To_Servers_Databases_AuditingSetting_Spec(destination *v1api20211101s.Servers_Databases_AuditingSetting_Spec) error {
+func (setting *Servers_Databases_AuditingSetting_Spec) AssignProperties_To_Servers_Databases_AuditingSetting_Spec(destination *v20211101s.Servers_Databases_AuditingSetting_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -983,14 +991,14 @@ var _ genruntime.ConvertibleStatus = &Servers_Databases_AuditingSetting_STATUS{}
 
 // ConvertStatusFrom populates our Servers_Databases_AuditingSetting_STATUS from the provided source
 func (setting *Servers_Databases_AuditingSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20211101s.Servers_Databases_AuditingSetting_STATUS)
+	src, ok := source.(*v20211101s.Servers_Databases_AuditingSetting_STATUS)
 	if ok {
 		// Populate our instance from source
 		return setting.AssignProperties_From_Servers_Databases_AuditingSetting_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Servers_Databases_AuditingSetting_STATUS{}
+	src = &v20211101s.Servers_Databases_AuditingSetting_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1007,14 +1015,14 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) ConvertStatusFrom(sourc
 
 // ConvertStatusTo populates the provided destination from our Servers_Databases_AuditingSetting_STATUS
 func (setting *Servers_Databases_AuditingSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20211101s.Servers_Databases_AuditingSetting_STATUS)
+	dst, ok := destination.(*v20211101s.Servers_Databases_AuditingSetting_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return setting.AssignProperties_To_Servers_Databases_AuditingSetting_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Servers_Databases_AuditingSetting_STATUS{}
+	dst = &v20211101s.Servers_Databases_AuditingSetting_STATUS{}
 	err := setting.AssignProperties_To_Servers_Databases_AuditingSetting_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1043,7 +1051,7 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Databases_AuditingSetting_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuditActionsAndGroups’:
+	// Set property "AuditActionsAndGroups":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.AuditActionsAndGroups {
@@ -1051,15 +1059,15 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		setting.Id = &id
 	}
 
-	// Set property ‘IsAzureMonitorTargetEnabled’:
+	// Set property "IsAzureMonitorTargetEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsAzureMonitorTargetEnabled != nil {
@@ -1068,7 +1076,7 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘IsManagedIdentityInUse’:
+	// Set property "IsManagedIdentityInUse":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsManagedIdentityInUse != nil {
@@ -1077,7 +1085,7 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘IsStorageSecondaryKeyInUse’:
+	// Set property "IsStorageSecondaryKeyInUse":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsStorageSecondaryKeyInUse != nil {
@@ -1086,19 +1094,19 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		setting.Kind = &kind
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		setting.Name = &name
 	}
 
-	// Set property ‘QueueDelayMs’:
+	// Set property "QueueDelayMs":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.QueueDelayMs != nil {
@@ -1107,7 +1115,7 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘RetentionDays’:
+	// Set property "RetentionDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetentionDays != nil {
@@ -1116,7 +1124,7 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
@@ -1125,7 +1133,7 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘StorageAccountSubscriptionId’:
+	// Set property "StorageAccountSubscriptionId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageAccountSubscriptionId != nil {
@@ -1134,7 +1142,7 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘StorageEndpoint’:
+	// Set property "StorageEndpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageEndpoint != nil {
@@ -1143,7 +1151,7 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		setting.Type = &typeVar
@@ -1154,7 +1162,7 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) PopulateFromARM(owner g
 }
 
 // AssignProperties_From_Servers_Databases_AuditingSetting_STATUS populates our Servers_Databases_AuditingSetting_STATUS from the provided source Servers_Databases_AuditingSetting_STATUS
-func (setting *Servers_Databases_AuditingSetting_STATUS) AssignProperties_From_Servers_Databases_AuditingSetting_STATUS(source *v1api20211101s.Servers_Databases_AuditingSetting_STATUS) error {
+func (setting *Servers_Databases_AuditingSetting_STATUS) AssignProperties_From_Servers_Databases_AuditingSetting_STATUS(source *v20211101s.Servers_Databases_AuditingSetting_STATUS) error {
 
 	// AuditActionsAndGroups
 	setting.AuditActionsAndGroups = genruntime.CloneSliceOfString(source.AuditActionsAndGroups)
@@ -1223,7 +1231,7 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) AssignProperties_From_S
 }
 
 // AssignProperties_To_Servers_Databases_AuditingSetting_STATUS populates the provided destination Servers_Databases_AuditingSetting_STATUS from our Servers_Databases_AuditingSetting_STATUS
-func (setting *Servers_Databases_AuditingSetting_STATUS) AssignProperties_To_Servers_Databases_AuditingSetting_STATUS(destination *v1api20211101s.Servers_Databases_AuditingSetting_STATUS) error {
+func (setting *Servers_Databases_AuditingSetting_STATUS) AssignProperties_To_Servers_Databases_AuditingSetting_STATUS(destination *v20211101s.Servers_Databases_AuditingSetting_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

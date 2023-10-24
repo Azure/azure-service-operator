@@ -5,8 +5,8 @@ package v1beta20210515
 
 import (
 	"encoding/json"
-	v1api20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
-	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
+	v1beta20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForSqlRoleAssignment(subject SqlRoleAssignment) st
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20210515s.SqlRoleAssignment
+	var hub v20210515s.SqlRoleAssignment
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForSqlRoleAssignment(subject SqlRoleAssignment) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210515s.SqlRoleAssignment
+	var other v1beta20210515s.SqlRoleAssignment
 	err := copied.AssignProperties_To_SqlRoleAssignment(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForDatabaseAccounts_SqlRoleAssignment_Spec(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210515s.DatabaseAccounts_SqlRoleAssignment_Spec
+	var other v1beta20210515s.DatabaseAccounts_SqlRoleAssignment_Spec
 	err := copied.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -288,7 +288,7 @@ func RunPropertyAssignmentTestForDatabaseAccounts_SqlRoleAssignment_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS
+	var other v1beta20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS
 	err := copied.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS(&other)
 	if err != nil {
 		return err.Error()

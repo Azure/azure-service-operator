@@ -85,11 +85,7 @@ func (compute *WorkspacesCompute) NewEmptyStatus() genruntime.ConvertibleStatus 
 // Owner returns the ResourceReference of the owner
 func (compute *WorkspacesCompute) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(compute.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  compute.Spec.Owner.Name,
-	}
+	return compute.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

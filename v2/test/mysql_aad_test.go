@@ -19,11 +19,11 @@ import (
 	mysql20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	mysqlutil "github.com/Azure/azure-service-operator/v2/internal/util/mysql"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -164,7 +164,7 @@ func MySQL_AADUser_CRUD(
 	user := &mysqlv1.User{
 		ObjectMeta: tc.MakeObjectMetaWithName(mi.Name),
 		Spec: mysqlv1.UserSpec{
-			Owner: testcommon.AsOwner(server),
+			Owner: testcommon.AsKubernetesOwner(server),
 			Privileges: []string{
 				"CREATE USER",
 				"PROCESS",
@@ -210,11 +210,11 @@ func MySQL_AADUser_CRUD(
 	tc.Expect(serverPrivs).To(Equal(set.Make[string](user.Spec.Privileges...)))
 
 	// Update the user once again, this time to remove privs and also use a resource scoped identity
-	secret := newManagedIdentityCredential(tc.AzureSubscription, tc.AzureTenant, to.Value(admin.Spec.Sid), "credential", tc.Namespace)
+	secret := testcommon.NewScopedManagedIdentitySecret(tc.AzureSubscription, tc.AzureTenant, to.Value(admin.Spec.Sid), "credential", tc.Namespace)
 	tc.CreateResource(secret)
 
 	old = user.DeepCopy()
-	user.Annotations[reconcilers.PerResourceSecretAnnotation] = secret.Name
+	user.Annotations[annotations.PerResourceSecret] = secret.Name
 	user.Spec.Privileges = []string{
 		"SHOW DATABASES",
 	}
@@ -271,7 +271,7 @@ func MySQL_LocalUser_AADAdmin_CRUD(
 	user := &mysqlv1.User{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("local")),
 		Spec: mysqlv1.UserSpec{
-			Owner: testcommon.AsOwner(server),
+			Owner: testcommon.AsKubernetesOwner(server),
 			Privileges: []string{
 				"CREATE USER",
 				"PROCESS",
@@ -344,7 +344,7 @@ func MySQL_AADUserAndGroup_CRUD(
 	user := &mysqlv1.User{
 		ObjectMeta: tc.MakeObjectMetaWithName("aaduser"),
 		Spec: mysqlv1.UserSpec{
-			Owner:     testcommon.AsOwner(server),
+			Owner:     testcommon.AsKubernetesOwner(server),
 			AzureName: aadUserName,
 			Privileges: []string{
 				"CREATE USER",
@@ -379,7 +379,7 @@ func MySQL_AADUserAndGroup_CRUD(
 	user2 := &mysqlv1.User{
 		ObjectMeta: tc.MakeObjectMetaWithName("groupuser"),
 		Spec: mysqlv1.UserSpec{
-			Owner:     testcommon.AsOwner(server),
+			Owner:     testcommon.AsKubernetesOwner(server),
 			AzureName: aadGroupName,
 			Privileges: []string{
 				"CREATE USER",

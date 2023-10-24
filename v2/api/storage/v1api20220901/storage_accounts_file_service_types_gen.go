@@ -5,7 +5,7 @@ package v1api20220901
 
 import (
 	"fmt"
-	v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &StorageAccountsFileService{}
 
 // ConvertFrom populates our StorageAccountsFileService from the provided hub StorageAccountsFileService
 func (service *StorageAccountsFileService) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20220901s.StorageAccountsFileService)
+	source, ok := hub.(*v20220901s.StorageAccountsFileService)
 	if !ok {
 		return fmt.Errorf("expected storage/v1api20220901storage/StorageAccountsFileService but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (service *StorageAccountsFileService) ConvertFrom(hub conversion.Hub) error
 
 // ConvertTo populates the provided hub StorageAccountsFileService from our StorageAccountsFileService
 func (service *StorageAccountsFileService) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20220901s.StorageAccountsFileService)
+	destination, ok := hub.(*v20220901s.StorageAccountsFileService)
 	if !ok {
 		return fmt.Errorf("expected storage/v1api20220901storage/StorageAccountsFileService but received %T instead", hub)
 	}
@@ -134,11 +134,7 @@ func (service *StorageAccountsFileService) NewEmptyStatus() genruntime.Convertib
 // Owner returns the ResourceReference of the owner
 func (service *StorageAccountsFileService) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(service.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  service.Spec.Owner.Name,
-	}
+	return service.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -196,7 +192,7 @@ func (service *StorageAccountsFileService) ValidateUpdate(old runtime.Object) (a
 
 // createValidations validates the creation of the resource
 func (service *StorageAccountsFileService) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){service.validateResourceReferences}
+	return []func() (admission.Warnings, error){service.validateResourceReferences, service.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -210,7 +206,16 @@ func (service *StorageAccountsFileService) updateValidations() []func(old runtim
 		func(old runtime.Object) (admission.Warnings, error) {
 			return service.validateResourceReferences()
 		},
-		service.validateWriteOnceProperties}
+		service.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return service.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (service *StorageAccountsFileService) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(service)
 }
 
 // validateResourceReferences validates all resource references
@@ -233,7 +238,7 @@ func (service *StorageAccountsFileService) validateWriteOnceProperties(old runti
 }
 
 // AssignProperties_From_StorageAccountsFileService populates our StorageAccountsFileService from the provided source StorageAccountsFileService
-func (service *StorageAccountsFileService) AssignProperties_From_StorageAccountsFileService(source *v1api20220901s.StorageAccountsFileService) error {
+func (service *StorageAccountsFileService) AssignProperties_From_StorageAccountsFileService(source *v20220901s.StorageAccountsFileService) error {
 
 	// ObjectMeta
 	service.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -259,13 +264,13 @@ func (service *StorageAccountsFileService) AssignProperties_From_StorageAccounts
 }
 
 // AssignProperties_To_StorageAccountsFileService populates the provided destination StorageAccountsFileService from our StorageAccountsFileService
-func (service *StorageAccountsFileService) AssignProperties_To_StorageAccountsFileService(destination *v1api20220901s.StorageAccountsFileService) error {
+func (service *StorageAccountsFileService) AssignProperties_To_StorageAccountsFileService(destination *v20220901s.StorageAccountsFileService) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *service.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20220901s.StorageAccounts_FileService_Spec
+	var spec v20220901s.StorageAccounts_FileService_Spec
 	err := service.Spec.AssignProperties_To_StorageAccounts_FileService_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_FileService_Spec() to populate field Spec")
@@ -273,7 +278,7 @@ func (service *StorageAccountsFileService) AssignProperties_To_StorageAccountsFi
 	destination.Spec = spec
 
 	// Status
-	var status v1api20220901s.StorageAccounts_FileService_STATUS
+	var status v20220901s.StorageAccounts_FileService_STATUS
 	err = service.Status.AssignProperties_To_StorageAccounts_FileService_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_FileService_STATUS() to populate field Status")
@@ -331,10 +336,10 @@ func (service *StorageAccounts_FileService_Spec) ConvertToARM(resolved genruntim
 	}
 	result := &StorageAccounts_FileService_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if service.Cors != nil ||
 		service.ProtocolSettings != nil ||
 		service.ShareDeleteRetentionPolicy != nil {
@@ -379,7 +384,7 @@ func (service *StorageAccounts_FileService_Spec) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_FileService_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Cors’:
+	// Set property "Cors":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Cors != nil {
@@ -393,10 +398,13 @@ func (service *StorageAccounts_FileService_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘Owner’:
-	service.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	service.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘ProtocolSettings’:
+	// Set property "ProtocolSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProtocolSettings != nil {
@@ -410,7 +418,7 @@ func (service *StorageAccounts_FileService_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘ShareDeleteRetentionPolicy’:
+	// Set property "ShareDeleteRetentionPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ShareDeleteRetentionPolicy != nil {
@@ -432,14 +440,14 @@ var _ genruntime.ConvertibleSpec = &StorageAccounts_FileService_Spec{}
 
 // ConvertSpecFrom populates our StorageAccounts_FileService_Spec from the provided source
 func (service *StorageAccounts_FileService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20220901s.StorageAccounts_FileService_Spec)
+	src, ok := source.(*v20220901s.StorageAccounts_FileService_Spec)
 	if ok {
 		// Populate our instance from source
 		return service.AssignProperties_From_StorageAccounts_FileService_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220901s.StorageAccounts_FileService_Spec{}
+	src = &v20220901s.StorageAccounts_FileService_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -456,14 +464,14 @@ func (service *StorageAccounts_FileService_Spec) ConvertSpecFrom(source genrunti
 
 // ConvertSpecTo populates the provided destination from our StorageAccounts_FileService_Spec
 func (service *StorageAccounts_FileService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20220901s.StorageAccounts_FileService_Spec)
+	dst, ok := destination.(*v20220901s.StorageAccounts_FileService_Spec)
 	if ok {
 		// Populate destination from our instance
 		return service.AssignProperties_To_StorageAccounts_FileService_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220901s.StorageAccounts_FileService_Spec{}
+	dst = &v20220901s.StorageAccounts_FileService_Spec{}
 	err := service.AssignProperties_To_StorageAccounts_FileService_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -479,7 +487,7 @@ func (service *StorageAccounts_FileService_Spec) ConvertSpecTo(destination genru
 }
 
 // AssignProperties_From_StorageAccounts_FileService_Spec populates our StorageAccounts_FileService_Spec from the provided source StorageAccounts_FileService_Spec
-func (service *StorageAccounts_FileService_Spec) AssignProperties_From_StorageAccounts_FileService_Spec(source *v1api20220901s.StorageAccounts_FileService_Spec) error {
+func (service *StorageAccounts_FileService_Spec) AssignProperties_From_StorageAccounts_FileService_Spec(source *v20220901s.StorageAccounts_FileService_Spec) error {
 
 	// Cors
 	if source.Cors != nil {
@@ -530,13 +538,13 @@ func (service *StorageAccounts_FileService_Spec) AssignProperties_From_StorageAc
 }
 
 // AssignProperties_To_StorageAccounts_FileService_Spec populates the provided destination StorageAccounts_FileService_Spec from our StorageAccounts_FileService_Spec
-func (service *StorageAccounts_FileService_Spec) AssignProperties_To_StorageAccounts_FileService_Spec(destination *v1api20220901s.StorageAccounts_FileService_Spec) error {
+func (service *StorageAccounts_FileService_Spec) AssignProperties_To_StorageAccounts_FileService_Spec(destination *v20220901s.StorageAccounts_FileService_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Cors
 	if service.Cors != nil {
-		var cor v1api20220901s.CorsRules
+		var cor v20220901s.CorsRules
 		err := service.Cors.AssignProperties_To_CorsRules(&cor)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CorsRules() to populate field Cors")
@@ -559,7 +567,7 @@ func (service *StorageAccounts_FileService_Spec) AssignProperties_To_StorageAcco
 
 	// ProtocolSettings
 	if service.ProtocolSettings != nil {
-		var protocolSetting v1api20220901s.ProtocolSettings
+		var protocolSetting v20220901s.ProtocolSettings
 		err := service.ProtocolSettings.AssignProperties_To_ProtocolSettings(&protocolSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ProtocolSettings() to populate field ProtocolSettings")
@@ -571,7 +579,7 @@ func (service *StorageAccounts_FileService_Spec) AssignProperties_To_StorageAcco
 
 	// ShareDeleteRetentionPolicy
 	if service.ShareDeleteRetentionPolicy != nil {
-		var shareDeleteRetentionPolicy v1api20220901s.DeleteRetentionPolicy
+		var shareDeleteRetentionPolicy v20220901s.DeleteRetentionPolicy
 		err := service.ShareDeleteRetentionPolicy.AssignProperties_To_DeleteRetentionPolicy(&shareDeleteRetentionPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy() to populate field ShareDeleteRetentionPolicy")
@@ -673,14 +681,14 @@ var _ genruntime.ConvertibleStatus = &StorageAccounts_FileService_STATUS{}
 
 // ConvertStatusFrom populates our StorageAccounts_FileService_STATUS from the provided source
 func (service *StorageAccounts_FileService_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20220901s.StorageAccounts_FileService_STATUS)
+	src, ok := source.(*v20220901s.StorageAccounts_FileService_STATUS)
 	if ok {
 		// Populate our instance from source
 		return service.AssignProperties_From_StorageAccounts_FileService_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220901s.StorageAccounts_FileService_STATUS{}
+	src = &v20220901s.StorageAccounts_FileService_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -697,14 +705,14 @@ func (service *StorageAccounts_FileService_STATUS) ConvertStatusFrom(source genr
 
 // ConvertStatusTo populates the provided destination from our StorageAccounts_FileService_STATUS
 func (service *StorageAccounts_FileService_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20220901s.StorageAccounts_FileService_STATUS)
+	dst, ok := destination.(*v20220901s.StorageAccounts_FileService_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return service.AssignProperties_To_StorageAccounts_FileService_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220901s.StorageAccounts_FileService_STATUS{}
+	dst = &v20220901s.StorageAccounts_FileService_STATUS{}
 	err := service.AssignProperties_To_StorageAccounts_FileService_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -733,9 +741,9 @@ func (service *StorageAccounts_FileService_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_FileService_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Cors’:
+	// Set property "Cors":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Cors != nil {
@@ -749,19 +757,19 @@ func (service *StorageAccounts_FileService_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		service.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		service.Name = &name
 	}
 
-	// Set property ‘ProtocolSettings’:
+	// Set property "ProtocolSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProtocolSettings != nil {
@@ -775,7 +783,7 @@ func (service *StorageAccounts_FileService_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘ShareDeleteRetentionPolicy’:
+	// Set property "ShareDeleteRetentionPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ShareDeleteRetentionPolicy != nil {
@@ -789,7 +797,7 @@ func (service *StorageAccounts_FileService_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -800,7 +808,7 @@ func (service *StorageAccounts_FileService_STATUS) PopulateFromARM(owner genrunt
 		service.Sku = &sku
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		service.Type = &typeVar
@@ -811,7 +819,7 @@ func (service *StorageAccounts_FileService_STATUS) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_StorageAccounts_FileService_STATUS populates our StorageAccounts_FileService_STATUS from the provided source StorageAccounts_FileService_STATUS
-func (service *StorageAccounts_FileService_STATUS) AssignProperties_From_StorageAccounts_FileService_STATUS(source *v1api20220901s.StorageAccounts_FileService_STATUS) error {
+func (service *StorageAccounts_FileService_STATUS) AssignProperties_From_StorageAccounts_FileService_STATUS(source *v20220901s.StorageAccounts_FileService_STATUS) error {
 
 	// Conditions
 	service.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -878,7 +886,7 @@ func (service *StorageAccounts_FileService_STATUS) AssignProperties_From_Storage
 }
 
 // AssignProperties_To_StorageAccounts_FileService_STATUS populates the provided destination StorageAccounts_FileService_STATUS from our StorageAccounts_FileService_STATUS
-func (service *StorageAccounts_FileService_STATUS) AssignProperties_To_StorageAccounts_FileService_STATUS(destination *v1api20220901s.StorageAccounts_FileService_STATUS) error {
+func (service *StorageAccounts_FileService_STATUS) AssignProperties_To_StorageAccounts_FileService_STATUS(destination *v20220901s.StorageAccounts_FileService_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -887,7 +895,7 @@ func (service *StorageAccounts_FileService_STATUS) AssignProperties_To_StorageAc
 
 	// Cors
 	if service.Cors != nil {
-		var cor v1api20220901s.CorsRules_STATUS
+		var cor v20220901s.CorsRules_STATUS
 		err := service.Cors.AssignProperties_To_CorsRules_STATUS(&cor)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CorsRules_STATUS() to populate field Cors")
@@ -905,7 +913,7 @@ func (service *StorageAccounts_FileService_STATUS) AssignProperties_To_StorageAc
 
 	// ProtocolSettings
 	if service.ProtocolSettings != nil {
-		var protocolSetting v1api20220901s.ProtocolSettings_STATUS
+		var protocolSetting v20220901s.ProtocolSettings_STATUS
 		err := service.ProtocolSettings.AssignProperties_To_ProtocolSettings_STATUS(&protocolSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ProtocolSettings_STATUS() to populate field ProtocolSettings")
@@ -917,7 +925,7 @@ func (service *StorageAccounts_FileService_STATUS) AssignProperties_To_StorageAc
 
 	// ShareDeleteRetentionPolicy
 	if service.ShareDeleteRetentionPolicy != nil {
-		var shareDeleteRetentionPolicy v1api20220901s.DeleteRetentionPolicy_STATUS
+		var shareDeleteRetentionPolicy v20220901s.DeleteRetentionPolicy_STATUS
 		err := service.ShareDeleteRetentionPolicy.AssignProperties_To_DeleteRetentionPolicy_STATUS(&shareDeleteRetentionPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy_STATUS() to populate field ShareDeleteRetentionPolicy")
@@ -929,7 +937,7 @@ func (service *StorageAccounts_FileService_STATUS) AssignProperties_To_StorageAc
 
 	// Sku
 	if service.Sku != nil {
-		var sku v1api20220901s.Sku_STATUS
+		var sku v20220901s.Sku_STATUS
 		err := service.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
@@ -968,7 +976,7 @@ func (settings *ProtocolSettings) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &ProtocolSettings_ARM{}
 
-	// Set property ‘Smb’:
+	// Set property "Smb":
 	if settings.Smb != nil {
 		smb_ARM, err := (*settings.Smb).ConvertToARM(resolved)
 		if err != nil {
@@ -992,7 +1000,7 @@ func (settings *ProtocolSettings) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProtocolSettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Smb’:
+	// Set property "Smb":
 	if typedInput.Smb != nil {
 		var smb1 SmbSetting
 		err := smb1.PopulateFromARM(owner, *typedInput.Smb)
@@ -1008,7 +1016,7 @@ func (settings *ProtocolSettings) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_ProtocolSettings populates our ProtocolSettings from the provided source ProtocolSettings
-func (settings *ProtocolSettings) AssignProperties_From_ProtocolSettings(source *v1api20220901s.ProtocolSettings) error {
+func (settings *ProtocolSettings) AssignProperties_From_ProtocolSettings(source *v20220901s.ProtocolSettings) error {
 
 	// Smb
 	if source.Smb != nil {
@@ -1027,13 +1035,13 @@ func (settings *ProtocolSettings) AssignProperties_From_ProtocolSettings(source 
 }
 
 // AssignProperties_To_ProtocolSettings populates the provided destination ProtocolSettings from our ProtocolSettings
-func (settings *ProtocolSettings) AssignProperties_To_ProtocolSettings(destination *v1api20220901s.ProtocolSettings) error {
+func (settings *ProtocolSettings) AssignProperties_To_ProtocolSettings(destination *v20220901s.ProtocolSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Smb
 	if settings.Smb != nil {
-		var smb v1api20220901s.SmbSetting
+		var smb v20220901s.SmbSetting
 		err := settings.Smb.AssignProperties_To_SmbSetting(&smb)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SmbSetting() to populate field Smb")
@@ -1093,7 +1101,7 @@ func (settings *ProtocolSettings_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProtocolSettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Smb’:
+	// Set property "Smb":
 	if typedInput.Smb != nil {
 		var smb1 SmbSetting_STATUS
 		err := smb1.PopulateFromARM(owner, *typedInput.Smb)
@@ -1109,7 +1117,7 @@ func (settings *ProtocolSettings_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_ProtocolSettings_STATUS populates our ProtocolSettings_STATUS from the provided source ProtocolSettings_STATUS
-func (settings *ProtocolSettings_STATUS) AssignProperties_From_ProtocolSettings_STATUS(source *v1api20220901s.ProtocolSettings_STATUS) error {
+func (settings *ProtocolSettings_STATUS) AssignProperties_From_ProtocolSettings_STATUS(source *v20220901s.ProtocolSettings_STATUS) error {
 
 	// Smb
 	if source.Smb != nil {
@@ -1128,13 +1136,13 @@ func (settings *ProtocolSettings_STATUS) AssignProperties_From_ProtocolSettings_
 }
 
 // AssignProperties_To_ProtocolSettings_STATUS populates the provided destination ProtocolSettings_STATUS from our ProtocolSettings_STATUS
-func (settings *ProtocolSettings_STATUS) AssignProperties_To_ProtocolSettings_STATUS(destination *v1api20220901s.ProtocolSettings_STATUS) error {
+func (settings *ProtocolSettings_STATUS) AssignProperties_To_ProtocolSettings_STATUS(destination *v20220901s.ProtocolSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Smb
 	if settings.Smb != nil {
-		var smb v1api20220901s.SmbSetting_STATUS
+		var smb v20220901s.SmbSetting_STATUS
 		err := settings.Smb.AssignProperties_To_SmbSetting_STATUS(&smb)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SmbSetting_STATUS() to populate field Smb")
@@ -1186,25 +1194,25 @@ func (setting *SmbSetting) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &SmbSetting_ARM{}
 
-	// Set property ‘AuthenticationMethods’:
+	// Set property "AuthenticationMethods":
 	if setting.AuthenticationMethods != nil {
 		authenticationMethods := *setting.AuthenticationMethods
 		result.AuthenticationMethods = &authenticationMethods
 	}
 
-	// Set property ‘ChannelEncryption’:
+	// Set property "ChannelEncryption":
 	if setting.ChannelEncryption != nil {
 		channelEncryption := *setting.ChannelEncryption
 		result.ChannelEncryption = &channelEncryption
 	}
 
-	// Set property ‘KerberosTicketEncryption’:
+	// Set property "KerberosTicketEncryption":
 	if setting.KerberosTicketEncryption != nil {
 		kerberosTicketEncryption := *setting.KerberosTicketEncryption
 		result.KerberosTicketEncryption = &kerberosTicketEncryption
 	}
 
-	// Set property ‘Multichannel’:
+	// Set property "Multichannel":
 	if setting.Multichannel != nil {
 		multichannel_ARM, err := (*setting.Multichannel).ConvertToARM(resolved)
 		if err != nil {
@@ -1214,7 +1222,7 @@ func (setting *SmbSetting) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Multichannel = &multichannel
 	}
 
-	// Set property ‘Versions’:
+	// Set property "Versions":
 	if setting.Versions != nil {
 		versions := *setting.Versions
 		result.Versions = &versions
@@ -1234,25 +1242,25 @@ func (setting *SmbSetting) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SmbSetting_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthenticationMethods’:
+	// Set property "AuthenticationMethods":
 	if typedInput.AuthenticationMethods != nil {
 		authenticationMethods := *typedInput.AuthenticationMethods
 		setting.AuthenticationMethods = &authenticationMethods
 	}
 
-	// Set property ‘ChannelEncryption’:
+	// Set property "ChannelEncryption":
 	if typedInput.ChannelEncryption != nil {
 		channelEncryption := *typedInput.ChannelEncryption
 		setting.ChannelEncryption = &channelEncryption
 	}
 
-	// Set property ‘KerberosTicketEncryption’:
+	// Set property "KerberosTicketEncryption":
 	if typedInput.KerberosTicketEncryption != nil {
 		kerberosTicketEncryption := *typedInput.KerberosTicketEncryption
 		setting.KerberosTicketEncryption = &kerberosTicketEncryption
 	}
 
-	// Set property ‘Multichannel’:
+	// Set property "Multichannel":
 	if typedInput.Multichannel != nil {
 		var multichannel1 Multichannel
 		err := multichannel1.PopulateFromARM(owner, *typedInput.Multichannel)
@@ -1263,7 +1271,7 @@ func (setting *SmbSetting) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		setting.Multichannel = &multichannel
 	}
 
-	// Set property ‘Versions’:
+	// Set property "Versions":
 	if typedInput.Versions != nil {
 		versions := *typedInput.Versions
 		setting.Versions = &versions
@@ -1274,7 +1282,7 @@ func (setting *SmbSetting) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 }
 
 // AssignProperties_From_SmbSetting populates our SmbSetting from the provided source SmbSetting
-func (setting *SmbSetting) AssignProperties_From_SmbSetting(source *v1api20220901s.SmbSetting) error {
+func (setting *SmbSetting) AssignProperties_From_SmbSetting(source *v20220901s.SmbSetting) error {
 
 	// AuthenticationMethods
 	setting.AuthenticationMethods = genruntime.ClonePointerToString(source.AuthenticationMethods)
@@ -1305,7 +1313,7 @@ func (setting *SmbSetting) AssignProperties_From_SmbSetting(source *v1api2022090
 }
 
 // AssignProperties_To_SmbSetting populates the provided destination SmbSetting from our SmbSetting
-func (setting *SmbSetting) AssignProperties_To_SmbSetting(destination *v1api20220901s.SmbSetting) error {
+func (setting *SmbSetting) AssignProperties_To_SmbSetting(destination *v20220901s.SmbSetting) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1320,7 +1328,7 @@ func (setting *SmbSetting) AssignProperties_To_SmbSetting(destination *v1api2022
 
 	// Multichannel
 	if setting.Multichannel != nil {
-		var multichannel v1api20220901s.Multichannel
+		var multichannel v20220901s.Multichannel
 		err := setting.Multichannel.AssignProperties_To_Multichannel(&multichannel)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Multichannel() to populate field Multichannel")
@@ -1411,25 +1419,25 @@ func (setting *SmbSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SmbSetting_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthenticationMethods’:
+	// Set property "AuthenticationMethods":
 	if typedInput.AuthenticationMethods != nil {
 		authenticationMethods := *typedInput.AuthenticationMethods
 		setting.AuthenticationMethods = &authenticationMethods
 	}
 
-	// Set property ‘ChannelEncryption’:
+	// Set property "ChannelEncryption":
 	if typedInput.ChannelEncryption != nil {
 		channelEncryption := *typedInput.ChannelEncryption
 		setting.ChannelEncryption = &channelEncryption
 	}
 
-	// Set property ‘KerberosTicketEncryption’:
+	// Set property "KerberosTicketEncryption":
 	if typedInput.KerberosTicketEncryption != nil {
 		kerberosTicketEncryption := *typedInput.KerberosTicketEncryption
 		setting.KerberosTicketEncryption = &kerberosTicketEncryption
 	}
 
-	// Set property ‘Multichannel’:
+	// Set property "Multichannel":
 	if typedInput.Multichannel != nil {
 		var multichannel1 Multichannel_STATUS
 		err := multichannel1.PopulateFromARM(owner, *typedInput.Multichannel)
@@ -1440,7 +1448,7 @@ func (setting *SmbSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		setting.Multichannel = &multichannel
 	}
 
-	// Set property ‘Versions’:
+	// Set property "Versions":
 	if typedInput.Versions != nil {
 		versions := *typedInput.Versions
 		setting.Versions = &versions
@@ -1451,7 +1459,7 @@ func (setting *SmbSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_SmbSetting_STATUS populates our SmbSetting_STATUS from the provided source SmbSetting_STATUS
-func (setting *SmbSetting_STATUS) AssignProperties_From_SmbSetting_STATUS(source *v1api20220901s.SmbSetting_STATUS) error {
+func (setting *SmbSetting_STATUS) AssignProperties_From_SmbSetting_STATUS(source *v20220901s.SmbSetting_STATUS) error {
 
 	// AuthenticationMethods
 	setting.AuthenticationMethods = genruntime.ClonePointerToString(source.AuthenticationMethods)
@@ -1482,7 +1490,7 @@ func (setting *SmbSetting_STATUS) AssignProperties_From_SmbSetting_STATUS(source
 }
 
 // AssignProperties_To_SmbSetting_STATUS populates the provided destination SmbSetting_STATUS from our SmbSetting_STATUS
-func (setting *SmbSetting_STATUS) AssignProperties_To_SmbSetting_STATUS(destination *v1api20220901s.SmbSetting_STATUS) error {
+func (setting *SmbSetting_STATUS) AssignProperties_To_SmbSetting_STATUS(destination *v20220901s.SmbSetting_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1497,7 +1505,7 @@ func (setting *SmbSetting_STATUS) AssignProperties_To_SmbSetting_STATUS(destinat
 
 	// Multichannel
 	if setting.Multichannel != nil {
-		var multichannel v1api20220901s.Multichannel_STATUS
+		var multichannel v20220901s.Multichannel_STATUS
 		err := setting.Multichannel.AssignProperties_To_Multichannel_STATUS(&multichannel)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Multichannel_STATUS() to populate field Multichannel")
@@ -1536,7 +1544,7 @@ func (multichannel *Multichannel) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &Multichannel_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if multichannel.Enabled != nil {
 		enabled := *multichannel.Enabled
 		result.Enabled = &enabled
@@ -1556,7 +1564,7 @@ func (multichannel *Multichannel) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Multichannel_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		multichannel.Enabled = &enabled
@@ -1567,7 +1575,7 @@ func (multichannel *Multichannel) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_Multichannel populates our Multichannel from the provided source Multichannel
-func (multichannel *Multichannel) AssignProperties_From_Multichannel(source *v1api20220901s.Multichannel) error {
+func (multichannel *Multichannel) AssignProperties_From_Multichannel(source *v20220901s.Multichannel) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -1582,7 +1590,7 @@ func (multichannel *Multichannel) AssignProperties_From_Multichannel(source *v1a
 }
 
 // AssignProperties_To_Multichannel populates the provided destination Multichannel from our Multichannel
-func (multichannel *Multichannel) AssignProperties_To_Multichannel(destination *v1api20220901s.Multichannel) error {
+func (multichannel *Multichannel) AssignProperties_To_Multichannel(destination *v20220901s.Multichannel) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1640,7 +1648,7 @@ func (multichannel *Multichannel_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Multichannel_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		multichannel.Enabled = &enabled
@@ -1651,7 +1659,7 @@ func (multichannel *Multichannel_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_Multichannel_STATUS populates our Multichannel_STATUS from the provided source Multichannel_STATUS
-func (multichannel *Multichannel_STATUS) AssignProperties_From_Multichannel_STATUS(source *v1api20220901s.Multichannel_STATUS) error {
+func (multichannel *Multichannel_STATUS) AssignProperties_From_Multichannel_STATUS(source *v20220901s.Multichannel_STATUS) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -1666,7 +1674,7 @@ func (multichannel *Multichannel_STATUS) AssignProperties_From_Multichannel_STAT
 }
 
 // AssignProperties_To_Multichannel_STATUS populates the provided destination Multichannel_STATUS from our Multichannel_STATUS
-func (multichannel *Multichannel_STATUS) AssignProperties_To_Multichannel_STATUS(destination *v1api20220901s.Multichannel_STATUS) error {
+func (multichannel *Multichannel_STATUS) AssignProperties_To_Multichannel_STATUS(destination *v20220901s.Multichannel_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

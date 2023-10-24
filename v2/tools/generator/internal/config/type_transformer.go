@@ -21,7 +21,8 @@ type TransformTarget struct {
 	Version      FieldMatcher `yaml:"version,omitempty"`
 	Name         FieldMatcher `yaml:",omitempty"`
 	Optional     bool         `yaml:",omitempty"`
-	Map          *MapType
+	Map          *MapType     `yaml:",omitempty"`
+	Enum         *EnumType    `yaml:",omitempty"`
 	actualType   astmodel.Type
 	appliesCache map[astmodel.Type]bool // cache for the results of AppliesToType()
 }
@@ -29,6 +30,11 @@ type TransformTarget struct {
 type MapType struct {
 	Key   TransformTarget `yaml:",omitempty"`
 	Value TransformTarget `yaml:",omitempty"`
+}
+
+type EnumType struct {
+	Base   string   `yaml:"base,omitempty"`
+	Values []string `yaml:"values,omitempty"`
 }
 
 // A TypeTransformer is used to remap types
@@ -91,7 +97,7 @@ func (target *TransformTarget) appliesToType(t astmodel.Type) bool {
 	if target.Name.IsRestrictive() {
 		if target.Group.IsRestrictive() || target.Version.IsRestrictive() {
 			// Expecting TypeName
-			if tn, ok := astmodel.AsTypeName(inspect); ok {
+			if tn, ok := astmodel.AsInternalTypeName(inspect); ok {
 				return target.appliesToTypeName(tn)
 			}
 
@@ -118,16 +124,16 @@ func (target *TransformTarget) appliesToType(t astmodel.Type) bool {
 	return true
 }
 
-func (target *TransformTarget) appliesToTypeName(tn astmodel.TypeName) bool {
+func (target *TransformTarget) appliesToTypeName(tn astmodel.InternalTypeName) bool {
 	if !target.Name.Matches(tn.Name()).Matched {
 		// No match on name
 		return false
 	}
 
-	g, v := tn.PackageReference.GroupVersion()
+	grp, ver := tn.InternalPackageReference().GroupVersion()
 
 	if target.Group.IsRestrictive() {
-		if !target.Group.Matches(g).Matched {
+		if !target.Group.Matches(grp).Matched {
 			// No match on group
 			return false
 		}
@@ -136,13 +142,13 @@ func (target *TransformTarget) appliesToTypeName(tn astmodel.TypeName) bool {
 	if target.Version.IsRestrictive() {
 
 		// Need to handle both full (v1beta20200101) and API (2020-01-01) formats
-		switch ref := tn.PackageReference.(type) {
+		switch ref := tn.PackageReference().(type) {
 		case astmodel.LocalPackageReference:
-			if !ref.HasApiVersion(target.Version.String()) && !target.Version.Matches(v).Matched {
+			if !ref.HasApiVersion(target.Version.String()) && !target.Version.Matches(ver).Matched {
 				return false
 			}
 		case astmodel.StoragePackageReference:
-			if !ref.Local().HasApiVersion(target.Version.String()) && target.Version.Matches(v).Matched {
+			if !ref.Local().HasApiVersion(target.Version.String()) && target.Version.Matches(ver).Matched {
 				return false
 			}
 		default:
@@ -187,38 +193,34 @@ func (target *TransformTarget) assignActualType(
 func (target *TransformTarget) produceTargetType(
 	descriptor string,
 	makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference) (astmodel.Type, error) {
-	if target.Name.IsRestrictive() && target.Map != nil {
-		return nil, errors.Errorf("multiple target types defined")
-	}
 
 	var result astmodel.Type
 
 	if target.Name.IsRestrictive() {
-		if target.Group.IsRestrictive() || target.Version.IsRestrictive() {
-			result = astmodel.MakeTypeName(
-				makeLocalPackageReferenceFunc(target.Group.String(), target.Version.String()),
-				target.Name.String())
-		} else {
-			var err error
-			result, err = target.asPrimitiveType(target.Name.String())
-			if err != nil {
-				return nil, err
-			}
+		t, err := target.produceTargetNamedType(makeLocalPackageReferenceFunc)
+		if err != nil {
+			return nil, err
 		}
+
+		result = t
 	}
 
 	if target.Map != nil {
-		keyType, err := target.Map.Key.produceTargetType(descriptor+"/map/key", makeLocalPackageReferenceFunc)
+		t, err := target.produceTargetMapType(descriptor, makeLocalPackageReferenceFunc)
 		if err != nil {
 			return nil, err
 		}
 
-		valueType, err := target.Map.Value.produceTargetType(descriptor+"/map/value", makeLocalPackageReferenceFunc)
+		result = t
+	}
+
+	if target.Enum != nil {
+		t, err := target.produceTargetEnumType(descriptor)
 		if err != nil {
 			return nil, err
 		}
 
-		result = astmodel.NewMapType(keyType, valueType)
+		result = t
 	}
 
 	if result == nil {
@@ -229,6 +231,101 @@ func (target *TransformTarget) produceTargetType(
 		result = astmodel.NewOptionalType(result)
 	}
 
+	return result, nil
+}
+
+func (target *TransformTarget) produceTargetNamedType(
+	makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference,
+) (astmodel.Type, error) {
+	// Transform to name, ensure we have no other transformation
+	if target.Map != nil {
+		return nil, errors.Errorf("cannot specify both Name transformation and Map transformation")
+	}
+
+	if target.Enum != nil {
+		return nil, errors.Errorf("cannot specify both Name transformation and Enum transformation")
+	}
+
+	var result astmodel.Type
+	if target.Group.IsRestrictive() || target.Version.IsRestrictive() {
+		result = astmodel.MakeInternalTypeName(
+			makeLocalPackageReferenceFunc(target.Group.String(), target.Version.String()),
+			target.Name.String())
+	} else {
+		var err error
+		result, err = target.asPrimitiveType(target.Name.String())
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return result, nil
+}
+
+func (target *TransformTarget) produceTargetMapType(
+	descriptor string, makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference,
+) (astmodel.Type, error) {
+	// Transform to map, ensure we have no other transformation
+	if target.Name.IsRestrictive() {
+		return nil, errors.Errorf("cannot specify both Name transformation and Map transformation")
+	}
+
+	if target.Enum != nil {
+		return nil, errors.Errorf("cannot specify both Map transformation and Enum transformation")
+	}
+
+	keyType, err := target.Map.Key.produceTargetType(descriptor+"/map/key", makeLocalPackageReferenceFunc)
+	if err != nil {
+		return nil, err
+	}
+
+	valueType, err := target.Map.Value.produceTargetType(descriptor+"/map/value", makeLocalPackageReferenceFunc)
+	if err != nil {
+		return nil, err
+	}
+
+	result := astmodel.NewMapType(keyType, valueType)
+	return result, nil
+}
+
+func (target *TransformTarget) produceTargetEnumType(
+	_ string,
+) (astmodel.Type, error) {
+	// Transform to enum, ensure we have no other transformation
+	if target.Name.IsRestrictive() {
+		return nil, errors.Errorf("cannot specify both Name transformation and Enum transformation")
+	}
+
+	if target.Map != nil {
+		return nil, errors.Errorf("cannot specify both Map transformation and Enum transformation")
+	}
+
+	if target.Enum.Base == "" {
+		return nil, errors.Errorf("enum transformation requires a base type")
+	}
+
+	baseType, err := target.asPrimitiveType(target.Enum.Base)
+	if err != nil {
+		return nil, err
+	}
+
+	values := make([]astmodel.EnumValue, 0, len(target.Enum.Values))
+	for _, value := range target.Enum.Values {
+		id := strings.Title(value)
+		v := value
+
+		if baseType == astmodel.StringType {
+			// String enums need to be quoted
+			v = fmt.Sprintf("%q", value)
+		}
+
+		values = append(values, astmodel.EnumValue{
+			Identifier: id,
+			Value:      v,
+		})
+	}
+
+	result := astmodel.NewEnumType(baseType, values...)
 	return result, nil
 }
 
@@ -279,7 +376,7 @@ func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc fun
 	return nil
 }
 
-func (target *TransformTarget) asPrimitiveType(name string) (astmodel.Type, error) {
+func (target *TransformTarget) asPrimitiveType(name string) (*astmodel.PrimitiveType, error) {
 	switch name {
 	case "bool":
 		return astmodel.BoolType, nil
@@ -298,7 +395,7 @@ func (target *TransformTarget) asPrimitiveType(name string) (astmodel.Type, erro
 
 // TransformTypeName transforms the type with the specified name into the TypeTransformer target type if
 // the provided type name matches the pattern(s) specified in the TypeTransformer
-func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.TypeName) astmodel.Type {
+func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.InternalTypeName) astmodel.Type {
 	if transformer.AppliesToType(typeName) {
 		return transformer.Target.actualType
 	}
@@ -379,7 +476,10 @@ func (transformer *TypeTransformer) RequiredPropertiesWereMatched() error {
 }
 
 // TransformProperty transforms the property on the given object type
-func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, objectType *astmodel.ObjectType) *PropertyTransformResult {
+func (transformer *TypeTransformer) TransformProperty(
+	name astmodel.InternalTypeName,
+	objectType *astmodel.ObjectType,
+) *PropertyTransformResult {
 	if !transformer.AppliesToType(name) {
 		return nil
 	}

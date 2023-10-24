@@ -65,7 +65,11 @@ func determineOwnership(
 
 var urlParamRegex = regexp.MustCompile("\\{.*?}")
 
-func findChildren(rt *astmodel.ResourceType, resourceName astmodel.TypeName, others astmodel.TypeDefinitionSet) []astmodel.TypeName {
+func findChildren(
+	rt *astmodel.ResourceType,
+	resourceName astmodel.InternalTypeName,
+	others astmodel.TypeDefinitionSet,
+) []astmodel.InternalTypeName {
 	// append "/" to the ARM URI so that if this is (e.g.):
 	//     /resource/name
 	// it doesn't match as a prefix of:
@@ -75,7 +79,7 @@ func findChildren(rt *astmodel.ResourceType, resourceName astmodel.TypeName, oth
 	myPrefix := rt.ARMURI() + "/"
 	myPrefix = canonicalizeURI(myPrefix)
 
-	var result []astmodel.TypeName
+	var result []astmodel.InternalTypeName
 	for otherName, otherDef := range others {
 		other, ok := astmodel.AsResourceType(otherDef.Type())
 		if !ok {
@@ -90,7 +94,7 @@ func findChildren(rt *astmodel.ResourceType, resourceName astmodel.TypeName, oth
 		// Ownership transcends APIVersion, but in order for things like $exportAs to work, it's best if
 		// ownership for each resource points to the owner in the same package. This ensures that standard tools
 		// like renamingVisitor work.
-		if !otherDef.Name().PackageReference.Equals(resourceName.PackageReference) {
+		if !otherDef.Name().PackageReference().Equals(resourceName.PackageReference()) {
 			continue // Don't own if in a different package
 		}
 
@@ -123,8 +127,8 @@ func canonicalizeURI(uri string) string {
 
 func updateChildResourceDefinitionsWithOwner(
 	definitions astmodel.TypeDefinitionSet,
-	childResourceTypeNames []astmodel.TypeName,
-	owningResourceName astmodel.TypeName,
+	childResourceTypeNames []astmodel.InternalTypeName,
+	owningResourceName astmodel.InternalTypeName,
 	updatedDefs astmodel.TypeDefinitionSet,
 ) error {
 	for _, typeName := range childResourceTypeNames {
@@ -143,12 +147,12 @@ func updateChildResourceDefinitionsWithOwner(
 			return errors.Errorf("child resource %s not of type *astmodel.ResourceType, instead %T", typeName, childResourceDef.Type())
 		}
 
-		childResourceDef = childResourceDef.WithType(childResource.WithOwner(&owningResourceName))
+		childResourceDef = childResourceDef.WithType(childResource.WithOwner(owningResourceName))
 		err := updatedDefs.AddAllowDuplicates(childResourceDef)
 		if err != nil {
 			// workaround: StorSimple has the same URIs on multiple "different" types
 			// resolve in favour of the one that has a matching package
-			if childResourceDef.Name().PackageReference.Equals(owningResourceName.PackageReference) {
+			if childResourceDef.Name().PackageReference().Equals(owningResourceName.PackageReference()) {
 				// override
 				updatedDefs[childResourceDef.Name()] = childResourceDef
 				continue // okay!
@@ -156,7 +160,7 @@ func updateChildResourceDefinitionsWithOwner(
 				// double-check that existing one matches
 				existingDef := updatedDefs[childResourceDef.Name()]
 				rt := existingDef.Type().(*astmodel.ResourceType)
-				if existingDef.Name().PackageReference.Equals(rt.Owner().PackageReference) {
+				if existingDef.Name().PackageReference().Equals(rt.Owner().PackageReference()) {
 					continue // okay!
 				}
 			}
@@ -187,13 +191,13 @@ func setDefaultOwner(
 			continue
 		}
 
-		if resourceType.Owner() == nil && resourceType.Scope() == astmodel.ResourceScopeResourceGroup {
-			ownerTypeName := astmodel.MakeTypeName(
+		if resourceType.Owner().IsEmpty() && resourceType.Scope() == astmodel.ResourceScopeResourceGroup {
+			ownerTypeName := astmodel.MakeInternalTypeName(
 				// Note that the version doesn't really matter here -- it's removed later. We just need to refer to the logical
 				// resource group really
 				configuration.MakeLocalPackageReference("resources", "v20191001"),
 				"ResourceGroup")
-			updatedType := resourceType.WithOwner(&ownerTypeName) // TODO: Note that right now... this type doesn't actually exist...
+			updatedType := resourceType.WithOwner(ownerTypeName) // TODO: Note that right now... this type doesn't actually exist...
 			// This can overwrite because a resource with no owner may have had child resources,
 			// and earlier on in this process we removed the resources property from the parent resource,
 			// so it may already be in updatedDefs. In this case, that's okay so we allow it to overwrite.

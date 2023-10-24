@@ -5,7 +5,7 @@ package v1api20180501
 
 import (
 	"encoding/json"
-	v1api20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage"
+	v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForDnsZone(subject DnsZone) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20180501s.DnsZone
+	var hub v20180501s.DnsZone
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -72,13 +72,13 @@ func Test_DnsZone_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsZone tests if a specific instance of DnsZone can be assigned to v1api20180501storage and back losslessly
+// RunPropertyAssignmentTestForDnsZone tests if a specific instance of DnsZone can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsZone(subject DnsZone) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20180501s.DnsZone
+	var other v20180501s.DnsZone
 	err := copied.AssignProperties_To_DnsZone(&other)
 	if err != nil {
 		return err.Error()
@@ -175,13 +175,13 @@ func Test_DnsZone_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsZone_Spec tests if a specific instance of DnsZone_Spec can be assigned to v1api20180501storage and back losslessly
+// RunPropertyAssignmentTestForDnsZone_Spec tests if a specific instance of DnsZone_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsZone_Spec(subject DnsZone_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20180501s.DnsZone_Spec
+	var other v20180501s.DnsZone_Spec
 	err := copied.AssignProperties_To_DnsZone_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -295,13 +295,13 @@ func Test_DnsZone_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsZone_STATUS tests if a specific instance of DnsZone_STATUS can be assigned to v1api20180501storage and back losslessly
+// RunPropertyAssignmentTestForDnsZone_STATUS tests if a specific instance of DnsZone_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsZone_STATUS(subject DnsZone_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20180501s.DnsZone_STATUS
+	var other v20180501s.DnsZone_STATUS
 	err := copied.AssignProperties_To_DnsZone_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -422,13 +422,13 @@ func Test_SubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubResource tests if a specific instance of SubResource can be assigned to v1api20180501storage and back losslessly
+// RunPropertyAssignmentTestForSubResource tests if a specific instance of SubResource can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20180501s.SubResource
+	var other v20180501s.SubResource
 	err := copied.AssignProperties_To_SubResource(&other)
 	if err != nil {
 		return err.Error()
@@ -518,13 +518,13 @@ func Test_SubResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubResource_STATUS tests if a specific instance of SubResource_STATUS can be assigned to v1api20180501storage and back losslessly
+// RunPropertyAssignmentTestForSubResource_STATUS tests if a specific instance of SubResource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20180501s.SubResource_STATUS
+	var other v20180501s.SubResource_STATUS
 	err := copied.AssignProperties_To_SubResource_STATUS(&other)
 	if err != nil {
 		return err.Error()

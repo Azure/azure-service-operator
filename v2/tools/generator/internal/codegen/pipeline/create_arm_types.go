@@ -72,7 +72,7 @@ type armTypeCreator struct {
 	newDefs       astmodel.TypeDefinitionSet
 	skipTypes     []func(it astmodel.TypeDefinition) bool
 	log           logr.Logger
-	visitor       astmodel.TypeVisitor
+	visitor       astmodel.TypeVisitor[any]
 	configuration *config.ObjectModelConfiguration
 }
 
@@ -92,8 +92,8 @@ func newARMTypeCreator(
 		configuration: configuration,
 	}
 
-	result.visitor = astmodel.TypeVisitorBuilder{
-		VisitTypeName: result.visitARMTypeName,
+	result.visitor = astmodel.TypeVisitorBuilder[any]{
+		VisitInternalTypeName: result.visitARMTypeName,
 	}.Build()
 
 	return result
@@ -499,12 +499,11 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(
 	return result, nil
 }
 
-func (c *armTypeCreator) visitARMTypeName(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
-	// Allow json type to pass through.
-	if it == astmodel.JSONType {
-		return it, nil
-	}
-
+func (c *armTypeCreator) visitARMTypeName(
+	this *astmodel.TypeVisitor[any],
+	it astmodel.InternalTypeName,
+	ctx any,
+) (astmodel.Type, error) {
 	// Look up the definition
 	def, err := c.definitions.GetDefinition(it)
 	if err != nil {
@@ -531,7 +530,9 @@ func (c *armTypeCreator) visitARMTypeName(this *astmodel.TypeVisitor, it astmode
 	return astmodel.CreateARMTypeName(def.Name()), nil
 }
 
-func (c *armTypeCreator) createSpecConversionContext(name astmodel.TypeName) (*armPropertyTypeConversionContext, error) {
+func (c *armTypeCreator) createSpecConversionContext(
+	name astmodel.InternalTypeName,
+) (*armPropertyTypeConversionContext, error) {
 	result, err := c.createConversionContext(name)
 	if err != nil {
 		return nil, err
@@ -541,8 +542,8 @@ func (c *armTypeCreator) createSpecConversionContext(name astmodel.TypeName) (*a
 	return result, nil
 }
 
-func (c *armTypeCreator) createConversionContext(name astmodel.TypeName) (*armPropertyTypeConversionContext, error) {
-	payloadType, err := c.configuration.PayloadType.Lookup(name.PackageReference)
+func (c *armTypeCreator) createConversionContext(name astmodel.InternalTypeName) (*armPropertyTypeConversionContext, error) {
+	payloadType, err := c.configuration.PayloadType.Lookup(name.InternalPackageReference())
 	if err != nil {
 		if config.IsNotConfiguredError(err) {
 			// Default to 'omitempty' if not configured

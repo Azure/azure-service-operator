@@ -1,0 +1,38 @@
+apiVersion: insights.azure.com/v1api20221001
+kind: Autoscalesetting
+metadata:
+  name: aso-sample-setting
+  namespace: default
+spec:
+  location: westus2
+  name: aso-sample-setting
+  owner:
+    name: aso-sample-rg
+  profiles:
+  - capacity:
+      default: "1"
+      maximum: "3"
+      minimum: "1"
+    name: aso-sample-setting
+    rules:
+    - metricTrigger:
+        metricName: Percentage CPU
+        metricResourceUriReference:
+          group: compute.azure.com
+          kind: VirtualMachineScaleSet
+          name: aso-sample-vmss
+        operator: GreaterThan
+        statistic: Average
+        threshold: 75
+        timeAggregation: Average
+        timeGrain: PT1M
+        timeWindow: PT5M
+      scaleAction:
+        cooldown: PT1M
+        direction: Increase
+        type: ChangeCount
+        value: "1"
+  targetResourceUriReference:
+    group: compute.azure.com
+    kind: VirtualMachineScaleSet
+    name: aso-sample-vmss

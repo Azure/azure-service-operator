@@ -4,7 +4,8 @@
 package v1api20200930storage
 
 import (
-	v1api20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201storage"
+	v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201storage"
+	v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -85,11 +86,7 @@ func (disk *Disk) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (disk *Disk) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(disk.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  disk.Spec.Owner.Name,
-	}
+	return disk.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -347,7 +344,7 @@ type ExtendedLocation struct {
 }
 
 // AssignProperties_From_ExtendedLocation populates our ExtendedLocation from the provided source ExtendedLocation
-func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source *v1api20201201s.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source *v20201201s.ExtendedLocation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -378,7 +375,7 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 }
 
 // AssignProperties_To_ExtendedLocation populates the provided destination ExtendedLocation from our ExtendedLocation
-func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destination *v1api20201201s.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destination *v20201201s.ExtendedLocation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 
@@ -417,7 +414,7 @@ type ExtendedLocation_STATUS struct {
 }
 
 // AssignProperties_From_ExtendedLocation_STATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_STATUS(source *v1api20201201s.ExtendedLocation_STATUS) error {
+func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_STATUS(source *v20201201s.ExtendedLocation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -448,7 +445,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_
 }
 
 // AssignProperties_To_ExtendedLocation_STATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_STATUS(destination *v1api20201201s.ExtendedLocation_STATUS) error {
+func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_STATUS(destination *v20201201s.ExtendedLocation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 
@@ -505,13 +502,13 @@ type ShareInfoElement_STATUS struct {
 }
 
 type augmentConversionForExtendedLocation interface {
-	AssignPropertiesFrom(src *v1api20201201s.ExtendedLocation) error
-	AssignPropertiesTo(dst *v1api20201201s.ExtendedLocation) error
+	AssignPropertiesFrom(src *v20201201s.ExtendedLocation) error
+	AssignPropertiesTo(dst *v20201201s.ExtendedLocation) error
 }
 
 type augmentConversionForExtendedLocation_STATUS interface {
-	AssignPropertiesFrom(src *v1api20201201s.ExtendedLocation_STATUS) error
-	AssignPropertiesTo(dst *v1api20201201s.ExtendedLocation_STATUS) error
+	AssignPropertiesFrom(src *v20201201s.ExtendedLocation_STATUS) error
+	AssignPropertiesTo(dst *v20201201s.ExtendedLocation_STATUS) error
 }
 
 // Storage version of v1api20200930.EncryptionSettingsElement
@@ -591,12 +588,144 @@ type SourceVault struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
+// AssignProperties_From_SourceVault populates our SourceVault from the provided source SourceVault
+func (vault *SourceVault) AssignProperties_From_SourceVault(source *v20220702s.SourceVault) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		vault.Reference = &reference
+	} else {
+		vault.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		vault.PropertyBag = propertyBag
+	} else {
+		vault.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSourceVault interface (if implemented) to customize the conversion
+	var vaultAsAny any = vault
+	if augmentedVault, ok := vaultAsAny.(augmentConversionForSourceVault); ok {
+		err := augmentedVault.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SourceVault populates the provided destination SourceVault from our SourceVault
+func (vault *SourceVault) AssignProperties_To_SourceVault(destination *v20220702s.SourceVault) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(vault.PropertyBag)
+
+	// Reference
+	if vault.Reference != nil {
+		reference := vault.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSourceVault interface (if implemented) to customize the conversion
+	var vaultAsAny any = vault
+	if augmentedVault, ok := vaultAsAny.(augmentConversionForSourceVault); ok {
+		err := augmentedVault.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20200930.SourceVault_STATUS
 // The vault id is an Azure Resource Manager Resource id in the form
 // /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
 type SourceVault_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_SourceVault_STATUS populates our SourceVault_STATUS from the provided source SourceVault_STATUS
+func (vault *SourceVault_STATUS) AssignProperties_From_SourceVault_STATUS(source *v20220702s.SourceVault_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	vault.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		vault.PropertyBag = propertyBag
+	} else {
+		vault.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSourceVault_STATUS interface (if implemented) to customize the conversion
+	var vaultAsAny any = vault
+	if augmentedVault, ok := vaultAsAny.(augmentConversionForSourceVault_STATUS); ok {
+		err := augmentedVault.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SourceVault_STATUS populates the provided destination SourceVault_STATUS from our SourceVault_STATUS
+func (vault *SourceVault_STATUS) AssignProperties_To_SourceVault_STATUS(destination *v20220702s.SourceVault_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(vault.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(vault.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSourceVault_STATUS interface (if implemented) to customize the conversion
+	var vaultAsAny any = vault
+	if augmentedVault, ok := vaultAsAny.(augmentConversionForSourceVault_STATUS); ok {
+		err := augmentedVault.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForSourceVault interface {
+	AssignPropertiesFrom(src *v20220702s.SourceVault) error
+	AssignPropertiesTo(dst *v20220702s.SourceVault) error
+}
+
+type augmentConversionForSourceVault_STATUS interface {
+	AssignPropertiesFrom(src *v20220702s.SourceVault_STATUS) error
+	AssignPropertiesTo(dst *v20220702s.SourceVault_STATUS) error
 }
 
 func init() {

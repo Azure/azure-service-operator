@@ -5,7 +5,7 @@ package v1api20201101
 
 import (
 	"encoding/json"
-	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForNetworkSecurityGroup(subject NetworkSecurityGro
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20201101s.NetworkSecurityGroup
+	var hub v20201101s.NetworkSecurityGroup
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -72,13 +72,13 @@ func Test_NetworkSecurityGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkSecurityGroup tests if a specific instance of NetworkSecurityGroup can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkSecurityGroup tests if a specific instance of NetworkSecurityGroup can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkSecurityGroup(subject NetworkSecurityGroup) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.NetworkSecurityGroup
+	var other v20201101s.NetworkSecurityGroup
 	err := copied.AssignProperties_To_NetworkSecurityGroup(&other)
 	if err != nil {
 		return err.Error()
@@ -176,13 +176,13 @@ func Test_NetworkSecurityGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkSecurityGroup_Spec tests if a specific instance of NetworkSecurityGroup_Spec can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkSecurityGroup_Spec tests if a specific instance of NetworkSecurityGroup_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkSecurityGroup_Spec(subject NetworkSecurityGroup_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.NetworkSecurityGroup_Spec
+	var other v20201101s.NetworkSecurityGroup_Spec
 	err := copied.AssignProperties_To_NetworkSecurityGroup_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -281,13 +281,13 @@ func Test_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded_W
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded tests if a specific instance of NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded tests if a specific instance of NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(subject NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+	var other v20201101s.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 	err := copied.AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -412,13 +412,13 @@ func Test_FlowLog_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlowLog_STATUS tests if a specific instance of FlowLog_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForFlowLog_STATUS tests if a specific instance of FlowLog_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFlowLog_STATUS(subject FlowLog_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.FlowLog_STATUS
+	var other v20201101s.FlowLog_STATUS
 	err := copied.AssignProperties_To_FlowLog_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -514,13 +514,13 @@ func Test_NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_WhenP
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded tests if a specific instance of NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded tests if a specific instance of NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded(subject NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+	var other v20201101s.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 	err := copied.AssignProperties_To_NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -617,13 +617,13 @@ func Test_SecurityRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSecurityRule_STATUS tests if a specific instance of SecurityRule_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForSecurityRule_STATUS tests if a specific instance of SecurityRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSecurityRule_STATUS(subject SecurityRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.SecurityRule_STATUS
+	var other v20201101s.SecurityRule_STATUS
 	err := copied.AssignProperties_To_SecurityRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -720,13 +720,13 @@ func Test_Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_WhenPropertiesC
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded tests if a specific instance of Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded tests if a specific instance of Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded(subject Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+	var other v20201101s.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 	err := copied.AssignProperties_To_Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()

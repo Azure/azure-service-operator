@@ -111,7 +111,7 @@ func (tc *ResourceConversionTestCase) RequiredImports() *astmodel.PackageImportS
 	result.AddImportOfReference(astmodel.DiffReference)
 	result.AddImportOfReference(astmodel.PrettyReference)
 
-	result.AddImportOfReference(tc.toFn.Hub().PackageReference)
+	result.AddImportOfReference(tc.toFn.Hub().PackageReference())
 
 	return result
 }

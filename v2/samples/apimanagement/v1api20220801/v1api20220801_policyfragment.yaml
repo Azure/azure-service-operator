@@ -1,0 +1,10 @@
+apiVersion: apimanagement.azure.com/v1api20220801
+kind: PolicyFragment
+metadata:
+  name: sampleapimpolicyfragment
+  namespace: default
+spec:
+  description: A Description about the policy fragment
+  value: <fragment></fragment>
+  owner:
+    name: sampleapimservice

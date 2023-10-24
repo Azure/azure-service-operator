@@ -123,7 +123,7 @@ func (omc *ObjectModelConfiguration) IsEmpty() bool {
 }
 
 // IsGroupConfigured returns true if we have any configuration for the specified group, false otherwise.
-func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.PackageReference) bool {
+func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.InternalPackageReference) bool {
 	var result bool
 	visitor := newSingleGroupConfigurationVisitor(pkg, func(configuration *GroupConfiguration) error {
 		result = true
@@ -144,11 +144,33 @@ func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.PackageRefer
 	return result
 }
 
+// IsTypeConfigured returns true if we have any configuration for the specified type, false otherwise.
+func (omc *ObjectModelConfiguration) IsTypeConfigured(name astmodel.InternalTypeName) bool {
+	var result bool
+	visitor := newSingleTypeConfigurationVisitor(name, func(configuration *TypeConfiguration) error {
+		result = true
+		return nil
+	})
+
+	err := visitor.Visit(omc)
+	if err != nil {
+		if IsNotConfiguredError(err) {
+			// No configuration for this type, we're not expecting it
+			return false
+		}
+
+		// Some other error, we'll assume we're expecting it
+		return true
+	}
+
+	return result
+}
+
 // AddTypeAlias adds a type alias for the specified type name,
 // allowing configuration related to the type to be accessed via the new name.
-func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.TypeName, alias string) {
+func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.InternalTypeName, alias string) {
 	versionVisitor := newSingleVersionConfigurationVisitor(
-		name.PackageReference,
+		name.InternalPackageReference(),
 		func(configuration *VersionConfiguration) error {
 			return configuration.addTypeAlias(name.Name(), alias)
 		})
@@ -162,17 +184,17 @@ func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.TypeName, alias 
 
 var VersionRegex = regexp.MustCompile(`^v\d\d?$`)
 
-// FindHandCraftedTypeNames returns the set of typenames that are hand-crafted.
+// FindHandCraftedTypeNames returns the set of type-names that are hand-crafted.
 // These are identified by having `v<n>` as their version.
-func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) (astmodel.TypeNameSet, error) {
-	result := make(astmodel.TypeNameSet)
+func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) (astmodel.InternalTypeNameSet, error) {
+	result := astmodel.NewInternalTypeNameSet()
 	var currentGroup string
-	var currentPackage astmodel.PackageReference
+	var currentPackage astmodel.InternalPackageReference
 
 	// Collect the names of hand-crafted types
 	typeVisitor := newEveryTypeConfigurationVisitor(
 		func(typeConfig *TypeConfiguration) error {
-			name := astmodel.MakeTypeName(currentPackage, typeConfig.name)
+			name := astmodel.MakeInternalTypeName(currentPackage, typeConfig.name)
 			result.Add(name)
 			return nil
 		})
@@ -223,7 +245,7 @@ func (omc *ObjectModelConfiguration) addGroup(name string, group *GroupConfigura
 // visitGroup invokes the provided visitor on the specified group if present.
 // Returns a NotConfiguredError if the group is not found; otherwise whatever error is returned by the visitor.
 func (omc *ObjectModelConfiguration) visitGroup(
-	ref astmodel.PackageReference,
+	ref astmodel.InternalPackageReference,
 	visitor *configurationVisitor,
 ) error {
 	group, err := omc.findGroup(ref)
@@ -248,8 +270,8 @@ func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) 
 }
 
 // findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used
-func (omc *ObjectModelConfiguration) findGroup(ref astmodel.PackageReference) (*GroupConfiguration, error) {
-	group, _ := ref.GroupVersion()
+func (omc *ObjectModelConfiguration) findGroup(ref astmodel.InternalPackageReference) (*GroupConfiguration, error) {
+	group := ref.Group()
 
 	if omc == nil || omc.groups == nil {
 		msg := fmt.Sprintf("no configuration for group %s", group)
@@ -315,10 +337,10 @@ func (omc *ObjectModelConfiguration) configuredGroups() []string {
 // If configuration for that group doesn't exist, it will be created.
 // While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
 func (omc *ObjectModelConfiguration) ModifyGroup(
-	ref astmodel.PackageReference,
+	ref astmodel.InternalPackageReference,
 	action func(configuration *GroupConfiguration) error,
 ) error {
-	groupName, _ := ref.GroupVersion()
+	groupName := ref.Group()
 	grp, err := omc.findGroup(ref)
 	if err != nil && !IsNotConfiguredError(err) {
 		return errors.Wrapf(err, "configuring groupName %s", groupName)
@@ -336,7 +358,7 @@ func (omc *ObjectModelConfiguration) ModifyGroup(
 // If configuration for that version doesn't exist, it will be created.
 // While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
 func (omc *ObjectModelConfiguration) ModifyVersion(
-	ref astmodel.PackageReference,
+	ref astmodel.InternalPackageReference,
 	action func(configuration *VersionConfiguration) error,
 ) error {
 	_, version := ref.GroupVersion()
@@ -361,11 +383,11 @@ func (omc *ObjectModelConfiguration) ModifyVersion(
 // If configuration for that type doesn't exist, it will be created.
 // While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
 func (omc *ObjectModelConfiguration) ModifyType(
-	name astmodel.TypeName,
+	name astmodel.InternalTypeName,
 	action func(typeConfiguration *TypeConfiguration) error,
 ) error {
 	return omc.ModifyVersion(
-		name.PackageReference,
+		name.InternalPackageReference(),
 		func(versionConfiguration *VersionConfiguration) error {
 			typeName := name.Name()
 			typ, err := versionConfiguration.findType(typeName)
@@ -386,7 +408,7 @@ func (omc *ObjectModelConfiguration) ModifyType(
 // If configuration for that property doesn't exist, it will be created.
 // While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
 func (omc *ObjectModelConfiguration) ModifyProperty(
-	typeName astmodel.TypeName,
+	typeName astmodel.InternalTypeName,
 	property astmodel.PropertyName,
 	action func(propertyConfiguration *PropertyConfiguration) error,
 ) error {
@@ -421,7 +443,7 @@ func makeGroupAccess[T any](
 		accessor: accessor}
 }
 
-func (a *groupAccess[T]) Lookup(ref astmodel.PackageReference) (T, error) {
+func (a *groupAccess[T]) Lookup(ref astmodel.InternalPackageReference) (T, error) {
 	var c *configurable[T]
 	visitor := newSingleGroupConfigurationVisitor(
 		ref,
@@ -473,7 +495,7 @@ func makeTypeAccess[T any](
 }
 
 // Lookup returns the configured value for the given type name
-func (a *typeAccess[T]) Lookup(name astmodel.TypeName) (T, error) {
+func (a *typeAccess[T]) Lookup(name astmodel.InternalTypeName) (T, error) {
 	var c *configurable[T]
 	visitor := newSingleTypeConfigurationVisitor(
 		name,
@@ -528,7 +550,7 @@ func makePropertyAccess[T any](
 
 // Lookup returns the configured value for the given type name and property name
 func (a *propertyAccess[T]) Lookup(
-	name astmodel.TypeName,
+	name astmodel.InternalTypeName,
 	property astmodel.PropertyName,
 ) (T, error) {
 	var c *configurable[T]

@@ -1,0 +1,61 @@
+{{- if .Values.networkPolicies.enable }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: azure-service-operator-allow-ingress
+  namespace: {{ .Release.Namespace }}
+spec:
+  ingress:
+  - from:
+    - ipBlock:
+        cidr: 0.0.0.0/0
+  podSelector:
+    matchLabels:
+      control-plane: controller-manager
+  policyTypes:
+  - Ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: azure-service-operator-allow-egress
+  namespace: {{ .Release.Namespace }}
+spec:
+  egress:
+  # Required for communication with DNS
+  - ports:
+    - port: 53
+      protocol: UDP
+    - port: 53
+      protocol: TCP
+  # Required for communication with the Azure API
+  - ports:
+    - port: 443
+      protocol: TCP
+  # Required for communication with the Kubernetes API
+  - ports:
+    - port: {{ .Values.networkPolicies.kubernetesApiPort }}
+      protocol: TCP
+    to:
+    - ipBlock:
+        cidr: {{ .Values.networkPolicies.kubernetesApiCIDR }}
+  # Required for communication with MySQL servers when using MySQL user object
+  - ports:
+    - port: 3306
+      protocol: TCP
+    to:
+    - ipBlock:
+        cidr: {{ .Values.networkPolicies.mysqlCIDR }}
+  # Required for communication with PostgreSQL servers when using PostgreSQL user object
+  - ports:
+    - port: 5432
+      protocol: TCP
+    to:
+    - ipBlock:
+        cidr: {{ .Values.networkPolicies.postgresqlCIDR }}
+  podSelector:
+    matchLabels:
+      control-plane: controller-manager
+  policyTypes:
+  - Egress
+{{- end }}

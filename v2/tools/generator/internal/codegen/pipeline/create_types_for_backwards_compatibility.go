@@ -141,7 +141,7 @@ func findResourcesRequiringCompatibilityVersion(
 }
 
 func addCompatibilityComments(defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-	visitor := astmodel.TypeVisitorBuilder{
+	visitor := astmodel.TypeVisitorBuilder[any]{
 		VisitObjectType: removePropertyDescriptions,
 	}.Build()
 
@@ -154,7 +154,7 @@ func addCompatibilityComments(defs astmodel.TypeDefinitionSet) (astmodel.TypeDef
 			fmt.Sprintf(
 				"Deprecated version of %s. Use %s.%s instead",
 				name.Name(),
-				name.PackageReference.PackageName(),
+				name.PackageReference().PackageName(),
 				name.Name()),
 		}
 
@@ -186,8 +186,8 @@ func removePropertyDescriptions(ot *astmodel.ObjectType) astmodel.Type {
 func createBackwardCompatibilityRenameMap(
 	set astmodel.TypeDefinitionSet,
 	versionPrefix string,
-) map[astmodel.TypeName]astmodel.TypeName {
-	result := make(map[astmodel.TypeName]astmodel.TypeName)
+) astmodel.TypeAssociation {
+	result := make(astmodel.TypeAssociation)
 
 	for name := range set {
 		if _, ok := result[name]; !ok {
@@ -199,10 +199,10 @@ func createBackwardCompatibilityRenameMap(
 	return result
 }
 
-func createBackwardCompatibilityRename(name astmodel.TypeName, versionPrefix string) astmodel.TypeName {
-	var ref astmodel.PackageReference
+func createBackwardCompatibilityRename(name astmodel.InternalTypeName, versionPrefix string) astmodel.InternalTypeName {
+	var ref astmodel.InternalPackageReference
 
-	switch r := name.PackageReference.(type) {
+	switch r := name.PackageReference().(type) {
 	case astmodel.LocalPackageReference:
 		ref = r.WithVersionPrefix(versionPrefix)
 	case astmodel.StoragePackageReference:

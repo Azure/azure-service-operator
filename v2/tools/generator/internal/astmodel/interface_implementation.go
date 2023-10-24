@@ -44,7 +44,7 @@ func (iface *InterfaceImplementation) Name() TypeName {
 // RequiredPackageReferences returns a list of packages required by this
 func (iface *InterfaceImplementation) RequiredPackageReferences() *PackageReferenceSet {
 	result := NewPackageReferenceSet()
-	result.AddReference(iface.Name().PackageReference)
+	result.AddReference(iface.Name().PackageReference())
 
 	for _, f := range iface.functions {
 		result.Merge(f.RequiredPackageReferences())

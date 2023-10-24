@@ -78,7 +78,12 @@ func (d *KubernetesExporterBuilder) ToInterfaceImplementation() *astmodel.Interf
 //		}
 //		return configmaps.SliceToClientObjectSlice(result), nil
 //	}
-func (d *KubernetesExporterBuilder) exportKubernetesResources(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func (d *KubernetesExporterBuilder) exportKubernetesResources(
+	k *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) *dst.FuncDecl {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 

@@ -17,17 +17,17 @@ import (
 
 // TypeDefinition is a name paired with a type
 type TypeDefinition struct {
-	name        TypeName
+	name        InternalTypeName
 	description []string
 	theType     Type
 }
 
-func MakeTypeDefinition(name TypeName, theType Type) TypeDefinition {
+func MakeTypeDefinition(name InternalTypeName, theType Type) TypeDefinition {
 	return TypeDefinition{name: name, theType: theType}
 }
 
 // Name returns the name being associated with the type
-func (def TypeDefinition) Name() TypeName {
+func (def TypeDefinition) Name() InternalTypeName {
 	return def.name
 }
 
@@ -67,7 +67,7 @@ func (def TypeDefinition) WithType(t Type) TypeDefinition {
 }
 
 // WithName returns an updated TypeDefinition with the specified name
-func (def TypeDefinition) WithName(typeName TypeName) TypeDefinition {
+func (def TypeDefinition) WithName(typeName InternalTypeName) TypeDefinition {
 	result := def
 	result.name = typeName
 	return result
@@ -139,7 +139,7 @@ func (def TypeDefinition) HasTestCases() bool {
 // FileNameHint returns what a file that contains this name (if any) should be called
 // this is not always used as we often combine multiple definitions into one file
 func FileNameHint(name TypeName) string {
-	return transformToSnakeCase(name.name)
+	return transformToSnakeCase(name.Name())
 }
 
 // ApplyObjectTransformation applies a specific transformation to the ObjectType contained by this
@@ -159,7 +159,7 @@ func (def TypeDefinition) ApplyObjectTransformation(transform func(*ObjectType) 
 		return rt, nil
 	}
 
-	visitor := TypeVisitorBuilder{
+	visitor := TypeVisitorBuilder[any]{
 		VisitObjectType: transformObject,
 	}.Build()
 

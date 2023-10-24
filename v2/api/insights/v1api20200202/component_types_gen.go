@@ -6,7 +6,7 @@ package v1api20200202
 import (
 	"context"
 	"fmt"
-	v1api20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202storage"
+	v20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -54,7 +54,7 @@ var _ conversion.Convertible = &Component{}
 
 // ConvertFrom populates our Component from the provided hub Component
 func (component *Component) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20200202s.Component)
+	source, ok := hub.(*v20200202s.Component)
 	if !ok {
 		return fmt.Errorf("expected insights/v1api20200202storage/Component but received %T instead", hub)
 	}
@@ -64,7 +64,7 @@ func (component *Component) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Component from our Component
 func (component *Component) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20200202s.Component)
+	destination, ok := hub.(*v20200202s.Component)
 	if !ok {
 		return fmt.Errorf("expected insights/v1api20200202storage/Component but received %T instead", hub)
 	}
@@ -168,11 +168,7 @@ func (component *Component) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (component *Component) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(component.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  component.Spec.Owner.Name,
-	}
+	return component.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -230,7 +226,7 @@ func (component *Component) ValidateUpdate(old runtime.Object) (admission.Warnin
 
 // createValidations validates the creation of the resource
 func (component *Component) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){component.validateResourceReferences, component.validateConfigMapDestinations}
+	return []func() (admission.Warnings, error){component.validateResourceReferences, component.validateOwnerReference, component.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -246,12 +242,15 @@ func (component *Component) updateValidations() []func(old runtime.Object) (admi
 		},
 		component.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return component.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return component.validateConfigMapDestinations()
 		},
 	}
 }
 
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
 func (component *Component) validateConfigMapDestinations() (admission.Warnings, error) {
 	if component.Spec.OperatorSpec == nil {
 		return nil, nil
@@ -264,6 +263,11 @@ func (component *Component) validateConfigMapDestinations() (admission.Warnings,
 		component.Spec.OperatorSpec.ConfigMaps.InstrumentationKey,
 	}
 	return genruntime.ValidateConfigMapDestinations(toValidate)
+}
+
+// validateOwnerReference validates the owner field
+func (component *Component) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(component)
 }
 
 // validateResourceReferences validates all resource references
@@ -286,7 +290,7 @@ func (component *Component) validateWriteOnceProperties(old runtime.Object) (adm
 }
 
 // AssignProperties_From_Component populates our Component from the provided source Component
-func (component *Component) AssignProperties_From_Component(source *v1api20200202s.Component) error {
+func (component *Component) AssignProperties_From_Component(source *v20200202s.Component) error {
 
 	// ObjectMeta
 	component.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -312,13 +316,13 @@ func (component *Component) AssignProperties_From_Component(source *v1api2020020
 }
 
 // AssignProperties_To_Component populates the provided destination Component from our Component
-func (component *Component) AssignProperties_To_Component(destination *v1api20200202s.Component) error {
+func (component *Component) AssignProperties_To_Component(destination *v20200202s.Component) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *component.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20200202s.Component_Spec
+	var spec v20200202s.Component_Spec
 	err := component.Spec.AssignProperties_To_Component_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Component_Spec() to populate field Spec")
@@ -326,7 +330,7 @@ func (component *Component) AssignProperties_To_Component(destination *v1api2020
 	destination.Spec = spec
 
 	// Status
-	var status v1api20200202s.Component_STATUS
+	var status v20200202s.Component_STATUS
 	err = component.Status.AssignProperties_To_Component_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Component_STATUS() to populate field Status")
@@ -449,28 +453,28 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &Component_Spec_ARM{}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if component.Etag != nil {
 		etag := *component.Etag
 		result.Etag = &etag
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if component.Kind != nil {
 		kind := *component.Kind
 		result.Kind = &kind
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if component.Location != nil {
 		location := *component.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if component.Application_Type != nil ||
 		component.DisableIpMasking != nil ||
 		component.DisableLocalAuth != nil ||
@@ -548,7 +552,7 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.WorkspaceResourceId = &workspaceResourceId
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if component.Tags != nil {
 		result.Tags = make(map[string]string, len(component.Tags))
 		for key, value := range component.Tags {
@@ -570,7 +574,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Application_Type’:
+	// Set property "Application_Type":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Application_Type != nil {
@@ -579,10 +583,10 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	component.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘DisableIpMasking’:
+	// Set property "DisableIpMasking":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableIpMasking != nil {
@@ -591,7 +595,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘DisableLocalAuth’:
+	// Set property "DisableLocalAuth":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableLocalAuth != nil {
@@ -600,13 +604,13 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		component.Etag = &etag
 	}
 
-	// Set property ‘Flow_Type’:
+	// Set property "Flow_Type":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Flow_Type != nil {
@@ -615,7 +619,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘ForceCustomerStorageForProfiler’:
+	// Set property "ForceCustomerStorageForProfiler":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForceCustomerStorageForProfiler != nil {
@@ -624,7 +628,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘HockeyAppId’:
+	// Set property "HockeyAppId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HockeyAppId != nil {
@@ -633,7 +637,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘ImmediatePurgeDataOn30Days’:
+	// Set property "ImmediatePurgeDataOn30Days":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ImmediatePurgeDataOn30Days != nil {
@@ -642,7 +646,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘IngestionMode’:
+	// Set property "IngestionMode":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IngestionMode != nil {
@@ -651,24 +655,27 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		component.Kind = &kind
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		component.Location = &location
 	}
 
-	// no assignment for property ‘OperatorSpec’
+	// no assignment for property "OperatorSpec"
 
-	// Set property ‘Owner’:
-	component.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	component.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘PublicNetworkAccessForIngestion’:
+	// Set property "PublicNetworkAccessForIngestion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
@@ -677,7 +684,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘PublicNetworkAccessForQuery’:
+	// Set property "PublicNetworkAccessForQuery":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
@@ -686,7 +693,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Request_Source’:
+	// Set property "Request_Source":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Request_Source != nil {
@@ -695,7 +702,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘RetentionInDays’:
+	// Set property "RetentionInDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetentionInDays != nil {
@@ -704,7 +711,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘SamplingPercentage’:
+	// Set property "SamplingPercentage":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SamplingPercentage != nil {
@@ -713,7 +720,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		component.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -721,7 +728,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// no assignment for property ‘WorkspaceResourceReference’
+	// no assignment for property "WorkspaceResourceReference"
 
 	// No error
 	return nil
@@ -731,14 +738,14 @@ var _ genruntime.ConvertibleSpec = &Component_Spec{}
 
 // ConvertSpecFrom populates our Component_Spec from the provided source
 func (component *Component_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20200202s.Component_Spec)
+	src, ok := source.(*v20200202s.Component_Spec)
 	if ok {
 		// Populate our instance from source
 		return component.AssignProperties_From_Component_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20200202s.Component_Spec{}
+	src = &v20200202s.Component_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -755,14 +762,14 @@ func (component *Component_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 
 // ConvertSpecTo populates the provided destination from our Component_Spec
 func (component *Component_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20200202s.Component_Spec)
+	dst, ok := destination.(*v20200202s.Component_Spec)
 	if ok {
 		// Populate destination from our instance
 		return component.AssignProperties_To_Component_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20200202s.Component_Spec{}
+	dst = &v20200202s.Component_Spec{}
 	err := component.AssignProperties_To_Component_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -778,7 +785,7 @@ func (component *Component_Spec) ConvertSpecTo(destination genruntime.Convertibl
 }
 
 // AssignProperties_From_Component_Spec populates our Component_Spec from the provided source Component_Spec
-func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v1api20200202s.Component_Spec) error {
+func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v20200202s.Component_Spec) error {
 
 	// Application_Type
 	if source.Application_Type != nil {
@@ -922,7 +929,7 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v1
 }
 
 // AssignProperties_To_Component_Spec populates the provided destination Component_Spec from our Component_Spec
-func (component *Component_Spec) AssignProperties_To_Component_Spec(destination *v1api20200202s.Component_Spec) error {
+func (component *Component_Spec) AssignProperties_To_Component_Spec(destination *v20200202s.Component_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -999,7 +1006,7 @@ func (component *Component_Spec) AssignProperties_To_Component_Spec(destination 
 
 	// OperatorSpec
 	if component.OperatorSpec != nil {
-		var operatorSpec v1api20200202s.ComponentOperatorSpec
+		var operatorSpec v20200202s.ComponentOperatorSpec
 		err := component.OperatorSpec.AssignProperties_To_ComponentOperatorSpec(&operatorSpec)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ComponentOperatorSpec() to populate field OperatorSpec")
@@ -1321,14 +1328,14 @@ var _ genruntime.ConvertibleStatus = &Component_STATUS{}
 
 // ConvertStatusFrom populates our Component_STATUS from the provided source
 func (component *Component_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20200202s.Component_STATUS)
+	src, ok := source.(*v20200202s.Component_STATUS)
 	if ok {
 		// Populate our instance from source
 		return component.AssignProperties_From_Component_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20200202s.Component_STATUS{}
+	src = &v20200202s.Component_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1345,14 +1352,14 @@ func (component *Component_STATUS) ConvertStatusFrom(source genruntime.Convertib
 
 // ConvertStatusTo populates the provided destination from our Component_STATUS
 func (component *Component_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20200202s.Component_STATUS)
+	dst, ok := destination.(*v20200202s.Component_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return component.AssignProperties_To_Component_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20200202s.Component_STATUS{}
+	dst = &v20200202s.Component_STATUS{}
 	err := component.AssignProperties_To_Component_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1381,7 +1388,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AppId’:
+	// Set property "AppId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AppId != nil {
@@ -1390,7 +1397,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ApplicationId’:
+	// Set property "ApplicationId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ApplicationId != nil {
@@ -1399,7 +1406,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Application_Type’:
+	// Set property "Application_Type":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Application_Type != nil {
@@ -1408,9 +1415,9 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘ConnectionString’:
+	// Set property "ConnectionString":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ConnectionString != nil {
@@ -1419,7 +1426,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘CreationDate’:
+	// Set property "CreationDate":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreationDate != nil {
@@ -1428,7 +1435,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘DisableIpMasking’:
+	// Set property "DisableIpMasking":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableIpMasking != nil {
@@ -1437,7 +1444,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘DisableLocalAuth’:
+	// Set property "DisableLocalAuth":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableLocalAuth != nil {
@@ -1446,13 +1453,13 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		component.Etag = &etag
 	}
 
-	// Set property ‘Flow_Type’:
+	// Set property "Flow_Type":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Flow_Type != nil {
@@ -1461,7 +1468,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ForceCustomerStorageForProfiler’:
+	// Set property "ForceCustomerStorageForProfiler":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForceCustomerStorageForProfiler != nil {
@@ -1470,7 +1477,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘HockeyAppId’:
+	// Set property "HockeyAppId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HockeyAppId != nil {
@@ -1479,7 +1486,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘HockeyAppToken’:
+	// Set property "HockeyAppToken":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HockeyAppToken != nil {
@@ -1488,13 +1495,13 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		component.Id = &id
 	}
 
-	// Set property ‘ImmediatePurgeDataOn30Days’:
+	// Set property "ImmediatePurgeDataOn30Days":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ImmediatePurgeDataOn30Days != nil {
@@ -1503,7 +1510,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘IngestionMode’:
+	// Set property "IngestionMode":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IngestionMode != nil {
@@ -1512,7 +1519,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘InstrumentationKey’:
+	// Set property "InstrumentationKey":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InstrumentationKey != nil {
@@ -1521,13 +1528,13 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		component.Kind = &kind
 	}
 
-	// Set property ‘LaMigrationDate’:
+	// Set property "LaMigrationDate":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LaMigrationDate != nil {
@@ -1536,19 +1543,19 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		component.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		component.Name = &name
 	}
 
-	// Set property ‘PrivateLinkScopedResources’:
+	// Set property "PrivateLinkScopedResources":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateLinkScopedResources {
@@ -1561,7 +1568,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘PropertiesName’:
+	// Set property "PropertiesName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Name != nil {
@@ -1570,7 +1577,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1579,7 +1586,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘PublicNetworkAccessForIngestion’:
+	// Set property "PublicNetworkAccessForIngestion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
@@ -1588,7 +1595,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘PublicNetworkAccessForQuery’:
+	// Set property "PublicNetworkAccessForQuery":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
@@ -1597,7 +1604,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Request_Source’:
+	// Set property "Request_Source":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Request_Source != nil {
@@ -1606,7 +1613,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘RetentionInDays’:
+	// Set property "RetentionInDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetentionInDays != nil {
@@ -1615,7 +1622,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘SamplingPercentage’:
+	// Set property "SamplingPercentage":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SamplingPercentage != nil {
@@ -1624,7 +1631,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		component.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1632,7 +1639,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TenantId != nil {
@@ -1641,13 +1648,13 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		component.Type = &typeVar
 	}
 
-	// Set property ‘WorkspaceResourceId’:
+	// Set property "WorkspaceResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WorkspaceResourceId != nil {
@@ -1661,7 +1668,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_Component_STATUS populates our Component_STATUS from the provided source Component_STATUS
-func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source *v1api20200202s.Component_STATUS) error {
+func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source *v20200202s.Component_STATUS) error {
 
 	// AppId
 	component.AppId = genruntime.ClonePointerToString(source.AppId)
@@ -1837,7 +1844,7 @@ func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source
 }
 
 // AssignProperties_To_Component_STATUS populates the provided destination Component_STATUS from our Component_STATUS
-func (component *Component_STATUS) AssignProperties_To_Component_STATUS(destination *v1api20200202s.Component_STATUS) error {
+func (component *Component_STATUS) AssignProperties_To_Component_STATUS(destination *v20200202s.Component_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1941,11 +1948,11 @@ func (component *Component_STATUS) AssignProperties_To_Component_STATUS(destinat
 
 	// PrivateLinkScopedResources
 	if component.PrivateLinkScopedResources != nil {
-		privateLinkScopedResourceList := make([]v1api20200202s.PrivateLinkScopedResource_STATUS, len(component.PrivateLinkScopedResources))
+		privateLinkScopedResourceList := make([]v20200202s.PrivateLinkScopedResource_STATUS, len(component.PrivateLinkScopedResources))
 		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range component.PrivateLinkScopedResources {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkScopedResourceItem := privateLinkScopedResourceItem
-			var privateLinkScopedResource v1api20200202s.PrivateLinkScopedResource_STATUS
+			var privateLinkScopedResource v20200202s.PrivateLinkScopedResource_STATUS
 			err := privateLinkScopedResourceItem.AssignProperties_To_PrivateLinkScopedResource_STATUS(&privateLinkScopedResource)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
@@ -2078,7 +2085,7 @@ type ComponentOperatorSpec struct {
 }
 
 // AssignProperties_From_ComponentOperatorSpec populates our ComponentOperatorSpec from the provided source ComponentOperatorSpec
-func (operator *ComponentOperatorSpec) AssignProperties_From_ComponentOperatorSpec(source *v1api20200202s.ComponentOperatorSpec) error {
+func (operator *ComponentOperatorSpec) AssignProperties_From_ComponentOperatorSpec(source *v20200202s.ComponentOperatorSpec) error {
 
 	// ConfigMaps
 	if source.ConfigMaps != nil {
@@ -2097,13 +2104,13 @@ func (operator *ComponentOperatorSpec) AssignProperties_From_ComponentOperatorSp
 }
 
 // AssignProperties_To_ComponentOperatorSpec populates the provided destination ComponentOperatorSpec from our ComponentOperatorSpec
-func (operator *ComponentOperatorSpec) AssignProperties_To_ComponentOperatorSpec(destination *v1api20200202s.ComponentOperatorSpec) error {
+func (operator *ComponentOperatorSpec) AssignProperties_To_ComponentOperatorSpec(destination *v20200202s.ComponentOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ConfigMaps
 	if operator.ConfigMaps != nil {
-		var configMap v1api20200202s.ComponentOperatorConfigMaps
+		var configMap v20200202s.ComponentOperatorConfigMaps
 		err := operator.ConfigMaps.AssignProperties_To_ComponentOperatorConfigMaps(&configMap)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ComponentOperatorConfigMaps() to populate field ConfigMaps")
@@ -2147,13 +2154,13 @@ func (resource *PrivateLinkScopedResource_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkScopedResource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	if typedInput.ResourceId != nil {
 		resourceId := *typedInput.ResourceId
 		resource.ResourceId = &resourceId
 	}
 
-	// Set property ‘ScopeId’:
+	// Set property "ScopeId":
 	if typedInput.ScopeId != nil {
 		scopeId := *typedInput.ScopeId
 		resource.ScopeId = &scopeId
@@ -2164,7 +2171,7 @@ func (resource *PrivateLinkScopedResource_STATUS) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_PrivateLinkScopedResource_STATUS populates our PrivateLinkScopedResource_STATUS from the provided source PrivateLinkScopedResource_STATUS
-func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_From_PrivateLinkScopedResource_STATUS(source *v1api20200202s.PrivateLinkScopedResource_STATUS) error {
+func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_From_PrivateLinkScopedResource_STATUS(source *v20200202s.PrivateLinkScopedResource_STATUS) error {
 
 	// ResourceId
 	resource.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
@@ -2177,7 +2184,7 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_From_PrivateL
 }
 
 // AssignProperties_To_PrivateLinkScopedResource_STATUS populates the provided destination PrivateLinkScopedResource_STATUS from our PrivateLinkScopedResource_STATUS
-func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLinkScopedResource_STATUS(destination *v1api20200202s.PrivateLinkScopedResource_STATUS) error {
+func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLinkScopedResource_STATUS(destination *v20200202s.PrivateLinkScopedResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2226,7 +2233,7 @@ type ComponentOperatorConfigMaps struct {
 }
 
 // AssignProperties_From_ComponentOperatorConfigMaps populates our ComponentOperatorConfigMaps from the provided source ComponentOperatorConfigMaps
-func (maps *ComponentOperatorConfigMaps) AssignProperties_From_ComponentOperatorConfigMaps(source *v1api20200202s.ComponentOperatorConfigMaps) error {
+func (maps *ComponentOperatorConfigMaps) AssignProperties_From_ComponentOperatorConfigMaps(source *v20200202s.ComponentOperatorConfigMaps) error {
 
 	// ConnectionString
 	if source.ConnectionString != nil {
@@ -2249,7 +2256,7 @@ func (maps *ComponentOperatorConfigMaps) AssignProperties_From_ComponentOperator
 }
 
 // AssignProperties_To_ComponentOperatorConfigMaps populates the provided destination ComponentOperatorConfigMaps from our ComponentOperatorConfigMaps
-func (maps *ComponentOperatorConfigMaps) AssignProperties_To_ComponentOperatorConfigMaps(destination *v1api20200202s.ComponentOperatorConfigMaps) error {
+func (maps *ComponentOperatorConfigMaps) AssignProperties_To_ComponentOperatorConfigMaps(destination *v20200202s.ComponentOperatorConfigMaps) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

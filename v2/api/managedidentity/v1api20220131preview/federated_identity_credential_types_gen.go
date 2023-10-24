@@ -5,7 +5,7 @@ package v1api20220131preview
 
 import (
 	"fmt"
-	v1api20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131previewstorage"
+	v20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131previewstorage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &FederatedIdentityCredential{}
 
 // ConvertFrom populates our FederatedIdentityCredential from the provided hub FederatedIdentityCredential
 func (credential *FederatedIdentityCredential) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20220131ps.FederatedIdentityCredential)
+	source, ok := hub.(*v20220131ps.FederatedIdentityCredential)
 	if !ok {
 		return fmt.Errorf("expected managedidentity/v1api20220131previewstorage/FederatedIdentityCredential but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (credential *FederatedIdentityCredential) ConvertFrom(hub conversion.Hub) e
 
 // ConvertTo populates the provided hub FederatedIdentityCredential from our FederatedIdentityCredential
 func (credential *FederatedIdentityCredential) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20220131ps.FederatedIdentityCredential)
+	destination, ok := hub.(*v20220131ps.FederatedIdentityCredential)
 	if !ok {
 		return fmt.Errorf("expected managedidentity/v1api20220131previewstorage/FederatedIdentityCredential but received %T instead", hub)
 	}
@@ -141,11 +141,7 @@ func (credential *FederatedIdentityCredential) NewEmptyStatus() genruntime.Conve
 // Owner returns the ResourceReference of the owner
 func (credential *FederatedIdentityCredential) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(credential.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  credential.Spec.Owner.Name,
-	}
+	return credential.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (credential *FederatedIdentityCredential) ValidateUpdate(old runtime.Object
 
 // createValidations validates the creation of the resource
 func (credential *FederatedIdentityCredential) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){credential.validateResourceReferences, credential.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){credential.validateResourceReferences, credential.validateOwnerReference, credential.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -219,6 +215,9 @@ func (credential *FederatedIdentityCredential) updateValidations() []func(old ru
 		},
 		credential.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return credential.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return credential.validateOptionalConfigMapReferences()
 		},
 	}
@@ -231,6 +230,11 @@ func (credential *FederatedIdentityCredential) validateOptionalConfigMapReferenc
 		return nil, err
 	}
 	return genruntime.ValidateOptionalConfigMapReferences(refs)
+}
+
+// validateOwnerReference validates the owner field
+func (credential *FederatedIdentityCredential) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(credential)
 }
 
 // validateResourceReferences validates all resource references
@@ -253,7 +257,7 @@ func (credential *FederatedIdentityCredential) validateWriteOnceProperties(old r
 }
 
 // AssignProperties_From_FederatedIdentityCredential populates our FederatedIdentityCredential from the provided source FederatedIdentityCredential
-func (credential *FederatedIdentityCredential) AssignProperties_From_FederatedIdentityCredential(source *v1api20220131ps.FederatedIdentityCredential) error {
+func (credential *FederatedIdentityCredential) AssignProperties_From_FederatedIdentityCredential(source *v20220131ps.FederatedIdentityCredential) error {
 
 	// ObjectMeta
 	credential.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -279,13 +283,13 @@ func (credential *FederatedIdentityCredential) AssignProperties_From_FederatedId
 }
 
 // AssignProperties_To_FederatedIdentityCredential populates the provided destination FederatedIdentityCredential from our FederatedIdentityCredential
-func (credential *FederatedIdentityCredential) AssignProperties_To_FederatedIdentityCredential(destination *v1api20220131ps.FederatedIdentityCredential) error {
+func (credential *FederatedIdentityCredential) AssignProperties_To_FederatedIdentityCredential(destination *v20220131ps.FederatedIdentityCredential) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *credential.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec
+	var spec v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec
 	err := credential.Spec.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec() to populate field Spec")
@@ -293,7 +297,7 @@ func (credential *FederatedIdentityCredential) AssignProperties_To_FederatedIden
 	destination.Spec = spec
 
 	// Status
-	var status v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS
+	var status v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS
 	err = credential.Status.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS() to populate field Status")
@@ -365,10 +369,10 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Conve
 	}
 	result := &UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if credential.Audiences != nil ||
 		credential.Issuer != nil ||
 		credential.IssuerFromConfig != nil ||
@@ -418,7 +422,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Popul
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Audiences’:
+	// Set property "Audiences":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Audiences {
@@ -426,10 +430,10 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Popul
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	credential.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Issuer’:
+	// Set property "Issuer":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Issuer != nil {
@@ -438,12 +442,15 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Popul
 		}
 	}
 
-	// no assignment for property ‘IssuerFromConfig’
+	// no assignment for property "IssuerFromConfig"
 
-	// Set property ‘Owner’:
-	credential.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	// Set property "Owner":
+	credential.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
-	// Set property ‘Subject’:
+	// Set property "Subject":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subject != nil {
@@ -452,7 +459,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Popul
 		}
 	}
 
-	// no assignment for property ‘SubjectFromConfig’
+	// no assignment for property "SubjectFromConfig"
 
 	// No error
 	return nil
@@ -462,14 +469,14 @@ var _ genruntime.ConvertibleSpec = &UserAssignedIdentities_FederatedIdentityCred
 
 // ConvertSpecFrom populates our UserAssignedIdentities_FederatedIdentityCredential_Spec from the provided source
 func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec)
+	src, ok := source.(*v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec)
 	if ok {
 		// Populate our instance from source
 		return credential.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec{}
+	src = &v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -486,14 +493,14 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Conve
 
 // ConvertSpecTo populates the provided destination from our UserAssignedIdentities_FederatedIdentityCredential_Spec
 func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec)
+	dst, ok := destination.(*v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec)
 	if ok {
 		// Populate destination from our instance
 		return credential.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec{}
+	dst = &v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec{}
 	err := credential.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -509,7 +516,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Conve
 }
 
 // AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec populates our UserAssignedIdentities_FederatedIdentityCredential_Spec from the provided source UserAssignedIdentities_FederatedIdentityCredential_Spec
-func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec(source *v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec) error {
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec(source *v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec) error {
 
 	// Audiences
 	credential.Audiences = genruntime.CloneSliceOfString(source.Audiences)
@@ -552,7 +559,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Assig
 }
 
 // AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec populates the provided destination UserAssignedIdentities_FederatedIdentityCredential_Spec from our UserAssignedIdentities_FederatedIdentityCredential_Spec
-func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec(destination *v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec) error {
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec(destination *v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -660,14 +667,14 @@ var _ genruntime.ConvertibleStatus = &UserAssignedIdentities_FederatedIdentityCr
 
 // ConvertStatusFrom populates our UserAssignedIdentities_FederatedIdentityCredential_STATUS from the provided source
 func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS)
+	src, ok := source.(*v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS)
 	if ok {
 		// Populate our instance from source
 		return credential.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS{}
+	src = &v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -684,14 +691,14 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) Con
 
 // ConvertStatusTo populates the provided destination from our UserAssignedIdentities_FederatedIdentityCredential_STATUS
 func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS)
+	dst, ok := destination.(*v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return credential.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS{}
+	dst = &v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS{}
 	err := credential.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -720,7 +727,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) Pop
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Audiences’:
+	// Set property "Audiences":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Audiences {
@@ -728,15 +735,15 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) Pop
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		credential.Id = &id
 	}
 
-	// Set property ‘Issuer’:
+	// Set property "Issuer":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Issuer != nil {
@@ -745,13 +752,13 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) Pop
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		credential.Name = &name
 	}
 
-	// Set property ‘Subject’:
+	// Set property "Subject":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subject != nil {
@@ -760,7 +767,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) Pop
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		credential.Type = &typeVar
@@ -771,7 +778,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) Pop
 }
 
 // AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS populates our UserAssignedIdentities_FederatedIdentityCredential_STATUS from the provided source UserAssignedIdentities_FederatedIdentityCredential_STATUS
-func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS(source *v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS) error {
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS(source *v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS) error {
 
 	// Audiences
 	credential.Audiences = genruntime.CloneSliceOfString(source.Audiences)
@@ -799,7 +806,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) Ass
 }
 
 // AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS populates the provided destination UserAssignedIdentities_FederatedIdentityCredential_STATUS from our UserAssignedIdentities_FederatedIdentityCredential_STATUS
-func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS(destination *v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS) error {
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS(destination *v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

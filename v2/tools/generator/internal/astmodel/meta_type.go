@@ -109,7 +109,35 @@ func AsTypeName(aType Type) (TypeName, bool) {
 		return AsTypeName(wrapper.Unwrap())
 	}
 
-	return TypeName{}, false
+	return nil, false
+}
+
+// AsInternalTypeName unwraps any wrappers around the provided type and returns either the underlying TypeName and true, or a
+// blank and false.
+func AsInternalTypeName(aType Type) (InternalTypeName, bool) {
+	if name, ok := aType.(InternalTypeName); ok {
+		return name, true
+	}
+
+	if wrapper, ok := aType.(MetaType); ok {
+		return AsInternalTypeName(wrapper.Unwrap())
+	}
+
+	return InternalTypeName{}, false
+}
+
+// AsExternalTypeName unwraps any wrappers around the provided type and returns either the underlying TypeName and true, or a
+// blank and false.
+func AsExternalTypeName(aType Type) (ExternalTypeName, bool) {
+	if name, ok := aType.(ExternalTypeName); ok {
+		return name, true
+	}
+
+	if wrapper, ok := aType.(MetaType); ok {
+		return AsExternalTypeName(wrapper.Unwrap())
+	}
+
+	return ExternalTypeName{}, false
 }
 
 // AsResourceType unwraps any wrappers around the provided type and returns either the underlying ResourceType and true,
@@ -146,9 +174,9 @@ func Unwrap(aType Type) Type {
 
 // ExtractTypeName extracts a TypeName from the specified type if possible. This includes unwrapping
 // MetaType's like ValidatedType as well as checking the element type of types such as ArrayType and MapType.
-func ExtractTypeName(aType Type) (TypeName, bool) {
-	if typeName, ok := AsTypeName(aType); ok {
-		return typeName, ok
+func ExtractTypeName(aType Type) (InternalTypeName, bool) {
+	if internalTypeName, ok := AsInternalTypeName(aType); ok {
+		return internalTypeName, ok
 	}
 
 	if arrayType, ok := AsArrayType(aType); ok {
@@ -159,5 +187,5 @@ func ExtractTypeName(aType Type) (TypeName, bool) {
 		return ExtractTypeName(mapType.ValueType())
 	}
 
-	return TypeName{}, false
+	return InternalTypeName{}, false
 }
