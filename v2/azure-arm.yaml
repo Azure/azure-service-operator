@@ -82,6 +82,11 @@ typeFilters:
     version: v*20220131preview
     because: We want to export this particular preview version
 
+  # - action: include
+  #   group: apimanagement
+  #   version: v*20230501preview
+  #   because: This version of APIM is created in a matter of minutes
+
   - action: include
     group: common
     because: we need these for common resource properties
@@ -762,16 +767,20 @@ objectModelConfiguration:
       AdditionalLocation:
         PublicIpAddressId:
           $armReference: true
+      ApiCreateOrUpdateProperties:
+        ApiVersionSetId:
+          $armReference: true
+        SourceApiId:
+          $armReference: true
+      ApiVersionSetContractDetails:
+        Id: 
+          $armReference: true
       ApiManagementServiceProperties:
         PublicIpAddressId:
           $armReference: true
       BackendContractProperties:
         ResourceId:
           $armReference: true
-      # This is an array and fails
-      # BackendCredentialsContract:
-      #   Certificate:
-      #     $importConfigMapMode: optional
       BackendProxyContract:
         Password:
           $isSecret: true
@@ -796,16 +805,33 @@ objectModelConfiguration:
       Service:
         $export: true
         $supportedFrom: v2.4.0
+      Service_Api:
+        $exportAs: Api
+        $supportedFrom: v2.4.0
+      Service_ApiVersionSet:
+        $exportAs: ApiVersionSet
+        $supportedFrom: v2.4.0
       Service_Backend:
         $exportAs: Backend
         $supportedFrom: v2.4.0
       Service_NamedValue:
         $exportAs: NamedValue
         $supportedFrom: v2.4.0
-      # TODO: This type generates 2 keys if there is none supplied.
+      Service_Policy:
+        $exportAs: Policy
+        $supportedFrom: v2.4.0
+      Service_PolicyFragment:
+        $exportAs: PolicyFragment
+        $supportedFrom: v2.4.0
+      Service_Product:
+        $exportAs: Product
+        $supportedFrom: v2.4.0
       Service_Subscription:
         $exportAs: Subscription
         $supportedFrom: v2.4.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
       SubscriptionCreateParameterProperties:
         PrimaryKey:
           $isSecret: true
@@ -816,6 +842,19 @@ objectModelConfiguration:
       VirtualNetworkConfiguration:
         SubnetResourceId:
           $armReference: true
+    # TODO: New APIM version
+    # 2023-05-01-preview:
+    #   Service:
+    #     $export: true
+    #     $supportedFrom: v2.5.0
+    #   CertificateConfiguration:
+    #     CertificatePassword:
+    #       $isSecret: true
+    #   HostnameConfiguration:
+    #     CertificatePassword:
+    #       $isSecret: true
+    #     IdentityClientId:
+    #       $importConfigMapMode: optional
   appconfiguration:
     2022-05-01:
       ConfigurationStore:
