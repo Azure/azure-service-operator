@@ -9,12 +9,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type AutoscalesettingExtension struct {
+type AutoscaleSettingExtension struct {
 }
 
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
-func (extension *AutoscalesettingExtension) GetExtendedResources() []genruntime.KubernetesResource {
+func (extension *AutoscaleSettingExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20221001.Autoscalesetting{},
-		&v20221001s.Autoscalesetting{}}
+		&v20221001.AutoscaleSetting{},
+		&v20221001s.AutoscaleSetting{}}
 }
