@@ -258,6 +258,9 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 				err, conditions.ConditionSeverityError, conditions.ReasonFailed)
 	}
 
+	// We want to set the latest reconciled generation annotation to keep a track of reconciles per generation.
+	SetLatestReconciledGeneration(r.Obj)
+
 	check, err := r.preReconciliationCheck(ctx)
 	if err != nil {
 		// Failed to do the pre-reconciliation check, this is a serious but non-fatal error
@@ -513,6 +516,18 @@ func (r *azureDeploymentReconcilerInstance) MonitorResourceCreation(ctx context.
 	}
 
 	if poller.Poller.Done() {
+		// Once poller is done, we need to check if there was another event while we were creating/updating a resource.
+		// We do it here by checking the latest-reconciled-generation to make sure that we have sent the latest changes to the RP.
+		// If there's a mismatch in number of generations we reconciled and generations on spec, we requeue the resource to make sure its in sync.
+
+		// TODO: Should we do this here once poller is done or just don't wait for the operation to finish and issue another PUT?
+		// TODO: If we don't wait for poller to finish, RP might reject the request.
+		generation, hasGenerationAnnotation := GetLatestReconciledGeneration(r.Obj)
+		if hasGenerationAnnotation && r.Obj.GetGeneration() != generation {
+			ClearPollerResumeToken(r.Obj)
+			return ctrl.Result{Requeue: true}, nil
+		}
+
 		return ctrl.Result{}, r.handleCreateOrUpdateSuccess(ctx, ManageResource)
 	}
 
