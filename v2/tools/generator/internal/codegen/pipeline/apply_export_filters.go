@@ -72,9 +72,17 @@ func filterTypes(
 	// Find and apply renames
 	renames := make(astmodel.TypeAssociation)
 	for n := range typesToExport {
+		newName := ""
 		if as, asErr := configuration.ObjectModelConfiguration.ExportAs.Lookup(n); asErr == nil {
-			configuration.ObjectModelConfiguration.AddTypeAlias(n, as)
-			renames[n] = n.WithName(as)
+			newName = as
+		} else if to, toErr := configuration.ObjectModelConfiguration.RenameTo.Lookup(n); toErr == nil {
+			newName = to
+		}
+
+		if newName != "" {
+			// Add an alias to the configuration so that we can use the new name to access the rest of the config
+			configuration.ObjectModelConfiguration.AddTypeAlias(n, newName)
+			renames[n] = n.WithName(newName)
 		}
 	}
 
@@ -83,6 +91,10 @@ func filterTypes(
 	}
 
 	if err = configuration.ObjectModelConfiguration.ExportAs.VerifyConsumed(); err != nil {
+		return nil, err
+	}
+
+	if err = configuration.ObjectModelConfiguration.RenameTo.VerifyConsumed(); err != nil {
 		return nil, err
 	}
 
