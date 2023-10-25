@@ -20,12 +20,14 @@ func Test_TransformByGroup_CorrectlySelectsTypes(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("role")
+	matcher2 := config.NewFieldMatcher("int")
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Group: newFieldMatcher("role"),
+			Group: matcher,
 		},
-		Target: &config.TransformTarget{
-			Name: newFieldMatcher("int"),
+		Target: &config.TransformResult{
+			Name: matcher2,
 		},
 	}
 	err := transformer.Initialize()
@@ -44,12 +46,14 @@ func Test_TransformByVersion_CorrectlySelectsTypes(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("v2019*")
+	matcher2 := config.NewFieldMatcher("int")
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Version: newFieldMatcher("v2019*"),
+			Version: matcher,
 		},
-		Target: &config.TransformTarget{
-			Name: newFieldMatcher("int"),
+		Target: &config.TransformResult{
+			Name: matcher2,
 		},
 	}
 	err := transformer.Initialize()
@@ -68,12 +72,14 @@ func Test_TransformByName_CorrectlySelectsTypes(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("p*")
+	matcher2 := config.NewFieldMatcher("int")
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: newFieldMatcher("p*"),
+			Name: matcher,
 		},
-		Target: &config.TransformTarget{
-			Name: newFieldMatcher("int"),
+		Target: &config.TransformResult{
+			Name: matcher2,
 		},
 	}
 	err := transformer.Initialize()
@@ -92,14 +98,18 @@ func Test_TransformCanTransform_ToComplexType(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("tutor")
+	matcher2 := config.NewFieldMatcher("role")
+	matcher3 := config.NewFieldMatcher("2019-01-01")
+	matcher4 := config.NewFieldMatcher("student")
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: newFieldMatcher("tutor"),
+			Name: matcher,
 		},
-		Target: &config.TransformTarget{
-			Group:   newFieldMatcher("role"),
-			Version: newFieldMatcher("2019-01-01"),
-			Name:    newFieldMatcher("student"),
+		Target: &config.TransformResult{
+			Group:   matcher2,
+			Version: matcher3,
+			Name:    matcher4,
 		},
 	}
 	err := transformer.Initialize()
@@ -113,15 +123,18 @@ func Test_TransformTypeName_WhenConfiguredWithMap_ReturnsExpectedMapType(t *test
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("tutor")
+	matcher2 := config.NewFieldMatcher("string")
+	matcher3 := config.NewFieldMatcher("int")
 	transformer := config.TypeTransformer{
-		Property: newFieldMatcher("tutor"),
-		Target: &config.TransformTarget{
-			Map: &config.MapType{
-				Key: config.TransformTarget{
-					Name: newFieldMatcher("string"),
+		Property: matcher,
+		Target: &config.TransformResult{
+			Map: &config.MapResult{
+				Key: config.TransformResult{
+					Name: matcher2,
 				},
-				Value: config.TransformTarget{
-					Name: newFieldMatcher("int"),
+				Value: config.TransformResult{
+					Name: matcher3,
 				},
 			},
 		},
@@ -140,10 +153,11 @@ func Test_TransformTypeName_WhenConfiguredWithEnum_ReturnsExpectedEnumType(t *te
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("tutor")
 	transformer := config.TypeTransformer{
-		Property: newFieldMatcher("tutor"),
-		Target: &config.TransformTarget{
-			Enum: &config.EnumType{
+		Property: matcher,
+		Target: &config.TransformResult{
+			Enum: &config.EnumResult{
 				Base: "string",
 				Values: []string{
 					"alpha",
@@ -169,10 +183,11 @@ func Test_TransformTypeName_WhenEnumMissingBase_ReturnsExpectedError(t *testing.
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("tutor")
 	transformer := config.TypeTransformer{
-		Property: newFieldMatcher("tutor"),
-		Target: &config.TransformTarget{
-			Enum: &config.EnumType{
+		Property: matcher,
+		Target: &config.TransformResult{
+			Enum: &config.EnumResult{
 				Values: []string{
 					"alpha",
 					"beta",
@@ -191,10 +206,11 @@ func Test_TransformTypeName_WhenEnumHasInvalidBase_ReturnsExpectedError(t *testi
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("tutor")
 	transformer := config.TypeTransformer{
-		Property: newFieldMatcher("tutor"),
-		Target: &config.TransformTarget{
-			Enum: &config.EnumType{
+		Property: matcher,
+		Target: &config.TransformResult{
+			Enum: &config.EnumResult{
 				Base: "flag",
 				Values: []string{
 					"alpha",
@@ -213,22 +229,26 @@ func Test_TransformCanTransform_ToNestedMapType(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("tutor")
+	matcher2 := config.NewFieldMatcher("string")
+	matcher3 := config.NewFieldMatcher("int")
+	matcher4 := config.NewFieldMatcher("float")
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: newFieldMatcher("tutor"),
+			Name: matcher,
 		},
-		Target: &config.TransformTarget{
-			Map: &config.MapType{
-				Key: config.TransformTarget{
-					Name: newFieldMatcher("string"),
+		Target: &config.TransformResult{
+			Map: &config.MapResult{
+				Key: config.TransformResult{
+					Name: matcher2,
 				},
-				Value: config.TransformTarget{
-					Map: &config.MapType{
-						Key: config.TransformTarget{
-							Name: newFieldMatcher("int"),
+				Value: config.TransformResult{
+					Map: &config.MapResult{
+						Key: config.TransformResult{
+							Name: matcher3,
 						},
-						Value: config.TransformTarget{
-							Name: newFieldMatcher("float"),
+						Value: config.TransformResult{
+							Name: matcher4,
 						},
 					},
 				},
@@ -251,19 +271,22 @@ func Test_TransformWithMissingMapValue_ReportsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("tutor")
+	matcher2 := config.NewFieldMatcher("string")
+	matcher3 := config.NewFieldMatcher("int")
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: newFieldMatcher("tutor"),
+			Name: matcher,
 		},
-		Target: &config.TransformTarget{
-			Map: &config.MapType{
-				Key: config.TransformTarget{
-					Name: newFieldMatcher("string"),
+		Target: &config.TransformResult{
+			Map: &config.MapResult{
+				Key: config.TransformResult{
+					Name: matcher2,
 				},
-				Value: config.TransformTarget{
-					Map: &config.MapType{
-						Value: config.TransformTarget{
-							Name: newFieldMatcher("int"),
+				Value: config.TransformResult{
+					Map: &config.MapResult{
+						Value: config.TransformResult{
+							Name: matcher3,
 						},
 					},
 				},
@@ -279,9 +302,10 @@ func Test_TransformWithMissingTargetType_ReportsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("tutor")
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: newFieldMatcher("tutor"),
+			Name: matcher,
 		},
 	}
 
@@ -307,10 +331,12 @@ func Test_TransformWithRemoveAndTarget_ReportsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("hat")
+	matcher2 := config.NewFieldMatcher("int")
 	transformer := config.TypeTransformer{
-		Property: newFieldMatcher("hat"),
-		Target: &config.TransformTarget{
-			Name: newFieldMatcher("int"),
+		Property: matcher,
+		Target: &config.TransformResult{
+			Name: matcher2,
 		},
 		Remove: true,
 	}
@@ -324,18 +350,22 @@ func Test_TransformWithBothNameAndMapTargets_ReportsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("tutor")
+	matcher2 := config.NewFieldMatcher("int")
+	matcher3 := config.NewFieldMatcher("string")
+	matcher4 := config.NewFieldMatcher("string")
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: newFieldMatcher("tutor"),
+			Name: matcher,
 		},
-		Target: &config.TransformTarget{
-			Name: newFieldMatcher("int"),
-			Map: &config.MapType{
-				Key: config.TransformTarget{
-					Name: newFieldMatcher("string"),
+		Target: &config.TransformResult{
+			Name: matcher2,
+			Map: &config.MapResult{
+				Key: config.TransformResult{
+					Name: matcher3,
 				},
-				Value: config.TransformTarget{
-					Name: newFieldMatcher("string"),
+				Value: config.TransformResult{
+					Name: matcher4,
 				},
 			},
 		},
@@ -355,13 +385,15 @@ func Test_TransformWithBothNameAndEnumTargets_ReportsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("tutor")
+	matcher2 := config.NewFieldMatcher("int")
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: newFieldMatcher("tutor"),
+			Name: matcher,
 		},
-		Target: &config.TransformTarget{
-			Name: newFieldMatcher("int"),
-			Enum: &config.EnumType{
+		Target: &config.TransformResult{
+			Name: matcher2,
+			Enum: &config.EnumResult{
 				Values: []string{
 					"alpha",
 					"beta",
@@ -385,20 +417,23 @@ func Test_TransformWithBothMapAndEnumTargets_ReportsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("tutor")
+	matcher2 := config.NewFieldMatcher("string")
+	matcher3 := config.NewFieldMatcher("string")
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: newFieldMatcher("tutor"),
+			Name: matcher,
 		},
-		Target: &config.TransformTarget{
-			Map: &config.MapType{
-				Key: config.TransformTarget{
-					Name: newFieldMatcher("string"),
+		Target: &config.TransformResult{
+			Map: &config.MapResult{
+				Key: config.TransformResult{
+					Name: matcher2,
 				},
-				Value: config.TransformTarget{
-					Name: newFieldMatcher("string"),
+				Value: config.TransformResult{
+					Name: matcher3,
 				},
 			},
-			Enum: &config.EnumType{
+			Enum: &config.EnumResult{
 				Values: []string{
 					"alpha",
 					"beta",
@@ -422,15 +457,18 @@ func Test_TransformWithIfTypeAndNoProperty_ReportsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("tutor")
+	matcher2 := config.NewFieldMatcher("from")
+	matcher3 := config.NewFieldMatcher("to")
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: newFieldMatcher("tutor"),
+			Name: matcher,
 		},
-		IfType: &config.TransformTarget{
-			Name: newFieldMatcher("from"),
+		IfType: &config.TransformSelector{
+			Name: matcher2,
 		},
-		Target: &config.TransformTarget{
-			Name: newFieldMatcher("to"),
+		Target: &config.TransformResult{
+			Name: matcher3,
 		},
 	}
 
@@ -464,18 +502,21 @@ func Test_TypeTransformer_WhenTransformingTypeName_ReturnsExpectedTypeName(t *te
 				t.Parallel()
 				g := NewGomegaWithT(t)
 
+				matcher := config.NewFieldMatcher("role")
+				matcher2 := config.NewFieldMatcher(c.newName)
 				transformer := config.TypeTransformer{
 					TypeMatcher: config.TypeMatcher{
-						Group: newFieldMatcher("role"),
+						Group: matcher,
 					},
-					Target: &config.TransformTarget{
-						Name: newFieldMatcher(c.newName),
+					Target: &config.TransformResult{
+						Name: matcher2,
 					},
 				}
 				g.Expect(transformer.Initialize()).To(Succeed())
 
-				actual := transformer.TransformTypeName(c.original)
+				actual, err := transformer.TransformTypeName(c.original)
 				g.Expect(actual).To(Equal(c.expected))
+				g.Expect(err).To(Succeed())
 			})
 	}
 }
@@ -484,13 +525,16 @@ func Test_TransformCanTransformProperty(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("*")
+	matcher2 := config.NewFieldMatcher("foo")
+	matcher3 := config.NewFieldMatcher("string")
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: newFieldMatcher("*"),
+			Name: matcher,
 		},
-		Property: newFieldMatcher("foo"),
-		Target: &config.TransformTarget{
-			Name: newFieldMatcher("string"),
+		Property: matcher2,
+		Target: &config.TransformResult{
+			Name: matcher3,
 		},
 	}
 
@@ -514,13 +558,16 @@ func Test_TransformCanTransformProperty_Wildcard(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("*")
+	matcher2 := config.NewFieldMatcher("foo*")
+	matcher3 := config.NewFieldMatcher("string")
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: newFieldMatcher("*"),
+			Name: matcher,
 		},
-		Property: newFieldMatcher("foo*"),
-		Target: &config.TransformTarget{
-			Name: newFieldMatcher("string"),
+		Property: matcher2,
+		Target: &config.TransformResult{
+			Name: matcher3,
 		},
 	}
 
@@ -556,16 +603,20 @@ func Test_TransformDoesNotTransformPropertyIfTypeDoesNotMatch(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	matcher := config.NewFieldMatcher("*")
+	matcher2 := config.NewFieldMatcher("string")
+	matcher3 := config.NewFieldMatcher("foo")
+	matcher4 := config.NewFieldMatcher("int")
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: newFieldMatcher("*"),
+			Name: matcher,
 		},
-		IfType: &config.TransformTarget{
-			Name: newFieldMatcher("string"),
+		IfType: &config.TransformSelector{
+			Name: matcher2,
 		},
-		Property: newFieldMatcher("foo"),
-		Target: &config.TransformTarget{
-			Name: newFieldMatcher("int"),
+		Property: matcher3,
+		Target: &config.TransformResult{
+			Name: matcher4,
 		},
 	}
 
@@ -584,30 +635,38 @@ func Test_TransformDoesNotTransformPropertyIfTypeDoesNotMatch(t *testing.T) {
 func TestTransformProperty_DoesTransformProperty_IfTypeDoesMatch(t *testing.T) {
 	t.Parallel()
 
+	matcher := config.NewFieldMatcher("*")
+	matcher2 := config.NewFieldMatcher("int")
+	matcher3 := config.NewFieldMatcher("foo")
+	matcher4 := config.NewFieldMatcher("string")
 	transformIntToString := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: newFieldMatcher("*"),
+			Name: matcher,
 		},
-		IfType: &config.TransformTarget{
-			Name: newFieldMatcher("int"),
+		IfType: &config.TransformSelector{
+			Name: matcher2,
 		},
-		Property: newFieldMatcher("foo"),
-		Target: &config.TransformTarget{
-			Name: newFieldMatcher("string"),
+		Property: matcher3,
+		Target: &config.TransformResult{
+			Name: matcher4,
 		},
 	}
 
+	matcher5 := config.NewFieldMatcher("*")
+	matcher6 := config.NewFieldMatcher("int")
+	matcher7 := config.NewFieldMatcher("foo")
+	matcher8 := config.NewFieldMatcher("string")
 	transformOptionalIntToOptionalString := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: newFieldMatcher("*"),
+			Name: matcher5,
 		},
-		IfType: &config.TransformTarget{
-			Name:     newFieldMatcher("int"),
+		IfType: &config.TransformSelector{
+			Name:     matcher6,
 			Optional: true,
 		},
-		Property: newFieldMatcher("foo"),
-		Target: &config.TransformTarget{
-			Name:     newFieldMatcher("string"),
+		Property: matcher7,
+		Target: &config.TransformResult{
+			Name:     matcher8,
 			Optional: true,
 		},
 	}
@@ -666,31 +725,39 @@ func TestTransformProperty_DoesTransformProperty_IfTypeDoesMatch(t *testing.T) {
 func TestTransformProperty_CanRemoveProperty(t *testing.T) {
 	t.Parallel()
 
+	matcher := config.NewFieldMatcher("*")
+	matcher2 := config.NewFieldMatcher("int")
+	matcher3 := config.NewFieldMatcher("foo")
 	removeIntProperty := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: newFieldMatcher("*"),
+			Name: matcher,
 		},
-		IfType: &config.TransformTarget{
-			Name: newFieldMatcher("int"),
+		IfType: &config.TransformSelector{
+			Name: matcher2,
 		},
-		Property: newFieldMatcher("foo"),
+		Property: matcher3,
 		Remove:   true,
 	}
 
 	intProperty := astmodel.NewPropertyDefinition("foo", "foo", astmodel.IntType)
 	objectWithIntProperty := astmodel.NewObjectType().WithProperties(intProperty)
 
+	matcher4 := config.NewFieldMatcher("*")
+	matcher5 := config.NewFieldMatcher("deploymenttemplate")
+	matcher6 := config.NewFieldMatcher("2019-04-01")
+	matcher7 := config.NewFieldMatcher("ResourceCopy")
+	matcher8 := config.NewFieldMatcher("Copy")
 	removeCopyProperty := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: newFieldMatcher("*"),
+			Name: matcher4,
 		},
-		IfType: &config.TransformTarget{
-			Group:    newFieldMatcher("deploymenttemplate"),
-			Version:  newFieldMatcher("2019-04-01"),
-			Name:     newFieldMatcher("ResourceCopy"),
+		IfType: &config.TransformSelector{
+			Group:    matcher5,
+			Version:  matcher6,
+			Name:     matcher7,
 			Optional: true,
 		},
-		Property: newFieldMatcher("Copy"),
+		Property: matcher8,
 		Remove:   true,
 	}
 
@@ -763,68 +830,4 @@ func Test_TransformResult_StringRemove(t *testing.T) {
 		Because:  "it's irrelevant",
 	}
 	g.Expect(result.String()).To(Equal(test.MakeLocalPackageReference("role", "2019-01-01").PackagePath() + "/student.HairColour removed because it's irrelevant"))
-}
-
-func TestTypeTarget_AppliesToType_ReturnsExpectedResult(t *testing.T) {
-	t.Parallel()
-
-	mapTarget := &config.TransformTarget{
-		Map: &config.MapType{
-			Key: config.TransformTarget{
-				Name: newFieldMatcher("string"),
-			},
-			Value: config.TransformTarget{
-				Name: newFieldMatcher("any"),
-			},
-		},
-	}
-
-	mapType := astmodel.NewMapType(astmodel.StringType, astmodel.AnyType)
-
-	nameTarget := &config.TransformTarget{
-		Group:    newFieldMatcher("definitions"),
-		Version:  newFieldMatcher("v1"),
-		Name:     newFieldMatcher("ResourceCopy"),
-		Optional: true,
-	}
-
-	nameTargetWithWildcardVersion := &config.TransformTarget{
-		Group:    newFieldMatcher("definitions"),
-		Version:  newFieldMatcher("*"),
-		Name:     newFieldMatcher("ResourceCopy"),
-		Optional: true,
-	}
-
-	nameType := astmodel.NewOptionalType(
-		astmodel.MakeInternalTypeName(
-			test.MakeLocalPackageReference("definitions", "v1"),
-			"ResourceCopy"))
-
-	cases := []struct {
-		name        string
-		target      *config.TransformTarget
-		subject     astmodel.Type
-		expectation bool
-	}{
-		{"Matches map[string]any", mapTarget, mapType, true},
-		{"Matches with exact details", nameTarget, nameType, true},
-		{"Matches with version wildcard", nameTargetWithWildcardVersion, nameType, true},
-	}
-
-	for _, c := range cases {
-		c := c
-		t.Run(
-			c.name,
-			func(t *testing.T) {
-				t.Parallel()
-				g := NewGomegaWithT(t)
-
-				g.Expect(c.target.AppliesToType(c.subject)).To(Equal(c.expectation))
-			})
-	}
-}
-
-func newFieldMatcher(field string) config.FieldMatcher {
-	matcher := config.NewFieldMatcher(field)
-	return matcher
 }

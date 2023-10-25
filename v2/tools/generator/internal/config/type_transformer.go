@@ -7,36 +7,10 @@ package config
 
 import (
 	"fmt"
-	"strings"
-
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
-
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
-
-// TransformTarget is used either to select a type for transformation, or to specify the result of that transformation
-type TransformTarget struct {
-	Group        FieldMatcher           `yaml:",omitempty"`
-	Version      FieldMatcher           `yaml:"version,omitempty"`
-	Name         FieldMatcher           `yaml:",omitempty"`
-	Optional     bool                   `yaml:",omitempty"`
-	Map          *MapType               `yaml:",omitempty"`
-	Enum         *EnumType              `yaml:",omitempty"`
-	appliesCache map[astmodel.Type]bool // cache for the results of AppliesToType()
-}
-
-type MapType struct {
-	Key   TransformTarget `yaml:",omitempty"`
-	Value TransformTarget `yaml:",omitempty"`
-}
-
-type EnumType struct {
-	Base   string   `yaml:"base,omitempty"`
-	Values []string `yaml:"values,omitempty"`
-}
 
 // A TypeTransformer is used to remap types
 type TypeTransformer struct {
@@ -45,379 +19,110 @@ type TypeTransformer struct {
 	// Property is a wildcard matching specific properties on the types selected by this filter
 	Property FieldMatcher `yaml:",omitempty"`
 
-	// IfType only performs the transform if the original type matches (only usable with Property at the moment)
-	IfType *TransformTarget `yaml:"ifType,omitempty"`
+	// IfType only performs the transform if the original type matches
+	IfType *TransformSelector `yaml:"ifType,omitempty"`
 
 	// Target is the type to turn the type into
-	Target *TransformTarget `yaml:",omitempty"`
+	Target *TransformResult `yaml:",omitempty"`
 
 	// Remove indicates that the property should be removed from the
 	// type. This is only usable with Property. Target and Remove are
 	// mutually exclusive.
 	Remove bool `yaml:",omitempty"`
 
+	// RenameTo allows for renaming of type definitions.
+	RenameTo string `yaml:"renameTo,omitempty"`
+
 	// matchedProperties is a map of types that were matched to the property found on the type.
 	// This is used to ensure that the type transformer matched at least one property
 	matchedProperties map[astmodel.TypeName]string
 }
 
-func (target *TransformTarget) AppliesToType(t astmodel.Type) bool {
-	if target.appliesCache == nil {
-		target.appliesCache = make(map[astmodel.Type]bool)
-	}
-
-	if result, ok := target.appliesCache[t]; ok {
-		return result
-	}
-
-	result := target.appliesToType(t)
-	target.appliesCache[t] = result
-	return result
-}
-
-func (target *TransformTarget) appliesToType(t astmodel.Type) bool {
-	if target == nil {
-		return true
-	}
-
-	inspect := t
-	if target.Optional {
-		// Need optional
-		opt, ok := astmodel.AsOptionalType(inspect)
-		if !ok {
-			// but don't have optional
-			return false
-		}
-
-		inspect = opt.Element()
-	}
-
-	if target.Name.IsRestrictive() {
-		if target.Group.IsRestrictive() || target.Version.IsRestrictive() {
-			// Expecting TypeName
-			if tn, ok := astmodel.AsInternalTypeName(inspect); ok {
-				return target.appliesToTypeName(tn)
-			}
-
-			return false
-		}
-
-		// Expecting primitive type
-		if pt, ok := astmodel.AsPrimitiveType(inspect); ok {
-			return target.appliesToPrimitiveType(pt)
-		}
-
+// AppliesToDefinition returns true if this transform should be applied to the passed TypeDefinition.
+func (transformer *TypeTransformer) AppliesToDefinition(def astmodel.TypeDefinition) bool {
+	// If our GVK doesn't match, we don't apply
+	if !transformer.AppliesToType(def.Name()) {
 		return false
 	}
 
-	if target.Map != nil {
-		// Expecting map type
-		if mp, ok := astmodel.AsMapType(inspect); ok {
-			return target.appliesToMapType(mp)
+	// If we're not matching a specific property, check IfType for a match.
+	if !transformer.Property.IsRestrictive() {
+		if transformer.IfType != nil {
+			return transformer.IfType.AppliesToType(def.Type())
 		}
 
-		return false
-	}
-
-	return true
-}
-
-func (target *TransformTarget) appliesToTypeName(tn astmodel.InternalTypeName) bool {
-	if !target.Name.Matches(tn.Name()).Matched {
-		// No match on name
-		return false
-	}
-
-	grp, ver := tn.InternalPackageReference().GroupVersion()
-
-	if target.Group.IsRestrictive() {
-		if !target.Group.Matches(grp).Matched {
-			// No match on group
-			return false
-		}
-	}
-
-	if target.Version.IsRestrictive() {
-
-		// Need to handle both full (v1beta20200101) and API (2020-01-01) formats
-		switch ref := tn.PackageReference().(type) {
-		case astmodel.LocalPackageReference:
-			if !ref.HasApiVersion(target.Version.String()) && !target.Version.Matches(ver).Matched {
-				return false
-			}
-		case astmodel.StoragePackageReference:
-			if !ref.Local().HasApiVersion(target.Version.String()) && target.Version.Matches(ver).Matched {
-				return false
-			}
-		default:
-			return false
-		}
-	}
-
-	return true
-}
-
-func (target *TransformTarget) appliesToPrimitiveType(pt *astmodel.PrimitiveType) bool {
-	if target.Name.Matches(pt.Name()).Matched {
 		return true
 	}
 
-	// Special case, allowing config to use `any` as a synonym for `interface{}`
-	if strings.EqualFold(target.Name.String(), "any") &&
-		strings.EqualFold(pt.Name(), astmodel.AnyType.Name()) {
-		return true
-	}
-
-	return false
+	// We're matching on a specific property, can only do this if this is definition is an object
+	_, isObject := astmodel.AsObjectType(def.Type())
+	return isObject
 }
 
-func (target *TransformTarget) appliesToMapType(mp *astmodel.MapType) bool {
-	return target.Map.Key.AppliesToType(mp.KeyType()) &&
-		target.Map.Value.AppliesToType(mp.ValueType())
-}
-
-func (target *TransformTarget) produceTargetType(
-	descriptor string,
-	original astmodel.Type,
-) (astmodel.Type, error) {
-
-	var result astmodel.Type
-
-	if target.Name.IsRestrictive() {
-		t, err := target.produceTargetNamedType(original)
-		if err != nil {
-			return nil, err
-		}
-
-		result = t
-	}
-
-	if target.Map != nil {
-		t, err := target.produceTargetMapType(descriptor, original)
-		if err != nil {
-			return nil, err
-		}
-
-		result = t
-	}
-
-	if target.Enum != nil {
-		t, err := target.produceTargetEnumType(descriptor)
-		if err != nil {
-			return nil, err
-		}
-
-		result = t
-	}
-
-	if result == nil {
-		return nil, errors.Errorf("no target type found in %s", descriptor)
-	}
-
-	if target.Optional {
-		result = astmodel.NewOptionalType(result)
-	}
-
-	return result, nil
-}
-
-func (target *TransformTarget) produceTargetNamedType(original astmodel.Type) (astmodel.Type, error) {
-	// Transform to name, ensure we have no other transformation
-	if target.Map != nil {
-		return nil, errors.Errorf("cannot specify both Name transformation and Map transformation")
-	}
-
-	if target.Enum != nil {
-		return nil, errors.Errorf("cannot specify both Name transformation and Enum transformation")
-	}
-
-	// If we have *only* a name and that name represents a primitive type, we should use that
-	// primitive type instead of a named type
-	if !target.Group.IsRestrictive() &&
-		!target.Version.IsRestrictive() {
-		result, err := target.asPrimitiveType(target.Name.String())
-		if err == nil {
-			return result, nil
-		}
-
-		// If we got an error, it's because the name wasn't a primitive type, so we fall through to treating it
-		// as a named type
-	}
-
-	tn, ok := astmodel.AsInternalTypeName(original)
-	if !ok {
-		return nil, errors.Errorf(
-			"cannot apply type transformation; expected InternalTypeName, but have %s",
-			astmodel.DebugDescription(original))
-	}
-
-	result := tn
-	if target.Group.IsRestrictive() || target.Version.IsRestrictive() {
-		ref := target.produceTargetPackageReference(result.InternalPackageReference())
-		result = result.WithPackageReference(ref)
-	}
-
-	return result.WithName(target.Name.String()), nil
-}
-
-func (target *TransformTarget) produceTargetMapType(
-	descriptor string,
-	original astmodel.Type,
-) (astmodel.Type, error) {
-	// Transform to map, ensure we have no other transformation
-	if target.Name.IsRestrictive() {
-		return nil, errors.Errorf("cannot specify both Name transformation and Map transformation")
-	}
-
-	if target.Enum != nil {
-		return nil, errors.Errorf("cannot specify both Map transformation and Enum transformation")
-	}
-
-	keyType, err := target.Map.Key.produceTargetType(descriptor+"/map/key", original)
-	if err != nil {
-		return nil, err
-	}
-
-	valueType, err := target.Map.Value.produceTargetType(descriptor+"/map/value", original)
-	if err != nil {
-		return nil, err
-	}
-
-	result := astmodel.NewMapType(keyType, valueType)
-	return result, nil
-}
-
-func (target *TransformTarget) produceTargetEnumType(
-	_ string,
-) (astmodel.Type, error) {
-	// Transform to enum, ensure we have no other transformation
-	if target.Name.IsRestrictive() {
-		return nil, errors.Errorf("cannot specify both Name transformation and Enum transformation")
-	}
-
-	if target.Map != nil {
-		return nil, errors.Errorf("cannot specify both Map transformation and Enum transformation")
-	}
-
-	if target.Enum.Base == "" {
-		return nil, errors.Errorf("enum transformation requires a base type")
-	}
-
-	baseType, err := target.asPrimitiveType(target.Enum.Base)
-	if err != nil {
-		return nil, err
-	}
-
-	values := make([]astmodel.EnumValue, 0, len(target.Enum.Values))
-	caser := cases.Title(language.English, cases.NoLower)
-	for _, value := range target.Enum.Values {
-		id := caser.String(value)
-		v := value
-
-		if baseType == astmodel.StringType {
-			// String enums need to be quoted
-			v = fmt.Sprintf("%q", value)
-		}
-
-		values = append(values, astmodel.EnumValue{
-			Identifier: id,
-			Value:      v,
-		})
-	}
-
-	result := astmodel.NewEnumType(baseType, values...)
-	return result, nil
-}
-
-func (target *TransformTarget) produceTargetPackageReference(ref astmodel.InternalPackageReference) astmodel.InternalPackageReference {
-	switch t := ref.(type) {
-	case astmodel.LocalPackageReference:
-		if target.Group.IsRestrictive() || target.Version.IsRestrictive() {
-			prefix := t.LocalPathPrefix()
-			group := t.Group()
-			versionPrefix := t.GeneratorVersion()
-			version := t.Version()
-
-			if target.Group.IsRestrictive() {
-				group = target.Group.String()
-			}
-
-			if target.Version.IsRestrictive() {
-				version = target.Version.String()
-			}
-
-			return astmodel.MakeLocalPackageReference(prefix, group, versionPrefix, version)
-		}
-
-		return ref
-
-	case astmodel.StoragePackageReference:
-		base := target.produceTargetPackageReference(t.Base())
-		return astmodel.MakeStoragePackageReference(base)
-
-	case astmodel.SubPackageReference:
-		base := target.produceTargetPackageReference(t.Base())
-		return astmodel.MakeSubPackageReference(t.PackageName(), base)
-	}
-
-	return ref
-}
-
-func (transformer *TypeTransformer) Initialize() error {
+func (transformer *TypeTransformer) TransformDefinition(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
+	// Using Remove precludes other transforms
 	if transformer.Remove {
 		if !transformer.Property.IsRestrictive() {
-			return errors.Errorf("remove is only usable with property matches")
+			return astmodel.TypeDefinition{}, errors.Errorf("remove is only usable with property transforms")
 		}
 		if transformer.Target != nil {
-			return errors.Errorf("remove and target can't both be set")
-		}
-	} else {
-		if transformer.Target == nil {
-			return errors.Errorf("no target type and remove is not set")
+			return astmodel.TypeDefinition{}, errors.Errorf("remove and target can't both be set")
 		}
 	}
 
-	if transformer.IfType != nil {
-		if !transformer.Property.IsRestrictive() {
-			return errors.Errorf("ifType is only usable with property matches (for now)")
-		}
-
-		_, err := transformer.IfType.produceTargetType("ifType", astmodel.InternalTypeName{})
-		if err != nil {
-			return err
-		}
+	// Property specific transforms should either modify or remove
+	if transformer.Property.IsRestrictive() && !transformer.Remove && transformer.Target == nil {
+		return astmodel.TypeDefinition{}, errors.Errorf("property transforms must either remove or modify")
 	}
 
-	if transformer.Target != nil {
-		_, err := transformer.Target.produceTargetType("target", astmodel.InternalTypeName{})
+	// Apply our rename if we have one configured
+	if transformer.RenameTo != "" {
+		def = def.WithName(
+			def.Name().WithName(transformer.RenameTo))
+	}
+
+	// If we have no type transform, we're done
+	if transformer.Target == nil {
+		return def, nil
+	}
+
+	// Transform the whole type if we're not looking for a specific property
+	if !transformer.Property.IsRestrictive() {
+		resultType, err := transformer.Target.produceTargetType("target", def.Type())
 		if err != nil {
-			return errors.Wrapf(
+			return astmodel.TypeDefinition{}, errors.Wrapf(
 				err,
 				"type transformer for group: %s, version: %s, name: %s",
 				transformer.Group.String(),
 				transformer.Version.String(),
 				transformer.Name.String())
 		}
+
+		def = def.WithType(resultType)
+		return def, nil
 	}
 
-	return nil
-}
+	// Transform any matching properties
+	if transformer.Property.IsRestrictive() {
+		objectType, ok := astmodel.AsObjectType(def.Type())
+		if !ok {
+			return astmodel.TypeDefinition{}, errors.Errorf(
+				"property transform on non-object type %s",
+				def.Name())
+		}
 
-func (target *TransformTarget) asPrimitiveType(name string) (*astmodel.PrimitiveType, error) {
-	switch name {
-	case "bool":
-		return astmodel.BoolType, nil
-	case "float":
-		return astmodel.FloatType, nil
-	case "int":
-		return astmodel.IntType, nil
-	case "string":
-		return astmodel.StringType, nil
-	case "any":
-		return astmodel.AnyType, nil
-	default:
-		return nil, errors.Errorf("unknown primitive type transformation target: %s", name)
+		newObjectType, err := transformer.transformProperties(objectType)
+		if err != nil {
+			return astmodel.TypeDefinition{}, errors.Wrapf(
+				err,
+				"property transform on object type %s",
+				def.Name())
+		}
+
+		def = def.WithType(newObjectType)
 	}
+
+	return def, nil
 }
 
 // TransformTypeName transforms the type with the specified name into the TypeTransformer target type if
@@ -471,7 +176,7 @@ func (r PropertyTransformResult) String() string {
 // LogTo creates a log message for the transformation
 func (r PropertyTransformResult) LogTo(log logr.Logger) {
 	if r.Removed {
-		log.V(2).Info(
+		log.V(3).Info(
 			"Removing property",
 			"type", r.TypeName,
 			"property", r.Property,
@@ -573,4 +278,35 @@ func (transformer *TypeTransformer) TransformProperty(
 	}
 
 	return &result, nil
+}
+
+// TransformProperty transforms the property on the given object type
+func (transformer *TypeTransformer) transformProperties(
+	objectType *astmodel.ObjectType,
+) (*astmodel.ObjectType, error) {
+	for _, prop := range objectType.Properties().AsSlice() {
+		propertyName := string(prop.PropertyName())
+		if !transformer.Property.Matches(propertyName).Matched {
+			// Skip properties where the name doesn't match
+			continue
+		}
+
+		if transformer.IfType != nil && !transformer.IfType.AppliesToType(prop.PropertyType()) {
+			// Skip properties with the wrong type
+			continue
+		}
+
+		if transformer.Remove {
+			objectType = objectType.WithoutProperty(prop.PropertyName())
+		} else if transformer.Target != nil {
+			propertyType, err := transformer.Target.produceTargetType(propertyName, prop.PropertyType())
+			if err != nil {
+				return nil, errors.Wrapf(err, "transforming property %s", propertyName)
+			}
+
+			objectType = objectType.WithProperty(prop.WithType(propertyType))
+		}
+	}
+
+	return objectType, nil
 }
