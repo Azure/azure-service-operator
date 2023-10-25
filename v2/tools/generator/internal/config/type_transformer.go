@@ -99,22 +99,18 @@ func (transformer *TypeTransformer) TransformDefinition(def astmodel.TypeDefinit
 
 	// Transform any matching properties
 	if transformer.Property.IsRestrictive() {
-		objectType, ok := astmodel.AsObjectType(def.Type())
-		if !ok {
-			return astmodel.TypeDefinition{}, errors.Errorf(
-				"property transform on non-object type %s",
-				def.Name())
-		}
+		// Don't use AsObjectType() because we don't want to unwrap any MetaTypes
+		if objectType, ok := def.Type().(*astmodel.ObjectType); ok {
+			newObjectType, err := transformer.transformProperties(objectType)
+			if err != nil {
+				return astmodel.TypeDefinition{}, errors.Wrapf(
+					err,
+					"property transform on object type %s",
+					def.Name())
+			}
 
-		newObjectType, err := transformer.transformProperties(objectType)
-		if err != nil {
-			return astmodel.TypeDefinition{}, errors.Wrapf(
-				err,
-				"property transform on object type %s",
-				def.Name())
+			def = def.WithType(newObjectType)
 		}
-
-		def = def.WithType(newObjectType)
 	}
 
 	return def, nil
