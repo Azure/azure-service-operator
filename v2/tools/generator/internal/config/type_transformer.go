@@ -81,13 +81,8 @@ func (transformer *TypeTransformer) TransformDefinition(def astmodel.TypeDefinit
 			def.Name().WithName(transformer.RenameTo))
 	}
 
-	// If we have no type transform, we're done
-	if transformer.Target == nil {
-		return def, nil
-	}
-
 	// Transform the whole type if we're not looking for a specific property
-	if !transformer.Property.IsRestrictive() {
+	if transformer.Target != nil && !transformer.Property.IsRestrictive() {
 		resultType, err := transformer.Target.produceTargetType("target", def.Type())
 		if err != nil {
 			return astmodel.TypeDefinition{}, errors.Wrapf(
