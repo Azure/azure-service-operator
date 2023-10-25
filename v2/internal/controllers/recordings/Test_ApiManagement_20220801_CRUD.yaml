@@ -66,7 +66,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"asotest-apim-sczlzm","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting","restore":true},"sku":{"capacity":1,"name":"Developer"}}'
+    body: '{"location":"westus2","name":"asotest-apim-sczlzm","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting"},"sku":{"capacity":1,"name":"Developer"}}'
     form: {}
     headers:
       Accept:
@@ -140,7 +140,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"asotest-apim-sczlzm","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting","restore":true},"sku":{"capacity":1,"name":"Developer"},"tags":{"scratchcard":"lanyard"}}'
+    body: '{"location":"westus2","name":"asotest-apim-sczlzm","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting"},"sku":{"capacity":1,"name":"Developer"},"tags":{"scratchcard":"lanyard"}}'
     form: {}
     headers:
       Accept:

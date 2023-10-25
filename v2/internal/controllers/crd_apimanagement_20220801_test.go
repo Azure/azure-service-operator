@@ -51,7 +51,6 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 			PublisherEmail: to.Ptr("ASO@testing.com"),
 			PublisherName:  to.Ptr("ASOTesting"),
 			Sku:            &sku,
-			Restore:        to.Ptr(true),
 		},
 	}
 
