@@ -220,8 +220,11 @@ typeTransformers:
 
   #
   # In the group 'insights'
-  # rename the type 'AutoscaleSetting' 
-  # to 'AutoscaleSettingProperties'
+  # rename the object 'AutoscaleSetting' 
+  # to 'AutoscaleSettingProperties'.
+  #
+  # Using object: true so that we don't rename the 
+  # resource `Autoscalesetting` (with a lowercase 's') as well
   #
   - group: insights
     name: AutoscaleSetting
