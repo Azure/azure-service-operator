@@ -21,6 +21,7 @@ spec:
       - args:
         - --metrics-addr=127.0.0.1:8080
         - --webhook-port={{ .Values.webhook.port }}
+        - --webhook-cert-dir={{ .Values.webhook.certDir }}
         command:
         - /manager
         env:
@@ -113,7 +114,7 @@ spec:
             cpu: 200m
             memory: 256Mi
         volumeMounts:
-        - mountPath: /tmp/k8s-webhook-server/serving-certs
+        - mountPath: {{ .Values.webhook.certDir }}
           name: cert
           readOnly: true
       - args:
