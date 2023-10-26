@@ -30,7 +30,6 @@ func (extension *ProductExtension) Delete(
 	obj genruntime.ARMMetaObject,
 	next extensions.DeleteFunc) (ctrl.Result, error) {
 
-	// First cancel the subscription, then delete the alias
 	typedObj, ok := obj.(*storage.Product)
 	if !ok {
 		return ctrl.Result{}, errors.Errorf("cannot run on unknown resource type %T, expected *apiManagement.Product", obj)
