@@ -57,6 +57,7 @@ func (extension *ProductExtension) Delete(
 		return ctrl.Result{}, errors.Wrapf(err, "failed to create new apimClient")
 	}
 
+	// This is a synchronous operation
 	_, err = clientFactory.NewProductClient().Delete(
 		ctx,
 		id.ResourceGroupName,
@@ -70,6 +71,5 @@ func (extension *ProductExtension) Delete(
 		return ctrl.Result{}, errors.Wrapf(err, "failed to delete product %q", productName)
 	}
 
-	// Is it safe to proceed as we have already deleted it?
 	return next(ctx, log, resolver, armClient, obj)
 }
