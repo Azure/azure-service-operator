@@ -63,7 +63,9 @@ func (extension *ProductExtension) Delete(
 		parentName,
 		productName,
 		"*",
-		&armapimanagement.ProductClientDeleteOptions{DeleteSubscriptions: to.Ptr(true)})
+		&armapimanagement.ProductClientDeleteOptions{
+			DeleteSubscriptions: to.Ptr(true),
+		})
 	if err != nil {
 		return ctrl.Result{}, errors.Wrapf(err, "failed to delete product %q", productName)
 	}
