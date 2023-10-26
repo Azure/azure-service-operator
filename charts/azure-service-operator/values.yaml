@@ -40,6 +40,10 @@ purgeDeletedKeyVaultSecrets: False
 # It does nothing if the secret is stored in Kubernetes.
 recoverSoftDeletedKeyVaultSecrets: True
 
+webhook:
+  # webhook.port determines the port the webhook endpoint binds to.
+  port: 9443
+
 # image defines the container image the ASO pod should run
 # Note: This should use the latest released tag number explicitly. If
 # it's ':latest' and someone deploys the chart after a new version has
