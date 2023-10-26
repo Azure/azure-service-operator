@@ -71,12 +71,3 @@ func (extension *ProductExtension) Delete(
 	// Is it safe to proceed as we have already deleted it?
 	return next(ctx, log, resolver, armClient, obj)
 }
-
-func getProductID(typedObj *storage.Product) (string, bool) {
-	// Get the subscription ID
-	if typedObj.Status.Id == nil || *typedObj.Status.Id == "" {
-		return "", false
-	}
-
-	return *typedObj.Status.Id, true
-}
