@@ -750,6 +750,37 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesAzureEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesExternalEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesNestedEndpoint)})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20220701s.ApplicationGateway),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.authenticationCertificates.data",
+				Func: indexNetworkApplicationGatewayAuthenticationCertificatesData,
+			},
+			{
+				Key:  ".spec.sslCertificates.data",
+				Func: indexNetworkApplicationGatewaySslCertificatesData,
+			},
+			{
+				Key:  ".spec.sslCertificates.password",
+				Func: indexNetworkApplicationGatewaySslCertificatesPassword,
+			},
+			{
+				Key:  ".spec.trustedClientCertificates.data",
+				Func: indexNetworkApplicationGatewayTrustedClientCertificatesData,
+			},
+			{
+				Key:  ".spec.trustedRootCertificates.data",
+				Func: indexNetworkApplicationGatewayTrustedRootCertificatesData,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.authenticationCertificates.data", ".spec.sslCertificates.data", ".spec.sslCertificates.password", ".spec.trustedClientCertificates.data", ".spec.trustedRootCertificates.data"}, &network_v20220701s.ApplicationGatewayList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.BastionHost)})
 	result = append(result, &registration.StorageType{
 		Obj: new(network_v20220701s.DnsForwardingRuleSetsForwardingRule),
@@ -1524,6 +1555,7 @@ func getKnownTypes() []client.Object {
 		new(network_v20220401s.TrafficManagerProfilesNestedEndpoint))
 	result = append(
 		result,
+		new(network_v20220701.ApplicationGateway),
 		new(network_v20220701.BastionHost),
 		new(network_v20220701.DnsForwardingRuleSetsForwardingRule),
 		new(network_v20220701.DnsForwardingRuleset),
@@ -1537,6 +1569,7 @@ func getKnownTypes() []client.Object {
 		new(network_v20220701.PublicIPPrefix))
 	result = append(
 		result,
+		new(network_v20220701s.ApplicationGateway),
 		new(network_v20220701s.BastionHost),
 		new(network_v20220701s.DnsForwardingRuleSetsForwardingRule),
 		new(network_v20220701s.DnsForwardingRuleset),
@@ -2025,6 +2058,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &machinelearningservices_customizations.WorkspacesConnectionExtension{})
 	result = append(result, &managedidentity_customizations.FederatedIdentityCredentialExtension{})
 	result = append(result, &managedidentity_customizations.UserAssignedIdentityExtension{})
+	result = append(result, &network_customizations.ApplicationGatewayExtension{})
 	result = append(result, &network_customizations.BastionHostExtension{})
 	result = append(result, &network_customizations.DnsForwardingRuleSetsForwardingRuleExtension{})
 	result = append(result, &network_customizations.DnsForwardingRulesetExtension{})
@@ -2941,6 +2975,86 @@ func indexManagedidentityFederatedIdentityCredentialSubjectFromConfig(rawObj cli
 		return nil
 	}
 	return obj.Spec.SubjectFromConfig.Index()
+}
+
+// indexNetworkApplicationGatewayAuthenticationCertificatesData an index function for network_v20220701s.ApplicationGateway .spec.authenticationCertificates.data
+func indexNetworkApplicationGatewayAuthenticationCertificatesData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20220701s.ApplicationGateway)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, authenticationCertificateItem := range obj.Spec.AuthenticationCertificates {
+		if authenticationCertificateItem.Data == nil {
+			continue
+		}
+		result = append(result, authenticationCertificateItem.Data.Index()...)
+	}
+	return result
+}
+
+// indexNetworkApplicationGatewaySslCertificatesData an index function for network_v20220701s.ApplicationGateway .spec.sslCertificates.data
+func indexNetworkApplicationGatewaySslCertificatesData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20220701s.ApplicationGateway)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, sslCertificateItem := range obj.Spec.SslCertificates {
+		if sslCertificateItem.Data == nil {
+			continue
+		}
+		result = append(result, sslCertificateItem.Data.Index()...)
+	}
+	return result
+}
+
+// indexNetworkApplicationGatewaySslCertificatesPassword an index function for network_v20220701s.ApplicationGateway .spec.sslCertificates.password
+func indexNetworkApplicationGatewaySslCertificatesPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20220701s.ApplicationGateway)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, sslCertificateItem := range obj.Spec.SslCertificates {
+		if sslCertificateItem.Password == nil {
+			continue
+		}
+		result = append(result, sslCertificateItem.Password.Index()...)
+	}
+	return result
+}
+
+// indexNetworkApplicationGatewayTrustedClientCertificatesData an index function for network_v20220701s.ApplicationGateway .spec.trustedClientCertificates.data
+func indexNetworkApplicationGatewayTrustedClientCertificatesData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20220701s.ApplicationGateway)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, trustedClientCertificateItem := range obj.Spec.TrustedClientCertificates {
+		if trustedClientCertificateItem.Data == nil {
+			continue
+		}
+		result = append(result, trustedClientCertificateItem.Data.Index()...)
+	}
+	return result
+}
+
+// indexNetworkApplicationGatewayTrustedRootCertificatesData an index function for network_v20220701s.ApplicationGateway .spec.trustedRootCertificates.data
+func indexNetworkApplicationGatewayTrustedRootCertificatesData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20220701s.ApplicationGateway)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, trustedRootCertificateItem := range obj.Spec.TrustedRootCertificates {
+		if trustedRootCertificateItem.Data == nil {
+			continue
+		}
+		result = append(result, trustedRootCertificateItem.Data.Index()...)
+	}
+	return result
 }
 
 // indexNetworkDnsForwardingRuleSetsForwardingRuleIpAddressFromConfig an index function for network_v20220701s.DnsForwardingRuleSetsForwardingRule .spec.targetDnsServers.ipAddressFromConfig
