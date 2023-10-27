@@ -302,7 +302,8 @@ func (generator *CodeGenerator) Generate(
 			stageDescription,
 			"elapsed", duration,
 			"added", len(defsAdded),
-			"removed", len(defsRemoved))
+			"removed", len(defsRemoved),
+			"count", len(newState.Definitions()))
 
 		state = newState
 	}
