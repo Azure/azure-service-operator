@@ -51,13 +51,12 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 			PublisherEmail: to.Ptr("ASO@testing.com"),
 			PublisherName:  to.Ptr("ASOTesting"),
 			Sku:            &sku,
-			Restore:        to.Ptr(true),
 		},
 	}
 
 	// APIM takes a long time to provision. When you are authoring tests in this file. I
 	// recommend you change this line to CreateResourceAndWaitWithoutCleanup.
-	tc.CreateResourcesAndWait(&service)
+	tc.CreateResourceAndWait(&service)
 
 	tc.Expect(service.Status.Id).ToNot(BeNil())
 
@@ -100,13 +99,12 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 				APIM_Policy_CRUD(tc, &service)
 			},
 		},
-		// TODO: https://github.com/Azure/azure-service-operator/issues/3408
-		// testcommon.Subtest{
-		//      Name: "APIM Product CRUD",
-		//      Test: func(tc *testcommon.KubePerTestContext) {
-		//              APIM_Product_CRUD(tc, &service)
-		//      },
-		// },
+		testcommon.Subtest{
+			Name: "APIM Product CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_Product_CRUD(tc, &service)
+			},
+		},
 		testcommon.Subtest{
 			Name: "APIM Api CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
@@ -266,8 +264,9 @@ func APIM_Product_CRUD(tc *testcommon.KubePerTestContext, service client.Object)
 	tc.Expect(product.Status).ToNot(BeNil())
 	tc.Expect(product.Status.Id).ToNot(BeNil())
 
-	// The product would have created a subscription, so we need to delete that first
-	// Pass in deleteSubscription = true
+	// The product would have created a subscription automatically,
+	// we have had to extend (products_extensions.go) to pass the following option
+	// deleteSubscription = true
 
 	defer tc.DeleteResourceAndWait(&product)
 
