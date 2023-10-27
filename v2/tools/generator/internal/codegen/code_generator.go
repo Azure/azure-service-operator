@@ -200,6 +200,7 @@ func createAllPipelineStages(
 		// Remove types which may not be needed after flattening
 		pipeline.StripUnreferencedTypeDefinitions(),
 
+		pipeline.RenameProperties(configuration.ObjectModelConfiguration),
 		pipeline.AddStatusConditions(idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.AddOperatorSpec(configuration, idFactory).UsedFor(pipeline.ARMTarget),
