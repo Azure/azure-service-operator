@@ -30,8 +30,6 @@ func Test_TransformByGroup_CorrectlySelectsTypes(t *testing.T) {
 			Name: matcher2,
 		},
 	}
-	err := transformer.Initialize()
-	g.Expect(err).To(BeNil())
 
 	// Roles should be selected
 	g.Expect(transformer.TransformTypeName(student2019)).To(Equal(astmodel.IntType))
@@ -56,8 +54,6 @@ func Test_TransformByVersion_CorrectlySelectsTypes(t *testing.T) {
 			Name: matcher2,
 		},
 	}
-	err := transformer.Initialize()
-	g.Expect(err).To(BeNil())
 
 	// 2019 versions should be transformed
 	g.Expect(transformer.TransformTypeName(student2019)).To(Equal(astmodel.IntType))
@@ -82,8 +78,6 @@ func Test_TransformByName_CorrectlySelectsTypes(t *testing.T) {
 			Name: matcher2,
 		},
 	}
-	err := transformer.Initialize()
-	g.Expect(err).To(BeNil())
 
 	// Names starting with p should be transformed
 	g.Expect(transformer.TransformTypeName(post2019)).To(Equal(astmodel.IntType))
@@ -112,8 +106,6 @@ func Test_TransformCanTransform_ToComplexType(t *testing.T) {
 			Name:    matcher4,
 		},
 	}
-	err := transformer.Initialize()
-	g.Expect(err).To(BeNil())
 
 	// Tutor should be student
 	g.Expect(transformer.TransformTypeName(tutor2019)).To(Equal(student2019))
@@ -139,8 +131,6 @@ func Test_TransformTypeName_WhenConfiguredWithMap_ReturnsExpectedMapType(t *test
 			},
 		},
 	}
-	err := transformer.Initialize()
-	g.Expect(err).To(BeNil())
 
 	expected := astmodel.NewMapType(
 		astmodel.StringType,
@@ -167,8 +157,6 @@ func Test_TransformTypeName_WhenConfiguredWithEnum_ReturnsExpectedEnumType(t *te
 			},
 		},
 	}
-	err := transformer.Initialize()
-	g.Expect(err).To(BeNil())
 
 	expected := astmodel.NewEnumType(
 		astmodel.StringType,
@@ -197,7 +185,7 @@ func Test_TransformTypeName_WhenEnumMissingBase_ReturnsExpectedError(t *testing.
 		},
 	}
 
-	err := transformer.Initialize()
+	_, err := transformer.TransformTypeName(tutor2019)
 	g.Expect(err).ToNot(BeNil())
 	g.Expect(err.Error()).To(ContainSubstring("requires a base type"))
 }
@@ -220,7 +208,7 @@ func Test_TransformTypeName_WhenEnumHasInvalidBase_ReturnsExpectedError(t *testi
 			},
 		},
 	}
-	err := transformer.Initialize()
+	_, err := transformer.TransformTypeName(tutor2019)
 	g.Expect(err).ToNot(BeNil())
 	g.Expect(err.Error()).To(ContainSubstring("unknown primitive type"))
 }
@@ -255,8 +243,6 @@ func Test_TransformCanTransform_ToNestedMapType(t *testing.T) {
 			},
 		},
 	}
-	err := transformer.Initialize()
-	g.Expect(err).To(BeNil())
 
 	expected := astmodel.NewMapType(
 		astmodel.StringType,
@@ -267,7 +253,7 @@ func Test_TransformCanTransform_ToNestedMapType(t *testing.T) {
 	g.Expect(transformer.TransformTypeName(tutor2019)).To(Equal(expected))
 }
 
-func Test_TransformWithMissingMapValue_ReportsError(t *testing.T) {
+func Test_TransformWithMissingMapKey_ReportsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -293,12 +279,14 @@ func Test_TransformWithMissingMapValue_ReportsError(t *testing.T) {
 			},
 		},
 	}
-	err := transformer.Initialize()
+
+	_, err := transformer.TransformTypeName(tutor2019)
 	g.Expect(err).To(Not(BeNil()))
-	g.Expect(err.Error()).To(ContainSubstring("no target type found in target/map/value/map/key"))
+	g.Expect(err.Error()).To(ContainSubstring("no result transformation specified"))
+	g.Expect(err.Error()).To(ContainSubstring("target/map/value/map/key"))
 }
 
-func Test_TransformWithMissingTargetType_ReportsError(t *testing.T) {
+func Test_TransformWithMissingTargetTypeAndNoRename_ReportsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -309,9 +297,9 @@ func Test_TransformWithMissingTargetType_ReportsError(t *testing.T) {
 		},
 	}
 
-	err := transformer.Initialize()
+	_, err := transformer.TransformTypeName(tutor2019)
 	g.Expect(err).To(Not(BeNil()))
-	g.Expect(err.Error()).To(ContainSubstring("no target type and remove is not set"))
+	g.Expect(err.Error()).To(ContainSubstring("transformer must either rename or modify"))
 }
 
 func Test_TransformWithRemoveButNoProperty_ReportsError(t *testing.T) {
@@ -322,9 +310,9 @@ func Test_TransformWithRemoveButNoProperty_ReportsError(t *testing.T) {
 		Remove: true,
 	}
 
-	err := transformer.Initialize()
+	_, err := transformer.TransformTypeName(tutor2019)
 	g.Expect(err).To(Not(BeNil()))
-	g.Expect(err).To(MatchError("remove is only usable with property matches"))
+	g.Expect(err).To(MatchError("remove is only usable with property transforms"))
 }
 
 func Test_TransformWithRemoveAndTarget_ReportsError(t *testing.T) {
@@ -341,7 +329,7 @@ func Test_TransformWithRemoveAndTarget_ReportsError(t *testing.T) {
 		Remove: true,
 	}
 
-	err := transformer.Initialize()
+	_, err := transformer.TransformTypeName(tutor2019)
 	g.Expect(err).To(Not(BeNil()))
 	g.Expect(err).To(MatchError("remove and target can't both be set"))
 }
@@ -371,7 +359,7 @@ func Test_TransformWithBothNameAndMapTargets_ReportsError(t *testing.T) {
 		},
 	}
 
-	err := transformer.Initialize()
+	_, err := transformer.TransformTypeName(tutor2019)
 	g.Expect(err).To(Not(BeNil()))
 
 	// Check contents of error message to ensure it mentions both targets, don't need exact string match
@@ -403,7 +391,7 @@ func Test_TransformWithBothNameAndEnumTargets_ReportsError(t *testing.T) {
 		},
 	}
 
-	err := transformer.Initialize()
+	_, err := transformer.TransformTypeName(tutor2019)
 	g.Expect(err).To(Not(BeNil()))
 
 	// Check contents of error message to ensure it mentions both targets, don't need exact string match
@@ -443,7 +431,7 @@ func Test_TransformWithBothMapAndEnumTargets_ReportsError(t *testing.T) {
 		},
 	}
 
-	err := transformer.Initialize()
+	_, err := transformer.TransformTypeName(tutor2019)
 	g.Expect(err).To(Not(BeNil()))
 
 	// Check contents of error message to ensure it mentions both targets, don't need exact string match
@@ -451,30 +439,6 @@ func Test_TransformWithBothMapAndEnumTargets_ReportsError(t *testing.T) {
 		ContainSubstring("cannot specify both"),
 		ContainSubstring("Enum transformation"),
 		ContainSubstring("Map transformation")))
-}
-
-func Test_TransformWithIfTypeAndNoProperty_ReportsError(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	matcher := config.NewFieldMatcher("tutor")
-	matcher2 := config.NewFieldMatcher("from")
-	matcher3 := config.NewFieldMatcher("to")
-	transformer := config.TypeTransformer{
-		TypeMatcher: config.TypeMatcher{
-			Name: matcher,
-		},
-		IfType: &config.TransformSelector{
-			Name: matcher2,
-		},
-		Target: &config.TransformResult{
-			Name: matcher3,
-		},
-	}
-
-	err := transformer.Initialize()
-	g.Expect(err).To(Not(BeNil()))
-	g.Expect(err.Error()).To(ContainSubstring("ifType is only usable with property matches"))
 }
 
 func Test_TypeTransformer_WhenTransformingTypeName_ReturnsExpectedTypeName(t *testing.T) {
@@ -512,7 +476,6 @@ func Test_TypeTransformer_WhenTransformingTypeName_ReturnsExpectedTypeName(t *te
 						Name: matcher2,
 					},
 				}
-				g.Expect(transformer.Initialize()).To(Succeed())
 
 				actual, err := transformer.TransformTypeName(c.original)
 				g.Expect(actual).To(Equal(c.expected))
@@ -537,9 +500,6 @@ func Test_TransformCanTransformProperty(t *testing.T) {
 			Name: matcher3,
 		},
 	}
-
-	err := transformer.Initialize()
-	g.Expect(err).To(BeNil())
 
 	typeName := student2019
 	prop := astmodel.NewPropertyDefinition("foo", "foo", astmodel.IntType)
@@ -570,9 +530,6 @@ func Test_TransformCanTransformProperty_Wildcard(t *testing.T) {
 			Name: matcher3,
 		},
 	}
-
-	err := transformer.Initialize()
-	g.Expect(err).To(BeNil())
 
 	typeName := student2019
 	props := []*astmodel.PropertyDefinition{
@@ -619,9 +576,6 @@ func Test_TransformDoesNotTransformPropertyIfTypeDoesNotMatch(t *testing.T) {
 			Name: matcher4,
 		},
 	}
-
-	err := transformer.Initialize()
-	g.Expect(err).To(BeNil())
 
 	typeName := student2019
 	prop := astmodel.NewPropertyDefinition("foo", "foo", astmodel.IntType)
@@ -709,8 +663,6 @@ func TestTransformProperty_DoesTransformProperty_IfTypeDoesMatch(t *testing.T) {
 				t.Parallel()
 				g := NewGomegaWithT(t)
 
-				g.Expect(c.transformer.Initialize()).To(Succeed())
-
 				result, err := c.transformer.TransformProperty(student2019, c.subject)
 				g.Expect(result).To(Not(BeNil()))
 				g.Expect(err).ToNot(HaveOccurred())
@@ -795,8 +747,6 @@ func TestTransformProperty_CanRemoveProperty(t *testing.T) {
 			func(t *testing.T) {
 				t.Parallel()
 				g := NewGomegaWithT(t)
-
-				g.Expect(c.transformer.Initialize()).To(Succeed())
 
 				result, err := c.transformer.TransformProperty(student2019, c.subject)
 				g.Expect(result).To(Not(BeNil()))

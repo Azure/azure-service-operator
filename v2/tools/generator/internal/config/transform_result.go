@@ -38,8 +38,16 @@ func (tr *TransformResult) produceTargetType(
 	descriptor string,
 	original astmodel.Type,
 ) (astmodel.Type, error) {
+	if err := tr.validate(); err != nil {
+		return nil, errors.Wrapf(err, "invalid transformation in %s", descriptor)
+	}
 
-	var resultType astmodel.Type
+	if tr == nil {
+		// No transformation
+		return original, nil
+	}
+
+	resultType := original
 
 	if tr.Name.IsRestrictive() {
 		t, err := tr.produceTargetNamedType(original)
@@ -234,4 +242,15 @@ func (tr *TransformResult) asPrimitiveType(name string) (*astmodel.PrimitiveType
 	default:
 		return nil, errors.Errorf("unknown primitive type transformation target: %s", name)
 	}
+}
+
+func (tr *TransformResult) validate() error {
+	if !tr.Name.IsRestrictive() &&
+		tr.Map == nil &&
+		tr.Enum == nil &&
+		tr.Optional == false {
+		return errors.Errorf("no result transformation specified")
+	}
+
+	return nil
 }

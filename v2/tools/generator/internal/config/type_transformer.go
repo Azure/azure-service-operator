@@ -60,19 +60,8 @@ func (transformer *TypeTransformer) AppliesToDefinition(def astmodel.TypeDefinit
 }
 
 func (transformer *TypeTransformer) TransformDefinition(def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
-	// Using Remove precludes other transforms
-	if transformer.Remove {
-		if !transformer.Property.IsRestrictive() {
-			return astmodel.TypeDefinition{}, errors.Errorf("remove is only usable with property transforms")
-		}
-		if transformer.Target != nil {
-			return astmodel.TypeDefinition{}, errors.Errorf("remove and target can't both be set")
-		}
-	}
-
-	// Property specific transforms should either modify or remove
-	if transformer.Property.IsRestrictive() && !transformer.Remove && transformer.Target == nil {
-		return astmodel.TypeDefinition{}, errors.Errorf("property transforms must either remove or modify")
+	if err := transformer.validate(); err != nil {
+		return astmodel.TypeDefinition{}, errors.Wrapf(err, "validating transformer for %s", def.Name())
 	}
 
 	// Apply our rename if we have one configured
@@ -119,6 +108,10 @@ func (transformer *TypeTransformer) TransformDefinition(def astmodel.TypeDefinit
 // TransformTypeName transforms the type with the specified name into the TypeTransformer target type if
 // the provided type name matches the pattern(s) specified in the TypeTransformer
 func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.InternalTypeName) (astmodel.Type, error) {
+	if err := transformer.validate(); err != nil {
+		return nil, err
+	}
+
 	if transformer.AppliesToType(typeName) {
 		result, err := transformer.Target.produceTargetType("target", typeName)
 		if err != nil {
@@ -135,6 +128,32 @@ func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.Internal
 
 	// Didn't match so return nil
 	return nil, nil
+}
+
+func (transformer *TypeTransformer) validate() error {
+	// Using Remove precludes other transforms
+	if transformer.Remove {
+		if !transformer.Property.IsRestrictive() {
+			return errors.Errorf("remove is only usable with property transforms")
+		}
+		if transformer.Target != nil {
+			return errors.Errorf("remove and target can't both be set")
+		}
+	}
+
+	// If we're not removing a property, we need either a target or a rename
+	if !transformer.Remove {
+		if transformer.Target == nil && transformer.RenameTo == "" {
+			return errors.Errorf("transformer must either rename or modify")
+		}
+	}
+
+	// Property specific transforms should either modify or remove
+	if transformer.Property.IsRestrictive() && !transformer.Remove && transformer.Target == nil {
+		return errors.Errorf("property transforms must either remove or modify")
+	}
+
+	return nil
 }
 
 // PropertyTransformResult is the result of applying a property type transform
