@@ -39,7 +39,7 @@
     AdditionalLocation   (Appears on:Service_Spec)  Description of an additional API Management resource location.
     Field Description      disableGateway  bool    DisableGateway: Property only valid for an Api Management service deployed in multiple locations.">
 
-<meta itemprop="wordCount" content="12008">
+<meta itemprop="wordCount" content="18744">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="apimanagement.azure.com/v1api20220801"/>
 <meta name="twitter:description" content="apimanagement.azure.com/v1api20220801  Package v1api20220801 contains API Schema definitions for the apimanagement v1api20220801 API group
@@ -1342,6 +1342,1605 @@ VirtualNetworkConfiguration_STATUS_ARM
 </td>
 <td>
 <p>Zones: A list of availability zones denoting where the resource needs to come from.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Api">Api
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/apimapis.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ApiManagement/&#x200b;service/&#x200b;{serviceName}/&#x200b;apis/&#x200b;{apiId}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.Service_Api_Spec">
+Service_Api_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>apiVersion</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>APIVersion: Indicates the version identifier of the API if the API is versioned</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiRevision</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ApiRevision: Describes the revision of the API. If no value is provided, default revision 1 is created</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiRevisionDescription</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ApiRevisionDescription: Description of the API Revision.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiType</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_ApiType">
+ApiCreateOrUpdateProperties_ApiType
+</a>
+</em>
+</td>
+<td>
+<p>ApiType: Type of API to create.
+* <code>http</code> creates a REST API
+* <code>soap</code> creates a SOAP pass-through API
+* <code>websocket</code> creates websocket API
+* <code>graphql</code> creates GraphQL API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiVersionDescription</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ApiVersionDescription: Description of the API Version.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiVersionSet</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails">
+ApiVersionSetContractDetails
+</a>
+</em>
+</td>
+<td>
+<p>ApiVersionSet: Version set details</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiVersionSetReference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>ApiVersionSetReference: A resource identifier for the related ApiVersionSet.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>authenticationSettings</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.AuthenticationSettingsContract">
+AuthenticationSettingsContract
+</a>
+</em>
+</td>
+<td>
+<p>AuthenticationSettings: Collection of authentication settings included into this API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>contact</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiContactInformation">
+ApiContactInformation
+</a>
+</em>
+</td>
+<td>
+<p>Contact: Contact information for the API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Description of the API. May include HTML formatting tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: API name. Must be 1 to 300 characters long.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>format</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_Format">
+ApiCreateOrUpdateProperties_Format
+</a>
+</em>
+</td>
+<td>
+<p>Format: Format of the Content in which the API is getting imported.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>isCurrent</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>IsCurrent: Indicates if API revision is current api revision.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>license</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiLicenseInformation">
+ApiLicenseInformation
+</a>
+</em>
+</td>
+<td>
+<p>License: License information for the API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a apimanagement.azure.com/Service resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>path</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Path: Relative URL uniquely identifying this API and all of its resource paths within the API Management service
+instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public
+URL for this API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>protocols</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_Protocols">
+[]ApiCreateOrUpdateProperties_Protocols
+</a>
+</em>
+</td>
+<td>
+<p>Protocols: Describes on which protocols the operations in this API can be invoked.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>serviceUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ServiceUrl: Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceApiReference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>SourceApiReference: API identifier of the source API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionKeyParameterNames</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.SubscriptionKeyParameterNamesContract">
+SubscriptionKeyParameterNamesContract
+</a>
+</em>
+</td>
+<td>
+<p>SubscriptionKeyParameterNames: Protocols over which API is made available.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionRequired</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>SubscriptionRequired: Specifies whether an API or Product subscription is required for accessing the API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>termsOfServiceUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>TermsOfServiceUrl:  A URL to the Terms of Service for the API. MUST be in the format of a URL.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>translateRequiredQueryParameters</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters">
+ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters
+</a>
+</em>
+</td>
+<td>
+<p>TranslateRequiredQueryParameters: Strategy of translating required query parameters to template ones. By default has
+value &lsquo;template&rsquo;. Possible values: &lsquo;template&rsquo;, &lsquo;query&rsquo;</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_Type">
+ApiCreateOrUpdateProperties_Type
+</a>
+</em>
+</td>
+<td>
+<p>Type: Type of API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Content value when Importing an API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>wsdlSelector</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_WsdlSelector">
+ApiCreateOrUpdateProperties_WsdlSelector
+</a>
+</em>
+</td>
+<td>
+<p>WsdlSelector: Criteria to limit import of WSDL to a subset of the document.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.Service_Api_STATUS">
+Service_Api_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiContactInformation">ApiContactInformation
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Api_Spec">Service_Api_Spec</a>)
+</p>
+<div>
+<p>API contact information</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>email</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Email: The email address of the contact person/organization. MUST be in the format of an email address</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The identifying name of the contact person/organization</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>url</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Url: The URL pointing to the contact information. MUST be in the format of a URL</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiContactInformation_ARM">ApiContactInformation_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>)
+</p>
+<div>
+<p>API contact information</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>email</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Email: The email address of the contact person/organization. MUST be in the format of an email address</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The identifying name of the contact person/organization</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>url</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Url: The URL pointing to the contact information. MUST be in the format of a URL</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiContactInformation_STATUS">ApiContactInformation_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Api_STATUS">Service_Api_STATUS</a>)
+</p>
+<div>
+<p>API contact information</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>email</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Email: The email address of the contact person/organization. MUST be in the format of an email address</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The identifying name of the contact person/organization</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>url</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Url: The URL pointing to the contact information. MUST be in the format of a URL</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiContactInformation_STATUS_ARM">ApiContactInformation_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiContractProperties_STATUS_ARM">ApiContractProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>API contact information</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>email</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Email: The email address of the contact person/organization. MUST be in the format of an email address</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The identifying name of the contact person/organization</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>url</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Url: The URL pointing to the contact information. MUST be in the format of a URL</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiContractProperties_Protocols_STATUS">ApiContractProperties_Protocols_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiContractProperties_STATUS_ARM">ApiContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Api_STATUS">Service_Api_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;http&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;https&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ws&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;wss&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiContractProperties_STATUS_ARM">ApiContractProperties_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Api_STATUS_ARM">Service_Api_STATUS_ARM</a>)
+</p>
+<div>
+<p>API Entity Properties</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>apiVersion</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>APIVersion: Indicates the version identifier of the API if the API is versioned</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiRevision</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ApiRevision: Describes the revision of the API. If no value is provided, default revision 1 is created</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiRevisionDescription</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ApiRevisionDescription: Description of the API Revision.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiVersionDescription</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ApiVersionDescription: Description of the API Version.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiVersionSet</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails_STATUS_ARM">
+ApiVersionSetContractDetails_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>ApiVersionSet: Version set details</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiVersionSetId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ApiVersionSetId: A resource identifier for the related ApiVersionSet.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>authenticationSettings</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.AuthenticationSettingsContract_STATUS_ARM">
+AuthenticationSettingsContract_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>AuthenticationSettings: Collection of authentication settings included into this API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>contact</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiContactInformation_STATUS_ARM">
+ApiContactInformation_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Contact: Contact information for the API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Description of the API. May include HTML formatting tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: API name. Must be 1 to 300 characters long.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>isCurrent</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>IsCurrent: Indicates if API revision is current api revision.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>isOnline</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>IsOnline: Indicates if API revision is accessible via the gateway.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>license</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiLicenseInformation_STATUS_ARM">
+ApiLicenseInformation_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>License: License information for the API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>path</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Path: Relative URL uniquely identifying this API and all of its resource paths within the API Management service
+instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public
+URL for this API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>protocols</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiContractProperties_Protocols_STATUS">
+[]ApiContractProperties_Protocols_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Protocols: Describes on which protocols the operations in this API can be invoked.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>serviceUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ServiceUrl: Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceApiId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>SourceApiId: API identifier of the source API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionKeyParameterNames</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.SubscriptionKeyParameterNamesContract_STATUS_ARM">
+SubscriptionKeyParameterNamesContract_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>SubscriptionKeyParameterNames: Protocols over which API is made available.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionRequired</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>SubscriptionRequired: Specifies whether an API or Product subscription is required for accessing the API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>termsOfServiceUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>TermsOfServiceUrl:  A URL to the Terms of Service for the API. MUST be in the format of a URL.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiContractProperties_Type_STATUS">
+ApiContractProperties_Type_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Type: Type of API.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiContractProperties_Type_STATUS">ApiContractProperties_Type_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiContractProperties_STATUS_ARM">ApiContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Api_STATUS">Service_Api_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;graphql&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;http&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;soap&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;websocket&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Api_Spec_ARM">Service_Api_Spec_ARM</a>)
+</p>
+<div>
+<p>API Create or Update Properties.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>apiVersion</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>APIVersion: Indicates the version identifier of the API if the API is versioned</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiRevision</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ApiRevision: Describes the revision of the API. If no value is provided, default revision 1 is created</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiRevisionDescription</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ApiRevisionDescription: Description of the API Revision.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiType</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_ApiType">
+ApiCreateOrUpdateProperties_ApiType
+</a>
+</em>
+</td>
+<td>
+<p>ApiType: Type of API to create.
+* <code>http</code> creates a REST API
+* <code>soap</code> creates a SOAP pass-through API
+* <code>websocket</code> creates websocket API
+* <code>graphql</code> creates GraphQL API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiVersionDescription</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ApiVersionDescription: Description of the API Version.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiVersionSet</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails_ARM">
+ApiVersionSetContractDetails_ARM
+</a>
+</em>
+</td>
+<td>
+<p>ApiVersionSet: Version set details</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiVersionSetId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>authenticationSettings</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.AuthenticationSettingsContract_ARM">
+AuthenticationSettingsContract_ARM
+</a>
+</em>
+</td>
+<td>
+<p>AuthenticationSettings: Collection of authentication settings included into this API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>contact</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiContactInformation_ARM">
+ApiContactInformation_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Contact: Contact information for the API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Description of the API. May include HTML formatting tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: API name. Must be 1 to 300 characters long.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>format</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_Format">
+ApiCreateOrUpdateProperties_Format
+</a>
+</em>
+</td>
+<td>
+<p>Format: Format of the Content in which the API is getting imported.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>isCurrent</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>IsCurrent: Indicates if API revision is current api revision.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>license</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiLicenseInformation_ARM">
+ApiLicenseInformation_ARM
+</a>
+</em>
+</td>
+<td>
+<p>License: License information for the API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>path</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Path: Relative URL uniquely identifying this API and all of its resource paths within the API Management service
+instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public
+URL for this API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>protocols</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_Protocols">
+[]ApiCreateOrUpdateProperties_Protocols
+</a>
+</em>
+</td>
+<td>
+<p>Protocols: Describes on which protocols the operations in this API can be invoked.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>serviceUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ServiceUrl: Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceApiId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionKeyParameterNames</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.SubscriptionKeyParameterNamesContract_ARM">
+SubscriptionKeyParameterNamesContract_ARM
+</a>
+</em>
+</td>
+<td>
+<p>SubscriptionKeyParameterNames: Protocols over which API is made available.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionRequired</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>SubscriptionRequired: Specifies whether an API or Product subscription is required for accessing the API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>termsOfServiceUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>TermsOfServiceUrl:  A URL to the Terms of Service for the API. MUST be in the format of a URL.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>translateRequiredQueryParameters</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters">
+ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters
+</a>
+</em>
+</td>
+<td>
+<p>TranslateRequiredQueryParameters: Strategy of translating required query parameters to template ones. By default has
+value &lsquo;template&rsquo;. Possible values: &lsquo;template&rsquo;, &lsquo;query&rsquo;</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_Type">
+ApiCreateOrUpdateProperties_Type
+</a>
+</em>
+</td>
+<td>
+<p>Type: Type of API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Content value when Importing an API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>wsdlSelector</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_WsdlSelector_ARM">
+ApiCreateOrUpdateProperties_WsdlSelector_ARM
+</a>
+</em>
+</td>
+<td>
+<p>WsdlSelector: Criteria to limit import of WSDL to a subset of the document.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_ApiType">ApiCreateOrUpdateProperties_ApiType
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Api_Spec">Service_Api_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;graphql&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;http&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;soap&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;websocket&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_Format">ApiCreateOrUpdateProperties_Format
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Api_Spec">Service_Api_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;graphql-link&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;openapi&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;openapi&#43;json&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;openapi&#43;json-link&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;openapi-link&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;swagger-json&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;swagger-link-json&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;wadl-link-json&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;wadl-xml&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;wsdl&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;wsdl-link&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_Protocols">ApiCreateOrUpdateProperties_Protocols
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Api_Spec">Service_Api_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;http&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;https&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ws&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;wss&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters">ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Api_Spec">Service_Api_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;query&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;template&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_Type">ApiCreateOrUpdateProperties_Type
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Api_Spec">Service_Api_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;graphql&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;http&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;soap&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;websocket&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_WsdlSelector">ApiCreateOrUpdateProperties_WsdlSelector
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Api_Spec">Service_Api_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>wsdlEndpointName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>WsdlEndpointName: Name of endpoint(port) to import from WSDL</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>wsdlServiceName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>WsdlServiceName: Name of service to import from WSDL</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_WsdlSelector_ARM">ApiCreateOrUpdateProperties_WsdlSelector_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>wsdlEndpointName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>WsdlEndpointName: Name of endpoint(port) to import from WSDL</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>wsdlServiceName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>WsdlServiceName: Name of service to import from WSDL</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiLicenseInformation">ApiLicenseInformation
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Api_Spec">Service_Api_Spec</a>)
+</p>
+<div>
+<p>API license information</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The license name used for the API</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>url</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Url: A URL to the license used for the API. MUST be in the format of a URL</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiLicenseInformation_ARM">ApiLicenseInformation_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>)
+</p>
+<div>
+<p>API license information</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The license name used for the API</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>url</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Url: A URL to the license used for the API. MUST be in the format of a URL</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiLicenseInformation_STATUS">ApiLicenseInformation_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Api_STATUS">Service_Api_STATUS</a>)
+</p>
+<div>
+<p>API license information</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The license name used for the API</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>url</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Url: A URL to the license used for the API. MUST be in the format of a URL</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiLicenseInformation_STATUS_ARM">ApiLicenseInformation_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiContractProperties_STATUS_ARM">ApiContractProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>API license information</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The license name used for the API</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>url</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Url: A URL to the license used for the API. MUST be in the format of a URL</p>
 </td>
 </tr>
 </tbody>
@@ -2758,6 +4357,732 @@ string
 </tr>
 </tbody>
 </table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiVersionSet">ApiVersionSet
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/apimapiversionsets.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ApiManagement/&#x200b;service/&#x200b;{serviceName}/&#x200b;apiVersionSets/&#x200b;{versionSetId}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.Service_ApiVersionSet_Spec">
+Service_ApiVersionSet_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Description of API Version Set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: Name of API Version Set</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a apimanagement.azure.com/Service resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionHeaderName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionHeaderName: Name of HTTP header parameter that indicates the API Version if versioningScheme is set to <code>header</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionQueryName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionQueryName: Name of query parameter that indicates the API Version if versioningScheme is set to <code>query</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versioningScheme</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractProperties_VersioningScheme">
+ApiVersionSetContractProperties_VersioningScheme
+</a>
+</em>
+</td>
+<td>
+<p>VersioningScheme: An value that determines where the API Version identifier will be located in a HTTP request.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.Service_ApiVersionSet_STATUS">
+Service_ApiVersionSet_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails">ApiVersionSetContractDetails
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Api_Spec">Service_Api_Spec</a>)
+</p>
+<div>
+<p>An API Version Set contains the common configuration for a set of API Versions relating</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Description of API Version Set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The display Name of the API Version Set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>reference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Reference: Identifier for existing API Version Set. Omit this value to create a new Version Set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionHeaderName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionHeaderName: Name of HTTP header parameter that indicates the API Version if versioningScheme is set to <code>header</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionQueryName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionQueryName: Name of query parameter that indicates the API Version if versioningScheme is set to <code>query</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versioningScheme</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails_VersioningScheme">
+ApiVersionSetContractDetails_VersioningScheme
+</a>
+</em>
+</td>
+<td>
+<p>VersioningScheme: An value that determines where the API Version identifier will be located in a HTTP request.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails_ARM">ApiVersionSetContractDetails_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>)
+</p>
+<div>
+<p>An API Version Set contains the common configuration for a set of API Versions relating</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Description of API Version Set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The display Name of the API Version Set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionHeaderName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionHeaderName: Name of HTTP header parameter that indicates the API Version if versioningScheme is set to <code>header</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionQueryName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionQueryName: Name of query parameter that indicates the API Version if versioningScheme is set to <code>query</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versioningScheme</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails_VersioningScheme">
+ApiVersionSetContractDetails_VersioningScheme
+</a>
+</em>
+</td>
+<td>
+<p>VersioningScheme: An value that determines where the API Version identifier will be located in a HTTP request.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails_STATUS">ApiVersionSetContractDetails_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Api_STATUS">Service_Api_STATUS</a>)
+</p>
+<div>
+<p>An API Version Set contains the common configuration for a set of API Versions relating</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Description of API Version Set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Identifier for existing API Version Set. Omit this value to create a new Version Set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The display Name of the API Version Set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionHeaderName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionHeaderName: Name of HTTP header parameter that indicates the API Version if versioningScheme is set to <code>header</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionQueryName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionQueryName: Name of query parameter that indicates the API Version if versioningScheme is set to <code>query</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versioningScheme</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails_VersioningScheme_STATUS">
+ApiVersionSetContractDetails_VersioningScheme_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>VersioningScheme: An value that determines where the API Version identifier will be located in a HTTP request.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails_STATUS_ARM">ApiVersionSetContractDetails_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiContractProperties_STATUS_ARM">ApiContractProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>An API Version Set contains the common configuration for a set of API Versions relating</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Description of API Version Set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Identifier for existing API Version Set. Omit this value to create a new Version Set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The display Name of the API Version Set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionHeaderName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionHeaderName: Name of HTTP header parameter that indicates the API Version if versioningScheme is set to <code>header</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionQueryName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionQueryName: Name of query parameter that indicates the API Version if versioningScheme is set to <code>query</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versioningScheme</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails_VersioningScheme_STATUS">
+ApiVersionSetContractDetails_VersioningScheme_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>VersioningScheme: An value that determines where the API Version identifier will be located in a HTTP request.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails_VersioningScheme">ApiVersionSetContractDetails_VersioningScheme
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails">ApiVersionSetContractDetails</a>, <a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails_ARM">ApiVersionSetContractDetails_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Header&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Query&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Segment&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails_VersioningScheme_STATUS">ApiVersionSetContractDetails_VersioningScheme_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails_STATUS">ApiVersionSetContractDetails_STATUS</a>, <a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails_STATUS_ARM">ApiVersionSetContractDetails_STATUS_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Header&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Query&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Segment&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiVersionSetContractProperties_ARM">ApiVersionSetContractProperties_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_ApiVersionSet_Spec_ARM">Service_ApiVersionSet_Spec_ARM</a>)
+</p>
+<div>
+<p>Properties of an API Version Set.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Description of API Version Set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: Name of API Version Set</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionHeaderName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionHeaderName: Name of HTTP header parameter that indicates the API Version if versioningScheme is set to <code>header</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionQueryName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionQueryName: Name of query parameter that indicates the API Version if versioningScheme is set to <code>query</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versioningScheme</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractProperties_VersioningScheme">
+ApiVersionSetContractProperties_VersioningScheme
+</a>
+</em>
+</td>
+<td>
+<p>VersioningScheme: An value that determines where the API Version identifier will be located in a HTTP request.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiVersionSetContractProperties_STATUS_ARM">ApiVersionSetContractProperties_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_ApiVersionSet_STATUS_ARM">Service_ApiVersionSet_STATUS_ARM</a>)
+</p>
+<div>
+<p>Properties of an API Version Set.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Description of API Version Set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: Name of API Version Set</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionHeaderName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionHeaderName: Name of HTTP header parameter that indicates the API Version if versioningScheme is set to <code>header</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionQueryName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionQueryName: Name of query parameter that indicates the API Version if versioningScheme is set to <code>query</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versioningScheme</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractProperties_VersioningScheme_STATUS">
+ApiVersionSetContractProperties_VersioningScheme_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>VersioningScheme: An value that determines where the API Version identifier will be located in a HTTP request.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiVersionSetContractProperties_VersioningScheme">ApiVersionSetContractProperties_VersioningScheme
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractProperties_ARM">ApiVersionSetContractProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_ApiVersionSet_Spec">Service_ApiVersionSet_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Header&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Query&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Segment&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ApiVersionSetContractProperties_VersioningScheme_STATUS">ApiVersionSetContractProperties_VersioningScheme_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractProperties_STATUS_ARM">ApiVersionSetContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_ApiVersionSet_STATUS">Service_ApiVersionSet_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Header&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Query&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Segment&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
 <h3 id="apimanagement.azure.com/v1api20220801.ArmIdWrapper_STATUS">ArmIdWrapper_STATUS
 </h3>
 <p>
@@ -2810,6 +5135,286 @@ string
 </em>
 </td>
 <td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.AuthenticationSettingsContract">AuthenticationSettingsContract
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Api_Spec">Service_Api_Spec</a>)
+</p>
+<div>
+<p>API Authentication Settings.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>oAuth2</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.OAuth2AuthenticationSettingsContract">
+OAuth2AuthenticationSettingsContract
+</a>
+</em>
+</td>
+<td>
+<p>OAuth2: OAuth2 Authentication settings</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>oAuth2AuthenticationSettings</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.OAuth2AuthenticationSettingsContract">
+[]OAuth2AuthenticationSettingsContract
+</a>
+</em>
+</td>
+<td>
+<p>OAuth2AuthenticationSettings: Collection of OAuth2 authentication settings included into this API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>openid</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.OpenIdAuthenticationSettingsContract">
+OpenIdAuthenticationSettingsContract
+</a>
+</em>
+</td>
+<td>
+<p>Openid: OpenID Connect Authentication Settings</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>openidAuthenticationSettings</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.OpenIdAuthenticationSettingsContract">
+[]OpenIdAuthenticationSettingsContract
+</a>
+</em>
+</td>
+<td>
+<p>OpenidAuthenticationSettings: Collection of Open ID Connect authentication settings included into this API.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.AuthenticationSettingsContract_ARM">AuthenticationSettingsContract_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>)
+</p>
+<div>
+<p>API Authentication Settings.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>oAuth2</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.OAuth2AuthenticationSettingsContract_ARM">
+OAuth2AuthenticationSettingsContract_ARM
+</a>
+</em>
+</td>
+<td>
+<p>OAuth2: OAuth2 Authentication settings</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>oAuth2AuthenticationSettings</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.OAuth2AuthenticationSettingsContract_ARM">
+[]OAuth2AuthenticationSettingsContract_ARM
+</a>
+</em>
+</td>
+<td>
+<p>OAuth2AuthenticationSettings: Collection of OAuth2 authentication settings included into this API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>openid</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.OpenIdAuthenticationSettingsContract_ARM">
+OpenIdAuthenticationSettingsContract_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Openid: OpenID Connect Authentication Settings</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>openidAuthenticationSettings</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.OpenIdAuthenticationSettingsContract_ARM">
+[]OpenIdAuthenticationSettingsContract_ARM
+</a>
+</em>
+</td>
+<td>
+<p>OpenidAuthenticationSettings: Collection of Open ID Connect authentication settings included into this API.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.AuthenticationSettingsContract_STATUS">AuthenticationSettingsContract_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Api_STATUS">Service_Api_STATUS</a>)
+</p>
+<div>
+<p>API Authentication Settings.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>oAuth2</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.OAuth2AuthenticationSettingsContract_STATUS">
+OAuth2AuthenticationSettingsContract_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>OAuth2: OAuth2 Authentication settings</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>oAuth2AuthenticationSettings</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.OAuth2AuthenticationSettingsContract_STATUS">
+[]OAuth2AuthenticationSettingsContract_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>OAuth2AuthenticationSettings: Collection of OAuth2 authentication settings included into this API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>openid</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.OpenIdAuthenticationSettingsContract_STATUS">
+OpenIdAuthenticationSettingsContract_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Openid: OpenID Connect Authentication Settings</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>openidAuthenticationSettings</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.OpenIdAuthenticationSettingsContract_STATUS">
+[]OpenIdAuthenticationSettingsContract_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>OpenidAuthenticationSettings: Collection of Open ID Connect authentication settings included into this API.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.AuthenticationSettingsContract_STATUS_ARM">AuthenticationSettingsContract_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiContractProperties_STATUS_ARM">ApiContractProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>API Authentication Settings.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>oAuth2</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.OAuth2AuthenticationSettingsContract_STATUS_ARM">
+OAuth2AuthenticationSettingsContract_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>OAuth2: OAuth2 Authentication settings</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>oAuth2AuthenticationSettings</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.OAuth2AuthenticationSettingsContract_STATUS_ARM">
+[]OAuth2AuthenticationSettingsContract_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>OAuth2AuthenticationSettings: Collection of OAuth2 authentication settings included into this API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>openid</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.OpenIdAuthenticationSettingsContract_STATUS_ARM">
+OpenIdAuthenticationSettingsContract_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Openid: OpenID Connect Authentication Settings</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>openidAuthenticationSettings</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.OpenIdAuthenticationSettingsContract_STATUS_ARM">
+[]OpenIdAuthenticationSettingsContract_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>OpenidAuthenticationSettings: Collection of Open ID Connect authentication settings included into this API.</p>
 </td>
 </tr>
 </tbody>
@@ -4593,6 +7198,48 @@ certificates for this backend host.</p>
 </td>
 </tr>
 </tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.BearerTokenSendingMethodsContract">BearerTokenSendingMethodsContract
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.OpenIdAuthenticationSettingsContract">OpenIdAuthenticationSettingsContract</a>, <a href="#apimanagement.azure.com/v1api20220801.OpenIdAuthenticationSettingsContract_ARM">OpenIdAuthenticationSettingsContract_ARM</a>)
+</p>
+<div>
+<p>Form of an authorization grant, which the client uses to request the access token.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;authorizationHeader&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;query&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.BearerTokenSendingMethodsContract_STATUS">BearerTokenSendingMethodsContract_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.OpenIdAuthenticationSettingsContract_STATUS">OpenIdAuthenticationSettingsContract_STATUS</a>, <a href="#apimanagement.azure.com/v1api20220801.OpenIdAuthenticationSettingsContract_STATUS_ARM">OpenIdAuthenticationSettingsContract_STATUS_ARM</a>)
+</p>
+<div>
+<p>Form of an authorization grant, which the client uses to request the access token.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;authorizationHeader&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;query&#34;</p></td>
+<td></td>
+</tr></tbody>
 </table>
 <h3 id="apimanagement.azure.com/v1api20220801.CertificateConfiguration">CertificateConfiguration
 </h3>
@@ -6488,6 +9135,831 @@ property will not be filled on &lsquo;GET&rsquo; operations! Use &lsquo;/listSec
 </tr>
 </tbody>
 </table>
+<h3 id="apimanagement.azure.com/v1api20220801.OAuth2AuthenticationSettingsContract">OAuth2AuthenticationSettingsContract
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.AuthenticationSettingsContract">AuthenticationSettingsContract</a>)
+</p>
+<div>
+<p>API OAuth2 Authentication settings details.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>authorizationServerId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AuthorizationServerId: OAuth authorization server identifier.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>scope</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Scope: operations scope.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.OAuth2AuthenticationSettingsContract_ARM">OAuth2AuthenticationSettingsContract_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.AuthenticationSettingsContract_ARM">AuthenticationSettingsContract_ARM</a>)
+</p>
+<div>
+<p>API OAuth2 Authentication settings details.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>authorizationServerId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AuthorizationServerId: OAuth authorization server identifier.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>scope</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Scope: operations scope.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.OAuth2AuthenticationSettingsContract_STATUS">OAuth2AuthenticationSettingsContract_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.AuthenticationSettingsContract_STATUS">AuthenticationSettingsContract_STATUS</a>)
+</p>
+<div>
+<p>API OAuth2 Authentication settings details.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>authorizationServerId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AuthorizationServerId: OAuth authorization server identifier.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>scope</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Scope: operations scope.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.OAuth2AuthenticationSettingsContract_STATUS_ARM">OAuth2AuthenticationSettingsContract_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.AuthenticationSettingsContract_STATUS_ARM">AuthenticationSettingsContract_STATUS_ARM</a>)
+</p>
+<div>
+<p>API OAuth2 Authentication settings details.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>authorizationServerId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AuthorizationServerId: OAuth authorization server identifier.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>scope</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Scope: operations scope.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.OpenIdAuthenticationSettingsContract">OpenIdAuthenticationSettingsContract
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.AuthenticationSettingsContract">AuthenticationSettingsContract</a>)
+</p>
+<div>
+<p>API OAuth2 Authentication settings details.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>bearerTokenSendingMethods</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.BearerTokenSendingMethodsContract">
+[]BearerTokenSendingMethodsContract
+</a>
+</em>
+</td>
+<td>
+<p>BearerTokenSendingMethods: How to send token to the server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>openidProviderId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>OpenidProviderId: OAuth authorization server identifier.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.OpenIdAuthenticationSettingsContract_ARM">OpenIdAuthenticationSettingsContract_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.AuthenticationSettingsContract_ARM">AuthenticationSettingsContract_ARM</a>)
+</p>
+<div>
+<p>API OAuth2 Authentication settings details.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>bearerTokenSendingMethods</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.BearerTokenSendingMethodsContract">
+[]BearerTokenSendingMethodsContract
+</a>
+</em>
+</td>
+<td>
+<p>BearerTokenSendingMethods: How to send token to the server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>openidProviderId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>OpenidProviderId: OAuth authorization server identifier.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.OpenIdAuthenticationSettingsContract_STATUS">OpenIdAuthenticationSettingsContract_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.AuthenticationSettingsContract_STATUS">AuthenticationSettingsContract_STATUS</a>)
+</p>
+<div>
+<p>API OAuth2 Authentication settings details.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>bearerTokenSendingMethods</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.BearerTokenSendingMethodsContract_STATUS">
+[]BearerTokenSendingMethodsContract_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>BearerTokenSendingMethods: How to send token to the server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>openidProviderId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>OpenidProviderId: OAuth authorization server identifier.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.OpenIdAuthenticationSettingsContract_STATUS_ARM">OpenIdAuthenticationSettingsContract_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.AuthenticationSettingsContract_STATUS_ARM">AuthenticationSettingsContract_STATUS_ARM</a>)
+</p>
+<div>
+<p>API OAuth2 Authentication settings details.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>bearerTokenSendingMethods</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.BearerTokenSendingMethodsContract_STATUS">
+[]BearerTokenSendingMethodsContract_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>BearerTokenSendingMethods: How to send token to the server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>openidProviderId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>OpenidProviderId: OAuth authorization server identifier.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Policy">Policy
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/apimpolicies.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ApiManagement/&#x200b;service/&#x200b;{serviceName}/&#x200b;policies/&#x200b;{policyId}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.Service_Policy_Spec">
+Service_Policy_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>format</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_Format">
+PolicyContractProperties_Format
+</a>
+</em>
+</td>
+<td>
+<p>Format: Format of the policyContent.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a apimanagement.azure.com/Service resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Contents of the Policy as defined by the format.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.Service_Policy_STATUS">
+Service_Policy_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.PolicyContractProperties_ARM">PolicyContractProperties_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Policy_Spec_ARM">Service_Policy_Spec_ARM</a>)
+</p>
+<div>
+<p>Policy contract Properties.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>format</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_Format">
+PolicyContractProperties_Format
+</a>
+</em>
+</td>
+<td>
+<p>Format: Format of the policyContent.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Contents of the Policy as defined by the format.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.PolicyContractProperties_Format">PolicyContractProperties_Format
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_ARM">PolicyContractProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Policy_Spec">Service_Policy_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;rawxml&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;rawxml-link&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;xml&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;xml-link&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.PolicyContractProperties_Format_STATUS">PolicyContractProperties_Format_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_STATUS_ARM">PolicyContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Policy_STATUS">Service_Policy_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;rawxml&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;rawxml-link&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;xml&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;xml-link&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.PolicyContractProperties_STATUS_ARM">PolicyContractProperties_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Policy_STATUS_ARM">Service_Policy_STATUS_ARM</a>)
+</p>
+<div>
+<p>Policy contract Properties.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>format</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_Format_STATUS">
+PolicyContractProperties_Format_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Format: Format of the policyContent.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Contents of the Policy as defined by the format.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.PolicyFragment">PolicyFragment
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/apimpolicyfragments.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ApiManagement/&#x200b;service/&#x200b;{serviceName}/&#x200b;policyFragments/&#x200b;{id}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.Service_PolicyFragment_Spec">
+Service_PolicyFragment_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Policy fragment description.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>format</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyFragmentContractProperties_Format">
+PolicyFragmentContractProperties_Format
+</a>
+</em>
+</td>
+<td>
+<p>Format: Format of the policy fragment content.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a apimanagement.azure.com/Service resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Contents of the policy fragment.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.Service_PolicyFragment_STATUS">
+Service_PolicyFragment_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.PolicyFragmentContractProperties_ARM">PolicyFragmentContractProperties_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_PolicyFragment_Spec_ARM">Service_PolicyFragment_Spec_ARM</a>)
+</p>
+<div>
+<p>Policy fragment contract properties.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Policy fragment description.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>format</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyFragmentContractProperties_Format">
+PolicyFragmentContractProperties_Format
+</a>
+</em>
+</td>
+<td>
+<p>Format: Format of the policy fragment content.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Contents of the policy fragment.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.PolicyFragmentContractProperties_Format">PolicyFragmentContractProperties_Format
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.PolicyFragmentContractProperties_ARM">PolicyFragmentContractProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_PolicyFragment_Spec">Service_PolicyFragment_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;rawxml&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;xml&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.PolicyFragmentContractProperties_Format_STATUS">PolicyFragmentContractProperties_Format_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.PolicyFragmentContractProperties_STATUS_ARM">PolicyFragmentContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_PolicyFragment_STATUS">Service_PolicyFragment_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;rawxml&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;xml&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.PolicyFragmentContractProperties_STATUS_ARM">PolicyFragmentContractProperties_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_PolicyFragment_STATUS_ARM">Service_PolicyFragment_STATUS_ARM</a>)
+</p>
+<div>
+<p>Policy fragment contract properties.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Policy fragment description.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>format</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyFragmentContractProperties_Format_STATUS">
+PolicyFragmentContractProperties_Format_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Format: Format of the policy fragment content.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Contents of the policy fragment.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="apimanagement.azure.com/v1api20220801.PrivateEndpointConnectionWrapperProperties_STATUS_ARM">PrivateEndpointConnectionWrapperProperties_STATUS_ARM
 </h3>
 <p>
@@ -6683,6 +10155,438 @@ PrivateEndpointServiceConnectionStatus_STATUS
 </td>
 </tr>
 </tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Product">Product
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/apimproducts.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ApiManagement/&#x200b;service/&#x200b;{serviceName}/&#x200b;products/&#x200b;{productId}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.Service_Product_Spec">
+Service_Product_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>approvalRequired</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>ApprovalRequired: whether subscription approval is required. If false, new subscriptions will be approved automatically
+enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually
+approve the subscription before the developer can any of the product’s APIs. Can be present only if
+subscriptionRequired property is present and has a value of false.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Product description. May include HTML formatting tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: Product name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a apimanagement.azure.com/Service resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>state</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ProductContractProperties_State">
+ProductContractProperties_State
+</a>
+</em>
+</td>
+<td>
+<p>State: whether product is published or not. Published products are discoverable by users of developer portal. Non
+published products are visible only to administrators. Default state of Product is notPublished.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionRequired</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>SubscriptionRequired: Whether a product subscription is required for accessing APIs included in this product. If true,
+the product is referred to as &ldquo;protected&rdquo; and a valid subscription key is required for a request to an API included in
+the product to succeed. If false, the product is referred to as &ldquo;open&rdquo; and requests to an API included in the product
+can be made without a subscription key. If property is omitted when creating a new product it&rsquo;s value is assumed to be
+true.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionsLimit</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>SubscriptionsLimit: Whether the number of subscriptions a user can have to this product at the same time. Set to null or
+omit to allow unlimited per user subscriptions. Can be present only if subscriptionRequired property is present and has
+a value of false.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>terms</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Terms: Product terms of use. Developers trying to subscribe to the product will be presented and required to accept
+these terms before they can complete the subscription process.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.Service_Product_STATUS">
+Service_Product_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ProductContractProperties_ARM">ProductContractProperties_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Product_Spec_ARM">Service_Product_Spec_ARM</a>)
+</p>
+<div>
+<p>Product profile.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>approvalRequired</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>ApprovalRequired: whether subscription approval is required. If false, new subscriptions will be approved automatically
+enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually
+approve the subscription before the developer can any of the product’s APIs. Can be present only if
+subscriptionRequired property is present and has a value of false.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Product description. May include HTML formatting tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: Product name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>state</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ProductContractProperties_State">
+ProductContractProperties_State
+</a>
+</em>
+</td>
+<td>
+<p>State: whether product is published or not. Published products are discoverable by users of developer portal. Non
+published products are visible only to administrators. Default state of Product is notPublished.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionRequired</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>SubscriptionRequired: Whether a product subscription is required for accessing APIs included in this product. If true,
+the product is referred to as &ldquo;protected&rdquo; and a valid subscription key is required for a request to an API included in
+the product to succeed. If false, the product is referred to as &ldquo;open&rdquo; and requests to an API included in the product
+can be made without a subscription key. If property is omitted when creating a new product it&rsquo;s value is assumed to be
+true.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionsLimit</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>SubscriptionsLimit: Whether the number of subscriptions a user can have to this product at the same time. Set to null or
+omit to allow unlimited per user subscriptions. Can be present only if subscriptionRequired property is present and has
+a value of false.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>terms</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Terms: Product terms of use. Developers trying to subscribe to the product will be presented and required to accept
+these terms before they can complete the subscription process.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ProductContractProperties_STATUS_ARM">ProductContractProperties_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Product_STATUS_ARM">Service_Product_STATUS_ARM</a>)
+</p>
+<div>
+<p>Product profile.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>approvalRequired</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>ApprovalRequired: whether subscription approval is required. If false, new subscriptions will be approved automatically
+enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually
+approve the subscription before the developer can any of the product’s APIs. Can be present only if
+subscriptionRequired property is present and has a value of false.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Product description. May include HTML formatting tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: Product name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>state</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ProductContractProperties_State_STATUS">
+ProductContractProperties_State_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>State: whether product is published or not. Published products are discoverable by users of developer portal. Non
+published products are visible only to administrators. Default state of Product is notPublished.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionRequired</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>SubscriptionRequired: Whether a product subscription is required for accessing APIs included in this product. If true,
+the product is referred to as &ldquo;protected&rdquo; and a valid subscription key is required for a request to an API included in
+the product to succeed. If false, the product is referred to as &ldquo;open&rdquo; and requests to an API included in the product
+can be made without a subscription key. If property is omitted when creating a new product it&rsquo;s value is assumed to be
+true.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionsLimit</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>SubscriptionsLimit: Whether the number of subscriptions a user can have to this product at the same time. Set to null or
+omit to allow unlimited per user subscriptions. Can be present only if subscriptionRequired property is present and has
+a value of false.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>terms</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Terms: Product terms of use. Developers trying to subscribe to the product will be presented and required to accept
+these terms before they can complete the subscription process.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ProductContractProperties_State">ProductContractProperties_State
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ProductContractProperties_ARM">ProductContractProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Product_Spec">Service_Product_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;notPublished&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;published&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ProductContractProperties_State_STATUS">ProductContractProperties_State_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ProductContractProperties_STATUS_ARM">ProductContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Product_STATUS">Service_Product_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;notPublished&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;published&#34;</p></td>
+<td></td>
+</tr></tbody>
 </table>
 <h3 id="apimanagement.azure.com/v1api20220801.RemotePrivateEndpointConnectionWrapper_STATUS">RemotePrivateEndpointConnectionWrapper_STATUS
 </h3>
@@ -7214,6 +11118,1087 @@ Service_STATUS
 </em>
 </td>
 <td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_ApiVersionSet_STATUS">Service_ApiVersionSet_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiVersionSet">ApiVersionSet</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Description of API Version Set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: Name of API Version Set</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionHeaderName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionHeaderName: Name of HTTP header parameter that indicates the API Version if versioningScheme is set to <code>header</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionQueryName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionQueryName: Name of query parameter that indicates the API Version if versioningScheme is set to <code>query</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versioningScheme</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractProperties_VersioningScheme_STATUS">
+ApiVersionSetContractProperties_VersioningScheme_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>VersioningScheme: An value that determines where the API Version identifier will be located in a HTTP request.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_ApiVersionSet_STATUS_ARM">Service_ApiVersionSet_STATUS_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractProperties_STATUS_ARM">
+ApiVersionSetContractProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: API VersionSet contract properties.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_ApiVersionSet_Spec">Service_ApiVersionSet_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiVersionSet">ApiVersionSet</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Description of API Version Set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: Name of API Version Set</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a apimanagement.azure.com/Service resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionHeaderName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionHeaderName: Name of HTTP header parameter that indicates the API Version if versioningScheme is set to <code>header</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versionQueryName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>VersionQueryName: Name of query parameter that indicates the API Version if versioningScheme is set to <code>query</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>versioningScheme</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractProperties_VersioningScheme">
+ApiVersionSetContractProperties_VersioningScheme
+</a>
+</em>
+</td>
+<td>
+<p>VersioningScheme: An value that determines where the API Version identifier will be located in a HTTP request.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_ApiVersionSet_Spec_ARM">Service_ApiVersionSet_Spec_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractProperties_ARM">
+ApiVersionSetContractProperties_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: API VersionSet contract properties.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Api_STATUS">Service_Api_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Api">Api</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>apiVersion</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>APIVersion: Indicates the version identifier of the API if the API is versioned</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiRevision</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ApiRevision: Describes the revision of the API. If no value is provided, default revision 1 is created</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiRevisionDescription</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ApiRevisionDescription: Description of the API Revision.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiVersionDescription</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ApiVersionDescription: Description of the API Version.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiVersionSet</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails_STATUS">
+ApiVersionSetContractDetails_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ApiVersionSet: Version set details</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiVersionSetId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ApiVersionSetId: A resource identifier for the related ApiVersionSet.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>authenticationSettings</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.AuthenticationSettingsContract_STATUS">
+AuthenticationSettingsContract_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>AuthenticationSettings: Collection of authentication settings included into this API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>contact</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiContactInformation_STATUS">
+ApiContactInformation_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Contact: Contact information for the API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Description of the API. May include HTML formatting tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: API name. Must be 1 to 300 characters long.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>isCurrent</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>IsCurrent: Indicates if API revision is current api revision.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>isOnline</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>IsOnline: Indicates if API revision is accessible via the gateway.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>license</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiLicenseInformation_STATUS">
+ApiLicenseInformation_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>License: License information for the API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>path</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Path: Relative URL uniquely identifying this API and all of its resource paths within the API Management service
+instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public
+URL for this API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties_type</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiContractProperties_Type_STATUS">
+ApiContractProperties_Type_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>PropertiesType: Type of API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>protocols</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiContractProperties_Protocols_STATUS">
+[]ApiContractProperties_Protocols_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Protocols: Describes on which protocols the operations in this API can be invoked.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>serviceUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ServiceUrl: Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceApiId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>SourceApiId: API identifier of the source API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionKeyParameterNames</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.SubscriptionKeyParameterNamesContract_STATUS">
+SubscriptionKeyParameterNamesContract_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SubscriptionKeyParameterNames: Protocols over which API is made available.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionRequired</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>SubscriptionRequired: Specifies whether an API or Product subscription is required for accessing the API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>termsOfServiceUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>TermsOfServiceUrl:  A URL to the Terms of Service for the API. MUST be in the format of a URL.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Api_STATUS_ARM">Service_Api_STATUS_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiContractProperties_STATUS_ARM">
+ApiContractProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: API entity contract properties.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Api_Spec">Service_Api_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Api">Api</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>apiVersion</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>APIVersion: Indicates the version identifier of the API if the API is versioned</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiRevision</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ApiRevision: Describes the revision of the API. If no value is provided, default revision 1 is created</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiRevisionDescription</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ApiRevisionDescription: Description of the API Revision.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiType</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_ApiType">
+ApiCreateOrUpdateProperties_ApiType
+</a>
+</em>
+</td>
+<td>
+<p>ApiType: Type of API to create.
+* <code>http</code> creates a REST API
+* <code>soap</code> creates a SOAP pass-through API
+* <code>websocket</code> creates websocket API
+* <code>graphql</code> creates GraphQL API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiVersionDescription</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ApiVersionDescription: Description of the API Version.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiVersionSet</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiVersionSetContractDetails">
+ApiVersionSetContractDetails
+</a>
+</em>
+</td>
+<td>
+<p>ApiVersionSet: Version set details</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>apiVersionSetReference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>ApiVersionSetReference: A resource identifier for the related ApiVersionSet.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>authenticationSettings</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.AuthenticationSettingsContract">
+AuthenticationSettingsContract
+</a>
+</em>
+</td>
+<td>
+<p>AuthenticationSettings: Collection of authentication settings included into this API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>contact</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiContactInformation">
+ApiContactInformation
+</a>
+</em>
+</td>
+<td>
+<p>Contact: Contact information for the API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Description of the API. May include HTML formatting tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: API name. Must be 1 to 300 characters long.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>format</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_Format">
+ApiCreateOrUpdateProperties_Format
+</a>
+</em>
+</td>
+<td>
+<p>Format: Format of the Content in which the API is getting imported.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>isCurrent</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>IsCurrent: Indicates if API revision is current api revision.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>license</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiLicenseInformation">
+ApiLicenseInformation
+</a>
+</em>
+</td>
+<td>
+<p>License: License information for the API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a apimanagement.azure.com/Service resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>path</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Path: Relative URL uniquely identifying this API and all of its resource paths within the API Management service
+instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public
+URL for this API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>protocols</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_Protocols">
+[]ApiCreateOrUpdateProperties_Protocols
+</a>
+</em>
+</td>
+<td>
+<p>Protocols: Describes on which protocols the operations in this API can be invoked.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>serviceUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ServiceUrl: Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceApiReference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>SourceApiReference: API identifier of the source API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionKeyParameterNames</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.SubscriptionKeyParameterNamesContract">
+SubscriptionKeyParameterNamesContract
+</a>
+</em>
+</td>
+<td>
+<p>SubscriptionKeyParameterNames: Protocols over which API is made available.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionRequired</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>SubscriptionRequired: Specifies whether an API or Product subscription is required for accessing the API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>termsOfServiceUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>TermsOfServiceUrl:  A URL to the Terms of Service for the API. MUST be in the format of a URL.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>translateRequiredQueryParameters</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters">
+ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters
+</a>
+</em>
+</td>
+<td>
+<p>TranslateRequiredQueryParameters: Strategy of translating required query parameters to template ones. By default has
+value &lsquo;template&rsquo;. Possible values: &lsquo;template&rsquo;, &lsquo;query&rsquo;</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_Type">
+ApiCreateOrUpdateProperties_Type
+</a>
+</em>
+</td>
+<td>
+<p>Type: Type of API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Content value when Importing an API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>wsdlSelector</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_WsdlSelector">
+ApiCreateOrUpdateProperties_WsdlSelector
+</a>
+</em>
+</td>
+<td>
+<p>WsdlSelector: Criteria to limit import of WSDL to a subset of the document.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Api_Spec_ARM">Service_Api_Spec_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_ARM">
+ApiCreateOrUpdateProperties_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: API entity create of update properties.</p>
 </td>
 </tr>
 </tbody>
@@ -7964,6 +12949,910 @@ NamedValueCreateContractProperties_ARM
 </td>
 <td>
 <p>Properties: NamedValue entity contract properties for PUT operation.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_PolicyFragment_STATUS">Service_PolicyFragment_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.PolicyFragment">PolicyFragment</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Policy fragment description.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>format</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyFragmentContractProperties_Format_STATUS">
+PolicyFragmentContractProperties_Format_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Format: Format of the policy fragment content.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Contents of the policy fragment.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_PolicyFragment_STATUS_ARM">Service_PolicyFragment_STATUS_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyFragmentContractProperties_STATUS_ARM">
+PolicyFragmentContractProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the Policy Fragment.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_PolicyFragment_Spec">Service_PolicyFragment_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.PolicyFragment">PolicyFragment</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Policy fragment description.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>format</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyFragmentContractProperties_Format">
+PolicyFragmentContractProperties_Format
+</a>
+</em>
+</td>
+<td>
+<p>Format: Format of the policy fragment content.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a apimanagement.azure.com/Service resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Contents of the policy fragment.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_PolicyFragment_Spec_ARM">Service_PolicyFragment_Spec_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyFragmentContractProperties_ARM">
+PolicyFragmentContractProperties_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the Policy Fragment.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Policy_STATUS">Service_Policy_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Policy">Policy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>format</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_Format_STATUS">
+PolicyContractProperties_Format_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Format: Format of the policyContent.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Contents of the Policy as defined by the format.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Policy_STATUS_ARM">Service_Policy_STATUS_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_STATUS_ARM">
+PolicyContractProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the Policy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Policy_Spec">Service_Policy_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Policy">Policy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>format</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_Format">
+PolicyContractProperties_Format
+</a>
+</em>
+</td>
+<td>
+<p>Format: Format of the policyContent.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a apimanagement.azure.com/Service resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Contents of the Policy as defined by the format.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Policy_Spec_ARM">Service_Policy_Spec_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_ARM">
+PolicyContractProperties_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the Policy.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Product_STATUS">Service_Product_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Product">Product</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>approvalRequired</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>ApprovalRequired: whether subscription approval is required. If false, new subscriptions will be approved automatically
+enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually
+approve the subscription before the developer can any of the product’s APIs. Can be present only if
+subscriptionRequired property is present and has a value of false.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Product description. May include HTML formatting tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: Product name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>state</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ProductContractProperties_State_STATUS">
+ProductContractProperties_State_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>State: whether product is published or not. Published products are discoverable by users of developer portal. Non
+published products are visible only to administrators. Default state of Product is notPublished.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionRequired</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>SubscriptionRequired: Whether a product subscription is required for accessing APIs included in this product. If true,
+the product is referred to as &ldquo;protected&rdquo; and a valid subscription key is required for a request to an API included in
+the product to succeed. If false, the product is referred to as &ldquo;open&rdquo; and requests to an API included in the product
+can be made without a subscription key. If property is omitted when creating a new product it&rsquo;s value is assumed to be
+true.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionsLimit</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>SubscriptionsLimit: Whether the number of subscriptions a user can have to this product at the same time. Set to null or
+omit to allow unlimited per user subscriptions. Can be present only if subscriptionRequired property is present and has
+a value of false.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>terms</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Terms: Product terms of use. Developers trying to subscribe to the product will be presented and required to accept
+these terms before they can complete the subscription process.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Product_STATUS_ARM">Service_Product_STATUS_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ProductContractProperties_STATUS_ARM">
+ProductContractProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Product entity contract properties.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Product_Spec">Service_Product_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Product">Product</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>approvalRequired</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>ApprovalRequired: whether subscription approval is required. If false, new subscriptions will be approved automatically
+enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually
+approve the subscription before the developer can any of the product’s APIs. Can be present only if
+subscriptionRequired property is present and has a value of false.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Description: Product description. May include HTML formatting tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>displayName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DisplayName: Product name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a apimanagement.azure.com/Service resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>state</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ProductContractProperties_State">
+ProductContractProperties_State
+</a>
+</em>
+</td>
+<td>
+<p>State: whether product is published or not. Published products are discoverable by users of developer portal. Non
+published products are visible only to administrators. Default state of Product is notPublished.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionRequired</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>SubscriptionRequired: Whether a product subscription is required for accessing APIs included in this product. If true,
+the product is referred to as &ldquo;protected&rdquo; and a valid subscription key is required for a request to an API included in
+the product to succeed. If false, the product is referred to as &ldquo;open&rdquo; and requests to an API included in the product
+can be made without a subscription key. If property is omitted when creating a new product it&rsquo;s value is assumed to be
+true.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subscriptionsLimit</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>SubscriptionsLimit: Whether the number of subscriptions a user can have to this product at the same time. Set to null or
+omit to allow unlimited per user subscriptions. Can be present only if subscriptionRequired property is present and has
+a value of false.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>terms</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Terms: Product terms of use. Developers trying to subscribe to the product will be presented and required to accept
+these terms before they can complete the subscription process.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Product_Spec_ARM">Service_Product_Spec_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.ProductContractProperties_ARM">
+ProductContractProperties_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Product entity contract properties.</p>
 </td>
 </tr>
 </tbody>
@@ -9380,6 +15269,20 @@ string
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.SubscriptionOperatorSpec">
+SubscriptionOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -9574,6 +15477,20 @@ string
 </td>
 <td>
 <p>DisplayName: Subscription name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.SubscriptionOperatorSpec">
+SubscriptionOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
 </td>
 </tr>
 <tr>
@@ -9986,6 +15903,242 @@ reached its expiration date and was deactivated.</p>
 </tr><tr><td><p>&#34;suspended&#34;</p></td>
 <td></td>
 </tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.SubscriptionKeyParameterNamesContract">SubscriptionKeyParameterNamesContract
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Api_Spec">Service_Api_Spec</a>)
+</p>
+<div>
+<p>Subscription key parameter names details.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>header</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Header: Subscription key header name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>query</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Query: Subscription key query string parameter name.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.SubscriptionKeyParameterNamesContract_ARM">SubscriptionKeyParameterNamesContract_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiCreateOrUpdateProperties_ARM">ApiCreateOrUpdateProperties_ARM</a>)
+</p>
+<div>
+<p>Subscription key parameter names details.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>header</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Header: Subscription key header name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>query</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Query: Subscription key query string parameter name.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.SubscriptionKeyParameterNamesContract_STATUS">SubscriptionKeyParameterNamesContract_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Api_STATUS">Service_Api_STATUS</a>)
+</p>
+<div>
+<p>Subscription key parameter names details.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>header</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Header: Subscription key header name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>query</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Query: Subscription key query string parameter name.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.SubscriptionKeyParameterNamesContract_STATUS_ARM">SubscriptionKeyParameterNamesContract_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ApiContractProperties_STATUS_ARM">ApiContractProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>Subscription key parameter names details.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>header</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Header: Subscription key header name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>query</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Query: Subscription key query string parameter name.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.SubscriptionOperatorSecrets">SubscriptionOperatorSecrets
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.SubscriptionOperatorSpec">SubscriptionOperatorSpec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>primaryKey</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
+Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secondaryKey</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
+from Azure.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.SubscriptionOperatorSpec">SubscriptionOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Subscription_Spec">Service_Subscription_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>secrets</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.SubscriptionOperatorSecrets">
+SubscriptionOperatorSecrets
+</a>
+</em>
+</td>
+<td>
+<p>Secrets: configures where to place Azure generated secrets.</p>
+</td>
+</tr>
+</tbody>
 </table>
 <h3 id="apimanagement.azure.com/v1api20220801.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
