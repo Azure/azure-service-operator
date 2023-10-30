@@ -21,11 +21,13 @@
 <title>Uninstalling | Azure Service Operator</title>
 <meta name="description" content="Before you uninstall Before you uninstall Azure Service Operator, ensure that all of the resources managed by it are deleted from Kubernetes.
 Use the detach-on-delete reconcile-policy annotation if you want to delete an ASO resource from Kubernetes but retain it in Azure.
-You can check if all ASO resources have been deleted by using: kubectl api-resources -o name | grep azure.com | paste -sd &amp;quot;,&amp;quot; - | xargs kubectl get -A">
+You can check if all ASO resources have been deleted:
+kubectl api-resources -o name | grep azure.com | paste -sd &amp;#34;,&amp;#34; - | xargs kubectl get -A Uninstalling We recommend that you uninstall ASO using the same mechanism you used to install it.">
 <meta property="og:title" content="Uninstalling" />
 <meta property="og:description" content="Before you uninstall Before you uninstall Azure Service Operator, ensure that all of the resources managed by it are deleted from Kubernetes.
 Use the detach-on-delete reconcile-policy annotation if you want to delete an ASO resource from Kubernetes but retain it in Azure.
-You can check if all ASO resources have been deleted by using: kubectl api-resources -o name | grep azure.com | paste -sd &quot;,&quot; - | xargs kubectl get -A" />
+You can check if all ASO resources have been deleted:
+kubectl api-resources -o name | grep azure.com | paste -sd &#34;,&#34; - | xargs kubectl get -A Uninstalling We recommend that you uninstall ASO using the same mechanism you used to install it." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/uninstalling/" /><meta property="article:section" content="guide" />
 
@@ -34,14 +36,16 @@ You can check if all ASO resources have been deleted by using: kubectl api-resou
 <meta itemprop="name" content="Uninstalling">
 <meta itemprop="description" content="Before you uninstall Before you uninstall Azure Service Operator, ensure that all of the resources managed by it are deleted from Kubernetes.
 Use the detach-on-delete reconcile-policy annotation if you want to delete an ASO resource from Kubernetes but retain it in Azure.
-You can check if all ASO resources have been deleted by using: kubectl api-resources -o name | grep azure.com | paste -sd &quot;,&quot; - | xargs kubectl get -A">
+You can check if all ASO resources have been deleted:
+kubectl api-resources -o name | grep azure.com | paste -sd &#34;,&#34; - | xargs kubectl get -A Uninstalling We recommend that you uninstall ASO using the same mechanism you used to install it.">
 
-<meta itemprop="wordCount" content="174">
+<meta itemprop="wordCount" content="194">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Uninstalling"/>
 <meta name="twitter:description" content="Before you uninstall Before you uninstall Azure Service Operator, ensure that all of the resources managed by it are deleted from Kubernetes.
 Use the detach-on-delete reconcile-policy annotation if you want to delete an ASO resource from Kubernetes but retain it in Azure.
-You can check if all ASO resources have been deleted by using: kubectl api-resources -o name | grep azure.com | paste -sd &quot;,&quot; - | xargs kubectl get -A"/>
+You can check if all ASO resources have been deleted:
+kubectl api-resources -o name | grep azure.com | paste -sd &#34;,&#34; - | xargs kubectl get -A Uninstalling We recommend that you uninstall ASO using the same mechanism you used to install it."/>
 
 
 
@@ -737,22 +741,23 @@ You can check if all ASO resources have been deleted by using: kubectl api-resou
 <p>Before you uninstall Azure Service Operator, ensure that all of the resources managed by it are deleted from Kubernetes.</p>
 <p>Use the <a href="/azure-service-operator/guide/annotations/#serviceoperatorazurecomreconcile-policy">detach-on-delete reconcile-policy annotation</a>
 if you want to delete an ASO resource from Kubernetes but retain it in Azure.</p>
-<p>You can check if all ASO resources have been deleted by using: <code>kubectl api-resources -o name | grep azure.com | paste -sd &quot;,&quot; - | xargs kubectl get -A</code></p>
-<h2 id="uninstalling">Uninstalling</h2>
+<p>You can check if all ASO resources have been deleted:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl api-resources -o name | grep azure.com | paste -sd <span style="color:#e6db74">&#34;,&#34;</span> - | xargs kubectl get -A
+</code></pre></div><h2 id="uninstalling">Uninstalling</h2>
 <p>We recommend that you uninstall ASO using the same mechanism you used to install it.</p>
 <h3 id="uninstalling-with-helm">Uninstalling with Helm</h3>
-<blockquote>
-<p><strong>Warning</strong>: This command will also remove installed ASO CRDs. As mentioned <a href="#before-you-uninstall">above</a> it is strongly recommended that you
+<p>As mentioned <a href="#before-you-uninstall">above</a> it is strongly recommended that you
 ensure that there are no remaining ASO resources in the cluster before you run this command.</p>
-</blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm --namespace azureserviceoperator-system delete asov2
 kubectl delete namespace azureserviceoperator-system
-</code></pre></div><h3 id="uninstalling-with-kubectl">Uninstalling with kubectl</h3>
+</code></pre></div><p>Note that Helm does not remove CRDs, due to the potential for user data-loss. The <a href="https://helm.sh/docs/chart_best_practices/custom_resource_definitions/">Helm documentation</a> reads:</p>
 <blockquote>
-<p><strong>Warning</strong>: This command will also remove installed ASO CRDs. As mentioned <a href="#before-you-uninstall">above</a> it is strongly recommended that you
-ensure that there are no remaining ASO resources in the cluster before you run this command.</p>
+<p>There is no support at this time for upgrading or deleting CRDs using Helm. This was an explicit decision after much community discussion due to the danger for unintentional data loss.</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl delete -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_v2.0.0.yaml
+<p>&ndash; Retrieved on Monday, 16 October 2023</p>
+<h3 id="uninstalling-with-kubectl">Uninstalling with kubectl</h3>
+<p>Use the same URL as you used during installation.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl delete -f https://github.com/Azure/azure-service-operator/releases/download/v2.3.0/azureserviceoperator_v2.3.0.yaml
 </code></pre></div>
 	
 	
