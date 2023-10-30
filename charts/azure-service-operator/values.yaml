@@ -43,8 +43,6 @@ recoverSoftDeletedKeyVaultSecrets: True
 webhook:
   # webhook.port determines the port the webhook endpoint binds to.
   port: 9443
-  # webhook.certDir determines which dir to mount webhook certs.
-  certDir: "/tmp/k8s-webhook-server/serving-certs"
 
 # image defines the container image the ASO pod should run
 # Note: This should use the latest released tag number explicitly. If
