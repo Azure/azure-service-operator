@@ -42,6 +42,17 @@ patchesStrategicMerge:
 
 # - manager_credentials_patch.yaml
 
+patches:
+- patch: |-
+    - op: add
+      path: /spec/template/spec/containers/0/args/-
+      value: --webhook-port=9443
+    - op: add
+      path: /spec/template/spec/containers/0/args/-
+      value: --webhook-cert-dir=/tmp/k8s-webhook-server/serving-certs
+  target:
+    kind: Deployment
+
 # the following config is for teaching kustomize how to do var substitution
 vars:
 ## [CERTMANAGER] To enable cert-manager, uncomment all sections with 'CERTMANAGER' prefix.
