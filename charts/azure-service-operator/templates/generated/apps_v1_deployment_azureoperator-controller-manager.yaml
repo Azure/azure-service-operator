@@ -20,7 +20,6 @@ spec:
       containers:
       - args:
         - --metrics-addr=127.0.0.1:8080
-        - --webhook-port={{ .Values.webhook.port }}
         command:
         - /manager
         env:
@@ -99,7 +98,7 @@ spec:
         image: {{ .Values.image.repository }}
         name: manager
         ports:
-        - containerPort: {{ .Values.webhook.port }}
+        - containerPort: 9443
           name: webhook-server
           protocol: TCP
         - containerPort: 8081

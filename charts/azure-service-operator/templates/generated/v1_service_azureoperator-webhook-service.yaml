@@ -6,6 +6,6 @@ metadata:
 spec:
   ports:
   - port: 443
-    targetPort: {{ .Values.webhook.port }}
+    targetPort: 9443
   selector:
     control-plane: controller-manager
