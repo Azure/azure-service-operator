@@ -1,0 +1,79 @@
+apiVersion: network.azure.com/v1api20220701
+kind: ApplicationGateway
+metadata:
+  name: aso-sample-application-gateway
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  autoscaleConfiguration:
+    maxCapacity: 3
+    minCapacity: 1
+  backendAddressPools:
+    - backendAddresses:
+        - ipAddress: 10.1.1.1
+      name: app-gw-be-pool-1
+  backendHttpSettingsCollection:
+    - cookieBasedAffinity: Disabled
+      name: app-gw-be-http-setting-1
+      pickHostNameFromBackendAddress: false
+      port: 8443
+      protocol: Http
+  frontendIPConfigurations:
+    - name: app-gw-fip-config-1
+      privateIPAddress: 10.1.0.10
+      privateIPAllocationMethod: Static
+      subnet:
+        reference:
+          group: network.azure.com
+          kind: VirtualNetworksSubnet
+          name: aso-sample-subnet-appgtw
+    - name: app-gw-fip-config-2
+      publicIPAddress:
+        reference:
+          group: network.azure.com
+          kind: PublicIPAddress
+          name: aso-sample-publicip-appgtw
+  frontendPorts:
+    - name: app-gw-fe-port-1
+      port: 80
+  gatewayIPConfigurations:
+    - name: app-gw-ip-config-1
+      subnet:
+        reference:
+          group: network.azure.com
+          kind: VirtualNetworksSubnet
+          name: aso-sample-subnet-appgtw
+  httpListeners:
+    - frontendIPConfiguration:
+        reference:
+          armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/applicationGateways/aso-sample-application-gateway/frontendIPConfigurations/app-gw-fip-config-1
+      frontendPort:
+        reference:
+          armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/applicationGateways/aso-sample-application-gateway/frontendPorts/app-gw-fe-port-1
+      hostNames:
+        - test.contoso.com
+      name: app-gw-http-listener-1
+      protocol: Http
+  requestRoutingRules:
+    - backendAddressPool:
+        reference:
+          armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/applicationGateways/aso-sample-application-gateway/backendAddressPools/app-gw-be-pool-1
+      backendHttpSettings:
+        reference:
+          armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/applicationGateways/aso-sample-application-gateway/backendHttpSettingsCollection/app-gw-be-http-setting-1
+      httpListener:
+        reference:
+          armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/applicationGateways/aso-sample-application-gateway/httpListeners/app-gw-http-listener-1
+      name: app-gtw-routing-rule-1
+      priority: 100
+      ruleType: Basic
+  sku:
+    name: WAF_v2
+    tier: WAF_v2
+  webApplicationFirewallConfiguration:
+    enabled: true
+    firewallMode: Detection
+    ruleSetType: OWASP
+    ruleSetVersion: "3.2"

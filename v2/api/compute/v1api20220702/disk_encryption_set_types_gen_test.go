@@ -5,7 +5,7 @@ package v1api20220702
 
 import (
 	"encoding/json"
-	v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702storage"
+	v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_DiskEncryptionSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDiskEncryptionSet tests if a specific instance of DiskEncryptionSet can be assigned to v1api20220702storage and back losslessly
+// RunPropertyAssignmentTestForDiskEncryptionSet tests if a specific instance of DiskEncryptionSet can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDiskEncryptionSet(subject DiskEncryptionSet) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_DiskEncryptionSet_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDiskEncryptionSet_Spec tests if a specific instance of DiskEncryptionSet_Spec can be assigned to v1api20220702storage and back losslessly
+// RunPropertyAssignmentTestForDiskEncryptionSet_Spec tests if a specific instance of DiskEncryptionSet_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDiskEncryptionSet_Spec(subject DiskEncryptionSet_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -298,7 +298,7 @@ func Test_DiskEncryptionSet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDiskEncryptionSet_STATUS tests if a specific instance of DiskEncryptionSet_STATUS can be assigned to v1api20220702storage and back losslessly
+// RunPropertyAssignmentTestForDiskEncryptionSet_STATUS tests if a specific instance of DiskEncryptionSet_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDiskEncryptionSet_STATUS(subject DiskEncryptionSet_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -427,7 +427,7 @@ func Test_ApiError_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApiError_STATUS tests if a specific instance of ApiError_STATUS can be assigned to v1api20220702storage and back losslessly
+// RunPropertyAssignmentTestForApiError_STATUS tests if a specific instance of ApiError_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApiError_STATUS(subject ApiError_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -546,7 +546,7 @@ func Test_EncryptionSetIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEncryptionSetIdentity tests if a specific instance of EncryptionSetIdentity can be assigned to v1api20220702storage and back losslessly
+// RunPropertyAssignmentTestForEncryptionSetIdentity tests if a specific instance of EncryptionSetIdentity can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEncryptionSetIdentity(subject EncryptionSetIdentity) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -667,7 +667,7 @@ func Test_EncryptionSetIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEncryptionSetIdentity_STATUS tests if a specific instance of EncryptionSetIdentity_STATUS can be assigned to v1api20220702storage and back losslessly
+// RunPropertyAssignmentTestForEncryptionSetIdentity_STATUS tests if a specific instance of EncryptionSetIdentity_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEncryptionSetIdentity_STATUS(subject EncryptionSetIdentity_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -790,7 +790,7 @@ func Test_KeyForDiskEncryptionSet_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForKeyForDiskEncryptionSet tests if a specific instance of KeyForDiskEncryptionSet can be assigned to v1api20220702storage and back losslessly
+// RunPropertyAssignmentTestForKeyForDiskEncryptionSet tests if a specific instance of KeyForDiskEncryptionSet can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForKeyForDiskEncryptionSet(subject KeyForDiskEncryptionSet) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -907,7 +907,7 @@ func Test_KeyForDiskEncryptionSet_STATUS_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForKeyForDiskEncryptionSet_STATUS tests if a specific instance of KeyForDiskEncryptionSet_STATUS can be assigned to v1api20220702storage and back losslessly
+// RunPropertyAssignmentTestForKeyForDiskEncryptionSet_STATUS tests if a specific instance of KeyForDiskEncryptionSet_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForKeyForDiskEncryptionSet_STATUS(subject KeyForDiskEncryptionSet_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1024,7 +1024,7 @@ func Test_ApiErrorBase_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApiErrorBase_STATUS tests if a specific instance of ApiErrorBase_STATUS can be assigned to v1api20220702storage and back losslessly
+// RunPropertyAssignmentTestForApiErrorBase_STATUS tests if a specific instance of ApiErrorBase_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApiErrorBase_STATUS(subject ApiErrorBase_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1129,7 +1129,7 @@ func Test_EncryptionSetIdentity_UserAssignedIdentities_STATUS_WhenPropertiesConv
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEncryptionSetIdentity_UserAssignedIdentities_STATUS tests if a specific instance of EncryptionSetIdentity_UserAssignedIdentities_STATUS can be assigned to v1api20220702storage and back losslessly
+// RunPropertyAssignmentTestForEncryptionSetIdentity_UserAssignedIdentities_STATUS tests if a specific instance of EncryptionSetIdentity_UserAssignedIdentities_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEncryptionSetIdentity_UserAssignedIdentities_STATUS(subject EncryptionSetIdentity_UserAssignedIdentities_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1233,7 +1233,7 @@ func Test_InnerError_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForInnerError_STATUS tests if a specific instance of InnerError_STATUS can be assigned to v1api20220702storage and back losslessly
+// RunPropertyAssignmentTestForInnerError_STATUS tests if a specific instance of InnerError_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForInnerError_STATUS(subject InnerError_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1336,7 +1336,7 @@ func Test_SourceVault_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSourceVault tests if a specific instance of SourceVault can be assigned to v1api20220702storage and back losslessly
+// RunPropertyAssignmentTestForSourceVault tests if a specific instance of SourceVault can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSourceVault(subject SourceVault) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1432,7 +1432,7 @@ func Test_SourceVault_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSourceVault_STATUS tests if a specific instance of SourceVault_STATUS can be assigned to v1api20220702storage and back losslessly
+// RunPropertyAssignmentTestForSourceVault_STATUS tests if a specific instance of SourceVault_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSourceVault_STATUS(subject SourceVault_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1534,7 +1534,7 @@ func Test_UserAssignedIdentityDetails_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForUserAssignedIdentityDetails tests if a specific instance of UserAssignedIdentityDetails can be assigned to v1api20220702storage and back losslessly
+// RunPropertyAssignmentTestForUserAssignedIdentityDetails tests if a specific instance of UserAssignedIdentityDetails can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssignedIdentityDetails) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

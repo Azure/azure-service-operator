@@ -33,7 +33,6 @@ var legacyStorageGroups = set.Make(
 	"batch",
 	"cache",
 	"cdn",
-	"compute",
 	"containerinstance",
 	"containerregistry",
 	"containerservice",
