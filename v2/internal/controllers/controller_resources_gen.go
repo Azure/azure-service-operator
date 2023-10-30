@@ -42,23 +42,23 @@ import (
 	cdn_v1beta20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage"
 	compute_customizations "github.com/Azure/azure-service-operator/v2/api/compute/customizations"
 	compute_v20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930"
-	compute_v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930storage"
+	compute_v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/storage"
 	compute_v20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201"
-	compute_v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201storage"
+	compute_v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage"
 	compute_v20210701 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20210701"
-	compute_v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20210701storage"
+	compute_v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20210701/storage"
 	compute_v20220301 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301"
-	compute_v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301storage"
+	compute_v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
 	compute_v20220702 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702"
-	compute_v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702storage"
+	compute_v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
 	compute_v1beta20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930"
-	compute_v1beta20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage"
+	compute_v1beta20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930/storage"
 	compute_v1beta20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
-	compute_v1beta20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage"
+	compute_v1beta20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201/storage"
 	compute_v1beta20210701 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701"
-	compute_v1beta20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
+	compute_v1beta20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701/storage"
 	compute_v1beta20220301 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301"
-	compute_v1beta20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage"
+	compute_v1beta20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301/storage"
 	containerinstance_customizations "github.com/Azure/azure-service-operator/v2/api/containerinstance/customizations"
 	containerinstance_v20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001"
 	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001storage"
@@ -239,6 +239,8 @@ import (
 // getKnownStorageTypes returns the list of storage types which can be reconciled.
 func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Api)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.ApiVersionSet)})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20220801s.Backend),
 		Indexes: []registration.Index{
@@ -269,6 +271,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Policy)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.PolicyFragment)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Product)})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20220801s.Service),
 		Indexes: []registration.Index{
@@ -745,6 +750,37 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesAzureEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesExternalEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesNestedEndpoint)})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20220701s.ApplicationGateway),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.authenticationCertificates.data",
+				Func: indexNetworkApplicationGatewayAuthenticationCertificatesData,
+			},
+			{
+				Key:  ".spec.sslCertificates.data",
+				Func: indexNetworkApplicationGatewaySslCertificatesData,
+			},
+			{
+				Key:  ".spec.sslCertificates.password",
+				Func: indexNetworkApplicationGatewaySslCertificatesPassword,
+			},
+			{
+				Key:  ".spec.trustedClientCertificates.data",
+				Func: indexNetworkApplicationGatewayTrustedClientCertificatesData,
+			},
+			{
+				Key:  ".spec.trustedRootCertificates.data",
+				Func: indexNetworkApplicationGatewayTrustedRootCertificatesData,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.authenticationCertificates.data", ".spec.sslCertificates.data", ".spec.sslCertificates.password", ".spec.trustedClientCertificates.data", ".spec.trustedRootCertificates.data"}, &network_v20220701s.ApplicationGatewayList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.BastionHost)})
 	result = append(result, &registration.StorageType{
 		Obj: new(network_v20220701s.DnsForwardingRuleSetsForwardingRule),
@@ -1001,14 +1037,24 @@ func getKnownTypes() []client.Object {
 	var result []client.Object
 	result = append(
 		result,
+		new(apimanagement_v20220801.Api),
+		new(apimanagement_v20220801.ApiVersionSet),
 		new(apimanagement_v20220801.Backend),
 		new(apimanagement_v20220801.NamedValue),
+		new(apimanagement_v20220801.Policy),
+		new(apimanagement_v20220801.PolicyFragment),
+		new(apimanagement_v20220801.Product),
 		new(apimanagement_v20220801.Service),
 		new(apimanagement_v20220801.Subscription))
 	result = append(
 		result,
+		new(apimanagement_v20220801s.Api),
+		new(apimanagement_v20220801s.ApiVersionSet),
 		new(apimanagement_v20220801s.Backend),
 		new(apimanagement_v20220801s.NamedValue),
+		new(apimanagement_v20220801s.Policy),
+		new(apimanagement_v20220801s.PolicyFragment),
+		new(apimanagement_v20220801s.Product),
 		new(apimanagement_v20220801s.Service),
 		new(apimanagement_v20220801s.Subscription))
 	result = append(result, new(appconfiguration_v1beta20220501.ConfigurationStore))
@@ -1509,6 +1555,7 @@ func getKnownTypes() []client.Object {
 		new(network_v20220401s.TrafficManagerProfilesNestedEndpoint))
 	result = append(
 		result,
+		new(network_v20220701.ApplicationGateway),
 		new(network_v20220701.BastionHost),
 		new(network_v20220701.DnsForwardingRuleSetsForwardingRule),
 		new(network_v20220701.DnsForwardingRuleset),
@@ -1522,6 +1569,7 @@ func getKnownTypes() []client.Object {
 		new(network_v20220701.PublicIPPrefix))
 	result = append(
 		result,
+		new(network_v20220701s.ApplicationGateway),
 		new(network_v20220701s.BastionHost),
 		new(network_v20220701s.DnsForwardingRuleSetsForwardingRule),
 		new(network_v20220701s.DnsForwardingRuleset),
@@ -1926,8 +1974,13 @@ func createScheme() *runtime.Scheme {
 // getResourceExtensions returns a list of resource extensions
 func getResourceExtensions() []genruntime.ResourceExtension {
 	var result []genruntime.ResourceExtension
+	result = append(result, &apimanagement_customizations.ApiExtension{})
+	result = append(result, &apimanagement_customizations.ApiVersionSetExtension{})
 	result = append(result, &apimanagement_customizations.BackendExtension{})
 	result = append(result, &apimanagement_customizations.NamedValueExtension{})
+	result = append(result, &apimanagement_customizations.PolicyExtension{})
+	result = append(result, &apimanagement_customizations.PolicyFragmentExtension{})
+	result = append(result, &apimanagement_customizations.ProductExtension{})
 	result = append(result, &apimanagement_customizations.ServiceExtension{})
 	result = append(result, &apimanagement_customizations.SubscriptionExtension{})
 	result = append(result, &appconfiguration_customizations.ConfigurationStoreExtension{})
@@ -2005,6 +2058,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &machinelearningservices_customizations.WorkspacesConnectionExtension{})
 	result = append(result, &managedidentity_customizations.FederatedIdentityCredentialExtension{})
 	result = append(result, &managedidentity_customizations.UserAssignedIdentityExtension{})
+	result = append(result, &network_customizations.ApplicationGatewayExtension{})
 	result = append(result, &network_customizations.BastionHostExtension{})
 	result = append(result, &network_customizations.DnsForwardingRuleSetsForwardingRuleExtension{})
 	result = append(result, &network_customizations.DnsForwardingRulesetExtension{})
@@ -2921,6 +2975,86 @@ func indexManagedidentityFederatedIdentityCredentialSubjectFromConfig(rawObj cli
 		return nil
 	}
 	return obj.Spec.SubjectFromConfig.Index()
+}
+
+// indexNetworkApplicationGatewayAuthenticationCertificatesData an index function for network_v20220701s.ApplicationGateway .spec.authenticationCertificates.data
+func indexNetworkApplicationGatewayAuthenticationCertificatesData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20220701s.ApplicationGateway)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, authenticationCertificateItem := range obj.Spec.AuthenticationCertificates {
+		if authenticationCertificateItem.Data == nil {
+			continue
+		}
+		result = append(result, authenticationCertificateItem.Data.Index()...)
+	}
+	return result
+}
+
+// indexNetworkApplicationGatewaySslCertificatesData an index function for network_v20220701s.ApplicationGateway .spec.sslCertificates.data
+func indexNetworkApplicationGatewaySslCertificatesData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20220701s.ApplicationGateway)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, sslCertificateItem := range obj.Spec.SslCertificates {
+		if sslCertificateItem.Data == nil {
+			continue
+		}
+		result = append(result, sslCertificateItem.Data.Index()...)
+	}
+	return result
+}
+
+// indexNetworkApplicationGatewaySslCertificatesPassword an index function for network_v20220701s.ApplicationGateway .spec.sslCertificates.password
+func indexNetworkApplicationGatewaySslCertificatesPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20220701s.ApplicationGateway)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, sslCertificateItem := range obj.Spec.SslCertificates {
+		if sslCertificateItem.Password == nil {
+			continue
+		}
+		result = append(result, sslCertificateItem.Password.Index()...)
+	}
+	return result
+}
+
+// indexNetworkApplicationGatewayTrustedClientCertificatesData an index function for network_v20220701s.ApplicationGateway .spec.trustedClientCertificates.data
+func indexNetworkApplicationGatewayTrustedClientCertificatesData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20220701s.ApplicationGateway)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, trustedClientCertificateItem := range obj.Spec.TrustedClientCertificates {
+		if trustedClientCertificateItem.Data == nil {
+			continue
+		}
+		result = append(result, trustedClientCertificateItem.Data.Index()...)
+	}
+	return result
+}
+
+// indexNetworkApplicationGatewayTrustedRootCertificatesData an index function for network_v20220701s.ApplicationGateway .spec.trustedRootCertificates.data
+func indexNetworkApplicationGatewayTrustedRootCertificatesData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20220701s.ApplicationGateway)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, trustedRootCertificateItem := range obj.Spec.TrustedRootCertificates {
+		if trustedRootCertificateItem.Data == nil {
+			continue
+		}
+		result = append(result, trustedRootCertificateItem.Data.Index()...)
+	}
+	return result
 }
 
 // indexNetworkDnsForwardingRuleSetsForwardingRuleIpAddressFromConfig an index function for network_v20220701s.DnsForwardingRuleSetsForwardingRule .spec.targetDnsServers.ipAddressFromConfig

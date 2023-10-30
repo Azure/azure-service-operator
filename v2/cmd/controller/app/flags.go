@@ -20,18 +20,20 @@ type Flags struct {
 	WebhookPort          int
 	WebhookCertDir       string
 	EnableLeaderElection bool
+	CRDManagementMode    string
 	CRDPatterns          string // This is a ; delimited string containing a collection of patterns
 	PreUpgradeCheck      bool
 }
 
 func (f Flags) String() string {
 	return fmt.Sprintf(
-		"MetricsAddr: %s, HealthAddr: %s, WebhookServerPort: %d, WebhookServerCertDir: %s, EnableLeaderElection: %t, CRDPatterns: %s, PreUpgradeCheck: %t",
+		"MetricsAddr: %s, HealthAddr: %s, WebhookPort: %d, WebhookCertDir: %s, EnableLeaderElection: %t, CRDManagementMode: %s, CRDPatterns: %s, PreUpgradeCheck: %t",
 		f.MetricsAddr,
 		f.HealthAddr,
 		f.WebhookPort,
 		f.WebhookCertDir,
 		f.EnableLeaderElection,
+		f.CRDManagementMode,
 		f.CRDPatterns,
 		f.PreUpgradeCheck)
 }
@@ -46,6 +48,7 @@ func ParseFlags(args []string) (Flags, error) {
 	var webhookPort int
 	var webhookCertDir string
 	var enableLeaderElection bool
+	var crdManagementMode string
 	var crdPatterns string
 	var preUpgradeCheck bool
 
@@ -56,6 +59,8 @@ func ParseFlags(args []string) (Flags, error) {
 	flagSet.StringVar(&webhookCertDir, "webhook-cert-dir", "", "The directory the webhook server's certs are stored.")
 	flagSet.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controllers manager. Enabling this will ensure there is only one active controllers manager.")
+	flagSet.StringVar(&crdManagementMode, "crd-management", "auto",
+		"Instructs the operator on how it should manage the Custom Resource Definitions. One of 'auto', 'none'")
 	flagSet.StringVar(&crdPatterns, "crd-pattern", "", "Install these CRDs. CRDs already in the cluster will also always be upgraded.")
 	flagSet.BoolVar(&preUpgradeCheck, "pre-upgrade-check", false,
 		"Enable pre upgrade check to check if existing crds contain helm 'keep' policy.")
@@ -68,6 +73,7 @@ func ParseFlags(args []string) (Flags, error) {
 		WebhookPort:          webhookPort,
 		WebhookCertDir:       webhookCertDir,
 		EnableLeaderElection: enableLeaderElection,
+		CRDManagementMode:    crdManagementMode,
 		CRDPatterns:          crdPatterns,
 		PreUpgradeCheck:      preUpgradeCheck,
 	}, nil

@@ -5,7 +5,7 @@ package v1api20200930
 
 import (
 	"fmt"
-	v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930storage"
+	v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &Disk{}
 func (disk *Disk) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20200930s.Disk)
 	if !ok {
-		return fmt.Errorf("expected compute/v1api20200930storage/Disk but received %T instead", hub)
+		return fmt.Errorf("expected compute/v1api20200930/storage/Disk but received %T instead", hub)
 	}
 
 	return disk.AssignProperties_From_Disk(source)
@@ -61,7 +61,7 @@ func (disk *Disk) ConvertFrom(hub conversion.Hub) error {
 func (disk *Disk) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20200930s.Disk)
 	if !ok {
-		return fmt.Errorf("expected compute/v1api20200930storage/Disk but received %T instead", hub)
+		return fmt.Errorf("expected compute/v1api20200930/storage/Disk but received %T instead", hub)
 	}
 
 	return disk.AssignProperties_To_Disk(destination)

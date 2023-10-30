@@ -5,7 +5,7 @@ package v1api20220301
 
 import (
 	"fmt"
-	v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301storage"
+	v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -52,7 +52,7 @@ var _ conversion.Convertible = &VirtualMachineScaleSet{}
 func (scaleSet *VirtualMachineScaleSet) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220301s.VirtualMachineScaleSet)
 	if !ok {
-		return fmt.Errorf("expected compute/v1api20220301storage/VirtualMachineScaleSet but received %T instead", hub)
+		return fmt.Errorf("expected compute/v1api20220301/storage/VirtualMachineScaleSet but received %T instead", hub)
 	}
 
 	return scaleSet.AssignProperties_From_VirtualMachineScaleSet(source)
@@ -62,7 +62,7 @@ func (scaleSet *VirtualMachineScaleSet) ConvertFrom(hub conversion.Hub) error {
 func (scaleSet *VirtualMachineScaleSet) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220301s.VirtualMachineScaleSet)
 	if !ok {
-		return fmt.Errorf("expected compute/v1api20220301storage/VirtualMachineScaleSet but received %T instead", hub)
+		return fmt.Errorf("expected compute/v1api20220301/storage/VirtualMachineScaleSet but received %T instead", hub)
 	}
 
 	return scaleSet.AssignProperties_To_VirtualMachineScaleSet(destination)
