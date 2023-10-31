@@ -5,7 +5,7 @@ package v1api20220801
 
 import (
 	"encoding/json"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_Subscription_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubscription tests if a specific instance of Subscription can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForSubscription tests if a specific instance of Subscription can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubscription(subject Subscription) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Service_Subscription_Spec_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_Subscription_Spec tests if a specific instance of Service_Subscription_Spec can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForService_Subscription_Spec tests if a specific instance of Service_Subscription_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForService_Subscription_Spec(subject Service_Subscription_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -302,7 +302,7 @@ func Test_Service_Subscription_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_Subscription_STATUS tests if a specific instance of Service_Subscription_STATUS can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForService_Subscription_STATUS tests if a specific instance of Service_Subscription_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForService_Subscription_STATUS(subject Service_Subscription_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -424,7 +424,7 @@ func Test_SubscriptionOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubscriptionOperatorSpec tests if a specific instance of SubscriptionOperatorSpec can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForSubscriptionOperatorSpec tests if a specific instance of SubscriptionOperatorSpec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubscriptionOperatorSpec(subject SubscriptionOperatorSpec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -527,7 +527,7 @@ func Test_SubscriptionOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubscriptionOperatorSecrets tests if a specific instance of SubscriptionOperatorSecrets can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForSubscriptionOperatorSecrets tests if a specific instance of SubscriptionOperatorSecrets can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubscriptionOperatorSecrets(subject SubscriptionOperatorSecrets) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

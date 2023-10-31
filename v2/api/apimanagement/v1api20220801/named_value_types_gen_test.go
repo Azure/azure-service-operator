@@ -5,7 +5,7 @@ package v1api20220801
 
 import (
 	"encoding/json"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_NamedValue_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamedValue tests if a specific instance of NamedValue can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForNamedValue tests if a specific instance of NamedValue can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamedValue(subject NamedValue) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Service_NamedValue_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_NamedValue_Spec tests if a specific instance of Service_NamedValue_Spec can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForService_NamedValue_Spec tests if a specific instance of Service_NamedValue_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForService_NamedValue_Spec(subject Service_NamedValue_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -296,7 +296,7 @@ func Test_Service_NamedValue_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_NamedValue_STATUS tests if a specific instance of Service_NamedValue_STATUS can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForService_NamedValue_STATUS tests if a specific instance of Service_NamedValue_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForService_NamedValue_STATUS(subject Service_NamedValue_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -419,7 +419,7 @@ func Test_KeyVaultContractCreateProperties_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForKeyVaultContractCreateProperties tests if a specific instance of KeyVaultContractCreateProperties can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForKeyVaultContractCreateProperties tests if a specific instance of KeyVaultContractCreateProperties can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForKeyVaultContractCreateProperties(subject KeyVaultContractCreateProperties) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -523,7 +523,7 @@ func Test_KeyVaultContractProperties_STATUS_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForKeyVaultContractProperties_STATUS tests if a specific instance of KeyVaultContractProperties_STATUS can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForKeyVaultContractProperties_STATUS tests if a specific instance of KeyVaultContractProperties_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForKeyVaultContractProperties_STATUS(subject KeyVaultContractProperties_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -641,7 +641,7 @@ func Test_KeyVaultLastAccessStatusContractProperties_STATUS_WhenPropertiesConver
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForKeyVaultLastAccessStatusContractProperties_STATUS tests if a specific instance of KeyVaultLastAccessStatusContractProperties_STATUS can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForKeyVaultLastAccessStatusContractProperties_STATUS tests if a specific instance of KeyVaultLastAccessStatusContractProperties_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForKeyVaultLastAccessStatusContractProperties_STATUS(subject KeyVaultLastAccessStatusContractProperties_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
