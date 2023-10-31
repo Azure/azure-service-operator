@@ -5,7 +5,7 @@ package v1api20210601
 
 import (
 	"encoding/json"
-	v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601storage"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_Profile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForProfile tests if a specific instance of Profile can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForProfile tests if a specific instance of Profile can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForProfile(subject Profile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Profile_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForProfile_Spec tests if a specific instance of Profile_Spec can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForProfile_Spec tests if a specific instance of Profile_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForProfile_Spec(subject Profile_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -294,7 +294,7 @@ func Test_Profile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForProfile_STATUS tests if a specific instance of Profile_STATUS can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForProfile_STATUS tests if a specific instance of Profile_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForProfile_STATUS(subject Profile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -429,7 +429,7 @@ func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSku tests if a specific instance of Sku can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForSku tests if a specific instance of Sku can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSku(subject Sku) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -544,7 +544,7 @@ func Test_Sku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSku_STATUS tests if a specific instance of Sku_STATUS can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForSku_STATUS tests if a specific instance of Sku_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -659,7 +659,7 @@ func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
