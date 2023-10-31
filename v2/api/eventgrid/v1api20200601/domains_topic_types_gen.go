@@ -5,7 +5,7 @@ package v1api20200601
 
 import (
 	"fmt"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &DomainsTopic{}
 func (topic *DomainsTopic) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20200601s.DomainsTopic)
 	if !ok {
-		return fmt.Errorf("expected eventgrid/v1api20200601storage/DomainsTopic but received %T instead", hub)
+		return fmt.Errorf("expected eventgrid/v1api20200601/storage/DomainsTopic but received %T instead", hub)
 	}
 
 	return topic.AssignProperties_From_DomainsTopic(source)
@@ -61,7 +61,7 @@ func (topic *DomainsTopic) ConvertFrom(hub conversion.Hub) error {
 func (topic *DomainsTopic) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20200601s.DomainsTopic)
 	if !ok {
-		return fmt.Errorf("expected eventgrid/v1api20200601storage/DomainsTopic but received %T instead", hub)
+		return fmt.Errorf("expected eventgrid/v1api20200601/storage/DomainsTopic but received %T instead", hub)
 	}
 
 	return topic.AssignProperties_To_DomainsTopic(destination)

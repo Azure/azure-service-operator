@@ -5,7 +5,7 @@ package v1beta20200601
 
 import (
 	"fmt"
-	v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
+	v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"

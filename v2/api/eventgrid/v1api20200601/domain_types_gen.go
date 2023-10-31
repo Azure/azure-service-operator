@@ -5,7 +5,7 @@ package v1api20200601
 
 import (
 	"fmt"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &Domain{}
 func (domain *Domain) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20200601s.Domain)
 	if !ok {
-		return fmt.Errorf("expected eventgrid/v1api20200601storage/Domain but received %T instead", hub)
+		return fmt.Errorf("expected eventgrid/v1api20200601/storage/Domain but received %T instead", hub)
 	}
 
 	return domain.AssignProperties_From_Domain(source)
@@ -61,7 +61,7 @@ func (domain *Domain) ConvertFrom(hub conversion.Hub) error {
 func (domain *Domain) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20200601s.Domain)
 	if !ok {
-		return fmt.Errorf("expected eventgrid/v1api20200601storage/Domain but received %T instead", hub)
+		return fmt.Errorf("expected eventgrid/v1api20200601/storage/Domain but received %T instead", hub)
 	}
 
 	return domain.AssignProperties_To_Domain(destination)
