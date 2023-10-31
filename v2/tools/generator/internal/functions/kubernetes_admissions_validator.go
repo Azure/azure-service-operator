@@ -147,7 +147,12 @@ func (v *ValidatorBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 }
 
 // validateCreate returns a function that performs validation of creation for the resource
-func (v *ValidatorBuilder) validateCreate(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func (v *ValidatorBuilder) validateCreate(
+	k *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -167,11 +172,16 @@ func (v *ValidatorBuilder) validateCreate(k *ResourceFunction, codeGenerationCon
 	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates the creation of the resource")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // validateUpdate returns a function that performs validation of update for the resource
-func (v *ValidatorBuilder) validateUpdate(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func (v *ValidatorBuilder) validateUpdate(
+	k *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -193,11 +203,16 @@ func (v *ValidatorBuilder) validateUpdate(k *ResourceFunction, codeGenerationCon
 	}
 
 	fn.AddComments("validates an update of the resource")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // validateDelete returns a function that performs validation of deletion for the resource
-func (v *ValidatorBuilder) validateDelete(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func (v *ValidatorBuilder) validateDelete(
+	k *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -217,7 +232,7 @@ func (v *ValidatorBuilder) validateDelete(k *ResourceFunction, codeGenerationCon
 	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates the deletion of the resource")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // validateBody returns the body for the generic validation function which invokes all local (code generated) validations
@@ -272,22 +287,37 @@ func (v *ValidatorBuilder) validateBody(
 	return body
 }
 
-func (v *ValidatorBuilder) localCreateValidations(_ *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func (v *ValidatorBuilder) localCreateValidations(
+	_ *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	fn := v.makeLocalValidationFuncDetails(ValidationKindCreate, codeGenerationContext, receiver, methodName)
 	fn.AddComments("validates the creation of the resource")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
-func (v *ValidatorBuilder) localUpdateValidations(_ *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func (v *ValidatorBuilder) localUpdateValidations(
+	_ *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	fn := v.makeLocalValidationFuncDetails(ValidationKindUpdate, codeGenerationContext, receiver, methodName)
 	fn.AddComments("validates the update of the resource")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
-func (v *ValidatorBuilder) localDeleteValidations(_ *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func (v *ValidatorBuilder) localDeleteValidations(
+	_ *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	fn := v.makeLocalValidationFuncDetails(ValidationKindDelete, codeGenerationContext, receiver, methodName)
 	fn.AddComments("validates the deletion of the resource")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 func (v *ValidatorBuilder) makeLocalValidationFuncDetails(kind ValidationKind, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *astbuilder.FuncDetails {

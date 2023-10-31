@@ -181,7 +181,12 @@ func NewValidateSecretDestinationsFunction(resource *astmodel.ResourceType, idFa
 		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
 }
 
-func validateSecretDestinations(k *functions.ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func validateSecretDestinations(
+	k *functions.ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -201,7 +206,8 @@ func validateSecretDestinations(k *functions.ResourceFunction, codeGenerationCon
 	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates there are no colliding genruntime.SecretDestination's")
-	return fn.DefineFunc()
+
+	return fn.DefineFunc(), nil
 }
 
 func NewValidateConfigMapDestinationsFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *functions.ResourceFunction {
@@ -213,7 +219,12 @@ func NewValidateConfigMapDestinationsFunction(resource *astmodel.ResourceType, i
 		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
 }
 
-func validateConfigMapDestinations(k *functions.ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func validateConfigMapDestinations(
+	k *functions.ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -230,10 +241,12 @@ func validateConfigMapDestinations(k *functions.ResourceFunction, codeGeneration
 			"ValidateConfigMapDestinations"),
 	}
 
-	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
+	runtimeAdmission := codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission)
+	fn.AddReturn(astbuilder.QualifiedTypeName(runtimeAdmission, "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates there are no colliding genruntime.ConfigMapDestinations")
-	return fn.DefineFunc()
+
+	return fn.DefineFunc(), nil
 }
 
 // validateOperatorSpecSliceBody helps generate the body of the validateResourceReferences function:

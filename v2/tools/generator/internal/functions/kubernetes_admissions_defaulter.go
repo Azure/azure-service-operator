@@ -105,7 +105,12 @@ func (d *DefaulterBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 		funcs...).WithAnnotation(annotation)
 }
 
-func (d *DefaulterBuilder) localDefault(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func (d *DefaulterBuilder) localDefault(
+	k *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -124,10 +129,15 @@ func (d *DefaulterBuilder) localDefault(k *ResourceFunction, codeGenerationConte
 	}
 
 	fn.AddComments(fmt.Sprintf("applies the code generated defaults to the %s resource", receiver.Name()))
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
-func (d *DefaulterBuilder) defaultFunction(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func (d *DefaulterBuilder) defaultFunction(
+	k *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 	tempVarIdent := "temp"
@@ -151,5 +161,5 @@ func (d *DefaulterBuilder) defaultFunction(k *ResourceFunction, codeGenerationCo
 	}
 
 	fn.AddComments(fmt.Sprintf("applies defaults to the %s resource", receiver.Name()))
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
