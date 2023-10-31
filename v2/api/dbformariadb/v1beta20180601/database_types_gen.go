@@ -5,7 +5,7 @@ package v1beta20180601
 
 import (
 	"fmt"
-	v1beta20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storage"
+	v1beta20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"

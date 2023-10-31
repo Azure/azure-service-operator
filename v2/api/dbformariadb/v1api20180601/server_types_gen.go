@@ -5,7 +5,7 @@ package v1api20180601
 
 import (
 	"fmt"
-	v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601storage"
+	v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &Server{}
 func (server *Server) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20180601s.Server)
 	if !ok {
-		return fmt.Errorf("expected dbformariadb/v1api20180601storage/Server but received %T instead", hub)
+		return fmt.Errorf("expected dbformariadb/v1api20180601/storage/Server but received %T instead", hub)
 	}
 
 	return server.AssignProperties_From_Server(source)
@@ -61,7 +61,7 @@ func (server *Server) ConvertFrom(hub conversion.Hub) error {
 func (server *Server) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20180601s.Server)
 	if !ok {
-		return fmt.Errorf("expected dbformariadb/v1api20180601storage/Server but received %T instead", hub)
+		return fmt.Errorf("expected dbformariadb/v1api20180601/storage/Server but received %T instead", hub)
 	}
 
 	return server.AssignProperties_To_Server(destination)
