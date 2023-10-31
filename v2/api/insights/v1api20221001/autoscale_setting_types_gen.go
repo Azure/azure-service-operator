@@ -26,129 +26,129 @@ import (
 // Generator information:
 // - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}
-type Autoscalesetting struct {
+type AutoscaleSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Autoscalesetting_Spec   `json:"spec,omitempty"`
 	Status            Autoscalesetting_STATUS `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &Autoscalesetting{}
+var _ conditions.Conditioner = &AutoscaleSetting{}
 
 // GetConditions returns the conditions of the resource
-func (autoscalesetting *Autoscalesetting) GetConditions() conditions.Conditions {
-	return autoscalesetting.Status.Conditions
+func (setting *AutoscaleSetting) GetConditions() conditions.Conditions {
+	return setting.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (autoscalesetting *Autoscalesetting) SetConditions(conditions conditions.Conditions) {
-	autoscalesetting.Status.Conditions = conditions
+func (setting *AutoscaleSetting) SetConditions(conditions conditions.Conditions) {
+	setting.Status.Conditions = conditions
 }
 
-var _ conversion.Convertible = &Autoscalesetting{}
+var _ conversion.Convertible = &AutoscaleSetting{}
 
-// ConvertFrom populates our Autoscalesetting from the provided hub Autoscalesetting
-func (autoscalesetting *Autoscalesetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20221001s.Autoscalesetting)
+// ConvertFrom populates our AutoscaleSetting from the provided hub AutoscaleSetting
+func (setting *AutoscaleSetting) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v20221001s.AutoscaleSetting)
 	if !ok {
-		return fmt.Errorf("expected insights/v1api20221001storage/Autoscalesetting but received %T instead", hub)
+		return fmt.Errorf("expected insights/v1api20221001storage/AutoscaleSetting but received %T instead", hub)
 	}
 
-	return autoscalesetting.AssignProperties_From_Autoscalesetting(source)
+	return setting.AssignProperties_From_AutoscaleSetting(source)
 }
 
-// ConvertTo populates the provided hub Autoscalesetting from our Autoscalesetting
-func (autoscalesetting *Autoscalesetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20221001s.Autoscalesetting)
+// ConvertTo populates the provided hub AutoscaleSetting from our AutoscaleSetting
+func (setting *AutoscaleSetting) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v20221001s.AutoscaleSetting)
 	if !ok {
-		return fmt.Errorf("expected insights/v1api20221001storage/Autoscalesetting but received %T instead", hub)
+		return fmt.Errorf("expected insights/v1api20221001storage/AutoscaleSetting but received %T instead", hub)
 	}
 
-	return autoscalesetting.AssignProperties_To_Autoscalesetting(destination)
+	return setting.AssignProperties_To_AutoscaleSetting(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-insights-azure-com-v1api20221001-autoscalesetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=autoscalesettings,verbs=create;update,versions=v1api20221001,name=default.v1api20221001.autoscalesettings.insights.azure.com,admissionReviewVersions=v1
 
-var _ admission.Defaulter = &Autoscalesetting{}
+var _ admission.Defaulter = &AutoscaleSetting{}
 
-// Default applies defaults to the Autoscalesetting resource
-func (autoscalesetting *Autoscalesetting) Default() {
-	autoscalesetting.defaultImpl()
-	var temp any = autoscalesetting
+// Default applies defaults to the AutoscaleSetting resource
+func (setting *AutoscaleSetting) Default() {
+	setting.defaultImpl()
+	var temp any = setting
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (autoscalesetting *Autoscalesetting) defaultAzureName() {
-	if autoscalesetting.Spec.AzureName == "" {
-		autoscalesetting.Spec.AzureName = autoscalesetting.Name
+func (setting *AutoscaleSetting) defaultAzureName() {
+	if setting.Spec.AzureName == "" {
+		setting.Spec.AzureName = setting.Name
 	}
 }
 
-// defaultImpl applies the code generated defaults to the Autoscalesetting resource
-func (autoscalesetting *Autoscalesetting) defaultImpl() { autoscalesetting.defaultAzureName() }
+// defaultImpl applies the code generated defaults to the AutoscaleSetting resource
+func (setting *AutoscaleSetting) defaultImpl() { setting.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &Autoscalesetting{}
+var _ genruntime.ImportableResource = &AutoscaleSetting{}
 
 // InitializeSpec initializes the spec for this resource from the given status
-func (autoscalesetting *Autoscalesetting) InitializeSpec(status genruntime.ConvertibleStatus) error {
+func (setting *AutoscaleSetting) InitializeSpec(status genruntime.ConvertibleStatus) error {
 	if s, ok := status.(*Autoscalesetting_STATUS); ok {
-		return autoscalesetting.Spec.Initialize_From_Autoscalesetting_STATUS(s)
+		return setting.Spec.Initialize_From_Autoscalesetting_STATUS(s)
 	}
 
 	return fmt.Errorf("expected Status of type Autoscalesetting_STATUS but received %T instead", status)
 }
 
-var _ genruntime.KubernetesResource = &Autoscalesetting{}
+var _ genruntime.KubernetesResource = &AutoscaleSetting{}
 
 // AzureName returns the Azure name of the resource
-func (autoscalesetting *Autoscalesetting) AzureName() string {
-	return autoscalesetting.Spec.AzureName
+func (setting *AutoscaleSetting) AzureName() string {
+	return setting.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-10-01"
-func (autoscalesetting Autoscalesetting) GetAPIVersion() string {
+func (setting AutoscaleSetting) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
-func (autoscalesetting *Autoscalesetting) GetResourceScope() genruntime.ResourceScope {
+func (setting *AutoscaleSetting) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
-func (autoscalesetting *Autoscalesetting) GetSpec() genruntime.ConvertibleSpec {
-	return &autoscalesetting.Spec
+func (setting *AutoscaleSetting) GetSpec() genruntime.ConvertibleSpec {
+	return &setting.Spec
 }
 
 // GetStatus returns the status of this resource
-func (autoscalesetting *Autoscalesetting) GetStatus() genruntime.ConvertibleStatus {
-	return &autoscalesetting.Status
+func (setting *AutoscaleSetting) GetStatus() genruntime.ConvertibleStatus {
+	return &setting.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/autoscalesettings"
-func (autoscalesetting *Autoscalesetting) GetType() string {
+func (setting *AutoscaleSetting) GetType() string {
 	return "Microsoft.Insights/autoscalesettings"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (autoscalesetting *Autoscalesetting) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (setting *AutoscaleSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Autoscalesetting_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
-func (autoscalesetting *Autoscalesetting) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(autoscalesetting.Spec)
-	return autoscalesetting.Spec.Owner.AsResourceReference(group, kind)
+func (setting *AutoscaleSetting) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
+	return setting.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
-func (autoscalesetting *Autoscalesetting) SetStatus(status genruntime.ConvertibleStatus) error {
+func (setting *AutoscaleSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*Autoscalesetting_STATUS); ok {
-		autoscalesetting.Status = *st
+		setting.Status = *st
 		return nil
 	}
 
@@ -159,18 +159,18 @@ func (autoscalesetting *Autoscalesetting) SetStatus(status genruntime.Convertibl
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	autoscalesetting.Status = st
+	setting.Status = st
 	return nil
 }
 
 // +kubebuilder:webhook:path=/validate-insights-azure-com-v1api20221001-autoscalesetting,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=autoscalesettings,verbs=create;update,versions=v1api20221001,name=validate.v1api20221001.autoscalesettings.insights.azure.com,admissionReviewVersions=v1
 
-var _ admission.Validator = &Autoscalesetting{}
+var _ admission.Validator = &AutoscaleSetting{}
 
 // ValidateCreate validates the creation of the resource
-func (autoscalesetting *Autoscalesetting) ValidateCreate() (admission.Warnings, error) {
-	validations := autoscalesetting.createValidations()
-	var temp any = autoscalesetting
+func (setting *AutoscaleSetting) ValidateCreate() (admission.Warnings, error) {
+	validations := setting.createValidations()
+	var temp any = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -178,9 +178,9 @@ func (autoscalesetting *Autoscalesetting) ValidateCreate() (admission.Warnings, 
 }
 
 // ValidateDelete validates the deletion of the resource
-func (autoscalesetting *Autoscalesetting) ValidateDelete() (admission.Warnings, error) {
-	validations := autoscalesetting.deleteValidations()
-	var temp any = autoscalesetting
+func (setting *AutoscaleSetting) ValidateDelete() (admission.Warnings, error) {
+	validations := setting.deleteValidations()
+	var temp any = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -188,9 +188,9 @@ func (autoscalesetting *Autoscalesetting) ValidateDelete() (admission.Warnings, 
 }
 
 // ValidateUpdate validates an update of the resource
-func (autoscalesetting *Autoscalesetting) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	validations := autoscalesetting.updateValidations()
-	var temp any = autoscalesetting
+func (setting *AutoscaleSetting) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
+	validations := setting.updateValidations()
+	var temp any = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
@@ -198,36 +198,36 @@ func (autoscalesetting *Autoscalesetting) ValidateUpdate(old runtime.Object) (ad
 }
 
 // createValidations validates the creation of the resource
-func (autoscalesetting *Autoscalesetting) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){autoscalesetting.validateResourceReferences, autoscalesetting.validateOwnerReference}
+func (setting *AutoscaleSetting) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){setting.validateResourceReferences, setting.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
-func (autoscalesetting *Autoscalesetting) deleteValidations() []func() (admission.Warnings, error) {
+func (setting *AutoscaleSetting) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (autoscalesetting *Autoscalesetting) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+func (setting *AutoscaleSetting) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
 	return []func(old runtime.Object) (admission.Warnings, error){
 		func(old runtime.Object) (admission.Warnings, error) {
-			return autoscalesetting.validateResourceReferences()
+			return setting.validateResourceReferences()
 		},
-		autoscalesetting.validateWriteOnceProperties,
+		setting.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
-			return autoscalesetting.validateOwnerReference()
+			return setting.validateOwnerReference()
 		},
 	}
 }
 
 // validateOwnerReference validates the owner field
-func (autoscalesetting *Autoscalesetting) validateOwnerReference() (admission.Warnings, error) {
-	return genruntime.ValidateOwner(autoscalesetting)
+func (setting *AutoscaleSetting) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(setting)
 }
 
 // validateResourceReferences validates all resource references
-func (autoscalesetting *Autoscalesetting) validateResourceReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindResourceReferences(&autoscalesetting.Spec)
+func (setting *AutoscaleSetting) validateResourceReferences() (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindResourceReferences(&setting.Spec)
 	if err != nil {
 		return nil, err
 	}
@@ -235,20 +235,20 @@ func (autoscalesetting *Autoscalesetting) validateResourceReferences() (admissio
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (autoscalesetting *Autoscalesetting) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*Autoscalesetting)
+func (setting *AutoscaleSetting) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
+	oldObj, ok := old.(*AutoscaleSetting)
 	if !ok {
 		return nil, nil
 	}
 
-	return genruntime.ValidateWriteOnceProperties(oldObj, autoscalesetting)
+	return genruntime.ValidateWriteOnceProperties(oldObj, setting)
 }
 
-// AssignProperties_From_Autoscalesetting populates our Autoscalesetting from the provided source Autoscalesetting
-func (autoscalesetting *Autoscalesetting) AssignProperties_From_Autoscalesetting(source *v20221001s.Autoscalesetting) error {
+// AssignProperties_From_AutoscaleSetting populates our AutoscaleSetting from the provided source AutoscaleSetting
+func (setting *AutoscaleSetting) AssignProperties_From_AutoscaleSetting(source *v20221001s.AutoscaleSetting) error {
 
 	// ObjectMeta
-	autoscalesetting.ObjectMeta = *source.ObjectMeta.DeepCopy()
+	setting.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec Autoscalesetting_Spec
@@ -256,7 +256,7 @@ func (autoscalesetting *Autoscalesetting) AssignProperties_From_Autoscalesetting
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_From_Autoscalesetting_Spec() to populate field Spec")
 	}
-	autoscalesetting.Spec = spec
+	setting.Spec = spec
 
 	// Status
 	var status Autoscalesetting_STATUS
@@ -264,21 +264,21 @@ func (autoscalesetting *Autoscalesetting) AssignProperties_From_Autoscalesetting
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_From_Autoscalesetting_STATUS() to populate field Status")
 	}
-	autoscalesetting.Status = status
+	setting.Status = status
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_Autoscalesetting populates the provided destination Autoscalesetting from our Autoscalesetting
-func (autoscalesetting *Autoscalesetting) AssignProperties_To_Autoscalesetting(destination *v20221001s.Autoscalesetting) error {
+// AssignProperties_To_AutoscaleSetting populates the provided destination AutoscaleSetting from our AutoscaleSetting
+func (setting *AutoscaleSetting) AssignProperties_To_AutoscaleSetting(destination *v20221001s.AutoscaleSetting) error {
 
 	// ObjectMeta
-	destination.ObjectMeta = *autoscalesetting.ObjectMeta.DeepCopy()
+	destination.ObjectMeta = *setting.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v20221001s.Autoscalesetting_Spec
-	err := autoscalesetting.Spec.AssignProperties_To_Autoscalesetting_Spec(&spec)
+	err := setting.Spec.AssignProperties_To_Autoscalesetting_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Autoscalesetting_Spec() to populate field Spec")
 	}
@@ -286,7 +286,7 @@ func (autoscalesetting *Autoscalesetting) AssignProperties_To_Autoscalesetting(d
 
 	// Status
 	var status v20221001s.Autoscalesetting_STATUS
-	err = autoscalesetting.Status.AssignProperties_To_Autoscalesetting_STATUS(&status)
+	err = setting.Status.AssignProperties_To_Autoscalesetting_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Autoscalesetting_STATUS() to populate field Status")
 	}
@@ -297,11 +297,11 @@ func (autoscalesetting *Autoscalesetting) AssignProperties_To_Autoscalesetting(d
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (autoscalesetting *Autoscalesetting) OriginalGVK() *schema.GroupVersionKind {
+func (setting *AutoscaleSetting) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: autoscalesetting.Spec.OriginalVersion(),
-		Kind:    "Autoscalesetting",
+		Version: setting.Spec.OriginalVersion(),
+		Kind:    "AutoscaleSetting",
 	}
 }
 
@@ -309,10 +309,10 @@ func (autoscalesetting *Autoscalesetting) OriginalGVK() *schema.GroupVersionKind
 // Generator information:
 // - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}
-type AutoscalesettingList struct {
+type AutoscaleSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Autoscalesetting `json:"items"`
+	Items           []AutoscaleSetting `json:"items"`
 }
 
 // +kubebuilder:validation:Enum={"2022-10-01"}
@@ -391,7 +391,7 @@ func (autoscalesetting *Autoscalesetting_Spec) ConvertToARM(resolved genruntime.
 		autoscalesetting.Profiles != nil ||
 		autoscalesetting.TargetResourceLocation != nil ||
 		autoscalesetting.TargetResourceUriReference != nil {
-		result.Properties = &AutoscaleSetting_ARM{}
+		result.Properties = &AutoscaleSettingProperties_ARM{}
 	}
 	if autoscalesetting.Enabled != nil {
 		enabled := *autoscalesetting.Enabled
@@ -6167,5 +6167,5 @@ const (
 )
 
 func init() {
-	SchemeBuilder.Register(&Autoscalesetting{}, &AutoscalesettingList{})
+	SchemeBuilder.Register(&AutoscaleSetting{}, &AutoscaleSettingList{})
 }

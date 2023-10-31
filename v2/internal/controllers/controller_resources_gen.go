@@ -629,7 +629,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(insights_v20180501ps.Webtest)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20200202s.Component)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20220615s.ScheduledQueryRule)})
-	result = append(result, &registration.StorageType{Obj: new(insights_v20221001s.Autoscalesetting)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20221001s.AutoscaleSetting)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230101s.ActionGroup)})
 	result = append(result, &registration.StorageType{
 		Obj: new(keyvault_v20210401ps.Vault),
@@ -1403,8 +1403,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(insights_v20200202s.Component))
 	result = append(result, new(insights_v20220615.ScheduledQueryRule))
 	result = append(result, new(insights_v20220615s.ScheduledQueryRule))
-	result = append(result, new(insights_v20221001.Autoscalesetting))
-	result = append(result, new(insights_v20221001s.Autoscalesetting))
+	result = append(result, new(insights_v20221001.AutoscaleSetting))
+	result = append(result, new(insights_v20221001s.AutoscaleSetting))
 	result = append(result, new(insights_v20230101.ActionGroup))
 	result = append(result, new(insights_v20230101s.ActionGroup))
 	result = append(result, new(keyvault_v1beta20210401p.Vault))
@@ -2047,7 +2047,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &eventhub_customizations.NamespacesEventhubsAuthorizationRuleExtension{})
 	result = append(result, &eventhub_customizations.NamespacesEventhubsConsumerGroupExtension{})
 	result = append(result, &insights_customizations.ActionGroupExtension{})
-	result = append(result, &insights_customizations.AutoscalesettingExtension{})
+	result = append(result, &insights_customizations.AutoscaleSettingExtension{})
 	result = append(result, &insights_customizations.ComponentExtension{})
 	result = append(result, &insights_customizations.MetricAlertExtension{})
 	result = append(result, &insights_customizations.ScheduledQueryRuleExtension{})

@@ -33,7 +33,7 @@ func Test_Insights_Autoscalesetting_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(vmss)
 
 	objectMeta := tc.MakeObjectMeta("setting")
-	setting := &insights.Autoscalesetting{
+	setting := &insights.AutoscaleSetting{
 		ObjectMeta: objectMeta,
 		Spec: insights.Autoscalesetting_Spec{
 			Location:                   tc.AzureRegion,

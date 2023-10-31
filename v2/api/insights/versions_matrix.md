@@ -29,8 +29,8 @@
 | AutoscaleProfile                                                   |               |                      |               |               | v1api20221001 |               |                       |                |
 | AutoscaleProfile_STATUS                                            |               |                      |               |               | v1api20221001 |               |                       |                |
 | AutoscaleSetting                                                   |               |                      |               |               | v1api20221001 |               |                       |                |
+| AutoscaleSettingProperties                                         |               |                      |               |               | v1api20221001 |               |                       |                |
 | AutoscaleSetting_STATUS                                            |               |                      |               |               | v1api20221001 |               |                       |                |
-| Autoscalesetting                                                   |               |                      |               |               | v1api20221001 |               |                       |                |
 | Autoscalesetting_STATUS                                            |               |                      |               |               | v1api20221001 |               |                       |                |
 | Autoscalesetting_Spec                                              |               |                      |               |               | v1api20221001 |               |                       |                |
 | AzureAppPushReceiver                                               |               |                      |               |               |               | v1api20230101 |                       |                |
