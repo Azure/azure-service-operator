@@ -43,7 +43,6 @@ var legacyStorageGroups = set.Make(
 	"dbforpostgresql",
 	"devices",
 	"documentdb",
-	"eventgrid",
 	"eventhub",
 	"insights",
 	"keyvault",
