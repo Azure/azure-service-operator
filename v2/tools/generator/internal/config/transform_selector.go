@@ -6,8 +6,10 @@
 package config
 
 import (
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"strings"
+	"sync"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // TransformSelector is used to select a type for transformation
@@ -18,6 +20,7 @@ type TransformSelector struct {
 	Optional     bool                   `yaml:",omitempty"`
 	Object       bool                   `yaml:",omitempty"`
 	Map          *MapSelector           `yaml:",omitempty"`
+	lock         sync.Mutex             // protects appliesCache
 	appliesCache map[astmodel.Type]bool // cache for the results of AppliesToType()
 }
 
@@ -27,6 +30,9 @@ type MapSelector struct {
 }
 
 func (ts *TransformSelector) AppliesToType(t astmodel.Type) bool {
+	ts.lock.Lock()
+	defer ts.lock.Unlock()
+
 	if ts.appliesCache == nil {
 		ts.appliesCache = make(map[astmodel.Type]bool)
 	}
