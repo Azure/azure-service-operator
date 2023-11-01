@@ -223,7 +223,12 @@ func getAzureNameFunctionsForType(
 // getEnumAzureNameFunction adds an AzureName() function that casts the AzureName property
 // with an enum value to a string
 func getEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFunctionHandler {
-	return func(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	return func(
+		f *functions.ObjectFunction,
+		codeGenerationContext *astmodel.CodeGenerationContext,
+		receiver astmodel.TypeName,
+		methodName string,
+	) (*dst.FuncDecl, error) {
 		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 		receiverType := receiver.AsType(codeGenerationContext)
 
@@ -238,14 +243,19 @@ func getEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFuncti
 
 		fn.AddComments(fmt.Sprintf("returns the Azure name of the resource (string representation of %s)", enumType.String()))
 		fn.AddReturns("string")
-		return fn.DefineFunc()
+		return fn.DefineFunc(), nil
 	}
 }
 
 // setEnumAzureNameFunction returns a function that sets the AzureName property to the result of casting
 // the argument string to the given enum type
 func setEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFunctionHandler {
-	return func(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	return func(
+		f *functions.ObjectFunction,
+		codeGenerationContext *astmodel.CodeGenerationContext,
+		receiver astmodel.TypeName,
+		methodName string,
+	) (*dst.FuncDecl, error) {
 		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 		receiverType := receiver.AsType(codeGenerationContext)
 
@@ -263,7 +273,7 @@ func setEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFuncti
 
 		fn.AddComments(fmt.Sprintf("sets the Azure name from the given %s value", enumType.String()))
 		fn.AddParameter("azureName", dst.NewIdent("string"))
-		return fn.DefineFunc()
+		return fn.DefineFunc(), nil
 	}
 }
 
@@ -279,7 +289,12 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 		fixedValue = fmt.Sprintf("%q", fixedValue)
 	}
 
-	return func(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	return func(
+		f *functions.ObjectFunction,
+		codeGenerationContext *astmodel.CodeGenerationContext,
+		receiver astmodel.TypeName,
+		methodName string,
+	) (*dst.FuncDecl, error) {
 		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 		receiverType := receiver.AsType(codeGenerationContext)
 
@@ -294,7 +309,7 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 
 		fn.AddComments(fmt.Sprintf("returns the Azure name of the resource (always %s)", fixedValue))
 		fn.AddReturns("string")
-		return fn.DefineFunc()
+		return fn.DefineFunc(), nil
 	}
 }
 
@@ -311,7 +326,12 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 //	func (<receiver> *<receiver>) Owner() *genruntime.ResourceReference {
 //		return <receiver>.Spec.Owner.AsKnownResourceReference()
 //	}
-func getOwnerFunction(r *functions.ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func getOwnerFunction(
+    r *functions.ResourceFunction, 
+    codeGenerationContext *astmodel.CodeGenerationContext, 
+    receiver astmodel.TypeName, 
+    methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := r.IdFactory().CreateReceiver(receiver.Name())
 
 	specSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")
@@ -355,8 +375,7 @@ func getOwnerFunction(r *functions.ResourceFunction, codeGenerationContext *astm
 		panic(fmt.Sprintf("unknown resource kind: %s", r.Resource().Scope()))
 	}
 
-	return fn.DefineFunc()
-
+	return fn.DefineFunc(), nil
 }
 
 // getResourceScopeFunction creates a function that returns the scope of the resource.
@@ -364,7 +383,12 @@ func getOwnerFunction(r *functions.ResourceFunction, codeGenerationContext *astm
 //	func (<receiver> *<receiver>) GetResourceScope() genruntime.ResourceScope {
 //		return genruntime.ResourceScopeResourceGroup
 //	}
-func getResourceScopeFunction(r *functions.ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func getResourceScopeFunction(
+    r *functions.ResourceFunction, 
+    codeGenerationContext *astmodel.CodeGenerationContext, 
+    receiver astmodel.TypeName, 
+    methodName string,
+) *dst.FuncDecl {
 	receiverIdent := r.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
 
@@ -446,10 +470,7 @@ func getSupportedOperationsFunction(r *functions.ResourceFunction, codeGeneratio
 		),
 	}
 
-	fn.AddComments("returns the operations supported by the resource")
-	fn.AddReturn(astmodel.NewArrayType(astmodel.ResourceOperationType).AsType(codeGenerationContext))
-
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 func lookupGroupAndKindStmt(
@@ -488,7 +509,12 @@ func createResourceReference(
 
 // setStringAzureNameFunction returns a function that sets the Name property of
 // the resource spec to the argument string
-func setStringAzureNameFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func setStringAzureNameFunction(
+	k *functions.ObjectFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -507,11 +533,16 @@ func setStringAzureNameFunction(k *functions.ObjectFunction, codeGenerationConte
 
 	fn.AddComments("sets the Azure name of the resource")
 	fn.AddParameter("azureName", dst.NewIdent("string"))
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // getStringAzureNameFunction returns a function that returns the Name property of the resource spec
-func getStringAzureNameFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func getStringAzureNameFunction(
+	k *functions.ObjectFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -526,5 +557,5 @@ func getStringAzureNameFunction(k *functions.ObjectFunction, codeGenerationConte
 
 	fn.AddComments("returns the Azure name of the resource")
 	fn.AddReturns("string")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
