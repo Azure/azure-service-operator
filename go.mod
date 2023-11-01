@@ -15,7 +15,7 @@ require (
 	github.com/denisenkom/go-mssqldb v0.12.3
 	github.com/go-logr/logr v1.2.4
 	github.com/go-sql-driver/mysql v1.7.1
-	github.com/gobuffalo/envy v1.7.0
+	github.com/gobuffalo/envy v1.10.2
 	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/google/go-cmp v0.5.9
 	github.com/google/uuid v1.3.1
@@ -69,7 +69,7 @@ require (
 	github.com/jcmturner/goidentity/v6 v6.0.1 // indirect
 	github.com/jcmturner/gokrb5/v8 v8.2.0 // indirect
 	github.com/jcmturner/rpc/v2 v2.0.2 // indirect
-	github.com/joho/godotenv v1.3.0 // indirect
+	github.com/joho/godotenv v1.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
