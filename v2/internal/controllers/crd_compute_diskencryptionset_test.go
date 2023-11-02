@@ -57,7 +57,7 @@ func Test_Compute_DiskEncryptionSet_CRUD(t *testing.T) {
 		},
 	}
 
-	kv := newVaultForDiskEncryptionSet("kv", tc, rg)
+	kv := newVaultForDiskEncryptionSet("kv2", tc, rg)
 	accessPolicyFromConfig := keyvault.AccessPolicyEntry{
 		ApplicationIdFromConfig: &genruntime.ConfigMapReference{
 			Name: configMapName,
