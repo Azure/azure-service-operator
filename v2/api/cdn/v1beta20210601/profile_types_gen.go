@@ -5,7 +5,7 @@ package v1beta20210601
 
 import (
 	"fmt"
-	v1beta20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage"
+	v1beta20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
