@@ -5,8 +5,8 @@ package v1beta20180601
 
 import (
 	"encoding/json"
-	v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601storage"
-	v1beta20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storage"
+	v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
+	v1beta20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_Database_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabase tests if a specific instance of Database can be assigned to v1beta20180601storage and back losslessly
+// RunPropertyAssignmentTestForDatabase tests if a specific instance of Database can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDatabase(subject Database) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Servers_Database_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_Database_Spec tests if a specific instance of Servers_Database_Spec can be assigned to v1beta20180601storage and back losslessly
+// RunPropertyAssignmentTestForServers_Database_Spec tests if a specific instance of Servers_Database_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_Database_Spec(subject Servers_Database_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -281,7 +281,7 @@ func Test_Servers_Database_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_Database_STATUS tests if a specific instance of Servers_Database_STATUS can be assigned to v1beta20180601storage and back losslessly
+// RunPropertyAssignmentTestForServers_Database_STATUS tests if a specific instance of Servers_Database_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_Database_STATUS(subject Servers_Database_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
