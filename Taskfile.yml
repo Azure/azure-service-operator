@@ -1024,6 +1024,13 @@ tasks:
     cmds:
       - "{{.SCRIPTS_ROOT}}/check_frontmatter.py"
 
+  doc:dependencies:
+    desc: Generate documentation for depencencies
+    cmds:
+      - cp ./docs/v2/dependencies-header.md ./docs/hugo/content/contributing/dependencies.md
+      - grep '^[[:space:]]*#doc#' .devcontainer/install-dependencies.sh | sed -e 's/[[:space:]]*#doc# //' | sort -f >> ./docs/hugo/content/contributing/dependencies.md
+      - cat ./docs/v2/dependencies-footer.md >> ./docs/hugo/content/contributing/dependencies.md
+
   ############### Shared targets ###############
 
   cleanup-azure-resources:
