@@ -5,7 +5,7 @@ package v1api20220801
 
 import (
 	"encoding/json"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_Product_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForProduct tests if a specific instance of Product can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForProduct tests if a specific instance of Product can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForProduct(subject Product) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Service_Product_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_Product_Spec tests if a specific instance of Service_Product_Spec can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForService_Product_Spec tests if a specific instance of Service_Product_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForService_Product_Spec(subject Service_Product_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -285,7 +285,7 @@ func Test_Service_Product_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_Product_STATUS tests if a specific instance of Service_Product_STATUS can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForService_Product_STATUS tests if a specific instance of Service_Product_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForService_Product_STATUS(subject Service_Product_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

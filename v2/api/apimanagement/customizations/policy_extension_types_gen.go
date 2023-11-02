@@ -5,7 +5,7 @@ package customizations
 
 import (
 	v20220801 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 

@@ -5,7 +5,7 @@ package v1api20220801
 
 import (
 	"fmt"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &ApiVersionSet{}
 func (versionSet *ApiVersionSet) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220801s.ApiVersionSet)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801storage/ApiVersionSet but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801/storage/ApiVersionSet but received %T instead", hub)
 	}
 
 	return versionSet.AssignProperties_From_ApiVersionSet(source)
@@ -61,7 +61,7 @@ func (versionSet *ApiVersionSet) ConvertFrom(hub conversion.Hub) error {
 func (versionSet *ApiVersionSet) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220801s.ApiVersionSet)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801storage/ApiVersionSet but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801/storage/ApiVersionSet but received %T instead", hub)
 	}
 
 	return versionSet.AssignProperties_To_ApiVersionSet(destination)
