@@ -46,7 +46,6 @@ var legacyStorageGroups = set.Make(
 	"machinelearningservices",
 	"managedidentity",
 	"operationalinsights",
-	"resources",
 	"search",
 	"servicebus",
 	"signalrservice",
