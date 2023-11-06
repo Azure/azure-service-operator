@@ -1321,10 +1321,16 @@ func (status *UpdateRunStatus_STATUS) AssignProperties_To_UpdateRunStatus_STATUS
 	return nil
 }
 
-// The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.
+// Defines the update sequence of the clusters via stages and groups.
+// Stages within a run are executed sequentially one
+// after another.
+// Groups within a stage are executed in parallel.
+// Member clusters within a group are updated sequentially
+// one after another.
+// A valid strategy contains no duplicate groups within or across stages.
 type UpdateRunStrategy struct {
 	// +kubebuilder:validation:Required
-	// Stages: The list of stages that compose this update run.
+	// Stages: The list of stages that compose this update run. Min size: 1.
 	Stages []UpdateStage `json:"stages,omitempty"`
 }
 
@@ -1458,9 +1464,15 @@ func (strategy *UpdateRunStrategy) Initialize_From_UpdateRunStrategy_STATUS(sour
 	return nil
 }
 
-// The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.
+// Defines the update sequence of the clusters via stages and groups.
+// Stages within a run are executed sequentially one
+// after another.
+// Groups within a stage are executed in parallel.
+// Member clusters within a group are updated sequentially
+// one after another.
+// A valid strategy contains no duplicate groups within or across stages.
 type UpdateRunStrategy_STATUS struct {
-	// Stages: The list of stages that compose this update run.
+	// Stages: The list of stages that compose this update run. Min size: 1.
 	Stages []UpdateStage_STATUS `json:"stages,omitempty"`
 }
 
@@ -1763,20 +1775,14 @@ func (upgrade *ManagedClusterUpgradeSpec_STATUS) AssignProperties_To_ManagedClus
 	return nil
 }
 
-// Contains the groups to be updated by an UpdateRun.
-// Update order:
-// - Sequential between stages: Stages run sequentially.
-// The previous stage must complete before the next one starts.
-// - Parallel within a stage: Groups within a stage run in
-// parallel.
-// - Sequential within a group: Clusters within a group are updated sequentially.
+// Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting
+// the next stage.
 type UpdateStage struct {
 	// AfterStageWaitInSeconds: The time in seconds to wait at the end of this stage before starting the next one. Defaults to
 	// 0 seconds if unspecified.
 	AfterStageWaitInSeconds *int `json:"afterStageWaitInSeconds,omitempty"`
 
-	// Groups: A list of group names that compose the stage.
-	// The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.
+	// Groups: Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1.
 	Groups []UpdateGroup `json:"groups,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -1974,20 +1980,14 @@ func (stage *UpdateStage) Initialize_From_UpdateStage_STATUS(source *UpdateStage
 	return nil
 }
 
-// Contains the groups to be updated by an UpdateRun.
-// Update order:
-// - Sequential between stages: Stages run sequentially.
-// The previous stage must complete before the next one starts.
-// - Parallel within a stage: Groups within a stage run in
-// parallel.
-// - Sequential within a group: Clusters within a group are updated sequentially.
+// Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting
+// the next stage.
 type UpdateStage_STATUS struct {
 	// AfterStageWaitInSeconds: The time in seconds to wait at the end of this stage before starting the next one. Defaults to
 	// 0 seconds if unspecified.
 	AfterStageWaitInSeconds *int `json:"afterStageWaitInSeconds,omitempty"`
 
-	// Groups: A list of group names that compose the stage.
-	// The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.
+	// Groups: Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1.
 	Groups []UpdateGroup_STATUS `json:"groups,omitempty"`
 
 	// Name: The name of the stage. Must be unique within the UpdateRun.
@@ -2636,9 +2636,8 @@ type UpdateGroup struct {
 	// +kubebuilder:validation:MaxLength=50
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Pattern="^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
-	// Name: The name of the Fleet member group to update.
-	// It should match the name of an existing FleetMember group.
-	// A group can only appear once across all UpdateStages in the UpdateRun.
+	// Name: Name of the group.
+	// It must match a group name of an existing fleet member.
 	Name *string `json:"name,omitempty"`
 }
 
@@ -2737,9 +2736,8 @@ func (group *UpdateGroup) Initialize_From_UpdateGroup_STATUS(source *UpdateGroup
 
 // A group to be updated.
 type UpdateGroup_STATUS struct {
-	// Name: The name of the Fleet member group to update.
-	// It should match the name of an existing FleetMember group.
-	// A group can only appear once across all UpdateStages in the UpdateRun.
+	// Name: Name of the group.
+	// It must match a group name of an existing fleet member.
 	Name *string `json:"name,omitempty"`
 }
 

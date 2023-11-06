@@ -370,9 +370,10 @@ type Redis_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
+	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional, but if passed
 	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
-	// 'Enabled'
+	// 'Enabled'. Note: This setting is important for caches with private endpoints. It has *no effect* on caches that are
+	// joined to, or injected into, a virtual network subnet.
 	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// RedisConfiguration: All Redis Settings. Few possible keys:
@@ -1187,9 +1188,10 @@ type Redis_STATUS struct {
 	// ProvisioningState: Redis instance provisioning status.
 	ProvisioningState *RedisProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
-	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
+	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional, but if passed
 	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
-	// 'Enabled'
+	// 'Enabled'. Note: This setting is important for caches with private endpoints. It has *no effect* on caches that are
+	// joined to, or injected into, a virtual network subnet.
 	PublicNetworkAccess *RedisProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 
 	// RedisConfiguration: All Redis Settings. Few possible keys:
