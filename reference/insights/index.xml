@@ -12353,7 +12353,7 @@ AutoscaleNotification_Operation
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.AutoscaleNotification_ARM&#34;&gt;AutoscaleNotification_ARM
 &lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleSetting_ARM&#34;&gt;AutoscaleSetting_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleSettingProperties_ARM&#34;&gt;AutoscaleSettingProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Autoscale notification.&lt;/p&gt;
@@ -12642,7 +12642,7 @@ can be specified.&lt;/p&gt;
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.AutoscaleProfile_ARM&#34;&gt;AutoscaleProfile_ARM
 &lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleSetting_ARM&#34;&gt;AutoscaleSetting_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleSettingProperties_ARM&#34;&gt;AutoscaleSettingProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Autoscale profile.&lt;/p&gt;
@@ -12885,7 +12885,203 @@ can be specified.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;insights.azure.com/v1api20221001.AutoscaleSetting_ARM&#34;&gt;AutoscaleSetting_ARM
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.AutoscaleSetting&#34;&gt;AutoscaleSetting
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;Generator information:
+- Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json
+- ARM URI: /&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourcegroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;Microsoft.Insights/&amp;#x200b;autoscalesettings/&amp;#x200b;{autoscaleSettingName}&lt;/&amp;#x200b;p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;metadata&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta&#34;&gt;
+Kubernetes meta/v1.ObjectMeta
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+Refer to the Kubernetes API documentation for the fields of the
+&lt;code&gt;metadata&lt;/code&gt; field.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#insights.azure.com/v1api20221001.Autoscalesetting_Spec&#34;&gt;
+Autoscalesetting_Spec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;enabled&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Enabled: the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is &amp;lsquo;false&amp;rsquo;.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: Resource location&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: the name of the autoscale setting.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;notifications&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleNotification&#34;&gt;
+[]AutoscaleNotification
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Notifications: the collection of notifications.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
+genruntime.KnownResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;predictiveAutoscalePolicy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#insights.azure.com/v1api20221001.PredictiveAutoscalePolicy&#34;&gt;
+PredictiveAutoscalePolicy
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;PredictiveAutoscalePolicy: the predictive autoscale policy mode.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;profiles&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleProfile&#34;&gt;
+[]AutoscaleProfile
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Profiles: the collection of automatic scaling profiles that specify different scaling parameters for different time
+periods. A maximum of 20 profiles can be specified.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Tags: Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping
+this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
+greater in length than 128 characters and a value no greater in length than 256 characters.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;targetResourceLocation&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;TargetResourceLocation: the location of the resource that the autoscale setting should be added to.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;targetResourceUriReference&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference&#34;&gt;
+genruntime.ResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;TargetResourceUriReference: the resource identifier of the resource that the autoscale setting should be added to.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#insights.azure.com/v1api20221001.Autoscalesetting_STATUS&#34;&gt;
+Autoscalesetting_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;insights.azure.com/v1api20221001.AutoscaleSettingProperties_ARM&#34;&gt;AutoscaleSettingProperties_ARM
 &lt;/h3&gt;
 &lt;p&gt;
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.Autoscalesetting_Spec_ARM&#34;&gt;Autoscalesetting_Spec_ARM&lt;/a&gt;)
@@ -13088,206 +13284,10 @@ string
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;insights.azure.com/v1api20221001.Autoscalesetting&#34;&gt;Autoscalesetting
-&lt;/h3&gt;
-&lt;div&gt;
-&lt;p&gt;Generator information:
-- Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json
-- ARM URI: /&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourcegroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;Microsoft.Insights/&amp;#x200b;autoscalesettings/&amp;#x200b;{autoscaleSettingName}&lt;/&amp;#x200b;p&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;metadata&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta&#34;&gt;
-Kubernetes meta/v1.ObjectMeta
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-Refer to the Kubernetes API documentation for the fields of the
-&lt;code&gt;metadata&lt;/code&gt; field.
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.Autoscalesetting_Spec&#34;&gt;
-Autoscalesetting_Spec
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;br/&gt;
-&lt;br/&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&amp;rsquo;t have to be.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;enabled&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-bool
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Enabled: the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is &amp;lsquo;false&amp;rsquo;.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Location: Resource location&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Name: the name of the autoscale setting.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;notifications&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleNotification&#34;&gt;
-[]AutoscaleNotification
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Notifications: the collection of notifications.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
-genruntime.KnownResourceReference
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;predictiveAutoscalePolicy&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.PredictiveAutoscalePolicy&#34;&gt;
-PredictiveAutoscalePolicy
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;PredictiveAutoscalePolicy: the predictive autoscale policy mode.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;profiles&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleProfile&#34;&gt;
-[]AutoscaleProfile
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Profiles: the collection of automatic scaling profiles that specify different scaling parameters for different time
-periods. A maximum of 20 profiles can be specified.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-map[string]string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Tags: Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping
-this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater in length than 128 characters and a value no greater in length than 256 characters.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;targetResourceLocation&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;TargetResourceLocation: the location of the resource that the autoscale setting should be added to.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;targetResourceUriReference&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference&#34;&gt;
-genruntime.ResourceReference
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;TargetResourceUriReference: the resource identifier of the resource that the autoscale setting should be added to.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.Autoscalesetting_STATUS&#34;&gt;
-Autoscalesetting_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.Autoscalesetting_STATUS&#34;&gt;Autoscalesetting_STATUS
 &lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.Autoscalesetting&#34;&gt;Autoscalesetting&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleSetting&#34;&gt;AutoscaleSetting&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -13568,7 +13568,7 @@ string
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.Autoscalesetting_Spec&#34;&gt;Autoscalesetting_Spec
 &lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.Autoscalesetting&#34;&gt;Autoscalesetting&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleSetting&#34;&gt;AutoscaleSetting&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -13756,8 +13756,8 @@ string
 &lt;td&gt;
 &lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleSetting_ARM&#34;&gt;
-AutoscaleSetting_ARM
+&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleSettingProperties_ARM&#34;&gt;
+AutoscaleSettingProperties_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -14843,7 +14843,7 @@ PredictiveAutoscalePolicy_ScaleMode
 &lt;h3 id=&#34;insights.azure.com/v1api20221001.PredictiveAutoscalePolicy_ARM&#34;&gt;PredictiveAutoscalePolicy_ARM
 &lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleSetting_ARM&#34;&gt;AutoscaleSetting_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#insights.azure.com/v1api20221001.AutoscaleSettingProperties_ARM&#34;&gt;AutoscaleSettingProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The parameters for enabling predictive autoscale.&lt;/p&gt;
