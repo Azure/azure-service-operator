@@ -21,9 +21,9 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearning/armmachine
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearning/armmachinelearning v1.0.0/go.mod h1:qNN4I5AKYbXMLriS9XKebBw8EVIQkX6tJzrdtjOoJ4I=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis v1.0.0 h1:nmpTBgRg1HynngFYICRhceC7s5dmbKN9fJ/XQz/UQ2I=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis v1.0.0/go.mod h1:3yjiOtnkVociBTlF7UZrwAGfJrGaOCsvtVS4HzNajxQ=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources v1.0.0 h1:ECsQtyERDVz3NP3kvDOTLvbQhqWp/x9EsGKtb4ogUr8=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch v1.1.0 h1:SCO2mlFZrUMU8MmA5Y6EszSm2OGumuPBXFQXEvkESvk=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch v1.1.0/go.mod h1:0W36ZU3i/Y81U7D1udQyD8qA3SD4tV7ayADNymIdHBo=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources v1.1.1 h1:7CBQ+Ei8SP2c6ydQTGCCrS35bDxgTMfoP2miAwK++OU=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch v1.2.0 h1:mOECYDlGnEY83yMPGEVczB4JSn3G5Al2Ezutblf6czU=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch v1.2.0/go.mod h1:ANJe/jEu6IOmojAMg8o3hxpYUBnXesX4bx9paw+Kajk=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus v1.1.1 h1:h+ZMdUM0/8oVqHjY9+1rupIvT0craBLapKhuzWui9lo=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus v1.1.1/go.mod h1:Ad79PTMmXBLbmMbRJkfefudJNxzFHfszKYadXA8SDSw=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.4.0 h1:YLeqNPz/6sJC4fGNUofP+I9QZrMQBvL6lKpCzeu/3Ms=
