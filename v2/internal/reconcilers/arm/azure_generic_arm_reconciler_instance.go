@@ -559,18 +559,35 @@ func (r *azureDeploymentReconcilerInstance) getStatus(ctx context.Context, id st
 	}
 
 	// Get the resource
-	retryAfter, err := r.ARMConnection.Client().GetByID(ctx, id, apiVersion, armStatus)
-	if err != nil {
-		return nil, retryAfter, errors.Wrapf(err, "getting resource with ID: %q", id)
-	}
-
-	if r.Log.V(Debug).Enabled() {
-		statusBytes, marshalErr := json.Marshal(armStatus)
-		if marshalErr != nil {
-			return nil, zeroDuration, errors.Wrapf(marshalErr, "serializing ARM status to JSON for debugging")
+	if genruntime.ResourceOperationGet.IsSupportedBy(r.Obj) {
+		var retryAfter time.Duration
+		retryAfter, err = r.ARMConnection.Client().GetByID(ctx, id, apiVersion, armStatus)
+		if err != nil {
+			return nil, retryAfter, errors.Wrapf(err, "getting resource with ID: %q", id)
 		}
 
-		r.Log.V(Debug).Info("Got ARM status", "status", string(statusBytes))
+		if r.Log.V(Debug).Enabled() {
+			statusBytes, marshalErr := json.Marshal(armStatus)
+			if marshalErr != nil {
+				return nil, zeroDuration, errors.Wrapf(marshalErr, "serializing ARM status to JSON for debugging")
+			}
+
+			r.Log.V(Debug).Info("Got ARM status", "status", string(statusBytes))
+		}
+	} else if genruntime.ResourceOperationHead.IsSupportedBy(r.Obj) {
+		var retryAfter time.Duration
+		var exists bool
+		exists, retryAfter, err = r.ARMConnection.Client().CheckExistenceByID(ctx, id, apiVersion)
+		if err != nil {
+			return nil, retryAfter, errors.Wrapf(err, "getting resource with ID: %q", id)
+		}
+
+		// We expect the resource to exist
+		if !exists {
+			return nil, retryAfter, errors.Wrapf(err, "getting resource with ID: %q", id)
+		}
+	} else {
+		return nil, zeroDuration, errors.Errorf("resource must support one of GET or HEAD, but it supports neither")
 	}
 
 	// Convert the ARM shape to the Kube shape
