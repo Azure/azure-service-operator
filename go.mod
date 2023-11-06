@@ -23,7 +23,7 @@ require (
 	github.com/lib/pq v1.6.0
 	github.com/marstr/randname v0.0.0-20181206212954-d5b0f288ab8c
 	github.com/onsi/ginkgo v1.16.5
-	github.com/onsi/gomega v1.27.10
+	github.com/onsi/gomega v1.29.0
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.17.0
 	github.com/sethvargo/go-password v0.2.0
