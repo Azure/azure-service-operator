@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &NamespacesEventhubsAuthorizationRule{}
 func (rule *NamespacesEventhubsAuthorizationRule) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20211101s.NamespacesEventhubsAuthorizationRule)
 	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20211101storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
+		return fmt.Errorf("expected eventhub/v1api20211101/storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
 	}
 
 	return rule.AssignProperties_From_NamespacesEventhubsAuthorizationRule(source)
@@ -61,7 +61,7 @@ func (rule *NamespacesEventhubsAuthorizationRule) ConvertFrom(hub conversion.Hub
 func (rule *NamespacesEventhubsAuthorizationRule) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20211101s.NamespacesEventhubsAuthorizationRule)
 	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20211101storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
+		return fmt.Errorf("expected eventhub/v1api20211101/storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
 	}
 
 	return rule.AssignProperties_To_NamespacesEventhubsAuthorizationRule(destination)

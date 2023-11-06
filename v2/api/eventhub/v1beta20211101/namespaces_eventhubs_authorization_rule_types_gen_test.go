@@ -5,8 +5,8 @@ package v1beta20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101storage"
-	v1beta20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
+	v1beta20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_NamespacesEventhubsAuthorizationRule_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespacesEventhubsAuthorizationRule tests if a specific instance of NamespacesEventhubsAuthorizationRule can be assigned to v1beta20211101storage and back losslessly
+// RunPropertyAssignmentTestForNamespacesEventhubsAuthorizationRule tests if a specific instance of NamespacesEventhubsAuthorizationRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesEventhubsAuthorizationRule(subject NamespacesEventhubsAuthorizationRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -177,7 +177,7 @@ func Test_Namespaces_Eventhubs_AuthorizationRule_Spec_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespaces_Eventhubs_AuthorizationRule_Spec tests if a specific instance of Namespaces_Eventhubs_AuthorizationRule_Spec can be assigned to v1beta20211101storage and back losslessly
+// RunPropertyAssignmentTestForNamespaces_Eventhubs_AuthorizationRule_Spec tests if a specific instance of Namespaces_Eventhubs_AuthorizationRule_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespaces_Eventhubs_AuthorizationRule_Spec(subject Namespaces_Eventhubs_AuthorizationRule_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -281,7 +281,7 @@ func Test_Namespaces_Eventhubs_AuthorizationRule_STATUS_WhenPropertiesConverted_
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespaces_Eventhubs_AuthorizationRule_STATUS tests if a specific instance of Namespaces_Eventhubs_AuthorizationRule_STATUS can be assigned to v1beta20211101storage and back losslessly
+// RunPropertyAssignmentTestForNamespaces_Eventhubs_AuthorizationRule_STATUS tests if a specific instance of Namespaces_Eventhubs_AuthorizationRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespaces_Eventhubs_AuthorizationRule_STATUS(subject Namespaces_Eventhubs_AuthorizationRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
