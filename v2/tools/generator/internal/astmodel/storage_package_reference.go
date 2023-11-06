@@ -33,7 +33,6 @@ var legacyStorageGroups = set.Make(
 	"containerinstance",
 	"containerregistry",
 	"containerservice",
-	"datafactory",
 	"dataprotection",
 	"dbformysql",
 	"dbforpostgresql",
