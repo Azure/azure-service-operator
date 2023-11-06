@@ -49,7 +49,6 @@ var legacyStorageGroups = set.Make(
 	"signalrservice",
 	"sql",
 	"storage",
-	"subscription",
 	"synapse",
 	"web",
 )

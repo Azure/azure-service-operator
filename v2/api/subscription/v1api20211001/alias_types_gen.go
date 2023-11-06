@@ -5,7 +5,7 @@ package v1api20211001
 
 import (
 	"fmt"
-	v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001storage"
+	v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &Alias{}
 func (alias *Alias) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20211001s.Alias)
 	if !ok {
-		return fmt.Errorf("expected subscription/v1api20211001storage/Alias but received %T instead", hub)
+		return fmt.Errorf("expected subscription/v1api20211001/storage/Alias but received %T instead", hub)
 	}
 
 	return alias.AssignProperties_From_Alias(source)
@@ -61,7 +61,7 @@ func (alias *Alias) ConvertFrom(hub conversion.Hub) error {
 func (alias *Alias) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20211001s.Alias)
 	if !ok {
-		return fmt.Errorf("expected subscription/v1api20211001storage/Alias but received %T instead", hub)
+		return fmt.Errorf("expected subscription/v1api20211001/storage/Alias but received %T instead", hub)
 	}
 
 	return alias.AssignProperties_To_Alias(destination)
