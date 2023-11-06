@@ -48,9 +48,15 @@ type ManagedClusterUpdate_ARM struct {
 	Upgrade *ManagedClusterUpgradeSpec_ARM `json:"upgrade,omitempty"`
 }
 
-// The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.
+// Defines the update sequence of the clusters via stages and groups.
+// Stages within a run are executed sequentially one
+// after another.
+// Groups within a stage are executed in parallel.
+// Member clusters within a group are updated sequentially
+// one after another.
+// A valid strategy contains no duplicate groups within or across stages.
 type UpdateRunStrategy_ARM struct {
-	// Stages: The list of stages that compose this update run.
+	// Stages: The list of stages that compose this update run. Min size: 1.
 	Stages []UpdateStage_ARM `json:"stages"`
 }
 
@@ -65,20 +71,14 @@ type ManagedClusterUpgradeSpec_ARM struct {
 	Type *ManagedClusterUpgradeType `json:"type,omitempty"`
 }
 
-// Contains the groups to be updated by an UpdateRun.
-// Update order:
-// - Sequential between stages: Stages run sequentially.
-// The previous stage must complete before the next one starts.
-// - Parallel within a stage: Groups within a stage run in
-// parallel.
-// - Sequential within a group: Clusters within a group are updated sequentially.
+// Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting
+// the next stage.
 type UpdateStage_ARM struct {
 	// AfterStageWaitInSeconds: The time in seconds to wait at the end of this stage before starting the next one. Defaults to
 	// 0 seconds if unspecified.
 	AfterStageWaitInSeconds *int `json:"afterStageWaitInSeconds,omitempty"`
 
-	// Groups: A list of group names that compose the stage.
-	// The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.
+	// Groups: Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1.
 	Groups []UpdateGroup_ARM `json:"groups"`
 
 	// Name: The name of the stage. Must be unique within the UpdateRun.
@@ -87,8 +87,7 @@ type UpdateStage_ARM struct {
 
 // A group to be updated.
 type UpdateGroup_ARM struct {
-	// Name: The name of the Fleet member group to update.
-	// It should match the name of an existing FleetMember group.
-	// A group can only appear once across all UpdateStages in the UpdateRun.
+	// Name: Name of the group.
+	// It must match a group name of an existing fleet member.
 	Name *string `json:"name,omitempty"`
 }
