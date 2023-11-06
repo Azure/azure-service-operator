@@ -5,7 +5,7 @@ package v1api20210515
 
 import (
 	"encoding/json"
-	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_SqlDatabaseContainerTrigger_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSqlDatabaseContainerTrigger tests if a specific instance of SqlDatabaseContainerTrigger can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForSqlDatabaseContainerTrigger tests if a specific instance of SqlDatabaseContainerTrigger can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSqlDatabaseContainerTrigger(subject SqlDatabaseContainerTrigger) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_WhenPropertiesCo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_Trigger_Spec tests if a specific instance of DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_Trigger_Spec tests if a specific instance of DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_Trigger_Spec(subject DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -296,7 +296,7 @@ func Test_DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS_WhenProperties
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS tests if a specific instance of DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS tests if a specific instance of DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS(subject DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -417,7 +417,7 @@ func Test_SqlTriggerGetProperties_Resource_STATUS_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSqlTriggerGetProperties_Resource_STATUS tests if a specific instance of SqlTriggerGetProperties_Resource_STATUS can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForSqlTriggerGetProperties_Resource_STATUS tests if a specific instance of SqlTriggerGetProperties_Resource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSqlTriggerGetProperties_Resource_STATUS(subject SqlTriggerGetProperties_Resource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -531,7 +531,7 @@ func Test_SqlTriggerResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSqlTriggerResource tests if a specific instance of SqlTriggerResource can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForSqlTriggerResource tests if a specific instance of SqlTriggerResource can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSqlTriggerResource(subject SqlTriggerResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

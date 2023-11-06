@@ -5,7 +5,7 @@ package v1api20210515
 
 import (
 	"encoding/json"
-	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_SqlDatabaseContainerStoredProcedure_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSqlDatabaseContainerStoredProcedure tests if a specific instance of SqlDatabaseContainerStoredProcedure can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForSqlDatabaseContainerStoredProcedure tests if a specific instance of SqlDatabaseContainerStoredProcedure can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSqlDatabaseContainerStoredProcedure(subject SqlDatabaseContainerStoredProcedure) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_WhenProp
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec tests if a specific instance of DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec tests if a specific instance of DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec(subject DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -296,7 +296,7 @@ func Test_DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS_WhenPr
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS tests if a specific instance of DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS tests if a specific instance of DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS(subject DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -417,7 +417,7 @@ func Test_SqlStoredProcedureGetProperties_Resource_STATUS_WhenPropertiesConverte
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSqlStoredProcedureGetProperties_Resource_STATUS tests if a specific instance of SqlStoredProcedureGetProperties_Resource_STATUS can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForSqlStoredProcedureGetProperties_Resource_STATUS tests if a specific instance of SqlStoredProcedureGetProperties_Resource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSqlStoredProcedureGetProperties_Resource_STATUS(subject SqlStoredProcedureGetProperties_Resource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -524,7 +524,7 @@ func Test_SqlStoredProcedureResource_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSqlStoredProcedureResource tests if a specific instance of SqlStoredProcedureResource can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForSqlStoredProcedureResource tests if a specific instance of SqlStoredProcedureResource can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSqlStoredProcedureResource(subject SqlStoredProcedureResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

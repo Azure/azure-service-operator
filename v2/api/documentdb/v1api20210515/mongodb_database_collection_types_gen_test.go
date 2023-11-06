@@ -5,7 +5,7 @@ package v1api20210515
 
 import (
 	"encoding/json"
-	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_MongodbDatabaseCollection_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMongodbDatabaseCollection tests if a specific instance of MongodbDatabaseCollection can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForMongodbDatabaseCollection tests if a specific instance of MongodbDatabaseCollection can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMongodbDatabaseCollection(subject MongodbDatabaseCollection) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_DatabaseAccounts_MongodbDatabases_Collection_Spec_WhenPropertiesConver
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collection_Spec tests if a specific instance of DatabaseAccounts_MongodbDatabases_Collection_Spec can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collection_Spec tests if a specific instance of DatabaseAccounts_MongodbDatabases_Collection_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collection_Spec(subject DatabaseAccounts_MongodbDatabases_Collection_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -296,7 +296,7 @@ func Test_DatabaseAccounts_MongodbDatabases_Collection_STATUS_WhenPropertiesConv
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collection_STATUS tests if a specific instance of DatabaseAccounts_MongodbDatabases_Collection_STATUS can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collection_STATUS tests if a specific instance of DatabaseAccounts_MongodbDatabases_Collection_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collection_STATUS(subject DatabaseAccounts_MongodbDatabases_Collection_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -418,7 +418,7 @@ func Test_MongoDBCollectionGetProperties_Resource_STATUS_WhenPropertiesConverted
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMongoDBCollectionGetProperties_Resource_STATUS tests if a specific instance of MongoDBCollectionGetProperties_Resource_STATUS can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForMongoDBCollectionGetProperties_Resource_STATUS tests if a specific instance of MongoDBCollectionGetProperties_Resource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMongoDBCollectionGetProperties_Resource_STATUS(subject MongoDBCollectionGetProperties_Resource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -540,7 +540,7 @@ func Test_MongoDBCollectionResource_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMongoDBCollectionResource tests if a specific instance of MongoDBCollectionResource can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForMongoDBCollectionResource tests if a specific instance of MongoDBCollectionResource can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMongoDBCollectionResource(subject MongoDBCollectionResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -659,7 +659,7 @@ func Test_MongoIndex_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMongoIndex tests if a specific instance of MongoIndex can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForMongoIndex tests if a specific instance of MongoIndex can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMongoIndex(subject MongoIndex) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -762,7 +762,7 @@ func Test_MongoIndex_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMongoIndex_STATUS tests if a specific instance of MongoIndex_STATUS can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForMongoIndex_STATUS tests if a specific instance of MongoIndex_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMongoIndex_STATUS(subject MongoIndex_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -865,7 +865,7 @@ func Test_MongoIndexKeys_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMongoIndexKeys tests if a specific instance of MongoIndexKeys can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForMongoIndexKeys tests if a specific instance of MongoIndexKeys can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMongoIndexKeys(subject MongoIndexKeys) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -967,7 +967,7 @@ func Test_MongoIndexKeys_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMongoIndexKeys_STATUS tests if a specific instance of MongoIndexKeys_STATUS can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForMongoIndexKeys_STATUS tests if a specific instance of MongoIndexKeys_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMongoIndexKeys_STATUS(subject MongoIndexKeys_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1070,7 +1070,7 @@ func Test_MongoIndexOptions_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMongoIndexOptions tests if a specific instance of MongoIndexOptions can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForMongoIndexOptions tests if a specific instance of MongoIndexOptions can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMongoIndexOptions(subject MongoIndexOptions) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1173,7 +1173,7 @@ func Test_MongoIndexOptions_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMongoIndexOptions_STATUS tests if a specific instance of MongoIndexOptions_STATUS can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForMongoIndexOptions_STATUS tests if a specific instance of MongoIndexOptions_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMongoIndexOptions_STATUS(subject MongoIndexOptions_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

@@ -5,7 +5,7 @@ package v1api20210515
 
 import (
 	"fmt"
-	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &MongodbDatabaseThroughputSetting{}
 func (setting *MongodbDatabaseThroughputSetting) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20210515s.MongodbDatabaseThroughputSetting)
 	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20210515storage/MongodbDatabaseThroughputSetting but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1api20210515/storage/MongodbDatabaseThroughputSetting but received %T instead", hub)
 	}
 
 	return setting.AssignProperties_From_MongodbDatabaseThroughputSetting(source)
@@ -61,7 +61,7 @@ func (setting *MongodbDatabaseThroughputSetting) ConvertFrom(hub conversion.Hub)
 func (setting *MongodbDatabaseThroughputSetting) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20210515s.MongodbDatabaseThroughputSetting)
 	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20210515storage/MongodbDatabaseThroughputSetting but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1api20210515/storage/MongodbDatabaseThroughputSetting but received %T instead", hub)
 	}
 
 	return setting.AssignProperties_To_MongodbDatabaseThroughputSetting(destination)

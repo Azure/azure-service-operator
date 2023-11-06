@@ -5,7 +5,7 @@ package v1api20210515
 
 import (
 	"encoding/json"
-	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_SqlRoleAssignment_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSqlRoleAssignment tests if a specific instance of SqlRoleAssignment can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForSqlRoleAssignment tests if a specific instance of SqlRoleAssignment can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSqlRoleAssignment(subject SqlRoleAssignment) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_DatabaseAccounts_SqlRoleAssignment_Spec_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccounts_SqlRoleAssignment_Spec tests if a specific instance of DatabaseAccounts_SqlRoleAssignment_Spec can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForDatabaseAccounts_SqlRoleAssignment_Spec tests if a specific instance of DatabaseAccounts_SqlRoleAssignment_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccounts_SqlRoleAssignment_Spec(subject DatabaseAccounts_SqlRoleAssignment_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -281,7 +281,7 @@ func Test_DatabaseAccounts_SqlRoleAssignment_STATUS_WhenPropertiesConverted_Roun
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccounts_SqlRoleAssignment_STATUS tests if a specific instance of DatabaseAccounts_SqlRoleAssignment_STATUS can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForDatabaseAccounts_SqlRoleAssignment_STATUS tests if a specific instance of DatabaseAccounts_SqlRoleAssignment_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccounts_SqlRoleAssignment_STATUS(subject DatabaseAccounts_SqlRoleAssignment_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

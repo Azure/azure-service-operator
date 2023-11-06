@@ -5,7 +5,7 @@ package v1api20210515
 
 import (
 	"fmt"
-	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &SqlDatabaseContainerUserDefinedFunction{}
 func (function *SqlDatabaseContainerUserDefinedFunction) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20210515s.SqlDatabaseContainerUserDefinedFunction)
 	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20210515storage/SqlDatabaseContainerUserDefinedFunction but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1api20210515/storage/SqlDatabaseContainerUserDefinedFunction but received %T instead", hub)
 	}
 
 	return function.AssignProperties_From_SqlDatabaseContainerUserDefinedFunction(source)
@@ -61,7 +61,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) ConvertFrom(hub convers
 func (function *SqlDatabaseContainerUserDefinedFunction) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20210515s.SqlDatabaseContainerUserDefinedFunction)
 	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20210515storage/SqlDatabaseContainerUserDefinedFunction but received %T instead", hub)
+		return fmt.Errorf("expected documentdb/v1api20210515/storage/SqlDatabaseContainerUserDefinedFunction but received %T instead", hub)
 	}
 
 	return function.AssignProperties_To_SqlDatabaseContainerUserDefinedFunction(destination)
