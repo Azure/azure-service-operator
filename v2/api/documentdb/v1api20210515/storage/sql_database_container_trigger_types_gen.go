@@ -71,6 +71,15 @@ func (trigger *SqlDatabaseContainerTrigger) GetStatus() genruntime.ConvertibleSt
 	return &trigger.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (trigger *SqlDatabaseContainerTrigger) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
 func (trigger *SqlDatabaseContainerTrigger) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"

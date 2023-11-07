@@ -129,6 +129,15 @@ func (alias *Alias) GetStatus() genruntime.ConvertibleStatus {
 	return &alias.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (alias *Alias) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Subscription/aliases"
 func (alias *Alias) GetType() string {
 	return "Microsoft.Subscription/aliases"

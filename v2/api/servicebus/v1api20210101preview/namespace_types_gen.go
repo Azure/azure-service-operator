@@ -131,6 +131,15 @@ func (namespace *Namespace) GetStatus() genruntime.ConvertibleStatus {
 	return &namespace.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (namespace *Namespace) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces"
 func (namespace *Namespace) GetType() string {
 	return "Microsoft.ServiceBus/namespaces"

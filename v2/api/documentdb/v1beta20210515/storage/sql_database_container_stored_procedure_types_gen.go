@@ -90,6 +90,15 @@ func (procedure *SqlDatabaseContainerStoredProcedure) GetStatus() genruntime.Con
 	return &procedure.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (procedure *SqlDatabaseContainerStoredProcedure) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
 func (procedure *SqlDatabaseContainerStoredProcedure) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"

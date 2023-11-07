@@ -71,6 +71,15 @@ func (administrator *FlexibleServersAdministrator) GetStatus() genruntime.Conver
 	return &administrator.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (administrator *FlexibleServersAdministrator) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMySQL/flexibleServers/administrators"
 func (administrator *FlexibleServersAdministrator) GetType() string {
 	return "Microsoft.DBforMySQL/flexibleServers/administrators"

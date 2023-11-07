@@ -128,6 +128,15 @@ func (snapshot *Snapshot) GetStatus() genruntime.ConvertibleStatus {
 	return &snapshot.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (snapshot *Snapshot) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/snapshots"
 func (snapshot *Snapshot) GetType() string {
 	return "Microsoft.Compute/snapshots"

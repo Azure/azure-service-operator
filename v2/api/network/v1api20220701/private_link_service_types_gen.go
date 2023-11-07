@@ -150,6 +150,15 @@ func (service *PrivateLinkService) GetStatus() genruntime.ConvertibleStatus {
 	return &service.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (service *PrivateLinkService) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/privateLinkServices"
 func (service *PrivateLinkService) GetType() string {
 	return "Microsoft.Network/privateLinkServices"

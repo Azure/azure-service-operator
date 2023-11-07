@@ -71,6 +71,16 @@ func (versionSet *ApiVersionSet) GetStatus() genruntime.ConvertibleStatus {
 	return &versionSet.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (versionSet *ApiVersionSet) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationHead,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service/apiVersionSets"
 func (versionSet *ApiVersionSet) GetType() string {
 	return "Microsoft.ApiManagement/service/apiVersionSets"

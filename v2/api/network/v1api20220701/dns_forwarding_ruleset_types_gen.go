@@ -128,6 +128,15 @@ func (ruleset *DnsForwardingRuleset) GetStatus() genruntime.ConvertibleStatus {
 	return &ruleset.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (ruleset *DnsForwardingRuleset) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/dnsForwardingRulesets"
 func (ruleset *DnsForwardingRuleset) GetType() string {
 	return "Microsoft.Network/dnsForwardingRulesets"

@@ -71,6 +71,15 @@ func (endpoint *PrivateEndpoint) GetStatus() genruntime.ConvertibleStatus {
 	return &endpoint.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (endpoint *PrivateEndpoint) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/privateEndpoints"
 func (endpoint *PrivateEndpoint) GetType() string {
 	return "Microsoft.Network/privateEndpoints"

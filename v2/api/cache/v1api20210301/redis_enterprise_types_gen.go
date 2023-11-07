@@ -131,6 +131,15 @@ func (enterprise *RedisEnterprise) GetStatus() genruntime.ConvertibleStatus {
 	return &enterprise.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (enterprise *RedisEnterprise) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redisEnterprise"
 func (enterprise *RedisEnterprise) GetType() string {
 	return "Microsoft.Cache/redisEnterprise"

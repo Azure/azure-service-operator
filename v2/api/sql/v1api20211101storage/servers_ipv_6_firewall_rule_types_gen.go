@@ -71,6 +71,15 @@ func (rule *ServersIPV6FirewallRule) GetStatus() genruntime.ConvertibleStatus {
 	return &rule.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (rule *ServersIPV6FirewallRule) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/ipv6FirewallRules"
 func (rule *ServersIPV6FirewallRule) GetType() string {
 	return "Microsoft.Sql/servers/ipv6FirewallRules"

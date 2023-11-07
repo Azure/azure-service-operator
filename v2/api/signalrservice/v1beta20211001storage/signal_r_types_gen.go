@@ -90,6 +90,15 @@ func (signalR *SignalR) GetStatus() genruntime.ConvertibleStatus {
 	return &signalR.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (signalR *SignalR) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.SignalRService/signalR"
 func (signalR *SignalR) GetType() string {
 	return "Microsoft.SignalRService/signalR"

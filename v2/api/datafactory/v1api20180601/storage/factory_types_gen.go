@@ -72,6 +72,15 @@ func (factory *Factory) GetStatus() genruntime.ConvertibleStatus {
 	return &factory.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (factory *Factory) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DataFactory/factories"
 func (factory *Factory) GetType() string {
 	return "Microsoft.DataFactory/factories"

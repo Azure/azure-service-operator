@@ -130,6 +130,15 @@ func (group *ContainerGroup) GetStatus() genruntime.ConvertibleStatus {
 	return &group.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (group *ContainerGroup) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerInstance/containerGroups"
 func (group *ContainerGroup) GetType() string {
 	return "Microsoft.ContainerInstance/containerGroups"

@@ -71,6 +71,15 @@ func (registry *Registry) GetStatus() genruntime.ConvertibleStatus {
 	return &registry.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (registry *Registry) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerRegistry/registries"
 func (registry *Registry) GetType() string {
 	return "Microsoft.ContainerRegistry/registries"

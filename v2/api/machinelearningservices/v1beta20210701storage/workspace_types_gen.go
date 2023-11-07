@@ -90,6 +90,15 @@ func (workspace *Workspace) GetStatus() genruntime.ConvertibleStatus {
 	return &workspace.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (workspace *Workspace) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.MachineLearningServices/workspaces"
 func (workspace *Workspace) GetType() string {
 	return "Microsoft.MachineLearningServices/workspaces"

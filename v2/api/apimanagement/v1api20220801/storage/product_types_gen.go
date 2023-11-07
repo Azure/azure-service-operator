@@ -71,6 +71,16 @@ func (product *Product) GetStatus() genruntime.ConvertibleStatus {
 	return &product.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (product *Product) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationHead,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service/products"
 func (product *Product) GetType() string {
 	return "Microsoft.ApiManagement/service/products"

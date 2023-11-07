@@ -121,6 +121,14 @@ func (policy *ServersConnectionPolicy) GetStatus() genruntime.ConvertibleStatus 
 	return &policy.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (policy *ServersConnectionPolicy) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/connectionPolicies"
 func (policy *ServersConnectionPolicy) GetType() string {
 	return "Microsoft.Sql/servers/connectionPolicies"

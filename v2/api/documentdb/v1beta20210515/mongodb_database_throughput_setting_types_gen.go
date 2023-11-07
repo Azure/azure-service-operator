@@ -122,6 +122,14 @@ func (setting *MongodbDatabaseThroughputSetting) GetStatus() genruntime.Converti
 	return &setting.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (setting *MongodbDatabaseThroughputSetting) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings"
 func (setting *MongodbDatabaseThroughputSetting) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings"

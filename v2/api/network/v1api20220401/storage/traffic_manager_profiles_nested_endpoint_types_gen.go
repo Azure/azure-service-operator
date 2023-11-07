@@ -71,6 +71,15 @@ func (endpoint *TrafficManagerProfilesNestedEndpoint) GetStatus() genruntime.Con
 	return &endpoint.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (endpoint *TrafficManagerProfilesNestedEndpoint) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/trafficmanagerprofiles/NestedEndpoints"
 func (endpoint *TrafficManagerProfilesNestedEndpoint) GetType() string {
 	return "Microsoft.Network/trafficmanagerprofiles/NestedEndpoints"

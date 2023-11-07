@@ -92,6 +92,15 @@ func (address *PublicIPAddress) GetStatus() genruntime.ConvertibleStatus {
 	return &address.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (address *PublicIPAddress) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/publicIPAddresses"
 func (address *PublicIPAddress) GetType() string {
 	return "Microsoft.Network/publicIPAddresses"

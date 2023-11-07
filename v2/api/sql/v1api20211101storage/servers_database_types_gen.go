@@ -71,6 +71,15 @@ func (database *ServersDatabase) GetStatus() genruntime.ConvertibleStatus {
 	return &database.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (database *ServersDatabase) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/databases"
 func (database *ServersDatabase) GetType() string {
 	return "Microsoft.Sql/servers/databases"

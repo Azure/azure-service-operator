@@ -18,6 +18,7 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/pkg/names"
@@ -62,11 +63,12 @@ type SwaggerTypes struct {
 type ResourceDefinitionSet map[astmodel.InternalTypeName]ResourceDefinition
 
 type ResourceDefinition struct {
-	SpecType   astmodel.Type
-	StatusType astmodel.Type
-	SourceFile string
-	ARMType    string // e.g. Microsoft.XYZ/resourceThings
-	ARMURI     string
+	SpecType            astmodel.Type
+	StatusType          astmodel.Type
+	SourceFile          string
+	ARMType             string // e.g. Microsoft.XYZ/resourceThings
+	ARMURI              string
+	SupportedOperations set.Set[astmodel.ResourceOperation]
 	// TODO: use ARMURI for generating Resource URIs (only used for documentation & ownership at the moment)
 }
 
@@ -110,6 +112,25 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 	return result, nil
 }
 
+func getSupportedOperations(op spec.PathItem) set.Set[astmodel.ResourceOperation] {
+	supportedOperations := set.Make[astmodel.ResourceOperation]()
+
+	if op.Put != nil {
+		supportedOperations.Add(astmodel.ResourceOperationPut)
+	}
+	if op.Get != nil {
+		supportedOperations.Add(astmodel.ResourceOperationGet)
+	}
+	if op.Head != nil {
+		supportedOperations.Add(astmodel.ResourceOperationHead)
+	}
+	if op.Delete != nil {
+		supportedOperations.Add(astmodel.ResourceOperationDelete)
+	}
+
+	return supportedOperations
+}
+
 func (extractor *SwaggerTypeExtractor) ExtractResourceTypes(ctx context.Context, scanner *SchemaScanner, result SwaggerTypes) error {
 	if extractor.swagger.Paths == nil {
 		// No paths, nothing to extract
@@ -142,7 +163,8 @@ func (extractor *SwaggerTypeExtractor) ExtractResourceTypes(ctx context.Context,
 				specSchema,
 				statusSchema,
 				nameParameterType,
-				operationPath)
+				operationPath,
+				getSupportedOperations(op))
 			if err != nil {
 				return err
 			}
@@ -160,6 +182,7 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 	statusSchema *Schema,
 	nameParameterType astmodel.Type,
 	operationPath string,
+	supportedOperations set.Set[astmodel.ResourceOperation],
 ) error {
 	armType, resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
 	if err != nil {
@@ -242,11 +265,12 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 			return nil
 		}
 		result.ResourceDefinitions[resourceName] = ResourceDefinition{
-			SourceFile: extractor.swaggerPath,
-			SpecType:   resourceSpec,
-			StatusType: resourceStatus,
-			ARMType:    armType,
-			ARMURI:     operationPath,
+			SourceFile:          extractor.swaggerPath,
+			SpecType:            resourceSpec,
+			StatusType:          resourceStatus,
+			ARMType:             armType,
+			ARMURI:              operationPath,
+			SupportedOperations: supportedOperations,
 		}
 	}
 

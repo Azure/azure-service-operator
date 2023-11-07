@@ -71,6 +71,15 @@ func (pool *WorkspacesBigDataPool) GetStatus() genruntime.ConvertibleStatus {
 	return &pool.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (pool *WorkspacesBigDataPool) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Synapse/workspaces/bigDataPools"
 func (pool *WorkspacesBigDataPool) GetType() string {
 	return "Microsoft.Synapse/workspaces/bigDataPools"

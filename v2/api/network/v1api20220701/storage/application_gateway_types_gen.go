@@ -71,6 +71,15 @@ func (gateway *ApplicationGateway) GetStatus() genruntime.ConvertibleStatus {
 	return &gateway.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (gateway *ApplicationGateway) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/applicationGateways"
 func (gateway *ApplicationGateway) GetType() string {
 	return "Microsoft.Network/applicationGateways"
