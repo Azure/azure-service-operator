@@ -9,11 +9,13 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
 func Test_Latest_Reconciled_Generation_Reconciles_AllEvents(t *testing.T) {
@@ -65,7 +67,7 @@ func Test_Latest_Reconciled_Generation_Reconciles_AllEvents(t *testing.T) {
 	old := agentPool.DeepCopy()
 	agentPool.Spec.OrchestratorVersion = to.Ptr("1.27.1")
 
-	tc.Patch(old, agentPool)
+	tc.PatchResourceAndWaitForState(old, agentPool, metav1.ConditionFalse, conditions.ConditionSeverityInfo)
 
 	old = agentPool.DeepCopy()
 	agentPool.Spec.Count = to.Ptr(2)
