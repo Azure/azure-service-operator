@@ -531,6 +531,11 @@ func (r *azureDeploymentReconcilerInstance) resultBasedOnGenerationCount() ctrl.
 	// If there's a mismatch in number of generations we reconciled and generations on spec, we requeue the resource to make sure its in sync.
 	generation, hasGenerationAnnotation := GetLatestReconciledGeneration(r.Obj)
 	if hasGenerationAnnotation && r.Obj.GetGeneration() != generation {
+		r.Log.V(Debug).Info(
+			"Generation mismatch detected, requeue-ing the resource",
+			"resourceID",
+			genruntime.GetResourceIDOrDefault(r.Obj))
+		
 		return ctrl.Result{Requeue: true}
 	}
 	return ctrl.Result{}
