@@ -48,7 +48,6 @@ var legacyStorageGroups = set.Make(
 	"sql",
 	"storage",
 	"synapse",
-	"web",
 )
 
 // MakeStoragePackageReference creates a new storage package reference from a local package reference
