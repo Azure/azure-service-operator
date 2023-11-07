@@ -48,7 +48,7 @@ func Test_CDN_Profile_CRUD(t *testing.T) {
 	armId := *profile.Status.Id
 	tc.DeleteResourceAndWait(profile)
 
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		string(cdn.APIVersion_Value))

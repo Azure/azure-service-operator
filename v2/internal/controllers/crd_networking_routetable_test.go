@@ -50,7 +50,7 @@ func Test_Networking_RouteTable_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(routeTable)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(retryAfter).To(BeZero())
 	g.Expect(exists).To(BeFalse())
@@ -105,7 +105,7 @@ func Routes_CRUD(tc *testcommon.KubePerTestContext, routeTable *network.RouteTab
 	tc.DeleteResourcesAndWait(ipv4Route, ipv6Route)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
@@ -150,7 +150,7 @@ func Test_Networking_Route_CreatedThenRouteTableUpdated_RouteStillExists(t *test
 	tc.PatchResourceAndWait(old, routeTable)
 
 	// Now ensure that the Route still exists
-	exists, _, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeTrue())
 }

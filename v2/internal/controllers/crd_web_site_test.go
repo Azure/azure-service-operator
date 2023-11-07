@@ -50,7 +50,7 @@ func Test_Web_Site_CRUD(t *testing.T) {
 
 	tc.DeleteResourceAndWait(site)
 
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		string(web.APIVersion_Value))

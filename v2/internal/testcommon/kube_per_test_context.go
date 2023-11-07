@@ -354,7 +354,7 @@ func (tc *KubePerTestContext) Eventually(actual interface{}, intervals ...interf
 
 func (tc *KubePerTestContext) ExpectResourceIsDeletedInAzure(armId string, apiVersion string) {
 	tc.Eventually(func() (bool, time.Duration, error) {
-		return tc.AzureClient.HeadByID(tc.Ctx, armId, apiVersion)
+		return tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, apiVersion)
 	}).Should(gomega.BeFalse())
 }
 
