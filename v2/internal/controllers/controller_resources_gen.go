@@ -82,7 +82,7 @@ import (
 	containerservice_v1beta20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
 	datafactory_customizations "github.com/Azure/azure-service-operator/v2/api/datafactory/customizations"
 	datafactory_v20180601 "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601"
-	datafactory_v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601storage"
+	datafactory_v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
 	dataprotection_customizations "github.com/Azure/azure-service-operator/v2/api/dataprotection/customizations"
 	dataprotection_v20230101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
 	dataprotection_v20230101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101storage"
