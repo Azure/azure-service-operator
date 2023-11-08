@@ -1,4 +1,4 @@
-apiVersion: containerinstance.azure.com/v1beta20211001
+apiVersion: containerinstance.azure.com/v1api20211001
 kind: ContainerGroup
 metadata:
   name: samplecontainergroup

@@ -26,7 +26,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	mysqlv1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
-	mysqlbeta "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta1"
 	postgresqlv1 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
@@ -217,7 +216,6 @@ func GetKnownTypes() []client.Object {
 
 	knownTypes = append(
 		knownTypes,
-		&mysqlbeta.User{},
 		&mysqlv1.User{})
 	knownTypes = append(
 		knownTypes,
@@ -227,7 +225,6 @@ func GetKnownTypes() []client.Object {
 
 func CreateScheme() *runtime.Scheme {
 	scheme := createScheme()
-	_ = mysqlbeta.AddToScheme(scheme)
 	_ = mysqlv1.AddToScheme(scheme)
 	_ = postgresqlv1.AddToScheme(scheme)
 	scheme.AllKnownTypes()

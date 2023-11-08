@@ -32,7 +32,6 @@ import (
 const (
 	// ReportResourceVersionsStageID is the unique identifier of this stage
 	ReportResourceVersionsStageID = "reportResourceVersions"
-	v1betaVersionPrefix           = "v1beta"
 	v1VersionPrefix               = "v1api"
 )
 
@@ -650,12 +649,6 @@ func (report *ResourceVersionsReport) supportedFrom(typeName astmodel.InternalTy
 	}
 
 	_, ver := typeName.InternalPackageReference().GroupVersion()
-
-	// Special case for resources that existed prior to beta.0
-	// the `v1beta` versions of those resources are only available from "beta.0"
-	if strings.Contains(ver, v1betaVersionPrefix) && strings.HasPrefix(supportedFrom, "v2.0.0-alpha") {
-		return "v2.0.0-beta.0"
-	}
 
 	// Special case for resources that existed prior to GA
 	// the `v1api` versions of those resources are only available from "v2.0.0"
