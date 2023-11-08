@@ -61,7 +61,7 @@ func Test_Storage_StorageAccount_20210401_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(acct)
 
 	// Ensure that the account was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		string(storage.APIVersion_Value))
@@ -159,7 +159,7 @@ func Test_Storage_StorageAccount_20210401_SecretsFromAzure(t *testing.T) {
 	tc.ListResources(configMapList, client.InNamespace(tc.Namespace))
 	tc.Expect(configMapList.Items).To(HaveLen(0))
 
-	// Run sub-tests on storage account
+	// Run sub-tests on storage account in sequence
 	tc.RunSubtests(
 		testcommon.Subtest{
 			Name: "SecretsWrittenToSameKubeSecret",

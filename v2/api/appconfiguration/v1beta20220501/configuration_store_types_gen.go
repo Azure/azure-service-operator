@@ -5,7 +5,7 @@ package v1beta20220501
 
 import (
 	"fmt"
-	v1beta20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501storage"
+	v1beta20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -127,6 +127,15 @@ func (store *ConfigurationStore) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (store *ConfigurationStore) GetStatus() genruntime.ConvertibleStatus {
 	return &store.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (store *ConfigurationStore) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.AppConfiguration/configurationStores"

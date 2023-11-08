@@ -60,7 +60,17 @@ func Test_NewResourceGroup(t *testing.T) {
 	_, err = testContext.AzureClient.GetByID(ctx, id, typedResourceGroupSpec.GetAPIVersion(), &status)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	// Delete the deployment
+	// Check the resources existence with GET
+	exists, _, err := testContext.AzureClient.CheckExistenceWithGetByID(ctx, id, typedResourceGroupSpec.GetAPIVersion())
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(exists).To(BeTrue())
+
+	// Check the resources existence with HEAD
+	exists, _, err = testContext.AzureClient.CheckExistenceByID(ctx, id, typedResourceGroupSpec.GetAPIVersion())
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(exists).To(BeTrue())
+
+	// Delete the resource group
 	_, err = testContext.AzureClient.BeginDeleteByID(ctx, id, typedResourceGroupSpec.GetAPIVersion())
 	g.Expect(err).ToNot(HaveOccurred())
 

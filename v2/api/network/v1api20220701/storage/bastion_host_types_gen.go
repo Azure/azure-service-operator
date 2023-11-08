@@ -71,6 +71,15 @@ func (host *BastionHost) GetStatus() genruntime.ConvertibleStatus {
 	return &host.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (host *BastionHost) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/bastionHosts"
 func (host *BastionHost) GetType() string {
 	return "Microsoft.Network/bastionHosts"
@@ -128,12 +137,6 @@ type BastionHostList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []BastionHost `json:"items"`
 }
-
-// Storage version of v1api20220701.APIVersion
-// +kubebuilder:validation:Enum={"2022-07-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2022-07-01")
 
 // Storage version of v1api20220701.BastionHost_Spec
 type BastionHost_Spec struct {

@@ -72,6 +72,15 @@ func (alert *MetricAlert) GetStatus() genruntime.ConvertibleStatus {
 	return &alert.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (alert *MetricAlert) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/metricAlerts"
 func (alert *MetricAlert) GetType() string {
 	return "Microsoft.Insights/metricAlerts"

@@ -71,6 +71,15 @@ func (pool *ServersElasticPool) GetStatus() genruntime.ConvertibleStatus {
 	return &pool.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (pool *ServersElasticPool) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/elasticPools"
 func (pool *ServersElasticPool) GetType() string {
 	return "Microsoft.Sql/servers/elasticPools"

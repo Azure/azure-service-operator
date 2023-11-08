@@ -57,7 +57,7 @@ func Test_Compute_Disk_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(disk)
 
 	// Ensure that the resource group was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		string(compute.APIVersion_Value))

@@ -8,12 +8,13 @@ package controllers_test
 import (
 	"testing"
 
+	. "github.com/onsi/gomega"
+
 	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
 	fleet "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	. "github.com/onsi/gomega"
 )
 
 func Test_AKS_Fleet_20230315_CRUD(t *testing.T) {
@@ -115,7 +116,7 @@ func Test_AKS_Fleet_20230315_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(flt)
 
 	// Ensure that fleet was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(fleet.APIVersion_Value))
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(fleet.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

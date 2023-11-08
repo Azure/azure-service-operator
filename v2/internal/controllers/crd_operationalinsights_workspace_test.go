@@ -50,7 +50,7 @@ func Test_OperationalInsights_Workspace_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(workspace)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		string(operationalinsights.APIVersion_Value))

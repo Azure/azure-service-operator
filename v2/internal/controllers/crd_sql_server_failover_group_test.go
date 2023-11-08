@@ -96,7 +96,7 @@ func Test_SQL_Server_FailoverGroup_CRUD(t *testing.T) {
 	armId := *failoverGroup.Status.Id
 
 	tc.DeleteResourceAndWait(failoverGroup)
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		string(sql.APIVersion_Value))

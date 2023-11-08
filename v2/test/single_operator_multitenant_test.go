@@ -50,7 +50,7 @@ func Test_Multitenant_SingleOperator_CertificateAuth(t *testing.T) {
 	resID := genruntime.GetResourceIDOrDefault(rg)
 
 	// Make sure the ResourceGroup is created successfully in Azure.
-	exists, _, err := tc.AzureClient.HeadByID(tc.Ctx, resID, string(storage.APIVersion_Value))
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, resID, string(storage.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeTrue())
 
@@ -86,7 +86,7 @@ func Test_Multitenant_SingleOperator_NamespacedCredential(t *testing.T) {
 	resID := genruntime.GetResourceIDOrDefault(acct)
 
 	// Make sure the StorageAccount is created successfully in Azure.
-	exists, _, err := tc.AzureClient.HeadByID(tc.Ctx, resID, string(storage.APIVersion_Value))
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, resID, string(storage.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeTrue())
 
@@ -126,7 +126,7 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 	resID := genruntime.GetResourceIDOrDefault(acct)
 
 	// Make sure the StorageAccount is created successfully in Azure.
-	exists, _, err := tc.AzureClient.HeadByID(tc.Ctx, resID, string(storage.APIVersion_Value))
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, resID, string(storage.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeTrue())
 

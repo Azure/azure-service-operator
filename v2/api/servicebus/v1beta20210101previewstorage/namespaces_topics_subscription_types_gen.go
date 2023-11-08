@@ -103,6 +103,15 @@ func (subscription *NamespacesTopicsSubscription) GetStatus() genruntime.Convert
 	return &subscription.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (subscription *NamespacesTopicsSubscription) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/topics/subscriptions"
 func (subscription *NamespacesTopicsSubscription) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/topics/subscriptions"

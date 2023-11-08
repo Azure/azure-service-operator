@@ -5,7 +5,7 @@ package v1api20220801
 
 import (
 	"fmt"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &Subscription{}
 func (subscription *Subscription) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220801s.Subscription)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801storage/Subscription but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Subscription but received %T instead", hub)
 	}
 
 	return subscription.AssignProperties_From_Subscription(source)
@@ -61,7 +61,7 @@ func (subscription *Subscription) ConvertFrom(hub conversion.Hub) error {
 func (subscription *Subscription) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220801s.Subscription)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801storage/Subscription but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Subscription but received %T instead", hub)
 	}
 
 	return subscription.AssignProperties_To_Subscription(destination)
@@ -126,6 +126,16 @@ func (subscription *Subscription) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (subscription *Subscription) GetStatus() genruntime.ConvertibleStatus {
 	return &subscription.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (subscription *Subscription) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationHead,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service/subscriptions"
@@ -199,7 +209,7 @@ func (subscription *Subscription) ValidateUpdate(old runtime.Object) (admission.
 
 // createValidations validates the creation of the resource
 func (subscription *Subscription) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){subscription.validateResourceReferences, subscription.validateOwnerReference}
+	return []func() (admission.Warnings, error){subscription.validateResourceReferences, subscription.validateOwnerReference, subscription.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,6 +227,9 @@ func (subscription *Subscription) updateValidations() []func(old runtime.Object)
 		func(old runtime.Object) (admission.Warnings, error) {
 			return subscription.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return subscription.validateSecretDestinations()
+		},
 	}
 }
 
@@ -232,6 +245,21 @@ func (subscription *Subscription) validateResourceReferences() (admission.Warnin
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (subscription *Subscription) validateSecretDestinations() (admission.Warnings, error) {
+	if subscription.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	if subscription.Spec.OperatorSpec.Secrets == nil {
+		return nil, nil
+	}
+	toValidate := []*genruntime.SecretDestination{
+		subscription.Spec.OperatorSpec.Secrets.PrimaryKey,
+		subscription.Spec.OperatorSpec.Secrets.SecondaryKey,
+	}
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -330,6 +358,10 @@ type Service_Subscription_Spec struct {
 	// +kubebuilder:validation:MinLength=1
 	// DisplayName: Subscription name.
 	DisplayName *string `json:"displayName,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *SubscriptionOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -457,6 +489,8 @@ func (subscription *Service_Subscription_Spec) PopulateFromARM(owner genruntime.
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	subscription.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -563,6 +597,18 @@ func (subscription *Service_Subscription_Spec) AssignProperties_From_Service_Sub
 		subscription.DisplayName = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec SubscriptionOperatorSpec
+		err := operatorSpec.AssignProperties_From_SubscriptionOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubscriptionOperatorSpec() to populate field OperatorSpec")
+		}
+		subscription.OperatorSpec = &operatorSpec
+	} else {
+		subscription.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -632,6 +678,18 @@ func (subscription *Service_Subscription_Spec) AssignProperties_To_Service_Subsc
 		destination.DisplayName = &displayName
 	} else {
 		destination.DisplayName = nil
+	}
+
+	// OperatorSpec
+	if subscription.OperatorSpec != nil {
+		var operatorSpec v20220801s.SubscriptionOperatorSpec
+		err := subscription.OperatorSpec.AssignProperties_To_SubscriptionOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubscriptionOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -1112,6 +1170,124 @@ func (subscription *Service_Subscription_STATUS) AssignProperties_To_Service_Sub
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(subscription.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SubscriptionOperatorSpec struct {
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *SubscriptionOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignProperties_From_SubscriptionOperatorSpec populates our SubscriptionOperatorSpec from the provided source SubscriptionOperatorSpec
+func (operator *SubscriptionOperatorSpec) AssignProperties_From_SubscriptionOperatorSpec(source *v20220801s.SubscriptionOperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret SubscriptionOperatorSecrets
+		err := secret.AssignProperties_From_SubscriptionOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubscriptionOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SubscriptionOperatorSpec populates the provided destination SubscriptionOperatorSpec from our SubscriptionOperatorSpec
+func (operator *SubscriptionOperatorSpec) AssignProperties_To_SubscriptionOperatorSpec(destination *v20220801s.SubscriptionOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v20220801s.SubscriptionOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_SubscriptionOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubscriptionOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type SubscriptionOperatorSecrets struct {
+	// PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
+	// Azure.
+	PrimaryKey *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+
+	// SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
+	SecondaryKey *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
+}
+
+// AssignProperties_From_SubscriptionOperatorSecrets populates our SubscriptionOperatorSecrets from the provided source SubscriptionOperatorSecrets
+func (secrets *SubscriptionOperatorSecrets) AssignProperties_From_SubscriptionOperatorSecrets(source *v20220801s.SubscriptionOperatorSecrets) error {
+
+	// PrimaryKey
+	if source.PrimaryKey != nil {
+		primaryKey := source.PrimaryKey.Copy()
+		secrets.PrimaryKey = &primaryKey
+	} else {
+		secrets.PrimaryKey = nil
+	}
+
+	// SecondaryKey
+	if source.SecondaryKey != nil {
+		secondaryKey := source.SecondaryKey.Copy()
+		secrets.SecondaryKey = &secondaryKey
+	} else {
+		secrets.SecondaryKey = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SubscriptionOperatorSecrets populates the provided destination SubscriptionOperatorSecrets from our SubscriptionOperatorSecrets
+func (secrets *SubscriptionOperatorSecrets) AssignProperties_To_SubscriptionOperatorSecrets(destination *v20220801s.SubscriptionOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PrimaryKey
+	if secrets.PrimaryKey != nil {
+		primaryKey := secrets.PrimaryKey.Copy()
+		destination.PrimaryKey = &primaryKey
+	} else {
+		destination.PrimaryKey = nil
+	}
+
+	// SecondaryKey
+	if secrets.SecondaryKey != nil {
+		secondaryKey := secrets.SecondaryKey.Copy()
+		destination.SecondaryKey = &secondaryKey
+	} else {
+		destination.SecondaryKey = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

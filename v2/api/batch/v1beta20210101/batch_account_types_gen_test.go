@@ -5,8 +5,8 @@ package v1beta20210101
 
 import (
 	"encoding/json"
-	v20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101storage"
-	v1beta20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101storage"
+	v20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/storage"
+	v1beta20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_BatchAccount_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBatchAccount tests if a specific instance of BatchAccount can be assigned to v1beta20210101storage and back losslessly
+// RunPropertyAssignmentTestForBatchAccount tests if a specific instance of BatchAccount can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBatchAccount(subject BatchAccount) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_BatchAccount_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBatchAccount_Spec tests if a specific instance of BatchAccount_Spec can be assigned to v1beta20210101storage and back losslessly
+// RunPropertyAssignmentTestForBatchAccount_Spec tests if a specific instance of BatchAccount_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBatchAccount_Spec(subject BatchAccount_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -299,7 +299,7 @@ func Test_BatchAccount_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBatchAccount_STATUS tests if a specific instance of BatchAccount_STATUS can be assigned to v1beta20210101storage and back losslessly
+// RunPropertyAssignmentTestForBatchAccount_STATUS tests if a specific instance of BatchAccount_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBatchAccount_STATUS(subject BatchAccount_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -440,7 +440,7 @@ func Test_AutoStorageBaseProperties_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAutoStorageBaseProperties tests if a specific instance of AutoStorageBaseProperties can be assigned to v1beta20210101storage and back losslessly
+// RunPropertyAssignmentTestForAutoStorageBaseProperties tests if a specific instance of AutoStorageBaseProperties can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAutoStorageBaseProperties(subject AutoStorageBaseProperties) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -537,7 +537,7 @@ func Test_AutoStorageProperties_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAutoStorageProperties_STATUS tests if a specific instance of AutoStorageProperties_STATUS can be assigned to v1beta20210101storage and back losslessly
+// RunPropertyAssignmentTestForAutoStorageProperties_STATUS tests if a specific instance of AutoStorageProperties_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAutoStorageProperties_STATUS(subject AutoStorageProperties_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -641,7 +641,7 @@ func Test_BatchAccountIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBatchAccountIdentity tests if a specific instance of BatchAccountIdentity can be assigned to v1beta20210101storage and back losslessly
+// RunPropertyAssignmentTestForBatchAccountIdentity tests if a specific instance of BatchAccountIdentity can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBatchAccountIdentity(subject BatchAccountIdentity) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -758,7 +758,7 @@ func Test_BatchAccountIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBatchAccountIdentity_STATUS tests if a specific instance of BatchAccountIdentity_STATUS can be assigned to v1beta20210101storage and back losslessly
+// RunPropertyAssignmentTestForBatchAccountIdentity_STATUS tests if a specific instance of BatchAccountIdentity_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBatchAccountIdentity_STATUS(subject BatchAccountIdentity_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -877,7 +877,7 @@ func Test_EncryptionProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEncryptionProperties tests if a specific instance of EncryptionProperties can be assigned to v1beta20210101storage and back losslessly
+// RunPropertyAssignmentTestForEncryptionProperties tests if a specific instance of EncryptionProperties can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEncryptionProperties(subject EncryptionProperties) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -994,7 +994,7 @@ func Test_EncryptionProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEncryptionProperties_STATUS tests if a specific instance of EncryptionProperties_STATUS can be assigned to v1beta20210101storage and back losslessly
+// RunPropertyAssignmentTestForEncryptionProperties_STATUS tests if a specific instance of EncryptionProperties_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEncryptionProperties_STATUS(subject EncryptionProperties_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1111,7 +1111,7 @@ func Test_KeyVaultReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForKeyVaultReference tests if a specific instance of KeyVaultReference can be assigned to v1beta20210101storage and back losslessly
+// RunPropertyAssignmentTestForKeyVaultReference tests if a specific instance of KeyVaultReference can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForKeyVaultReference(subject KeyVaultReference) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1213,7 +1213,7 @@ func Test_KeyVaultReference_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForKeyVaultReference_STATUS tests if a specific instance of KeyVaultReference_STATUS can be assigned to v1beta20210101storage and back losslessly
+// RunPropertyAssignmentTestForKeyVaultReference_STATUS tests if a specific instance of KeyVaultReference_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForKeyVaultReference_STATUS(subject KeyVaultReference_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1317,7 +1317,7 @@ func Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS tests if a specific instance of PrivateEndpointConnection_STATUS can be assigned to v1beta20210101storage and back losslessly
+// RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS tests if a specific instance of PrivateEndpointConnection_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS(subject PrivateEndpointConnection_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1420,7 +1420,7 @@ func Test_VirtualMachineFamilyCoreQuota_STATUS_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineFamilyCoreQuota_STATUS tests if a specific instance of VirtualMachineFamilyCoreQuota_STATUS can be assigned to v1beta20210101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineFamilyCoreQuota_STATUS tests if a specific instance of VirtualMachineFamilyCoreQuota_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineFamilyCoreQuota_STATUS(subject VirtualMachineFamilyCoreQuota_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1524,7 +1524,7 @@ func Test_BatchAccountIdentity_UserAssignedIdentities_STATUS_WhenPropertiesConve
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBatchAccountIdentity_UserAssignedIdentities_STATUS tests if a specific instance of BatchAccountIdentity_UserAssignedIdentities_STATUS can be assigned to v1beta20210101storage and back losslessly
+// RunPropertyAssignmentTestForBatchAccountIdentity_UserAssignedIdentities_STATUS tests if a specific instance of BatchAccountIdentity_UserAssignedIdentities_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBatchAccountIdentity_UserAssignedIdentities_STATUS(subject BatchAccountIdentity_UserAssignedIdentities_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1628,7 +1628,7 @@ func Test_KeyVaultProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForKeyVaultProperties tests if a specific instance of KeyVaultProperties can be assigned to v1beta20210101storage and back losslessly
+// RunPropertyAssignmentTestForKeyVaultProperties tests if a specific instance of KeyVaultProperties can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForKeyVaultProperties(subject KeyVaultProperties) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1730,7 +1730,7 @@ func Test_KeyVaultProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForKeyVaultProperties_STATUS tests if a specific instance of KeyVaultProperties_STATUS can be assigned to v1beta20210101storage and back losslessly
+// RunPropertyAssignmentTestForKeyVaultProperties_STATUS tests if a specific instance of KeyVaultProperties_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForKeyVaultProperties_STATUS(subject KeyVaultProperties_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1833,7 +1833,7 @@ func Test_UserAssignedIdentityDetails_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForUserAssignedIdentityDetails tests if a specific instance of UserAssignedIdentityDetails can be assigned to v1beta20210101storage and back losslessly
+// RunPropertyAssignmentTestForUserAssignedIdentityDetails tests if a specific instance of UserAssignedIdentityDetails can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssignedIdentityDetails) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

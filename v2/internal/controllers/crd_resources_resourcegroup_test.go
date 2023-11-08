@@ -39,7 +39,7 @@ func Test_Resources_ResourceGroup_CRUD(t *testing.T) {
 
 	// Ensure that the resource group was really deleted in Azure
 	// TODO: Do we want to just use an SDK here? This process is quite icky as is...
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		"2020-06-01")

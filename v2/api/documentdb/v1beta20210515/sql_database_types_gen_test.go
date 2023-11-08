@@ -5,8 +5,8 @@ package v1beta20210515
 
 import (
 	"encoding/json"
-	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
-	v1beta20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
+	v1beta20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_SqlDatabase_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSqlDatabase tests if a specific instance of SqlDatabase can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForSqlDatabase tests if a specific instance of SqlDatabase can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSqlDatabase(subject SqlDatabase) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_DatabaseAccounts_SqlDatabase_Spec_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabase_Spec tests if a specific instance of DatabaseAccounts_SqlDatabase_Spec can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabase_Spec tests if a specific instance of DatabaseAccounts_SqlDatabase_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabase_Spec(subject DatabaseAccounts_SqlDatabase_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -296,7 +296,7 @@ func Test_DatabaseAccounts_SqlDatabase_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabase_STATUS tests if a specific instance of DatabaseAccounts_SqlDatabase_STATUS can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabase_STATUS tests if a specific instance of DatabaseAccounts_SqlDatabase_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabase_STATUS(subject DatabaseAccounts_SqlDatabase_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -418,7 +418,7 @@ func Test_SqlDatabaseGetProperties_Resource_STATUS_WhenPropertiesConverted_Round
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSqlDatabaseGetProperties_Resource_STATUS tests if a specific instance of SqlDatabaseGetProperties_Resource_STATUS can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForSqlDatabaseGetProperties_Resource_STATUS tests if a specific instance of SqlDatabaseGetProperties_Resource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSqlDatabaseGetProperties_Resource_STATUS(subject SqlDatabaseGetProperties_Resource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -526,7 +526,7 @@ func Test_SqlDatabaseResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSqlDatabaseResource tests if a specific instance of SqlDatabaseResource can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForSqlDatabaseResource tests if a specific instance of SqlDatabaseResource can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSqlDatabaseResource(subject SqlDatabaseResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

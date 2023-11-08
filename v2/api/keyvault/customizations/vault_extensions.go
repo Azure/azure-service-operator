@@ -18,7 +18,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401previewstorage"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601storage"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/storage"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"

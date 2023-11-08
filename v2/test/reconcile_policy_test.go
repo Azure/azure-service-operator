@@ -43,7 +43,7 @@ func Test_ReconcilePolicy_SkipReconcile_DoesntCreateResourceInAzure(t *testing.T
 
 	// The actual Azure resource shouldn't exist
 	armID := rg.Annotations[genruntime.ResourceIDAnnotation]
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armID,
 		"2020-06-01")
@@ -62,7 +62,7 @@ func Test_ReconcilePolicy_SkipReconcile_DoesntCreateResourceInAzure(t *testing.T
 	tc.Expect(rg.Status.Location).ToNot(BeNil())
 
 	// The actual Azure resource should exist
-	exists, _, err = tc.AzureClient.HeadByID(
+	exists, _, err = tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armID,
 		"2020-06-01")

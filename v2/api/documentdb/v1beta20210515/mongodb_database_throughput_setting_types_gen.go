@@ -5,7 +5,7 @@ package v1beta20210515
 
 import (
 	"fmt"
-	v1beta20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
+	v1beta20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -120,6 +120,14 @@ func (setting *MongodbDatabaseThroughputSetting) GetSpec() genruntime.Convertibl
 // GetStatus returns the status of this resource
 func (setting *MongodbDatabaseThroughputSetting) GetStatus() genruntime.ConvertibleStatus {
 	return &setting.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (setting *MongodbDatabaseThroughputSetting) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings"

@@ -128,6 +128,15 @@ func (connection *WorkspacesConnection) GetStatus() genruntime.ConvertibleStatus
 	return &connection.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (connection *WorkspacesConnection) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.MachineLearningServices/workspaces/connections"
 func (connection *WorkspacesConnection) GetType() string {
 	return "Microsoft.MachineLearningServices/workspaces/connections"

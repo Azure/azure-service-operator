@@ -5,7 +5,7 @@ package v1api20210601
 
 import (
 	"fmt"
-	v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601storage"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &Profile{}
 func (profile *Profile) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20210601s.Profile)
 	if !ok {
-		return fmt.Errorf("expected cdn/v1api20210601storage/Profile but received %T instead", hub)
+		return fmt.Errorf("expected cdn/v1api20210601/storage/Profile but received %T instead", hub)
 	}
 
 	return profile.AssignProperties_From_Profile(source)
@@ -61,7 +61,7 @@ func (profile *Profile) ConvertFrom(hub conversion.Hub) error {
 func (profile *Profile) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20210601s.Profile)
 	if !ok {
-		return fmt.Errorf("expected cdn/v1api20210601storage/Profile but received %T instead", hub)
+		return fmt.Errorf("expected cdn/v1api20210601/storage/Profile but received %T instead", hub)
 	}
 
 	return profile.AssignProperties_To_Profile(destination)
@@ -126,6 +126,15 @@ func (profile *Profile) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (profile *Profile) GetStatus() genruntime.ConvertibleStatus {
 	return &profile.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (profile *Profile) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cdn/profiles"

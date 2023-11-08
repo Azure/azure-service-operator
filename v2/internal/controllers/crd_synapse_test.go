@@ -85,7 +85,7 @@ func Test_Workspace_BigDataPool(t *testing.T) {
 	tc.DeleteResourceAndWait(ws)
 
 	// Ensure that the workspace was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		wsArmId,
 		string(synapse.APIVersion_Value))

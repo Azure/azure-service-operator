@@ -8,14 +8,13 @@ package testcommon
 import (
 	"testing"
 
+	"github.com/google/uuid"
 	. "github.com/onsi/gomega"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"github.com/google/uuid"
 )
 
 type sampleResource struct {
@@ -83,6 +82,10 @@ func Test_SamplesTester_UpdatesTenantID(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(sample.TenantID).To(Equal(tester.azureTenant))
+}
+
+func (s *sampleResource) GetSupportedOperations() []genruntime.ResourceOperation {
+	panic("unimplemented")
 }
 
 // GetConditions implements genruntime.ARMMetaObject.

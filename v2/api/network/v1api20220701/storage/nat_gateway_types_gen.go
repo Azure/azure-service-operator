@@ -71,6 +71,15 @@ func (gateway *NatGateway) GetStatus() genruntime.ConvertibleStatus {
 	return &gateway.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (gateway *NatGateway) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/natGateways"
 func (gateway *NatGateway) GetType() string {
 	return "Microsoft.Network/natGateways"
@@ -210,22 +219,6 @@ func (gateway *NatGateway_STATUS) ConvertStatusTo(destination genruntime.Convert
 	}
 
 	return destination.ConvertStatusFrom(gateway)
-}
-
-// Storage version of v1api20220701.ApplicationGatewaySubResource
-// Reference to another subresource.
-type ApplicationGatewaySubResource struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-// Storage version of v1api20220701.ApplicationGatewaySubResource_STATUS
-// Reference to another subresource.
-type ApplicationGatewaySubResource_STATUS struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20220701.NatGatewaySku

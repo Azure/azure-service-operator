@@ -71,6 +71,15 @@ func (endpoint *TrafficManagerProfilesAzureEndpoint) GetStatus() genruntime.Conv
 	return &endpoint.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (endpoint *TrafficManagerProfilesAzureEndpoint) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/trafficmanagerprofiles/AzureEndpoints"
 func (endpoint *TrafficManagerProfilesAzureEndpoint) GetType() string {
 	return "Microsoft.Network/trafficmanagerprofiles/AzureEndpoints"

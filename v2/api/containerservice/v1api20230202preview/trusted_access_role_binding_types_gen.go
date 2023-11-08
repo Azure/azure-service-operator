@@ -128,6 +128,15 @@ func (binding *TrustedAccessRoleBinding) GetStatus() genruntime.ConvertibleStatu
 	return &binding.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (binding *TrustedAccessRoleBinding) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters/trustedAccessRoleBindings"
 func (binding *TrustedAccessRoleBinding) GetType() string {
 	return "Microsoft.ContainerService/managedClusters/trustedAccessRoleBindings"

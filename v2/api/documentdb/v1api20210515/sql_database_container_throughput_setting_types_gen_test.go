@@ -5,7 +5,7 @@ package v1api20210515
 
 import (
 	"encoding/json"
-	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_SqlDatabaseContainerThroughputSetting_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSqlDatabaseContainerThroughputSetting tests if a specific instance of SqlDatabaseContainerThroughputSetting can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForSqlDatabaseContainerThroughputSetting tests if a specific instance of SqlDatabaseContainerThroughputSetting can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSqlDatabaseContainerThroughputSetting(subject SqlDatabaseContainerThroughputSetting) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec_WhenPr
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec tests if a specific instance of DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec tests if a specific instance of DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec(subject DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -294,7 +294,7 @@ func Test_DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS_When
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS tests if a specific instance of DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS can be assigned to v1api20210515storage and back losslessly
+// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS tests if a specific instance of DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS(subject DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

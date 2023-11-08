@@ -5,7 +5,7 @@ package v1beta20180601
 
 import (
 	"fmt"
-	v1beta20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storage"
+	v1beta20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -127,6 +127,15 @@ func (database *Database) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (database *Database) GetStatus() genruntime.ConvertibleStatus {
 	return &database.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (database *Database) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMariaDB/servers/databases"

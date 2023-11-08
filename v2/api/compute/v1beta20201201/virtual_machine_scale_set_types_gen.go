@@ -5,7 +5,7 @@ package v1beta20201201
 
 import (
 	"fmt"
-	v1beta20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage"
+	v1beta20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -128,6 +128,15 @@ func (scaleSet *VirtualMachineScaleSet) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (scaleSet *VirtualMachineScaleSet) GetStatus() genruntime.ConvertibleStatus {
 	return &scaleSet.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (scaleSet *VirtualMachineScaleSet) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachineScaleSets"

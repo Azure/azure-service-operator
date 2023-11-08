@@ -1,5 +1,5 @@
 apiVersion: insights.azure.com/v1api20221001
-kind: Autoscalesetting
+kind: AutoscaleSetting
 metadata:
   name: aso-sample-setting
   namespace: default

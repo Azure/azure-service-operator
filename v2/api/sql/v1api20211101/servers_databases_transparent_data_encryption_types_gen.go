@@ -121,6 +121,14 @@ func (encryption *ServersDatabasesTransparentDataEncryption) GetStatus() genrunt
 	return &encryption.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (encryption *ServersDatabasesTransparentDataEncryption) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/databases/transparentDataEncryption"
 func (encryption *ServersDatabasesTransparentDataEncryption) GetType() string {
 	return "Microsoft.Sql/servers/databases/transparentDataEncryption"

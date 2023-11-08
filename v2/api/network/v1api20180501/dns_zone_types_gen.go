@@ -128,6 +128,15 @@ func (zone *DnsZone) GetStatus() genruntime.ConvertibleStatus {
 	return &zone.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (zone *DnsZone) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/dnsZones"
 func (zone *DnsZone) GetType() string {
 	return "Microsoft.Network/dnsZones"

@@ -5,7 +5,7 @@ package v1beta20210101
 
 import (
 	"fmt"
-	v1beta20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101storage"
+	v1beta20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -127,6 +127,15 @@ func (account *BatchAccount) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (account *BatchAccount) GetStatus() genruntime.ConvertibleStatus {
 	return &account.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (account *BatchAccount) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Batch/batchAccounts"

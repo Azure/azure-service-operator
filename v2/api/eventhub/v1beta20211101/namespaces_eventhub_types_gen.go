@@ -5,7 +5,7 @@ package v1beta20211101
 
 import (
 	"fmt"
-	v1beta20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage"
+	v1beta20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -127,6 +127,15 @@ func (eventhub *NamespacesEventhub) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (eventhub *NamespacesEventhub) GetStatus() genruntime.ConvertibleStatus {
 	return &eventhub.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (eventhub *NamespacesEventhub) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs"

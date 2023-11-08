@@ -83,6 +83,7 @@ var (
 	GenRuntimeMetaObjectType         = MakeExternalTypeName(GenRuntimeReference, "MetaObject")
 	LocatableResourceInterfaceName   = MakeExternalTypeName(GenRuntimeReference, "LocatableResource")
 	ImportableResourceType           = MakeExternalTypeName(GenRuntimeReference, "ImportableResource")
+	ResourceOperationType            = MakeExternalTypeName(GenRuntimeReference, "ResourceOperation")
 
 	// Optional types - GenRuntime
 	OptionalConfigMapReferenceType     = NewOptionalType(ConfigMapReferenceType)

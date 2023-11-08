@@ -5,7 +5,7 @@ package v1api20200601
 
 import (
 	"encoding/json"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_ResourceGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForResourceGroup tests if a specific instance of ResourceGroup can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForResourceGroup tests if a specific instance of ResourceGroup can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForResourceGroup(subject ResourceGroup) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_ResourceGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForResourceGroup_Spec tests if a specific instance of ResourceGroup_Spec can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForResourceGroup_Spec tests if a specific instance of ResourceGroup_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForResourceGroup_Spec(subject ResourceGroup_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -280,7 +280,7 @@ func Test_ResourceGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForResourceGroup_STATUS tests if a specific instance of ResourceGroup_STATUS can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForResourceGroup_STATUS tests if a specific instance of ResourceGroup_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForResourceGroup_STATUS(subject ResourceGroup_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -402,7 +402,7 @@ func Test_ResourceGroupProperties_STATUS_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForResourceGroupProperties_STATUS tests if a specific instance of ResourceGroupProperties_STATUS can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForResourceGroupProperties_STATUS tests if a specific instance of ResourceGroupProperties_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForResourceGroupProperties_STATUS(subject ResourceGroupProperties_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

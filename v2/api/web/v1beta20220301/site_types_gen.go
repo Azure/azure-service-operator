@@ -5,7 +5,7 @@ package v1beta20220301
 
 import (
 	"fmt"
-	v1beta20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage"
+	v1beta20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -127,6 +127,15 @@ func (site *Site) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (site *Site) GetStatus() genruntime.ConvertibleStatus {
 	return &site.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (site *Site) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Web/sites"

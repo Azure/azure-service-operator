@@ -5,7 +5,7 @@ package v1api20220301
 
 import (
 	"encoding/json"
-	v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301storage"
+	v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_VirtualMachineScaleSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSet tests if a specific instance of VirtualMachineScaleSet can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSet tests if a specific instance of VirtualMachineScaleSet can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSet(subject VirtualMachineScaleSet) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_VirtualMachineScaleSet_Spec_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSet_Spec tests if a specific instance of VirtualMachineScaleSet_Spec can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSet_Spec tests if a specific instance of VirtualMachineScaleSet_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSet_Spec(subject VirtualMachineScaleSet_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -313,7 +313,7 @@ func Test_VirtualMachineScaleSet_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSet_STATUS tests if a specific instance of VirtualMachineScaleSet_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSet_STATUS tests if a specific instance of VirtualMachineScaleSet_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSet_STATUS(subject VirtualMachineScaleSet_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -455,7 +455,7 @@ func Test_AutomaticRepairsPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAutomaticRepairsPolicy tests if a specific instance of AutomaticRepairsPolicy can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForAutomaticRepairsPolicy tests if a specific instance of AutomaticRepairsPolicy can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAutomaticRepairsPolicy(subject AutomaticRepairsPolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -560,7 +560,7 @@ func Test_AutomaticRepairsPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAutomaticRepairsPolicy_STATUS tests if a specific instance of AutomaticRepairsPolicy_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForAutomaticRepairsPolicy_STATUS tests if a specific instance of AutomaticRepairsPolicy_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAutomaticRepairsPolicy_STATUS(subject AutomaticRepairsPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -665,7 +665,7 @@ func Test_ScaleInPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForScaleInPolicy tests if a specific instance of ScaleInPolicy can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForScaleInPolicy tests if a specific instance of ScaleInPolicy can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForScaleInPolicy(subject ScaleInPolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -768,7 +768,7 @@ func Test_ScaleInPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForScaleInPolicy_STATUS tests if a specific instance of ScaleInPolicy_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForScaleInPolicy_STATUS tests if a specific instance of ScaleInPolicy_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForScaleInPolicy_STATUS(subject ScaleInPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -872,7 +872,7 @@ func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSku tests if a specific instance of Sku can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForSku tests if a specific instance of Sku can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSku(subject Sku) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -976,7 +976,7 @@ func Test_Sku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSku_STATUS tests if a specific instance of Sku_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForSku_STATUS tests if a specific instance of Sku_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1080,7 +1080,7 @@ func Test_SpotRestorePolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSpotRestorePolicy tests if a specific instance of SpotRestorePolicy can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForSpotRestorePolicy tests if a specific instance of SpotRestorePolicy can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSpotRestorePolicy(subject SpotRestorePolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1183,7 +1183,7 @@ func Test_SpotRestorePolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSpotRestorePolicy_STATUS tests if a specific instance of SpotRestorePolicy_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForSpotRestorePolicy_STATUS tests if a specific instance of SpotRestorePolicy_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSpotRestorePolicy_STATUS(subject SpotRestorePolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1287,7 +1287,7 @@ func Test_UpgradePolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForUpgradePolicy tests if a specific instance of UpgradePolicy can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForUpgradePolicy tests if a specific instance of UpgradePolicy can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForUpgradePolicy(subject UpgradePolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1404,7 +1404,7 @@ func Test_UpgradePolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForUpgradePolicy_STATUS tests if a specific instance of UpgradePolicy_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForUpgradePolicy_STATUS tests if a specific instance of UpgradePolicy_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForUpgradePolicy_STATUS(subject UpgradePolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1522,7 +1522,7 @@ func Test_VirtualMachineScaleSetIdentity_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetIdentity tests if a specific instance of VirtualMachineScaleSetIdentity can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetIdentity tests if a specific instance of VirtualMachineScaleSetIdentity can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetIdentity(subject VirtualMachineScaleSetIdentity) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1643,7 +1643,7 @@ func Test_VirtualMachineScaleSetIdentity_STATUS_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetIdentity_STATUS tests if a specific instance of VirtualMachineScaleSetIdentity_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetIdentity_STATUS tests if a specific instance of VirtualMachineScaleSetIdentity_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetIdentity_STATUS(subject VirtualMachineScaleSetIdentity_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1766,7 +1766,7 @@ func Test_VirtualMachineScaleSetVMProfile_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfile tests if a specific instance of VirtualMachineScaleSetVMProfile can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfile tests if a specific instance of VirtualMachineScaleSetVMProfile can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfile(subject VirtualMachineScaleSetVMProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1896,7 +1896,7 @@ func Test_VirtualMachineScaleSetVMProfile_STATUS_WhenPropertiesConverted_RoundTr
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfile_STATUS tests if a specific instance of VirtualMachineScaleSetVMProfile_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfile_STATUS tests if a specific instance of VirtualMachineScaleSetVMProfile_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfile_STATUS(subject VirtualMachineScaleSetVMProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2026,7 +2026,7 @@ func Test_AutomaticOSUpgradePolicy_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAutomaticOSUpgradePolicy tests if a specific instance of AutomaticOSUpgradePolicy can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForAutomaticOSUpgradePolicy tests if a specific instance of AutomaticOSUpgradePolicy can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAutomaticOSUpgradePolicy(subject AutomaticOSUpgradePolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2131,7 +2131,7 @@ func Test_AutomaticOSUpgradePolicy_STATUS_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAutomaticOSUpgradePolicy_STATUS tests if a specific instance of AutomaticOSUpgradePolicy_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForAutomaticOSUpgradePolicy_STATUS tests if a specific instance of AutomaticOSUpgradePolicy_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAutomaticOSUpgradePolicy_STATUS(subject AutomaticOSUpgradePolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2236,7 +2236,7 @@ func Test_RollingUpgradePolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRollingUpgradePolicy tests if a specific instance of RollingUpgradePolicy can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForRollingUpgradePolicy tests if a specific instance of RollingUpgradePolicy can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRollingUpgradePolicy(subject RollingUpgradePolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2344,7 +2344,7 @@ func Test_RollingUpgradePolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRollingUpgradePolicy_STATUS tests if a specific instance of RollingUpgradePolicy_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForRollingUpgradePolicy_STATUS tests if a specific instance of RollingUpgradePolicy_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRollingUpgradePolicy_STATUS(subject RollingUpgradePolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2452,7 +2452,7 @@ func Test_VirtualMachineScaleSetExtensionProfile_WhenPropertiesConverted_RoundTr
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfile tests if a specific instance of VirtualMachineScaleSetExtensionProfile can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfile tests if a specific instance of VirtualMachineScaleSetExtensionProfile can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfile(subject VirtualMachineScaleSetExtensionProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2569,7 +2569,7 @@ func Test_VirtualMachineScaleSetExtensionProfile_STATUS_WhenPropertiesConverted_
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfile_STATUS tests if a specific instance of VirtualMachineScaleSetExtensionProfile_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfile_STATUS tests if a specific instance of VirtualMachineScaleSetExtensionProfile_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfile_STATUS(subject VirtualMachineScaleSetExtensionProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2686,7 +2686,7 @@ func Test_VirtualMachineScaleSetHardwareProfile_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetHardwareProfile tests if a specific instance of VirtualMachineScaleSetHardwareProfile can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetHardwareProfile tests if a specific instance of VirtualMachineScaleSetHardwareProfile can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetHardwareProfile(subject VirtualMachineScaleSetHardwareProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2789,7 +2789,7 @@ func Test_VirtualMachineScaleSetHardwareProfile_STATUS_WhenPropertiesConverted_R
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetHardwareProfile_STATUS tests if a specific instance of VirtualMachineScaleSetHardwareProfile_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetHardwareProfile_STATUS tests if a specific instance of VirtualMachineScaleSetHardwareProfile_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetHardwareProfile_STATUS(subject VirtualMachineScaleSetHardwareProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2892,7 +2892,7 @@ func Test_VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_WhenPrope
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS tests if a specific instance of VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS tests if a specific instance of VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS(subject VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2996,7 +2996,7 @@ func Test_VirtualMachineScaleSetNetworkProfile_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfile tests if a specific instance of VirtualMachineScaleSetNetworkProfile can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfile tests if a specific instance of VirtualMachineScaleSetNetworkProfile can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfile(subject VirtualMachineScaleSetNetworkProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3114,7 +3114,7 @@ func Test_VirtualMachineScaleSetNetworkProfile_STATUS_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfile_STATUS tests if a specific instance of VirtualMachineScaleSetNetworkProfile_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfile_STATUS tests if a specific instance of VirtualMachineScaleSetNetworkProfile_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfile_STATUS(subject VirtualMachineScaleSetNetworkProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3232,7 +3232,7 @@ func Test_VirtualMachineScaleSetOSProfile_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfile tests if a specific instance of VirtualMachineScaleSetOSProfile can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfile tests if a specific instance of VirtualMachineScaleSetOSProfile can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfile(subject VirtualMachineScaleSetOSProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3354,7 +3354,7 @@ func Test_VirtualMachineScaleSetOSProfile_STATUS_WhenPropertiesConverted_RoundTr
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfile_STATUS tests if a specific instance of VirtualMachineScaleSetOSProfile_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfile_STATUS tests if a specific instance of VirtualMachineScaleSetOSProfile_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfile_STATUS(subject VirtualMachineScaleSetOSProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3476,7 +3476,7 @@ func Test_VirtualMachineScaleSetStorageProfile_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetStorageProfile tests if a specific instance of VirtualMachineScaleSetStorageProfile can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetStorageProfile tests if a specific instance of VirtualMachineScaleSetStorageProfile can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetStorageProfile(subject VirtualMachineScaleSetStorageProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3581,7 +3581,7 @@ func Test_VirtualMachineScaleSetStorageProfile_STATUS_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetStorageProfile_STATUS tests if a specific instance of VirtualMachineScaleSetStorageProfile_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetStorageProfile_STATUS tests if a specific instance of VirtualMachineScaleSetStorageProfile_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetStorageProfile_STATUS(subject VirtualMachineScaleSetStorageProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3686,7 +3686,7 @@ func Test_ApiEntityReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApiEntityReference tests if a specific instance of ApiEntityReference can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForApiEntityReference tests if a specific instance of ApiEntityReference can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApiEntityReference(subject ApiEntityReference) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3782,7 +3782,7 @@ func Test_ApiEntityReference_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApiEntityReference_STATUS tests if a specific instance of ApiEntityReference_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForApiEntityReference_STATUS tests if a specific instance of ApiEntityReference_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApiEntityReference_STATUS(subject ApiEntityReference_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3885,7 +3885,7 @@ func Test_VirtualMachineScaleSetDataDisk_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetDataDisk tests if a specific instance of VirtualMachineScaleSetDataDisk can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetDataDisk tests if a specific instance of VirtualMachineScaleSetDataDisk can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetDataDisk(subject VirtualMachineScaleSetDataDisk) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4010,7 +4010,7 @@ func Test_VirtualMachineScaleSetDataDisk_STATUS_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetDataDisk_STATUS tests if a specific instance of VirtualMachineScaleSetDataDisk_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetDataDisk_STATUS tests if a specific instance of VirtualMachineScaleSetDataDisk_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetDataDisk_STATUS(subject VirtualMachineScaleSetDataDisk_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4135,7 +4135,7 @@ func Test_VirtualMachineScaleSetExtension_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetExtension tests if a specific instance of VirtualMachineScaleSetExtension can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetExtension tests if a specific instance of VirtualMachineScaleSetExtension can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetExtension(subject VirtualMachineScaleSetExtension) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4260,7 +4260,7 @@ func Test_VirtualMachineScaleSetExtension_STATUS_WhenPropertiesConverted_RoundTr
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetExtension_STATUS tests if a specific instance of VirtualMachineScaleSetExtension_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetExtension_STATUS tests if a specific instance of VirtualMachineScaleSetExtension_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetExtension_STATUS(subject VirtualMachineScaleSetExtension_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4388,7 +4388,7 @@ func Test_VirtualMachineScaleSetNetworkConfiguration_WhenPropertiesConverted_Rou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfiguration tests if a specific instance of VirtualMachineScaleSetNetworkConfiguration can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfiguration tests if a specific instance of VirtualMachineScaleSetNetworkConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfiguration(subject VirtualMachineScaleSetNetworkConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4512,7 +4512,7 @@ func Test_VirtualMachineScaleSetNetworkConfiguration_STATUS_WhenPropertiesConver
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfiguration_STATUS tests if a specific instance of VirtualMachineScaleSetNetworkConfiguration_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfiguration_STATUS tests if a specific instance of VirtualMachineScaleSetNetworkConfiguration_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfiguration_STATUS(subject VirtualMachineScaleSetNetworkConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4637,7 +4637,7 @@ func Test_VirtualMachineScaleSetOSDisk_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetOSDisk tests if a specific instance of VirtualMachineScaleSetOSDisk can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetOSDisk tests if a specific instance of VirtualMachineScaleSetOSDisk can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetOSDisk(subject VirtualMachineScaleSetOSDisk) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4763,7 +4763,7 @@ func Test_VirtualMachineScaleSetOSDisk_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetOSDisk_STATUS tests if a specific instance of VirtualMachineScaleSetOSDisk_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetOSDisk_STATUS tests if a specific instance of VirtualMachineScaleSetOSDisk_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetOSDisk_STATUS(subject VirtualMachineScaleSetOSDisk_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4889,7 +4889,7 @@ func Test_VirtualMachineScaleSetIPConfiguration_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfiguration tests if a specific instance of VirtualMachineScaleSetIPConfiguration can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfiguration tests if a specific instance of VirtualMachineScaleSetIPConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfiguration(subject VirtualMachineScaleSetIPConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -5013,7 +5013,7 @@ func Test_VirtualMachineScaleSetIPConfiguration_STATUS_WhenPropertiesConverted_R
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfiguration_STATUS tests if a specific instance of VirtualMachineScaleSetIPConfiguration_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfiguration_STATUS tests if a specific instance of VirtualMachineScaleSetIPConfiguration_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfiguration_STATUS(subject VirtualMachineScaleSetIPConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -5138,7 +5138,7 @@ func Test_VirtualMachineScaleSetManagedDiskParameters_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetManagedDiskParameters tests if a specific instance of VirtualMachineScaleSetManagedDiskParameters can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetManagedDiskParameters tests if a specific instance of VirtualMachineScaleSetManagedDiskParameters can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetManagedDiskParameters(subject VirtualMachineScaleSetManagedDiskParameters) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -5263,7 +5263,7 @@ func Test_VirtualMachineScaleSetManagedDiskParameters_STATUS_WhenPropertiesConve
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetManagedDiskParameters_STATUS tests if a specific instance of VirtualMachineScaleSetManagedDiskParameters_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetManagedDiskParameters_STATUS tests if a specific instance of VirtualMachineScaleSetManagedDiskParameters_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetManagedDiskParameters_STATUS(subject VirtualMachineScaleSetManagedDiskParameters_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -5388,7 +5388,7 @@ func Test_VirtualMachineScaleSetNetworkConfigurationDnsSettings_WhenPropertiesCo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationDnsSettings tests if a specific instance of VirtualMachineScaleSetNetworkConfigurationDnsSettings can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationDnsSettings tests if a specific instance of VirtualMachineScaleSetNetworkConfigurationDnsSettings can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationDnsSettings(subject VirtualMachineScaleSetNetworkConfigurationDnsSettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -5491,7 +5491,7 @@ func Test_VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS_WhenPrope
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS tests if a specific instance of VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS tests if a specific instance of VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS(subject VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -5594,7 +5594,7 @@ func Test_VirtualMachineScaleSetPublicIPAddressConfiguration_WhenPropertiesConve
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfiguration tests if a specific instance of VirtualMachineScaleSetPublicIPAddressConfiguration can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfiguration tests if a specific instance of VirtualMachineScaleSetPublicIPAddressConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfiguration(subject VirtualMachineScaleSetPublicIPAddressConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -5717,7 +5717,7 @@ func Test_VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS_WhenProperti
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS tests if a specific instance of VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS tests if a specific instance of VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS(subject VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -5840,7 +5840,7 @@ func Test_VirtualMachineScaleSetIpTag_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetIpTag tests if a specific instance of VirtualMachineScaleSetIpTag can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetIpTag tests if a specific instance of VirtualMachineScaleSetIpTag can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetIpTag(subject VirtualMachineScaleSetIpTag) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -5944,7 +5944,7 @@ func Test_VirtualMachineScaleSetIpTag_STATUS_WhenPropertiesConverted_RoundTripsW
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetIpTag_STATUS tests if a specific instance of VirtualMachineScaleSetIpTag_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetIpTag_STATUS tests if a specific instance of VirtualMachineScaleSetIpTag_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetIpTag_STATUS(subject VirtualMachineScaleSetIpTag_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -6048,7 +6048,7 @@ func Test_VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_WhenProp
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings tests if a specific instance of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings tests if a specific instance of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings(subject VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -6151,7 +6151,7 @@ func Test_VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS_W
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS tests if a specific instance of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS can be assigned to v1api20220301storage and back losslessly
+// RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS tests if a specific instance of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS(subject VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

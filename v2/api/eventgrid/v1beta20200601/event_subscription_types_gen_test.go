@@ -5,8 +5,8 @@ package v1beta20200601
 
 import (
 	"encoding/json"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601storage"
-	v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
+	v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_EventSubscription_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventSubscription tests if a specific instance of EventSubscription can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForEventSubscription tests if a specific instance of EventSubscription can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEventSubscription(subject EventSubscription) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_EventSubscription_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventSubscription_Spec tests if a specific instance of EventSubscription_Spec can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForEventSubscription_Spec tests if a specific instance of EventSubscription_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEventSubscription_Spec(subject EventSubscription_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -299,7 +299,7 @@ func Test_EventSubscription_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventSubscription_STATUS tests if a specific instance of EventSubscription_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForEventSubscription_STATUS tests if a specific instance of EventSubscription_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEventSubscription_STATUS(subject EventSubscription_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -434,7 +434,7 @@ func Test_DeadLetterDestination_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDeadLetterDestination tests if a specific instance of DeadLetterDestination can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForDeadLetterDestination tests if a specific instance of DeadLetterDestination can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDeadLetterDestination(subject DeadLetterDestination) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -545,7 +545,7 @@ func Test_DeadLetterDestination_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDeadLetterDestination_STATUS tests if a specific instance of DeadLetterDestination_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForDeadLetterDestination_STATUS tests if a specific instance of DeadLetterDestination_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDeadLetterDestination_STATUS(subject DeadLetterDestination_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -656,7 +656,7 @@ func Test_EventSubscriptionDestination_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventSubscriptionDestination tests if a specific instance of EventSubscriptionDestination can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForEventSubscriptionDestination tests if a specific instance of EventSubscriptionDestination can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEventSubscriptionDestination(subject EventSubscriptionDestination) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -785,7 +785,7 @@ func Test_EventSubscriptionDestination_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventSubscriptionDestination_STATUS tests if a specific instance of EventSubscriptionDestination_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForEventSubscriptionDestination_STATUS tests if a specific instance of EventSubscriptionDestination_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEventSubscriptionDestination_STATUS(subject EventSubscriptionDestination_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -914,7 +914,7 @@ func Test_EventSubscriptionFilter_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventSubscriptionFilter tests if a specific instance of EventSubscriptionFilter can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForEventSubscriptionFilter tests if a specific instance of EventSubscriptionFilter can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEventSubscriptionFilter(subject EventSubscriptionFilter) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1034,7 +1034,7 @@ func Test_EventSubscriptionFilter_STATUS_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventSubscriptionFilter_STATUS tests if a specific instance of EventSubscriptionFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForEventSubscriptionFilter_STATUS tests if a specific instance of EventSubscriptionFilter_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEventSubscriptionFilter_STATUS(subject EventSubscriptionFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1154,7 +1154,7 @@ func Test_RetryPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRetryPolicy tests if a specific instance of RetryPolicy can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForRetryPolicy tests if a specific instance of RetryPolicy can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRetryPolicy(subject RetryPolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1257,7 +1257,7 @@ func Test_RetryPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRetryPolicy_STATUS tests if a specific instance of RetryPolicy_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForRetryPolicy_STATUS tests if a specific instance of RetryPolicy_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRetryPolicy_STATUS(subject RetryPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1360,7 +1360,7 @@ func Test_AdvancedFilter_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAdvancedFilter tests if a specific instance of AdvancedFilter can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForAdvancedFilter tests if a specific instance of AdvancedFilter can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAdvancedFilter(subject AdvancedFilter) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1503,7 +1503,7 @@ func Test_AdvancedFilter_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAdvancedFilter_STATUS tests if a specific instance of AdvancedFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForAdvancedFilter_STATUS tests if a specific instance of AdvancedFilter_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAdvancedFilter_STATUS(subject AdvancedFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1647,7 +1647,7 @@ func Test_AzureFunctionEventSubscriptionDestination_WhenPropertiesConverted_Roun
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestination tests if a specific instance of AzureFunctionEventSubscriptionDestination can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestination tests if a specific instance of AzureFunctionEventSubscriptionDestination can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestination(subject AzureFunctionEventSubscriptionDestination) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1752,7 +1752,7 @@ func Test_AzureFunctionEventSubscriptionDestination_STATUS_WhenPropertiesConvert
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestination_STATUS tests if a specific instance of AzureFunctionEventSubscriptionDestination_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestination_STATUS tests if a specific instance of AzureFunctionEventSubscriptionDestination_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestination_STATUS(subject AzureFunctionEventSubscriptionDestination_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1858,7 +1858,7 @@ func Test_EventHubEventSubscriptionDestination_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventHubEventSubscriptionDestination tests if a specific instance of EventHubEventSubscriptionDestination can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForEventHubEventSubscriptionDestination tests if a specific instance of EventHubEventSubscriptionDestination can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEventHubEventSubscriptionDestination(subject EventHubEventSubscriptionDestination) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1961,7 +1961,7 @@ func Test_EventHubEventSubscriptionDestination_STATUS_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventHubEventSubscriptionDestination_STATUS tests if a specific instance of EventHubEventSubscriptionDestination_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForEventHubEventSubscriptionDestination_STATUS tests if a specific instance of EventHubEventSubscriptionDestination_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEventHubEventSubscriptionDestination_STATUS(subject EventHubEventSubscriptionDestination_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2065,7 +2065,7 @@ func Test_HybridConnectionEventSubscriptionDestination_WhenPropertiesConverted_R
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestination tests if a specific instance of HybridConnectionEventSubscriptionDestination can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestination tests if a specific instance of HybridConnectionEventSubscriptionDestination can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestination(subject HybridConnectionEventSubscriptionDestination) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2168,7 +2168,7 @@ func Test_HybridConnectionEventSubscriptionDestination_STATUS_WhenPropertiesConv
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestination_STATUS tests if a specific instance of HybridConnectionEventSubscriptionDestination_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestination_STATUS tests if a specific instance of HybridConnectionEventSubscriptionDestination_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestination_STATUS(subject HybridConnectionEventSubscriptionDestination_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2272,7 +2272,7 @@ func Test_ServiceBusQueueEventSubscriptionDestination_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestination tests if a specific instance of ServiceBusQueueEventSubscriptionDestination can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestination tests if a specific instance of ServiceBusQueueEventSubscriptionDestination can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestination(subject ServiceBusQueueEventSubscriptionDestination) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2375,7 +2375,7 @@ func Test_ServiceBusQueueEventSubscriptionDestination_STATUS_WhenPropertiesConve
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestination_STATUS tests if a specific instance of ServiceBusQueueEventSubscriptionDestination_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestination_STATUS tests if a specific instance of ServiceBusQueueEventSubscriptionDestination_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestination_STATUS(subject ServiceBusQueueEventSubscriptionDestination_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2479,7 +2479,7 @@ func Test_ServiceBusTopicEventSubscriptionDestination_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestination tests if a specific instance of ServiceBusTopicEventSubscriptionDestination can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestination tests if a specific instance of ServiceBusTopicEventSubscriptionDestination can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestination(subject ServiceBusTopicEventSubscriptionDestination) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2582,7 +2582,7 @@ func Test_ServiceBusTopicEventSubscriptionDestination_STATUS_WhenPropertiesConve
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestination_STATUS tests if a specific instance of ServiceBusTopicEventSubscriptionDestination_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestination_STATUS tests if a specific instance of ServiceBusTopicEventSubscriptionDestination_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestination_STATUS(subject ServiceBusTopicEventSubscriptionDestination_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2686,7 +2686,7 @@ func Test_StorageBlobDeadLetterDestination_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageBlobDeadLetterDestination tests if a specific instance of StorageBlobDeadLetterDestination can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForStorageBlobDeadLetterDestination tests if a specific instance of StorageBlobDeadLetterDestination can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageBlobDeadLetterDestination(subject StorageBlobDeadLetterDestination) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2790,7 +2790,7 @@ func Test_StorageBlobDeadLetterDestination_STATUS_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageBlobDeadLetterDestination_STATUS tests if a specific instance of StorageBlobDeadLetterDestination_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForStorageBlobDeadLetterDestination_STATUS tests if a specific instance of StorageBlobDeadLetterDestination_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageBlobDeadLetterDestination_STATUS(subject StorageBlobDeadLetterDestination_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2895,7 +2895,7 @@ func Test_StorageQueueEventSubscriptionDestination_WhenPropertiesConverted_Round
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestination tests if a specific instance of StorageQueueEventSubscriptionDestination can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestination tests if a specific instance of StorageQueueEventSubscriptionDestination can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestination(subject StorageQueueEventSubscriptionDestination) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2999,7 +2999,7 @@ func Test_StorageQueueEventSubscriptionDestination_STATUS_WhenPropertiesConverte
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestination_STATUS tests if a specific instance of StorageQueueEventSubscriptionDestination_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestination_STATUS tests if a specific instance of StorageQueueEventSubscriptionDestination_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestination_STATUS(subject StorageQueueEventSubscriptionDestination_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3104,7 +3104,7 @@ func Test_WebHookEventSubscriptionDestination_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWebHookEventSubscriptionDestination tests if a specific instance of WebHookEventSubscriptionDestination can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForWebHookEventSubscriptionDestination tests if a specific instance of WebHookEventSubscriptionDestination can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForWebHookEventSubscriptionDestination(subject WebHookEventSubscriptionDestination) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3211,7 +3211,7 @@ func Test_WebHookEventSubscriptionDestination_STATUS_WhenPropertiesConverted_Rou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWebHookEventSubscriptionDestination_STATUS tests if a specific instance of WebHookEventSubscriptionDestination_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForWebHookEventSubscriptionDestination_STATUS tests if a specific instance of WebHookEventSubscriptionDestination_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForWebHookEventSubscriptionDestination_STATUS(subject WebHookEventSubscriptionDestination_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3319,7 +3319,7 @@ func Test_BoolEqualsAdvancedFilter_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBoolEqualsAdvancedFilter tests if a specific instance of BoolEqualsAdvancedFilter can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForBoolEqualsAdvancedFilter tests if a specific instance of BoolEqualsAdvancedFilter can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBoolEqualsAdvancedFilter(subject BoolEqualsAdvancedFilter) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3424,7 +3424,7 @@ func Test_BoolEqualsAdvancedFilter_STATUS_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBoolEqualsAdvancedFilter_STATUS tests if a specific instance of BoolEqualsAdvancedFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForBoolEqualsAdvancedFilter_STATUS tests if a specific instance of BoolEqualsAdvancedFilter_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBoolEqualsAdvancedFilter_STATUS(subject BoolEqualsAdvancedFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3529,7 +3529,7 @@ func Test_NumberGreaterThanAdvancedFilter_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNumberGreaterThanAdvancedFilter tests if a specific instance of NumberGreaterThanAdvancedFilter can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForNumberGreaterThanAdvancedFilter tests if a specific instance of NumberGreaterThanAdvancedFilter can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNumberGreaterThanAdvancedFilter(subject NumberGreaterThanAdvancedFilter) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3634,7 +3634,7 @@ func Test_NumberGreaterThanAdvancedFilter_STATUS_WhenPropertiesConverted_RoundTr
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNumberGreaterThanAdvancedFilter_STATUS tests if a specific instance of NumberGreaterThanAdvancedFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForNumberGreaterThanAdvancedFilter_STATUS tests if a specific instance of NumberGreaterThanAdvancedFilter_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNumberGreaterThanAdvancedFilter_STATUS(subject NumberGreaterThanAdvancedFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3739,7 +3739,7 @@ func Test_NumberGreaterThanOrEqualsAdvancedFilter_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNumberGreaterThanOrEqualsAdvancedFilter tests if a specific instance of NumberGreaterThanOrEqualsAdvancedFilter can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForNumberGreaterThanOrEqualsAdvancedFilter tests if a specific instance of NumberGreaterThanOrEqualsAdvancedFilter can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNumberGreaterThanOrEqualsAdvancedFilter(subject NumberGreaterThanOrEqualsAdvancedFilter) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3844,7 +3844,7 @@ func Test_NumberGreaterThanOrEqualsAdvancedFilter_STATUS_WhenPropertiesConverted
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNumberGreaterThanOrEqualsAdvancedFilter_STATUS tests if a specific instance of NumberGreaterThanOrEqualsAdvancedFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForNumberGreaterThanOrEqualsAdvancedFilter_STATUS tests if a specific instance of NumberGreaterThanOrEqualsAdvancedFilter_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNumberGreaterThanOrEqualsAdvancedFilter_STATUS(subject NumberGreaterThanOrEqualsAdvancedFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -3949,7 +3949,7 @@ func Test_NumberInAdvancedFilter_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNumberInAdvancedFilter tests if a specific instance of NumberInAdvancedFilter can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForNumberInAdvancedFilter tests if a specific instance of NumberInAdvancedFilter can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNumberInAdvancedFilter(subject NumberInAdvancedFilter) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4054,7 +4054,7 @@ func Test_NumberInAdvancedFilter_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNumberInAdvancedFilter_STATUS tests if a specific instance of NumberInAdvancedFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForNumberInAdvancedFilter_STATUS tests if a specific instance of NumberInAdvancedFilter_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNumberInAdvancedFilter_STATUS(subject NumberInAdvancedFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4159,7 +4159,7 @@ func Test_NumberLessThanAdvancedFilter_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNumberLessThanAdvancedFilter tests if a specific instance of NumberLessThanAdvancedFilter can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForNumberLessThanAdvancedFilter tests if a specific instance of NumberLessThanAdvancedFilter can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNumberLessThanAdvancedFilter(subject NumberLessThanAdvancedFilter) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4264,7 +4264,7 @@ func Test_NumberLessThanAdvancedFilter_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNumberLessThanAdvancedFilter_STATUS tests if a specific instance of NumberLessThanAdvancedFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForNumberLessThanAdvancedFilter_STATUS tests if a specific instance of NumberLessThanAdvancedFilter_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNumberLessThanAdvancedFilter_STATUS(subject NumberLessThanAdvancedFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4369,7 +4369,7 @@ func Test_NumberLessThanOrEqualsAdvancedFilter_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNumberLessThanOrEqualsAdvancedFilter tests if a specific instance of NumberLessThanOrEqualsAdvancedFilter can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForNumberLessThanOrEqualsAdvancedFilter tests if a specific instance of NumberLessThanOrEqualsAdvancedFilter can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNumberLessThanOrEqualsAdvancedFilter(subject NumberLessThanOrEqualsAdvancedFilter) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4474,7 +4474,7 @@ func Test_NumberLessThanOrEqualsAdvancedFilter_STATUS_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNumberLessThanOrEqualsAdvancedFilter_STATUS tests if a specific instance of NumberLessThanOrEqualsAdvancedFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForNumberLessThanOrEqualsAdvancedFilter_STATUS tests if a specific instance of NumberLessThanOrEqualsAdvancedFilter_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNumberLessThanOrEqualsAdvancedFilter_STATUS(subject NumberLessThanOrEqualsAdvancedFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4579,7 +4579,7 @@ func Test_NumberNotInAdvancedFilter_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNumberNotInAdvancedFilter tests if a specific instance of NumberNotInAdvancedFilter can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForNumberNotInAdvancedFilter tests if a specific instance of NumberNotInAdvancedFilter can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNumberNotInAdvancedFilter(subject NumberNotInAdvancedFilter) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4684,7 +4684,7 @@ func Test_NumberNotInAdvancedFilter_STATUS_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNumberNotInAdvancedFilter_STATUS tests if a specific instance of NumberNotInAdvancedFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForNumberNotInAdvancedFilter_STATUS tests if a specific instance of NumberNotInAdvancedFilter_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNumberNotInAdvancedFilter_STATUS(subject NumberNotInAdvancedFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4789,7 +4789,7 @@ func Test_StringBeginsWithAdvancedFilter_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStringBeginsWithAdvancedFilter tests if a specific instance of StringBeginsWithAdvancedFilter can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForStringBeginsWithAdvancedFilter tests if a specific instance of StringBeginsWithAdvancedFilter can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStringBeginsWithAdvancedFilter(subject StringBeginsWithAdvancedFilter) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4894,7 +4894,7 @@ func Test_StringBeginsWithAdvancedFilter_STATUS_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStringBeginsWithAdvancedFilter_STATUS tests if a specific instance of StringBeginsWithAdvancedFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForStringBeginsWithAdvancedFilter_STATUS tests if a specific instance of StringBeginsWithAdvancedFilter_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStringBeginsWithAdvancedFilter_STATUS(subject StringBeginsWithAdvancedFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -4999,7 +4999,7 @@ func Test_StringContainsAdvancedFilter_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStringContainsAdvancedFilter tests if a specific instance of StringContainsAdvancedFilter can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForStringContainsAdvancedFilter tests if a specific instance of StringContainsAdvancedFilter can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStringContainsAdvancedFilter(subject StringContainsAdvancedFilter) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -5104,7 +5104,7 @@ func Test_StringContainsAdvancedFilter_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStringContainsAdvancedFilter_STATUS tests if a specific instance of StringContainsAdvancedFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForStringContainsAdvancedFilter_STATUS tests if a specific instance of StringContainsAdvancedFilter_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStringContainsAdvancedFilter_STATUS(subject StringContainsAdvancedFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -5209,7 +5209,7 @@ func Test_StringEndsWithAdvancedFilter_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStringEndsWithAdvancedFilter tests if a specific instance of StringEndsWithAdvancedFilter can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForStringEndsWithAdvancedFilter tests if a specific instance of StringEndsWithAdvancedFilter can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStringEndsWithAdvancedFilter(subject StringEndsWithAdvancedFilter) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -5314,7 +5314,7 @@ func Test_StringEndsWithAdvancedFilter_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStringEndsWithAdvancedFilter_STATUS tests if a specific instance of StringEndsWithAdvancedFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForStringEndsWithAdvancedFilter_STATUS tests if a specific instance of StringEndsWithAdvancedFilter_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStringEndsWithAdvancedFilter_STATUS(subject StringEndsWithAdvancedFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -5419,7 +5419,7 @@ func Test_StringInAdvancedFilter_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStringInAdvancedFilter tests if a specific instance of StringInAdvancedFilter can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForStringInAdvancedFilter tests if a specific instance of StringInAdvancedFilter can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStringInAdvancedFilter(subject StringInAdvancedFilter) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -5524,7 +5524,7 @@ func Test_StringInAdvancedFilter_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStringInAdvancedFilter_STATUS tests if a specific instance of StringInAdvancedFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForStringInAdvancedFilter_STATUS tests if a specific instance of StringInAdvancedFilter_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStringInAdvancedFilter_STATUS(subject StringInAdvancedFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -5629,7 +5629,7 @@ func Test_StringNotInAdvancedFilter_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStringNotInAdvancedFilter tests if a specific instance of StringNotInAdvancedFilter can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForStringNotInAdvancedFilter tests if a specific instance of StringNotInAdvancedFilter can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStringNotInAdvancedFilter(subject StringNotInAdvancedFilter) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -5734,7 +5734,7 @@ func Test_StringNotInAdvancedFilter_STATUS_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStringNotInAdvancedFilter_STATUS tests if a specific instance of StringNotInAdvancedFilter_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForStringNotInAdvancedFilter_STATUS tests if a specific instance of StringNotInAdvancedFilter_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStringNotInAdvancedFilter_STATUS(subject StringNotInAdvancedFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

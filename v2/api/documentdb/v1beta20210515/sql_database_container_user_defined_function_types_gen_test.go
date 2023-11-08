@@ -5,8 +5,8 @@ package v1beta20210515
 
 import (
 	"encoding/json"
-	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
-	v1beta20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
+	v1beta20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_SqlDatabaseContainerUserDefinedFunction_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction tests if a specific instance of SqlDatabaseContainerUserDefinedFunction can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction tests if a specific instance of SqlDatabaseContainerUserDefinedFunction can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction(subject SqlDatabaseContainerUserDefinedFunction) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -177,7 +177,7 @@ func Test_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_When
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec tests if a specific instance of DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec tests if a specific instance of DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec(subject DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -297,7 +297,7 @@ func Test_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS_Wh
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS tests if a specific instance of DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS tests if a specific instance of DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(subject DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -418,7 +418,7 @@ func Test_SqlUserDefinedFunctionGetProperties_Resource_STATUS_WhenPropertiesConv
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSqlUserDefinedFunctionGetProperties_Resource_STATUS tests if a specific instance of SqlUserDefinedFunctionGetProperties_Resource_STATUS can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForSqlUserDefinedFunctionGetProperties_Resource_STATUS tests if a specific instance of SqlUserDefinedFunctionGetProperties_Resource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSqlUserDefinedFunctionGetProperties_Resource_STATUS(subject SqlUserDefinedFunctionGetProperties_Resource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -525,7 +525,7 @@ func Test_SqlUserDefinedFunctionResource_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSqlUserDefinedFunctionResource tests if a specific instance of SqlUserDefinedFunctionResource can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForSqlUserDefinedFunctionResource tests if a specific instance of SqlUserDefinedFunctionResource can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSqlUserDefinedFunctionResource(subject SqlUserDefinedFunctionResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

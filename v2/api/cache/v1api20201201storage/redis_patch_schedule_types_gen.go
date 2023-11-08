@@ -92,6 +92,15 @@ func (schedule *RedisPatchSchedule) GetStatus() genruntime.ConvertibleStatus {
 	return &schedule.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (schedule *RedisPatchSchedule) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/patchSchedules"
 func (schedule *RedisPatchSchedule) GetType() string {
 	return "Microsoft.Cache/redis/patchSchedules"

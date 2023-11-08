@@ -31,8 +31,6 @@ func Test_FilterByGroup_CorrectlySelectsStructs(t *testing.T) {
 	filter := config.TypeMatcher{
 		Group: config.NewFieldMatcher("role"),
 	}
-	err := filter.Initialize()
-	g.Expect(err).To(BeNil())
 
 	// Roles should be selected
 	g.Expect(filter.AppliesToType(student2019)).To(BeTrue())
@@ -50,8 +48,6 @@ func Test_FilterByVersion_CorrectlySelectsStructs(t *testing.T) {
 	filter := config.TypeMatcher{
 		Version: config.NewFieldMatcher("v2019*"),
 	}
-	err := filter.Initialize()
-	g.Expect(err).To(BeNil())
 
 	// Version from 2019 should be selected
 	g.Expect(filter.AppliesToType(post2019)).To(BeTrue())
@@ -68,8 +64,6 @@ func Test_FilterByName_CorrectlySelectsStructs(t *testing.T) {
 	filter := config.TypeMatcher{
 		Name: config.NewFieldMatcher("p*"),
 	}
-	err := filter.Initialize()
-	g.Expect(err).To(BeNil())
 
 	// Name starts with "p" should be selected
 	g.Expect(filter.AppliesToType(person2020)).To(BeTrue())
@@ -87,8 +81,6 @@ func Test_FilterByMultipleConditions_CorrectlySelectsStructs(t *testing.T) {
 		Name:    config.NewFieldMatcher("p*"),
 		Version: config.NewFieldMatcher("v2019*"),
 	}
-	err := filter.Initialize()
-	g.Expect(err).To(BeNil())
 
 	// Version not selected by filter
 	g.Expect(filter.AppliesToType(person2020)).To(BeFalse())
@@ -108,8 +100,6 @@ func Test_FiltersAreCaseInsensitive(t *testing.T) {
 		Group: config.NewFieldMatcher("ROLE"),
 		Name:  config.NewFieldMatcher("TuToR"),
 	}
-	err := filter.Initialize()
-	g.Expect(err).To(BeNil())
 
 	// Tutor
 	g.Expect(filter.AppliesToType(tutor2019)).To(BeTrue())
@@ -127,8 +117,6 @@ func Test_FilterByMultipleWildcards_CorrectlySelectsStructs(t *testing.T) {
 	filter := config.TypeMatcher{
 		Name: config.NewFieldMatcher("p*;*t"),
 	}
-	err := filter.Initialize()
-	g.Expect(err).To(BeNil())
 
 	// Selected
 	g.Expect(filter.AppliesToType(person2020)).To(BeTrue())

@@ -8,6 +8,7 @@ package pipeline
 import (
 	"context"
 	"github.com/go-logr/logr"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -22,49 +23,64 @@ func ApplyTypeRewrites(
 		"typeRewrites",
 		"Modify types using configured type transforms",
 		func(ctx context.Context, state *State) (*State, error) {
-			definitions := state.Definitions()
-
-			modifiedDefinitions := make(astmodel.TypeDefinitionSet, len(definitions))
-			for name, def := range definitions {
-
-				// First apply entire type transformation, if any
-				if newType, because := config.TransformType(name); newType != nil {
-					log.V(2).Info(
-						"Transforming type",
-						"type", name,
-						"because", because,
-						"transformation", newType)
-					modifiedDefinitions.Add(def.WithType(newType))
-					continue
+			definitions := make(astmodel.TypeDefinitionSet, len(state.Definitions()))
+			for name, def := range state.Definitions() {
+				// Apply type transformation, if any
+				newDef, err := transformDefinition(def, config, log)
+				if err != nil {
+					return nil, errors.Wrapf(err, "unable to transform type %q", name)
 				}
 
-				// Apply property transformations, if any
-				if objectType, ok := def.Type().(*astmodel.ObjectType); ok {
-					transformations := config.TransformTypeProperties(name, objectType)
-					for _, transformation := range transformations {
-						transformation.LogTo(log)
-						objectType = transformation.NewType
-					}
+				definitions.Add(newDef)
 
-					modifiedDefinitions.Add(def.WithType(objectType))
-					continue
+				// If we renamed the type, add an alias from the old name to the new;
+				// When we remove type aliases later in the pipeline, these will result in any references being updated
+				if newDef.Name() != def.Name() {
+					alias := astmodel.MakeTypeDefinition(
+						def.Name(), newDef.Name())
+					definitions.Add(alias)
 				}
 			}
 
 			// Ensure the type transformers had no errors
-			if err := config.GetTypeTransformersError(); err != nil {
+			if err := config.GetTransformersError(); err != nil {
 				return nil, err
 			}
 
-			// Ensure that the property transformers had no errors
-			if err := config.GetPropertyTransformersError(); err != nil {
-				return nil, err
-			}
-
-			return state.WithDefinitions(definitions.OverlayWith(modifiedDefinitions)), nil
+			return state.WithDefinitions(definitions), nil
 		})
 
 	stage.RequiresPrerequisiteStages("nameTypes", "allof-anyof-objects")
 
 	return stage
+}
+
+// TransformDefinition applies a type transformation to the definition if appropriate.
+// If a transformation is applied, the new definition is returned along with a reason for the transformation.
+// If something goes wrong, only an error is returned.
+// If no transformation is found, returns nil, ""
+func transformDefinition(
+	def astmodel.TypeDefinition,
+	config *config.Configuration,
+	log logr.Logger,
+) (astmodel.TypeDefinition, error) {
+	name := def.Name()
+	for _, transformer := range config.Transformers {
+		if transformer.AppliesToDefinition(def) {
+			result, err := transformer.TransformDefinition(def)
+			if err != nil {
+				return astmodel.TypeDefinition{}, err
+			}
+
+			log.V(2).Info(
+				"Transforming type",
+				"type", name,
+				"because", transformer.Because,
+				"transformation", result.Type())
+
+			def = result
+		}
+	}
+
+	return def, nil
 }

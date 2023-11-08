@@ -152,6 +152,15 @@ func (profile *TrafficManagerProfile) GetStatus() genruntime.ConvertibleStatus {
 	return &profile.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (profile *TrafficManagerProfile) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/trafficmanagerprofiles"
 func (profile *TrafficManagerProfile) GetType() string {
 	return "Microsoft.Network/trafficmanagerprofiles"

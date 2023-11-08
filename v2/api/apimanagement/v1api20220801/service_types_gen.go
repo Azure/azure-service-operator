@@ -5,7 +5,7 @@ package v1api20220801
 
 import (
 	"fmt"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &Service{}
 func (service *Service) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220801s.Service)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801storage/Service but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Service but received %T instead", hub)
 	}
 
 	return service.AssignProperties_From_Service(source)
@@ -61,7 +61,7 @@ func (service *Service) ConvertFrom(hub conversion.Hub) error {
 func (service *Service) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220801s.Service)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801storage/Service but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Service but received %T instead", hub)
 	}
 
 	return service.AssignProperties_To_Service(destination)
@@ -126,6 +126,15 @@ func (service *Service) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (service *Service) GetStatus() genruntime.ConvertibleStatus {
 	return &service.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (service *Service) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service"

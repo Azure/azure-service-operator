@@ -5,7 +5,7 @@ package v1beta20211001
 
 import (
 	"fmt"
-	v1beta20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001storage"
+	v1beta20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -127,6 +127,15 @@ func (alias *Alias) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (alias *Alias) GetStatus() genruntime.ConvertibleStatus {
 	return &alias.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (alias *Alias) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Subscription/aliases"

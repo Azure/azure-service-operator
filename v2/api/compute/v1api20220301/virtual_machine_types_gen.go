@@ -5,7 +5,7 @@ package v1api20220301
 
 import (
 	"fmt"
-	v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301storage"
+	v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -52,7 +52,7 @@ var _ conversion.Convertible = &VirtualMachine{}
 func (machine *VirtualMachine) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220301s.VirtualMachine)
 	if !ok {
-		return fmt.Errorf("expected compute/v1api20220301storage/VirtualMachine but received %T instead", hub)
+		return fmt.Errorf("expected compute/v1api20220301/storage/VirtualMachine but received %T instead", hub)
 	}
 
 	return machine.AssignProperties_From_VirtualMachine(source)
@@ -62,7 +62,7 @@ func (machine *VirtualMachine) ConvertFrom(hub conversion.Hub) error {
 func (machine *VirtualMachine) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220301s.VirtualMachine)
 	if !ok {
-		return fmt.Errorf("expected compute/v1api20220301storage/VirtualMachine but received %T instead", hub)
+		return fmt.Errorf("expected compute/v1api20220301/storage/VirtualMachine but received %T instead", hub)
 	}
 
 	return machine.AssignProperties_To_VirtualMachine(destination)
@@ -127,6 +127,15 @@ func (machine *VirtualMachine) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (machine *VirtualMachine) GetStatus() genruntime.ConvertibleStatus {
 	return &machine.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (machine *VirtualMachine) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachines"

@@ -64,7 +64,7 @@ func Test_AppConfiguration_ConfigurationStore_CRUD(t *testing.T) {
 
 	tc.DeleteResourceAndWait(cs)
 
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		string(appconfig.APIVersion_Value))

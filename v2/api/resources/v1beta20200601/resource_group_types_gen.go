@@ -5,7 +5,7 @@ package v1beta20200601
 
 import (
 	"fmt"
-	v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601storage"
+	v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -127,6 +127,16 @@ func (group *ResourceGroup) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (group *ResourceGroup) GetStatus() genruntime.ConvertibleStatus {
 	return &group.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (group *ResourceGroup) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationHead,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Resources/resourceGroups"

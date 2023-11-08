@@ -23,6 +23,7 @@ type TypeMatcher struct {
 	Because string
 	// MatchRequired indicates if an error will be raised if this TypeMatcher doesn't match at least one type.
 	// The default is true.
+	// Don't access directly, use the MustMatch() method instead.
 	MatchRequired *bool `yaml:"matchRequired,omitempty"`
 
 	// matchedAnything is true if TypeMatcher matched anything
@@ -30,17 +31,6 @@ type TypeMatcher struct {
 }
 
 var _ fmt.Stringer = &TypeMatcher{}
-
-// Initialize initializes the type matcher
-func (t *TypeMatcher) Initialize() error {
-	// Default MatchRequired
-	if t.MatchRequired == nil {
-		temp := true
-		t.MatchRequired = &temp
-	}
-
-	return nil
-}
 
 // AppliesToType indicates whether this filter should be applied to the supplied type definition
 func (t *TypeMatcher) AppliesToType(typeName astmodel.InternalTypeName) bool {
@@ -59,7 +49,7 @@ func (t *TypeMatcher) AppliesToType(typeName astmodel.InternalTypeName) bool {
 
 // RequiredTypesWereMatched returns an error if no matches were made
 func (t *TypeMatcher) RequiredTypesWereMatched() error {
-	if *t.MatchRequired {
+	if t.MustMatch() {
 		return t.WasMatched()
 	}
 
@@ -122,4 +112,12 @@ func (t *TypeMatcher) String() string {
 	}
 
 	return result.String()
+}
+
+func (t *TypeMatcher) MustMatch() bool {
+	if t.MatchRequired != nil {
+		return *t.MatchRequired
+	}
+
+	return true
 }

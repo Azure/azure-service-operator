@@ -61,10 +61,6 @@ type Configuration struct {
 	ObjectModelConfiguration *ObjectModelConfiguration `yaml:"objectModelConfiguration"`
 
 	goModulePath string
-
-	// after init TypeTransformers is split into property and non-property transformers
-	typeTransformers     []*TypeTransformer
-	propertyTransformers []*TypeTransformer
 }
 
 type RewriteRule struct {
@@ -121,32 +117,20 @@ func (config *Configuration) GetTypeFiltersError() error {
 	return nil
 }
 
-func (config *Configuration) GetTypeTransformersError() error {
-	for _, filter := range config.typeTransformers {
+func (config *Configuration) GetTransformersError() error {
+	for _, filter := range config.Transformers {
 		if err := filter.RequiredTypesWereMatched(); err != nil {
 			return errors.Wrap(err, "type transformer")
+		}
+
+		if filter.Property.IsRestrictive() {
+			if err := filter.RequiredTypesWereMatched(); err != nil {
+				return errors.Wrap(err, "type transformer property")
+			}
 		}
 	}
 
 	return nil
-}
-
-func (config *Configuration) GetPropertyTransformersError() error {
-	var errs []error
-	for _, filter := range config.propertyTransformers {
-		if err := filter.RequiredTypesWereMatched(); err != nil {
-			errs = append(errs, err)
-			continue
-		}
-
-		if err := filter.RequiredPropertiesWereMatched(); err != nil {
-			errs = append(errs, err)
-		}
-	}
-
-	return errors.Wrap(
-		kerrors.NewAggregate(errs),
-		"type transformer target")
 }
 
 func (config *Configuration) SetGoModulePath(path string) {
@@ -314,33 +298,6 @@ func (config *Configuration) initialize(configPath string) error {
 		config.goModulePath = modPath
 	}
 
-	for _, filter := range config.TypeFilters {
-		err := filter.Initialize()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-
-	// split Transformers into two sets
-	var typeTransformers []*TypeTransformer
-	var propertyTransformers []*TypeTransformer
-	for _, transformer := range config.Transformers {
-		err := transformer.Initialize(config.MakeLocalPackageReference)
-		if err != nil {
-			errs = append(errs, err)
-		}
-
-		if transformer.Property.IsRestrictive() {
-			propertyTransformers = append(propertyTransformers, transformer)
-		} else {
-			typeTransformers = append(typeTransformers, transformer)
-		}
-	}
-
-	config.Transformers = nil
-	config.typeTransformers = typeTransformers
-	config.propertyTransformers = propertyTransformers
-
 	return kerrors.NewAggregate(errs)
 }
 
@@ -387,39 +344,6 @@ func (config *Configuration) ShouldPrune(typeName astmodel.InternalTypeName) (re
 
 	// By default, we include all types
 	return Include, ""
-}
-
-// TransformType uses the configured type transformers to transform a type name (reference) to a different type.
-// If no transformation is performed, nil is returned
-func (config *Configuration) TransformType(name astmodel.InternalTypeName) (astmodel.Type, string) {
-	for _, transformer := range config.typeTransformers {
-		result := transformer.TransformTypeName(name)
-		if result != nil {
-			return result, transformer.Because
-		}
-	}
-
-	// No matches, return nil
-	return nil, ""
-}
-
-// TransformTypeProperties applies any property transformers to the type
-func (config *Configuration) TransformTypeProperties(
-	name astmodel.InternalTypeName,
-	objectType *astmodel.ObjectType,
-) []*PropertyTransformResult {
-	var results []*PropertyTransformResult
-	toTransform := objectType
-
-	for _, transformer := range config.propertyTransformers {
-		result := transformer.TransformProperty(name, toTransform)
-		if result != nil {
-			toTransform = result.NewType
-			results = append(results, result)
-		}
-	}
-
-	return results
 }
 
 // MakeLocalPackageReference creates a local package reference based on the configured destination location
