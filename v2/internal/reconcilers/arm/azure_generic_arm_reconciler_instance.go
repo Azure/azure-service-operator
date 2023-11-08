@@ -535,7 +535,7 @@ func (r *azureDeploymentReconcilerInstance) resultBasedOnGenerationCount() ctrl.
 			"Generation mismatch detected, requeue-ing the resource",
 			"resourceID",
 			genruntime.GetResourceIDOrDefault(r.Obj))
-		
+
 		return ctrl.Result{Requeue: true}
 	}
 	return ctrl.Result{}
