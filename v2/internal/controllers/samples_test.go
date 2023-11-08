@@ -39,6 +39,7 @@ var randomNameExclusions = []string{
 	"compute",
 	"documentdb",
 	"insights",
+	"kubernetesconfiguration",
 	"network",
 	"web",
 }

@@ -9,7 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-func Test_KubernetesConfiguration_Extensions_CRUD(t *testing.T) {
+func Test_KubernetesConfiguration_Extension_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
