@@ -129,6 +129,15 @@ func (extension *Extension) GetStatus() genruntime.ConvertibleStatus {
 	return &extension.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (extension *Extension) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.KubernetesConfiguration/extensions"
 func (extension *Extension) GetType() string {
 	return "Microsoft.KubernetesConfiguration/extensions"
