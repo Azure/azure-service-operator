@@ -119,7 +119,7 @@ func Test_ReconcilePolicy_SkippedParentDeleted_ChildIssuesDeleteToAzure(t *testi
 
 	tc.DeleteResourceAndWait(acct)
 	// Ensure that the account was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		resourceId,
 		string(storage.APIVersion_Value))
@@ -224,7 +224,7 @@ func testDeleteSkipped(t *testing.T, policy string) {
 	tc.DeleteResourceAndWait(rg)
 
 	// Ensure that the resource group was NOT deleted in Azure
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		"2020-06-01")
@@ -244,7 +244,7 @@ func testDeleteSkipped(t *testing.T, policy string) {
 	tc.DeleteResourceAndWait(newRG)
 
 	// Ensure that now the RG was deleted
-	exists, _, err = tc.AzureClient.HeadByID(
+	exists, _, err = tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		"2020-06-01")

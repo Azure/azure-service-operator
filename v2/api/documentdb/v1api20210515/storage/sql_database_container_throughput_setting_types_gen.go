@@ -71,6 +71,14 @@ func (setting *SqlDatabaseContainerThroughputSetting) GetStatus() genruntime.Con
 	return &setting.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (setting *SqlDatabaseContainerThroughputSetting) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings"
 func (setting *SqlDatabaseContainerThroughputSetting) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings"

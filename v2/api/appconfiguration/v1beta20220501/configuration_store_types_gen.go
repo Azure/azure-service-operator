@@ -129,6 +129,15 @@ func (store *ConfigurationStore) GetStatus() genruntime.ConvertibleStatus {
 	return &store.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (store *ConfigurationStore) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.AppConfiguration/configurationStores"
 func (store *ConfigurationStore) GetType() string {
 	return "Microsoft.AppConfiguration/configurationStores"

@@ -129,6 +129,15 @@ func (peering *VirtualNetworksVirtualNetworkPeering) GetStatus() genruntime.Conv
 	return &peering.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (peering *VirtualNetworksVirtualNetworkPeering) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
 func (peering *VirtualNetworksVirtualNetworkPeering) GetType() string {
 	return "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"

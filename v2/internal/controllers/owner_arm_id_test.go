@@ -47,7 +47,7 @@ func Test_OwnerIsARMIDOfResourceGroup_ResourceSuccessfullyReconciled(t *testing.
 	tc.DeleteResourceAndWait(acct)
 
 	// Ensure that the account was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		acctARMID,
 		string(storage.APIVersion_Value))
@@ -97,7 +97,7 @@ func Test_OwnerIsARMIDOfParent_ChildResourceSuccessfullyReconciled(t *testing.T)
 	tc.DeleteResourceAndWait(blobContainer)
 
 	// Ensure that the container was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		containerARMID,
 		string(storage.APIVersion_Value))
@@ -162,7 +162,7 @@ func Test_OwnerIsARMID_ExtensionResourceSuccessfullyReconciled(t *testing.T) {
 	tc.DeleteResourceAndWait(roleAssignment)
 
 	// Ensure that the role assignment was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		string(authorization.APIVersion_Value))

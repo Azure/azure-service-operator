@@ -71,6 +71,15 @@ func (profile *Profile) GetStatus() genruntime.ConvertibleStatus {
 	return &profile.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (profile *Profile) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cdn/profiles"
 func (profile *Profile) GetType() string {
 	return "Microsoft.Cdn/profiles"

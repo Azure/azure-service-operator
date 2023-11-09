@@ -128,6 +128,15 @@ func (server *Server) GetStatus() genruntime.ConvertibleStatus {
 	return &server.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (server *Server) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMariaDB/servers"
 func (server *Server) GetType() string {
 	return "Microsoft.DBforMariaDB/servers"

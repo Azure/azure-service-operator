@@ -71,6 +71,15 @@ func (topic *DomainsTopic) GetStatus() genruntime.ConvertibleStatus {
 	return &topic.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (topic *DomainsTopic) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/domains/topics"
 func (topic *DomainsTopic) GetType() string {
 	return "Microsoft.EventGrid/domains/topics"

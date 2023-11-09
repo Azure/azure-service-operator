@@ -71,6 +71,15 @@ func (record *PrivateDnsZonesCNAMERecord) GetStatus() genruntime.ConvertibleStat
 	return &record.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (record *PrivateDnsZonesCNAMERecord) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/privateDnsZones/CNAME"
 func (record *PrivateDnsZonesCNAMERecord) GetType() string {
 	return "Microsoft.Network/privateDnsZones/CNAME"

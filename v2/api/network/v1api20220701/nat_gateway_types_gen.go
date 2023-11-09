@@ -128,6 +128,15 @@ func (gateway *NatGateway) GetStatus() genruntime.ConvertibleStatus {
 	return &gateway.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (gateway *NatGateway) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/natGateways"
 func (gateway *NatGateway) GetType() string {
 	return "Microsoft.Network/natGateways"

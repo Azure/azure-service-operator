@@ -13,6 +13,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
@@ -61,15 +62,30 @@ func AddKubernetesResourceInterfaceImpls(
 	getAzureNameProperty := functions.NewObjectFunction(astmodel.AzureNameProperty, idFactory, getNameFunction)
 	getAzureNameProperty.AddPackageReference(astmodel.GenRuntimeReference)
 
-	getOwnerProperty := functions.NewObjectFunction(astmodel.OwnerProperty, idFactory, newOwnerFunction(r))
-	getOwnerProperty.AddPackageReference(astmodel.GenRuntimeReference)
+	getOwnerProperty := functions.NewResourceFunction(
+		astmodel.OwnerProperty,
+		r,
+		idFactory,
+		getOwnerFunction,
+		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
 
 	getSpecFunction := functions.NewGetSpecFunction(idFactory)
 
 	getTypeFunction := functions.NewGetTypeFunction(r.ARMType(), idFactory, functions.ReceiverTypePtr)
 
-	getResourceScopeFunction := functions.NewObjectFunction("GetResourceScope", idFactory, newGetResourceScopeFunction(r))
-	getResourceScopeFunction.AddPackageReference(astmodel.GenRuntimeReference)
+	getResourceScopeFunc := functions.NewResourceFunction(
+		"GetResourceScope",
+		r,
+		idFactory,
+		getResourceScopeFunction,
+		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
+
+	getSupportedOperationsFunc := functions.NewResourceFunction(
+		"GetSupportedOperations",
+		r,
+		idFactory,
+		getSupportedOperationsFunction,
+		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
 
 	getAPIVersionFunc := functions.NewGetAPIVersionFunction(r.APIVersionTypeName(), r.APIVersionEnumValue(), idFactory)
 
@@ -78,7 +94,8 @@ func AddKubernetesResourceInterfaceImpls(
 		getOwnerProperty,
 		getSpecFunction,
 		getTypeFunction,
-		getResourceScopeFunction,
+		getResourceScopeFunc,
+		getSupportedOperationsFunc,
 		getAPIVersionFunc,
 	}
 
@@ -281,7 +298,7 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 	}
 }
 
-// newOwnerFunction creates the Owner function declaration. This has two possible formats.
+// getOwnerFunction creates the Owner function declaration. This has two possible formats.
 // For normal resources:
 //
 //	func (<receiver> *<receiver>) Owner() *genruntime.ResourceReference {
@@ -294,94 +311,145 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 //	func (<receiver> *<receiver>) Owner() *genruntime.ResourceReference {
 //		return <receiver>.Spec.Owner.AsKnownResourceReference()
 //	}
-func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-	return func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-		receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+func getOwnerFunction(r *functions.ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	receiverIdent := r.IdFactory().CreateReceiver(receiver.Name())
 
-		specSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")
-		fn := &astbuilder.FuncDetails{
-			Name:          methodName,
-			ReceiverIdent: receiverIdent,
-			ReceiverType:  astbuilder.PointerTo(receiver.AsType(codeGenerationContext)),
-			Params:        nil,
-		}
-		fn.AddReturn(astbuilder.Dereference(astmodel.ResourceReferenceType.AsType(codeGenerationContext)))
-
-		groupLocal := "group"
-		kindLocal := "kind"
-		if receiverIdent == groupLocal || receiverIdent == kindLocal {
-			groupLocal = "ownerGroup"
-			kindLocal = "ownerKind"
-		}
-
-		owner := astbuilder.Selector(specSelector, astmodel.OwnerProperty)
-
-		switch r.Scope() {
-		case astmodel.ResourceScopeResourceGroup:
-			fn.AddComments("returns the ResourceReference of the owner")
-			fn.AddStatements(
-				lookupGroupAndKindStmt(groupLocal, kindLocal, specSelector),
-				astbuilder.Returns(createResourceReferenceWithGroupKind(dst.NewIdent(groupLocal), dst.NewIdent(kindLocal), owner)))
-		case astmodel.ResourceScopeExtension:
-			fn.AddComments("returns the ResourceReference of the owner")
-
-			fn.AddStatements(
-				astbuilder.Returns(createResourceReference(owner)))
-		case astmodel.ResourceScopeTenant:
-			// Tenant resources never have an owner, just return nil
-			fn.AddComments("returns nil as Tenant scoped resources never have an owner")
-			fn.AddStatements(astbuilder.Returns(astbuilder.Nil()))
-		case astmodel.ResourceScopeLocation:
-			// Location resources never have an owner, just return nil
-			fn.AddComments("returns nil as Location scoped resources never have an owner")
-			fn.AddStatements(astbuilder.Returns(astbuilder.Nil()))
-		default:
-			panic(fmt.Sprintf("unknown resource kind: %s", r.Scope()))
-		}
-
-		return fn.DefineFunc()
+	specSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")
+	fn := &astbuilder.FuncDetails{
+		Name:          methodName,
+		ReceiverIdent: receiverIdent,
+		ReceiverType:  astbuilder.PointerTo(receiver.AsType(codeGenerationContext)),
+		Params:        nil,
 	}
+	fn.AddReturn(astbuilder.Dereference(astmodel.ResourceReferenceType.AsType(codeGenerationContext)))
+
+	groupLocal := "group"
+	kindLocal := "kind"
+	if receiverIdent == groupLocal || receiverIdent == kindLocal {
+		groupLocal = "ownerGroup"
+		kindLocal = "ownerKind"
+	}
+
+	owner := astbuilder.Selector(specSelector, astmodel.OwnerProperty)
+
+	switch r.Resource().Scope() {
+	case astmodel.ResourceScopeResourceGroup:
+		fn.AddComments("returns the ResourceReference of the owner")
+		fn.AddStatements(
+			lookupGroupAndKindStmt(groupLocal, kindLocal, specSelector),
+			astbuilder.Returns(createResourceReferenceWithGroupKind(dst.NewIdent(groupLocal), dst.NewIdent(kindLocal), owner)))
+	case astmodel.ResourceScopeExtension:
+		fn.AddComments("returns the ResourceReference of the owner")
+
+		fn.AddStatements(
+			astbuilder.Returns(createResourceReference(owner)))
+	case astmodel.ResourceScopeTenant:
+		// Tenant resources never have an owner, just return nil
+		fn.AddComments("returns nil as Tenant scoped resources never have an owner")
+		fn.AddStatements(astbuilder.Returns(astbuilder.Nil()))
+	case astmodel.ResourceScopeLocation:
+		// Location resources never have an owner, just return nil
+		fn.AddComments("returns nil as Location scoped resources never have an owner")
+		fn.AddStatements(astbuilder.Returns(astbuilder.Nil()))
+	default:
+		panic(fmt.Sprintf("unknown resource kind: %s", r.Resource().Scope()))
+	}
+
+	return fn.DefineFunc()
+
 }
 
-// newGetResourceScopeFunction creates a function that returns the scope of the resource.
+// getResourceScopeFunction creates a function that returns the scope of the resource.
 //
 //	func (<receiver> *<receiver>) GetResourceScope() genruntime.ResourceScope {
 //		return genruntime.ResourceScopeResourceGroup
 //	}
-func newGetResourceScopeFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-	return func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-		receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-		receiverType := astmodel.NewOptionalType(receiver)
+func getResourceScopeFunction(r *functions.ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	receiverIdent := r.IdFactory().CreateReceiver(receiver.Name())
+	receiverType := astmodel.NewOptionalType(receiver)
 
-		var resourceScope string
-		switch r.Scope() {
-		case astmodel.ResourceScopeLocation:
-			resourceScope = "ResourceScopeLocation"
-		case astmodel.ResourceScopeResourceGroup:
-			resourceScope = "ResourceScopeResourceGroup"
-		case astmodel.ResourceScopeExtension:
-			resourceScope = "ResourceScopeExtension"
-		case astmodel.ResourceScopeTenant:
-			resourceScope = "ResourceScopeTenant"
-		default:
-			panic(fmt.Sprintf("unknown resource kind %s", r.Scope()))
-		}
-
-		fn := &astbuilder.FuncDetails{
-			Name:          methodName,
-			ReceiverIdent: receiverIdent,
-			ReceiverType:  receiverType.AsType(codeGenerationContext),
-			Params:        nil,
-			Body: astbuilder.Statements(
-				astbuilder.Returns(
-					astbuilder.Selector(dst.NewIdent(astmodel.GenRuntimeReference.PackageName()), resourceScope))),
-		}
-
-		fn.AddComments("returns the scope of the resource")
-		fn.AddReturn(astmodel.ResourceScopeType.AsType(codeGenerationContext))
-
-		return fn.DefineFunc()
+	var resourceScope string
+	switch r.Resource().Scope() {
+	case astmodel.ResourceScopeLocation:
+		resourceScope = "ResourceScopeLocation"
+	case astmodel.ResourceScopeResourceGroup:
+		resourceScope = "ResourceScopeResourceGroup"
+	case astmodel.ResourceScopeExtension:
+		resourceScope = "ResourceScopeExtension"
+	case astmodel.ResourceScopeTenant:
+		resourceScope = "ResourceScopeTenant"
+	default:
+		panic(fmt.Sprintf("unknown resource scope %s", r.Resource().Scope()))
 	}
+
+	fn := &astbuilder.FuncDetails{
+		Name:          methodName,
+		ReceiverIdent: receiverIdent,
+		ReceiverType:  receiverType.AsType(codeGenerationContext),
+		Params:        nil,
+		Body: astbuilder.Statements(
+			astbuilder.Returns(
+				astbuilder.Selector(dst.NewIdent(astmodel.GenRuntimeReference.PackageName()), resourceScope))),
+	}
+
+	fn.AddComments("returns the scope of the resource")
+	fn.AddReturn(astmodel.ResourceScopeType.AsType(codeGenerationContext))
+
+	return fn.DefineFunc()
+}
+
+// getSupportedOperationsFunction creates a function that returns the supported operations of the resource.
+//
+//	func (<receiver> *<receiver>) GetSupportedOperations() []genruntime.ResourceOperation {
+//		return []genruntime.ResourceOperation{
+//			genruntime.ResourceOperationGet,
+//			genruntime.ResourceOperationPut,
+//			genruntime.ResourceOperationDelete,
+//		}
+//	}
+func getSupportedOperationsFunction(r *functions.ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	receiverIdent := r.IdFactory().CreateReceiver(receiver.Name())
+	receiverType := astmodel.NewOptionalType(receiver)
+
+	genruntimePackage := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
+	supportedOperations := set.AsSortedSlice(r.Resource().SupportedOperations()) // Sorted to ensure ordered codegen
+	idents := make([]dst.Expr, 0, len(supportedOperations))
+	for _, op := range supportedOperations {
+		var genruntimeOpName string
+		switch op {
+		case astmodel.ResourceOperationPut:
+			genruntimeOpName = "ResourceOperationPut"
+		case astmodel.ResourceOperationGet:
+			genruntimeOpName = "ResourceOperationGet"
+		case astmodel.ResourceOperationHead:
+			genruntimeOpName = "ResourceOperationHead"
+		case astmodel.ResourceOperationDelete:
+			genruntimeOpName = "ResourceOperationDelete"
+		default:
+			panic(fmt.Sprintf("unknown resource operation %s", op))
+		}
+		idents = append(idents, astbuilder.Selector(dst.NewIdent(genruntimePackage), genruntimeOpName))
+	}
+
+	sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.ResourceOperationType.AsType(codeGenerationContext), true)
+	for _, id := range idents {
+		sliceBuilder.AddElement(id)
+	}
+
+	fn := &astbuilder.FuncDetails{
+		Name:          methodName,
+		ReceiverIdent: receiverIdent,
+		ReceiverType:  receiverType.AsType(codeGenerationContext),
+		Params:        nil,
+		Body: astbuilder.Statements(
+			astbuilder.Returns(sliceBuilder.Build()),
+		),
+	}
+
+	fn.AddComments("returns the operations supported by the resource")
+	fn.AddReturn(astmodel.NewArrayType(astmodel.ResourceOperationType).AsType(codeGenerationContext))
+
+	return fn.DefineFunc()
 }
 
 func lookupGroupAndKindStmt(

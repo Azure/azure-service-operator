@@ -90,6 +90,15 @@ func (webtest *Webtest) GetStatus() genruntime.ConvertibleStatus {
 	return &webtest.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (webtest *Webtest) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/webtests"
 func (webtest *Webtest) GetType() string {
 	return "Microsoft.Insights/webtests"

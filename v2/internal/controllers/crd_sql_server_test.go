@@ -298,7 +298,7 @@ func SQL_Server_OutboundFirewallRule_CRUD(tc *testcommon.KubePerTestContext, ser
 	armId := *outboundRule.Status.Id
 
 	tc.DeleteResourceAndWait(outboundRule)
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		string(sql.APIVersion_Value))

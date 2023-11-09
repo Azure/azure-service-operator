@@ -103,6 +103,15 @@ func (assignment *RoleAssignment) GetStatus() genruntime.ConvertibleStatus {
 	return &assignment.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (assignment *RoleAssignment) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Authorization/roleAssignments"
 func (assignment *RoleAssignment) GetType() string {
 	return "Microsoft.Authorization/roleAssignments"

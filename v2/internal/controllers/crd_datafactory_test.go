@@ -10,10 +10,11 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+
 	datafactory "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
-	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
 func Test_Data_Factory_CRUD(t *testing.T) {
@@ -57,7 +58,7 @@ func Test_Data_Factory_CRUD(t *testing.T) {
 
 	tc.DeleteResourceAndWait(factory)
 	// Ensure that the data factory was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		factoryArmId,
 		string(datafactory.APIVersion_Value))

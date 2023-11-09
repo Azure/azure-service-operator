@@ -71,6 +71,15 @@ func (endpoint *TrafficManagerProfilesExternalEndpoint) GetStatus() genruntime.C
 	return &endpoint.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (endpoint *TrafficManagerProfilesExternalEndpoint) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/trafficmanagerprofiles/ExternalEndpoints"
 func (endpoint *TrafficManagerProfilesExternalEndpoint) GetType() string {
 	return "Microsoft.Network/trafficmanagerprofiles/ExternalEndpoints"

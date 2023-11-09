@@ -71,6 +71,16 @@ func (fragment *PolicyFragment) GetStatus() genruntime.ConvertibleStatus {
 	return &fragment.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (fragment *PolicyFragment) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationHead,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service/policyFragments"
 func (fragment *PolicyFragment) GetType() string {
 	return "Microsoft.ApiManagement/service/policyFragments"

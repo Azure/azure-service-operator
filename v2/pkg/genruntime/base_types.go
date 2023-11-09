@@ -25,6 +25,15 @@ const (
 	ResourceScopeTenant = ResourceScope("tenant")
 )
 
+type ResourceOperation string
+
+const (
+	ResourceOperationGet    = ResourceOperation("GET")
+	ResourceOperationHead   = ResourceOperation("HEAD")
+	ResourceOperationPut    = ResourceOperation("PUT")
+	ResourceOperationDelete = ResourceOperation("DELETE")
+)
+
 // TODO: It's weird that this is isn't with the other annotations
 // TODO: Should we move them all here (so they're exported?) Or shold we move them
 // TODO: to serviceoperator-internal.azure.com to signify they are internal?

@@ -71,6 +71,15 @@ func (administrator *ServersAdministrator) GetStatus() genruntime.ConvertibleSta
 	return &administrator.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (administrator *ServersAdministrator) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/administrators"
 func (administrator *ServersAdministrator) GetType() string {
 	return "Microsoft.Sql/servers/administrators"

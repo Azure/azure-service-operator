@@ -124,6 +124,14 @@ func (service *StorageAccountsQueueService) GetStatus() genruntime.ConvertibleSt
 	return &service.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (service *StorageAccountsQueueService) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/queueServices"
 func (service *StorageAccountsQueueService) GetType() string {
 	return "Microsoft.Storage/storageAccounts/queueServices"

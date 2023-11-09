@@ -90,6 +90,15 @@ func (database *SqlDatabase) GetStatus() genruntime.ConvertibleStatus {
 	return &database.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (database *SqlDatabase) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases"
 func (database *SqlDatabase) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases"

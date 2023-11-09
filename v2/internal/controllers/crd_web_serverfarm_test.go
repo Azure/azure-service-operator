@@ -38,7 +38,7 @@ func Test_Web_ServerFarm_CRUD(t *testing.T) {
 
 	tc.DeleteResourcesAndWait(serverFarm)
 
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		string(v1api20220301.APIVersion_Value))

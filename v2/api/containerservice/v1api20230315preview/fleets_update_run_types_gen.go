@@ -129,6 +129,15 @@ func (updateRun *FleetsUpdateRun) GetStatus() genruntime.ConvertibleStatus {
 	return &updateRun.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (updateRun *FleetsUpdateRun) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/fleets/updateRuns"
 func (updateRun *FleetsUpdateRun) GetType() string {
 	return "Microsoft.ContainerService/fleets/updateRuns"

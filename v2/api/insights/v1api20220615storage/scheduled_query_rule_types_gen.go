@@ -72,6 +72,15 @@ func (rule *ScheduledQueryRule) GetStatus() genruntime.ConvertibleStatus {
 	return &rule.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (rule *ScheduledQueryRule) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/scheduledQueryRules"
 func (rule *ScheduledQueryRule) GetType() string {
 	return "Microsoft.Insights/scheduledQueryRules"

@@ -71,6 +71,15 @@ func (authentication *ServersAzureADOnlyAuthentication) GetStatus() genruntime.C
 	return &authentication.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (authentication *ServersAzureADOnlyAuthentication) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/azureADOnlyAuthentications"
 func (authentication *ServersAzureADOnlyAuthentication) GetType() string {
 	return "Microsoft.Sql/servers/azureADOnlyAuthentications"

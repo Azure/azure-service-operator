@@ -130,6 +130,15 @@ func (scaleSet *VirtualMachineScaleSet) GetStatus() genruntime.ConvertibleStatus
 	return &scaleSet.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (scaleSet *VirtualMachineScaleSet) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachineScaleSets"
 func (scaleSet *VirtualMachineScaleSet) GetType() string {
 	return "Microsoft.Compute/virtualMachineScaleSets"

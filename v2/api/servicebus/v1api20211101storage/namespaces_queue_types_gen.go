@@ -71,6 +71,15 @@ func (queue *NamespacesQueue) GetStatus() genruntime.ConvertibleStatus {
 	return &queue.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (queue *NamespacesQueue) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/queues"
 func (queue *NamespacesQueue) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/queues"

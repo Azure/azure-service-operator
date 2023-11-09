@@ -92,6 +92,14 @@ func (service *StorageAccountsBlobService) GetStatus() genruntime.ConvertibleSta
 	return &service.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (service *StorageAccountsBlobService) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices"
 func (service *StorageAccountsBlobService) GetType() string {
 	return "Microsoft.Storage/storageAccounts/blobServices"

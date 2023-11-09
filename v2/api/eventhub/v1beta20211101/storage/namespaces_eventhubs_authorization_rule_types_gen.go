@@ -90,6 +90,15 @@ func (rule *NamespacesEventhubsAuthorizationRule) GetStatus() genruntime.Convert
 	return &rule.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (rule *NamespacesEventhubsAuthorizationRule) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs/authorizationRules"
 func (rule *NamespacesEventhubsAuthorizationRule) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs/authorizationRules"

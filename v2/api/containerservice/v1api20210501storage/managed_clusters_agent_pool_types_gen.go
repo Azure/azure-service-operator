@@ -92,6 +92,15 @@ func (pool *ManagedClustersAgentPool) GetStatus() genruntime.ConvertibleStatus {
 	return &pool.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (pool *ManagedClustersAgentPool) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters/agentPools"
 func (pool *ManagedClustersAgentPool) GetType() string {
 	return "Microsoft.ContainerService/managedClusters/agentPools"

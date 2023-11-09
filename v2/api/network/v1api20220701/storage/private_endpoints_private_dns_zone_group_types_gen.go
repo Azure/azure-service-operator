@@ -71,6 +71,15 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup) GetStatus() genruntime.Convert
 	return &group.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (group *PrivateEndpointsPrivateDnsZoneGroup) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/privateEndpoints/privateDnsZoneGroups"
 func (group *PrivateEndpointsPrivateDnsZoneGroup) GetType() string {
 	return "Microsoft.Network/privateEndpoints/privateDnsZoneGroups"

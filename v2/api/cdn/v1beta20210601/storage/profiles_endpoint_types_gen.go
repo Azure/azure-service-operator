@@ -90,6 +90,15 @@ func (endpoint *ProfilesEndpoint) GetStatus() genruntime.ConvertibleStatus {
 	return &endpoint.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (endpoint *ProfilesEndpoint) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cdn/profiles/endpoints"
 func (endpoint *ProfilesEndpoint) GetType() string {
 	return "Microsoft.Cdn/profiles/endpoints"

@@ -71,6 +71,15 @@ func (group *NamespacesEventhubsConsumerGroup) GetStatus() genruntime.Convertibl
 	return &group.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (group *NamespacesEventhubsConsumerGroup) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
 func (group *NamespacesEventhubsConsumerGroup) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs/consumergroups"

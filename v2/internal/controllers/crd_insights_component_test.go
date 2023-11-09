@@ -51,7 +51,7 @@ func Test_Insights_Component_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(component)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		string(insights.APIVersion_Value))
@@ -115,7 +115,7 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 	tc.DeleteResourceAndWait(webtest)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		string(insightswebtest.APIVersion_Value))
@@ -155,7 +155,7 @@ func Test_Insights_Component_ExportConfigMap(t *testing.T) {
 	tc.DeleteResourceAndWait(component)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadByID(
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
 		string(insights.APIVersion_Value))

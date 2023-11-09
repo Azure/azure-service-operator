@@ -71,6 +71,15 @@ func (policy *BackupVaultsBackupPolicy) GetStatus() genruntime.ConvertibleStatus
 	return &policy.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (policy *BackupVaultsBackupPolicy) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DataProtection/backupVaults/backupPolicies"
 func (policy *BackupVaultsBackupPolicy) GetType() string {
 	return "Microsoft.DataProtection/backupVaults/backupPolicies"

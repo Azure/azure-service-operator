@@ -131,6 +131,15 @@ func (rule *RedisFirewallRule) GetStatus() genruntime.ConvertibleStatus {
 	return &rule.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (rule *RedisFirewallRule) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/firewallRules"
 func (rule *RedisFirewallRule) GetType() string {
 	return "Microsoft.Cache/redis/firewallRules"

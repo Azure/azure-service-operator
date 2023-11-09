@@ -129,6 +129,15 @@ func (collection *MongodbDatabaseCollection) GetStatus() genruntime.ConvertibleS
 	return &collection.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (collection *MongodbDatabaseCollection) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
 func (collection *MongodbDatabaseCollection) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"

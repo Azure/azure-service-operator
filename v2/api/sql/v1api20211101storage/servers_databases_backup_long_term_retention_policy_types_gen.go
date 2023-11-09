@@ -71,6 +71,14 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy) GetStatus() genrunt
 	return &policy.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (policy *ServersDatabasesBackupLongTermRetentionPolicy) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies"
 func (policy *ServersDatabasesBackupLongTermRetentionPolicy) GetType() string {
 	return "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies"

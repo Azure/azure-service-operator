@@ -71,6 +71,15 @@ func (table *RouteTable) GetStatus() genruntime.ConvertibleStatus {
 	return &table.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (table *RouteTable) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/routeTables"
 func (table *RouteTable) GetType() string {
 	return "Microsoft.Network/routeTables"

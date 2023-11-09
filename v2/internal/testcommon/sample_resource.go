@@ -24,6 +24,10 @@ type SimpleExtensionResource struct {
 	Status            SimpleExtensionResourceStatus `json:"status,omitempty"`
 }
 
+func (r *SimpleExtensionResource) GetSupportedOperations() []genruntime.ResourceOperation {
+	panic("not expected to be called in this test resource")
+}
+
 func (r *SimpleExtensionResource) SetStatus(status genruntime.ConvertibleStatus) error {
 	r.Status = status.(SimpleExtensionResourceStatus)
 	return nil
