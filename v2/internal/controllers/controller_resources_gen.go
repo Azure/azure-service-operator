@@ -15,6 +15,8 @@ import (
 	authorization_customizations "github.com/Azure/azure-service-operator/v2/api/authorization/customizations"
 	authorization_v20200801p "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
 	authorization_v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801previewstorage"
+	authorization_v20220401 "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
+	authorization_v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401storage"
 	authorization_v1beta20200801p "github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801preview"
 	authorization_v1beta20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801previewstorage"
 	batch_customizations "github.com/Azure/azure-service-operator/v2/api/batch/customizations"
@@ -346,7 +348,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20220501s.ConfigurationStore)})
 	result = append(result, &registration.StorageType{
-		Obj: new(authorization_v20200801ps.RoleAssignment),
+		Obj: new(authorization_v20220401s.RoleAssignment),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.principalIdFromConfig",
@@ -356,7 +358,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.principalIdFromConfig"}, &authorization_v20200801ps.RoleAssignmentList{}),
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.principalIdFromConfig"}, &authorization_v20220401s.RoleAssignmentList{}),
 			},
 		},
 	})
@@ -1065,6 +1067,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(authorization_v1beta20200801ps.RoleAssignment))
 	result = append(result, new(authorization_v20200801p.RoleAssignment))
 	result = append(result, new(authorization_v20200801ps.RoleAssignment))
+	result = append(result, new(authorization_v20220401.RoleAssignment))
+	result = append(result, new(authorization_v20220401s.RoleAssignment))
 	result = append(result, new(batch_v1beta20210101.BatchAccount))
 	result = append(result, new(batch_v1beta20210101s.BatchAccount))
 	result = append(result, new(batch_v20210101.BatchAccount))
@@ -1788,6 +1792,8 @@ func createScheme() *runtime.Scheme {
 	_ = authorization_v1beta20200801ps.AddToScheme(scheme)
 	_ = authorization_v20200801p.AddToScheme(scheme)
 	_ = authorization_v20200801ps.AddToScheme(scheme)
+	_ = authorization_v20220401.AddToScheme(scheme)
+	_ = authorization_v20220401s.AddToScheme(scheme)
 	_ = batch_v1beta20210101.AddToScheme(scheme)
 	_ = batch_v1beta20210101s.AddToScheme(scheme)
 	_ = batch_v20210101.AddToScheme(scheme)
@@ -2371,9 +2377,9 @@ func indexApimanagementSubscriptionSecondaryKey(rawObj client.Object) []string {
 	return obj.Spec.SecondaryKey.Index()
 }
 
-// indexAuthorizationRoleAssignmentPrincipalIdFromConfig an index function for authorization_v20200801ps.RoleAssignment .spec.principalIdFromConfig
+// indexAuthorizationRoleAssignmentPrincipalIdFromConfig an index function for authorization_v20220401s.RoleAssignment .spec.principalIdFromConfig
 func indexAuthorizationRoleAssignmentPrincipalIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*authorization_v20200801ps.RoleAssignment)
+	obj, ok := rawObj.(*authorization_v20220401s.RoleAssignment)
 	if !ok {
 		return nil
 	}

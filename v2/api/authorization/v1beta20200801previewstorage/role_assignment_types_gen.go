@@ -4,7 +4,6 @@
 package v1beta20200801previewstorage
 
 import (
-	"fmt"
 	v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801previewstorage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -45,22 +44,36 @@ var _ conversion.Convertible = &RoleAssignment{}
 
 // ConvertFrom populates our RoleAssignment from the provided hub RoleAssignment
 func (assignment *RoleAssignment) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20200801ps.RoleAssignment)
-	if !ok {
-		return fmt.Errorf("expected authorization/v1api20200801previewstorage/RoleAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20200801ps.RoleAssignment
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return assignment.AssignProperties_From_RoleAssignment(source)
+	err = assignment.AssignProperties_From_RoleAssignment(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to assignment")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RoleAssignment from our RoleAssignment
 func (assignment *RoleAssignment) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20200801ps.RoleAssignment)
-	if !ok {
-		return fmt.Errorf("expected authorization/v1api20200801previewstorage/RoleAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20200801ps.RoleAssignment
+	err := assignment.AssignProperties_To_RoleAssignment(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from assignment")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return assignment.AssignProperties_To_RoleAssignment(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesResource = &RoleAssignment{}
