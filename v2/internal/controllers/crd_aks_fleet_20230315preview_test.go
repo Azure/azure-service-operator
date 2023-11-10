@@ -21,6 +21,9 @@ func Test_AKS_Fleet_20230315_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
+
+	tc.AzureRegion = to.Ptr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
+
 	rg := tc.CreateTestResourceGroupAndWait()
 	region := tc.AzureRegion
 	flt := &fleet.Fleet{

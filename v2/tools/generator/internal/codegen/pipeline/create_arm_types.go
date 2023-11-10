@@ -418,9 +418,11 @@ func (c *armTypeCreator) createARMProperty(
 		// See https://azure.github.io/azure-service-operator/design/adr-2023-04-patch-collections/ for how we're solving it.
 		result = result.WithoutTag("json", "omitempty")
 
+	case config.ExplicitEmptyCollections:
+		fallthrough
 	case config.ExplicitCollections:
-		// With PayloadType 'explicitCollections' we remove the `omitempty` tag from arrays and maps, because we always
-		// want to explicitly send collections to the server, even if empty.
+		// With PayloadType 'explicitCollections' or 'ExplicitEmptyCollections' we remove the `omitempty`
+		// tag from arrays and maps, because we always want to explicitly send collections to the server, even if empty.
 		_, isMap := astmodel.AsMapType(newType)
 		_, isArray := astmodel.AsArrayType(newType)
 		if isMap || isArray {

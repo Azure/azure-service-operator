@@ -13,6 +13,8 @@ To illustrate, assume you have a Person object with a Name and a list of Address
 * If you PUT a Person object with a new Name and _no addresses_, the new name will be persisted, but the addresses will remain _unchanged_.
 * If you PUT a Person object with a new Name and an _empty list_ of addresses, the new name will be persisted, and the addresses collection will be cleared.
 
+> **Note**: Some services will treat PUT with an omitted collection and PUT with an explicit JSON "null" the same, while other services treat "null" to mean clear, while omission means "ignore".
+
 This is a problem for ASO because we use `omitempty` on all properties, resulting in them being omitted from the ARM payload if they aren't explicitly set. For array and map properties, removing the last item means the property will be entirely omitted from the JSON payload.
 
 In principle, an ASO custom resource (CR) should be the entire goal-state for the resource and should be a *complete* definition of the desired state. Whether properties are specified explicitly or not shouldn't change that. Equally, whether an array or map is empty or missing entirely should not matter, we should interpret that as "clear the collection".
@@ -49,14 +51,14 @@ MyProperty []Type 'json:"myProperty"'.
 
 This means that each array or map will always be serialized, even if empty.
 
-* PRO: Behaves exactly like we want from a serialization perspective.
+* PRO: Behaves exactly like we want from a serialization perspective, as long as the service treats `myProperty: null` as 
+       "clear the collection".
 * PRO: Not a breaking change for consumers of our object model.
   
 * CON: Empty collections will always be present when an ASO CR is read from the cluster, even if the user did not specify them at all.
 * CON: Modifies our Spec and Status object definitions for an issue that is specific to ARM
-  
-* QUERY: It is possible that some Azure services treat `myProperty: null` as different than omitting the property entirely, although we do not actually know of any cases where that is true.
-
+* CON: Some Azure services (Such as AKS) treat `myProperty: null` the same as omitting the property entirely. In order to 
+       convince these services APIs to clear a field, an explicit empty collection must be serialized (`myProperty: []` rather than `myProperty: null`) 
 
 ### Option 2a: Remove `omitempty` from all properties
 
@@ -90,14 +92,17 @@ Use a custom JSON serialization library that supports an `omitnil` equivalent, s
 
 As for Option 2, above, but we apply the change only selected ARM Spec types, leaving the core ASO Spec and Status types unmodified.
 
-Selection occurs through our existing `ObjectModelConfiguration` allowing us to explicitly target resources we know are problematic. We might take a coarse-grained approach, selecting entire resources, or a fine-grained one selecting only affected properties.
+Selection occurs through our existing `ObjectModelConfiguration` allowing us to explicitly target resources we know are problematic. 
+We might take a coarse-grained approach, selecting entire resources, or a fine-grained one selecting only affected properties.
 
-* PRO: Behaves exactly like we want from a serialization perspective.
+* PRO: Behaves exactly like we want from a serialization perspective, as long as the service treats `myProperty: null` as
+       "clear the collection".
 * PRO: Limits the scope of the change to only ARM types. These are not directly used by consumers of our object model.
 * PRO: Limits the scope of the change to only collections that we know are problematic, reducing any potential for unintended consequences.
 * PRO: No change to the YAML serialization for ASO Spec and Status types, so no visible change to our users.
 
-* CON: We can only configure resources (or properties) we know have this problem. We may miss some, requiring a new release to fix affected users.
+* CON: We can only configure resources (or properties) we know have this problem. We may miss some, requiring a new release 
+       to fix affected users.
 * CON: Configuration at the individual property level runs the risk that we might miss some properties that are problematic.
 * CON: Configuration at the entire resource level makes our payload larger than it strictly needs to be.
 
@@ -110,9 +115,33 @@ Pros & Cons are as for Option 4, above, with the addition of:
 * PRO: We'll be explicit for all properties, removing any ambiguity about what the payload means
 * CON: ARM Payload will be larger
 
+### Option 4b: Remove `omitempty` for collections on selected ARM types only, and support a mode when we automatically set omitted collections to an empty collection (rather than null)
+
+As for Option 4, above, but we additionally support (for RPs that need it) the ability to force sending empty collections rather than
+`null`. This is for the case where the RP treats `myProperty: null` the same as `myProperty` being omitted entirely. 
+
+Pros & Cons are as for Option 4, above except it removes the caveat on the first PRO:
+
+* PRO: Behaves exactly like we want from a serialization perspective.
+
+### Option 5: Let the user specify empty collections (or omitted collections) and preserve that all the way to ARM
+
+* PRO: Allows fine-tuning of behavior per-property depending on the users need.
+* PRO: Not a breaking change for consumers of our object model.
+
+* CON: Requires the user to do all the work. For resoruces which don't act as expected the user must first realize that and then fix it,
+       rather than ASO fixing it for them without them ever knowing.
+* CON: Difficult/impossible to implement without also implementing some form of option 2 (see all its pros/cons) for both user-facing and storage types, as the full flow is:
+  * User (may) use our API types to talk to APIServer. If those types have `omitempty` for collections, the serialized wire format doesn't distinguish between null and empty.
+  * APIServer calls our conversion webhook with the user payload to convert it into its storage shape. 
+    * QUESTION: Does APIServer preserve omitted versus empty collections when doing this?
+  * Controller-runtime deserializses the payload into the versioned object which we then convert into the storage object and reply with. Again if the storage type has `omitempty` for collections the serialized wire format doesn't distinguish between null and empty.
+
 ## Decision
 
-Adopt Option 4a, as it is a minimal change that fully addresses the issue without impacting on current users.
+~~Adopt Option 4a, as it is a minimal change that fully addresses the issue without impacting on current users.~~
+
+Adopt Option 4c, as it is a minimal change that fully addresses the issue without impacting current users
 
 ## Status
 
@@ -124,7 +153,12 @@ TBC
 
 ## Experience Report
 
-TBC
+We realized that option 4a (which we had originally adopted) is insufficient for some RPs such as Microsoft.ContainerService (AKS)
+as they treat a property with JSON value `null` exactly the same as if that property were omitted entirely, which is to say they
+will _not_ clear a collection set to `null` in the payload. This means that just removing `omitempty` is not enough, we need to actually
+send an empty collection as well.
+
+This spawned the new option 4c, which we are now doing.
 
 ## References
 

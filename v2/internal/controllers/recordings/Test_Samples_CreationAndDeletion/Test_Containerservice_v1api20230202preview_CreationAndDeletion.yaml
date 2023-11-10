@@ -999,7 +999,7 @@ interactions:
     code: 404
     duration: ""
 - request:
-    body: '{"identity":{"type":"SystemAssigned"},"location":"westus3","name":"samplemanagedcluster202221preview","properties":{"addonProfiles":null,"agentPoolProfiles":[{"availabilityZones":null,"count":1,"mode":"System","name":"pool1","nodeLabels":null,"nodeTaints":null,"osType":"Linux","tags":null,"vmSize":"Standard_DS2_v2"}],"dnsPrefix":"aso","identityProfile":null,"privateLinkResources":null},"tags":null}'
+    body: '{"identity":{"type":"SystemAssigned"},"location":"westus3","name":"samplemanagedcluster202221preview","properties":{"addonProfiles":null,"agentPoolProfiles":[{"availabilityZones":null,"count":1,"mode":"System","name":"pool1","nodeLabels":{},"nodeTaints":[],"osType":"Linux","tags":{},"vmSize":"Standard_DS2_v2"}],"dnsPrefix":"aso","identityProfile":null,"privateLinkResources":null},"tags":{}}'
     form: {}
     headers:
       Accept:
@@ -1859,7 +1859,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"pool202221p","properties":{"availabilityZones":null,"count":1,"mode":"User","nodeLabels":null,"nodeTaints":null,"osType":"Linux","tags":null,"vmSize":"Standard_DS2_v2"}}'
+    body: '{"name":"pool202221p","properties":{"availabilityZones":null,"count":1,"mode":"User","nodeLabels":{},"nodeTaints":[],"osType":"Linux","tags":{},"vmSize":"Standard_DS2_v2"}}'
     form: {}
     headers:
       Accept:

@@ -13,6 +13,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/armconversion"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 // ApplyARMConversionInterfaceStageID is the unique identifier of this pipeline stage
@@ -21,7 +22,7 @@ const ApplyARMConversionInterfaceStageID = "applyArmConversionInterface"
 // ApplyARMConversionInterface adds the genruntime.ARMTransformer interface and the Owner property
 // to all Kubernetes types.
 // The genruntime.ARMTransformer interface is used to convert from the Kubernetes type to the corresponding ARM type and back.
-func ApplyARMConversionInterface(idFactory astmodel.IdentifierFactory) *Stage {
+func ApplyARMConversionInterface(idFactory astmodel.IdentifierFactory, config *config.ObjectModelConfiguration) *Stage {
 	return NewLegacyStage(
 		ApplyARMConversionInterfaceStageID,
 		"Add ARM conversion interfaces to Kubernetes types",
@@ -29,6 +30,7 @@ func ApplyARMConversionInterface(idFactory astmodel.IdentifierFactory) *Stage {
 			converter := &armConversionApplier{
 				definitions: definitions,
 				idFactory:   idFactory,
+				config:      config,
 			}
 
 			return converter.transformTypes()
@@ -49,6 +51,7 @@ func GetARMTypeDefinition(defs astmodel.TypeDefinitionSet, name astmodel.Interna
 type armConversionApplier struct {
 	definitions astmodel.TypeDefinitionSet
 	idFactory   astmodel.IdentifierFactory
+	config      *config.ObjectModelConfiguration
 }
 
 // transformResourceSpecs applies the genruntime.ARMTransformer interface to all resource Spec types.
@@ -223,9 +226,22 @@ func (c *armConversionApplier) addARMConversionInterface(
 	typeType armconversion.TypeKind,
 ) (astmodel.TypeDefinition, error) {
 	objectType, ok := astmodel.AsObjectType(armDef.Type())
+	emptyDef := astmodel.TypeDefinition{}
 	if !ok {
-		emptyDef := astmodel.TypeDefinition{}
 		return emptyDef, errors.Errorf("ARM definition %q did not define an object type", armDef.Name())
+	}
+
+	// Determine if we need special handling for collection properties. Some RPs we need to send empty collections rather
+	// than nil collections, we need to determine if this def is subject to this requirement
+	payloadType, err := c.config.PayloadType.Lookup(kubeDef.Name().InternalPackageReference())
+	if err != nil {
+		if config.IsNotConfiguredError(err) {
+			// Default to 'omitempty' if not configured
+			payloadType = config.OmitEmptyProperties
+		} else {
+			// otherwise we return an error
+			return emptyDef, errors.Wrapf(err, "looking up payload type for %q", kubeDef.Name())
+		}
 	}
 
 	addInterfaceHandler := func(t *astmodel.ObjectType) (astmodel.Type, error) {
@@ -233,7 +249,8 @@ func (c *armConversionApplier) addARMConversionInterface(
 			armDef.Name(),
 			objectType,
 			c.idFactory,
-			typeType))
+			typeType,
+			payloadType))
 		return result, nil
 	}
 
