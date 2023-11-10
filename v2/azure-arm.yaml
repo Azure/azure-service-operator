@@ -729,6 +729,18 @@ status:
 #     Establishes a connection between the two types allowing for proper
 #     forward and backward conversion.
 #
+# $renameTo: <string>
+#     Changes the name of any type, allowing selective adjustments to make 
+#     names more idiomatic for Go and/or Kubernetes use.
+#
+#     For resource types, prefer $exportAs
+#     Note: using $export: + $renameTo: for a resource is not quite the same as
+#     using $exportAs because the renaming happens at a different stage of the
+#     pipeline.
+#
+#     If you have two names differing only by letter case, use a TypeTransform
+#     to selectively rename one of the types.
+#
 # $supportedFrom: <version>
 #     Gives the version number of the first release of ASO that provides 
 #     support for this resource.

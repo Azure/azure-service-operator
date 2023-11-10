@@ -39,6 +39,7 @@ type TypeConfiguration struct {
 	IsResource               configurable[bool]
 	ManualConfigs            configurable[[]string]
 	NameInNextVersion        configurable[string]
+	RenameTo                 configurable[string]
 	ResourceEmbeddedInParent configurable[string]
 	SupportedFrom            configurable[string]
 }
@@ -53,6 +54,7 @@ const (
 	isResourceTag               = "$isResource"               // Boolean specifying whether a particular type is a resource or not.
 	nameInNextVersionTag        = "$nameInNextVersion"        // String specifying a type or property name change in the next version
 	supportedFromTag            = "$supportedFrom"            // Label specifying the first ASO release supporting the resource
+	renameTo                    = "$renameTo"                 // String specifying the new name of a type
 	resourceEmbeddedInParentTag = "$resourceEmbeddedInParent" // String specifying resource name of parent
 	defaultAzureNameTag         = "$defaultAzureName"         // Boolean indicating if the resource should automatically default AzureName
 )
@@ -73,6 +75,7 @@ func NewTypeConfiguration(name string) *TypeConfiguration {
 		GeneratedConfigs:         makeConfigurable[map[string]string](generatedConfigsTag, scope),
 		ManualConfigs:            makeConfigurable[[]string](manualConfigsTag, scope),
 		NameInNextVersion:        makeConfigurable[string](nameInNextVersionTag, scope),
+		RenameTo:                 makeConfigurable[string](renameTo, scope),
 		ResourceEmbeddedInParent: makeConfigurable[string](resourceEmbeddedInParentTag, scope),
 		SupportedFrom:            makeConfigurable[string](supportedFromTag, scope),
 	}
@@ -227,7 +230,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
-		// $AzureGeneratedSecrets:
+		// $azureGeneratedSecrets:
 		// - secret1
 		// - secret2
 		if strings.EqualFold(lastId, azureGeneratedSecretsTag) && c.Kind == yaml.SequenceNode {
@@ -248,6 +251,9 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
+		// $manualConfigs
+		// - config1
+		// - config2
 		if strings.EqualFold(lastId, manualConfigsTag) && c.Kind == yaml.SequenceNode {
 			var manualAzureGeneratedConfigs []string
 			for _, content := range c.Content {
@@ -269,6 +275,18 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		// $SupportedFrom
 		if strings.EqualFold(lastId, supportedFromTag) && c.Kind == yaml.ScalarNode {
 			tc.SupportedFrom.Set(c.Value)
+			continue
+		}
+
+		// $renameTo: <string>
+		if strings.EqualFold(lastId, renameTo) && c.Kind == yaml.ScalarNode {
+			var renameTo string
+			err := c.Decode(&renameTo)
+			if err != nil {
+				return errors.Wrapf(err, "decoding %s", renameTo)
+			}
+
+			tc.RenameTo.Set(renameTo)
 			continue
 		}
 
