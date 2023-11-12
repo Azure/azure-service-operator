@@ -2986,9 +2986,8 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the Fleet member group to update.
-It should match the name of an existing FleetMember group.
-A group can only appear once across all UpdateStages in the UpdateRun.</p>
+<p>Name: Name of the group.
+It must match a group name of an existing fleet member.</p>
 </td>
 </tr>
 </tbody>
@@ -3127,9 +3126,8 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the Fleet member group to update.
-It should match the name of an existing FleetMember group.
-A group can only appear once across all UpdateStages in the UpdateRun.</p>
+<p>Name: Name of the group.
+It must match a group name of an existing fleet member.</p>
 </td>
 </tr>
 </tbody>
@@ -3158,9 +3156,8 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the Fleet member group to update.
-It should match the name of an existing FleetMember group.
-A group can only appear once across all UpdateStages in the UpdateRun.</p>
+<p>Name: Name of the group.
+It must match a group name of an existing fleet member.</p>
 </td>
 </tr>
 </tbody>
@@ -3189,9 +3186,8 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the Fleet member group to update.
-It should match the name of an existing FleetMember group.
-A group can only appear once across all UpdateStages in the UpdateRun.</p>
+<p>Name: Name of the group.
+It must match a group name of an existing fleet member.</p>
 </td>
 </tr>
 </tbody>
@@ -3435,7 +3431,13 @@ UpdateStatus_STATUS_ARM
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_Spec">Fleets_UpdateRun_Spec</a>)
 </p>
 <div>
-<p>The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.</p>
+<p>Defines the update sequence of the clusters via stages and groups.
+Stages within a run are executed sequentially one
+after another.
+Groups within a stage are executed in parallel.
+Member clusters within a group are updated sequentially
+one after another.
+A valid strategy contains no duplicate groups within or across stages.</p>
 </div>
 <table>
 <thead>
@@ -3455,7 +3457,7 @@ UpdateStatus_STATUS_ARM
 </em>
 </td>
 <td>
-<p>Stages: The list of stages that compose this update run.</p>
+<p>Stages: The list of stages that compose this update run. Min size: 1.</p>
 </td>
 </tr>
 </tbody>
@@ -3466,7 +3468,13 @@ UpdateStatus_STATUS_ARM
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.UpdateRunProperties_ARM">UpdateRunProperties_ARM</a>)
 </p>
 <div>
-<p>The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.</p>
+<p>Defines the update sequence of the clusters via stages and groups.
+Stages within a run are executed sequentially one
+after another.
+Groups within a stage are executed in parallel.
+Member clusters within a group are updated sequentially
+one after another.
+A valid strategy contains no duplicate groups within or across stages.</p>
 </div>
 <table>
 <thead>
@@ -3486,7 +3494,7 @@ UpdateStatus_STATUS_ARM
 </em>
 </td>
 <td>
-<p>Stages: The list of stages that compose this update run.</p>
+<p>Stages: The list of stages that compose this update run. Min size: 1.</p>
 </td>
 </tr>
 </tbody>
@@ -3497,7 +3505,13 @@ UpdateStatus_STATUS_ARM
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS">Fleets_UpdateRun_STATUS</a>)
 </p>
 <div>
-<p>The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.</p>
+<p>Defines the update sequence of the clusters via stages and groups.
+Stages within a run are executed sequentially one
+after another.
+Groups within a stage are executed in parallel.
+Member clusters within a group are updated sequentially
+one after another.
+A valid strategy contains no duplicate groups within or across stages.</p>
 </div>
 <table>
 <thead>
@@ -3517,7 +3531,7 @@ UpdateStatus_STATUS_ARM
 </em>
 </td>
 <td>
-<p>Stages: The list of stages that compose this update run.</p>
+<p>Stages: The list of stages that compose this update run. Min size: 1.</p>
 </td>
 </tr>
 </tbody>
@@ -3528,7 +3542,13 @@ UpdateStatus_STATUS_ARM
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.UpdateRunProperties_STATUS_ARM">UpdateRunProperties_STATUS_ARM</a>)
 </p>
 <div>
-<p>The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.</p>
+<p>Defines the update sequence of the clusters via stages and groups.
+Stages within a run are executed sequentially one
+after another.
+Groups within a stage are executed in parallel.
+Member clusters within a group are updated sequentially
+one after another.
+A valid strategy contains no duplicate groups within or across stages.</p>
 </div>
 <table>
 <thead>
@@ -3548,7 +3568,7 @@ UpdateStatus_STATUS_ARM
 </em>
 </td>
 <td>
-<p>Stages: The list of stages that compose this update run.</p>
+<p>Stages: The list of stages that compose this update run. Min size: 1.</p>
 </td>
 </tr>
 </tbody>
@@ -3559,13 +3579,8 @@ UpdateStatus_STATUS_ARM
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy">UpdateRunStrategy</a>)
 </p>
 <div>
-<p>Contains the groups to be updated by an UpdateRun.
-Update order:
-- Sequential between stages: Stages run sequentially.
-The previous stage must complete before the next one starts.
-- Parallel within a stage: Groups within a stage run in
-parallel.
-- Sequential within a group: Clusters within a group are updated sequentially.</p>
+<p>Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting
+the next stage.</p>
 </div>
 <table>
 <thead>
@@ -3597,8 +3612,7 @@ int
 </em>
 </td>
 <td>
-<p>Groups: A list of group names that compose the stage.
-The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.</p>
+<p>Groups: Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1.</p>
 </td>
 </tr>
 <tr>
@@ -3756,13 +3770,8 @@ UpdateStatus_STATUS_ARM
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_ARM">UpdateRunStrategy_ARM</a>)
 </p>
 <div>
-<p>Contains the groups to be updated by an UpdateRun.
-Update order:
-- Sequential between stages: Stages run sequentially.
-The previous stage must complete before the next one starts.
-- Parallel within a stage: Groups within a stage run in
-parallel.
-- Sequential within a group: Clusters within a group are updated sequentially.</p>
+<p>Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting
+the next stage.</p>
 </div>
 <table>
 <thead>
@@ -3794,8 +3803,7 @@ int
 </em>
 </td>
 <td>
-<p>Groups: A list of group names that compose the stage.
-The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.</p>
+<p>Groups: Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1.</p>
 </td>
 </tr>
 <tr>
@@ -3817,13 +3825,8 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_STATUS">UpdateRunStrategy_STATUS</a>)
 </p>
 <div>
-<p>Contains the groups to be updated by an UpdateRun.
-Update order:
-- Sequential between stages: Stages run sequentially.
-The previous stage must complete before the next one starts.
-- Parallel within a stage: Groups within a stage run in
-parallel.
-- Sequential within a group: Clusters within a group are updated sequentially.</p>
+<p>Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting
+the next stage.</p>
 </div>
 <table>
 <thead>
@@ -3855,8 +3858,7 @@ int
 </em>
 </td>
 <td>
-<p>Groups: A list of group names that compose the stage.
-The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.</p>
+<p>Groups: Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1.</p>
 </td>
 </tr>
 <tr>
@@ -3878,13 +3880,8 @@ string
 (<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_STATUS_ARM">UpdateRunStrategy_STATUS_ARM</a>)
 </p>
 <div>
-<p>Contains the groups to be updated by an UpdateRun.
-Update order:
-- Sequential between stages: Stages run sequentially.
-The previous stage must complete before the next one starts.
-- Parallel within a stage: Groups within a stage run in
-parallel.
-- Sequential within a group: Clusters within a group are updated sequentially.</p>
+<p>Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting
+the next stage.</p>
 </div>
 <table>
 <thead>
@@ -3916,8 +3913,7 @@ int
 </em>
 </td>
 <td>
-<p>Groups: A list of group names that compose the stage.
-The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.</p>
+<p>Groups: Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1.</p>
 </td>
 </tr>
 <tr>
