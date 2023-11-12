@@ -13,6 +13,7 @@ import (
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
 
@@ -123,15 +124,23 @@ type ConversionFunctionBuilder struct {
 	// TODO: Better way to let you fuss with this? How can you pick out what I've already put in here to overwrite it?
 	conversions []ConversionHandler
 
-	IdFactory             IdentifierFactory
+	IDFactory             IdentifierFactory
 	CodeGenerationContext *CodeGenerationContext
+
+	// ForceEmptyCollections signals that collections should be initialized to a size 0 collection, rather than an empty collection
+	ForceEmptyCollections     bool
+	EmptyCollectionProperties set.Set[string]
 }
 
 // NewConversionFunctionBuilder creates a new ConversionFunctionBuilder with the default conversions already added.
-func NewConversionFunctionBuilder(idFactory IdentifierFactory, codeGenerationContext *CodeGenerationContext) *ConversionFunctionBuilder {
+func NewConversionFunctionBuilder(
+	idFactory IdentifierFactory,
+	codeGenerationContext *CodeGenerationContext,
+) *ConversionFunctionBuilder {
 	return &ConversionFunctionBuilder{
-		IdFactory:             idFactory,
-		CodeGenerationContext: codeGenerationContext,
+		IDFactory:                 idFactory,
+		CodeGenerationContext:     codeGenerationContext,
+		EmptyCollectionProperties: set.Make[string](),
 		conversions: []ConversionHandler{
 			// Complex wrapper types checked first
 			IdentityConvertComplexOptionalProperty,
@@ -148,6 +157,34 @@ func NewConversionFunctionBuilder(idFactory IdentifierFactory, codeGenerationCon
 			IdentityAssignTypeName,
 		},
 	}
+}
+
+func (builder *ConversionFunctionBuilder) WithForceEmptyCollections() *ConversionFunctionBuilder {
+	builder.ForceEmptyCollections = true
+	return builder
+}
+
+func (builder *ConversionFunctionBuilder) WithForceEmptyCollectionProperties(properties set.Set[string]) *ConversionFunctionBuilder {
+	if len(properties) == 0 {
+		return builder
+	}
+
+	builder.ForceEmptyCollections = true
+	builder.EmptyCollectionProperties.AddAll(properties)
+	return builder
+}
+
+func (builder *ConversionFunctionBuilder) ShouldInitializeCollectionToEmpty(nameHint string) bool {
+	if !builder.ForceEmptyCollections {
+		return false
+	}
+
+	// If there were no properties specified and ForceEmptyCollections is true, that means force everything
+	if builder.ForceEmptyCollections && len(builder.EmptyCollectionProperties) == 0 {
+		return true
+	}
+
+	return builder.EmptyCollectionProperties.Contains(nameHint)
 }
 
 // AddConversionHandlers adds the specified conversion handlers to the end of the conversion list.
@@ -307,6 +344,22 @@ func IdentityConvertComplexArrayProperty(
 		results = append(results, params.AssignmentHandler(params.GetDestination(), dst.Clone(destination).(dst.Expr)))
 	}
 
+	// If we must forcibly construct empty collections, check if the destination is nil and if so, construct an empty collection
+	// This only applies for top-level collections (we don't forcibly construct nested collections)
+	if depth == 0 && builder.ShouldInitializeCollectionToEmpty(params.NameHint) {
+		emptySlice := astbuilder.SliceLiteral(destinationType.Element().AsType(builder.CodeGenerationContext))
+		assignEmpty := astbuilder.SimpleAssignment(params.GetDestination(), emptySlice)
+		astbuilder.AddComments(
+			&assignEmpty.Decs.Start,
+			[]string{"// Set property to empty map, as this resource is set to serialize all collections explicitly"})
+		assignEmpty.Decs.Before = dst.NewLine
+
+		ifNil := astbuilder.IfNil(
+			params.GetDestination(),
+			assignEmpty)
+		results = append(results, ifNil)
+	}
+
 	return results, nil
 }
 
@@ -397,10 +450,34 @@ func IdentityConvertComplexMapProperty(
 		Body:  astbuilder.StatementBlock(conversion...),
 	}
 
-	result := astbuilder.IfNotNil(
-		params.GetSource(),
-		makeMapStatement,
-		rangeStatement)
+	// If we must forcibly construct empty collections, check if the destination is nil and if so, construct an empty collection
+	// This only applies for top-level collections (we don't forcibly construct nested collections)
+	var result *dst.IfStmt
+	if depth == 0 && builder.ShouldInitializeCollectionToEmpty(params.NameHint) {
+		emptyMap := astbuilder.MakeMap(keyTypeAst, valueTypeAst)
+
+		assignEmpty := astbuilder.SimpleAssignment(params.GetDestination(), emptyMap)
+		astbuilder.AddComments(
+			&assignEmpty.Decs.Start,
+			[]string{"// Set property to empty map, as this resource is set to serialize all collections explicitly"})
+		assignEmpty.Decs.Before = dst.NewLine
+
+		result = astbuilder.SimpleIfElse(
+			astbuilder.NotNil(params.GetSource()),
+			[]dst.Stmt{
+				makeMapStatement,
+				rangeStatement,
+			},
+			[]dst.Stmt{
+				assignEmpty,
+			},
+		)
+	} else {
+		result = astbuilder.IfNotNil(
+			params.GetSource(),
+			makeMapStatement,
+			rangeStatement)
+	}
 
 	// If we have an assignment handler, we need to make sure to call it. This only happens in the case of nested
 	// maps/arrays, where we need to make sure we generate the map assignment/array append before returning (otherwise

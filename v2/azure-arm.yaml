@@ -673,7 +673,8 @@ status:
 #
 #     Valid values are:
 #     omitempty - only non-empty properties are included (default)
-#     explicitCollections - always include collections, even if empty; other properties only if specified.
+#     explicitCollections - always include collections (serialized as null), even if empty; other properties only if specified.
+#     explicitEmptyCollections - always include collections (serialized as empty collections), even if empty; other properties only if specified.
 #     explicitProperties - always include all properties, even the empty ones.
 #
 # ==================
@@ -1182,7 +1183,7 @@ objectModelConfiguration:
         PrincipalId:
           $armReference: false
   containerservice:
-    $payloadType: explicitCollections
+    $payloadType: explicitEmptyCollections
     2021-05-01:
       ManagedCluster:
         $export: true

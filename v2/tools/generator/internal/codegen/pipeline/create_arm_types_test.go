@@ -46,7 +46,7 @@ func TestCreateFlattenedARMType_CreatesExpectedConversions(t *testing.T) {
 
 	cfg := config.NewObjectModelConfiguration()
 	createARMTypes := CreateARMTypes(cfg, idFactory, logr.Discard())
-	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
+	applyARMConversionInterface := ApplyARMConversionInterface(idFactory, cfg)
 	flatten := FlattenProperties(logr.Discard())
 	simplify := SimplifyDefinitions()
 	strip := StripUnreferencedTypeDefinitions()
@@ -102,7 +102,7 @@ func TestCreateFlattenedARMTypeWithResourceRef_CreatesExpectedConversions(t *tes
 	configToARMIDs := ApplyCrossResourceReferencesFromConfig(configuration, logr.Discard())
 	crossResourceRefs := TransformCrossResourceReferences(configuration, idFactory)
 	createARMTypes := CreateARMTypes(omc, idFactory, logr.Discard())
-	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
+	applyARMConversionInterface := ApplyARMConversionInterface(idFactory, omc)
 	flatten := FlattenProperties(logr.Discard())
 	simplify := SimplifyDefinitions()
 	strip := StripUnreferencedTypeDefinitions()
@@ -169,7 +169,7 @@ func TestCreateFlattenedARMTypeWithConfigMap_CreatesExpectedConversions(t *testi
 
 	addConfigMaps := AddConfigMaps(configuration)
 	createARMTypes := CreateARMTypes(omc, idFactory, logr.Discard())
-	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
+	applyARMConversionInterface := ApplyARMConversionInterface(idFactory, omc)
 	flatten := FlattenProperties(logr.Discard())
 	simplify := SimplifyDefinitions()
 	strip := StripUnreferencedTypeDefinitions()
@@ -245,7 +245,7 @@ func TestCreateARMTypeWithConfigMap_CreatesExpectedConversions(t *testing.T) {
 
 	addConfigMaps := AddConfigMaps(configuration)
 	createARMTypes := CreateARMTypes(omc, idFactory, logr.Discard())
-	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
+	applyARMConversionInterface := ApplyARMConversionInterface(idFactory, omc)
 	simplify := SimplifyDefinitions()
 	strip := StripUnreferencedTypeDefinitions()
 

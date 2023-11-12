@@ -38,9 +38,10 @@ type GroupConfiguration struct {
 type PayloadType string
 
 const (
-	OmitEmptyProperties PayloadType = "omitempty"           // Omit all empty properties even collections
-	ExplicitCollections PayloadType = "explicitcollections" // Always include collections, omit other empty properties
-	ExplicitProperties  PayloadType = "explicitproperties"  // Always include all properties
+	OmitEmptyProperties      PayloadType = "omitempty"                // Omit all empty properties even collections
+	ExplicitCollections      PayloadType = "explicitcollections"      // Always include collections (as null), omit other empty properties
+	ExplicitEmptyCollections PayloadType = "explicitemptycollections" // Always include collections (as empty map/array), omit other empty properties
+	ExplicitProperties       PayloadType = "explicitproperties"       // Always include all properties
 )
 
 const (
@@ -195,6 +196,8 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				gc.PayloadType.Set(OmitEmptyProperties)
 			case string(ExplicitCollections):
 				gc.PayloadType.Set(ExplicitCollections)
+			case string(ExplicitEmptyCollections):
+				gc.PayloadType.Set(ExplicitEmptyCollections)
 			case string(ExplicitProperties):
 				gc.PayloadType.Set(ExplicitProperties)
 			default:

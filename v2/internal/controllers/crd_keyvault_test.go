@@ -17,7 +17,6 @@ import (
 )
 
 func Test_KeyVault_Vault_CRUD(t *testing.T) {
-
 	t.Parallel()
 
 	// TODO: We can include this once we support AutoPurge or CreateOrRecover mode for KeyVault.
@@ -31,15 +30,13 @@ func Test_KeyVault_Vault_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 	defer tc.DeleteResourcesAndWait(rg)
 
-	vault := newVault("keyvault", tc, rg)
+	vault := newVault("keyvault1", tc, rg)
 
 	tc.CreateResourceAndWait(vault)
 	tc.DeleteResourceAndWait(vault)
-
 }
 
 func Test_KeyVault_Vault_FromConfig_CRUD(t *testing.T) {
-
 	t.Parallel()
 
 	// TODO: We can include this once we support AutoPurge or CreateOrRecover mode for KeyVault.
@@ -113,7 +110,6 @@ func Test_KeyVault_Vault_FromConfig_CRUD(t *testing.T) {
 }
 
 func newVault(name string, tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *keyvault.Vault {
-
 	skuFamily := keyvault.Sku_Family_A
 	skuName := keyvault.Sku_Name_Standard
 
@@ -142,6 +138,7 @@ func newVault(name string, tc *testcommon.KubePerTestContext, rg *resources.Reso
 				// EnableSoftDelete is true as default. We need to set this false to purge delete the KeyVault so there's no conflict while re-running tests.
 				// This is not best practice and should be left to true for any production KV, it is only set to false here for test purposes
 				EnableSoftDelete: to.Ptr(false),
+				CreateMode:       to.Ptr(keyvault.VaultProperties_CreateMode_PurgeThenCreate),
 			},
 		},
 	}
