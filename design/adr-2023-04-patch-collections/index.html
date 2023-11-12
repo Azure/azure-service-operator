@@ -39,7 +39,7 @@ Instead, they have PATCH-like behavior on PUT which effectively boils down to: T
 To illustrate, assume you have a Person object with a Name and a list of Addresses.
  If you PUT a Person object with a new Name and no addresses, the new name will be persisted, but the addresses will remain unchanged.">
 
-<meta itemprop="wordCount" content="1199">
+<meta itemprop="wordCount" content="1660">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="2023-04: Preventing Resource Drift"/>
 <meta name="twitter:description" content="Context Some Azure Resource Providers do not quite have full replace semantics for a PUT.
@@ -680,6 +680,8 @@ To illustrate, assume you have a Person object with a Name and a list of Address
         <li><a href="#option-3-custom-json-serialization">Option 3: Custom JSON Serialization</a></li>
         <li><a href="#option-4-remove-omitempty-for-collections-on-selected-arm-types-only">Option 4: Remove <code>omitempty</code> for collections on selected ARM types only</a></li>
         <li><a href="#option-4a-remove-omitempty-for-all-properties-on-selected-arm-types-only">Option 4a: Remove <code>omitempty</code> for all properties on selected ARM types only</a></li>
+        <li><a href="#option-4b-remove-omitempty-for-collections-on-selected-arm-types-only-and-support-a-mode-when-we-automatically-set-omitted-collections-to-an-empty-collection-rather-than-null">Option 4b: Remove <code>omitempty</code> for collections on selected ARM types only, and support a mode when we automatically set omitted collections to an empty collection (rather than null)</a></li>
+        <li><a href="#option-5-let-the-user-specify-empty-collections-or-omitted-collections-and-preserve-that-all-the-way-to-arm">Option 5: Let the user specify empty collections (or omitted collections) and preserve that all the way to ARM</a></li>
       </ul>
     </li>
     <li><a href="#decision">Decision</a></li>
@@ -753,6 +755,9 @@ To illustrate, assume you have a Person object with a Name and a list of Address
 <li>If you PUT a Person object with a new Name and <em>no addresses</em>, the new name will be persisted, but the addresses will remain <em>unchanged</em>.</li>
 <li>If you PUT a Person object with a new Name and an <em>empty list</em> of addresses, the new name will be persisted, and the addresses collection will be cleared.</li>
 </ul>
+<blockquote>
+<p><strong>Note</strong>: Some services will treat PUT with an omitted collection and PUT with an explicit JSON &ldquo;null&rdquo; the same, while other services treat &ldquo;null&rdquo; to mean clear, while omission means &ldquo;ignore&rdquo;.</p>
+</blockquote>
 <p>This is a problem for ASO because we use <code>omitempty</code> on all properties, resulting in them being omitted from the ARM payload if they aren&rsquo;t explicitly set. For array and map properties, removing the last item means the property will be entirely omitted from the JSON payload.</p>
 <p>In principle, an ASO custom resource (CR) should be the entire goal-state for the resource and should be a <em>complete</em> definition of the desired state. Whether properties are specified explicitly or not shouldn&rsquo;t change that. Equally, whether an array or map is empty or missing entirely should not matter, we should interpret that as &ldquo;clear the collection&rdquo;.</p>
 <h3 id="option-1-optional-properties">Option 1: Optional Properties</h3>
@@ -781,7 +786,8 @@ To illustrate, assume you have a Person object with a Name and a list of Address
 </code></pre></div><p>This means that each array or map will always be serialized, even if empty.</p>
 <ul>
 <li>
-<p>PRO: Behaves exactly like we want from a serialization perspective.</p>
+<p>PRO: Behaves exactly like we want from a serialization perspective, as long as the service treats <code>myProperty: null</code> as
+&ldquo;clear the collection&rdquo;.</p>
 </li>
 <li>
 <p>PRO: Not a breaking change for consumers of our object model.</p>
@@ -793,7 +799,8 @@ To illustrate, assume you have a Person object with a Name and a list of Address
 <p>CON: Modifies our Spec and Status object definitions for an issue that is specific to ARM</p>
 </li>
 <li>
-<p>QUERY: It is possible that some Azure services treat <code>myProperty: null</code> as different than omitting the property entirely, although we do not actually know of any cases where that is true.</p>
+<p>CON: Some Azure services (Such as AKS) treat <code>myProperty: null</code> the same as omitting the property entirely. In order to
+convince these services APIs to clear a field, an explicit empty collection must be serialized (<code>myProperty: []</code> rather than <code>myProperty: null</code>)</p>
 </li>
 </ul>
 <h3 id="option-2a-remove-omitempty-from-all-properties">Option 2a: Remove <code>omitempty</code> from all properties</h3>
@@ -831,10 +838,12 @@ To illustrate, assume you have a Person object with a Name and a list of Address
 </ul>
 <h3 id="option-4-remove-omitempty-for-collections-on-selected-arm-types-only">Option 4: Remove <code>omitempty</code> for collections on selected ARM types only</h3>
 <p>As for Option 2, above, but we apply the change only selected ARM Spec types, leaving the core ASO Spec and Status types unmodified.</p>
-<p>Selection occurs through our existing <code>ObjectModelConfiguration</code> allowing us to explicitly target resources we know are problematic. We might take a coarse-grained approach, selecting entire resources, or a fine-grained one selecting only affected properties.</p>
+<p>Selection occurs through our existing <code>ObjectModelConfiguration</code> allowing us to explicitly target resources we know are problematic.
+We might take a coarse-grained approach, selecting entire resources, or a fine-grained one selecting only affected properties.</p>
 <ul>
 <li>
-<p>PRO: Behaves exactly like we want from a serialization perspective.</p>
+<p>PRO: Behaves exactly like we want from a serialization perspective, as long as the service treats <code>myProperty: null</code> as
+&ldquo;clear the collection&rdquo;.</p>
 </li>
 <li>
 <p>PRO: Limits the scope of the change to only ARM types. These are not directly used by consumers of our object model.</p>
@@ -846,7 +855,8 @@ To illustrate, assume you have a Person object with a Name and a list of Address
 <p>PRO: No change to the YAML serialization for ASO Spec and Status types, so no visible change to our users.</p>
 </li>
 <li>
-<p>CON: We can only configure resources (or properties) we know have this problem. We may miss some, requiring a new release to fix affected users.</p>
+<p>CON: We can only configure resources (or properties) we know have this problem. We may miss some, requiring a new release
+to fix affected users.</p>
 </li>
 <li>
 <p>CON: Configuration at the individual property level runs the risk that we might miss some properties that are problematic.</p>
@@ -862,14 +872,51 @@ To illustrate, assume you have a Person object with a Name and a list of Address
 <li>PRO: We&rsquo;ll be explicit for all properties, removing any ambiguity about what the payload means</li>
 <li>CON: ARM Payload will be larger</li>
 </ul>
+<h3 id="option-4b-remove-omitempty-for-collections-on-selected-arm-types-only-and-support-a-mode-when-we-automatically-set-omitted-collections-to-an-empty-collection-rather-than-null">Option 4b: Remove <code>omitempty</code> for collections on selected ARM types only, and support a mode when we automatically set omitted collections to an empty collection (rather than null)</h3>
+<p>As for Option 4, above, but we additionally support (for RPs that need it) the ability to force sending empty collections rather than
+<code>null</code>. This is for the case where the RP treats <code>myProperty: null</code> the same as <code>myProperty</code> being omitted entirely.</p>
+<p>Pros &amp; Cons are as for Option 4, above except it removes the caveat on the first PRO:</p>
+<ul>
+<li>PRO: Behaves exactly like we want from a serialization perspective.</li>
+</ul>
+<h3 id="option-5-let-the-user-specify-empty-collections-or-omitted-collections-and-preserve-that-all-the-way-to-arm">Option 5: Let the user specify empty collections (or omitted collections) and preserve that all the way to ARM</h3>
+<ul>
+<li>
+<p>PRO: Allows fine-tuning of behavior per-property depending on the users need.</p>
+</li>
+<li>
+<p>PRO: Not a breaking change for consumers of our object model.</p>
+</li>
+<li>
+<p>CON: Requires the user to do all the work. For resoruces which don&rsquo;t act as expected the user must first realize that and then fix it,
+rather than ASO fixing it for them without them ever knowing.</p>
+</li>
+<li>
+<p>CON: Difficult/impossible to implement without also implementing some form of option 2 (see all its pros/cons) for both user-facing and storage types, as the full flow is:</p>
+<ul>
+<li>User (may) use our API types to talk to APIServer. If those types have <code>omitempty</code> for collections, the serialized wire format doesn&rsquo;t distinguish between null and empty.</li>
+<li>APIServer calls our conversion webhook with the user payload to convert it into its storage shape.
+<ul>
+<li>QUESTION: Does APIServer preserve omitted versus empty collections when doing this?</li>
+</ul>
+</li>
+<li>Controller-runtime deserializses the payload into the versioned object which we then convert into the storage object and reply with. Again if the storage type has <code>omitempty</code> for collections the serialized wire format doesn&rsquo;t distinguish between null and empty.</li>
+</ul>
+</li>
+</ul>
 <h2 id="decision">Decision</h2>
-<p>Adopt Option 4a, as it is a minimal change that fully addresses the issue without impacting on current users.</p>
+<p><del>Adopt Option 4a, as it is a minimal change that fully addresses the issue without impacting on current users.</del></p>
+<p>Adopt Option 4c, as it is a minimal change that fully addresses the issue without impacting current users</p>
 <h2 id="status">Status</h2>
 <p>Proposed.</p>
 <h2 id="consequences">Consequences</h2>
 <p>TBC</p>
 <h2 id="experience-report">Experience Report</h2>
-<p>TBC</p>
+<p>We realized that option 4a (which we had originally adopted) is insufficient for some RPs such as Microsoft.ContainerService (AKS)
+as they treat a property with JSON value <code>null</code> exactly the same as if that property were omitted entirely, which is to say they
+will <em>not</em> clear a collection set to <code>null</code> in the payload. This means that just removing <code>omitempty</code> is not enough, we need to actually
+send an empty collection as well.</p>
+<p>This spawned the new option 4c, which we are now doing.</p>
 <h2 id="references">References</h2>
 <p>One of our users encountered this problem with the <code>virtualNetworkRules</code> and <code>ipRules</code> properties on Azure Storage accounts and reported it in issue <a href="https://github.com/Azure/azure-service-operator/issues/2914">#2914</a>.</p>
 <p>@Matthchr&rsquo;s response was:</p>
