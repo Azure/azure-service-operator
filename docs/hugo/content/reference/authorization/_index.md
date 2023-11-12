@@ -9,9 +9,9 @@ To install the CRDs for these resources, your ASO configuration must include `au
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource       | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                     |
-|----------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| RoleAssignment | 2022-04-01  | v1api20220401 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v1api20220401/v1api20220401_roleassignment.yaml) |
+| Resource                                                                                                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                     |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| [RoleAssignment](https://azure.github.io/azure-service-operator/reference/authorization/v1api20220401/#authorization.azure.com/v1api20220401.RoleAssignment) | 2022-04-01  | v1api20220401 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v1api20220401/v1api20220401_roleassignment.yaml) |
 
 ### Released
 
