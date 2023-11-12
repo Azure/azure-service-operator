@@ -39,7 +39,7 @@
     ManagedServiceIdentity   (Appears on:Redis_Spec)  Managed service identity (system assigned and/or user assigned identities)
     Field Description      type  ManagedServiceIdentityType     Type: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).">
 
-<meta itemprop="wordCount" content="5439">
+<meta itemprop="wordCount" content="5574">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="cache.azure.com/v1api20230401"/>
 <meta name="twitter:description" content="cache.azure.com/v1api20230401  Package v1api20230401 contains API Schema definitions for the cache v1api20230401 API group
@@ -214,6 +214,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview-li">
   <a href="/azure-service-operator/reference/authorization/v1api20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview"><span class="">authorization.azure.com/v1api20200801preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20220401-li">
+  <a href="/azure-service-operator/reference/authorization/v1api20220401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20220401"><span class="">authorization.azure.com/v1api20220401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1beta20200801preview-li">
   <a href="/azure-service-operator/reference/authorization/v1beta20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1beta20200801preview"><span class="">authorization.azure.com/v1beta20200801preview</span></a>
 </li>
@@ -1220,9 +1222,10 @@ RedisCreateProperties_PublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
+<p>PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional, but if passed
 in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;. If &lsquo;Disabled&rsquo;, private endpoints are the exclusive access method. Default value is
-&lsquo;Enabled&rsquo;</p>
+&lsquo;Enabled&rsquo;. Note: This setting is important for caches with private endpoints. It has <em>no effect</em> on caches that are
+joined to, or injected into, a virtual network subnet.</p>
 </td>
 </tr>
 <tr>
@@ -1426,9 +1429,10 @@ RedisCreateProperties_PublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
+<p>PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional, but if passed
 in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;. If &lsquo;Disabled&rsquo;, private endpoints are the exclusive access method. Default value is
-&lsquo;Enabled&rsquo;</p>
+&lsquo;Enabled&rsquo;. Note: This setting is important for caches with private endpoints. It has <em>no effect</em> on caches that are
+joined to, or injected into, a virtual network subnet.</p>
 </td>
 </tr>
 <tr>
@@ -3472,9 +3476,10 @@ RedisProperties_PublicNetworkAccess_STATUS
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
+<p>PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional, but if passed
 in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;. If &lsquo;Disabled&rsquo;, private endpoints are the exclusive access method. Default value is
-&lsquo;Enabled&rsquo;</p>
+&lsquo;Enabled&rsquo;. Note: This setting is important for caches with private endpoints. It has <em>no effect</em> on caches that are
+joined to, or injected into, a virtual network subnet.</p>
 </td>
 </tr>
 <tr>
@@ -4588,9 +4593,10 @@ RedisProperties_PublicNetworkAccess_STATUS
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
+<p>PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional, but if passed
 in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;. If &lsquo;Disabled&rsquo;, private endpoints are the exclusive access method. Default value is
-&lsquo;Enabled&rsquo;</p>
+&lsquo;Enabled&rsquo;. Note: This setting is important for caches with private endpoints. It has <em>no effect</em> on caches that are
+joined to, or injected into, a virtual network subnet.</p>
 </td>
 </tr>
 <tr>
@@ -4970,9 +4976,10 @@ RedisCreateProperties_PublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
+<p>PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional, but if passed
 in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;. If &lsquo;Disabled&rsquo;, private endpoints are the exclusive access method. Default value is
-&lsquo;Enabled&rsquo;</p>
+&lsquo;Enabled&rsquo;. Note: This setting is important for caches with private endpoints. It has <em>no effect</em> on caches that are
+joined to, or injected into, a virtual network subnet.</p>
 </td>
 </tr>
 <tr>

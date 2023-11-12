@@ -7808,9 +7808,10 @@ RedisCreateProperties_PublicNetworkAccess
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
+&lt;p&gt;PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional, but if passed
 in, must be &amp;lsquo;Enabled&amp;rsquo; or &amp;lsquo;Disabled&amp;rsquo;. If &amp;lsquo;Disabled&amp;rsquo;, private endpoints are the exclusive access method. Default value is
-&amp;lsquo;Enabled&amp;rsquo;&lt;/p&gt;
+&amp;lsquo;Enabled&amp;rsquo;. Note: This setting is important for caches with private endpoints. It has &lt;em&gt;no effect&lt;/em&gt; on caches that are
+joined to, or injected into, a virtual network subnet.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -8014,9 +8015,10 @@ RedisCreateProperties_PublicNetworkAccess
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
+&lt;p&gt;PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional, but if passed
 in, must be &amp;lsquo;Enabled&amp;rsquo; or &amp;lsquo;Disabled&amp;rsquo;. If &amp;lsquo;Disabled&amp;rsquo;, private endpoints are the exclusive access method. Default value is
-&amp;lsquo;Enabled&amp;rsquo;&lt;/p&gt;
+&amp;lsquo;Enabled&amp;rsquo;. Note: This setting is important for caches with private endpoints. It has &lt;em&gt;no effect&lt;/em&gt; on caches that are
+joined to, or injected into, a virtual network subnet.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -10060,9 +10062,10 @@ RedisProperties_PublicNetworkAccess_STATUS
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
+&lt;p&gt;PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional, but if passed
 in, must be &amp;lsquo;Enabled&amp;rsquo; or &amp;lsquo;Disabled&amp;rsquo;. If &amp;lsquo;Disabled&amp;rsquo;, private endpoints are the exclusive access method. Default value is
-&amp;lsquo;Enabled&amp;rsquo;&lt;/p&gt;
+&amp;lsquo;Enabled&amp;rsquo;. Note: This setting is important for caches with private endpoints. It has &lt;em&gt;no effect&lt;/em&gt; on caches that are
+joined to, or injected into, a virtual network subnet.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -11176,9 +11179,10 @@ RedisProperties_PublicNetworkAccess_STATUS
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
+&lt;p&gt;PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional, but if passed
 in, must be &amp;lsquo;Enabled&amp;rsquo; or &amp;lsquo;Disabled&amp;rsquo;. If &amp;lsquo;Disabled&amp;rsquo;, private endpoints are the exclusive access method. Default value is
-&amp;lsquo;Enabled&amp;rsquo;&lt;/p&gt;
+&amp;lsquo;Enabled&amp;rsquo;. Note: This setting is important for caches with private endpoints. It has &lt;em&gt;no effect&lt;/em&gt; on caches that are
+joined to, or injected into, a virtual network subnet.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -11558,9 +11562,10 @@ RedisCreateProperties_PublicNetworkAccess
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
+&lt;p&gt;PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional, but if passed
 in, must be &amp;lsquo;Enabled&amp;rsquo; or &amp;lsquo;Disabled&amp;rsquo;. If &amp;lsquo;Disabled&amp;rsquo;, private endpoints are the exclusive access method. Default value is
-&amp;lsquo;Enabled&amp;rsquo;&lt;/p&gt;
+&amp;lsquo;Enabled&amp;rsquo;. Note: This setting is important for caches with private endpoints. It has &lt;em&gt;no effect&lt;/em&gt; on caches that are
+joined to, or injected into, a virtual network subnet.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;

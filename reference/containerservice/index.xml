@@ -70017,9 +70017,8 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Name: The name of the Fleet member group to update.
-It should match the name of an existing FleetMember group.
-A group can only appear once across all UpdateStages in the UpdateRun.&lt;/p&gt;
+&lt;p&gt;Name: Name of the group.
+It must match a group name of an existing fleet member.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -70158,9 +70157,8 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Name: The name of the Fleet member group to update.
-It should match the name of an existing FleetMember group.
-A group can only appear once across all UpdateStages in the UpdateRun.&lt;/p&gt;
+&lt;p&gt;Name: Name of the group.
+It must match a group name of an existing fleet member.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -70189,9 +70187,8 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Name: The name of the Fleet member group to update.
-It should match the name of an existing FleetMember group.
-A group can only appear once across all UpdateStages in the UpdateRun.&lt;/p&gt;
+&lt;p&gt;Name: Name of the group.
+It must match a group name of an existing fleet member.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -70220,9 +70217,8 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Name: The name of the Fleet member group to update.
-It should match the name of an existing FleetMember group.
-A group can only appear once across all UpdateStages in the UpdateRun.&lt;/p&gt;
+&lt;p&gt;Name: Name of the group.
+It must match a group name of an existing fleet member.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -70466,7 +70462,13 @@ UpdateStatus_STATUS_ARM
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_Spec&#34;&gt;Fleets_UpdateRun_Spec&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
-&lt;p&gt;The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.&lt;/p&gt;
+&lt;p&gt;Defines the update sequence of the clusters via stages and groups.
+Stages within a run are executed sequentially one
+after another.
+Groups within a stage are executed in parallel.
+Member clusters within a group are updated sequentially
+one after another.
+A valid strategy contains no duplicate groups within or across stages.&lt;/p&gt;
 &lt;/div&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -70486,7 +70488,7 @@ UpdateStatus_STATUS_ARM
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Stages: The list of stages that compose this update run.&lt;/p&gt;
+&lt;p&gt;Stages: The list of stages that compose this update run. Min size: 1.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -70497,7 +70499,13 @@ UpdateStatus_STATUS_ARM
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunProperties_ARM&#34;&gt;UpdateRunProperties_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
-&lt;p&gt;The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.&lt;/p&gt;
+&lt;p&gt;Defines the update sequence of the clusters via stages and groups.
+Stages within a run are executed sequentially one
+after another.
+Groups within a stage are executed in parallel.
+Member clusters within a group are updated sequentially
+one after another.
+A valid strategy contains no duplicate groups within or across stages.&lt;/p&gt;
 &lt;/div&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -70517,7 +70525,7 @@ UpdateStatus_STATUS_ARM
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Stages: The list of stages that compose this update run.&lt;/p&gt;
+&lt;p&gt;Stages: The list of stages that compose this update run. Min size: 1.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -70528,7 +70536,13 @@ UpdateStatus_STATUS_ARM
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS&#34;&gt;Fleets_UpdateRun_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
-&lt;p&gt;The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.&lt;/p&gt;
+&lt;p&gt;Defines the update sequence of the clusters via stages and groups.
+Stages within a run are executed sequentially one
+after another.
+Groups within a stage are executed in parallel.
+Member clusters within a group are updated sequentially
+one after another.
+A valid strategy contains no duplicate groups within or across stages.&lt;/p&gt;
 &lt;/div&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -70548,7 +70562,7 @@ UpdateStatus_STATUS_ARM
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Stages: The list of stages that compose this update run.&lt;/p&gt;
+&lt;p&gt;Stages: The list of stages that compose this update run. Min size: 1.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -70559,7 +70573,13 @@ UpdateStatus_STATUS_ARM
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunProperties_STATUS_ARM&#34;&gt;UpdateRunProperties_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
-&lt;p&gt;The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.&lt;/p&gt;
+&lt;p&gt;Defines the update sequence of the clusters via stages and groups.
+Stages within a run are executed sequentially one
+after another.
+Groups within a stage are executed in parallel.
+Member clusters within a group are updated sequentially
+one after another.
+A valid strategy contains no duplicate groups within or across stages.&lt;/p&gt;
 &lt;/div&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -70579,7 +70599,7 @@ UpdateStatus_STATUS_ARM
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Stages: The list of stages that compose this update run.&lt;/p&gt;
+&lt;p&gt;Stages: The list of stages that compose this update run. Min size: 1.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -70590,13 +70610,8 @@ UpdateStatus_STATUS_ARM
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy&#34;&gt;UpdateRunStrategy&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
-&lt;p&gt;Contains the groups to be updated by an UpdateRun.
-Update order:
-- Sequential between stages: Stages run sequentially.
-The previous stage must complete before the next one starts.
-- Parallel within a stage: Groups within a stage run in
-parallel.
-- Sequential within a group: Clusters within a group are updated sequentially.&lt;/p&gt;
+&lt;p&gt;Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting
+the next stage.&lt;/p&gt;
 &lt;/div&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -70628,8 +70643,7 @@ int
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Groups: A list of group names that compose the stage.
-The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.&lt;/p&gt;
+&lt;p&gt;Groups: Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -70787,13 +70801,8 @@ UpdateStatus_STATUS_ARM
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_ARM&#34;&gt;UpdateRunStrategy_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
-&lt;p&gt;Contains the groups to be updated by an UpdateRun.
-Update order:
-- Sequential between stages: Stages run sequentially.
-The previous stage must complete before the next one starts.
-- Parallel within a stage: Groups within a stage run in
-parallel.
-- Sequential within a group: Clusters within a group are updated sequentially.&lt;/p&gt;
+&lt;p&gt;Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting
+the next stage.&lt;/p&gt;
 &lt;/div&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -70825,8 +70834,7 @@ int
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Groups: A list of group names that compose the stage.
-The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.&lt;/p&gt;
+&lt;p&gt;Groups: Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -70848,13 +70856,8 @@ string
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_STATUS&#34;&gt;UpdateRunStrategy_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
-&lt;p&gt;Contains the groups to be updated by an UpdateRun.
-Update order:
-- Sequential between stages: Stages run sequentially.
-The previous stage must complete before the next one starts.
-- Parallel within a stage: Groups within a stage run in
-parallel.
-- Sequential within a group: Clusters within a group are updated sequentially.&lt;/p&gt;
+&lt;p&gt;Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting
+the next stage.&lt;/p&gt;
 &lt;/div&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -70886,8 +70889,7 @@ int
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Groups: A list of group names that compose the stage.
-The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.&lt;/p&gt;
+&lt;p&gt;Groups: Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -70909,13 +70911,8 @@ string
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_STATUS_ARM&#34;&gt;UpdateRunStrategy_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
-&lt;p&gt;Contains the groups to be updated by an UpdateRun.
-Update order:
-- Sequential between stages: Stages run sequentially.
-The previous stage must complete before the next one starts.
-- Parallel within a stage: Groups within a stage run in
-parallel.
-- Sequential within a group: Clusters within a group are updated sequentially.&lt;/p&gt;
+&lt;p&gt;Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting
+the next stage.&lt;/p&gt;
 &lt;/div&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -70947,8 +70944,7 @@ int
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Groups: A list of group names that compose the stage.
-The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.&lt;/p&gt;
+&lt;p&gt;Groups: Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;

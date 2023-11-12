@@ -4708,7 +4708,7 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;HostName: GitHub Enterprise host name. For example: &lt;a href=&#34;https://github.mydomain.com&#34;&gt;https://github.mydomain.com&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;HostName: GitHub Enterprise host name. For example: &lt;code&gt;https://github.mydomain.com&lt;/code&gt;&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -4825,7 +4825,7 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;HostName: GitHub Enterprise host name. For example: &lt;a href=&#34;https://github.mydomain.com&#34;&gt;https://github.mydomain.com&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;HostName: GitHub Enterprise host name. For example: &lt;code&gt;https://github.mydomain.com&lt;/code&gt;&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -4942,7 +4942,7 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;HostName: GitHub Enterprise host name. For example: &lt;a href=&#34;https://github.mydomain.com&#34;&gt;https://github.mydomain.com&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;HostName: GitHub Enterprise host name. For example: &lt;code&gt;https://github.mydomain.com&lt;/code&gt;&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -5059,7 +5059,7 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;HostName: GitHub Enterprise host name. For example: &lt;a href=&#34;https://github.mydomain.com&#34;&gt;https://github.mydomain.com&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;HostName: GitHub Enterprise host name. For example: &lt;code&gt;https://github.mydomain.com&lt;/code&gt;&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
