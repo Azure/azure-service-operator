@@ -105,13 +105,6 @@ func Test_RenameProperties_PopulatesExpectedARMProperty(t *testing.T) {
 	initialState, err := RunTestPipeline(
 		NewState(defs),
 		CreateARMTypes(omc, idFactory, logr.Discard()),
-	)
-	g.Expect(err).To(Succeed())
-
-	// Arrange Reference state for comparision
-
-	referenceState, err := RunTestPipeline(
-		initialState,
 		ApplyARMConversionInterface(idFactory),
 	)
 	g.Expect(err).To(Succeed())
@@ -121,11 +114,108 @@ func Test_RenameProperties_PopulatesExpectedARMProperty(t *testing.T) {
 	finalState, err := RunTestPipeline(
 		initialState,
 		RenameProperties(omc),
-		ApplyARMConversionInterface(idFactory),
 	)
 	g.Expect(err).To(Succeed())
 
 	// Assert - When verifying the golden file, ensure the property has been renamed as expected
-	
+
+	test.AssertPackagesGenerateExpectedCode(t, finalState.definitions, test.DiffWithTypes(initialState.definitions))
+}
+
+func Test_RenameProperties_WhenFlattening_PopulatesExpectedARMProperty(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	idFactory := astmodel.NewIdentifierFactory()
+
+	// Arrange API Version
+
+	apiVersionValue := astmodel.MakeEnumValue("apiVersion", "2020-06-01")
+	apiVersion := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(test.Pkg2020, "APIVersion"),
+		astmodel.NewEnumType(astmodel.StringType, apiVersionValue))
+
+	apiVersionProperty := astmodel.NewPropertyDefinition("APIVersion", "apiVersion", apiVersion.Name()).
+		MakeTypeOptional().
+		MakeRequired()
+
+	// Arrange Sample Resource
+
+	address := test.CreateObjectDefinition(test.Pkg2020, "Address", test.FullAddressProperty, test.CityProperty)
+	addressProperty := astmodel.NewPropertyDefinition("Address", "address", address.Name()).
+		SetFlatten(true).
+		MakeTypeOptional()
+
+	personSpec := test.CreateSpec(
+		test.Pkg2020,
+		"Person",
+		test.NameProperty,
+		apiVersionProperty,
+		test.FullNameProperty,
+		test.KnownAsProperty,
+		test.FamilyNameProperty,
+		addressProperty,
+	)
+
+	personStatus := test.CreateStatus(
+		test.Pkg2020,
+		"Person",
+		test.NameProperty,
+		test.FullNameProperty,
+		test.KnownAsProperty,
+		test.FamilyNameProperty,
+		//addressProperty,
+	)
+
+	personResourceType := astmodel.NewResourceType(personSpec.Name(), personStatus.Name()).
+		WithAPIVersion(apiVersion.Name(), apiVersionValue)
+
+	person := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(test.Pkg2020, "Person"), personResourceType)
+
+	// Arrange Initial State
+
+	defs := astmodel.MakeTypeDefinitionSetFromDefinitions(
+		person,
+		personSpec,
+		personStatus,
+		apiVersion,
+		address)
+
+	cfg := config.NewConfiguration()
+	omc := cfg.ObjectModelConfiguration
+	omc.ModifyProperty(
+		personSpec.Name(),
+		"FullAddress",
+		func(p *config.PropertyConfiguration) error {
+			p.RenameTo.Set("PostalAddress")
+			return nil
+		})
+
+	initialState, err := RunTestPipeline(
+		NewState(defs),
+		CreateARMTypes(omc, idFactory, logr.Discard()),
+		ApplyARMConversionInterface(idFactory),
+		FlattenProperties(logr.Discard()),
+		SimplifyDefinitions(),
+	)
+	g.Expect(err).To(Succeed())
+
+	// Arrange Reference state for comparision
+
+	referenceState, err := RunTestPipeline(
+		initialState,
+	)
+	g.Expect(err).To(Succeed())
+
+	// Act to generate our final state
+
+	finalState, err := RunTestPipeline(
+		initialState,
+		RenameProperties(omc),
+	)
+	g.Expect(err).To(Succeed())
+
+	// Assert - When verifying the golden file, ensure the property has been renamed as expected
+
 	test.AssertPackagesGenerateExpectedCode(t, finalState.definitions, test.DiffWithTypes(referenceState.definitions))
 }
