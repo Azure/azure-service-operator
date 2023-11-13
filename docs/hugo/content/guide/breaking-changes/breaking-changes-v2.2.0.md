@@ -1,7 +1,7 @@
 ---
 title: "v2.2.0 Breaking Changes"
 linkTitle: "v2.2.0"
-weight: 80
+weight: 70
 ---
 
 ## ManagedClusters ManagedClusterServicePrincipalProfile.Secret field is now marked as a SecretReference
