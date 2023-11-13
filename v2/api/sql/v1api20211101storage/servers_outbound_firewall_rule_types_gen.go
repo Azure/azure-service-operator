@@ -71,6 +71,15 @@ func (rule *ServersOutboundFirewallRule) GetStatus() genruntime.ConvertibleStatu
 	return &rule.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (rule *ServersOutboundFirewallRule) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/outboundFirewallRules"
 func (rule *ServersOutboundFirewallRule) GetType() string {
 	return "Microsoft.Sql/servers/outboundFirewallRules"

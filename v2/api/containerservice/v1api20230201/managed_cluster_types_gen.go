@@ -152,6 +152,15 @@ func (cluster *ManagedCluster) GetStatus() genruntime.ConvertibleStatus {
 	return &cluster.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (cluster *ManagedCluster) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters"
 func (cluster *ManagedCluster) GetType() string {
 	return "Microsoft.ContainerService/managedClusters"
@@ -791,6 +800,9 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		for key, value := range cluster.Tags {
 			result.Tags[key] = value
 		}
+	} else {
+		// Set property to empty map, as this resource is set to serialize all collections explicitly
+		result.Tags = make(map[string]string)
 	}
 	return result, nil
 }
@@ -6493,6 +6505,9 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		for key, value := range profile.NodeLabels {
 			result.NodeLabels[key] = value
 		}
+	} else {
+		// Set property to empty map, as this resource is set to serialize all collections explicitly
+		result.NodeLabels = make(map[string]string)
 	}
 
 	// Set property "NodePublicIPPrefixID":
@@ -6508,6 +6523,10 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 	// Set property "NodeTaints":
 	for _, item := range profile.NodeTaints {
 		result.NodeTaints = append(result.NodeTaints, item)
+	}
+	if result.NodeTaints == nil {
+		// Set property to empty map, as this resource is set to serialize all collections explicitly
+		result.NodeTaints = []string{}
 	}
 
 	// Set property "OrchestratorVersion":
@@ -6600,6 +6619,9 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		for key, value := range profile.Tags {
 			result.Tags[key] = value
 		}
+	} else {
+		// Set property to empty map, as this resource is set to serialize all collections explicitly
+		result.Tags = make(map[string]string)
 	}
 
 	// Set property "Type":

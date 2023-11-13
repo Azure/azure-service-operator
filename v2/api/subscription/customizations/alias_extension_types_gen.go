@@ -5,9 +5,9 @@ package customizations
 
 import (
 	v20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
-	v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001storage"
+	v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
 	v1beta20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001"
-	v1beta20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001storage"
+	v1beta20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 

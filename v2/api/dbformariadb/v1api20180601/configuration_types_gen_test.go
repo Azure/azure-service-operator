@@ -5,7 +5,7 @@ package v1api20180601
 
 import (
 	"encoding/json"
-	v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601storage"
+	v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_Configuration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForConfiguration tests if a specific instance of Configuration can be assigned to v1api20180601storage and back losslessly
+// RunPropertyAssignmentTestForConfiguration tests if a specific instance of Configuration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForConfiguration(subject Configuration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Servers_Configuration_Spec_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_Configuration_Spec tests if a specific instance of Servers_Configuration_Spec can be assigned to v1api20180601storage and back losslessly
+// RunPropertyAssignmentTestForServers_Configuration_Spec tests if a specific instance of Servers_Configuration_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_Configuration_Spec(subject Servers_Configuration_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -280,7 +280,7 @@ func Test_Servers_Configuration_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_Configuration_STATUS tests if a specific instance of Servers_Configuration_STATUS can be assigned to v1api20180601storage and back losslessly
+// RunPropertyAssignmentTestForServers_Configuration_STATUS tests if a specific instance of Servers_Configuration_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_Configuration_STATUS(subject Servers_Configuration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

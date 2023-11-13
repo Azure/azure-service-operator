@@ -5,7 +5,7 @@ package v1api20220801
 
 import (
 	"encoding/json"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_Backend_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackend tests if a specific instance of Backend can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForBackend tests if a specific instance of Backend can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackend(subject Backend) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Service_Backend_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_Backend_Spec tests if a specific instance of Service_Backend_Spec can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForService_Backend_Spec tests if a specific instance of Service_Backend_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForService_Backend_Spec(subject Service_Backend_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -299,7 +299,7 @@ func Test_Service_Backend_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_Backend_STATUS tests if a specific instance of Service_Backend_STATUS can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForService_Backend_STATUS tests if a specific instance of Service_Backend_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForService_Backend_STATUS(subject Service_Backend_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -426,7 +426,7 @@ func Test_BackendCredentialsContract_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendCredentialsContract tests if a specific instance of BackendCredentialsContract can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForBackendCredentialsContract tests if a specific instance of BackendCredentialsContract can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendCredentialsContract(subject BackendCredentialsContract) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -546,7 +546,7 @@ func Test_BackendCredentialsContract_STATUS_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendCredentialsContract_STATUS tests if a specific instance of BackendCredentialsContract_STATUS can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForBackendCredentialsContract_STATUS tests if a specific instance of BackendCredentialsContract_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendCredentialsContract_STATUS(subject BackendCredentialsContract_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -666,7 +666,7 @@ func Test_BackendProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendProperties tests if a specific instance of BackendProperties can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForBackendProperties tests if a specific instance of BackendProperties can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendProperties(subject BackendProperties) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -768,7 +768,7 @@ func Test_BackendProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendProperties_STATUS tests if a specific instance of BackendProperties_STATUS can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForBackendProperties_STATUS tests if a specific instance of BackendProperties_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendProperties_STATUS(subject BackendProperties_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -871,7 +871,7 @@ func Test_BackendProxyContract_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendProxyContract tests if a specific instance of BackendProxyContract can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForBackendProxyContract tests if a specific instance of BackendProxyContract can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendProxyContract(subject BackendProxyContract) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -975,7 +975,7 @@ func Test_BackendProxyContract_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendProxyContract_STATUS tests if a specific instance of BackendProxyContract_STATUS can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForBackendProxyContract_STATUS tests if a specific instance of BackendProxyContract_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendProxyContract_STATUS(subject BackendProxyContract_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1079,7 +1079,7 @@ func Test_BackendTlsProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendTlsProperties tests if a specific instance of BackendTlsProperties can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForBackendTlsProperties tests if a specific instance of BackendTlsProperties can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendTlsProperties(subject BackendTlsProperties) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1183,7 +1183,7 @@ func Test_BackendTlsProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendTlsProperties_STATUS tests if a specific instance of BackendTlsProperties_STATUS can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForBackendTlsProperties_STATUS tests if a specific instance of BackendTlsProperties_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendTlsProperties_STATUS(subject BackendTlsProperties_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1287,7 +1287,7 @@ func Test_BackendAuthorizationHeaderCredentials_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendAuthorizationHeaderCredentials tests if a specific instance of BackendAuthorizationHeaderCredentials can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForBackendAuthorizationHeaderCredentials tests if a specific instance of BackendAuthorizationHeaderCredentials can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendAuthorizationHeaderCredentials(subject BackendAuthorizationHeaderCredentials) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1391,7 +1391,7 @@ func Test_BackendAuthorizationHeaderCredentials_STATUS_WhenPropertiesConverted_R
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendAuthorizationHeaderCredentials_STATUS tests if a specific instance of BackendAuthorizationHeaderCredentials_STATUS can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForBackendAuthorizationHeaderCredentials_STATUS tests if a specific instance of BackendAuthorizationHeaderCredentials_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendAuthorizationHeaderCredentials_STATUS(subject BackendAuthorizationHeaderCredentials_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1495,7 +1495,7 @@ func Test_BackendServiceFabricClusterProperties_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendServiceFabricClusterProperties tests if a specific instance of BackendServiceFabricClusterProperties can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForBackendServiceFabricClusterProperties tests if a specific instance of BackendServiceFabricClusterProperties can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendServiceFabricClusterProperties(subject BackendServiceFabricClusterProperties) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1616,7 +1616,7 @@ func Test_BackendServiceFabricClusterProperties_STATUS_WhenPropertiesConverted_R
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendServiceFabricClusterProperties_STATUS tests if a specific instance of BackendServiceFabricClusterProperties_STATUS can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForBackendServiceFabricClusterProperties_STATUS tests if a specific instance of BackendServiceFabricClusterProperties_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendServiceFabricClusterProperties_STATUS(subject BackendServiceFabricClusterProperties_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1737,7 +1737,7 @@ func Test_X509CertificateName_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForX509CertificateName tests if a specific instance of X509CertificateName can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForX509CertificateName tests if a specific instance of X509CertificateName can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForX509CertificateName(subject X509CertificateName) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1841,7 +1841,7 @@ func Test_X509CertificateName_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForX509CertificateName_STATUS tests if a specific instance of X509CertificateName_STATUS can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForX509CertificateName_STATUS tests if a specific instance of X509CertificateName_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForX509CertificateName_STATUS(subject X509CertificateName_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

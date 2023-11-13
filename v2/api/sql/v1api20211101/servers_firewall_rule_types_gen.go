@@ -128,6 +128,15 @@ func (rule *ServersFirewallRule) GetStatus() genruntime.ConvertibleStatus {
 	return &rule.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (rule *ServersFirewallRule) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/firewallRules"
 func (rule *ServersFirewallRule) GetType() string {
 	return "Microsoft.Sql/servers/firewallRules"

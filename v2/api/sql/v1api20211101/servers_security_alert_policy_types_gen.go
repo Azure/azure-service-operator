@@ -121,6 +121,14 @@ func (policy *ServersSecurityAlertPolicy) GetStatus() genruntime.ConvertibleStat
 	return &policy.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (policy *ServersSecurityAlertPolicy) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/securityAlertPolicies"
 func (policy *ServersSecurityAlertPolicy) GetType() string {
 	return "Microsoft.Sql/servers/securityAlertPolicies"

@@ -5,7 +5,7 @@ package v1api20220801
 
 import (
 	"fmt"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &Product{}
 func (product *Product) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220801s.Product)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801storage/Product but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Product but received %T instead", hub)
 	}
 
 	return product.AssignProperties_From_Product(source)
@@ -61,7 +61,7 @@ func (product *Product) ConvertFrom(hub conversion.Hub) error {
 func (product *Product) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220801s.Product)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801storage/Product but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Product but received %T instead", hub)
 	}
 
 	return product.AssignProperties_To_Product(destination)
@@ -126,6 +126,16 @@ func (product *Product) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (product *Product) GetStatus() genruntime.ConvertibleStatus {
 	return &product.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (product *Product) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationHead,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service/products"

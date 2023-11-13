@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_NamespacesEventhub_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespacesEventhub tests if a specific instance of NamespacesEventhub can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForNamespacesEventhub tests if a specific instance of NamespacesEventhub can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesEventhub(subject NamespacesEventhub) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Namespaces_Eventhub_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespaces_Eventhub_Spec tests if a specific instance of Namespaces_Eventhub_Spec can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForNamespaces_Eventhub_Spec tests if a specific instance of Namespaces_Eventhub_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespaces_Eventhub_Spec(subject Namespaces_Eventhub_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -294,7 +294,7 @@ func Test_Namespaces_Eventhub_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespaces_Eventhub_STATUS tests if a specific instance of Namespaces_Eventhub_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForNamespaces_Eventhub_STATUS tests if a specific instance of Namespaces_Eventhub_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespaces_Eventhub_STATUS(subject Namespaces_Eventhub_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -430,7 +430,7 @@ func Test_CaptureDescription_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCaptureDescription tests if a specific instance of CaptureDescription can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForCaptureDescription tests if a specific instance of CaptureDescription can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCaptureDescription(subject CaptureDescription) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -550,7 +550,7 @@ func Test_CaptureDescription_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCaptureDescription_STATUS tests if a specific instance of CaptureDescription_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForCaptureDescription_STATUS tests if a specific instance of CaptureDescription_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCaptureDescription_STATUS(subject CaptureDescription_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -671,7 +671,7 @@ func Test_Destination_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDestination tests if a specific instance of Destination can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForDestination tests if a specific instance of Destination can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDestination(subject Destination) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -778,7 +778,7 @@ func Test_Destination_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDestination_STATUS tests if a specific instance of Destination_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForDestination_STATUS tests if a specific instance of Destination_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDestination_STATUS(subject Destination_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

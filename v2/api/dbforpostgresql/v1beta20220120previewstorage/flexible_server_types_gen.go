@@ -113,6 +113,15 @@ func (server *FlexibleServer) GetStatus() genruntime.ConvertibleStatus {
 	return &server.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (server *FlexibleServer) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers"
 func (server *FlexibleServer) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers"

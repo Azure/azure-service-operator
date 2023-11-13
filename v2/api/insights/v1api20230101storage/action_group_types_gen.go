@@ -71,6 +71,15 @@ func (group *ActionGroup) GetStatus() genruntime.ConvertibleStatus {
 	return &group.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (group *ActionGroup) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/actionGroups"
 func (group *ActionGroup) GetType() string {
 	return "Microsoft.Insights/actionGroups"

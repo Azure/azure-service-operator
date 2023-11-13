@@ -258,6 +258,9 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 				err, conditions.ConditionSeverityError, conditions.ReasonFailed)
 	}
 
+	// We want to set the latest reconciled generation annotation to keep a track of reconciles per generation.
+	SetLatestReconciledGeneration(r.Obj)
+
 	check, err := r.preReconciliationCheck(ctx)
 	if err != nil {
 		// Failed to do the pre-reconciliation check, this is a serious but non-fatal error
@@ -509,17 +512,33 @@ func (r *azureDeploymentReconcilerInstance) MonitorResourceCreation(ctx context.
 	poller := r.ARMConnection.Client().ResumeCreatePoller(pollerID)
 	err := poller.Resume(ctx, r.ARMConnection.Client(), pollerResumeToken)
 	if err != nil {
-		return ctrl.Result{}, r.handleCreateOrUpdateFailed(err)
+		return r.resultBasedOnGenerationCount(), r.handleCreateOrUpdateFailed(err)
 	}
 
 	if poller.Poller.Done() {
-		return ctrl.Result{}, r.handleCreateOrUpdateSuccess(ctx, ManageResource)
+		return r.resultBasedOnGenerationCount(), r.handleCreateOrUpdateSuccess(ctx, ManageResource)
 	}
 
 	// Requeue to check again later
 	retryAfter := genericarmclient.GetRetryAfter(poller.RawResponse)
 	r.Log.V(Debug).Info("Resource not created yet, will check again", "requeueAfter", retryAfter)
 	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
+}
+
+func (r *azureDeploymentReconcilerInstance) resultBasedOnGenerationCount() ctrl.Result {
+	// Once poller is done or run into error, we need to check if there was another event while resource had a ResumePollerToken.
+	// We do it here by checking the latest-reconciled-generation to make sure that we have sent the latest changes to the RP.
+	// If there's a mismatch in number of generations we reconciled and generations on spec, we requeue the resource to make sure its in sync.
+	generation, hasGenerationAnnotation := GetLatestReconciledGeneration(r.Obj)
+	if hasGenerationAnnotation && r.Obj.GetGeneration() != generation {
+		r.Log.V(Debug).Info(
+			"Generation mismatch detected, requeue-ing the resource",
+			"resourceID",
+			genruntime.GetResourceIDOrDefault(r.Obj))
+
+		return ctrl.Result{Requeue: true}
+	}
+	return ctrl.Result{}
 }
 
 //////////////////////////////////////////

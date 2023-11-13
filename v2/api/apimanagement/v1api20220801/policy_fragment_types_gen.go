@@ -5,7 +5,7 @@ package v1api20220801
 
 import (
 	"fmt"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &PolicyFragment{}
 func (fragment *PolicyFragment) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220801s.PolicyFragment)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801storage/PolicyFragment but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801/storage/PolicyFragment but received %T instead", hub)
 	}
 
 	return fragment.AssignProperties_From_PolicyFragment(source)
@@ -61,7 +61,7 @@ func (fragment *PolicyFragment) ConvertFrom(hub conversion.Hub) error {
 func (fragment *PolicyFragment) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220801s.PolicyFragment)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801storage/PolicyFragment but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801/storage/PolicyFragment but received %T instead", hub)
 	}
 
 	return fragment.AssignProperties_To_PolicyFragment(destination)
@@ -126,6 +126,16 @@ func (fragment *PolicyFragment) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (fragment *PolicyFragment) GetStatus() genruntime.ConvertibleStatus {
 	return &fragment.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (fragment *PolicyFragment) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationHead,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service/policyFragments"

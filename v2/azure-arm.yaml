@@ -138,7 +138,7 @@ anyTypePackages:
 
 # 
 # Type Transformers are used to make precision edits to the object model we've loaded from the 
-# original OpeanAPI/Swagger files.
+# original OpenAPI/Swagger files.
 #
 # We need these because there is great variability in how different product groups define their 
 # APIs, and because some of the common constructs that are used can't be directly handled in Go.
@@ -201,6 +201,11 @@ typeTransformers:
     remove: true
     because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
 
+  #
+  # In the group 'keyvault',
+  # on the types 'VaultProperties_CreateMode` and 'VaultProperties_CreateMode_STATUS'
+  # redefine the property 'CreateMode' to be an enum with four values
+  #
   - group: keyvault
     name: VaultProperties_CreateMode;VaultProperties_CreateMode_STATUS 
     target:
@@ -212,6 +217,22 @@ typeTransformers:
           - createOrRecover
           - purgeThenCreate
     because: "We're adding two new options to allow KeyVaults to goal-seek"
+
+  #
+  # In the group 'insights'
+  # rename the object 'AutoscaleSetting' 
+  # to 'AutoscaleSettingProperties'.
+  #
+  # Using object: true so that we don't rename the 
+  # resource `Autoscalesetting` (with a lowercase 's') as well
+  #
+  - group: insights
+    name: AutoscaleSetting
+    renameTo: AutoscaleSettingProperties
+    ifType:
+      object: true
+    because: We want to use the name `AutoscaleSetting` (with a capital 'S') for the resource
+
   # 
   # In the group 'apimanagement', 
   # remove the property 'ApiManagementServiceProperties.PrivateEndpointConnections'
@@ -494,6 +515,11 @@ status:
       basePath: 'securityinsights/resource-manager/common',
       namespace: 'Microsoft.SecurityInsights'
     },
+    {
+      # force the namespace here or it can fall foul of the sibling-name-collision test
+      basePath: 'synapse/common',
+      namespace: 'Microsoft.Synapse'
+    },
   # the rest of the configuration below is copied from the ARM schema repo:
   # https://github.com/Azure/azure-resource-manager-schemas/blob/master/generator/autogenlist.ts
     {
@@ -647,7 +673,8 @@ status:
 #
 #     Valid values are:
 #     omitempty - only non-empty properties are included (default)
-#     explicitCollections - always include collections, even if empty; other properties only if specified.
+#     explicitCollections - always include collections (serialized as null), even if empty; other properties only if specified.
+#     explicitEmptyCollections - always include collections (serialized as empty collections), even if empty; other properties only if specified.
 #     explicitProperties - always include all properties, even the empty ones.
 #
 # ==================
@@ -702,6 +729,18 @@ status:
 #     Gives the name this type has in the next version of the resource.
 #     Establishes a connection between the two types allowing for proper
 #     forward and backward conversion.
+#
+# $renameTo: <string>
+#     Changes the name of any type, allowing selective adjustments to make 
+#     names more idiomatic for Go and/or Kubernetes use.
+#
+#     For resource types, prefer $exportAs
+#     Note: using $export: + $renameTo: for a resource is not quite the same as
+#     using $exportAs because the renaming happens at a different stage of the
+#     pipeline.
+#
+#     If you have two names differing only by letter case, use a TypeTransform
+#     to selectively rename one of the types.
 #
 # $supportedFrom: <version>
 #     Gives the version number of the first release of ASO that provides 
@@ -882,6 +921,16 @@ objectModelConfiguration:
       RoleAssignment:
         $export: true
         $supportedFrom: v2.0.0-alpha.2
+        $defaultAzureName: false
+      RoleAssignmentProperties:
+        RoleDefinitionId:
+          $armReference: true
+        PrincipalId:
+          $importConfigMapMode: optional
+    2022-04-01:
+      RoleAssignment:
+        $export: true
+        $supportedFrom: v2.4.0
         $defaultAzureName: false
       RoleAssignmentProperties:
         RoleDefinitionId:
@@ -1134,7 +1183,7 @@ objectModelConfiguration:
         PrincipalId:
           $armReference: false
   containerservice:
-    $payloadType: explicitCollections
+    $payloadType: explicitEmptyCollections
     2021-05-01:
       ManagedCluster:
         $export: true
@@ -1511,9 +1560,10 @@ objectModelConfiguration:
         ResourceId:
           $armReference: true
     2022-10-01:
-      AutoscaleSetting:
-        $export: true
+      Autoscalesetting:
+        $exportAs: AutoscaleSetting
         $supportedFrom: v2.4.0
+      AutoscaleSettingProperties:
         TargetResourceUri:
           $armReference: true
       MetricTrigger:
@@ -1857,6 +1907,65 @@ objectModelConfiguration:
         TargetResourceId:
           $armReference: true
     2022-07-01:
+      ApplicationGateway:
+        $export: true
+        $supportedFrom: v2.4.0
+      ApplicationGatewayBackendAddressPool:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayBackendHttpSettings:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayBackendSettings:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayFrontendIPConfiguration:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayFrontendPort:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayIPConfiguration:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayHttpListener:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayListener:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayLoadDistributionPolicy:
+         $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayPrivateLinkConfiguration:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayProbe:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayRedirectConfiguration:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayRequestRoutingRule:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayRewriteRuleSet:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayRoutingRule:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewaySslCertificate:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewaySslCertificatePropertiesFormat:
+        Data:
+          $isSecret: true
+        Password:
+          $isSecret: true    
+      ApplicationGatewaySslProfile:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayTrustedClientCertificate:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayTrustedClientCertificatePropertiesFormat:
+        Data:
+          $isSecret: true
+      ApplicationGatewayTrustedRootCertificate:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayTrustedRootCertificatePropertiesFormat:
+        Data:
+          $isSecret: true      
+      ApplicationGatewayUrlPathMap:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayAuthenticationCertificate:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayAuthenticationCertificatePropertiesFormat:
+        Data:
+          $isSecret: true
       BastionHost:
         # This technically supports 2022-09-01 API version too, but it's identical to the 2022-07-01 version
         # so limiting proliferation of APIVersions and using 2022-07-01 for it

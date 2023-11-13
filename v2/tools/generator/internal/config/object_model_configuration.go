@@ -34,15 +34,15 @@ type ObjectModelConfiguration struct {
 	PayloadType groupAccess[PayloadType]
 
 	// Type access fields here (alphabetical, please)
-	AzureGeneratedSecrets typeAccess[[]string]
-	DefaultAzureName      typeAccess[bool]
-	Export                typeAccess[bool]
-	ExportAs              typeAccess[string]
-	GeneratedConfigs      typeAccess[map[string]string]
-	Importable            typeAccess[bool]
-	IsResource            typeAccess[bool]
-	ManualConfigs         typeAccess[[]string]
-
+	AzureGeneratedSecrets    typeAccess[[]string]
+	DefaultAzureName         typeAccess[bool]
+	Export                   typeAccess[bool]
+	ExportAs                 typeAccess[string]
+	GeneratedConfigs         typeAccess[map[string]string]
+	Importable               typeAccess[bool]
+	IsResource               typeAccess[bool]
+	ManualConfigs            typeAccess[[]string]
+	RenameTo                 typeAccess[string]
 	ResourceEmbeddedInParent typeAccess[string]
 	SupportedFrom            typeAccess[string]
 	TypeNameInNextVersion    typeAccess[string]
@@ -98,6 +98,8 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 		result, func(c *TypeConfiguration) *configurable[bool] { return &c.IsResource })
 	result.ManualConfigs = makeTypeAccess[[]string](
 		result, func(c *TypeConfiguration) *configurable[[]string] { return &c.ManualConfigs })
+	result.RenameTo = makeTypeAccess[string](
+		result, func(c *TypeConfiguration) *configurable[string] { return &c.RenameTo })
 	result.ResourceEmbeddedInParent = makeTypeAccess[string](
 		result, func(c *TypeConfiguration) *configurable[string] { return &c.ResourceEmbeddedInParent })
 	result.SupportedFrom = makeTypeAccess[string](

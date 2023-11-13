@@ -5,7 +5,7 @@ package v1api20200930
 
 import (
 	"encoding/json"
-	v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930storage"
+	v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_Snapshot_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSnapshot tests if a specific instance of Snapshot can be assigned to v1api20200930storage and back losslessly
+// RunPropertyAssignmentTestForSnapshot tests if a specific instance of Snapshot can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSnapshot(subject Snapshot) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Snapshot_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSnapshot_Spec tests if a specific instance of Snapshot_Spec can be assigned to v1api20200930storage and back losslessly
+// RunPropertyAssignmentTestForSnapshot_Spec tests if a specific instance of Snapshot_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSnapshot_Spec(subject Snapshot_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -310,7 +310,7 @@ func Test_Snapshot_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSnapshot_STATUS tests if a specific instance of Snapshot_STATUS can be assigned to v1api20200930storage and back losslessly
+// RunPropertyAssignmentTestForSnapshot_STATUS tests if a specific instance of Snapshot_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSnapshot_STATUS(subject Snapshot_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -453,7 +453,7 @@ func Test_SnapshotSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSnapshotSku tests if a specific instance of SnapshotSku can be assigned to v1api20200930storage and back losslessly
+// RunPropertyAssignmentTestForSnapshotSku tests if a specific instance of SnapshotSku can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSnapshotSku(subject SnapshotSku) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -555,7 +555,7 @@ func Test_SnapshotSku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSnapshotSku_STATUS tests if a specific instance of SnapshotSku_STATUS can be assigned to v1api20200930storage and back losslessly
+// RunPropertyAssignmentTestForSnapshotSku_STATUS tests if a specific instance of SnapshotSku_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSnapshotSku_STATUS(subject SnapshotSku_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

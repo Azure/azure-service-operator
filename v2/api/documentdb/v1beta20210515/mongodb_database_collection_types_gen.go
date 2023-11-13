@@ -5,7 +5,7 @@ package v1beta20210515
 
 import (
 	"fmt"
-	v1beta20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
+	v1beta20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -127,6 +127,15 @@ func (collection *MongodbDatabaseCollection) GetSpec() genruntime.ConvertibleSpe
 // GetStatus returns the status of this resource
 func (collection *MongodbDatabaseCollection) GetStatus() genruntime.ConvertibleStatus {
 	return &collection.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (collection *MongodbDatabaseCollection) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"

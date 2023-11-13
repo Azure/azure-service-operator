@@ -5,8 +5,8 @@ package v1beta20210515
 
 import (
 	"encoding/json"
-	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
-	v1beta20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
+	v1beta20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_MongodbDatabaseCollectionThroughputSetting_WhenPropertiesConverted_Rou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMongodbDatabaseCollectionThroughputSetting tests if a specific instance of MongodbDatabaseCollectionThroughputSetting can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForMongodbDatabaseCollectionThroughputSetting tests if a specific instance of MongodbDatabaseCollectionThroughputSetting can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMongodbDatabaseCollectionThroughputSetting(subject MongodbDatabaseCollectionThroughputSetting) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -177,7 +177,7 @@ func Test_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec_W
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec tests if a specific instance of DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec tests if a specific instance of DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec(subject DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -295,7 +295,7 @@ func Test_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS tests if a specific instance of DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS tests if a specific instance of DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(subject DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -416,7 +416,7 @@ func Test_ThroughputSettingsGetProperties_Resource_STATUS_WhenPropertiesConverte
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForThroughputSettingsGetProperties_Resource_STATUS tests if a specific instance of ThroughputSettingsGetProperties_Resource_STATUS can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForThroughputSettingsGetProperties_Resource_STATUS tests if a specific instance of ThroughputSettingsGetProperties_Resource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForThroughputSettingsGetProperties_Resource_STATUS(subject ThroughputSettingsGetProperties_Resource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -538,7 +538,7 @@ func Test_ThroughputSettingsResource_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForThroughputSettingsResource tests if a specific instance of ThroughputSettingsResource can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForThroughputSettingsResource tests if a specific instance of ThroughputSettingsResource can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForThroughputSettingsResource(subject ThroughputSettingsResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -655,7 +655,7 @@ func Test_AutoscaleSettingsResource_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAutoscaleSettingsResource tests if a specific instance of AutoscaleSettingsResource can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForAutoscaleSettingsResource tests if a specific instance of AutoscaleSettingsResource can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAutoscaleSettingsResource(subject AutoscaleSettingsResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -772,7 +772,7 @@ func Test_AutoscaleSettingsResource_STATUS_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAutoscaleSettingsResource_STATUS tests if a specific instance of AutoscaleSettingsResource_STATUS can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForAutoscaleSettingsResource_STATUS tests if a specific instance of AutoscaleSettingsResource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAutoscaleSettingsResource_STATUS(subject AutoscaleSettingsResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -890,7 +890,7 @@ func Test_AutoUpgradePolicyResource_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAutoUpgradePolicyResource tests if a specific instance of AutoUpgradePolicyResource can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForAutoUpgradePolicyResource tests if a specific instance of AutoUpgradePolicyResource can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAutoUpgradePolicyResource(subject AutoUpgradePolicyResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -993,7 +993,7 @@ func Test_AutoUpgradePolicyResource_STATUS_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAutoUpgradePolicyResource_STATUS tests if a specific instance of AutoUpgradePolicyResource_STATUS can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForAutoUpgradePolicyResource_STATUS tests if a specific instance of AutoUpgradePolicyResource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAutoUpgradePolicyResource_STATUS(subject AutoUpgradePolicyResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1096,7 +1096,7 @@ func Test_ThroughputPolicyResource_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForThroughputPolicyResource tests if a specific instance of ThroughputPolicyResource can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForThroughputPolicyResource tests if a specific instance of ThroughputPolicyResource can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForThroughputPolicyResource(subject ThroughputPolicyResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1200,7 +1200,7 @@ func Test_ThroughputPolicyResource_STATUS_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForThroughputPolicyResource_STATUS tests if a specific instance of ThroughputPolicyResource_STATUS can be assigned to v1beta20210515storage and back losslessly
+// RunPropertyAssignmentTestForThroughputPolicyResource_STATUS tests if a specific instance of ThroughputPolicyResource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForThroughputPolicyResource_STATUS(subject ThroughputPolicyResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

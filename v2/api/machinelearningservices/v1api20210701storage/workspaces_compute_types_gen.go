@@ -72,6 +72,15 @@ func (compute *WorkspacesCompute) GetStatus() genruntime.ConvertibleStatus {
 	return &compute.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (compute *WorkspacesCompute) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.MachineLearningServices/workspaces/computes"
 func (compute *WorkspacesCompute) GetType() string {
 	return "Microsoft.MachineLearningServices/workspaces/computes"

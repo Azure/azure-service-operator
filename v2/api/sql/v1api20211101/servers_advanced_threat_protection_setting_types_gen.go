@@ -121,6 +121,14 @@ func (setting *ServersAdvancedThreatProtectionSetting) GetStatus() genruntime.Co
 	return &setting.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (setting *ServersAdvancedThreatProtectionSetting) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/advancedThreatProtectionSettings"
 func (setting *ServersAdvancedThreatProtectionSetting) GetType() string {
 	return "Microsoft.Sql/servers/advancedThreatProtectionSettings"

@@ -71,6 +71,15 @@ func (group *ServersFailoverGroup) GetStatus() genruntime.ConvertibleStatus {
 	return &group.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (group *ServersFailoverGroup) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/failoverGroups"
 func (group *ServersFailoverGroup) GetType() string {
 	return "Microsoft.Sql/servers/failoverGroups"

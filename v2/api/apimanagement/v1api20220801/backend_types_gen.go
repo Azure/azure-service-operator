@@ -5,7 +5,7 @@ package v1api20220801
 
 import (
 	"fmt"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &Backend{}
 func (backend *Backend) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220801s.Backend)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801storage/Backend but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Backend but received %T instead", hub)
 	}
 
 	return backend.AssignProperties_From_Backend(source)
@@ -61,7 +61,7 @@ func (backend *Backend) ConvertFrom(hub conversion.Hub) error {
 func (backend *Backend) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220801s.Backend)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801storage/Backend but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Backend but received %T instead", hub)
 	}
 
 	return backend.AssignProperties_To_Backend(destination)
@@ -126,6 +126,16 @@ func (backend *Backend) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (backend *Backend) GetStatus() genruntime.ConvertibleStatus {
 	return &backend.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (backend *Backend) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationHead,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service/backends"

@@ -6,22 +6,24 @@ package controllers
 import (
 	apimanagement_customizations "github.com/Azure/azure-service-operator/v2/api/apimanagement/customizations"
 	apimanagement_v20220801 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801"
-	apimanagement_v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage"
+	apimanagement_v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	appconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/appconfiguration/customizations"
 	appconfiguration_v20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
-	appconfiguration_v20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501storage"
+	appconfiguration_v20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
 	appconfiguration_v1beta20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501"
-	appconfiguration_v1beta20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501storage"
+	appconfiguration_v1beta20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501/storage"
 	authorization_customizations "github.com/Azure/azure-service-operator/v2/api/authorization/customizations"
 	authorization_v20200801p "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
 	authorization_v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801previewstorage"
+	authorization_v20220401 "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
+	authorization_v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401storage"
 	authorization_v1beta20200801p "github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801preview"
 	authorization_v1beta20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801previewstorage"
 	batch_customizations "github.com/Azure/azure-service-operator/v2/api/batch/customizations"
 	batch_v20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
-	batch_v20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101storage"
+	batch_v20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/storage"
 	batch_v1beta20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101"
-	batch_v1beta20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101storage"
+	batch_v1beta20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101/storage"
 	cache_customizations "github.com/Azure/azure-service-operator/v2/api/cache/customizations"
 	cache_v20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
 	cache_v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
@@ -37,28 +39,28 @@ import (
 	cache_v1beta20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage"
 	cdn_customizations "github.com/Azure/azure-service-operator/v2/api/cdn/customizations"
 	cdn_v20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601"
-	cdn_v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601storage"
+	cdn_v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/storage"
 	cdn_v1beta20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601"
-	cdn_v1beta20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage"
+	cdn_v1beta20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601/storage"
 	compute_customizations "github.com/Azure/azure-service-operator/v2/api/compute/customizations"
 	compute_v20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930"
-	compute_v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930storage"
+	compute_v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/storage"
 	compute_v20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201"
-	compute_v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201storage"
+	compute_v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage"
 	compute_v20210701 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20210701"
-	compute_v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20210701storage"
+	compute_v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20210701/storage"
 	compute_v20220301 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301"
-	compute_v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301storage"
+	compute_v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
 	compute_v20220702 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702"
-	compute_v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702storage"
+	compute_v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
 	compute_v1beta20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930"
-	compute_v1beta20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage"
+	compute_v1beta20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930/storage"
 	compute_v1beta20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
-	compute_v1beta20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage"
+	compute_v1beta20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201/storage"
 	compute_v1beta20210701 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701"
-	compute_v1beta20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
+	compute_v1beta20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701/storage"
 	compute_v1beta20220301 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301"
-	compute_v1beta20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage"
+	compute_v1beta20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301/storage"
 	containerinstance_customizations "github.com/Azure/azure-service-operator/v2/api/containerinstance/customizations"
 	containerinstance_v20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001"
 	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001storage"
@@ -82,15 +84,15 @@ import (
 	containerservice_v1beta20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
 	datafactory_customizations "github.com/Azure/azure-service-operator/v2/api/datafactory/customizations"
 	datafactory_v20180601 "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601"
-	datafactory_v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601storage"
+	datafactory_v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
 	dataprotection_customizations "github.com/Azure/azure-service-operator/v2/api/dataprotection/customizations"
 	dataprotection_v20230101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
 	dataprotection_v20230101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101storage"
 	dbformariadb_customizations "github.com/Azure/azure-service-operator/v2/api/dbformariadb/customizations"
 	dbformariadb_v20180601 "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601"
-	dbformariadb_v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601storage"
+	dbformariadb_v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
 	dbformariadb_v1beta20180601 "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601"
-	dbformariadb_v1beta20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storage"
+	dbformariadb_v1beta20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601/storage"
 	dbformysql_customizations "github.com/Azure/azure-service-operator/v2/api/dbformysql/customizations"
 	dbformysql_v20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
 	dbformysql_v20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501storage"
@@ -112,19 +114,19 @@ import (
 	devices_v20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage"
 	documentdb_customizations "github.com/Azure/azure-service-operator/v2/api/documentdb/customizations"
 	documentdb_v20210515 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515"
-	documentdb_v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
+	documentdb_v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
 	documentdb_v1beta20210515 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515"
-	documentdb_v1beta20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
+	documentdb_v1beta20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515/storage"
 	eventgrid_customizations "github.com/Azure/azure-service-operator/v2/api/eventgrid/customizations"
 	eventgrid_v20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601"
-	eventgrid_v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601storage"
+	eventgrid_v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
 	eventgrid_v1beta20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601"
-	eventgrid_v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
+	eventgrid_v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601/storage"
 	eventhub_customizations "github.com/Azure/azure-service-operator/v2/api/eventhub/customizations"
 	eventhub_v20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101"
-	eventhub_v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101storage"
+	eventhub_v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
 	eventhub_v1beta20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101"
-	eventhub_v1beta20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage"
+	eventhub_v1beta20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101/storage"
 	insights_customizations "github.com/Azure/azure-service-operator/v2/api/insights/customizations"
 	insights_v20180301 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301"
 	insights_v20180301s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301storage"
@@ -185,9 +187,9 @@ import (
 	operationalinsights_v1beta20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta20210601storage"
 	resources_customizations "github.com/Azure/azure-service-operator/v2/api/resources/customizations"
 	resources_v20200601 "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
-	resources_v20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601storage"
+	resources_v20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/storage"
 	resources_v1beta20200601 "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
-	resources_v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601storage"
+	resources_v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601/storage"
 	search_customizations "github.com/Azure/azure-service-operator/v2/api/search/customizations"
 	search_v20220901 "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901"
 	search_v20220901s "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901storage"
@@ -217,17 +219,17 @@ import (
 	storage_v1beta20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
 	subscription_customizations "github.com/Azure/azure-service-operator/v2/api/subscription/customizations"
 	subscription_v20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
-	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001storage"
+	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
 	subscription_v1beta20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001"
-	subscription_v1beta20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001storage"
+	subscription_v1beta20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001/storage"
 	synapse_customizations "github.com/Azure/azure-service-operator/v2/api/synapse/customizations"
 	synapse_v20210601 "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601"
 	synapse_v20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601storage"
 	web_customizations "github.com/Azure/azure-service-operator/v2/api/web/customizations"
 	web_v20220301 "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301"
-	web_v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301storage"
+	web_v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/storage"
 	web_v1beta20220301 "github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301"
-	web_v1beta20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage"
+	web_v1beta20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 	"k8s.io/api/core/v1"
@@ -346,7 +348,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20220501s.ConfigurationStore)})
 	result = append(result, &registration.StorageType{
-		Obj: new(authorization_v20200801ps.RoleAssignment),
+		Obj: new(authorization_v20220401s.RoleAssignment),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.principalIdFromConfig",
@@ -356,7 +358,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.principalIdFromConfig"}, &authorization_v20200801ps.RoleAssignmentList{}),
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.principalIdFromConfig"}, &authorization_v20220401s.RoleAssignmentList{}),
 			},
 		},
 	})
@@ -629,7 +631,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(insights_v20180501ps.Webtest)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20200202s.Component)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20220615s.ScheduledQueryRule)})
-	result = append(result, &registration.StorageType{Obj: new(insights_v20221001s.Autoscalesetting)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20221001s.AutoscaleSetting)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230101s.ActionGroup)})
 	result = append(result, &registration.StorageType{
 		Obj: new(keyvault_v20210401ps.Vault),
@@ -750,6 +752,37 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesAzureEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesExternalEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesNestedEndpoint)})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20220701s.ApplicationGateway),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.authenticationCertificates.data",
+				Func: indexNetworkApplicationGatewayAuthenticationCertificatesData,
+			},
+			{
+				Key:  ".spec.sslCertificates.data",
+				Func: indexNetworkApplicationGatewaySslCertificatesData,
+			},
+			{
+				Key:  ".spec.sslCertificates.password",
+				Func: indexNetworkApplicationGatewaySslCertificatesPassword,
+			},
+			{
+				Key:  ".spec.trustedClientCertificates.data",
+				Func: indexNetworkApplicationGatewayTrustedClientCertificatesData,
+			},
+			{
+				Key:  ".spec.trustedRootCertificates.data",
+				Func: indexNetworkApplicationGatewayTrustedRootCertificatesData,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.authenticationCertificates.data", ".spec.sslCertificates.data", ".spec.sslCertificates.password", ".spec.trustedClientCertificates.data", ".spec.trustedRootCertificates.data"}, &network_v20220701s.ApplicationGatewayList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.BastionHost)})
 	result = append(result, &registration.StorageType{
 		Obj: new(network_v20220701s.DnsForwardingRuleSetsForwardingRule),
@@ -1034,6 +1067,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(authorization_v1beta20200801ps.RoleAssignment))
 	result = append(result, new(authorization_v20200801p.RoleAssignment))
 	result = append(result, new(authorization_v20200801ps.RoleAssignment))
+	result = append(result, new(authorization_v20220401.RoleAssignment))
+	result = append(result, new(authorization_v20220401s.RoleAssignment))
 	result = append(result, new(batch_v1beta20210101.BatchAccount))
 	result = append(result, new(batch_v1beta20210101s.BatchAccount))
 	result = append(result, new(batch_v20210101.BatchAccount))
@@ -1372,8 +1407,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(insights_v20200202s.Component))
 	result = append(result, new(insights_v20220615.ScheduledQueryRule))
 	result = append(result, new(insights_v20220615s.ScheduledQueryRule))
-	result = append(result, new(insights_v20221001.Autoscalesetting))
-	result = append(result, new(insights_v20221001s.Autoscalesetting))
+	result = append(result, new(insights_v20221001.AutoscaleSetting))
+	result = append(result, new(insights_v20221001s.AutoscaleSetting))
 	result = append(result, new(insights_v20230101.ActionGroup))
 	result = append(result, new(insights_v20230101s.ActionGroup))
 	result = append(result, new(keyvault_v1beta20210401p.Vault))
@@ -1524,6 +1559,7 @@ func getKnownTypes() []client.Object {
 		new(network_v20220401s.TrafficManagerProfilesNestedEndpoint))
 	result = append(
 		result,
+		new(network_v20220701.ApplicationGateway),
 		new(network_v20220701.BastionHost),
 		new(network_v20220701.DnsForwardingRuleSetsForwardingRule),
 		new(network_v20220701.DnsForwardingRuleset),
@@ -1537,6 +1573,7 @@ func getKnownTypes() []client.Object {
 		new(network_v20220701.PublicIPPrefix))
 	result = append(
 		result,
+		new(network_v20220701s.ApplicationGateway),
 		new(network_v20220701s.BastionHost),
 		new(network_v20220701s.DnsForwardingRuleSetsForwardingRule),
 		new(network_v20220701s.DnsForwardingRuleset),
@@ -1755,6 +1792,8 @@ func createScheme() *runtime.Scheme {
 	_ = authorization_v1beta20200801ps.AddToScheme(scheme)
 	_ = authorization_v20200801p.AddToScheme(scheme)
 	_ = authorization_v20200801ps.AddToScheme(scheme)
+	_ = authorization_v20220401.AddToScheme(scheme)
+	_ = authorization_v20220401s.AddToScheme(scheme)
 	_ = batch_v1beta20210101.AddToScheme(scheme)
 	_ = batch_v1beta20210101s.AddToScheme(scheme)
 	_ = batch_v20210101.AddToScheme(scheme)
@@ -2014,7 +2053,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &eventhub_customizations.NamespacesEventhubsAuthorizationRuleExtension{})
 	result = append(result, &eventhub_customizations.NamespacesEventhubsConsumerGroupExtension{})
 	result = append(result, &insights_customizations.ActionGroupExtension{})
-	result = append(result, &insights_customizations.AutoscalesettingExtension{})
+	result = append(result, &insights_customizations.AutoscaleSettingExtension{})
 	result = append(result, &insights_customizations.ComponentExtension{})
 	result = append(result, &insights_customizations.MetricAlertExtension{})
 	result = append(result, &insights_customizations.ScheduledQueryRuleExtension{})
@@ -2025,6 +2064,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &machinelearningservices_customizations.WorkspacesConnectionExtension{})
 	result = append(result, &managedidentity_customizations.FederatedIdentityCredentialExtension{})
 	result = append(result, &managedidentity_customizations.UserAssignedIdentityExtension{})
+	result = append(result, &network_customizations.ApplicationGatewayExtension{})
 	result = append(result, &network_customizations.BastionHostExtension{})
 	result = append(result, &network_customizations.DnsForwardingRuleSetsForwardingRuleExtension{})
 	result = append(result, &network_customizations.DnsForwardingRulesetExtension{})
@@ -2337,9 +2377,9 @@ func indexApimanagementSubscriptionSecondaryKey(rawObj client.Object) []string {
 	return obj.Spec.SecondaryKey.Index()
 }
 
-// indexAuthorizationRoleAssignmentPrincipalIdFromConfig an index function for authorization_v20200801ps.RoleAssignment .spec.principalIdFromConfig
+// indexAuthorizationRoleAssignmentPrincipalIdFromConfig an index function for authorization_v20220401s.RoleAssignment .spec.principalIdFromConfig
 func indexAuthorizationRoleAssignmentPrincipalIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*authorization_v20200801ps.RoleAssignment)
+	obj, ok := rawObj.(*authorization_v20220401s.RoleAssignment)
 	if !ok {
 		return nil
 	}
@@ -2941,6 +2981,86 @@ func indexManagedidentityFederatedIdentityCredentialSubjectFromConfig(rawObj cli
 		return nil
 	}
 	return obj.Spec.SubjectFromConfig.Index()
+}
+
+// indexNetworkApplicationGatewayAuthenticationCertificatesData an index function for network_v20220701s.ApplicationGateway .spec.authenticationCertificates.data
+func indexNetworkApplicationGatewayAuthenticationCertificatesData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20220701s.ApplicationGateway)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, authenticationCertificateItem := range obj.Spec.AuthenticationCertificates {
+		if authenticationCertificateItem.Data == nil {
+			continue
+		}
+		result = append(result, authenticationCertificateItem.Data.Index()...)
+	}
+	return result
+}
+
+// indexNetworkApplicationGatewaySslCertificatesData an index function for network_v20220701s.ApplicationGateway .spec.sslCertificates.data
+func indexNetworkApplicationGatewaySslCertificatesData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20220701s.ApplicationGateway)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, sslCertificateItem := range obj.Spec.SslCertificates {
+		if sslCertificateItem.Data == nil {
+			continue
+		}
+		result = append(result, sslCertificateItem.Data.Index()...)
+	}
+	return result
+}
+
+// indexNetworkApplicationGatewaySslCertificatesPassword an index function for network_v20220701s.ApplicationGateway .spec.sslCertificates.password
+func indexNetworkApplicationGatewaySslCertificatesPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20220701s.ApplicationGateway)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, sslCertificateItem := range obj.Spec.SslCertificates {
+		if sslCertificateItem.Password == nil {
+			continue
+		}
+		result = append(result, sslCertificateItem.Password.Index()...)
+	}
+	return result
+}
+
+// indexNetworkApplicationGatewayTrustedClientCertificatesData an index function for network_v20220701s.ApplicationGateway .spec.trustedClientCertificates.data
+func indexNetworkApplicationGatewayTrustedClientCertificatesData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20220701s.ApplicationGateway)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, trustedClientCertificateItem := range obj.Spec.TrustedClientCertificates {
+		if trustedClientCertificateItem.Data == nil {
+			continue
+		}
+		result = append(result, trustedClientCertificateItem.Data.Index()...)
+	}
+	return result
+}
+
+// indexNetworkApplicationGatewayTrustedRootCertificatesData an index function for network_v20220701s.ApplicationGateway .spec.trustedRootCertificates.data
+func indexNetworkApplicationGatewayTrustedRootCertificatesData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20220701s.ApplicationGateway)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, trustedRootCertificateItem := range obj.Spec.TrustedRootCertificates {
+		if trustedRootCertificateItem.Data == nil {
+			continue
+		}
+		result = append(result, trustedRootCertificateItem.Data.Index()...)
+	}
+	return result
 }
 
 // indexNetworkDnsForwardingRuleSetsForwardingRuleIpAddressFromConfig an index function for network_v20220701s.DnsForwardingRuleSetsForwardingRule .spec.targetDnsServers.ipAddressFromConfig

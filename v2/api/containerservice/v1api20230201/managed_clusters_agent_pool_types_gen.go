@@ -128,6 +128,15 @@ func (pool *ManagedClustersAgentPool) GetStatus() genruntime.ConvertibleStatus {
 	return &pool.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (pool *ManagedClustersAgentPool) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters/agentPools"
 func (pool *ManagedClustersAgentPool) GetType() string {
 	return "Microsoft.ContainerService/managedClusters/agentPools"
@@ -616,6 +625,9 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 		for key, value := range pool.NodeLabels {
 			result.Properties.NodeLabels[key] = value
 		}
+	} else {
+		// Set property to empty map, as this resource is set to serialize all collections explicitly
+		result.Properties.NodeLabels = make(map[string]string)
 	}
 	if pool.NodePublicIPPrefixReference != nil {
 		nodePublicIPPrefixIDARMID, err := resolved.ResolvedReferences.Lookup(*pool.NodePublicIPPrefixReference)
@@ -627,6 +639,10 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 	}
 	for _, item := range pool.NodeTaints {
 		result.Properties.NodeTaints = append(result.Properties.NodeTaints, item)
+	}
+	if result.Properties.NodeTaints == nil {
+		// Set property to empty map, as this resource is set to serialize all collections explicitly
+		result.Properties.NodeTaints = []string{}
 	}
 	if pool.OrchestratorVersion != nil {
 		orchestratorVersion := *pool.OrchestratorVersion
@@ -693,6 +709,9 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 		for key, value := range pool.Tags {
 			result.Properties.Tags[key] = value
 		}
+	} else {
+		// Set property to empty map, as this resource is set to serialize all collections explicitly
+		result.Properties.Tags = make(map[string]string)
 	}
 	if pool.Type != nil {
 		typeVar := *pool.Type

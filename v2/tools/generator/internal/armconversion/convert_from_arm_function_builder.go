@@ -15,6 +15,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 type convertFromARMBuilder struct {
@@ -47,6 +48,7 @@ func newConvertFromARMFunctionBuilder(
 			armTypeIdent:          c.armTypeName.Name(),
 			idFactory:             c.idFactory,
 			typeKind:              c.typeKind,
+			payloadType:           c.payloadType,
 			codeGenerationContext: codeGenerationContext,
 		},
 		typeConversionBuilder: astmodel.NewConversionFunctionBuilder(c.idFactory, codeGenerationContext),
@@ -63,6 +65,12 @@ func newConvertFromARMFunctionBuilder(
 	// source type and a destination type, figure out how to make the assignment work. It has no knowledge of broader
 	// object structure or other properties.
 	result.typeConversionBuilder.AddConversionHandlers(result.convertComplexTypeNameProperty)
+
+	// If this type requires special handling for collections, we add it here
+	if c.payloadType == config.ExplicitEmptyCollections {
+		result.typeConversionBuilder.PrependConversionHandlers(result.convertComplexTypeNameProperty)
+	}
+
 	result.propertyConversionHandlers = []propertyConversionHandler{
 		// Handlers for specific properties come first
 		skipPropertiesFlaggedWithNoARMConversion,

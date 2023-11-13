@@ -5,7 +5,7 @@ package v1api20211001
 
 import (
 	"encoding/json"
-	v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001storage"
+	v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_Alias_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAlias tests if a specific instance of Alias can be assigned to v1api20211001storage and back losslessly
+// RunPropertyAssignmentTestForAlias tests if a specific instance of Alias can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAlias(subject Alias) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Alias_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAlias_Spec tests if a specific instance of Alias_Spec can be assigned to v1api20211001storage and back losslessly
+// RunPropertyAssignmentTestForAlias_Spec tests if a specific instance of Alias_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAlias_Spec(subject Alias_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -291,7 +291,7 @@ func Test_Alias_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAlias_STATUS tests if a specific instance of Alias_STATUS can be assigned to v1api20211001storage and back losslessly
+// RunPropertyAssignmentTestForAlias_STATUS tests if a specific instance of Alias_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAlias_STATUS(subject Alias_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -410,7 +410,7 @@ func Test_PutAliasRequestProperties_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPutAliasRequestProperties tests if a specific instance of PutAliasRequestProperties can be assigned to v1api20211001storage and back losslessly
+// RunPropertyAssignmentTestForPutAliasRequestProperties tests if a specific instance of PutAliasRequestProperties can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPutAliasRequestProperties(subject PutAliasRequestProperties) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -531,7 +531,7 @@ func Test_SubscriptionAliasResponseProperties_STATUS_WhenPropertiesConverted_Rou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubscriptionAliasResponseProperties_STATUS tests if a specific instance of SubscriptionAliasResponseProperties_STATUS can be assigned to v1api20211001storage and back losslessly
+// RunPropertyAssignmentTestForSubscriptionAliasResponseProperties_STATUS tests if a specific instance of SubscriptionAliasResponseProperties_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSubscriptionAliasResponseProperties_STATUS(subject SubscriptionAliasResponseProperties_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -645,7 +645,7 @@ func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to v1api20211001storage and back losslessly
+// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -760,7 +760,7 @@ func Test_PutAliasRequestAdditionalProperties_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPutAliasRequestAdditionalProperties tests if a specific instance of PutAliasRequestAdditionalProperties can be assigned to v1api20211001storage and back losslessly
+// RunPropertyAssignmentTestForPutAliasRequestAdditionalProperties tests if a specific instance of PutAliasRequestAdditionalProperties can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPutAliasRequestAdditionalProperties(subject PutAliasRequestAdditionalProperties) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

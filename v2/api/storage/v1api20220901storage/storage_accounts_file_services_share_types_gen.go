@@ -71,6 +71,15 @@ func (share *StorageAccountsFileServicesShare) GetStatus() genruntime.Convertibl
 	return &share.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (share *StorageAccountsFileServicesShare) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/fileServices/shares"
 func (share *StorageAccountsFileServicesShare) GetType() string {
 	return "Microsoft.Storage/storageAccounts/fileServices/shares"

@@ -72,6 +72,15 @@ func (updateRun *FleetsUpdateRun) GetStatus() genruntime.ConvertibleStatus {
 	return &updateRun.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (updateRun *FleetsUpdateRun) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/fleets/updateRuns"
 func (updateRun *FleetsUpdateRun) GetType() string {
 	return "Microsoft.ContainerService/fleets/updateRuns"
@@ -228,14 +237,26 @@ type UpdateRunStatus_STATUS struct {
 }
 
 // Storage version of v1api20230315preview.UpdateRunStrategy
-// The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.
+// Defines the update sequence of the clusters via stages and groups.
+// Stages within a run are executed sequentially one
+// after another.
+// Groups within a stage are executed in parallel.
+// Member clusters within a group are updated sequentially
+// one after another.
+// A valid strategy contains no duplicate groups within or across stages.
 type UpdateRunStrategy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Stages      []UpdateStage          `json:"stages,omitempty"`
 }
 
 // Storage version of v1api20230315preview.UpdateRunStrategy_STATUS
-// The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.
+// Defines the update sequence of the clusters via stages and groups.
+// Stages within a run are executed sequentially one
+// after another.
+// Groups within a stage are executed in parallel.
+// Member clusters within a group are updated sequentially
+// one after another.
+// A valid strategy contains no duplicate groups within or across stages.
 type UpdateRunStrategy_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Stages      []UpdateStage_STATUS   `json:"stages,omitempty"`
@@ -258,13 +279,8 @@ type ManagedClusterUpgradeSpec_STATUS struct {
 }
 
 // Storage version of v1api20230315preview.UpdateStage
-// Contains the groups to be updated by an UpdateRun.
-// Update order:
-// - Sequential between stages: Stages run sequentially.
-// The previous stage must complete before the next one starts.
-// - Parallel within a stage: Groups within a stage run in
-// parallel.
-// - Sequential within a group: Clusters within a group are updated sequentially.
+// Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting
+// the next stage.
 type UpdateStage struct {
 	AfterStageWaitInSeconds *int                   `json:"afterStageWaitInSeconds,omitempty"`
 	Groups                  []UpdateGroup          `json:"groups,omitempty"`
@@ -273,13 +289,8 @@ type UpdateStage struct {
 }
 
 // Storage version of v1api20230315preview.UpdateStage_STATUS
-// Contains the groups to be updated by an UpdateRun.
-// Update order:
-// - Sequential between stages: Stages run sequentially.
-// The previous stage must complete before the next one starts.
-// - Parallel within a stage: Groups within a stage run in
-// parallel.
-// - Sequential within a group: Clusters within a group are updated sequentially.
+// Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting
+// the next stage.
 type UpdateStage_STATUS struct {
 	AfterStageWaitInSeconds *int                   `json:"afterStageWaitInSeconds,omitempty"`
 	Groups                  []UpdateGroup_STATUS   `json:"groups,omitempty"`

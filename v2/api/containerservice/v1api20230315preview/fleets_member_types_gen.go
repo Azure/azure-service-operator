@@ -128,6 +128,15 @@ func (member *FleetsMember) GetStatus() genruntime.ConvertibleStatus {
 	return &member.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (member *FleetsMember) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/fleets/members"
 func (member *FleetsMember) GetType() string {
 	return "Microsoft.ContainerService/fleets/members"

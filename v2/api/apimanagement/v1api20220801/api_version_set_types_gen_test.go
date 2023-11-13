@@ -5,7 +5,7 @@ package v1api20220801
 
 import (
 	"encoding/json"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_ApiVersionSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApiVersionSet tests if a specific instance of ApiVersionSet can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForApiVersionSet tests if a specific instance of ApiVersionSet can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForApiVersionSet(subject ApiVersionSet) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Service_ApiVersionSet_Spec_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_ApiVersionSet_Spec tests if a specific instance of Service_ApiVersionSet_Spec can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForService_ApiVersionSet_Spec tests if a specific instance of Service_ApiVersionSet_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForService_ApiVersionSet_Spec(subject Service_ApiVersionSet_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -283,7 +283,7 @@ func Test_Service_ApiVersionSet_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_ApiVersionSet_STATUS tests if a specific instance of Service_ApiVersionSet_STATUS can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForService_ApiVersionSet_STATUS tests if a specific instance of Service_ApiVersionSet_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForService_ApiVersionSet_STATUS(subject Service_ApiVersionSet_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

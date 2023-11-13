@@ -16,7 +16,8 @@
 				"ms-azuretools.vscode-docker",
 				"redhat.vscode-yaml",
 				"ms-kubernetes-tools.vscode-kubernetes-tools",
-				"task.vscode-task"
+				"task.vscode-task",
+				"github.vscode-pull-request-github"
 			],
 			"settings": {
 				"terminal.integrated.defaultProfile.linux": "bash",

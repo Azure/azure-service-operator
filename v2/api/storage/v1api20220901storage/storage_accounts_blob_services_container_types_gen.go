@@ -71,6 +71,15 @@ func (container *StorageAccountsBlobServicesContainer) GetStatus() genruntime.Co
 	return &container.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (container *StorageAccountsBlobServicesContainer) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices/containers"
 func (container *StorageAccountsBlobServicesContainer) GetType() string {
 	return "Microsoft.Storage/storageAccounts/blobServices/containers"

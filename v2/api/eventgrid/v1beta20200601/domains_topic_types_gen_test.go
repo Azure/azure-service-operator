@@ -5,8 +5,8 @@ package v1beta20200601
 
 import (
 	"encoding/json"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601storage"
-	v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
+	v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_DomainsTopic_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDomainsTopic tests if a specific instance of DomainsTopic can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForDomainsTopic tests if a specific instance of DomainsTopic can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDomainsTopic(subject DomainsTopic) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Domains_Topic_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDomains_Topic_Spec tests if a specific instance of Domains_Topic_Spec can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForDomains_Topic_Spec tests if a specific instance of Domains_Topic_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDomains_Topic_Spec(subject Domains_Topic_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -278,7 +278,7 @@ func Test_Domains_Topic_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDomains_Topic_STATUS tests if a specific instance of Domains_Topic_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForDomains_Topic_STATUS tests if a specific instance of Domains_Topic_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDomains_Topic_STATUS(subject Domains_Topic_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

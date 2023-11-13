@@ -129,6 +129,15 @@ func (workspace *Workspace) GetStatus() genruntime.ConvertibleStatus {
 	return &workspace.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (workspace *Workspace) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Synapse/workspaces"
 func (workspace *Workspace) GetType() string {
 	return "Microsoft.Synapse/workspaces"
@@ -3802,7 +3811,7 @@ type WorkspaceRepositoryConfiguration struct {
 	// CollaborationBranch: Collaboration branch
 	CollaborationBranch *string `json:"collaborationBranch,omitempty"`
 
-	// HostName: GitHub Enterprise host name. For example: https://github.mydomain.com
+	// HostName: GitHub Enterprise host name. For example: `https://github.mydomain.com`
 	HostName *string `json:"hostName,omitempty"`
 
 	// LastCommitId: The last commit ID
@@ -4094,7 +4103,7 @@ type WorkspaceRepositoryConfiguration_STATUS struct {
 	// CollaborationBranch: Collaboration branch
 	CollaborationBranch *string `json:"collaborationBranch,omitempty"`
 
-	// HostName: GitHub Enterprise host name. For example: https://github.mydomain.com
+	// HostName: GitHub Enterprise host name. For example: `https://github.mydomain.com`
 	HostName *string `json:"hostName,omitempty"`
 
 	// LastCommitId: The last commit ID

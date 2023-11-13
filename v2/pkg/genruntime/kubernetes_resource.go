@@ -36,6 +36,9 @@ type KubernetesResource interface {
 	// GetResourceScope returns the ResourceScope of the resource.
 	GetResourceScope() ResourceScope
 
+	// GetSupportedOperations gets the set of supported resource operations
+	GetSupportedOperations() []ResourceOperation
+
 	// Some types, but not all, have a corresponding:
 	// 	SetAzureName(name string)
 	// They do not if the name must be a fixed value (like 'default').

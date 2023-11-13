@@ -5,7 +5,7 @@ package v1beta20200601
 
 import (
 	"fmt"
-	v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
+	v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -127,6 +127,15 @@ func (topic *Topic) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (topic *Topic) GetStatus() genruntime.ConvertibleStatus {
 	return &topic.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (topic *Topic) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/topics"

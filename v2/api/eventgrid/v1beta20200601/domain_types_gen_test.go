@@ -5,8 +5,8 @@ package v1beta20200601
 
 import (
 	"encoding/json"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601storage"
-	v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
+	v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_Domain_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDomain tests if a specific instance of Domain can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForDomain tests if a specific instance of Domain can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDomain(subject Domain) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Domain_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDomain_Spec tests if a specific instance of Domain_Spec can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForDomain_Spec tests if a specific instance of Domain_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDomain_Spec(subject Domain_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -297,7 +297,7 @@ func Test_Domain_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDomain_STATUS tests if a specific instance of Domain_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForDomain_STATUS tests if a specific instance of Domain_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDomain_STATUS(subject Domain_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -431,7 +431,7 @@ func Test_InboundIpRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForInboundIpRule tests if a specific instance of InboundIpRule can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForInboundIpRule tests if a specific instance of InboundIpRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForInboundIpRule(subject InboundIpRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -534,7 +534,7 @@ func Test_InboundIpRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForInboundIpRule_STATUS tests if a specific instance of InboundIpRule_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForInboundIpRule_STATUS tests if a specific instance of InboundIpRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForInboundIpRule_STATUS(subject InboundIpRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -638,7 +638,7 @@ func Test_InputSchemaMapping_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForInputSchemaMapping tests if a specific instance of InputSchemaMapping can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForInputSchemaMapping tests if a specific instance of InputSchemaMapping can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForInputSchemaMapping(subject InputSchemaMapping) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -748,7 +748,7 @@ func Test_InputSchemaMapping_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForInputSchemaMapping_STATUS tests if a specific instance of InputSchemaMapping_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForInputSchemaMapping_STATUS tests if a specific instance of InputSchemaMapping_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForInputSchemaMapping_STATUS(subject InputSchemaMapping_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -859,7 +859,7 @@ func Test_PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_WhenProper
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded tests if a specific instance of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded tests if a specific instance of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(subject PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -962,7 +962,7 @@ func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1077,7 +1077,7 @@ func Test_JsonInputSchemaMapping_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForJsonInputSchemaMapping tests if a specific instance of JsonInputSchemaMapping can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForJsonInputSchemaMapping tests if a specific instance of JsonInputSchemaMapping can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForJsonInputSchemaMapping(subject JsonInputSchemaMapping) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1199,7 +1199,7 @@ func Test_JsonInputSchemaMapping_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForJsonInputSchemaMapping_STATUS tests if a specific instance of JsonInputSchemaMapping_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForJsonInputSchemaMapping_STATUS tests if a specific instance of JsonInputSchemaMapping_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForJsonInputSchemaMapping_STATUS(subject JsonInputSchemaMapping_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1321,7 +1321,7 @@ func Test_JsonField_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForJsonField tests if a specific instance of JsonField can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForJsonField tests if a specific instance of JsonField can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForJsonField(subject JsonField) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1423,7 +1423,7 @@ func Test_JsonField_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForJsonField_STATUS tests if a specific instance of JsonField_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForJsonField_STATUS tests if a specific instance of JsonField_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForJsonField_STATUS(subject JsonField_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1525,7 +1525,7 @@ func Test_JsonFieldWithDefault_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForJsonFieldWithDefault tests if a specific instance of JsonFieldWithDefault can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForJsonFieldWithDefault tests if a specific instance of JsonFieldWithDefault can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForJsonFieldWithDefault(subject JsonFieldWithDefault) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1629,7 +1629,7 @@ func Test_JsonFieldWithDefault_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForJsonFieldWithDefault_STATUS tests if a specific instance of JsonFieldWithDefault_STATUS can be assigned to v1beta20200601storage and back losslessly
+// RunPropertyAssignmentTestForJsonFieldWithDefault_STATUS tests if a specific instance of JsonFieldWithDefault_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForJsonFieldWithDefault_STATUS(subject JsonFieldWithDefault_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

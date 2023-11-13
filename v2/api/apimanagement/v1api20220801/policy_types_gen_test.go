@@ -5,7 +5,7 @@ package v1api20220801
 
 import (
 	"encoding/json"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage"
+	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_Policy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPolicy tests if a specific instance of Policy can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForPolicy tests if a specific instance of Policy can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPolicy(subject Policy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Service_Policy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_Policy_Spec tests if a specific instance of Service_Policy_Spec can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForService_Policy_Spec tests if a specific instance of Service_Policy_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForService_Policy_Spec(subject Service_Policy_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -283,7 +283,7 @@ func Test_Service_Policy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_Policy_STATUS tests if a specific instance of Service_Policy_STATUS can be assigned to v1api20220801storage and back losslessly
+// RunPropertyAssignmentTestForService_Policy_STATUS tests if a specific instance of Service_Policy_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForService_Policy_STATUS(subject Service_Policy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

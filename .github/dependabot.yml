@@ -5,12 +5,6 @@
 
 version: 2
 updates:
-  # ASO v1
-  - package-ecosystem: "gomod" 
-    directory: "/" 
-    schedule:
-      interval: "weekly"
-    rebase-strategy: "disabled"
   # ASO v2 controller 
   - package-ecosystem: "gomod" 
     directory: "/v2" 

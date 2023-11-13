@@ -11,7 +11,7 @@ type Autoscalesetting_Spec_ARM struct {
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: The autoscale setting of the resource.
-	Properties *AutoscaleSetting_ARM `json:"properties,omitempty"`
+	Properties *AutoscaleSettingProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping
 	// this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
@@ -37,7 +37,7 @@ func (autoscalesetting *Autoscalesetting_Spec_ARM) GetType() string {
 }
 
 // A setting that contains all of the configuration for the automatic scaling of a resource.
-type AutoscaleSetting_ARM struct {
+type AutoscaleSettingProperties_ARM struct {
 	// Enabled: the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is 'false'.
 	Enabled *bool `json:"enabled,omitempty"`
 

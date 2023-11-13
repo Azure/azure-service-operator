@@ -5,8 +5,8 @@ package v1beta20220301
 
 import (
 	"encoding/json"
-	v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301storage"
-	v1beta20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage"
+	v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/storage"
+	v1beta20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_ServerFarm_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServerFarm tests if a specific instance of ServerFarm can be assigned to v1beta20220301storage and back losslessly
+// RunPropertyAssignmentTestForServerFarm tests if a specific instance of ServerFarm can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServerFarm(subject ServerFarm) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Serverfarm_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServerfarm_Spec tests if a specific instance of Serverfarm_Spec can be assigned to v1beta20220301storage and back losslessly
+// RunPropertyAssignmentTestForServerfarm_Spec tests if a specific instance of Serverfarm_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServerfarm_Spec(subject Serverfarm_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -311,7 +311,7 @@ func Test_Serverfarm_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServerfarm_STATUS tests if a specific instance of Serverfarm_STATUS can be assigned to v1beta20220301storage and back losslessly
+// RunPropertyAssignmentTestForServerfarm_STATUS tests if a specific instance of Serverfarm_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServerfarm_STATUS(subject Serverfarm_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -461,7 +461,7 @@ func Test_ExtendedLocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForExtendedLocation tests if a specific instance of ExtendedLocation can be assigned to v1beta20220301storage and back losslessly
+// RunPropertyAssignmentTestForExtendedLocation tests if a specific instance of ExtendedLocation can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -563,7 +563,7 @@ func Test_ExtendedLocation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForExtendedLocation_STATUS tests if a specific instance of ExtendedLocation_STATUS can be assigned to v1beta20220301storage and back losslessly
+// RunPropertyAssignmentTestForExtendedLocation_STATUS tests if a specific instance of ExtendedLocation_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForExtendedLocation_STATUS(subject ExtendedLocation_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -667,7 +667,7 @@ func Test_HostingEnvironmentProfile_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForHostingEnvironmentProfile tests if a specific instance of HostingEnvironmentProfile can be assigned to v1beta20220301storage and back losslessly
+// RunPropertyAssignmentTestForHostingEnvironmentProfile tests if a specific instance of HostingEnvironmentProfile can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForHostingEnvironmentProfile(subject HostingEnvironmentProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -764,7 +764,7 @@ func Test_HostingEnvironmentProfile_STATUS_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForHostingEnvironmentProfile_STATUS tests if a specific instance of HostingEnvironmentProfile_STATUS can be assigned to v1beta20220301storage and back losslessly
+// RunPropertyAssignmentTestForHostingEnvironmentProfile_STATUS tests if a specific instance of HostingEnvironmentProfile_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForHostingEnvironmentProfile_STATUS(subject HostingEnvironmentProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -869,7 +869,7 @@ func Test_KubeEnvironmentProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForKubeEnvironmentProfile tests if a specific instance of KubeEnvironmentProfile can be assigned to v1beta20220301storage and back losslessly
+// RunPropertyAssignmentTestForKubeEnvironmentProfile tests if a specific instance of KubeEnvironmentProfile can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForKubeEnvironmentProfile(subject KubeEnvironmentProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -966,7 +966,7 @@ func Test_KubeEnvironmentProfile_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForKubeEnvironmentProfile_STATUS tests if a specific instance of KubeEnvironmentProfile_STATUS can be assigned to v1beta20220301storage and back losslessly
+// RunPropertyAssignmentTestForKubeEnvironmentProfile_STATUS tests if a specific instance of KubeEnvironmentProfile_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForKubeEnvironmentProfile_STATUS(subject KubeEnvironmentProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1071,7 +1071,7 @@ func Test_SkuDescription_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSkuDescription tests if a specific instance of SkuDescription can be assigned to v1beta20220301storage and back losslessly
+// RunPropertyAssignmentTestForSkuDescription tests if a specific instance of SkuDescription can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSkuDescription(subject SkuDescription) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1193,7 +1193,7 @@ func Test_SkuDescription_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSkuDescription_STATUS tests if a specific instance of SkuDescription_STATUS can be assigned to v1beta20220301storage and back losslessly
+// RunPropertyAssignmentTestForSkuDescription_STATUS tests if a specific instance of SkuDescription_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSkuDescription_STATUS(subject SkuDescription_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1316,7 +1316,7 @@ func Test_Capability_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCapability tests if a specific instance of Capability can be assigned to v1beta20220301storage and back losslessly
+// RunPropertyAssignmentTestForCapability tests if a specific instance of Capability can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCapability(subject Capability) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1420,7 +1420,7 @@ func Test_Capability_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCapability_STATUS tests if a specific instance of Capability_STATUS can be assigned to v1beta20220301storage and back losslessly
+// RunPropertyAssignmentTestForCapability_STATUS tests if a specific instance of Capability_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCapability_STATUS(subject Capability_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1524,7 +1524,7 @@ func Test_SkuCapacity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSkuCapacity tests if a specific instance of SkuCapacity can be assigned to v1beta20220301storage and back losslessly
+// RunPropertyAssignmentTestForSkuCapacity tests if a specific instance of SkuCapacity can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSkuCapacity(subject SkuCapacity) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1630,7 +1630,7 @@ func Test_SkuCapacity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSkuCapacity_STATUS tests if a specific instance of SkuCapacity_STATUS can be assigned to v1beta20220301storage and back losslessly
+// RunPropertyAssignmentTestForSkuCapacity_STATUS tests if a specific instance of SkuCapacity_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSkuCapacity_STATUS(subject SkuCapacity_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

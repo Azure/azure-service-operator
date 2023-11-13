@@ -5,7 +5,7 @@ package v1api20200601
 
 import (
 	"fmt"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &Topic{}
 func (topic *Topic) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20200601s.Topic)
 	if !ok {
-		return fmt.Errorf("expected eventgrid/v1api20200601storage/Topic but received %T instead", hub)
+		return fmt.Errorf("expected eventgrid/v1api20200601/storage/Topic but received %T instead", hub)
 	}
 
 	return topic.AssignProperties_From_Topic(source)
@@ -61,7 +61,7 @@ func (topic *Topic) ConvertFrom(hub conversion.Hub) error {
 func (topic *Topic) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20200601s.Topic)
 	if !ok {
-		return fmt.Errorf("expected eventgrid/v1api20200601storage/Topic but received %T instead", hub)
+		return fmt.Errorf("expected eventgrid/v1api20200601/storage/Topic but received %T instead", hub)
 	}
 
 	return topic.AssignProperties_To_Topic(destination)
@@ -126,6 +126,15 @@ func (topic *Topic) GetSpec() genruntime.ConvertibleSpec {
 // GetStatus returns the status of this resource
 func (topic *Topic) GetStatus() genruntime.ConvertibleStatus {
 	return &topic.Status
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (topic *Topic) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/topics"

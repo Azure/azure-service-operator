@@ -91,23 +91,23 @@ func AddIndependentPropertyGeneratorsForAutoscalesetting_Spec_ARM(gens map[strin
 
 // AddRelatedPropertyGeneratorsForAutoscalesetting_Spec_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAutoscalesetting_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AutoscaleSetting_ARMGenerator())
+	gens["Properties"] = gen.PtrOf(AutoscaleSettingProperties_ARMGenerator())
 }
 
-func Test_AutoscaleSetting_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AutoscaleSettingProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of AutoscaleSetting_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutoscaleSetting_ARM, AutoscaleSetting_ARMGenerator()))
+		"Round trip of AutoscaleSettingProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAutoscaleSettingProperties_ARM, AutoscaleSettingProperties_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAutoscaleSetting_ARM runs a test to see if a specific instance of AutoscaleSetting_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutoscaleSetting_ARM(subject AutoscaleSetting_ARM) string {
+// RunJSONSerializationTestForAutoscaleSettingProperties_ARM runs a test to see if a specific instance of AutoscaleSettingProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAutoscaleSettingProperties_ARM(subject AutoscaleSettingProperties_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -115,7 +115,7 @@ func RunJSONSerializationTestForAutoscaleSetting_ARM(subject AutoscaleSetting_AR
 	}
 
 	// Deserialize back into memory
-	var actual AutoscaleSetting_ARM
+	var actual AutoscaleSettingProperties_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -133,42 +133,42 @@ func RunJSONSerializationTestForAutoscaleSetting_ARM(subject AutoscaleSetting_AR
 	return ""
 }
 
-// Generator of AutoscaleSetting_ARM instances for property testing - lazily instantiated by
-// AutoscaleSetting_ARMGenerator()
-var autoscaleSetting_ARMGenerator gopter.Gen
+// Generator of AutoscaleSettingProperties_ARM instances for property testing - lazily instantiated by
+// AutoscaleSettingProperties_ARMGenerator()
+var autoscaleSettingProperties_ARMGenerator gopter.Gen
 
-// AutoscaleSetting_ARMGenerator returns a generator of AutoscaleSetting_ARM instances for property testing.
-// We first initialize autoscaleSetting_ARMGenerator with a simplified generator based on the
+// AutoscaleSettingProperties_ARMGenerator returns a generator of AutoscaleSettingProperties_ARM instances for property testing.
+// We first initialize autoscaleSettingProperties_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func AutoscaleSetting_ARMGenerator() gopter.Gen {
-	if autoscaleSetting_ARMGenerator != nil {
-		return autoscaleSetting_ARMGenerator
+func AutoscaleSettingProperties_ARMGenerator() gopter.Gen {
+	if autoscaleSettingProperties_ARMGenerator != nil {
+		return autoscaleSettingProperties_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoscaleSetting_ARM(generators)
-	autoscaleSetting_ARMGenerator = gen.Struct(reflect.TypeOf(AutoscaleSetting_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForAutoscaleSettingProperties_ARM(generators)
+	autoscaleSettingProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AutoscaleSettingProperties_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutoscaleSetting_ARM(generators)
-	AddRelatedPropertyGeneratorsForAutoscaleSetting_ARM(generators)
-	autoscaleSetting_ARMGenerator = gen.Struct(reflect.TypeOf(AutoscaleSetting_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForAutoscaleSettingProperties_ARM(generators)
+	AddRelatedPropertyGeneratorsForAutoscaleSettingProperties_ARM(generators)
+	autoscaleSettingProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AutoscaleSettingProperties_ARM{}), generators)
 
-	return autoscaleSetting_ARMGenerator
+	return autoscaleSettingProperties_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAutoscaleSetting_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutoscaleSetting_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAutoscaleSettingProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAutoscaleSettingProperties_ARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["TargetResourceLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["TargetResourceUri"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForAutoscaleSetting_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAutoscaleSetting_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForAutoscaleSettingProperties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAutoscaleSettingProperties_ARM(gens map[string]gopter.Gen) {
 	gens["Notifications"] = gen.SliceOf(AutoscaleNotification_ARMGenerator())
 	gens["PredictiveAutoscalePolicy"] = gen.PtrOf(PredictiveAutoscalePolicy_ARMGenerator())
 	gens["Profiles"] = gen.SliceOf(AutoscaleProfile_ARMGenerator())

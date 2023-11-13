@@ -57,7 +57,7 @@ func Test_Compute_DiskEncryptionSet_CRUD(t *testing.T) {
 		},
 	}
 
-	kv := newVaultForDiskEncryptionSet("kv", tc, rg)
+	kv := newVaultForDiskEncryptionSet("kv2", tc, rg)
 	accessPolicyFromConfig := keyvault.AccessPolicyEntry{
 		ApplicationIdFromConfig: &genruntime.ConfigMapReference{
 			Name: configMapName,
@@ -112,7 +112,7 @@ func Test_Compute_DiskEncryptionSet_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(diskEncryptionSet)
 
 	// Ensure delete
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.APIVersion_Value))
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(compute.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
