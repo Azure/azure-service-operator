@@ -165,6 +165,12 @@ func AKS_ManagedCluster_AgentPool_20230102Preview_CRUD(tc *testcommon.KubePerTes
 	}
 	tc.PatchResourceAndWait(old, agentPool)
 	tc.Expect(agentPool.Status.NodeLabels).To(HaveKey("mylabel"))
+
+	// Perform another patch which removes the above label. We expect it should actually be removed.
+	old = agentPool.DeepCopy()
+	agentPool.Spec.NodeLabels = nil
+	tc.PatchResourceAndWait(old, agentPool)
+	tc.Expect(agentPool.Status.NodeLabels).To(BeEmpty())
 }
 
 func AKS_ManagedCluster_Kubeconfig_20230102Preview_OperatorSpec(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {

@@ -50,7 +50,10 @@ openssl genrsa -out "$DIR/sa.key" 2048
 openssl rsa -in "$DIR/sa.key" -pubout -out "$DIR/sa.pub"
 
 az group create -l westus -n "${RESOURCE_GROUP}" --tags "CreatedAt=$(date --utc +"%Y-%m-%dT%H:%M:%SZ")"
-az storage account create --resource-group "${RESOURCE_GROUP}" --name "${AZURE_STORAGE_ACCOUNT}"
+
+# Note that we set --allow-blob-public-access below, as descibed in this document, https://learn.microsoft.com/en-us/azure/storage/blobs/anonymous-read-access-configure?tabs=portal
+# so that the --public-access container on the next line takes effect (otherwise it's ignored)
+az storage account create --resource-group "${RESOURCE_GROUP}" --name "${AZURE_STORAGE_ACCOUNT}" --allow-blob-public-access
 az storage container create --account-name "${AZURE_STORAGE_ACCOUNT}" --name "${AZURE_STORAGE_CONTAINER}" --public-access container
 
 cat <<EOF > "${DIR}/openid-configuration.json"

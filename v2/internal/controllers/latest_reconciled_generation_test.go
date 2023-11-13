@@ -19,10 +19,10 @@ import (
 )
 
 func Test_Latest_Reconciled_Generation_Reconciles_AllEvents(t *testing.T) {
-
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
+	tc.AzureRegion = to.Ptr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
 
 	rg := tc.CreateTestResourceGroupAndWait()
 

@@ -691,7 +691,8 @@ status:
 #
 #     Valid values are:
 #     omitempty - only non-empty properties are included (default)
-#     explicitCollections - always include collections, even if empty; other properties only if specified.
+#     explicitCollections - always include collections (serialized as null), even if empty; other properties only if specified.
+#     explicitEmptyCollections - always include collections (serialized as empty collections), even if empty; other properties only if specified.
 #     explicitProperties - always include all properties, even the empty ones.
 #
 # ==================
@@ -746,6 +747,18 @@ status:
 #     Gives the name this type has in the next version of the resource.
 #     Establishes a connection between the two types allowing for proper
 #     forward and backward conversion.
+#
+# $renameTo: <string>
+#     Changes the name of any type, allowing selective adjustments to make 
+#     names more idiomatic for Go and/or Kubernetes use.
+#
+#     For resource types, prefer $exportAs
+#     Note: using $export: + $renameTo: for a resource is not quite the same as
+#     using $exportAs because the renaming happens at a different stage of the
+#     pipeline.
+#
+#     If you have two names differing only by letter case, use a TypeTransform
+#     to selectively rename one of the types.
 #
 # $supportedFrom: <version>
 #     Gives the version number of the first release of ASO that provides 
@@ -926,6 +939,16 @@ objectModelConfiguration:
       RoleAssignment:
         $export: true
         $supportedFrom: v2.0.0-alpha.2
+        $defaultAzureName: false
+      RoleAssignmentProperties:
+        RoleDefinitionId:
+          $armReference: true
+        PrincipalId:
+          $importConfigMapMode: optional
+    2022-04-01:
+      RoleAssignment:
+        $export: true
+        $supportedFrom: v2.4.0
         $defaultAzureName: false
       RoleAssignmentProperties:
         RoleDefinitionId:
@@ -1178,7 +1201,7 @@ objectModelConfiguration:
         PrincipalId:
           $armReference: false
   containerservice:
-    $payloadType: explicitCollections
+    $payloadType: explicitEmptyCollections
     2021-05-01:
       ManagedCluster:
         $export: true

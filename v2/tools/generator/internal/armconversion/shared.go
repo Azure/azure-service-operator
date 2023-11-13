@@ -17,6 +17,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
 
@@ -27,6 +28,7 @@ type conversionBuilder struct {
 	codeGenerationContext      *astmodel.CodeGenerationContext
 	idFactory                  astmodel.IdentifierFactory
 	typeKind                   TypeKind
+	payloadType                config.PayloadType
 	methodName                 string
 	kubeType                   *astmodel.ObjectType
 	armType                    *astmodel.ObjectType
@@ -187,6 +189,7 @@ func NewARMConversionImplementation(
 	armType *astmodel.ObjectType,
 	idFactory astmodel.IdentifierFactory,
 	typeKind TypeKind,
+	payloadType config.PayloadType,
 ) *astmodel.InterfaceImplementation {
 	var convertToARMFunc *ConvertToARMFunction
 	if typeKind != TypeKindStatus {
@@ -197,6 +200,7 @@ func NewARMConversionImplementation(
 				armType:     armType,
 				idFactory:   idFactory,
 				typeKind:    typeKind,
+				payloadType: payloadType,
 			},
 		}
 	}

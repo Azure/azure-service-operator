@@ -12,8 +12,10 @@ import (
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 const (
@@ -31,7 +33,17 @@ func newConvertToARMFunctionBuilder(
 	c *ARMConversionFunction,
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.InternalTypeName,
-	methodName string) *convertToARMBuilder {
+	methodName string,
+) *convertToARMBuilder {
+	forceEmptyCollections := c.payloadType == config.ExplicitEmptyCollections
+	var emptyCollectionProperties set.Set[string]
+	if forceEmptyCollections {
+		// TODO: These should not be hardcoded here, instead should be in the azure-arm.yaml config
+		emptyCollectionProperties = set.Make(
+			"Tags",
+			"NodeLabels",
+			"NodeTaints")
+	}
 
 	result := &convertToARMBuilder{
 		conversionBuilder: conversionBuilder{
@@ -43,10 +55,11 @@ func newConvertToARMFunctionBuilder(
 			armTypeIdent:          c.armTypeName.Name(),
 			idFactory:             c.idFactory,
 			typeKind:              c.typeKind,
+			payloadType:           c.payloadType,
 			codeGenerationContext: codeGenerationContext,
 		},
 		resultIdent:           "result",
-		typeConversionBuilder: astmodel.NewConversionFunctionBuilder(c.idFactory, codeGenerationContext),
+		typeConversionBuilder: astmodel.NewConversionFunctionBuilder(c.idFactory, codeGenerationContext).WithForceEmptyCollectionProperties(emptyCollectionProperties),
 		locals:                astmodel.NewKnownLocalsSet(c.idFactory),
 	}
 	// Add the receiver ident into the known locals
