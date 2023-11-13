@@ -8,6 +8,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -118,6 +119,44 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 	tc.Patch(old, acct)
 
 	tc.Eventually(acct).Should(tc.Match.BeProvisioned(0))
+
+	objKey := client.ObjectKeyFromObject(acct)
+	tc.GetResource(objKey, acct)
+	tc.Expect(acct.Annotations).ToNot(HaveKey(annotations.PerResourceSecret))
+
+	resID := genruntime.GetResourceIDOrDefault(acct)
+
+	// Make sure the StorageAccount is created successfully in Azure.
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, resID, string(storage.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(exists).To(BeTrue())
+
+	tc.DeleteResourcesAndWait(acct, rg)
+}
+
+func Test_Multitenant_SingleOperator_PerResourceCredential_MatchSubscriptionWithOwner(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	secret, err := newClientSecretCredential(uuid.New().String(), tc.AzureTenant, "credential", tc.Namespace)
+	tc.Expect(err).To(BeNil())
+
+	tc.CreateResource(secret)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	acct := newStorageAccount(tc, rg)
+	acct.Annotations = map[string]string{annotations.PerResourceSecret: secret.Name}
+
+	// Creating new storage account in with restricted permissions per resource secret should fail.
+	tc.CreateResourceAndWaitForState(acct, metav1.ConditionFalse, conditions.ConditionSeverityError)
+	tc.Expect(acct.Status.Conditions[0].Message).To(ContainSubstring("does not match parent subscription"))
+
+	// Deleting the per-resource credential annotation would default to applying the global credential with all permissions
+	old := acct.DeepCopy()
+	delete(acct.Annotations, annotations.PerResourceSecret)
+	tc.PatchResourceAndWait(old, acct)
 
 	objKey := client.ObjectKeyFromObject(acct)
 	tc.GetResource(objKey, acct)

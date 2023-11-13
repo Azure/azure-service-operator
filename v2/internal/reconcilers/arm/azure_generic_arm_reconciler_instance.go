@@ -293,7 +293,7 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 
 	resourceID := genruntime.GetResourceIDOrDefault(r.Obj)
 	if resourceID != "" {
-		err = checkSubscription(resourceID, r.ARMConnection.SubscriptionID())
+		err := r.checkSubscription(resourceID)
 		if err != nil {
 			return ctrl.Result{}, err
 		}
@@ -303,7 +303,6 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 	if err != nil {
 		return ctrl.Result{}, err
 	}
-
 	// Use conditions.SetConditionReasonAware here to override any Warning conditions set earlier in the reconciliation process.
 	// Note that this call should be done after all validation has passed and all that is left to do is send the payload to ARM.
 	conditions.SetConditionReasonAware(r.Obj, r.PositiveConditions.Ready.Reconciling(r.Obj.GetGeneration()))
@@ -369,13 +368,15 @@ func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(ctx context.C
 	return check, nil
 }
 
-func checkSubscription(resourceID string, clientSubID string) error {
+// checkSubscription checks if subscription on resource matches with credentials used while creating a resource.
+// Which prevents users to modify subscription in their credential.
+func (r *azureDeploymentReconcilerInstance) checkSubscription(resourceID string) error {
 	parsedRID, err := arm.ParseResourceID(resourceID)
 	// Some resources like '/providers/Microsoft.Subscription/aliases' do not have subscriptionID, so we need to make sure subscriptionID exists before we check.
 	// TODO: we need a better way?
 	if err == nil {
-		if parsedRID.ResourceGroupName != "" && parsedRID.SubscriptionID != clientSubID {
-			err = errors.Errorf("SubscriptionID %q for %q resource does not match with Client Credential: %q", parsedRID.SubscriptionID, resourceID, clientSubID)
+		if parsedRID.ResourceGroupName != "" && parsedRID.SubscriptionID != r.ARMConnection.SubscriptionID() {
+			err = errors.Errorf("SubscriptionID %q for %q resource does not match with Client Credential: %q", parsedRID.SubscriptionID, resourceID, r.ARMConnection.SubscriptionID())
 			return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonSubscriptionMismatch)
 		}
 	}
@@ -809,7 +810,7 @@ func (r *azureDeploymentReconcilerInstance) deleteResource(
 		return ctrl.Result{}, nil
 	}
 
-	err := checkSubscription(resourceID, r.ARMConnection.SubscriptionID()) // TODO: Possibly we should pass this in as a parameter?
+	err := r.checkSubscription(resourceID) // TODO: Possibly we should pass this in as a parameter?
 	if err != nil {
 		return ctrl.Result{}, err
 	}

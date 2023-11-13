@@ -142,6 +142,22 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 			return "", err
 		}
 
+		root := h[0]
+
+		err = genruntime.VerifyResourceOwnerARMID(root)
+		if err != nil {
+			return "", err
+		}
+
+		armID, err := genruntime.GetAndParseResourceID(root)
+		if err != nil {
+			return "", err
+		}
+
+		if err = h.matchOwnerSubscription(subscriptionID, armID); err != nil {
+			return "", err
+		}
+
 		// Ensure that we have the same number of names and types
 		if len(remainingNames) != len(resourceTypes) {
 			return "", errors.Errorf(
@@ -202,13 +218,9 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 		if err != nil {
 			return "", err
 		}
-		// armIDSub may be empty if there is no subscription in the user specified ARM ID (for example because the resource roots
-		// at the tenant level)
-		if armID.SubscriptionID != "" {
-			// Confirm that the subscription ID the user specified matches the subscription ID we're using from our credential
-			if !strings.EqualFold(armID.SubscriptionID, subscriptionID) {
-				return "", core.NewSubscriptionMismatchError(armID.SubscriptionID, subscriptionID)
-			}
+
+		if err = h.matchOwnerSubscription(subscriptionID, armID); err != nil {
+			return "", err
 		}
 
 		// Rooting to an ARM ID means that some of the resourceTypes may not actually be included explicitly in our
@@ -259,6 +271,18 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 	default:
 		return "", errors.Errorf("unknown root kind %q", rootKind)
 	}
+}
+
+func (h ResourceHierarchy) matchOwnerSubscription(subscriptionID string, ownerRID *arm.ResourceID) error {
+	// armIDSub may be empty if there is no subscription in the user specified ARM ID (for example because the resource roots
+	// at the tenant level)
+	if ownerRID.SubscriptionID != "" {
+		// Confirm that the subscription ID the user specified matches the subscription ID we're using from our credential
+		if !strings.EqualFold(ownerRID.SubscriptionID, subscriptionID) {
+			return core.NewSubscriptionMismatchError(ownerRID.SubscriptionID, subscriptionID)
+		}
+	}
+	return nil
 }
 
 // rootKind returns the ResourceHierarchyRoot type of the hierarchy.

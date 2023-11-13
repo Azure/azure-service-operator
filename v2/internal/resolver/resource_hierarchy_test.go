@@ -101,6 +101,20 @@ func Test_ResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
 	g.Expect(hierarchy.FullyQualifiedARMID("1234")).To(Equal(expectedARMID))
 }
 
+func Test_ResourceHierarchy_ResourceGroup_NestedResource_MatchSubscriptionWithOwner(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	resourceGroupName := "myrg"
+	resourceName := "myresource"
+	childResourceName := "mychildresource"
+
+	hierarchy := createDeeplyNestedResource(resourceGroupName, resourceName, childResourceName)
+
+	_, err := hierarchy.FullyQualifiedARMID("4567")
+	g.Expect(err).To(MatchError("resource subscription \"4567\" does not match parent subscription \"1234\""))
+}
+
 func Test_ResourceHierarchy_ExtensionOnResourceGroup(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
