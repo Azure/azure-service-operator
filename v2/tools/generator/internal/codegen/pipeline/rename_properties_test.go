@@ -29,21 +29,22 @@ func Test_RenameProperties_RenamesExpectedProperty(t *testing.T) {
 
 	cfg := config.NewConfiguration()
 	omc := cfg.ObjectModelConfiguration
-	omc.ModifyProperty(
+	g.Expect(omc.ModifyProperty(
 		personSpec.Name(),
 		"KnownAs",
 		func(p *config.PropertyConfiguration) error {
 			p.RenameTo.Set("Alias")
 			return nil
-		})
+		})).To(Succeed())
 
 	initialState, err := RunTestPipeline(
 		NewState(defs))
-
 	g.Expect(err).To(Succeed())
+
 	finalState, err := RunTestPipeline(
 		initialState,
 		RenameProperties(omc))
+	g.Expect(err).To(Succeed())
 
 	// When verifying the golden file, ensure the property has been renamed as expected
 	test.AssertPackagesGenerateExpectedCode(t, finalState.definitions, test.DiffWithTypes(initialState.definitions))
@@ -100,13 +101,13 @@ func Test_RenameProperties_PopulatesExpectedARMProperty(t *testing.T) {
 
 	cfg := config.NewConfiguration()
 	omc := cfg.ObjectModelConfiguration
-	omc.ModifyProperty(
+	g.Expect(omc.ModifyProperty(
 		personSpec.Name(),
 		"KnownAs",
 		func(p *config.PropertyConfiguration) error {
 			p.RenameTo.Set("Alias")
 			return nil
-		})
+		})).To(Succeed())
 
 	initialState, err := RunTestPipeline(
 		NewState(defs),
@@ -189,13 +190,13 @@ func Test_RenameProperties_WhenFlattening_PopulatesExpectedARMProperty(t *testin
 
 	cfg := config.NewConfiguration()
 	omc := cfg.ObjectModelConfiguration
-	omc.ModifyProperty(
+	g.Expect(omc.ModifyProperty(
 		personSpec.Name(),
 		"FullAddress",
 		func(p *config.PropertyConfiguration) error {
 			p.RenameTo.Set("PostalAddress")
 			return nil
-		})
+		})).To(Succeed())
 
 	initialState, err := RunTestPipeline(
 		NewState(defs),
