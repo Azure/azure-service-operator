@@ -286,7 +286,6 @@ func AddRelatedPropertyGeneratorsForExtension_Spec(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(IdentityGenerator())
 	gens["Plan"] = gen.PtrOf(PlanGenerator())
 	gens["Scope"] = gen.PtrOf(ScopeGenerator())
-	gens["Statuses"] = gen.SliceOf(ExtensionStatusGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }
 
@@ -755,112 +754,6 @@ func AddIndependentPropertyGeneratorsForExtension_Properties_AksAssignedIdentity
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(Extension_Properties_AksAssignedIdentity_Type_STATUS_SystemAssigned, Extension_Properties_AksAssignedIdentity_Type_STATUS_UserAssigned))
-}
-
-func Test_ExtensionStatus_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ExtensionStatus to ExtensionStatus via AssignProperties_To_ExtensionStatus & AssignProperties_From_ExtensionStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForExtensionStatus, ExtensionStatusGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForExtensionStatus tests if a specific instance of ExtensionStatus can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForExtensionStatus(subject ExtensionStatus) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230501s.ExtensionStatus
-	err := copied.AssignProperties_To_ExtensionStatus(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ExtensionStatus
-	err = actual.AssignProperties_From_ExtensionStatus(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ExtensionStatus_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ExtensionStatus via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForExtensionStatus, ExtensionStatusGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForExtensionStatus runs a test to see if a specific instance of ExtensionStatus round trips to JSON and back losslessly
-func RunJSONSerializationTestForExtensionStatus(subject ExtensionStatus) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ExtensionStatus
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ExtensionStatus instances for property testing - lazily instantiated by ExtensionStatusGenerator()
-var extensionStatusGenerator gopter.Gen
-
-// ExtensionStatusGenerator returns a generator of ExtensionStatus instances for property testing.
-func ExtensionStatusGenerator() gopter.Gen {
-	if extensionStatusGenerator != nil {
-		return extensionStatusGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForExtensionStatus(generators)
-	extensionStatusGenerator = gen.Struct(reflect.TypeOf(ExtensionStatus{}), generators)
-
-	return extensionStatusGenerator
-}
-
-// AddIndependentPropertyGeneratorsForExtensionStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForExtensionStatus(gens map[string]gopter.Gen) {
-	gens["Code"] = gen.PtrOf(gen.AlphaString())
-	gens["DisplayStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["Level"] = gen.PtrOf(gen.OneConstOf(ExtensionStatus_Level_Error, ExtensionStatus_Level_Information, ExtensionStatus_Level_Warning))
-	gens["Message"] = gen.PtrOf(gen.AlphaString())
-	gens["Time"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ExtensionStatus_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

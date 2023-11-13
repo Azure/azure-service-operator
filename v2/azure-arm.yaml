@@ -207,6 +207,12 @@ typeTransformers:
     remove: true
     because: This should be reverted once 'https://github.com/Azure/azure-service-operator/issues/3435' is resolved
 
+  - group: kubernetesconfiguration
+    name: Extension_Properties_Spec
+    property: Statuses
+    remove: true
+    because: This property should be marked readonly in Swagger
+
   - group: cache
     name: RedisProperties_Status
     property: AccessKeys

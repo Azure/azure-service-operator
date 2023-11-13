@@ -59,9 +59,6 @@ type Extension_Properties_Spec_ARM struct {
 	// Scope: Scope at which the extension is installed.
 	Scope *Scope_ARM `json:"scope,omitempty"`
 
-	// Statuses: Status from this extension.
-	Statuses []ExtensionStatus_ARM `json:"statuses,omitempty"`
-
 	// Version: User-specified version of the extension for this extension to 'pin'. To use 'version', autoUpgradeMinorVersion
 	// must be 'false'.
 	Version *string `json:"version,omitempty"`
@@ -116,24 +113,6 @@ type SystemData_ARM struct {
 type Extension_Properties_AksAssignedIdentity_Spec_ARM struct {
 	// Type: The identity type.
 	Type *Extension_Properties_AksAssignedIdentity_Type_Spec `json:"type,omitempty"`
-}
-
-// Status from the extension.
-type ExtensionStatus_ARM struct {
-	// Code: Status code provided by the Extension
-	Code *string `json:"code,omitempty"`
-
-	// DisplayStatus: Short description of status of the extension.
-	DisplayStatus *string `json:"displayStatus,omitempty"`
-
-	// Level: Level of the status.
-	Level *ExtensionStatus_Level `json:"level,omitempty"`
-
-	// Message: Detailed message of the status from the Extension.
-	Message *string `json:"message,omitempty"`
-
-	// Time: DateLiteral (per ISO8601) noting the time of installation status.
-	Time *string `json:"time,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"SystemAssigned"}

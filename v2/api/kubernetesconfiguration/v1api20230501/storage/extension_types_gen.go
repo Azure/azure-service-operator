@@ -166,7 +166,6 @@ type Extension_Spec struct {
 	PropertyBag  genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
 	ReleaseTrain *string                             `json:"releaseTrain,omitempty"`
 	Scope        *Scope                              `json:"scope,omitempty"`
-	Statuses     []ExtensionStatus                   `json:"statuses,omitempty"`
 	SystemData   *SystemData                         `json:"systemData,omitempty"`
 	Version      *string                             `json:"version,omitempty"`
 }
@@ -261,17 +260,6 @@ type Extension_Properties_AksAssignedIdentity_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	TenantId    *string                `json:"tenantId,omitempty"`
 	Type        *string                `json:"type,omitempty"`
-}
-
-// Storage version of v1api20230501.ExtensionStatus
-// Status from the extension.
-type ExtensionStatus struct {
-	Code          *string                `json:"code,omitempty"`
-	DisplayStatus *string                `json:"displayStatus,omitempty"`
-	Level         *string                `json:"level,omitempty"`
-	Message       *string                `json:"message,omitempty"`
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Time          *string                `json:"time,omitempty"`
 }
 
 // Storage version of v1api20230501.ExtensionStatus_STATUS

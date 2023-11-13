@@ -5,8 +5,6 @@
 | ErrorDetail_STATUS                                    | v1api20230501 |
 | ErrorDetail_STATUS_Unrolled                           | v1api20230501 |
 | Extension                                             | v1api20230501 |
-| ExtensionStatus                                       | v1api20230501 |
-| ExtensionStatus_Level                                 | v1api20230501 |
 | ExtensionStatus_Level_STATUS                          | v1api20230501 |
 | ExtensionStatus_STATUS                                | v1api20230501 |
 | Extension_Properties_AksAssignedIdentity_STATUS       | v1api20230501 |

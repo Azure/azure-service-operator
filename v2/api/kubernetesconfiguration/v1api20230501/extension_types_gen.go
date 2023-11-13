@@ -357,9 +357,6 @@ type Extension_Spec struct {
 	// Scope: Scope at which the extension is installed.
 	Scope *Scope `json:"scope,omitempty"`
 
-	// Statuses: Status from this extension.
-	Statuses []ExtensionStatus `json:"statuses,omitempty"`
-
 	// SystemData: Top level metadata
 	// https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
 	SystemData *SystemData `json:"systemData,omitempty"`
@@ -408,7 +405,6 @@ func (extension *Extension_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		extension.ExtensionType != nil ||
 		extension.ReleaseTrain != nil ||
 		extension.Scope != nil ||
-		extension.Statuses != nil ||
 		extension.Version != nil {
 		result.Properties = &Extension_Properties_Spec_ARM{}
 	}
@@ -445,13 +441,6 @@ func (extension *Extension_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		}
 		scope := *scope_ARM.(*Scope_ARM)
 		result.Properties.Scope = &scope
-	}
-	for _, item := range extension.Statuses {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.Statuses = append(result.Properties.Statuses, *item_ARM.(*ExtensionStatus_ARM))
 	}
 	if extension.Version != nil {
 		version := *extension.Version
@@ -573,19 +562,6 @@ func (extension *Extension_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 			}
 			scope := scope1
 			extension.Scope = &scope
-		}
-	}
-
-	// Set property "Statuses":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.Statuses {
-			var item1 ExtensionStatus
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			extension.Statuses = append(extension.Statuses, item1)
 		}
 	}
 
@@ -742,24 +718,6 @@ func (extension *Extension_Spec) AssignProperties_From_Extension_Spec(source *v2
 		extension.Scope = nil
 	}
 
-	// Statuses
-	if source.Statuses != nil {
-		statusList := make([]ExtensionStatus, len(source.Statuses))
-		for statusIndex, statusItem := range source.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status ExtensionStatus
-			err := status.AssignProperties_From_ExtensionStatus(&statusItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ExtensionStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		extension.Statuses = statusList
-	} else {
-		extension.Statuses = nil
-	}
-
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData
@@ -863,24 +821,6 @@ func (extension *Extension_Spec) AssignProperties_To_Extension_Spec(destination 
 		destination.Scope = nil
 	}
 
-	// Statuses
-	if extension.Statuses != nil {
-		statusList := make([]v20230501s.ExtensionStatus, len(extension.Statuses))
-		for statusIndex, statusItem := range extension.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status v20230501s.ExtensionStatus
-			err := statusItem.AssignProperties_To_ExtensionStatus(&status)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ExtensionStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		destination.Statuses = statusList
-	} else {
-		destination.Statuses = nil
-	}
-
 	// SystemData
 	if extension.SystemData != nil {
 		var systemDatum v20230501s.SystemData
@@ -973,24 +913,6 @@ func (extension *Extension_Spec) Initialize_From_Extension_STATUS(source *Extens
 		extension.Scope = &scope
 	} else {
 		extension.Scope = nil
-	}
-
-	// Statuses
-	if source.Statuses != nil {
-		statusList := make([]ExtensionStatus, len(source.Statuses))
-		for statusIndex, statusItem := range source.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status ExtensionStatus
-			err := status.Initialize_From_ExtensionStatus_STATUS(&statusItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ExtensionStatus_STATUS() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		extension.Statuses = statusList
-	} else {
-		extension.Statuses = nil
 	}
 
 	// SystemData
@@ -2056,201 +1978,6 @@ func (identity *Extension_Properties_AksAssignedIdentity_STATUS) AssignPropertie
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Status from the extension.
-type ExtensionStatus struct {
-	// Code: Status code provided by the Extension
-	Code *string `json:"code,omitempty"`
-
-	// DisplayStatus: Short description of status of the extension.
-	DisplayStatus *string `json:"displayStatus,omitempty"`
-
-	// Level: Level of the status.
-	Level *ExtensionStatus_Level `json:"level,omitempty"`
-
-	// Message: Detailed message of the status from the Extension.
-	Message *string `json:"message,omitempty"`
-
-	// Time: DateLiteral (per ISO8601) noting the time of installation status.
-	Time *string `json:"time,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ExtensionStatus{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (status *ExtensionStatus) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if status == nil {
-		return nil, nil
-	}
-	result := &ExtensionStatus_ARM{}
-
-	// Set property "Code":
-	if status.Code != nil {
-		code := *status.Code
-		result.Code = &code
-	}
-
-	// Set property "DisplayStatus":
-	if status.DisplayStatus != nil {
-		displayStatus := *status.DisplayStatus
-		result.DisplayStatus = &displayStatus
-	}
-
-	// Set property "Level":
-	if status.Level != nil {
-		level := *status.Level
-		result.Level = &level
-	}
-
-	// Set property "Message":
-	if status.Message != nil {
-		message := *status.Message
-		result.Message = &message
-	}
-
-	// Set property "Time":
-	if status.Time != nil {
-		time := *status.Time
-		result.Time = &time
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (status *ExtensionStatus) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExtensionStatus_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (status *ExtensionStatus) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExtensionStatus_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtensionStatus_ARM, got %T", armInput)
-	}
-
-	// Set property "Code":
-	if typedInput.Code != nil {
-		code := *typedInput.Code
-		status.Code = &code
-	}
-
-	// Set property "DisplayStatus":
-	if typedInput.DisplayStatus != nil {
-		displayStatus := *typedInput.DisplayStatus
-		status.DisplayStatus = &displayStatus
-	}
-
-	// Set property "Level":
-	if typedInput.Level != nil {
-		level := *typedInput.Level
-		status.Level = &level
-	}
-
-	// Set property "Message":
-	if typedInput.Message != nil {
-		message := *typedInput.Message
-		status.Message = &message
-	}
-
-	// Set property "Time":
-	if typedInput.Time != nil {
-		time := *typedInput.Time
-		status.Time = &time
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_ExtensionStatus populates our ExtensionStatus from the provided source ExtensionStatus
-func (status *ExtensionStatus) AssignProperties_From_ExtensionStatus(source *v20230501s.ExtensionStatus) error {
-
-	// Code
-	status.Code = genruntime.ClonePointerToString(source.Code)
-
-	// DisplayStatus
-	status.DisplayStatus = genruntime.ClonePointerToString(source.DisplayStatus)
-
-	// Level
-	if source.Level != nil {
-		level := ExtensionStatus_Level(*source.Level)
-		status.Level = &level
-	} else {
-		status.Level = nil
-	}
-
-	// Message
-	status.Message = genruntime.ClonePointerToString(source.Message)
-
-	// Time
-	status.Time = genruntime.ClonePointerToString(source.Time)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ExtensionStatus populates the provided destination ExtensionStatus from our ExtensionStatus
-func (status *ExtensionStatus) AssignProperties_To_ExtensionStatus(destination *v20230501s.ExtensionStatus) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Code
-	destination.Code = genruntime.ClonePointerToString(status.Code)
-
-	// DisplayStatus
-	destination.DisplayStatus = genruntime.ClonePointerToString(status.DisplayStatus)
-
-	// Level
-	if status.Level != nil {
-		level := string(*status.Level)
-		destination.Level = &level
-	} else {
-		destination.Level = nil
-	}
-
-	// Message
-	destination.Message = genruntime.ClonePointerToString(status.Message)
-
-	// Time
-	destination.Time = genruntime.ClonePointerToString(status.Time)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ExtensionStatus_STATUS populates our ExtensionStatus from the provided source ExtensionStatus_STATUS
-func (status *ExtensionStatus) Initialize_From_ExtensionStatus_STATUS(source *ExtensionStatus_STATUS) error {
-
-	// Code
-	status.Code = genruntime.ClonePointerToString(source.Code)
-
-	// DisplayStatus
-	status.DisplayStatus = genruntime.ClonePointerToString(source.DisplayStatus)
-
-	// Level
-	if source.Level != nil {
-		level := ExtensionStatus_Level(*source.Level)
-		status.Level = &level
-	} else {
-		status.Level = nil
-	}
-
-	// Message
-	status.Message = genruntime.ClonePointerToString(source.Message)
-
-	// Time
-	status.Time = genruntime.ClonePointerToString(source.Time)
 
 	// No error
 	return nil
@@ -3833,15 +3560,6 @@ type Extension_Properties_AksAssignedIdentity_Type_STATUS string
 const (
 	Extension_Properties_AksAssignedIdentity_Type_STATUS_SystemAssigned = Extension_Properties_AksAssignedIdentity_Type_STATUS("SystemAssigned")
 	Extension_Properties_AksAssignedIdentity_Type_STATUS_UserAssigned   = Extension_Properties_AksAssignedIdentity_Type_STATUS("UserAssigned")
-)
-
-// +kubebuilder:validation:Enum={"Error","Information","Warning"}
-type ExtensionStatus_Level string
-
-const (
-	ExtensionStatus_Level_Error       = ExtensionStatus_Level("Error")
-	ExtensionStatus_Level_Information = ExtensionStatus_Level("Information")
-	ExtensionStatus_Level_Warning     = ExtensionStatus_Level("Warning")
 )
 
 type ExtensionStatus_Level_STATUS string

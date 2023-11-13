@@ -3,7 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api2023
 ├── APIVersion: Enum (1 value)
 │   └── "2023-05-01"
 └── Extension: Resource
-    ├── Spec: Object (15 properties)
+    ├── Spec: Object (14 properties)
     │   ├── AksAssignedIdentity: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Type: *string
@@ -33,13 +33,6 @@ github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api2023
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── TargetNamespace: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── Statuses: Object (6 properties)[]
-    │   │   ├── Code: *string
-    │   │   ├── DisplayStatus: *string
-    │   │   ├── Level: *string
-    │   │   ├── Message: *string
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── Time: *string
     │   ├── SystemData: *Object (7 properties)
     │   │   ├── CreatedAt: *string
     │   │   ├── CreatedBy: *string
