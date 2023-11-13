@@ -1,8 +1,14 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
 package pipeline
 
 import (
-	"github.com/go-logr/logr"
 	"testing"
+
+	"github.com/go-logr/logr"
 
 	. "github.com/onsi/gomega"
 
