@@ -303,7 +303,7 @@ func (generator *CodeGenerator) Generate(
 			"elapsed", duration,
 			"added", len(defsAdded),
 			"removed", len(defsRemoved),
-			"count", len(newState.Definitions()))
+			"totalDefs", len(newState.Definitions()))
 
 		state = newState
 	}

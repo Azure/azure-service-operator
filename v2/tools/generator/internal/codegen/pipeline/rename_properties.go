@@ -25,7 +25,7 @@ func RenameProperties(cfg *config.ObjectModelConfiguration) *Stage {
 		RenamePropertiesStageID,
 		"Rename properties",
 		func(_ context.Context, state *State) (*State, error) {
-			visitor := createPropertyRenamingTypeVisitor(cfg)
+			visitor := createPropertyRenamingVisitor(cfg)
 			var errs []error
 			definitions := state.Definitions()
 			modified := make(astmodel.TypeDefinitionSet)
@@ -70,7 +70,7 @@ func RenameProperties(cfg *config.ObjectModelConfiguration) *Stage {
 	return stage
 }
 
-func createPropertyRenamingTypeVisitor(
+func createPropertyRenamingVisitor(
 	cfg *config.ObjectModelConfiguration,
 ) astmodel.TypeVisitor[astmodel.InternalTypeName] {
 	builder := astmodel.TypeVisitorBuilder[astmodel.InternalTypeName]{
@@ -91,7 +91,6 @@ func renamePropertiesInObjectType(
 	ot *astmodel.ObjectType,
 	cfg *config.ObjectModelConfiguration,
 ) (astmodel.Type, error) {
-
 	properties := make([]*astmodel.PropertyDefinition, 0, ot.Properties().Len())
 	err := ot.Properties().ForEachError(
 		func(prop *astmodel.PropertyDefinition) error {

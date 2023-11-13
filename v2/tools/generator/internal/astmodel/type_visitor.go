@@ -113,13 +113,19 @@ func (tv *TypeVisitor[C]) VisitDefinition(td TypeDefinition, ctx C) (TypeDefinit
 	visitedName, err := tv.VisitInternalTypeName(name, ctx)
 	if err != nil {
 		return TypeDefinition{}, errors.Wrapf(
-			err, "visit of %s/%s failed", name.InternalPackageReference().FolderPath(), name.Name())
+			err,
+			"visit of %s/%s failed",
+			name.InternalPackageReference().FolderPath(),
+			name.Name())
 	}
 
 	visitedType, err := tv.Visit(td.Type(), ctx)
 	if err != nil {
 		return TypeDefinition{}, errors.Wrapf(
-			err, "visit of type of %s/%s failed", name.InternalPackageReference().FolderPath(), name.Name())
+			err,
+			"visit of type of %s/%s failed",
+			name.InternalPackageReference().FolderPath(),
+			name.Name())
 	}
 
 	def := td.WithName(visitedName).WithType(visitedType)
