@@ -74,7 +74,7 @@ func newConvertToARMFunctionBuilder(
 		// Generic handlers come second
 		result.referencePropertyHandler,
 		result.flattenedPropertyHandler,
-		result.propertiesWithSameNameHandler,
+		result.propertiesByNameHandler,
 	}
 
 	return result
@@ -524,13 +524,24 @@ func (builder *convertToARMBuilder) buildToPropInitializer(
 	}
 }
 
-func (builder *convertToARMBuilder) propertiesWithSameNameHandler(
+func (builder *convertToARMBuilder) propertiesByNameHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType,
 ) (propertyConversionHandlerResult, error) {
 
-	fromProp, ok := fromType.Property(toProp.PropertyName())
-	if !ok {
+	fromProp, found := fromType.Property(toProp.PropertyName())
+	if !found {
+		// No direct match by name, look for renames
+		// Look for a candidate fromProp whose original name matches toProp
+		fromType.Properties().ForEach(func(p *astmodel.PropertyDefinition) {
+			if originalName, ok := p.Renamed(); ok && originalName == toProp.PropertyName() {
+				fromProp = p
+				found = true
+			}
+		})
+	}
+
+	if !found {
 		return notHandled, nil
 	}
 
