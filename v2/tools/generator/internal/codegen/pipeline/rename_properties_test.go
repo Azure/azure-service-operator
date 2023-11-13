@@ -105,7 +105,7 @@ func Test_RenameProperties_PopulatesExpectedARMProperty(t *testing.T) {
 	initialState, err := RunTestPipeline(
 		NewState(defs),
 		CreateARMTypes(omc, idFactory, logr.Discard()),
-		ApplyARMConversionInterface(idFactory),
+		ApplyARMConversionInterface(idFactory, omc),
 	)
 	g.Expect(err).To(Succeed())
 
@@ -194,16 +194,9 @@ func Test_RenameProperties_WhenFlattening_PopulatesExpectedARMProperty(t *testin
 	initialState, err := RunTestPipeline(
 		NewState(defs),
 		CreateARMTypes(omc, idFactory, logr.Discard()),
-		ApplyARMConversionInterface(idFactory),
+		ApplyARMConversionInterface(idFactory, omc),
 		FlattenProperties(logr.Discard()),
 		SimplifyDefinitions(),
-	)
-	g.Expect(err).To(Succeed())
-
-	// Arrange Reference state for comparision
-
-	referenceState, err := RunTestPipeline(
-		initialState,
 	)
 	g.Expect(err).To(Succeed())
 
@@ -217,5 +210,5 @@ func Test_RenameProperties_WhenFlattening_PopulatesExpectedARMProperty(t *testin
 
 	// Assert - When verifying the golden file, ensure the property has been renamed as expected
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.definitions, test.DiffWithTypes(referenceState.definitions))
+	test.AssertPackagesGenerateExpectedCode(t, finalState.definitions, test.DiffWithTypes(initialState.definitions))
 }
