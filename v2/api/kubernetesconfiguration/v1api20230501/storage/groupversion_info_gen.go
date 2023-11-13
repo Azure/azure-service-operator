@@ -10,7 +10,7 @@ Licensed under the MIT license.
 // All object properties are optional by default, this will be overridden when needed:
 // +kubebuilder:validation:Optional
 // +groupName=kubernetesconfiguration.azure.com
-// +versionName=v1api20221101storage
+// +versionName=v1api20230501storage
 package storage
 
 import (
@@ -20,7 +20,7 @@ import (
 
 var (
 	// GroupVersion is group version used to register these objects
-	GroupVersion = schema.GroupVersion{Group: "kubernetesconfiguration.azure.com", Version: "v1api20221101storage"}
+	GroupVersion = schema.GroupVersion{Group: "kubernetesconfiguration.azure.com", Version: "v1api20230501storage"}
 
 	// SchemeBuilder is used to add go types to the GroupVersionKind scheme
 	SchemeBuilder = &scheme.Builder{GroupVersion: GroupVersion}

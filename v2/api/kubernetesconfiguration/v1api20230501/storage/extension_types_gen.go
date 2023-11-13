@@ -22,9 +22,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20221101.Extension
+// Storage version of v1api20230501.Extension
 // Generator information:
-// - Generated from: /kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/extensions.json
+// - Generated from: /kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/extensions.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionName}
 type Extension struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -52,7 +52,7 @@ func (extension *Extension) AzureName() string {
 	return extension.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2022-11-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2023-05-01"
 func (extension Extension) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -128,9 +128,9 @@ func (extension *Extension) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20221101.Extension
+// Storage version of v1api20230501.Extension
 // Generator information:
-// - Generated from: /kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/extensions.json
+// - Generated from: /kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/extensions.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionName}
 type ExtensionList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -138,13 +138,13 @@ type ExtensionList struct {
 	Items           []Extension `json:"items"`
 }
 
-// Storage version of v1api20221101.APIVersion
-// +kubebuilder:validation:Enum={"2022-11-01"}
+// Storage version of v1api20230501.APIVersion
+// +kubebuilder:validation:Enum={"2023-05-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("2022-11-01")
+const APIVersion_Value = APIVersion("2023-05-01")
 
-// Storage version of v1api20221101.Extension_Spec
+// Storage version of v1api20230501.Extension_Spec
 type Extension_Spec struct {
 	AksAssignedIdentity     *Extension_Properties_AksAssignedIdentity_Spec `json:"aksAssignedIdentity,omitempty"`
 	AutoUpgradeMinorVersion *bool                                          `json:"autoUpgradeMinorVersion,omitempty"`
@@ -191,7 +191,7 @@ func (extension *Extension_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	return destination.ConvertSpecFrom(extension)
 }
 
-// Storage version of v1api20221101.Extension_STATUS
+// Storage version of v1api20230501.Extension_STATUS
 // The Extension object.
 type Extension_STATUS struct {
 	AksAssignedIdentity     *Extension_Properties_AksAssignedIdentity_STATUS `json:"aksAssignedIdentity,omitempty"`
@@ -238,7 +238,7 @@ func (extension *Extension_STATUS) ConvertStatusTo(destination genruntime.Conver
 	return destination.ConvertStatusFrom(extension)
 }
 
-// Storage version of v1api20221101.ErrorDetail_STATUS
+// Storage version of v1api20230501.ErrorDetail_STATUS
 // The error detail.
 type ErrorDetail_STATUS struct {
 	AdditionalInfo []ErrorAdditionalInfo_STATUS  `json:"additionalInfo,omitempty"`
@@ -249,13 +249,13 @@ type ErrorDetail_STATUS struct {
 	Target         *string                       `json:"target,omitempty"`
 }
 
-// Storage version of v1api20221101.Extension_Properties_AksAssignedIdentity_Spec
+// Storage version of v1api20230501.Extension_Properties_AksAssignedIdentity_Spec
 type Extension_Properties_AksAssignedIdentity_Spec struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1api20221101.Extension_Properties_AksAssignedIdentity_STATUS
+// Storage version of v1api20230501.Extension_Properties_AksAssignedIdentity_STATUS
 type Extension_Properties_AksAssignedIdentity_STATUS struct {
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -263,7 +263,7 @@ type Extension_Properties_AksAssignedIdentity_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1api20221101.ExtensionStatus
+// Storage version of v1api20230501.ExtensionStatus
 // Status from the extension.
 type ExtensionStatus struct {
 	Code          *string                `json:"code,omitempty"`
@@ -274,7 +274,7 @@ type ExtensionStatus struct {
 	Time          *string                `json:"time,omitempty"`
 }
 
-// Storage version of v1api20221101.ExtensionStatus_STATUS
+// Storage version of v1api20230501.ExtensionStatus_STATUS
 // Status from the extension.
 type ExtensionStatus_STATUS struct {
 	Code          *string                `json:"code,omitempty"`
@@ -285,14 +285,14 @@ type ExtensionStatus_STATUS struct {
 	Time          *string                `json:"time,omitempty"`
 }
 
-// Storage version of v1api20221101.Identity
+// Storage version of v1api20230501.Identity
 // Identity for the resource.
 type Identity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1api20221101.Identity_STATUS
+// Storage version of v1api20230501.Identity_STATUS
 // Identity for the resource.
 type Identity_STATUS struct {
 	PrincipalId *string                `json:"principalId,omitempty"`
@@ -301,7 +301,7 @@ type Identity_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1api20221101.Plan
+// Storage version of v1api20230501.Plan
 // Plan for the resource.
 type Plan struct {
 	Name          *string                `json:"name,omitempty"`
@@ -312,7 +312,7 @@ type Plan struct {
 	Version       *string                `json:"version,omitempty"`
 }
 
-// Storage version of v1api20221101.Plan_STATUS
+// Storage version of v1api20230501.Plan_STATUS
 // Plan for the resource.
 type Plan_STATUS struct {
 	Name          *string                `json:"name,omitempty"`
@@ -323,7 +323,7 @@ type Plan_STATUS struct {
 	Version       *string                `json:"version,omitempty"`
 }
 
-// Storage version of v1api20221101.Scope
+// Storage version of v1api20230501.Scope
 // Scope of the extension. It can be either Cluster or Namespace; but not both.
 type Scope struct {
 	Cluster     *ScopeCluster          `json:"cluster,omitempty"`
@@ -331,7 +331,7 @@ type Scope struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20221101.Scope_STATUS
+// Storage version of v1api20230501.Scope_STATUS
 // Scope of the extension. It can be either Cluster or Namespace; but not both.
 type Scope_STATUS struct {
 	Cluster     *ScopeCluster_STATUS   `json:"cluster,omitempty"`
@@ -339,7 +339,7 @@ type Scope_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20221101.SystemData
+// Storage version of v1api20230501.SystemData
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
@@ -351,7 +351,7 @@ type SystemData struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20221101.SystemData_STATUS
+// Storage version of v1api20230501.SystemData_STATUS
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
@@ -363,7 +363,7 @@ type SystemData_STATUS struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20221101.ErrorAdditionalInfo_STATUS
+// Storage version of v1api20230501.ErrorAdditionalInfo_STATUS
 // The resource management error additional info.
 type ErrorAdditionalInfo_STATUS struct {
 	Info        map[string]v1.JSON     `json:"info,omitempty"`
@@ -371,7 +371,7 @@ type ErrorAdditionalInfo_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1api20221101.ErrorDetail_STATUS_Unrolled
+// Storage version of v1api20230501.ErrorDetail_STATUS_Unrolled
 type ErrorDetail_STATUS_Unrolled struct {
 	AdditionalInfo []ErrorAdditionalInfo_STATUS `json:"additionalInfo,omitempty"`
 	Code           *string                      `json:"code,omitempty"`
@@ -380,28 +380,28 @@ type ErrorDetail_STATUS_Unrolled struct {
 	Target         *string                      `json:"target,omitempty"`
 }
 
-// Storage version of v1api20221101.ScopeCluster
+// Storage version of v1api20230501.ScopeCluster
 // Specifies that the scope of the extension is Cluster
 type ScopeCluster struct {
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ReleaseNamespace *string                `json:"releaseNamespace,omitempty"`
 }
 
-// Storage version of v1api20221101.ScopeCluster_STATUS
+// Storage version of v1api20230501.ScopeCluster_STATUS
 // Specifies that the scope of the extension is Cluster
 type ScopeCluster_STATUS struct {
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ReleaseNamespace *string                `json:"releaseNamespace,omitempty"`
 }
 
-// Storage version of v1api20221101.ScopeNamespace
+// Storage version of v1api20230501.ScopeNamespace
 // Specifies that the scope of the extension is Namespace
 type ScopeNamespace struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	TargetNamespace *string                `json:"targetNamespace,omitempty"`
 }
 
-// Storage version of v1api20221101.ScopeNamespace_STATUS
+// Storage version of v1api20230501.ScopeNamespace_STATUS
 // Specifies that the scope of the extension is Namespace
 type ScopeNamespace_STATUS struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`

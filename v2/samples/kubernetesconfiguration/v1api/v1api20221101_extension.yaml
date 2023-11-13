@@ -1,4 +1,4 @@
-apiVersion: kubernetesconfiguration.azure.com/v1api20221101
+apiVersion: kubernetesconfiguration.azure.com/v1api20230501
 kind: Extension
 metadata:
   name: aso-sample-extension

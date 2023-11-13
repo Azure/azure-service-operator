@@ -1600,7 +1600,7 @@ objectModelConfiguration:
         Id:
           $armReference: true
   kubernetesconfiguration:
-    2022-11-01:
+    2023-05-01:
       Extension:
         $export: true
         $supportedFrom: v2.4.0
