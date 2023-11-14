@@ -5,9 +5,9 @@ package customizations
 
 import (
 	v20200801p "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
-	v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801previewstorage"
+	v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview/storage"
 	v20220401 "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
-	v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401storage"
+	v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
