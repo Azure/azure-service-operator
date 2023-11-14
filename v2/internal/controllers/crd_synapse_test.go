@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	synapse "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
