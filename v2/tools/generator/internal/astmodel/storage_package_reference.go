@@ -37,7 +37,6 @@ var legacyStorageGroups = set.Make(
 	"dbforpostgresql",
 	"devices",
 	"insights",
-	"keyvault",
 	"machinelearningservices",
 	"managedidentity",
 	"operationalinsights",
