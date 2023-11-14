@@ -4,7 +4,7 @@ title: 2023-09 Complex Properties that Skip Versions
 
 ## Context
 
-We have a long standing issue (originally documented in [#1776](https://github.com/Azure/azure-service-operator/issues/1776)) where our conversions between versions will break if a complex (object valued) property is reintroduced in a later version after being removed in an earlier one.
+We have a long standing issue (originally documented in [#1776](https://github.com/Azure/azure-service-operator/issues/1776)) where our conversions between versions will break if a complex (object valued) property is reintroduced with a different shape in a later version after being removed in an earlier one.
 
 **TL;DR:** The crux of the problem is that we can currently end up with two different versions (shapes) of the same property serialized in a property bag on the same intermediate version.
 
@@ -15,9 +15,9 @@ To clarify, consider the following examples, demonstrating the current behaviour
 Consider a CRM system containing details of people. In **v3** of the system, we capture each person's residental address, but in **v4** we have dropped that property.
 
 <!-- yuml.me
-[Person v3|FullName string;FamilyName string; KnownAs string;ResidentialAddress]
-[Person v3]--[Address v3|Label string]
-[Person v4|FullName string;FamilyName string; KnownAs string]
+[v3.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress]
+[v3.Person]--[v3.Address|Label string]
+[v4.Person|FullName string;FamilyName string; KnownAs string]
 -->
 
 {{< figure src="version-4.png" >}}
@@ -33,9 +33,9 @@ Conversion back and forward between versions **v3** and **v4** works fine.
 In **v5**, the `ResidentialAddress` is reintroduced, but with a different shape. Instead of being the single field `Label`, it now has multiple fields.
 
 <!-- yuml.me 
-[Person v4|FullName string;FamilyName string; KnownAs string|PropertyBag PropertyBag]
-[Person v5|FullName string;FamilyName string; KnownAs string;ResidentialAddress|PropertyBag PropertyBag]
-[Person v5]--[Address v5|Street string;Suburb string;City string|PropertyBag PropertyBag]
+[v4.Person|FullName string;FamilyName string; KnownAs string|PropertyBag PropertyBag]
+[v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress|PropertyBag PropertyBag]
+[v5.Person]--[v5.Address|Street string; Suburb string; City string|PropertyBag PropertyBag]
 -->
 
 {{< figure src="version-5.png" >}}
@@ -48,27 +48,31 @@ Conversion back and forward between versions **v4** and **v5** works fine.
 
 ### The Problem
 
-Observe how we can end up with two different variants of **v4** `Person`. We can end up with one where the property bag contains a **v3** `Address` or we can end up with one where the property bag contains a **v5** `Address`.
+Observe how we can end up with two different variants of **v4** `Person`. In one case, we have a **v4** `Person` where the property bag contains a **v3** `Address`; in the other case, we have a **v4** `Person` the property bag contains a **v5** `Address`.
 
 Here is where we run into problems.
 
 <!-- yuml.me
-[Person v3|FullName string;FamilyName string; KnownAs string;ResidentialAddress]
-[Person v3]--[Address v3|Label string]
-[Person v4|FullName string;FamilyName string; KnownAs string|PropertyBag PropertyBag]
-[Person v5|FullName string;FamilyName string; KnownAs string;ResidentialAddress|PropertyBag PropertyBag]
-[Person v5]--[Address v5|Street string;Suburb string;City string|PropertyBag PropertyBag]
+[v3.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress]
+[v3.Person]--[v3.Address|Label string]
+[v4.Person|FullName string;FamilyName string; KnownAs string|PropertyBag PropertyBag]
+[v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress|PropertyBag PropertyBag]
+[v5.Person]--[v5.Address|Street string; Suburb string;City string|PropertyBag PropertyBag]
 -->
 
 {{< figure src="problem.png" >}}
 
-When we convert from **v3** to **v4** to **v5** we end up stuck part way through. 
+When we convert from **v3** to **v4** to **v5** we end up stuck part-way through. 
 
 After our first conversion step, we have a **v4** `Person` that contains a **v3** `Address` in the property bag. 
 
-Conversion to the **v5** `Person` will fail when we try to deserialize a **v5** `Address` from the **v3** version in the property bag. We can't populate a **v3** `Address` from a serialized **v5* `Address`, the two are not compatible, and the conversion will fail. This will cause the operator to fail.
+Conversion to the **v5** `Person` will fail when we try to deserialize a **v5** `Address` from the **v3** version in the property bag. 
 
-In the other direction, from **v5** to **v4** to **v3** we end up with a **v3** `Person` that contains a **v5** `Address` in the property bag, and a similar problem occurs. We can't populate a **v5** `Address` from a serialized **v3** `Address`, The two are not compatible, and the conversion will fail.
+We can't populate a **v3** `Address` from a serialized **v5* `Address`, the two are not compatible, and the conversion will fail. 
+
+This will cause the operator to fail.
+
+In the opposite direction, from **v5** to **v4** to **v3**, we end up with a **v4** `Person` that contains a **v5** `Address` in the property bag, and a similar problem occurs. We can't populate a **v3** `Address` from a serialized **v5** `Address`, The two are not compatible, and the conversion will fail.
 
 
 ### Complications
@@ -83,40 +87,68 @@ However we choose to fix this problem, the introduction of a new resource versio
 
 The example shown here has the new property returning after just one version; we need to handle the case where the property returns after a hiatis of several versions.
 
-#### Type changes
+#### Other PropertyBag use
 
-This example shows the shape of the complex type changing between versions. 
+The skipping-property problem is an edge case that emerges from the way we use the `PropertyBag` to maintain the conversion contract required by Kubernetes. 
 
-Consider how things would change if the `ResidentialAddress` on **v3** `Person` was a simple string - instead of the property bag containing an object to deserialize, the **v5** `Address` would find a simple string.
+When converting a resource to an earlier version, properties introduced in that later version get stored in the `PropertyBag` on the earlier version to ensure they're not lost.
 
-### Proposed Solution
+Similarly, when converting a resource to a later version, properties removed from that later version get stored in the `PropertyBag` of the later version to ensure they are not lost.
 
-Ensure that complex types stored in property bags have a consistent shape by introducing a dedicated type for that purpose.
+### Option 1: Introduce Intermediate Type
+
+Ensure that complex types stored in property bags have a consistent shape by introducing a dedicated type for that purpose. Regardless of whether the property bag is populated by an earlier version (e.g. a **v3** `Address`) or a later version (e.g. a **v5** `Address`), the shape of the object stored property bag will be the same (**v4**).
 
 <!-- yuml.me
-[Person v3|FullName string;FamilyName string; KnownAs string;ResidentialAddress]
-[Person v3]--[Address v3|Label string]
-[Person v4|FullName string;FamilyName string; KnownAs string|PropertyBag PropertyBag]-.-[Address v4|Label string {bg:cornsilk}]
-[Person v5|FullName string;FamilyName string; KnownAs string;ResidentialAddress|PropertyBag PropertyBag] 
-[Person v5]--[Address v5|Street string; Suburb string; City string|PropertyBag PropertyBag]
+[v3.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress]
+[v3.Person]--[v3.Address|Label string]
+[v4.Person|FullName string;FamilyName string; KnownAs string|PropertyBag PropertyBag]..[v4.Address|Label string {bg:cornsilk}]
+[v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress|PropertyBag PropertyBag] 
+[v5.Person]--[v5.Address|Street string; Suburb string; City string|PropertyBag PropertyBag]
 -->
 
-{{< figure src="solution.png" >}}
+{{< figure src="option-1.png" >}}
 
-We replicate the structure of the version _before_ when synthesizing the intermediate type.
+We create the shape of the intermediate type by replicating the structure of the version _before_ (**v3**), essentially just copying it forward to the new version (**v4**).
 
-When we convert from **v3** to **v4**, we first convert the **v3** `Address` into a **v4** `Address`  before storing it in the property bag.
+When we convert from **v3** to **v4**, we first convert the **v3** `Address` into a **v4** `Address` before storing it in the property bag.
 
 Then, when converting from **v4** to **v5**, we rehydrate a **v4** `Address` from the property bag and then convert that to a **v5** `Address`.
 
 The process for conversion from **v5** to **v4** to **v3** is the reverse. We convert the **v5** `Address` into a **v4** `Address` before storing it in the property bag, and then rehydrate a **v4** `Address` from the property bag and convert that to a **v3** `Address`.
 
-While this might seem to just _kick the can down the road_, our conversion framework already has support for customization of the conversions between adjacent versions of a type, allowing the mismatch between **v4** and **v5** of `Address` to be handled by augmenting the conversion. 
+While this might seem to just _kick the can down the road_, our conversion framework already has support for customization of the conversions between adjacent versions of a type, allowing the mismatch between **v4** and **v5** of `Address` to be handled by augmenting the conversion.
 
-#### Backward Compatibility
+Pros:
+* Addresses the central inconsistency problem, ensuring we always serialize the same shape into intermediate property bags
+* Preserves the serialization format for existing resource versions (e.g. **v3** and **v4**)
 
-With the shape of the introduced type being the same as the shape of the type in the version _before_ the skip, deserialization will _just work_. 
+Cons:
+* Changes the object model of released resources, a breaking change for consumers of the object model
+* When there are multi-generational skips, other questions arise: Do we introduce the new type into every intermediate version, only the last, or both first and last? Each approach has advantages and drawbacks.
 
+Fatal:
+* The **v4** package already has a reference to **v5**. The Go compiler's rules prohibiting circular package dependencies preclude adding a reference to **v4** from **v5**.
+
+### Option 2: Introduce Conversion Type
+
+As for Option 1, but instead of introducing the new type into **v4** where it can't be referenced by **v5**, use a dedicated **v5/compat** subpackage.
+
+<!-- yuml.me
+[v3.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress]
+[v3.Person]--[v3.Address|Label string]
+[v4.Person|FullName string;FamilyName string; KnownAs string|PropertyBag PropertyBag]..[v4.Address|Label string {bg:cornsilk}]
+[v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress|PropertyBag PropertyBag] 
+[v5.Person]--[v5.Address|Street string; Suburb string; City string|PropertyBag PropertyBag]
+-->
+
+The invariant we need to maintain here is that the **v5/compat** version of `Address` needs to have the same exact shape as the **v3** version of `Address`.
+
+Pros:
+* Addresses the central inconsistency problem, ensuring we always serialize the same shape into intermediate property bags
+* Preserves the serialization format for existing resource versions (e.g. **v3** and **v4**)
+* Does not change the object model for released code
+* Isolates types introduced for compatibility purposes in a dedicated subpackage, avoiding the problem of circular dependencies.
 
 ## Decision
 
