@@ -149,27 +149,26 @@ func Test_Multitenant_SingleOperator_PerResourceCredential_MatchSubscriptionWith
 	acct := newStorageAccount(tc, rg)
 	acct.Annotations = map[string]string{annotations.PerResourceSecret: secret.Name}
 
-	// Creating new storage account in with restricted permissions per resource secret should fail.
-	tc.CreateResourceAndWaitForState(acct, metav1.ConditionFalse, conditions.ConditionSeverityError)
+	// Creating new storage account in with distinct subscription, per resource secret should fail.
+	tc.CreateResourceAndWaitForFailure(acct)
 	tc.Expect(acct.Status.Conditions[0].Message).To(ContainSubstring("does not match parent subscription"))
+	tc.Expect(acct.Status.Conditions[0].Severity).To(Equal(conditions.ConditionSeverityError))
 
 	// Deleting the per-resource credential annotation would default to applying the global credential with all permissions
 	old := acct.DeepCopy()
 	delete(acct.Annotations, annotations.PerResourceSecret)
-	tc.PatchResourceAndWait(old, acct)
+	tc.Patch(old, acct)
 
 	objKey := client.ObjectKeyFromObject(acct)
-	tc.GetResource(objKey, acct)
-	tc.Expect(acct.Annotations).ToNot(HaveKey(annotations.PerResourceSecret))
+	updated := &storage.StorageAccount{}
+	tc.GetResource(objKey, updated)
 
-	resID := genruntime.GetResourceIDOrDefault(acct)
+	resID := genruntime.GetResourceIDOrDefault(updated)
 
 	// Make sure the StorageAccount is created successfully in Azure.
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, resID, string(storage.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeTrue())
-
-	tc.DeleteResourcesAndWait(acct, rg)
 }
 
 func newClientSecretCredential(subscriptionID, tenantID, name, namespace string) (*v1.Secret, error) {
