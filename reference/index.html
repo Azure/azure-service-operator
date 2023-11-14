@@ -414,6 +414,8 @@
   <a href="/azure-service-operator/reference/keyvault/v1beta20210401preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview"><span class="">keyvault.azure.com/v1beta20210401preview</span></a>
 </li>
   </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
+  <a href="/azure-service-operator/reference/kubernetesconfiguration/" title="KubernetesConfiguration Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekubernetesconfiguration"><span class="">KubernetesConfiguration</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" title="MachineLearningServices Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">MachineLearningServices</span></a>
   <ul class="ul-3 foldable">
@@ -770,6 +772,11 @@
         <li><a href="#released-19">Released</a></li>
       </ul>
     </li>
+    <li><a href="#kubernetesconfiguration">KubernetesConfiguration</a>
+      <ul>
+        <li><a href="#next-release-4">Next Release</a></li>
+      </ul>
+    </li>
     <li><a href="#machinelearningservices">MachineLearningServices</a>
       <ul>
         <li><a href="#released-20">Released</a></li>
@@ -782,7 +789,7 @@
     </li>
     <li><a href="#network">Network</a>
       <ul>
-        <li><a href="#next-release-4">Next Release</a></li>
+        <li><a href="#next-release-5">Next Release</a></li>
         <li><a href="#released-22">Released</a></li>
       </ul>
     </li>
@@ -1991,6 +1998,30 @@ grouped by the originating ARM service.
 </tr>
 </tbody>
 </table>
+<h2 id="kubernetesconfiguration">KubernetesConfiguration</h2>
+<p>To install the CRDs for these resources, your ASO configuration must include <code>kubernetesconfiguration.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release-4">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>ARM Version</th>
+<th>CRD Version</th>
+<th>Supported From</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extension</td>
+<td>2023-05-01</td>
+<td>v1api20230501</td>
+<td>v2.4.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kubernetesconfiguration/v1api/v1api20230501_extension.yaml">View</a></td>
+</tr>
+</tbody>
+</table>
 <h2 id="machinelearningservices">MachineLearningServices</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>machinelearningservices.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
 <h3 id="released-20">Released</h3>
@@ -2062,7 +2093,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="network">Network</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>network.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-4">Next Release</h3>
+<h3 id="next-release-5">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
 <thead>

@@ -306,6 +306,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/keyvaults/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/kubernetesconfiguration/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/machinelearningservices/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1api20210701/</loc>
