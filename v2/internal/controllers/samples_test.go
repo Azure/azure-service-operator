@@ -39,6 +39,8 @@ var randomNameExclusions = []string{
 	"compute",
 	"documentdb",
 	"insights",
+	// TODO: We can use random names for 'kubernetesconfiguration' once https://github.com/Azure/azure-service-operator/issues/3544 is merged.
+	"kubernetesconfiguration",
 	"network",
 	"web",
 }
