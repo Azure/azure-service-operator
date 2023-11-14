@@ -131,8 +131,8 @@ var locationScopeRegex = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/.*`)
 func categorizeResourceScope(armURI string) astmodel.ResourceScope {
 	// this is a bit of a hack, eventually we should have better scope support.
 	// at the moment we assume that a resource is an extension if it can be applied to
-	// any scope:
-	if strings.HasPrefix(armURI, "/{scope}/") {
+	// any scope or if armURI contains more than 1 provider:
+	if strings.HasPrefix(armURI, "/{scope}/") || strings.Count(armURI, "providers") > 1 {
 		return astmodel.ResourceScopeExtension
 	}
 

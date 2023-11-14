@@ -7,7 +7,8 @@ set -o pipefail
 function create_role_assignment() {
   az role assignment create --assignee "${USER_ASSIGNED_OBJECT_ID}" \
       --role "Owner" \
-      --subscription "${AZURE_SUBSCRIPTION_ID}"
+      --subscription "${AZURE_SUBSCRIPTION_ID}" \
+      --scope "/subscriptions/${AZURE_SUBSCRIPTION_ID}"
 }
 
 function retry_create_role_assignment() {
