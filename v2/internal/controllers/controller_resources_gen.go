@@ -61,7 +61,7 @@ import (
 	datafactory_v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
 	dataprotection_customizations "github.com/Azure/azure-service-operator/v2/api/dataprotection/customizations"
 	dataprotection_v20230101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
-	dataprotection_v20230101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101storage"
+	dataprotection_v20230101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/storage"
 	dbformariadb_customizations "github.com/Azure/azure-service-operator/v2/api/dbformariadb/customizations"
 	dbformariadb_v20180601 "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601"
 	dbformariadb_v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
