@@ -24,6 +24,18 @@ set -eu
 # -s --skip-installed   : Skip anything that's already installed
 #
 
+#
+# This file includes documentation in lines prefixed `#doc#`.
+# These lines are extracted by running `task doc:dependencies` from the root folder.
+#
+# Each depencency should be documented by a single line with the following content:
+#
+# | <name> | <version> | <details> |
+#
+# Details should include at minimum a link to the originating website. 
+# Be sure to use include the `#doc#` prefix on each line.
+#
+
 VERBOSE=false
 SKIP=false
 DEVCONTAINER=false
@@ -82,6 +94,7 @@ fi
 
 # Ensure we have the right version of GO
 
+#doc# | Go | 1.20 | https://golang.org/doc/install #
 if ! command -v go > /dev/null 2>&1; then
     write-error "Go must be installed manually; see https://golang.org/doc/install"
     exit 1
@@ -91,7 +104,7 @@ GOVER=$(go version)
 write-info "Go version: ${GOVER[*]}"
 
 GOVERREQUIRED="go1.20.*"
-GOVERACTUAL=$(go version | { read _ _ ver _; echo $ver; })
+GOVERACTUAL=$(go version | { read _ _ ver _; echo "$ver"; })
 if ! [[ "$GOVERACTUAL" =~ $GOVERREQUIRED ]]; then
     write-error "Go must be version $GOVERREQUIRED, not $GOVERACTUAL; see : https://golang.org/doc/install"
     exit 1
@@ -99,6 +112,7 @@ fi
 
 # Ensure we have AZ
 
+#doc# | AZ | latest | https://docs.microsoft.com/en-us/cli/azure/install-azure-cli |
 if ! command -v az > /dev/null 2>&1; then
     write-error "Azure CLI must be installed manually: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli"
     exit 1
@@ -145,25 +159,39 @@ go-install() {
     fi
 }
 
+#doc# | conversion-gen | v0.28.0 | https://pkg.go.dev/k8s.io/code-generator/cmd/conversion-gen |
 go-install conversion-gen k8s.io/code-generator/cmd/conversion-gen@v0.28.0
+
+#doc# | controller-gen | v0.13.0 | https://book.kubebuilder.io/reference/controller-gen |
 go-install controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen@v0.13.0
+
+#doc# | kind | v0.20.0 | https://kind.sigs.k8s.io/ |
 go-install kind sigs.k8s.io/kind@v0.20.0
+
+#doc# | kustomize | v4.5.7 | https://kustomize.io/ |
 go-install kustomize sigs.k8s.io/kustomize/kustomize/v4@v4.5.7
 
 # for docs site
+
+#doc# | hugo | v0.88.1 | https://gohugo.io/ |
 go-install hugo -tags extended github.com/gohugoio/hugo@v0.88.1
+
+#doc# | htmltest | latest | https://github.com/wjdp/htmltest (but see https://github.com/theunrepentantgeek/htmltest for our custom build )
 # Restore this to github.com/wjdp/htmltest@v?? once PR#215 is merged with the feature we need
 go-install htmltest github.com/theunrepentantgeek/htmltest@latest
 
 # for api docs 
 # TODO: Replace this with the new release tag.
 # Currently pinned just after a couple of fixes from @theunrepentantgeek
+#doc# | gen-crd-api-reference-docs | 11fe95cb | https://github.com/ahmetb/gen-crd-api-reference-docs |
 go-install gen-crd-api-reference-docs github.com/ahmetb/gen-crd-api-reference-docs@11fe95cbdcb91e9c25446fc99e6f2cdd8cbeb91a
 
 # Install envtest tooling - ideally version here should match that used in v2/go.mod, but only @latest works
+#doc# | setup-envtest | latest | https://book.kubebuilder.io/reference/envtest.html |
 go-install setup-envtest sigs.k8s.io/controller-runtime/tools/setup-envtest@latest
 
 # Install golangci-lint
+#doc# | golangci-lint | 1.51.2 | https://github.com/golangci/golangci-lint |
 write-verbose "Checking for $TOOL_DEST/golangci-lint"
 if should-install "$TOOL_DEST/golangci-lint"; then
     write-info "Installing golangci-lint"
@@ -173,6 +201,7 @@ if should-install "$TOOL_DEST/golangci-lint"; then
 fi
 
 # Install Task
+#doc# | Task | v3.31 | https://taskfile.dev/ |
 write-verbose "Checking for $TOOL_DEST/go-task"
 if should-install "$TOOL_DEST/task"; then 
     write-info "Installing go-task"
@@ -180,6 +209,7 @@ if should-install "$TOOL_DEST/task"; then
 fi
 
 # Install Trivy
+#doc# | Trivy | v0.37.3 | https://trivy.dev/ |
 write-verbose "Checking for $TOOL_DEST/trivy"
 if should-install "$TOOL_DEST/trivy"; then
     write-info "Installing trivy"
@@ -187,6 +217,7 @@ if should-install "$TOOL_DEST/trivy"; then
 fi
 
 # Install helm
+#doc# | Helm | v3.8.0 | https://helm.sh/ |
 write-verbose "Checking for $TOOL_DEST/helm"
 if should-install "$TOOL_DEST/helm"; then
     write-info "Installing helm…"
@@ -194,6 +225,7 @@ if should-install "$TOOL_DEST/helm"; then
 fi
 
 # Install yq
+#doc# | YQ | v4.13.0 | https://github.com/mikefarah/yq/ |
 yq_version=v4.13.0
 yq_binary=yq_linux_amd64
 write-verbose "Checking for $TOOL_DEST/yq"
@@ -204,6 +236,7 @@ if should-install "$TOOL_DEST/yq"; then
 fi
 
 # Install cmctl, used to wait for cert manager installation during some tests cases
+#doc# | cmctl | latest | https://cert-manager.io/docs/reference/cmctl |
 os=$(go env GOOS)
 arch=$(go env GOARCH)
 write-verbose "Checking for $TOOL_DEST/cmctl"
@@ -213,6 +246,7 @@ if should-install "$TOOL_DEST/cmctl"; then
 fi
 
 write-verbose "Checking for $BUILDX_DEST/docker-buildx"
+#doc# | BuildX | v0.11.2 | https://github.com/docker/buildx |
 if should-install "$BUILDX_DEST/docker-buildx"; then
     write-info "Installing buildx-${os}_${arch} to $BUILDX_DEST…"
     mkdir -p "$BUILDX_DEST"
@@ -221,6 +255,7 @@ if should-install "$BUILDX_DEST/docker-buildx"; then
 fi
 
 # Install azwi
+#doc# | AZWI | v1.0.0 | https://github.com/Azure/azure-workload-identity |
 write-verbose "Checking for $TOOL_DEST/azwi"
 if should-install "$TOOL_DEST/azwi"; then
     write-info "Installing azwi…"
@@ -228,6 +263,7 @@ if should-install "$TOOL_DEST/azwi"; then
 fi
 
 # Ensure tooling for Hugo is available
+#doc# | PostCSS | latest | https://postcss.org/ |
 write-verbose "Checking for /usr/bin/postcss"
 if ! which postcss  > /dev/null 2>&1; then 
     write-info "Installing postcss"
