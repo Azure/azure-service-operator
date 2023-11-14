@@ -120,6 +120,9 @@ func NewManagedCluster20230202preview(tc *testcommon.KubePerTestContext, rg *v1a
 			Identity: &aks.ManagedClusterIdentity{
 				Type: to.Ptr(aks.ManagedClusterIdentity_Type_SystemAssigned),
 			},
+			NetworkProfile: &aks.ContainerServiceNetworkProfile{
+				NetworkPlugin: to.Ptr(aks.NetworkPlugin_Azure),
+			},
 			OidcIssuerProfile: &aks.ManagedClusterOIDCIssuerProfile{
 				Enabled: to.Ptr(true),
 			},
