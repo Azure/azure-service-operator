@@ -5,8 +5,8 @@ package v1api20210101preview
 
 import (
 	"encoding/json"
-	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101storage"
+	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_NamespacesAuthorizationRule_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespacesAuthorizationRule tests if a specific instance of NamespacesAuthorizationRule can be assigned to v1api20210101previewstorage and back losslessly
+// RunPropertyAssignmentTestForNamespacesAuthorizationRule tests if a specific instance of NamespacesAuthorizationRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesAuthorizationRule(subject NamespacesAuthorizationRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -177,7 +177,7 @@ func Test_Namespaces_AuthorizationRule_Spec_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespaces_AuthorizationRule_Spec tests if a specific instance of Namespaces_AuthorizationRule_Spec can be assigned to v1api20210101previewstorage and back losslessly
+// RunPropertyAssignmentTestForNamespaces_AuthorizationRule_Spec tests if a specific instance of Namespaces_AuthorizationRule_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespaces_AuthorizationRule_Spec(subject Namespaces_AuthorizationRule_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -295,7 +295,7 @@ func Test_Namespaces_AuthorizationRule_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespaces_AuthorizationRule_STATUS tests if a specific instance of Namespaces_AuthorizationRule_STATUS can be assigned to v1api20210101previewstorage and back losslessly
+// RunPropertyAssignmentTestForNamespaces_AuthorizationRule_STATUS tests if a specific instance of Namespaces_AuthorizationRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespaces_AuthorizationRule_STATUS(subject Namespaces_AuthorizationRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -415,7 +415,7 @@ func Test_NamespacesAuthorizationRuleOperatorSpec_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespacesAuthorizationRuleOperatorSpec tests if a specific instance of NamespacesAuthorizationRuleOperatorSpec can be assigned to v1api20210101previewstorage and back losslessly
+// RunPropertyAssignmentTestForNamespacesAuthorizationRuleOperatorSpec tests if a specific instance of NamespacesAuthorizationRuleOperatorSpec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesAuthorizationRuleOperatorSpec(subject NamespacesAuthorizationRuleOperatorSpec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -518,7 +518,7 @@ func Test_NamespacesAuthorizationRuleOperatorSecrets_WhenPropertiesConverted_Rou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespacesAuthorizationRuleOperatorSecrets tests if a specific instance of NamespacesAuthorizationRuleOperatorSecrets can be assigned to v1api20210101previewstorage and back losslessly
+// RunPropertyAssignmentTestForNamespacesAuthorizationRuleOperatorSecrets tests if a specific instance of NamespacesAuthorizationRuleOperatorSecrets can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesAuthorizationRuleOperatorSecrets(subject NamespacesAuthorizationRuleOperatorSecrets) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

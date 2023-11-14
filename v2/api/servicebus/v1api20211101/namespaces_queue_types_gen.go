@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &NamespacesQueue{}
 func (queue *NamespacesQueue) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20211101s.NamespacesQueue)
 	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20211101storage/NamespacesQueue but received %T instead", hub)
+		return fmt.Errorf("expected servicebus/v1api20211101/storage/NamespacesQueue but received %T instead", hub)
 	}
 
 	return queue.AssignProperties_From_NamespacesQueue(source)
@@ -61,7 +61,7 @@ func (queue *NamespacesQueue) ConvertFrom(hub conversion.Hub) error {
 func (queue *NamespacesQueue) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20211101s.NamespacesQueue)
 	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20211101storage/NamespacesQueue but received %T instead", hub)
+		return fmt.Errorf("expected servicebus/v1api20211101/storage/NamespacesQueue but received %T instead", hub)
 	}
 
 	return queue.AssignProperties_To_NamespacesQueue(destination)
