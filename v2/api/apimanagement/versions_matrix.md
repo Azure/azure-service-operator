@@ -113,6 +113,7 @@
 | ProductContractProperties_STATUS                             | v1api20220801 |
 | ProductContractProperties_State                              | v1api20220801 |
 | ProductContractProperties_State_STATUS                       | v1api20220801 |
+| ProductPolicy                                                | v1api20220801 |
 | RemotePrivateEndpointConnectionWrapper_STATUS                | v1api20220801 |
 | Service                                                      | v1api20220801 |
 | Service_ApiVersionSet_STATUS                                 | v1api20220801 |
@@ -130,6 +131,9 @@
 | Service_Policy_Spec                                          | v1api20220801 |
 | Service_Product_STATUS                                       | v1api20220801 |
 | Service_Product_Spec                                         | v1api20220801 |
+| Service_Products_Policy_Name_Spec                            | v1api20220801 |
+| Service_Products_Policy_STATUS                               | v1api20220801 |
+| Service_Products_Policy_Spec                                 | v1api20220801 |
 | Service_STATUS                                               | v1api20220801 |
 | Service_Spec                                                 | v1api20220801 |
 | Service_Subscription_STATUS                                  | v1api20220801 |

@@ -865,6 +865,9 @@ objectModelConfiguration:
       Service_Product:
         $exportAs: Product
         $supportedFrom: v2.4.0
+      Service_Products_Policy:
+        $exportAs: ProductPolicy
+        $supportedFrom: v2.4.0
       Service_Subscription:
         $exportAs: Subscription
         $supportedFrom: v2.4.0
