@@ -132,10 +132,12 @@ How to provide ConfigMap data to ASO Resources may have fields in their spec tha
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210-li">
-  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/" title="v2.1.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210"><span class="">v2.1.0</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/" title="v2.4.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v240"><span class="">v2.4.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.2.0/" title="v2.2.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220"><span class="">v2.2.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/" title="v2.1.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210"><span class="">v2.1.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/" title="v2.0.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200"><span class="">v2.0.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4-li">
@@ -733,7 +735,7 @@ They may also support storing certain output into a <code>ConfigMap</code> (such
 In general, these fields are usually optional, and you can choose to specify the raw value <em>or</em> source it from a <code>ConfigMap</code> for something more dynamic.</p>
 <p>For example, in order to create a <code>RoleAssignment</code>, you must specify the <code>principalId</code> of the identity it applies to.
 You can hardcode that <code>principalId</code> or you can refer to it dynamically as a <code>ConfigMap</code> key.</p>
-<p><strong>Example (from <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/authorization/v1beta/v1beta20200801preview_roleassignment.yaml/">the RoleAssignment sample</a>):</strong></p>
+<p><strong>Example (from <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/authorization/v1api20200801preview/v1api20200801preview_roleassignment.yaml">the RoleAssignment sample</a>):</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">authorization.azure.com/v1beta20200801preview</span>
 <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">RoleAssignment</span>
 <span style="color:#f92672">metadata</span>:
@@ -763,7 +765,7 @@ configuring the <code>.spec.operatorSpec.configMaps</code> field. The data will 
 successfully been provisioned in Azure.
 The resource will not move to <a href="/azure-service-operator/guide/conditions/">Condition</a> <code>Ready=True</code>
 until the data has been written.</p>
-<p><strong>Example (from <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/managedidentity/v1beta/v1beta20181130_userassignedidentity.yaml">the UserAssignedIdentity sample</a>):</strong></p>
+<p><strong>Example (from <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/managedidentity/v1api/v1api20181130_userassignedidentity.yaml">the UserAssignedIdentity sample</a>):</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">managedidentity.azure.com/v1beta20181130</span>
 <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">UserAssignedIdentity</span>
 <span style="color:#f92672">metadata</span>:

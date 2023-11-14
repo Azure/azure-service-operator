@@ -15,38 +15,29 @@
     
     
     <item>
-      <title>Guide: v2.1.0 Breaking Changes</title>
-      <link>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/</link>
+      <title>Guide: v2.4.0 Breaking Changes</title>
+      <link>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/</guid>
+      <guid>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.4.0/</guid>
       <description>
         
         
-        &lt;h2 id=&#34;the-operator-no-longer-installs-crds-by-default&#34;&gt;The operator no longer installs CRDs by default&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;Action required:&lt;/strong&gt; When installing ASO for the first time, you must now specify &lt;code&gt;crdPattern&lt;/code&gt; (for Helm) or &lt;code&gt;--crd-patterns&lt;/code&gt;
-(in operator pod cmdline for raw YAML) to select the subset of CRDs you would like to install.&lt;/p&gt;
-&lt;p&gt;When upgrading ASO, existing CRDs will be automatically updated to the new version but new CRDs added in that release
-will not automatically be installed.
-This means that when upgrading the operator, if you don&amp;rsquo;t want to use any CRDs newly added in that release you don&amp;rsquo;t
-need to do anything.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Action required:&lt;/strong&gt; When upgrading ASO, if you want to install new CRDs (for example CRDs just added in the version of
-ASO you are upgrading to) you must specify &lt;code&gt;crdPattern&lt;/code&gt; (Helm) or &lt;code&gt;--crd-patterns&lt;/code&gt; (YAML) to install the CRDs.
-For example: if you do want to use a newly added CRD (such as &lt;code&gt;network.azure.com/bastionHosts&lt;/code&gt; mentioned
-below), you would need to specify &lt;code&gt;crdPatterns=network.azure.com/*&lt;/code&gt; when performing the upgrade.&lt;/p&gt;
-&lt;p&gt;See &lt;a href=&#34;https://azure.github.io/azure-service-operator/guide/crd-management/&#34;&gt;CRD management in ASO&lt;/a&gt; for more details
-about this change and why it was made.&lt;/p&gt;
-&lt;h2 id=&#34;serviceoperatorazurecomcredential-from-no-longer-supports-cross-namespace-secret-references&#34;&gt;&lt;code&gt;serviceoperator.azure.com/credential-from&lt;/code&gt; no longer supports cross namespace secret references&lt;/h2&gt;
-&lt;p&gt;This was never documented as supported but worked unintentionally. The feature now works as it was always documented:
-allowing references to secrets only if the secret is in the same namespace as the resource itself.&lt;/p&gt;
-&lt;p&gt;This was a security issue which we had to close.&lt;/p&gt;
-&lt;p&gt;See &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/2919&#34;&gt;#2919&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;upcoming-breaking-changes&#34;&gt;Upcoming breaking changes&lt;/h2&gt;
-&lt;h3 id=&#34;aks-managedclusterserviceprincipalprofilesecret-will-change-from-string-to-genruntimesecretreference&#34;&gt;AKS ManagedClusterServicePrincipalProfile.Secret will change from &lt;code&gt;string&lt;/code&gt; to &lt;code&gt;genruntime.SecretReference&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;We realized that this field contains a secret and as such &lt;em&gt;should not be specified&lt;/em&gt;. Secrets should not appear in plain
-text in CRs. We will be making a breaking change in 2.2.0 to resolve this issue.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;In the meantime:&lt;/strong&gt; We strongly recommend you use managed identity (the default) for your clusters.&lt;/p&gt;
-
+        &lt;h2 id=&#34;beta-crd-versions-have-been-removed&#34;&gt;Beta CRD versions have been removed&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;You cannot successfully upgrade to v2.4.0 until you have followed the migration steps below:&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;If you have never installed a &lt;code&gt;beta&lt;/code&gt; version of ASOv2, or used an &lt;code&gt;beta&lt;/code&gt; version of a CRD, &lt;strong&gt;no action is required&lt;/strong&gt;.
+If you&amp;rsquo;re not sure, run the below steps anyway. They will not do anything if beta was never used.&lt;/li&gt;
+&lt;li&gt;Ensure the cluster is running the &lt;code&gt;v2.3.0&lt;/code&gt; version of ASO.&lt;/li&gt;
+&lt;li&gt;Install the &lt;code&gt;v2.4.0&lt;/code&gt; version of the &lt;code&gt;asoctl&lt;/code&gt; tool by following the &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/tools/asoctl/#installation&#34;&gt;installation instructions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Run &lt;code&gt;asoctl clean crds&lt;/code&gt;. This will migrate your resources to a newer version if needed and remove the &lt;code&gt;beta&lt;/code&gt; CRD
+versions from the CRD &lt;code&gt;Status.StoredVersions&lt;/code&gt; collection. For more details on this command see the
+&lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/tools/asoctl/#clean-crds&#34;&gt;asoctl clean crds documentation&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Once you have successfully executed the above steps, you can upgrade to &lt;code&gt;v2.4.0&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;When upgrading to &lt;code&gt;v2.4.0&lt;/code&gt; the following error in the operator pod logs means that you need to run the above steps:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;E1113 22:24:48.837454       1 setup.go:193] &amp;quot;msg&amp;quot;=&amp;quot;failed to apply CRDs&amp;quot; &amp;quot;error&amp;quot;=&amp;quot;failed to apply CRD flexibleserversdatabases.dbforpostgresql.azure.com: CustomResourceDefinition.apiextensions.k8s.io \&amp;quot;flexibleserversdatabases.dbforpostgresql.azure.com\&amp;quot; is invalid: status.storedVersions[0]: Invalid value: \&amp;quot;v1beta20210601storage\&amp;quot;: must appear in spec.versions&amp;quot; &amp;quot;logger&amp;quot;=&amp;quot;setup&amp;quot; 
+&lt;/code&gt;&lt;/pre&gt;
       </description>
     </item>
     
@@ -91,6 +82,42 @@ decided to make a break to correct this issue.&lt;/p&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Guide: v2.1.0 Breaking Changes</title>
+      <link>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;the-operator-no-longer-installs-crds-by-default&#34;&gt;The operator no longer installs CRDs by default&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Action required:&lt;/strong&gt; When installing ASO for the first time, you must now specify &lt;code&gt;crdPattern&lt;/code&gt; (for Helm) or &lt;code&gt;--crd-patterns&lt;/code&gt;
+(in operator pod cmdline for raw YAML) to select the subset of CRDs you would like to install.&lt;/p&gt;
+&lt;p&gt;When upgrading ASO, existing CRDs will be automatically updated to the new version but new CRDs added in that release
+will not automatically be installed.
+This means that when upgrading the operator, if you don&amp;rsquo;t want to use any CRDs newly added in that release you don&amp;rsquo;t
+need to do anything.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Action required:&lt;/strong&gt; When upgrading ASO, if you want to install new CRDs (for example CRDs just added in the version of
+ASO you are upgrading to) you must specify &lt;code&gt;crdPattern&lt;/code&gt; (Helm) or &lt;code&gt;--crd-patterns&lt;/code&gt; (YAML) to install the CRDs.
+For example: if you do want to use a newly added CRD (such as &lt;code&gt;network.azure.com/bastionHosts&lt;/code&gt; mentioned
+below), you would need to specify &lt;code&gt;crdPatterns=network.azure.com/*&lt;/code&gt; when performing the upgrade.&lt;/p&gt;
+&lt;p&gt;See &lt;a href=&#34;https://azure.github.io/azure-service-operator/guide/crd-management/&#34;&gt;CRD management in ASO&lt;/a&gt; for more details
+about this change and why it was made.&lt;/p&gt;
+&lt;h2 id=&#34;serviceoperatorazurecomcredential-from-no-longer-supports-cross-namespace-secret-references&#34;&gt;&lt;code&gt;serviceoperator.azure.com/credential-from&lt;/code&gt; no longer supports cross namespace secret references&lt;/h2&gt;
+&lt;p&gt;This was never documented as supported but worked unintentionally. The feature now works as it was always documented:
+allowing references to secrets only if the secret is in the same namespace as the resource itself.&lt;/p&gt;
+&lt;p&gt;This was a security issue which we had to close.&lt;/p&gt;
+&lt;p&gt;See &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/2919&#34;&gt;#2919&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;upcoming-breaking-changes&#34;&gt;Upcoming breaking changes&lt;/h2&gt;
+&lt;h3 id=&#34;aks-managedclusterserviceprincipalprofilesecret-will-change-from-string-to-genruntimesecretreference&#34;&gt;AKS ManagedClusterServicePrincipalProfile.Secret will change from &lt;code&gt;string&lt;/code&gt; to &lt;code&gt;genruntime.SecretReference&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;We realized that this field contains a secret and as such &lt;em&gt;should not be specified&lt;/em&gt;. Secrets should not appear in plain
+text in CRs. We will be making a breaking change in 2.2.0 to resolve this issue.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;In the meantime:&lt;/strong&gt; We strongly recommend you use managed identity (the default) for your clusters.&lt;/p&gt;
 
       </description>
     </item>
