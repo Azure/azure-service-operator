@@ -582,7 +582,10 @@ func (resource *ResourceType) RequiredPackageReferences() *PackageReferenceSet {
 }
 
 // AsDeclarations converts the resource type to a set of go declarations
-func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
+func (resource *ResourceType) AsDeclarations(
+	codeGenerationContext *CodeGenerationContext,
+	declContext DeclarationContext,
+) ([]dst.Decl, error) {
 	/*
 		start off with:
 			metav1.TypeMeta   `json:",inline"`
@@ -669,16 +672,17 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 	decls, err := resource.generateMethodDecls(codeGenerationContext, declContext.Name)
 	if err != nil {
-		// Something went wrong; once AsDeclarations is refactored to have an error return,
-		// we can return them, but in the meantime panic
-		panic(err)
+		return nil, err
 	}
 
-	declarations = append(declarations, decls...)
+	declarations = append(
+		declarations,
+		decls...)
+	declarations = append(
+		declarations,
+		resource.resourceListTypeDecls(codeGenerationContext, declContext.Name, declContext.Description)...)
 
-	declarations = append(declarations, resource.resourceListTypeDecls(codeGenerationContext, declContext.Name, declContext.Description)...)
-
-	return declarations
+	return declarations, nil
 }
 
 func (resource *ResourceType) generateMethodDecls(

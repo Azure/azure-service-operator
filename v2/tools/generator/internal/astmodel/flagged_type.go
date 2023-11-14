@@ -107,8 +107,11 @@ func (ft *FlaggedType) AsType(ctx *CodeGenerationContext) dst.Expr {
 }
 
 // AsDeclarations renders as a Go abstract syntax tree for a declaration
-func (ft *FlaggedType) AsDeclarations(ctx *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
-	return ft.element.AsDeclarations(ctx, declContext)
+func (ft *FlaggedType) AsDeclarations(
+	codeGenerationContext *CodeGenerationContext,
+	declContext DeclarationContext,
+) ([]dst.Decl, error) {
+	return ft.element.AsDeclarations(codeGenerationContext, declContext)
 }
 
 // AsZero renders an expression for the "zero" value of the type

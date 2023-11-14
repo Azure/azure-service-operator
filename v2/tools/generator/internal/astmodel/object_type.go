@@ -61,7 +61,7 @@ func NewObjectType() *ObjectType {
 	}
 }
 
-func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
+func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error) {
 	declaration := &dst.GenDecl{
 		Decs: dst.GenDeclDecorations{
 			NodeDecs: dst.NodeDecs{
@@ -92,7 +92,7 @@ func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerati
 	}
 
 	result = append(result, decls...)
-	return result
+	return result, nil
 }
 
 func (objectType *ObjectType) generateMethodDecls(

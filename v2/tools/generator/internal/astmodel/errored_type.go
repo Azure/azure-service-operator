@@ -128,7 +128,7 @@ func (e *ErroredType) RequiredPackageReferences() *PackageReferenceSet {
 	return e.inner.RequiredPackageReferences()
 }
 
-func (e *ErroredType) handleWarningsAndErrors() {
+func (e *ErroredType) checkForWarningsAndErrors() error {
 	var errs []error
 
 	if len(e.errors) > 0 {
@@ -144,24 +144,29 @@ func (e *ErroredType) handleWarningsAndErrors() {
 		}
 	}
 
-	if len(errs) == 1 {
-		panic(errs[0])
-	} else {
-		panic(kerrors.NewAggregate(errs))
-	}
+	return kerrors.NewAggregate(errs)
 }
 
-func (e *ErroredType) AsDeclarations(cgc *CodeGenerationContext, dc DeclarationContext) []dst.Decl {
-	e.handleWarningsAndErrors()
-	if e.inner == nil {
-		return nil
+func (e *ErroredType) AsDeclarations(
+	codeGenerationContext *CodeGenerationContext,
+	declContext DeclarationContext,
+) ([]dst.Decl, error) {
+	if err := e.checkForWarningsAndErrors(); err != nil {
+		return nil, err
 	}
 
-	return e.inner.AsDeclarations(cgc, dc)
+	if e.inner == nil {
+		return nil, nil
+	}
+
+	return e.inner.AsDeclarations(codeGenerationContext, declContext)
 }
 
 func (e *ErroredType) AsType(cgc *CodeGenerationContext) dst.Expr {
-	e.handleWarningsAndErrors()
+	if err := e.checkForWarningsAndErrors(); err != nil {
+		// Temporary hack until we change AsType to return an error
+		panic(err)
+	}
 	if e.inner == nil {
 		return nil
 	}

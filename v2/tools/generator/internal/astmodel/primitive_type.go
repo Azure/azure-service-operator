@@ -52,8 +52,11 @@ func (prim *PrimitiveType) AsType(_ *CodeGenerationContext) dst.Expr {
 	return dst.NewIdent(prim.name)
 }
 
-func (prim *PrimitiveType) AsDeclarations(genContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
-	return AsSimpleDeclarations(genContext, declContext, prim)
+func (prim *PrimitiveType) AsDeclarations(
+	codeGenerationContext *CodeGenerationContext,
+	declContext DeclarationContext,
+) ([]dst.Decl, error) {
+	return AsSimpleDeclarations(codeGenerationContext, declContext, prim), nil
 }
 
 // RequiredPackageReferences returns a list of package required by this

@@ -105,30 +105,33 @@ func (allOf *AllOfType) References() TypeNameSet {
 	return result
 }
 
-var allOfPanicMsg = "AllOfType should have been replaced by generation time by 'convertAllOfAndOneOf' phase"
+var allOfFailureMsg = "AllOfType should have been replaced by generation time by 'convertAllOfAndOneOf' phase"
 
 // AsType always panics; AllOf cannot be represented by the Go AST and must be
 // lowered to an object type
 func (allOf *AllOfType) AsType(_ *CodeGenerationContext) dst.Expr {
-	panic(errors.New(allOfPanicMsg))
+	panic(errors.New(allOfFailureMsg))
 }
 
 // AsDeclarations always panics; AllOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (allOf *AllOfType) AsDeclarations(_ *CodeGenerationContext, _ DeclarationContext) []dst.Decl {
-	panic(errors.New(allOfPanicMsg))
+func (allOf *AllOfType) AsDeclarations(
+	codeGenerationContext *CodeGenerationContext,
+	declContext DeclarationContext,
+) ([]dst.Decl, error) {
+	return nil, errors.New(allOfFailureMsg)
 }
 
 // AsZero always panics; AllOf cannot be represented by the Go AST and must be
 // lowered to an object type
 func (allOf *AllOfType) AsZero(_ TypeDefinitionSet, _ *CodeGenerationContext) dst.Expr {
-	panic(errors.New(allOfPanicMsg))
+	panic(errors.New(allOfFailureMsg))
 }
 
 // RequiredPackageReferences always panics; AllOf cannot be represented by the Go AST and must be
 // lowered to an object type
 func (allOf *AllOfType) RequiredPackageReferences() *PackageReferenceSet {
-	panic(errors.New(allOfPanicMsg))
+	panic(errors.New(allOfFailureMsg))
 }
 
 // Equals returns true if the other Type is a AllOf that contains

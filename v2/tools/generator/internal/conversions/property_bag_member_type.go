@@ -65,8 +65,11 @@ func (b *PropertyBagMemberType) AsType(ctx *astmodel.CodeGenerationContext) dst.
 }
 
 // AsDeclarations panics because this is a metatype that will never be rendered
-func (b *PropertyBagMemberType) AsDeclarations(_ *astmodel.CodeGenerationContext, _ astmodel.DeclarationContext) []dst.Decl {
-	panic("should never try to render a PropertyBagMemberType as declarations")
+func (b *PropertyBagMemberType) AsDeclarations(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	declContext astmodel.DeclarationContext,
+) ([]dst.Decl, error) {
+	return nil, errors.New("should never try to render a PropertyBagMemberType into declarations")
 }
 
 // AsZero renders an expression for the "zero" value of the type
