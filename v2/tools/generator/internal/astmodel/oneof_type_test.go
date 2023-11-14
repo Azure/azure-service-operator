@@ -56,16 +56,6 @@ func TestOneOfAsTypePanics(t *testing.T) {
 	}).To(PanicWith(MatchError(expectedOneOfPanic)))
 }
 
-func TestOneOfAsDeclarationsPanics(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	x := OneOfType{}
-	g.Expect(func() {
-		x.AsDeclarations(&CodeGenerationContext{}, DeclarationContext{})
-	}).To(PanicWith(MatchError(expectedOneOfPanic)))
-}
-
 func TestOneOfRequiredImportsPanics(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
