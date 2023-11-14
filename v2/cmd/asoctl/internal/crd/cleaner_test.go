@@ -76,6 +76,33 @@ func Test_CleanDeprecatedCRDVersions_CleansBetaVersion_IfExists(t *testing.T) {
 	g.Expect(crd.Status.StoredVersions).To(ContainElement(gaVersion))
 }
 
+func Test_CleanDeprecatedCRDVersions_CleansHandcraftedBetaVersion_IfExists(t *testing.T) {
+	t.Parallel()
+
+	c := makeClientSets()
+
+	g := NewGomegaWithT(t)
+
+	betaVersion := "v1beta1"
+	gaVersion := "v1"
+
+	definition := newCRDWithStoredVersions(betaVersion, gaVersion)
+
+	_, err := c.fakeApiExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
+	g.Expect(err).To(BeNil())
+
+	err = c.cleaner.Run(context.TODO())
+	g.Expect(err).To(BeNil())
+
+	crd, err := c.fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
+	g.Expect(err).To(BeNil())
+
+	g.Expect(crd.Status.StoredVersions).ToNot(BeNil())
+	g.Expect(crd.Status.StoredVersions).ToNot(BeEquivalentTo(definition.Status.StoredVersions))
+	g.Expect(crd.Status.StoredVersions).ToNot(ContainElement(betaVersion))
+	g.Expect(crd.Status.StoredVersions).To(ContainElement(gaVersion))
+}
+
 func Test_MigrateDeprecatedCRDResources_DoesNotMigrateBetaVersion_IfStorage(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)

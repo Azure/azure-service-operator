@@ -92,7 +92,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 
 	var updated int
 	var asoCRDsSeen int
-	deprecatedVersionRegexp := regexp.MustCompile(`(v1alpha1api|v1beta)\d{8}(preview)?(storage)?`)
+	deprecatedVersionRegexp := regexp.MustCompile(`((v1alpha1api|v1beta)\d{8}(preview)?(storage)?|v1beta1)`) // handcrafted (non-ARM) resources have v1beta1 version
 
 	for _, crd := range crds {
 		crd := crd
