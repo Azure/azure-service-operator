@@ -6,6 +6,7 @@
 package conversions
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
