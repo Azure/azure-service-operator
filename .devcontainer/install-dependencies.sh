@@ -28,11 +28,12 @@ set -eu
 # This file includes documentation in lines prefixed `#doc#`.
 # These lines are extracted by running `task doc:dependencies` from the root folder.
 #
-# Each depencency should be identified by a single line with the following format:
+# Each depencency should be documented by a single line with the following content:
 #
 # | <name> | <version> | <details> |
 #
-# Details should include at minimum a link to the originating website.
+# Details should include at minimum a link to the originating website. 
+# Be sure to use include the `#doc#` prefix on each line.
 #
 
 VERBOSE=false
@@ -93,7 +94,7 @@ fi
 
 # Ensure we have the right version of GO
 
-## | Go | 1.20 | https://golang.org/doc/install #
+#doc# | Go | 1.20 | https://golang.org/doc/install #
 if ! command -v go > /dev/null 2>&1; then
     write-error "Go must be installed manually; see https://golang.org/doc/install"
     exit 1
@@ -103,7 +104,7 @@ GOVER=$(go version)
 write-info "Go version: ${GOVER[*]}"
 
 GOVERREQUIRED="go1.20.*"
-GOVERACTUAL=$(go version | { read _ _ ver _; echo $ver; })
+GOVERACTUAL=$(go version | { read _ _ ver _; echo "$ver"; })
 if ! [[ "$GOVERACTUAL" =~ $GOVERREQUIRED ]]; then
     write-error "Go must be version $GOVERREQUIRED, not $GOVERACTUAL; see : https://golang.org/doc/install"
     exit 1
@@ -111,7 +112,7 @@ fi
 
 # Ensure we have AZ
 
-## | AZ | latest | https://docs.microsoft.com/en-us/cli/azure/install-azure-cli |
+#doc# | AZ | latest | https://docs.microsoft.com/en-us/cli/azure/install-azure-cli |
 if ! command -v az > /dev/null 2>&1; then
     write-error "Azure CLI must be installed manually: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli"
     exit 1
