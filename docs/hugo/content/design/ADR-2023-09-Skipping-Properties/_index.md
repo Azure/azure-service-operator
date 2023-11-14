@@ -20,7 +20,7 @@ Consider a CRM system containing details of people. In **v3** of the system, we 
 [v4.Person|FullName string;FamilyName string; KnownAs string]
 -->
 
-{{< figure src="version-4.png" >}}
+{{< figure src="./version-4.png" >}}
 
 When we convert from **v3** to **v4** (**v3** -> **v4**) the `ResidentialAddress` property gets serialized into the `PropertyBag` on the **v4** Person. Note that the bag contains a **v3** `Address` in a serialized form.
 
@@ -38,7 +38,7 @@ In **v5**, the `ResidentialAddress` is reintroduced, but with a different shape.
 [v5.Person]--[v5.Address|Street string; Suburb string; City string|PropertyBag PropertyBag]
 -->
 
-{{< figure src="version-5.png" >}}
+{{< figure src="./version-5.png" >}}
 
 When we convert from **v5** to **v4**, again the `ResidentialAddress` property gets serialized into the `PropertyBag` on the **v4** Person. Note that this time the bag contains a **v5** `Address` in a serialized form, **not** a **v3** `Address`.
 
@@ -60,7 +60,7 @@ Here is where we run into problems.
 [v5.Person]--[v5.Address|Street string; Suburb string;City string|PropertyBag PropertyBag]
 -->
 
-{{< figure src="problem.png" >}}
+{{< figure src="./problem.png" >}}
 
 When we convert from **v3** to **v4** to **v5** we end up stuck part-way through. 
 
@@ -107,7 +107,7 @@ Ensure that complex types stored in property bags have a consistent shape by int
 [v5.Person]--[v5.Address|Street string; Suburb string; City string|PropertyBag PropertyBag]
 -->
 
-{{< figure src="option-1.png" >}}
+{{< figure src="./option-1.png" >}}
 
 We create the shape of the intermediate type by replicating the structure of the version _before_ (**v3**), essentially just copying it forward to the new version (**v4**).
 
@@ -133,6 +133,8 @@ Fatal:
 ### Option 2: Introduce Conversion Type
 
 As for Option 1, but instead of introducing the new type into **v4** where it can't be referenced by **v5**, use a dedicated **v5/compat** subpackage.
+
+{{< figure src="./option-2.png" >}}
 
 <!-- yuml.me
 [v3.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress]
