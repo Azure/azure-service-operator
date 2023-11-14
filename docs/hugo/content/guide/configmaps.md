@@ -13,7 +13,7 @@ In general, these fields are usually optional, and you can choose to specify the
 For example, in order to create a `RoleAssignment`, you must specify the `principalId` of the identity it applies to. 
 You can hardcode that `principalId` or you can refer to it dynamically as a `ConfigMap` key.
 
-**Example (from [the RoleAssignment sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/authorization/v1beta/v1beta20200801preview_roleassignment.yaml/)):**
+**Example (from [the RoleAssignment sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/authorization/v1api20200801preview/v1api20200801preview_roleassignment.yaml)):**
 ```yaml
 apiVersion: authorization.azure.com/v1beta20200801preview
 kind: RoleAssignment
@@ -50,7 +50,7 @@ successfully been provisioned in Azure.
 The resource will not move to [Condition]( {{< relref "conditions" >}} ) `Ready=True` 
 until the data has been written.
 
-**Example (from [the UserAssignedIdentity sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/managedidentity/v1beta/v1beta20181130_userassignedidentity.yaml)):**
+**Example (from [the UserAssignedIdentity sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/managedidentity/v1api/v1api20181130_userassignedidentity.yaml)):**
 ```yaml
 apiVersion: managedidentity.azure.com/v1beta20181130
 kind: UserAssignedIdentity
