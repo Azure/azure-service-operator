@@ -158,7 +158,6 @@ func NewTestCodeGenerator(
 			pipeline.DeleteGeneratedCodeStageID,
 			pipeline.CheckForAnyTypeStageID,
 			pipeline.CreateResourceExtensionsStageID,
-			pipeline.CreateTypesForBackwardCompatibilityStageID,
 			pipeline.ReportOnTypesAndVersionsStageID,
 			pipeline.ReportResourceVersionsStageID,
 			pipeline.ReportResourceStructureStageId)

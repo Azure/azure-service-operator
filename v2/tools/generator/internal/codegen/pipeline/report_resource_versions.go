@@ -8,7 +8,6 @@ package pipeline
 import (
 	"context"
 	"fmt"
-	"golang.org/x/exp/slices"
 	"html/template"
 	"io"
 	"io/fs"
@@ -18,6 +17,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
+	"golang.org/x/exp/slices"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -29,8 +29,11 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
 )
 
-// ReportResourceVersionsStageID is the unique identifier of this stage
-const ReportResourceVersionsStageID = "reportResourceVersions"
+const (
+	// ReportResourceVersionsStageID is the unique identifier of this stage
+	ReportResourceVersionsStageID = "reportResourceVersions"
+	v1VersionPrefix               = "v1api"
+)
 
 // ReportResourceVersions creates a pipeline stage that generates a report listing all generated resources.
 func ReportResourceVersions(configuration *config.Configuration) *Stage {
@@ -646,12 +649,6 @@ func (report *ResourceVersionsReport) supportedFrom(typeName astmodel.InternalTy
 	}
 
 	_, ver := typeName.InternalPackageReference().GroupVersion()
-
-	// Special case for resources that existed prior to beta.0
-	// the `v1beta` versions of those resources are only available from "beta.0"
-	if strings.Contains(ver, v1betaVersionPrefix) && strings.HasPrefix(supportedFrom, "v2.0.0-alpha") {
-		return "v2.0.0-beta.0"
-	}
 
 	// Special case for resources that existed prior to GA
 	// the `v1api` versions of those resources are only available from "v2.0.0"

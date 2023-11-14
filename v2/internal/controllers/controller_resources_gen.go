@@ -10,20 +10,14 @@ import (
 	appconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/appconfiguration/customizations"
 	appconfiguration_v20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
 	appconfiguration_v20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
-	appconfiguration_v1beta20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501"
-	appconfiguration_v1beta20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501/storage"
 	authorization_customizations "github.com/Azure/azure-service-operator/v2/api/authorization/customizations"
 	authorization_v20200801p "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
 	authorization_v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801previewstorage"
 	authorization_v20220401 "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
 	authorization_v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401storage"
-	authorization_v1beta20200801p "github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801preview"
-	authorization_v1beta20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801previewstorage"
 	batch_customizations "github.com/Azure/azure-service-operator/v2/api/batch/customizations"
 	batch_v20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
 	batch_v20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/storage"
-	batch_v1beta20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101"
-	batch_v1beta20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101/storage"
 	cache_customizations "github.com/Azure/azure-service-operator/v2/api/cache/customizations"
 	cache_v20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
 	cache_v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
@@ -33,15 +27,9 @@ import (
 	cache_v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401storage"
 	cache_v20230701 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701"
 	cache_v20230701s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701storage"
-	cache_v1beta20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201"
-	cache_v1beta20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
-	cache_v1beta20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301"
-	cache_v1beta20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage"
 	cdn_customizations "github.com/Azure/azure-service-operator/v2/api/cdn/customizations"
 	cdn_v20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601"
 	cdn_v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/storage"
-	cdn_v1beta20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601"
-	cdn_v1beta20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601/storage"
 	compute_customizations "github.com/Azure/azure-service-operator/v2/api/compute/customizations"
 	compute_v20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930"
 	compute_v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/storage"
@@ -53,24 +41,12 @@ import (
 	compute_v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
 	compute_v20220702 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702"
 	compute_v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
-	compute_v1beta20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930"
-	compute_v1beta20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930/storage"
-	compute_v1beta20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
-	compute_v1beta20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201/storage"
-	compute_v1beta20210701 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701"
-	compute_v1beta20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701/storage"
-	compute_v1beta20220301 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301"
-	compute_v1beta20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301/storage"
 	containerinstance_customizations "github.com/Azure/azure-service-operator/v2/api/containerinstance/customizations"
 	containerinstance_v20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001"
 	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001storage"
-	containerinstance_v1beta20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001"
-	containerinstance_v1beta20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001storage"
 	containerregistry_customizations "github.com/Azure/azure-service-operator/v2/api/containerregistry/customizations"
 	containerregistry_v20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901"
 	containerregistry_v20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901storage"
-	containerregistry_v1beta20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901"
-	containerregistry_v1beta20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901storage"
 	containerservice_customizations "github.com/Azure/azure-service-operator/v2/api/containerservice/customizations"
 	containerservice_v20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501"
 	containerservice_v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501storage"
@@ -80,8 +56,6 @@ import (
 	containerservice_v20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202previewstorage"
 	containerservice_v20230315p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview"
 	containerservice_v20230315ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315previewstorage"
-	containerservice_v1beta20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501"
-	containerservice_v1beta20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
 	datafactory_customizations "github.com/Azure/azure-service-operator/v2/api/datafactory/customizations"
 	datafactory_v20180601 "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601"
 	datafactory_v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
@@ -91,42 +65,28 @@ import (
 	dbformariadb_customizations "github.com/Azure/azure-service-operator/v2/api/dbformariadb/customizations"
 	dbformariadb_v20180601 "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601"
 	dbformariadb_v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
-	dbformariadb_v1beta20180601 "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601"
-	dbformariadb_v1beta20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601/storage"
 	dbformysql_customizations "github.com/Azure/azure-service-operator/v2/api/dbformysql/customizations"
 	dbformysql_v20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
 	dbformysql_v20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501storage"
 	dbformysql_v20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
 	dbformysql_v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101storage"
-	dbformysql_v1beta20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501"
-	dbformysql_v1beta20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501storage"
 	dbforpostgresql_customizations "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/customizations"
 	dbforpostgresql_v20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
 	dbforpostgresql_v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
 	dbforpostgresql_v20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview"
 	dbforpostgresql_v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120previewstorage"
-	dbforpostgresql_v1beta20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601"
-	dbforpostgresql_v1beta20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
-	dbforpostgresql_v1beta20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120preview"
-	dbforpostgresql_v1beta20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120previewstorage"
 	devices_customizations "github.com/Azure/azure-service-operator/v2/api/devices/customizations"
 	devices_v20210702 "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702"
 	devices_v20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage"
 	documentdb_customizations "github.com/Azure/azure-service-operator/v2/api/documentdb/customizations"
 	documentdb_v20210515 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515"
 	documentdb_v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
-	documentdb_v1beta20210515 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515"
-	documentdb_v1beta20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515/storage"
 	eventgrid_customizations "github.com/Azure/azure-service-operator/v2/api/eventgrid/customizations"
 	eventgrid_v20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601"
 	eventgrid_v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
-	eventgrid_v1beta20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601"
-	eventgrid_v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601/storage"
 	eventhub_customizations "github.com/Azure/azure-service-operator/v2/api/eventhub/customizations"
 	eventhub_v20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101"
 	eventhub_v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
-	eventhub_v1beta20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101"
-	eventhub_v1beta20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101/storage"
 	insights_customizations "github.com/Azure/azure-service-operator/v2/api/insights/customizations"
 	insights_v20180301 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301"
 	insights_v20180301s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301storage"
@@ -140,29 +100,17 @@ import (
 	insights_v20221001s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20221001storage"
 	insights_v20230101 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101"
 	insights_v20230101s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101storage"
-	insights_v1beta20180501p "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501preview"
-	insights_v1beta20180501ps "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501previewstorage"
-	insights_v1beta20200202 "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202"
-	insights_v1beta20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202storage"
 	keyvault_customizations "github.com/Azure/azure-service-operator/v2/api/keyvault/customizations"
 	keyvault_v20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
 	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401previewstorage"
-	keyvault_v1beta20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview"
-	keyvault_v1beta20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewstorage"
 	machinelearningservices_customizations "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/customizations"
 	machinelearningservices_v20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701"
 	machinelearningservices_v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
-	machinelearningservices_v1beta20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701"
-	machinelearningservices_v1beta20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701storage"
 	managedidentity_customizations "github.com/Azure/azure-service-operator/v2/api/managedidentity/customizations"
 	managedidentity_v20181130 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	managedidentity_v20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130storage"
 	managedidentity_v20220131p "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131preview"
 	managedidentity_v20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131previewstorage"
-	managedidentity_v1beta20181130 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130"
-	managedidentity_v1beta20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130storage"
-	managedidentity_v1beta20220131p "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20220131preview"
-	managedidentity_v1beta20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20220131previewstorage"
 	network_customizations "github.com/Azure/azure-service-operator/v2/api/network/customizations"
 	network_v20180501 "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501"
 	network_v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage"
@@ -176,20 +124,12 @@ import (
 	network_v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
 	network_v20220701 "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
 	network_v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
-	network_v1beta20180901 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901"
-	network_v1beta20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901/storage"
-	network_v1beta20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
-	network_v1beta20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101/storage"
 	operationalinsights_customizations "github.com/Azure/azure-service-operator/v2/api/operationalinsights/customizations"
 	operationalinsights_v20210601 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601"
 	operationalinsights_v20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601storage"
-	operationalinsights_v1beta20210601 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta20210601"
-	operationalinsights_v1beta20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta20210601storage"
 	resources_customizations "github.com/Azure/azure-service-operator/v2/api/resources/customizations"
 	resources_v20200601 "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	resources_v20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/storage"
-	resources_v1beta20200601 "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
-	resources_v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601/storage"
 	search_customizations "github.com/Azure/azure-service-operator/v2/api/search/customizations"
 	search_v20220901 "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901"
 	search_v20220901s "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901storage"
@@ -200,13 +140,9 @@ import (
 	servicebus_v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101storage"
 	servicebus_v20221001p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview"
 	servicebus_v20221001ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001previewstorage"
-	servicebus_v1beta20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview"
-	servicebus_v1beta20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage"
 	signalrservice_customizations "github.com/Azure/azure-service-operator/v2/api/signalrservice/customizations"
 	signalrservice_v20211001 "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001"
 	signalrservice_v20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001storage"
-	signalrservice_v1beta20211001 "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001"
-	signalrservice_v1beta20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001storage"
 	sql_customizations "github.com/Azure/azure-service-operator/v2/api/sql/customizations"
 	sql_v20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101"
 	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
@@ -215,21 +151,15 @@ import (
 	storage_v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
 	storage_v20220901 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
 	storage_v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
-	storage_v1beta20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
-	storage_v1beta20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
 	subscription_customizations "github.com/Azure/azure-service-operator/v2/api/subscription/customizations"
 	subscription_v20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
 	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
-	subscription_v1beta20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001"
-	subscription_v1beta20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001/storage"
 	synapse_customizations "github.com/Azure/azure-service-operator/v2/api/synapse/customizations"
 	synapse_v20210601 "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601"
 	synapse_v20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601storage"
 	web_customizations "github.com/Azure/azure-service-operator/v2/api/web/customizations"
 	web_v20220301 "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301"
 	web_v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/storage"
-	web_v1beta20220301 "github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301"
-	web_v1beta20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 	"k8s.io/api/core/v1"
@@ -1059,34 +989,14 @@ func getKnownTypes() []client.Object {
 		new(apimanagement_v20220801s.Product),
 		new(apimanagement_v20220801s.Service),
 		new(apimanagement_v20220801s.Subscription))
-	result = append(result, new(appconfiguration_v1beta20220501.ConfigurationStore))
-	result = append(result, new(appconfiguration_v1beta20220501s.ConfigurationStore))
 	result = append(result, new(appconfiguration_v20220501.ConfigurationStore))
 	result = append(result, new(appconfiguration_v20220501s.ConfigurationStore))
-	result = append(result, new(authorization_v1beta20200801p.RoleAssignment))
-	result = append(result, new(authorization_v1beta20200801ps.RoleAssignment))
 	result = append(result, new(authorization_v20200801p.RoleAssignment))
 	result = append(result, new(authorization_v20200801ps.RoleAssignment))
 	result = append(result, new(authorization_v20220401.RoleAssignment))
 	result = append(result, new(authorization_v20220401s.RoleAssignment))
-	result = append(result, new(batch_v1beta20210101.BatchAccount))
-	result = append(result, new(batch_v1beta20210101s.BatchAccount))
 	result = append(result, new(batch_v20210101.BatchAccount))
 	result = append(result, new(batch_v20210101s.BatchAccount))
-	result = append(
-		result,
-		new(cache_v1beta20201201.Redis),
-		new(cache_v1beta20201201.RedisFirewallRule),
-		new(cache_v1beta20201201.RedisLinkedServer),
-		new(cache_v1beta20201201.RedisPatchSchedule))
-	result = append(
-		result,
-		new(cache_v1beta20201201s.Redis),
-		new(cache_v1beta20201201s.RedisFirewallRule),
-		new(cache_v1beta20201201s.RedisLinkedServer),
-		new(cache_v1beta20201201s.RedisPatchSchedule))
-	result = append(result, new(cache_v1beta20210301.RedisEnterprise), new(cache_v1beta20210301.RedisEnterpriseDatabase))
-	result = append(result, new(cache_v1beta20210301s.RedisEnterprise), new(cache_v1beta20210301s.RedisEnterpriseDatabase))
 	result = append(
 		result,
 		new(cache_v20201201.Redis),
@@ -1115,26 +1025,8 @@ func getKnownTypes() []client.Object {
 		new(cache_v20230401s.RedisPatchSchedule))
 	result = append(result, new(cache_v20230701.RedisEnterprise), new(cache_v20230701.RedisEnterpriseDatabase))
 	result = append(result, new(cache_v20230701s.RedisEnterprise), new(cache_v20230701s.RedisEnterpriseDatabase))
-	result = append(result, new(cdn_v1beta20210601.Profile), new(cdn_v1beta20210601.ProfilesEndpoint))
-	result = append(result, new(cdn_v1beta20210601s.Profile), new(cdn_v1beta20210601s.ProfilesEndpoint))
 	result = append(result, new(cdn_v20210601.Profile), new(cdn_v20210601.ProfilesEndpoint))
 	result = append(result, new(cdn_v20210601s.Profile), new(cdn_v20210601s.ProfilesEndpoint))
-	result = append(result, new(compute_v1beta20200930.Disk), new(compute_v1beta20200930.Snapshot))
-	result = append(result, new(compute_v1beta20200930s.Disk), new(compute_v1beta20200930s.Snapshot))
-	result = append(result, new(compute_v1beta20201201.VirtualMachine), new(compute_v1beta20201201.VirtualMachineScaleSet))
-	result = append(result, new(compute_v1beta20201201s.VirtualMachine), new(compute_v1beta20201201s.VirtualMachineScaleSet))
-	result = append(result, new(compute_v1beta20210701.Image))
-	result = append(result, new(compute_v1beta20210701s.Image))
-	result = append(
-		result,
-		new(compute_v1beta20220301.Image),
-		new(compute_v1beta20220301.VirtualMachine),
-		new(compute_v1beta20220301.VirtualMachineScaleSet))
-	result = append(
-		result,
-		new(compute_v1beta20220301s.Image),
-		new(compute_v1beta20220301s.VirtualMachine),
-		new(compute_v1beta20220301s.VirtualMachineScaleSet))
 	result = append(result, new(compute_v20200930.Disk), new(compute_v20200930.Snapshot))
 	result = append(result, new(compute_v20200930s.Disk), new(compute_v20200930s.Snapshot))
 	result = append(result, new(compute_v20201201.VirtualMachine), new(compute_v20201201.VirtualMachineScaleSet))
@@ -1153,16 +1045,10 @@ func getKnownTypes() []client.Object {
 		new(compute_v20220301s.VirtualMachineScaleSet))
 	result = append(result, new(compute_v20220702.DiskEncryptionSet))
 	result = append(result, new(compute_v20220702s.DiskEncryptionSet))
-	result = append(result, new(containerinstance_v1beta20211001.ContainerGroup))
-	result = append(result, new(containerinstance_v1beta20211001s.ContainerGroup))
 	result = append(result, new(containerinstance_v20211001.ContainerGroup))
 	result = append(result, new(containerinstance_v20211001s.ContainerGroup))
-	result = append(result, new(containerregistry_v1beta20210901.Registry))
-	result = append(result, new(containerregistry_v1beta20210901s.Registry))
 	result = append(result, new(containerregistry_v20210901.Registry))
 	result = append(result, new(containerregistry_v20210901s.Registry))
-	result = append(result, new(containerservice_v1beta20210501.ManagedCluster), new(containerservice_v1beta20210501.ManagedClustersAgentPool))
-	result = append(result, new(containerservice_v1beta20210501s.ManagedCluster), new(containerservice_v1beta20210501s.ManagedClustersAgentPool))
 	result = append(result, new(containerservice_v20210501.ManagedCluster), new(containerservice_v20210501.ManagedClustersAgentPool))
 	result = append(result, new(containerservice_v20210501s.ManagedCluster), new(containerservice_v20210501s.ManagedClustersAgentPool))
 	result = append(result, new(containerservice_v20230201.ManagedCluster), new(containerservice_v20230201.ManagedClustersAgentPool))
@@ -1193,16 +1079,6 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(dataprotection_v20230101s.BackupVault), new(dataprotection_v20230101s.BackupVaultsBackupPolicy))
 	result = append(
 		result,
-		new(dbformariadb_v1beta20180601.Configuration),
-		new(dbformariadb_v1beta20180601.Database),
-		new(dbformariadb_v1beta20180601.Server))
-	result = append(
-		result,
-		new(dbformariadb_v1beta20180601s.Configuration),
-		new(dbformariadb_v1beta20180601s.Database),
-		new(dbformariadb_v1beta20180601s.Server))
-	result = append(
-		result,
 		new(dbformariadb_v20180601.Configuration),
 		new(dbformariadb_v20180601.Database),
 		new(dbformariadb_v20180601.Server))
@@ -1211,16 +1087,6 @@ func getKnownTypes() []client.Object {
 		new(dbformariadb_v20180601s.Configuration),
 		new(dbformariadb_v20180601s.Database),
 		new(dbformariadb_v20180601s.Server))
-	result = append(
-		result,
-		new(dbformysql_v1beta20210501.FlexibleServer),
-		new(dbformysql_v1beta20210501.FlexibleServersDatabase),
-		new(dbformysql_v1beta20210501.FlexibleServersFirewallRule))
-	result = append(
-		result,
-		new(dbformysql_v1beta20210501s.FlexibleServer),
-		new(dbformysql_v1beta20210501s.FlexibleServersDatabase),
-		new(dbformysql_v1beta20210501s.FlexibleServersFirewallRule))
 	result = append(
 		result,
 		new(dbformysql_v20210501.FlexibleServer),
@@ -1233,30 +1099,6 @@ func getKnownTypes() []client.Object {
 		new(dbformysql_v20210501s.FlexibleServersFirewallRule))
 	result = append(result, new(dbformysql_v20220101.FlexibleServersAdministrator), new(dbformysql_v20220101.FlexibleServersConfiguration))
 	result = append(result, new(dbformysql_v20220101s.FlexibleServersAdministrator), new(dbformysql_v20220101s.FlexibleServersConfiguration))
-	result = append(
-		result,
-		new(dbforpostgresql_v1beta20210601.FlexibleServer),
-		new(dbforpostgresql_v1beta20210601.FlexibleServersConfiguration),
-		new(dbforpostgresql_v1beta20210601.FlexibleServersDatabase),
-		new(dbforpostgresql_v1beta20210601.FlexibleServersFirewallRule))
-	result = append(
-		result,
-		new(dbforpostgresql_v1beta20210601s.FlexibleServer),
-		new(dbforpostgresql_v1beta20210601s.FlexibleServersConfiguration),
-		new(dbforpostgresql_v1beta20210601s.FlexibleServersDatabase),
-		new(dbforpostgresql_v1beta20210601s.FlexibleServersFirewallRule))
-	result = append(
-		result,
-		new(dbforpostgresql_v1beta20220120p.FlexibleServer),
-		new(dbforpostgresql_v1beta20220120p.FlexibleServersConfiguration),
-		new(dbforpostgresql_v1beta20220120p.FlexibleServersDatabase),
-		new(dbforpostgresql_v1beta20220120p.FlexibleServersFirewallRule))
-	result = append(
-		result,
-		new(dbforpostgresql_v1beta20220120ps.FlexibleServer),
-		new(dbforpostgresql_v1beta20220120ps.FlexibleServersConfiguration),
-		new(dbforpostgresql_v1beta20220120ps.FlexibleServersDatabase),
-		new(dbforpostgresql_v1beta20220120ps.FlexibleServersFirewallRule))
 	result = append(
 		result,
 		new(dbforpostgresql_v20210601.FlexibleServer),
@@ -1283,36 +1125,6 @@ func getKnownTypes() []client.Object {
 		new(dbforpostgresql_v20220120ps.FlexibleServersFirewallRule))
 	result = append(result, new(devices_v20210702.IotHub))
 	result = append(result, new(devices_v20210702s.IotHub))
-	result = append(
-		result,
-		new(documentdb_v1beta20210515.DatabaseAccount),
-		new(documentdb_v1beta20210515.MongodbDatabase),
-		new(documentdb_v1beta20210515.MongodbDatabaseCollection),
-		new(documentdb_v1beta20210515.MongodbDatabaseCollectionThroughputSetting),
-		new(documentdb_v1beta20210515.MongodbDatabaseThroughputSetting),
-		new(documentdb_v1beta20210515.SqlDatabase),
-		new(documentdb_v1beta20210515.SqlDatabaseContainer),
-		new(documentdb_v1beta20210515.SqlDatabaseContainerStoredProcedure),
-		new(documentdb_v1beta20210515.SqlDatabaseContainerThroughputSetting),
-		new(documentdb_v1beta20210515.SqlDatabaseContainerTrigger),
-		new(documentdb_v1beta20210515.SqlDatabaseContainerUserDefinedFunction),
-		new(documentdb_v1beta20210515.SqlDatabaseThroughputSetting),
-		new(documentdb_v1beta20210515.SqlRoleAssignment))
-	result = append(
-		result,
-		new(documentdb_v1beta20210515s.DatabaseAccount),
-		new(documentdb_v1beta20210515s.MongodbDatabase),
-		new(documentdb_v1beta20210515s.MongodbDatabaseCollection),
-		new(documentdb_v1beta20210515s.MongodbDatabaseCollectionThroughputSetting),
-		new(documentdb_v1beta20210515s.MongodbDatabaseThroughputSetting),
-		new(documentdb_v1beta20210515s.SqlDatabase),
-		new(documentdb_v1beta20210515s.SqlDatabaseContainer),
-		new(documentdb_v1beta20210515s.SqlDatabaseContainerStoredProcedure),
-		new(documentdb_v1beta20210515s.SqlDatabaseContainerThroughputSetting),
-		new(documentdb_v1beta20210515s.SqlDatabaseContainerTrigger),
-		new(documentdb_v1beta20210515s.SqlDatabaseContainerUserDefinedFunction),
-		new(documentdb_v1beta20210515s.SqlDatabaseThroughputSetting),
-		new(documentdb_v1beta20210515s.SqlRoleAssignment))
 	result = append(
 		result,
 		new(documentdb_v20210515.DatabaseAccount),
@@ -1345,18 +1157,6 @@ func getKnownTypes() []client.Object {
 		new(documentdb_v20210515s.SqlRoleAssignment))
 	result = append(
 		result,
-		new(eventgrid_v1beta20200601.Domain),
-		new(eventgrid_v1beta20200601.DomainsTopic),
-		new(eventgrid_v1beta20200601.EventSubscription),
-		new(eventgrid_v1beta20200601.Topic))
-	result = append(
-		result,
-		new(eventgrid_v1beta20200601s.Domain),
-		new(eventgrid_v1beta20200601s.DomainsTopic),
-		new(eventgrid_v1beta20200601s.EventSubscription),
-		new(eventgrid_v1beta20200601s.Topic))
-	result = append(
-		result,
 		new(eventgrid_v20200601.Domain),
 		new(eventgrid_v20200601.DomainsTopic),
 		new(eventgrid_v20200601.EventSubscription),
@@ -1367,20 +1167,6 @@ func getKnownTypes() []client.Object {
 		new(eventgrid_v20200601s.DomainsTopic),
 		new(eventgrid_v20200601s.EventSubscription),
 		new(eventgrid_v20200601s.Topic))
-	result = append(
-		result,
-		new(eventhub_v1beta20211101.Namespace),
-		new(eventhub_v1beta20211101.NamespacesAuthorizationRule),
-		new(eventhub_v1beta20211101.NamespacesEventhub),
-		new(eventhub_v1beta20211101.NamespacesEventhubsAuthorizationRule),
-		new(eventhub_v1beta20211101.NamespacesEventhubsConsumerGroup))
-	result = append(
-		result,
-		new(eventhub_v1beta20211101s.Namespace),
-		new(eventhub_v1beta20211101s.NamespacesAuthorizationRule),
-		new(eventhub_v1beta20211101s.NamespacesEventhub),
-		new(eventhub_v1beta20211101s.NamespacesEventhubsAuthorizationRule),
-		new(eventhub_v1beta20211101s.NamespacesEventhubsConsumerGroup))
 	result = append(
 		result,
 		new(eventhub_v20211101.Namespace),
@@ -1395,10 +1181,6 @@ func getKnownTypes() []client.Object {
 		new(eventhub_v20211101s.NamespacesEventhub),
 		new(eventhub_v20211101s.NamespacesEventhubsAuthorizationRule),
 		new(eventhub_v20211101s.NamespacesEventhubsConsumerGroup))
-	result = append(result, new(insights_v1beta20180501p.Webtest))
-	result = append(result, new(insights_v1beta20180501ps.Webtest))
-	result = append(result, new(insights_v1beta20200202.Component))
-	result = append(result, new(insights_v1beta20200202s.Component))
 	result = append(result, new(insights_v20180301.MetricAlert))
 	result = append(result, new(insights_v20180301s.MetricAlert))
 	result = append(result, new(insights_v20180501p.Webtest))
@@ -1411,20 +1193,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(insights_v20221001s.AutoscaleSetting))
 	result = append(result, new(insights_v20230101.ActionGroup))
 	result = append(result, new(insights_v20230101s.ActionGroup))
-	result = append(result, new(keyvault_v1beta20210401p.Vault))
-	result = append(result, new(keyvault_v1beta20210401ps.Vault))
 	result = append(result, new(keyvault_v20210401p.Vault))
 	result = append(result, new(keyvault_v20210401ps.Vault))
-	result = append(
-		result,
-		new(machinelearningservices_v1beta20210701.Workspace),
-		new(machinelearningservices_v1beta20210701.WorkspacesCompute),
-		new(machinelearningservices_v1beta20210701.WorkspacesConnection))
-	result = append(
-		result,
-		new(machinelearningservices_v1beta20210701s.Workspace),
-		new(machinelearningservices_v1beta20210701s.WorkspacesCompute),
-		new(machinelearningservices_v1beta20210701s.WorkspacesConnection))
 	result = append(
 		result,
 		new(machinelearningservices_v20210701.Workspace),
@@ -1435,42 +1205,10 @@ func getKnownTypes() []client.Object {
 		new(machinelearningservices_v20210701s.Workspace),
 		new(machinelearningservices_v20210701s.WorkspacesCompute),
 		new(machinelearningservices_v20210701s.WorkspacesConnection))
-	result = append(result, new(managedidentity_v1beta20181130.UserAssignedIdentity))
-	result = append(result, new(managedidentity_v1beta20181130s.UserAssignedIdentity))
-	result = append(result, new(managedidentity_v1beta20220131p.FederatedIdentityCredential))
-	result = append(result, new(managedidentity_v1beta20220131ps.FederatedIdentityCredential))
 	result = append(result, new(managedidentity_v20181130.UserAssignedIdentity))
 	result = append(result, new(managedidentity_v20181130s.UserAssignedIdentity))
 	result = append(result, new(managedidentity_v20220131p.FederatedIdentityCredential))
 	result = append(result, new(managedidentity_v20220131ps.FederatedIdentityCredential))
-	result = append(result, new(network_v1beta20180901.PrivateDnsZone))
-	result = append(result, new(network_v1beta20180901s.PrivateDnsZone))
-	result = append(
-		result,
-		new(network_v1beta20201101.LoadBalancer),
-		new(network_v1beta20201101.NetworkInterface),
-		new(network_v1beta20201101.NetworkSecurityGroup),
-		new(network_v1beta20201101.NetworkSecurityGroupsSecurityRule),
-		new(network_v1beta20201101.PublicIPAddress),
-		new(network_v1beta20201101.RouteTable),
-		new(network_v1beta20201101.RouteTablesRoute),
-		new(network_v1beta20201101.VirtualNetwork),
-		new(network_v1beta20201101.VirtualNetworkGateway),
-		new(network_v1beta20201101.VirtualNetworksSubnet),
-		new(network_v1beta20201101.VirtualNetworksVirtualNetworkPeering))
-	result = append(
-		result,
-		new(network_v1beta20201101s.LoadBalancer),
-		new(network_v1beta20201101s.NetworkInterface),
-		new(network_v1beta20201101s.NetworkSecurityGroup),
-		new(network_v1beta20201101s.NetworkSecurityGroupsSecurityRule),
-		new(network_v1beta20201101s.PublicIPAddress),
-		new(network_v1beta20201101s.RouteTable),
-		new(network_v1beta20201101s.RouteTablesRoute),
-		new(network_v1beta20201101s.VirtualNetwork),
-		new(network_v1beta20201101s.VirtualNetworkGateway),
-		new(network_v1beta20201101s.VirtualNetworksSubnet),
-		new(network_v1beta20201101s.VirtualNetworksVirtualNetworkPeering))
 	result = append(
 		result,
 		new(network_v20180501.DnsZone),
@@ -1585,30 +1323,12 @@ func getKnownTypes() []client.Object {
 		new(network_v20220701s.PrivateEndpointsPrivateDnsZoneGroup),
 		new(network_v20220701s.PrivateLinkService),
 		new(network_v20220701s.PublicIPPrefix))
-	result = append(result, new(operationalinsights_v1beta20210601.Workspace))
-	result = append(result, new(operationalinsights_v1beta20210601s.Workspace))
 	result = append(result, new(operationalinsights_v20210601.Workspace))
 	result = append(result, new(operationalinsights_v20210601s.Workspace))
-	result = append(result, new(resources_v1beta20200601.ResourceGroup))
-	result = append(result, new(resources_v1beta20200601s.ResourceGroup))
 	result = append(result, new(resources_v20200601.ResourceGroup))
 	result = append(result, new(resources_v20200601s.ResourceGroup))
 	result = append(result, new(search_v20220901.SearchService))
 	result = append(result, new(search_v20220901s.SearchService))
-	result = append(
-		result,
-		new(servicebus_v1beta20210101p.Namespace),
-		new(servicebus_v1beta20210101p.NamespacesQueue),
-		new(servicebus_v1beta20210101p.NamespacesTopic),
-		new(servicebus_v1beta20210101p.NamespacesTopicsSubscription),
-		new(servicebus_v1beta20210101p.NamespacesTopicsSubscriptionsRule))
-	result = append(
-		result,
-		new(servicebus_v1beta20210101ps.Namespace),
-		new(servicebus_v1beta20210101ps.NamespacesQueue),
-		new(servicebus_v1beta20210101ps.NamespacesTopic),
-		new(servicebus_v1beta20210101ps.NamespacesTopicsSubscription),
-		new(servicebus_v1beta20210101ps.NamespacesTopicsSubscriptionsRule))
 	result = append(
 		result,
 		new(servicebus_v20210101p.Namespace),
@@ -1657,8 +1377,6 @@ func getKnownTypes() []client.Object {
 		new(servicebus_v20221001ps.NamespacesTopic),
 		new(servicebus_v20221001ps.NamespacesTopicsSubscription),
 		new(servicebus_v20221001ps.NamespacesTopicsSubscriptionsRule))
-	result = append(result, new(signalrservice_v1beta20211001.SignalR))
-	result = append(result, new(signalrservice_v1beta20211001s.SignalR))
 	result = append(result, new(signalrservice_v20211001.SignalR))
 	result = append(result, new(signalrservice_v20211001s.SignalR))
 	result = append(
@@ -1711,22 +1429,6 @@ func getKnownTypes() []client.Object {
 		new(sql_v20211101s.ServersVulnerabilityAssessment))
 	result = append(
 		result,
-		new(storage_v1beta20210401.StorageAccount),
-		new(storage_v1beta20210401.StorageAccountsBlobService),
-		new(storage_v1beta20210401.StorageAccountsBlobServicesContainer),
-		new(storage_v1beta20210401.StorageAccountsManagementPolicy),
-		new(storage_v1beta20210401.StorageAccountsQueueService),
-		new(storage_v1beta20210401.StorageAccountsQueueServicesQueue))
-	result = append(
-		result,
-		new(storage_v1beta20210401s.StorageAccount),
-		new(storage_v1beta20210401s.StorageAccountsBlobService),
-		new(storage_v1beta20210401s.StorageAccountsBlobServicesContainer),
-		new(storage_v1beta20210401s.StorageAccountsManagementPolicy),
-		new(storage_v1beta20210401s.StorageAccountsQueueService),
-		new(storage_v1beta20210401s.StorageAccountsQueueServicesQueue))
-	result = append(
-		result,
 		new(storage_v20210401.StorageAccount),
 		new(storage_v20210401.StorageAccountsBlobService),
 		new(storage_v20210401.StorageAccountsBlobServicesContainer),
@@ -1765,14 +1467,10 @@ func getKnownTypes() []client.Object {
 		new(storage_v20220901s.StorageAccountsQueueServicesQueue),
 		new(storage_v20220901s.StorageAccountsTableService),
 		new(storage_v20220901s.StorageAccountsTableServicesTable))
-	result = append(result, new(subscription_v1beta20211001.Alias))
-	result = append(result, new(subscription_v1beta20211001s.Alias))
 	result = append(result, new(subscription_v20211001.Alias))
 	result = append(result, new(subscription_v20211001s.Alias))
 	result = append(result, new(synapse_v20210601.Workspace), new(synapse_v20210601.WorkspacesBigDataPool))
 	result = append(result, new(synapse_v20210601s.Workspace), new(synapse_v20210601s.WorkspacesBigDataPool))
-	result = append(result, new(web_v1beta20220301.ServerFarm), new(web_v1beta20220301.Site))
-	result = append(result, new(web_v1beta20220301s.ServerFarm), new(web_v1beta20220301s.Site))
 	result = append(result, new(web_v20220301.ServerFarm), new(web_v20220301.Site))
 	result = append(result, new(web_v20220301s.ServerFarm), new(web_v20220301s.Site))
 	return result
@@ -1784,24 +1482,14 @@ func createScheme() *runtime.Scheme {
 	_ = clientgoscheme.AddToScheme(scheme)
 	_ = apimanagement_v20220801.AddToScheme(scheme)
 	_ = apimanagement_v20220801s.AddToScheme(scheme)
-	_ = appconfiguration_v1beta20220501.AddToScheme(scheme)
-	_ = appconfiguration_v1beta20220501s.AddToScheme(scheme)
 	_ = appconfiguration_v20220501.AddToScheme(scheme)
 	_ = appconfiguration_v20220501s.AddToScheme(scheme)
-	_ = authorization_v1beta20200801p.AddToScheme(scheme)
-	_ = authorization_v1beta20200801ps.AddToScheme(scheme)
 	_ = authorization_v20200801p.AddToScheme(scheme)
 	_ = authorization_v20200801ps.AddToScheme(scheme)
 	_ = authorization_v20220401.AddToScheme(scheme)
 	_ = authorization_v20220401s.AddToScheme(scheme)
-	_ = batch_v1beta20210101.AddToScheme(scheme)
-	_ = batch_v1beta20210101s.AddToScheme(scheme)
 	_ = batch_v20210101.AddToScheme(scheme)
 	_ = batch_v20210101s.AddToScheme(scheme)
-	_ = cache_v1beta20201201.AddToScheme(scheme)
-	_ = cache_v1beta20201201s.AddToScheme(scheme)
-	_ = cache_v1beta20210301.AddToScheme(scheme)
-	_ = cache_v1beta20210301s.AddToScheme(scheme)
 	_ = cache_v20201201.AddToScheme(scheme)
 	_ = cache_v20201201s.AddToScheme(scheme)
 	_ = cache_v20210301.AddToScheme(scheme)
@@ -1810,18 +1498,8 @@ func createScheme() *runtime.Scheme {
 	_ = cache_v20230401s.AddToScheme(scheme)
 	_ = cache_v20230701.AddToScheme(scheme)
 	_ = cache_v20230701s.AddToScheme(scheme)
-	_ = cdn_v1beta20210601.AddToScheme(scheme)
-	_ = cdn_v1beta20210601s.AddToScheme(scheme)
 	_ = cdn_v20210601.AddToScheme(scheme)
 	_ = cdn_v20210601s.AddToScheme(scheme)
-	_ = compute_v1beta20200930.AddToScheme(scheme)
-	_ = compute_v1beta20200930s.AddToScheme(scheme)
-	_ = compute_v1beta20201201.AddToScheme(scheme)
-	_ = compute_v1beta20201201s.AddToScheme(scheme)
-	_ = compute_v1beta20210701.AddToScheme(scheme)
-	_ = compute_v1beta20210701s.AddToScheme(scheme)
-	_ = compute_v1beta20220301.AddToScheme(scheme)
-	_ = compute_v1beta20220301s.AddToScheme(scheme)
 	_ = compute_v20200930.AddToScheme(scheme)
 	_ = compute_v20200930s.AddToScheme(scheme)
 	_ = compute_v20201201.AddToScheme(scheme)
@@ -1832,16 +1510,10 @@ func createScheme() *runtime.Scheme {
 	_ = compute_v20220301s.AddToScheme(scheme)
 	_ = compute_v20220702.AddToScheme(scheme)
 	_ = compute_v20220702s.AddToScheme(scheme)
-	_ = containerinstance_v1beta20211001.AddToScheme(scheme)
-	_ = containerinstance_v1beta20211001s.AddToScheme(scheme)
 	_ = containerinstance_v20211001.AddToScheme(scheme)
 	_ = containerinstance_v20211001s.AddToScheme(scheme)
-	_ = containerregistry_v1beta20210901.AddToScheme(scheme)
-	_ = containerregistry_v1beta20210901s.AddToScheme(scheme)
 	_ = containerregistry_v20210901.AddToScheme(scheme)
 	_ = containerregistry_v20210901s.AddToScheme(scheme)
-	_ = containerservice_v1beta20210501.AddToScheme(scheme)
-	_ = containerservice_v1beta20210501s.AddToScheme(scheme)
 	_ = containerservice_v20210501.AddToScheme(scheme)
 	_ = containerservice_v20210501s.AddToScheme(scheme)
 	_ = containerservice_v20230201.AddToScheme(scheme)
@@ -1854,42 +1526,24 @@ func createScheme() *runtime.Scheme {
 	_ = datafactory_v20180601s.AddToScheme(scheme)
 	_ = dataprotection_v20230101.AddToScheme(scheme)
 	_ = dataprotection_v20230101s.AddToScheme(scheme)
-	_ = dbformariadb_v1beta20180601.AddToScheme(scheme)
-	_ = dbformariadb_v1beta20180601s.AddToScheme(scheme)
 	_ = dbformariadb_v20180601.AddToScheme(scheme)
 	_ = dbformariadb_v20180601s.AddToScheme(scheme)
-	_ = dbformysql_v1beta20210501.AddToScheme(scheme)
-	_ = dbformysql_v1beta20210501s.AddToScheme(scheme)
 	_ = dbformysql_v20210501.AddToScheme(scheme)
 	_ = dbformysql_v20210501s.AddToScheme(scheme)
 	_ = dbformysql_v20220101.AddToScheme(scheme)
 	_ = dbformysql_v20220101s.AddToScheme(scheme)
-	_ = dbforpostgresql_v1beta20210601.AddToScheme(scheme)
-	_ = dbforpostgresql_v1beta20210601s.AddToScheme(scheme)
-	_ = dbforpostgresql_v1beta20220120p.AddToScheme(scheme)
-	_ = dbforpostgresql_v1beta20220120ps.AddToScheme(scheme)
 	_ = dbforpostgresql_v20210601.AddToScheme(scheme)
 	_ = dbforpostgresql_v20210601s.AddToScheme(scheme)
 	_ = dbforpostgresql_v20220120p.AddToScheme(scheme)
 	_ = dbforpostgresql_v20220120ps.AddToScheme(scheme)
 	_ = devices_v20210702.AddToScheme(scheme)
 	_ = devices_v20210702s.AddToScheme(scheme)
-	_ = documentdb_v1beta20210515.AddToScheme(scheme)
-	_ = documentdb_v1beta20210515s.AddToScheme(scheme)
 	_ = documentdb_v20210515.AddToScheme(scheme)
 	_ = documentdb_v20210515s.AddToScheme(scheme)
-	_ = eventgrid_v1beta20200601.AddToScheme(scheme)
-	_ = eventgrid_v1beta20200601s.AddToScheme(scheme)
 	_ = eventgrid_v20200601.AddToScheme(scheme)
 	_ = eventgrid_v20200601s.AddToScheme(scheme)
-	_ = eventhub_v1beta20211101.AddToScheme(scheme)
-	_ = eventhub_v1beta20211101s.AddToScheme(scheme)
 	_ = eventhub_v20211101.AddToScheme(scheme)
 	_ = eventhub_v20211101s.AddToScheme(scheme)
-	_ = insights_v1beta20180501p.AddToScheme(scheme)
-	_ = insights_v1beta20180501ps.AddToScheme(scheme)
-	_ = insights_v1beta20200202.AddToScheme(scheme)
-	_ = insights_v1beta20200202s.AddToScheme(scheme)
 	_ = insights_v20180301.AddToScheme(scheme)
 	_ = insights_v20180301s.AddToScheme(scheme)
 	_ = insights_v20180501p.AddToScheme(scheme)
@@ -1902,26 +1556,14 @@ func createScheme() *runtime.Scheme {
 	_ = insights_v20221001s.AddToScheme(scheme)
 	_ = insights_v20230101.AddToScheme(scheme)
 	_ = insights_v20230101s.AddToScheme(scheme)
-	_ = keyvault_v1beta20210401p.AddToScheme(scheme)
-	_ = keyvault_v1beta20210401ps.AddToScheme(scheme)
 	_ = keyvault_v20210401p.AddToScheme(scheme)
 	_ = keyvault_v20210401ps.AddToScheme(scheme)
-	_ = machinelearningservices_v1beta20210701.AddToScheme(scheme)
-	_ = machinelearningservices_v1beta20210701s.AddToScheme(scheme)
 	_ = machinelearningservices_v20210701.AddToScheme(scheme)
 	_ = machinelearningservices_v20210701s.AddToScheme(scheme)
-	_ = managedidentity_v1beta20181130.AddToScheme(scheme)
-	_ = managedidentity_v1beta20181130s.AddToScheme(scheme)
-	_ = managedidentity_v1beta20220131p.AddToScheme(scheme)
-	_ = managedidentity_v1beta20220131ps.AddToScheme(scheme)
 	_ = managedidentity_v20181130.AddToScheme(scheme)
 	_ = managedidentity_v20181130s.AddToScheme(scheme)
 	_ = managedidentity_v20220131p.AddToScheme(scheme)
 	_ = managedidentity_v20220131ps.AddToScheme(scheme)
-	_ = network_v1beta20180901.AddToScheme(scheme)
-	_ = network_v1beta20180901s.AddToScheme(scheme)
-	_ = network_v1beta20201101.AddToScheme(scheme)
-	_ = network_v1beta20201101s.AddToScheme(scheme)
 	_ = network_v20180501.AddToScheme(scheme)
 	_ = network_v20180501s.AddToScheme(scheme)
 	_ = network_v20180901.AddToScheme(scheme)
@@ -1934,44 +1576,30 @@ func createScheme() *runtime.Scheme {
 	_ = network_v20220401s.AddToScheme(scheme)
 	_ = network_v20220701.AddToScheme(scheme)
 	_ = network_v20220701s.AddToScheme(scheme)
-	_ = operationalinsights_v1beta20210601.AddToScheme(scheme)
-	_ = operationalinsights_v1beta20210601s.AddToScheme(scheme)
 	_ = operationalinsights_v20210601.AddToScheme(scheme)
 	_ = operationalinsights_v20210601s.AddToScheme(scheme)
-	_ = resources_v1beta20200601.AddToScheme(scheme)
-	_ = resources_v1beta20200601s.AddToScheme(scheme)
 	_ = resources_v20200601.AddToScheme(scheme)
 	_ = resources_v20200601s.AddToScheme(scheme)
 	_ = search_v20220901.AddToScheme(scheme)
 	_ = search_v20220901s.AddToScheme(scheme)
-	_ = servicebus_v1beta20210101p.AddToScheme(scheme)
-	_ = servicebus_v1beta20210101ps.AddToScheme(scheme)
 	_ = servicebus_v20210101p.AddToScheme(scheme)
 	_ = servicebus_v20210101ps.AddToScheme(scheme)
 	_ = servicebus_v20211101.AddToScheme(scheme)
 	_ = servicebus_v20211101s.AddToScheme(scheme)
 	_ = servicebus_v20221001p.AddToScheme(scheme)
 	_ = servicebus_v20221001ps.AddToScheme(scheme)
-	_ = signalrservice_v1beta20211001.AddToScheme(scheme)
-	_ = signalrservice_v1beta20211001s.AddToScheme(scheme)
 	_ = signalrservice_v20211001.AddToScheme(scheme)
 	_ = signalrservice_v20211001s.AddToScheme(scheme)
 	_ = sql_v20211101.AddToScheme(scheme)
 	_ = sql_v20211101s.AddToScheme(scheme)
-	_ = storage_v1beta20210401.AddToScheme(scheme)
-	_ = storage_v1beta20210401s.AddToScheme(scheme)
 	_ = storage_v20210401.AddToScheme(scheme)
 	_ = storage_v20210401s.AddToScheme(scheme)
 	_ = storage_v20220901.AddToScheme(scheme)
 	_ = storage_v20220901s.AddToScheme(scheme)
-	_ = subscription_v1beta20211001.AddToScheme(scheme)
-	_ = subscription_v1beta20211001s.AddToScheme(scheme)
 	_ = subscription_v20211001.AddToScheme(scheme)
 	_ = subscription_v20211001s.AddToScheme(scheme)
 	_ = synapse_v20210601.AddToScheme(scheme)
 	_ = synapse_v20210601s.AddToScheme(scheme)
-	_ = web_v1beta20220301.AddToScheme(scheme)
-	_ = web_v1beta20220301s.AddToScheme(scheme)
 	_ = web_v20220301.AddToScheme(scheme)
 	_ = web_v20220301s.AddToScheme(scheme)
 	return scheme

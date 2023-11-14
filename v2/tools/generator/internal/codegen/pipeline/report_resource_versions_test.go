@@ -57,10 +57,10 @@ func TestGolden_ReportAllResourceVersions(t *testing.T) {
 		test.CreateStatus(test.Pkg2021, "Address"))
 
 	batch2021 := test.CreateResource(
-		test.BatchPkgBeta2021,
+		test.BatchPkg2021,
 		"BatchAccount",
-		test.CreateSpec(test.BatchPkgBeta2021, "BatchAccount"),
-		test.CreateStatus(test.BatchPkgBeta2021, "BatchAccount"))
+		test.CreateSpec(test.BatchPkg2021, "BatchAccount"),
+		test.CreateStatus(test.BatchPkg2021, "BatchAccount"))
 
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(person2020, address2020, person2021, address2021, batch2021)
