@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"go/token"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sort"
 	"strings"
 
@@ -162,22 +163,21 @@ func (file *FileDefinition) AsAst() (result *dst.File, err error) {
 	codeGenContext := NewCodeGenerationContext(file.packageReference, file.generateImports(), file.generatedPackages)
 
 	// Create all definitions:
-	var definitions []dst.Decl
-
-	// Handle panics coming out of call to AsDeclarations below:
-	defer func() {
-		if r := recover(); r != nil {
-			caught, ok := r.(error)
-			if !ok {
-				panic(r)
-			}
-
-			err = caught
-		}
-	}()
-
+	var declarations []dst.Decl
+	var errs []error
 	for _, s := range file.definitions {
-		definitions = append(definitions, s.AsDeclarations(codeGenContext)...)
+		decls, err := s.AsDeclarations(codeGenContext)
+		if err != nil {
+			errs = append(errs, err)
+			continue
+		}
+
+		declarations = append(declarations, decls...)
+	}
+
+	// If we had any errors, return them
+	if len(errs) > 0 {
+		return nil, kerrors.NewAggregate(errs)
 	}
 
 	var decls []dst.Decl
@@ -197,7 +197,7 @@ func (file *FileDefinition) AsAst() (result *dst.File, err error) {
 	}
 
 	// Add generated definitions
-	decls = append(decls, definitions...)
+	decls = append(decls, declarations...)
 
 	// Emit registration for each resource:
 	var exprs []dst.Expr

@@ -71,8 +71,8 @@ func Test_TypeDefinitionAsAst_GivenValidStruct_ReturnsNonNilResult(t *testing.T)
 
 	ref := MakeInternalTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
 	definition := MakeTypeDefinition(ref, NewObjectType())
-	node := definition.AsDeclarations(nil)
-
+	node, err := definition.AsDeclarations(nil)
+	g.Expect(err).To(Succeed())
 	g.Expect(node).NotTo(BeNil())
 }
 
