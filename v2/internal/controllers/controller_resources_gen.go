@@ -102,7 +102,7 @@ import (
 	insights_v20230101s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101storage"
 	keyvault_customizations "github.com/Azure/azure-service-operator/v2/api/keyvault/customizations"
 	keyvault_v20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
-	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401previewstorage"
+	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/storage"
 	machinelearningservices_customizations "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/customizations"
 	machinelearningservices_v20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701"
 	machinelearningservices_v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
