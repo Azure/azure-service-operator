@@ -42,7 +42,6 @@ var legacyStorageGroups = set.Make(
 	"managedidentity",
 	"operationalinsights",
 	"search",
-	"servicebus",
 	"signalrservice",
 	"sql",
 	"storage",
