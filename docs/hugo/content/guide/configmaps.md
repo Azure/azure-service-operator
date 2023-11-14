@@ -15,7 +15,7 @@ You can hardcode that `principalId` or you can refer to it dynamically as a `Con
 
 **Example (from [the RoleAssignment sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/authorization/v1api20200801preview/v1api20200801preview_roleassignment.yaml)):**
 ```yaml
-apiVersion: authorization.azure.com/v1beta20200801preview
+apiVersion: authorization.azure.com/v1api20200801preview
 kind: RoleAssignment
 metadata:
   name: fee8b6b1-fe6e-481d-8330-0e950e4e6b86 # Should be UUID
@@ -52,7 +52,7 @@ until the data has been written.
 
 **Example (from [the UserAssignedIdentity sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/managedidentity/v1api/v1api20181130_userassignedidentity.yaml)):**
 ```yaml
-apiVersion: managedidentity.azure.com/v1beta20181130
+apiVersion: managedidentity.azure.com/v1api20181130
 kind: UserAssignedIdentity
 metadata:
   name: sampleuserassignedidentity
