@@ -345,8 +345,6 @@ tasks:
       --set crdPattern=*"
       - "kubectl create namespace pre-release"
       - task: controller:wait-for-operator-ready
-        vars:
-          ARGS: "-o"
       - "go test -timeout 15m -count=1 -v -run Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade ./test/pre-release"
 
   controller:test-upgrade-post:
