@@ -128,46 +128,42 @@ func loadJSON(
 	startTimes := make(map[string]time.Time)
 	runTimes := make(map[string]time.Duration)
 	outputs := make(map[string][]string)
-	key := func(d JSONFormat) string {
-		return d.Package + "/" + d.Test
-	}
-
 	// package → list of tests
 	byPackage := make(map[string][]TestRun, len(data))
 	for _, d := range data {
 		switch d.Action {
 		case "run":
-			if startTimes[key(d)] != (time.Time{}) {
+			if startTimes[d.key()] != (time.Time{}) {
 				panic("run while already running")
 			}
-			startTimes[key(d)] = d.Time
+			startTimes[d.key()] = d.Time
 		case "pause":
-			if startTimes[key(d)] == (time.Time{}) {
+			if startTimes[d.key()] == (time.Time{}) {
 				panic("pause while not running")
 			}
-			runTimes[key(d)] += d.Time.Sub(startTimes[key(d)])
-			startTimes[key(d)] = time.Time{}
+			runTimes[d.key()] += d.Time.Sub(startTimes[d.key()])
+			startTimes[d.key()] = time.Time{}
 		case "cont":
 			// cont while still in running state happens sometimes (???)
 			// so don't check
-			startTimes[key(d)] = d.Time
+			startTimes[d.key()] = d.Time
 		case "output":
-			outputs[key(d)] = append(outputs[key(d)], d.Output)
+			outputs[d.key()] = append(outputs[d.key()], d.Output)
 		case "pass", "fail", "skip":
-			if d.Test != "" && startTimes[key(d)] == (time.Time{}) {
+			if d.Test != "" && startTimes[d.key()] == (time.Time{}) {
 				panic("finished when not running")
 			}
 
-			runTimes[key(d)] += d.Time.Sub(startTimes[key(d)])
+			runTimes[d.key()] += d.Time.Sub(startTimes[d.key()])
 
 			byPackage[d.Package] = append(byPackage[d.Package], TestRun{
 				Action:  d.Action,
 				Package: d.Package,
 				Test:    d.Test,
-				Output:  outputs[key(d)],
+				Output:  outputs[d.key()],
 
 				// round all runtimes to ms to avoid excessive decimal places
-				RunTime: sensitiveRound(runTimes[key(d)]),
+				RunTime: sensitiveRound(runTimes[d.key()]),
 			})
 		}
 	}
@@ -362,4 +358,9 @@ func logError(
 		"row", row,
 		"line", line,
 	)
+}
+
+// key returns a unique key for a test run
+func (d JSONFormat) key() string {
+	return d.Package + "/" + d.Test
 }
