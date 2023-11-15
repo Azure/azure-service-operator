@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-package v1api20210501storage_test
+package storage_test
 
 import (
 	"testing"
@@ -9,8 +9,8 @@ import (
 	. "github.com/onsi/gomega"
 
 	v20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501"
-	v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501storage"
-	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201storage"
+	v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501/storage"
+	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

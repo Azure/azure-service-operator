@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-package v1api20210501storage
+package storage
 
 import (
-	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201storage"
+	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -161,7 +161,7 @@ func (cluster *ManagedClusterSKU) AssignPropertiesFrom(_ *v20230201s.ManagedClus
 	return nil
 }
 
-func (_ *ManagedClusterSKU) AssignPropertiesTo(dst *v20230201s.ManagedClusterSKU) error {
+func (*ManagedClusterSKU) AssignPropertiesTo(dst *v20230201s.ManagedClusterSKU) error {
 	// value will have already been set on dst from code-generated conversion
 	if to.Value(dst.Name) == "Basic" {
 		dst.Name = to.Ptr("Base")
@@ -187,7 +187,7 @@ func (cluster *ManagedClusterSKU_STATUS) AssignPropertiesFrom(_ *v20230201s.Mana
 	return nil
 }
 
-func (_ *ManagedClusterSKU_STATUS) AssignPropertiesTo(dst *v20230201s.ManagedClusterSKU_STATUS) error {
+func (*ManagedClusterSKU_STATUS) AssignPropertiesTo(dst *v20230201s.ManagedClusterSKU_STATUS) error {
 	// value will have already been set on dst from code-generated conversion
 	if to.Value(dst.Name) == "Basic" {
 		dst.Name = to.Ptr("Base")
