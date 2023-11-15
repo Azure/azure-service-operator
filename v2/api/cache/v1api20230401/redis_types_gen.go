@@ -5,7 +5,7 @@ package v1api20230401
 
 import (
 	"fmt"
-	v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401storage"
+	v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &Redis{}
 func (redis *Redis) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20230401s.Redis)
 	if !ok {
-		return fmt.Errorf("expected cache/v1api20230401storage/Redis but received %T instead", hub)
+		return fmt.Errorf("expected cache/v1api20230401/storage/Redis but received %T instead", hub)
 	}
 
 	return redis.AssignProperties_From_Redis(source)
@@ -61,7 +61,7 @@ func (redis *Redis) ConvertFrom(hub conversion.Hub) error {
 func (redis *Redis) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20230401s.Redis)
 	if !ok {
-		return fmt.Errorf("expected cache/v1api20230401storage/Redis but received %T instead", hub)
+		return fmt.Errorf("expected cache/v1api20230401/storage/Redis but received %T instead", hub)
 	}
 
 	return redis.AssignProperties_To_Redis(destination)
