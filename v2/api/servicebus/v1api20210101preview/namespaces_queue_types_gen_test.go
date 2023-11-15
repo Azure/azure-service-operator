@@ -5,8 +5,8 @@ package v1api20210101preview
 
 import (
 	"encoding/json"
-	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101storage"
+	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_NamespacesQueue_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespacesQueue tests if a specific instance of NamespacesQueue can be assigned to v1api20210101previewstorage and back losslessly
+// RunPropertyAssignmentTestForNamespacesQueue tests if a specific instance of NamespacesQueue can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesQueue(subject NamespacesQueue) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Namespaces_Queue_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespaces_Queue_Spec tests if a specific instance of Namespaces_Queue_Spec can be assigned to v1api20210101previewstorage and back losslessly
+// RunPropertyAssignmentTestForNamespaces_Queue_Spec tests if a specific instance of Namespaces_Queue_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespaces_Queue_Spec(subject Namespaces_Queue_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -293,7 +293,7 @@ func Test_Namespaces_Queue_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespaces_Queue_STATUS tests if a specific instance of Namespaces_Queue_STATUS can be assigned to v1api20210101previewstorage and back losslessly
+// RunPropertyAssignmentTestForNamespaces_Queue_STATUS tests if a specific instance of Namespaces_Queue_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespaces_Queue_STATUS(subject Namespaces_Queue_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -442,7 +442,7 @@ func Test_MessageCountDetails_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMessageCountDetails_STATUS tests if a specific instance of MessageCountDetails_STATUS can be assigned to v1api20210101previewstorage and back losslessly
+// RunPropertyAssignmentTestForMessageCountDetails_STATUS tests if a specific instance of MessageCountDetails_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMessageCountDetails_STATUS(subject MessageCountDetails_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
