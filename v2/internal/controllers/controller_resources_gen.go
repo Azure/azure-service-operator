@@ -102,7 +102,7 @@ import (
 	insights_v20230101s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101storage"
 	keyvault_customizations "github.com/Azure/azure-service-operator/v2/api/keyvault/customizations"
 	keyvault_v20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
-	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401previewstorage"
+	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/storage"
 	kubernetesconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/customizations"
 	kubernetesconfiguration_v20230501 "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
 	kubernetesconfiguration_v20230501s "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501/storage"

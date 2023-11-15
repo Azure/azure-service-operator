@@ -5,7 +5,7 @@ package customizations
 
 import (
 	v20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
-	v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401previewstorage"
+	v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
