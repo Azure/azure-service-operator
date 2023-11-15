@@ -25,14 +25,6 @@ type JSONFormat struct {
 	Output  string    `json:"Output"`
 }
 
-type TestRun struct {
-	Action  string
-	Package string
-	Test    string
-	Output  []string
-	RunTime time.Duration
-}
-
 func main() {
 	log := CreateLogger()
 
