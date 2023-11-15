@@ -46,7 +46,6 @@ var legacyStorageGroups = set.Make(
 	"signalrservice",
 	"sql",
 	"storage",
-	"synapse",
 )
 
 // MakeStoragePackageReference creates a new storage package reference from a local package reference

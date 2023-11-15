@@ -159,7 +159,7 @@ import (
 	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
 	synapse_customizations "github.com/Azure/azure-service-operator/v2/api/synapse/customizations"
 	synapse_v20210601 "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601"
-	synapse_v20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601storage"
+	synapse_v20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/storage"
 	web_customizations "github.com/Azure/azure-service-operator/v2/api/web/customizations"
 	web_v20220301 "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301"
 	web_v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/storage"
