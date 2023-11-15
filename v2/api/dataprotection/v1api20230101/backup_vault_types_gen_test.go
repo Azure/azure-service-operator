@@ -5,7 +5,7 @@ package v1api20230101
 
 import (
 	"encoding/json"
-	v20230101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101storage"
+	v20230101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_BackupVault_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackupVault tests if a specific instance of BackupVault can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForBackupVault tests if a specific instance of BackupVault can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackupVault(subject BackupVault) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_BackupVault_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackupVault_Spec tests if a specific instance of BackupVault_Spec can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForBackupVault_Spec tests if a specific instance of BackupVault_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackupVault_Spec(subject BackupVault_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -294,7 +294,7 @@ func Test_BackupVaultResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackupVaultResource_STATUS tests if a specific instance of BackupVaultResource_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForBackupVaultResource_STATUS tests if a specific instance of BackupVaultResource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackupVaultResource_STATUS(subject BackupVaultResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -418,7 +418,7 @@ func Test_BackupVault_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackupVault_STATUS tests if a specific instance of BackupVault_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForBackupVault_STATUS tests if a specific instance of BackupVault_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackupVault_STATUS(subject BackupVault_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -555,7 +555,7 @@ func Test_BackupVaultSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackupVaultSpec tests if a specific instance of BackupVaultSpec can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForBackupVaultSpec tests if a specific instance of BackupVaultSpec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackupVaultSpec(subject BackupVaultSpec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -660,7 +660,7 @@ func Test_DppIdentityDetails_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDppIdentityDetails tests if a specific instance of DppIdentityDetails can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForDppIdentityDetails tests if a specific instance of DppIdentityDetails can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDppIdentityDetails(subject DppIdentityDetails) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -762,7 +762,7 @@ func Test_DppIdentityDetails_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDppIdentityDetails_STATUS tests if a specific instance of DppIdentityDetails_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForDppIdentityDetails_STATUS tests if a specific instance of DppIdentityDetails_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDppIdentityDetails_STATUS(subject DppIdentityDetails_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -867,7 +867,7 @@ func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -982,7 +982,7 @@ func Test_FeatureSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFeatureSettings tests if a specific instance of FeatureSettings can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForFeatureSettings tests if a specific instance of FeatureSettings can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFeatureSettings(subject FeatureSettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1084,7 +1084,7 @@ func Test_FeatureSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFeatureSettings_STATUS tests if a specific instance of FeatureSettings_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForFeatureSettings_STATUS tests if a specific instance of FeatureSettings_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFeatureSettings_STATUS(subject FeatureSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1187,7 +1187,7 @@ func Test_MonitoringSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMonitoringSettings tests if a specific instance of MonitoringSettings can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForMonitoringSettings tests if a specific instance of MonitoringSettings can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMonitoringSettings(subject MonitoringSettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1289,7 +1289,7 @@ func Test_MonitoringSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMonitoringSettings_STATUS tests if a specific instance of MonitoringSettings_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForMonitoringSettings_STATUS tests if a specific instance of MonitoringSettings_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMonitoringSettings_STATUS(subject MonitoringSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1392,7 +1392,7 @@ func Test_ResourceMoveDetails_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForResourceMoveDetails_STATUS tests if a specific instance of ResourceMoveDetails_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForResourceMoveDetails_STATUS tests if a specific instance of ResourceMoveDetails_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForResourceMoveDetails_STATUS(subject ResourceMoveDetails_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1499,7 +1499,7 @@ func Test_SecuritySettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSecuritySettings tests if a specific instance of SecuritySettings can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForSecuritySettings tests if a specific instance of SecuritySettings can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSecuritySettings(subject SecuritySettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1602,7 +1602,7 @@ func Test_SecuritySettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSecuritySettings_STATUS tests if a specific instance of SecuritySettings_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForSecuritySettings_STATUS tests if a specific instance of SecuritySettings_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSecuritySettings_STATUS(subject SecuritySettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1706,7 +1706,7 @@ func Test_StorageSetting_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageSetting tests if a specific instance of StorageSetting can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForStorageSetting tests if a specific instance of StorageSetting can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageSetting(subject StorageSetting) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1809,7 +1809,7 @@ func Test_StorageSetting_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageSetting_STATUS tests if a specific instance of StorageSetting_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForStorageSetting_STATUS tests if a specific instance of StorageSetting_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageSetting_STATUS(subject StorageSetting_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1913,7 +1913,7 @@ func Test_AzureMonitorAlertSettings_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAzureMonitorAlertSettings tests if a specific instance of AzureMonitorAlertSettings can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForAzureMonitorAlertSettings tests if a specific instance of AzureMonitorAlertSettings can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAzureMonitorAlertSettings(subject AzureMonitorAlertSettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2016,7 +2016,7 @@ func Test_AzureMonitorAlertSettings_STATUS_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAzureMonitorAlertSettings_STATUS tests if a specific instance of AzureMonitorAlertSettings_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForAzureMonitorAlertSettings_STATUS tests if a specific instance of AzureMonitorAlertSettings_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAzureMonitorAlertSettings_STATUS(subject AzureMonitorAlertSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2119,7 +2119,7 @@ func Test_CrossSubscriptionRestoreSettings_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCrossSubscriptionRestoreSettings tests if a specific instance of CrossSubscriptionRestoreSettings can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForCrossSubscriptionRestoreSettings tests if a specific instance of CrossSubscriptionRestoreSettings can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCrossSubscriptionRestoreSettings(subject CrossSubscriptionRestoreSettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2222,7 +2222,7 @@ func Test_CrossSubscriptionRestoreSettings_STATUS_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCrossSubscriptionRestoreSettings_STATUS tests if a specific instance of CrossSubscriptionRestoreSettings_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForCrossSubscriptionRestoreSettings_STATUS tests if a specific instance of CrossSubscriptionRestoreSettings_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCrossSubscriptionRestoreSettings_STATUS(subject CrossSubscriptionRestoreSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2325,7 +2325,7 @@ func Test_ImmutabilitySettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForImmutabilitySettings tests if a specific instance of ImmutabilitySettings can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForImmutabilitySettings tests if a specific instance of ImmutabilitySettings can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForImmutabilitySettings(subject ImmutabilitySettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2428,7 +2428,7 @@ func Test_ImmutabilitySettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForImmutabilitySettings_STATUS tests if a specific instance of ImmutabilitySettings_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForImmutabilitySettings_STATUS tests if a specific instance of ImmutabilitySettings_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForImmutabilitySettings_STATUS(subject ImmutabilitySettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2531,7 +2531,7 @@ func Test_SoftDeleteSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSoftDeleteSettings tests if a specific instance of SoftDeleteSettings can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForSoftDeleteSettings tests if a specific instance of SoftDeleteSettings can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSoftDeleteSettings(subject SoftDeleteSettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2634,7 +2634,7 @@ func Test_SoftDeleteSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSoftDeleteSettings_STATUS tests if a specific instance of SoftDeleteSettings_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForSoftDeleteSettings_STATUS tests if a specific instance of SoftDeleteSettings_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSoftDeleteSettings_STATUS(subject SoftDeleteSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
