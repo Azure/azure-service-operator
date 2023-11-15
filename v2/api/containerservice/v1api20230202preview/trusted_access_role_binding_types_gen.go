@@ -5,7 +5,7 @@ package v1api20230202preview
 
 import (
 	"fmt"
-	v20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202previewstorage"
+	v20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &TrustedAccessRoleBinding{}
 func (binding *TrustedAccessRoleBinding) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20230202ps.TrustedAccessRoleBinding)
 	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20230202previewstorage/TrustedAccessRoleBinding but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v1api20230202preview/storage/TrustedAccessRoleBinding but received %T instead", hub)
 	}
 
 	return binding.AssignProperties_From_TrustedAccessRoleBinding(source)
@@ -61,7 +61,7 @@ func (binding *TrustedAccessRoleBinding) ConvertFrom(hub conversion.Hub) error {
 func (binding *TrustedAccessRoleBinding) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20230202ps.TrustedAccessRoleBinding)
 	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20230202previewstorage/TrustedAccessRoleBinding but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v1api20230202preview/storage/TrustedAccessRoleBinding but received %T instead", hub)
 	}
 
 	return binding.AssignProperties_To_TrustedAccessRoleBinding(destination)

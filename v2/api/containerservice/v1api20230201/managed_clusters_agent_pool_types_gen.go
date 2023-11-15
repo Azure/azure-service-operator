@@ -5,7 +5,7 @@ package v1api20230201
 
 import (
 	"fmt"
-	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201storage"
+	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &ManagedClustersAgentPool{}
 func (pool *ManagedClustersAgentPool) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20230201s.ManagedClustersAgentPool)
 	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20230201storage/ManagedClustersAgentPool but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v1api20230201/storage/ManagedClustersAgentPool but received %T instead", hub)
 	}
 
 	return pool.AssignProperties_From_ManagedClustersAgentPool(source)
@@ -61,7 +61,7 @@ func (pool *ManagedClustersAgentPool) ConvertFrom(hub conversion.Hub) error {
 func (pool *ManagedClustersAgentPool) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20230201s.ManagedClustersAgentPool)
 	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20230201storage/ManagedClustersAgentPool but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v1api20230201/storage/ManagedClustersAgentPool but received %T instead", hub)
 	}
 
 	return pool.AssignProperties_To_ManagedClustersAgentPool(destination)
