@@ -5,7 +5,7 @@ package v1api20230315preview
 
 import (
 	"fmt"
-	v20230315ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315previewstorage"
+	v20230315ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -52,7 +52,7 @@ var _ conversion.Convertible = &FleetsUpdateRun{}
 func (updateRun *FleetsUpdateRun) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20230315ps.FleetsUpdateRun)
 	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20230315previewstorage/FleetsUpdateRun but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v1api20230315preview/storage/FleetsUpdateRun but received %T instead", hub)
 	}
 
 	return updateRun.AssignProperties_From_FleetsUpdateRun(source)
@@ -62,7 +62,7 @@ func (updateRun *FleetsUpdateRun) ConvertFrom(hub conversion.Hub) error {
 func (updateRun *FleetsUpdateRun) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20230315ps.FleetsUpdateRun)
 	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20230315previewstorage/FleetsUpdateRun but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v1api20230315preview/storage/FleetsUpdateRun but received %T instead", hub)
 	}
 
 	return updateRun.AssignProperties_To_FleetsUpdateRun(destination)

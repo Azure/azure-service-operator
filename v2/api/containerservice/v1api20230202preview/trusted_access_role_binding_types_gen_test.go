@@ -5,7 +5,7 @@ package v1api20230202preview
 
 import (
 	"encoding/json"
-	v20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202previewstorage"
+	v20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_TrustedAccessRoleBinding_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTrustedAccessRoleBinding tests if a specific instance of TrustedAccessRoleBinding can be assigned to v1api20230202previewstorage and back losslessly
+// RunPropertyAssignmentTestForTrustedAccessRoleBinding tests if a specific instance of TrustedAccessRoleBinding can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTrustedAccessRoleBinding(subject TrustedAccessRoleBinding) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_ManagedClusters_TrustedAccessRoleBinding_Spec_WhenPropertiesConverted_
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusters_TrustedAccessRoleBinding_Spec tests if a specific instance of ManagedClusters_TrustedAccessRoleBinding_Spec can be assigned to v1api20230202previewstorage and back losslessly
+// RunPropertyAssignmentTestForManagedClusters_TrustedAccessRoleBinding_Spec tests if a specific instance of ManagedClusters_TrustedAccessRoleBinding_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusters_TrustedAccessRoleBinding_Spec(subject ManagedClusters_TrustedAccessRoleBinding_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -280,7 +280,7 @@ func Test_ManagedClusters_TrustedAccessRoleBinding_STATUS_WhenPropertiesConverte
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusters_TrustedAccessRoleBinding_STATUS tests if a specific instance of ManagedClusters_TrustedAccessRoleBinding_STATUS can be assigned to v1api20230202previewstorage and back losslessly
+// RunPropertyAssignmentTestForManagedClusters_TrustedAccessRoleBinding_STATUS tests if a specific instance of ManagedClusters_TrustedAccessRoleBinding_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusters_TrustedAccessRoleBinding_STATUS(subject ManagedClusters_TrustedAccessRoleBinding_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

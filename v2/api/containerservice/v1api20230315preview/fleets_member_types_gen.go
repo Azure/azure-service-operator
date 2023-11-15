@@ -5,7 +5,7 @@ package v1api20230315preview
 
 import (
 	"fmt"
-	v20230315ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315previewstorage"
+	v20230315ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &FleetsMember{}
 func (member *FleetsMember) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20230315ps.FleetsMember)
 	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20230315previewstorage/FleetsMember but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v1api20230315preview/storage/FleetsMember but received %T instead", hub)
 	}
 
 	return member.AssignProperties_From_FleetsMember(source)
@@ -61,7 +61,7 @@ func (member *FleetsMember) ConvertFrom(hub conversion.Hub) error {
 func (member *FleetsMember) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20230315ps.FleetsMember)
 	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20230315previewstorage/FleetsMember but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v1api20230315preview/storage/FleetsMember but received %T instead", hub)
 	}
 
 	return member.AssignProperties_To_FleetsMember(destination)

@@ -5,11 +5,11 @@ package customizations
 
 import (
 	v20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501"
-	v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501storage"
+	v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501/storage"
 	v20230201 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201"
-	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201storage"
+	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
 	v20230202p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
-	v20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202previewstorage"
+	v20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
