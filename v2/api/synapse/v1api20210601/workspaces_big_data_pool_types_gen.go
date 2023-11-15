@@ -5,7 +5,7 @@ package v1api20210601
 
 import (
 	"fmt"
-	v20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601storage"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &WorkspacesBigDataPool{}
 func (pool *WorkspacesBigDataPool) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20210601s.WorkspacesBigDataPool)
 	if !ok {
-		return fmt.Errorf("expected synapse/v1api20210601storage/WorkspacesBigDataPool but received %T instead", hub)
+		return fmt.Errorf("expected synapse/v1api20210601/storage/WorkspacesBigDataPool but received %T instead", hub)
 	}
 
 	return pool.AssignProperties_From_WorkspacesBigDataPool(source)
@@ -61,7 +61,7 @@ func (pool *WorkspacesBigDataPool) ConvertFrom(hub conversion.Hub) error {
 func (pool *WorkspacesBigDataPool) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20210601s.WorkspacesBigDataPool)
 	if !ok {
-		return fmt.Errorf("expected synapse/v1api20210601storage/WorkspacesBigDataPool but received %T instead", hub)
+		return fmt.Errorf("expected synapse/v1api20210601/storage/WorkspacesBigDataPool but received %T instead", hub)
 	}
 
 	return pool.AssignProperties_To_WorkspacesBigDataPool(destination)
