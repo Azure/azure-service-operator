@@ -5,7 +5,7 @@ package v1api20221001preview
 
 import (
 	"fmt"
-	v20221001ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001previewstorage"
+	v20221001ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"

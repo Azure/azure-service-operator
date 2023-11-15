@@ -5,8 +5,8 @@ package v1api20200801preview
 
 import (
 	"encoding/json"
-	v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801previewstorage"
-	v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401storage"
+	v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview/storage"
+	v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_RoleAssignment_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRoleAssignment tests if a specific instance of RoleAssignment can be assigned to v1api20200801previewstorage and back losslessly
+// RunPropertyAssignmentTestForRoleAssignment tests if a specific instance of RoleAssignment can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRoleAssignment(subject RoleAssignment) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_RoleAssignment_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRoleAssignment_Spec tests if a specific instance of RoleAssignment_Spec can be assigned to v1api20200801previewstorage and back losslessly
+// RunPropertyAssignmentTestForRoleAssignment_Spec tests if a specific instance of RoleAssignment_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRoleAssignment_Spec(subject RoleAssignment_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -289,7 +289,7 @@ func Test_RoleAssignment_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRoleAssignment_STATUS tests if a specific instance of RoleAssignment_STATUS can be assigned to v1api20200801previewstorage and back losslessly
+// RunPropertyAssignmentTestForRoleAssignment_STATUS tests if a specific instance of RoleAssignment_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRoleAssignment_STATUS(subject RoleAssignment_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

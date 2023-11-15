@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_NamespacesTopicsSubscription_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespacesTopicsSubscription tests if a specific instance of NamespacesTopicsSubscription can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForNamespacesTopicsSubscription tests if a specific instance of NamespacesTopicsSubscription can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesTopicsSubscription(subject NamespacesTopicsSubscription) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Namespaces_Topics_Subscription_Spec_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespaces_Topics_Subscription_Spec tests if a specific instance of Namespaces_Topics_Subscription_Spec can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForNamespaces_Topics_Subscription_Spec tests if a specific instance of Namespaces_Topics_Subscription_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespaces_Topics_Subscription_Spec(subject Namespaces_Topics_Subscription_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -305,7 +305,7 @@ func Test_Namespaces_Topics_Subscription_STATUS_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespaces_Topics_Subscription_STATUS tests if a specific instance of Namespaces_Topics_Subscription_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForNamespaces_Topics_Subscription_STATUS tests if a specific instance of Namespaces_Topics_Subscription_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespaces_Topics_Subscription_STATUS(subject Namespaces_Topics_Subscription_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -453,7 +453,7 @@ func Test_SBClientAffineProperties_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSBClientAffineProperties tests if a specific instance of SBClientAffineProperties can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForSBClientAffineProperties tests if a specific instance of SBClientAffineProperties can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSBClientAffineProperties(subject SBClientAffineProperties) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -558,7 +558,7 @@ func Test_SBClientAffineProperties_STATUS_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSBClientAffineProperties_STATUS tests if a specific instance of SBClientAffineProperties_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForSBClientAffineProperties_STATUS tests if a specific instance of SBClientAffineProperties_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSBClientAffineProperties_STATUS(subject SBClientAffineProperties_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
