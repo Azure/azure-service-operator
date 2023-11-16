@@ -5,7 +5,7 @@ package v1api20201201
 
 import (
 	"fmt"
-	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
+	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"

@@ -5,7 +5,7 @@ package v1api20230401
 
 import (
 	"encoding/json"
-	v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401storage"
+	v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_RedisPatchSchedule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRedisPatchSchedule tests if a specific instance of RedisPatchSchedule can be assigned to v1api20230401storage and back losslessly
+// RunPropertyAssignmentTestForRedisPatchSchedule tests if a specific instance of RedisPatchSchedule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRedisPatchSchedule(subject RedisPatchSchedule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Redis_PatchSchedule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRedis_PatchSchedule_Spec tests if a specific instance of Redis_PatchSchedule_Spec can be assigned to v1api20230401storage and back losslessly
+// RunPropertyAssignmentTestForRedis_PatchSchedule_Spec tests if a specific instance of Redis_PatchSchedule_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRedis_PatchSchedule_Spec(subject Redis_PatchSchedule_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -278,7 +278,7 @@ func Test_Redis_PatchSchedule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRedis_PatchSchedule_STATUS tests if a specific instance of Redis_PatchSchedule_STATUS can be assigned to v1api20230401storage and back losslessly
+// RunPropertyAssignmentTestForRedis_PatchSchedule_STATUS tests if a specific instance of Redis_PatchSchedule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRedis_PatchSchedule_STATUS(subject Redis_PatchSchedule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -398,7 +398,7 @@ func Test_ScheduleEntry_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForScheduleEntry tests if a specific instance of ScheduleEntry can be assigned to v1api20230401storage and back losslessly
+// RunPropertyAssignmentTestForScheduleEntry tests if a specific instance of ScheduleEntry can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForScheduleEntry(subject ScheduleEntry) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -511,7 +511,7 @@ func Test_ScheduleEntry_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForScheduleEntry_STATUS tests if a specific instance of ScheduleEntry_STATUS can be assigned to v1api20230401storage and back losslessly
+// RunPropertyAssignmentTestForScheduleEntry_STATUS tests if a specific instance of ScheduleEntry_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForScheduleEntry_STATUS(subject ScheduleEntry_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

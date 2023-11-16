@@ -5,7 +5,7 @@ package v1api20230401
 
 import (
 	"encoding/json"
-	v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401storage"
+	v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_RedisFirewallRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRedisFirewallRule tests if a specific instance of RedisFirewallRule can be assigned to v1api20230401storage and back losslessly
+// RunPropertyAssignmentTestForRedisFirewallRule tests if a specific instance of RedisFirewallRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRedisFirewallRule(subject RedisFirewallRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Redis_FirewallRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRedis_FirewallRule_Spec tests if a specific instance of Redis_FirewallRule_Spec can be assigned to v1api20230401storage and back losslessly
+// RunPropertyAssignmentTestForRedis_FirewallRule_Spec tests if a specific instance of Redis_FirewallRule_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRedis_FirewallRule_Spec(subject Redis_FirewallRule_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -280,7 +280,7 @@ func Test_Redis_FirewallRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRedis_FirewallRule_STATUS tests if a specific instance of Redis_FirewallRule_STATUS can be assigned to v1api20230401storage and back losslessly
+// RunPropertyAssignmentTestForRedis_FirewallRule_STATUS tests if a specific instance of Redis_FirewallRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRedis_FirewallRule_STATUS(subject Redis_FirewallRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

@@ -5,9 +5,9 @@ package customizations
 
 import (
 	v20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
-	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
+	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/storage"
 	v20230401 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401"
-	v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401storage"
+	v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
