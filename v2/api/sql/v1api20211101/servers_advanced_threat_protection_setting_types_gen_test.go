@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_ServersAdvancedThreatProtectionSetting_WhenPropertiesConverted_RoundTr
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServersAdvancedThreatProtectionSetting tests if a specific instance of ServersAdvancedThreatProtectionSetting can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServersAdvancedThreatProtectionSetting tests if a specific instance of ServersAdvancedThreatProtectionSetting can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServersAdvancedThreatProtectionSetting(subject ServersAdvancedThreatProtectionSetting) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Servers_AdvancedThreatProtectionSetting_Spec_WhenPropertiesConverted_R
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_AdvancedThreatProtectionSetting_Spec tests if a specific instance of Servers_AdvancedThreatProtectionSetting_Spec can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_AdvancedThreatProtectionSetting_Spec tests if a specific instance of Servers_AdvancedThreatProtectionSetting_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_AdvancedThreatProtectionSetting_Spec(subject Servers_AdvancedThreatProtectionSetting_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -279,7 +279,7 @@ func Test_Servers_AdvancedThreatProtectionSetting_STATUS_WhenPropertiesConverted
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_AdvancedThreatProtectionSetting_STATUS tests if a specific instance of Servers_AdvancedThreatProtectionSetting_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_AdvancedThreatProtectionSetting_STATUS tests if a specific instance of Servers_AdvancedThreatProtectionSetting_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_AdvancedThreatProtectionSetting_STATUS(subject Servers_AdvancedThreatProtectionSetting_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -400,7 +400,7 @@ func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

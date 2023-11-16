@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &ServersAzureADOnlyAuthentication{}
 func (authentication *ServersAzureADOnlyAuthentication) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20211101s.ServersAzureADOnlyAuthentication)
 	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101storage/ServersAzureADOnlyAuthentication but received %T instead", hub)
+		return fmt.Errorf("expected sql/v1api20211101/storage/ServersAzureADOnlyAuthentication but received %T instead", hub)
 	}
 
 	return authentication.AssignProperties_From_ServersAzureADOnlyAuthentication(source)
@@ -61,7 +61,7 @@ func (authentication *ServersAzureADOnlyAuthentication) ConvertFrom(hub conversi
 func (authentication *ServersAzureADOnlyAuthentication) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20211101s.ServersAzureADOnlyAuthentication)
 	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101storage/ServersAzureADOnlyAuthentication but received %T instead", hub)
+		return fmt.Errorf("expected sql/v1api20211101/storage/ServersAzureADOnlyAuthentication but received %T instead", hub)
 	}
 
 	return authentication.AssignProperties_To_ServersAzureADOnlyAuthentication(destination)

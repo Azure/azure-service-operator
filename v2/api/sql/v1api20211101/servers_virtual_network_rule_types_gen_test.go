@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_ServersVirtualNetworkRule_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServersVirtualNetworkRule tests if a specific instance of ServersVirtualNetworkRule can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServersVirtualNetworkRule tests if a specific instance of ServersVirtualNetworkRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServersVirtualNetworkRule(subject ServersVirtualNetworkRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Servers_VirtualNetworkRule_Spec_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_VirtualNetworkRule_Spec tests if a specific instance of Servers_VirtualNetworkRule_Spec can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_VirtualNetworkRule_Spec tests if a specific instance of Servers_VirtualNetworkRule_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_VirtualNetworkRule_Spec(subject Servers_VirtualNetworkRule_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -280,7 +280,7 @@ func Test_Servers_VirtualNetworkRule_STATUS_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_VirtualNetworkRule_STATUS tests if a specific instance of Servers_VirtualNetworkRule_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_VirtualNetworkRule_STATUS tests if a specific instance of Servers_VirtualNetworkRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_VirtualNetworkRule_STATUS(subject Servers_VirtualNetworkRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
