@@ -25,16 +25,13 @@ type JSONFormat struct {
 	Output  string    `json:"Output"`
 }
 
-type TestRun struct {
-	Action  string
-	Package string
-	Test    string
-	Output  []string
-	RunTime time.Duration
-}
-
 func main() {
 	log := CreateLogger()
+
+	if len(os.Args) <= 1 {
+		log.Info("No log file specified on command line.")
+		return
+	}
 
 	for _, testOutputFile := range os.Args[1:] {
 		log.Info(
@@ -132,52 +129,43 @@ func loadJSON(
 			"count", errCount)
 	}
 
-	// track when each test started running
-	startTimes := make(map[string]time.Time)
-	runTimes := make(map[string]time.Duration)
-	outputs := make(map[string][]string)
-	key := func(d JSONFormat) string {
-		return d.Package + "/" + d.Test
+	// Track all the test runs
+	testRuns := make(map[string]*TestRun)
+	for _, d := range data {
+
+		// Find (or create) the test run for this item of data
+		testrun, found := testRuns[d.key()]
+		if !found {
+			testrun = &TestRun{
+				Package: d.Package,
+				Test:    d.Test,
+			}
+
+			testRuns[d.key()] = testrun
+		}
+
+		switch d.Action {
+		case "run":
+			testrun.run(d.Time)
+
+		case "pause":
+			testrun.pause(d.Time)
+
+		case "cont":
+			testrun.resume(d.Time)
+
+		case "output":
+			testrun.output(d.Output)
+
+		case "pass", "fail", "skip":
+			testrun.complete(d.Action, d.Time)
+		}
 	}
 
 	// package → list of tests
 	byPackage := make(map[string][]TestRun, len(data))
-	for _, d := range data {
-		switch d.Action {
-		case "run":
-			if startTimes[key(d)] != (time.Time{}) {
-				panic("run while already running")
-			}
-			startTimes[key(d)] = d.Time
-		case "pause":
-			if startTimes[key(d)] == (time.Time{}) {
-				panic("pause while not running")
-			}
-			runTimes[key(d)] += d.Time.Sub(startTimes[key(d)])
-			startTimes[key(d)] = time.Time{}
-		case "cont":
-			// cont while still in running state happens sometimes (???)
-			// so don't check
-			startTimes[key(d)] = d.Time
-		case "output":
-			outputs[key(d)] = append(outputs[key(d)], d.Output)
-		case "pass", "fail", "skip":
-			if d.Test != "" && startTimes[key(d)] == (time.Time{}) {
-				panic("finished when not running")
-			}
-
-			runTimes[key(d)] += d.Time.Sub(startTimes[key(d)])
-
-			byPackage[d.Package] = append(byPackage[d.Package], TestRun{
-				Action:  d.Action,
-				Package: d.Package,
-				Test:    d.Test,
-				Output:  outputs[key(d)],
-
-				// round all runtimes to ms to avoid excessive decimal places
-				RunTime: sensitiveRound(runTimes[key(d)]),
-			})
-		}
+	for _, v := range testRuns {
+		byPackage[v.Package] = append(byPackage[v.Package], *v)
 	}
 
 	return byPackage
@@ -255,29 +243,37 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 		}
 
 		for _, test := range tests[1:] {
-			// only printing failed tests
-			if test.Action == "fail" {
-
-				fmt.Printf("#### Test `%s`\n", test.Test)
-				fmt.Printf("Failed in %s:\n", test.RunTime)
-
-				trimmedOutput, output := escapeOutput(test.Output)
-				summary := "Test output"
-				if trimmedOutput {
-					summary += fmt.Sprintf(" (trimmed to last %d lines) — full details available in log", maxOutputLines)
-				}
-
-				fmt.Printf("<details><summary>%s</summary><pre>%s</pre></details>\n\n", summary, output)
-
-				// Output info on stderr, so that test failure isn’t silent on console
-				// when running `task ci`, and that full logs are available if they get trimmed
-				fmt.Fprintf(os.Stderr, "- Test failed: %s\n", test.Test)
-				fmt.Fprintln(os.Stderr, "=== TEST OUTPUT ===")
-				for _, outputLine := range test.Output {
-					fmt.Fprint(os.Stderr, outputLine) // note that line already has newline attached
-				}
-				fmt.Fprintln(os.Stderr, "=== END TEST OUTPUT ===")
+			// We only want to include "interesting" tests in the output
+			// "interesting" tests are ones that failed, or had a panic, or we don't know what status they have
+			if !test.IsInteresting() {
+				continue
 			}
+
+			fmt.Printf("#### Test `%s`\n", test.Test)
+
+			if test.Action == "fail" {
+				fmt.Printf("Failed in %s:\n", test.RunTime)
+			} else {
+				fmt.Printf("Elapsed %s:\n", test.RunTime)
+				fmt.Printf("Final action %s:\n", test.Action)
+			}
+
+			trimmedOutput, output := escapeOutput(test.Output)
+			summary := "Test output"
+			if trimmedOutput {
+				summary += fmt.Sprintf(" (trimmed to last %d lines) — full details available in log", maxOutputLines)
+			}
+
+			fmt.Printf("<details><summary>%s</summary><pre>%s</pre></details>\n\n", summary, output)
+
+			// Output info on stderr, so that test failure isn’t silent on console
+			// when running `task ci`, and that full logs are available if they get trimmed
+			fmt.Fprintf(os.Stderr, "- Test failed: %s\n", test.Test)
+			fmt.Fprintln(os.Stderr, "=== TEST OUTPUT ===")
+			for _, outputLine := range test.Output {
+				fmt.Fprint(os.Stderr, outputLine) // note that line already has newline attached
+			}
+			fmt.Fprintln(os.Stderr, "=== END TEST OUTPUT ===")
 		}
 
 		fmt.Println()
@@ -370,4 +366,9 @@ func logError(
 		"row", row,
 		"line", line,
 	)
+}
+
+// key returns a unique key for a test run
+func (d JSONFormat) key() string {
+	return d.Package + "/" + d.Test
 }
