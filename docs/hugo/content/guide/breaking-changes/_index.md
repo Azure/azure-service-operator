@@ -81,7 +81,7 @@ We *may* introduce breaking changes between versions of resources, such as betwe
 
 **Automatic conversion**: By manually augmenting the intra-version conversions produced by our code-generator, we may be able to automatically upgrade resources from the older version to the new. Migration would be zero-touch for our users.
 
-We've done this before when a new version of a resource API introduced a breaking change, see [managed_cluster_conversion_overrides.go](https://github.com/Azure/azure-service-operator/blob/main/v2/api/containerservice/v1api20210501storage/managed_cluster_conversion_overrides.go).
+We've done this before when a new version of a resource API introduced a breaking change, see [managed_cluster_conversion_overrides.go](https://github.com/Azure/azure-service-operator/blob/main/v2/api/containerservice/v1api20210501/storage/managed_cluster_conversion_overrides.go).
 
 **Custom Tooling**: For our `v2.0.0` release, we provided a specialized tool (`asoctl`) specifically designed to smooth the way for upgrading users. In addition to the existing two modes, we may add further functions to cater for other scenarios.
 
