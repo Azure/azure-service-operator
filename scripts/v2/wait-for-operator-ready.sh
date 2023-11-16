@@ -22,8 +22,8 @@ while getopts 'co' flag; do
 done
 
 function all_crds_have_cabundle() {
-  for crd in $(kubectl api-resources -o name | grep '\.azure\.com'); do
-    cabundle=$(kubectl get crd "$crd" -o jsonpath='{.spec.conversion.webhook.clientConfig.caBundle}')
+  for crd in $(kubectl get crd -l "app.kubernetes.io/name == azure-service-operator" -o name); do
+    cabundle=$(kubectl get "$crd" -o jsonpath='{.spec.conversion.webhook.clientConfig.caBundle}')
     if [ -z "$cabundle" ]; then
       echo "$crd has no CA bundle"
       return 1
