@@ -108,7 +108,7 @@ import (
 	kubernetesconfiguration_v20230501s "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501/storage"
 	machinelearningservices_customizations "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/customizations"
 	machinelearningservices_v20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701"
-	machinelearningservices_v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
+	machinelearningservices_v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701/storage"
 	managedidentity_customizations "github.com/Azure/azure-service-operator/v2/api/managedidentity/customizations"
 	managedidentity_v20181130 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	managedidentity_v20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130storage"
