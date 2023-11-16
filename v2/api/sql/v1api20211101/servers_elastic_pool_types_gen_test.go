@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_ServersElasticPool_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServersElasticPool tests if a specific instance of ServersElasticPool can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServersElasticPool tests if a specific instance of ServersElasticPool can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServersElasticPool(subject ServersElasticPool) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Servers_ElasticPool_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_ElasticPool_Spec tests if a specific instance of Servers_ElasticPool_Spec can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_ElasticPool_Spec tests if a specific instance of Servers_ElasticPool_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_ElasticPool_Spec(subject Servers_ElasticPool_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -301,7 +301,7 @@ func Test_Servers_ElasticPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_ElasticPool_STATUS tests if a specific instance of Servers_ElasticPool_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_ElasticPool_STATUS tests if a specific instance of Servers_ElasticPool_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_ElasticPool_STATUS(subject Servers_ElasticPool_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -432,7 +432,7 @@ func Test_ElasticPoolPerDatabaseSettings_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings tests if a specific instance of ElasticPoolPerDatabaseSettings can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings tests if a specific instance of ElasticPoolPerDatabaseSettings can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings(subject ElasticPoolPerDatabaseSettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -536,7 +536,7 @@ func Test_ElasticPoolPerDatabaseSettings_STATUS_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings_STATUS tests if a specific instance of ElasticPoolPerDatabaseSettings_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings_STATUS tests if a specific instance of ElasticPoolPerDatabaseSettings_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings_STATUS(subject ElasticPoolPerDatabaseSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

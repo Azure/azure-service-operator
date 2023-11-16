@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_ServersAuditingSetting_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServersAuditingSetting tests if a specific instance of ServersAuditingSetting can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServersAuditingSetting tests if a specific instance of ServersAuditingSetting can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServersAuditingSetting(subject ServersAuditingSetting) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Servers_AuditingSetting_Spec_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_AuditingSetting_Spec tests if a specific instance of Servers_AuditingSetting_Spec can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_AuditingSetting_Spec tests if a specific instance of Servers_AuditingSetting_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_AuditingSetting_Spec(subject Servers_AuditingSetting_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -288,7 +288,7 @@ func Test_Servers_AuditingSetting_STATUS_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_AuditingSetting_STATUS tests if a specific instance of Servers_AuditingSetting_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_AuditingSetting_STATUS tests if a specific instance of Servers_AuditingSetting_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_AuditingSetting_STATUS(subject Servers_AuditingSetting_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

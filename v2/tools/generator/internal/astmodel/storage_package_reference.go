@@ -35,7 +35,6 @@ var legacyStorageGroups = set.Make(
 	"operationalinsights",
 	"search",
 	"signalrservice",
-	"sql",
 	"storage",
 )
 

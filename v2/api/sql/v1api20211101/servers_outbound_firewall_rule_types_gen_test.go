@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_ServersOutboundFirewallRule_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServersOutboundFirewallRule tests if a specific instance of ServersOutboundFirewallRule can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServersOutboundFirewallRule tests if a specific instance of ServersOutboundFirewallRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServersOutboundFirewallRule(subject ServersOutboundFirewallRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Servers_OutboundFirewallRule_Spec_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_OutboundFirewallRule_Spec tests if a specific instance of Servers_OutboundFirewallRule_Spec can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_OutboundFirewallRule_Spec tests if a specific instance of Servers_OutboundFirewallRule_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_OutboundFirewallRule_Spec(subject Servers_OutboundFirewallRule_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -279,7 +279,7 @@ func Test_Servers_OutboundFirewallRule_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_OutboundFirewallRule_STATUS tests if a specific instance of Servers_OutboundFirewallRule_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_OutboundFirewallRule_STATUS tests if a specific instance of Servers_OutboundFirewallRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_OutboundFirewallRule_STATUS(subject Servers_OutboundFirewallRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
