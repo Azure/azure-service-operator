@@ -28,6 +28,11 @@ type JSONFormat struct {
 func main() {
 	log := CreateLogger()
 
+	if len(os.Args) <= 1 {
+		log.Info("No log file specified on command line.")
+		return
+	}
+
 	for _, testOutputFile := range os.Args[1:] {
 		log.Info(
 			"Parsing",
