@@ -5,7 +5,7 @@ package v1api20180301
 
 import (
 	"fmt"
-	v20180301s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301storage"
+	v20180301s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -52,7 +52,7 @@ var _ conversion.Convertible = &MetricAlert{}
 func (alert *MetricAlert) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20180301s.MetricAlert)
 	if !ok {
-		return fmt.Errorf("expected insights/v1api20180301storage/MetricAlert but received %T instead", hub)
+		return fmt.Errorf("expected insights/v1api20180301/storage/MetricAlert but received %T instead", hub)
 	}
 
 	return alert.AssignProperties_From_MetricAlert(source)
@@ -62,7 +62,7 @@ func (alert *MetricAlert) ConvertFrom(hub conversion.Hub) error {
 func (alert *MetricAlert) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20180301s.MetricAlert)
 	if !ok {
-		return fmt.Errorf("expected insights/v1api20180301storage/MetricAlert but received %T instead", hub)
+		return fmt.Errorf("expected insights/v1api20180301/storage/MetricAlert but received %T instead", hub)
 	}
 
 	return alert.AssignProperties_To_MetricAlert(destination)
