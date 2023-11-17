@@ -29,7 +29,6 @@ var _ DerivedPackageReference = StoragePackageReference{}
 var legacyStorageGroups = set.Make(
 	"containerregistry",
 	"dbforpostgresql",
-	"insights",
 	"managedidentity",
 	"operationalinsights",
 	"search",
