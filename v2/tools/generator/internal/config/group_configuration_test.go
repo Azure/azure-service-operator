@@ -121,7 +121,7 @@ func TestGroupConfiguration_WhenVersionConfigurationNotConsumed_ReturnsErrorWith
 	omConfig := NewObjectModelConfiguration()
 	omConfig.addGroup(groupConfig.name, groupConfig)
 
-	// Lookup $supportedFrom for our type - version is from 2021 but our config has 2022
+	// Lookup $supportedFrom for our type - version is from 2021 but our config has 2022, so it won't be found
 	tn := astmodel.MakeInternalTypeName(
 		test.MakeLocalPackageReference(groupConfig.name, "2021-01-01"),
 		"Person")
