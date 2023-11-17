@@ -145,10 +145,9 @@ func TestGroupConfiguration_LookupPayloadType_WhenConfigured_ReturnsExpectedResu
 	groupConfig := NewGroupConfiguration("Network")
 	groupConfig.PayloadType.Set(ExplicitProperties)
 
-	payloadType, err := groupConfig.PayloadType.Lookup()
-
+	payloadType, ok := groupConfig.PayloadType.Lookup()
 	g.Expect(payloadType).To(Equal(ExplicitProperties))
-	g.Expect(err).To(Succeed())
+	g.Expect(ok).To(BeTrue())
 }
 
 func TestGroupConfiguration_LookupPayloadType_WhenNotConfigured_ReturnsExpectedError(t *testing.T) {
@@ -156,11 +155,9 @@ func TestGroupConfiguration_LookupPayloadType_WhenNotConfigured_ReturnsExpectedE
 	g := NewGomegaWithT(t)
 	groupConfig := NewGroupConfiguration("Network")
 
-	name, err := groupConfig.PayloadType.Lookup()
+	name, ok := groupConfig.PayloadType.Lookup()
 	g.Expect(name).To(Equal(PayloadType("")))
-	g.Expect(err).NotTo(Succeed())
-	g.Expect(err.Error()).To(ContainSubstring(groupConfig.name))
-	g.Expect(err.Error()).To(ContainSubstring(payloadTypeTag))
+	g.Expect(ok).To(BeFalse())
 }
 
 func TestGroupConfiguration_VerifyPayloadTypeConsumed_WhenConsumed_ReturnsNoError(t *testing.T) {
@@ -170,8 +167,8 @@ func TestGroupConfiguration_VerifyPayloadTypeConsumed_WhenConsumed_ReturnsNoErro
 	groupConfig := NewGroupConfiguration("Network")
 	groupConfig.PayloadType.Set(OmitEmptyProperties)
 
-	_, err := groupConfig.PayloadType.Lookup()
-	g.Expect(err).To(Succeed())
+	_, ok := groupConfig.PayloadType.Lookup()
+	g.Expect(ok).To(BeTrue())
 	g.Expect(groupConfig.PayloadType.VerifyConsumed()).To(Succeed())
 }
 

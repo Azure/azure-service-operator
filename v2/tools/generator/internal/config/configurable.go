@@ -6,7 +6,6 @@
 package config
 
 import (
-	"fmt"
 	"github.com/pkg/errors"
 )
 
@@ -27,14 +26,9 @@ func makeConfigurable[T any](tag string, scope string) configurable[T] {
 	}
 }
 
-// Lookup returns the value configured, or an error if not configured.
-func (c *configurable[T]) Lookup() (T, error) {
-	if v, ok := c.read(); ok {
-		return v, nil
-	}
-
-	msg := fmt.Sprintf("%s not specified for %s", c.tag, c.scope)
-	return *new(T), NewNotConfiguredError(msg)
+// Lookup returns the value configured and true, or false if not configured.
+func (c *configurable[T]) Lookup() (T, bool) {
+	return c.read()
 }
 
 // VerifyConsumed returns an error if the value is configured but not consumed.
