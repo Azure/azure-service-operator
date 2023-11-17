@@ -69,6 +69,11 @@ type propertyAccess[T any] struct {
 	accessor func(*PropertyConfiguration) *configurable[T]
 }
 
+type LookupResult[T any] struct {
+	Result T
+	Found  bool
+}
+
 // NewObjectModelConfiguration returns a new (empty) ObjectModelConfiguration
 func NewObjectModelConfiguration() *ObjectModelConfiguration {
 	result := &ObjectModelConfiguration{
@@ -445,7 +450,9 @@ func makeGroupAccess[T any](
 		accessor: accessor}
 }
 
-func (a *groupAccess[T]) Lookup(ref astmodel.InternalPackageReference) (T, error) {
+func (a *groupAccess[T]) Lookup(
+	ref astmodel.InternalPackageReference,
+) (LookupResult[T], error) {
 	var c *configurable[T]
 	visitor := newSingleGroupConfigurationVisitor(
 		ref,
@@ -456,10 +463,20 @@ func (a *groupAccess[T]) Lookup(ref astmodel.InternalPackageReference) (T, error
 
 	err := visitor.Visit(a.model)
 	if err != nil {
-		return *new(T), err
+		return LookupResult[T]{}, err
 	}
 
-	return c.Lookup()
+	if c == nil {
+		return LookupResult[T]{
+			Found: false,
+		}, nil
+	}
+
+	v, ok := c.Lookup()
+	return LookupResult[T]{
+		Result: v,
+		Found:  ok,
+	}, nil
 }
 
 func (a *groupAccess[T]) VerifyConsumed() error {
@@ -497,7 +514,9 @@ func makeTypeAccess[T any](
 }
 
 // Lookup returns the configured value for the given type name
-func (a *typeAccess[T]) Lookup(name astmodel.InternalTypeName) (T, error) {
+func (a *typeAccess[T]) Lookup(
+	name astmodel.InternalTypeName,
+) (LookupResult[T], error) {
 	var c *configurable[T]
 	visitor := newSingleTypeConfigurationVisitor(
 		name,
@@ -508,10 +527,20 @@ func (a *typeAccess[T]) Lookup(name astmodel.InternalTypeName) (T, error) {
 
 	err := visitor.Visit(a.model)
 	if err != nil {
-		return *new(T), err
+		return LookupResult[T]{}, err
 	}
 
-	return c.Lookup()
+	if c == nil {
+		return LookupResult[T]{
+			Found: false,
+		}, nil
+	}
+
+	v, ok := c.Lookup()
+	return LookupResult[T]{
+		Result: v,
+		Found:  ok,
+	}, nil
 }
 
 // VerifyConsumed ensures that all configured values have been consumed
@@ -554,7 +583,7 @@ func makePropertyAccess[T any](
 func (a *propertyAccess[T]) Lookup(
 	name astmodel.InternalTypeName,
 	property astmodel.PropertyName,
-) (T, error) {
+) (LookupResult[T], error) {
 	var c *configurable[T]
 	visitor := newSinglePropertyConfigurationVisitor(
 		name,
@@ -566,10 +595,20 @@ func (a *propertyAccess[T]) Lookup(
 
 	err := visitor.Visit(a.model)
 	if err != nil {
-		return *new(T), err
+		return LookupResult[T]{}, err
 	}
 
-	return c.Lookup()
+	if c == nil {
+		return LookupResult[T]{
+			Found: false,
+		}, nil
+	}
+
+	v, ok := c.Lookup()
+	return LookupResult[T]{
+		Result: v,
+		Found:  ok,
+	}, nil
 }
 
 // VerifyConsumed ensures that all configured values have been consumed
