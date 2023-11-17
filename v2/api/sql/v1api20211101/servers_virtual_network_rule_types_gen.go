@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &ServersVirtualNetworkRule{}
 func (rule *ServersVirtualNetworkRule) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20211101s.ServersVirtualNetworkRule)
 	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101storage/ServersVirtualNetworkRule but received %T instead", hub)
+		return fmt.Errorf("expected sql/v1api20211101/storage/ServersVirtualNetworkRule but received %T instead", hub)
 	}
 
 	return rule.AssignProperties_From_ServersVirtualNetworkRule(source)
@@ -61,7 +61,7 @@ func (rule *ServersVirtualNetworkRule) ConvertFrom(hub conversion.Hub) error {
 func (rule *ServersVirtualNetworkRule) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20211101s.ServersVirtualNetworkRule)
 	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101storage/ServersVirtualNetworkRule but received %T instead", hub)
+		return fmt.Errorf("expected sql/v1api20211101/storage/ServersVirtualNetworkRule but received %T instead", hub)
 	}
 
 	return rule.AssignProperties_To_ServersVirtualNetworkRule(destination)

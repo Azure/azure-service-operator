@@ -5,7 +5,7 @@ package v1api20220101
 
 import (
 	"encoding/json"
-	v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101storage"
+	v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_FlexibleServersAdministrator_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlexibleServersAdministrator tests if a specific instance of FlexibleServersAdministrator can be assigned to v1api20220101storage and back losslessly
+// RunPropertyAssignmentTestForFlexibleServersAdministrator tests if a specific instance of FlexibleServersAdministrator can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServersAdministrator(subject FlexibleServersAdministrator) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_FlexibleServers_Administrator_Spec_WhenPropertiesConverted_RoundTripsW
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlexibleServers_Administrator_Spec tests if a specific instance of FlexibleServers_Administrator_Spec can be assigned to v1api20220101storage and back losslessly
+// RunPropertyAssignmentTestForFlexibleServers_Administrator_Spec tests if a specific instance of FlexibleServers_Administrator_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServers_Administrator_Spec(subject FlexibleServers_Administrator_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -282,7 +282,7 @@ func Test_FlexibleServers_Administrator_STATUS_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlexibleServers_Administrator_STATUS tests if a specific instance of FlexibleServers_Administrator_STATUS can be assigned to v1api20220101storage and back losslessly
+// RunPropertyAssignmentTestForFlexibleServers_Administrator_STATUS tests if a specific instance of FlexibleServers_Administrator_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServers_Administrator_STATUS(subject FlexibleServers_Administrator_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -406,7 +406,7 @@ func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to v1api20220101storage and back losslessly
+// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

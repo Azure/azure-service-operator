@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_ServersFirewallRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServersFirewallRule tests if a specific instance of ServersFirewallRule can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServersFirewallRule tests if a specific instance of ServersFirewallRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServersFirewallRule(subject ServersFirewallRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Servers_FirewallRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_FirewallRule_Spec tests if a specific instance of Servers_FirewallRule_Spec can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_FirewallRule_Spec tests if a specific instance of Servers_FirewallRule_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_FirewallRule_Spec(subject Servers_FirewallRule_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -281,7 +281,7 @@ func Test_Servers_FirewallRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_FirewallRule_STATUS tests if a specific instance of Servers_FirewallRule_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_FirewallRule_STATUS tests if a specific instance of Servers_FirewallRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_FirewallRule_STATUS(subject Servers_FirewallRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

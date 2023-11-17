@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &ServersDatabasesBackupLongTermRetentionPolicy{}
 func (policy *ServersDatabasesBackupLongTermRetentionPolicy) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20211101s.ServersDatabasesBackupLongTermRetentionPolicy)
 	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101storage/ServersDatabasesBackupLongTermRetentionPolicy but received %T instead", hub)
+		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabasesBackupLongTermRetentionPolicy but received %T instead", hub)
 	}
 
 	return policy.AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicy(source)
@@ -61,7 +61,7 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy) ConvertFrom(hub con
 func (policy *ServersDatabasesBackupLongTermRetentionPolicy) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20211101s.ServersDatabasesBackupLongTermRetentionPolicy)
 	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101storage/ServersDatabasesBackupLongTermRetentionPolicy but received %T instead", hub)
+		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabasesBackupLongTermRetentionPolicy but received %T instead", hub)
 	}
 
 	return policy.AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicy(destination)
