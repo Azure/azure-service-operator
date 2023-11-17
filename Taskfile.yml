@@ -54,6 +54,9 @@ vars:
 
   ASO_NAMESPACE: azureserviceoperator-system
 
+  ACR_NAME:
+    sh: "echo $(hostname)asoacr | sed 's/[^[:alpha:]]//g'" # Only alphanumeric allowed for acr names
+
 tasks:
   default:
     deps:
@@ -424,20 +427,23 @@ tasks:
       - controller:bundle-crds
     dir: "{{.CONTROLLER_ROOT}}"
     run: always
-    sources:
-      - "go.mod"
-      - "go.sum"
-      - "**/*.go"
-      - "out/crds/**/*"
-      - Dockerfile
     cmds:
       - 'if [ -z "{{.DOCKER_PUSH_TARGET}}" ]; then echo "Error: DOCKER_PUSH_TARGET must be set"; exit 1; fi'
       - docker buildx create --use
       - docker buildx build --push 
         --build-arg VERSION_FLAGS={{.VERSION_FLAGS}}
         --build-arg CONTROLLER_APP={{.CONTROLLER_APP}}
-        --platform linux/amd64,linux/arm64 
+        --platform {{.PLATFORMS}} 
         --tag "{{.DOCKER_PUSH_TARGET}}/{{.CONTROLLER_DOCKER_IMAGE}}" .
+    vars:
+      PLATFORMS: '{{default "linux/amd64,linux/arm64" .PLATFORMS}}'
+      DOCKER_PUSH_TARGET:
+        sh: |
+          if [ ! -z "${DOCKER_PUSH_TARGET}" ]; then
+            echo "${DOCKER_PUSH_TARGET}"
+          else
+            echo "{{.DOCKER_PUSH_TARGET}}"
+          fi
 
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
@@ -678,10 +684,12 @@ tasks:
         --set azureTenantID=$AZURE_TENANT_ID \
         --set azureClientID=$AZURE_CLIENT_ID \
         --set azureClientSecret=$AZURE_CLIENT_SECRET \
-        --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
+        --set image.repository={{.IMAGE_REPOSITORY}} \
         --set crdPattern=* \
         aso2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
       - task: controller:wait-for-operator-ready
+    vars:
+      IMAGE_REPOSITORY: "{{default .LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE .IMAGE_REPOSITORY}}"
 
   controller:install-helm-wi:
     desc: Generate and install helm chart on cluster using workload identity
@@ -754,6 +762,50 @@ tasks:
         sh: "cat ./out/workload-identity/azure/rg.txt"
       ISSUER:
         sh: "cat ./out/workload-identity/azure/saissuer.txt"
+
+  controller:aks-create:
+    desc: Creates an AKS cluster
+    run: always
+    deps:
+      - az-login
+    cmds:
+      - "{{.SCRIPTS_ROOT}}/make-aks.sh -l {{.LOCATION}} -g {{.RESOURCE_GROUP_NAME}} -a {{.ACR_NAME}} -c {{.CLUSTER_NAME}}"
+    status:
+      - az aks show --resource-group {{.RESOURCE_GROUP_NAME}} --name {{.CLUSTER_NAME}} > /dev/null 2>&1
+    vars:
+      RESOURCE_GROUP_NAME: "{{.HOSTNAME}}-aso-rg"
+      CLUSTER_NAME: "{{.HOSTNAME}}-aso-aks"
+      LOCATION: "westus3"
+
+  controller:aks-delete:
+    desc: Deletes an AKS cluster
+    run: always
+    deps:
+      - az-login
+    cmds:
+      - "az group delete --name {{.RESOURCE_GROUP_NAME}} -y"
+    vars:
+      RESOURCE_GROUP_NAME: "{{.HOSTNAME}}-aso-rg"
+
+  controller:aks-create-helm-install:
+    desc: Deploys ASO onto an AKS cluster
+    run: always
+    deps:
+      - az-login
+    cmds:
+      - task: controller:aks-create
+      - task: controller:install-cert-manager
+      - "az acr login --name {{.ACR_NAME}}"
+      - task: controller:docker-push-multiarch
+        vars:
+          PLATFORMS: "{{OS}}/{{ARCH}}" # Just push to one platform for now
+          DOCKER_PUSH_TARGET: "{{.ACR_NAME}}.azurecr.io"
+      - task: controller:gen-helm-manifest
+      # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
+      - "cmctl check api --wait=2m"
+      - task: controller:install-helm
+        vars:
+          IMAGE_REPOSITORY: "{{.ACR_NAME}}.azurecr.io/{{.CONTROLLER_DOCKER_IMAGE}}"
 
   controller:scan-image:
     desc: Builds a local image and scans the image using trivy
