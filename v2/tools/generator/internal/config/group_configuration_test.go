@@ -75,12 +75,11 @@ func TestGroupConfiguration_FindVersion_GivenTypeName_ReturnsExpectedVersion(t *
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			v, err := groupConfiguration.findVersion(c.ref)
+			v := groupConfiguration.findVersion(c.ref)
 			if c.expectedFound {
-				g.Expect(err).To(BeNil())
 				g.Expect(v).To(Equal(versionConfig))
 			} else {
-				g.Expect(err).NotTo(BeNil())
+				g.Expect(v).To(BeNil())
 			}
 		})
 	}
@@ -126,8 +125,9 @@ func TestGroupConfiguration_WhenVersionConfigurationNotConsumed_ReturnsErrorWith
 		test.MakeLocalPackageReference(groupConfig.name, "2021-01-01"),
 		"Person")
 
-	_, err := omConfig.SupportedFrom.Lookup(tn)
-	g.Expect(err).NotTo(BeNil()) // We expect this error
+	supportedFrom, err := omConfig.SupportedFrom.Lookup(tn)
+	g.Expect(err).To(Succeed())
+	g.Expect(supportedFrom.Found).To(BeFalse())
 
 	err = omConfig.SupportedFrom.VerifyConsumed()
 	g.Expect(err).NotTo(BeNil())                                   // We expect an error, config hasn't been used
@@ -150,7 +150,7 @@ func TestGroupConfiguration_LookupPayloadType_WhenConfigured_ReturnsExpectedResu
 	g.Expect(ok).To(BeTrue())
 }
 
-func TestGroupConfiguration_LookupPayloadType_WhenNotConfigured_ReturnsExpectedError(t *testing.T) {
+func TestGroupConfiguration_LookupPayloadType_WhenNotConfigured_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	groupConfig := NewGroupConfiguration("Network")

@@ -138,12 +138,7 @@ func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.InternalPack
 
 	err := visitor.visit(omc)
 	if err != nil {
-		if IsNotConfiguredError(err) {
-			// No configuration for this package, we're not expecting any types
-			return false
-		}
-
-		// Some other error, we'll assume we're expecting types
+		// For any error, we'll assume we're expecting the group
 		return true
 	}
 
@@ -160,12 +155,7 @@ func (omc *ObjectModelConfiguration) IsTypeConfigured(name astmodel.InternalType
 
 	err := visitor.visit(omc)
 	if err != nil {
-		if IsNotConfiguredError(err) {
-			// No configuration for this type, we're not expecting it
-			return false
-		}
-
-		// Some other error, we'll assume we're expecting it
+		// For any error, we'll assume we're expecting the type
 		return true
 	}
 
@@ -254,9 +244,9 @@ func (omc *ObjectModelConfiguration) visitGroup(
 	ref astmodel.InternalPackageReference,
 	visitor *configurationVisitor,
 ) error {
-	group, err := omc.findGroup(ref)
-	if err != nil {
-		return err
+	group := omc.findGroup(ref)
+	if group == nil {
+		return nil
 	}
 
 	return visitor.visitGroup(group)
@@ -276,21 +266,19 @@ func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) 
 }
 
 // findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used
-func (omc *ObjectModelConfiguration) findGroup(ref astmodel.InternalPackageReference) (*GroupConfiguration, error) {
+func (omc *ObjectModelConfiguration) findGroup(ref astmodel.InternalPackageReference) *GroupConfiguration {
 	group := ref.Group()
 
 	if omc == nil || omc.groups == nil {
-		msg := fmt.Sprintf("no configuration for group %s", group)
-		return nil, NewNotConfiguredError(msg)
+		return nil
 	}
 
 	omc.typoAdvisor.AddTerm(group)
 	if g, ok := omc.groups[group]; ok {
-		return g, nil
+		return g
 	}
 
-	msg := fmt.Sprintf("no configuration for group %s", group)
-	return nil, NewNotConfiguredError(msg).WithOptions("groups", omc.configuredGroups())
+	return nil
 }
 
 // UnmarshalYAML populates our instance from the YAML.
@@ -347,11 +335,7 @@ func (omc *ObjectModelConfiguration) ModifyGroup(
 	action func(configuration *GroupConfiguration) error,
 ) error {
 	groupName := ref.Group()
-	grp, err := omc.findGroup(ref)
-	if err != nil && !IsNotConfiguredError(err) {
-		return errors.Wrapf(err, "configuring groupName %s", groupName)
-	}
-
+	grp := omc.findGroup(ref)
 	if grp == nil {
 		grp = NewGroupConfiguration(groupName)
 		omc.addGroup(groupName, grp)
@@ -371,11 +355,7 @@ func (omc *ObjectModelConfiguration) ModifyVersion(
 	return omc.ModifyGroup(
 		ref,
 		func(configuration *GroupConfiguration) error {
-			ver, err := configuration.findVersion(ref)
-			if err != nil && !IsNotConfiguredError(err) {
-				return errors.Wrapf(err, "configuring version %s", version)
-			}
-
+			ver := configuration.findVersion(ref)
 			if ver == nil {
 				ver = NewVersionConfiguration(version)
 				configuration.addVersion(version, ver)
@@ -396,11 +376,7 @@ func (omc *ObjectModelConfiguration) ModifyType(
 		name.InternalPackageReference(),
 		func(versionConfiguration *VersionConfiguration) error {
 			typeName := name.Name()
-			typ, err := versionConfiguration.findType(typeName)
-			if err != nil && !IsNotConfiguredError(err) {
-				return errors.Wrapf(err, "configuring type %s", typeName)
-			}
-
+			typ := versionConfiguration.findType(typeName)
 			if typ == nil {
 				typ = NewTypeConfiguration(typeName)
 				versionConfiguration.addType(typeName, typ)
@@ -421,11 +397,7 @@ func (omc *ObjectModelConfiguration) ModifyProperty(
 	return omc.ModifyType(
 		typeName,
 		func(typeConfiguration *TypeConfiguration) error {
-			prop, err := typeConfiguration.findProperty(property)
-			if err != nil && !IsNotConfiguredError(err) {
-				return errors.Wrapf(err, "configuring property %s", property)
-			}
-
+			prop := typeConfiguration.findProperty(property)
 			if prop == nil {
 				name := property.String()
 				prop = NewPropertyConfiguration(name)

@@ -92,12 +92,12 @@ func (tc *TypeConfiguration) visitProperty(
 	property astmodel.PropertyName,
 	visitor *configurationVisitor,
 ) error {
-	pc, err := tc.findProperty(property)
-	if err != nil {
-		return err
+	pc := tc.findProperty(property)
+	if pc == nil {
+		return nil
 	}
 
-	err = visitor.visitProperty(pc)
+	err := visitor.visitProperty(pc)
 	if err != nil {
 		return errors.Wrapf(err, "configuration of type %s", tc.name)
 	}
@@ -123,20 +123,16 @@ func (tc *TypeConfiguration) visitProperties(visitor *configurationVisitor) erro
 
 // findProperty uses the provided property name to work out which nested PropertyConfiguration should be used
 // either returns the requested property configuration, or an error saying that it couldn't be found
-func (tc *TypeConfiguration) findProperty(property astmodel.PropertyName) (*PropertyConfiguration, error) {
+func (tc *TypeConfiguration) findProperty(property astmodel.PropertyName) *PropertyConfiguration {
 	// Store the property id using lowercase,
 	// so we can do case-insensitive lookups later
 	tc.advisor.AddTerm(string(property))
 	p := strings.ToLower(string(property))
 	if pc, ok := tc.properties[p]; ok {
-		return pc, nil
+		return pc
 	}
 
-	msg := fmt.Sprintf(
-		"configuration of type %s has no detail for property %s",
-		tc.name,
-		property)
-	return nil, NewNotConfiguredError(msg).WithOptions("properties", tc.configuredProperties())
+	return nil
 }
 
 // UnmarshalYAML populates our instance from the YAML.

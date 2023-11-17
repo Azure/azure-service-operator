@@ -80,12 +80,12 @@ func (gc *GroupConfiguration) visitVersion(
 	ref astmodel.PackageReference,
 	visitor *configurationVisitor,
 ) error {
-	vc, err := gc.findVersion(ref)
-	if err != nil {
-		return err
+	vc := gc.findVersion(ref)
+	if vc == nil {
+		return nil
 	}
 
-	err = visitor.visitVersion(vc)
+	err := visitor.visitVersion(vc)
 	if err != nil {
 		return errors.Wrapf(err, "configuration of group %s", gc.name)
 	}
@@ -119,7 +119,7 @@ func (gc *GroupConfiguration) visitVersions(visitor *configurationVisitor) error
 }
 
 // findVersion uses the provided PackageReference to work out which nested VersionConfiguration should be used
-func (gc *GroupConfiguration) findVersion(ref astmodel.PackageReference) (*VersionConfiguration, error) {
+func (gc *GroupConfiguration) findVersion(ref astmodel.PackageReference) *VersionConfiguration {
 	switch r := ref.(type) {
 	case astmodel.DerivedPackageReference:
 		return gc.findVersion(r.Base())
@@ -133,7 +133,7 @@ func (gc *GroupConfiguration) findVersion(ref astmodel.PackageReference) (*Versi
 }
 
 // findVersion uses the provided LocalPackageReference to work out which nested VersionConfiguration should be used
-func (gc *GroupConfiguration) findVersionForLocalPackageReference(ref astmodel.LocalPackageReference) (*VersionConfiguration, error) {
+func (gc *GroupConfiguration) findVersionForLocalPackageReference(ref astmodel.LocalPackageReference) *VersionConfiguration {
 	gc.advisor.AddTerm(ref.ApiVersion())
 	gc.advisor.AddTerm(ref.PackageName())
 
@@ -142,7 +142,7 @@ func (gc *GroupConfiguration) findVersionForLocalPackageReference(ref astmodel.L
 	if version, ok := gc.versions[apiKey]; ok {
 		// make sure there's an exact match on the actual version name, so we don't generate a recommendation
 		gc.advisor.AddTerm(version.name)
-		return version, nil
+		return version
 	}
 
 	// Also check the entire package name (allows config to specify just a particular generator version if needed)
@@ -150,14 +150,10 @@ func (gc *GroupConfiguration) findVersionForLocalPackageReference(ref astmodel.L
 	if version, ok := gc.versions[pkgKey]; ok {
 		// make sure there's an exact match on the actual version name, so we don't generate a recommendation
 		gc.advisor.AddTerm(version.name)
-		return version, nil
+		return version
 	}
 
-	msg := fmt.Sprintf(
-		"configuration of group %s has no detail for version %s",
-		gc.name,
-		ref.PackageName())
-	return nil, NewNotConfiguredError(msg).WithOptions("versions", gc.configuredVersions())
+	return nil
 }
 
 // UnmarshalYAML populates our instance from the YAML.
