@@ -127,9 +127,11 @@ func (c *PropertyConversionContext) PropertyBagName() string {
 // TypeRename looks up a type-rename for the specified type, returning the new name and nil if found, or empty string
 // and an error if not. If no configuration is available, acts as though there is no configuration for this rename,
 // returning "" and a NotConfiguredError
-func (c *PropertyConversionContext) TypeRename(name astmodel.InternalTypeName) (string, error) {
+func (c *PropertyConversionContext) TypeRename(name astmodel.InternalTypeName) (config.LookupResult[string], error) {
 	if c.configuration == nil {
-		return "", config.NewNotConfiguredError("No configuration available")
+		return config.LookupResult[string]{
+			Found: false,
+		}, nil
 	}
 
 	return c.configuration.TypeNameInNextVersion.Lookup(name)
@@ -183,25 +185,24 @@ func (c *PropertyConversionContext) validateTypeRename(
 
 	n, err := c.TypeRename(earlier)
 	if err != nil {
-
-		if config.IsNotConfiguredError(err) {
-			// No rename configured, but we can't proceed without one. Return an error - it'll be wrapped with property
-			// details by CreateTypeConversion() so we only need the specific details here
-			return errors.Wrapf(
-				err,
-				"no configuration to rename %s to %s",
-				earlier.Name(),
-				later.Name())
-		}
-
-		// Some other kind of problem, need to report back
+		// Need to report back
 		return errors.Wrapf(
 			err,
 			"looking up type rename of %s",
 			earlier.Name())
 	}
 
-	if later.Name() != n {
+	if !n.Found {
+		// No rename configured, but we can't proceed without one. Return an error - it'll be wrapped with property
+		// details by CreateTypeConversion() so we only need the specific details here
+		return errors.Wrapf(
+			err,
+			"no configuration to rename %s to %s",
+			earlier.Name(),
+			later.Name())
+	}
+
+	if later.Name() != n.Result {
 		// Configured rename doesn't match what we found. Return an error - it'll be wrapped with property details
 		// by CreateTypeConversion() so we only need the specific details here
 		return errors.Errorf(

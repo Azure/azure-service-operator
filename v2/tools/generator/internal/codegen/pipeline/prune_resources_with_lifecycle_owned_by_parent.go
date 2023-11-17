@@ -151,13 +151,13 @@ func (m *misbehavingEmbeddedTypePruner) pruneMisbehavingEmbeddedResourceProperti
 	ctx astmodel.InternalTypeName,
 ) (astmodel.Type, error) {
 	for _, prop := range it.Properties().Copy() {
-		_, err := m.configuration.ResourceLifecycleOwnedByParent(ctx, prop.PropertyName())
+		lifecycle, err := m.configuration.ResourceLifecycleOwnedByParent(ctx, prop.PropertyName())
 		if err != nil {
-			if config.IsNotConfiguredError(err) {
-				continue
-			}
-			// Unexpected error type
 			return nil, err
+		}
+
+		if !lifecycle.Found {
+			continue
 		}
 
 		it = it.WithoutProperty(prop.PropertyName())

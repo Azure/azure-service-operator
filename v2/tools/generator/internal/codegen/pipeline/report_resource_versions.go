@@ -652,11 +652,11 @@ func (report *ResourceVersionsReport) supportedFrom(typeName astmodel.InternalTy
 
 	// Special case for resources that existed prior to GA
 	// the `v1api` versions of those resources are only available from "v2.0.0"
-	if strings.Contains(ver, v1VersionPrefix) && strings.HasPrefix(supportedFrom, "v2.0.0-") {
+	if strings.Contains(ver, v1VersionPrefix) && strings.HasPrefix(supportedFrom.Result, "v2.0.0-") {
 		return "v2.0.0"
 	}
 
-	return supportedFrom
+	return supportedFrom.Result
 }
 
 // Read in any front matter present in our output file, so we preserve it when writing out the new file.

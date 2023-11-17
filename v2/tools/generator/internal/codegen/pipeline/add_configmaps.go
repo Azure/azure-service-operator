@@ -94,8 +94,16 @@ func transformConfigMaps(cfg *config.Configuration, definitions astmodel.TypeDef
 		ctx astmodel.InternalTypeName,
 	) (astmodel.Type, error) {
 		for _, prop := range it.Properties().Copy() {
-			mode, _ := cfg.ImportConfigMapMode(ctx, prop.PropertyName())
-			switch mode {
+			mode, err := cfg.ImportConfigMapMode(ctx, prop.PropertyName())
+			if err != nil {
+				return nil, err
+			}
+
+			if !mode.Found {
+				continue
+			}
+
+			switch mode.Result {
 			case config.ImportConfigMapModeRequired:
 				newProp, err := transformPropertyToConfigMapReference(prop, astmodel.ConfigMapReferenceType)
 				if err != nil {

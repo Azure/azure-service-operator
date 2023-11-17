@@ -361,13 +361,13 @@ func findResourcesEmbeddedInParent(
 
 		parentResource, err := configuration.ObjectModelConfiguration.ResourceEmbeddedInParent.Lookup(name)
 		if err != nil {
-			if config.IsNotConfiguredError(err) {
-				// $isResource is not configured, skip this object
-				continue
-			}
-
 			// If something else went wrong, keep details
 			errs = append(errs, err)
+			continue
+		}
+
+		if !parentResource.Found {
+			// Not configured, nothing to do
 			continue
 		}
 
@@ -376,7 +376,8 @@ func findResourcesEmbeddedInParent(
 			errs = append(errs, errors.Errorf("%s is not labelled as a resource, so cannot be a resource embedded in a parent", name))
 			continue
 		}
-		parentTypeName := name.WithName(parentResource)
+
+		parentTypeName := name.WithName(parentResource.Result)
 		if !defs.Contains(parentTypeName) {
 			errs = append(errs, errors.Errorf("cannot find %s parent %s", name, parentTypeName))
 			continue

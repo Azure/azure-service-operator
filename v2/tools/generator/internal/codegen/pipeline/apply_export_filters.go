@@ -73,10 +73,10 @@ func filterTypes(
 	renames := make(astmodel.TypeAssociation)
 	for n := range typesToExport {
 		newName := ""
-		if as, asErr := configuration.ObjectModelConfiguration.ExportAs.Lookup(n); asErr == nil {
-			newName = as
-		} else if to, toErr := configuration.ObjectModelConfiguration.RenameTo.Lookup(n); toErr == nil {
-			newName = to
+		if as, asErr := configuration.ObjectModelConfiguration.ExportAs.Lookup(n); asErr == nil && as.Found {
+			newName = as.Result
+		} else if to, toErr := configuration.ObjectModelConfiguration.RenameTo.Lookup(n); toErr == nil && to.Found {
+			newName = to.Result
 		}
 
 		if newName != "" {
@@ -111,25 +111,25 @@ func filterTypes(
 // shouldExport works out whether the specified Resource should be exported or not
 func shouldExport(defName astmodel.InternalTypeName, configuration *config.Configuration) (bool, error) {
 	export, err := configuration.ObjectModelConfiguration.Export.Lookup(defName)
-	if err == nil {
-		// $export is configured, return that value
-		return export, nil
-	}
-
-	if !config.IsNotConfiguredError(err) {
+	if err != nil {
 		// Problem isn't lack of configuration, it's something else
-		return false, errors.Wrapf(err, "looking up export config for %s", defName)
+		return false, errors.Wrapf(err, "looking up $export config for %s", defName)
 	}
 
-	_, err = configuration.ObjectModelConfiguration.ExportAs.Lookup(defName)
-	if err == nil {
+	if export.Found {
+		// $export is configured, return that value
+		return export.Result, nil
+	}
+
+	exportAs, err := configuration.ObjectModelConfiguration.ExportAs.Lookup(defName)
+	if err != nil {
+		// Problem isn't lack of configuration, it's something else
+		return false, errors.Wrapf(err, "looking up $exportAs config for %s", defName)
+	}
+
+	if exportAs.Found {
 		// $exportAs is configured, we DO want to export
 		return true, nil
-	}
-
-	if !config.IsNotConfiguredError(err) {
-		// Problem isn't lack of configuration, it's something else
-		return false, errors.Wrapf(err, "looking up exportAs config for %s", defName)
 	}
 
 	// Default is to not export

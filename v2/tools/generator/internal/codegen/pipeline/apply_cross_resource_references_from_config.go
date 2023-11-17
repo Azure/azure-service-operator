@@ -43,11 +43,22 @@ func ApplyCrossResourceReferencesFromConfig(
 			isCrossResourceReference := func(typeName astmodel.InternalTypeName, prop *astmodel.PropertyDefinition) ARMIDPropertyClassification {
 				// First check if we know that this property is an ARMID already
 				isReference, err := configuration.ARMReference(typeName, prop.PropertyName())
+				if err != nil {
+					crossResourceReferenceErrs = append(
+						crossResourceReferenceErrs,
+						errors.Wrapf(
+							err,
+							"checking for configuration of %s.%s",
+							typeName,
+							prop.PropertyName()))
+					return ARMIDPropertyClassificationUnspecified
+				}
+
 				isSwaggerARMID := isTypeARMID(prop.PropertyType())
 
 				// If we've got a Swagger ARM ID entry AND an entry in our config, that might be a problem
-				if isSwaggerARMID && err == nil {
-					if !isReference {
+				if isSwaggerARMID && isReference.Found {
+					if !isReference.Result {
 						// We allow overriding the ARM ID status of a property to false in our config
 						return ARMIDPropertyClassificationUnset
 					} else {
@@ -61,33 +72,23 @@ func ApplyCrossResourceReferencesFromConfig(
 					}
 				}
 
-				if DoesPropertyLookLikeARMReference(prop) && err != nil {
-					if config.IsNotConfiguredError(err) {
-						// This is an error for now to ensure that we don't accidentally miss adding references.
-						// If/when we move to using an upstream marker for cross resource refs, we can remove this and just
-						// trust the Swagger.
-						crossResourceReferenceErrs = append(
-							crossResourceReferenceErrs,
-							errors.Wrapf(
-								err,
-								"%s.%s looks like a resource reference but was not labelled as one; You may need to add it to the 'objectModelConfiguration' section of the config file",
-								typeName,
-								prop.PropertyName()))
-					} else {
-						// Something else went wrong checking our configuration
-						crossResourceReferenceErrs = append(
-							crossResourceReferenceErrs,
-							errors.Wrapf(
-								err,
-								"%s.%s looks like a resource reference but something went wrong checking for configuration",
-								typeName,
-								prop.PropertyName()))
-					}
+				if DoesPropertyLookLikeARMReference(prop) && !isReference.Found {
+					// This is an error for now to ensure that we don't accidentally miss adding references.
+					// If/when we move to using an upstream marker for cross resource refs, we can remove this and just
+					// trust the Swagger.
+					crossResourceReferenceErrs = append(
+						crossResourceReferenceErrs,
+						errors.Wrapf(
+							err,
+							"%s.%s looks like a resource reference but was not labelled as one; You may need to add it to the 'objectModelConfiguration' section of the config file",
+							typeName,
+							prop.PropertyName()))
 				}
 
-				if isReference {
+				if isReference.Result {
 					return ARMIDPropertyClassificationSet
 				}
+				
 				return ARMIDPropertyClassificationUnspecified
 			}
 

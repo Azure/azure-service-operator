@@ -58,15 +58,14 @@ func (graph *GroupConversionGraph) searchForRenamedType(
 	}
 
 	rename, err := graph.configuration.TypeNameInNextVersion.Lookup(name)
-	if config.IsNotConfiguredError(err) {
-		// We found no configured rename, nothing to do
-		return astmodel.InternalTypeName{}, nil
-	}
-
-	// If we have any error other than a NotConfiguredError, something went wrong, and we must abort
 	if err != nil {
 		return astmodel.InternalTypeName{},
 			errors.Wrapf(err, "finding next type after %s", name)
+	}
+
+	if !rename.Found {
+		// We found no configured rename, nothing to do
+		return astmodel.InternalTypeName{}, nil
 	}
 
 	// We have a configured rename, need to search through packages to find the type with that name
@@ -84,7 +83,7 @@ func (graph *GroupConversionGraph) searchForRenamedType(
 		}
 
 		// Does our target type exist in this package?
-		newType := name.WithPackageReference(pkg).WithName(rename)
+		newType := name.WithPackageReference(pkg).WithName(rename.Result)
 		if definitions.Contains(newType) {
 			return newType, nil
 		}
