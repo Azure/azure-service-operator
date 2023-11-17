@@ -127,8 +127,8 @@ func newEveryGroupConfigurationVisitor(
 	}
 }
 
-// Visit visits the specified ObjectModelConfiguration.
-func (v *configurationVisitor) Visit(omc *ObjectModelConfiguration) error {
+// visit visits the specified ObjectModelConfiguration.
+func (v *configurationVisitor) visit(omc *ObjectModelConfiguration) error {
 	if v.ref != nil {
 		return omc.visitGroup(v.ref, v)
 	}

@@ -137,7 +137,7 @@ func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.InternalPack
 		return nil
 	})
 
-	err := visitor.Visit(omc)
+	err := visitor.visit(omc)
 	if err != nil {
 		if IsNotConfiguredError(err) {
 			// No configuration for this package, we're not expecting any types
@@ -159,7 +159,7 @@ func (omc *ObjectModelConfiguration) IsTypeConfigured(name astmodel.InternalType
 		return nil
 	})
 
-	err := visitor.Visit(omc)
+	err := visitor.visit(omc)
 	if err != nil {
 		if IsNotConfiguredError(err) {
 			// No configuration for this type, we're not expecting it
@@ -182,7 +182,7 @@ func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.InternalTypeName
 			return configuration.addTypeAlias(name.Name(), alias)
 		})
 
-	err := versionVisitor.Visit(omc)
+	err := versionVisitor.visit(omc)
 	if err != nil {
 		// Should never have an error in this case, but if we do make sure we know
 		panic(err)
@@ -229,7 +229,7 @@ func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) 
 			return groupConfig.visitVersions(versionVisitor)
 		})
 
-	err := groupVisitor.Visit(omc)
+	err := groupVisitor.visit(omc)
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to find hand-crafted packages")
 	}
@@ -461,7 +461,7 @@ func (a *groupAccess[T]) Lookup(
 			return nil
 		})
 
-	err := visitor.Visit(a.model)
+	err := visitor.visit(a.model)
 	if err != nil {
 		return LookupResult[T]{}, err
 	}
@@ -485,7 +485,7 @@ func (a *groupAccess[T]) VerifyConsumed() error {
 			c := a.accessor(configuration)
 			return c.VerifyConsumed()
 		})
-	return visitor.Visit(a.model)
+	return visitor.visit(a.model)
 }
 
 func (a *groupAccess[T]) MarkUnconsumed() error {
@@ -496,7 +496,7 @@ func (a *groupAccess[T]) MarkUnconsumed() error {
 			return nil
 		})
 
-	return visitor.Visit(a.model)
+	return visitor.visit(a.model)
 }
 
 /*
@@ -525,7 +525,7 @@ func (a *typeAccess[T]) Lookup(
 			return nil
 		})
 
-	err := visitor.Visit(a.model)
+	err := visitor.visit(a.model)
 	if err != nil {
 		return LookupResult[T]{}, err
 	}
@@ -550,7 +550,7 @@ func (a *typeAccess[T]) VerifyConsumed() error {
 			c := a.accessor(configuration)
 			return c.VerifyConsumed()
 		})
-	return visitor.Visit(a.model)
+	return visitor.visit(a.model)
 }
 
 // MarkUnconsumed marks all configured values as unconsumed
@@ -562,7 +562,7 @@ func (a *typeAccess[T]) MarkUnconsumed() error {
 			return nil
 		})
 
-	return visitor.Visit(a.model)
+	return visitor.visit(a.model)
 }
 
 /*
@@ -593,7 +593,7 @@ func (a *propertyAccess[T]) Lookup(
 			return nil
 		})
 
-	err := visitor.Visit(a.model)
+	err := visitor.visit(a.model)
 	if err != nil {
 		return LookupResult[T]{}, err
 	}
@@ -618,7 +618,7 @@ func (a *propertyAccess[T]) VerifyConsumed() error {
 			c := a.accessor(configuration)
 			return c.VerifyConsumed()
 		})
-	return visitor.Visit(a.model)
+	return visitor.visit(a.model)
 }
 
 // MarkUnconsumed marks all configured values as unconsumed
@@ -630,5 +630,5 @@ func (a *propertyAccess[T]) MarkUnconsumed() error {
 			return nil
 		})
 
-	return visitor.Visit(a.model)
+	return visitor.visit(a.model)
 }
