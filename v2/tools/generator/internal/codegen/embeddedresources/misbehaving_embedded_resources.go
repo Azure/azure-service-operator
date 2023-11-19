@@ -33,18 +33,14 @@ func findMisbehavingResources(
 			// If we don't have any configuration at all for the type, we don't need to check any of the properties
 			if configuration.ObjectModelConfiguration.IsTypeConfigured(ctx.typeName) {
 				for _, prop := range ot.Properties().Copy() {
-					resourceLifecycleOwnedByParent, err := configuration.ResourceLifecycleOwnedByParent(ctx.typeName, prop.PropertyName())
-					if err != nil {
-						return nil, errors.Wrap(err, "unexpected error checking config")
-					}
-
-					if !resourceLifecycleOwnedByParent.Found {
+					resourceLifecycleOwnedByParent, ok := configuration.ResourceLifecycleOwnedByParent(ctx.typeName, prop.PropertyName())
+					if !ok {
 						continue
 					}
 
 					// If the property is a subresource whose lifecycle is owned by a parent resource, but we're not
 					// examining the parent resource in question, continue
-					if ctx.resourceName.Name() != resourceLifecycleOwnedByParent.Result {
+					if ctx.resourceName.Name() != resourceLifecycleOwnedByParent {
 						continue
 					}
 

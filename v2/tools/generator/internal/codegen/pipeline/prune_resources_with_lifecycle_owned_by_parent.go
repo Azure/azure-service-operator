@@ -151,12 +151,7 @@ func (m *misbehavingEmbeddedTypePruner) pruneMisbehavingEmbeddedResourceProperti
 	ctx astmodel.InternalTypeName,
 ) (astmodel.Type, error) {
 	for _, prop := range it.Properties().Copy() {
-		lifecycle, err := m.configuration.ResourceLifecycleOwnedByParent(ctx, prop.PropertyName())
-		if err != nil {
-			return nil, err
-		}
-
-		if !lifecycle.Found {
+		if _, ok := m.configuration.ResourceLifecycleOwnedByParent(ctx, prop.PropertyName()); !ok {
 			continue
 		}
 

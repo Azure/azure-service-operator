@@ -59,22 +59,12 @@ func applyConfigSecretOverrides(config *config.Configuration, definitions astmod
 		strippedTypeName := ctx.WithName(strings.TrimSuffix(ctx.Name(), astmodel.StatusSuffix))
 
 		for _, prop := range it.Properties().Copy() {
-			isSecret, err := config.IsSecret(ctx, prop.PropertyName())
-			if err != nil {
-				return nil, errors.Wrapf(err, "checking if %q is a secret", prop.PropertyName())
-			}
-
-			if isSecret.Found && isSecret.Result {
+			if isSecret, ok := config.IsSecret(ctx, prop.PropertyName()); ok && isSecret {
 				it = it.WithProperty(prop.WithIsSecret(true))
 			}
 
 			if ctx.IsStatus() {
-				isSecret, err = config.IsSecret(strippedTypeName, prop.PropertyName())
-				if err != nil {
-					return nil, errors.Wrapf(err, "checking if %q is a secret", prop.PropertyName())
-				}
-
-				if isSecret.Found && isSecret.Result {
+				if isSecret, ok := config.IsSecret(strippedTypeName, prop.PropertyName()); ok && isSecret {
 					it = it.WithProperty(prop.WithIsSecret(true))
 				}
 			}

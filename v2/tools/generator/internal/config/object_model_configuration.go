@@ -550,7 +550,7 @@ func makePropertyAccess[T any](
 func (a *propertyAccess[T]) Lookup(
 	name astmodel.InternalTypeName,
 	property astmodel.PropertyName,
-) (LookupResult[T], error) {
+) (T, bool) {
 	var c *configurable[T]
 	visitor := newSinglePropertyConfigurationVisitor(
 		name,
@@ -562,20 +562,18 @@ func (a *propertyAccess[T]) Lookup(
 
 	err := visitor.visit(a.model)
 	if err != nil {
-		return LookupResult[T]{}, err
+		// Something went wrong; we discard the error knowing that a
+		// later call to VerifyConsumed() will reveal it to the user
+		var zero T
+		return zero, false
 	}
 
 	if c == nil {
-		return LookupResult[T]{
-			Found: false,
-		}, nil
+		var zero T
+		return zero, false
 	}
 
-	v, ok := c.Lookup()
-	return LookupResult[T]{
-		Result: v,
-		Found:  ok,
-	}, nil
+	return c.Lookup()
 }
 
 // VerifyConsumed ensures that all configured values have been consumed

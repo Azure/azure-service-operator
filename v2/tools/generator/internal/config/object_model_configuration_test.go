@@ -146,10 +146,9 @@ func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsEx
 			})).
 		To(Succeed())
 
-	isReference, err := omc.ARMReference.Lookup(typeName, "Spouse")
-	g.Expect(err).To(BeNil())
-	g.Expect(isReference.Found).To(BeTrue())
-	g.Expect(isReference.Result).To(BeTrue())
+	isReference, ok := omc.ARMReference.Lookup(typeName, "Spouse")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(isReference).To(BeTrue())
 }
 
 func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_ReturnsExpectedResult(t *testing.T) {
@@ -168,10 +167,9 @@ func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_Returns
 			})).
 		To(Succeed())
 
-	isReference, err := omc.ARMReference.Lookup(typeName, "FullName")
-	g.Expect(err).To(BeNil())
-	g.Expect(isReference.Found).To(BeTrue())
-	g.Expect(isReference.Result).To(BeFalse())
+	isReference, ok := omc.ARMReference.Lookup(typeName, "FullName")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(isReference).To(BeFalse())
 }
 
 func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedResult(t *testing.T) {
@@ -190,9 +188,8 @@ func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpec
 			})).
 		To(Succeed())
 
-	armReference, err := omc.ARMReference.Lookup(typeName, "KnownAs")
-	g.Expect(err).To(Succeed())
-	g.Expect(armReference.Found).To(BeFalse())
+	_, ok := omc.ARMReference.Lookup(typeName, "KnownAs")
+	g.Expect(ok).To(BeFalse())
 }
 
 func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceUsed_ReturnsNil(t *testing.T) {
@@ -211,10 +208,9 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceUsed_
 			})).
 		To(Succeed())
 
-	ref, err := omc.ARMReference.Lookup(typeName, "Spouse")
-	g.Expect(err).To(Succeed())
-	g.Expect(ref.Found).To(BeTrue())
-	g.Expect(ref.Result).To(BeTrue())
+	ref, ok := omc.ARMReference.Lookup(typeName, "Spouse")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(ref).To(BeTrue())
 	g.Expect(omc.ARMReference.VerifyConsumed()).To(Succeed())
 }
 

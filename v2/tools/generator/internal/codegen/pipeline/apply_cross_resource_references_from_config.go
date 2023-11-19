@@ -42,23 +42,12 @@ func ApplyCrossResourceReferencesFromConfig(
 
 			isCrossResourceReference := func(typeName astmodel.InternalTypeName, prop *astmodel.PropertyDefinition) ARMIDPropertyClassification {
 				// First check if we know that this property is an ARMID already
-				isReference, err := configuration.ARMReference(typeName, prop.PropertyName())
-				if err != nil {
-					crossResourceReferenceErrs = append(
-						crossResourceReferenceErrs,
-						errors.Wrapf(
-							err,
-							"checking for configuration of %s.%s",
-							typeName,
-							prop.PropertyName()))
-					return ARMIDPropertyClassificationUnspecified
-				}
-
+				isReference, ok := configuration.ARMReference(typeName, prop.PropertyName())
 				isSwaggerARMID := isTypeARMID(prop.PropertyType())
 
 				// If we've got a Swagger ARM ID entry AND an entry in our config, that might be a problem
-				if isSwaggerARMID && isReference.Found {
-					if !isReference.Result {
+				if ok && isSwaggerARMID {
+					if !isReference {
 						// We allow overriding the ARM ID status of a property to false in our config
 						return ARMIDPropertyClassificationUnset
 					} else {
@@ -72,23 +61,22 @@ func ApplyCrossResourceReferencesFromConfig(
 					}
 				}
 
-				if DoesPropertyLookLikeARMReference(prop) && !isReference.Found {
+				if DoesPropertyLookLikeARMReference(prop) && !ok {
 					// This is an error for now to ensure that we don't accidentally miss adding references.
 					// If/when we move to using an upstream marker for cross resource refs, we can remove this and just
 					// trust the Swagger.
 					crossResourceReferenceErrs = append(
 						crossResourceReferenceErrs,
-						errors.Wrapf(
-							err,
+						errors.Errorf(
 							"%s.%s looks like a resource reference but was not labelled as one; You may need to add it to the 'objectModelConfiguration' section of the config file",
 							typeName,
 							prop.PropertyName()))
 				}
 
-				if isReference.Result {
+				if isReference {
 					return ARMIDPropertyClassificationSet
 				}
-				
+
 				return ARMIDPropertyClassificationUnspecified
 			}
 
