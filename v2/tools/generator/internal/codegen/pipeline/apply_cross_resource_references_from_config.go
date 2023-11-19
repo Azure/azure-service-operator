@@ -42,7 +42,7 @@ func ApplyCrossResourceReferencesFromConfig(
 
 			isCrossResourceReference := func(typeName astmodel.InternalTypeName, prop *astmodel.PropertyDefinition) ARMIDPropertyClassification {
 				// First check if we know that this property is an ARMID already
-				isReference, ok := configuration.ARMReference(typeName, prop.PropertyName())
+				isReference, ok := configuration.ObjectModelConfiguration.ARMReference.Lookup(typeName, prop.PropertyName())
 				isSwaggerARMID := isTypeARMID(prop.PropertyType())
 
 				// If we've got a Swagger ARM ID entry AND an entry in our config, that might be a problem
@@ -105,7 +105,7 @@ func ApplyCrossResourceReferencesFromConfig(
 				return nil, err
 			}
 
-			err = configuration.VerifyARMReferencesConsumed()
+			err = configuration.ObjectModelConfiguration.ARMReference.VerifyConsumed()
 			if err != nil {
 				return nil, errors.Wrap(
 					err,

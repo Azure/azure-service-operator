@@ -33,7 +33,7 @@ func findMisbehavingResources(
 			// If we don't have any configuration at all for the type, we don't need to check any of the properties
 			if configuration.ObjectModelConfiguration.IsTypeConfigured(ctx.typeName) {
 				for _, prop := range ot.Properties().Copy() {
-					resourceLifecycleOwnedByParent, ok := configuration.ResourceLifecycleOwnedByParent(ctx.typeName, prop.PropertyName())
+					resourceLifecycleOwnedByParent, ok := configuration.ObjectModelConfiguration.ResourceLifecycleOwnedByParent.Lookup(ctx.typeName, prop.PropertyName())
 					if !ok {
 						continue
 					}
@@ -88,7 +88,7 @@ func findMisbehavingResources(
 		}
 	}
 
-	err := configuration.VerifyResourceLifecycleOwnedByParentConsumed()
+	err := configuration.ObjectModelConfiguration.ResourceLifecycleOwnedByParent.VerifyConsumed()
 	if err != nil {
 		return nil, err
 	}
