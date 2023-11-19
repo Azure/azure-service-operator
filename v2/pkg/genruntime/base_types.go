@@ -34,6 +34,16 @@ const (
 	ResourceOperationDelete = ResourceOperation("DELETE")
 )
 
+func (o ResourceOperation) IsSupportedBy(obj SupportedResourceOperations) bool {
+	for _, op := range obj.GetSupportedOperations() {
+		if op == o {
+			return true
+		}
+	}
+
+	return false
+}
+
 // TODO: It's weird that this is isn't with the other annotations
 // TODO: Should we move them all here (so they're exported?) Or shold we move them
 // TODO: to serviceoperator-internal.azure.com to signify they are internal?
