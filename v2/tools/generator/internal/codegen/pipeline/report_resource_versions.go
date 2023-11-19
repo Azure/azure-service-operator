@@ -643,20 +643,21 @@ func (report *ResourceVersionsReport) generateSampleLink(
 }
 
 func (report *ResourceVersionsReport) supportedFrom(typeName astmodel.InternalTypeName) string {
-	supportedFrom, err := report.objectModelConfiguration.SupportedFrom.Lookup(typeName)
-	if err != nil {
-		return "" // Leave it blank
+	supportedFrom, ok := report.objectModelConfiguration.SupportedFrom.Lookup(typeName)
+	if !ok {
+		// Leave it blank
+		return ""
 	}
 
 	ver := typeName.InternalPackageReference().Version()
 
 	// Special case for resources that existed prior to GA
 	// the `v1api` versions of those resources are only available from "v2.0.0"
-	if strings.Contains(ver, v1VersionPrefix) && strings.HasPrefix(supportedFrom.Result, "v2.0.0-") {
+	if strings.Contains(ver, v1VersionPrefix) && strings.HasPrefix(supportedFrom, "v2.0.0-") {
 		return "v2.0.0"
 	}
 
-	return supportedFrom.Result
+	return supportedFrom
 }
 
 // Read in any front matter present in our output file, so we preserve it when writing out the new file.

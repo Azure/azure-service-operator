@@ -27,19 +27,13 @@ func ApplyIsResourceOverrides(configuration *config.Configuration) *Stage {
 					continue
 				}
 
-				isResource, err := configuration.ObjectModelConfiguration.IsResource.Lookup(name)
-				if err != nil {
-					// If something went wrong, keep details
-					errs = append(errs, err)
-					continue
-				}
-
-				if !isResource.Found {
+				isResource, ok := configuration.ObjectModelConfiguration.IsResource.Lookup(name)
+				if !ok {
 					// $isResource is not configured, skip this object
 					continue
 				}
 
-				objectType = objectType.WithIsResource(isResource.Result)
+				objectType = objectType.WithIsResource(isResource)
 				def = def.WithType(objectType)
 				updatedDefs.Add(def)
 			}

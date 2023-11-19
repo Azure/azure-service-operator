@@ -169,15 +169,7 @@ func (s *specInitializationScanner) findResources() (astmodel.TypeDefinitionSet,
 		}
 
 		// Check configuration to see if this resource should be supported
-		importable, err := s.config.Importable.Lookup(def.Name())
-		if err != nil {
-			// record the error and skip this resource
-			errs = append(errs, errors.Wrapf(err, "looking up $importable for %q", def.Name()))
-			continue
-			
-		}
-
-		if importable.Found && !importable.Result {
+		if importable, ok := s.config.Importable.Lookup(def.Name()); ok && !importable {
 			// Cannot import this resource, so skip
 			continue
 		}

@@ -125,11 +125,10 @@ func TestGroupConfiguration_WhenVersionConfigurationNotConsumed_ReturnsErrorWith
 		test.MakeLocalPackageReference(groupConfig.name, "2021-01-01"),
 		"Person")
 
-	supportedFrom, err := omConfig.SupportedFrom.Lookup(tn)
-	g.Expect(err).To(Succeed())
-	g.Expect(supportedFrom.Found).To(BeFalse())
+	_, ok := omConfig.SupportedFrom.Lookup(tn)
+	g.Expect(ok).To(BeFalse())
 
-	err = omConfig.SupportedFrom.VerifyConsumed()
+	err := omConfig.SupportedFrom.VerifyConsumed()
 	g.Expect(err).NotTo(BeNil())                                   // We expect an error, config hasn't been used
 	g.Expect(err.Error()).To(ContainSubstring("did you mean"))     // We want to receive a tip
 	g.Expect(err.Error()).To(ContainSubstring(versionConfig.name)) // and we want the correct version to be suggested

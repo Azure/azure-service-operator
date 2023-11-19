@@ -59,7 +59,8 @@ func (c *configurable[T]) read() (T, bool) {
 		return *c.value, true
 	}
 
-	return *new(T), false
+	var zero T
+	return zero, false
 }
 
 // isUnconsumed returns true if we have a configured value that hasn't been consumed

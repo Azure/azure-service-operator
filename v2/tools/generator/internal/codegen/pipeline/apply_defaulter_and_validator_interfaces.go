@@ -78,15 +78,9 @@ func getDefaults(
 		return nil, errors.Wrapf(err, "unable to resolve resource %s", resourceDef.Name())
 	}
 
-	configuredDefaultAzureName, err := configuration.ObjectModelConfiguration.DefaultAzureName.Lookup(resourceDef.Name())
-	if err != nil {
-		return nil, errors.Wrapf(err, "error looking up default Azure name for %s", resourceDef.Name())
-
-	}
-
 	defaultAzureName := true
-	if configuredDefaultAzureName.Found {
-		defaultAzureName = configuredDefaultAzureName.Result
+	if configuredDefaultAzureName, ok := configuration.ObjectModelConfiguration.DefaultAzureName.Lookup(resourceDef.Name()); ok {
+		defaultAzureName = configuredDefaultAzureName
 	}
 
 	// Determine if the resource has a SetName function

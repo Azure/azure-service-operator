@@ -73,10 +73,10 @@ func filterTypes(
 	renames := make(astmodel.TypeAssociation)
 	for n := range typesToExport {
 		newName := ""
-		if as, asErr := configuration.ObjectModelConfiguration.ExportAs.Lookup(n); asErr == nil && as.Found {
-			newName = as.Result
-		} else if to, toErr := configuration.ObjectModelConfiguration.RenameTo.Lookup(n); toErr == nil && to.Found {
-			newName = to.Result
+		if as, ok := configuration.ObjectModelConfiguration.ExportAs.Lookup(n); ok {
+			newName = as
+		} else if to, ok := configuration.ObjectModelConfiguration.RenameTo.Lookup(n); ok {
+			newName = to
 		}
 
 		if newName != "" {
@@ -110,24 +110,12 @@ func filterTypes(
 
 // shouldExport works out whether the specified Resource should be exported or not
 func shouldExport(defName astmodel.InternalTypeName, configuration *config.Configuration) (bool, error) {
-	export, err := configuration.ObjectModelConfiguration.Export.Lookup(defName)
-	if err != nil {
-		// Problem isn't lack of configuration, it's something else
-		return false, errors.Wrapf(err, "looking up $export config for %s", defName)
-	}
-
-	if export.Found {
+	if export, ok := configuration.ObjectModelConfiguration.Export.Lookup(defName); ok {
 		// $export is configured, return that value
-		return export.Result, nil
+		return export, nil
 	}
 
-	exportAs, err := configuration.ObjectModelConfiguration.ExportAs.Lookup(defName)
-	if err != nil {
-		// Problem isn't lack of configuration, it's something else
-		return false, errors.Wrapf(err, "looking up $exportAs config for %s", defName)
-	}
-
-	if exportAs.Found {
+	if _, ok := configuration.ObjectModelConfiguration.ExportAs.Lookup(defName); ok {
 		// $exportAs is configured, we DO want to export
 		return true, nil
 	}

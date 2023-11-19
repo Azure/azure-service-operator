@@ -72,10 +72,7 @@ func createOperatorSpecIfNeeded(
 		return nil, nil, errors.Wrapf(err, "resolving resource spec and status for %s", resource.Name())
 	}
 
-	secrets, err := configuration.ObjectModelConfiguration.AzureGeneratedSecrets.Lookup(resolved.ResourceDef.Name())
-	if err != nil {
-		return nil, nil, errors.Wrapf(err, "reading azureGeneratedSecrets for %s", resolved.ResourceDef.Name())
-	}
+	secrets, secretsOk := configuration.ObjectModelConfiguration.AzureGeneratedSecrets.Lookup(resolved.ResourceDef.Name())
 
 	configs, exportedProperties, err := getConfigMapProperties(defs, configuration, resource)
 	if err != nil {
@@ -84,13 +81,13 @@ func createOperatorSpecIfNeeded(
 
 	hasConfigMapProperties := len(configs) != 0
 
-	if !secrets.Found && !hasConfigMapProperties {
+	if !secretsOk && !hasConfigMapProperties {
 		// We don't need to make an OperatorSpec type
 		return nil, nil, nil
 	}
 
 	builder := newOperatorSpecBuilder(configuration, idFactory, resolved.ResourceDef)
-	builder.addSecretsToOperatorSpec(secrets.Result)
+	builder.addSecretsToOperatorSpec(secrets)
 	builder.addConfigs(configs)
 
 	operatorSpec := builder.build()
@@ -252,39 +249,32 @@ func getConfigMapProperties(
 	configuration *config.Configuration,
 	resource astmodel.TypeDefinition) ([]string, ExportedProperties, error) {
 
-	configMapPaths, err := configuration.ObjectModelConfiguration.GeneratedConfigs.Lookup(resource.Name())
-	if err != nil {
-		return nil, nil, errors.Wrapf(err, "reading generatedConfigs for %s", resource.Name())
-	}
-
-	additionalConfigMaps, err := configuration.ObjectModelConfiguration.ManualConfigs.Lookup(resource.Name())
-	if err != nil {
-		return nil, nil, errors.Wrapf(err, "reading manualConfigs for %s", resource.Name())
-	}
+	configMapPaths, configMapPathsOk := configuration.ObjectModelConfiguration.GeneratedConfigs.Lookup(resource.Name())
+	additionalConfigMaps, additionalConfigMapsOk := configuration.ObjectModelConfiguration.ManualConfigs.Lookup(resource.Name())
 
 	// Fast out if we don't have anything configured
-	if !configMapPaths.Found && !additionalConfigMaps.Found {
+	if !configMapPathsOk && !additionalConfigMapsOk {
 		return nil, nil, nil
 	}
 
-	walker := newConfigMapTypeWalker(defs, configMapPaths.Result)
+	walker := newConfigMapTypeWalker(defs, configMapPaths)
 	exportedConfigMapProperties, err := walker.Walk(resource)
 	if err != nil {
 		return nil, nil, err
 	}
 
 	// There should be an exported configMap property for every configured configMapPath
-	for name, path := range configMapPaths.Result {
+	for name, path := range configMapPaths {
 		if _, ok := exportedConfigMapProperties[name]; !ok {
 			return nil, nil, errors.Errorf("$generatedConfigs property %q not found at path %q", name, path)
 		}
 	}
 
-	result := make([]string, 0, len(exportedConfigMapProperties)+len(additionalConfigMaps.Result))
+	result := make([]string, 0, len(exportedConfigMapProperties)+len(additionalConfigMaps))
 	for key := range exportedConfigMapProperties {
 		result = append(result, key)
 	}
-	result = append(result, additionalConfigMaps.Result...)
+	result = append(result, additionalConfigMaps...)
 
 	return result, exportedConfigMapProperties, nil
 }

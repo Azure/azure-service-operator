@@ -359,14 +359,8 @@ func findResourcesEmbeddedInParent(
 			continue
 		}
 
-		parentResource, err := configuration.ObjectModelConfiguration.ResourceEmbeddedInParent.Lookup(name)
-		if err != nil {
-			// If something else went wrong, keep details
-			errs = append(errs, err)
-			continue
-		}
-
-		if !parentResource.Found {
+		parentResource, ok := configuration.ObjectModelConfiguration.ResourceEmbeddedInParent.Lookup(name)
+		if !ok {
 			// Not configured, nothing to do
 			continue
 		}
@@ -377,7 +371,7 @@ func findResourcesEmbeddedInParent(
 			continue
 		}
 
-		parentTypeName := name.WithName(parentResource.Result)
+		parentTypeName := name.WithName(parentResource)
 		if !defs.Contains(parentTypeName) {
 			errs = append(errs, errors.Errorf("cannot find %s parent %s", name, parentTypeName))
 			continue

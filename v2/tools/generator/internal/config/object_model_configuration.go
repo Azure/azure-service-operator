@@ -485,7 +485,7 @@ func makeTypeAccess[T any](
 // Lookup returns the configured value for the given type name
 func (a *typeAccess[T]) Lookup(
 	name astmodel.InternalTypeName,
-) (LookupResult[T], error) {
+) (T, bool) {
 	var c *configurable[T]
 	visitor := newSingleTypeConfigurationVisitor(
 		name,
@@ -496,20 +496,18 @@ func (a *typeAccess[T]) Lookup(
 
 	err := visitor.visit(a.model)
 	if err != nil {
-		return LookupResult[T]{}, err
+		// Something went wrong; we discard the error knowing that a
+		// later call to VerifyConsumed() will reveal it to the user
+		var zero T
+		return zero, false
 	}
 
 	if c == nil {
-		return LookupResult[T]{
-			Found: false,
-		}, nil
+		var zero T
+		return zero, false
 	}
 
-	v, ok := c.Lookup()
-	return LookupResult[T]{
-		Result: v,
-		Found:  ok,
-	}, nil
+	return c.Lookup()
 }
 
 // VerifyConsumed ensures that all configured values have been consumed
