@@ -5,7 +5,7 @@ package v1api20220101
 
 import (
 	"encoding/json"
-	v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101storage"
+	v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_FlexibleServersConfiguration_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlexibleServersConfiguration tests if a specific instance of FlexibleServersConfiguration can be assigned to v1api20220101storage and back losslessly
+// RunPropertyAssignmentTestForFlexibleServersConfiguration tests if a specific instance of FlexibleServersConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServersConfiguration(subject FlexibleServersConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_FlexibleServers_Configuration_Spec_WhenPropertiesConverted_RoundTripsW
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlexibleServers_Configuration_Spec tests if a specific instance of FlexibleServers_Configuration_Spec can be assigned to v1api20220101storage and back losslessly
+// RunPropertyAssignmentTestForFlexibleServers_Configuration_Spec tests if a specific instance of FlexibleServers_Configuration_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServers_Configuration_Spec(subject FlexibleServers_Configuration_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -282,7 +282,7 @@ func Test_FlexibleServers_Configuration_STATUS_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlexibleServers_Configuration_STATUS tests if a specific instance of FlexibleServers_Configuration_STATUS can be assigned to v1api20220101storage and back losslessly
+// RunPropertyAssignmentTestForFlexibleServers_Configuration_STATUS tests if a specific instance of FlexibleServers_Configuration_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServers_Configuration_STATUS(subject FlexibleServers_Configuration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

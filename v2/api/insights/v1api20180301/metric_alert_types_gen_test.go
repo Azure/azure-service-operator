@@ -5,7 +5,7 @@ package v1api20180301
 
 import (
 	"encoding/json"
-	v20180301s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301storage"
+	v20180301s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_MetricAlert_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMetricAlert tests if a specific instance of MetricAlert can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForMetricAlert tests if a specific instance of MetricAlert can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMetricAlert(subject MetricAlert) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_MetricAlert_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMetricAlert_Spec tests if a specific instance of MetricAlert_Spec can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForMetricAlert_Spec tests if a specific instance of MetricAlert_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMetricAlert_Spec(subject MetricAlert_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -302,7 +302,7 @@ func Test_MetricAlert_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMetricAlert_STATUS tests if a specific instance of MetricAlert_STATUS can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForMetricAlert_STATUS tests if a specific instance of MetricAlert_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMetricAlert_STATUS(subject MetricAlert_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -434,7 +434,7 @@ func Test_MetricAlertAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMetricAlertAction tests if a specific instance of MetricAlertAction can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForMetricAlertAction tests if a specific instance of MetricAlertAction can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMetricAlertAction(subject MetricAlertAction) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -537,7 +537,7 @@ func Test_MetricAlertAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMetricAlertAction_STATUS tests if a specific instance of MetricAlertAction_STATUS can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForMetricAlertAction_STATUS tests if a specific instance of MetricAlertAction_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMetricAlertAction_STATUS(subject MetricAlertAction_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -641,7 +641,7 @@ func Test_MetricAlertCriteria_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMetricAlertCriteria tests if a specific instance of MetricAlertCriteria can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForMetricAlertCriteria tests if a specific instance of MetricAlertCriteria can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMetricAlertCriteria(subject MetricAlertCriteria) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -758,7 +758,7 @@ func Test_MetricAlertCriteria_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMetricAlertCriteria_STATUS tests if a specific instance of MetricAlertCriteria_STATUS can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForMetricAlertCriteria_STATUS tests if a specific instance of MetricAlertCriteria_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMetricAlertCriteria_STATUS(subject MetricAlertCriteria_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -875,7 +875,7 @@ func Test_MetricAlertMultipleResourceMultipleMetricCriteria_WhenPropertiesConver
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMetricAlertMultipleResourceMultipleMetricCriteria tests if a specific instance of MetricAlertMultipleResourceMultipleMetricCriteria can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForMetricAlertMultipleResourceMultipleMetricCriteria tests if a specific instance of MetricAlertMultipleResourceMultipleMetricCriteria can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMetricAlertMultipleResourceMultipleMetricCriteria(subject MetricAlertMultipleResourceMultipleMetricCriteria) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -992,7 +992,7 @@ func Test_MetricAlertMultipleResourceMultipleMetricCriteria_STATUS_WhenPropertie
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMetricAlertMultipleResourceMultipleMetricCriteria_STATUS tests if a specific instance of MetricAlertMultipleResourceMultipleMetricCriteria_STATUS can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForMetricAlertMultipleResourceMultipleMetricCriteria_STATUS tests if a specific instance of MetricAlertMultipleResourceMultipleMetricCriteria_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMetricAlertMultipleResourceMultipleMetricCriteria_STATUS(subject MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1109,7 +1109,7 @@ func Test_MetricAlertSingleResourceMultipleMetricCriteria_WhenPropertiesConverte
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMetricAlertSingleResourceMultipleMetricCriteria tests if a specific instance of MetricAlertSingleResourceMultipleMetricCriteria can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForMetricAlertSingleResourceMultipleMetricCriteria tests if a specific instance of MetricAlertSingleResourceMultipleMetricCriteria can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMetricAlertSingleResourceMultipleMetricCriteria(subject MetricAlertSingleResourceMultipleMetricCriteria) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1226,7 +1226,7 @@ func Test_MetricAlertSingleResourceMultipleMetricCriteria_STATUS_WhenPropertiesC
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMetricAlertSingleResourceMultipleMetricCriteria_STATUS tests if a specific instance of MetricAlertSingleResourceMultipleMetricCriteria_STATUS can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForMetricAlertSingleResourceMultipleMetricCriteria_STATUS tests if a specific instance of MetricAlertSingleResourceMultipleMetricCriteria_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMetricAlertSingleResourceMultipleMetricCriteria_STATUS(subject MetricAlertSingleResourceMultipleMetricCriteria_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1343,7 +1343,7 @@ func Test_WebtestLocationAvailabilityCriteria_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria tests if a specific instance of WebtestLocationAvailabilityCriteria can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria tests if a specific instance of WebtestLocationAvailabilityCriteria can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria(subject WebtestLocationAvailabilityCriteria) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1448,7 +1448,7 @@ func Test_WebtestLocationAvailabilityCriteria_STATUS_WhenPropertiesConverted_Rou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria_STATUS tests if a specific instance of WebtestLocationAvailabilityCriteria_STATUS can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria_STATUS tests if a specific instance of WebtestLocationAvailabilityCriteria_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForWebtestLocationAvailabilityCriteria_STATUS(subject WebtestLocationAvailabilityCriteria_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1554,7 +1554,7 @@ func Test_MetricCriteria_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMetricCriteria tests if a specific instance of MetricCriteria can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForMetricCriteria tests if a specific instance of MetricCriteria can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMetricCriteria(subject MetricCriteria) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1687,7 +1687,7 @@ func Test_MetricCriteria_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMetricCriteria_STATUS tests if a specific instance of MetricCriteria_STATUS can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForMetricCriteria_STATUS tests if a specific instance of MetricCriteria_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMetricCriteria_STATUS(subject MetricCriteria_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1821,7 +1821,7 @@ func Test_MultiMetricCriteria_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMultiMetricCriteria tests if a specific instance of MultiMetricCriteria can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForMultiMetricCriteria tests if a specific instance of MultiMetricCriteria can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMultiMetricCriteria(subject MultiMetricCriteria) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1935,7 +1935,7 @@ func Test_MultiMetricCriteria_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMultiMetricCriteria_STATUS tests if a specific instance of MultiMetricCriteria_STATUS can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForMultiMetricCriteria_STATUS tests if a specific instance of MultiMetricCriteria_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMultiMetricCriteria_STATUS(subject MultiMetricCriteria_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2049,7 +2049,7 @@ func Test_DynamicMetricCriteria_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDynamicMetricCriteria tests if a specific instance of DynamicMetricCriteria can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForDynamicMetricCriteria tests if a specific instance of DynamicMetricCriteria can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDynamicMetricCriteria(subject DynamicMetricCriteria) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2180,7 +2180,7 @@ func Test_DynamicMetricCriteria_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDynamicMetricCriteria_STATUS tests if a specific instance of DynamicMetricCriteria_STATUS can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForDynamicMetricCriteria_STATUS tests if a specific instance of DynamicMetricCriteria_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDynamicMetricCriteria_STATUS(subject DynamicMetricCriteria_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2311,7 +2311,7 @@ func Test_MetricDimension_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMetricDimension tests if a specific instance of MetricDimension can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForMetricDimension tests if a specific instance of MetricDimension can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMetricDimension(subject MetricDimension) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2415,7 +2415,7 @@ func Test_MetricDimension_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMetricDimension_STATUS tests if a specific instance of MetricDimension_STATUS can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForMetricDimension_STATUS tests if a specific instance of MetricDimension_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMetricDimension_STATUS(subject MetricDimension_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2520,7 +2520,7 @@ func Test_DynamicThresholdFailingPeriods_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDynamicThresholdFailingPeriods tests if a specific instance of DynamicThresholdFailingPeriods can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForDynamicThresholdFailingPeriods tests if a specific instance of DynamicThresholdFailingPeriods can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDynamicThresholdFailingPeriods(subject DynamicThresholdFailingPeriods) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2624,7 +2624,7 @@ func Test_DynamicThresholdFailingPeriods_STATUS_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDynamicThresholdFailingPeriods_STATUS tests if a specific instance of DynamicThresholdFailingPeriods_STATUS can be assigned to v1api20180301storage and back losslessly
+// RunPropertyAssignmentTestForDynamicThresholdFailingPeriods_STATUS tests if a specific instance of DynamicThresholdFailingPeriods_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDynamicThresholdFailingPeriods_STATUS(subject DynamicThresholdFailingPeriods_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

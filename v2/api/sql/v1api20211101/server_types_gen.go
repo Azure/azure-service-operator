@@ -6,7 +6,7 @@ package v1api20211101
 import (
 	"context"
 	"fmt"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -56,7 +56,7 @@ var _ conversion.Convertible = &Server{}
 func (server *Server) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20211101s.Server)
 	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101storage/Server but received %T instead", hub)
+		return fmt.Errorf("expected sql/v1api20211101/storage/Server but received %T instead", hub)
 	}
 
 	return server.AssignProperties_From_Server(source)
@@ -66,7 +66,7 @@ func (server *Server) ConvertFrom(hub conversion.Hub) error {
 func (server *Server) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20211101s.Server)
 	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101storage/Server but received %T instead", hub)
+		return fmt.Errorf("expected sql/v1api20211101/storage/Server but received %T instead", hub)
 	}
 
 	return server.AssignProperties_To_Server(destination)

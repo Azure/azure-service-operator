@@ -18,10 +18,17 @@ type ARMOwned interface {
 	Owner() *ResourceReference
 }
 
+type SupportedResourceOperations interface {
+
+	// GetSupportedOperations gets the set of supported resource operations
+	GetSupportedOperations() []ResourceOperation
+}
+
 // KubernetesResource is an Azure resource. This interface contains the common set of
 // methods that apply to all ASO ARM resources.
 type KubernetesResource interface {
 	ARMOwned
+	SupportedResourceOperations
 
 	// TODO: I think we need this?
 	// KnownOwner() *KnownResourceReference
@@ -35,9 +42,6 @@ type KubernetesResource interface {
 
 	// GetResourceScope returns the ResourceScope of the resource.
 	GetResourceScope() ResourceScope
-
-	// GetSupportedOperations gets the set of supported resource operations
-	GetSupportedOperations() []ResourceOperation
 
 	// Some types, but not all, have a corresponding:
 	// 	SetAzureName(name string)

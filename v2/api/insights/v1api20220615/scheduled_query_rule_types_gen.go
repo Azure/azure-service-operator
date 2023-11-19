@@ -5,7 +5,7 @@ package v1api20220615
 
 import (
 	"fmt"
-	v20220615s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615storage"
+	v20220615s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &ScheduledQueryRule{}
 func (rule *ScheduledQueryRule) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220615s.ScheduledQueryRule)
 	if !ok {
-		return fmt.Errorf("expected insights/v1api20220615storage/ScheduledQueryRule but received %T instead", hub)
+		return fmt.Errorf("expected insights/v1api20220615/storage/ScheduledQueryRule but received %T instead", hub)
 	}
 
 	return rule.AssignProperties_From_ScheduledQueryRule(source)
@@ -61,7 +61,7 @@ func (rule *ScheduledQueryRule) ConvertFrom(hub conversion.Hub) error {
 func (rule *ScheduledQueryRule) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220615s.ScheduledQueryRule)
 	if !ok {
-		return fmt.Errorf("expected insights/v1api20220615storage/ScheduledQueryRule but received %T instead", hub)
+		return fmt.Errorf("expected insights/v1api20220615/storage/ScheduledQueryRule but received %T instead", hub)
 	}
 
 	return rule.AssignProperties_To_ScheduledQueryRule(destination)

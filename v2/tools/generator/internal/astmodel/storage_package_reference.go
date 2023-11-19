@@ -27,16 +27,10 @@ var _ DerivedPackageReference = StoragePackageReference{}
 // packages). We only do this to reduce the number of changes in a single PR. Once we've migrated all the packages
 // we can remove this.
 var legacyStorageGroups = set.Make(
-	"containerinstance",
-	"containerregistry",
-	"dbformysql",
-	"insights",
-	"machinelearningservices",
 	"managedidentity",
 	"operationalinsights",
 	"search",
 	"signalrservice",
-	"sql",
 	"storage",
 )
 

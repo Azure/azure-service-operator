@@ -5,7 +5,7 @@ package v1api20200202
 
 import (
 	"encoding/json"
-	v20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202storage"
+	v20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_Component_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForComponent tests if a specific instance of Component can be assigned to v1api20200202storage and back losslessly
+// RunPropertyAssignmentTestForComponent tests if a specific instance of Component can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForComponent(subject Component) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Component_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForComponent_Spec tests if a specific instance of Component_Spec can be assigned to v1api20200202storage and back losslessly
+// RunPropertyAssignmentTestForComponent_Spec tests if a specific instance of Component_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForComponent_Spec(subject Component_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -308,7 +308,7 @@ func Test_Component_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForComponent_STATUS tests if a specific instance of Component_STATUS can be assigned to v1api20200202storage and back losslessly
+// RunPropertyAssignmentTestForComponent_STATUS tests if a specific instance of Component_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForComponent_STATUS(subject Component_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -454,7 +454,7 @@ func Test_ComponentOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForComponentOperatorSpec tests if a specific instance of ComponentOperatorSpec can be assigned to v1api20200202storage and back losslessly
+// RunPropertyAssignmentTestForComponentOperatorSpec tests if a specific instance of ComponentOperatorSpec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForComponentOperatorSpec(subject ComponentOperatorSpec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -557,7 +557,7 @@ func Test_PrivateLinkScopedResource_STATUS_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateLinkScopedResource_STATUS tests if a specific instance of PrivateLinkScopedResource_STATUS can be assigned to v1api20200202storage and back losslessly
+// RunPropertyAssignmentTestForPrivateLinkScopedResource_STATUS tests if a specific instance of PrivateLinkScopedResource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateLinkScopedResource_STATUS(subject PrivateLinkScopedResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -661,7 +661,7 @@ func Test_ComponentOperatorConfigMaps_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForComponentOperatorConfigMaps tests if a specific instance of ComponentOperatorConfigMaps can be assigned to v1api20200202storage and back losslessly
+// RunPropertyAssignmentTestForComponentOperatorConfigMaps tests if a specific instance of ComponentOperatorConfigMaps can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForComponentOperatorConfigMaps(subject ComponentOperatorConfigMaps) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

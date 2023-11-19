@@ -5,7 +5,7 @@ package v1api20210901
 
 import (
 	"fmt"
-	v20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901storage"
+	v20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &Registry{}
 func (registry *Registry) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20210901s.Registry)
 	if !ok {
-		return fmt.Errorf("expected containerregistry/v1api20210901storage/Registry but received %T instead", hub)
+		return fmt.Errorf("expected containerregistry/v1api20210901/storage/Registry but received %T instead", hub)
 	}
 
 	return registry.AssignProperties_From_Registry(source)
@@ -61,7 +61,7 @@ func (registry *Registry) ConvertFrom(hub conversion.Hub) error {
 func (registry *Registry) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20210901s.Registry)
 	if !ok {
-		return fmt.Errorf("expected containerregistry/v1api20210901storage/Registry but received %T instead", hub)
+		return fmt.Errorf("expected containerregistry/v1api20210901/storage/Registry but received %T instead", hub)
 	}
 
 	return registry.AssignProperties_To_Registry(destination)

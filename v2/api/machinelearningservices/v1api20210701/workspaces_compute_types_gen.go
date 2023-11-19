@@ -5,7 +5,7 @@ package v1api20210701
 
 import (
 	"fmt"
-	v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
+	v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -52,7 +52,7 @@ var _ conversion.Convertible = &WorkspacesCompute{}
 func (compute *WorkspacesCompute) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20210701s.WorkspacesCompute)
 	if !ok {
-		return fmt.Errorf("expected machinelearningservices/v1api20210701storage/WorkspacesCompute but received %T instead", hub)
+		return fmt.Errorf("expected machinelearningservices/v1api20210701/storage/WorkspacesCompute but received %T instead", hub)
 	}
 
 	return compute.AssignProperties_From_WorkspacesCompute(source)
@@ -62,7 +62,7 @@ func (compute *WorkspacesCompute) ConvertFrom(hub conversion.Hub) error {
 func (compute *WorkspacesCompute) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20210701s.WorkspacesCompute)
 	if !ok {
-		return fmt.Errorf("expected machinelearningservices/v1api20210701storage/WorkspacesCompute but received %T instead", hub)
+		return fmt.Errorf("expected machinelearningservices/v1api20210701/storage/WorkspacesCompute but received %T instead", hub)
 	}
 
 	return compute.AssignProperties_To_WorkspacesCompute(destination)

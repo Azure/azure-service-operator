@@ -5,7 +5,7 @@ package v1api20230101
 
 import (
 	"fmt"
-	v20230101s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101storage"
+	v20230101s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &ActionGroup{}
 func (group *ActionGroup) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20230101s.ActionGroup)
 	if !ok {
-		return fmt.Errorf("expected insights/v1api20230101storage/ActionGroup but received %T instead", hub)
+		return fmt.Errorf("expected insights/v1api20230101/storage/ActionGroup but received %T instead", hub)
 	}
 
 	return group.AssignProperties_From_ActionGroup(source)
@@ -61,7 +61,7 @@ func (group *ActionGroup) ConvertFrom(hub conversion.Hub) error {
 func (group *ActionGroup) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20230101s.ActionGroup)
 	if !ok {
-		return fmt.Errorf("expected insights/v1api20230101storage/ActionGroup but received %T instead", hub)
+		return fmt.Errorf("expected insights/v1api20230101/storage/ActionGroup but received %T instead", hub)
 	}
 
 	return group.AssignProperties_To_ActionGroup(destination)

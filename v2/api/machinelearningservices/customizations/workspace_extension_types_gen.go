@@ -5,7 +5,7 @@ package customizations
 
 import (
 	v20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701"
-	v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
+	v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 

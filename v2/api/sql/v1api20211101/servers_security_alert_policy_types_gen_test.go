@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_ServersSecurityAlertPolicy_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServersSecurityAlertPolicy tests if a specific instance of ServersSecurityAlertPolicy can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServersSecurityAlertPolicy tests if a specific instance of ServersSecurityAlertPolicy can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServersSecurityAlertPolicy(subject ServersSecurityAlertPolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Servers_SecurityAlertPolicy_Spec_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_SecurityAlertPolicy_Spec tests if a specific instance of Servers_SecurityAlertPolicy_Spec can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_SecurityAlertPolicy_Spec tests if a specific instance of Servers_SecurityAlertPolicy_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_SecurityAlertPolicy_Spec(subject Servers_SecurityAlertPolicy_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -284,7 +284,7 @@ func Test_Servers_SecurityAlertPolicy_STATUS_WhenPropertiesConverted_RoundTripsW
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_SecurityAlertPolicy_STATUS tests if a specific instance of Servers_SecurityAlertPolicy_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_SecurityAlertPolicy_STATUS tests if a specific instance of Servers_SecurityAlertPolicy_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_SecurityAlertPolicy_STATUS(subject Servers_SecurityAlertPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

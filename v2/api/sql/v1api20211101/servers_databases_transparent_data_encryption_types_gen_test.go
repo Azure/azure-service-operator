@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_ServersDatabasesTransparentDataEncryption_WhenPropertiesConverted_Roun
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption tests if a specific instance of ServersDatabasesTransparentDataEncryption can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption tests if a specific instance of ServersDatabasesTransparentDataEncryption can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption(subject ServersDatabasesTransparentDataEncryption) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Servers_Databases_TransparentDataEncryption_Spec_WhenPropertiesConvert
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_Databases_TransparentDataEncryption_Spec tests if a specific instance of Servers_Databases_TransparentDataEncryption_Spec can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_Databases_TransparentDataEncryption_Spec tests if a specific instance of Servers_Databases_TransparentDataEncryption_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_Databases_TransparentDataEncryption_Spec(subject Servers_Databases_TransparentDataEncryption_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -279,7 +279,7 @@ func Test_Servers_Databases_TransparentDataEncryption_STATUS_WhenPropertiesConve
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_Databases_TransparentDataEncryption_STATUS tests if a specific instance of Servers_Databases_TransparentDataEncryption_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_Databases_TransparentDataEncryption_STATUS tests if a specific instance of Servers_Databases_TransparentDataEncryption_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_Databases_TransparentDataEncryption_STATUS(subject Servers_Databases_TransparentDataEncryption_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
