@@ -149,6 +149,7 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 			return "", err
 		}
 
+		// Safe to do it this way, Claimer makes sure the owner exists and is Ready and will always have an armId annotation before we reach here.
 		armID, err := genruntime.GetAndParseResourceID(root)
 		if err != nil {
 			return "", err
