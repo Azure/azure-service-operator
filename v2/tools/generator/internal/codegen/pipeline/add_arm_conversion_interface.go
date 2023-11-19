@@ -233,14 +233,9 @@ func (c *armConversionApplier) addARMConversionInterface(
 
 	// Determine if we need special handling for collection properties. Some RPs we need to send empty collections rather
 	// than nil collections, we need to determine if this def is subject to this requirement
-	configuredPayloadType, err := c.config.PayloadType.Lookup(kubeDef.Name().InternalPackageReference())
-	if err != nil {
-		return emptyDef, errors.Wrapf(err, "looking up payload type for %q", kubeDef.Name())
-	}
-
 	payloadType := config.OmitEmptyProperties
-	if configuredPayloadType.Found {
-		payloadType = configuredPayloadType.Result
+	if pt, ok := c.config.PayloadType.Lookup(kubeDef.Name().InternalPackageReference()); ok {
+		payloadType = pt
 	}
 
 	addInterfaceHandler := func(t *astmodel.ObjectType) (astmodel.Type, error) {

@@ -545,18 +545,13 @@ func (c *armTypeCreator) createSpecConversionContext(
 }
 
 func (c *armTypeCreator) createConversionContext(name astmodel.InternalTypeName) (*armPropertyTypeConversionContext, error) {
-	payloadType, err := c.configuration.PayloadType.Lookup(name.InternalPackageReference())
-	if err != nil {
-		return nil, errors.Wrapf(err, "looking up payload type for %q", name)
-	}
-
 	result := &armPropertyTypeConversionContext{
 		// Default to 'omitempty' if not configured
 		payloadType: config.OmitEmptyProperties,
 	}
 
-	if payloadType.Found {
-		result.payloadType = payloadType.Result
+	if pt, ok := c.configuration.PayloadType.Lookup(name.InternalPackageReference()); ok {
+		result.payloadType = pt
 	}
 
 	return result, nil
