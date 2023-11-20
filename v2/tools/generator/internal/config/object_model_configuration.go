@@ -53,11 +53,6 @@ type ObjectModelConfiguration struct {
 	ResourceLifecycleOwnedByParent propertyAccess[string]
 }
 
-type groupAccess[T any] struct {
-	model    *ObjectModelConfiguration
-	accessor func(*GroupConfiguration) *configurable[T]
-}
-
 type typeAccess[T any] struct {
 	model    *ObjectModelConfiguration
 	accessor func(*TypeConfiguration) *configurable[T]
@@ -406,66 +401,6 @@ func (omc *ObjectModelConfiguration) ModifyProperty(
 
 			return action(prop)
 		})
-}
-
-/*
- * groupAccess
- */
-
-func makeGroupAccess[T any](
-	model *ObjectModelConfiguration,
-	accessor func(*GroupConfiguration,
-	) *configurable[T]) groupAccess[T] {
-	return groupAccess[T]{
-		model:    model,
-		accessor: accessor}
-}
-
-func (a *groupAccess[T]) Lookup(
-	ref astmodel.InternalPackageReference,
-) (T, bool) {
-	var c *configurable[T]
-	visitor := newSingleGroupConfigurationVisitor(
-		ref,
-		func(configuration *GroupConfiguration) error {
-			c = a.accessor(configuration)
-			return nil
-		})
-
-	err := visitor.visit(a.model)
-	if err != nil {
-		// Something went wrong; we discard the error knowing that a
-		// later call to VerifyConsumed() will reveal it to the user
-		var zero T
-		return zero, false
-	}
-
-	if c == nil {
-		var zero T
-		return zero, false
-	}
-
-	return c.Lookup()
-}
-
-func (a *groupAccess[T]) VerifyConsumed() error {
-	visitor := newEveryGroupConfigurationVisitor(
-		func(configuration *GroupConfiguration) error {
-			c := a.accessor(configuration)
-			return c.VerifyConsumed()
-		})
-	return visitor.visit(a.model)
-}
-
-func (a *groupAccess[T]) MarkUnconsumed() error {
-	visitor := newEveryGroupConfigurationVisitor(
-		func(configuration *GroupConfiguration) error {
-			c := a.accessor(configuration)
-			c.MarkUnconsumed()
-			return nil
-		})
-
-	return visitor.visit(a.model)
 }
 
 /*
