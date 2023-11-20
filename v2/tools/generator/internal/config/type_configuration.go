@@ -38,6 +38,7 @@ type TypeConfiguration struct {
 	IsResource               configurable[bool]
 	ManualConfigs            configurable[[]string]
 	NameInNextVersion        configurable[string]
+	PayloadType              configurable[PayloadType]
 	RenameTo                 configurable[string]
 	ResourceEmbeddedInParent configurable[string]
 	SupportedFrom            configurable[string]
