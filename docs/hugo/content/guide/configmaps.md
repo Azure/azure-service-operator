@@ -40,7 +40,7 @@ This reads the `principalId` value from a `ConfigMap`. Alternatively it could ha
 `spec.principalId` field instead of using `spec.principalIdFromConfig`.
 
 Note that not every field for every resource supports importing data from `ConfigMap`. To check if a resource supports it,
-consult its [documentation](../../reference/authorization/v1beta20200801preview/#authorization.azure.com/v1beta20200801preview.RoleAssignment).
+consult its [documentation](../../reference/authorization/v1api20200801preview/#authorization.azure.com/v1api20200801preview.RoleAssignment).
 
 ## How to export ConfigMap data from ASO
 
