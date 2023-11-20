@@ -40,6 +40,22 @@ func (a typeAccess[T]) withPropertyOverride(
 func (a *typeAccess[T]) Lookup(
 	name astmodel.InternalTypeName,
 ) (T, bool) {
+	result, ok := a.lookupCore(name)
+	if ok {
+		return result, true
+	}
+
+	if a.fallback != nil {
+		return a.fallback.Lookup(name.InternalPackageReference())
+	}
+
+	return result, false
+}
+
+// lookupCore is the core implementation of lookup
+func (a *typeAccess[T]) lookupCore(
+	name astmodel.InternalTypeName,
+) (T, bool) {
 	var c *configurable[T]
 	visitor := newSingleTypeConfigurationVisitor(
 		name,
