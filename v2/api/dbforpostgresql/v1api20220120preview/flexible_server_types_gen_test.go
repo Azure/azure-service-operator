@@ -5,8 +5,8 @@ package v1api20220120preview
 
 import (
 	"encoding/json"
-	v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
-	v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120previewstorage"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
+	v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_FlexibleServer_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlexibleServer tests if a specific instance of FlexibleServer can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForFlexibleServer tests if a specific instance of FlexibleServer can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServer(subject FlexibleServer) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_FlexibleServer_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlexibleServer_Spec tests if a specific instance of FlexibleServer_Spec can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForFlexibleServer_Spec tests if a specific instance of FlexibleServer_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServer_Spec(subject FlexibleServer_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -314,7 +314,7 @@ func Test_FlexibleServer_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlexibleServer_STATUS tests if a specific instance of FlexibleServer_STATUS can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForFlexibleServer_STATUS tests if a specific instance of FlexibleServer_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServer_STATUS(subject FlexibleServer_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -465,7 +465,7 @@ func Test_Backup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackup tests if a specific instance of Backup can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForBackup tests if a specific instance of Backup can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackup(subject Backup) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -568,7 +568,7 @@ func Test_Backup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackup_STATUS tests if a specific instance of Backup_STATUS can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForBackup_STATUS tests if a specific instance of Backup_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackup_STATUS(subject Backup_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -672,7 +672,7 @@ func Test_FlexibleServerOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlexibleServerOperatorSpec tests if a specific instance of FlexibleServerOperatorSpec can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForFlexibleServerOperatorSpec tests if a specific instance of FlexibleServerOperatorSpec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServerOperatorSpec(subject FlexibleServerOperatorSpec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -775,7 +775,7 @@ func Test_HighAvailability_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForHighAvailability tests if a specific instance of HighAvailability can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForHighAvailability tests if a specific instance of HighAvailability can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForHighAvailability(subject HighAvailability) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -878,7 +878,7 @@ func Test_HighAvailability_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForHighAvailability_STATUS tests if a specific instance of HighAvailability_STATUS can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForHighAvailability_STATUS tests if a specific instance of HighAvailability_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForHighAvailability_STATUS(subject HighAvailability_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -989,7 +989,7 @@ func Test_MaintenanceWindow_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMaintenanceWindow tests if a specific instance of MaintenanceWindow can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForMaintenanceWindow tests if a specific instance of MaintenanceWindow can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMaintenanceWindow(subject MaintenanceWindow) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1094,7 +1094,7 @@ func Test_MaintenanceWindow_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMaintenanceWindow_STATUS tests if a specific instance of MaintenanceWindow_STATUS can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForMaintenanceWindow_STATUS tests if a specific instance of MaintenanceWindow_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMaintenanceWindow_STATUS(subject MaintenanceWindow_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1200,7 +1200,7 @@ func Test_Network_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetwork tests if a specific instance of Network can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForNetwork tests if a specific instance of Network can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetwork(subject Network) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1296,7 +1296,7 @@ func Test_Network_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetwork_STATUS tests if a specific instance of Network_STATUS can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForNetwork_STATUS tests if a specific instance of Network_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetwork_STATUS(subject Network_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1400,7 +1400,7 @@ func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSku tests if a specific instance of Sku can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForSku tests if a specific instance of Sku can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSku(subject Sku) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1503,7 +1503,7 @@ func Test_Sku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSku_STATUS tests if a specific instance of Sku_STATUS can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForSku_STATUS tests if a specific instance of Sku_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1606,7 +1606,7 @@ func Test_Storage_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorage tests if a specific instance of Storage can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForStorage tests if a specific instance of Storage can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorage(subject Storage) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1708,7 +1708,7 @@ func Test_Storage_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorage_STATUS tests if a specific instance of Storage_STATUS can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForStorage_STATUS tests if a specific instance of Storage_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorage_STATUS(subject Storage_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1810,7 +1810,7 @@ func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1925,7 +1925,7 @@ func Test_FlexibleServerOperatorConfigMaps_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlexibleServerOperatorConfigMaps tests if a specific instance of FlexibleServerOperatorConfigMaps can be assigned to v1api20220120previewstorage and back losslessly
+// RunPropertyAssignmentTestForFlexibleServerOperatorConfigMaps tests if a specific instance of FlexibleServerOperatorConfigMaps can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServerOperatorConfigMaps(subject FlexibleServerOperatorConfigMaps) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

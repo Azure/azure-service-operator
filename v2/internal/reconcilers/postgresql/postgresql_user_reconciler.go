@@ -16,7 +16,7 @@ import (
 	ctrlconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	asopostgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
-	dbforpostgressql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
+	dbforpostgressql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
