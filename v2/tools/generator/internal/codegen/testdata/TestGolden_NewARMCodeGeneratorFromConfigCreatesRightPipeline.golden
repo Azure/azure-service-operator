@@ -43,6 +43,7 @@ applyArmConversionInterface                       azure      Add ARM conversion 
 applyKubernetesResourceInterface                  azure      Add the KubernetesResource interface to every resource
 flattenProperties                                            Apply flattening to properties marked for flattening
 stripUnreferenced                                            Strip unreferenced types
+renameProperties                                             Rename properties
 addStatusConditions                               azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
 addOperatorSpec                                   azure      Adds the property 'OperatorSpec' to all Spec types that require it
 addKubernetesExporter                             azure      Adds the KubernetesExporter interface to resources that need it

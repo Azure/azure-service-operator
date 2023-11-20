@@ -109,14 +109,23 @@ func (tv *TypeVisitor[C]) VisitInternalTypeName(name InternalTypeName, ctx C) (I
 // VisitDefinition invokes the TypeVisitor on both the name and type of the definition
 // NB: this is only valid if visitTypeName returns a TypeName and not generally a Type
 func (tv *TypeVisitor[C]) VisitDefinition(td TypeDefinition, ctx C) (TypeDefinition, error) {
-	visitedName, err := tv.VisitInternalTypeName(td.Name(), ctx)
+	name := td.Name()
+	visitedName, err := tv.VisitInternalTypeName(name, ctx)
 	if err != nil {
-		return TypeDefinition{}, errors.Wrapf(err, "visit of %q failed", td.Name())
+		return TypeDefinition{}, errors.Wrapf(
+			err,
+			"visit of %s/%s failed",
+			name.InternalPackageReference().FolderPath(),
+			name.Name())
 	}
 
 	visitedType, err := tv.Visit(td.Type(), ctx)
 	if err != nil {
-		return TypeDefinition{}, errors.Wrapf(err, "visit of type of %q failed", td.Name())
+		return TypeDefinition{}, errors.Wrapf(
+			err,
+			"visit of type of %s/%s failed",
+			name.InternalPackageReference().FolderPath(),
+			name.Name())
 	}
 
 	def := td.WithName(visitedName).WithType(visitedType)

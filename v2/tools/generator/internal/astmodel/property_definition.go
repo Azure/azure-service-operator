@@ -46,6 +46,9 @@ type PropertyDefinition struct {
 	// x,y,z,propName
 	flattenedFrom []PropertyName
 
+	// originalName is the original name of this property, prior to any renames
+	originalName PropertyName
+
 	isSecret bool
 	readOnly bool
 
@@ -81,6 +84,7 @@ func NewPropertyDefinition(propertyName PropertyName, jsonName string, propertyT
 		propertyType:  propertyType,
 		description:   "",
 		flattenedFrom: []PropertyName{propertyName},
+		originalName:  propertyName,
 		tags: readonly.CreateMap(map[string][]string{
 			"json": {jsonName, "omitempty"},
 		}),
@@ -328,6 +332,12 @@ func (property *PropertyDefinition) MakeTypeOptional() *PropertyDefinition {
 	result.propertyType = makePropertyTypeOptional(property.PropertyType())
 
 	return result
+}
+
+// Renamed allows checking to see if the property has been renamed.
+// Returns the original name, and true if a rename has occurred; otherwise returns an undefined value and false.
+func (property *PropertyDefinition) Renamed() (PropertyName, bool) {
+	return property.originalName, property.propertyName != property.originalName
 }
 
 func makePropertyTypeRequired(t Type) Type {

@@ -193,6 +193,7 @@ func createAllPipelineStages(
 		// Remove types which may not be needed after flattening
 		pipeline.StripUnreferencedTypeDefinitions(),
 
+		pipeline.RenameProperties(configuration.ObjectModelConfiguration),
 		pipeline.AddStatusConditions(idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.AddOperatorSpec(configuration, idFactory).UsedFor(pipeline.ARMTarget),
@@ -294,7 +295,8 @@ func (generator *CodeGenerator) Generate(
 			stageDescription,
 			"elapsed", duration,
 			"added", len(defsAdded),
-			"removed", len(defsRemoved))
+			"removed", len(defsRemoved),
+			"totalDefs", len(newState.Definitions()))
 
 		state = newState
 	}

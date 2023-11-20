@@ -10,14 +10,14 @@ import "github.com/pkg/errors"
 // PropertyInjector is a utility for injecting property definitions into resources and objects
 type PropertyInjector struct {
 	// visitor is used to do the actual injection
-	visitor TypeVisitor[any]
+	visitor TypeVisitor[*PropertyDefinition]
 }
 
 // NewPropertyInjector creates a new property injector for modifying resources and objects
 func NewPropertyInjector() *PropertyInjector {
 	result := &PropertyInjector{}
 
-	result.visitor = TypeVisitorBuilder[any]{
+	result.visitor = TypeVisitorBuilder[*PropertyDefinition]{
 		VisitObjectType: result.injectPropertyIntoObject,
 	}.Build()
 
@@ -36,8 +36,7 @@ func (pi *PropertyInjector) Inject(def TypeDefinition, prop *PropertyDefinition)
 
 // injectPropertyIntoObject takes the property provided as a context and includes it on the provided object type
 func (pi *PropertyInjector) injectPropertyIntoObject(
-	_ *TypeVisitor[any], ot *ObjectType, ctx any) (Type, error) {
-	prop := ctx.(*PropertyDefinition)
+	_ *TypeVisitor[*PropertyDefinition], ot *ObjectType, prop *PropertyDefinition) (Type, error) {
 	// Ensure that we don't already have a property with the same name
 	if _, ok := ot.Property(prop.PropertyName()); ok {
 		return nil, errors.Errorf("already has property named %q", prop.PropertyName())
