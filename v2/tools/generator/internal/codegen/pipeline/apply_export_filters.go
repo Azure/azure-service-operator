@@ -8,12 +8,10 @@ package pipeline
 import (
 	"context"
 
-	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
+	"github.com/go-logr/logr"
+	"github.com/pkg/errors"
 )
 
 const ApplyExportFiltersStageID = "filterTypes"
@@ -41,16 +39,10 @@ func filterTypes(
 	log logr.Logger,
 ) (*State, error) {
 	resourcesToExport := make(astmodel.TypeDefinitionSet)
-	var errs []error
 	for _, def := range astmodel.FindResourceDefinitions(state.Definitions()) {
 		defName := def.Name()
 
-		export, err := shouldExport(defName, configuration)
-		if err != nil {
-			errs = append(errs, err)
-			continue
-		}
-
+		export := shouldExport(defName, configuration)
 		if !export {
 			log.V(1).Info("Skipping resource", "resource", defName)
 			continue
@@ -58,10 +50,6 @@ func filterTypes(
 
 		log.V(1).Info("Exporting resource", "resource", defName)
 		resourcesToExport.Add(def)
-	}
-
-	if err := kerrors.NewAggregate(errs); err != nil {
-		return nil, err
 	}
 
 	typesToExport, err := astmodel.FindConnectedDefinitions(state.Definitions(), resourcesToExport)
@@ -109,17 +97,17 @@ func filterTypes(
 }
 
 // shouldExport works out whether the specified Resource should be exported or not
-func shouldExport(defName astmodel.InternalTypeName, configuration *config.Configuration) (bool, error) {
+func shouldExport(defName astmodel.InternalTypeName, configuration *config.Configuration) bool {
 	if export, ok := configuration.ObjectModelConfiguration.Export.Lookup(defName); ok {
 		// $export is configured, return that value
-		return export, nil
+		return export
 	}
 
 	if _, ok := configuration.ObjectModelConfiguration.ExportAs.Lookup(defName); ok {
 		// $exportAs is configured, we DO want to export
-		return true, nil
+		return true
 	}
 
 	// Default is to not export
-	return false, nil
+	return false
 }
