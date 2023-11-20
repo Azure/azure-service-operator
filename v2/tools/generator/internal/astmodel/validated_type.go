@@ -177,9 +177,12 @@ func (v *ValidatedType) WithType(newElement Type) *ValidatedType {
 	return &result
 }
 
-func (v *ValidatedType) AsDeclarations(c *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
+func (v *ValidatedType) AsDeclarations(
+	codeGenerationContext *CodeGenerationContext,
+	declContext DeclarationContext,
+) ([]dst.Decl, error) {
 	declContext.Validations = append(declContext.Validations, v.validations.ToKubeBuilderValidations()...)
-	return v.ElementType().AsDeclarations(c, declContext)
+	return v.ElementType().AsDeclarations(codeGenerationContext, declContext)
 }
 
 // AsType panics because validated types should always be named

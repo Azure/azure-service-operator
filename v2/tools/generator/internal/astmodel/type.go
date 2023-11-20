@@ -27,7 +27,7 @@ type Type interface {
 	AsType(codeGenerationContext *CodeGenerationContext) dst.Expr
 
 	// AsDeclarations renders as a Go abstract syntax tree for a declaration
-	AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl
+	AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error)
 
 	// AsZero renders an expression for the "zero" value of the type
 	// definitions allows TypeName to resolve to the underlying type

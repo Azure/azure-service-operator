@@ -45,8 +45,8 @@ func (array *ArrayType) WithElement(t Type) *ArrayType {
 // assert we implemented Type correctly
 var _ Type = (*ArrayType)(nil)
 
-func (array *ArrayType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
-	return AsSimpleDeclarations(codeGenerationContext, declContext, array)
+func (array *ArrayType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error) {
+	return AsSimpleDeclarations(codeGenerationContext, declContext, array), nil
 }
 
 // AsType renders the Go abstract syntax tree for an array type

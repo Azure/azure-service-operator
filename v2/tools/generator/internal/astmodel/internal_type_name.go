@@ -58,8 +58,8 @@ func (tn InternalTypeName) WithPackageReference(ref InternalPackageReference) In
 // it is simply a reference to the name.
 var _ Type = InternalTypeName{}
 
-func (tn InternalTypeName) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
-	return AsSimpleDeclarations(codeGenerationContext, declContext, tn)
+func (tn InternalTypeName) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error) {
+	return AsSimpleDeclarations(codeGenerationContext, declContext, tn), nil
 }
 
 // AsType implements Type for TypeName
