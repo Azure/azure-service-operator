@@ -53,11 +53,6 @@ type ObjectModelConfiguration struct {
 	ResourceLifecycleOwnedByParent propertyAccess[string]
 }
 
-type LookupResult[T any] struct {
-	Result T
-	Found  bool
-}
-
 // NewObjectModelConfiguration returns a new (empty) ObjectModelConfiguration
 func NewObjectModelConfiguration() *ObjectModelConfiguration {
 	result := &ObjectModelConfiguration{
