@@ -163,7 +163,7 @@ func (oneOf *OneOfType) AsDeclarations(
 	codeGenerationContext *CodeGenerationContext,
 	declContext DeclarationContext,
 ) ([]dst.Decl, error) {
-	return nil, errors.New(oneOFailureMsg)
+	panic(errors.New(oneOFailureMsg))
 }
 
 // AsZero always panics; OneOf cannot be represented by the Go AST and must be

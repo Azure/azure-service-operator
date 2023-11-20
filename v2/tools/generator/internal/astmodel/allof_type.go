@@ -119,7 +119,7 @@ func (allOf *AllOfType) AsDeclarations(
 	codeGenerationContext *CodeGenerationContext,
 	declContext DeclarationContext,
 ) ([]dst.Decl, error) {
-	return nil, errors.New(allOfFailureMsg)
+	panic(errors.New(allOfFailureMsg))
 }
 
 // AsZero always panics; AllOf cannot be represented by the Go AST and must be

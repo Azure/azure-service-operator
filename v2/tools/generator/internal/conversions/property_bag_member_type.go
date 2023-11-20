@@ -70,7 +70,7 @@ func (b *PropertyBagMemberType) AsDeclarations(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	declContext astmodel.DeclarationContext,
 ) ([]dst.Decl, error) {
-	return nil, errors.New("should never try to render a PropertyBagMemberType into declarations")
+	panic(errors.New("should never try to render a PropertyBagMemberType into declarations"))
 }
 
 // AsZero renders an expression for the "zero" value of the type
