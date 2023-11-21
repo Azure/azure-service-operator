@@ -62,6 +62,7 @@ func TestOneOfAsDeclarationsPanics(t *testing.T) {
 
 	x := OneOfType{}
 	g.Expect(func() {
+		//nolint:errcheck // error will never be returned due to panic
 		x.AsDeclarations(&CodeGenerationContext{}, DeclarationContext{})
 	}).To(PanicWith(MatchError(expectedOneOfPanic)))
 }

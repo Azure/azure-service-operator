@@ -40,6 +40,10 @@ func findEmptyObjectTypes(
 ) astmodel.TypeNameSet {
 	result := astmodel.NewTypeNameSet()
 
+	// Get all top level spec and status types
+	specs := astmodel.FindSpecDefinitions(definitions)
+	statuses := astmodel.FindStatusDefinitions(definitions)
+
 	for _, def := range definitions {
 		ot, ok := astmodel.AsObjectType(def.Type())
 		if !ok {
@@ -52,6 +56,11 @@ func findEmptyObjectTypes(
 		}
 
 		if astmodel.DoNotPrune.IsOn(def.Type()) {
+			continue
+		}
+
+		// Don't prune top level status or spec types, they are allowed to be empty
+		if specs.Contains(def.Name()) || statuses.Contains(def.Name()) {
 			continue
 		}
 

@@ -5,7 +5,7 @@ package v1api20211001
 
 import (
 	"fmt"
-	v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001storage"
+	v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -52,7 +52,7 @@ var _ conversion.Convertible = &ContainerGroup{}
 func (group *ContainerGroup) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20211001s.ContainerGroup)
 	if !ok {
-		return fmt.Errorf("expected containerinstance/v1api20211001storage/ContainerGroup but received %T instead", hub)
+		return fmt.Errorf("expected containerinstance/v1api20211001/storage/ContainerGroup but received %T instead", hub)
 	}
 
 	return group.AssignProperties_From_ContainerGroup(source)
@@ -62,7 +62,7 @@ func (group *ContainerGroup) ConvertFrom(hub conversion.Hub) error {
 func (group *ContainerGroup) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20211001s.ContainerGroup)
 	if !ok {
-		return fmt.Errorf("expected containerinstance/v1api20211001storage/ContainerGroup but received %T instead", hub)
+		return fmt.Errorf("expected containerinstance/v1api20211001/storage/ContainerGroup but received %T instead", hub)
 	}
 
 	return group.AssignProperties_To_ContainerGroup(destination)

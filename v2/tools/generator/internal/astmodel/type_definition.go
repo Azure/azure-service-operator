@@ -73,17 +73,11 @@ func (def TypeDefinition) WithName(typeName InternalTypeName) TypeDefinition {
 	return result
 }
 
-func (def TypeDefinition) AsDeclarations(codeGenerationContext *CodeGenerationContext) []dst.Decl {
+func (def TypeDefinition) AsDeclarations(codeGenerationContext *CodeGenerationContext) ([]dst.Decl, error) {
 	declContext := DeclarationContext{
 		Name:        def.name,
 		Description: def.description,
 	}
-
-	defer func() {
-		if p := recover(); p != nil {
-			panic(fmt.Sprintf("generating %s: %s", def.name, p))
-		}
-	}()
 
 	return def.theType.AsDeclarations(codeGenerationContext, declContext)
 }

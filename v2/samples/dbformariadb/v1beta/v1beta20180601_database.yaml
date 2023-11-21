@@ -1,8 +1,0 @@
-apiVersion: dbformariadb.azure.com/v1beta20180601
-kind: Database
-metadata:
-  name: adventureworks
-  namespace: default
-spec:
-  owner:
-    name: myserver

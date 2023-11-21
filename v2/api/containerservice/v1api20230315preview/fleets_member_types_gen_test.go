@@ -5,7 +5,7 @@ package v1api20230315preview
 
 import (
 	"encoding/json"
-	v20230315ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315previewstorage"
+	v20230315ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_FleetsMember_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFleetsMember tests if a specific instance of FleetsMember can be assigned to v1api20230315previewstorage and back losslessly
+// RunPropertyAssignmentTestForFleetsMember tests if a specific instance of FleetsMember can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFleetsMember(subject FleetsMember) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Fleets_Member_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFleets_Member_Spec tests if a specific instance of Fleets_Member_Spec can be assigned to v1api20230315previewstorage and back losslessly
+// RunPropertyAssignmentTestForFleets_Member_Spec tests if a specific instance of Fleets_Member_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFleets_Member_Spec(subject Fleets_Member_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -278,7 +278,7 @@ func Test_Fleets_Member_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFleets_Member_STATUS tests if a specific instance of Fleets_Member_STATUS can be assigned to v1api20230315previewstorage and back losslessly
+// RunPropertyAssignmentTestForFleets_Member_STATUS tests if a specific instance of Fleets_Member_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFleets_Member_STATUS(subject Fleets_Member_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

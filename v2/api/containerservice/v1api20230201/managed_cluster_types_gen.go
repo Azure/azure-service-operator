@@ -6,7 +6,7 @@ package v1api20230201
 import (
 	"context"
 	"fmt"
-	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201storage"
+	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -56,7 +56,7 @@ var _ conversion.Convertible = &ManagedCluster{}
 func (cluster *ManagedCluster) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20230201s.ManagedCluster)
 	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20230201storage/ManagedCluster but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v1api20230201/storage/ManagedCluster but received %T instead", hub)
 	}
 
 	return cluster.AssignProperties_From_ManagedCluster(source)
@@ -66,7 +66,7 @@ func (cluster *ManagedCluster) ConvertFrom(hub conversion.Hub) error {
 func (cluster *ManagedCluster) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20230201s.ManagedCluster)
 	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20230201storage/ManagedCluster but received %T instead", hub)
+		return fmt.Errorf("expected containerservice/v1api20230201/storage/ManagedCluster but received %T instead", hub)
 	}
 
 	return cluster.AssignProperties_To_ManagedCluster(destination)

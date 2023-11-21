@@ -1,8 +1,0 @@
-apiVersion: servicebus.azure.com/v1beta20210101preview
-kind: NamespacesTopicsSubscription
-metadata:
-  name: sampletopicsubscription
-  namespace: default
-spec:
-  owner:
-    name: sampletopic

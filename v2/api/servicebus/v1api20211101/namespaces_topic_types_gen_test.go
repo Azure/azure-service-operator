@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_NamespacesTopic_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespacesTopic tests if a specific instance of NamespacesTopic can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForNamespacesTopic tests if a specific instance of NamespacesTopic can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesTopic(subject NamespacesTopic) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Namespaces_Topic_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespaces_Topic_Spec tests if a specific instance of Namespaces_Topic_Spec can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForNamespaces_Topic_Spec tests if a specific instance of Namespaces_Topic_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespaces_Topic_Spec(subject Namespaces_Topic_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -288,7 +288,7 @@ func Test_Namespaces_Topic_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespaces_Topic_STATUS tests if a specific instance of Namespaces_Topic_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForNamespaces_Topic_STATUS tests if a specific instance of Namespaces_Topic_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNamespaces_Topic_STATUS(subject Namespaces_Topic_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

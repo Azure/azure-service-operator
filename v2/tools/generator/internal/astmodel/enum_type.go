@@ -65,7 +65,7 @@ func (enum *EnumType) WithValidation() *EnumType {
 }
 
 // AsDeclarations converts the EnumType to a series of Go AST Decls
-func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
+func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error) {
 	result := []dst.Decl{enum.createBaseDeclaration(codeGenerationContext, declContext.Name, declContext.Description, declContext.Validations)}
 
 	specs := make([]dst.Spec, 0, len(enum.options))
@@ -83,7 +83,7 @@ func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContex
 		result = append(result, declaration)
 	}
 
-	return result
+	return result, nil
 }
 
 func (enum *EnumType) createBaseDeclaration(

@@ -6,7 +6,7 @@ package v1api20200202
 import (
 	"context"
 	"fmt"
-	v20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202storage"
+	v20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -56,7 +56,7 @@ var _ conversion.Convertible = &Component{}
 func (component *Component) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20200202s.Component)
 	if !ok {
-		return fmt.Errorf("expected insights/v1api20200202storage/Component but received %T instead", hub)
+		return fmt.Errorf("expected insights/v1api20200202/storage/Component but received %T instead", hub)
 	}
 
 	return component.AssignProperties_From_Component(source)
@@ -66,7 +66,7 @@ func (component *Component) ConvertFrom(hub conversion.Hub) error {
 func (component *Component) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20200202s.Component)
 	if !ok {
-		return fmt.Errorf("expected insights/v1api20200202storage/Component but received %T instead", hub)
+		return fmt.Errorf("expected insights/v1api20200202/storage/Component but received %T instead", hub)
 	}
 
 	return component.AssignProperties_To_Component(destination)

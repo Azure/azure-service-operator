@@ -5,8 +5,8 @@ package v1api20201201
 
 import (
 	"encoding/json"
-	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
-	v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401storage"
+	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/storage"
+	v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_RedisLinkedServer_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRedisLinkedServer tests if a specific instance of RedisLinkedServer can be assigned to v1api20201201storage and back losslessly
+// RunPropertyAssignmentTestForRedisLinkedServer tests if a specific instance of RedisLinkedServer can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRedisLinkedServer(subject RedisLinkedServer) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Redis_LinkedServer_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRedis_LinkedServer_Spec tests if a specific instance of Redis_LinkedServer_Spec can be assigned to v1api20201201storage and back losslessly
+// RunPropertyAssignmentTestForRedis_LinkedServer_Spec tests if a specific instance of Redis_LinkedServer_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRedis_LinkedServer_Spec(subject Redis_LinkedServer_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -281,7 +281,7 @@ func Test_Redis_LinkedServer_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRedis_LinkedServer_STATUS tests if a specific instance of Redis_LinkedServer_STATUS can be assigned to v1api20201201storage and back losslessly
+// RunPropertyAssignmentTestForRedis_LinkedServer_STATUS tests if a specific instance of Redis_LinkedServer_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRedis_LinkedServer_STATUS(subject Redis_LinkedServer_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

@@ -149,29 +149,32 @@ func (oneOf *OneOfType) References() TypeNameSet {
 	return result
 }
 
-var oneOfPanicMsg = "OneOfType should have been replaced by generation time by 'convertAllOfAndOneOf' phase"
+var oneOFailureMsg = "OneOfType should have been replaced by generation time by 'convertAllOfAndOneOf' phase"
 
 // AsType always panics; OneOf cannot be represented by the Go AST and must be
 // lowered to an object type
 func (oneOf *OneOfType) AsType(_ *CodeGenerationContext) dst.Expr {
-	panic(errors.New(oneOfPanicMsg))
+	panic(errors.New(oneOFailureMsg))
 }
 
 // AsDeclarations always panics; OneOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (oneOf *OneOfType) AsDeclarations(_ *CodeGenerationContext, _ DeclarationContext) []dst.Decl {
-	panic(errors.New(oneOfPanicMsg))
+func (oneOf *OneOfType) AsDeclarations(
+	codeGenerationContext *CodeGenerationContext,
+	declContext DeclarationContext,
+) ([]dst.Decl, error) {
+	panic(errors.New(oneOFailureMsg))
 }
 
 // AsZero always panics; OneOf cannot be represented by the Go AST and must be
 // lowered to an object type
 func (oneOf *OneOfType) AsZero(_ TypeDefinitionSet, _ *CodeGenerationContext) dst.Expr {
-	panic(errors.New(oneOfPanicMsg))
+	panic(errors.New(oneOFailureMsg))
 }
 
 // RequiredPackageReferences returns the union of the required imports of all the oneOf types
 func (oneOf *OneOfType) RequiredPackageReferences() *PackageReferenceSet {
-	panic(errors.New(oneOfPanicMsg))
+	panic(errors.New(oneOFailureMsg))
 }
 
 // Equals returns true if the other Type is a OneOfType that contains

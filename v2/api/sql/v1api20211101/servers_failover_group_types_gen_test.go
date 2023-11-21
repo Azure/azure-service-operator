@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_ServersFailoverGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServersFailoverGroup tests if a specific instance of ServersFailoverGroup can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServersFailoverGroup tests if a specific instance of ServersFailoverGroup can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServersFailoverGroup(subject ServersFailoverGroup) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Servers_FailoverGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_FailoverGroup_Spec tests if a specific instance of Servers_FailoverGroup_Spec can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_FailoverGroup_Spec tests if a specific instance of Servers_FailoverGroup_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_FailoverGroup_Spec(subject Servers_FailoverGroup_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -296,7 +296,7 @@ func Test_Servers_FailoverGroup_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForServers_FailoverGroup_STATUS tests if a specific instance of Servers_FailoverGroup_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForServers_FailoverGroup_STATUS tests if a specific instance of Servers_FailoverGroup_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForServers_FailoverGroup_STATUS(subject Servers_FailoverGroup_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -422,7 +422,7 @@ func Test_FailoverGroupReadOnlyEndpoint_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFailoverGroupReadOnlyEndpoint tests if a specific instance of FailoverGroupReadOnlyEndpoint can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForFailoverGroupReadOnlyEndpoint tests if a specific instance of FailoverGroupReadOnlyEndpoint can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFailoverGroupReadOnlyEndpoint(subject FailoverGroupReadOnlyEndpoint) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -525,7 +525,7 @@ func Test_FailoverGroupReadOnlyEndpoint_STATUS_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFailoverGroupReadOnlyEndpoint_STATUS tests if a specific instance of FailoverGroupReadOnlyEndpoint_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForFailoverGroupReadOnlyEndpoint_STATUS tests if a specific instance of FailoverGroupReadOnlyEndpoint_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFailoverGroupReadOnlyEndpoint_STATUS(subject FailoverGroupReadOnlyEndpoint_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -628,7 +628,7 @@ func Test_FailoverGroupReadWriteEndpoint_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFailoverGroupReadWriteEndpoint tests if a specific instance of FailoverGroupReadWriteEndpoint can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForFailoverGroupReadWriteEndpoint tests if a specific instance of FailoverGroupReadWriteEndpoint can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFailoverGroupReadWriteEndpoint(subject FailoverGroupReadWriteEndpoint) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -732,7 +732,7 @@ func Test_FailoverGroupReadWriteEndpoint_STATUS_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFailoverGroupReadWriteEndpoint_STATUS tests if a specific instance of FailoverGroupReadWriteEndpoint_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForFailoverGroupReadWriteEndpoint_STATUS tests if a specific instance of FailoverGroupReadWriteEndpoint_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFailoverGroupReadWriteEndpoint_STATUS(subject FailoverGroupReadWriteEndpoint_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -836,7 +836,7 @@ func Test_PartnerInfo_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPartnerInfo tests if a specific instance of PartnerInfo can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForPartnerInfo tests if a specific instance of PartnerInfo can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPartnerInfo(subject PartnerInfo) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -932,7 +932,7 @@ func Test_PartnerInfo_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPartnerInfo_STATUS tests if a specific instance of PartnerInfo_STATUS can be assigned to v1api20211101storage and back losslessly
+// RunPropertyAssignmentTestForPartnerInfo_STATUS tests if a specific instance of PartnerInfo_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPartnerInfo_STATUS(subject PartnerInfo_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

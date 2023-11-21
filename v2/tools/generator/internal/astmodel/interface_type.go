@@ -109,7 +109,7 @@ func (i *InterfaceType) AsType(codeGenerationContext *CodeGenerationContext) dst
 	}
 }
 
-func (i *InterfaceType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
+func (i *InterfaceType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error) {
 	declaration := &dst.GenDecl{
 		Decs: dst.GenDeclDecorations{
 			NodeDecs: dst.NodeDecs{
@@ -130,7 +130,7 @@ func (i *InterfaceType) AsDeclarations(codeGenerationContext *CodeGenerationCont
 	AddValidationComments(&declaration.Decs.Start, declContext.Validations)
 
 	result := []dst.Decl{declaration}
-	return result
+	return result, nil
 }
 
 // AsZero always panics; Interface does not have a zero type

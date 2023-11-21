@@ -5,7 +5,7 @@ package v1api20230101
 
 import (
 	"encoding/json"
-	v20230101s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101storage"
+	v20230101s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_ActionGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForActionGroup tests if a specific instance of ActionGroup can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForActionGroup tests if a specific instance of ActionGroup can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForActionGroup(subject ActionGroup) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_ActionGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForActionGroup_Spec tests if a specific instance of ActionGroup_Spec can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForActionGroup_Spec tests if a specific instance of ActionGroup_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForActionGroup_Spec(subject ActionGroup_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -305,7 +305,7 @@ func Test_ActionGroupResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForActionGroupResource_STATUS tests if a specific instance of ActionGroupResource_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForActionGroupResource_STATUS tests if a specific instance of ActionGroupResource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForActionGroupResource_STATUS(subject ActionGroupResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -438,7 +438,7 @@ func Test_ArmRoleReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForArmRoleReceiver tests if a specific instance of ArmRoleReceiver can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForArmRoleReceiver tests if a specific instance of ArmRoleReceiver can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForArmRoleReceiver(subject ArmRoleReceiver) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -542,7 +542,7 @@ func Test_ArmRoleReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForArmRoleReceiver_STATUS tests if a specific instance of ArmRoleReceiver_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForArmRoleReceiver_STATUS tests if a specific instance of ArmRoleReceiver_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForArmRoleReceiver_STATUS(subject ArmRoleReceiver_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -647,7 +647,7 @@ func Test_AutomationRunbookReceiver_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAutomationRunbookReceiver tests if a specific instance of AutomationRunbookReceiver can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForAutomationRunbookReceiver tests if a specific instance of AutomationRunbookReceiver can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAutomationRunbookReceiver(subject AutomationRunbookReceiver) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -755,7 +755,7 @@ func Test_AutomationRunbookReceiver_STATUS_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAutomationRunbookReceiver_STATUS tests if a specific instance of AutomationRunbookReceiver_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForAutomationRunbookReceiver_STATUS tests if a specific instance of AutomationRunbookReceiver_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAutomationRunbookReceiver_STATUS(subject AutomationRunbookReceiver_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -864,7 +864,7 @@ func Test_AzureAppPushReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAzureAppPushReceiver tests if a specific instance of AzureAppPushReceiver can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForAzureAppPushReceiver tests if a specific instance of AzureAppPushReceiver can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAzureAppPushReceiver(subject AzureAppPushReceiver) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -968,7 +968,7 @@ func Test_AzureAppPushReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAzureAppPushReceiver_STATUS tests if a specific instance of AzureAppPushReceiver_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForAzureAppPushReceiver_STATUS tests if a specific instance of AzureAppPushReceiver_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAzureAppPushReceiver_STATUS(subject AzureAppPushReceiver_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1072,7 +1072,7 @@ func Test_AzureFunctionReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAzureFunctionReceiver tests if a specific instance of AzureFunctionReceiver can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForAzureFunctionReceiver tests if a specific instance of AzureFunctionReceiver can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAzureFunctionReceiver(subject AzureFunctionReceiver) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1178,7 +1178,7 @@ func Test_AzureFunctionReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAzureFunctionReceiver_STATUS tests if a specific instance of AzureFunctionReceiver_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForAzureFunctionReceiver_STATUS tests if a specific instance of AzureFunctionReceiver_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAzureFunctionReceiver_STATUS(subject AzureFunctionReceiver_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1285,7 +1285,7 @@ func Test_EmailReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEmailReceiver tests if a specific instance of EmailReceiver can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForEmailReceiver tests if a specific instance of EmailReceiver can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEmailReceiver(subject EmailReceiver) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1389,7 +1389,7 @@ func Test_EmailReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEmailReceiver_STATUS tests if a specific instance of EmailReceiver_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForEmailReceiver_STATUS tests if a specific instance of EmailReceiver_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEmailReceiver_STATUS(subject EmailReceiver_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1495,7 +1495,7 @@ func Test_EventHubReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventHubReceiver tests if a specific instance of EventHubReceiver can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForEventHubReceiver tests if a specific instance of EventHubReceiver can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEventHubReceiver(subject EventHubReceiver) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1602,7 +1602,7 @@ func Test_EventHubReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventHubReceiver_STATUS tests if a specific instance of EventHubReceiver_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForEventHubReceiver_STATUS tests if a specific instance of EventHubReceiver_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEventHubReceiver_STATUS(subject EventHubReceiver_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1710,7 +1710,7 @@ func Test_ItsmReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForItsmReceiver tests if a specific instance of ItsmReceiver can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForItsmReceiver tests if a specific instance of ItsmReceiver can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForItsmReceiver(subject ItsmReceiver) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1816,7 +1816,7 @@ func Test_ItsmReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForItsmReceiver_STATUS tests if a specific instance of ItsmReceiver_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForItsmReceiver_STATUS tests if a specific instance of ItsmReceiver_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForItsmReceiver_STATUS(subject ItsmReceiver_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1923,7 +1923,7 @@ func Test_LogicAppReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLogicAppReceiver tests if a specific instance of LogicAppReceiver can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForLogicAppReceiver tests if a specific instance of LogicAppReceiver can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForLogicAppReceiver(subject LogicAppReceiver) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2027,7 +2027,7 @@ func Test_LogicAppReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLogicAppReceiver_STATUS tests if a specific instance of LogicAppReceiver_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForLogicAppReceiver_STATUS tests if a specific instance of LogicAppReceiver_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForLogicAppReceiver_STATUS(subject LogicAppReceiver_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2133,7 +2133,7 @@ func Test_SmsReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSmsReceiver tests if a specific instance of SmsReceiver can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForSmsReceiver tests if a specific instance of SmsReceiver can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSmsReceiver(subject SmsReceiver) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2237,7 +2237,7 @@ func Test_SmsReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSmsReceiver_STATUS tests if a specific instance of SmsReceiver_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForSmsReceiver_STATUS tests if a specific instance of SmsReceiver_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSmsReceiver_STATUS(subject SmsReceiver_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2342,7 +2342,7 @@ func Test_VoiceReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVoiceReceiver tests if a specific instance of VoiceReceiver can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForVoiceReceiver tests if a specific instance of VoiceReceiver can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVoiceReceiver(subject VoiceReceiver) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2446,7 +2446,7 @@ func Test_VoiceReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVoiceReceiver_STATUS tests if a specific instance of VoiceReceiver_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForVoiceReceiver_STATUS tests if a specific instance of VoiceReceiver_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVoiceReceiver_STATUS(subject VoiceReceiver_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2551,7 +2551,7 @@ func Test_WebhookReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWebhookReceiver tests if a specific instance of WebhookReceiver can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForWebhookReceiver tests if a specific instance of WebhookReceiver can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForWebhookReceiver(subject WebhookReceiver) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2659,7 +2659,7 @@ func Test_WebhookReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWebhookReceiver_STATUS tests if a specific instance of WebhookReceiver_STATUS can be assigned to v1api20230101storage and back losslessly
+// RunPropertyAssignmentTestForWebhookReceiver_STATUS tests if a specific instance of WebhookReceiver_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForWebhookReceiver_STATUS(subject WebhookReceiver_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

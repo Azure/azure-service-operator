@@ -5,7 +5,7 @@ package v1api20220615
 
 import (
 	"encoding/json"
-	v20220615s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615storage"
+	v20220615s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_ScheduledQueryRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForScheduledQueryRule tests if a specific instance of ScheduledQueryRule can be assigned to v1api20220615storage and back losslessly
+// RunPropertyAssignmentTestForScheduledQueryRule tests if a specific instance of ScheduledQueryRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForScheduledQueryRule(subject ScheduledQueryRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_ScheduledQueryRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForScheduledQueryRule_Spec tests if a specific instance of ScheduledQueryRule_Spec can be assigned to v1api20220615storage and back losslessly
+// RunPropertyAssignmentTestForScheduledQueryRule_Spec tests if a specific instance of ScheduledQueryRule_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForScheduledQueryRule_Spec(subject ScheduledQueryRule_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -313,7 +313,7 @@ func Test_ScheduledQueryRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForScheduledQueryRule_STATUS tests if a specific instance of ScheduledQueryRule_STATUS can be assigned to v1api20220615storage and back losslessly
+// RunPropertyAssignmentTestForScheduledQueryRule_STATUS tests if a specific instance of ScheduledQueryRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForScheduledQueryRule_STATUS(subject ScheduledQueryRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -459,7 +459,7 @@ func Test_Actions_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForActions tests if a specific instance of Actions can be assigned to v1api20220615storage and back losslessly
+// RunPropertyAssignmentTestForActions tests if a specific instance of Actions can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForActions(subject Actions) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -561,7 +561,7 @@ func Test_Actions_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForActions_STATUS tests if a specific instance of Actions_STATUS can be assigned to v1api20220615storage and back losslessly
+// RunPropertyAssignmentTestForActions_STATUS tests if a specific instance of Actions_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForActions_STATUS(subject Actions_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -664,7 +664,7 @@ func Test_ScheduledQueryRuleCriteria_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForScheduledQueryRuleCriteria tests if a specific instance of ScheduledQueryRuleCriteria can be assigned to v1api20220615storage and back losslessly
+// RunPropertyAssignmentTestForScheduledQueryRuleCriteria tests if a specific instance of ScheduledQueryRuleCriteria can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForScheduledQueryRuleCriteria(subject ScheduledQueryRuleCriteria) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -767,7 +767,7 @@ func Test_ScheduledQueryRuleCriteria_STATUS_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForScheduledQueryRuleCriteria_STATUS tests if a specific instance of ScheduledQueryRuleCriteria_STATUS can be assigned to v1api20220615storage and back losslessly
+// RunPropertyAssignmentTestForScheduledQueryRuleCriteria_STATUS tests if a specific instance of ScheduledQueryRuleCriteria_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForScheduledQueryRuleCriteria_STATUS(subject ScheduledQueryRuleCriteria_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -870,7 +870,7 @@ func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to v1api20220615storage and back losslessly
+// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -985,7 +985,7 @@ func Test_Condition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCondition tests if a specific instance of Condition can be assigned to v1api20220615storage and back losslessly
+// RunPropertyAssignmentTestForCondition tests if a specific instance of Condition can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCondition(subject Condition) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1117,7 +1117,7 @@ func Test_Condition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCondition_STATUS tests if a specific instance of Condition_STATUS can be assigned to v1api20220615storage and back losslessly
+// RunPropertyAssignmentTestForCondition_STATUS tests if a specific instance of Condition_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCondition_STATUS(subject Condition_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1250,7 +1250,7 @@ func Test_Condition_FailingPeriods_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCondition_FailingPeriods tests if a specific instance of Condition_FailingPeriods can be assigned to v1api20220615storage and back losslessly
+// RunPropertyAssignmentTestForCondition_FailingPeriods tests if a specific instance of Condition_FailingPeriods can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCondition_FailingPeriods(subject Condition_FailingPeriods) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1354,7 +1354,7 @@ func Test_Condition_FailingPeriods_STATUS_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCondition_FailingPeriods_STATUS tests if a specific instance of Condition_FailingPeriods_STATUS can be assigned to v1api20220615storage and back losslessly
+// RunPropertyAssignmentTestForCondition_FailingPeriods_STATUS tests if a specific instance of Condition_FailingPeriods_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCondition_FailingPeriods_STATUS(subject Condition_FailingPeriods_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1458,7 +1458,7 @@ func Test_Dimension_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDimension tests if a specific instance of Dimension can be assigned to v1api20220615storage and back losslessly
+// RunPropertyAssignmentTestForDimension tests if a specific instance of Dimension can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDimension(subject Dimension) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1562,7 +1562,7 @@ func Test_Dimension_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDimension_STATUS tests if a specific instance of Dimension_STATUS can be assigned to v1api20220615storage and back losslessly
+// RunPropertyAssignmentTestForDimension_STATUS tests if a specific instance of Dimension_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDimension_STATUS(subject Dimension_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

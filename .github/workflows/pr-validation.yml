@@ -240,6 +240,7 @@ jobs:
 
       - name: Get Job ID from GH API
         id: get-job-id
+        if: ${{ always() }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

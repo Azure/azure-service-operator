@@ -8,6 +8,7 @@ package codegen
 import (
 	"context"
 	"fmt"
+	"runtime/debug"
 	"time"
 
 	"github.com/go-logr/logr"
@@ -179,13 +180,6 @@ func createAllPipelineStages(
 		pipeline.AddSecrets(configuration).UsedFor(pipeline.ARMTarget),
 		pipeline.AddConfigMaps(configuration).UsedFor(pipeline.ARMTarget),
 
-		// prefix is "v2.0.0-" as we want to match anything that had a beta version. The prefix is applied to the
-		// supportedFrom field, meaning we need back-compat types for anything:
-		// - Added before beta (e.g. supportedFrom: v2.0.0-alpha.0)
-		// - Added during beta (e.g. supportedFrom: v2.0.0-beta.0)
-		// The only thing we don't want back-compat types for is something added in v2.0.0 or v2.1.0, etc.
-		pipeline.CreateTypesForBackwardCompatibility("v2.0.0-", configuration.ObjectModelConfiguration).UsedFor(pipeline.ARMTarget),
-
 		pipeline.ReportOnTypesAndVersions(configuration).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
 
 		pipeline.CreateARMTypes(configuration.ObjectModelConfiguration, idFactory, log).UsedFor(pipeline.ARMTarget),
@@ -200,6 +194,7 @@ func createAllPipelineStages(
 		// Remove types which may not be needed after flattening
 		pipeline.StripUnreferencedTypeDefinitions(),
 
+		pipeline.RenameProperties(configuration.ObjectModelConfiguration),
 		pipeline.AddStatusConditions(idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.AddOperatorSpec(configuration, idFactory).UsedFor(pipeline.ARMTarget),
@@ -301,7 +296,8 @@ func (generator *CodeGenerator) Generate(
 			stageDescription,
 			"elapsed", duration,
 			"added", len(defsAdded),
-			"removed", len(defsRemoved))
+			"removed", len(defsRemoved),
+			"totalDefs", len(newState.Definitions()))
 
 		state = newState
 	}
@@ -330,9 +326,9 @@ func (generator *CodeGenerator) executeStage(
 	defer func() {
 		if r := recover(); r != nil {
 			if e, ok := r.(error); ok {
-				err = e
+				err = errors.Wrapf(e, "panic: %s", string(debug.Stack()))
 			} else {
-				err = errors.Errorf("panic: %s", r)
+				err = errors.Errorf("panic: %s\n%s", r, string(debug.Stack()))
 			}
 		}
 	}()

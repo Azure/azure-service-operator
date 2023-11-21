@@ -5,7 +5,7 @@ package v1api20210601
 
 import (
 	"encoding/json"
-	v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_FlexibleServersDatabase_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlexibleServersDatabase tests if a specific instance of FlexibleServersDatabase can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForFlexibleServersDatabase tests if a specific instance of FlexibleServersDatabase can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServersDatabase(subject FlexibleServersDatabase) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_FlexibleServers_Database_Spec_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlexibleServers_Database_Spec tests if a specific instance of FlexibleServers_Database_Spec can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForFlexibleServers_Database_Spec tests if a specific instance of FlexibleServers_Database_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServers_Database_Spec(subject FlexibleServers_Database_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -281,7 +281,7 @@ func Test_FlexibleServers_Database_STATUS_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlexibleServers_Database_STATUS tests if a specific instance of FlexibleServers_Database_STATUS can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForFlexibleServers_Database_STATUS tests if a specific instance of FlexibleServers_Database_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServers_Database_STATUS(subject FlexibleServers_Database_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

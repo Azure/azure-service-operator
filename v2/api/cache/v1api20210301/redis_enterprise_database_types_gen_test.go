@@ -5,8 +5,8 @@ package v1api20210301
 
 import (
 	"encoding/json"
-	v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301storage"
-	v20230701s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701storage"
+	v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301/storage"
+	v20230701s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_RedisEnterpriseDatabase_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRedisEnterpriseDatabase tests if a specific instance of RedisEnterpriseDatabase can be assigned to v1api20210301storage and back losslessly
+// RunPropertyAssignmentTestForRedisEnterpriseDatabase tests if a specific instance of RedisEnterpriseDatabase can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRedisEnterpriseDatabase(subject RedisEnterpriseDatabase) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -177,7 +177,7 @@ func Test_RedisEnterprise_Database_Spec_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRedisEnterprise_Database_Spec tests if a specific instance of RedisEnterprise_Database_Spec can be assigned to v1api20210301storage and back losslessly
+// RunPropertyAssignmentTestForRedisEnterprise_Database_Spec tests if a specific instance of RedisEnterprise_Database_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRedisEnterprise_Database_Spec(subject RedisEnterprise_Database_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -307,7 +307,7 @@ func Test_RedisEnterprise_Database_STATUS_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRedisEnterprise_Database_STATUS tests if a specific instance of RedisEnterprise_Database_STATUS can be assigned to v1api20210301storage and back losslessly
+// RunPropertyAssignmentTestForRedisEnterprise_Database_STATUS tests if a specific instance of RedisEnterprise_Database_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRedisEnterprise_Database_STATUS(subject RedisEnterprise_Database_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -459,7 +459,7 @@ func Test_Module_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForModule tests if a specific instance of Module can be assigned to v1api20210301storage and back losslessly
+// RunPropertyAssignmentTestForModule tests if a specific instance of Module can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForModule(subject Module) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -562,7 +562,7 @@ func Test_Module_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForModule_STATUS tests if a specific instance of Module_STATUS can be assigned to v1api20210301storage and back losslessly
+// RunPropertyAssignmentTestForModule_STATUS tests if a specific instance of Module_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForModule_STATUS(subject Module_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -666,7 +666,7 @@ func Test_Persistence_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPersistence tests if a specific instance of Persistence can be assigned to v1api20210301storage and back losslessly
+// RunPropertyAssignmentTestForPersistence tests if a specific instance of Persistence can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPersistence(subject Persistence) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -771,7 +771,7 @@ func Test_Persistence_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPersistence_STATUS tests if a specific instance of Persistence_STATUS can be assigned to v1api20210301storage and back losslessly
+// RunPropertyAssignmentTestForPersistence_STATUS tests if a specific instance of Persistence_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPersistence_STATUS(subject Persistence_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

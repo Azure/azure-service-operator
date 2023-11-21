@@ -5,7 +5,7 @@ package v1api20210702
 
 import (
 	"fmt"
-	v20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage"
+	v20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &IotHub{}
 func (iotHub *IotHub) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20210702s.IotHub)
 	if !ok {
-		return fmt.Errorf("expected devices/v1api20210702storage/IotHub but received %T instead", hub)
+		return fmt.Errorf("expected devices/v1api20210702/storage/IotHub but received %T instead", hub)
 	}
 
 	return iotHub.AssignProperties_From_IotHub(source)
@@ -61,7 +61,7 @@ func (iotHub *IotHub) ConvertFrom(hub conversion.Hub) error {
 func (iotHub *IotHub) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20210702s.IotHub)
 	if !ok {
-		return fmt.Errorf("expected devices/v1api20210702storage/IotHub but received %T instead", hub)
+		return fmt.Errorf("expected devices/v1api20210702/storage/IotHub but received %T instead", hub)
 	}
 
 	return iotHub.AssignProperties_To_IotHub(destination)

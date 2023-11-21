@@ -5,7 +5,7 @@ package v1api20210401preview
 
 import (
 	"fmt"
-	v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401previewstorage"
+	v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &Vault{}
 func (vault *Vault) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20210401ps.Vault)
 	if !ok {
-		return fmt.Errorf("expected keyvault/v1api20210401previewstorage/Vault but received %T instead", hub)
+		return fmt.Errorf("expected keyvault/v1api20210401preview/storage/Vault but received %T instead", hub)
 	}
 
 	return vault.AssignProperties_From_Vault(source)
@@ -61,7 +61,7 @@ func (vault *Vault) ConvertFrom(hub conversion.Hub) error {
 func (vault *Vault) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20210401ps.Vault)
 	if !ok {
-		return fmt.Errorf("expected keyvault/v1api20210401previewstorage/Vault but received %T instead", hub)
+		return fmt.Errorf("expected keyvault/v1api20210401preview/storage/Vault but received %T instead", hub)
 	}
 
 	return vault.AssignProperties_To_Vault(destination)

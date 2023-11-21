@@ -27,7 +27,8 @@ type PropertyConfiguration struct {
 	ImportConfigMapMode            configurable[ImportConfigMapMode] // The config map mode
 	IsSecret                       configurable[bool]                // Specify whether this property is a secret
 	NameInNextVersion              configurable[string]              // Name this property has in the next version
-	ResourceLifecycleOwnedByParent configurable[string]
+	RenameTo                       configurable[string]              // Name this property should be renamed to
+	ResourceLifecycleOwnedByParent configurable[string]              // Name of the parent resource which owns the lifecycle of the sub-resource.
 }
 
 type ImportConfigMapMode string
@@ -37,12 +38,14 @@ const (
 	ImportConfigMapModeRequired = "required"
 )
 
+// Tags used in yaml files to specify configurable properties. Alphabetical please.
 const (
 	armReferenceTag                   = "$armReference"                   // Bool specifying whether a property is an ARM reference
-	isSecretTag                       = "$isSecret"                       // Bool specifying whether a property contains a secret
-	resourceLifecycleOwnedByParentTag = "$resourceLifecycleOwnedByParent" // String specifying whether a property represents a subresource whose lifecycle is owned by the parent resource (and what that parent resource is)
 	exportAsConfigMapPropertyNameTag  = "$exportAsConfigMapPropertyName"  // String specifying the name of the property set to export this property as a config map.
 	importConfigMapModeTag            = "$importConfigMapMode"            // string specifying the ImportConfigMapMode mode
+	isSecretTag                       = "$isSecret"                       // Bool specifying whether a property contains a secret
+	renamePropertyToTag               = "$renameTo"                       // String specifying the name this property should be renamed to
+	resourceLifecycleOwnedByParentTag = "$resourceLifecycleOwnedByParent" // String specifying whether a property represents a subresource whose lifecycle is owned by the parent resource (and what that parent resource is)
 )
 
 // NewPropertyConfiguration returns a new (empty) property configuration
@@ -55,6 +58,7 @@ func NewPropertyConfiguration(name string) *PropertyConfiguration {
 		ImportConfigMapMode:            makeConfigurable[ImportConfigMapMode](importConfigMapModeTag, scope),
 		IsSecret:                       makeConfigurable[bool](isSecretTag, scope),
 		NameInNextVersion:              makeConfigurable[string](nameInNextVersionTag, scope),
+		RenameTo:                       makeConfigurable[string](renamePropertyToTag, scope),
 		ResourceLifecycleOwnedByParent: makeConfigurable[string](resourceLifecycleOwnedByParentTag, scope),
 	}
 }
@@ -127,6 +131,18 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Errorf("unknown %s value: %s.", importConfigMapModeTag, c.Value)
 			}
 
+			continue
+		}
+
+		// renameTo: string
+		if strings.EqualFold(lastId, renamePropertyToTag) && c.Kind == yaml.ScalarNode {
+			var renameTo string
+			err := c.Decode(&renameTo)
+			if err != nil {
+				return errors.Wrapf(err, "decoding %s", renamePropertyToTag)
+			}
+
+			pc.RenameTo.Set(renameTo)
 			continue
 		}
 
