@@ -84,7 +84,7 @@ func newConvertFromARMFunctionBuilder(
 		result.secretPropertyHandler,
 		result.configMapPropertyHandler,
 		result.flattenedPropertyHandler,
-		result.propertiesWithSameNameHandler,
+		result.propertiesByNameHandler,
 	}
 
 	return result
@@ -507,12 +507,20 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 	return handleWith(comment, stmts), nil
 }
 
-func (builder *convertFromARMBuilder) propertiesWithSameNameHandler(
+func (builder *convertFromARMBuilder) propertiesByNameHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType,
 ) (propertyConversionHandlerResult, error) {
-	fromProp, ok := fromType.Property(toProp.PropertyName())
-	if !ok {
+	fromProp, found := fromType.Property(toProp.PropertyName())
+	if !found {
+		// No direct match by name, look for renames
+		if originalName, ok := toProp.Renamed(); ok {
+			// toProp has been renamed, so we need to look for an ARM property with the original name
+			fromProp, found = fromType.Property(originalName)
+		}
+	}
+
+	if !found {
 		return notHandled, nil
 	}
 
