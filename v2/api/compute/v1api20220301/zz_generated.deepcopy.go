@@ -2031,7 +2031,7 @@ func (in *HardwareProfile) DeepCopyInto(out *HardwareProfile) {
 	*out = *in
 	if in.VmSize != nil {
 		in, out := &in.VmSize, &out.VmSize
-		*out = new(HardwareProfile_VmSize)
+		*out = new(string)
 		**out = **in
 	}
 	if in.VmSizeProperties != nil {
@@ -2056,7 +2056,7 @@ func (in *HardwareProfile_ARM) DeepCopyInto(out *HardwareProfile_ARM) {
 	*out = *in
 	if in.VmSize != nil {
 		in, out := &in.VmSize, &out.VmSize
-		*out = new(HardwareProfile_VmSize)
+		*out = new(string)
 		**out = **in
 	}
 	if in.VmSizeProperties != nil {
