@@ -8,6 +8,7 @@ package codegen
 import (
 	"context"
 	"fmt"
+	"runtime/debug"
 	"time"
 
 	"github.com/go-logr/logr"
@@ -325,9 +326,9 @@ func (generator *CodeGenerator) executeStage(
 	defer func() {
 		if r := recover(); r != nil {
 			if e, ok := r.(error); ok {
-				err = e
+				err = errors.Wrapf(e, "panic: %s", string(debug.Stack()))
 			} else {
-				err = errors.Errorf("panic: %s", r)
+				err = errors.Errorf("panic: %s\n%s", r, string(debug.Stack()))
 			}
 		}
 	}()
