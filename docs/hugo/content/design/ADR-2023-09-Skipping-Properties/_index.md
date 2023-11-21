@@ -10,37 +10,73 @@ We have a long standing issue (originally documented in [#1776](https://github.c
 
 To clarify, consider the following examples, demonstrating the current behaviour, and then how that causes a problem. Following that, we'll discuss some constraints on possible solutions, and some approaches we might take.
 
-### Version 4
+### Conversion between v3 and v4
 
 Consider a CRM system containing details of people. In **v3** of the system, we capture each person's residental address, but in **v4** we have dropped that property.
 
 <!-- yuml.me
-[v3.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress]
-[v3.Person]--[v3.Address|Label string]
-[v4.Person|FullName string;FamilyName string; KnownAs string]
+
+[v3.Person|FullName string;FamilyName string; KnownAs string; ResidentialAddress v3.Address|Properties PropertyBag]
+[v3.Person]->[v3.Address|Label multilineString|Properties PropertyBag]
+[v4.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
+
 -->
 
-{{< figure src="./version-4.png" >}}
+{{< figure src="./conversion-v3-v4-class.png" >}}
 
 When we convert from **v3** to **v4** (**v3** -> **v4**) the `ResidentialAddress` property gets serialized into the `PropertyBag` on the **v4** Person. Note that the bag contains a **v3** `Address` in a serialized form.
 
-In the other direction, from **v4** to **v3**, works fine, as we can deserialize the **v3** `Address` from the `PropertyBag`.
+To illustrate this, consider this concrete example:
+
+<!-- yuml.me
+
+[v3.Person|FullName: Michael Theodore Mouse;FamilyName: Mouse; KnownAs: Mickey; ResidentialAddress v3.Address|Properties PropertyBag]
+[v3.Person]->[v3.Address|Label:\n1313 S. Harbor Blvd\nAnaheim\nCA 92803\nUSA|Properties PropertyBag]
+[v4.Person|FullName: Michael Theodore Mouse;FamilyName: Mouse; KnownAs: Mickey|Properties PropertyBag]
+[v4.Person]-.-[ResidentialAddress {bg:cornsilk}|Label:\n'1313 S. Harbor Blvd',\n'Anaheim',\n'CA 92803',\n'USA']
+
+-->
+
+{{< figure src="./conversion-v3-v4-instance.png" >}}
+
+There is nowhere in the **v4** `Person` to store Mickey's residential address, so it gets safely stashed away in the `PropertyBag`.
+
+In the other direction, from **v4** to **v3**, conversion works fine, as we can take the `ResidentialAddress` value from the property bag, deserialize the **v3** `Address`, and set things up as they were before.
 
 Conversion back and forward between versions **v3** and **v4** works fine.
 
-### Version 5
+### Conversion between v4 and v5
 
 In **v5**, the `ResidentialAddress` is reintroduced, but with a different shape. Instead of being the single field `Label`, it now has multiple fields.
 
 <!-- yuml.me 
-[v4.Person|FullName string;FamilyName string; KnownAs string|PropertyBag PropertyBag]
-[v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress|PropertyBag PropertyBag]
-[v5.Person]--[v5.Address|Street string; Suburb string; City string|PropertyBag PropertyBag]
+
+[v4.Person|FullName string;FamilyName string; KnownAs string|Properties PropertyBag]
+[v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress|Properties PropertyBag]
+[v5.Person]--[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
+
 -->
 
-{{< figure src="./version-5.png" >}}
+{{< figure src="./conversion-v4-v5-class.png" >}}
 
-When we convert from **v5** to **v4**, again the `ResidentialAddress` property gets serialized into the `PropertyBag` on the **v4** Person. Note that this time the bag contains a **v5** `Address` in a serialized form, **not** a **v3** `Address`.
+When we convert from **v5** to **v4**, again the `ResidentialAddress` property gets serialized into the `PropertyBag` on the **v4** Person. 
+
+Again, it's useful to see a concrete example:
+
+<!-- yuml.me
+
+[v4.Person|FullName: Michael Theodore Mouse;FamilyName: Mouse; KnownAs: Mickey|Properties PropertyBag]
+[v4.Person]-.-[ResidentialAddress {bg:cornsilk}|Street: '1313 S. Harbor Blvd'\nSuburb: ''\nCity: 'Anaheim, CA 92803'\nCountry: 'USA']
+[v5.Person|FullName: Michael Theodore Mouse;FamilyName: Mouse; KnownAs: Mickey; ResidentialAddress v3.Address|Properties PropertyBag]
+[v5.Person]->[v5.Address|Street: 1313 S. Harbor Blvd\nSuburb:\nCity: Anaheim, CA 92803\nCountry: USA|Properties PropertyBag]
+
+-->
+
+{{< figure src="./conversion-v4-v5-instance.png" >}}
+
+As before, there is nowhere in the **v4** `Person` to store Mickey's residential address, so it gets safely stashed away in the `PropertyBag`.
+
+However, note that this time the bag contains a **v5** `Address` in a serialized form, **not** a **v3** `Address`.
 
 In the other direction, from **v4** to **v5**, works fine, as we can deserialize the **v5** `Address` from the property bag.
 
@@ -48,21 +84,22 @@ Conversion back and forward between versions **v4** and **v5** works fine.
 
 ### The Problem
 
-Observe how we can end up with two different variants of **v4** `Person`. In one case, we have a **v4** `Person` where the property bag contains a **v3** `Address`; in the other case, we have a **v4** `Person` the property bag contains a **v5** `Address`.
+Observe how we can end up with two different variants of **v4** `Person`. In one case, we have a **v4** `Person` where the property bag contains a **v3** `Address`; in the other case, we have a **v4** `Person` the property bag contains a **v5** `Address`:
 
-Here is where we run into problems.
+<!-- yuml.me 
 
-<!-- yuml.me
-[v3.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress]
-[v3.Person]--[v3.Address|Label string]
-[v4.Person|FullName string;FamilyName string; KnownAs string|PropertyBag PropertyBag]
-[v5.Person|FullName string;FamilyName string; KnownAs string;ResidentialAddress|PropertyBag PropertyBag]
-[v5.Person]--[v5.Address|Street string; Suburb string;City string|PropertyBag PropertyBag]
+[v4.Person|FullName: Michael Theodore Mouse;FamilyName: Mouse; KnownAs: Mickey|Properties PropertyBag]
+[v4.Person]-.-[v3.ResidentialAddress {bg:cornsilk}|Label:\n'1313 S. Harbor Blvd',\n'Anaheim',\n'CA 92803',\n'USA']
+[v4.Person]-.-[v5.ResidentialAddress {bg:cornsilk}|Street: '1313 S. Harbor Blvd'\nSuburb: ''\nCity: 'Anaheim, CA 92803'\nCountry: 'USA']
+
 -->
 
-{{< figure src="./problem.png" >}}
+{{< figure src="./conflict-v3-v5.png" >}}
 
-When we convert from **v3** to **v4** to **v5** we end up stuck part-way through. 
+
+Round trips between adjacent versions work fine, but we run into problems.
+
+When we convert from **v3** to **v4** to **v5** we end up stuck part-way through.
 
 After our first conversion step, we have a **v4** `Person` that contains a **v3** `Address` in the property bag. 
 
@@ -70,7 +107,7 @@ Conversion to the **v5** `Person` will fail when we try to deserialize a **v5** 
 
 We can't populate a **v3** `Address` from a serialized **v5* `Address`, the two are not compatible, and the conversion will fail. 
 
-This will cause the operator to fail.
+This will cause the operator to fail at runtime. 
 
 In the opposite direction, from **v5** to **v4** to **v3**, we end up with a **v4** `Person` that contains a **v5** `Address` in the property bag, and a similar problem occurs. We can't populate a **v3** `Address` from a serialized **v5** `Address`, The two are not compatible, and the conversion will fail.
 
