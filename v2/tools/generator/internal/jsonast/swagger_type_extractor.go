@@ -138,8 +138,8 @@ func (extractor *SwaggerTypeExtractor) ExtractResourceTypes(ctx context.Context,
 	}
 
 	for rawOperationPath, op := range extractor.swagger.Paths.Paths {
-		// a resource must have both PUT and GET
-		if op.Put == nil || op.Get == nil {
+		// a resource must have a PUT and one of GET or HEAD
+		if op.Put == nil || (op.Get == nil && op.Head == nil) {
 			continue
 		}
 
@@ -214,7 +214,10 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 	var resourceSpec astmodel.Type
 	if specSchema == nil {
 		// nil indicates empty body
-		resourceSpec = astmodel.NewObjectType()
+		// Fabricate a TypeName here because that's what all other specs are (typename pointing to parameters type)
+		name := astmodel.MakeInternalTypeName(resourceName.InternalPackageReference(), fmt.Sprintf("%sCreateParameters", resourceName.Name()))
+		result.OtherDefinitions[name] = astmodel.MakeTypeDefinition(name, astmodel.NewObjectType())
+		resourceSpec = name
 	} else {
 		resourceSpec, err = scanner.RunHandlerForSchema(ctx, *specSchema)
 		if err != nil {
@@ -240,7 +243,10 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 	var resourceStatus astmodel.Type
 	if statusSchema == nil {
 		// nil indicates empty body
-		resourceStatus = astmodel.NewObjectType()
+		// Fabricate a TypeName here because that's what all other specs are (typename pointing to parameters type)
+		name := astmodel.MakeInternalTypeName(resourceName.InternalPackageReference(), fmt.Sprintf("%sStatus", resourceName.Name()))
+		result.OtherDefinitions[name] = astmodel.MakeTypeDefinition(name, astmodel.NewObjectType())
+		resourceStatus = name
 	} else {
 		resourceStatus, err = scanner.RunHandlerForSchema(ctx, *statusSchema)
 		if err != nil {
@@ -337,7 +343,10 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, r
 	isResource := false
 
 	var foundStatus *Schema
-	if op.Get.Responses != nil {
+	// The previous assumption that all ARM resources have a GET is not correct, see for example
+	// https://learn.microsoft.com/en-us/azure/templates/microsoft.apimanagement/service/products/groups?pivots=deployment-language-arm-template
+	// which has HEAD and not GET
+	if op.Get != nil && op.Get.Responses != nil {
 		for statusCode, response := range op.Get.Responses.StatusCodeResponses {
 			// only check OK and Created (per above linked comment)
 			// TODO: we should really check that the results are the same in each status result
@@ -350,6 +359,13 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, r
 				}
 			}
 		}
+	}
+
+	if isResource == false && op.Head != nil {
+		// assume this is a resource. It's possible this is too permissive and classifies some things as resources
+		// when they really aren't, but that's OK because anyway we only generate the resources we name in the configuration
+		// and classifying something as a resource here just makes it a candidate for mention in the config.
+		isResource = true
 	}
 
 	if !isResource {
