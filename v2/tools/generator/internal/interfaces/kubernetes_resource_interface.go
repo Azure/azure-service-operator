@@ -327,10 +327,10 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 //		return <receiver>.Spec.Owner.AsKnownResourceReference()
 //	}
 func getOwnerFunction(
-    r *functions.ResourceFunction, 
-    codeGenerationContext *astmodel.CodeGenerationContext, 
-    receiver astmodel.TypeName, 
-    methodName string,
+	r *functions.ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := r.IdFactory().CreateReceiver(receiver.Name())
 
@@ -384,11 +384,11 @@ func getOwnerFunction(
 //		return genruntime.ResourceScopeResourceGroup
 //	}
 func getResourceScopeFunction(
-    r *functions.ResourceFunction, 
-    codeGenerationContext *astmodel.CodeGenerationContext, 
-    receiver astmodel.TypeName, 
-    methodName string,
-) *dst.FuncDecl {
+	r *functions.ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := r.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
 
@@ -419,7 +419,7 @@ func getResourceScopeFunction(
 	fn.AddComments("returns the scope of the resource")
 	fn.AddReturn(astmodel.ResourceScopeType.AsType(codeGenerationContext))
 
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // getSupportedOperationsFunction creates a function that returns the supported operations of the resource.
@@ -431,7 +431,12 @@ func getResourceScopeFunction(
 //			genruntime.ResourceOperationDelete,
 //		}
 //	}
-func getSupportedOperationsFunction(r *functions.ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func getSupportedOperationsFunction(
+	r *functions.ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := r.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
 
