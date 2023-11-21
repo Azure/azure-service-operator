@@ -28,8 +28,8 @@ type PropertyConfiguration struct {
 	IsSecret                       configurable[bool]                // Specify whether this property is a secret
 	NameInNextVersion              configurable[string]              // Name this property has in the next version
 	PayloadType                    configurable[PayloadType]
-	RenameTo                       configurable[string]              // Name this property should be renamed to
-	ResourceLifecycleOwnedByParent configurable[string]              // Name of the parent resource which owns the lifecycle of the sub-resource.
+	RenameTo                       configurable[string] // Name this property should be renamed to
+	ResourceLifecycleOwnedByParent configurable[string] // Name of the parent resource which owns the lifecycle of the sub-resource.
 }
 
 type ImportConfigMapMode string
