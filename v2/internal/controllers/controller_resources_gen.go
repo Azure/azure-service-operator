@@ -135,7 +135,7 @@ import (
 	resources_v20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601/storage"
 	search_customizations "github.com/Azure/azure-service-operator/v2/api/search/customizations"
 	search_v20220901 "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901"
-	search_v20220901s "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901storage"
+	search_v20220901s "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901/storage"
 	servicebus_customizations "github.com/Azure/azure-service-operator/v2/api/servicebus/customizations"
 	servicebus_v20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
 	servicebus_v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/storage"
