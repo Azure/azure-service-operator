@@ -150,6 +150,7 @@ func Test_Multitenant_SingleOperator_PerResourceCredential_MatchSubscriptionWith
 	acct.Annotations = map[string]string{annotations.PerResourceSecret: secret.Name}
 
 	// Create a new storage account with a distinct subscription; per resource secret should fail because it does not match
+	tc.CreateResourceAndWaitForFailure(acct)
 	tc.Expect(acct.Status.Conditions[0].Message).To(ContainSubstring("does not match parent subscription"))
 	tc.Expect(acct.Status.Conditions[0].Severity).To(Equal(conditions.ConditionSeverityError))
 }
