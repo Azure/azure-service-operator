@@ -28,7 +28,6 @@ var _ DerivedPackageReference = StoragePackageReference{}
 // we can remove this.
 var legacyStorageGroups = set.Make(
 	"managedidentity",
-	"operationalinsights",
 	"search",
 	"signalrservice",
 	"storage",
