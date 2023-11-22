@@ -810,7 +810,7 @@ func (r *azureDeploymentReconcilerInstance) deleteResource(
 		return ctrl.Result{}, nil
 	}
 
-	err := r.checkSubscription(resourceID) // TODO: Possibly we should pass this in as a parameter?
+	err := r.checkSubscription(resourceID)
 	if err != nil {
 		return ctrl.Result{}, err
 	}

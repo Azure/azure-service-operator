@@ -150,13 +150,14 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 		}
 
 		// Safe to do it this way, Claimer makes sure the owner exists and is Ready and will always have an armId annotation before we reach here.
-		armID, err := genruntime.GetAndParseResourceID(root)
+		ownerARMID, err := genruntime.GetAndParseResourceID(root)
 		if err != nil {
 			return "", err
 		}
 
-		if err = h.matchOwnerSubscription(subscriptionID, armID); err != nil {
-			return "", err
+		// Confirm that the subscription ID the user specified matches the subscription ID we're using from our credential
+		if ok := genruntime.CheckARMIDMatchesSubscription(subscriptionID, ownerARMID); !ok {
+			return "", core.NewSubscriptionMismatchError(ownerARMID.SubscriptionID, subscriptionID)
 		}
 
 		// Ensure that we have the same number of names and types
@@ -215,13 +216,14 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 			return "", err
 		}
 
-		armID, err := arm.ParseResourceID(armIDStr)
+		ownerARMID, err := arm.ParseResourceID(armIDStr)
 		if err != nil {
 			return "", err
 		}
 
-		if err = h.matchOwnerSubscription(subscriptionID, armID); err != nil {
-			return "", err
+		// Confirm that the subscription ID the user specified matches the subscription ID we're using from our credential
+		if ok := genruntime.CheckARMIDMatchesSubscription(subscriptionID, ownerARMID); !ok {
+			return "", core.NewSubscriptionMismatchError(ownerARMID.SubscriptionID, subscriptionID)
 		}
 
 		// Rooting to an ARM ID means that some of the resourceTypes may not actually be included explicitly in our
@@ -272,18 +274,6 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 	default:
 		return "", errors.Errorf("unknown root kind %q", rootKind)
 	}
-}
-
-func (h ResourceHierarchy) matchOwnerSubscription(subscriptionID string, ownerRID *arm.ResourceID) error {
-	// armIDSub may be empty if there is no subscription in the user specified ARM ID (for example because the resource roots
-	// at the tenant level)
-	if ownerRID.SubscriptionID != "" {
-		// Confirm that the subscription ID the user specified matches the subscription ID we're using from our credential
-		if !strings.EqualFold(ownerRID.SubscriptionID, subscriptionID) {
-			return core.NewSubscriptionMismatchError(ownerRID.SubscriptionID, subscriptionID)
-		}
-	}
-	return nil
 }
 
 // rootKind returns the ResourceHierarchyRoot type of the hierarchy.
