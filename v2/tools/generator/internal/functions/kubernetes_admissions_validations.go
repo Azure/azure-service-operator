@@ -50,7 +50,12 @@ func NewValidateOptionalConfigMapReferenceFunction(resource *astmodel.ResourceTy
 		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference, astmodel.ReflectHelpersReference))
 }
 
-func validateResourceReferences(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func validateResourceReferences(
+	k *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -64,7 +69,7 @@ func validateResourceReferences(k *ResourceFunction, codeGenerationContext *astm
 	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates all resource references")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // validateResourceReferencesBody helps generate the body of the validateResourceReferences function:
@@ -101,7 +106,12 @@ func validateResourceReferencesBody(codeGenerationContext *astmodel.CodeGenerati
 	return body
 }
 
-func validateOwnerReferences(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func validateOwnerReferences(
+	k *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -117,7 +127,7 @@ func validateOwnerReferences(k *ResourceFunction, codeGenerationContext *astmode
 	fn.AddReturn(astbuilder.QualifiedTypeName(admissionPkg, "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates the owner field")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // validateOwnerReferencesBody helps generate the body of the validateOwnerReferences function:
@@ -139,8 +149,12 @@ func validateOwnerReferencesBody(codeGenerationContext *astmodel.CodeGenerationC
 	return body
 }
 
-func validateWriteOncePropertiesFunction(resourceFn *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-
+func validateWriteOncePropertiesFunction(
+	resourceFn *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := resourceFn.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -158,7 +172,7 @@ func validateWriteOncePropertiesFunction(resourceFn *ResourceFunction, codeGener
 	fn.AddParameter("old", astbuilder.QualifiedTypeName(runtimePackage, "Object"))
 	fn.AddComments("validates all WriteOnce properties")
 
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // validateWriteOncePropertiesFunctionBody helps generate the body of the validateWriteOncePropertiesFunctionBody function:
@@ -192,7 +206,12 @@ func validateWriteOncePropertiesFunctionBody(receiver astmodel.TypeName, codeGen
 		returnStmt)
 }
 
-func validateOptionalConfigMapReferences(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func validateOptionalConfigMapReferences(
+	k *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -206,7 +225,7 @@ func validateOptionalConfigMapReferences(k *ResourceFunction, codeGenerationCont
 	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates all optional configmap reference pairs to ensure that at most 1 is set")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // validateOptionalConfigMapReferencesBody helps generate the body of the validateResourceReferences function:

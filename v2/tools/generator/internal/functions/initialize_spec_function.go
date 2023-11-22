@@ -44,7 +44,7 @@ func NewInitializeSpecFunction(
 		codeGenerationContext *astmodel.CodeGenerationContext,
 		receiver astmodel.TypeName,
 		methodName string,
-	) *dst.FuncDecl {
+	) (*dst.FuncDecl, error) {
 		fmtPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.FmtReference)
 
 		receiverType := receiver.AsType(codeGenerationContext)
@@ -93,7 +93,7 @@ func NewInitializeSpecFunction(
 		funcDetails.AddParameter(statusParam, astmodel.ConvertibleStatusInterfaceType.AsType(codeGenerationContext))
 		funcDetails.AddReturns("error")
 
-		return funcDetails.DefineFunc()
+		return funcDetails.DefineFunc(), nil
 	}
 
 	return NewResourceFunction(

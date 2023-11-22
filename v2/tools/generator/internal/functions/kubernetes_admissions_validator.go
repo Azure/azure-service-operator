@@ -7,6 +7,8 @@ package functions
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"strings"
 
 	"github.com/dave/dst"
@@ -147,7 +149,12 @@ func (v *ValidatorBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 }
 
 // validateCreate returns a function that performs validation of creation for the resource
-func (v *ValidatorBuilder) validateCreate(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func (v *ValidatorBuilder) validateCreate(
+	k *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -167,11 +174,16 @@ func (v *ValidatorBuilder) validateCreate(k *ResourceFunction, codeGenerationCon
 	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates the creation of the resource")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // validateUpdate returns a function that performs validation of update for the resource
-func (v *ValidatorBuilder) validateUpdate(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func (v *ValidatorBuilder) validateUpdate(
+	k *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -193,11 +205,16 @@ func (v *ValidatorBuilder) validateUpdate(k *ResourceFunction, codeGenerationCon
 	}
 
 	fn.AddComments("validates an update of the resource")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // validateDelete returns a function that performs validation of deletion for the resource
-func (v *ValidatorBuilder) validateDelete(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func (v *ValidatorBuilder) validateDelete(
+	k *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -217,7 +234,7 @@ func (v *ValidatorBuilder) validateDelete(k *ResourceFunction, codeGenerationCon
 	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates the deletion of the resource")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // validateBody returns the body for the generic validation function which invokes all local (code generated) validations
@@ -272,27 +289,67 @@ func (v *ValidatorBuilder) validateBody(
 	return body
 }
 
-func (v *ValidatorBuilder) localCreateValidations(_ *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-	fn := v.makeLocalValidationFuncDetails(ValidationKindCreate, codeGenerationContext, receiver, methodName)
+func (v *ValidatorBuilder) localCreateValidations(
+	_ *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
+	fn, err := v.makeLocalValidationFuncDetails(ValidationKindCreate, codeGenerationContext, receiver, methodName)
+	if err != nil {
+		// error already has name of method, doesn't need wrapping
+		return nil, err
+	}
+
 	fn.AddComments("validates the creation of the resource")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
-func (v *ValidatorBuilder) localUpdateValidations(_ *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-	fn := v.makeLocalValidationFuncDetails(ValidationKindUpdate, codeGenerationContext, receiver, methodName)
+func (v *ValidatorBuilder) localUpdateValidations(
+	_ *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
+	fn, err := v.makeLocalValidationFuncDetails(ValidationKindUpdate, codeGenerationContext, receiver, methodName)
+	if err != nil {
+		// error already has name of method, doesn't need wrapping
+		return nil, err
+	}
+
 	fn.AddComments("validates the update of the resource")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
-func (v *ValidatorBuilder) localDeleteValidations(_ *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-	fn := v.makeLocalValidationFuncDetails(ValidationKindDelete, codeGenerationContext, receiver, methodName)
+func (v *ValidatorBuilder) localDeleteValidations(
+	_ *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
+	fn, err := v.makeLocalValidationFuncDetails(ValidationKindDelete, codeGenerationContext, receiver, methodName)
+	if err != nil {
+		// error already has name of method, doesn't need wrapping
+		return nil, err
+	}
+
 	fn.AddComments("validates the deletion of the resource")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
-func (v *ValidatorBuilder) makeLocalValidationFuncDetails(kind ValidationKind, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *astbuilder.FuncDetails {
+func (v *ValidatorBuilder) makeLocalValidationFuncDetails(
+	kind ValidationKind,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*astbuilder.FuncDetails, error) {
 	receiverIdent := v.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
+
+	body, err := v.localValidationFuncBody(kind, codeGenerationContext, receiver)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to create local validation function body for %s", methodName)
+	}
 
 	return &astbuilder.FuncDetails{
 		Name:          methodName,
@@ -305,8 +362,8 @@ func (v *ValidatorBuilder) makeLocalValidationFuncDetails(kind ValidationKind, c
 				},
 			},
 		},
-		Body: v.localValidationFuncBody(kind, codeGenerationContext, receiver),
-	}
+		Body: body,
+	}, nil
 }
 
 // localValidationFuncBody returns the body of the local (code generated) validation functions:
@@ -325,14 +382,33 @@ func (v *ValidatorBuilder) makeLocalValidationFuncDetails(kind ValidationKind, c
 //		},
 //		<receiver>.<validationFunc2>,
 //	}
-func (v *ValidatorBuilder) localValidationFuncBody(kind ValidationKind, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) []dst.Stmt {
+func (v *ValidatorBuilder) localValidationFuncBody(
+	kind ValidationKind,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+) ([]dst.Stmt, error) {
 	elements := make([]dst.Expr, 0, len(v.validations[kind]))
+	var errs []error
 	for _, validationFunc := range v.validations[kind] {
-		elements = append(elements, v.makeLocalValidationElement(kind, validationFunc, codeGenerationContext, receiver))
+		expr, err := v.makeLocalValidationElement(kind, validationFunc, codeGenerationContext, receiver)
+		if err != nil {
+			errs = append(errs, err)
+			continue
+		}
+
+		elements = append(elements, expr)
+	}
+
+	if len(errs) > 0 {
+		return nil, errors.Wrap(
+			kerrors.NewAggregate(errs),
+			"failed to create local validation function body")
 	}
 
 	if len(elements) == 0 {
-		return []dst.Stmt{astbuilder.Returns(astbuilder.Nil())}
+		return []dst.Stmt{
+			astbuilder.Returns(astbuilder.Nil()),
+		}, nil
 	}
 
 	returnStmt := astbuilder.Returns(&dst.CompositeLit{
@@ -342,7 +418,7 @@ func (v *ValidatorBuilder) localValidationFuncBody(kind ValidationKind, codeGene
 		Elts: elements,
 	})
 
-	return []dst.Stmt{returnStmt}
+	return astbuilder.Statements(returnStmt), nil
 }
 
 // makeLocalValidationElement creates a validation expression, automatically removing the old parameter for update
@@ -361,13 +437,17 @@ func (v *ValidatorBuilder) makeLocalValidationElement(
 	validation *ResourceFunction,
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
-) dst.Expr {
+) (dst.Expr, error) {
 	receiverIdent := v.idFactory.CreateReceiver(receiver.Name())
 
 	if kind == ValidationKindUpdate {
 		// It's common that updates don't actually need the "old" variable. If the function that we're going to be calling
 		// doesn't take any parameters, provide a wrapper
-		f := validation.asFunc(validation, codeGenerationContext, receiver, validation.name)
+		f, err := validation.asFunc(validation, codeGenerationContext, receiver, validation.name)
+		if err != nil {
+			return nil, errors.Wrapf(err, "unable to create function for %s", validation.name)
+		}
+
 		if f.Type.Params.NumFields() == 0 {
 			return &dst.FuncLit{
 				Decs: dst.FuncLitDecorations{
@@ -383,11 +463,11 @@ func (v *ValidatorBuilder) makeLocalValidationElement(
 						astbuilder.Returns(astbuilder.CallQualifiedFunc(receiverIdent, validation.name)),
 					},
 				},
-			}
+			}, nil
 		}
 	}
 
-	return astbuilder.Selector(dst.NewIdent(receiverIdent), validation.name)
+	return astbuilder.Selector(dst.NewIdent(receiverIdent), validation.name), nil
 }
 
 func getValidationFuncType(kind ValidationKind, codeGenerationContext *astmodel.CodeGenerationContext) *dst.FuncType {
