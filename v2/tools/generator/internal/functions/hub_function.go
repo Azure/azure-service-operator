@@ -24,7 +24,12 @@ func NewHubFunction(idFactory astmodel.IdentifierFactory) astmodel.Function {
 	return result
 }
 
-func createHubFunctionBody(fn *ObjectFunction, genContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func createHubFunctionBody(
+	fn *ObjectFunction,
+	genContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	// Create a sensible name for our receiver
 	receiverName := fn.IdFactory().CreateReceiver(receiver.Name())
 
@@ -40,5 +45,5 @@ func createHubFunctionBody(fn *ObjectFunction, genContext *astmodel.CodeGenerati
 
 	details.AddComments(fmt.Sprintf("marks that this %s is the hub type for conversion", receiver.Name()))
 
-	return details.DefineFunc()
+	return details.DefineFunc(), nil
 }

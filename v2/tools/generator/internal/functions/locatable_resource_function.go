@@ -28,7 +28,12 @@ func NewLocatableResource(
 }
 
 // validateDelete returns a function that performs validation of deletion for the resource
-func locatableResourceLocationFunc(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func locatableResourceLocationFunc(
+	k *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -49,5 +54,5 @@ func locatableResourceLocationFunc(k *ResourceFunction, codeGenerationContext *a
 
 	fn.AddComments("returns the location of the resource")
 	fn.AddReturn(astmodel.StringType.AsType(codeGenerationContext))
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }

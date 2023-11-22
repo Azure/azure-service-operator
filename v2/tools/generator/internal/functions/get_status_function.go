@@ -23,7 +23,8 @@ func createGetStatusFunction(
 	f *ObjectFunction,
 	genContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
-	_ string) *dst.FuncDecl {
+	_ string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
 
@@ -39,5 +40,5 @@ func createGetStatusFunction(
 	fn.AddReturn(astmodel.ConvertibleStatusInterfaceType.AsType(genContext))
 	fn.AddComments("returns the status of this resource")
 
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }

@@ -19,7 +19,12 @@ import (
 //	func (r *<receiver>) GetConditions() genruntime.Conditions {
 //	    return r.Status.Conditions
 //	}
-func GetConditionsFunction(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func GetConditionsFunction(
+	k *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -37,7 +42,7 @@ func GetConditionsFunction(k *ResourceFunction, codeGenerationContext *astmodel.
 	fn.AddComments("returns the conditions of the resource")
 	fn.AddReturn(astmodel.ConditionsType.AsType(codeGenerationContext))
 
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // SetConditionsFunction returns a function declaration containing the implementation of the SetConditions() function.
@@ -45,7 +50,12 @@ func GetConditionsFunction(k *ResourceFunction, codeGenerationContext *astmodel.
 //	func (r *<receiver>) SetConditions(conditions genruntime.Conditions) {
 //	    r.Status.Conditions = conditions
 //	}
-func SetConditionsFunction(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func SetConditionsFunction(
+	k *ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
 	conditionsParameterName := k.IdFactory().CreateIdentifier(astmodel.ConditionsProperty, astmodel.NotExported)
 
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
@@ -66,5 +76,5 @@ func SetConditionsFunction(k *ResourceFunction, codeGenerationContext *astmodel.
 		astmodel.ConditionsType.AsType(codeGenerationContext))
 	fn.AddComments("sets the conditions on the resource status")
 
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }

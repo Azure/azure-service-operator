@@ -37,7 +37,12 @@ func NewObjectFunction(
 	}
 }
 
-type ObjectFunctionHandler func(f *ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl
+type ObjectFunctionHandler func(
+	f *ObjectFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error)
 
 // Name returns the unique name of this function
 // (You can't have two functions with the same name on the same object or resource)
@@ -66,7 +71,7 @@ func (fn *ObjectFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
-	return fn.asFunc(fn, codeGenerationContext, receiver, fn.name), nil
+	return fn.asFunc(fn, codeGenerationContext, receiver, fn.name)
 }
 
 // Equals checks if this function is equal to the passed in function

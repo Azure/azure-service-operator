@@ -5,7 +5,7 @@ package v1api20220131preview
 
 import (
 	"encoding/json"
-	v20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131previewstorage"
+	v20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131preview/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_FederatedIdentityCredential_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFederatedIdentityCredential tests if a specific instance of FederatedIdentityCredential can be assigned to v1api20220131previewstorage and back losslessly
+// RunPropertyAssignmentTestForFederatedIdentityCredential tests if a specific instance of FederatedIdentityCredential can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFederatedIdentityCredential(subject FederatedIdentityCredential) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_UserAssignedIdentities_FederatedIdentityCredential_Spec_WhenProperties
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForUserAssignedIdentities_FederatedIdentityCredential_Spec tests if a specific instance of UserAssignedIdentities_FederatedIdentityCredential_Spec can be assigned to v1api20220131previewstorage and back losslessly
+// RunPropertyAssignmentTestForUserAssignedIdentities_FederatedIdentityCredential_Spec tests if a specific instance of UserAssignedIdentities_FederatedIdentityCredential_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForUserAssignedIdentities_FederatedIdentityCredential_Spec(subject UserAssignedIdentities_FederatedIdentityCredential_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -282,7 +282,7 @@ func Test_UserAssignedIdentities_FederatedIdentityCredential_STATUS_WhenProperti
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForUserAssignedIdentities_FederatedIdentityCredential_STATUS tests if a specific instance of UserAssignedIdentities_FederatedIdentityCredential_STATUS can be assigned to v1api20220131previewstorage and back losslessly
+// RunPropertyAssignmentTestForUserAssignedIdentities_FederatedIdentityCredential_STATUS tests if a specific instance of UserAssignedIdentities_FederatedIdentityCredential_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForUserAssignedIdentities_FederatedIdentityCredential_STATUS(subject UserAssignedIdentities_FederatedIdentityCredential_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
