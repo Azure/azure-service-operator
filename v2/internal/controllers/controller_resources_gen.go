@@ -145,7 +145,7 @@ import (
 	servicebus_v20221001ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/storage"
 	signalrservice_customizations "github.com/Azure/azure-service-operator/v2/api/signalrservice/customizations"
 	signalrservice_v20211001 "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001"
-	signalrservice_v20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001storage"
+	signalrservice_v20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001/storage"
 	sql_customizations "github.com/Azure/azure-service-operator/v2/api/sql/customizations"
 	sql_v20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101"
 	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
