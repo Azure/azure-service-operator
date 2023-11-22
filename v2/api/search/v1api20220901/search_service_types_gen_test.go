@@ -5,7 +5,7 @@ package v1api20220901
 
 import (
 	"encoding/json"
-	v20220901s "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_SearchService_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSearchService tests if a specific instance of SearchService can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForSearchService tests if a specific instance of SearchService can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSearchService(subject SearchService) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_SearchService_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSearchService_Spec tests if a specific instance of SearchService_Spec can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForSearchService_Spec tests if a specific instance of SearchService_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSearchService_Spec(subject SearchService_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -303,7 +303,7 @@ func Test_SearchService_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSearchService_STATUS tests if a specific instance of SearchService_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForSearchService_STATUS tests if a specific instance of SearchService_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSearchService_STATUS(subject SearchService_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -444,7 +444,7 @@ func Test_DataPlaneAuthOptions_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDataPlaneAuthOptions tests if a specific instance of DataPlaneAuthOptions can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForDataPlaneAuthOptions tests if a specific instance of DataPlaneAuthOptions can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDataPlaneAuthOptions(subject DataPlaneAuthOptions) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -547,7 +547,7 @@ func Test_DataPlaneAuthOptions_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDataPlaneAuthOptions_STATUS tests if a specific instance of DataPlaneAuthOptions_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForDataPlaneAuthOptions_STATUS tests if a specific instance of DataPlaneAuthOptions_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDataPlaneAuthOptions_STATUS(subject DataPlaneAuthOptions_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -650,7 +650,7 @@ func Test_EncryptionWithCmk_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEncryptionWithCmk tests if a specific instance of EncryptionWithCmk can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForEncryptionWithCmk tests if a specific instance of EncryptionWithCmk can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEncryptionWithCmk(subject EncryptionWithCmk) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -752,7 +752,7 @@ func Test_EncryptionWithCmk_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEncryptionWithCmk_STATUS tests if a specific instance of EncryptionWithCmk_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForEncryptionWithCmk_STATUS tests if a specific instance of EncryptionWithCmk_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEncryptionWithCmk_STATUS(subject EncryptionWithCmk_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -856,7 +856,7 @@ func Test_Identity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForIdentity tests if a specific instance of Identity can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForIdentity tests if a specific instance of Identity can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForIdentity(subject Identity) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -958,7 +958,7 @@ func Test_Identity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForIdentity_STATUS tests if a specific instance of Identity_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForIdentity_STATUS tests if a specific instance of Identity_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForIdentity_STATUS(subject Identity_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1062,7 +1062,7 @@ func Test_NetworkRuleSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkRuleSet tests if a specific instance of NetworkRuleSet can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForNetworkRuleSet tests if a specific instance of NetworkRuleSet can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkRuleSet(subject NetworkRuleSet) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1164,7 +1164,7 @@ func Test_NetworkRuleSet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNetworkRuleSet_STATUS tests if a specific instance of NetworkRuleSet_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForNetworkRuleSet_STATUS tests if a specific instance of NetworkRuleSet_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNetworkRuleSet_STATUS(subject NetworkRuleSet_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1267,7 +1267,7 @@ func Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS tests if a specific instance of PrivateEndpointConnection_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS tests if a specific instance of PrivateEndpointConnection_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS(subject PrivateEndpointConnection_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1370,7 +1370,7 @@ func Test_SearchServiceOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSearchServiceOperatorSpec tests if a specific instance of SearchServiceOperatorSpec can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForSearchServiceOperatorSpec tests if a specific instance of SearchServiceOperatorSpec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSearchServiceOperatorSpec(subject SearchServiceOperatorSpec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1473,7 +1473,7 @@ func Test_SharedPrivateLinkResource_STATUS_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSharedPrivateLinkResource_STATUS tests if a specific instance of SharedPrivateLinkResource_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForSharedPrivateLinkResource_STATUS tests if a specific instance of SharedPrivateLinkResource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSharedPrivateLinkResource_STATUS(subject SharedPrivateLinkResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1576,7 +1576,7 @@ func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSku tests if a specific instance of Sku can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForSku tests if a specific instance of Sku can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSku(subject Sku) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1685,7 +1685,7 @@ func Test_Sku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSku_STATUS tests if a specific instance of Sku_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForSku_STATUS tests if a specific instance of Sku_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1794,7 +1794,7 @@ func Test_DataPlaneAadOrApiKeyAuthOption_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDataPlaneAadOrApiKeyAuthOption tests if a specific instance of DataPlaneAadOrApiKeyAuthOption can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForDataPlaneAadOrApiKeyAuthOption tests if a specific instance of DataPlaneAadOrApiKeyAuthOption can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDataPlaneAadOrApiKeyAuthOption(subject DataPlaneAadOrApiKeyAuthOption) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1897,7 +1897,7 @@ func Test_DataPlaneAadOrApiKeyAuthOption_STATUS_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDataPlaneAadOrApiKeyAuthOption_STATUS tests if a specific instance of DataPlaneAadOrApiKeyAuthOption_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForDataPlaneAadOrApiKeyAuthOption_STATUS tests if a specific instance of DataPlaneAadOrApiKeyAuthOption_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDataPlaneAadOrApiKeyAuthOption_STATUS(subject DataPlaneAadOrApiKeyAuthOption_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2000,7 +2000,7 @@ func Test_IpRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForIpRule tests if a specific instance of IpRule can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForIpRule tests if a specific instance of IpRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForIpRule(subject IpRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2102,7 +2102,7 @@ func Test_IpRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForIpRule_STATUS tests if a specific instance of IpRule_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForIpRule_STATUS tests if a specific instance of IpRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForIpRule_STATUS(subject IpRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2204,7 +2204,7 @@ func Test_SearchServiceOperatorSecrets_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSearchServiceOperatorSecrets tests if a specific instance of SearchServiceOperatorSecrets can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForSearchServiceOperatorSecrets tests if a specific instance of SearchServiceOperatorSecrets can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSearchServiceOperatorSecrets(subject SearchServiceOperatorSecrets) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
