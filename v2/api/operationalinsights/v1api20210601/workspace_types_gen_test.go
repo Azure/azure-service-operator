@@ -5,7 +5,7 @@ package v1api20210601
 
 import (
 	"encoding/json"
-	v20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601storage"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_Workspace_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWorkspace tests if a specific instance of Workspace can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForWorkspace tests if a specific instance of Workspace can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForWorkspace(subject Workspace) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_Workspace_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWorkspace_Spec tests if a specific instance of Workspace_Spec can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForWorkspace_Spec tests if a specific instance of Workspace_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForWorkspace_Spec(subject Workspace_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -308,7 +308,7 @@ func Test_Workspace_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWorkspace_STATUS tests if a specific instance of Workspace_STATUS can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForWorkspace_STATUS tests if a specific instance of Workspace_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForWorkspace_STATUS(subject Workspace_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -447,7 +447,7 @@ func Test_PrivateLinkScopedResource_STATUS_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateLinkScopedResource_STATUS tests if a specific instance of PrivateLinkScopedResource_STATUS can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForPrivateLinkScopedResource_STATUS tests if a specific instance of PrivateLinkScopedResource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateLinkScopedResource_STATUS(subject PrivateLinkScopedResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -551,7 +551,7 @@ func Test_WorkspaceCapping_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWorkspaceCapping tests if a specific instance of WorkspaceCapping can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForWorkspaceCapping tests if a specific instance of WorkspaceCapping can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForWorkspaceCapping(subject WorkspaceCapping) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -653,7 +653,7 @@ func Test_WorkspaceCapping_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWorkspaceCapping_STATUS tests if a specific instance of WorkspaceCapping_STATUS can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForWorkspaceCapping_STATUS tests if a specific instance of WorkspaceCapping_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForWorkspaceCapping_STATUS(subject WorkspaceCapping_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -764,7 +764,7 @@ func Test_WorkspaceFeatures_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWorkspaceFeatures tests if a specific instance of WorkspaceFeatures can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForWorkspaceFeatures tests if a specific instance of WorkspaceFeatures can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForWorkspaceFeatures(subject WorkspaceFeatures) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -869,7 +869,7 @@ func Test_WorkspaceFeatures_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWorkspaceFeatures_STATUS tests if a specific instance of WorkspaceFeatures_STATUS can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForWorkspaceFeatures_STATUS tests if a specific instance of WorkspaceFeatures_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForWorkspaceFeatures_STATUS(subject WorkspaceFeatures_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -976,7 +976,7 @@ func Test_WorkspaceSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWorkspaceSku tests if a specific instance of WorkspaceSku can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForWorkspaceSku tests if a specific instance of WorkspaceSku can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForWorkspaceSku(subject WorkspaceSku) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1095,7 +1095,7 @@ func Test_WorkspaceSku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWorkspaceSku_STATUS tests if a specific instance of WorkspaceSku_STATUS can be assigned to v1api20210601storage and back losslessly
+// RunPropertyAssignmentTestForWorkspaceSku_STATUS tests if a specific instance of WorkspaceSku_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForWorkspaceSku_STATUS(subject WorkspaceSku_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
