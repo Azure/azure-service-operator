@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -47,22 +46,36 @@ var _ conversion.Convertible = &FlexibleServersConfiguration{}
 
 // ConvertFrom populates our FlexibleServersConfiguration from the provided hub FlexibleServersConfiguration
 func (configuration *FlexibleServersConfiguration) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210601s.FlexibleServersConfiguration)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20210601/storage/FlexibleServersConfiguration but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210601s.FlexibleServersConfiguration
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return configuration.AssignProperties_From_FlexibleServersConfiguration(source)
+	err = configuration.AssignProperties_From_FlexibleServersConfiguration(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to configuration")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServersConfiguration from our FlexibleServersConfiguration
 func (configuration *FlexibleServersConfiguration) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210601s.FlexibleServersConfiguration)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1api20210601/storage/FlexibleServersConfiguration but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210601s.FlexibleServersConfiguration
+	err := configuration.AssignProperties_To_FlexibleServersConfiguration(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from configuration")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return configuration.AssignProperties_To_FlexibleServersConfiguration(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesResource = &FlexibleServersConfiguration{}
