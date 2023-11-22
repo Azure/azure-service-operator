@@ -6,7 +6,7 @@ package v1api20181130
 import (
 	"context"
 	"fmt"
-	v20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130storage"
+	v20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -56,7 +56,7 @@ var _ conversion.Convertible = &UserAssignedIdentity{}
 func (identity *UserAssignedIdentity) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20181130s.UserAssignedIdentity)
 	if !ok {
-		return fmt.Errorf("expected managedidentity/v1api20181130storage/UserAssignedIdentity but received %T instead", hub)
+		return fmt.Errorf("expected managedidentity/v1api20181130/storage/UserAssignedIdentity but received %T instead", hub)
 	}
 
 	return identity.AssignProperties_From_UserAssignedIdentity(source)
@@ -66,7 +66,7 @@ func (identity *UserAssignedIdentity) ConvertFrom(hub conversion.Hub) error {
 func (identity *UserAssignedIdentity) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20181130s.UserAssignedIdentity)
 	if !ok {
-		return fmt.Errorf("expected managedidentity/v1api20181130storage/UserAssignedIdentity but received %T instead", hub)
+		return fmt.Errorf("expected managedidentity/v1api20181130/storage/UserAssignedIdentity but received %T instead", hub)
 	}
 
 	return identity.AssignProperties_To_UserAssignedIdentity(destination)
