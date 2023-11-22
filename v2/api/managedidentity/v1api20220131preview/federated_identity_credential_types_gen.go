@@ -5,7 +5,7 @@ package v1api20220131preview
 
 import (
 	"fmt"
-	v20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131previewstorage"
+	v20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &FederatedIdentityCredential{}
 func (credential *FederatedIdentityCredential) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220131ps.FederatedIdentityCredential)
 	if !ok {
-		return fmt.Errorf("expected managedidentity/v1api20220131previewstorage/FederatedIdentityCredential but received %T instead", hub)
+		return fmt.Errorf("expected managedidentity/v1api20220131preview/storage/FederatedIdentityCredential but received %T instead", hub)
 	}
 
 	return credential.AssignProperties_From_FederatedIdentityCredential(source)
@@ -61,7 +61,7 @@ func (credential *FederatedIdentityCredential) ConvertFrom(hub conversion.Hub) e
 func (credential *FederatedIdentityCredential) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220131ps.FederatedIdentityCredential)
 	if !ok {
-		return fmt.Errorf("expected managedidentity/v1api20220131previewstorage/FederatedIdentityCredential but received %T instead", hub)
+		return fmt.Errorf("expected managedidentity/v1api20220131preview/storage/FederatedIdentityCredential but received %T instead", hub)
 	}
 
 	return credential.AssignProperties_To_FederatedIdentityCredential(destination)
