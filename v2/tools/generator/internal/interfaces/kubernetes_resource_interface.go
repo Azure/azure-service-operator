@@ -475,6 +475,9 @@ func getSupportedOperationsFunction(
 		),
 	}
 
+	fn.AddComments("returns the operations supported by the resource")
+	fn.AddReturn(astmodel.ResourceOperationTypeArray.AsType(codeGenerationContext))
+
 	return fn.DefineFunc(), nil
 }
 
