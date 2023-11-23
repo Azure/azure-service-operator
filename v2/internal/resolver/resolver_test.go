@@ -7,6 +7,7 @@ package resolver_test
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -89,6 +90,9 @@ func createResourceGroup(name string) *resources.ResourceGroup {
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      name,
 			Namespace: testNamespace,
+			Annotations: map[string]string{
+				genruntime.ResourceIDAnnotation: fmt.Sprintf("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/%s", name),
+			},
 		},
 		Spec: resources.ResourceGroup_Spec{
 			Location:  to.Ptr("West US"),
