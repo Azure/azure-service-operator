@@ -32,7 +32,7 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 	// I recommend you change this line to CreateResourceAndWaitWithoutCleanup. This way
 	// apim will not be deleted until you have finished writing your tests. Also change
 	// the code below when you create the &service
-	tc.CreateResourceAndWaitWithoutCleanup(rg)
+	tc.CreateResourceAndWait(rg)
 
 	// There will be a New v2 SKU released 5/10/2023 which will have a much quicker start up
 	// time. Move to that when it's available (BasicV2 or StandardV2 SKU)
@@ -56,7 +56,7 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 
 	// APIM takes a long time to provision. When you are authoring tests in this file. I
 	// recommend you change this line to CreateResourceAndWaitWithoutCleanup.
-	tc.CreateResourceAndWaitWithoutCleanup(&service)
+	tc.CreateResourceAndWait(&service)
 
 	tc.Expect(service.Status.Id).ToNot(BeNil())
 
@@ -298,8 +298,8 @@ func APIM_Product_Policy_CRUD(tc *testcommon.KubePerTestContext, service client.
 		},
 	}
 
-	tc.T.Log("creating apim product")
-	tc.CreateResourceAndWaitWithoutCleanup(&product)
+	tc.T.Log("creating apim product to attach policy to")
+	tc.CreateResourceAndWait(&product)
 
 	tc.Expect(product.Status).ToNot(BeNil())
 	tc.Expect(product.Status.Id).ToNot(BeNil())
@@ -313,13 +313,13 @@ func APIM_Product_Policy_CRUD(tc *testcommon.KubePerTestContext, service client.
 	}
 
 	tc.T.Log("creating apim product policy")
-	tc.CreateResourceAndWaitWithoutCleanup(&productPolicy)
+	tc.CreateResourceAndWait(&productPolicy)
 
 	tc.Expect(productPolicy.Status).ToNot(BeNil())
 	tc.Expect(productPolicy.Status.Id).ToNot(BeNil())
 
-	//defer tc.DeleteResourceAndWait(&product)
-	//defer tc.DeleteResourceAndWait(&productPolicy)
+	defer tc.DeleteResourceAndWait(&product)
+	defer tc.DeleteResourceAndWait(&productPolicy)
 
 	tc.T.Log("cleaning up product")
 }
@@ -327,7 +327,6 @@ func APIM_Product_Policy_CRUD(tc *testcommon.KubePerTestContext, service client.
 func APIM_Product_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 
 	productName := tc.Namer.GenerateName("product2")
-	// Now add a product
 	product := apim.Product{
 		ObjectMeta: tc.MakeObjectMetaWithName(productName),
 		Spec: apim.Service_Product_Spec{
@@ -338,27 +337,77 @@ func APIM_Product_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Obj
 		},
 	}
 
-	tc.T.Log("creating apim product")
-	tc.CreateResourceAndWaitWithoutCleanup(&product)
+	tc.T.Log("creating apim product to attach api to")
+	tc.CreateResourceAndWait(&product)
 
 	tc.Expect(product.Status).ToNot(BeNil())
 	tc.Expect(product.Status.Id).ToNot(BeNil())
 
-	// This will not work as you need to pass the api id in the product api spec???
+	versionSet := apim.ApiVersionSet{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs2")),
+		Spec: apim.Service_ApiVersionSet_Spec{
+			DisplayName:      to.Ptr("vs2"),
+			Description:      to.Ptr("A version set for the account api"),
+			Owner:            testcommon.AsOwner(service),
+			VersioningScheme: to.Ptr(apim.ApiVersionSetContractProperties_VersioningScheme_Segment),
+		},
+	}
+
+	tc.T.Log("creating apim version set")
+	tc.CreateResourceAndWait(&versionSet)
+
+	versionSetReference := genruntime.ResourceReference{
+		ARMID: *versionSet.Status.Id,
+	}
+
+	// Add a simple Api
+	api := apim.Api{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("api2")),
+		Spec: apim.Service_Api_Spec{
+			APIVersion:             to.Ptr("2.0.0"),
+			ApiRevision:            to.Ptr("v1"),
+			ApiRevisionDescription: to.Ptr("First Revision"),
+			ApiVersionDescription:  to.Ptr("Second Version"),
+			ApiVersionSetReference: &versionSetReference,
+			Description:            to.Ptr("A Description about the api"),
+			DisplayName:            to.Ptr("account-api2"),
+			Owner:                  testcommon.AsOwner(service),
+			Path:                   to.Ptr("/account-api2"),
+			SubscriptionRequired:   to.Ptr(false),
+			IsCurrent:              to.Ptr(true),
+			Contact: &apim.ApiContactInformation{
+				Email: to.Ptr("test@test.com"),
+				Name:  to.Ptr("Test"),
+				Url:   to.Ptr("https://www.bing.com"),
+			},
+
+			Protocols: []apim.ApiCreateOrUpdateProperties_Protocols{
+				apim.ApiCreateOrUpdateProperties_Protocols_Https},
+
+			TermsOfServiceUrl: to.Ptr("https://www.bing.com/tos"),
+			Type:              to.Ptr(apim.ApiCreateOrUpdateProperties_Type_Http),
+		},
+	}
+
+	tc.T.Log("creating apim api to attach to product")
+	tc.CreateResourceAndWait(&api)
+
+	// Now link the display name of the api to the product
 	productApi := apim.ProductApi{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("productapi")),
 		Spec: apim.Service_Products_Api_Spec{
-			Owner: testcommon.AsOwner(&product),
+			Owner:     testcommon.AsOwner(&product),
+			AzureName: api.Spec.AzureName,
 		},
 	}
 
 	tc.T.Log("creating apim product api")
-	tc.CreateResourceAndWaitWithoutCleanup(&productApi)
+	tc.CreateResourceAndWait(&productApi)
 
 	tc.Expect(productApi.Status).ToNot(BeNil())
 
-	//defer tc.DeleteResourceAndWait(&product)
-	//defer tc.DeleteResourceAndWait(&productApi)
+	defer tc.DeleteResourceAndWait(&product)
+	defer tc.DeleteResourceAndWait(&productApi)
 
 	tc.T.Log("cleaning up product")
 }
@@ -368,7 +417,7 @@ func APIM_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	versionSet := apim.ApiVersionSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs")),
 		Spec: apim.Service_ApiVersionSet_Spec{
-			DisplayName:      to.Ptr("/apiVersionSets/account-api"),
+			DisplayName:      to.Ptr("vs"),
 			Description:      to.Ptr("A version set for the account api"),
 			Owner:            testcommon.AsOwner(service),
 			VersioningScheme: to.Ptr(apim.ApiVersionSetContractProperties_VersioningScheme_Segment),
@@ -386,7 +435,7 @@ func APIM_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	api := apim.Api{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("api")),
 		Spec: apim.Service_Api_Spec{
-			APIVersion:             to.Ptr("2.0.0"),
+			APIVersion:             to.Ptr("1.0.0"),
 			ApiRevision:            to.Ptr("v1"),
 			ApiRevisionDescription: to.Ptr("First Revision"),
 			ApiVersionDescription:  to.Ptr("Second Version"),
