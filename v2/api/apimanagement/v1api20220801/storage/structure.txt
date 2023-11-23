@@ -353,6 +353,19 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │       ├── SubscriptionsLimit: *int
 │       ├── Terms: *string
 │       └── Type: *string
+├── ProductApi: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Product
+│   ├── Spec: Object (4 properties)
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: MaxLength: 256
+│   │   │   ├── Rule 1: MinLength: 1
+│   │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   └── Status: Object (2 properties)
+│       ├── Conditions: conditions.Condition[]
+│       └── PropertyBag: genruntime.PropertyBag
 ├── ProductPolicy: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Product
 │   ├── Spec: Object (5 properties)

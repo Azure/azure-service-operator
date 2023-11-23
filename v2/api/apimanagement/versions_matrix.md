@@ -109,6 +109,7 @@
 | PrivateEndpointServiceConnectionStatus_STATUS                | v1api20220801 |
 | PrivateLinkServiceConnectionState_STATUS                     | v1api20220801 |
 | Product                                                      | v1api20220801 |
+| ProductApi                                                   | v1api20220801 |
 | ProductContractProperties                                    | v1api20220801 |
 | ProductContractProperties_STATUS                             | v1api20220801 |
 | ProductContractProperties_State                              | v1api20220801 |
@@ -131,6 +132,8 @@
 | Service_Policy_Spec                                          | v1api20220801 |
 | Service_Product_STATUS                                       | v1api20220801 |
 | Service_Product_Spec                                         | v1api20220801 |
+| Service_Products_Api_STATUS                                  | v1api20220801 |
+| Service_Products_Api_Spec                                    | v1api20220801 |
 | Service_Products_Policy_Name_Spec                            | v1api20220801 |
 | Service_Products_Policy_STATUS                               | v1api20220801 |
 | Service_Products_Policy_Spec                                 | v1api20220801 |

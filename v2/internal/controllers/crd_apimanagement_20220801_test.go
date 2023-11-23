@@ -32,7 +32,7 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 	// I recommend you change this line to CreateResourceAndWaitWithoutCleanup. This way
 	// apim will not be deleted until you have finished writing your tests. Also change
 	// the code below when you create the &service
-	tc.CreateResourceAndWait(rg)
+	tc.CreateResourceAndWaitWithoutCleanup(rg)
 
 	// There will be a New v2 SKU released 5/10/2023 which will have a much quicker start up
 	// time. Move to that when it's available (BasicV2 or StandardV2 SKU)
@@ -56,7 +56,7 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 
 	// APIM takes a long time to provision. When you are authoring tests in this file. I
 	// recommend you change this line to CreateResourceAndWaitWithoutCleanup.
-	tc.CreateResourceAndWait(&service)
+	tc.CreateResourceAndWaitWithoutCleanup(&service)
 
 	tc.Expect(service.Status.Id).ToNot(BeNil())
 
@@ -109,6 +109,18 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 			Name: "APIM Api CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
 				APIM_Api_CRUD(tc, &service)
+			},
+		},
+		testcommon.Subtest{
+			Name: "APIM Product Api CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_Product_Api_CRUD(tc, &service)
+			},
+		},
+		testcommon.Subtest{
+			Name: "APIM Product Policy CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_Product_Policy_CRUD(tc, &service)
 			},
 		},
 	)
@@ -208,7 +220,7 @@ func APIM_Policy_CRUD(tc *testcommon.KubePerTestContext, service client.Object) 
 	policy := apim.Policy{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("policy")),
 		Spec: apim.Service_Policy_Spec{
-			Value: to.Ptr("<policies><inbound /><backend><forward-request /></backend><outbound /></policies>"),
+			Value: to.Ptr("<policies><inbound><set-variable name=\"asoTest\" value=\"ProductPolicy Value\" /></inbound><backend><forward-request /></backend><outbound /></policies>"),
 			Owner: testcommon.AsOwner(service),
 		},
 	}
@@ -243,7 +255,6 @@ func APIM_PolicyFragment_CRUD(tc *testcommon.KubePerTestContext, service client.
 	tc.T.Log("cleaning up policyFragment")
 }
 
-// Currently not called as we need to find a way to delete the subscription
 func APIM_Product_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 
 	productName := tc.Namer.GenerateName("cust1")
@@ -254,7 +265,7 @@ func APIM_Product_CRUD(tc *testcommon.KubePerTestContext, service client.Object)
 			Owner:                testcommon.AsOwner(service),
 			DisplayName:          to.Ptr("Customer 1"),
 			Description:          to.Ptr("A product for customer 1"),
-			SubscriptionRequired: to.Ptr(false), // This creates a subscription which then makes the subscription test fail.
+			SubscriptionRequired: to.Ptr(false), // This creates a subscription anyway!
 		},
 	}
 
@@ -269,6 +280,85 @@ func APIM_Product_CRUD(tc *testcommon.KubePerTestContext, service client.Object)
 	// deleteSubscription = true
 
 	defer tc.DeleteResourceAndWait(&product)
+
+	tc.T.Log("cleaning up product")
+}
+
+func APIM_Product_Policy_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+
+	productName := tc.Namer.GenerateName("product1")
+	// Now add a product
+	product := apim.Product{
+		ObjectMeta: tc.MakeObjectMetaWithName(productName),
+		Spec: apim.Service_Product_Spec{
+			Owner:                testcommon.AsOwner(service),
+			DisplayName:          to.Ptr("Product Policy Test"),
+			Description:          to.Ptr("A product policy example"),
+			SubscriptionRequired: to.Ptr(false), // This creates a subscription anyway!
+		},
+	}
+
+	tc.T.Log("creating apim product")
+	tc.CreateResourceAndWaitWithoutCleanup(&product)
+
+	tc.Expect(product.Status).ToNot(BeNil())
+	tc.Expect(product.Status.Id).ToNot(BeNil())
+
+	productPolicy := apim.ProductPolicy{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("productpolicy")),
+		Spec: apim.Service_Products_Policy_Spec{
+			Owner: testcommon.AsOwner(&product),
+			Value: to.Ptr("<policies><inbound><set-variable name=\"asoTest\" value=\"ProductPolicy Value\" /></inbound><backend><forward-request /></backend><outbound /></policies>"),
+		},
+	}
+
+	tc.T.Log("creating apim product policy")
+	tc.CreateResourceAndWaitWithoutCleanup(&productPolicy)
+
+	tc.Expect(productPolicy.Status).ToNot(BeNil())
+	tc.Expect(productPolicy.Status.Id).ToNot(BeNil())
+
+	//defer tc.DeleteResourceAndWait(&product)
+	//defer tc.DeleteResourceAndWait(&productPolicy)
+
+	tc.T.Log("cleaning up product")
+}
+
+func APIM_Product_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+
+	productName := tc.Namer.GenerateName("product2")
+	// Now add a product
+	product := apim.Product{
+		ObjectMeta: tc.MakeObjectMetaWithName(productName),
+		Spec: apim.Service_Product_Spec{
+			Owner:                testcommon.AsOwner(service),
+			DisplayName:          to.Ptr("Product Api Test"),
+			Description:          to.Ptr("A product Api example"),
+			SubscriptionRequired: to.Ptr(false), // This creates a subscription anyway!
+		},
+	}
+
+	tc.T.Log("creating apim product")
+	tc.CreateResourceAndWaitWithoutCleanup(&product)
+
+	tc.Expect(product.Status).ToNot(BeNil())
+	tc.Expect(product.Status.Id).ToNot(BeNil())
+
+	// This will not work as you need to pass the api id in the product api spec???
+	productApi := apim.ProductApi{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("productapi")),
+		Spec: apim.Service_Products_Api_Spec{
+			Owner: testcommon.AsOwner(&product),
+		},
+	}
+
+	tc.T.Log("creating apim product api")
+	tc.CreateResourceAndWaitWithoutCleanup(&productApi)
+
+	tc.Expect(productApi.Status).ToNot(BeNil())
+
+	//defer tc.DeleteResourceAndWait(&product)
+	//defer tc.DeleteResourceAndWait(&productApi)
 
 	tc.T.Log("cleaning up product")
 }
