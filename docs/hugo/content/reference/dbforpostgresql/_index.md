@@ -9,12 +9,12 @@ To install the CRDs for these resources, your ASO configuration must include `db
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                     | ARM Version | CRD Version   | Supported From | Sample |
-|------------------------------|-------------|---------------|----------------|--------|
-| FlexibleServer               | 2022-12-01  | v1api20221201 | v2.5.0         | -      |
-| FlexibleServersConfiguration | 2022-12-01  | v1api20221201 | v2.5.0         | -      |
-| FlexibleServersDatabase      | 2022-12-01  | v1api20221201 | v2.5.0         | -      |
-| FlexibleServersFirewallRule  | 2022-12-01  | v1api20221201 | v2.5.0         | -      |
+| Resource                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                     |
+|------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| FlexibleServer               | 2022-12-01  | v1api20221201 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserver.yaml)               |
+| FlexibleServersConfiguration | 2022-12-01  | v1api20221201 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversconfiguration.yaml) |
+| FlexibleServersDatabase      | 2022-12-01  | v1api20221201 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversdatabase.yaml)      |
+| FlexibleServersFirewallRule  | 2022-12-01  | v1api20221201 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversfirewallrule.yaml)  |
 
 ### Released
 
