@@ -8,6 +8,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -131,6 +132,27 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 	tc.Expect(exists).To(BeTrue())
 
 	tc.DeleteResourcesAndWait(acct, rg)
+}
+
+func Test_Multitenant_SingleOperator_PerResourceCredential_MatchSubscriptionWithOwner(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	secret, err := newClientSecretCredential(uuid.New().String(), tc.AzureTenant, "credential", tc.Namespace)
+	tc.Expect(err).To(BeNil())
+
+	tc.CreateResource(secret)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	acct := newStorageAccount(tc, rg)
+	acct.Annotations = map[string]string{annotations.PerResourceSecret: secret.Name}
+
+	// Create a new storage account with a distinct subscription; per resource secret should fail because it does not match
+	tc.CreateResourceAndWaitForFailure(acct)
+	tc.Expect(acct.Status.Conditions[0].Message).To(ContainSubstring("does not match parent subscription"))
+	tc.Expect(acct.Status.Conditions[0].Severity).To(Equal(conditions.ConditionSeverityError))
 }
 
 func newClientSecretCredential(subscriptionID, tenantID, name, namespace string) (*v1.Secret, error) {

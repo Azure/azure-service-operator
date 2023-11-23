@@ -5,7 +5,7 @@ package v1api20220901
 
 import (
 	"fmt"
-	v20220901s "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -52,7 +52,7 @@ var _ conversion.Convertible = &SearchService{}
 func (service *SearchService) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220901s.SearchService)
 	if !ok {
-		return fmt.Errorf("expected search/v1api20220901storage/SearchService but received %T instead", hub)
+		return fmt.Errorf("expected search/v1api20220901/storage/SearchService but received %T instead", hub)
 	}
 
 	return service.AssignProperties_From_SearchService(source)
@@ -62,7 +62,7 @@ func (service *SearchService) ConvertFrom(hub conversion.Hub) error {
 func (service *SearchService) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220901s.SearchService)
 	if !ok {
-		return fmt.Errorf("expected search/v1api20220901storage/SearchService but received %T instead", hub)
+		return fmt.Errorf("expected search/v1api20220901/storage/SearchService but received %T instead", hub)
 	}
 
 	return service.AssignProperties_To_SearchService(destination)
