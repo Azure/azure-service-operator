@@ -5,7 +5,7 @@ package v1api20211001
 
 import (
 	"fmt"
-	v20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001storage"
+	v20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &SignalR{}
 func (signalR *SignalR) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20211001s.SignalR)
 	if !ok {
-		return fmt.Errorf("expected signalrservice/v1api20211001storage/SignalR but received %T instead", hub)
+		return fmt.Errorf("expected signalrservice/v1api20211001/storage/SignalR but received %T instead", hub)
 	}
 
 	return signalR.AssignProperties_From_SignalR(source)
@@ -61,7 +61,7 @@ func (signalR *SignalR) ConvertFrom(hub conversion.Hub) error {
 func (signalR *SignalR) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20211001s.SignalR)
 	if !ok {
-		return fmt.Errorf("expected signalrservice/v1api20211001storage/SignalR but received %T instead", hub)
+		return fmt.Errorf("expected signalrservice/v1api20211001/storage/SignalR but received %T instead", hub)
 	}
 
 	return signalR.AssignProperties_To_SignalR(destination)
