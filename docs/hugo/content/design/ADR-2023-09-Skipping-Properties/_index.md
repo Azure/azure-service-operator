@@ -190,7 +190,7 @@ We have three possible choices:
 
 **Decision: Preservation**
 
-As discussed above, the problem is that we can end up with different object shapes embedded in the PropertyBag, depending on the direction of conversion (v3->v4->v5 vs v5->v4->v3). Standardising on a consistent object shape shouldn't require making any other changes.
+As discussed above, the problem is that we can end up with different object shapes embedded in the PropertyBag, depending on the direction of conversion (v3 -> v4 -> v5 vs v5 -> v4 -> v3). Standardising on a consistent object shape shouldn't require making any other changes.
 
 ### Rejected Solution: Add a synthetic property
 
@@ -210,7 +210,7 @@ In our example here, we would add a new `ResidentialAddress` property to the v4 
 [v5.Person]->[v5.Address|Street string; Suburb string; City string; Country string|Properties PropertyBag]
 -->
 
-{{< figure src="./option-1-class.png" >}}
+{{< figure src="./rejected-solution-synthetic-property.png" >}}
 
 The shape of `Address` when reintroduced will always match the shape of `Address` when removed, so we can always serialize the same shape in-to or out-of the property bag, ensuring any `Address` has the a consistent shape.
 
@@ -229,8 +229,6 @@ Reason for rejection: This solution requires breaking changes and is therefore t
 ### Constraint: Direction of Conversion
 
 All of the conversion functionality we currently generate for ASO resources is hosted by the earlier version of the resource. For example, the conversion from v3 to v4 is hosted by the v3 package, and the conversion from v4 to v5 is hosted by the v4 package. We can see this by looking for the generated property assignment methods on the v3 and v4 types:
-
-``` go
 
 <!-- yuml.me
 
@@ -387,7 +385,7 @@ Cons:
 
 ## Decision
 
-TBC
+Recommended.
 
 ## Status
 
