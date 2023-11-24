@@ -122,10 +122,6 @@ func (ts *TransformSelector) appliesToTypeName(tn astmodel.InternalTypeName) boo
 			if !ref.HasApiVersion(ts.Version.String()) && !ts.Version.Matches(ver).Matched {
 				return false
 			}
-		case astmodel.StoragePackageReference:
-			if !ref.Local().HasApiVersion(ts.Version.String()) && ts.Version.Matches(ver).Matched {
-				return false
-			}
 		default:
 			return false
 		}

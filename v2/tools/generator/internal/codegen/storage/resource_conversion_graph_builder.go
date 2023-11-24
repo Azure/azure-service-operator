@@ -7,6 +7,7 @@ package storage
 
 import (
 	"fmt"
+
 	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
 
@@ -151,8 +152,6 @@ func (b *ResourceConversionGraphBuilder) isCompatibilityPackage(ref astmodel.Pac
 		return false
 	case astmodel.LocalPackageReference:
 		return !r.HasVersionPrefix(b.versionPrefix)
-	case astmodel.StoragePackageReference:
-		return b.isCompatibilityPackage(r.Local())
 	case astmodel.SubPackageReference:
 		return b.isCompatibilityPackage(r.Parent())
 	default:
