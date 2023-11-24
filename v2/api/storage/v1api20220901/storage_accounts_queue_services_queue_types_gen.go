@@ -5,7 +5,7 @@ package v1api20220901
 
 import (
 	"fmt"
-	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &StorageAccountsQueueServicesQueue{}
 func (queue *StorageAccountsQueueServicesQueue) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220901s.StorageAccountsQueueServicesQueue)
 	if !ok {
-		return fmt.Errorf("expected storage/v1api20220901storage/StorageAccountsQueueServicesQueue but received %T instead", hub)
+		return fmt.Errorf("expected storage/v1api20220901/storage/StorageAccountsQueueServicesQueue but received %T instead", hub)
 	}
 
 	return queue.AssignProperties_From_StorageAccountsQueueServicesQueue(source)
@@ -61,7 +61,7 @@ func (queue *StorageAccountsQueueServicesQueue) ConvertFrom(hub conversion.Hub) 
 func (queue *StorageAccountsQueueServicesQueue) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220901s.StorageAccountsQueueServicesQueue)
 	if !ok {
-		return fmt.Errorf("expected storage/v1api20220901storage/StorageAccountsQueueServicesQueue but received %T instead", hub)
+		return fmt.Errorf("expected storage/v1api20220901/storage/StorageAccountsQueueServicesQueue but received %T instead", hub)
 	}
 
 	return queue.AssignProperties_To_StorageAccountsQueueServicesQueue(destination)

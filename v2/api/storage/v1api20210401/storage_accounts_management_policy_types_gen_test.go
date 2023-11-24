@@ -5,8 +5,8 @@ package v1api20210401
 
 import (
 	"encoding/json"
-	v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
-	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401/storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_StorageAccountsManagementPolicy_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccountsManagementPolicy tests if a specific instance of StorageAccountsManagementPolicy can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccountsManagementPolicy tests if a specific instance of StorageAccountsManagementPolicy can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccountsManagementPolicy(subject StorageAccountsManagementPolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -177,7 +177,7 @@ func Test_StorageAccounts_ManagementPolicy_Spec_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_ManagementPolicy_Spec tests if a specific instance of StorageAccounts_ManagementPolicy_Spec can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_ManagementPolicy_Spec tests if a specific instance of StorageAccounts_ManagementPolicy_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_ManagementPolicy_Spec(subject StorageAccounts_ManagementPolicy_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -280,7 +280,7 @@ func Test_StorageAccounts_ManagementPolicy_STATUS_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_ManagementPolicy_STATUS tests if a specific instance of StorageAccounts_ManagementPolicy_STATUS can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_ManagementPolicy_STATUS tests if a specific instance of StorageAccounts_ManagementPolicy_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_ManagementPolicy_STATUS(subject StorageAccounts_ManagementPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -400,7 +400,7 @@ func Test_ManagementPolicySchema_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagementPolicySchema tests if a specific instance of ManagementPolicySchema can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForManagementPolicySchema tests if a specific instance of ManagementPolicySchema can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagementPolicySchema(subject ManagementPolicySchema) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -503,7 +503,7 @@ func Test_ManagementPolicySchema_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagementPolicySchema_STATUS tests if a specific instance of ManagementPolicySchema_STATUS can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForManagementPolicySchema_STATUS tests if a specific instance of ManagementPolicySchema_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagementPolicySchema_STATUS(subject ManagementPolicySchema_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -606,7 +606,7 @@ func Test_ManagementPolicyRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagementPolicyRule tests if a specific instance of ManagementPolicyRule can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForManagementPolicyRule tests if a specific instance of ManagementPolicyRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagementPolicyRule(subject ManagementPolicyRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -725,7 +725,7 @@ func Test_ManagementPolicyRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagementPolicyRule_STATUS tests if a specific instance of ManagementPolicyRule_STATUS can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForManagementPolicyRule_STATUS tests if a specific instance of ManagementPolicyRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagementPolicyRule_STATUS(subject ManagementPolicyRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -844,7 +844,7 @@ func Test_ManagementPolicyDefinition_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagementPolicyDefinition tests if a specific instance of ManagementPolicyDefinition can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForManagementPolicyDefinition tests if a specific instance of ManagementPolicyDefinition can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagementPolicyDefinition(subject ManagementPolicyDefinition) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -948,7 +948,7 @@ func Test_ManagementPolicyDefinition_STATUS_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagementPolicyDefinition_STATUS tests if a specific instance of ManagementPolicyDefinition_STATUS can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForManagementPolicyDefinition_STATUS tests if a specific instance of ManagementPolicyDefinition_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagementPolicyDefinition_STATUS(subject ManagementPolicyDefinition_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1052,7 +1052,7 @@ func Test_ManagementPolicyAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagementPolicyAction tests if a specific instance of ManagementPolicyAction can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForManagementPolicyAction tests if a specific instance of ManagementPolicyAction can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagementPolicyAction(subject ManagementPolicyAction) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1157,7 +1157,7 @@ func Test_ManagementPolicyAction_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagementPolicyAction_STATUS tests if a specific instance of ManagementPolicyAction_STATUS can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForManagementPolicyAction_STATUS tests if a specific instance of ManagementPolicyAction_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagementPolicyAction_STATUS(subject ManagementPolicyAction_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1262,7 +1262,7 @@ func Test_ManagementPolicyFilter_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagementPolicyFilter tests if a specific instance of ManagementPolicyFilter can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForManagementPolicyFilter tests if a specific instance of ManagementPolicyFilter can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagementPolicyFilter(subject ManagementPolicyFilter) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1380,7 +1380,7 @@ func Test_ManagementPolicyFilter_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagementPolicyFilter_STATUS tests if a specific instance of ManagementPolicyFilter_STATUS can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForManagementPolicyFilter_STATUS tests if a specific instance of ManagementPolicyFilter_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagementPolicyFilter_STATUS(subject ManagementPolicyFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1498,7 +1498,7 @@ func Test_ManagementPolicyBaseBlob_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagementPolicyBaseBlob tests if a specific instance of ManagementPolicyBaseBlob can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForManagementPolicyBaseBlob tests if a specific instance of ManagementPolicyBaseBlob can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagementPolicyBaseBlob(subject ManagementPolicyBaseBlob) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1617,7 +1617,7 @@ func Test_ManagementPolicyBaseBlob_STATUS_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagementPolicyBaseBlob_STATUS tests if a specific instance of ManagementPolicyBaseBlob_STATUS can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForManagementPolicyBaseBlob_STATUS tests if a specific instance of ManagementPolicyBaseBlob_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagementPolicyBaseBlob_STATUS(subject ManagementPolicyBaseBlob_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1736,7 +1736,7 @@ func Test_ManagementPolicySnapShot_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagementPolicySnapShot tests if a specific instance of ManagementPolicySnapShot can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForManagementPolicySnapShot tests if a specific instance of ManagementPolicySnapShot can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagementPolicySnapShot(subject ManagementPolicySnapShot) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1841,7 +1841,7 @@ func Test_ManagementPolicySnapShot_STATUS_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagementPolicySnapShot_STATUS tests if a specific instance of ManagementPolicySnapShot_STATUS can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForManagementPolicySnapShot_STATUS tests if a specific instance of ManagementPolicySnapShot_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagementPolicySnapShot_STATUS(subject ManagementPolicySnapShot_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1946,7 +1946,7 @@ func Test_ManagementPolicyVersion_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagementPolicyVersion tests if a specific instance of ManagementPolicyVersion can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForManagementPolicyVersion tests if a specific instance of ManagementPolicyVersion can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagementPolicyVersion(subject ManagementPolicyVersion) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2051,7 +2051,7 @@ func Test_ManagementPolicyVersion_STATUS_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagementPolicyVersion_STATUS tests if a specific instance of ManagementPolicyVersion_STATUS can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForManagementPolicyVersion_STATUS tests if a specific instance of ManagementPolicyVersion_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForManagementPolicyVersion_STATUS(subject ManagementPolicyVersion_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2156,7 +2156,7 @@ func Test_TagFilter_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTagFilter tests if a specific instance of TagFilter can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForTagFilter tests if a specific instance of TagFilter can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTagFilter(subject TagFilter) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2260,7 +2260,7 @@ func Test_TagFilter_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTagFilter_STATUS tests if a specific instance of TagFilter_STATUS can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForTagFilter_STATUS tests if a specific instance of TagFilter_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTagFilter_STATUS(subject TagFilter_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2364,7 +2364,7 @@ func Test_DateAfterCreation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDateAfterCreation tests if a specific instance of DateAfterCreation can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForDateAfterCreation tests if a specific instance of DateAfterCreation can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDateAfterCreation(subject DateAfterCreation) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2466,7 +2466,7 @@ func Test_DateAfterCreation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDateAfterCreation_STATUS tests if a specific instance of DateAfterCreation_STATUS can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForDateAfterCreation_STATUS tests if a specific instance of DateAfterCreation_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDateAfterCreation_STATUS(subject DateAfterCreation_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2569,7 +2569,7 @@ func Test_DateAfterModification_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDateAfterModification tests if a specific instance of DateAfterModification can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForDateAfterModification tests if a specific instance of DateAfterModification can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDateAfterModification(subject DateAfterModification) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -2673,7 +2673,7 @@ func Test_DateAfterModification_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDateAfterModification_STATUS tests if a specific instance of DateAfterModification_STATUS can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForDateAfterModification_STATUS tests if a specific instance of DateAfterModification_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDateAfterModification_STATUS(subject DateAfterModification_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

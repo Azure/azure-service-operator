@@ -5,7 +5,7 @@ package v1api20220901
 
 import (
 	"encoding/json"
-	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_StorageAccountsTableServicesTable_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccountsTableServicesTable tests if a specific instance of StorageAccountsTableServicesTable can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccountsTableServicesTable tests if a specific instance of StorageAccountsTableServicesTable can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccountsTableServicesTable(subject StorageAccountsTableServicesTable) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_StorageAccounts_TableServices_Table_Spec_WhenPropertiesConverted_Round
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_TableServices_Table_Spec tests if a specific instance of StorageAccounts_TableServices_Table_Spec can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_TableServices_Table_Spec tests if a specific instance of StorageAccounts_TableServices_Table_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_TableServices_Table_Spec(subject StorageAccounts_TableServices_Table_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -293,7 +293,7 @@ func Test_StorageAccounts_TableServices_Table_STATUS_WhenPropertiesConverted_Rou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_TableServices_Table_STATUS tests if a specific instance of StorageAccounts_TableServices_Table_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_TableServices_Table_STATUS tests if a specific instance of StorageAccounts_TableServices_Table_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_TableServices_Table_STATUS(subject StorageAccounts_TableServices_Table_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -413,7 +413,7 @@ func Test_TableSignedIdentifier_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTableSignedIdentifier tests if a specific instance of TableSignedIdentifier can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForTableSignedIdentifier tests if a specific instance of TableSignedIdentifier can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTableSignedIdentifier(subject TableSignedIdentifier) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -516,7 +516,7 @@ func Test_TableSignedIdentifier_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTableSignedIdentifier_STATUS tests if a specific instance of TableSignedIdentifier_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForTableSignedIdentifier_STATUS tests if a specific instance of TableSignedIdentifier_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTableSignedIdentifier_STATUS(subject TableSignedIdentifier_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -633,7 +633,7 @@ func Test_TableAccessPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTableAccessPolicy tests if a specific instance of TableAccessPolicy can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForTableAccessPolicy tests if a specific instance of TableAccessPolicy can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTableAccessPolicy(subject TableAccessPolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -737,7 +737,7 @@ func Test_TableAccessPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTableAccessPolicy_STATUS tests if a specific instance of TableAccessPolicy_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForTableAccessPolicy_STATUS tests if a specific instance of TableAccessPolicy_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTableAccessPolicy_STATUS(subject TableAccessPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
