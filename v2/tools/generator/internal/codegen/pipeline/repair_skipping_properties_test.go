@@ -123,11 +123,11 @@ func TestSkippingPropertyRepairer_findBreak_returnsExpectedResults(t *testing.T)
 }
 
 // Test_RepairSkippingProperties checks that the pipeline stage correctly skips when properties of identical types skip versions.
-func Test_RepairSkippingProperties_WhenPropertyTypesIdentical_ReturnsNoError(t *testing.T) {
+func Test_RepairSkippingProperties_WhenPropertyTypesIdentical_DoesNotChangeDefinitions(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	// Create multiple versions of person, with KnownAs missing
+	// Arrange - create multiple versions of person, with KnownAs missing
 	personV1 := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty, test.FamilyNameProperty, test.KnownAsProperty)
 	personV2 := test.CreateSpec(test.Pkg2021, "Person", test.FullNameProperty, test.FamilyNameProperty)
 	personV3 := test.CreateSpec(test.Pkg2022, "Person", test.FullNameProperty, test.FamilyNameProperty, test.KnownAsProperty)
@@ -135,60 +135,7 @@ func Test_RepairSkippingProperties_WhenPropertyTypesIdentical_ReturnsNoError(t *
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(personV1, personV2, personV3)
 
-	cfg := config.NewConfiguration()
-	_, err := RunTestPipeline(
-		NewState().WithDefinitions(defs),
-		CreateStorageTypes(),            // First create the storage types
-		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
-		RepairSkippingProperties(),      // and then we get to run the stage we're testing
-	)
-	g.Expect(err).To(Succeed())
-}
-
-func Test_RepairSkippingProperties_WhenPropertyStructureIdentical_ReturnsNoError(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	residenceV1 := test.CreateObjectDefinition(test.Pkg2020, "Residence", test.FullAddressProperty, test.CityProperty)
-	residenceV3 := test.CreateObjectDefinition(test.Pkg2022, "Residence", test.FullAddressProperty, test.CityProperty)
-
-	residenceV1Prop := astmodel.NewPropertyDefinition("Residence", "residence", residenceV1.Name())
-	residenceV3Prop := astmodel.NewPropertyDefinition("Residence", "residence", residenceV3.Name())
-
-	// Create multiple versions of person, with KnownAs missing
-	personV1 := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty, test.FamilyNameProperty, residenceV1Prop)
-	personV2 := test.CreateSpec(test.Pkg2021, "Person", test.FullNameProperty, test.FamilyNameProperty)
-	personV3 := test.CreateSpec(test.Pkg2022, "Person", test.FullNameProperty, test.FamilyNameProperty, residenceV3Prop)
-
-	defs := make(astmodel.TypeDefinitionSet)
-	defs.AddAll(personV1, personV2, personV3, residenceV1, residenceV3)
-
-	cfg := config.NewConfiguration()
-	_, err := RunTestPipeline(
-		NewState().WithDefinitions(defs),
-		CreateStorageTypes(),            // First create the storage types
-		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
-		RepairSkippingProperties(),      // and then we get to run the stage we're testing
-	)
-	g.Expect(err).To(Succeed())
-}
-
-// Test_RepairSkippingProperties checks that the pipeline stage correctly detects when properties of different types skip versions.
-func Test_RepairSkippingProperties_WhenPropertyTypesDiffer_ReturnsError(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	vipNumber := astmodel.NewPropertyDefinition("VIP", "vip", astmodel.IntType)
-	vipID := astmodel.NewPropertyDefinition("VIP", "vip", astmodel.StringType)
-
-	// Create multiple versions of person, with KnownAs missing
-	personV1 := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty, test.FamilyNameProperty, vipNumber)
-	personV2 := test.CreateSpec(test.Pkg2021, "Person", test.FullNameProperty, test.FamilyNameProperty)
-	personV3 := test.CreateSpec(test.Pkg2022, "Person", test.FullNameProperty, test.FamilyNameProperty, vipID)
-
-	defs := make(astmodel.TypeDefinitionSet)
-	defs.AddAll(personV1, personV2, personV3)
-
+	// Arrange - create our initial state, prior to running the Repairer
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
 		NewState().WithDefinitions(defs),
@@ -197,16 +144,97 @@ func Test_RepairSkippingProperties_WhenPropertyTypesDiffer_ReturnsError(t *testi
 	)
 	g.Expect(err).To(Succeed())
 
+	// Act - run the Repairer stage
+	finalState, err := RunTestPipeline(
+		initialState,
+		RepairSkippingProperties(), // and then we get to run the stage we're testing
+	)
+
+	// Assert - we expect no error, and no new definitions
+	g.Expect(err).To(BeNil())
+	g.Expect(finalState.definitions).To(HaveLen(6)) // Our three original resources, plus the storage variants
+}
+
+func Test_RepairSkippingProperties_WhenPropertyStructurlyIdentical_DoesNotChangeDefinitions(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Arrange - create multiple versions of Person, where the Residence goes missing but returns with the same shape
+	residenceV1 := test.CreateObjectDefinition(test.Pkg2020, "Residence", test.FullAddressProperty, test.CityProperty)
+	residenceV3 := test.CreateObjectDefinition(test.Pkg2022, "Residence", test.FullAddressProperty, test.CityProperty)
+
+	residenceV1Prop := astmodel.NewPropertyDefinition("Residence", "residence", residenceV1.Name())
+	residenceV3Prop := astmodel.NewPropertyDefinition("Residence", "residence", residenceV3.Name())
+
+	// Create multiple versions of person, with Residence missing
+	personV1 := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty, test.FamilyNameProperty, residenceV1Prop)
+	personV2 := test.CreateSpec(test.Pkg2021, "Person", test.FullNameProperty, test.FamilyNameProperty)
+	personV3 := test.CreateSpec(test.Pkg2022, "Person", test.FullNameProperty, test.FamilyNameProperty, residenceV3Prop)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(personV1, personV2, personV3, residenceV1, residenceV3)
+
+	// Arrange - create our initial state, prior to running the Repairer
+	cfg := config.NewConfiguration()
+	initialState, err := RunTestPipeline(
+		NewState().WithDefinitions(defs),
+		CreateStorageTypes(),            // First create the storage types
+		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
+	)
+	g.Expect(err).To(Succeed())
+
+	// Act - run the Repairer stage
+	finalState, err := RunTestPipeline(
+		initialState,
+		RepairSkippingProperties(), // and then we get to run the stage we're testing
+	)
+	g.Expect(err).To(BeNil())
+
+	// Assert - we expect no error, and no new definitions
+	g.Expect(err).To(BeNil())
+	g.Expect(finalState.definitions).To(HaveLen(10)) // Our five original resources, plus the storage variants
+}
+
+// Test_RepairSkippingProperties checks that the pipeline stage correctly detects when properties of different types skip versions.
+func Test_RepairSkippingProperties_WhenPropertyTypesDiffer_InjectsExpectedAdditionalDefinition(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Arrange - create multiple versions of Person, where the Residence goes missing and returns with a different shape
+	residenceV1 := test.CreateObjectDefinition(test.Pkg2020, "Residence", test.FullAddressProperty, test.CityProperty)
+	residenceV3 := test.CreateObjectDefinition(test.Pkg2022, "Residence", test.FullAddressProperty, test.SuburbProperty, test.CityProperty)
+
+	residenceV1Prop := astmodel.NewPropertyDefinition("Residence", "residence", residenceV1.Name())
+	residenceV3Prop := astmodel.NewPropertyDefinition("Residence", "residence", residenceV3.Name())
+
+	personV1 := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty, test.FamilyNameProperty, residenceV1Prop)
+	personV2 := test.CreateSpec(test.Pkg2021, "Person", test.FullNameProperty, test.FamilyNameProperty)
+	personV3 := test.CreateSpec(test.Pkg2022, "Person", test.FullNameProperty, test.FamilyNameProperty, residenceV3Prop)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(personV1, personV2, personV3, residenceV1, residenceV3)
+
+	// Arrange - create our initial state, prior to running the Repairer
+	cfg := config.NewConfiguration()
+	initialState, err := RunTestPipeline(
+		NewState().WithDefinitions(defs),
+		CreateStorageTypes(),            // First create the storage types
+		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
+	)
+	g.Expect(err).To(Succeed())
+
+	// Act - run the Repairer stage
 	_, err = RunTestPipeline(
 		initialState,
 		RepairSkippingProperties(), // and then we get to run the stage we're testing
 	)
 
-	g.Expect(err).To(HaveOccurred())
-	g.Expect(err.Error()).To(ContainSubstring("person/v20200101/storage/Person_Spec.VIP was discontinued"))
-	g.Expect(err.Error()).To(ContainSubstring("reintroduced as person/v20220630/storage/Person_Spec.VIP"))
-	// Make sure the error message links to GitHub
-	g.Expect(err.Error()).To(ContainSubstring("https://github.com/Azure/azure-service-operator/issues/1776"))
+	// Assert - we expect no error, and one new definition
+	g.Expect(err).To(BeNil())
+	g.Expect(initialState.definitions).To(HaveLen(10)) // Our five original resources, plus the storage variants, plus one more
+
+	expected := astmodel.MakeInternalTypeName(test.Pkg2021s, "Residence")
+	g.Expect(initialState.definitions).To(HaveKey(expected))
 }
 
 func AssertLinkExists(
