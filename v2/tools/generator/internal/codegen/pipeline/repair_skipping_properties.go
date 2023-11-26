@@ -17,18 +17,18 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 )
 
-const DetectSkippingPropertiesStageID = "detectSkippingProperties"
+const RepairSkippingPropertiesStageID = "repairSkippingProperties"
 
-// DetectSkippingProperties detects any properties that skip one or more versions of an object and are reintroduced.
+// RepairSkippingProperties repairs any properties that skip one or more versions of an object and are reintroduced.
 // As described in issue #1776, such properties are a problem because they might create incompatibilities between
 // different versions of ASO, or between different versions of a given resource.
 //
-// We need to design a long term solution to this problem, but in the meantime we just want to detect the problem to
-// ensure we don't inadvertently release an update to ASO with this significant hidden flaw.
+// To repair these, we need to ensure that objects stored in property bags are always serialized with the same
+// shape. For more details, see ADR-2023-09-Skipping-Properties
 //
-// Detection works by scanning for properties that are dropped between versions of a resource. We keep track of all
-// these properties and can raise an error if a specific property appears more than once (implying there are two or more
-// sequence versions of that property).
+// Repair works by scanning for properties that are dropped between versions of a resource. We keep track of all
+// these properties, and if a specific property appears more than once (implying there are two or more sequence versions
+// of that property) we know a repair is required.
 //
 // To illustrate, assume we have the following set of objects across versions of our mythical CRM service:
 //
@@ -43,47 +43,46 @@ const DetectSkippingPropertiesStageID = "detectSkippingProperties"
 // KnownAs: also present in (v2, v3); no issue
 // GivenName: present in (v1); no issue
 //
-// Address: present in (v1, v3); (skipping v2) issue to report, aborting the pipeline.
-//
-// Additional complexities:
-// - We need to handle type renaming between versions.
-// - When introduced, we will also need to handle property renaming between versions
-func DetectSkippingProperties() *Stage {
+// Address: present in (v1, v3); (skipping v2), repair required.
+func RepairSkippingProperties() *Stage {
 	return NewStage(
-		DetectSkippingPropertiesStageID,
-		"Detect properties that skip resource or object versions",
+		RepairSkippingPropertiesStageID,
+		"Repair property bag serialization for properties that skip resource or object versions",
 		func(ctx context.Context, state *State) (*State, error) {
-			detector := newSkippingPropertyDetector(state.Definitions(), state.ConversionGraph())
+			repairer := newSkippingPropertyRepairer(state.Definitions(), state.ConversionGraph())
 
 			// Add resources and objects to the graph
 			for _, def := range state.Definitions() {
 				if t, ok := astmodel.AsPropertyContainer(def.Type()); ok {
-					err := detector.AddProperties(def.Name(), t.Properties().AsSlice()...)
+					err := repairer.AddProperties(def.Name(), t.Properties().AsSlice()...)
 					if err != nil {
 						return nil, err
 					}
 				}
 			}
 
-			err := detector.CheckForSkippedProperties()
+			err := repairer.CheckForSkippedProperties()
 
 			return state, err
 		})
 }
 
-type skippingPropertyDetector struct {
+type skippingPropertyRepairer struct {
 	links              map[astmodel.PropertyReference]astmodel.PropertyReference // Individual links in chains of related properties
 	observedProperties *astmodel.PropertyReferenceSet                            // Set of properties we've observed
 	definitions        astmodel.TypeDefinitionSet                                // Set of all known type definitions
 	conversionGraph    *storage.ConversionGraph                                  // Graph of conversions between types
 }
 
-// newSkippingPropertyDetector creates a new graph for tracking chains of properties as they evolve through different
+// newSkippingPropertyRepairer creates a new graph for tracking chains of properties as they evolve through different
 // versions of a resource or object.
 // definitions is a set of all known types.
 // conversionGraph contains every conversion/transition between versions.
-func newSkippingPropertyDetector(definitions astmodel.TypeDefinitionSet, conversionGraph *storage.ConversionGraph) *skippingPropertyDetector {
-	return &skippingPropertyDetector{
+func newSkippingPropertyRepairer(
+	definitions astmodel.TypeDefinitionSet,
+	conversionGraph *storage.ConversionGraph,
+) *skippingPropertyRepairer {
+	return &skippingPropertyRepairer{
 		links:              make(map[astmodel.PropertyReference]astmodel.PropertyReference),
 		observedProperties: astmodel.NewPropertyReferenceSet(),
 		definitions:        definitions,
@@ -92,7 +91,7 @@ func newSkippingPropertyDetector(definitions astmodel.TypeDefinitionSet, convers
 }
 
 // AddProperties adds all the properties from the specified type to the graph.
-func (detector *skippingPropertyDetector) AddProperties(
+func (detector *skippingPropertyRepairer) AddProperties(
 	name astmodel.InternalTypeName,
 	properties ...*astmodel.PropertyDefinition,
 ) error {
@@ -112,7 +111,7 @@ func (detector *skippingPropertyDetector) AddProperties(
 }
 
 // AddProperty adds a single property from a type to the graph, marking it as observed
-func (detector *skippingPropertyDetector) AddProperty(
+func (detector *skippingPropertyRepairer) AddProperty(
 	name astmodel.InternalTypeName,
 	property *astmodel.PropertyDefinition,
 ) error {
@@ -126,7 +125,7 @@ func (detector *skippingPropertyDetector) AddProperty(
 }
 
 // CheckForSkippedProperties scans for properties that skip versions, and returns an error summarizing the results
-func (detector *skippingPropertyDetector) CheckForSkippedProperties() error {
+func (detector *skippingPropertyRepairer) CheckForSkippedProperties() error {
 	chains := detector.findChains().AsSlice()
 	errs := make([]error, 0, len(chains))
 	for _, ref := range chains {
@@ -139,7 +138,7 @@ func (detector *skippingPropertyDetector) CheckForSkippedProperties() error {
 
 // establishPropertyChain ensures that a full property chain exists for the specified property. Any missing links in the
 // chain will be created. If the required chain already exists, this is a no-op.
-func (detector *skippingPropertyDetector) establishPropertyChain(ref astmodel.PropertyReference) error {
+func (detector *skippingPropertyRepairer) establishPropertyChain(ref astmodel.PropertyReference) error {
 	if ref.IsEmpty() || detector.hasLinkFrom(ref) {
 		// Nothing to do
 		return nil
@@ -151,7 +150,7 @@ func (detector *skippingPropertyDetector) establishPropertyChain(ref astmodel.Pr
 // createPropertyChain creates a full property chain for the specified property.
 // ref is the property reference that specifies the start of our chain.
 // It recursively calls establishPropertyChain to avoid creating parts of the chain multiple times.
-func (detector *skippingPropertyDetector) createPropertyChain(ref astmodel.PropertyReference) error {
+func (detector *skippingPropertyRepairer) createPropertyChain(ref astmodel.PropertyReference) error {
 	next, err := detector.conversionGraph.FindNextProperty(ref, detector.definitions)
 	if err != nil {
 		return errors.Wrapf(err, "creating property chain link from %s", ref.String())
@@ -162,17 +161,17 @@ func (detector *skippingPropertyDetector) createPropertyChain(ref astmodel.Prope
 }
 
 // propertyObserved makes a record that a given property has been observedProperties
-func (detector *skippingPropertyDetector) propertyObserved(ref astmodel.PropertyReference) {
+func (detector *skippingPropertyRepairer) propertyObserved(ref astmodel.PropertyReference) {
 	detector.observedProperties.Add(ref)
 }
 
 // addLink adds a link between two property references
-func (detector *skippingPropertyDetector) addLink(ref astmodel.PropertyReference, next astmodel.PropertyReference) {
+func (detector *skippingPropertyRepairer) addLink(ref astmodel.PropertyReference, next astmodel.PropertyReference) {
 	detector.links[ref] = next
 }
 
 // findChains finds all the property references that are found only as the start of a chain
-func (detector *skippingPropertyDetector) findChains() *astmodel.PropertyReferenceSet {
+func (detector *skippingPropertyRepairer) findChains() *astmodel.PropertyReferenceSet {
 	starts := astmodel.NewPropertyReferenceSet()
 	finishes := astmodel.NewPropertyReferenceSet()
 	for s, f := range detector.links {
@@ -184,14 +183,14 @@ func (detector *skippingPropertyDetector) findChains() *astmodel.PropertyReferen
 }
 
 // hasLinkFrom returns true if we already have a link from the specified property
-func (detector *skippingPropertyDetector) hasLinkFrom(ref astmodel.PropertyReference) bool {
+func (detector *skippingPropertyRepairer) hasLinkFrom(ref astmodel.PropertyReference) bool {
 	_, found := detector.links[ref]
 	return found
 }
 
 // checkChain checks for a gap in the specified property chain.
 // start is the first property reference in the chain
-func (detector *skippingPropertyDetector) checkChain(start astmodel.PropertyReference) error {
+func (detector *skippingPropertyRepairer) checkChain(start astmodel.PropertyReference) error {
 	lastObserved, firstMissing := detector.findBreak(start, detector.wasPropertyObserved)
 	if firstMissing.IsEmpty() {
 		// Property was never discontinued
@@ -223,7 +222,7 @@ func (detector *skippingPropertyDetector) checkChain(start astmodel.PropertyRefe
 }
 
 // wasPropertyObserved returns true if the property reference has been observedProperties; false otherwise.
-func (detector *skippingPropertyDetector) wasPropertyObserved(ref astmodel.PropertyReference) bool {
+func (detector *skippingPropertyRepairer) wasPropertyObserved(ref astmodel.PropertyReference) bool {
 	return detector.observedProperties.Contains(ref)
 }
 
@@ -232,7 +231,7 @@ func (detector *skippingPropertyDetector) wasPropertyObserved(ref astmodel.Prope
 // predicate is a test used to identify the pair of references to return.
 // A break is always found at the end of the chain, returning <last>, <empty>.
 // If ref is empty, will return <empty>, <empty>
-func (detector *skippingPropertyDetector) findBreak(
+func (detector *skippingPropertyRepairer) findBreak(
 	ref astmodel.PropertyReference,
 	predicate func(astmodel.PropertyReference) bool,
 ) (astmodel.PropertyReference, astmodel.PropertyReference) {
@@ -247,7 +246,7 @@ func (detector *skippingPropertyDetector) findBreak(
 // lookupNext returns the next property in the chain, if any.
 // ref is the property reference to look up.
 // returns the next property, if found; <empty>> if not.
-func (detector *skippingPropertyDetector) lookupNext(ref astmodel.PropertyReference) astmodel.PropertyReference {
+func (detector *skippingPropertyRepairer) lookupNext(ref astmodel.PropertyReference) astmodel.PropertyReference {
 	if next, ok := detector.links[ref]; ok {
 		return next
 	}
@@ -256,7 +255,7 @@ func (detector *skippingPropertyDetector) lookupNext(ref astmodel.PropertyRefere
 }
 
 // propertiesHaveSameType returns true if both the passed property-references exist and have the same underlying type
-func (detector *skippingPropertyDetector) propertiesHaveSameType(
+func (detector *skippingPropertyRepairer) propertiesHaveSameType(
 	left astmodel.PropertyReference,
 	right astmodel.PropertyReference,
 ) (bool, error) {
@@ -390,7 +389,7 @@ func compareObjectTypeStructure(left *astmodel.ObjectType, right *astmodel.Objec
 }
 
 // lookupPropertyType accepts a PropertyReference and looks up the actual type of the property
-func (detector *skippingPropertyDetector) lookupPropertyType(ref astmodel.PropertyReference) (astmodel.Type, bool) {
+func (detector *skippingPropertyRepairer) lookupPropertyType(ref astmodel.PropertyReference) (astmodel.Type, bool) {
 	def, ok := detector.definitions[ref.DeclaringType()]
 	if !ok {
 		// Type not found

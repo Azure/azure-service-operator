@@ -16,7 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
-func TestSkippingPropertyDetector_AddProperty_CreatesExpectedChain(t *testing.T) {
+func TestSkippingPropertyRepairer_AddProperty_CreatesExpectedChain(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -42,8 +42,8 @@ func TestSkippingPropertyDetector_AddProperty_CreatesExpectedChain(t *testing.T)
 	graph, err := builder.Build()
 	g.Expect(err).NotTo(HaveOccurred())
 
-	detector := newSkippingPropertyDetector(defs, graph)
-	err = detector.AddProperties(person2020.Name(), test.FullNameProperty)
+	repairer := newSkippingPropertyRepairer(defs, graph)
+	err = repairer.AddProperties(person2020.Name(), test.FullNameProperty)
 	g.Expect(err).NotTo(HaveOccurred())
 
 	// We expect to have four links:
@@ -51,14 +51,14 @@ func TestSkippingPropertyDetector_AddProperty_CreatesExpectedChain(t *testing.T)
 	// Pkg2020storage.Person.FullName => Person2021storage.Person.FullName
 	// Pkg2021storage.Person.FullName => Person2022storage.Person.FullName
 	// Pkg2022storage.Person.FullName => EmptyReference
-	g.Expect(detector.links).To(HaveLen(4))
-	AssertLinkExists(g, detector, person2020, test.FullNameProperty.PropertyName())
-	AssertLinkExists(g, detector, person2020s, test.FullNameProperty.PropertyName())
-	AssertLinkExists(g, detector, person2021s, test.FullNameProperty.PropertyName())
-	AssertLinkExists(g, detector, person2022s, test.FullNameProperty.PropertyName())
+	g.Expect(repairer.links).To(HaveLen(4))
+	AssertLinkExists(g, repairer, person2020, test.FullNameProperty.PropertyName())
+	AssertLinkExists(g, repairer, person2020s, test.FullNameProperty.PropertyName())
+	AssertLinkExists(g, repairer, person2021s, test.FullNameProperty.PropertyName())
+	AssertLinkExists(g, repairer, person2022s, test.FullNameProperty.PropertyName())
 }
 
-func TestSkippingPropertyDetector_findBreak_returnsExpectedResults(t *testing.T) {
+func TestSkippingPropertyRepairer_findBreak_returnsExpectedResults(t *testing.T) {
 	t.Parallel()
 
 	// These property references all have different names, for ease of inspection
@@ -76,23 +76,23 @@ func TestSkippingPropertyDetector_findBreak_returnsExpectedResults(t *testing.T)
 	defs := make(astmodel.TypeDefinitionSet)
 	cfg := config.NewObjectModelConfiguration()
 	graph, _ := storage.NewConversionGraphBuilder(cfg, "v").Build()
-	detector := newSkippingPropertyDetector(defs, graph)
+	repairer := newSkippingPropertyRepairer(defs, graph)
 
-	detector.addLink(alphaSeen, betaSeen)
-	detector.addLink(betaSeen, gammaSeen)
-	detector.addLink(gammaSeen, deltaMissing)
-	detector.addLink(deltaMissing, epsilonMissing)
-	detector.addLink(epsilonMissing, zetaMissing)
-	detector.addLink(zetaMissing, thetaSeen)
-	detector.addLink(thetaSeen, iotaSeen)
-	detector.addLink(iotaSeen, kappaSeen)
+	repairer.addLink(alphaSeen, betaSeen)
+	repairer.addLink(betaSeen, gammaSeen)
+	repairer.addLink(gammaSeen, deltaMissing)
+	repairer.addLink(deltaMissing, epsilonMissing)
+	repairer.addLink(epsilonMissing, zetaMissing)
+	repairer.addLink(zetaMissing, thetaSeen)
+	repairer.addLink(thetaSeen, iotaSeen)
+	repairer.addLink(iotaSeen, kappaSeen)
 
-	detector.propertyObserved(alphaSeen)
-	detector.propertyObserved(betaSeen)
-	detector.propertyObserved(gammaSeen)
-	detector.propertyObserved(thetaSeen)
-	detector.propertyObserved(iotaSeen)
-	detector.propertyObserved(kappaSeen)
+	repairer.propertyObserved(alphaSeen)
+	repairer.propertyObserved(betaSeen)
+	repairer.propertyObserved(gammaSeen)
+	repairer.propertyObserved(thetaSeen)
+	repairer.propertyObserved(iotaSeen)
+	repairer.propertyObserved(kappaSeen)
 
 	cases := []struct {
 		name           string
@@ -115,15 +115,15 @@ func TestSkippingPropertyDetector_findBreak_returnsExpectedResults(t *testing.T)
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			actualBefore, actualAfter := detector.findBreak(c.ref, detector.wasPropertyObserved)
+			actualBefore, actualAfter := repairer.findBreak(c.ref, repairer.wasPropertyObserved)
 			g.Expect(actualBefore).To(Equal(c.expectedBefore))
 			g.Expect(actualAfter).To(Equal(c.expectedAfter))
 		})
 	}
 }
 
-// Test_DetectSkippingProperties checks that the pipeline stage correctly skips when properties of identical types skip versions.
-func Test_DetectSkippingProperties_WhenPropertyTypesIdentical_ReturnsNoError(t *testing.T) {
+// Test_RepairSkippingProperties checks that the pipeline stage correctly skips when properties of identical types skip versions.
+func Test_RepairSkippingProperties_WhenPropertyTypesIdentical_ReturnsNoError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -140,12 +140,12 @@ func Test_DetectSkippingProperties_WhenPropertyTypesIdentical_ReturnsNoError(t *
 		NewState().WithDefinitions(defs),
 		CreateStorageTypes(),            // First create the storage types
 		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
-		DetectSkippingProperties(),      // and then we get to run the stage we're testing
+		RepairSkippingProperties(),      // and then we get to run the stage we're testing
 	)
 	g.Expect(err).To(Succeed())
 }
 
-func Test_DetectSkippingProperties_WhenPropertyStructureIdentical_ReturnsNoError(t *testing.T) {
+func Test_RepairSkippingProperties_WhenPropertyStructureIdentical_ReturnsNoError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -168,13 +168,13 @@ func Test_DetectSkippingProperties_WhenPropertyStructureIdentical_ReturnsNoError
 		NewState().WithDefinitions(defs),
 		CreateStorageTypes(),            // First create the storage types
 		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
-		DetectSkippingProperties(),      // and then we get to run the stage we're testing
+		RepairSkippingProperties(),      // and then we get to run the stage we're testing
 	)
 	g.Expect(err).To(Succeed())
 }
 
-// Test_DetectSkippingProperties checks that the pipeline stage correctly detects when properties of different types skip versions.
-func Test_DetectSkippingProperties_WhenPropertyTypesDiffer_ReturnsError(t *testing.T) {
+// Test_RepairSkippingProperties checks that the pipeline stage correctly detects when properties of different types skip versions.
+func Test_RepairSkippingProperties_WhenPropertyTypesDiffer_ReturnsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -199,7 +199,7 @@ func Test_DetectSkippingProperties_WhenPropertyTypesDiffer_ReturnsError(t *testi
 
 	_, err = RunTestPipeline(
 		initialState,
-		DetectSkippingProperties(), // and then we get to run the stage we're testing
+		RepairSkippingProperties(), // and then we get to run the stage we're testing
 	)
 
 	g.Expect(err).To(HaveOccurred())
@@ -211,11 +211,11 @@ func Test_DetectSkippingProperties_WhenPropertyTypesDiffer_ReturnsError(t *testi
 
 func AssertLinkExists(
 	g *WithT,
-	detector *skippingPropertyDetector,
+	repairer *skippingPropertyRepairer,
 	def astmodel.TypeDefinition,
 	property astmodel.PropertyName) {
 	ref := astmodel.MakePropertyReference(def.Name(), property)
-	g.Expect(detector.links).To(HaveKey(ref))
+	g.Expect(repairer.links).To(HaveKey(ref))
 }
 
 func createPropertyRef(version string, name astmodel.PropertyName) astmodel.PropertyReference {
