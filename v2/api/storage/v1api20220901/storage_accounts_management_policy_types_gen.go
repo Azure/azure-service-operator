@@ -5,7 +5,7 @@ package v1api20220901
 
 import (
 	"fmt"
-	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &StorageAccountsManagementPolicy{}
 func (policy *StorageAccountsManagementPolicy) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220901s.StorageAccountsManagementPolicy)
 	if !ok {
-		return fmt.Errorf("expected storage/v1api20220901storage/StorageAccountsManagementPolicy but received %T instead", hub)
+		return fmt.Errorf("expected storage/v1api20220901/storage/StorageAccountsManagementPolicy but received %T instead", hub)
 	}
 
 	return policy.AssignProperties_From_StorageAccountsManagementPolicy(source)
@@ -61,7 +61,7 @@ func (policy *StorageAccountsManagementPolicy) ConvertFrom(hub conversion.Hub) e
 func (policy *StorageAccountsManagementPolicy) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220901s.StorageAccountsManagementPolicy)
 	if !ok {
-		return fmt.Errorf("expected storage/v1api20220901storage/StorageAccountsManagementPolicy but received %T instead", hub)
+		return fmt.Errorf("expected storage/v1api20220901/storage/StorageAccountsManagementPolicy but received %T instead", hub)
 	}
 
 	return policy.AssignProperties_To_StorageAccountsManagementPolicy(destination)

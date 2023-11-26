@@ -5,7 +5,7 @@ package v1api20220901
 
 import (
 	"encoding/json"
-	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_StorageAccountsQueueService_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccountsQueueService tests if a specific instance of StorageAccountsQueueService can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccountsQueueService tests if a specific instance of StorageAccountsQueueService can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccountsQueueService(subject StorageAccountsQueueService) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_StorageAccounts_QueueService_Spec_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_QueueService_Spec tests if a specific instance of StorageAccounts_QueueService_Spec can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_QueueService_Spec tests if a specific instance of StorageAccounts_QueueService_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_QueueService_Spec(subject StorageAccounts_QueueService_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -279,7 +279,7 @@ func Test_StorageAccounts_QueueService_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_QueueService_STATUS tests if a specific instance of StorageAccounts_QueueService_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_QueueService_STATUS tests if a specific instance of StorageAccounts_QueueService_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_QueueService_STATUS(subject StorageAccounts_QueueService_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

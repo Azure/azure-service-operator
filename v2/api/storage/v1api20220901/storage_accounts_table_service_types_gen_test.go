@@ -5,7 +5,7 @@ package v1api20220901
 
 import (
 	"encoding/json"
-	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_StorageAccountsTableService_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccountsTableService tests if a specific instance of StorageAccountsTableService can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccountsTableService tests if a specific instance of StorageAccountsTableService can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccountsTableService(subject StorageAccountsTableService) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_StorageAccounts_TableService_Spec_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_TableService_Spec tests if a specific instance of StorageAccounts_TableService_Spec can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_TableService_Spec tests if a specific instance of StorageAccounts_TableService_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_TableService_Spec(subject StorageAccounts_TableService_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -279,7 +279,7 @@ func Test_StorageAccounts_TableService_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_TableService_STATUS tests if a specific instance of StorageAccounts_TableService_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_TableService_STATUS tests if a specific instance of StorageAccounts_TableService_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_TableService_STATUS(subject StorageAccounts_TableService_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

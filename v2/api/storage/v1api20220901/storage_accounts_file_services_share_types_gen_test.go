@@ -5,7 +5,7 @@ package v1api20220901
 
 import (
 	"encoding/json"
-	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_StorageAccountsFileServicesShare_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccountsFileServicesShare tests if a specific instance of StorageAccountsFileServicesShare can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccountsFileServicesShare tests if a specific instance of StorageAccountsFileServicesShare can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccountsFileServicesShare(subject StorageAccountsFileServicesShare) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_StorageAccounts_FileServices_Share_Spec_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_FileServices_Share_Spec tests if a specific instance of StorageAccounts_FileServices_Share_Spec can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_FileServices_Share_Spec tests if a specific instance of StorageAccounts_FileServices_Share_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_FileServices_Share_Spec(subject StorageAccounts_FileServices_Share_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -302,7 +302,7 @@ func Test_StorageAccounts_FileServices_Share_STATUS_WhenPropertiesConverted_Roun
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_FileServices_Share_STATUS tests if a specific instance of StorageAccounts_FileServices_Share_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_FileServices_Share_STATUS tests if a specific instance of StorageAccounts_FileServices_Share_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_FileServices_Share_STATUS(subject StorageAccounts_FileServices_Share_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -448,7 +448,7 @@ func Test_SignedIdentifier_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSignedIdentifier tests if a specific instance of SignedIdentifier can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForSignedIdentifier tests if a specific instance of SignedIdentifier can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSignedIdentifier(subject SignedIdentifier) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -550,7 +550,7 @@ func Test_SignedIdentifier_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSignedIdentifier_STATUS tests if a specific instance of SignedIdentifier_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForSignedIdentifier_STATUS tests if a specific instance of SignedIdentifier_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSignedIdentifier_STATUS(subject SignedIdentifier_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -667,7 +667,7 @@ func Test_AccessPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAccessPolicy tests if a specific instance of AccessPolicy can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForAccessPolicy tests if a specific instance of AccessPolicy can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAccessPolicy(subject AccessPolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -771,7 +771,7 @@ func Test_AccessPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAccessPolicy_STATUS tests if a specific instance of AccessPolicy_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForAccessPolicy_STATUS tests if a specific instance of AccessPolicy_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForAccessPolicy_STATUS(subject AccessPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

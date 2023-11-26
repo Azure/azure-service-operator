@@ -5,7 +5,7 @@ package v1api20220901
 
 import (
 	"fmt"
-	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &StorageAccountsFileServicesShare{}
 func (share *StorageAccountsFileServicesShare) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220901s.StorageAccountsFileServicesShare)
 	if !ok {
-		return fmt.Errorf("expected storage/v1api20220901storage/StorageAccountsFileServicesShare but received %T instead", hub)
+		return fmt.Errorf("expected storage/v1api20220901/storage/StorageAccountsFileServicesShare but received %T instead", hub)
 	}
 
 	return share.AssignProperties_From_StorageAccountsFileServicesShare(source)
@@ -61,7 +61,7 @@ func (share *StorageAccountsFileServicesShare) ConvertFrom(hub conversion.Hub) e
 func (share *StorageAccountsFileServicesShare) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220901s.StorageAccountsFileServicesShare)
 	if !ok {
-		return fmt.Errorf("expected storage/v1api20220901storage/StorageAccountsFileServicesShare but received %T instead", hub)
+		return fmt.Errorf("expected storage/v1api20220901/storage/StorageAccountsFileServicesShare but received %T instead", hub)
 	}
 
 	return share.AssignProperties_To_StorageAccountsFileServicesShare(destination)

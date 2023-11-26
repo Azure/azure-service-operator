@@ -6,7 +6,7 @@ package v1api20220901
 import (
 	"context"
 	"fmt"
-	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -56,7 +56,7 @@ var _ conversion.Convertible = &StorageAccount{}
 func (account *StorageAccount) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20220901s.StorageAccount)
 	if !ok {
-		return fmt.Errorf("expected storage/v1api20220901storage/StorageAccount but received %T instead", hub)
+		return fmt.Errorf("expected storage/v1api20220901/storage/StorageAccount but received %T instead", hub)
 	}
 
 	return account.AssignProperties_From_StorageAccount(source)
@@ -66,7 +66,7 @@ func (account *StorageAccount) ConvertFrom(hub conversion.Hub) error {
 func (account *StorageAccount) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20220901s.StorageAccount)
 	if !ok {
-		return fmt.Errorf("expected storage/v1api20220901storage/StorageAccount but received %T instead", hub)
+		return fmt.Errorf("expected storage/v1api20220901/storage/StorageAccount but received %T instead", hub)
 	}
 
 	return account.AssignProperties_To_StorageAccount(destination)

@@ -26,9 +26,7 @@ var _ DerivedPackageReference = StoragePackageReference{}
 // legacyStorageGroups is a set of groups for which we generate old style storage packages (siblings of the API
 // packages). We only do this to reduce the number of changes in a single PR. Once we've migrated all the packages
 // we can remove this.
-var legacyStorageGroups = set.Make(
-	"storage",
-)
+var legacyStorageGroups = set.Make[string]()
 
 // MakeStoragePackageReference creates a new storage package reference from a local package reference
 func MakeStoragePackageReference(ref InternalPackageReference) InternalPackageReference {
