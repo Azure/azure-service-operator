@@ -594,7 +594,18 @@
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#2023">2023</a></li>
+    <li><a href="#2022">2022</a></li>
+    <li><a href="#2021">2021</a></li>
+    <li><a href="#2020">2020</a></li>
+    <li><a href="#older">Older</a></li>
+  </ul>
+</nav>
+      </div>
+    
             
 
 	
@@ -630,7 +641,7 @@
             
 <div class="td-content">
 	<h1>Design &amp; Specifications</h1>
-  <div class="lead">Design discussions, decisions, and specifications for Azure Service Operator v2</div>
+	<div class="lead">Design discussions, decisions, and specifications for Azure Service Operator v2</div>
 	<header class="article-meta">
 		
 
@@ -645,8 +656,8 @@
   
 
 		
-	</header>
-	<p>Significant changes to Azure Service Operator should be captured by an ADR (architecture design record) in this folder. ADRs are listed chronologically by month, and should contain the following sections:</p>
+	</header>    
+	<p>Significant changes to Azure Service Operator should be captured by an ADR (architecture design record) in this folder. ADRs are listed reverse chronologically by year, and should contain the following sections:</p>
 <ul>
 <li>Context</li>
 <li>Decision</li>
@@ -659,273 +670,47 @@
 <p>For complex changes that require more detail, the ADR should provide an overview. Additional detail (say, to list alternative solutions, detail complex edge cases, or present detailed diagrams) should be captured in a separate design document linked from the ADR.</p>
 <p>For background information, check out <a href="https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions">this Cognitect blog entry</a>.</p>
 <p>ADR documents should be updated over time to keep them relevant, typically by updating the <em>Experience Report</em> section.</p>
-
-        <div class="section-index">
-    
-    
-    
-    
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2020-04-code-generation/">2020-04: Why Code Generation?</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/">2020-07: Pipeline Architecture</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/">2020-11: AST Library Choice</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2021-02-property-conversions/">2021-02: Property Conversions</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/">2021-06: API Version Recovery</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/">2021-08: Committing Generated Code</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/">2022-01: Reconciler Extensions</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/">2022-02: Backward Resource Compatibility</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2022-08-evil-discriminator/">2022-08 Evil Discriminator</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/">2022-09: Reading Status properties from other ASO resources</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/">2022-09: Support For Multiple Credentials Under Global Operator</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2022-11-resource-import/">2022-11: ASO v1 Migration and Resource Import</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2022-11-change-detection/">2022-11: Change Detection</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/">2022-12: Conversion Augmentation</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/">2022-12: Reconciliation Extensions</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/">2023-01: Helm Chart Size Limitations and Workarounds</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2023-02-adoption-policy/">2023-02: Adoption Policy</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2023-03-post-reconciliation-extension/">2023-03: Post Reconciliation Extensions</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2023-04-deprecation/">2023-04: Azure Resource Deprecation</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2023-04-patch-collections/">2023-04: Preventing Resource Drift</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2023-05-installing-only-selected-crds/">2023-05: Installing only selected CRDs</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2023-07-goal-seeking-keyvaults/">2023-07 Goal Seeking KeyVaults</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/adr-2023-07-packagereferences/">2023-07 Package References</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/clarifying-object-structure/">Clarifying object structure</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/crossplane/">Code generation for Crossplane</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/defaulter-validator/">Custom validation and defaulting for code generated resources</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/secrets/">Managing dataplane secrets</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/reconcile-interface/">Improving the Reconciler interface</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/resource-states/">Proposal for reporting resource Status</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/versioning/">Resource versioning</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/design/type-references-and-ownership/">Type References &amp; ownership</a>
-                </h5>
-                <p></p>
-            </div>
-        
-    
-</div>
+<h2 id="2023">2023</h2>
+<p><a href="/azure-service-operator/design/adr-2023-02-adoption-policy/"><strong>Adoption Policy</strong></a> - Understand the policy for adopting pre-existing Azure resources in Kubernetes through the Azure Service Operator, including the principles guiding resource adoption and the user&rsquo;s ability to control operator actions.</p>
+<p><a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/"><strong>Conversion Augmentation</strong></a> - Learn about the need for conversion augmentation in Kubernetes resource versions, the role of code generation, and the strategies for augmenting these conversions with hand-written code to ensure backward and forward compatibility.</p>
+<p><a href="/azure-service-operator/design/adr-2023-04-deprecation/"><strong>Deprecation</strong></a> - Understand the policy for handling Azure resource deprecation in Azure Service Operator, including the process for flagging deprecated resources, communicating changes, and removing unsupported resources.</p>
+<p><a href="/azure-service-operator/design/adr-2023-07-goal-seeking-keyvaults/"><strong>Goal Seeking KeyVaults</strong></a> - Understand the challenges posed by Azure KeyVault&rsquo;s soft-delete feature in a goal-seeking system like Azure Service Operator, and the need for a solution that prevents resources from entering permanently degraded states without manual intervention.</p>
+<p><a href="/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/"><strong>Helm Chart Size Limitations</strong></a> - Address the Helm chart size limitations causing problems for Azure Service Operator, discussing the implications of Kubernetes secret size limits, the impact on chart installation, and potential workarounds such as splitting the Helm chart.</p>
+<p><a href="/azure-service-operator/design/adr-2023-05-installing-only-selected-crds/"><strong>Installing Only Selected CRDs</strong></a> - Understand the need for selective CRD installation in Azure Service Operator to mitigate kube-apiserver memory usage, and the requirements for a seamless upgrade experience and default configuration that fits into minimal memory environments.</p>
+<p><a href="/azure-service-operator/design/adr-2023-07-packagereferences/"><strong>PackageReferences</strong></a> - Consider the proposal for introducing a SubPackageReference in the Azure Service Operator code structure, discussing the implications for code that consumes PackageReference and the potential impact on namespace pollution and code organization.</p>
+<p><a href="/azure-service-operator/design/adr-2023-04-patch-collections/"><strong>Patch Collections</strong></a> - Address the issue of resource drift in Azure Service Operator due to Azure Resource Providers' PATCH-like behavior on PUT, and discuss potential solutions such as optional properties and explicit nulls to ensure the custom resource represents the complete desired state.</p>
+<p><a href="/azure-service-operator/design/adr-2023-03-post-reconciliation-extension/"><strong>Post-Reconciliation Extensions</strong></a> - Understand the introduction of the PostReconciliationChecker extension in Azure Service Operator to handle post-reconciliation operations, allowing for custom conditions to be set on resources based on the status received from Azure Resource Manager.</p>
+<h2 id="2022">2022</h2>
+<p><a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/"><strong>Backward Compatibility</strong></a> - As a part of planning for our first beta release consider the implications of modifying the version prefix for code-generated resources in Azure Service Operator.</p>
+<p><a href="/azure-service-operator/design/adr-2022-11-change-detection/"><strong>Change Detection</strong></a> - the challenges of change detection in Azure Service Operator, discussing the limitations of relying on Azure Resource Manager for goal state comparison, the impact of ARM throttling, and a proposal for ASO to perform its own goal state comparison to mitigate these issues.</p>
+<p><a href="/azure-service-operator/design/adr-2022-08-evil-discriminator/"><strong>Evil Discriminator</strong></a> - Understand the challenges posed by the &lsquo;evil discriminator&rsquo; in Swagger/OpenAPI, a term coined by the Azure Service Operator team to describe the differences in defining polymorphic API payloads in Swagger compared to JSON Schema.</p>
+<p><a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/"><strong>Muliple Credential Operator</strong></a> - proposed support for multiple credentials under a global operator in Azure Service Operator, enabling management of Azure resources across multiple subscriptions, with a detailed explanation of the credential selection hierarchy and caching mechanism.</p>
+<p><a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/"><strong>Reading Status properties from other ASO resources</strong></a> - discussion of various ways to allow one ASO resource to consume information generated by another, with details on how we decided to use configmaps to do this.</p>
+<p><a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/"><strong>Reconciler Extensions</strong></a> - Understand the need for reconciler extensions in Azure Service Operator to manage inconsistencies in Azure Resource Providers' behavior, and the proposal for precise, per-resource customization without duplicating existing functionality or risking inconsistencies.</p>
+<p><a href="/azure-service-operator/design/adr-2022-11-resource-import/"><strong>Resource Import</strong></a> - Review the strategies for migrating from Azure Service Operator v1 to v2, including version integration and resource import job, each with its pros, cons, and potential blockers.</p>
+<p><a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/"><strong>Reconciliation Extensions</strong></a> - Understand the need for reconciliation extensions in Azure Service Operator to handle resources in transient states that preclude successful PUT operations, and the proposal for an extension point to modify the reconciliation flow accordingly.</p>
+<h2 id="2021">2021</h2>
+<p><a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/"><strong>API Version Recovery</strong></a> - Identity the challenges of API version recovery in Azure Service Operator, discussing the importance of using the correct Azure API version for expected behavior, and the need to pivot back to the original version for generating the correct ARM payload.</p>
+<p><a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/"><strong>Committing Generated Code</strong></a> - Uncover the reasons and implications of committing generated code in the Azure Service Operator, discussing the benefits of traceability, easier debugging, and the ability to review generated changes.</p>
+<p><a href="/azure-service-operator/design/adr-2020-04-code-generation/"><strong>Property Conversions</strong></a> - Explore the need for codegen conversion routines in handling property conversions across different versions of a resource, with examples of how primitive types can evolve over time.</p>
+<h2 id="2020">2020</h2>
+<p><a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/"><strong>Abstract Syntax Tree Library Choice</strong></a> - background on the decision to adopt the <code>dst</code> (Decorated Syntax Tree) library in the Azure Service Operator Code Generator, addressing limitations of the standard Go `ast`` library such as unexpected comment placements, non-compliance with go fmt standards, and poor control over whitespace.</p>
+<p><a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/"><strong>Pipeline Architecture</strong></a> - the pipeline architecture of the ASO code generator, its design, and how it contributes to the overall functionality and efficiency of the system.</p>
+<p><a href="/azure-service-operator/design/adr-2020-04-code-generation/"><strong>Why Code Generation?</strong></a> - rationale and impact of adopting code generation in the Azure Service Operator, including the benefits of full feature coverage, reduced overhead for new resources, and consistent behavior across all resources.</p>
+<h2 id="older">Older</h2>
+<p><a href="/azure-service-operator/design/clarifying-object-structure/"><strong>Clarifying Object Structure</strong></a> - Dive into the challenges of differentiating Azure-specific properties from operator-specific properties in the object structure of resources, with a focus on potential solutions for Status and upcoming properties like SecretConfiguration and Credentials.</p>
+<p><a href="/azure-service-operator/design/crossplane/"><strong>CrossPlane</strong></a> - Discusses the intricacies of code generation for Crossplane, including static &ldquo;special&rdquo; properties, cross resource references, and the challenges associated with generating these references.</p>
+<p><a href="/azure-service-operator/guide/annotations/"><strong>Custom validation and defaulting</strong></a> - Delve into the proposal for custom validation and defaulting for code-generated resources, discussing the limitations of controller-runtime interfaces and suggesting a structure for autogenerated webhooks that allows for custom implementations.</p>
+<p><a href="/azure-service-operator/design/reconcile-interface/"><strong>Improving the Reconciler interface</strong></a> - Explore a proposal for improving the Reconciler interface in controller-runtime, addressing issues of code duplication and potential bugs due to differences in checks for Create vs Delete operations.</p>
+<p><a href="/azure-service-operator/design/secrets/"><strong>Managing dataplane secrets</strong></a> - managing dataplane secrets in Azure Service Operator, including the drawbacks of auto-generating secrets and the implications for secret rollover, control, security, resource adoption, and GitOps compatibility.</p>
+<p><a href="/azure-service-operator/design/resource-states/"><strong>Reporting Resource Status</strong></a> - a proposal for reporting resource status in Azure Service Operator, discussing the distinction between operator status and Azure resource state, and the current state and limitations of both handcrafted and auto-generated resources.</p>
+<p><a href="/azure-service-operator/design/type-references-and-ownership/"><strong>Type References and Ownership</strong></a> - type references and ownership in Azure Service Operator, discussing goals such as idiomatic expression of Azure resource relationships, automatic ownership, garbage collection, and interaction with non-Kubernetes managed Azure resources.</p>
 
 	
 	
 	
 </div>
+
 
           </main>
         </div>
