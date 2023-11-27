@@ -234,7 +234,9 @@ func Test_RepairSkippingProperties_WhenPropertyTypesDiffer_InjectsExpectedAdditi
 	g.Expect(err).To(BeNil())
 	g.Expect(finalState.definitions).To(HaveLen(11)) // Our five original resources, plus the storage variants, plus one more
 
-	expected := astmodel.MakeInternalTypeName(test.Pkg2021s, "Residence")
+	expected := astmodel.MakeInternalTypeName(
+		astmodel.MakeCompatPackageReference(test.Pkg2021s),
+		"Residence")
 	g.Expect(finalState.definitions).To(HaveKey(expected))
 }
 
@@ -268,22 +270,23 @@ func TestGolden_RepairSkippingProperties_WhenPropertyTypesDiffer_GeneratesExpect
 	)
 	g.Expect(err).To(Succeed())
 
-	// Act - run the Repairer stage
-	finalState, err := RunTestPipeline(
-		initialState,
-		RepairSkippingProperties(), // and then we get to run the stage we're testing
-		CreateConversionGraph(cfg, "v"), // Then, RECREATE the conversion graph showing relationships
-		InjectPropertyAssignmentFunctions(cfg, idFactory, logr.Discard()),
-	)
-	g.Expect(err).To(BeNil())
-
-	// Assert - Check output is as we expect (with diff'ing to help with review)
+	// Assert - Create a comparison state that has the same code, but without a repair
 	comparisonState, err := RunTestPipeline(
 		initialState,
 		InjectPropertyAssignmentFunctions(cfg, idFactory, logr.Discard()),
 	)
 	g.Expect(err).To(BeNil())
 
+	// Act - run the Repairer stage
+	finalState, err := RunTestPipeline(
+		initialState,
+		RepairSkippingProperties(),      // and then we get to run the stage we're testing
+		CreateConversionGraph(cfg, "v"), // Then, RECREATE the conversion graph showing relationships
+		InjectPropertyAssignmentFunctions(cfg, idFactory, logr.Discard()),
+	)
+	g.Expect(err).To(BeNil())
+
+	// Assert - check that we get the expected code changes
 	test.AssertPackagesGenerateExpectedCode(
 		t,
 		finalState.Definitions(),

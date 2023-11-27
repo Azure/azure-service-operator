@@ -264,8 +264,7 @@ func (detector *skippingPropertyRepairer) repairChain(
 			tn)
 	}
 
-	compatPkg := astmodel.MakeSubPackageReference("compat", lastMissing.DeclaringType().InternalPackageReference())
-
+	compatPkg := astmodel.MakeCompatPackageReference(lastMissing.DeclaringType().InternalPackageReference())
 	renamer := astmodel.NewRenamingVisitorFromLambda(
 		func(name astmodel.InternalTypeName) astmodel.InternalTypeName {
 			return name.WithPackageReference(compatPkg)
