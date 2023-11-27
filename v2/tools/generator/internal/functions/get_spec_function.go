@@ -23,7 +23,8 @@ func createGetSpecFunction(
 	f *ObjectFunction,
 	genContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
-	_ string) *dst.FuncDecl {
+	_ string,
+) (*dst.FuncDecl, error) {
 	receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
 
@@ -39,5 +40,5 @@ func createGetSpecFunction(
 	fn.AddReturn(astmodel.ConvertibleSpecInterfaceType.AsType(genContext))
 	fn.AddComments("returns the specification of this resource")
 
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }

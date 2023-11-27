@@ -5,7 +5,7 @@ package v1api20220901
 
 import (
 	"encoding/json"
-	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_StorageAccountsFileService_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccountsFileService tests if a specific instance of StorageAccountsFileService can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccountsFileService tests if a specific instance of StorageAccountsFileService can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccountsFileService(subject StorageAccountsFileService) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_StorageAccounts_FileService_Spec_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_FileService_Spec tests if a specific instance of StorageAccounts_FileService_Spec can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_FileService_Spec tests if a specific instance of StorageAccounts_FileService_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_FileService_Spec(subject StorageAccounts_FileService_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -281,7 +281,7 @@ func Test_StorageAccounts_FileService_STATUS_WhenPropertiesConverted_RoundTripsW
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_FileService_STATUS tests if a specific instance of StorageAccounts_FileService_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_FileService_STATUS tests if a specific instance of StorageAccounts_FileService_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_FileService_STATUS(subject StorageAccounts_FileService_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -403,7 +403,7 @@ func Test_ProtocolSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForProtocolSettings tests if a specific instance of ProtocolSettings can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForProtocolSettings tests if a specific instance of ProtocolSettings can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForProtocolSettings(subject ProtocolSettings) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -505,7 +505,7 @@ func Test_ProtocolSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForProtocolSettings_STATUS tests if a specific instance of ProtocolSettings_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForProtocolSettings_STATUS tests if a specific instance of ProtocolSettings_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForProtocolSettings_STATUS(subject ProtocolSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -608,7 +608,7 @@ func Test_SmbSetting_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSmbSetting tests if a specific instance of SmbSetting can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForSmbSetting tests if a specific instance of SmbSetting can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSmbSetting(subject SmbSetting) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -727,7 +727,7 @@ func Test_SmbSetting_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSmbSetting_STATUS tests if a specific instance of SmbSetting_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForSmbSetting_STATUS tests if a specific instance of SmbSetting_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSmbSetting_STATUS(subject SmbSetting_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -846,7 +846,7 @@ func Test_Multichannel_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMultichannel tests if a specific instance of Multichannel can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForMultichannel tests if a specific instance of Multichannel can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMultichannel(subject Multichannel) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -948,7 +948,7 @@ func Test_Multichannel_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMultichannel_STATUS tests if a specific instance of Multichannel_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForMultichannel_STATUS tests if a specific instance of Multichannel_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMultichannel_STATUS(subject Multichannel_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

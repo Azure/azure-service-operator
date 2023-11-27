@@ -16,7 +16,10 @@ import (
 func NewEmptyStatusFunction(
 	status astmodel.TypeName,
 	idFactory astmodel.IdentifierFactory) *ObjectFunction {
-	result := NewObjectFunction("NewEmptyStatus", idFactory, createNewEmptyStatusFunction(status))
+	result := NewObjectFunction(
+		"NewEmptyStatus",
+		idFactory,
+		createNewEmptyStatusFunction(status))
 	result.AddReferencedTypes(astmodel.ConvertibleStatusInterfaceType)
 	return result
 }
@@ -26,8 +29,8 @@ func createNewEmptyStatusFunction(
 	f *ObjectFunction,
 	genContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
-	_ string) *dst.FuncDecl {
-	return func(f *ObjectFunction, genContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, _ string) *dst.FuncDecl {
+	_ string) (*dst.FuncDecl, error) {
+	return func(f *ObjectFunction, genContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, _ string) (*dst.FuncDecl, error) {
 		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 		receiverType := astmodel.NewOptionalType(receiver)
 
@@ -50,6 +53,6 @@ func createNewEmptyStatusFunction(
 		fn.AddReturn(astmodel.ConvertibleStatusInterfaceType.AsType(genContext))
 		fn.AddComments("returns a new empty (blank) status")
 
-		return fn.DefineFunc()
+		return fn.DefineFunc(), nil
 	}
 }

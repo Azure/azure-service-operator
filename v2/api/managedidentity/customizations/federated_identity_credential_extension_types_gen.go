@@ -5,7 +5,7 @@ package customizations
 
 import (
 	v20220131p "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131preview"
-	v20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131previewstorage"
+	v20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 

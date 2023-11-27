@@ -181,14 +181,20 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 
 func createAssignPropertiesOverrideStub(
 	paramName string,
-	paramType astmodel.Type) func(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-	return func(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	paramType astmodel.Type,
+) functions.ObjectFunctionHandler {
+	return func(
+		f *functions.ObjectFunction,
+		codeGenerationContext *astmodel.CodeGenerationContext,
+		receiver astmodel.TypeName,
+		methodName string,
+	) (*dst.FuncDecl, error) {
 		funcDetails := &astbuilder.FuncDetails{
 			Name: methodName,
 		}
 		funcDetails.AddParameter(paramName, paramType.AsType(codeGenerationContext))
 		funcDetails.AddReturn(dst.NewIdent("error"))
 
-		return funcDetails.DefineFuncHeader()
+		return funcDetails.DefineFuncHeader(), nil
 	}
 }

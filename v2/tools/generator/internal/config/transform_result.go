@@ -7,6 +7,7 @@ package config
 
 import (
 	"fmt"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/pkg/errors"
 	"golang.org/x/text/cases"
@@ -214,10 +215,6 @@ func (tr *TransformResult) produceTargetPackageReference(ref astmodel.InternalPa
 		}
 
 		return ref
-
-	case astmodel.StoragePackageReference:
-		base := tr.produceTargetPackageReference(t.Base())
-		return astmodel.MakeStoragePackageReference(base)
 
 	case astmodel.SubPackageReference:
 		base := tr.produceTargetPackageReference(t.Base())

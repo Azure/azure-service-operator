@@ -17,7 +17,7 @@ func createBodyReturningLiteralString(
 	result string,
 	comment string,
 	receiverTypeEnum ReceiverType,
-) func(k *ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+) ObjectFunctionHandler {
 	return createBodyReturningValue(
 		astbuilder.StringLiteral(result),
 		astmodel.StringType,
@@ -30,8 +30,13 @@ func createBodyReturningValue(
 	returnType astmodel.Type,
 	comment string,
 	receiverTypeEnum ReceiverType,
-) func(k *ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-	return func(k *ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+) ObjectFunctionHandler {
+	return func(
+		k *ObjectFunction,
+		codeGenerationContext *astmodel.CodeGenerationContext,
+		receiver astmodel.TypeName,
+		methodName string,
+	) (*dst.FuncDecl, error) {
 		receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 
 		// Support both ptr and non-ptr receivers
@@ -53,6 +58,6 @@ func createBodyReturningValue(
 		fn.AddComments(comment)
 		fn.AddReturn(returnType.AsType(codeGenerationContext))
 
-		return fn.DefineFunc()
+		return fn.DefineFunc(), nil
 	}
 }

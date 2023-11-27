@@ -5,7 +5,7 @@ package v1api20220901
 
 import (
 	"encoding/json"
-	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_StorageAccountsBlobServicesContainer_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccountsBlobServicesContainer tests if a specific instance of StorageAccountsBlobServicesContainer can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccountsBlobServicesContainer tests if a specific instance of StorageAccountsBlobServicesContainer can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccountsBlobServicesContainer(subject StorageAccountsBlobServicesContainer) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_StorageAccounts_BlobServices_Container_Spec_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_BlobServices_Container_Spec tests if a specific instance of StorageAccounts_BlobServices_Container_Spec can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_BlobServices_Container_Spec tests if a specific instance of StorageAccounts_BlobServices_Container_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_BlobServices_Container_Spec(subject StorageAccounts_BlobServices_Container_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -299,7 +299,7 @@ func Test_StorageAccounts_BlobServices_Container_STATUS_WhenPropertiesConverted_
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_BlobServices_Container_STATUS tests if a specific instance of StorageAccounts_BlobServices_Container_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_BlobServices_Container_STATUS tests if a specific instance of StorageAccounts_BlobServices_Container_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_BlobServices_Container_STATUS(subject StorageAccounts_BlobServices_Container_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -442,7 +442,7 @@ func Test_ImmutabilityPolicyProperties_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForImmutabilityPolicyProperties_STATUS tests if a specific instance of ImmutabilityPolicyProperties_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForImmutabilityPolicyProperties_STATUS tests if a specific instance of ImmutabilityPolicyProperties_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForImmutabilityPolicyProperties_STATUS(subject ImmutabilityPolicyProperties_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -563,7 +563,7 @@ func Test_ImmutableStorageWithVersioning_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForImmutableStorageWithVersioning tests if a specific instance of ImmutableStorageWithVersioning can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForImmutableStorageWithVersioning tests if a specific instance of ImmutableStorageWithVersioning can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForImmutableStorageWithVersioning(subject ImmutableStorageWithVersioning) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -666,7 +666,7 @@ func Test_ImmutableStorageWithVersioning_STATUS_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForImmutableStorageWithVersioning_STATUS tests if a specific instance of ImmutableStorageWithVersioning_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForImmutableStorageWithVersioning_STATUS tests if a specific instance of ImmutableStorageWithVersioning_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForImmutableStorageWithVersioning_STATUS(subject ImmutableStorageWithVersioning_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -771,7 +771,7 @@ func Test_LegalHoldProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLegalHoldProperties_STATUS tests if a specific instance of LegalHoldProperties_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForLegalHoldProperties_STATUS tests if a specific instance of LegalHoldProperties_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForLegalHoldProperties_STATUS(subject LegalHoldProperties_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -889,7 +889,7 @@ func Test_ProtectedAppendWritesHistory_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForProtectedAppendWritesHistory_STATUS tests if a specific instance of ProtectedAppendWritesHistory_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForProtectedAppendWritesHistory_STATUS tests if a specific instance of ProtectedAppendWritesHistory_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForProtectedAppendWritesHistory_STATUS(subject ProtectedAppendWritesHistory_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -993,7 +993,7 @@ func Test_TagProperty_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTagProperty_STATUS tests if a specific instance of TagProperty_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForTagProperty_STATUS tests if a specific instance of TagProperty_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTagProperty_STATUS(subject TagProperty_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1099,7 +1099,7 @@ func Test_UpdateHistoryProperty_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForUpdateHistoryProperty_STATUS tests if a specific instance of UpdateHistoryProperty_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForUpdateHistoryProperty_STATUS tests if a specific instance of UpdateHistoryProperty_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForUpdateHistoryProperty_STATUS(subject UpdateHistoryProperty_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

@@ -38,7 +38,10 @@ func NewARMSpecInterfaceImpl(
 		return nil, err
 	}
 
-	getNameFunc := functions.NewObjectFunction("Get"+astmodel.NameProperty, idFactory, getNameFunction)
+	getNameFunc := functions.NewObjectFunction(
+		"Get"+astmodel.NameProperty,
+		idFactory,
+		getNameFunction)
 	getNameFunc.AddPackageReference(astmodel.GenRuntimeReference)
 
 	getTypeFunc := functions.NewGetTypeFunction(resource.ARMType(), idFactory, functions.ReceiverTypePtr)
@@ -62,7 +65,7 @@ func getNameFunction(
 	genContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
 	methodName string,
-) *dst.FuncDecl {
+) (*dst.FuncDecl, error) {
 	return armSpecInterfaceSimpleGetFunction(
 		fn,
 		genContext,
@@ -79,7 +82,7 @@ func armSpecInterfaceSimpleGetFunction(
 	methodName string,
 	propertyName string,
 	castToString bool,
-) *dst.FuncDecl {
+) (*dst.FuncDecl, error) {
 	receiverIdent := fn.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -104,5 +107,5 @@ func armSpecInterfaceSimpleGetFunction(
 	details.AddComments(fmt.Sprintf("returns the %s of the resource", propertyName))
 	details.AddReturns("string")
 
-	return details.DefineFunc()
+	return details.DefineFunc(), nil
 }

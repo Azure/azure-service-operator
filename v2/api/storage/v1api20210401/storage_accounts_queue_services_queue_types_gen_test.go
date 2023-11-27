@@ -5,8 +5,8 @@ package v1api20210401
 
 import (
 	"encoding/json"
-	v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
-	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401/storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_StorageAccountsQueueServicesQueue_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccountsQueueServicesQueue tests if a specific instance of StorageAccountsQueueServicesQueue can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccountsQueueServicesQueue tests if a specific instance of StorageAccountsQueueServicesQueue can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccountsQueueServicesQueue(subject StorageAccountsQueueServicesQueue) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -177,7 +177,7 @@ func Test_StorageAccounts_QueueServices_Queue_Spec_WhenPropertiesConverted_Round
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_QueueServices_Queue_Spec tests if a specific instance of StorageAccounts_QueueServices_Queue_Spec can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_QueueServices_Queue_Spec tests if a specific instance of StorageAccounts_QueueServices_Queue_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_QueueServices_Queue_Spec(subject StorageAccounts_QueueServices_Queue_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -281,7 +281,7 @@ func Test_StorageAccounts_QueueServices_Queue_STATUS_WhenPropertiesConverted_Rou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_QueueServices_Queue_STATUS tests if a specific instance of StorageAccounts_QueueServices_Queue_STATUS can be assigned to v1api20210401storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_QueueServices_Queue_STATUS tests if a specific instance of StorageAccounts_QueueServices_Queue_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_QueueServices_Queue_STATUS(subject StorageAccounts_QueueServices_Queue_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

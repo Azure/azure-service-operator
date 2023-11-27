@@ -6,7 +6,7 @@
 package functions
 
 import (
-	"fmt"
+	"github.com/pkg/errors"
 	"go/token"
 	"sort"
 
@@ -83,7 +83,7 @@ func (d *KubernetesExporterBuilder) exportKubernetesResources(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
 	methodName string,
-) *dst.FuncDecl {
+) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -119,18 +119,17 @@ func (d *KubernetesExporterBuilder) exportKubernetesResources(
 		for i := len(propertyPath) - 1; i >= 0; i -= 1 {
 			propType := propertyPath[i].PropertyType()
 			if _, ok := astmodel.AsMapType(propType); ok {
-				panic(
-					fmt.Sprintf(
-						"Exporting Map elements as configmaps is not supported currently. Property %s has type %s",
-						propertyNames[i],
-						propType.String()))
+				return nil, errors.Errorf(
+					"Exporting Map elements as configmaps is not supported currently. Property %s has type %s",
+					propertyNames[i],
+					propType.String())
 			}
 
 			if _, ok := astmodel.AsArrayType(propType); ok {
-				panic(
-					fmt.Sprintf("Exporting Slice elements as configmaps is not supported currently. Property %s has type %s",
-						propertyNames[i],
-						propType.String()))
+				return nil, errors.Errorf(
+					"Exporting Slice elements as configmaps is not supported currently. Property %s has type %s",
+					propertyNames[i],
+					propType.String())
 			}
 
 			if _, ok := astmodel.AsOptionalType(propType); !ok {
@@ -215,7 +214,7 @@ func (d *KubernetesExporterBuilder) exportKubernetesResources(
 	fn.AddReturn(dst.NewIdent("error"))
 
 	fn.AddComments("defines a resource which can create other resources in Kubernetes.")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 func (d *KubernetesExporterBuilder) addCollectorStmt(

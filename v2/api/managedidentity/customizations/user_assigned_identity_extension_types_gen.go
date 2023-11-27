@@ -5,7 +5,7 @@ package customizations
 
 import (
 	v20181130 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
-	v20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130storage"
+	v20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 

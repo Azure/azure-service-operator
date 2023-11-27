@@ -4,9 +4,10 @@ IgnoreAltMissing: true
 BaseURL: https://azure.github.io/azure-service-operator
 CheckSelfReferencesAsInternal: true
 IgnoreDirs:
-  - "reference" # Ignore errors in CRD docs, content is not under our control
+  - "reference/" # Ignore errors in CRD docs, content is not under our control
 IgnoreURLs:
   - /favicons/
+  - /reference/ # Ignore errors in CRD docs, content is not under our control
   - /scss/
   - /js/
   - index.xml

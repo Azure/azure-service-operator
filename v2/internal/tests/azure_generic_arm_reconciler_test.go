@@ -34,7 +34,7 @@ func Test_ConvertResourceToARMResource(t *testing.T) {
 	account := testcommon.CreateDummyResource()
 	g.Expect(testClient.Create(ctx, account)).To(Succeed())
 
-	subscriptionID := "1234"
+	subscriptionID := "00000000-0000-0000-0000-000000000000"
 
 	resource, err := arm.ConvertToARMResourceImpl(ctx, account, scheme, resolver, subscriptionID)
 	g.Expect(err).ToNot(HaveOccurred())

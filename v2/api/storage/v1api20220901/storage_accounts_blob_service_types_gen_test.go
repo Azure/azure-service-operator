@@ -5,7 +5,7 @@ package v1api20220901
 
 import (
 	"encoding/json"
-	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_StorageAccountsBlobService_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccountsBlobService tests if a specific instance of StorageAccountsBlobService can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccountsBlobService tests if a specific instance of StorageAccountsBlobService can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccountsBlobService(subject StorageAccountsBlobService) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_StorageAccounts_BlobService_Spec_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_BlobService_Spec tests if a specific instance of StorageAccounts_BlobService_Spec can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_BlobService_Spec tests if a specific instance of StorageAccounts_BlobService_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_BlobService_Spec(subject StorageAccounts_BlobService_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -300,7 +300,7 @@ func Test_StorageAccounts_BlobService_STATUS_WhenPropertiesConverted_RoundTripsW
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccounts_BlobService_STATUS tests if a specific instance of StorageAccounts_BlobService_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForStorageAccounts_BlobService_STATUS tests if a specific instance of StorageAccounts_BlobService_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForStorageAccounts_BlobService_STATUS(subject StorageAccounts_BlobService_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -428,7 +428,7 @@ func Test_ChangeFeed_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForChangeFeed tests if a specific instance of ChangeFeed can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForChangeFeed tests if a specific instance of ChangeFeed can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForChangeFeed(subject ChangeFeed) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -531,7 +531,7 @@ func Test_ChangeFeed_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForChangeFeed_STATUS tests if a specific instance of ChangeFeed_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForChangeFeed_STATUS tests if a specific instance of ChangeFeed_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForChangeFeed_STATUS(subject ChangeFeed_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -634,7 +634,7 @@ func Test_CorsRules_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCorsRules tests if a specific instance of CorsRules can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForCorsRules tests if a specific instance of CorsRules can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCorsRules(subject CorsRules) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -736,7 +736,7 @@ func Test_CorsRules_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCorsRules_STATUS tests if a specific instance of CorsRules_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForCorsRules_STATUS tests if a specific instance of CorsRules_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCorsRules_STATUS(subject CorsRules_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -838,7 +838,7 @@ func Test_DeleteRetentionPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDeleteRetentionPolicy tests if a specific instance of DeleteRetentionPolicy can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForDeleteRetentionPolicy tests if a specific instance of DeleteRetentionPolicy can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDeleteRetentionPolicy(subject DeleteRetentionPolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -943,7 +943,7 @@ func Test_DeleteRetentionPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDeleteRetentionPolicy_STATUS tests if a specific instance of DeleteRetentionPolicy_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForDeleteRetentionPolicy_STATUS tests if a specific instance of DeleteRetentionPolicy_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDeleteRetentionPolicy_STATUS(subject DeleteRetentionPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1048,7 +1048,7 @@ func Test_LastAccessTimeTrackingPolicy_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLastAccessTimeTrackingPolicy tests if a specific instance of LastAccessTimeTrackingPolicy can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForLastAccessTimeTrackingPolicy tests if a specific instance of LastAccessTimeTrackingPolicy can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForLastAccessTimeTrackingPolicy(subject LastAccessTimeTrackingPolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1154,7 +1154,7 @@ func Test_LastAccessTimeTrackingPolicy_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForLastAccessTimeTrackingPolicy_STATUS tests if a specific instance of LastAccessTimeTrackingPolicy_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForLastAccessTimeTrackingPolicy_STATUS tests if a specific instance of LastAccessTimeTrackingPolicy_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForLastAccessTimeTrackingPolicy_STATUS(subject LastAccessTimeTrackingPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1260,7 +1260,7 @@ func Test_RestorePolicyProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRestorePolicyProperties tests if a specific instance of RestorePolicyProperties can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForRestorePolicyProperties tests if a specific instance of RestorePolicyProperties can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRestorePolicyProperties(subject RestorePolicyProperties) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1364,7 +1364,7 @@ func Test_RestorePolicyProperties_STATUS_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRestorePolicyProperties_STATUS tests if a specific instance of RestorePolicyProperties_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForRestorePolicyProperties_STATUS tests if a specific instance of RestorePolicyProperties_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRestorePolicyProperties_STATUS(subject RestorePolicyProperties_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1470,7 +1470,7 @@ func Test_CorsRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCorsRule tests if a specific instance of CorsRule can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForCorsRule tests if a specific instance of CorsRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCorsRule(subject CorsRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1584,7 +1584,7 @@ func Test_CorsRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCorsRule_STATUS tests if a specific instance of CorsRule_STATUS can be assigned to v1api20220901storage and back losslessly
+// RunPropertyAssignmentTestForCorsRule_STATUS tests if a specific instance of CorsRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCorsRule_STATUS(subject CorsRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
