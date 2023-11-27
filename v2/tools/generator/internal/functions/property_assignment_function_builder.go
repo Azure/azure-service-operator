@@ -402,7 +402,8 @@ func (builder *PropertyAssignmentFunctionBuilder) readPropertiesFromPropertyBag(
 		}
 
 		// Create a new endpoint that reads from the property bag
-		sourceEndpoint := conversions.NewReadableConversionEndpointReadingPropertyBagMember(destinationName, destinationEndpoint.Endpoint().Type())
+		typeToRead := builder.findTypeForBag(destinationEndpoint.Endpoint().Type())
+		sourceEndpoint := conversions.NewReadableConversionEndpointReadingPropertyBagMember(destinationName, typeToRead)
 		err := assign(sourceEndpoint, destinationEndpoint)
 		if err != nil {
 			return errors.Wrapf(err, "assigning %s from property bag", destinationName)
@@ -439,8 +440,9 @@ func (builder *PropertyAssignmentFunctionBuilder) writePropertiesToPropertyBag(
 			continue
 		}
 
-		// Create a new endpoint that reads from the property bag
-		destinationEndpoint := conversions.NewWritableConversionEndpointWritingPropertyBagMember(sourceName, sourceEndpoint.Endpoint().Type())
+		// Create a new endpoint that writes to the property bag
+		typeToWrite := builder.findTypeForBag(sourceEndpoint.Endpoint().Type())
+		destinationEndpoint := conversions.NewWritableConversionEndpointWritingPropertyBagMember(sourceName, typeToWrite)
 		err := assign(sourceEndpoint, destinationEndpoint)
 		if err != nil {
 			return errors.Wrapf(err, "assigning %s to property bag", sourceName)
@@ -478,4 +480,42 @@ func (builder *PropertyAssignmentFunctionBuilder) createSuffixMatchingAssignment
 
 		return nil
 	}
+}
+
+func (builder *PropertyAssignmentFunctionBuilder) findTypeForBag(t astmodel.Type) astmodel.Type {
+	// If optional, find the look up the underlying type and then wrap
+	if opt, ok := astmodel.AsOptionalType(t); ok {
+		elem := builder.findTypeForBag(opt.Element())
+		return astmodel.NewOptionalType(elem)
+	}
+
+	// If array, find the look up the underlying type and then wrap
+	if arr, ok := astmodel.AsArrayType(t); ok {
+		elem := builder.findTypeForBag(arr.Element())
+		return astmodel.NewArrayType(elem)
+	}
+
+	// If map, find the look-up the underlying type of the value and then wrap
+	if m, ok := astmodel.AsMapType(t); ok {
+		value := builder.findTypeForBag(m.ValueType())
+		return astmodel.NewMapType(m.KeyType(), value)
+	}
+
+	// If TypeName, check for the existence of a compatibilty type in a subpackge under the receiver
+	if tn, ok := astmodel.AsInternalTypeName(t); ok {
+		// We can only do this if we have a conversion context
+		if builder.conversionContext == nil {
+			return t
+		}
+
+		compatPkg := astmodel.MakeCompatPackageReference(
+			builder.receiverDefinition.Name().InternalPackageReference())
+		compatType := tn.WithPackageReference(compatPkg)
+		if builder.conversionContext.Types().Contains(compatType) {
+			// Compatibility type exists - use that
+			return compatType
+		}
+	}
+
+	return t
 }
