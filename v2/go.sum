@@ -13,6 +13,7 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontai
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos v1.0.0 h1:Fv8iibGn1eSw0lt2V3cTsuokBEnOP+M//n8OiMcCgTM=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos v1.0.0/go.mod h1:Qpe/qN9d5IQ7WPtTXMRCd6+BWTnhi3sxXVys6oJ5Vho=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/internal v1.1.2 h1:mLY+pNLjCUeKhgnAJWAKhEUQM+RJQo2H1fuGSw1Ky1E=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/internal/v2 v2.0.0 h1:PTFGRSlMKCQelWwxUyYVEUqseBJVemLyqWJjvMyt0do=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iothub/armiothub v1.2.0 h1:BfuHfZptGM+R9gwrC1tx8CPnSMKcdi/+RF+SFAUqltg=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iothub/armiothub v1.2.0/go.mod h1:EFIFcy43FmUdq11rtigV6VX96zuAEZsjgKoItt0QVXY=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault v1.3.0 h1:VGF4kkQEkeHq0Bp5bHDTMUiQHJRvjmdA6wjn1o2rh+s=
@@ -24,8 +25,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis v1.0.0/go.m
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources v1.1.1 h1:7CBQ+Ei8SP2c6ydQTGCCrS35bDxgTMfoP2miAwK++OU=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch v1.2.0 h1:mOECYDlGnEY83yMPGEVczB4JSn3G5Al2Ezutblf6czU=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch v1.2.0/go.mod h1:ANJe/jEu6IOmojAMg8o3hxpYUBnXesX4bx9paw+Kajk=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus v1.1.1 h1:h+ZMdUM0/8oVqHjY9+1rupIvT0craBLapKhuzWui9lo=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus v1.1.1/go.mod h1:Ad79PTMmXBLbmMbRJkfefudJNxzFHfszKYadXA8SDSw=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus v1.2.0 h1:jngSeKBnzC7qIk3rvbWHsLI7eeasEucORHWr2CHX0Yg=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus v1.2.0/go.mod h1:1YXAxWw6baox+KafeQU2scy21/4IHvqXoIJuCpcvpMQ=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.4.0 h1:YLeqNPz/6sJC4fGNUofP+I9QZrMQBvL6lKpCzeu/3Ms=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.4.0/go.mod h1:ZU9DiYactg7wOCuFWHM57mhIuudyXIVdcM+3uZP6kS0=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription v1.1.0 h1:pYhaMoTHP/zYIJGDA1sWsfyTDjdglaoYjIFMOEcL+/U=
