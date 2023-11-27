@@ -57,7 +57,7 @@ func (s *State) WithDefinitions(definitions astmodel.TypeDefinitionSet) *State {
 // Any new definitions are added, and any existing definitions are replaced.
 func (s *State) WithOverlaidDefinitions(definitions astmodel.TypeDefinitionSet) *State {
 	result := s.copy()
-	result.definitions = definitions.OverlayWith(s.definitions)
+	result.definitions = result.definitions.OverlayWith(definitions)
 	return result
 }
 
