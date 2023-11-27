@@ -3,11 +3,79 @@
 // Licensed under the MIT license.
 package compat
 
-import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+import (
+	v20220630s "github.com/Azure/azure-service-operator/testing/person/v20220630/storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/pkg/errors"
+)
 
 // Storage version of v20200101.Residence
 type Residence struct {
 	City        *string                `json:"city,omitempty"`
 	FullAddress *string                `json:"fullAddress,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_Residence populates our Residence from the provided source Residence
+func (residence *Residence) AssignProperties_From_Residence(source *v20220630s.Residence) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// City
+	residence.City = genruntime.ClonePointerToString(source.City)
+
+	// FullAddress
+	residence.FullAddress = genruntime.ClonePointerToString(source.FullAddress)
+
+	// Suburb
+	if source.Suburb != nil {
+		propertyBag.Add("Suburb", *source.Suburb)
+	} else {
+		propertyBag.Remove("Suburb")
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		residence.PropertyBag = propertyBag
+	} else {
+		residence.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Residence populates the provided destination Residence from our Residence
+func (residence *Residence) AssignProperties_To_Residence(destination *v20220630s.Residence) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(residence.PropertyBag)
+
+	// City
+	destination.City = genruntime.ClonePointerToString(residence.City)
+
+	// FullAddress
+	destination.FullAddress = genruntime.ClonePointerToString(residence.FullAddress)
+
+	// Suburb
+	if propertyBag.Contains("Suburb") {
+		var suburb string
+		err := propertyBag.Pull("Suburb", &suburb)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'Suburb' from propertyBag")
+		}
+
+		destination.Suburb = &suburb
+	} else {
+		destination.Suburb = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }

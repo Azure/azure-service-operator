@@ -63,10 +63,6 @@ func (s *State) WithOverlaidDefinitions(definitions astmodel.TypeDefinitionSet) 
 
 // WithConversionGraph returns a new independent State with the given conversion graph instead
 func (s *State) WithConversionGraph(graph *storage.ConversionGraph) *State {
-	if s.conversionGraph != nil {
-		panic("may only set the conversion graph once")
-	}
-
 	result := s.copy()
 	result.conversionGraph = graph
 	return result

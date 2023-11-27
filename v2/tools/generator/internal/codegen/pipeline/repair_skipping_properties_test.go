@@ -6,6 +6,7 @@
 package pipeline
 
 import (
+	"github.com/go-logr/logr"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -237,7 +238,8 @@ func Test_RepairSkippingProperties_WhenPropertyTypesDiffer_InjectsExpectedAdditi
 	g.Expect(finalState.definitions).To(HaveKey(expected))
 }
 
-// Test_RepairSkippingProperties checks that the pipeline stage correctly injects new types when properties of different types skip versions.
+// Test_RepairSkippingProperties checks that the pipeline stage correctly injects new types with the right functions
+// when properties of different types skip versions.
 func TestGolden_RepairSkippingProperties_WhenPropertyTypesDiffer_GeneratesExpectedCode(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
@@ -258,6 +260,7 @@ func TestGolden_RepairSkippingProperties_WhenPropertyTypesDiffer_GeneratesExpect
 
 	// Arrange - create our initial state, prior to running the Repairer
 	cfg := config.NewConfiguration()
+	idFactory := astmodel.NewIdentifierFactory()
 	initialState, err := RunTestPipeline(
 		NewState(defs),
 		CreateStorageTypes(),            // First create the storage types
@@ -269,14 +272,22 @@ func TestGolden_RepairSkippingProperties_WhenPropertyTypesDiffer_GeneratesExpect
 	finalState, err := RunTestPipeline(
 		initialState,
 		RepairSkippingProperties(), // and then we get to run the stage we're testing
+		CreateConversionGraph(cfg, "v"), // Then, RECREATE the conversion graph showing relationships
+		InjectPropertyAssignmentFunctions(cfg, idFactory, logr.Discard()),
 	)
 	g.Expect(err).To(BeNil())
 
 	// Assert - Check output is as we expect (with diff'ing to help with review)
+	comparisonState, err := RunTestPipeline(
+		initialState,
+		InjectPropertyAssignmentFunctions(cfg, idFactory, logr.Discard()),
+	)
+	g.Expect(err).To(BeNil())
+
 	test.AssertPackagesGenerateExpectedCode(
 		t,
 		finalState.Definitions(),
-		test.DiffWith(initialState.Definitions().AsSlice()...))
+		test.DiffWith(comparisonState.Definitions().AsSlice()...))
 }
 
 func AssertLinkExists(
