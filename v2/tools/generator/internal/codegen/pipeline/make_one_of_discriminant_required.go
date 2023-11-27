@@ -38,7 +38,7 @@ func MakeOneOfDiscriminantRequired() *Stage {
 				updatedDefs.AddTypes(updated)
 			}
 
-			return state.WithDefinitions(state.Definitions().OverlayWith(updatedDefs)), nil
+			return state.WithOverlaidDefinitions(updatedDefs), nil
 		})
 }
 

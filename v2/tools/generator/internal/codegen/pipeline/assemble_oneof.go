@@ -27,9 +27,7 @@ func AssembleOneOfTypes(idFactory astmodel.IdentifierFactory) *Stage {
 			if err != nil {
 				return nil, errors.Wrapf(err, "assembling OneOf types")
 			}
-			return state.WithDefinitions(
-					state.Definitions().OverlayWith(newDefs)),
-				nil
+			return state.WithOverlaidDefinitions(newDefs), nil
 		})
 
 	return stage

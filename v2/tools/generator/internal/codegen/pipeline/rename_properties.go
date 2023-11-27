@@ -57,9 +57,7 @@ func RenameProperties(cfg *config.ObjectModelConfiguration) *Stage {
 				return nil, errors.Wrap(err, "verifying property rename configuration")
 			}
 
-			return state.WithDefinitions(
-					definitions.OverlayWith(modified)),
-				nil
+			return state.WithOverlaidDefinitions(modified), nil
 		})
 
 	stage.RequiresPostrequisiteStages(

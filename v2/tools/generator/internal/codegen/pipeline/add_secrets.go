@@ -39,8 +39,7 @@ func AddSecrets(config *config.Configuration) *Stage {
 				return nil, errors.Wrap(err, "removing status secrets")
 			}
 
-			result := types.OverlayWith(astmodel.TypesDisjointUnion(updatedSpecs, updatedStatuses))
-			return state.WithDefinitions(result), nil
+			return state.WithOverlaidDefinitions(astmodel.TypesDisjointUnion(updatedSpecs, updatedStatuses)), nil
 		})
 
 	stage.RequiresPostrequisiteStages(CreateARMTypesStageID)

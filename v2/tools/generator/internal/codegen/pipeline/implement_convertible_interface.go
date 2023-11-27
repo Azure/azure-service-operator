@@ -66,8 +66,7 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) *Stage 
 				return nil, errors.Wrap(err, "injecting conversions.Convertible implementations")
 			}
 
-			newDefinitions := state.Definitions().OverlayWith(modifiedTypes)
-			return state.WithDefinitions(newDefinitions), nil
+			return state.WithOverlaidDefinitions(modifiedTypes), nil
 		})
 
 	stage.RequiresPrerequisiteStages(InjectPropertyAssignmentFunctionsStageID)

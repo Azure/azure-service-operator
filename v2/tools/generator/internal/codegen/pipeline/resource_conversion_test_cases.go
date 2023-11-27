@@ -40,7 +40,7 @@ func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) *St
 				return nil, kerrors.NewAggregate(errs)
 			}
 
-			return state.WithDefinitions(state.Definitions().OverlayWith(modifiedDefs)), nil
+			return state.WithOverlaidDefinitions(modifiedDefs), nil
 		})
 
 	stage.RequiresPrerequisiteStages(

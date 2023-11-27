@@ -58,7 +58,7 @@ func ApplyDefaulterAndValidatorInterfaces(configuration *config.Configuration, i
 				return nil, err
 			}
 
-			return state.WithDefinitions(defs.OverlayWith(updatedDefs)), nil
+			return state.WithOverlaidDefinitions(updatedDefs), nil
 		})
 
 	stage.RequiresPrerequisiteStages(ApplyKubernetesResourceInterfaceStageID, AddOperatorSpecStageID)
