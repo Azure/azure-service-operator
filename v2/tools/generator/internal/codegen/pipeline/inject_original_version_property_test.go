@@ -27,7 +27,7 @@ func TestGolden_InjectOriginalVersionProperty_InjectsIntoSpec(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(resource, status, spec)
 
-	initialState := NewState().WithDefinitions(defs)
+	initialState := NewState(defs)
 
 	finalState, err := RunTestPipeline(
 		initialState,

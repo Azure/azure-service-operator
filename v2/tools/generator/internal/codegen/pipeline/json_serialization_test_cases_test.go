@@ -50,7 +50,7 @@ func TestGolden_InjectJsonSerializationTests(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2, test.Address2021)
 
-	state := NewState().WithDefinitions(defs)
+	state := NewState(defs)
 
 	cfg := config.NewConfiguration()
 	finalState, err := RunTestPipeline(

@@ -189,7 +189,7 @@ func TestGolden_EmbeddedSubresource_IsRemoved(t *testing.T) {
 	removeEmbedded := RemoveEmbeddedResources(configuration, logr.Discard())
 
 	state, err := RunTestPipeline(
-		NewState().WithDefinitions(defs),
+		NewState(defs),
 		removeEmbedded)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -208,7 +208,7 @@ func TestGolden_EmbeddedResource_IsRemovedRetainsId(t *testing.T) {
 	removeEmbedded := RemoveEmbeddedResources(configuration, logr.Discard())
 
 	state, err := RunTestPipeline(
-		NewState().WithDefinitions(defs),
+		NewState(defs),
 		removeEmbedded)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -232,7 +232,7 @@ func TestGolden_EmbeddedResourcesWithMultipleEmbeddings_AllEmbeddingsAreRemovedA
 	removeEmbedded := RemoveEmbeddedResources(configuration, logr.Discard())
 
 	state, err := RunTestPipeline(
-		NewState().WithDefinitions(defs),
+		NewState(defs),
 		removeEmbedded)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -288,7 +288,7 @@ func TestGolden_EmbeddedResourceWithCyclesAndResourceLookalikes_RemovesCycles(t 
 	removeEmbedded := RemoveEmbeddedResources(configuration, logr.Discard())
 
 	state, err := RunTestPipeline(
-		NewState().WithDefinitions(defs),
+		NewState(defs),
 		removeEmbedded)
 	g.Expect(err).ToNot(HaveOccurred())
 

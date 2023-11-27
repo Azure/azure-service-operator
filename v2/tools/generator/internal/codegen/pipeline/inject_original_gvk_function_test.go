@@ -29,7 +29,7 @@ func TestGolden_InjectOriginalGVKFunction(t *testing.T) {
 	defs.AddAll(resource, status, spec)
 
 	initialState, err := RunTestPipeline(
-		NewState().WithDefinitions(defs),
+		NewState(defs),
 		InjectOriginalVersionFunction(idFactory))
 	g.Expect(err).To(Succeed())
 

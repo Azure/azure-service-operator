@@ -36,7 +36,7 @@ func TestAddCrossResourceReferences_HandlesArray(t *testing.T) {
 	configuration := config.NewConfiguration()
 
 	state, err := RunTestPipeline(
-		NewState().WithDefinitions(defs),
+		NewState(defs),
 		TransformCrossResourceReferences(configuration, idFactory))
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -59,7 +59,7 @@ func TestAddCrossResourceReferences_HandlesMap(t *testing.T) {
 	configuration := config.NewConfiguration()
 
 	state, err := RunTestPipeline(
-		NewState().WithDefinitions(defs),
+		NewState(defs),
 		TransformCrossResourceReferences(configuration, idFactory))
 	g.Expect(err).ToNot(HaveOccurred())
 

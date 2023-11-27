@@ -32,7 +32,7 @@ func TestReplacingAnyTypes(t *testing.T) {
 		),
 	))
 
-	state := NewState().WithDefinitions(defs)
+	state := NewState(defs)
 	finalState, err := ReplaceAnyTypeWithJSON().action(context.Background(), state)
 	g.Expect(err).To(BeNil())
 
@@ -70,7 +70,7 @@ func TestReplacingMapMapInterface(t *testing.T) {
 		),
 	))
 
-	state := NewState().WithDefinitions(defs)
+	state := NewState(defs)
 	finalState, err := ReplaceAnyTypeWithJSON().action(context.Background(), state)
 
 	g.Expect(err).To(BeNil())

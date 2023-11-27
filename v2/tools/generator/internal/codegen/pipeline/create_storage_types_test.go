@@ -40,7 +40,7 @@ func TestGolden_CreateStorageTypes(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2, test.Address2021)
 
-	initialState := NewState().WithDefinitions(defs)
+	initialState := NewState(defs)
 	finalState, err := RunTestPipeline(initialState, CreateStorageTypes())
 	g.Expect(err).To(Succeed())
 

@@ -50,7 +50,7 @@ func TestAddKubernetesExporter_AutomaticallyGeneratesExportedConfigMaps(t *testi
 	addKubernetesExporter := AddKubernetesExporter(idFactory)
 
 	// Don't need a context when testing
-	state := NewState().WithDefinitions(defs)
+	state := NewState(defs)
 	intermediateState, err := addOperatorSpec.Run(context.TODO(), state)
 	g.Expect(err).ToNot(HaveOccurred())
 	finalState, err := addKubernetesExporter.Run(context.TODO(), intermediateState)

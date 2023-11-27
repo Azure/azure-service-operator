@@ -49,7 +49,7 @@ func TestGolden_InjectResourceConversionTestCases(t *testing.T) {
 	defs.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2, test.Address2021)
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
-		NewState().WithDefinitions(defs),
+		NewState(defs),
 		CreateStorageTypes(),            // First create the storage types
 		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
 		InjectPropertyAssignmentFunctions(cfg, idFactory, logr.Discard()),
