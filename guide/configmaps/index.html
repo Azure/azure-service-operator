@@ -556,6 +556,8 @@ How to provide ConfigMap data to ASO Resources may have fields in their spec tha
   <a href="/azure-service-operator/design/adr-2023-07-goal-seeking-keyvaults/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults"><span class="">2023-07 Goal Seeking KeyVaults</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-07-packagereferences-li">
   <a href="/azure-service-operator/design/adr-2023-07-packagereferences/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-07-packagereferences"><span class="">2023-07 Package References</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-09-skipping-properties-li">
+  <a href="/azure-service-operator/design/adr-2023-09-skipping-properties/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-09-skipping-properties"><span class="">2023-09 Complex Properties that Skip Versions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
@@ -673,7 +675,7 @@ In general, these fields are usually optional, and you can choose to specify the
 <p>For example, in order to create a <code>RoleAssignment</code>, you must specify the <code>principalId</code> of the identity it applies to.
 You can hardcode that <code>principalId</code> or you can refer to it dynamically as a <code>ConfigMap</code> key.</p>
 <p><strong>Example (from <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/authorization/v1api20200801preview/v1api20200801preview_roleassignment.yaml">the RoleAssignment sample</a>):</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">authorization.azure.com/v1beta20200801preview</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">authorization.azure.com/v1api20200801preview</span>
 <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">RoleAssignment</span>
 <span style="color:#f92672">metadata</span>:
   <span style="color:#f92672">name</span>: <span style="color:#ae81ff">fee8b6b1-fe6e-481d-8330-0e950e4e6b86</span> <span style="color:#75715e"># Should be UUID</span>
@@ -703,7 +705,7 @@ successfully been provisioned in Azure.
 The resource will not move to <a href="/azure-service-operator/guide/conditions/">Condition</a> <code>Ready=True</code>
 until the data has been written.</p>
 <p><strong>Example (from <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/managedidentity/v1api/v1api20181130_userassignedidentity.yaml">the UserAssignedIdentity sample</a>):</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">managedidentity.azure.com/v1beta20181130</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">managedidentity.azure.com/v1api20181130</span>
 <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">UserAssignedIdentity</span>
 <span style="color:#f92672">metadata</span>:
   <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sampleuserassignedidentity</span>

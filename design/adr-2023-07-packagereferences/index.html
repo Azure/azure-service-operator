@@ -548,6 +548,8 @@
   <a href="/azure-service-operator/design/adr-2023-07-goal-seeking-keyvaults/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-07-goal-seeking-keyvaults"><span class="">2023-07 Goal Seeking KeyVaults</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2023-07-packagereferences-li">
   <a href="/azure-service-operator/design/adr-2023-07-packagereferences/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-07-packagereferences"><span class="td-sidebar-nav-active-item">2023-07 Package References</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-09-skipping-properties-li">
+  <a href="/azure-service-operator/design/adr-2023-09-skipping-properties/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-09-skipping-properties"><span class="">2023-09 Complex Properties that Skip Versions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
@@ -674,7 +676,7 @@
 <p>Ideally, everything would just work. However, our existing object model in this area is a little complex:</p>
 
 <figure>
-    <img src="/azure-service-operator/design/adr-2023-07-packagereferences/current.png"/> 
+    <img src="./current.png"/> 
 </figure>
 
 <!-- yuml.me class diagram
@@ -711,6 +713,11 @@
 </ul>
 <h3 id="option-2">Option 2</h3>
 <p>Add <code>SubPackageReference</code> as a new implementation of <code>PackageReference</code>, and pare down the methods on <code>PackageReference</code> to just those that make sense across all implementations (e.g. removing <code>GroupVersion()</code> and <code>TryGroupVersion()</code>). Enhance and make more extensive use of <code>LocalLikePackageReference</code>.</p>
+
+<figure>
+    <img src="./option-2.png"/> 
+</figure>
+
 <!-- yuml.me class diagram
 
 [<<interface>>;PackageReference]
@@ -747,7 +754,7 @@
 <p>Not only will this be easier to understand, but it should streamline some parts of our existing codebase by removing the need to check for illegal states.</p>
 
 <figure>
-    <img src="/azure-service-operator/design/adr-2023-07-packagereferences/option-3.png"/> 
+    <img src="./option-3.png"/> 
 </figure>
 
 <!-- yuml.me class diagram
@@ -790,7 +797,7 @@
 <p>As for Option 4, but we also rename types to better reflect the new semantics. Given the introduction of <code>ExternalPackageReference</code>, maybe we use <code>InternalPackageReference</code>:</p>
 
 <figure>
-    <img src="/azure-service-operator/design/adr-2023-07-packagereferences/option-4.png"/> 
+    <img src="./option-4.png"/> 
 </figure>
 
 <!-- yuml.me class diagram

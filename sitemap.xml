@@ -86,6 +86,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2023-07-packagereferences/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2023-09-skipping-properties/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/annotations/</loc>
