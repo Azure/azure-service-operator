@@ -60,6 +60,7 @@ type PropertyAssignmentSelector func(
 	sourceProperties conversions.ReadableConversionEndpointSet,
 	destinationProperties conversions.WritableConversionEndpointSet,
 	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+	conversionContext *conversions.PropertyConversionContext,
 ) error
 
 // NewPropertyAssignmentFunctionBuilder creates a new factory for construction of a PropertyAssignmentFunction.
@@ -132,7 +133,10 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 
 	// Create the function name
 	fnName := conversions.NameOfPropertyAssignmentFunction(
-		conversionContext.FunctionBaseName(), builder.otherDefinition.Name(), builder.direction, idFactory)
+		conversionContext.FunctionBaseName(),
+		builder.otherDefinition.Name(),
+		builder.direction,
+		idFactory)
 
 	// Select names for receiver and parameter
 	receiverName := idFactory.CreateReceiver(builder.receiverDefinition.Name().Name())
@@ -262,7 +266,7 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversions(
 	}
 
 	for _, s := range builder.assignmentSelectors {
-		err := s.selector(sourceEndpoints, destinationEndpoints, assign)
+		err := s.selector(sourceEndpoints, destinationEndpoints, assign, conversionContext)
 		if err != nil {
 			// Don't need to wrap this error, it's already got context
 			return err
@@ -363,6 +367,7 @@ func (*PropertyAssignmentFunctionBuilder) selectIdenticallyNamedProperties(
 	sourceProperties conversions.ReadableConversionEndpointSet,
 	destinationProperties conversions.WritableConversionEndpointSet,
 	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+	_ *conversions.PropertyConversionContext,
 ) error {
 	for destinationName, destinationEndpoint := range destinationProperties {
 		if sourceEndpoint, ok := sourceProperties[destinationName]; ok {
@@ -386,6 +391,7 @@ func (builder *PropertyAssignmentFunctionBuilder) readPropertiesFromPropertyBag(
 	sourceEndpoints conversions.ReadableConversionEndpointSet,
 	destinationEndpoints conversions.WritableConversionEndpointSet,
 	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+	conversionContext *conversions.PropertyConversionContext,
 ) error {
 	prop := builder.findPropertyBagProperty(builder.sourceType())
 	if prop == nil {
@@ -402,7 +408,7 @@ func (builder *PropertyAssignmentFunctionBuilder) readPropertiesFromPropertyBag(
 		}
 
 		// Create a new endpoint that reads from the property bag
-		typeToRead := builder.findTypeForBag(destinationEndpoint.Endpoint().Type())
+		typeToRead := builder.findTypeForBag(destinationEndpoint.Endpoint().Type(), conversionContext)
 		sourceEndpoint := conversions.NewReadableConversionEndpointReadingPropertyBagMember(destinationName, typeToRead)
 		err := assign(sourceEndpoint, destinationEndpoint)
 		if err != nil {
@@ -425,6 +431,7 @@ func (builder *PropertyAssignmentFunctionBuilder) writePropertiesToPropertyBag(
 	sourceEndpoints conversions.ReadableConversionEndpointSet,
 	destinationEndpoints conversions.WritableConversionEndpointSet,
 	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+	conversionContext *conversions.PropertyConversionContext,
 ) error {
 	prop := builder.findPropertyBagProperty(builder.destinationType())
 	if prop == nil {
@@ -441,7 +448,7 @@ func (builder *PropertyAssignmentFunctionBuilder) writePropertiesToPropertyBag(
 		}
 
 		// Create a new endpoint that writes to the property bag
-		typeToWrite := builder.findTypeForBag(sourceEndpoint.Endpoint().Type())
+		typeToWrite := builder.findTypeForBag(sourceEndpoint.Endpoint().Type(), conversionContext)
 		destinationEndpoint := conversions.NewWritableConversionEndpointWritingPropertyBagMember(sourceName, typeToWrite)
 		err := assign(sourceEndpoint, destinationEndpoint)
 		if err != nil {
@@ -463,6 +470,7 @@ func (builder *PropertyAssignmentFunctionBuilder) createSuffixMatchingAssignment
 	return func(sourceProperties conversions.ReadableConversionEndpointSet,
 		destinationProperties conversions.WritableConversionEndpointSet,
 		assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+		_ *conversions.PropertyConversionContext,
 	) error {
 		for destinationName, destinationEndpoint := range destinationProperties {
 			if !strings.HasSuffix(destinationName, destinationSuffix) {
@@ -482,36 +490,33 @@ func (builder *PropertyAssignmentFunctionBuilder) createSuffixMatchingAssignment
 	}
 }
 
-func (builder *PropertyAssignmentFunctionBuilder) findTypeForBag(t astmodel.Type) astmodel.Type {
-	// If optional, find the look up the underlying type and then wrap
+func (builder *PropertyAssignmentFunctionBuilder) findTypeForBag(
+	t astmodel.Type,
+	conversionContext *conversions.PropertyConversionContext,
+) astmodel.Type {
 	if opt, ok := astmodel.AsOptionalType(t); ok {
-		elem := builder.findTypeForBag(opt.Element())
+		elem := builder.findTypeForBag(opt.Element(), conversionContext)
 		return astmodel.NewOptionalType(elem)
 	}
 
 	// If array, find the look up the underlying type and then wrap
 	if arr, ok := astmodel.AsArrayType(t); ok {
-		elem := builder.findTypeForBag(arr.Element())
+		elem := builder.findTypeForBag(arr.Element(), conversionContext)
 		return astmodel.NewArrayType(elem)
 	}
 
 	// If map, find the look-up the underlying type of the value and then wrap
 	if m, ok := astmodel.AsMapType(t); ok {
-		value := builder.findTypeForBag(m.ValueType())
+		value := builder.findTypeForBag(m.ValueType(), conversionContext)
 		return astmodel.NewMapType(m.KeyType(), value)
 	}
 
 	// If TypeName, check for the existence of a compatibilty type in a subpackge under the receiver
 	if tn, ok := astmodel.AsInternalTypeName(t); ok {
-		// We can only do this if we have a conversion context
-		if builder.conversionContext == nil {
-			return t
-		}
-
 		compatPkg := astmodel.MakeCompatPackageReference(
 			builder.receiverDefinition.Name().InternalPackageReference())
 		compatType := tn.WithPackageReference(compatPkg)
-		if builder.conversionContext.Types().Contains(compatType) {
+		if conversionContext.Types().Contains(compatType) {
 			// Compatibility type exists - use that
 			return compatType
 		}
