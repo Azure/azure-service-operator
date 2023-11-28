@@ -83,7 +83,7 @@
  		}
  
 +		var residence v20220630s.Residence
-+		err := residenceFromBag.AssignProperties_To_Residence(&residence)
++		err = residenceFromBag.AssignProperties_To_Residence(&residence)
 +		if err != nil {
 +			return errors.Wrap(err, "calling AssignProperties_To_Residence() to populate field Residence")
 +		}
