@@ -46,7 +46,7 @@ func newVirtualMachine20201201(
 	secretRef genruntime.SecretReference,
 ) *compute2020.VirtualMachine {
 	adminUsername := "bloom"
-	size := compute2020.HardwareProfile_VmSize_Standard_D1_V2
+	size := "Standard_D1_v2"
 
 	return &compute2020.VirtualMachine{
 		ObjectMeta: tc.MakeObjectMeta("vm"),

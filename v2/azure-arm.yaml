@@ -261,6 +261,18 @@ typeTransformers:
     remove: true
     because: This property should be marked readonly
 
+  #
+  # In the group 'compute',
+  # remove the enum restrictions from the vmSize property of VirtualMachine
+  #
+  - group: compute
+    name: HardwareProfile
+    property: VmSize
+    target:
+      name: string
+      optional: true
+    because: The enum restrictions on this type are incomplete. Making this type a plain string to allow for growth of supported VM sizes without a new API version
+
   # 
   # In the group 'dataprotection',
   # from the type 'BackupVault_Spec',

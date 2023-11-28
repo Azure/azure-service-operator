@@ -100,7 +100,6 @@
 | ExtendedLocation_STATUS                                                                    | v1api20200930 | v1api20201201 | v1api20210701 | v1api20220301 |               |
 | HardwareProfile                                                                            |               | v1api20201201 |               | v1api20220301 |               |
 | HardwareProfile_STATUS                                                                     |               | v1api20201201 |               | v1api20220301 |               |
-| HardwareProfile_VmSize                                                                     |               | v1api20201201 |               | v1api20220301 |               |
 | HardwareProfile_VmSize_STATUS                                                              |               | v1api20201201 |               | v1api20220301 |               |
 | HyperVGenerationType                                                                       |               |               | v1api20210701 | v1api20220301 |               |
 | HyperVGenerationType_STATUS                                                                |               |               | v1api20210701 | v1api20220301 |               |
