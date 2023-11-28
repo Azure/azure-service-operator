@@ -199,6 +199,16 @@ func NameOfPropertyAssignmentFunction(
 	return fmt.Sprintf("%s_%s_%s", baseName, dir, nameOfOtherType)
 }
 
+// directAssignmentPropertyConversion is a helper function for creating a conversion that does a direct assignment
+func directAssignmentPropertyConversion(
+	reader dst.Expr,
+	writer func(dst.Expr) []dst.Stmt,
+	knownLocals *astmodel.KnownLocalsSet,
+	generationContext *astmodel.CodeGenerationContext,
+) ([]dst.Stmt, error) {
+	return writer(reader), nil
+}
+
 // writeToBagItem will generate a conversion where the destination is in our property bag
 //
 // # For non-optional sources, the value is directly added
@@ -657,14 +667,7 @@ func assignPrimitiveFromPrimitive(
 		return nil, nil
 	}
 
-	return func(
-		reader dst.Expr,
-		writer func(dst.Expr) []dst.Stmt,
-		knownLocals *astmodel.KnownLocalsSet,
-		generationContext *astmodel.CodeGenerationContext,
-	) ([]dst.Stmt, error) {
-		return writer(reader), nil
-	}, nil
+	return directAssignmentPropertyConversion, nil
 }
 
 // assignAliasedPrimitiveFromAliasedPrimitive will generate a direct assignment if both
@@ -1956,14 +1959,7 @@ func assignKnownType(name astmodel.TypeName) func(*TypedConversionEndpoint, *Typ
 			return nil, nil
 		}
 
-		return func(
-			reader dst.Expr,
-			writer func(dst.Expr) []dst.Stmt,
-			knownLocals *astmodel.KnownLocalsSet,
-			generationContext *astmodel.CodeGenerationContext,
-		) ([]dst.Stmt, error) {
-			return writer(reader), nil
-		}, nil
+		return directAssignmentPropertyConversion, nil
 	}
 }
 
