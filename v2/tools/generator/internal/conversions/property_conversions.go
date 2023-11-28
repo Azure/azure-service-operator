@@ -232,6 +232,8 @@ func directAssignmentPropertyConversion(
 //
 //		   <propertyBag>.Remove(<propertyName>)
 //	}
+//
+// If the type within the property bag differs from the source type, a type conversion is recursively sought
 func writeToBagItem(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
@@ -249,15 +251,29 @@ func writeToBagItem(
 	sourceOptional, sourceIsOptional := astmodel.AsOptionalType(actualSourceType)
 	if sourceIsOptional {
 		actualSourceType = sourceOptional.BaseType()
+		sourceEndpoint = sourceEndpoint.WithType(actualSourceType)
 	}
 
-	// Require the item in the bag to be exactly the same type as our source
-	// (We don't want to recursively do all the conversions because our property bag item SHOULD always contain
-	// exactly the expected type, so no conversion should be required. Plus, our conversions are designed to isolate
-	// the source and destination from each other (so that changes to one don't impact the other), but with the
-	// property bag everything gets immediately serialized so everything is already nicely isolated.
+	// If the item in the bag is exactly the same type as our source, we don't need any other conversion.
+	// We don't want to recursively look for more expensive conversions if we don't need to.
+	// Plus, conversions are designed to isolate the source and destination from each other (so that changes to one
+	// don't impact the other), but with the property bag everything gets immediately serialized so everything is
+	// already nicely isolated.
+	// On the other hand, if the types are different, we need to look for a conversion.
+	conversion := directAssignmentPropertyConversion
 	if !astmodel.TypeEquals(destinationBagItem.Element(), actualSourceType) {
-		return nil, nil
+		// Look for a conversion between the bag item and our source
+		bagItemEndpoint := destinationEndpoint.WithType(destinationBagItem.Element())
+		c, err := CreateTypeConversion(sourceEndpoint, bagItemEndpoint, conversionContext)
+		if err != nil {
+			return nil, err
+		}
+
+		if c == nil {
+			return nil, nil
+		}
+
+		conversion = c
 	}
 
 	_, sourceIsMap := astmodel.AsMapType(actualSourceType)
@@ -269,42 +285,65 @@ func writeToBagItem(
 		knownLocals *astmodel.KnownLocalsSet,
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
-		createAddToBag := func(expr dst.Expr) dst.Stmt {
+		// propertyBag.Add(<propertyName>, <source>)
+		createAddToBag := func(expr dst.Expr) []dst.Stmt {
 			addToBag := astbuilder.CallQualifiedFuncAsStmt(
 				conversionContext.PropertyBagName(),
 				"Add",
 				astbuilder.StringLiteralf(destinationEndpoint.Name()),
 				expr)
 
-			return addToBag
+			return astbuilder.Statements(addToBag)
 		}
 
+		// propertyBag.Remove(<propertyName>)
 		removeFromBag := astbuilder.CallQualifiedFuncAsStmt(
 			conversionContext.PropertyBagName(),
 			"Remove",
 			astbuilder.StringLiteralf(destinationEndpoint.Name()))
 
-		// If pointer to value, check for nil and only store if we have a value
+		// condition is a test to use to see whether we have a value to write to the property bag
+		// If we unilaterally write to the bag, this will be nil
+		var condition dst.Expr
+
+		// If optional source, check for nil and only store if we have a value
 		if sourceIsOptional {
-			writer := astbuilder.SimpleIfElse(
-				astbuilder.NotNil(reader),
-				astbuilder.Statements(createAddToBag(astbuilder.Dereference(reader))),
-				astbuilder.Statements(removeFromBag))
-			return astbuilder.Statements(writer), nil
+			// if <reader> != nil {
+			condition = astbuilder.NotNil(reader)
+			reader = astbuilder.Dereference(reader)
 		}
 
 		// If slice or map, check for non-empty and only store if we have a value
 		if sourceIsSlice || sourceIsMap {
+			// if len(<mapOrSlice>) > 0 {
+			condition = astbuilder.NotEmpty(reader)
+		}
+
+		// Create the conversion to use to write to the bag
+		addToBag, err := conversion(
+			reader,
+			createAddToBag,
+			knownLocals,
+			generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err,
+				"unable to convert %s to %s writing property bag",
+				sourceEndpoint.Name(),
+				destinationEndpoint.Name())
+		}
+
+		// If we only conditionally write to the bag, we need wrap with an if statement
+		if condition != nil {
 			writer := astbuilder.SimpleIfElse(
-				astbuilder.NotEmpty(reader),
-				astbuilder.Statements(createAddToBag(reader)),
+				condition,
+				addToBag,
 				astbuilder.Statements(removeFromBag))
 			return astbuilder.Statements(writer), nil
 		}
 
-		// Otherwise, just store the value
-		writer := createAddToBag(reader)
-		return astbuilder.Statements(writer), nil
+		// Otherwise, just add the value to the bag
+		return astbuilder.Statements(addToBag), nil
 	}, nil
 }
 
@@ -388,11 +427,13 @@ func assignToOptional(
 //
 //	    <destination> = <zero>
 //	}
+//
+// If the type within the property bag differs from the destination type, a type conversion is recursively sought
 func pullFromBagItem(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
-
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require source to be a bag item
 	sourceBagItem, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type())
 	if !sourceIsBagItem {
@@ -406,13 +447,27 @@ func pullFromBagItem(
 		actualDestinationType = destinationOptional.BaseType()
 	}
 
-	// Require the item in the bag to be exactly the same type as our destination
-	// (We don't want to recursively do all the conversions because our property bag item SHOULD always contain
-	// exactly the expected type, so no conversion should be required. Plus, our conversions are designed to isolate
-	// the source and destination from each other (so that changes to one don't impact the other), but with the
-	// property bag everything gets immediately serialized so everything is already nicely isolated.
-	if !astmodel.TypeEquals(sourceBagItem.Element(), actualDestinationType) {
-		return nil, nil
+	// If the item in the bag is exactly the same type as our destination, we don't need any other conversion
+	// We don't want to recursively look for more expensive conversions if we don't need to.
+	// Plus, conversions are designed to isolate the source and destination from each other (so that changes to one
+	// don't impact the other), but with the property bag everything gets immediately serialized so everything is
+	// already nicely isolated.
+	// On the other hand, if the types are different, we need to look for a conversion
+	conversion := directAssignmentPropertyConversion
+	typesDiffer := !astmodel.TypeEquals(sourceBagItem.Element(), actualDestinationType)
+	if typesDiffer {
+		// Look for a conversion between the bag item and our source
+		bagItemEndpoint := sourceEndpoint.WithType(sourceBagItem.Element())
+		c, err := CreateTypeConversion(bagItemEndpoint, destinationEndpoint, conversionContext)
+		if err != nil {
+			return nil, err
+		}
+
+		if c == nil {
+			return nil, nil
+		}
+
+		conversion = c
 	}
 
 	errIdent := dst.NewIdent("err")
@@ -426,18 +481,29 @@ func pullFromBagItem(
 		// our first parameter is an expression to read the value from our original instance, but in this case we're
 		// going to read from the property bag, so we're ignoring it.
 
-		local := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "", "Read")
+		// Work out a name for our local variable
+		// We use different defaults when doing a conversion to make the local naming clearer in the generated code
+		var local string
+		if typesDiffer {
+			local = knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "FromBag", "ReadFromBag")
+		} else {
+			local = knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "", "Read")
+		}
+
 		errorsPkg := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
 
+		// propertyBag.Contains("<sourceName>")
 		condition := astbuilder.CallQualifiedFunc(
 			conversionContext.PropertyBagName(),
 			"Contains",
 			astbuilder.StringLiteral(sourceEndpoint.Name()))
 
+		// var <local> <sourceBagItemType>
 		declare := astbuilder.NewVariableWithType(
 			local,
 			sourceBagItem.AsType(generationContext))
 
+		// err := <propertyBag>.Pull(<sourceName>, &<local>)
 		pull := astbuilder.ShortDeclaration(
 			"err",
 			astbuilder.CallQualifiedFunc(
@@ -446,6 +512,9 @@ func pullFromBagItem(
 				astbuilder.StringLiteral(sourceEndpoint.Name()),
 				astbuilder.AddrOf(dst.NewIdent(local))))
 
+		// if err != nil {
+		//     return ...
+		// }
 		returnIfErr := astbuilder.ReturnIfNotNil(
 			errIdent,
 			astbuilder.WrappedErrorf(
@@ -461,10 +530,26 @@ func pullFromBagItem(
 			reader = dst.NewIdent(local)
 		}
 
-		assignValue := writer(reader)
+		// Create the actual code to store the value
+		assignValue, err := conversion(reader, writer, knownLocals, generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err,
+				"unable to convert %s to %s reading property bag",
+				sourceEndpoint.Name(),
+				destinationEndpoint.Name())
+		}
 
-		assignZero := writer(destinationEndpoint.Type().AsZero(conversionContext.Types(), generationContext))
+		// Generate code to clear the value if we don't have one
+		assignZero := writer(
+			destinationEndpoint.Type().AsZero(conversionContext.Types(),
+				generationContext))
 
+		// if <condition> {
+		//   <body>
+		// } else {
+		//   <assignZero>
+		// }
 		ifStatement := astbuilder.SimpleIfElse(
 			condition,
 			astbuilder.Statements(declare, pull, returnIfErr, assignValue),
