@@ -156,10 +156,12 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 	propertyBagName := knownLocals.CreateLocal("propertyBag", "", "Local", "Temp")
 
 	// Package references
+	compatPkg := astmodel.MakeCompatPackageReference(builder.receiverDefinition.Name().InternalPackageReference())
 	packageReferences := astmodel.NewPackageReferenceSet(
 		astmodel.GitHubErrorsReference,
 		astmodel.GenRuntimeReference,
-		builder.otherDefinition.Name().PackageReference())
+		builder.otherDefinition.Name().PackageReference(),
+		compatPkg)
 
 	cc := conversionContext.WithDirection(builder.direction).
 		WithPropertyBag(propertyBagName).
