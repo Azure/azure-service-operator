@@ -508,9 +508,20 @@ func pullFromBagItem(
 			local,
 			sourceBagItem.AsType(generationContext))
 
+		// We're wrapping the conversion in a nested block, so any locals are independent
+		knownLocals = knownLocals.Clone()
+
+		// We have to do this at render time in order to ensure the first conversion generated
+		// declares 'err', not a later one
+		tok := token.ASSIGN
+		if knownLocals.TryCreateLocal("err") {
+			tok = token.DEFINE
+		}
+
 		// err := <propertyBag>.Pull(<sourceName>, &<local>)
-		pull := astbuilder.ShortDeclaration(
-			"err",
+		pull := astbuilder.AssignmentStatement(
+			dst.NewIdent("err"),
+			tok,
 			astbuilder.CallQualifiedFunc(
 				conversionContext.PropertyBagName(),
 				"Pull",
@@ -534,9 +545,6 @@ func pullFromBagItem(
 		} else {
 			reader = dst.NewIdent(local)
 		}
-
-		// We're wrapping the conversion in a nested block, so any locals are independent
-		knownLocals = knownLocals.Clone()
 
 		// Create the actual code to store the value
 		assignValue, err := conversion(reader, writer, knownLocals, generationContext)
