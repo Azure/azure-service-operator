@@ -6,10 +6,7 @@ github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
     ├── Spec: Object (13 properties)
     │   ├── AdditionalProperties: map[string]v1.JSON
-    │   ├── AzureName: Validated<string> (3 rules)
-    │   │   ├── Rule 0: MaxLength: 63
-    │   │   ├── Rule 1: MinLength: 3
-    │   │   └── Rule 2: Pattern: "^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$"
+    │   ├── AzureName: string
     │   ├── Encryption: *Object (5 properties)
     │   │   ├── Identity: *Object (2 properties)
     │   │   │   ├── PropertyBag: genruntime.PropertyBag

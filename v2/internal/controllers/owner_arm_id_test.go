@@ -30,7 +30,7 @@ func Test_OwnerIsARMIDOfResourceGroup_ResourceSuccessfullyReconciled(t *testing.
 	armID := *rg.Status.Id
 
 	// Now create a storage account
-	acct := newStorageAccount20220901(tc, rg)
+	acct := newStorageAccount20230101(tc, rg)
 	acct.Spec.Owner = testcommon.AsARMIDOwner(armID)
 
 	// Create the storage account from ARM ID
@@ -63,7 +63,7 @@ func Test_OwnerIsARMIDOfParent_ChildResourceSuccessfullyReconciled(t *testing.T)
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Now create a storage account
-	acct := newStorageAccount20220901(tc, rg)
+	acct := newStorageAccount20230101(tc, rg)
 	tc.CreateResourceAndWait(acct)
 
 	// and a blob service

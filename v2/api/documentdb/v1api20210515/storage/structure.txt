@@ -11,10 +11,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage
 │   │   ├── ApiProperties: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── ServerVersion: *string
-│   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: MaxLength: 50
-│   │   │   ├── Rule 1: MinLength: 3
-│   │   │   └── Rule 2: Pattern: "^[a-z0-9]+(-[a-z0-9]+)*"
+│   │   ├── AzureName: string
 │   │   ├── BackupPolicy: *Object (3 properties)
 │   │   │   ├── Continuous: *Object (2 properties)
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag

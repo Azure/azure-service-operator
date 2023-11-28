@@ -139,7 +139,6 @@ type FlexibleServersConfigurationList struct {
 
 // Storage version of v1api20220101.FlexibleServers_Configuration_Spec
 type FlexibleServers_Configuration_Spec struct {
-	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9_.-]+$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`

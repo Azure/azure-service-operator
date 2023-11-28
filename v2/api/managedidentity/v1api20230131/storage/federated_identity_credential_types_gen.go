@@ -148,7 +148,6 @@ const APIVersion_Value = APIVersion("2023-01-31")
 type UserAssignedIdentities_FederatedIdentityCredential_Spec struct {
 	Audiences []string `json:"audiences,omitempty"`
 
-	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9-_]{2,119}$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName        string                         `json:"azureName,omitempty"`

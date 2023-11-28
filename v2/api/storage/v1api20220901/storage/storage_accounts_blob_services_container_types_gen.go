@@ -4,19 +4,18 @@
 package storage
 
 import (
+	"fmt"
+	v20230101s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=storage.azure.com,resources=storageaccountsblobservicescontainers,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=storage.azure.com,resources={storageaccountsblobservicescontainers/status,storageaccountsblobservicescontainers/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -42,6 +41,28 @@ func (container *StorageAccountsBlobServicesContainer) GetConditions() condition
 // SetConditions sets the conditions on the resource status
 func (container *StorageAccountsBlobServicesContainer) SetConditions(conditions conditions.Conditions) {
 	container.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &StorageAccountsBlobServicesContainer{}
+
+// ConvertFrom populates our StorageAccountsBlobServicesContainer from the provided hub StorageAccountsBlobServicesContainer
+func (container *StorageAccountsBlobServicesContainer) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v20230101s.StorageAccountsBlobServicesContainer)
+	if !ok {
+		return fmt.Errorf("expected storage/v1api20230101/storage/StorageAccountsBlobServicesContainer but received %T instead", hub)
+	}
+
+	return container.AssignProperties_From_StorageAccountsBlobServicesContainer(source)
+}
+
+// ConvertTo populates the provided hub StorageAccountsBlobServicesContainer from our StorageAccountsBlobServicesContainer
+func (container *StorageAccountsBlobServicesContainer) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v20230101s.StorageAccountsBlobServicesContainer)
+	if !ok {
+		return fmt.Errorf("expected storage/v1api20230101/storage/StorageAccountsBlobServicesContainer but received %T instead", hub)
+	}
+
+	return container.AssignProperties_To_StorageAccountsBlobServicesContainer(destination)
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsBlobServicesContainer{}
@@ -115,8 +136,75 @@ func (container *StorageAccountsBlobServicesContainer) SetStatus(status genrunti
 	return nil
 }
 
-// Hub marks that this StorageAccountsBlobServicesContainer is the hub type for conversion
-func (container *StorageAccountsBlobServicesContainer) Hub() {}
+// AssignProperties_From_StorageAccountsBlobServicesContainer populates our StorageAccountsBlobServicesContainer from the provided source StorageAccountsBlobServicesContainer
+func (container *StorageAccountsBlobServicesContainer) AssignProperties_From_StorageAccountsBlobServicesContainer(source *v20230101s.StorageAccountsBlobServicesContainer) error {
+
+	// ObjectMeta
+	container.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec StorageAccounts_BlobServices_Container_Spec
+	err := spec.AssignProperties_From_StorageAccounts_BlobServices_Container_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_BlobServices_Container_Spec() to populate field Spec")
+	}
+	container.Spec = spec
+
+	// Status
+	var status StorageAccounts_BlobServices_Container_STATUS
+	err = status.AssignProperties_From_StorageAccounts_BlobServices_Container_STATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_BlobServices_Container_STATUS() to populate field Status")
+	}
+	container.Status = status
+
+	// Invoke the augmentConversionForStorageAccountsBlobServicesContainer interface (if implemented) to customize the conversion
+	var containerAsAny any = container
+	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccountsBlobServicesContainer); ok {
+		err := augmentedContainer.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageAccountsBlobServicesContainer populates the provided destination StorageAccountsBlobServicesContainer from our StorageAccountsBlobServicesContainer
+func (container *StorageAccountsBlobServicesContainer) AssignProperties_To_StorageAccountsBlobServicesContainer(destination *v20230101s.StorageAccountsBlobServicesContainer) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *container.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v20230101s.StorageAccounts_BlobServices_Container_Spec
+	err := container.Spec.AssignProperties_To_StorageAccounts_BlobServices_Container_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_BlobServices_Container_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v20230101s.StorageAccounts_BlobServices_Container_STATUS
+	err = container.Status.AssignProperties_To_StorageAccounts_BlobServices_Container_STATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_BlobServices_Container_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForStorageAccountsBlobServicesContainer interface (if implemented) to customize the conversion
+	var containerAsAny any = container
+	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccountsBlobServicesContainer); ok {
+		err := augmentedContainer.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (container *StorageAccountsBlobServicesContainer) OriginalGVK() *schema.GroupVersionKind {
@@ -138,10 +226,13 @@ type StorageAccountsBlobServicesContainerList struct {
 	Items           []StorageAccountsBlobServicesContainer `json:"items"`
 }
 
+type augmentConversionForStorageAccountsBlobServicesContainer interface {
+	AssignPropertiesFrom(src *v20230101s.StorageAccountsBlobServicesContainer) error
+	AssignPropertiesTo(dst *v20230101s.StorageAccountsBlobServicesContainer) error
+}
+
 // Storage version of v1api20220901.StorageAccounts_BlobServices_Container_Spec
 type StorageAccounts_BlobServices_Container_Spec struct {
-	// +kubebuilder:validation:MaxLength=63
-	// +kubebuilder:validation:MinLength=3
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                      string                          `json:"azureName,omitempty"`
@@ -166,20 +257,218 @@ var _ genruntime.ConvertibleSpec = &StorageAccounts_BlobServices_Container_Spec{
 
 // ConvertSpecFrom populates our StorageAccounts_BlobServices_Container_Spec from the provided source
 func (container *StorageAccounts_BlobServices_Container_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == container {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v20230101s.StorageAccounts_BlobServices_Container_Spec)
+	if ok {
+		// Populate our instance from source
+		return container.AssignProperties_From_StorageAccounts_BlobServices_Container_Spec(src)
 	}
 
-	return source.ConvertSpecTo(container)
+	// Convert to an intermediate form
+	src = &v20230101s.StorageAccounts_BlobServices_Container_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = container.AssignProperties_From_StorageAccounts_BlobServices_Container_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our StorageAccounts_BlobServices_Container_Spec
 func (container *StorageAccounts_BlobServices_Container_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == container {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v20230101s.StorageAccounts_BlobServices_Container_Spec)
+	if ok {
+		// Populate destination from our instance
+		return container.AssignProperties_To_StorageAccounts_BlobServices_Container_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(container)
+	// Convert to an intermediate form
+	dst = &v20230101s.StorageAccounts_BlobServices_Container_Spec{}
+	err := container.AssignProperties_To_StorageAccounts_BlobServices_Container_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_StorageAccounts_BlobServices_Container_Spec populates our StorageAccounts_BlobServices_Container_Spec from the provided source StorageAccounts_BlobServices_Container_Spec
+func (container *StorageAccounts_BlobServices_Container_Spec) AssignProperties_From_StorageAccounts_BlobServices_Container_Spec(source *v20230101s.StorageAccounts_BlobServices_Container_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	container.AzureName = source.AzureName
+
+	// DefaultEncryptionScope
+	container.DefaultEncryptionScope = genruntime.ClonePointerToString(source.DefaultEncryptionScope)
+
+	// DenyEncryptionScopeOverride
+	if source.DenyEncryptionScopeOverride != nil {
+		denyEncryptionScopeOverride := *source.DenyEncryptionScopeOverride
+		container.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
+	} else {
+		container.DenyEncryptionScopeOverride = nil
+	}
+
+	// EnableNfsV3AllSquash
+	if source.EnableNfsV3AllSquash != nil {
+		enableNfsV3AllSquash := *source.EnableNfsV3AllSquash
+		container.EnableNfsV3AllSquash = &enableNfsV3AllSquash
+	} else {
+		container.EnableNfsV3AllSquash = nil
+	}
+
+	// EnableNfsV3RootSquash
+	if source.EnableNfsV3RootSquash != nil {
+		enableNfsV3RootSquash := *source.EnableNfsV3RootSquash
+		container.EnableNfsV3RootSquash = &enableNfsV3RootSquash
+	} else {
+		container.EnableNfsV3RootSquash = nil
+	}
+
+	// ImmutableStorageWithVersioning
+	if source.ImmutableStorageWithVersioning != nil {
+		var immutableStorageWithVersioning ImmutableStorageWithVersioning
+		err := immutableStorageWithVersioning.AssignProperties_From_ImmutableStorageWithVersioning(source.ImmutableStorageWithVersioning)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ImmutableStorageWithVersioning() to populate field ImmutableStorageWithVersioning")
+		}
+		container.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
+	} else {
+		container.ImmutableStorageWithVersioning = nil
+	}
+
+	// Metadata
+	container.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
+
+	// OriginalVersion
+	container.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		container.Owner = &owner
+	} else {
+		container.Owner = nil
+	}
+
+	// PublicAccess
+	container.PublicAccess = genruntime.ClonePointerToString(source.PublicAccess)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		container.PropertyBag = propertyBag
+	} else {
+		container.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccounts_BlobServices_Container_Spec interface (if implemented) to customize the conversion
+	var containerAsAny any = container
+	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccounts_BlobServices_Container_Spec); ok {
+		err := augmentedContainer.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageAccounts_BlobServices_Container_Spec populates the provided destination StorageAccounts_BlobServices_Container_Spec from our StorageAccounts_BlobServices_Container_Spec
+func (container *StorageAccounts_BlobServices_Container_Spec) AssignProperties_To_StorageAccounts_BlobServices_Container_Spec(destination *v20230101s.StorageAccounts_BlobServices_Container_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(container.PropertyBag)
+
+	// AzureName
+	destination.AzureName = container.AzureName
+
+	// DefaultEncryptionScope
+	destination.DefaultEncryptionScope = genruntime.ClonePointerToString(container.DefaultEncryptionScope)
+
+	// DenyEncryptionScopeOverride
+	if container.DenyEncryptionScopeOverride != nil {
+		denyEncryptionScopeOverride := *container.DenyEncryptionScopeOverride
+		destination.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
+	} else {
+		destination.DenyEncryptionScopeOverride = nil
+	}
+
+	// EnableNfsV3AllSquash
+	if container.EnableNfsV3AllSquash != nil {
+		enableNfsV3AllSquash := *container.EnableNfsV3AllSquash
+		destination.EnableNfsV3AllSquash = &enableNfsV3AllSquash
+	} else {
+		destination.EnableNfsV3AllSquash = nil
+	}
+
+	// EnableNfsV3RootSquash
+	if container.EnableNfsV3RootSquash != nil {
+		enableNfsV3RootSquash := *container.EnableNfsV3RootSquash
+		destination.EnableNfsV3RootSquash = &enableNfsV3RootSquash
+	} else {
+		destination.EnableNfsV3RootSquash = nil
+	}
+
+	// ImmutableStorageWithVersioning
+	if container.ImmutableStorageWithVersioning != nil {
+		var immutableStorageWithVersioning v20230101s.ImmutableStorageWithVersioning
+		err := container.ImmutableStorageWithVersioning.AssignProperties_To_ImmutableStorageWithVersioning(&immutableStorageWithVersioning)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ImmutableStorageWithVersioning() to populate field ImmutableStorageWithVersioning")
+		}
+		destination.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
+	} else {
+		destination.ImmutableStorageWithVersioning = nil
+	}
+
+	// Metadata
+	destination.Metadata = genruntime.CloneMapOfStringToString(container.Metadata)
+
+	// OriginalVersion
+	destination.OriginalVersion = container.OriginalVersion
+
+	// Owner
+	if container.Owner != nil {
+		owner := container.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// PublicAccess
+	destination.PublicAccess = genruntime.ClonePointerToString(container.PublicAccess)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccounts_BlobServices_Container_Spec interface (if implemented) to customize the conversion
+	var containerAsAny any = container
+	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccounts_BlobServices_Container_Spec); ok {
+		err := augmentedContainer.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20220901.StorageAccounts_BlobServices_Container_STATUS
@@ -215,20 +504,368 @@ var _ genruntime.ConvertibleStatus = &StorageAccounts_BlobServices_Container_STA
 
 // ConvertStatusFrom populates our StorageAccounts_BlobServices_Container_STATUS from the provided source
 func (container *StorageAccounts_BlobServices_Container_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == container {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v20230101s.StorageAccounts_BlobServices_Container_STATUS)
+	if ok {
+		// Populate our instance from source
+		return container.AssignProperties_From_StorageAccounts_BlobServices_Container_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(container)
+	// Convert to an intermediate form
+	src = &v20230101s.StorageAccounts_BlobServices_Container_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = container.AssignProperties_From_StorageAccounts_BlobServices_Container_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our StorageAccounts_BlobServices_Container_STATUS
 func (container *StorageAccounts_BlobServices_Container_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == container {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v20230101s.StorageAccounts_BlobServices_Container_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return container.AssignProperties_To_StorageAccounts_BlobServices_Container_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(container)
+	// Convert to an intermediate form
+	dst = &v20230101s.StorageAccounts_BlobServices_Container_STATUS{}
+	err := container.AssignProperties_To_StorageAccounts_BlobServices_Container_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_StorageAccounts_BlobServices_Container_STATUS populates our StorageAccounts_BlobServices_Container_STATUS from the provided source StorageAccounts_BlobServices_Container_STATUS
+func (container *StorageAccounts_BlobServices_Container_STATUS) AssignProperties_From_StorageAccounts_BlobServices_Container_STATUS(source *v20230101s.StorageAccounts_BlobServices_Container_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	container.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// DefaultEncryptionScope
+	container.DefaultEncryptionScope = genruntime.ClonePointerToString(source.DefaultEncryptionScope)
+
+	// Deleted
+	if source.Deleted != nil {
+		deleted := *source.Deleted
+		container.Deleted = &deleted
+	} else {
+		container.Deleted = nil
+	}
+
+	// DeletedTime
+	container.DeletedTime = genruntime.ClonePointerToString(source.DeletedTime)
+
+	// DenyEncryptionScopeOverride
+	if source.DenyEncryptionScopeOverride != nil {
+		denyEncryptionScopeOverride := *source.DenyEncryptionScopeOverride
+		container.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
+	} else {
+		container.DenyEncryptionScopeOverride = nil
+	}
+
+	// EnableNfsV3AllSquash
+	if source.EnableNfsV3AllSquash != nil {
+		enableNfsV3AllSquash := *source.EnableNfsV3AllSquash
+		container.EnableNfsV3AllSquash = &enableNfsV3AllSquash
+	} else {
+		container.EnableNfsV3AllSquash = nil
+	}
+
+	// EnableNfsV3RootSquash
+	if source.EnableNfsV3RootSquash != nil {
+		enableNfsV3RootSquash := *source.EnableNfsV3RootSquash
+		container.EnableNfsV3RootSquash = &enableNfsV3RootSquash
+	} else {
+		container.EnableNfsV3RootSquash = nil
+	}
+
+	// Etag
+	container.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// HasImmutabilityPolicy
+	if source.HasImmutabilityPolicy != nil {
+		hasImmutabilityPolicy := *source.HasImmutabilityPolicy
+		container.HasImmutabilityPolicy = &hasImmutabilityPolicy
+	} else {
+		container.HasImmutabilityPolicy = nil
+	}
+
+	// HasLegalHold
+	if source.HasLegalHold != nil {
+		hasLegalHold := *source.HasLegalHold
+		container.HasLegalHold = &hasLegalHold
+	} else {
+		container.HasLegalHold = nil
+	}
+
+	// Id
+	container.Id = genruntime.ClonePointerToString(source.Id)
+
+	// ImmutabilityPolicy
+	if source.ImmutabilityPolicy != nil {
+		var immutabilityPolicy ImmutabilityPolicyProperties_STATUS
+		err := immutabilityPolicy.AssignProperties_From_ImmutabilityPolicyProperties_STATUS(source.ImmutabilityPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ImmutabilityPolicyProperties_STATUS() to populate field ImmutabilityPolicy")
+		}
+		container.ImmutabilityPolicy = &immutabilityPolicy
+	} else {
+		container.ImmutabilityPolicy = nil
+	}
+
+	// ImmutableStorageWithVersioning
+	if source.ImmutableStorageWithVersioning != nil {
+		var immutableStorageWithVersioning ImmutableStorageWithVersioning_STATUS
+		err := immutableStorageWithVersioning.AssignProperties_From_ImmutableStorageWithVersioning_STATUS(source.ImmutableStorageWithVersioning)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ImmutableStorageWithVersioning_STATUS() to populate field ImmutableStorageWithVersioning")
+		}
+		container.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
+	} else {
+		container.ImmutableStorageWithVersioning = nil
+	}
+
+	// LastModifiedTime
+	container.LastModifiedTime = genruntime.ClonePointerToString(source.LastModifiedTime)
+
+	// LeaseDuration
+	container.LeaseDuration = genruntime.ClonePointerToString(source.LeaseDuration)
+
+	// LeaseState
+	container.LeaseState = genruntime.ClonePointerToString(source.LeaseState)
+
+	// LeaseStatus
+	container.LeaseStatus = genruntime.ClonePointerToString(source.LeaseStatus)
+
+	// LegalHold
+	if source.LegalHold != nil {
+		var legalHold LegalHoldProperties_STATUS
+		err := legalHold.AssignProperties_From_LegalHoldProperties_STATUS(source.LegalHold)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_LegalHoldProperties_STATUS() to populate field LegalHold")
+		}
+		container.LegalHold = &legalHold
+	} else {
+		container.LegalHold = nil
+	}
+
+	// Metadata
+	container.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
+
+	// Name
+	container.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PublicAccess
+	container.PublicAccess = genruntime.ClonePointerToString(source.PublicAccess)
+
+	// RemainingRetentionDays
+	container.RemainingRetentionDays = genruntime.ClonePointerToInt(source.RemainingRetentionDays)
+
+	// Type
+	container.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Version
+	container.Version = genruntime.ClonePointerToString(source.Version)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		container.PropertyBag = propertyBag
+	} else {
+		container.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccounts_BlobServices_Container_STATUS interface (if implemented) to customize the conversion
+	var containerAsAny any = container
+	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccounts_BlobServices_Container_STATUS); ok {
+		err := augmentedContainer.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageAccounts_BlobServices_Container_STATUS populates the provided destination StorageAccounts_BlobServices_Container_STATUS from our StorageAccounts_BlobServices_Container_STATUS
+func (container *StorageAccounts_BlobServices_Container_STATUS) AssignProperties_To_StorageAccounts_BlobServices_Container_STATUS(destination *v20230101s.StorageAccounts_BlobServices_Container_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(container.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(container.Conditions)
+
+	// DefaultEncryptionScope
+	destination.DefaultEncryptionScope = genruntime.ClonePointerToString(container.DefaultEncryptionScope)
+
+	// Deleted
+	if container.Deleted != nil {
+		deleted := *container.Deleted
+		destination.Deleted = &deleted
+	} else {
+		destination.Deleted = nil
+	}
+
+	// DeletedTime
+	destination.DeletedTime = genruntime.ClonePointerToString(container.DeletedTime)
+
+	// DenyEncryptionScopeOverride
+	if container.DenyEncryptionScopeOverride != nil {
+		denyEncryptionScopeOverride := *container.DenyEncryptionScopeOverride
+		destination.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
+	} else {
+		destination.DenyEncryptionScopeOverride = nil
+	}
+
+	// EnableNfsV3AllSquash
+	if container.EnableNfsV3AllSquash != nil {
+		enableNfsV3AllSquash := *container.EnableNfsV3AllSquash
+		destination.EnableNfsV3AllSquash = &enableNfsV3AllSquash
+	} else {
+		destination.EnableNfsV3AllSquash = nil
+	}
+
+	// EnableNfsV3RootSquash
+	if container.EnableNfsV3RootSquash != nil {
+		enableNfsV3RootSquash := *container.EnableNfsV3RootSquash
+		destination.EnableNfsV3RootSquash = &enableNfsV3RootSquash
+	} else {
+		destination.EnableNfsV3RootSquash = nil
+	}
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(container.Etag)
+
+	// HasImmutabilityPolicy
+	if container.HasImmutabilityPolicy != nil {
+		hasImmutabilityPolicy := *container.HasImmutabilityPolicy
+		destination.HasImmutabilityPolicy = &hasImmutabilityPolicy
+	} else {
+		destination.HasImmutabilityPolicy = nil
+	}
+
+	// HasLegalHold
+	if container.HasLegalHold != nil {
+		hasLegalHold := *container.HasLegalHold
+		destination.HasLegalHold = &hasLegalHold
+	} else {
+		destination.HasLegalHold = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(container.Id)
+
+	// ImmutabilityPolicy
+	if container.ImmutabilityPolicy != nil {
+		var immutabilityPolicy v20230101s.ImmutabilityPolicyProperties_STATUS
+		err := container.ImmutabilityPolicy.AssignProperties_To_ImmutabilityPolicyProperties_STATUS(&immutabilityPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ImmutabilityPolicyProperties_STATUS() to populate field ImmutabilityPolicy")
+		}
+		destination.ImmutabilityPolicy = &immutabilityPolicy
+	} else {
+		destination.ImmutabilityPolicy = nil
+	}
+
+	// ImmutableStorageWithVersioning
+	if container.ImmutableStorageWithVersioning != nil {
+		var immutableStorageWithVersioning v20230101s.ImmutableStorageWithVersioning_STATUS
+		err := container.ImmutableStorageWithVersioning.AssignProperties_To_ImmutableStorageWithVersioning_STATUS(&immutableStorageWithVersioning)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ImmutableStorageWithVersioning_STATUS() to populate field ImmutableStorageWithVersioning")
+		}
+		destination.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
+	} else {
+		destination.ImmutableStorageWithVersioning = nil
+	}
+
+	// LastModifiedTime
+	destination.LastModifiedTime = genruntime.ClonePointerToString(container.LastModifiedTime)
+
+	// LeaseDuration
+	destination.LeaseDuration = genruntime.ClonePointerToString(container.LeaseDuration)
+
+	// LeaseState
+	destination.LeaseState = genruntime.ClonePointerToString(container.LeaseState)
+
+	// LeaseStatus
+	destination.LeaseStatus = genruntime.ClonePointerToString(container.LeaseStatus)
+
+	// LegalHold
+	if container.LegalHold != nil {
+		var legalHold v20230101s.LegalHoldProperties_STATUS
+		err := container.LegalHold.AssignProperties_To_LegalHoldProperties_STATUS(&legalHold)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_LegalHoldProperties_STATUS() to populate field LegalHold")
+		}
+		destination.LegalHold = &legalHold
+	} else {
+		destination.LegalHold = nil
+	}
+
+	// Metadata
+	destination.Metadata = genruntime.CloneMapOfStringToString(container.Metadata)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(container.Name)
+
+	// PublicAccess
+	destination.PublicAccess = genruntime.ClonePointerToString(container.PublicAccess)
+
+	// RemainingRetentionDays
+	destination.RemainingRetentionDays = genruntime.ClonePointerToInt(container.RemainingRetentionDays)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(container.Type)
+
+	// Version
+	destination.Version = genruntime.ClonePointerToString(container.Version)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccounts_BlobServices_Container_STATUS interface (if implemented) to customize the conversion
+	var containerAsAny any = container
+	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccounts_BlobServices_Container_STATUS); ok {
+		err := augmentedContainer.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForStorageAccounts_BlobServices_Container_Spec interface {
+	AssignPropertiesFrom(src *v20230101s.StorageAccounts_BlobServices_Container_Spec) error
+	AssignPropertiesTo(dst *v20230101s.StorageAccounts_BlobServices_Container_Spec) error
+}
+
+type augmentConversionForStorageAccounts_BlobServices_Container_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.StorageAccounts_BlobServices_Container_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.StorageAccounts_BlobServices_Container_STATUS) error
 }
 
 // Storage version of v1api20220901.ImmutabilityPolicyProperties_STATUS
@@ -243,11 +880,213 @@ type ImmutabilityPolicyProperties_STATUS struct {
 	UpdateHistory                         []UpdateHistoryProperty_STATUS `json:"updateHistory,omitempty"`
 }
 
+// AssignProperties_From_ImmutabilityPolicyProperties_STATUS populates our ImmutabilityPolicyProperties_STATUS from the provided source ImmutabilityPolicyProperties_STATUS
+func (properties *ImmutabilityPolicyProperties_STATUS) AssignProperties_From_ImmutabilityPolicyProperties_STATUS(source *v20230101s.ImmutabilityPolicyProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AllowProtectedAppendWrites
+	if source.AllowProtectedAppendWrites != nil {
+		allowProtectedAppendWrite := *source.AllowProtectedAppendWrites
+		properties.AllowProtectedAppendWrites = &allowProtectedAppendWrite
+	} else {
+		properties.AllowProtectedAppendWrites = nil
+	}
+
+	// AllowProtectedAppendWritesAll
+	if source.AllowProtectedAppendWritesAll != nil {
+		allowProtectedAppendWritesAll := *source.AllowProtectedAppendWritesAll
+		properties.AllowProtectedAppendWritesAll = &allowProtectedAppendWritesAll
+	} else {
+		properties.AllowProtectedAppendWritesAll = nil
+	}
+
+	// Etag
+	properties.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// ImmutabilityPeriodSinceCreationInDays
+	properties.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(source.ImmutabilityPeriodSinceCreationInDays)
+
+	// State
+	properties.State = genruntime.ClonePointerToString(source.State)
+
+	// UpdateHistory
+	if source.UpdateHistory != nil {
+		updateHistoryList := make([]UpdateHistoryProperty_STATUS, len(source.UpdateHistory))
+		for updateHistoryIndex, updateHistoryItem := range source.UpdateHistory {
+			// Shadow the loop variable to avoid aliasing
+			updateHistoryItem := updateHistoryItem
+			var updateHistory UpdateHistoryProperty_STATUS
+			err := updateHistory.AssignProperties_From_UpdateHistoryProperty_STATUS(&updateHistoryItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_UpdateHistoryProperty_STATUS() to populate field UpdateHistory")
+			}
+			updateHistoryList[updateHistoryIndex] = updateHistory
+		}
+		properties.UpdateHistory = updateHistoryList
+	} else {
+		properties.UpdateHistory = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForImmutabilityPolicyProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForImmutabilityPolicyProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ImmutabilityPolicyProperties_STATUS populates the provided destination ImmutabilityPolicyProperties_STATUS from our ImmutabilityPolicyProperties_STATUS
+func (properties *ImmutabilityPolicyProperties_STATUS) AssignProperties_To_ImmutabilityPolicyProperties_STATUS(destination *v20230101s.ImmutabilityPolicyProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// AllowProtectedAppendWrites
+	if properties.AllowProtectedAppendWrites != nil {
+		allowProtectedAppendWrite := *properties.AllowProtectedAppendWrites
+		destination.AllowProtectedAppendWrites = &allowProtectedAppendWrite
+	} else {
+		destination.AllowProtectedAppendWrites = nil
+	}
+
+	// AllowProtectedAppendWritesAll
+	if properties.AllowProtectedAppendWritesAll != nil {
+		allowProtectedAppendWritesAll := *properties.AllowProtectedAppendWritesAll
+		destination.AllowProtectedAppendWritesAll = &allowProtectedAppendWritesAll
+	} else {
+		destination.AllowProtectedAppendWritesAll = nil
+	}
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(properties.Etag)
+
+	// ImmutabilityPeriodSinceCreationInDays
+	destination.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(properties.ImmutabilityPeriodSinceCreationInDays)
+
+	// State
+	destination.State = genruntime.ClonePointerToString(properties.State)
+
+	// UpdateHistory
+	if properties.UpdateHistory != nil {
+		updateHistoryList := make([]v20230101s.UpdateHistoryProperty_STATUS, len(properties.UpdateHistory))
+		for updateHistoryIndex, updateHistoryItem := range properties.UpdateHistory {
+			// Shadow the loop variable to avoid aliasing
+			updateHistoryItem := updateHistoryItem
+			var updateHistory v20230101s.UpdateHistoryProperty_STATUS
+			err := updateHistoryItem.AssignProperties_To_UpdateHistoryProperty_STATUS(&updateHistory)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_UpdateHistoryProperty_STATUS() to populate field UpdateHistory")
+			}
+			updateHistoryList[updateHistoryIndex] = updateHistory
+		}
+		destination.UpdateHistory = updateHistoryList
+	} else {
+		destination.UpdateHistory = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForImmutabilityPolicyProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForImmutabilityPolicyProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220901.ImmutableStorageWithVersioning
 // Object level immutability properties of the container.
 type ImmutableStorageWithVersioning struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_ImmutableStorageWithVersioning populates our ImmutableStorageWithVersioning from the provided source ImmutableStorageWithVersioning
+func (versioning *ImmutableStorageWithVersioning) AssignProperties_From_ImmutableStorageWithVersioning(source *v20230101s.ImmutableStorageWithVersioning) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		versioning.Enabled = &enabled
+	} else {
+		versioning.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		versioning.PropertyBag = propertyBag
+	} else {
+		versioning.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForImmutableStorageWithVersioning interface (if implemented) to customize the conversion
+	var versioningAsAny any = versioning
+	if augmentedVersioning, ok := versioningAsAny.(augmentConversionForImmutableStorageWithVersioning); ok {
+		err := augmentedVersioning.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ImmutableStorageWithVersioning populates the provided destination ImmutableStorageWithVersioning from our ImmutableStorageWithVersioning
+func (versioning *ImmutableStorageWithVersioning) AssignProperties_To_ImmutableStorageWithVersioning(destination *v20230101s.ImmutableStorageWithVersioning) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(versioning.PropertyBag)
+
+	// Enabled
+	if versioning.Enabled != nil {
+		enabled := *versioning.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForImmutableStorageWithVersioning interface (if implemented) to customize the conversion
+	var versioningAsAny any = versioning
+	if augmentedVersioning, ok := versioningAsAny.(augmentConversionForImmutableStorageWithVersioning); ok {
+		err := augmentedVersioning.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20220901.ImmutableStorageWithVersioning_STATUS
@@ -259,6 +1098,84 @@ type ImmutableStorageWithVersioning_STATUS struct {
 	TimeStamp      *string                `json:"timeStamp,omitempty"`
 }
 
+// AssignProperties_From_ImmutableStorageWithVersioning_STATUS populates our ImmutableStorageWithVersioning_STATUS from the provided source ImmutableStorageWithVersioning_STATUS
+func (versioning *ImmutableStorageWithVersioning_STATUS) AssignProperties_From_ImmutableStorageWithVersioning_STATUS(source *v20230101s.ImmutableStorageWithVersioning_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		versioning.Enabled = &enabled
+	} else {
+		versioning.Enabled = nil
+	}
+
+	// MigrationState
+	versioning.MigrationState = genruntime.ClonePointerToString(source.MigrationState)
+
+	// TimeStamp
+	versioning.TimeStamp = genruntime.ClonePointerToString(source.TimeStamp)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		versioning.PropertyBag = propertyBag
+	} else {
+		versioning.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForImmutableStorageWithVersioning_STATUS interface (if implemented) to customize the conversion
+	var versioningAsAny any = versioning
+	if augmentedVersioning, ok := versioningAsAny.(augmentConversionForImmutableStorageWithVersioning_STATUS); ok {
+		err := augmentedVersioning.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ImmutableStorageWithVersioning_STATUS populates the provided destination ImmutableStorageWithVersioning_STATUS from our ImmutableStorageWithVersioning_STATUS
+func (versioning *ImmutableStorageWithVersioning_STATUS) AssignProperties_To_ImmutableStorageWithVersioning_STATUS(destination *v20230101s.ImmutableStorageWithVersioning_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(versioning.PropertyBag)
+
+	// Enabled
+	if versioning.Enabled != nil {
+		enabled := *versioning.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// MigrationState
+	destination.MigrationState = genruntime.ClonePointerToString(versioning.MigrationState)
+
+	// TimeStamp
+	destination.TimeStamp = genruntime.ClonePointerToString(versioning.TimeStamp)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForImmutableStorageWithVersioning_STATUS interface (if implemented) to customize the conversion
+	var versioningAsAny any = versioning
+	if augmentedVersioning, ok := versioningAsAny.(augmentConversionForImmutableStorageWithVersioning_STATUS); ok {
+		err := augmentedVersioning.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220901.LegalHoldProperties_STATUS
 // The LegalHold property of a blob container.
 type LegalHoldProperties_STATUS struct {
@@ -268,12 +1185,230 @@ type LegalHoldProperties_STATUS struct {
 	Tags                         []TagProperty_STATUS                 `json:"tags,omitempty"`
 }
 
+// AssignProperties_From_LegalHoldProperties_STATUS populates our LegalHoldProperties_STATUS from the provided source LegalHoldProperties_STATUS
+func (properties *LegalHoldProperties_STATUS) AssignProperties_From_LegalHoldProperties_STATUS(source *v20230101s.LegalHoldProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// HasLegalHold
+	if source.HasLegalHold != nil {
+		hasLegalHold := *source.HasLegalHold
+		properties.HasLegalHold = &hasLegalHold
+	} else {
+		properties.HasLegalHold = nil
+	}
+
+	// ProtectedAppendWritesHistory
+	if source.ProtectedAppendWritesHistory != nil {
+		var protectedAppendWritesHistory ProtectedAppendWritesHistory_STATUS
+		err := protectedAppendWritesHistory.AssignProperties_From_ProtectedAppendWritesHistory_STATUS(source.ProtectedAppendWritesHistory)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ProtectedAppendWritesHistory_STATUS() to populate field ProtectedAppendWritesHistory")
+		}
+		properties.ProtectedAppendWritesHistory = &protectedAppendWritesHistory
+	} else {
+		properties.ProtectedAppendWritesHistory = nil
+	}
+
+	// Tags
+	if source.Tags != nil {
+		tagList := make([]TagProperty_STATUS, len(source.Tags))
+		for tagIndex, tagItem := range source.Tags {
+			// Shadow the loop variable to avoid aliasing
+			tagItem := tagItem
+			var tag TagProperty_STATUS
+			err := tag.AssignProperties_From_TagProperty_STATUS(&tagItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_TagProperty_STATUS() to populate field Tags")
+			}
+			tagList[tagIndex] = tag
+		}
+		properties.Tags = tagList
+	} else {
+		properties.Tags = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForLegalHoldProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForLegalHoldProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_LegalHoldProperties_STATUS populates the provided destination LegalHoldProperties_STATUS from our LegalHoldProperties_STATUS
+func (properties *LegalHoldProperties_STATUS) AssignProperties_To_LegalHoldProperties_STATUS(destination *v20230101s.LegalHoldProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// HasLegalHold
+	if properties.HasLegalHold != nil {
+		hasLegalHold := *properties.HasLegalHold
+		destination.HasLegalHold = &hasLegalHold
+	} else {
+		destination.HasLegalHold = nil
+	}
+
+	// ProtectedAppendWritesHistory
+	if properties.ProtectedAppendWritesHistory != nil {
+		var protectedAppendWritesHistory v20230101s.ProtectedAppendWritesHistory_STATUS
+		err := properties.ProtectedAppendWritesHistory.AssignProperties_To_ProtectedAppendWritesHistory_STATUS(&protectedAppendWritesHistory)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ProtectedAppendWritesHistory_STATUS() to populate field ProtectedAppendWritesHistory")
+		}
+		destination.ProtectedAppendWritesHistory = &protectedAppendWritesHistory
+	} else {
+		destination.ProtectedAppendWritesHistory = nil
+	}
+
+	// Tags
+	if properties.Tags != nil {
+		tagList := make([]v20230101s.TagProperty_STATUS, len(properties.Tags))
+		for tagIndex, tagItem := range properties.Tags {
+			// Shadow the loop variable to avoid aliasing
+			tagItem := tagItem
+			var tag v20230101s.TagProperty_STATUS
+			err := tagItem.AssignProperties_To_TagProperty_STATUS(&tag)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_TagProperty_STATUS() to populate field Tags")
+			}
+			tagList[tagIndex] = tag
+		}
+		destination.Tags = tagList
+	} else {
+		destination.Tags = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForLegalHoldProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForLegalHoldProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForImmutabilityPolicyProperties_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.ImmutabilityPolicyProperties_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.ImmutabilityPolicyProperties_STATUS) error
+}
+
+type augmentConversionForImmutableStorageWithVersioning interface {
+	AssignPropertiesFrom(src *v20230101s.ImmutableStorageWithVersioning) error
+	AssignPropertiesTo(dst *v20230101s.ImmutableStorageWithVersioning) error
+}
+
+type augmentConversionForImmutableStorageWithVersioning_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.ImmutableStorageWithVersioning_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.ImmutableStorageWithVersioning_STATUS) error
+}
+
+type augmentConversionForLegalHoldProperties_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.LegalHoldProperties_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.LegalHoldProperties_STATUS) error
+}
+
 // Storage version of v1api20220901.ProtectedAppendWritesHistory_STATUS
 // Protected append writes history setting for the blob container with Legal holds.
 type ProtectedAppendWritesHistory_STATUS struct {
 	AllowProtectedAppendWritesAll *bool                  `json:"allowProtectedAppendWritesAll,omitempty"`
 	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Timestamp                     *string                `json:"timestamp,omitempty"`
+}
+
+// AssignProperties_From_ProtectedAppendWritesHistory_STATUS populates our ProtectedAppendWritesHistory_STATUS from the provided source ProtectedAppendWritesHistory_STATUS
+func (history *ProtectedAppendWritesHistory_STATUS) AssignProperties_From_ProtectedAppendWritesHistory_STATUS(source *v20230101s.ProtectedAppendWritesHistory_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AllowProtectedAppendWritesAll
+	if source.AllowProtectedAppendWritesAll != nil {
+		allowProtectedAppendWritesAll := *source.AllowProtectedAppendWritesAll
+		history.AllowProtectedAppendWritesAll = &allowProtectedAppendWritesAll
+	} else {
+		history.AllowProtectedAppendWritesAll = nil
+	}
+
+	// Timestamp
+	history.Timestamp = genruntime.ClonePointerToString(source.Timestamp)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		history.PropertyBag = propertyBag
+	} else {
+		history.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForProtectedAppendWritesHistory_STATUS interface (if implemented) to customize the conversion
+	var historyAsAny any = history
+	if augmentedHistory, ok := historyAsAny.(augmentConversionForProtectedAppendWritesHistory_STATUS); ok {
+		err := augmentedHistory.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ProtectedAppendWritesHistory_STATUS populates the provided destination ProtectedAppendWritesHistory_STATUS from our ProtectedAppendWritesHistory_STATUS
+func (history *ProtectedAppendWritesHistory_STATUS) AssignProperties_To_ProtectedAppendWritesHistory_STATUS(destination *v20230101s.ProtectedAppendWritesHistory_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(history.PropertyBag)
+
+	// AllowProtectedAppendWritesAll
+	if history.AllowProtectedAppendWritesAll != nil {
+		allowProtectedAppendWritesAll := *history.AllowProtectedAppendWritesAll
+		destination.AllowProtectedAppendWritesAll = &allowProtectedAppendWritesAll
+	} else {
+		destination.AllowProtectedAppendWritesAll = nil
+	}
+
+	// Timestamp
+	destination.Timestamp = genruntime.ClonePointerToString(history.Timestamp)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForProtectedAppendWritesHistory_STATUS interface (if implemented) to customize the conversion
+	var historyAsAny any = history
+	if augmentedHistory, ok := historyAsAny.(augmentConversionForProtectedAppendWritesHistory_STATUS); ok {
+		err := augmentedHistory.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20220901.TagProperty_STATUS
@@ -285,6 +1420,86 @@ type TagProperty_STATUS struct {
 	TenantId         *string                `json:"tenantId,omitempty"`
 	Timestamp        *string                `json:"timestamp,omitempty"`
 	Upn              *string                `json:"upn,omitempty"`
+}
+
+// AssignProperties_From_TagProperty_STATUS populates our TagProperty_STATUS from the provided source TagProperty_STATUS
+func (property *TagProperty_STATUS) AssignProperties_From_TagProperty_STATUS(source *v20230101s.TagProperty_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ObjectIdentifier
+	property.ObjectIdentifier = genruntime.ClonePointerToString(source.ObjectIdentifier)
+
+	// Tag
+	property.Tag = genruntime.ClonePointerToString(source.Tag)
+
+	// TenantId
+	property.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// Timestamp
+	property.Timestamp = genruntime.ClonePointerToString(source.Timestamp)
+
+	// Upn
+	property.Upn = genruntime.ClonePointerToString(source.Upn)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		property.PropertyBag = propertyBag
+	} else {
+		property.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTagProperty_STATUS interface (if implemented) to customize the conversion
+	var propertyAsAny any = property
+	if augmentedProperty, ok := propertyAsAny.(augmentConversionForTagProperty_STATUS); ok {
+		err := augmentedProperty.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TagProperty_STATUS populates the provided destination TagProperty_STATUS from our TagProperty_STATUS
+func (property *TagProperty_STATUS) AssignProperties_To_TagProperty_STATUS(destination *v20230101s.TagProperty_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(property.PropertyBag)
+
+	// ObjectIdentifier
+	destination.ObjectIdentifier = genruntime.ClonePointerToString(property.ObjectIdentifier)
+
+	// Tag
+	destination.Tag = genruntime.ClonePointerToString(property.Tag)
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(property.TenantId)
+
+	// Timestamp
+	destination.Timestamp = genruntime.ClonePointerToString(property.Timestamp)
+
+	// Upn
+	destination.Upn = genruntime.ClonePointerToString(property.Upn)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTagProperty_STATUS interface (if implemented) to customize the conversion
+	var propertyAsAny any = property
+	if augmentedProperty, ok := propertyAsAny.(augmentConversionForTagProperty_STATUS); ok {
+		err := augmentedProperty.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20220901.UpdateHistoryProperty_STATUS
@@ -299,6 +1514,139 @@ type UpdateHistoryProperty_STATUS struct {
 	Timestamp                             *string                `json:"timestamp,omitempty"`
 	Update                                *string                `json:"update,omitempty"`
 	Upn                                   *string                `json:"upn,omitempty"`
+}
+
+// AssignProperties_From_UpdateHistoryProperty_STATUS populates our UpdateHistoryProperty_STATUS from the provided source UpdateHistoryProperty_STATUS
+func (property *UpdateHistoryProperty_STATUS) AssignProperties_From_UpdateHistoryProperty_STATUS(source *v20230101s.UpdateHistoryProperty_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AllowProtectedAppendWrites
+	if source.AllowProtectedAppendWrites != nil {
+		allowProtectedAppendWrite := *source.AllowProtectedAppendWrites
+		property.AllowProtectedAppendWrites = &allowProtectedAppendWrite
+	} else {
+		property.AllowProtectedAppendWrites = nil
+	}
+
+	// AllowProtectedAppendWritesAll
+	if source.AllowProtectedAppendWritesAll != nil {
+		allowProtectedAppendWritesAll := *source.AllowProtectedAppendWritesAll
+		property.AllowProtectedAppendWritesAll = &allowProtectedAppendWritesAll
+	} else {
+		property.AllowProtectedAppendWritesAll = nil
+	}
+
+	// ImmutabilityPeriodSinceCreationInDays
+	property.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(source.ImmutabilityPeriodSinceCreationInDays)
+
+	// ObjectIdentifier
+	property.ObjectIdentifier = genruntime.ClonePointerToString(source.ObjectIdentifier)
+
+	// TenantId
+	property.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// Timestamp
+	property.Timestamp = genruntime.ClonePointerToString(source.Timestamp)
+
+	// Update
+	property.Update = genruntime.ClonePointerToString(source.Update)
+
+	// Upn
+	property.Upn = genruntime.ClonePointerToString(source.Upn)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		property.PropertyBag = propertyBag
+	} else {
+		property.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUpdateHistoryProperty_STATUS interface (if implemented) to customize the conversion
+	var propertyAsAny any = property
+	if augmentedProperty, ok := propertyAsAny.(augmentConversionForUpdateHistoryProperty_STATUS); ok {
+		err := augmentedProperty.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UpdateHistoryProperty_STATUS populates the provided destination UpdateHistoryProperty_STATUS from our UpdateHistoryProperty_STATUS
+func (property *UpdateHistoryProperty_STATUS) AssignProperties_To_UpdateHistoryProperty_STATUS(destination *v20230101s.UpdateHistoryProperty_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(property.PropertyBag)
+
+	// AllowProtectedAppendWrites
+	if property.AllowProtectedAppendWrites != nil {
+		allowProtectedAppendWrite := *property.AllowProtectedAppendWrites
+		destination.AllowProtectedAppendWrites = &allowProtectedAppendWrite
+	} else {
+		destination.AllowProtectedAppendWrites = nil
+	}
+
+	// AllowProtectedAppendWritesAll
+	if property.AllowProtectedAppendWritesAll != nil {
+		allowProtectedAppendWritesAll := *property.AllowProtectedAppendWritesAll
+		destination.AllowProtectedAppendWritesAll = &allowProtectedAppendWritesAll
+	} else {
+		destination.AllowProtectedAppendWritesAll = nil
+	}
+
+	// ImmutabilityPeriodSinceCreationInDays
+	destination.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(property.ImmutabilityPeriodSinceCreationInDays)
+
+	// ObjectIdentifier
+	destination.ObjectIdentifier = genruntime.ClonePointerToString(property.ObjectIdentifier)
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(property.TenantId)
+
+	// Timestamp
+	destination.Timestamp = genruntime.ClonePointerToString(property.Timestamp)
+
+	// Update
+	destination.Update = genruntime.ClonePointerToString(property.Update)
+
+	// Upn
+	destination.Upn = genruntime.ClonePointerToString(property.Upn)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUpdateHistoryProperty_STATUS interface (if implemented) to customize the conversion
+	var propertyAsAny any = property
+	if augmentedProperty, ok := propertyAsAny.(augmentConversionForUpdateHistoryProperty_STATUS); ok {
+		err := augmentedProperty.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForProtectedAppendWritesHistory_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.ProtectedAppendWritesHistory_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.ProtectedAppendWritesHistory_STATUS) error
+}
+
+type augmentConversionForTagProperty_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.TagProperty_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.TagProperty_STATUS) error
+}
+
+type augmentConversionForUpdateHistoryProperty_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.UpdateHistoryProperty_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.UpdateHistoryProperty_STATUS) error
 }
 
 func init() {

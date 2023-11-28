@@ -5,10 +5,7 @@ github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/st
 └── ConfigurationStore: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
     ├── Spec: Object (16 properties)
-    │   ├── AzureName: Validated<string> (3 rules)
-    │   │   ├── Rule 0: MaxLength: 50
-    │   │   ├── Rule 1: MinLength: 5
-    │   │   └── Rule 2: Pattern: "^[a-zA-Z0-9_-]*$"
+    │   ├── AzureName: string
     │   ├── CreateMode: *string
     │   ├── DisableLocalAuth: *bool
     │   ├── EnablePurgeProtection: *bool

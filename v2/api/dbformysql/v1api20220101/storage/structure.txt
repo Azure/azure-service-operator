@@ -37,8 +37,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage
 └── FlexibleServersConfiguration: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101.FlexibleServer
     ├── Spec: Object (7 properties)
-    │   ├── AzureName: Validated<string> (1 rule)
-    │   │   └── Rule 0: Pattern: "^[a-zA-Z0-9_.-]+$"
+    │   ├── AzureName: string
     │   ├── CurrentValue: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference

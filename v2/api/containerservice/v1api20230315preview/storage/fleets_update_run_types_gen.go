@@ -141,9 +141,6 @@ type FleetsUpdateRunList struct {
 
 // Storage version of v1api20230315preview.Fleets_UpdateRun_Spec
 type Fleets_UpdateRun_Spec struct {
-	// +kubebuilder:validation:MaxLength=50
-	// +kubebuilder:validation:MinLength=1
-	// +kubebuilder:validation:Pattern="^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName            string                `json:"azureName,omitempty"`
