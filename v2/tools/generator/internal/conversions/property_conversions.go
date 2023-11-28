@@ -310,13 +310,18 @@ func writeToBagItem(
 		if sourceIsOptional {
 			// if <reader> != nil {
 			condition = astbuilder.NotNil(reader)
+			// To read the actual value, we need to dereference the pointer
 			reader = astbuilder.Dereference(reader)
+			// We're wrapping the conversion in a nested block, so any locals are independent
+			knownLocals = knownLocals.Clone()
 		}
 
 		// If slice or map, check for non-empty and only store if we have a value
 		if sourceIsSlice || sourceIsMap {
 			// if len(<mapOrSlice>) > 0 {
 			condition = astbuilder.NotEmpty(reader)
+			// We're wrapping the conversion in a nested block, so any locals are independent
+			knownLocals = knownLocals.Clone()
 		}
 
 		// Create the conversion to use to write to the bag
@@ -530,6 +535,9 @@ func pullFromBagItem(
 			reader = dst.NewIdent(local)
 		}
 
+		// We're wrapping the conversion in a nested block, so any locals are independent
+		knownLocals = knownLocals.Clone()
+
 		// Create the actual code to store the value
 		assignValue, err := conversion(reader, writer, knownLocals, generationContext)
 		if err != nil {
@@ -546,7 +554,7 @@ func pullFromBagItem(
 				generationContext))
 
 		// if <condition> {
-		//   <body>
+		//   <declare, pull, returnIfErr, assignValue>
 		// } else {
 		//   <assignZero>
 		// }
