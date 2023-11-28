@@ -5,8 +5,8 @@ package storage
 
 import (
 	"context"
-	"fmt"
 	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
+	v20230201sc "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage/compat"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -52,22 +52,36 @@ var _ conversion.Convertible = &ManagedCluster{}
 
 // ConvertFrom populates our ManagedCluster from the provided hub ManagedCluster
 func (cluster *ManagedCluster) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20230201s.ManagedCluster)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20230201/storage/ManagedCluster but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20230201s.ManagedCluster
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return cluster.AssignProperties_From_ManagedCluster(source)
+	err = cluster.AssignProperties_From_ManagedCluster(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to cluster")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ManagedCluster from our ManagedCluster
 func (cluster *ManagedCluster) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20230201s.ManagedCluster)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1api20230201/storage/ManagedCluster but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20230201s.ManagedCluster
+	err := cluster.AssignProperties_To_ManagedCluster(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from cluster")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return cluster.AssignProperties_To_ManagedCluster(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesExporter = &ManagedCluster{}
@@ -2390,11 +2404,159 @@ type ClusterUpgradeSettings struct {
 	PropertyBag      genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_ClusterUpgradeSettings populates our ClusterUpgradeSettings from the provided source ClusterUpgradeSettings
+func (settings *ClusterUpgradeSettings) AssignProperties_From_ClusterUpgradeSettings(source *v20230201sc.ClusterUpgradeSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// OverrideSettings
+	if source.OverrideSettings != nil {
+		var overrideSetting UpgradeOverrideSettings
+		err := overrideSetting.AssignProperties_From_UpgradeOverrideSettings(source.OverrideSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_UpgradeOverrideSettings() to populate field OverrideSettings")
+		}
+		settings.OverrideSettings = &overrideSetting
+	} else {
+		settings.OverrideSettings = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForClusterUpgradeSettings interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForClusterUpgradeSettings); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ClusterUpgradeSettings populates the provided destination ClusterUpgradeSettings from our ClusterUpgradeSettings
+func (settings *ClusterUpgradeSettings) AssignProperties_To_ClusterUpgradeSettings(destination *v20230201sc.ClusterUpgradeSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// OverrideSettings
+	if settings.OverrideSettings != nil {
+		var overrideSetting v20230201sc.UpgradeOverrideSettings
+		err := settings.OverrideSettings.AssignProperties_To_UpgradeOverrideSettings(&overrideSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_UpgradeOverrideSettings() to populate field OverrideSettings")
+		}
+		destination.OverrideSettings = &overrideSetting
+	} else {
+		destination.OverrideSettings = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForClusterUpgradeSettings interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForClusterUpgradeSettings); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230202preview.ClusterUpgradeSettings_STATUS
 // Settings for upgrading a cluster.
 type ClusterUpgradeSettings_STATUS struct {
 	OverrideSettings *UpgradeOverrideSettings_STATUS `json:"overrideSettings,omitempty"`
 	PropertyBag      genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_ClusterUpgradeSettings_STATUS populates our ClusterUpgradeSettings_STATUS from the provided source ClusterUpgradeSettings_STATUS
+func (settings *ClusterUpgradeSettings_STATUS) AssignProperties_From_ClusterUpgradeSettings_STATUS(source *v20230201sc.ClusterUpgradeSettings_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// OverrideSettings
+	if source.OverrideSettings != nil {
+		var overrideSetting UpgradeOverrideSettings_STATUS
+		err := overrideSetting.AssignProperties_From_UpgradeOverrideSettings_STATUS(source.OverrideSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_UpgradeOverrideSettings_STATUS() to populate field OverrideSettings")
+		}
+		settings.OverrideSettings = &overrideSetting
+	} else {
+		settings.OverrideSettings = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForClusterUpgradeSettings_STATUS interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForClusterUpgradeSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ClusterUpgradeSettings_STATUS populates the provided destination ClusterUpgradeSettings_STATUS from our ClusterUpgradeSettings_STATUS
+func (settings *ClusterUpgradeSettings_STATUS) AssignProperties_To_ClusterUpgradeSettings_STATUS(destination *v20230201sc.ClusterUpgradeSettings_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// OverrideSettings
+	if settings.OverrideSettings != nil {
+		var overrideSetting v20230201sc.UpgradeOverrideSettings_STATUS
+		err := settings.OverrideSettings.AssignProperties_To_UpgradeOverrideSettings_STATUS(&overrideSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_UpgradeOverrideSettings_STATUS() to populate field OverrideSettings")
+		}
+		destination.OverrideSettings = &overrideSetting
+	} else {
+		destination.OverrideSettings = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForClusterUpgradeSettings_STATUS interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForClusterUpgradeSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230202preview.ContainerServiceLinuxProfile
@@ -9012,6 +9174,16 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIde
 	return nil
 }
 
+type augmentConversionForClusterUpgradeSettings interface {
+	AssignPropertiesFrom(src *v20230201sc.ClusterUpgradeSettings) error
+	AssignPropertiesTo(dst *v20230201sc.ClusterUpgradeSettings) error
+}
+
+type augmentConversionForClusterUpgradeSettings_STATUS interface {
+	AssignPropertiesFrom(src *v20230201sc.ClusterUpgradeSettings_STATUS) error
+	AssignPropertiesTo(dst *v20230201sc.ClusterUpgradeSettings_STATUS) error
+}
+
 type augmentConversionForContainerServiceLinuxProfile interface {
 	AssignPropertiesFrom(src *v20230201s.ContainerServiceLinuxProfile) error
 	AssignPropertiesTo(dst *v20230201s.ContainerServiceLinuxProfile) error
@@ -12492,12 +12664,168 @@ type ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler struct {
 	UpdateMode       *string                `json:"updateMode,omitempty"`
 }
 
+// AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler populates our ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler from the provided source ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
+func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler(source *v20230201sc.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ControlledValues
+	autoscaler.ControlledValues = genruntime.ClonePointerToString(source.ControlledValues)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		autoscaler.Enabled = &enabled
+	} else {
+		autoscaler.Enabled = nil
+	}
+
+	// UpdateMode
+	autoscaler.UpdateMode = genruntime.ClonePointerToString(source.UpdateMode)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		autoscaler.PropertyBag = propertyBag
+	} else {
+		autoscaler.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler interface (if implemented) to customize the conversion
+	var autoscalerAsAny any = autoscaler
+	if augmentedAutoscaler, ok := autoscalerAsAny.(augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler); ok {
+		err := augmentedAutoscaler.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler populates the provided destination ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler from our ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
+func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler(destination *v20230201sc.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(autoscaler.PropertyBag)
+
+	// ControlledValues
+	destination.ControlledValues = genruntime.ClonePointerToString(autoscaler.ControlledValues)
+
+	// Enabled
+	if autoscaler.Enabled != nil {
+		enabled := *autoscaler.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// UpdateMode
+	destination.UpdateMode = genruntime.ClonePointerToString(autoscaler.UpdateMode)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler interface (if implemented) to customize the conversion
+	var autoscalerAsAny any = autoscaler
+	if augmentedAutoscaler, ok := autoscalerAsAny.(augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler); ok {
+		err := augmentedAutoscaler.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230202preview.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
 type ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS struct {
 	ControlledValues *string                `json:"controlledValues,omitempty"`
 	Enabled          *bool                  `json:"enabled,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UpdateMode       *string                `json:"updateMode,omitempty"`
+}
+
+// AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS populates our ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS from the provided source ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
+func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS(source *v20230201sc.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ControlledValues
+	autoscaler.ControlledValues = genruntime.ClonePointerToString(source.ControlledValues)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		autoscaler.Enabled = &enabled
+	} else {
+		autoscaler.Enabled = nil
+	}
+
+	// UpdateMode
+	autoscaler.UpdateMode = genruntime.ClonePointerToString(source.UpdateMode)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		autoscaler.PropertyBag = propertyBag
+	} else {
+		autoscaler.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS interface (if implemented) to customize the conversion
+	var autoscalerAsAny any = autoscaler
+	if augmentedAutoscaler, ok := autoscalerAsAny.(augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS); ok {
+		err := augmentedAutoscaler.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS populates the provided destination ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS from our ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
+func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS(destination *v20230201sc.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(autoscaler.PropertyBag)
+
+	// ControlledValues
+	destination.ControlledValues = genruntime.ClonePointerToString(autoscaler.ControlledValues)
+
+	// Enabled
+	if autoscaler.Enabled != nil {
+		enabled := *autoscaler.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// UpdateMode
+	destination.UpdateMode = genruntime.ClonePointerToString(autoscaler.UpdateMode)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS interface (if implemented) to customize the conversion
+	var autoscalerAsAny any = autoscaler
+	if augmentedAutoscaler, ok := autoscalerAsAny.(augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS); ok {
+		err := augmentedAutoscaler.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230202preview.UpgradeOverrideSettings
@@ -12508,12 +12836,136 @@ type UpgradeOverrideSettings struct {
 	Until                 *string                `json:"until,omitempty"`
 }
 
+// AssignProperties_From_UpgradeOverrideSettings populates our UpgradeOverrideSettings from the provided source UpgradeOverrideSettings
+func (settings *UpgradeOverrideSettings) AssignProperties_From_UpgradeOverrideSettings(source *v20230201sc.UpgradeOverrideSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ControlPlaneOverrides
+	settings.ControlPlaneOverrides = genruntime.CloneSliceOfString(source.ControlPlaneOverrides)
+
+	// Until
+	settings.Until = genruntime.ClonePointerToString(source.Until)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUpgradeOverrideSettings interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForUpgradeOverrideSettings); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UpgradeOverrideSettings populates the provided destination UpgradeOverrideSettings from our UpgradeOverrideSettings
+func (settings *UpgradeOverrideSettings) AssignProperties_To_UpgradeOverrideSettings(destination *v20230201sc.UpgradeOverrideSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// ControlPlaneOverrides
+	destination.ControlPlaneOverrides = genruntime.CloneSliceOfString(settings.ControlPlaneOverrides)
+
+	// Until
+	destination.Until = genruntime.ClonePointerToString(settings.Until)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUpgradeOverrideSettings interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForUpgradeOverrideSettings); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230202preview.UpgradeOverrideSettings_STATUS
 // Settings for overrides when upgrading a cluster.
 type UpgradeOverrideSettings_STATUS struct {
 	ControlPlaneOverrides []string               `json:"controlPlaneOverrides,omitempty"`
 	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Until                 *string                `json:"until,omitempty"`
+}
+
+// AssignProperties_From_UpgradeOverrideSettings_STATUS populates our UpgradeOverrideSettings_STATUS from the provided source UpgradeOverrideSettings_STATUS
+func (settings *UpgradeOverrideSettings_STATUS) AssignProperties_From_UpgradeOverrideSettings_STATUS(source *v20230201sc.UpgradeOverrideSettings_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ControlPlaneOverrides
+	settings.ControlPlaneOverrides = genruntime.CloneSliceOfString(source.ControlPlaneOverrides)
+
+	// Until
+	settings.Until = genruntime.ClonePointerToString(source.Until)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUpgradeOverrideSettings_STATUS interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForUpgradeOverrideSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UpgradeOverrideSettings_STATUS populates the provided destination UpgradeOverrideSettings_STATUS from our UpgradeOverrideSettings_STATUS
+func (settings *UpgradeOverrideSettings_STATUS) AssignProperties_To_UpgradeOverrideSettings_STATUS(destination *v20230201sc.UpgradeOverrideSettings_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// ControlPlaneOverrides
+	destination.ControlPlaneOverrides = genruntime.CloneSliceOfString(settings.ControlPlaneOverrides)
+
+	// Until
+	destination.Until = genruntime.ClonePointerToString(settings.Until)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUpgradeOverrideSettings_STATUS interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForUpgradeOverrideSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230202preview.UserAssignedIdentityDetails
@@ -12916,6 +13368,26 @@ type augmentConversionForManagedClusterWorkloadAutoScalerProfileKeda interface {
 type augmentConversionForManagedClusterWorkloadAutoScalerProfileKeda_STATUS interface {
 	AssignPropertiesFrom(src *v20230201s.ManagedClusterWorkloadAutoScalerProfileKeda_STATUS) error
 	AssignPropertiesTo(dst *v20230201s.ManagedClusterWorkloadAutoScalerProfileKeda_STATUS) error
+}
+
+type augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler interface {
+	AssignPropertiesFrom(src *v20230201sc.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) error
+	AssignPropertiesTo(dst *v20230201sc.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) error
+}
+
+type augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS interface {
+	AssignPropertiesFrom(src *v20230201sc.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) error
+	AssignPropertiesTo(dst *v20230201sc.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) error
+}
+
+type augmentConversionForUpgradeOverrideSettings interface {
+	AssignPropertiesFrom(src *v20230201sc.UpgradeOverrideSettings) error
+	AssignPropertiesTo(dst *v20230201sc.UpgradeOverrideSettings) error
+}
+
+type augmentConversionForUpgradeOverrideSettings_STATUS interface {
+	AssignPropertiesFrom(src *v20230201sc.UpgradeOverrideSettings_STATUS) error
+	AssignPropertiesTo(dst *v20230201sc.UpgradeOverrideSettings_STATUS) error
 }
 
 type augmentConversionForUserAssignedIdentityDetails interface {

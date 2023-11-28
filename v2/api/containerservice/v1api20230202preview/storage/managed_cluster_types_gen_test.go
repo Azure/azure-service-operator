@@ -6,6 +6,8 @@ package storage
 import (
 	"encoding/json"
 	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
+	v20230201sc "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage/compat"
+	v20230701s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +38,7 @@ func RunResourceConversionTestForManagedCluster(subject ManagedCluster) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230201s.ManagedCluster
+	var hub v20230701s.ManagedCluster
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -453,6 +455,48 @@ func AddRelatedPropertyGeneratorsForManagedCluster_STATUS(gens map[string]gopter
 	gens["WorkloadAutoScalerProfile"] = gen.PtrOf(ManagedClusterWorkloadAutoScalerProfile_STATUSGenerator())
 }
 
+func Test_ClusterUpgradeSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ClusterUpgradeSettings to ClusterUpgradeSettings via AssignProperties_To_ClusterUpgradeSettings & AssignProperties_From_ClusterUpgradeSettings returns original",
+		prop.ForAll(RunPropertyAssignmentTestForClusterUpgradeSettings, ClusterUpgradeSettingsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForClusterUpgradeSettings tests if a specific instance of ClusterUpgradeSettings can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForClusterUpgradeSettings(subject ClusterUpgradeSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230201sc.ClusterUpgradeSettings
+	err := copied.AssignProperties_To_ClusterUpgradeSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ClusterUpgradeSettings
+	err = actual.AssignProperties_From_ClusterUpgradeSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ClusterUpgradeSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -512,6 +556,48 @@ func ClusterUpgradeSettingsGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForClusterUpgradeSettings is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForClusterUpgradeSettings(gens map[string]gopter.Gen) {
 	gens["OverrideSettings"] = gen.PtrOf(UpgradeOverrideSettingsGenerator())
+}
+
+func Test_ClusterUpgradeSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ClusterUpgradeSettings_STATUS to ClusterUpgradeSettings_STATUS via AssignProperties_To_ClusterUpgradeSettings_STATUS & AssignProperties_From_ClusterUpgradeSettings_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForClusterUpgradeSettings_STATUS, ClusterUpgradeSettings_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForClusterUpgradeSettings_STATUS tests if a specific instance of ClusterUpgradeSettings_STATUS can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForClusterUpgradeSettings_STATUS(subject ClusterUpgradeSettings_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230201sc.ClusterUpgradeSettings_STATUS
+	err := copied.AssignProperties_To_ClusterUpgradeSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ClusterUpgradeSettings_STATUS
+	err = actual.AssignProperties_From_ClusterUpgradeSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ClusterUpgradeSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -10647,6 +10733,48 @@ func AddIndependentPropertyGeneratorsForManagedClusterWorkloadAutoScalerProfileK
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
+func Test_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler to ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler via AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler & AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler, ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscalerGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler tests if a specific instance of ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler(subject ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230201sc.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
+	err := copied.AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
+	err = actual.AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -10708,6 +10836,48 @@ func AddIndependentPropertyGeneratorsForManagedClusterWorkloadAutoScalerProfileV
 	gens["ControlledValues"] = gen.PtrOf(gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["UpdateMode"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS to ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS via AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS & AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS, ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS tests if a specific instance of ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS(subject ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230201sc.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
+	err := copied.AssignProperties_To_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
+	err = actual.AssignProperties_From_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -10773,6 +10943,48 @@ func AddIndependentPropertyGeneratorsForManagedClusterWorkloadAutoScalerProfileV
 	gens["UpdateMode"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_UpgradeOverrideSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from UpgradeOverrideSettings to UpgradeOverrideSettings via AssignProperties_To_UpgradeOverrideSettings & AssignProperties_From_UpgradeOverrideSettings returns original",
+		prop.ForAll(RunPropertyAssignmentTestForUpgradeOverrideSettings, UpgradeOverrideSettingsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForUpgradeOverrideSettings tests if a specific instance of UpgradeOverrideSettings can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForUpgradeOverrideSettings(subject UpgradeOverrideSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230201sc.UpgradeOverrideSettings
+	err := copied.AssignProperties_To_UpgradeOverrideSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual UpgradeOverrideSettings
+	err = actual.AssignProperties_From_UpgradeOverrideSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_UpgradeOverrideSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -10833,6 +11045,48 @@ func UpgradeOverrideSettingsGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForUpgradeOverrideSettings(gens map[string]gopter.Gen) {
 	gens["ControlPlaneOverrides"] = gen.SliceOf(gen.AlphaString())
 	gens["Until"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_UpgradeOverrideSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from UpgradeOverrideSettings_STATUS to UpgradeOverrideSettings_STATUS via AssignProperties_To_UpgradeOverrideSettings_STATUS & AssignProperties_From_UpgradeOverrideSettings_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForUpgradeOverrideSettings_STATUS, UpgradeOverrideSettings_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForUpgradeOverrideSettings_STATUS tests if a specific instance of UpgradeOverrideSettings_STATUS can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForUpgradeOverrideSettings_STATUS(subject UpgradeOverrideSettings_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230201sc.UpgradeOverrideSettings_STATUS
+	err := copied.AssignProperties_To_UpgradeOverrideSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual UpgradeOverrideSettings_STATUS
+	err = actual.AssignProperties_From_UpgradeOverrideSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_UpgradeOverrideSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

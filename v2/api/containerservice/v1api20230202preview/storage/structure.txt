@@ -1129,6 +1129,8 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 ├── augmentConversionForAgentPoolUpgradeSettings_STATUS: Interface
 ├── augmentConversionForAzureKeyVaultKms: Interface
 ├── augmentConversionForAzureKeyVaultKms_STATUS: Interface
+├── augmentConversionForClusterUpgradeSettings: Interface
+├── augmentConversionForClusterUpgradeSettings_STATUS: Interface
 ├── augmentConversionForContainerServiceLinuxProfile: Interface
 ├── augmentConversionForContainerServiceLinuxProfile_STATUS: Interface
 ├── augmentConversionForContainerServiceNetworkProfile: Interface
@@ -1225,6 +1227,8 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 ├── augmentConversionForManagedClusterWorkloadAutoScalerProfile: Interface
 ├── augmentConversionForManagedClusterWorkloadAutoScalerProfileKeda: Interface
 ├── augmentConversionForManagedClusterWorkloadAutoScalerProfileKeda_STATUS: Interface
+├── augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler: Interface
+├── augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS: Interface
 ├── augmentConversionForManagedClusterWorkloadAutoScalerProfile_STATUS: Interface
 ├── augmentConversionForManagedCluster_STATUS: Interface
 ├── augmentConversionForManagedCluster_Spec: Interface
@@ -1240,6 +1244,8 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 ├── augmentConversionForSysctlConfig: Interface
 ├── augmentConversionForSysctlConfig_STATUS: Interface
 ├── augmentConversionForSystemData_STATUS: Interface
+├── augmentConversionForUpgradeOverrideSettings: Interface
+├── augmentConversionForUpgradeOverrideSettings_STATUS: Interface
 ├── augmentConversionForUserAssignedIdentity: Interface
 ├── augmentConversionForUserAssignedIdentityDetails: Interface
 ├── augmentConversionForUserAssignedIdentity_STATUS: Interface
