@@ -546,9 +546,6 @@ func pullFromBagItem(
 			reader = dst.NewIdent(local)
 		}
 
-		// We're wrapping the conversion in a nested block, so any locals are independent
-		knownLocals = knownLocals.Clone()
-
 		// Create the actual code to store the value
 		assignValue, err := conversion(reader, writer, knownLocals, generationContext)
 		if err != nil {
