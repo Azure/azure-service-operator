@@ -103,8 +103,8 @@ import (
 	keyvault_customizations "github.com/Azure/azure-service-operator/v2/api/keyvault/customizations"
 	keyvault_v20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
 	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/storage"
-	keyvault_v20220701 "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20220701"
-	keyvault_v20220701s "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20220701/storage"
+	keyvault_v20230701 "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701"
+	keyvault_v20230701s "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/storage"
 	kubernetesconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/customizations"
 	kubernetesconfiguration_v20230501 "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
 	kubernetesconfiguration_v20230501s "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501/storage"
@@ -569,7 +569,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(insights_v20221001s.AutoscaleSetting)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230101s.ActionGroup)})
 	result = append(result, &registration.StorageType{
-		Obj: new(keyvault_v20220701s.Vault),
+		Obj: new(keyvault_v20230701s.Vault),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.properties.accessPolicies.applicationIdFromConfig",
@@ -591,7 +591,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.properties.accessPolicies.applicationIdFromConfig", ".spec.properties.accessPolicies.objectIdFromConfig", ".spec.properties.accessPolicies.tenantIdFromConfig", ".spec.properties.tenantIdFromConfig"}, &keyvault_v20220701s.VaultList{}),
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.properties.accessPolicies.applicationIdFromConfig", ".spec.properties.accessPolicies.objectIdFromConfig", ".spec.properties.accessPolicies.tenantIdFromConfig", ".spec.properties.tenantIdFromConfig"}, &keyvault_v20230701s.VaultList{}),
 			},
 		},
 	})
@@ -1201,8 +1201,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(insights_v20230101s.ActionGroup))
 	result = append(result, new(keyvault_v20210401p.Vault))
 	result = append(result, new(keyvault_v20210401ps.Vault))
-	result = append(result, new(keyvault_v20220701.Vault))
-	result = append(result, new(keyvault_v20220701s.Vault))
+	result = append(result, new(keyvault_v20230701.Vault))
+	result = append(result, new(keyvault_v20230701s.Vault))
 	result = append(result, new(kubernetesconfiguration_v20230501.Extension))
 	result = append(result, new(kubernetesconfiguration_v20230501s.Extension))
 	result = append(
@@ -1568,8 +1568,8 @@ func createScheme() *runtime.Scheme {
 	_ = insights_v20230101s.AddToScheme(scheme)
 	_ = keyvault_v20210401p.AddToScheme(scheme)
 	_ = keyvault_v20210401ps.AddToScheme(scheme)
-	_ = keyvault_v20220701.AddToScheme(scheme)
-	_ = keyvault_v20220701s.AddToScheme(scheme)
+	_ = keyvault_v20230701.AddToScheme(scheme)
+	_ = keyvault_v20230701s.AddToScheme(scheme)
 	_ = kubernetesconfiguration_v20230501.AddToScheme(scheme)
 	_ = kubernetesconfiguration_v20230501s.AddToScheme(scheme)
 	_ = machinelearningservices_v20210701.AddToScheme(scheme)
@@ -2392,9 +2392,9 @@ func indexEventgridEventSubscriptionEndpointUrl(rawObj client.Object) []string {
 	return obj.Spec.Destination.WebHook.EndpointUrl.Index()
 }
 
-// indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig an index function for keyvault_v20220701s.Vault .spec.properties.accessPolicies.applicationIdFromConfig
+// indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.accessPolicies.applicationIdFromConfig
 func indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*keyvault_v20220701s.Vault)
+	obj, ok := rawObj.(*keyvault_v20230701s.Vault)
 	if !ok {
 		return nil
 	}
@@ -2411,9 +2411,9 @@ func indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig(rawObj cl
 	return result
 }
 
-// indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig an index function for keyvault_v20220701s.Vault .spec.properties.accessPolicies.objectIdFromConfig
+// indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.accessPolicies.objectIdFromConfig
 func indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*keyvault_v20220701s.Vault)
+	obj, ok := rawObj.(*keyvault_v20230701s.Vault)
 	if !ok {
 		return nil
 	}
@@ -2430,9 +2430,9 @@ func indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig(rawObj client.
 	return result
 }
 
-// indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig an index function for keyvault_v20220701s.Vault .spec.properties.accessPolicies.tenantIdFromConfig
+// indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.accessPolicies.tenantIdFromConfig
 func indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*keyvault_v20220701s.Vault)
+	obj, ok := rawObj.(*keyvault_v20230701s.Vault)
 	if !ok {
 		return nil
 	}
@@ -2449,9 +2449,9 @@ func indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig(rawObj client.
 	return result
 }
 
-// indexKeyvaultVaultPropertiesTenantIdFromConfig an index function for keyvault_v20220701s.Vault .spec.properties.tenantIdFromConfig
+// indexKeyvaultVaultPropertiesTenantIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.tenantIdFromConfig
 func indexKeyvaultVaultPropertiesTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*keyvault_v20220701s.Vault)
+	obj, ok := rawObj.(*keyvault_v20230701s.Vault)
 	if !ok {
 		return nil
 	}

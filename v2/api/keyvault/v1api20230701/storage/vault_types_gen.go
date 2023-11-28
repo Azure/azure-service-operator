@@ -21,9 +21,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20220701.Vault
+// Storage version of v1api20230701.Vault
 // Generator information:
-// - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/stable/2022-07-01/keyvault.json
+// - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/keyvault.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
 type Vault struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,7 +51,7 @@ func (vault *Vault) AzureName() string {
 	return vault.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2022-07-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2023-07-01"
 func (vault Vault) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -128,9 +128,9 @@ func (vault *Vault) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20220701.Vault
+// Storage version of v1api20230701.Vault
 // Generator information:
-// - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/stable/2022-07-01/keyvault.json
+// - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/keyvault.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
 type VaultList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -138,13 +138,13 @@ type VaultList struct {
 	Items           []Vault `json:"items"`
 }
 
-// Storage version of v1api20220701.APIVersion
-// +kubebuilder:validation:Enum={"2022-07-01"}
+// Storage version of v1api20230701.APIVersion
+// +kubebuilder:validation:Enum={"2023-07-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("2022-07-01")
+const APIVersion_Value = APIVersion("2023-07-01")
 
-// Storage version of v1api20220701.Vault_Spec
+// Storage version of v1api20230701.Vault_Spec
 type Vault_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9-]{3,24}$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -183,7 +183,7 @@ func (vault *Vault_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	return destination.ConvertSpecFrom(vault)
 }
 
-// Storage version of v1api20220701.Vault_STATUS
+// Storage version of v1api20230701.Vault_STATUS
 // Resource information with extended details.
 type Vault_STATUS struct {
 	Conditions  []conditions.Condition  `json:"conditions,omitempty"`
@@ -217,7 +217,7 @@ func (vault *Vault_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 	return destination.ConvertStatusFrom(vault)
 }
 
-// Storage version of v1api20220701.SystemData_STATUS
+// Storage version of v1api20230701.SystemData_STATUS
 // Metadata pertaining to creation and last modification of the key vault resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
@@ -229,7 +229,7 @@ type SystemData_STATUS struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20220701.VaultProperties
+// Storage version of v1api20230701.VaultProperties
 // Properties of the vault
 type VaultProperties struct {
 	AccessPolicies               []AccessPolicyEntry            `json:"accessPolicies,omitempty"`
@@ -251,7 +251,7 @@ type VaultProperties struct {
 	VaultUri                     *string                        `json:"vaultUri,omitempty"`
 }
 
-// Storage version of v1api20220701.VaultProperties_STATUS
+// Storage version of v1api20230701.VaultProperties_STATUS
 // Properties of the vault
 type VaultProperties_STATUS struct {
 	AccessPolicies               []AccessPolicyEntry_STATUS             `json:"accessPolicies,omitempty"`
@@ -274,7 +274,7 @@ type VaultProperties_STATUS struct {
 	VaultUri                     *string                                `json:"vaultUri,omitempty"`
 }
 
-// Storage version of v1api20220701.AccessPolicyEntry
+// Storage version of v1api20230701.AccessPolicyEntry
 // An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
 // vault's tenant ID.
 type AccessPolicyEntry struct {
@@ -288,7 +288,7 @@ type AccessPolicyEntry struct {
 	TenantIdFromConfig      *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
-// Storage version of v1api20220701.AccessPolicyEntry_STATUS
+// Storage version of v1api20230701.AccessPolicyEntry_STATUS
 // An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
 // vault's tenant ID.
 type AccessPolicyEntry_STATUS struct {
@@ -299,7 +299,7 @@ type AccessPolicyEntry_STATUS struct {
 	TenantId      *string                `json:"tenantId,omitempty"`
 }
 
-// Storage version of v1api20220701.NetworkRuleSet
+// Storage version of v1api20230701.NetworkRuleSet
 // A set of rules governing the network accessibility of a vault.
 type NetworkRuleSet struct {
 	Bypass              *string                `json:"bypass,omitempty"`
@@ -309,7 +309,7 @@ type NetworkRuleSet struct {
 	VirtualNetworkRules []VirtualNetworkRule   `json:"virtualNetworkRules,omitempty"`
 }
 
-// Storage version of v1api20220701.NetworkRuleSet_STATUS
+// Storage version of v1api20230701.NetworkRuleSet_STATUS
 // A set of rules governing the network accessibility of a vault.
 type NetworkRuleSet_STATUS struct {
 	Bypass              *string                     `json:"bypass,omitempty"`
@@ -319,7 +319,7 @@ type NetworkRuleSet_STATUS struct {
 	VirtualNetworkRules []VirtualNetworkRule_STATUS `json:"virtualNetworkRules,omitempty"`
 }
 
-// Storage version of v1api20220701.PrivateEndpointConnectionItem_STATUS
+// Storage version of v1api20230701.PrivateEndpointConnectionItem_STATUS
 // Private endpoint connection item.
 type PrivateEndpointConnectionItem_STATUS struct {
 	Etag                              *string                                   `json:"etag,omitempty"`
@@ -330,7 +330,7 @@ type PrivateEndpointConnectionItem_STATUS struct {
 	ProvisioningState                 *string                                   `json:"provisioningState,omitempty"`
 }
 
-// Storage version of v1api20220701.Sku
+// Storage version of v1api20230701.Sku
 // SKU details
 type Sku struct {
 	Family      *string                `json:"family,omitempty"`
@@ -338,7 +338,7 @@ type Sku struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20220701.Sku_STATUS
+// Storage version of v1api20230701.Sku_STATUS
 // SKU details
 type Sku_STATUS struct {
 	Family      *string                `json:"family,omitempty"`
@@ -346,21 +346,21 @@ type Sku_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20220701.IPRule
+// Storage version of v1api20230701.IPRule
 // A rule governing the accessibility of a vault from a specific ip address or ip range.
 type IPRule struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Value       *string                `json:"value,omitempty"`
 }
 
-// Storage version of v1api20220701.IPRule_STATUS
+// Storage version of v1api20230701.IPRule_STATUS
 // A rule governing the accessibility of a vault from a specific ip address or ip range.
 type IPRule_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Value       *string                `json:"value,omitempty"`
 }
 
-// Storage version of v1api20220701.Permissions
+// Storage version of v1api20230701.Permissions
 // Permissions the identity has for keys, secrets, certificates and storage.
 type Permissions struct {
 	Certificates []string               `json:"certificates,omitempty"`
@@ -370,7 +370,7 @@ type Permissions struct {
 	Storage      []string               `json:"storage,omitempty"`
 }
 
-// Storage version of v1api20220701.Permissions_STATUS
+// Storage version of v1api20230701.Permissions_STATUS
 // Permissions the identity has for keys, secrets, certificates and storage.
 type Permissions_STATUS struct {
 	Certificates []string               `json:"certificates,omitempty"`
@@ -380,14 +380,14 @@ type Permissions_STATUS struct {
 	Storage      []string               `json:"storage,omitempty"`
 }
 
-// Storage version of v1api20220701.PrivateEndpoint_STATUS
+// Storage version of v1api20230701.PrivateEndpoint_STATUS
 // Private endpoint object properties.
 type PrivateEndpoint_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20220701.PrivateLinkServiceConnectionState_STATUS
+// Storage version of v1api20230701.PrivateLinkServiceConnectionState_STATUS
 // An object that represents the approval state of the private link connection.
 type PrivateLinkServiceConnectionState_STATUS struct {
 	ActionsRequired *string                `json:"actionsRequired,omitempty"`
@@ -396,7 +396,7 @@ type PrivateLinkServiceConnectionState_STATUS struct {
 	Status          *string                `json:"status,omitempty"`
 }
 
-// Storage version of v1api20220701.VirtualNetworkRule
+// Storage version of v1api20230701.VirtualNetworkRule
 // A rule governing the accessibility of a vault from a specific virtual network.
 type VirtualNetworkRule struct {
 	IgnoreMissingVnetServiceEndpoint *bool                  `json:"ignoreMissingVnetServiceEndpoint,omitempty"`
@@ -408,7 +408,7 @@ type VirtualNetworkRule struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// Storage version of v1api20220701.VirtualNetworkRule_STATUS
+// Storage version of v1api20230701.VirtualNetworkRule_STATUS
 // A rule governing the accessibility of a vault from a specific virtual network.
 type VirtualNetworkRule_STATUS struct {
 	Id                               *string                `json:"id,omitempty"`

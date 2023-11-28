@@ -1,4 +1,4 @@
-apiVersion: keyvault.azure.com/v1api20220701
+apiVersion: keyvault.azure.com/v1api20230701
 kind: Vault
 metadata:
   name: samplevault

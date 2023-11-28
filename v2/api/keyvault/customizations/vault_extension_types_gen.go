@@ -6,8 +6,8 @@ package customizations
 import (
 	v20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
 	v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/storage"
-	v20220701 "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20220701"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20220701/storage"
+	v20230701 "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701"
+	v20230701s "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -19,6 +19,6 @@ func (extension *VaultExtension) GetExtendedResources() []genruntime.KubernetesR
 	return []genruntime.KubernetesResource{
 		&v20210401p.Vault{},
 		&v20210401ps.Vault{},
-		&v20220701.Vault{},
-		&v20220701s.Vault{}}
+		&v20230701.Vault{},
+		&v20230701s.Vault{}}
 }

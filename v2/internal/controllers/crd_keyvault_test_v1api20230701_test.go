@@ -8,7 +8,7 @@ package controllers_test
 import (
 	"testing"
 
-	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20220701"
+	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -16,7 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_KeyVault_Vault_20220701_CRUD(t *testing.T) {
+func Test_KeyVault_Vault_20230701_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -24,13 +24,13 @@ func Test_KeyVault_Vault_20220701_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 	defer tc.DeleteResourcesAndWait(rg)
 
-	vault := newVault20220701("keyvault1", tc, rg)
+	vault := newVault20230701("keyvault1", tc, rg)
 
 	tc.CreateResourceAndWait(vault)
 	tc.DeleteResourceAndWait(vault)
 }
 
-func Test_KeyVault_Vault_20220701_FromConfig_CRUD(t *testing.T) {
+func Test_KeyVault_Vault_20230701_FromConfig_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -68,7 +68,7 @@ func Test_KeyVault_Vault_20220701_FromConfig_CRUD(t *testing.T) {
 		},
 	}
 
-	vault := newVault20220701("keyvault", tc, rg)
+	vault := newVault20230701("keyvault", tc, rg)
 
 	accessPolicyFromConfig := keyvault.AccessPolicyEntry{
 		ApplicationIdFromConfig: &genruntime.ConfigMapReference{
@@ -97,7 +97,7 @@ func Test_KeyVault_Vault_20220701_FromConfig_CRUD(t *testing.T) {
 	tc.DeleteResourcesAndWait(vault, mi)
 }
 
-func newVault20220701(name string, tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *keyvault.Vault {
+func newVault20230701(name string, tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *keyvault.Vault {
 	return &keyvault.Vault{
 		ObjectMeta: tc.MakeObjectMeta(name),
 		Spec: keyvault.Vault_Spec{

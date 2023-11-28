@@ -346,7 +346,7 @@ Development of these new resources is complete and they will be available in the
 
 | Resource | ARM Version | CRD Version   | Supported From | Sample                                                                                                                       |
 |----------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
-| Vault    | 2022-07-01  | v1api20220701 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v1api20220701/v1api20220701_vault.yaml) |
+| Vault    | 2023-07-01  | v1api20230701 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v1api20230701/v1api20230701_vault.yaml) |
 
 ### Released
 

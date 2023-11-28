@@ -1611,10 +1611,10 @@ objectModelConfiguration:
         Scopes:
           $armReference: true
   keyvault:
-    2022-07-01:
+    2021-04-01-preview:
       Vault:
         $export: true
-        $supportedFrom: v2.5.0
+        $supportedFrom: v2.0.0-beta.1
       VaultProperties:
         TenantId:
           $importConfigMapMode: optional
@@ -1628,10 +1628,10 @@ objectModelConfiguration:
       VirtualNetworkRule:
         Id:
           $armReference: true
-    2021-04-01-preview:
+    2023-07-01:
       Vault:
         $export: true
-        $supportedFrom: v2.0.0-beta.1
+        $supportedFrom: v2.5.0
       VaultProperties:
         TenantId:
           $importConfigMapMode: optional
