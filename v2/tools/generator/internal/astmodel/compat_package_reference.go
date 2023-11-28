@@ -8,4 +8,3 @@ package astmodel
 func MakeCompatPackageReference(pkg InternalPackageReference) SubPackageReference {
 	return MakeSubPackageReference("compat", pkg)
 }
-
