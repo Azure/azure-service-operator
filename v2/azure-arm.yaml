@@ -1611,6 +1611,23 @@ objectModelConfiguration:
         Scopes:
           $armReference: true
   keyvault:
+    2022-07-01:
+      Vault:
+        $export: true
+        $supportedFrom: v2.5.0
+      VaultProperties:
+        TenantId:
+          $importConfigMapMode: optional
+      AccessPolicyEntry:
+        TenantId:
+          $importConfigMapMode: optional
+        ApplicationId:
+          $importConfigMapMode: optional
+        ObjectId:
+          $importConfigMapMode: optional
+      VirtualNetworkRule:
+        Id:
+          $armReference: true
     2021-04-01-preview:
       Vault:
         $export: true

@@ -30,7 +30,7 @@ func Test_KeyVault_Vault_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 	defer tc.DeleteResourcesAndWait(rg)
 
-	vault := newVault("keyvault1", tc, rg)
+	vault := newVault20210401preview("keyvault1", tc, rg)
 
 	tc.CreateResourceAndWait(vault)
 	tc.DeleteResourceAndWait(vault)
@@ -80,7 +80,7 @@ func Test_KeyVault_Vault_FromConfig_CRUD(t *testing.T) {
 		},
 	}
 
-	vault := newVault("keyvault", tc, rg)
+	vault := newVault20210401preview("keyvault", tc, rg)
 
 	accessPolicyFromConfig := keyvault.AccessPolicyEntry{
 		ApplicationIdFromConfig: &genruntime.ConfigMapReference{
@@ -109,10 +109,7 @@ func Test_KeyVault_Vault_FromConfig_CRUD(t *testing.T) {
 	tc.DeleteResourcesAndWait(vault, mi)
 }
 
-func newVault(name string, tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *keyvault.Vault {
-	skuFamily := keyvault.Sku_Family_A
-	skuName := keyvault.Sku_Name_Standard
-
+func newVault20210401preview(name string, tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *keyvault.Vault {
 	return &keyvault.Vault{
 		ObjectMeta: tc.MakeObjectMeta(name),
 		Spec: keyvault.Vault_Spec{
@@ -131,8 +128,8 @@ func newVault(name string, tc *testcommon.KubePerTestContext, rg *resources.Reso
 					TenantId: to.Ptr(tc.AzureTenant),
 				}},
 				Sku: &keyvault.Sku{
-					Family: &skuFamily,
-					Name:   &skuName,
+					Family: to.Ptr(keyvault.Sku_Family_A),
+					Name:   to.Ptr(keyvault.Sku_Name_Standard),
 				},
 				TenantId: to.Ptr(tc.AzureTenant),
 				// EnableSoftDelete is true as default. We need to set this false to purge delete the KeyVault so there's no conflict while re-running tests.
