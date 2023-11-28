@@ -7,6 +7,7 @@ package astbuilder
 
 import (
 	"github.com/dave/dst"
+	"go/token"
 )
 
 // CallFunc creates an expression to call a function with specified arguments
@@ -35,8 +36,13 @@ func CallQualifiedFunc(qualifier string, funcName string, arguments ...dst.Expr)
 func CallExpr(expr dst.Expr, funcName string, arguments ...dst.Expr) *dst.CallExpr {
 	var receiver dst.Expr = expr
 	if star, ok := expr.(*dst.StarExpr); ok {
-		// We don't need to dereference the expression - even value methods are available from pointer receivers
+		// We don't need to dereference the expression - value methods are available from pointer receivers
 		receiver = star.X
+	}
+
+	if unary, ok := expr.(*dst.UnaryExpr); ok && unary.Op == token.AND {
+		// We don't need to take the address of the expression - value methods are available from pointer receivers
+		receiver = unary.X
 	}
 
 	return createCallExpr(
