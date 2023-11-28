@@ -114,6 +114,8 @@ import (
 	managedidentity_v20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130/storage"
 	managedidentity_v20220131p "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131preview"
 	managedidentity_v20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131preview/storage"
+	managedidentity_v20230131 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
+	managedidentity_v20230131s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131/storage"
 	network_customizations "github.com/Azure/azure-service-operator/v2/api/network/customizations"
 	network_v20180501 "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501"
 	network_v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage"
@@ -631,9 +633,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20210701s.WorkspacesConnection)})
-	result = append(result, &registration.StorageType{Obj: new(managedidentity_v20181130s.UserAssignedIdentity)})
 	result = append(result, &registration.StorageType{
-		Obj: new(managedidentity_v20220131ps.FederatedIdentityCredential),
+		Obj: new(managedidentity_v20230131s.FederatedIdentityCredential),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.issuerFromConfig",
@@ -647,10 +648,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.issuerFromConfig", ".spec.subjectFromConfig"}, &managedidentity_v20220131ps.FederatedIdentityCredentialList{}),
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.issuerFromConfig", ".spec.subjectFromConfig"}, &managedidentity_v20230131s.FederatedIdentityCredentialList{}),
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(managedidentity_v20230131s.UserAssignedIdentity)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20180501s.DnsZone)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20180501s.DnsZonesAAAARecord)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20180501s.DnsZonesARecord)})
@@ -1215,6 +1217,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(managedidentity_v20181130s.UserAssignedIdentity))
 	result = append(result, new(managedidentity_v20220131p.FederatedIdentityCredential))
 	result = append(result, new(managedidentity_v20220131ps.FederatedIdentityCredential))
+	result = append(result, new(managedidentity_v20230131.FederatedIdentityCredential), new(managedidentity_v20230131.UserAssignedIdentity))
+	result = append(result, new(managedidentity_v20230131s.FederatedIdentityCredential), new(managedidentity_v20230131s.UserAssignedIdentity))
 	result = append(
 		result,
 		new(network_v20180501.DnsZone),
@@ -1572,6 +1576,8 @@ func createScheme() *runtime.Scheme {
 	_ = managedidentity_v20181130s.AddToScheme(scheme)
 	_ = managedidentity_v20220131p.AddToScheme(scheme)
 	_ = managedidentity_v20220131ps.AddToScheme(scheme)
+	_ = managedidentity_v20230131.AddToScheme(scheme)
+	_ = managedidentity_v20230131s.AddToScheme(scheme)
 	_ = network_v20180501.AddToScheme(scheme)
 	_ = network_v20180501s.AddToScheme(scheme)
 	_ = network_v20180901.AddToScheme(scheme)
@@ -2596,9 +2602,9 @@ func indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword(rawObj 
 	return obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password.Index()
 }
 
-// indexManagedidentityFederatedIdentityCredentialIssuerFromConfig an index function for managedidentity_v20220131ps.FederatedIdentityCredential .spec.issuerFromConfig
+// indexManagedidentityFederatedIdentityCredentialIssuerFromConfig an index function for managedidentity_v20230131s.FederatedIdentityCredential .spec.issuerFromConfig
 func indexManagedidentityFederatedIdentityCredentialIssuerFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*managedidentity_v20220131ps.FederatedIdentityCredential)
+	obj, ok := rawObj.(*managedidentity_v20230131s.FederatedIdentityCredential)
 	if !ok {
 		return nil
 	}
@@ -2608,9 +2614,9 @@ func indexManagedidentityFederatedIdentityCredentialIssuerFromConfig(rawObj clie
 	return obj.Spec.IssuerFromConfig.Index()
 }
 
-// indexManagedidentityFederatedIdentityCredentialSubjectFromConfig an index function for managedidentity_v20220131ps.FederatedIdentityCredential .spec.subjectFromConfig
+// indexManagedidentityFederatedIdentityCredentialSubjectFromConfig an index function for managedidentity_v20230131s.FederatedIdentityCredential .spec.subjectFromConfig
 func indexManagedidentityFederatedIdentityCredentialSubjectFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*managedidentity_v20220131ps.FederatedIdentityCredential)
+	obj, ok := rawObj.(*managedidentity_v20230131s.FederatedIdentityCredential)
 	if !ok {
 		return nil
 	}

@@ -1652,7 +1652,22 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         Subject:
           $importConfigMapMode: optional
-
+    2023-01-31:
+      UserAssignedIdentity:
+        $export: true
+        $supportedFrom: v2.5.0
+        $generatedConfigs:
+          ClientId: $.Status.ClientId
+          PrincipalId: $.Status.PrincipalId
+          TenantId: $.Status.TenantId
+      UserAssignedIdentities_FederatedIdentityCredential:
+        $exportAs: FederatedIdentityCredential
+        $supportedFrom: v2.5.0
+      FederatedIdentityCredentialProperties:
+        Issuer:
+          $importConfigMapMode: optional
+        Subject:
+          $importConfigMapMode: optional
   machinelearningservices:
     2021-07-01:
       AksNetworkingConfiguration:
