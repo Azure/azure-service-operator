@@ -29,8 +29,6 @@ type PropertyAssignmentFunctionBuilder struct {
 	conversions map[string]StoragePropertyConversion
 	// direction indicates the kind of conversion we are generating
 	direction conversions.Direction
-	// conversionContext is additional information about the context in which this conversion was made
-	conversionContext *conversions.PropertyConversionContext
 	// identifier to use for our receiver in generated code
 	receiverName string
 	// identifier to use for our parameter in generated code
@@ -494,24 +492,25 @@ func (builder *PropertyAssignmentFunctionBuilder) findTypeForBag(
 	t astmodel.Type,
 	conversionContext *conversions.PropertyConversionContext,
 ) astmodel.Type {
+	// If t is optional, look up the underlying type and then wrap
 	if opt, ok := astmodel.AsOptionalType(t); ok {
 		elem := builder.findTypeForBag(opt.Element(), conversionContext)
 		return astmodel.NewOptionalType(elem)
 	}
 
-	// If array, find the look up the underlying type and then wrap
+	// If t is an array, look up the underlying type and then wrap
 	if arr, ok := astmodel.AsArrayType(t); ok {
 		elem := builder.findTypeForBag(arr.Element(), conversionContext)
 		return astmodel.NewArrayType(elem)
 	}
 
-	// If map, find the look-up the underlying type of the value and then wrap
+	// If t is a map, look-up the underlying type of the value and then wrap
 	if m, ok := astmodel.AsMapType(t); ok {
 		value := builder.findTypeForBag(m.ValueType(), conversionContext)
 		return astmodel.NewMapType(m.KeyType(), value)
 	}
 
-	// If TypeName, check for the existence of a compatibilty type in a subpackge under the receiver
+	// If t is a TypeName, check for the existence of a compatibility type in a subpackge under the receiver
 	if tn, ok := astmodel.AsInternalTypeName(t); ok {
 		compatPkg := astmodel.MakeCompatPackageReference(
 			builder.receiverDefinition.Name().InternalPackageReference())
