@@ -68,7 +68,6 @@ func Test_ManagedIdentity_UserAssignedIdentity_20230131_CRUD(t *testing.T) {
 }
 
 func FederatedIdentityCredentials_20230131_CRUD(tc *testcommon.KubePerTestContext, umi *managedidentity.UserAssignedIdentity) {
-
 	fic := &managedidentity.FederatedIdentityCredential{
 		ObjectMeta: tc.MakeObjectMeta("fic"),
 		Spec: managedidentity.UserAssignedIdentities_FederatedIdentityCredential_Spec{
