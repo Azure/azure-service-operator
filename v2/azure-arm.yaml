@@ -1640,6 +1640,23 @@ objectModelConfiguration:
       VirtualNetworkRule:
         Id:
           $armReference: true
+    2023-07-01:
+      Vault:
+        $export: true
+        $supportedFrom: v2.5.0
+      VaultProperties:
+        TenantId:
+          $importConfigMapMode: optional
+      AccessPolicyEntry:
+        TenantId:
+          $importConfigMapMode: optional
+        ApplicationId:
+          $importConfigMapMode: optional
+        ObjectId:
+          $importConfigMapMode: optional
+      VirtualNetworkRule:
+        Id:
+          $armReference: true
   kubernetesconfiguration:
     2023-05-01:
       Extension:
