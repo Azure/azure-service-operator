@@ -7,7 +7,7 @@ package pipeline
 
 import (
 	"context"
-
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -22,7 +22,9 @@ const CreateConversionGraphStageId = "createConversionGraph"
 // convert resources to/from the designated storage (or hub) version
 func CreateConversionGraph(
 	configuration *config.Configuration,
-	generatorPrefix string) *Stage {
+	generatorPrefix string,
+	log logr.Logger,
+) *Stage {
 	stage := NewStage(
 		CreateConversionGraphStageId,
 		"Create the graph of conversions between versions of each resource group",
