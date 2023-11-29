@@ -302,7 +302,8 @@ func TestConversionGraph_WithAResourceOnlyInPreviewVersions_HasExpectedTransitio
 	g.Expect(err).To(Succeed())
 	g.Expect(graph.TransitionCount()).To(Equal(6))
 
-	expectedTransitions := []struct {
+	// Assert - Check transitions
+	cases := []struct {
 		from astmodel.InternalTypeName
 		to   astmodel.InternalTypeName
 	}{
@@ -315,8 +316,15 @@ func TestConversionGraph_WithAResourceOnlyInPreviewVersions_HasExpectedTransitio
 		{address2021ps, address2020ps}, // Preview versions always convert backwards
 	}
 
-	for _, expected := range expectedTransitions {
-		g.Expect(graph.LookupTransition(expected.from)).To(Equal(expected.to))
+	for _, c := range cases {
+		c := c
+		t.Run(
+			fmt.Sprintf("%s to %s", c.from, c.to),
+			func(t *testing.T) {
+				t.Parallel()
+				gg := NewGomegaWithT(t)
+				gg.Expect(graph.LookupTransition(c.from)).To(Equal(c.to))
+			})
 	}
 }
 
