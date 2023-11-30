@@ -141,9 +141,6 @@ type PolicyFragmentList struct {
 
 // Storage version of v1api20220801.Service_PolicyFragment_Spec
 type Service_PolicyFragment_Spec struct {
-	// +kubebuilder:validation:MaxLength=80
-	// +kubebuilder:validation:MinLength=1
-	// +kubebuilder:validation:Pattern="(^[\\w]+$)|(^[\\w][\\w\\-]+[\\w]$)"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`

@@ -141,9 +141,6 @@ type ApiVersionSetList struct {
 
 // Storage version of v1api20220801.Service_ApiVersionSet_Spec
 type Service_ApiVersionSet_Spec struct {
-	// +kubebuilder:validation:MaxLength=80
-	// +kubebuilder:validation:MinLength=1
-	// +kubebuilder:validation:Pattern="^[^*#&+:<>?]+$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`

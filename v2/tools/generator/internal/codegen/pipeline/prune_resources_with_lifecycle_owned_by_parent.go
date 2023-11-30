@@ -28,7 +28,7 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 
 			// A previous stage may have used these flags, but we want to make sure we're using them too so reset
 			// the consumed bit
-			err := configuration.MarkResourceLifecycleOwnedByParentUnconsumed()
+			err := configuration.ObjectModelConfiguration.ResourceLifecycleOwnedByParent.MarkUnconsumed()
 			if err != nil {
 				return nil, err
 			}
@@ -63,7 +63,7 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 				return nil, err
 			}
 
-			err = configuration.VerifyResourceLifecycleOwnedByParentConsumed()
+			err = configuration.ObjectModelConfiguration.ResourceLifecycleOwnedByParent.VerifyConsumed()
 			if err != nil {
 				return nil, err
 			}
@@ -151,13 +151,8 @@ func (m *misbehavingEmbeddedTypePruner) pruneMisbehavingEmbeddedResourceProperti
 	ctx astmodel.InternalTypeName,
 ) (astmodel.Type, error) {
 	for _, prop := range it.Properties().Copy() {
-		_, err := m.configuration.ResourceLifecycleOwnedByParent(ctx, prop.PropertyName())
-		if err != nil {
-			if config.IsNotConfiguredError(err) {
-				continue
-			}
-			// Unexpected error type
-			return nil, err
+		if _, ok := m.configuration.ObjectModelConfiguration.ResourceLifecycleOwnedByParent.Lookup(ctx, prop.PropertyName()); !ok {
+			continue
 		}
 
 		it = it.WithoutProperty(prop.PropertyName())

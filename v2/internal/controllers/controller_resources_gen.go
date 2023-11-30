@@ -160,6 +160,8 @@ import (
 	storage_v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401/storage"
 	storage_v20220901 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
 	storage_v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
+	storage_v20230101 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
+	storage_v20230101s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
 	subscription_customizations "github.com/Azure/azure-service-operator/v2/api/subscription/customizations"
 	subscription_v20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
 	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
@@ -920,16 +922,16 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccount)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsBlobService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsBlobServicesContainer)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsFileService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsFileServicesShare)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsManagementPolicy)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsQueueService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsQueueServicesQueue)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsTableService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsTableServicesTable)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccount)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsBlobService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsBlobServicesContainer)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsFileService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsFileServicesShare)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsManagementPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsQueueService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsQueueServicesQueue)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsTableService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsTableServicesTable)})
 	result = append(result, &registration.StorageType{Obj: new(subscription_v20211001s.Alias)})
 	result = append(result, &registration.StorageType{
 		Obj: new(synapse_v20210601s.Workspace),
@@ -1495,6 +1497,30 @@ func getKnownTypes() []client.Object {
 		new(storage_v20220901s.StorageAccountsQueueServicesQueue),
 		new(storage_v20220901s.StorageAccountsTableService),
 		new(storage_v20220901s.StorageAccountsTableServicesTable))
+	result = append(
+		result,
+		new(storage_v20230101.StorageAccount),
+		new(storage_v20230101.StorageAccountsBlobService),
+		new(storage_v20230101.StorageAccountsBlobServicesContainer),
+		new(storage_v20230101.StorageAccountsFileService),
+		new(storage_v20230101.StorageAccountsFileServicesShare),
+		new(storage_v20230101.StorageAccountsManagementPolicy),
+		new(storage_v20230101.StorageAccountsQueueService),
+		new(storage_v20230101.StorageAccountsQueueServicesQueue),
+		new(storage_v20230101.StorageAccountsTableService),
+		new(storage_v20230101.StorageAccountsTableServicesTable))
+	result = append(
+		result,
+		new(storage_v20230101s.StorageAccount),
+		new(storage_v20230101s.StorageAccountsBlobService),
+		new(storage_v20230101s.StorageAccountsBlobServicesContainer),
+		new(storage_v20230101s.StorageAccountsFileService),
+		new(storage_v20230101s.StorageAccountsFileServicesShare),
+		new(storage_v20230101s.StorageAccountsManagementPolicy),
+		new(storage_v20230101s.StorageAccountsQueueService),
+		new(storage_v20230101s.StorageAccountsQueueServicesQueue),
+		new(storage_v20230101s.StorageAccountsTableService),
+		new(storage_v20230101s.StorageAccountsTableServicesTable))
 	result = append(result, new(subscription_v20211001.Alias))
 	result = append(result, new(subscription_v20211001s.Alias))
 	result = append(result, new(synapse_v20210601.Workspace), new(synapse_v20210601.WorkspacesBigDataPool))
@@ -1632,6 +1658,8 @@ func createScheme() *runtime.Scheme {
 	_ = storage_v20210401s.AddToScheme(scheme)
 	_ = storage_v20220901.AddToScheme(scheme)
 	_ = storage_v20220901s.AddToScheme(scheme)
+	_ = storage_v20230101.AddToScheme(scheme)
+	_ = storage_v20230101s.AddToScheme(scheme)
 	_ = subscription_v20211001.AddToScheme(scheme)
 	_ = subscription_v20211001s.AddToScheme(scheme)
 	_ = synapse_v20210601.AddToScheme(scheme)

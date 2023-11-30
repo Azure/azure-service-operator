@@ -27,6 +27,7 @@ type PropertyConfiguration struct {
 	ImportConfigMapMode            configurable[ImportConfigMapMode] // The config map mode
 	IsSecret                       configurable[bool]                // Specify whether this property is a secret
 	NameInNextVersion              configurable[string]              // Name this property has in the next version
+	PayloadType                    configurable[PayloadType]         // Specify how this property should be serialized for ARM
 	RenameTo                       configurable[string]              // Name this property should be renamed to
 	ResourceLifecycleOwnedByParent configurable[string]              // Name of the parent resource which owns the lifecycle of the sub-resource.
 }

@@ -37,10 +37,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │   │   │   │   ├── OpenidProviderId: *string
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: MaxLength: 256
-│   │   │   ├── Rule 1: MinLength: 1
-│   │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
+│   │   ├── AzureName: string
 │   │   ├── Contact: *Object (4 properties)
 │   │   │   ├── Email: *string
 │   │   │   ├── Name: *string
@@ -138,10 +135,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 ├── ApiVersionSet: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
 │   ├── Spec: Object (9 properties)
-│   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: MaxLength: 80
-│   │   │   ├── Rule 1: MinLength: 1
-│   │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
+│   │   ├── AzureName: string
 │   │   ├── Description: *string
 │   │   ├── DisplayName: *string
 │   │   ├── OriginalVersion: string
@@ -164,9 +158,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 ├── Backend: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
 │   ├── Spec: Object (13 properties)
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: MaxLength: 80
-│   │   │   └── Rule 1: MinLength: 1
+│   │   ├── AzureName: string
 │   │   ├── Credentials: *Object (6 properties)
 │   │   │   ├── Authorization: *Object (3 properties)
 │   │   │   │   ├── Parameter: *string
@@ -252,9 +244,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 ├── NamedValue: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
 │   ├── Spec: Object (9 properties)
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: MaxLength: 256
-│   │   │   └── Rule 1: Pattern: "^[^*#&+:<>?]+$"
+│   │   ├── AzureName: string
 │   │   ├── DisplayName: *string
 │   │   ├── KeyVault: *Object (4 properties)
 │   │   │   ├── IdentityClientId: *string
@@ -305,10 +295,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 ├── PolicyFragment: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
 │   ├── Spec: Object (7 properties)
-│   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: MaxLength: 80
-│   │   │   ├── Rule 1: MinLength: 1
-│   │   │   └── Rule 2: Pattern: "(^[\\w]+$)|(^[\\w][\\w\\-]+[\\w]$)"
+│   │   ├── AzureName: string
 │   │   ├── Description: *string
 │   │   ├── Format: *string
 │   │   ├── OriginalVersion: string
@@ -328,9 +315,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
 │   ├── Spec: Object (11 properties)
 │   │   ├── ApprovalRequired: *bool
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: MaxLength: 256
-│   │   │   └── Rule 1: MinLength: 1
+│   │   ├── AzureName: string
 │   │   ├── Description: *string
 │   │   ├── DisplayName: *string
 │   │   ├── OriginalVersion: string
@@ -373,10 +358,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │   │   ├── ApiVersionConstraint: *Object (2 properties)
 │   │   │   ├── MinApiVersion: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: MaxLength: 50
-│   │   │   ├── Rule 1: MinLength: 1
-│   │   │   └── Rule 2: Pattern: "^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"
+│   │   ├── AzureName: string
 │   │   ├── Certificates: Object (5 properties)[]
 │   │   │   ├── Certificate: *Object (7 properties)
 │   │   │   │   ├── Expiry: *string
@@ -569,9 +551,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
     ├── Spec: Object (12 properties)
     │   ├── AllowTracing: *bool
-    │   ├── AzureName: Validated<string> (2 rules)
-    │   │   ├── Rule 0: MaxLength: 256
-    │   │   └── Rule 1: Pattern: "^[^*#&+:<>?]+$"
+    │   ├── AzureName: string
     │   ├── DisplayName: *string
     │   ├── OperatorSpec: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag

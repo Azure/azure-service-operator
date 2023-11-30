@@ -4,19 +4,18 @@
 package storage
 
 import (
+	"fmt"
+	v20230101s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=storage.azure.com,resources=storageaccountsmanagementpolicies,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=storage.azure.com,resources={storageaccountsmanagementpolicies/status,storageaccountsmanagementpolicies/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -42,6 +41,28 @@ func (policy *StorageAccountsManagementPolicy) GetConditions() conditions.Condit
 // SetConditions sets the conditions on the resource status
 func (policy *StorageAccountsManagementPolicy) SetConditions(conditions conditions.Conditions) {
 	policy.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &StorageAccountsManagementPolicy{}
+
+// ConvertFrom populates our StorageAccountsManagementPolicy from the provided hub StorageAccountsManagementPolicy
+func (policy *StorageAccountsManagementPolicy) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v20230101s.StorageAccountsManagementPolicy)
+	if !ok {
+		return fmt.Errorf("expected storage/v1api20230101/storage/StorageAccountsManagementPolicy but received %T instead", hub)
+	}
+
+	return policy.AssignProperties_From_StorageAccountsManagementPolicy(source)
+}
+
+// ConvertTo populates the provided hub StorageAccountsManagementPolicy from our StorageAccountsManagementPolicy
+func (policy *StorageAccountsManagementPolicy) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v20230101s.StorageAccountsManagementPolicy)
+	if !ok {
+		return fmt.Errorf("expected storage/v1api20230101/storage/StorageAccountsManagementPolicy but received %T instead", hub)
+	}
+
+	return policy.AssignProperties_To_StorageAccountsManagementPolicy(destination)
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsManagementPolicy{}
@@ -115,8 +136,75 @@ func (policy *StorageAccountsManagementPolicy) SetStatus(status genruntime.Conve
 	return nil
 }
 
-// Hub marks that this StorageAccountsManagementPolicy is the hub type for conversion
-func (policy *StorageAccountsManagementPolicy) Hub() {}
+// AssignProperties_From_StorageAccountsManagementPolicy populates our StorageAccountsManagementPolicy from the provided source StorageAccountsManagementPolicy
+func (policy *StorageAccountsManagementPolicy) AssignProperties_From_StorageAccountsManagementPolicy(source *v20230101s.StorageAccountsManagementPolicy) error {
+
+	// ObjectMeta
+	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec StorageAccounts_ManagementPolicy_Spec
+	err := spec.AssignProperties_From_StorageAccounts_ManagementPolicy_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_ManagementPolicy_Spec() to populate field Spec")
+	}
+	policy.Spec = spec
+
+	// Status
+	var status StorageAccounts_ManagementPolicy_STATUS
+	err = status.AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS() to populate field Status")
+	}
+	policy.Status = status
+
+	// Invoke the augmentConversionForStorageAccountsManagementPolicy interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccountsManagementPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageAccountsManagementPolicy populates the provided destination StorageAccountsManagementPolicy from our StorageAccountsManagementPolicy
+func (policy *StorageAccountsManagementPolicy) AssignProperties_To_StorageAccountsManagementPolicy(destination *v20230101s.StorageAccountsManagementPolicy) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v20230101s.StorageAccounts_ManagementPolicy_Spec
+	err := policy.Spec.AssignProperties_To_StorageAccounts_ManagementPolicy_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_ManagementPolicy_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v20230101s.StorageAccounts_ManagementPolicy_STATUS
+	err = policy.Status.AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForStorageAccountsManagementPolicy interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccountsManagementPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (policy *StorageAccountsManagementPolicy) OriginalGVK() *schema.GroupVersionKind {
@@ -138,6 +226,11 @@ type StorageAccountsManagementPolicyList struct {
 	Items           []StorageAccountsManagementPolicy `json:"items"`
 }
 
+type augmentConversionForStorageAccountsManagementPolicy interface {
+	AssignPropertiesFrom(src *v20230101s.StorageAccountsManagementPolicy) error
+	AssignPropertiesTo(dst *v20230101s.StorageAccountsManagementPolicy) error
+}
+
 // Storage version of v1api20220901.StorageAccounts_ManagementPolicy_Spec
 type StorageAccounts_ManagementPolicy_Spec struct {
 	OriginalVersion string `json:"originalVersion,omitempty"`
@@ -155,20 +248,146 @@ var _ genruntime.ConvertibleSpec = &StorageAccounts_ManagementPolicy_Spec{}
 
 // ConvertSpecFrom populates our StorageAccounts_ManagementPolicy_Spec from the provided source
 func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v20230101s.StorageAccounts_ManagementPolicy_Spec)
+	if ok {
+		// Populate our instance from source
+		return policy.AssignProperties_From_StorageAccounts_ManagementPolicy_Spec(src)
 	}
 
-	return source.ConvertSpecTo(policy)
+	// Convert to an intermediate form
+	src = &v20230101s.StorageAccounts_ManagementPolicy_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = policy.AssignProperties_From_StorageAccounts_ManagementPolicy_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our StorageAccounts_ManagementPolicy_Spec
 func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v20230101s.StorageAccounts_ManagementPolicy_Spec)
+	if ok {
+		// Populate destination from our instance
+		return policy.AssignProperties_To_StorageAccounts_ManagementPolicy_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(policy)
+	// Convert to an intermediate form
+	dst = &v20230101s.StorageAccounts_ManagementPolicy_Spec{}
+	err := policy.AssignProperties_To_StorageAccounts_ManagementPolicy_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_StorageAccounts_ManagementPolicy_Spec populates our StorageAccounts_ManagementPolicy_Spec from the provided source StorageAccounts_ManagementPolicy_Spec
+func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_From_StorageAccounts_ManagementPolicy_Spec(source *v20230101s.StorageAccounts_ManagementPolicy_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// OriginalVersion
+	policy.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		policy.Owner = &owner
+	} else {
+		policy.Owner = nil
+	}
+
+	// Policy
+	if source.Policy != nil {
+		var policyLocal ManagementPolicySchema
+		err := policyLocal.AssignProperties_From_ManagementPolicySchema(source.Policy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicySchema() to populate field Policy")
+		}
+		policy.Policy = &policyLocal
+	} else {
+		policy.Policy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccounts_ManagementPolicy_Spec interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccounts_ManagementPolicy_Spec); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageAccounts_ManagementPolicy_Spec populates the provided destination StorageAccounts_ManagementPolicy_Spec from our StorageAccounts_ManagementPolicy_Spec
+func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_To_StorageAccounts_ManagementPolicy_Spec(destination *v20230101s.StorageAccounts_ManagementPolicy_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// OriginalVersion
+	destination.OriginalVersion = policy.OriginalVersion
+
+	// Owner
+	if policy.Owner != nil {
+		owner := policy.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Policy
+	if policy.Policy != nil {
+		var policyLocal v20230101s.ManagementPolicySchema
+		err := policy.Policy.AssignProperties_To_ManagementPolicySchema(&policyLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicySchema() to populate field Policy")
+		}
+		destination.Policy = &policyLocal
+	} else {
+		destination.Policy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccounts_ManagementPolicy_Spec interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccounts_ManagementPolicy_Spec); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20220901.StorageAccounts_ManagementPolicy_STATUS
@@ -186,20 +405,164 @@ var _ genruntime.ConvertibleStatus = &StorageAccounts_ManagementPolicy_STATUS{}
 
 // ConvertStatusFrom populates our StorageAccounts_ManagementPolicy_STATUS from the provided source
 func (policy *StorageAccounts_ManagementPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v20230101s.StorageAccounts_ManagementPolicy_STATUS)
+	if ok {
+		// Populate our instance from source
+		return policy.AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(policy)
+	// Convert to an intermediate form
+	src = &v20230101s.StorageAccounts_ManagementPolicy_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = policy.AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our StorageAccounts_ManagementPolicy_STATUS
 func (policy *StorageAccounts_ManagementPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v20230101s.StorageAccounts_ManagementPolicy_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return policy.AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(policy)
+	// Convert to an intermediate form
+	dst = &v20230101s.StorageAccounts_ManagementPolicy_STATUS{}
+	err := policy.AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS populates our StorageAccounts_ManagementPolicy_STATUS from the provided source StorageAccounts_ManagementPolicy_STATUS
+func (policy *StorageAccounts_ManagementPolicy_STATUS) AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS(source *v20230101s.StorageAccounts_ManagementPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	policy.Id = genruntime.ClonePointerToString(source.Id)
+
+	// LastModifiedTime
+	policy.LastModifiedTime = genruntime.ClonePointerToString(source.LastModifiedTime)
+
+	// Name
+	policy.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Policy
+	if source.Policy != nil {
+		var policyLocal ManagementPolicySchema_STATUS
+		err := policyLocal.AssignProperties_From_ManagementPolicySchema_STATUS(source.Policy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicySchema_STATUS() to populate field Policy")
+		}
+		policy.Policy = &policyLocal
+	} else {
+		policy.Policy = nil
+	}
+
+	// Type
+	policy.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccounts_ManagementPolicy_STATUS interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccounts_ManagementPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS populates the provided destination StorageAccounts_ManagementPolicy_STATUS from our StorageAccounts_ManagementPolicy_STATUS
+func (policy *StorageAccounts_ManagementPolicy_STATUS) AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS(destination *v20230101s.StorageAccounts_ManagementPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(policy.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(policy.Id)
+
+	// LastModifiedTime
+	destination.LastModifiedTime = genruntime.ClonePointerToString(policy.LastModifiedTime)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(policy.Name)
+
+	// Policy
+	if policy.Policy != nil {
+		var policyLocal v20230101s.ManagementPolicySchema_STATUS
+		err := policy.Policy.AssignProperties_To_ManagementPolicySchema_STATUS(&policyLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicySchema_STATUS() to populate field Policy")
+		}
+		destination.Policy = &policyLocal
+	} else {
+		destination.Policy = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(policy.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccounts_ManagementPolicy_STATUS interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccounts_ManagementPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForStorageAccounts_ManagementPolicy_Spec interface {
+	AssignPropertiesFrom(src *v20230101s.StorageAccounts_ManagementPolicy_Spec) error
+	AssignPropertiesTo(dst *v20230101s.StorageAccounts_ManagementPolicy_Spec) error
+}
+
+type augmentConversionForStorageAccounts_ManagementPolicy_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.StorageAccounts_ManagementPolicy_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.StorageAccounts_ManagementPolicy_STATUS) error
 }
 
 // Storage version of v1api20220901.ManagementPolicySchema
@@ -210,12 +573,194 @@ type ManagementPolicySchema struct {
 	Rules       []ManagementPolicyRule `json:"rules,omitempty"`
 }
 
+// AssignProperties_From_ManagementPolicySchema populates our ManagementPolicySchema from the provided source ManagementPolicySchema
+func (schema *ManagementPolicySchema) AssignProperties_From_ManagementPolicySchema(source *v20230101s.ManagementPolicySchema) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Rules
+	if source.Rules != nil {
+		ruleList := make([]ManagementPolicyRule, len(source.Rules))
+		for ruleIndex, ruleItem := range source.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			var rule ManagementPolicyRule
+			err := rule.AssignProperties_From_ManagementPolicyRule(&ruleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicyRule() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		schema.Rules = ruleList
+	} else {
+		schema.Rules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		schema.PropertyBag = propertyBag
+	} else {
+		schema.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicySchema interface (if implemented) to customize the conversion
+	var schemaAsAny any = schema
+	if augmentedSchema, ok := schemaAsAny.(augmentConversionForManagementPolicySchema); ok {
+		err := augmentedSchema.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagementPolicySchema populates the provided destination ManagementPolicySchema from our ManagementPolicySchema
+func (schema *ManagementPolicySchema) AssignProperties_To_ManagementPolicySchema(destination *v20230101s.ManagementPolicySchema) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(schema.PropertyBag)
+
+	// Rules
+	if schema.Rules != nil {
+		ruleList := make([]v20230101s.ManagementPolicyRule, len(schema.Rules))
+		for ruleIndex, ruleItem := range schema.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			var rule v20230101s.ManagementPolicyRule
+			err := ruleItem.AssignProperties_To_ManagementPolicyRule(&rule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicyRule() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		destination.Rules = ruleList
+	} else {
+		destination.Rules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicySchema interface (if implemented) to customize the conversion
+	var schemaAsAny any = schema
+	if augmentedSchema, ok := schemaAsAny.(augmentConversionForManagementPolicySchema); ok {
+		err := augmentedSchema.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220901.ManagementPolicySchema_STATUS
 // The Storage Account ManagementPolicies Rules. See more details in:
 // https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 type ManagementPolicySchema_STATUS struct {
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Rules       []ManagementPolicyRule_STATUS `json:"rules,omitempty"`
+}
+
+// AssignProperties_From_ManagementPolicySchema_STATUS populates our ManagementPolicySchema_STATUS from the provided source ManagementPolicySchema_STATUS
+func (schema *ManagementPolicySchema_STATUS) AssignProperties_From_ManagementPolicySchema_STATUS(source *v20230101s.ManagementPolicySchema_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Rules
+	if source.Rules != nil {
+		ruleList := make([]ManagementPolicyRule_STATUS, len(source.Rules))
+		for ruleIndex, ruleItem := range source.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			var rule ManagementPolicyRule_STATUS
+			err := rule.AssignProperties_From_ManagementPolicyRule_STATUS(&ruleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicyRule_STATUS() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		schema.Rules = ruleList
+	} else {
+		schema.Rules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		schema.PropertyBag = propertyBag
+	} else {
+		schema.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicySchema_STATUS interface (if implemented) to customize the conversion
+	var schemaAsAny any = schema
+	if augmentedSchema, ok := schemaAsAny.(augmentConversionForManagementPolicySchema_STATUS); ok {
+		err := augmentedSchema.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagementPolicySchema_STATUS populates the provided destination ManagementPolicySchema_STATUS from our ManagementPolicySchema_STATUS
+func (schema *ManagementPolicySchema_STATUS) AssignProperties_To_ManagementPolicySchema_STATUS(destination *v20230101s.ManagementPolicySchema_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(schema.PropertyBag)
+
+	// Rules
+	if schema.Rules != nil {
+		ruleList := make([]v20230101s.ManagementPolicyRule_STATUS, len(schema.Rules))
+		for ruleIndex, ruleItem := range schema.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			var rule v20230101s.ManagementPolicyRule_STATUS
+			err := ruleItem.AssignProperties_To_ManagementPolicyRule_STATUS(&rule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicyRule_STATUS() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		destination.Rules = ruleList
+	} else {
+		destination.Rules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicySchema_STATUS interface (if implemented) to customize the conversion
+	var schemaAsAny any = schema
+	if augmentedSchema, ok := schemaAsAny.(augmentConversionForManagementPolicySchema_STATUS); ok {
+		err := augmentedSchema.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForManagementPolicySchema interface {
+	AssignPropertiesFrom(src *v20230101s.ManagementPolicySchema) error
+	AssignPropertiesTo(dst *v20230101s.ManagementPolicySchema) error
+}
+
+type augmentConversionForManagementPolicySchema_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.ManagementPolicySchema_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.ManagementPolicySchema_STATUS) error
 }
 
 // Storage version of v1api20220901.ManagementPolicyRule
@@ -228,6 +773,108 @@ type ManagementPolicyRule struct {
 	Type        *string                     `json:"type,omitempty"`
 }
 
+// AssignProperties_From_ManagementPolicyRule populates our ManagementPolicyRule from the provided source ManagementPolicyRule
+func (rule *ManagementPolicyRule) AssignProperties_From_ManagementPolicyRule(source *v20230101s.ManagementPolicyRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Definition
+	if source.Definition != nil {
+		var definition ManagementPolicyDefinition
+		err := definition.AssignProperties_From_ManagementPolicyDefinition(source.Definition)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicyDefinition() to populate field Definition")
+		}
+		rule.Definition = &definition
+	} else {
+		rule.Definition = nil
+	}
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		rule.Enabled = &enabled
+	} else {
+		rule.Enabled = nil
+	}
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Type
+	rule.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForManagementPolicyRule); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagementPolicyRule populates the provided destination ManagementPolicyRule from our ManagementPolicyRule
+func (rule *ManagementPolicyRule) AssignProperties_To_ManagementPolicyRule(destination *v20230101s.ManagementPolicyRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// Definition
+	if rule.Definition != nil {
+		var definition v20230101s.ManagementPolicyDefinition
+		err := rule.Definition.AssignProperties_To_ManagementPolicyDefinition(&definition)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicyDefinition() to populate field Definition")
+		}
+		destination.Definition = &definition
+	} else {
+		destination.Definition = nil
+	}
+
+	// Enabled
+	if rule.Enabled != nil {
+		enabled := *rule.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(rule.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForManagementPolicyRule); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220901.ManagementPolicyRule_STATUS
 // An object that wraps the Lifecycle rule. Each rule is uniquely defined by name.
 type ManagementPolicyRule_STATUS struct {
@@ -238,6 +885,118 @@ type ManagementPolicyRule_STATUS struct {
 	Type        *string                            `json:"type,omitempty"`
 }
 
+// AssignProperties_From_ManagementPolicyRule_STATUS populates our ManagementPolicyRule_STATUS from the provided source ManagementPolicyRule_STATUS
+func (rule *ManagementPolicyRule_STATUS) AssignProperties_From_ManagementPolicyRule_STATUS(source *v20230101s.ManagementPolicyRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Definition
+	if source.Definition != nil {
+		var definition ManagementPolicyDefinition_STATUS
+		err := definition.AssignProperties_From_ManagementPolicyDefinition_STATUS(source.Definition)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicyDefinition_STATUS() to populate field Definition")
+		}
+		rule.Definition = &definition
+	} else {
+		rule.Definition = nil
+	}
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		rule.Enabled = &enabled
+	} else {
+		rule.Enabled = nil
+	}
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Type
+	rule.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForManagementPolicyRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagementPolicyRule_STATUS populates the provided destination ManagementPolicyRule_STATUS from our ManagementPolicyRule_STATUS
+func (rule *ManagementPolicyRule_STATUS) AssignProperties_To_ManagementPolicyRule_STATUS(destination *v20230101s.ManagementPolicyRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// Definition
+	if rule.Definition != nil {
+		var definition v20230101s.ManagementPolicyDefinition_STATUS
+		err := rule.Definition.AssignProperties_To_ManagementPolicyDefinition_STATUS(&definition)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicyDefinition_STATUS() to populate field Definition")
+		}
+		destination.Definition = &definition
+	} else {
+		destination.Definition = nil
+	}
+
+	// Enabled
+	if rule.Enabled != nil {
+		enabled := *rule.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(rule.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForManagementPolicyRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForManagementPolicyRule interface {
+	AssignPropertiesFrom(src *v20230101s.ManagementPolicyRule) error
+	AssignPropertiesTo(dst *v20230101s.ManagementPolicyRule) error
+}
+
+type augmentConversionForManagementPolicyRule_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.ManagementPolicyRule_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.ManagementPolicyRule_STATUS) error
+}
+
 // Storage version of v1api20220901.ManagementPolicyDefinition
 // An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
 type ManagementPolicyDefinition struct {
@@ -246,12 +1005,218 @@ type ManagementPolicyDefinition struct {
 	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_ManagementPolicyDefinition populates our ManagementPolicyDefinition from the provided source ManagementPolicyDefinition
+func (definition *ManagementPolicyDefinition) AssignProperties_From_ManagementPolicyDefinition(source *v20230101s.ManagementPolicyDefinition) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Actions
+	if source.Actions != nil {
+		var action ManagementPolicyAction
+		err := action.AssignProperties_From_ManagementPolicyAction(source.Actions)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicyAction() to populate field Actions")
+		}
+		definition.Actions = &action
+	} else {
+		definition.Actions = nil
+	}
+
+	// Filters
+	if source.Filters != nil {
+		var filter ManagementPolicyFilter
+		err := filter.AssignProperties_From_ManagementPolicyFilter(source.Filters)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicyFilter() to populate field Filters")
+		}
+		definition.Filters = &filter
+	} else {
+		definition.Filters = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		definition.PropertyBag = propertyBag
+	} else {
+		definition.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyDefinition interface (if implemented) to customize the conversion
+	var definitionAsAny any = definition
+	if augmentedDefinition, ok := definitionAsAny.(augmentConversionForManagementPolicyDefinition); ok {
+		err := augmentedDefinition.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagementPolicyDefinition populates the provided destination ManagementPolicyDefinition from our ManagementPolicyDefinition
+func (definition *ManagementPolicyDefinition) AssignProperties_To_ManagementPolicyDefinition(destination *v20230101s.ManagementPolicyDefinition) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(definition.PropertyBag)
+
+	// Actions
+	if definition.Actions != nil {
+		var action v20230101s.ManagementPolicyAction
+		err := definition.Actions.AssignProperties_To_ManagementPolicyAction(&action)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicyAction() to populate field Actions")
+		}
+		destination.Actions = &action
+	} else {
+		destination.Actions = nil
+	}
+
+	// Filters
+	if definition.Filters != nil {
+		var filter v20230101s.ManagementPolicyFilter
+		err := definition.Filters.AssignProperties_To_ManagementPolicyFilter(&filter)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicyFilter() to populate field Filters")
+		}
+		destination.Filters = &filter
+	} else {
+		destination.Filters = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyDefinition interface (if implemented) to customize the conversion
+	var definitionAsAny any = definition
+	if augmentedDefinition, ok := definitionAsAny.(augmentConversionForManagementPolicyDefinition); ok {
+		err := augmentedDefinition.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220901.ManagementPolicyDefinition_STATUS
 // An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
 type ManagementPolicyDefinition_STATUS struct {
 	Actions     *ManagementPolicyAction_STATUS `json:"actions,omitempty"`
 	Filters     *ManagementPolicyFilter_STATUS `json:"filters,omitempty"`
 	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_ManagementPolicyDefinition_STATUS populates our ManagementPolicyDefinition_STATUS from the provided source ManagementPolicyDefinition_STATUS
+func (definition *ManagementPolicyDefinition_STATUS) AssignProperties_From_ManagementPolicyDefinition_STATUS(source *v20230101s.ManagementPolicyDefinition_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Actions
+	if source.Actions != nil {
+		var action ManagementPolicyAction_STATUS
+		err := action.AssignProperties_From_ManagementPolicyAction_STATUS(source.Actions)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicyAction_STATUS() to populate field Actions")
+		}
+		definition.Actions = &action
+	} else {
+		definition.Actions = nil
+	}
+
+	// Filters
+	if source.Filters != nil {
+		var filter ManagementPolicyFilter_STATUS
+		err := filter.AssignProperties_From_ManagementPolicyFilter_STATUS(source.Filters)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicyFilter_STATUS() to populate field Filters")
+		}
+		definition.Filters = &filter
+	} else {
+		definition.Filters = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		definition.PropertyBag = propertyBag
+	} else {
+		definition.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyDefinition_STATUS interface (if implemented) to customize the conversion
+	var definitionAsAny any = definition
+	if augmentedDefinition, ok := definitionAsAny.(augmentConversionForManagementPolicyDefinition_STATUS); ok {
+		err := augmentedDefinition.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagementPolicyDefinition_STATUS populates the provided destination ManagementPolicyDefinition_STATUS from our ManagementPolicyDefinition_STATUS
+func (definition *ManagementPolicyDefinition_STATUS) AssignProperties_To_ManagementPolicyDefinition_STATUS(destination *v20230101s.ManagementPolicyDefinition_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(definition.PropertyBag)
+
+	// Actions
+	if definition.Actions != nil {
+		var action v20230101s.ManagementPolicyAction_STATUS
+		err := definition.Actions.AssignProperties_To_ManagementPolicyAction_STATUS(&action)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicyAction_STATUS() to populate field Actions")
+		}
+		destination.Actions = &action
+	} else {
+		destination.Actions = nil
+	}
+
+	// Filters
+	if definition.Filters != nil {
+		var filter v20230101s.ManagementPolicyFilter_STATUS
+		err := definition.Filters.AssignProperties_To_ManagementPolicyFilter_STATUS(&filter)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicyFilter_STATUS() to populate field Filters")
+		}
+		destination.Filters = &filter
+	} else {
+		destination.Filters = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyDefinition_STATUS interface (if implemented) to customize the conversion
+	var definitionAsAny any = definition
+	if augmentedDefinition, ok := definitionAsAny.(augmentConversionForManagementPolicyDefinition_STATUS); ok {
+		err := augmentedDefinition.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForManagementPolicyDefinition interface {
+	AssignPropertiesFrom(src *v20230101s.ManagementPolicyDefinition) error
+	AssignPropertiesTo(dst *v20230101s.ManagementPolicyDefinition) error
+}
+
+type augmentConversionForManagementPolicyDefinition_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.ManagementPolicyDefinition_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.ManagementPolicyDefinition_STATUS) error
 }
 
 // Storage version of v1api20220901.ManagementPolicyAction
@@ -263,6 +1228,128 @@ type ManagementPolicyAction struct {
 	Version     *ManagementPolicyVersion  `json:"version,omitempty"`
 }
 
+// AssignProperties_From_ManagementPolicyAction populates our ManagementPolicyAction from the provided source ManagementPolicyAction
+func (action *ManagementPolicyAction) AssignProperties_From_ManagementPolicyAction(source *v20230101s.ManagementPolicyAction) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BaseBlob
+	if source.BaseBlob != nil {
+		var baseBlob ManagementPolicyBaseBlob
+		err := baseBlob.AssignProperties_From_ManagementPolicyBaseBlob(source.BaseBlob)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicyBaseBlob() to populate field BaseBlob")
+		}
+		action.BaseBlob = &baseBlob
+	} else {
+		action.BaseBlob = nil
+	}
+
+	// Snapshot
+	if source.Snapshot != nil {
+		var snapshot ManagementPolicySnapShot
+		err := snapshot.AssignProperties_From_ManagementPolicySnapShot(source.Snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicySnapShot() to populate field Snapshot")
+		}
+		action.Snapshot = &snapshot
+	} else {
+		action.Snapshot = nil
+	}
+
+	// Version
+	if source.Version != nil {
+		var version ManagementPolicyVersion
+		err := version.AssignProperties_From_ManagementPolicyVersion(source.Version)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicyVersion() to populate field Version")
+		}
+		action.Version = &version
+	} else {
+		action.Version = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		action.PropertyBag = propertyBag
+	} else {
+		action.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyAction interface (if implemented) to customize the conversion
+	var actionAsAny any = action
+	if augmentedAction, ok := actionAsAny.(augmentConversionForManagementPolicyAction); ok {
+		err := augmentedAction.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagementPolicyAction populates the provided destination ManagementPolicyAction from our ManagementPolicyAction
+func (action *ManagementPolicyAction) AssignProperties_To_ManagementPolicyAction(destination *v20230101s.ManagementPolicyAction) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
+
+	// BaseBlob
+	if action.BaseBlob != nil {
+		var baseBlob v20230101s.ManagementPolicyBaseBlob
+		err := action.BaseBlob.AssignProperties_To_ManagementPolicyBaseBlob(&baseBlob)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicyBaseBlob() to populate field BaseBlob")
+		}
+		destination.BaseBlob = &baseBlob
+	} else {
+		destination.BaseBlob = nil
+	}
+
+	// Snapshot
+	if action.Snapshot != nil {
+		var snapshot v20230101s.ManagementPolicySnapShot
+		err := action.Snapshot.AssignProperties_To_ManagementPolicySnapShot(&snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicySnapShot() to populate field Snapshot")
+		}
+		destination.Snapshot = &snapshot
+	} else {
+		destination.Snapshot = nil
+	}
+
+	// Version
+	if action.Version != nil {
+		var version v20230101s.ManagementPolicyVersion
+		err := action.Version.AssignProperties_To_ManagementPolicyVersion(&version)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicyVersion() to populate field Version")
+		}
+		destination.Version = &version
+	} else {
+		destination.Version = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyAction interface (if implemented) to customize the conversion
+	var actionAsAny any = action
+	if augmentedAction, ok := actionAsAny.(augmentConversionForManagementPolicyAction); ok {
+		err := augmentedAction.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220901.ManagementPolicyAction_STATUS
 // Actions are applied to the filtered blobs when the execution condition is met.
 type ManagementPolicyAction_STATUS struct {
@@ -270,6 +1357,128 @@ type ManagementPolicyAction_STATUS struct {
 	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 	Snapshot    *ManagementPolicySnapShot_STATUS `json:"snapshot,omitempty"`
 	Version     *ManagementPolicyVersion_STATUS  `json:"version,omitempty"`
+}
+
+// AssignProperties_From_ManagementPolicyAction_STATUS populates our ManagementPolicyAction_STATUS from the provided source ManagementPolicyAction_STATUS
+func (action *ManagementPolicyAction_STATUS) AssignProperties_From_ManagementPolicyAction_STATUS(source *v20230101s.ManagementPolicyAction_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BaseBlob
+	if source.BaseBlob != nil {
+		var baseBlob ManagementPolicyBaseBlob_STATUS
+		err := baseBlob.AssignProperties_From_ManagementPolicyBaseBlob_STATUS(source.BaseBlob)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicyBaseBlob_STATUS() to populate field BaseBlob")
+		}
+		action.BaseBlob = &baseBlob
+	} else {
+		action.BaseBlob = nil
+	}
+
+	// Snapshot
+	if source.Snapshot != nil {
+		var snapshot ManagementPolicySnapShot_STATUS
+		err := snapshot.AssignProperties_From_ManagementPolicySnapShot_STATUS(source.Snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicySnapShot_STATUS() to populate field Snapshot")
+		}
+		action.Snapshot = &snapshot
+	} else {
+		action.Snapshot = nil
+	}
+
+	// Version
+	if source.Version != nil {
+		var version ManagementPolicyVersion_STATUS
+		err := version.AssignProperties_From_ManagementPolicyVersion_STATUS(source.Version)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicyVersion_STATUS() to populate field Version")
+		}
+		action.Version = &version
+	} else {
+		action.Version = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		action.PropertyBag = propertyBag
+	} else {
+		action.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyAction_STATUS interface (if implemented) to customize the conversion
+	var actionAsAny any = action
+	if augmentedAction, ok := actionAsAny.(augmentConversionForManagementPolicyAction_STATUS); ok {
+		err := augmentedAction.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagementPolicyAction_STATUS populates the provided destination ManagementPolicyAction_STATUS from our ManagementPolicyAction_STATUS
+func (action *ManagementPolicyAction_STATUS) AssignProperties_To_ManagementPolicyAction_STATUS(destination *v20230101s.ManagementPolicyAction_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
+
+	// BaseBlob
+	if action.BaseBlob != nil {
+		var baseBlob v20230101s.ManagementPolicyBaseBlob_STATUS
+		err := action.BaseBlob.AssignProperties_To_ManagementPolicyBaseBlob_STATUS(&baseBlob)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicyBaseBlob_STATUS() to populate field BaseBlob")
+		}
+		destination.BaseBlob = &baseBlob
+	} else {
+		destination.BaseBlob = nil
+	}
+
+	// Snapshot
+	if action.Snapshot != nil {
+		var snapshot v20230101s.ManagementPolicySnapShot_STATUS
+		err := action.Snapshot.AssignProperties_To_ManagementPolicySnapShot_STATUS(&snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicySnapShot_STATUS() to populate field Snapshot")
+		}
+		destination.Snapshot = &snapshot
+	} else {
+		destination.Snapshot = nil
+	}
+
+	// Version
+	if action.Version != nil {
+		var version v20230101s.ManagementPolicyVersion_STATUS
+		err := action.Version.AssignProperties_To_ManagementPolicyVersion_STATUS(&version)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicyVersion_STATUS() to populate field Version")
+		}
+		destination.Version = &version
+	} else {
+		destination.Version = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyAction_STATUS interface (if implemented) to customize the conversion
+	var actionAsAny any = action
+	if augmentedAction, ok := actionAsAny.(augmentConversionForManagementPolicyAction_STATUS); ok {
+		err := augmentedAction.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20220901.ManagementPolicyFilter
@@ -282,6 +1491,104 @@ type ManagementPolicyFilter struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_ManagementPolicyFilter populates our ManagementPolicyFilter from the provided source ManagementPolicyFilter
+func (filter *ManagementPolicyFilter) AssignProperties_From_ManagementPolicyFilter(source *v20230101s.ManagementPolicyFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BlobIndexMatch
+	if source.BlobIndexMatch != nil {
+		blobIndexMatchList := make([]TagFilter, len(source.BlobIndexMatch))
+		for blobIndexMatchIndex, blobIndexMatchItem := range source.BlobIndexMatch {
+			// Shadow the loop variable to avoid aliasing
+			blobIndexMatchItem := blobIndexMatchItem
+			var blobIndexMatch TagFilter
+			err := blobIndexMatch.AssignProperties_From_TagFilter(&blobIndexMatchItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_TagFilter() to populate field BlobIndexMatch")
+			}
+			blobIndexMatchList[blobIndexMatchIndex] = blobIndexMatch
+		}
+		filter.BlobIndexMatch = blobIndexMatchList
+	} else {
+		filter.BlobIndexMatch = nil
+	}
+
+	// BlobTypes
+	filter.BlobTypes = genruntime.CloneSliceOfString(source.BlobTypes)
+
+	// PrefixMatch
+	filter.PrefixMatch = genruntime.CloneSliceOfString(source.PrefixMatch)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForManagementPolicyFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagementPolicyFilter populates the provided destination ManagementPolicyFilter from our ManagementPolicyFilter
+func (filter *ManagementPolicyFilter) AssignProperties_To_ManagementPolicyFilter(destination *v20230101s.ManagementPolicyFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// BlobIndexMatch
+	if filter.BlobIndexMatch != nil {
+		blobIndexMatchList := make([]v20230101s.TagFilter, len(filter.BlobIndexMatch))
+		for blobIndexMatchIndex, blobIndexMatchItem := range filter.BlobIndexMatch {
+			// Shadow the loop variable to avoid aliasing
+			blobIndexMatchItem := blobIndexMatchItem
+			var blobIndexMatch v20230101s.TagFilter
+			err := blobIndexMatchItem.AssignProperties_To_TagFilter(&blobIndexMatch)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_TagFilter() to populate field BlobIndexMatch")
+			}
+			blobIndexMatchList[blobIndexMatchIndex] = blobIndexMatch
+		}
+		destination.BlobIndexMatch = blobIndexMatchList
+	} else {
+		destination.BlobIndexMatch = nil
+	}
+
+	// BlobTypes
+	destination.BlobTypes = genruntime.CloneSliceOfString(filter.BlobTypes)
+
+	// PrefixMatch
+	destination.PrefixMatch = genruntime.CloneSliceOfString(filter.PrefixMatch)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForManagementPolicyFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220901.ManagementPolicyFilter_STATUS
 // Filters limit rule actions to a subset of blobs within the storage account. If multiple filters are defined, a logical
 // AND is performed on all filters.
@@ -290,6 +1597,124 @@ type ManagementPolicyFilter_STATUS struct {
 	BlobTypes      []string               `json:"blobTypes,omitempty"`
 	PrefixMatch    []string               `json:"prefixMatch,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_ManagementPolicyFilter_STATUS populates our ManagementPolicyFilter_STATUS from the provided source ManagementPolicyFilter_STATUS
+func (filter *ManagementPolicyFilter_STATUS) AssignProperties_From_ManagementPolicyFilter_STATUS(source *v20230101s.ManagementPolicyFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BlobIndexMatch
+	if source.BlobIndexMatch != nil {
+		blobIndexMatchList := make([]TagFilter_STATUS, len(source.BlobIndexMatch))
+		for blobIndexMatchIndex, blobIndexMatchItem := range source.BlobIndexMatch {
+			// Shadow the loop variable to avoid aliasing
+			blobIndexMatchItem := blobIndexMatchItem
+			var blobIndexMatch TagFilter_STATUS
+			err := blobIndexMatch.AssignProperties_From_TagFilter_STATUS(&blobIndexMatchItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_TagFilter_STATUS() to populate field BlobIndexMatch")
+			}
+			blobIndexMatchList[blobIndexMatchIndex] = blobIndexMatch
+		}
+		filter.BlobIndexMatch = blobIndexMatchList
+	} else {
+		filter.BlobIndexMatch = nil
+	}
+
+	// BlobTypes
+	filter.BlobTypes = genruntime.CloneSliceOfString(source.BlobTypes)
+
+	// PrefixMatch
+	filter.PrefixMatch = genruntime.CloneSliceOfString(source.PrefixMatch)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForManagementPolicyFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagementPolicyFilter_STATUS populates the provided destination ManagementPolicyFilter_STATUS from our ManagementPolicyFilter_STATUS
+func (filter *ManagementPolicyFilter_STATUS) AssignProperties_To_ManagementPolicyFilter_STATUS(destination *v20230101s.ManagementPolicyFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// BlobIndexMatch
+	if filter.BlobIndexMatch != nil {
+		blobIndexMatchList := make([]v20230101s.TagFilter_STATUS, len(filter.BlobIndexMatch))
+		for blobIndexMatchIndex, blobIndexMatchItem := range filter.BlobIndexMatch {
+			// Shadow the loop variable to avoid aliasing
+			blobIndexMatchItem := blobIndexMatchItem
+			var blobIndexMatch v20230101s.TagFilter_STATUS
+			err := blobIndexMatchItem.AssignProperties_To_TagFilter_STATUS(&blobIndexMatch)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_TagFilter_STATUS() to populate field BlobIndexMatch")
+			}
+			blobIndexMatchList[blobIndexMatchIndex] = blobIndexMatch
+		}
+		destination.BlobIndexMatch = blobIndexMatchList
+	} else {
+		destination.BlobIndexMatch = nil
+	}
+
+	// BlobTypes
+	destination.BlobTypes = genruntime.CloneSliceOfString(filter.BlobTypes)
+
+	// PrefixMatch
+	destination.PrefixMatch = genruntime.CloneSliceOfString(filter.PrefixMatch)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForManagementPolicyFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForManagementPolicyAction interface {
+	AssignPropertiesFrom(src *v20230101s.ManagementPolicyAction) error
+	AssignPropertiesTo(dst *v20230101s.ManagementPolicyAction) error
+}
+
+type augmentConversionForManagementPolicyAction_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.ManagementPolicyAction_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.ManagementPolicyAction_STATUS) error
+}
+
+type augmentConversionForManagementPolicyFilter interface {
+	AssignPropertiesFrom(src *v20230101s.ManagementPolicyFilter) error
+	AssignPropertiesTo(dst *v20230101s.ManagementPolicyFilter) error
+}
+
+type augmentConversionForManagementPolicyFilter_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.ManagementPolicyFilter_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.ManagementPolicyFilter_STATUS) error
 }
 
 // Storage version of v1api20220901.ManagementPolicyBaseBlob
@@ -304,6 +1729,192 @@ type ManagementPolicyBaseBlob struct {
 	TierToHot                   *DateAfterModification `json:"tierToHot,omitempty"`
 }
 
+// AssignProperties_From_ManagementPolicyBaseBlob populates our ManagementPolicyBaseBlob from the provided source ManagementPolicyBaseBlob
+func (blob *ManagementPolicyBaseBlob) AssignProperties_From_ManagementPolicyBaseBlob(source *v20230101s.ManagementPolicyBaseBlob) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Delete
+	if source.Delete != nil {
+		var delete DateAfterModification
+		err := delete.AssignProperties_From_DateAfterModification(source.Delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterModification() to populate field Delete")
+		}
+		blob.Delete = &delete
+	} else {
+		blob.Delete = nil
+	}
+
+	// EnableAutoTierToHotFromCool
+	if source.EnableAutoTierToHotFromCool != nil {
+		enableAutoTierToHotFromCool := *source.EnableAutoTierToHotFromCool
+		blob.EnableAutoTierToHotFromCool = &enableAutoTierToHotFromCool
+	} else {
+		blob.EnableAutoTierToHotFromCool = nil
+	}
+
+	// TierToArchive
+	if source.TierToArchive != nil {
+		var tierToArchive DateAfterModification
+		err := tierToArchive.AssignProperties_From_DateAfterModification(source.TierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterModification() to populate field TierToArchive")
+		}
+		blob.TierToArchive = &tierToArchive
+	} else {
+		blob.TierToArchive = nil
+	}
+
+	// TierToCold
+	if source.TierToCold != nil {
+		var tierToCold DateAfterModification
+		err := tierToCold.AssignProperties_From_DateAfterModification(source.TierToCold)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterModification() to populate field TierToCold")
+		}
+		blob.TierToCold = &tierToCold
+	} else {
+		blob.TierToCold = nil
+	}
+
+	// TierToCool
+	if source.TierToCool != nil {
+		var tierToCool DateAfterModification
+		err := tierToCool.AssignProperties_From_DateAfterModification(source.TierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterModification() to populate field TierToCool")
+		}
+		blob.TierToCool = &tierToCool
+	} else {
+		blob.TierToCool = nil
+	}
+
+	// TierToHot
+	if source.TierToHot != nil {
+		var tierToHot DateAfterModification
+		err := tierToHot.AssignProperties_From_DateAfterModification(source.TierToHot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterModification() to populate field TierToHot")
+		}
+		blob.TierToHot = &tierToHot
+	} else {
+		blob.TierToHot = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		blob.PropertyBag = propertyBag
+	} else {
+		blob.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyBaseBlob interface (if implemented) to customize the conversion
+	var blobAsAny any = blob
+	if augmentedBlob, ok := blobAsAny.(augmentConversionForManagementPolicyBaseBlob); ok {
+		err := augmentedBlob.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagementPolicyBaseBlob populates the provided destination ManagementPolicyBaseBlob from our ManagementPolicyBaseBlob
+func (blob *ManagementPolicyBaseBlob) AssignProperties_To_ManagementPolicyBaseBlob(destination *v20230101s.ManagementPolicyBaseBlob) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(blob.PropertyBag)
+
+	// Delete
+	if blob.Delete != nil {
+		var delete v20230101s.DateAfterModification
+		err := blob.Delete.AssignProperties_To_DateAfterModification(&delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterModification() to populate field Delete")
+		}
+		destination.Delete = &delete
+	} else {
+		destination.Delete = nil
+	}
+
+	// EnableAutoTierToHotFromCool
+	if blob.EnableAutoTierToHotFromCool != nil {
+		enableAutoTierToHotFromCool := *blob.EnableAutoTierToHotFromCool
+		destination.EnableAutoTierToHotFromCool = &enableAutoTierToHotFromCool
+	} else {
+		destination.EnableAutoTierToHotFromCool = nil
+	}
+
+	// TierToArchive
+	if blob.TierToArchive != nil {
+		var tierToArchive v20230101s.DateAfterModification
+		err := blob.TierToArchive.AssignProperties_To_DateAfterModification(&tierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterModification() to populate field TierToArchive")
+		}
+		destination.TierToArchive = &tierToArchive
+	} else {
+		destination.TierToArchive = nil
+	}
+
+	// TierToCold
+	if blob.TierToCold != nil {
+		var tierToCold v20230101s.DateAfterModification
+		err := blob.TierToCold.AssignProperties_To_DateAfterModification(&tierToCold)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterModification() to populate field TierToCold")
+		}
+		destination.TierToCold = &tierToCold
+	} else {
+		destination.TierToCold = nil
+	}
+
+	// TierToCool
+	if blob.TierToCool != nil {
+		var tierToCool v20230101s.DateAfterModification
+		err := blob.TierToCool.AssignProperties_To_DateAfterModification(&tierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterModification() to populate field TierToCool")
+		}
+		destination.TierToCool = &tierToCool
+	} else {
+		destination.TierToCool = nil
+	}
+
+	// TierToHot
+	if blob.TierToHot != nil {
+		var tierToHot v20230101s.DateAfterModification
+		err := blob.TierToHot.AssignProperties_To_DateAfterModification(&tierToHot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterModification() to populate field TierToHot")
+		}
+		destination.TierToHot = &tierToHot
+	} else {
+		destination.TierToHot = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyBaseBlob interface (if implemented) to customize the conversion
+	var blobAsAny any = blob
+	if augmentedBlob, ok := blobAsAny.(augmentConversionForManagementPolicyBaseBlob); ok {
+		err := augmentedBlob.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220901.ManagementPolicyBaseBlob_STATUS
 // Management policy action for base blob.
 type ManagementPolicyBaseBlob_STATUS struct {
@@ -314,6 +1925,192 @@ type ManagementPolicyBaseBlob_STATUS struct {
 	TierToCold                  *DateAfterModification_STATUS `json:"tierToCold,omitempty"`
 	TierToCool                  *DateAfterModification_STATUS `json:"tierToCool,omitempty"`
 	TierToHot                   *DateAfterModification_STATUS `json:"tierToHot,omitempty"`
+}
+
+// AssignProperties_From_ManagementPolicyBaseBlob_STATUS populates our ManagementPolicyBaseBlob_STATUS from the provided source ManagementPolicyBaseBlob_STATUS
+func (blob *ManagementPolicyBaseBlob_STATUS) AssignProperties_From_ManagementPolicyBaseBlob_STATUS(source *v20230101s.ManagementPolicyBaseBlob_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Delete
+	if source.Delete != nil {
+		var delete DateAfterModification_STATUS
+		err := delete.AssignProperties_From_DateAfterModification_STATUS(source.Delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterModification_STATUS() to populate field Delete")
+		}
+		blob.Delete = &delete
+	} else {
+		blob.Delete = nil
+	}
+
+	// EnableAutoTierToHotFromCool
+	if source.EnableAutoTierToHotFromCool != nil {
+		enableAutoTierToHotFromCool := *source.EnableAutoTierToHotFromCool
+		blob.EnableAutoTierToHotFromCool = &enableAutoTierToHotFromCool
+	} else {
+		blob.EnableAutoTierToHotFromCool = nil
+	}
+
+	// TierToArchive
+	if source.TierToArchive != nil {
+		var tierToArchive DateAfterModification_STATUS
+		err := tierToArchive.AssignProperties_From_DateAfterModification_STATUS(source.TierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterModification_STATUS() to populate field TierToArchive")
+		}
+		blob.TierToArchive = &tierToArchive
+	} else {
+		blob.TierToArchive = nil
+	}
+
+	// TierToCold
+	if source.TierToCold != nil {
+		var tierToCold DateAfterModification_STATUS
+		err := tierToCold.AssignProperties_From_DateAfterModification_STATUS(source.TierToCold)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterModification_STATUS() to populate field TierToCold")
+		}
+		blob.TierToCold = &tierToCold
+	} else {
+		blob.TierToCold = nil
+	}
+
+	// TierToCool
+	if source.TierToCool != nil {
+		var tierToCool DateAfterModification_STATUS
+		err := tierToCool.AssignProperties_From_DateAfterModification_STATUS(source.TierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterModification_STATUS() to populate field TierToCool")
+		}
+		blob.TierToCool = &tierToCool
+	} else {
+		blob.TierToCool = nil
+	}
+
+	// TierToHot
+	if source.TierToHot != nil {
+		var tierToHot DateAfterModification_STATUS
+		err := tierToHot.AssignProperties_From_DateAfterModification_STATUS(source.TierToHot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterModification_STATUS() to populate field TierToHot")
+		}
+		blob.TierToHot = &tierToHot
+	} else {
+		blob.TierToHot = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		blob.PropertyBag = propertyBag
+	} else {
+		blob.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyBaseBlob_STATUS interface (if implemented) to customize the conversion
+	var blobAsAny any = blob
+	if augmentedBlob, ok := blobAsAny.(augmentConversionForManagementPolicyBaseBlob_STATUS); ok {
+		err := augmentedBlob.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagementPolicyBaseBlob_STATUS populates the provided destination ManagementPolicyBaseBlob_STATUS from our ManagementPolicyBaseBlob_STATUS
+func (blob *ManagementPolicyBaseBlob_STATUS) AssignProperties_To_ManagementPolicyBaseBlob_STATUS(destination *v20230101s.ManagementPolicyBaseBlob_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(blob.PropertyBag)
+
+	// Delete
+	if blob.Delete != nil {
+		var delete v20230101s.DateAfterModification_STATUS
+		err := blob.Delete.AssignProperties_To_DateAfterModification_STATUS(&delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterModification_STATUS() to populate field Delete")
+		}
+		destination.Delete = &delete
+	} else {
+		destination.Delete = nil
+	}
+
+	// EnableAutoTierToHotFromCool
+	if blob.EnableAutoTierToHotFromCool != nil {
+		enableAutoTierToHotFromCool := *blob.EnableAutoTierToHotFromCool
+		destination.EnableAutoTierToHotFromCool = &enableAutoTierToHotFromCool
+	} else {
+		destination.EnableAutoTierToHotFromCool = nil
+	}
+
+	// TierToArchive
+	if blob.TierToArchive != nil {
+		var tierToArchive v20230101s.DateAfterModification_STATUS
+		err := blob.TierToArchive.AssignProperties_To_DateAfterModification_STATUS(&tierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterModification_STATUS() to populate field TierToArchive")
+		}
+		destination.TierToArchive = &tierToArchive
+	} else {
+		destination.TierToArchive = nil
+	}
+
+	// TierToCold
+	if blob.TierToCold != nil {
+		var tierToCold v20230101s.DateAfterModification_STATUS
+		err := blob.TierToCold.AssignProperties_To_DateAfterModification_STATUS(&tierToCold)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterModification_STATUS() to populate field TierToCold")
+		}
+		destination.TierToCold = &tierToCold
+	} else {
+		destination.TierToCold = nil
+	}
+
+	// TierToCool
+	if blob.TierToCool != nil {
+		var tierToCool v20230101s.DateAfterModification_STATUS
+		err := blob.TierToCool.AssignProperties_To_DateAfterModification_STATUS(&tierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterModification_STATUS() to populate field TierToCool")
+		}
+		destination.TierToCool = &tierToCool
+	} else {
+		destination.TierToCool = nil
+	}
+
+	// TierToHot
+	if blob.TierToHot != nil {
+		var tierToHot v20230101s.DateAfterModification_STATUS
+		err := blob.TierToHot.AssignProperties_To_DateAfterModification_STATUS(&tierToHot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterModification_STATUS() to populate field TierToHot")
+		}
+		destination.TierToHot = &tierToHot
+	} else {
+		destination.TierToHot = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyBaseBlob_STATUS interface (if implemented) to customize the conversion
+	var blobAsAny any = blob
+	if augmentedBlob, ok := blobAsAny.(augmentConversionForManagementPolicyBaseBlob_STATUS); ok {
+		err := augmentedBlob.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20220901.ManagementPolicySnapShot
@@ -327,6 +2124,176 @@ type ManagementPolicySnapShot struct {
 	TierToHot     *DateAfterCreation     `json:"tierToHot,omitempty"`
 }
 
+// AssignProperties_From_ManagementPolicySnapShot populates our ManagementPolicySnapShot from the provided source ManagementPolicySnapShot
+func (shot *ManagementPolicySnapShot) AssignProperties_From_ManagementPolicySnapShot(source *v20230101s.ManagementPolicySnapShot) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Delete
+	if source.Delete != nil {
+		var delete DateAfterCreation
+		err := delete.AssignProperties_From_DateAfterCreation(source.Delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation() to populate field Delete")
+		}
+		shot.Delete = &delete
+	} else {
+		shot.Delete = nil
+	}
+
+	// TierToArchive
+	if source.TierToArchive != nil {
+		var tierToArchive DateAfterCreation
+		err := tierToArchive.AssignProperties_From_DateAfterCreation(source.TierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation() to populate field TierToArchive")
+		}
+		shot.TierToArchive = &tierToArchive
+	} else {
+		shot.TierToArchive = nil
+	}
+
+	// TierToCold
+	if source.TierToCold != nil {
+		var tierToCold DateAfterCreation
+		err := tierToCold.AssignProperties_From_DateAfterCreation(source.TierToCold)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation() to populate field TierToCold")
+		}
+		shot.TierToCold = &tierToCold
+	} else {
+		shot.TierToCold = nil
+	}
+
+	// TierToCool
+	if source.TierToCool != nil {
+		var tierToCool DateAfterCreation
+		err := tierToCool.AssignProperties_From_DateAfterCreation(source.TierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation() to populate field TierToCool")
+		}
+		shot.TierToCool = &tierToCool
+	} else {
+		shot.TierToCool = nil
+	}
+
+	// TierToHot
+	if source.TierToHot != nil {
+		var tierToHot DateAfterCreation
+		err := tierToHot.AssignProperties_From_DateAfterCreation(source.TierToHot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation() to populate field TierToHot")
+		}
+		shot.TierToHot = &tierToHot
+	} else {
+		shot.TierToHot = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		shot.PropertyBag = propertyBag
+	} else {
+		shot.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicySnapShot interface (if implemented) to customize the conversion
+	var shotAsAny any = shot
+	if augmentedShot, ok := shotAsAny.(augmentConversionForManagementPolicySnapShot); ok {
+		err := augmentedShot.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagementPolicySnapShot populates the provided destination ManagementPolicySnapShot from our ManagementPolicySnapShot
+func (shot *ManagementPolicySnapShot) AssignProperties_To_ManagementPolicySnapShot(destination *v20230101s.ManagementPolicySnapShot) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(shot.PropertyBag)
+
+	// Delete
+	if shot.Delete != nil {
+		var delete v20230101s.DateAfterCreation
+		err := shot.Delete.AssignProperties_To_DateAfterCreation(&delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation() to populate field Delete")
+		}
+		destination.Delete = &delete
+	} else {
+		destination.Delete = nil
+	}
+
+	// TierToArchive
+	if shot.TierToArchive != nil {
+		var tierToArchive v20230101s.DateAfterCreation
+		err := shot.TierToArchive.AssignProperties_To_DateAfterCreation(&tierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation() to populate field TierToArchive")
+		}
+		destination.TierToArchive = &tierToArchive
+	} else {
+		destination.TierToArchive = nil
+	}
+
+	// TierToCold
+	if shot.TierToCold != nil {
+		var tierToCold v20230101s.DateAfterCreation
+		err := shot.TierToCold.AssignProperties_To_DateAfterCreation(&tierToCold)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation() to populate field TierToCold")
+		}
+		destination.TierToCold = &tierToCold
+	} else {
+		destination.TierToCold = nil
+	}
+
+	// TierToCool
+	if shot.TierToCool != nil {
+		var tierToCool v20230101s.DateAfterCreation
+		err := shot.TierToCool.AssignProperties_To_DateAfterCreation(&tierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation() to populate field TierToCool")
+		}
+		destination.TierToCool = &tierToCool
+	} else {
+		destination.TierToCool = nil
+	}
+
+	// TierToHot
+	if shot.TierToHot != nil {
+		var tierToHot v20230101s.DateAfterCreation
+		err := shot.TierToHot.AssignProperties_To_DateAfterCreation(&tierToHot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation() to populate field TierToHot")
+		}
+		destination.TierToHot = &tierToHot
+	} else {
+		destination.TierToHot = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicySnapShot interface (if implemented) to customize the conversion
+	var shotAsAny any = shot
+	if augmentedShot, ok := shotAsAny.(augmentConversionForManagementPolicySnapShot); ok {
+		err := augmentedShot.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220901.ManagementPolicySnapShot_STATUS
 // Management policy action for snapshot.
 type ManagementPolicySnapShot_STATUS struct {
@@ -336,6 +2303,176 @@ type ManagementPolicySnapShot_STATUS struct {
 	TierToCold    *DateAfterCreation_STATUS `json:"tierToCold,omitempty"`
 	TierToCool    *DateAfterCreation_STATUS `json:"tierToCool,omitempty"`
 	TierToHot     *DateAfterCreation_STATUS `json:"tierToHot,omitempty"`
+}
+
+// AssignProperties_From_ManagementPolicySnapShot_STATUS populates our ManagementPolicySnapShot_STATUS from the provided source ManagementPolicySnapShot_STATUS
+func (shot *ManagementPolicySnapShot_STATUS) AssignProperties_From_ManagementPolicySnapShot_STATUS(source *v20230101s.ManagementPolicySnapShot_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Delete
+	if source.Delete != nil {
+		var delete DateAfterCreation_STATUS
+		err := delete.AssignProperties_From_DateAfterCreation_STATUS(source.Delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation_STATUS() to populate field Delete")
+		}
+		shot.Delete = &delete
+	} else {
+		shot.Delete = nil
+	}
+
+	// TierToArchive
+	if source.TierToArchive != nil {
+		var tierToArchive DateAfterCreation_STATUS
+		err := tierToArchive.AssignProperties_From_DateAfterCreation_STATUS(source.TierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation_STATUS() to populate field TierToArchive")
+		}
+		shot.TierToArchive = &tierToArchive
+	} else {
+		shot.TierToArchive = nil
+	}
+
+	// TierToCold
+	if source.TierToCold != nil {
+		var tierToCold DateAfterCreation_STATUS
+		err := tierToCold.AssignProperties_From_DateAfterCreation_STATUS(source.TierToCold)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation_STATUS() to populate field TierToCold")
+		}
+		shot.TierToCold = &tierToCold
+	} else {
+		shot.TierToCold = nil
+	}
+
+	// TierToCool
+	if source.TierToCool != nil {
+		var tierToCool DateAfterCreation_STATUS
+		err := tierToCool.AssignProperties_From_DateAfterCreation_STATUS(source.TierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation_STATUS() to populate field TierToCool")
+		}
+		shot.TierToCool = &tierToCool
+	} else {
+		shot.TierToCool = nil
+	}
+
+	// TierToHot
+	if source.TierToHot != nil {
+		var tierToHot DateAfterCreation_STATUS
+		err := tierToHot.AssignProperties_From_DateAfterCreation_STATUS(source.TierToHot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation_STATUS() to populate field TierToHot")
+		}
+		shot.TierToHot = &tierToHot
+	} else {
+		shot.TierToHot = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		shot.PropertyBag = propertyBag
+	} else {
+		shot.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicySnapShot_STATUS interface (if implemented) to customize the conversion
+	var shotAsAny any = shot
+	if augmentedShot, ok := shotAsAny.(augmentConversionForManagementPolicySnapShot_STATUS); ok {
+		err := augmentedShot.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagementPolicySnapShot_STATUS populates the provided destination ManagementPolicySnapShot_STATUS from our ManagementPolicySnapShot_STATUS
+func (shot *ManagementPolicySnapShot_STATUS) AssignProperties_To_ManagementPolicySnapShot_STATUS(destination *v20230101s.ManagementPolicySnapShot_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(shot.PropertyBag)
+
+	// Delete
+	if shot.Delete != nil {
+		var delete v20230101s.DateAfterCreation_STATUS
+		err := shot.Delete.AssignProperties_To_DateAfterCreation_STATUS(&delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation_STATUS() to populate field Delete")
+		}
+		destination.Delete = &delete
+	} else {
+		destination.Delete = nil
+	}
+
+	// TierToArchive
+	if shot.TierToArchive != nil {
+		var tierToArchive v20230101s.DateAfterCreation_STATUS
+		err := shot.TierToArchive.AssignProperties_To_DateAfterCreation_STATUS(&tierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation_STATUS() to populate field TierToArchive")
+		}
+		destination.TierToArchive = &tierToArchive
+	} else {
+		destination.TierToArchive = nil
+	}
+
+	// TierToCold
+	if shot.TierToCold != nil {
+		var tierToCold v20230101s.DateAfterCreation_STATUS
+		err := shot.TierToCold.AssignProperties_To_DateAfterCreation_STATUS(&tierToCold)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation_STATUS() to populate field TierToCold")
+		}
+		destination.TierToCold = &tierToCold
+	} else {
+		destination.TierToCold = nil
+	}
+
+	// TierToCool
+	if shot.TierToCool != nil {
+		var tierToCool v20230101s.DateAfterCreation_STATUS
+		err := shot.TierToCool.AssignProperties_To_DateAfterCreation_STATUS(&tierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation_STATUS() to populate field TierToCool")
+		}
+		destination.TierToCool = &tierToCool
+	} else {
+		destination.TierToCool = nil
+	}
+
+	// TierToHot
+	if shot.TierToHot != nil {
+		var tierToHot v20230101s.DateAfterCreation_STATUS
+		err := shot.TierToHot.AssignProperties_To_DateAfterCreation_STATUS(&tierToHot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation_STATUS() to populate field TierToHot")
+		}
+		destination.TierToHot = &tierToHot
+	} else {
+		destination.TierToHot = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicySnapShot_STATUS interface (if implemented) to customize the conversion
+	var shotAsAny any = shot
+	if augmentedShot, ok := shotAsAny.(augmentConversionForManagementPolicySnapShot_STATUS); ok {
+		err := augmentedShot.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20220901.ManagementPolicyVersion
@@ -349,6 +2486,176 @@ type ManagementPolicyVersion struct {
 	TierToHot     *DateAfterCreation     `json:"tierToHot,omitempty"`
 }
 
+// AssignProperties_From_ManagementPolicyVersion populates our ManagementPolicyVersion from the provided source ManagementPolicyVersion
+func (version *ManagementPolicyVersion) AssignProperties_From_ManagementPolicyVersion(source *v20230101s.ManagementPolicyVersion) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Delete
+	if source.Delete != nil {
+		var delete DateAfterCreation
+		err := delete.AssignProperties_From_DateAfterCreation(source.Delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation() to populate field Delete")
+		}
+		version.Delete = &delete
+	} else {
+		version.Delete = nil
+	}
+
+	// TierToArchive
+	if source.TierToArchive != nil {
+		var tierToArchive DateAfterCreation
+		err := tierToArchive.AssignProperties_From_DateAfterCreation(source.TierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation() to populate field TierToArchive")
+		}
+		version.TierToArchive = &tierToArchive
+	} else {
+		version.TierToArchive = nil
+	}
+
+	// TierToCold
+	if source.TierToCold != nil {
+		var tierToCold DateAfterCreation
+		err := tierToCold.AssignProperties_From_DateAfterCreation(source.TierToCold)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation() to populate field TierToCold")
+		}
+		version.TierToCold = &tierToCold
+	} else {
+		version.TierToCold = nil
+	}
+
+	// TierToCool
+	if source.TierToCool != nil {
+		var tierToCool DateAfterCreation
+		err := tierToCool.AssignProperties_From_DateAfterCreation(source.TierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation() to populate field TierToCool")
+		}
+		version.TierToCool = &tierToCool
+	} else {
+		version.TierToCool = nil
+	}
+
+	// TierToHot
+	if source.TierToHot != nil {
+		var tierToHot DateAfterCreation
+		err := tierToHot.AssignProperties_From_DateAfterCreation(source.TierToHot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation() to populate field TierToHot")
+		}
+		version.TierToHot = &tierToHot
+	} else {
+		version.TierToHot = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		version.PropertyBag = propertyBag
+	} else {
+		version.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyVersion interface (if implemented) to customize the conversion
+	var versionAsAny any = version
+	if augmentedVersion, ok := versionAsAny.(augmentConversionForManagementPolicyVersion); ok {
+		err := augmentedVersion.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagementPolicyVersion populates the provided destination ManagementPolicyVersion from our ManagementPolicyVersion
+func (version *ManagementPolicyVersion) AssignProperties_To_ManagementPolicyVersion(destination *v20230101s.ManagementPolicyVersion) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(version.PropertyBag)
+
+	// Delete
+	if version.Delete != nil {
+		var delete v20230101s.DateAfterCreation
+		err := version.Delete.AssignProperties_To_DateAfterCreation(&delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation() to populate field Delete")
+		}
+		destination.Delete = &delete
+	} else {
+		destination.Delete = nil
+	}
+
+	// TierToArchive
+	if version.TierToArchive != nil {
+		var tierToArchive v20230101s.DateAfterCreation
+		err := version.TierToArchive.AssignProperties_To_DateAfterCreation(&tierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation() to populate field TierToArchive")
+		}
+		destination.TierToArchive = &tierToArchive
+	} else {
+		destination.TierToArchive = nil
+	}
+
+	// TierToCold
+	if version.TierToCold != nil {
+		var tierToCold v20230101s.DateAfterCreation
+		err := version.TierToCold.AssignProperties_To_DateAfterCreation(&tierToCold)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation() to populate field TierToCold")
+		}
+		destination.TierToCold = &tierToCold
+	} else {
+		destination.TierToCold = nil
+	}
+
+	// TierToCool
+	if version.TierToCool != nil {
+		var tierToCool v20230101s.DateAfterCreation
+		err := version.TierToCool.AssignProperties_To_DateAfterCreation(&tierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation() to populate field TierToCool")
+		}
+		destination.TierToCool = &tierToCool
+	} else {
+		destination.TierToCool = nil
+	}
+
+	// TierToHot
+	if version.TierToHot != nil {
+		var tierToHot v20230101s.DateAfterCreation
+		err := version.TierToHot.AssignProperties_To_DateAfterCreation(&tierToHot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation() to populate field TierToHot")
+		}
+		destination.TierToHot = &tierToHot
+	} else {
+		destination.TierToHot = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyVersion interface (if implemented) to customize the conversion
+	var versionAsAny any = version
+	if augmentedVersion, ok := versionAsAny.(augmentConversionForManagementPolicyVersion); ok {
+		err := augmentedVersion.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220901.ManagementPolicyVersion_STATUS
 // Management policy action for blob version.
 type ManagementPolicyVersion_STATUS struct {
@@ -360,6 +2667,176 @@ type ManagementPolicyVersion_STATUS struct {
 	TierToHot     *DateAfterCreation_STATUS `json:"tierToHot,omitempty"`
 }
 
+// AssignProperties_From_ManagementPolicyVersion_STATUS populates our ManagementPolicyVersion_STATUS from the provided source ManagementPolicyVersion_STATUS
+func (version *ManagementPolicyVersion_STATUS) AssignProperties_From_ManagementPolicyVersion_STATUS(source *v20230101s.ManagementPolicyVersion_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Delete
+	if source.Delete != nil {
+		var delete DateAfterCreation_STATUS
+		err := delete.AssignProperties_From_DateAfterCreation_STATUS(source.Delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation_STATUS() to populate field Delete")
+		}
+		version.Delete = &delete
+	} else {
+		version.Delete = nil
+	}
+
+	// TierToArchive
+	if source.TierToArchive != nil {
+		var tierToArchive DateAfterCreation_STATUS
+		err := tierToArchive.AssignProperties_From_DateAfterCreation_STATUS(source.TierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation_STATUS() to populate field TierToArchive")
+		}
+		version.TierToArchive = &tierToArchive
+	} else {
+		version.TierToArchive = nil
+	}
+
+	// TierToCold
+	if source.TierToCold != nil {
+		var tierToCold DateAfterCreation_STATUS
+		err := tierToCold.AssignProperties_From_DateAfterCreation_STATUS(source.TierToCold)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation_STATUS() to populate field TierToCold")
+		}
+		version.TierToCold = &tierToCold
+	} else {
+		version.TierToCold = nil
+	}
+
+	// TierToCool
+	if source.TierToCool != nil {
+		var tierToCool DateAfterCreation_STATUS
+		err := tierToCool.AssignProperties_From_DateAfterCreation_STATUS(source.TierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation_STATUS() to populate field TierToCool")
+		}
+		version.TierToCool = &tierToCool
+	} else {
+		version.TierToCool = nil
+	}
+
+	// TierToHot
+	if source.TierToHot != nil {
+		var tierToHot DateAfterCreation_STATUS
+		err := tierToHot.AssignProperties_From_DateAfterCreation_STATUS(source.TierToHot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DateAfterCreation_STATUS() to populate field TierToHot")
+		}
+		version.TierToHot = &tierToHot
+	} else {
+		version.TierToHot = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		version.PropertyBag = propertyBag
+	} else {
+		version.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyVersion_STATUS interface (if implemented) to customize the conversion
+	var versionAsAny any = version
+	if augmentedVersion, ok := versionAsAny.(augmentConversionForManagementPolicyVersion_STATUS); ok {
+		err := augmentedVersion.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagementPolicyVersion_STATUS populates the provided destination ManagementPolicyVersion_STATUS from our ManagementPolicyVersion_STATUS
+func (version *ManagementPolicyVersion_STATUS) AssignProperties_To_ManagementPolicyVersion_STATUS(destination *v20230101s.ManagementPolicyVersion_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(version.PropertyBag)
+
+	// Delete
+	if version.Delete != nil {
+		var delete v20230101s.DateAfterCreation_STATUS
+		err := version.Delete.AssignProperties_To_DateAfterCreation_STATUS(&delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation_STATUS() to populate field Delete")
+		}
+		destination.Delete = &delete
+	} else {
+		destination.Delete = nil
+	}
+
+	// TierToArchive
+	if version.TierToArchive != nil {
+		var tierToArchive v20230101s.DateAfterCreation_STATUS
+		err := version.TierToArchive.AssignProperties_To_DateAfterCreation_STATUS(&tierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation_STATUS() to populate field TierToArchive")
+		}
+		destination.TierToArchive = &tierToArchive
+	} else {
+		destination.TierToArchive = nil
+	}
+
+	// TierToCold
+	if version.TierToCold != nil {
+		var tierToCold v20230101s.DateAfterCreation_STATUS
+		err := version.TierToCold.AssignProperties_To_DateAfterCreation_STATUS(&tierToCold)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation_STATUS() to populate field TierToCold")
+		}
+		destination.TierToCold = &tierToCold
+	} else {
+		destination.TierToCold = nil
+	}
+
+	// TierToCool
+	if version.TierToCool != nil {
+		var tierToCool v20230101s.DateAfterCreation_STATUS
+		err := version.TierToCool.AssignProperties_To_DateAfterCreation_STATUS(&tierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation_STATUS() to populate field TierToCool")
+		}
+		destination.TierToCool = &tierToCool
+	} else {
+		destination.TierToCool = nil
+	}
+
+	// TierToHot
+	if version.TierToHot != nil {
+		var tierToHot v20230101s.DateAfterCreation_STATUS
+		err := version.TierToHot.AssignProperties_To_DateAfterCreation_STATUS(&tierToHot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DateAfterCreation_STATUS() to populate field TierToHot")
+		}
+		destination.TierToHot = &tierToHot
+	} else {
+		destination.TierToHot = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagementPolicyVersion_STATUS interface (if implemented) to customize the conversion
+	var versionAsAny any = version
+	if augmentedVersion, ok := versionAsAny.(augmentConversionForManagementPolicyVersion_STATUS); ok {
+		err := augmentedVersion.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220901.TagFilter
 // Blob index tag based filtering for blob objects
 type TagFilter struct {
@@ -367,6 +2844,74 @@ type TagFilter struct {
 	Op          *string                `json:"op,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Value       *string                `json:"value,omitempty"`
+}
+
+// AssignProperties_From_TagFilter populates our TagFilter from the provided source TagFilter
+func (filter *TagFilter) AssignProperties_From_TagFilter(source *v20230101s.TagFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	filter.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Op
+	filter.Op = genruntime.ClonePointerToString(source.Op)
+
+	// Value
+	filter.Value = genruntime.ClonePointerToString(source.Value)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTagFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForTagFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TagFilter populates the provided destination TagFilter from our TagFilter
+func (filter *TagFilter) AssignProperties_To_TagFilter(destination *v20230101s.TagFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(filter.Name)
+
+	// Op
+	destination.Op = genruntime.ClonePointerToString(filter.Op)
+
+	// Value
+	destination.Value = genruntime.ClonePointerToString(filter.Value)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTagFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForTagFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20220901.TagFilter_STATUS
@@ -378,6 +2923,114 @@ type TagFilter_STATUS struct {
 	Value       *string                `json:"value,omitempty"`
 }
 
+// AssignProperties_From_TagFilter_STATUS populates our TagFilter_STATUS from the provided source TagFilter_STATUS
+func (filter *TagFilter_STATUS) AssignProperties_From_TagFilter_STATUS(source *v20230101s.TagFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	filter.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Op
+	filter.Op = genruntime.ClonePointerToString(source.Op)
+
+	// Value
+	filter.Value = genruntime.ClonePointerToString(source.Value)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTagFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForTagFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TagFilter_STATUS populates the provided destination TagFilter_STATUS from our TagFilter_STATUS
+func (filter *TagFilter_STATUS) AssignProperties_To_TagFilter_STATUS(destination *v20230101s.TagFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(filter.Name)
+
+	// Op
+	destination.Op = genruntime.ClonePointerToString(filter.Op)
+
+	// Value
+	destination.Value = genruntime.ClonePointerToString(filter.Value)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTagFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForTagFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForManagementPolicyBaseBlob interface {
+	AssignPropertiesFrom(src *v20230101s.ManagementPolicyBaseBlob) error
+	AssignPropertiesTo(dst *v20230101s.ManagementPolicyBaseBlob) error
+}
+
+type augmentConversionForManagementPolicyBaseBlob_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.ManagementPolicyBaseBlob_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.ManagementPolicyBaseBlob_STATUS) error
+}
+
+type augmentConversionForManagementPolicySnapShot interface {
+	AssignPropertiesFrom(src *v20230101s.ManagementPolicySnapShot) error
+	AssignPropertiesTo(dst *v20230101s.ManagementPolicySnapShot) error
+}
+
+type augmentConversionForManagementPolicySnapShot_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.ManagementPolicySnapShot_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.ManagementPolicySnapShot_STATUS) error
+}
+
+type augmentConversionForManagementPolicyVersion interface {
+	AssignPropertiesFrom(src *v20230101s.ManagementPolicyVersion) error
+	AssignPropertiesTo(dst *v20230101s.ManagementPolicyVersion) error
+}
+
+type augmentConversionForManagementPolicyVersion_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.ManagementPolicyVersion_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.ManagementPolicyVersion_STATUS) error
+}
+
+type augmentConversionForTagFilter interface {
+	AssignPropertiesFrom(src *v20230101s.TagFilter) error
+	AssignPropertiesTo(dst *v20230101s.TagFilter) error
+}
+
+type augmentConversionForTagFilter_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.TagFilter_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.TagFilter_STATUS) error
+}
+
 // Storage version of v1api20220901.DateAfterCreation
 // Object to define snapshot and version action conditions.
 type DateAfterCreation struct {
@@ -386,12 +3039,156 @@ type DateAfterCreation struct {
 	PropertyBag                        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_DateAfterCreation populates our DateAfterCreation from the provided source DateAfterCreation
+func (creation *DateAfterCreation) AssignProperties_From_DateAfterCreation(source *v20230101s.DateAfterCreation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DaysAfterCreationGreaterThan
+	creation.DaysAfterCreationGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterCreationGreaterThan)
+
+	// DaysAfterLastTierChangeGreaterThan
+	creation.DaysAfterLastTierChangeGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterLastTierChangeGreaterThan)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		creation.PropertyBag = propertyBag
+	} else {
+		creation.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDateAfterCreation interface (if implemented) to customize the conversion
+	var creationAsAny any = creation
+	if augmentedCreation, ok := creationAsAny.(augmentConversionForDateAfterCreation); ok {
+		err := augmentedCreation.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DateAfterCreation populates the provided destination DateAfterCreation from our DateAfterCreation
+func (creation *DateAfterCreation) AssignProperties_To_DateAfterCreation(destination *v20230101s.DateAfterCreation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(creation.PropertyBag)
+
+	// DaysAfterCreationGreaterThan
+	destination.DaysAfterCreationGreaterThan = genruntime.ClonePointerToInt(creation.DaysAfterCreationGreaterThan)
+
+	// DaysAfterLastTierChangeGreaterThan
+	destination.DaysAfterLastTierChangeGreaterThan = genruntime.ClonePointerToInt(creation.DaysAfterLastTierChangeGreaterThan)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDateAfterCreation interface (if implemented) to customize the conversion
+	var creationAsAny any = creation
+	if augmentedCreation, ok := creationAsAny.(augmentConversionForDateAfterCreation); ok {
+		err := augmentedCreation.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220901.DateAfterCreation_STATUS
 // Object to define snapshot and version action conditions.
 type DateAfterCreation_STATUS struct {
 	DaysAfterCreationGreaterThan       *float64               `json:"daysAfterCreationGreaterThan,omitempty"`
 	DaysAfterLastTierChangeGreaterThan *float64               `json:"daysAfterLastTierChangeGreaterThan,omitempty"`
 	PropertyBag                        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_DateAfterCreation_STATUS populates our DateAfterCreation_STATUS from the provided source DateAfterCreation_STATUS
+func (creation *DateAfterCreation_STATUS) AssignProperties_From_DateAfterCreation_STATUS(source *v20230101s.DateAfterCreation_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DaysAfterCreationGreaterThan
+	if source.DaysAfterCreationGreaterThan != nil {
+		daysAfterCreationGreaterThan := *source.DaysAfterCreationGreaterThan
+		creation.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
+	} else {
+		creation.DaysAfterCreationGreaterThan = nil
+	}
+
+	// DaysAfterLastTierChangeGreaterThan
+	if source.DaysAfterLastTierChangeGreaterThan != nil {
+		daysAfterLastTierChangeGreaterThan := *source.DaysAfterLastTierChangeGreaterThan
+		creation.DaysAfterLastTierChangeGreaterThan = &daysAfterLastTierChangeGreaterThan
+	} else {
+		creation.DaysAfterLastTierChangeGreaterThan = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		creation.PropertyBag = propertyBag
+	} else {
+		creation.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDateAfterCreation_STATUS interface (if implemented) to customize the conversion
+	var creationAsAny any = creation
+	if augmentedCreation, ok := creationAsAny.(augmentConversionForDateAfterCreation_STATUS); ok {
+		err := augmentedCreation.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DateAfterCreation_STATUS populates the provided destination DateAfterCreation_STATUS from our DateAfterCreation_STATUS
+func (creation *DateAfterCreation_STATUS) AssignProperties_To_DateAfterCreation_STATUS(destination *v20230101s.DateAfterCreation_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(creation.PropertyBag)
+
+	// DaysAfterCreationGreaterThan
+	if creation.DaysAfterCreationGreaterThan != nil {
+		daysAfterCreationGreaterThan := *creation.DaysAfterCreationGreaterThan
+		destination.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
+	} else {
+		destination.DaysAfterCreationGreaterThan = nil
+	}
+
+	// DaysAfterLastTierChangeGreaterThan
+	if creation.DaysAfterLastTierChangeGreaterThan != nil {
+		daysAfterLastTierChangeGreaterThan := *creation.DaysAfterLastTierChangeGreaterThan
+		destination.DaysAfterLastTierChangeGreaterThan = &daysAfterLastTierChangeGreaterThan
+	} else {
+		destination.DaysAfterLastTierChangeGreaterThan = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDateAfterCreation_STATUS interface (if implemented) to customize the conversion
+	var creationAsAny any = creation
+	if augmentedCreation, ok := creationAsAny.(augmentConversionForDateAfterCreation_STATUS); ok {
+		err := augmentedCreation.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20220901.DateAfterModification
@@ -408,6 +3205,80 @@ type DateAfterModification struct {
 	PropertyBag                        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_DateAfterModification populates our DateAfterModification from the provided source DateAfterModification
+func (modification *DateAfterModification) AssignProperties_From_DateAfterModification(source *v20230101s.DateAfterModification) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DaysAfterCreationGreaterThan
+	modification.DaysAfterCreationGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterCreationGreaterThan)
+
+	// DaysAfterLastAccessTimeGreaterThan
+	modification.DaysAfterLastAccessTimeGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterLastAccessTimeGreaterThan)
+
+	// DaysAfterLastTierChangeGreaterThan
+	modification.DaysAfterLastTierChangeGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterLastTierChangeGreaterThan)
+
+	// DaysAfterModificationGreaterThan
+	modification.DaysAfterModificationGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterModificationGreaterThan)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		modification.PropertyBag = propertyBag
+	} else {
+		modification.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDateAfterModification interface (if implemented) to customize the conversion
+	var modificationAsAny any = modification
+	if augmentedModification, ok := modificationAsAny.(augmentConversionForDateAfterModification); ok {
+		err := augmentedModification.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DateAfterModification populates the provided destination DateAfterModification from our DateAfterModification
+func (modification *DateAfterModification) AssignProperties_To_DateAfterModification(destination *v20230101s.DateAfterModification) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(modification.PropertyBag)
+
+	// DaysAfterCreationGreaterThan
+	destination.DaysAfterCreationGreaterThan = genruntime.ClonePointerToInt(modification.DaysAfterCreationGreaterThan)
+
+	// DaysAfterLastAccessTimeGreaterThan
+	destination.DaysAfterLastAccessTimeGreaterThan = genruntime.ClonePointerToInt(modification.DaysAfterLastAccessTimeGreaterThan)
+
+	// DaysAfterLastTierChangeGreaterThan
+	destination.DaysAfterLastTierChangeGreaterThan = genruntime.ClonePointerToInt(modification.DaysAfterLastTierChangeGreaterThan)
+
+	// DaysAfterModificationGreaterThan
+	destination.DaysAfterModificationGreaterThan = genruntime.ClonePointerToInt(modification.DaysAfterModificationGreaterThan)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDateAfterModification interface (if implemented) to customize the conversion
+	var modificationAsAny any = modification
+	if augmentedModification, ok := modificationAsAny.(augmentConversionForDateAfterModification); ok {
+		err := augmentedModification.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220901.DateAfterModification_STATUS
 // Object to define the base blob action conditions. Properties daysAfterModificationGreaterThan,
 // daysAfterLastAccessTimeGreaterThan and daysAfterCreationGreaterThan are mutually exclusive. The
@@ -420,6 +3291,140 @@ type DateAfterModification_STATUS struct {
 	DaysAfterLastTierChangeGreaterThan *float64               `json:"daysAfterLastTierChangeGreaterThan,omitempty"`
 	DaysAfterModificationGreaterThan   *float64               `json:"daysAfterModificationGreaterThan,omitempty"`
 	PropertyBag                        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_DateAfterModification_STATUS populates our DateAfterModification_STATUS from the provided source DateAfterModification_STATUS
+func (modification *DateAfterModification_STATUS) AssignProperties_From_DateAfterModification_STATUS(source *v20230101s.DateAfterModification_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DaysAfterCreationGreaterThan
+	if source.DaysAfterCreationGreaterThan != nil {
+		daysAfterCreationGreaterThan := *source.DaysAfterCreationGreaterThan
+		modification.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
+	} else {
+		modification.DaysAfterCreationGreaterThan = nil
+	}
+
+	// DaysAfterLastAccessTimeGreaterThan
+	if source.DaysAfterLastAccessTimeGreaterThan != nil {
+		daysAfterLastAccessTimeGreaterThan := *source.DaysAfterLastAccessTimeGreaterThan
+		modification.DaysAfterLastAccessTimeGreaterThan = &daysAfterLastAccessTimeGreaterThan
+	} else {
+		modification.DaysAfterLastAccessTimeGreaterThan = nil
+	}
+
+	// DaysAfterLastTierChangeGreaterThan
+	if source.DaysAfterLastTierChangeGreaterThan != nil {
+		daysAfterLastTierChangeGreaterThan := *source.DaysAfterLastTierChangeGreaterThan
+		modification.DaysAfterLastTierChangeGreaterThan = &daysAfterLastTierChangeGreaterThan
+	} else {
+		modification.DaysAfterLastTierChangeGreaterThan = nil
+	}
+
+	// DaysAfterModificationGreaterThan
+	if source.DaysAfterModificationGreaterThan != nil {
+		daysAfterModificationGreaterThan := *source.DaysAfterModificationGreaterThan
+		modification.DaysAfterModificationGreaterThan = &daysAfterModificationGreaterThan
+	} else {
+		modification.DaysAfterModificationGreaterThan = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		modification.PropertyBag = propertyBag
+	} else {
+		modification.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDateAfterModification_STATUS interface (if implemented) to customize the conversion
+	var modificationAsAny any = modification
+	if augmentedModification, ok := modificationAsAny.(augmentConversionForDateAfterModification_STATUS); ok {
+		err := augmentedModification.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DateAfterModification_STATUS populates the provided destination DateAfterModification_STATUS from our DateAfterModification_STATUS
+func (modification *DateAfterModification_STATUS) AssignProperties_To_DateAfterModification_STATUS(destination *v20230101s.DateAfterModification_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(modification.PropertyBag)
+
+	// DaysAfterCreationGreaterThan
+	if modification.DaysAfterCreationGreaterThan != nil {
+		daysAfterCreationGreaterThan := *modification.DaysAfterCreationGreaterThan
+		destination.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
+	} else {
+		destination.DaysAfterCreationGreaterThan = nil
+	}
+
+	// DaysAfterLastAccessTimeGreaterThan
+	if modification.DaysAfterLastAccessTimeGreaterThan != nil {
+		daysAfterLastAccessTimeGreaterThan := *modification.DaysAfterLastAccessTimeGreaterThan
+		destination.DaysAfterLastAccessTimeGreaterThan = &daysAfterLastAccessTimeGreaterThan
+	} else {
+		destination.DaysAfterLastAccessTimeGreaterThan = nil
+	}
+
+	// DaysAfterLastTierChangeGreaterThan
+	if modification.DaysAfterLastTierChangeGreaterThan != nil {
+		daysAfterLastTierChangeGreaterThan := *modification.DaysAfterLastTierChangeGreaterThan
+		destination.DaysAfterLastTierChangeGreaterThan = &daysAfterLastTierChangeGreaterThan
+	} else {
+		destination.DaysAfterLastTierChangeGreaterThan = nil
+	}
+
+	// DaysAfterModificationGreaterThan
+	if modification.DaysAfterModificationGreaterThan != nil {
+		daysAfterModificationGreaterThan := *modification.DaysAfterModificationGreaterThan
+		destination.DaysAfterModificationGreaterThan = &daysAfterModificationGreaterThan
+	} else {
+		destination.DaysAfterModificationGreaterThan = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDateAfterModification_STATUS interface (if implemented) to customize the conversion
+	var modificationAsAny any = modification
+	if augmentedModification, ok := modificationAsAny.(augmentConversionForDateAfterModification_STATUS); ok {
+		err := augmentedModification.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForDateAfterCreation interface {
+	AssignPropertiesFrom(src *v20230101s.DateAfterCreation) error
+	AssignPropertiesTo(dst *v20230101s.DateAfterCreation) error
+}
+
+type augmentConversionForDateAfterCreation_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.DateAfterCreation_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.DateAfterCreation_STATUS) error
+}
+
+type augmentConversionForDateAfterModification interface {
+	AssignPropertiesFrom(src *v20230101s.DateAfterModification) error
+	AssignPropertiesTo(dst *v20230101s.DateAfterModification) error
+}
+
+type augmentConversionForDateAfterModification_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.DateAfterModification_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.DateAfterModification_STATUS) error
 }
 
 func init() {

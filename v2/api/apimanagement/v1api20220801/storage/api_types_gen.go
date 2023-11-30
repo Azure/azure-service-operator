@@ -156,9 +156,6 @@ type Service_Api_Spec struct {
 	ApiVersionSetReference *genruntime.ResourceReference   `armReference:"ApiVersionSetId" json:"apiVersionSetReference,omitempty"`
 	AuthenticationSettings *AuthenticationSettingsContract `json:"authenticationSettings,omitempty"`
 
-	// +kubebuilder:validation:MaxLength=256
-	// +kubebuilder:validation:MinLength=1
-	// +kubebuilder:validation:Pattern="^[^*#&+:<>?]+$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string                 `json:"azureName,omitempty"`

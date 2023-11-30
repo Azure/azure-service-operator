@@ -24,9 +24,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage
 │   │   │   ├── DefaultSharePermission: *string
 │   │   │   ├── DirectoryServiceOptions: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: MaxLength: 24
-│   │   │   └── Rule 1: MinLength: 3
+│   │   ├── AzureName: string
 │   │   ├── CustomDomain: *Object (3 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -458,9 +456,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage
 ├── StorageAccountsBlobServicesContainer: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901.StorageAccountsBlobService
 │   ├── Spec: Object (11 properties)
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: MaxLength: 63
-│   │   │   └── Rule 1: MinLength: 3
+│   │   ├── AzureName: string
 │   │   ├── DefaultEncryptionScope: *string
 │   │   ├── DenyEncryptionScopeOverride: *bool
 │   │   ├── EnableNfsV3AllSquash: *bool
@@ -602,9 +598,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901.StorageAccountsFileService
 │   ├── Spec: Object (10 properties)
 │   │   ├── AccessTier: *string
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: MaxLength: 63
-│   │   │   └── Rule 1: MinLength: 3
+│   │   ├── AzureName: string
 │   │   ├── EnabledProtocols: *string
 │   │   ├── Metadata: map[string]string
 │   │   ├── OriginalVersion: string
@@ -892,9 +886,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage
 ├── StorageAccountsQueueServicesQueue: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901.StorageAccountsQueueService
 │   ├── Spec: Object (5 properties)
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: MaxLength: 63
-│   │   │   └── Rule 1: MinLength: 3
+│   │   ├── AzureName: string
 │   │   ├── Metadata: map[string]string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -937,36 +929,173 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage
 │       ├── Name: *string
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
-└── StorageAccountsTableServicesTable: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901.StorageAccountsTableService
-    ├── Spec: Object (5 properties)
-    │   ├── AzureName: Validated<string> (3 rules)
-    │   │   ├── Rule 0: MaxLength: 63
-    │   │   ├── Rule 1: MinLength: 3
-    │   │   └── Rule 2: Pattern: "^[A-Za-z][A-Za-z0-9]{2,62}$"
-    │   ├── OriginalVersion: string
-    │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── SignedIdentifiers: Object (3 properties)[]
-    │       ├── AccessPolicy: *Object (4 properties)
-    │       │   ├── ExpiryTime: *string
-    │       │   ├── Permission: *string
-    │       │   ├── PropertyBag: genruntime.PropertyBag
-    │       │   └── StartTime: *string
-    │       ├── PropertyBag: genruntime.PropertyBag
-    │       └── Reference: *genruntime.ResourceReference
-    └── Status: Object (7 properties)
-        ├── Conditions: conditions.Condition[]
-        ├── Id: *string
-        ├── Name: *string
-        ├── PropertyBag: genruntime.PropertyBag
-        ├── SignedIdentifiers: Object (3 properties)[]
-        │   ├── AccessPolicy: *Object (4 properties)
-        │   │   ├── ExpiryTime: *string
-        │   │   ├── Permission: *string
-        │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   └── StartTime: *string
-        │   ├── Id: *string
-        │   └── PropertyBag: genruntime.PropertyBag
-        ├── TableName: *string
-        └── Type: *string
+├── StorageAccountsTableServicesTable: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901.StorageAccountsTableService
+│   ├── Spec: Object (5 properties)
+│   │   ├── AzureName: string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SignedIdentifiers: Object (3 properties)[]
+│   │       ├── AccessPolicy: *Object (4 properties)
+│   │       │   ├── ExpiryTime: *string
+│   │       │   ├── Permission: *string
+│   │       │   ├── PropertyBag: genruntime.PropertyBag
+│   │       │   └── StartTime: *string
+│   │       ├── PropertyBag: genruntime.PropertyBag
+│   │       └── Reference: *genruntime.ResourceReference
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── SignedIdentifiers: Object (3 properties)[]
+│       │   ├── AccessPolicy: *Object (4 properties)
+│       │   │   ├── ExpiryTime: *string
+│       │   │   ├── Permission: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── StartTime: *string
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── TableName: *string
+│       └── Type: *string
+├── augmentConversionForAccessPolicy: Interface
+├── augmentConversionForAccessPolicy_STATUS: Interface
+├── augmentConversionForAccountImmutabilityPolicyProperties: Interface
+├── augmentConversionForAccountImmutabilityPolicyProperties_STATUS: Interface
+├── augmentConversionForActiveDirectoryProperties: Interface
+├── augmentConversionForActiveDirectoryProperties_STATUS: Interface
+├── augmentConversionForAzureFilesIdentityBasedAuthentication: Interface
+├── augmentConversionForAzureFilesIdentityBasedAuthentication_STATUS: Interface
+├── augmentConversionForBlobRestoreParameters_STATUS: Interface
+├── augmentConversionForBlobRestoreRange_STATUS: Interface
+├── augmentConversionForBlobRestoreStatus_STATUS: Interface
+├── augmentConversionForChangeFeed: Interface
+├── augmentConversionForChangeFeed_STATUS: Interface
+├── augmentConversionForCorsRule: Interface
+├── augmentConversionForCorsRule_STATUS: Interface
+├── augmentConversionForCorsRules: Interface
+├── augmentConversionForCorsRules_STATUS: Interface
+├── augmentConversionForCustomDomain: Interface
+├── augmentConversionForCustomDomain_STATUS: Interface
+├── augmentConversionForDateAfterCreation: Interface
+├── augmentConversionForDateAfterCreation_STATUS: Interface
+├── augmentConversionForDateAfterModification: Interface
+├── augmentConversionForDateAfterModification_STATUS: Interface
+├── augmentConversionForDeleteRetentionPolicy: Interface
+├── augmentConversionForDeleteRetentionPolicy_STATUS: Interface
+├── augmentConversionForEncryption: Interface
+├── augmentConversionForEncryptionIdentity: Interface
+├── augmentConversionForEncryptionIdentity_STATUS: Interface
+├── augmentConversionForEncryptionService: Interface
+├── augmentConversionForEncryptionService_STATUS: Interface
+├── augmentConversionForEncryptionServices: Interface
+├── augmentConversionForEncryptionServices_STATUS: Interface
+├── augmentConversionForEncryption_STATUS: Interface
+├── augmentConversionForEndpoints_STATUS: Interface
+├── augmentConversionForExtendedLocation: Interface
+├── augmentConversionForExtendedLocation_STATUS: Interface
+├── augmentConversionForGeoReplicationStats_STATUS: Interface
+├── augmentConversionForIPRule: Interface
+├── augmentConversionForIPRule_STATUS: Interface
+├── augmentConversionForIdentity: Interface
+├── augmentConversionForIdentity_STATUS: Interface
+├── augmentConversionForImmutabilityPolicyProperties_STATUS: Interface
+├── augmentConversionForImmutableStorageAccount: Interface
+├── augmentConversionForImmutableStorageAccount_STATUS: Interface
+├── augmentConversionForImmutableStorageWithVersioning: Interface
+├── augmentConversionForImmutableStorageWithVersioning_STATUS: Interface
+├── augmentConversionForKeyCreationTime_STATUS: Interface
+├── augmentConversionForKeyPolicy: Interface
+├── augmentConversionForKeyPolicy_STATUS: Interface
+├── augmentConversionForKeyVaultProperties: Interface
+├── augmentConversionForKeyVaultProperties_STATUS: Interface
+├── augmentConversionForLastAccessTimeTrackingPolicy: Interface
+├── augmentConversionForLastAccessTimeTrackingPolicy_STATUS: Interface
+├── augmentConversionForLegalHoldProperties_STATUS: Interface
+├── augmentConversionForManagementPolicyAction: Interface
+├── augmentConversionForManagementPolicyAction_STATUS: Interface
+├── augmentConversionForManagementPolicyBaseBlob: Interface
+├── augmentConversionForManagementPolicyBaseBlob_STATUS: Interface
+├── augmentConversionForManagementPolicyDefinition: Interface
+├── augmentConversionForManagementPolicyDefinition_STATUS: Interface
+├── augmentConversionForManagementPolicyFilter: Interface
+├── augmentConversionForManagementPolicyFilter_STATUS: Interface
+├── augmentConversionForManagementPolicyRule: Interface
+├── augmentConversionForManagementPolicyRule_STATUS: Interface
+├── augmentConversionForManagementPolicySchema: Interface
+├── augmentConversionForManagementPolicySchema_STATUS: Interface
+├── augmentConversionForManagementPolicySnapShot: Interface
+├── augmentConversionForManagementPolicySnapShot_STATUS: Interface
+├── augmentConversionForManagementPolicyVersion: Interface
+├── augmentConversionForManagementPolicyVersion_STATUS: Interface
+├── augmentConversionForMultichannel: Interface
+├── augmentConversionForMultichannel_STATUS: Interface
+├── augmentConversionForNetworkRuleSet: Interface
+├── augmentConversionForNetworkRuleSet_STATUS: Interface
+├── augmentConversionForPrivateEndpointConnection_STATUS: Interface
+├── augmentConversionForProtectedAppendWritesHistory_STATUS: Interface
+├── augmentConversionForProtocolSettings: Interface
+├── augmentConversionForProtocolSettings_STATUS: Interface
+├── augmentConversionForResourceAccessRule: Interface
+├── augmentConversionForResourceAccessRule_STATUS: Interface
+├── augmentConversionForRestorePolicyProperties: Interface
+├── augmentConversionForRestorePolicyProperties_STATUS: Interface
+├── augmentConversionForRoutingPreference: Interface
+├── augmentConversionForRoutingPreference_STATUS: Interface
+├── augmentConversionForSasPolicy: Interface
+├── augmentConversionForSasPolicy_STATUS: Interface
+├── augmentConversionForSignedIdentifier: Interface
+├── augmentConversionForSignedIdentifier_STATUS: Interface
+├── augmentConversionForSku: Interface
+├── augmentConversionForSku_STATUS: Interface
+├── augmentConversionForSmbSetting: Interface
+├── augmentConversionForSmbSetting_STATUS: Interface
+├── augmentConversionForStorageAccount: Interface
+├── augmentConversionForStorageAccountInternetEndpoints_STATUS: Interface
+├── augmentConversionForStorageAccountMicrosoftEndpoints_STATUS: Interface
+├── augmentConversionForStorageAccountOperatorConfigMaps: Interface
+├── augmentConversionForStorageAccountOperatorSecrets: Interface
+├── augmentConversionForStorageAccountOperatorSpec: Interface
+├── augmentConversionForStorageAccountSkuConversionStatus_STATUS: Interface
+├── augmentConversionForStorageAccount_STATUS: Interface
+├── augmentConversionForStorageAccount_Spec: Interface
+├── augmentConversionForStorageAccountsBlobService: Interface
+├── augmentConversionForStorageAccountsBlobServicesContainer: Interface
+├── augmentConversionForStorageAccountsFileService: Interface
+├── augmentConversionForStorageAccountsFileServicesShare: Interface
+├── augmentConversionForStorageAccountsManagementPolicy: Interface
+├── augmentConversionForStorageAccountsQueueService: Interface
+├── augmentConversionForStorageAccountsQueueServicesQueue: Interface
+├── augmentConversionForStorageAccountsTableService: Interface
+├── augmentConversionForStorageAccountsTableServicesTable: Interface
+├── augmentConversionForStorageAccounts_BlobService_STATUS: Interface
+├── augmentConversionForStorageAccounts_BlobService_Spec: Interface
+├── augmentConversionForStorageAccounts_BlobServices_Container_STATUS: Interface
+├── augmentConversionForStorageAccounts_BlobServices_Container_Spec: Interface
+├── augmentConversionForStorageAccounts_FileService_STATUS: Interface
+├── augmentConversionForStorageAccounts_FileService_Spec: Interface
+├── augmentConversionForStorageAccounts_FileServices_Share_STATUS: Interface
+├── augmentConversionForStorageAccounts_FileServices_Share_Spec: Interface
+├── augmentConversionForStorageAccounts_ManagementPolicy_STATUS: Interface
+├── augmentConversionForStorageAccounts_ManagementPolicy_Spec: Interface
+├── augmentConversionForStorageAccounts_QueueService_STATUS: Interface
+├── augmentConversionForStorageAccounts_QueueService_Spec: Interface
+├── augmentConversionForStorageAccounts_QueueServices_Queue_STATUS: Interface
+├── augmentConversionForStorageAccounts_QueueServices_Queue_Spec: Interface
+├── augmentConversionForStorageAccounts_TableService_STATUS: Interface
+├── augmentConversionForStorageAccounts_TableService_Spec: Interface
+├── augmentConversionForStorageAccounts_TableServices_Table_STATUS: Interface
+├── augmentConversionForStorageAccounts_TableServices_Table_Spec: Interface
+├── augmentConversionForTableAccessPolicy: Interface
+├── augmentConversionForTableAccessPolicy_STATUS: Interface
+├── augmentConversionForTableSignedIdentifier: Interface
+├── augmentConversionForTableSignedIdentifier_STATUS: Interface
+├── augmentConversionForTagFilter: Interface
+├── augmentConversionForTagFilter_STATUS: Interface
+├── augmentConversionForTagProperty_STATUS: Interface
+├── augmentConversionForUpdateHistoryProperty_STATUS: Interface
+├── augmentConversionForUserAssignedIdentityDetails: Interface
+├── augmentConversionForUserAssignedIdentity_STATUS: Interface
+├── augmentConversionForVirtualNetworkRule: Interface
+└── augmentConversionForVirtualNetworkRule_STATUS: Interface

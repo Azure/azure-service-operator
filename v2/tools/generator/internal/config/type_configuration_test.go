@@ -77,10 +77,10 @@ func TestTypeConfiguration_TypeRename_WhenRenameConfigured_ReturnsExpectedResult
 	typeConfig := NewTypeConfiguration("Person")
 	typeConfig.NameInNextVersion.Set("Address")
 
-	name, err := typeConfig.NameInNextVersion.Lookup()
+	name, ok := typeConfig.NameInNextVersion.Lookup()
 
 	g.Expect(name).To(Equal("Address"))
-	g.Expect(err).To(Succeed())
+	g.Expect(ok).To(BeTrue())
 }
 
 func TestTypeConfiguration_TypeRename_WhenRenameNotConfigured_ReturnsExpectedResult(t *testing.T) {
@@ -88,11 +88,9 @@ func TestTypeConfiguration_TypeRename_WhenRenameNotConfigured_ReturnsExpectedRes
 	g := NewGomegaWithT(t)
 	typeConfig := NewTypeConfiguration("Person")
 
-	name, err := typeConfig.NameInNextVersion.Lookup()
+	name, ok := typeConfig.NameInNextVersion.Lookup()
 	g.Expect(name).To(Equal(""))
-	g.Expect(err).NotTo(Succeed())
-	g.Expect(err.Error()).To(ContainSubstring(typeConfig.name))
-	g.Expect(err.Error()).To(ContainSubstring(nameInNextVersionTag))
+	g.Expect(ok).To(BeFalse())
 }
 
 func TestTypeConfiguration_VerifyTypeRenameConsumed_WhenRenameUsed_ReturnsNoError(t *testing.T) {
@@ -102,8 +100,8 @@ func TestTypeConfiguration_VerifyTypeRenameConsumed_WhenRenameUsed_ReturnsNoErro
 	typeConfig := NewTypeConfiguration("Person")
 	typeConfig.NameInNextVersion.Set("Party")
 
-	_, err := typeConfig.NameInNextVersion.Lookup()
-	g.Expect(err).To(Succeed())
+	_, ok := typeConfig.NameInNextVersion.Lookup()
+	g.Expect(ok).To(BeTrue())
 	g.Expect(typeConfig.NameInNextVersion.VerifyConsumed()).To(Succeed())
 }
 
@@ -129,10 +127,10 @@ func TestTypeConfiguration_LookupSupportedFrom_WhenConfigured_ReturnsExpectedRes
 	typeConfig := NewTypeConfiguration("Person")
 	typeConfig.SupportedFrom.Set("beta.0")
 
-	from, err := typeConfig.SupportedFrom.Lookup()
+	from, ok := typeConfig.SupportedFrom.Lookup()
 
 	g.Expect(from).To(Equal("beta.0"))
-	g.Expect(err).To(Succeed())
+	g.Expect(ok).To(BeTrue())
 }
 
 func TestTypeConfiguration_LookupSupportedFrom_WhenNotConfigured_ReturnsExpectedError(t *testing.T) {
@@ -140,11 +138,9 @@ func TestTypeConfiguration_LookupSupportedFrom_WhenNotConfigured_ReturnsExpected
 	g := NewGomegaWithT(t)
 	typeConfig := NewTypeConfiguration("Person")
 
-	name, err := typeConfig.SupportedFrom.Lookup()
+	name, ok := typeConfig.SupportedFrom.Lookup()
 	g.Expect(name).To(Equal(""))
-	g.Expect(err).NotTo(Succeed())
-	g.Expect(err.Error()).To(ContainSubstring(typeConfig.name))
-	g.Expect(err.Error()).To(ContainSubstring(supportedFromTag))
+	g.Expect(ok).To(BeFalse())
 }
 
 func TestTypeConfiguration_VerifySupportedFromConsumed_WhenConsumed_ReturnsNoError(t *testing.T) {
@@ -154,8 +150,8 @@ func TestTypeConfiguration_VerifySupportedFromConsumed_WhenConsumed_ReturnsNoErr
 	typeConfig := NewTypeConfiguration("Person")
 	typeConfig.SupportedFrom.Set("beta.0")
 
-	_, err := typeConfig.SupportedFrom.Lookup()
-	g.Expect(err).To(Succeed())
+	_, ok := typeConfig.SupportedFrom.Lookup()
+	g.Expect(ok).To(BeTrue())
 	g.Expect(typeConfig.SupportedFrom.VerifyConsumed()).To(Succeed())
 }
 

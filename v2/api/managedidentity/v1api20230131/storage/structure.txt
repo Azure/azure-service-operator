@@ -6,8 +6,7 @@ github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131/sto
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131.UserAssignedIdentity
 │   ├── Spec: Object (9 properties)
 │   │   ├── Audiences: string[]
-│   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: Pattern: "^[a-zA-Z0-9]{1}[a-zA-Z0-9-_]{2,119}$"
+│   │   ├── AzureName: string
 │   │   ├── Issuer: *string
 │   │   ├── IssuerFromConfig: *genruntime.ConfigMapReference
 │   │   ├── OriginalVersion: string

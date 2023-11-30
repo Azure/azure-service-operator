@@ -140,9 +140,6 @@ type TrustedAccessRoleBindingList struct {
 
 // Storage version of v1api20230202preview.ManagedClusters_TrustedAccessRoleBinding_Spec
 type ManagedClusters_TrustedAccessRoleBinding_Spec struct {
-	// +kubebuilder:validation:MaxLength=24
-	// +kubebuilder:validation:MinLength=1
-	// +kubebuilder:validation:Pattern="^([A-Za-z0-9-])+$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string `json:"azureName,omitempty"`

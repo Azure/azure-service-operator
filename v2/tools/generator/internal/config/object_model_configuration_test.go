@@ -62,8 +62,8 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult
 			})).
 		To(Succeed())
 
-	nextName, err := omc.TypeNameInNextVersion.Lookup(typeName)
-	g.Expect(err).To(Succeed())
+	nextName, ok := omc.TypeNameInNextVersion.Lookup(typeName)
+	g.Expect(ok).To(BeTrue())
 	g.Expect(nextName).To(Equal("Party"))
 }
 
@@ -83,11 +83,9 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedErr
 		To(Succeed())
 
 	otherName := astmodel.MakeInternalTypeName(test.Pkg2020, "Location")
-	nextName, err := omc.TypeNameInNextVersion.Lookup(otherName)
-
-	g.Expect(err).NotTo(Succeed())
+	nextName, ok := omc.TypeNameInNextVersion.Lookup(otherName)
+	g.Expect(ok).To(BeFalse())
 	g.Expect(nextName).To(Equal(""))
-	g.Expect(err.Error()).To(ContainSubstring(typeName.Name()))
 }
 
 func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUsed_ReturnsEmptySlice(t *testing.T) {
@@ -105,8 +103,8 @@ func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUsed_Retur
 			})).
 		To(Succeed())
 
-	_, err := omc.TypeNameInNextVersion.Lookup(typeName)
-	g.Expect(err).To(Succeed())
+	_, ok := omc.TypeNameInNextVersion.Lookup(typeName)
+	g.Expect(ok).To(BeTrue())
 	g.Expect(omc.TypeNameInNextVersion.VerifyConsumed()).To(Succeed())
 }
 
@@ -148,8 +146,8 @@ func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsEx
 			})).
 		To(Succeed())
 
-	isReference, err := omc.ARMReference.Lookup(typeName, "Spouse")
-	g.Expect(err).To(BeNil())
+	isReference, ok := omc.ARMReference.Lookup(typeName, "Spouse")
+	g.Expect(ok).To(BeTrue())
 	g.Expect(isReference).To(BeTrue())
 }
 
@@ -169,8 +167,8 @@ func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_Returns
 			})).
 		To(Succeed())
 
-	isReference, err := omc.ARMReference.Lookup(typeName, "FullName")
-	g.Expect(err).To(BeNil())
+	isReference, ok := omc.ARMReference.Lookup(typeName, "FullName")
+	g.Expect(ok).To(BeTrue())
 	g.Expect(isReference).To(BeFalse())
 }
 
@@ -190,9 +188,8 @@ func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpec
 			})).
 		To(Succeed())
 
-	_, err := omc.ARMReference.Lookup(typeName, "KnownAs")
-	g.Expect(err).NotTo(Succeed())
-	g.Expect(err.Error()).To(ContainSubstring("KnownAs"))
+	_, ok := omc.ARMReference.Lookup(typeName, "KnownAs")
+	g.Expect(ok).To(BeFalse())
 }
 
 func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceUsed_ReturnsNil(t *testing.T) {
@@ -211,9 +208,9 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceUsed_
 			})).
 		To(Succeed())
 
-	ref, err := omc.ARMReference.Lookup(typeName, "Spouse")
+	ref, ok := omc.ARMReference.Lookup(typeName, "Spouse")
+	g.Expect(ok).To(BeTrue())
 	g.Expect(ref).To(BeTrue())
-	g.Expect(err).To(Succeed())
 	g.Expect(omc.ARMReference.VerifyConsumed()).To(Succeed())
 }
 
@@ -258,14 +255,14 @@ func TestObjectModelConfiguration_LookupExportAs_AfterConsumption_CanLookupUsing
 		To(Succeed())
 
 	// Lookup the new name for the type
-	exportAs, err := omc.ExportAs.Lookup(typeName)
-	g.Expect(err).To(BeNil())
+	exportAs, ok := omc.ExportAs.Lookup(typeName)
+	g.Expect(ok).To(BeTrue())
 
 	// Lookup the name in next version using the new name of the type
 	omc.AddTypeAlias(typeName, exportAs)
 	newTypeName := typeName.WithName(exportAs)
-	nextName, err := omc.TypeNameInNextVersion.Lookup(newTypeName)
-	g.Expect(err).To(BeNil())
+	nextName, ok := omc.TypeNameInNextVersion.Lookup(newTypeName)
+	g.Expect(ok).To(BeTrue())
 	g.Expect(nextName).To(Equal("Party"))
 }
 
@@ -491,8 +488,8 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenConfigured_ReturnsExpe
 			})).
 		To(Succeed())
 
-	supportedFrom, err := omc.SupportedFrom.Lookup(name)
-	g.Expect(err).To(Succeed())
+	supportedFrom, ok := omc.SupportedFrom.Lookup(name)
+	g.Expect(ok).To(BeTrue())
 	g.Expect(supportedFrom).To(Equal("beta.5"))
 }
 
@@ -511,8 +508,8 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenNotConfigured_ReturnsE
 			})).
 		To(Succeed())
 
-	_, err := omc.SupportedFrom.Lookup(name)
-	g.Expect(err).NotTo(Succeed())
+	_, ok := omc.SupportedFrom.Lookup(name)
+	g.Expect(ok).To(BeFalse())
 }
 
 func TestObjectModelConfiguration_LookupSupportedFrom_WhenConsumed_ReturnsNoError(t *testing.T) {
@@ -530,10 +527,10 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenConsumed_ReturnsNoErro
 			})).
 		To(Succeed())
 
-	_, err := omc.SupportedFrom.Lookup(name)
-	g.Expect(err).To(Succeed())
+	_, ok := omc.SupportedFrom.Lookup(name)
+	g.Expect(ok).To(BeTrue())
 
-	err = omc.SupportedFrom.VerifyConsumed()
+	err := omc.SupportedFrom.VerifyConsumed()
 	g.Expect(err).To(Succeed())
 }
 
@@ -575,8 +572,8 @@ func TestObjectModelConfiguration_LookupPayloadType_WhenConfigured_ReturnsExpect
 			})).
 		To(Succeed())
 
-	payloadType, err := omc.PayloadType.Lookup(name.InternalPackageReference())
-	g.Expect(err).To(Succeed())
+	payloadType, ok := omc.PayloadType.Lookup(name.InternalPackageReference())
+	g.Expect(ok).To(BeTrue())
 	g.Expect(payloadType).To(Equal(ExplicitProperties))
 }
 
@@ -595,8 +592,8 @@ func TestObjectModelConfiguration_LookupPayloadType_WhenNotConfigured_ReturnsExp
 			})).
 		To(Succeed())
 
-	_, err := omc.PayloadType.Lookup(name.InternalPackageReference())
-	g.Expect(err).NotTo(Succeed())
+	_, ok := omc.PayloadType.Lookup(name.InternalPackageReference())
+	g.Expect(ok).To(BeFalse())
 }
 
 func TestObjectModelConfiguration_VerifyPayloadTypeConsumed_WhenConsumed_ReturnsNoError(t *testing.T) {
@@ -614,10 +611,10 @@ func TestObjectModelConfiguration_VerifyPayloadTypeConsumed_WhenConsumed_Returns
 			})).
 		To(Succeed())
 
-	_, err := omc.PayloadType.Lookup(name.InternalPackageReference())
-	g.Expect(err).To(Succeed())
+	_, ok := omc.PayloadType.Lookup(name.InternalPackageReference())
+	g.Expect(ok).To(BeTrue())
 
-	err = omc.PayloadType.VerifyConsumed()
+	err := omc.PayloadType.VerifyConsumed()
 	g.Expect(err).To(Succeed())
 }
 

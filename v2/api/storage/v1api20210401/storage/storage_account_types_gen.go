@@ -5,7 +5,6 @@ package storage
 
 import (
 	"context"
-	"fmt"
 	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -52,22 +51,36 @@ var _ conversion.Convertible = &StorageAccount{}
 
 // ConvertFrom populates our StorageAccount from the provided hub StorageAccount
 func (account *StorageAccount) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220901s.StorageAccount)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20220901/storage/StorageAccount but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20220901s.StorageAccount
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return account.AssignProperties_From_StorageAccount(source)
+	err = account.AssignProperties_From_StorageAccount(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to account")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccount from our StorageAccount
 func (account *StorageAccount) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220901s.StorageAccount)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20220901/storage/StorageAccount but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20220901s.StorageAccount
+	err := account.AssignProperties_To_StorageAccount(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from account")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return account.AssignProperties_To_StorageAccount(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesExporter = &StorageAccount{}
@@ -304,8 +317,6 @@ type StorageAccount_Spec struct {
 	AllowSharedKeyAccess                  *bool                                  `json:"allowSharedKeyAccess,omitempty"`
 	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication `json:"azureFilesIdentityBasedAuthentication,omitempty"`
 
-	// +kubebuilder:validation:MaxLength=24
-	// +kubebuilder:validation:MinLength=3
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName            string                      `json:"azureName,omitempty"`

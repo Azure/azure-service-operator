@@ -137,7 +137,14 @@ func (p *PropertyConverter) preserveKubernetesResourceStorageProperties(
 	prop *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
 
 	if astmodel.IsKubernetesResourceProperty(prop.PropertyName()) {
-		// Keep these unchanged
+		// Keep these (mostly) unchanged
+		if vt, ok := prop.PropertyType().(*astmodel.ValidatedType); ok {
+			stripped, err := p.stripAllValidations(&p.visitor, vt, nil)
+			if err != nil {
+				return nil, err
+			}
+			prop = prop.WithType(stripped)
+		}
 		return prop, nil
 	}
 

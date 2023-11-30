@@ -131,10 +131,7 @@ func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
 			continue
 		}
 
-		convContext, err := c.createConversionContext(name)
-		if err != nil {
-			return nil, err
-		}
+		convContext := c.createConversionContext(name)
 
 		armDef, err := c.createARMTypeDefinition(def, convContext)
 		if err != nil {
@@ -155,10 +152,7 @@ func (c *armTypeCreator) createARMResourceSpecDefinition(
 ) (astmodel.TypeDefinition, error) {
 	emptyDef := astmodel.TypeDefinition{}
 
-	convContext, err := c.createSpecConversionContext(resourceSpecDef.Name())
-	if err != nil {
-		return emptyDef, err
-	}
+	convContext := c.createSpecConversionContext(resourceSpecDef.Name())
 
 	armTypeDef, err := c.createARMTypeDefinition(resourceSpecDef, convContext)
 	if err != nil {
@@ -532,35 +526,23 @@ func (c *armTypeCreator) visitARMTypeName(
 	return astmodel.CreateARMTypeName(def.Name()), nil
 }
 
-func (c *armTypeCreator) createSpecConversionContext(
-	name astmodel.InternalTypeName,
-) (*armPropertyTypeConversionContext, error) {
-	result, err := c.createConversionContext(name)
-	if err != nil {
-		return nil, err
-	}
-
+func (c *armTypeCreator) createSpecConversionContext(name astmodel.InternalTypeName) *armPropertyTypeConversionContext {
+	result := c.createConversionContext(name)
 	result.isSpec = true
-	return result, nil
+	return result
 }
 
-func (c *armTypeCreator) createConversionContext(name astmodel.InternalTypeName) (*armPropertyTypeConversionContext, error) {
-	payloadType, err := c.configuration.PayloadType.Lookup(name.InternalPackageReference())
-	if err != nil {
-		if config.IsNotConfiguredError(err) {
-			// Default to 'omitempty' if not configured
-			payloadType = config.OmitEmptyProperties
-		} else {
-			// otherwise we return an error
-			return nil, errors.Wrapf(err, "looking up payload type for %q", name)
-		}
-	}
-
+func (c *armTypeCreator) createConversionContext(name astmodel.InternalTypeName) *armPropertyTypeConversionContext {
 	result := &armPropertyTypeConversionContext{
-		payloadType: payloadType,
+		// Default to 'omitempty' if not configured
+		payloadType: config.OmitEmptyProperties,
 	}
 
-	return result, nil
+	if pt, ok := c.configuration.PayloadType.Lookup(name.InternalPackageReference()); ok {
+		result.payloadType = pt
+	}
+
+	return result
 }
 
 var skipARMFuncs = []func(it astmodel.TypeDefinition) bool{
