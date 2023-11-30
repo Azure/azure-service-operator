@@ -66,10 +66,8 @@ func (a *typeAccess[T]) lookupCore(
 
 	err := visitor.visit(a.model)
 	if err != nil {
-		// Something went wrong; we discard the error knowing that a
-		// later call to VerifyConsumed() will reveal it to the user
-		var zero T
-		return zero, false
+		// Something went wrong; this is unexpected and shouldn't happen
+		panic(err)
 	}
 
 	if c == nil {

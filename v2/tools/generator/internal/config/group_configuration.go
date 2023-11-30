@@ -32,7 +32,7 @@ type GroupConfiguration struct {
 	versions map[string]*VersionConfiguration
 	advisor  *typo.Advisor
 	// Configurable properties here (alphabetical, please)
-	PayloadType configurable[PayloadType]
+	PayloadType configurable[PayloadType] // Specify how this property should be serialized for ARM
 }
 
 type PayloadType string

@@ -72,7 +72,7 @@ func createOperatorSpecIfNeeded(
 		return nil, nil, errors.Wrapf(err, "resolving resource spec and status for %s", resource.Name())
 	}
 
-	secrets, secretsOk := configuration.ObjectModelConfiguration.AzureGeneratedSecrets.Lookup(resolved.ResourceDef.Name())
+	secrets, hasSecrets := configuration.ObjectModelConfiguration.AzureGeneratedSecrets.Lookup(resolved.ResourceDef.Name())
 
 	configs, exportedProperties, err := getConfigMapProperties(defs, configuration, resource)
 	if err != nil {
@@ -81,7 +81,7 @@ func createOperatorSpecIfNeeded(
 
 	hasConfigMapProperties := len(configs) != 0
 
-	if !secretsOk && !hasConfigMapProperties {
+	if !hasSecrets && !hasConfigMapProperties {
 		// We don't need to make an OperatorSpec type
 		return nil, nil, nil
 	}
