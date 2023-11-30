@@ -1378,6 +1378,8 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.2
     2022-01-20-preview:
       FlexibleServer:
+        $azureGeneratedSecrets:
+          - FullyQualifiedDomainName
         $export: true
         $supportedFrom: v2.0.0-beta.4
         $generatedConfigs:
@@ -1391,6 +1393,34 @@ objectModelConfiguration:
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-beta.4
+      ServerProperties:
+        SourceServerResourceId:
+          $armReference: true
+      Network:
+        DelegatedSubnetResourceId:
+          $armReference: true
+        PrivateDnsZoneArmResourceId:
+          $armReference: true
+    2022-12-01:
+      DataEncryption:
+        PrimaryUserAssignedIdentityId:
+          $armReference: true
+      FlexibleServer:
+        $azureGeneratedSecrets:
+          - FullyQualifiedDomainName
+        $export: true
+        $supportedFrom: v2.5.0
+        $generatedConfigs:
+          FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+      FlexibleServers_Configuration:
+        $exportAs: FlexibleServersConfiguration
+        $supportedFrom: v2.5.0
+      FlexibleServers_Database:
+        $exportAs: FlexibleServersDatabase
+        $supportedFrom: v2.5.0
+      FlexibleServers_FirewallRule:
+        $exportAs: FlexibleServersFirewallRule
+        $supportedFrom: v2.5.0
       ServerProperties:
         SourceServerResourceId:
           $armReference: true
