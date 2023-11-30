@@ -13,10 +13,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/sto
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── TenantId: *string
 │   │   ├── AvailabilityZone: *string
-│   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: MaxLength: 63
-│   │   │   ├── Rule 1: MinLength: 3
-│   │   │   └── Rule 2: Pattern: "^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*"
+│   │   ├── AzureName: string
 │   │   ├── Backup: *Object (3 properties)
 │   │   │   ├── BackupRetentionDays: *int
 │   │   │   ├── GeoRedundantBackup: *string
@@ -147,9 +144,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/sto
 ├── FlexibleServersConfiguration: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201.FlexibleServer
 │   ├── Spec: Object (6 properties)
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: MinLength: 1
-│   │   │   └── Rule 1: Pattern: "^[-\\w\\._]+$"
+│   │   ├── AzureName: string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -183,9 +178,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/sto
 ├── FlexibleServersDatabase: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201.FlexibleServer
 │   ├── Spec: Object (6 properties)
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: MinLength: 1
-│   │   │   └── Rule 1: Pattern: "^[-\\w\\._]+$"
+│   │   ├── AzureName: string
 │   │   ├── Charset: *string
 │   │   ├── Collation: *string
 │   │   ├── OriginalVersion: string
@@ -210,9 +203,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/sto
 └── FlexibleServersFirewallRule: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201.FlexibleServer
     ├── Spec: Object (6 properties)
-    │   ├── AzureName: Validated<string> (2 rules)
-    │   │   ├── Rule 0: MinLength: 1
-    │   │   └── Rule 1: Pattern: "^[-\\w\\._]+$"
+    │   ├── AzureName: string
     │   ├── EndIpAddress: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference

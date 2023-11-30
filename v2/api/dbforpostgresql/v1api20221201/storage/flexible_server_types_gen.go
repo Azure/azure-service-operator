@@ -173,9 +173,6 @@ type FlexibleServer_Spec struct {
 	AuthConfig                 *AuthConfig                 `json:"authConfig,omitempty"`
 	AvailabilityZone           *string                     `json:"availabilityZone,omitempty"`
 
-	// +kubebuilder:validation:MaxLength=63
-	// +kubebuilder:validation:MinLength=3
-	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName         string                      `json:"azureName,omitempty"`
