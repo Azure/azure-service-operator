@@ -13,20 +13,20 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_Storage_StorageAccount_20220901_CRUD(t *testing.T) {
+func Test_Storage_StorageAccount_20230101_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	acct := newStorageAccount20220901(tc, rg)
+	acct := newStorageAccount20230101(tc, rg)
 
 	tc.CreateResourceAndWait(acct)
 
@@ -210,14 +210,14 @@ func StorageAccount_FileServices_Share_CRUD(tc *testcommon.KubePerTestContext, f
 	defer tc.DeleteResourceAndWait(share)
 }
 
-func Test_Storage_StorageAccount_SecretsFromAzure(t *testing.T) {
+func Test_Storage_StorageAccount_20230101_SecretsFromAzure(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Initially with no OperatorSpec.Secrets, to ensure no secrets are created
-	acct := newStorageAccount20220901(tc, rg)
+	acct := newStorageAccount20230101(tc, rg)
 
 	tc.CreateResourceAndWait(acct)
 
@@ -373,7 +373,7 @@ func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blo
 	defer tc.DeleteResourceAndWait(managementPolicy)
 }
 
-func newStorageAccount20220901(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
+func newStorageAccount20230101(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
 	// Create a storage account
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),

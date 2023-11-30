@@ -156,8 +156,6 @@ const APIVersion_Value = APIVersion("2020-06-01")
 
 // Storage version of v1api20200601.ResourceGroup_Spec
 type ResourceGroup_Spec struct {
-	// +kubebuilder:validation:MaxLength=90
-	// +kubebuilder:validation:MinLength=1
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string                 `json:"azureName,omitempty"`

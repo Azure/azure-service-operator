@@ -27,7 +27,7 @@ func Test_OwnerIsARMIDSetWithName_Rejected(t *testing.T) {
 	armID := *rg.Status.Id
 
 	// Now create a storage account
-	acct := newStorageAccount20220901(tc, rg)
+	acct := newStorageAccount20230101(tc, rg)
 	acct.Spec.Owner.ARMID = armID
 
 	// Create the storage account from ARM ID
@@ -44,7 +44,7 @@ func Test_OwnerIsARMIDOfWrongType_Rejected(t *testing.T) {
 	badARMID := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Compute/virtualMachines/myvm", tc.AzureSubscription, "nonexistrg")
 
 	// Now create a storage account
-	acct := newStorageAccount20220901(tc, rg)
+	acct := newStorageAccount20230101(tc, rg)
 	acct.Spec.Owner = testcommon.AsARMIDOwner(badARMID)
 
 	// Create the storage account from ARM ID
@@ -69,7 +69,7 @@ func Test_OwnerIsARMIDFromDifferentSubscription_ResourceFails(t *testing.T) {
 	scopedCredentialName := "other-subscription-secret"
 
 	// Now create a storage account
-	acct := newStorageAccount20220901(tc, rg)
+	acct := newStorageAccount20230101(tc, rg)
 	acct.Spec.Owner = testcommon.AsARMIDOwner(armID)
 	acct.Annotations = map[string]string{annotations.PerResourceSecret: scopedCredentialName}
 

@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	v20230101s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_StorageAccountsFileServicesShare_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StorageAccountsFileServicesShare to hub returns original",
+		prop.ForAll(RunResourceConversionTestForStorageAccountsFileServicesShare, StorageAccountsFileServicesShareGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForStorageAccountsFileServicesShare tests if a specific instance of StorageAccountsFileServicesShare round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForStorageAccountsFileServicesShare(subject StorageAccountsFileServicesShare) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v20230101s.StorageAccountsFileServicesShare
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual StorageAccountsFileServicesShare
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_StorageAccountsFileServicesShare_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StorageAccountsFileServicesShare to StorageAccountsFileServicesShare via AssignProperties_To_StorageAccountsFileServicesShare & AssignProperties_From_StorageAccountsFileServicesShare returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccountsFileServicesShare, StorageAccountsFileServicesShareGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForStorageAccountsFileServicesShare tests if a specific instance of StorageAccountsFileServicesShare can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccountsFileServicesShare(subject StorageAccountsFileServicesShare) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230101s.StorageAccountsFileServicesShare
+	err := copied.AssignProperties_To_StorageAccountsFileServicesShare(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual StorageAccountsFileServicesShare
+	err = actual.AssignProperties_From_StorageAccountsFileServicesShare(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_StorageAccountsFileServicesShare_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -77,6 +163,48 @@ func StorageAccountsFileServicesShareGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForStorageAccountsFileServicesShare(gens map[string]gopter.Gen) {
 	gens["Spec"] = StorageAccounts_FileServices_Share_SpecGenerator()
 	gens["Status"] = StorageAccounts_FileServices_Share_STATUSGenerator()
+}
+
+func Test_StorageAccounts_FileServices_Share_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StorageAccounts_FileServices_Share_Spec to StorageAccounts_FileServices_Share_Spec via AssignProperties_To_StorageAccounts_FileServices_Share_Spec & AssignProperties_From_StorageAccounts_FileServices_Share_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccounts_FileServices_Share_Spec, StorageAccounts_FileServices_Share_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForStorageAccounts_FileServices_Share_Spec tests if a specific instance of StorageAccounts_FileServices_Share_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccounts_FileServices_Share_Spec(subject StorageAccounts_FileServices_Share_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230101s.StorageAccounts_FileServices_Share_Spec
+	err := copied.AssignProperties_To_StorageAccounts_FileServices_Share_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual StorageAccounts_FileServices_Share_Spec
+	err = actual.AssignProperties_From_StorageAccounts_FileServices_Share_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_StorageAccounts_FileServices_Share_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -158,6 +286,48 @@ func AddIndependentPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec(
 // AddRelatedPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec(gens map[string]gopter.Gen) {
 	gens["SignedIdentifiers"] = gen.SliceOf(SignedIdentifierGenerator())
+}
+
+func Test_StorageAccounts_FileServices_Share_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StorageAccounts_FileServices_Share_STATUS to StorageAccounts_FileServices_Share_STATUS via AssignProperties_To_StorageAccounts_FileServices_Share_STATUS & AssignProperties_From_StorageAccounts_FileServices_Share_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccounts_FileServices_Share_STATUS, StorageAccounts_FileServices_Share_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForStorageAccounts_FileServices_Share_STATUS tests if a specific instance of StorageAccounts_FileServices_Share_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccounts_FileServices_Share_STATUS(subject StorageAccounts_FileServices_Share_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230101s.StorageAccounts_FileServices_Share_STATUS
+	err := copied.AssignProperties_To_StorageAccounts_FileServices_Share_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual StorageAccounts_FileServices_Share_STATUS
+	err = actual.AssignProperties_From_StorageAccounts_FileServices_Share_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_StorageAccounts_FileServices_Share_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -255,6 +425,48 @@ func AddRelatedPropertyGeneratorsForStorageAccounts_FileServices_Share_STATUS(ge
 	gens["SignedIdentifiers"] = gen.SliceOf(SignedIdentifier_STATUSGenerator())
 }
 
+func Test_SignedIdentifier_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SignedIdentifier to SignedIdentifier via AssignProperties_To_SignedIdentifier & AssignProperties_From_SignedIdentifier returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSignedIdentifier, SignedIdentifierGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSignedIdentifier tests if a specific instance of SignedIdentifier can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSignedIdentifier(subject SignedIdentifier) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230101s.SignedIdentifier
+	err := copied.AssignProperties_To_SignedIdentifier(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SignedIdentifier
+	err = actual.AssignProperties_From_SignedIdentifier(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SignedIdentifier_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -313,6 +525,48 @@ func SignedIdentifierGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSignedIdentifier is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSignedIdentifier(gens map[string]gopter.Gen) {
 	gens["AccessPolicy"] = gen.PtrOf(AccessPolicyGenerator())
+}
+
+func Test_SignedIdentifier_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SignedIdentifier_STATUS to SignedIdentifier_STATUS via AssignProperties_To_SignedIdentifier_STATUS & AssignProperties_From_SignedIdentifier_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSignedIdentifier_STATUS, SignedIdentifier_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSignedIdentifier_STATUS tests if a specific instance of SignedIdentifier_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSignedIdentifier_STATUS(subject SignedIdentifier_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230101s.SignedIdentifier_STATUS
+	err := copied.AssignProperties_To_SignedIdentifier_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SignedIdentifier_STATUS
+	err = actual.AssignProperties_From_SignedIdentifier_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SignedIdentifier_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -390,6 +644,48 @@ func AddRelatedPropertyGeneratorsForSignedIdentifier_STATUS(gens map[string]gopt
 	gens["AccessPolicy"] = gen.PtrOf(AccessPolicy_STATUSGenerator())
 }
 
+func Test_AccessPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AccessPolicy to AccessPolicy via AssignProperties_To_AccessPolicy & AssignProperties_From_AccessPolicy returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAccessPolicy, AccessPolicyGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAccessPolicy tests if a specific instance of AccessPolicy can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAccessPolicy(subject AccessPolicy) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230101s.AccessPolicy
+	err := copied.AssignProperties_To_AccessPolicy(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AccessPolicy
+	err = actual.AssignProperties_From_AccessPolicy(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AccessPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -450,6 +746,48 @@ func AddIndependentPropertyGeneratorsForAccessPolicy(gens map[string]gopter.Gen)
 	gens["ExpiryTime"] = gen.PtrOf(gen.AlphaString())
 	gens["Permission"] = gen.PtrOf(gen.AlphaString())
 	gens["StartTime"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_AccessPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AccessPolicy_STATUS to AccessPolicy_STATUS via AssignProperties_To_AccessPolicy_STATUS & AssignProperties_From_AccessPolicy_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAccessPolicy_STATUS, AccessPolicy_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAccessPolicy_STATUS tests if a specific instance of AccessPolicy_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAccessPolicy_STATUS(subject AccessPolicy_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230101s.AccessPolicy_STATUS
+	err := copied.AssignProperties_To_AccessPolicy_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AccessPolicy_STATUS
+	err = actual.AssignProperties_From_AccessPolicy_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AccessPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -239,7 +239,6 @@ type augmentConversionForVault interface {
 
 // Storage version of v1api20210401preview.Vault_Spec
 type Vault_Spec struct {
-	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9-]{3,24}$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`

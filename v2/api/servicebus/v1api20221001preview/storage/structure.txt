@@ -109,9 +109,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/s
 ├── NamespacesAuthorizationRule: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview.Namespace
 │   ├── Spec: Object (6 properties)
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: MaxLength: 50
-│   │   │   └── Rule 1: MinLength: 1
+│   │   ├── AzureName: string
 │   │   ├── OperatorSpec: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Secrets: *Object (5 properties)
@@ -144,8 +142,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/s
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview.Namespace
 │   ├── Spec: Object (19 properties)
 │   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: MinLength: 1
+│   │   ├── AzureName: string
 │   │   ├── DeadLetteringOnMessageExpiration: *bool
 │   │   ├── DefaultMessageTimeToLive: *string
 │   │   ├── DuplicateDetectionHistoryTimeWindow: *string
@@ -210,8 +207,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/s
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview.Namespace
 │   ├── Spec: Object (14 properties)
 │   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: MinLength: 1
+│   │   ├── AzureName: string
 │   │   ├── DefaultMessageTimeToLive: *string
 │   │   ├── DuplicateDetectionHistoryTimeWindow: *string
 │   │   ├── EnableBatchedOperations: *bool
@@ -266,9 +262,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/s
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview.NamespacesTopic
 │   ├── Spec: Object (17 properties)
 │   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: MaxLength: 50
-│   │   │   └── Rule 1: MinLength: 1
+│   │   ├── AzureName: string
 │   │   ├── ClientAffineProperties: *Object (4 properties)
 │   │   │   ├── ClientId: *string
 │   │   │   ├── IsDurable: *bool
@@ -340,9 +334,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview/s
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── RequiresPreprocessing: *bool
 │   │   │   └── SqlExpression: *string
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: MaxLength: 50
-│   │   │   └── Rule 1: MinLength: 1
+│   │   ├── AzureName: string
 │   │   ├── CorrelationFilter: *Object (11 properties)
 │   │   │   ├── ContentType: *string
 │   │   │   ├── CorrelationId: *string

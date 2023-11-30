@@ -35,8 +35,8 @@ func NewTypeConverter(definitions astmodel.TypeDefinitionSet) *TypeConverter {
 		VisitObjectType:       result.convertObjectType,
 		VisitResourceType:     result.convertResourceType,
 		VisitInternalTypeName: result.redirectTypeNamesToStoragePackage,
-		VisitValidatedType:    result.stripAllValidations,
 		VisitFlaggedType:      result.stripAllFlags,
+		// No need to VisitValidatedType and strip validations here as it's already taken care of by the property conversion logic inside of convertObjectType
 	}.Build()
 
 	return result
@@ -117,15 +117,6 @@ func (t *TypeConverter) redirectTypeNamesToStoragePackage(name astmodel.Internal
 
 	// Failed to redirect into a storage package, return an error
 	return nil, errors.Errorf("unable to redirect %s into a storage package", name)
-}
-
-// stripAllValidations removes all validations
-func (t *TypeConverter) stripAllValidations(
-	this *astmodel.TypeVisitor[any], v *astmodel.ValidatedType, ctx any,
-) (astmodel.Type, error) {
-	// strip all type validations from storage definitions,
-	// act as if they do not exist
-	return this.Visit(v.ElementType(), ctx)
 }
 
 // stripAllFlags removes all flags

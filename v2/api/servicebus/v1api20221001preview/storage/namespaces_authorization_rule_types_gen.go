@@ -233,8 +233,6 @@ type augmentConversionForNamespacesAuthorizationRule interface {
 
 // Storage version of v1api20221001preview.Namespaces_AuthorizationRule_Spec
 type Namespaces_AuthorizationRule_Spec struct {
-	// +kubebuilder:validation:MaxLength=50
-	// +kubebuilder:validation:MinLength=1
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string                                   `json:"azureName,omitempty"`

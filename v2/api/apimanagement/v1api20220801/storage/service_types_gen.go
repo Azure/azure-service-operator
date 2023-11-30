@@ -143,9 +143,6 @@ type Service_Spec struct {
 	AdditionalLocations  []AdditionalLocation  `json:"additionalLocations,omitempty"`
 	ApiVersionConstraint *ApiVersionConstraint `json:"apiVersionConstraint,omitempty"`
 
-	// +kubebuilder:validation:MaxLength=50
-	// +kubebuilder:validation:MinLength=1
-	// +kubebuilder:validation:Pattern="^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName               string                        `json:"azureName,omitempty"`

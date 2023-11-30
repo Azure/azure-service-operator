@@ -8,6 +8,8 @@ import (
 	v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401/storage"
 	v20220901 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
 	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
+	v20230101 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
+	v20230101s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -20,5 +22,7 @@ func (extension *StorageAccountsBlobServicesContainerExtension) GetExtendedResou
 		&v20210401.StorageAccountsBlobServicesContainer{},
 		&v20210401s.StorageAccountsBlobServicesContainer{},
 		&v20220901.StorageAccountsBlobServicesContainer{},
-		&v20220901s.StorageAccountsBlobServicesContainer{}}
+		&v20220901s.StorageAccountsBlobServicesContainer{},
+		&v20230101.StorageAccountsBlobServicesContainer{},
+		&v20230101s.StorageAccountsBlobServicesContainer{}}
 }
