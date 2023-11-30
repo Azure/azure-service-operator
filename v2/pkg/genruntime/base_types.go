@@ -84,7 +84,7 @@ type ARMOwnedMetaObject interface {
 // of empty string will result in the removal of that annotation.
 func AddAnnotation(obj MetaObject, k string, v string) {
 	annotations := obj.GetAnnotations()
-	AddToMap(annotations, v, k)
+	annotations = AddToMap(annotations, v, k)
 	obj.SetAnnotations(annotations)
 }
 
@@ -98,11 +98,11 @@ func RemoveAnnotation(obj MetaObject, k string) {
 // of empty string will result in the removal of that label.
 func AddLabel(obj MetaObject, k string, v string) {
 	labels := obj.GetLabels()
-	AddToMap(labels, v, k)
+	labels = AddToMap(labels, v, k)
 	obj.SetLabels(labels)
 }
 
-func AddToMap(labels map[string]string, v string, k string) {
+func AddToMap(labels map[string]string, v string, k string) map[string]string {
 	if labels == nil {
 		labels = map[string]string{}
 	}
@@ -112,9 +112,10 @@ func AddToMap(labels map[string]string, v string, k string) {
 	} else {
 		labels[k] = v
 	}
+	return labels
 }
 
-// RemoveAnnotation removes the specified annotation from the object
+// RemoveLabel removes the specified label from the object
 func RemoveLabel(obj MetaObject, k string) {
 	AddLabel(obj, k, "")
 }
