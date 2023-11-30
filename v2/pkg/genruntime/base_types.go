@@ -84,21 +84,39 @@ type ARMOwnedMetaObject interface {
 // of empty string will result in the removal of that annotation.
 func AddAnnotation(obj MetaObject, k string, v string) {
 	annotations := obj.GetAnnotations()
-	if annotations == nil {
-		annotations = map[string]string{}
-	}
-	// I think this is the behavior we want...
-	if v == "" {
-		delete(annotations, k)
-	} else {
-		annotations[k] = v
-	}
+	AddToMap(annotations, v, k)
 	obj.SetAnnotations(annotations)
 }
 
 // RemoveAnnotation removes the specified annotation from the object
 func RemoveAnnotation(obj MetaObject, k string) {
 	AddAnnotation(obj, k, "")
+}
+
+// AddLabel adds the specified label to the object.
+// Empty string labels are not allowed. Attempting to add a label with a value
+// of empty string will result in the removal of that label.
+func AddLabel(obj MetaObject, k string, v string) {
+	labels := obj.GetLabels()
+	AddToMap(labels, v, k)
+	obj.SetLabels(labels)
+}
+
+func AddToMap(labels map[string]string, v string, k string) {
+	if labels == nil {
+		labels = map[string]string{}
+	}
+	// I think this is the behavior we want...
+	if v == "" {
+		delete(labels, k)
+	} else {
+		labels[k] = v
+	}
+}
+
+// RemoveAnnotation removes the specified annotation from the object
+func RemoveLabel(obj MetaObject, k string) {
+	AddLabel(obj, k, "")
 }
 
 // ARMResourceSpec is an ARM resource specification. This interface contains

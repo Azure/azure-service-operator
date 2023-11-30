@@ -26,7 +26,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
-	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/labels"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
@@ -163,7 +163,7 @@ func (r *azureDeploymentReconcilerInstance) AddInitialResourceState(ctx context.
 		return err
 	}
 	genruntime.SetResourceID(r.Obj, armResource.GetID())
-	annotations.SetOwnedByAnnotation(r.Obj)
+	labels.SetOwnerNameLabel(r.Obj)
 	return nil
 }
 
