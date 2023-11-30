@@ -758,6 +758,7 @@
     </li>
     <li><a href="#storage">Storage</a>
       <ul>
+        <li><a href="#next-release-2">Next Release</a></li>
         <li><a href="#released-31">Released</a></li>
       </ul>
     </li>
@@ -2789,6 +2790,91 @@ grouped by the originating ARM service.
 </table>
 <h2 id="storage">Storage</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>storage.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release-2">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>ARM Version</th>
+<th>CRD Version</th>
+<th>Supported From</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>StorageAccount</td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccount.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsBlobService</td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsblobservice.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsBlobServicesContainer</td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsblobservicescontainer.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsFileService</td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsfileservice.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsFileServicesShare</td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsfileservicesshare.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsManagementPolicy</td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsmanagementpolicy.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsQueueService</td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsqueueservice.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsQueueServicesQueue</td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsqueueservicesqueue.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsTableService</td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountstableservice.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsTableServicesTable</td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountstableservicestable.yaml">View</a></td>
+</tr>
+</tbody>
+</table>
 <h3 id="released-31">Released</h3>
 <p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
