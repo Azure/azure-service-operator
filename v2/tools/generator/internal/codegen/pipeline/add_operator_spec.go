@@ -72,16 +72,7 @@ func createOperatorSpecIfNeeded(
 		return nil, nil, errors.Wrapf(err, "resolving resource spec and status for %s", resource.Name())
 	}
 
-	hasSecrets := false
-	secrets, err := configuration.ObjectModelConfiguration.AzureGeneratedSecrets.Lookup(resolved.ResourceDef.Name())
-	if err == nil {
-		hasSecrets = true
-	} else if err != nil {
-		// If error is just that there's no configured secrets, proceed
-		if !config.IsNotConfiguredError(err) {
-			return nil, nil, errors.Wrapf(err, "reading azureGeneratedSecrets for %s", resolved.ResourceDef.Name())
-		}
-	}
+	secrets, hasSecrets := configuration.ObjectModelConfiguration.AzureGeneratedSecrets.Lookup(resolved.ResourceDef.Name())
 
 	configs, exportedProperties, err := getConfigMapProperties(defs, configuration, resource)
 	if err != nil {
@@ -258,24 +249,11 @@ func getConfigMapProperties(
 	configuration *config.Configuration,
 	resource astmodel.TypeDefinition) ([]string, ExportedProperties, error) {
 
-	configMapPaths, err := configuration.ObjectModelConfiguration.GeneratedConfigs.Lookup(resource.Name())
-	if err != nil {
-		// If error is just that there's no configured secrets, proceed
-		if !config.IsNotConfiguredError(err) {
-			return nil, nil, errors.Wrapf(err, "reading generatedConfigs for %s", resource.Name())
-		}
-	}
-
-	additionalConfigMaps, err := configuration.ObjectModelConfiguration.ManualConfigs.Lookup(resource.Name())
-	if err != nil {
-		// If error is just that there's no configured secrets, proceed
-		if !config.IsNotConfiguredError(err) {
-			return nil, nil, errors.Wrapf(err, "reading manualConfigs for %s", resource.Name())
-		}
-	}
+	configMapPaths, configMapPathsOk := configuration.ObjectModelConfiguration.GeneratedConfigs.Lookup(resource.Name())
+	additionalConfigMaps, additionalConfigMapsOk := configuration.ObjectModelConfiguration.ManualConfigs.Lookup(resource.Name())
 
 	// Fast out if we don't have anything configured
-	if len(configMapPaths) == 0 && len(additionalConfigMaps) == 0 {
+	if !configMapPathsOk && !additionalConfigMapsOk {
 		return nil, nil, nil
 	}
 

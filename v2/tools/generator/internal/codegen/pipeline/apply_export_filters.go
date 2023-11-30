@@ -8,12 +8,10 @@ package pipeline
 import (
 	"context"
 
-	"github.com/go-logr/logr"
-	"github.com/pkg/errors"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
+	"github.com/go-logr/logr"
+	"github.com/pkg/errors"
 )
 
 const ApplyExportFiltersStageID = "filterTypes"
@@ -41,16 +39,10 @@ func filterTypes(
 	log logr.Logger,
 ) (*State, error) {
 	resourcesToExport := make(astmodel.TypeDefinitionSet)
-	var errs []error
 	for _, def := range astmodel.FindResourceDefinitions(state.Definitions()) {
 		defName := def.Name()
 
-		export, err := shouldExport(defName, configuration)
-		if err != nil {
-			errs = append(errs, err)
-			continue
-		}
-
+		export := shouldExport(defName, configuration)
 		if !export {
 			log.V(1).Info("Skipping resource", "resource", defName)
 			continue
@@ -58,10 +50,6 @@ func filterTypes(
 
 		log.V(1).Info("Exporting resource", "resource", defName)
 		resourcesToExport.Add(def)
-	}
-
-	if err := kerrors.NewAggregate(errs); err != nil {
-		return nil, err
 	}
 
 	typesToExport, err := astmodel.FindConnectedDefinitions(state.Definitions(), resourcesToExport)
@@ -73,9 +61,9 @@ func filterTypes(
 	renames := make(astmodel.TypeAssociation)
 	for n := range typesToExport {
 		newName := ""
-		if as, asErr := configuration.ObjectModelConfiguration.ExportAs.Lookup(n); asErr == nil {
+		if as, ok := configuration.ObjectModelConfiguration.ExportAs.Lookup(n); ok {
 			newName = as
-		} else if to, toErr := configuration.ObjectModelConfiguration.RenameTo.Lookup(n); toErr == nil {
+		} else if to, ok := configuration.ObjectModelConfiguration.RenameTo.Lookup(n); ok {
 			newName = to
 		}
 
@@ -109,29 +97,17 @@ func filterTypes(
 }
 
 // shouldExport works out whether the specified Resource should be exported or not
-func shouldExport(defName astmodel.InternalTypeName, configuration *config.Configuration) (bool, error) {
-	export, err := configuration.ObjectModelConfiguration.Export.Lookup(defName)
-	if err == nil {
+func shouldExport(defName astmodel.InternalTypeName, configuration *config.Configuration) bool {
+	if export, ok := configuration.ObjectModelConfiguration.Export.Lookup(defName); ok {
 		// $export is configured, return that value
-		return export, nil
+		return export
 	}
 
-	if !config.IsNotConfiguredError(err) {
-		// Problem isn't lack of configuration, it's something else
-		return false, errors.Wrapf(err, "looking up export config for %s", defName)
-	}
-
-	_, err = configuration.ObjectModelConfiguration.ExportAs.Lookup(defName)
-	if err == nil {
+	if _, ok := configuration.ObjectModelConfiguration.ExportAs.Lookup(defName); ok {
 		// $exportAs is configured, we DO want to export
-		return true, nil
-	}
-
-	if !config.IsNotConfiguredError(err) {
-		// Problem isn't lack of configuration, it's something else
-		return false, errors.Wrapf(err, "looking up exportAs config for %s", defName)
+		return true
 	}
 
 	// Default is to not export
-	return false, nil
+	return false
 }

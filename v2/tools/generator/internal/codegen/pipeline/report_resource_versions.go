@@ -643,12 +643,13 @@ func (report *ResourceVersionsReport) generateSampleLink(
 }
 
 func (report *ResourceVersionsReport) supportedFrom(typeName astmodel.InternalTypeName) string {
-	supportedFrom, err := report.objectModelConfiguration.SupportedFrom.Lookup(typeName)
-	if err != nil {
-		return "" // Leave it blank
+	supportedFrom, ok := report.objectModelConfiguration.SupportedFrom.Lookup(typeName)
+	if !ok {
+		// Leave it blank
+		return ""
 	}
 
-	_, ver := typeName.InternalPackageReference().GroupVersion()
+	ver := typeName.InternalPackageReference().Version()
 
 	// Special case for resources that existed prior to GA
 	// the `v1api` versions of those resources are only available from "v2.0.0"
