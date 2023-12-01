@@ -291,17 +291,7 @@ func (generator *CodeGenerator) Generate(
 			return errors.Wrapf(err, "failed to execute stage %d: %s", stageNumber, stage.Description())
 		}
 
-		duration := time.Since(start).Round(time.Millisecond)
-
-		defsAdded := newState.Definitions().Except(state.Definitions())
-		defsRemoved := state.Definitions().Except(newState.Definitions())
-
-		log.Info(
-			stageDescription,
-			"elapsed", duration,
-			"added", len(defsAdded),
-			"removed", len(defsRemoved),
-			"totalDefs", len(newState.Definitions()))
+		generator.logStateChanges(start, newState, state, log, stageDescription)
 
 		state = newState
 	}
@@ -313,6 +303,26 @@ func (generator *CodeGenerator) Generate(
 	log.Info("Finished")
 
 	return nil
+}
+
+func (generator *CodeGenerator) logStateChanges(
+	start time.Time,
+	newState *pipeline.State,
+	state *pipeline.State,
+	log logr.Logger,
+	stageDescription string,
+) {
+	duration := time.Since(start).Round(time.Millisecond)
+
+	defsAdded := newState.Definitions().Except(state.Definitions())
+	defsRemoved := state.Definitions().Except(newState.Definitions())
+
+	log.Info(
+		stageDescription,
+		"elapsed", duration,
+		"added", len(defsAdded),
+		"removed", len(defsRemoved),
+		"totalDefs", len(newState.Definitions()))
 }
 
 // executeStage runs the given stage against the given state, returning the new state.
