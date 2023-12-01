@@ -6,48 +6,32 @@
 package codegen
 
 import (
-	"path/filepath"
-	"regexp"
-	"strconv"
-	"strings"
-
 	"github.com/pkg/errors"
+	"strconv"
 
-	"github.com/Azure/azure-service-operator/v2/internal/util/match"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
 )
 
 // debugReporter is a helper for generating debug logs during the code generation process.
 type debugReporter struct {
-	outputFolder  string
-	groupSelector match.StringMatcher
+	settings *pipeline.DebugSettings
 }
 
 // newDebugReporter creates a new debugReporter.
-// groupSelector specifies which groups to include (may include wildcards).
-// outputFolder specifies where to write the debug output.
-func newDebugReporter(groupSelector string, outputFolder string) *debugReporter {
+// settings specifies the debug settings to use as configuration.
+func newDebugReporter(settings *pipeline.DebugSettings) *debugReporter {
 	return &debugReporter{
-		groupSelector: config.NewStringMatcher(groupSelector),
-		outputFolder:  outputFolder,
+		settings: settings,
 	}
 }
 
 func (dr *debugReporter) ReportStage(stage int, description string, state *pipeline.State) error {
 	included := state.Definitions().Where(
 		func(def astmodel.TypeDefinition) bool {
-			grp, ver := def.Name().InternalPackageReference().GroupVersion()
-
 			// Allow matching just the group (e.g. network)
-			if dr.groupSelector.Matches(grp).Matched {
-				return true
-			}
-
-			// Match on group + package name (e.g. network/v1api20221101)
-			if dr.groupSelector.Matches(grp + "/" + ver).Matched {
+			if dr.settings.MatchesGroup(def.Name().InternalPackageReference()) {
 				return true
 			}
 
@@ -55,30 +39,9 @@ func (dr *debugReporter) ReportStage(stage int, description string, state *pipel
 		})
 
 	tcr := reporting.NewTypeCatalogReport(included, reporting.IncludeFunctions)
-	filename := dr.createFileName(stage, description)
+	name := strconv.Itoa(stage) + "-" + description + ".txt"
+	filename := dr.settings.CreateFileName(name)
+
 	err := tcr.SaveTo(filename)
 	return errors.Wrapf(err, "failed to save type catalog to %s", filename)
-}
-
-var dashMatcher = regexp.MustCompile("-+")
-
-// createFileName creates the filename for the debug report from the name of the stage, filtering out any characters
-// that are unsafe in filenames
-func (dr *debugReporter) createFileName(stage int, description string) string {
-	// filter symbols and other unsafe characters from the stage name to generate a safe filename for the debug log
-	stageName := strings.Map(func(r rune) rune {
-		if r >= 'a' && r <= 'z' || r >= 'A' && r <= 'Z' || r >= '0' && r <= '9' {
-			return r
-		}
-
-		return '-'
-	}, description)
-
-	// Replace any sequence of dashes with a single one using a regular expression
-	stageName = dashMatcher.ReplaceAllString(stageName, "-")
-
-	// Create a filename using the description and the stage number.
-	filename := strconv.Itoa(stage+1) + "-" + stageName + ".txt"
-
-	return filepath.Join(dr.outputFolder, filename)
 }

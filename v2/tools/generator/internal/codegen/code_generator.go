@@ -25,6 +25,7 @@ import (
 type CodeGenerator struct {
 	configuration *config.Configuration
 	pipeline      []*pipeline.Stage
+	debugSettings *pipeline.DebugSettings
 	debugReporter *debugReporter
 }
 
@@ -269,10 +270,9 @@ func (generator *CodeGenerator) Generate(
 		"ASO Code Generator",
 		"version", version.BuildVersion)
 
-	if generator.debugReporter != nil {
+	if generator.debugSettings != nil {
 		// Generate a diagram containing our stages
-		outputFolder := generator.debugReporter.outputFolder
-		diagram := pipeline.NewPipelineDiagram(outputFolder)
+		diagram := pipeline.NewPipelineDiagram(generator.debugSettings)
 		err := diagram.WriteDiagram(generator.pipeline)
 		if err != nil {
 			return errors.Wrapf(err, "failed to generate diagram")
@@ -465,5 +465,6 @@ func (generator *CodeGenerator) IndexOfStage(id string) int {
 // groupSpecifier indicates which groups to include (may include  wildcards).
 // outputFolder specifies where to write the debug output.
 func (generator *CodeGenerator) UseDebugMode(groupSpecifier string, outputFolder string) {
-	generator.debugReporter = newDebugReporter(groupSpecifier, outputFolder)
+	generator.debugSettings = pipeline.NewDebugSettings(groupSpecifier, outputFolder)
+	generator.debugReporter = newDebugReporter(generator.debugSettings)
 }
