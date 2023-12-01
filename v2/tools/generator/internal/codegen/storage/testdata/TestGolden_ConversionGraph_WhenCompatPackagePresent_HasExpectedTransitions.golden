@@ -1,0 +1,24 @@
+graph G {
+    rankdir=LR;
+
+    subgraph apiversions {
+        rank=same;
+        node [shape=ellipse, style=dashed, penwidth=1, rankType=min, group=storage];
+        "v20200101";
+        "v20220101";
+    }
+
+    subgraph storageversions {
+        rank=same;
+        node [shape=ellipse, style=dashed, penwidth=1, rankType=min, group=storage];
+        "v20200101s";
+        "v20200101sc";
+        "v20220101s";
+    }
+
+    edge [arrowhead=vee, arrowtail=vee, dir=forward];
+    v20200101 -- v20200101s
+    v20200101s -- v20200101sc
+    v20200101sc -- v20220101s
+    v20220101 -- v20220101s
+}
