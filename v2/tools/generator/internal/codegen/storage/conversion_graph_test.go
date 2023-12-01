@@ -6,7 +6,10 @@
 package storage
 
 import (
+	"bytes"
 	"testing"
+
+	"github.com/sebdah/goldie/v2"
 
 	. "github.com/onsi/gomega"
 
@@ -315,4 +318,61 @@ func TestConversionGraph_WithAResourceOnlyInPreviewVersions_HasExpectedTransitio
 	for _, expected := range expectedTransitions {
 		g.Expect(graph.LookupTransition(expected.from)).To(Equal(expected.to))
 	}
+}
+
+func TestGolden_ConversionGraph_WhenCompatPackagePresent_HasExpectedTransitions(t *testing.T) {
+	/*
+	 * Test that a conversion graph where a compat type has been injected to handle a
+	 * skipping property has the expected transitions
+	 */
+
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	gg := goldie.New(t)
+
+	// Arrange - Create packages
+
+	pkg2020 := test.MakeLocalPackageReference(test.Group, "v20200101")
+	pkg2020s := astmodel.MakeStoragePackageReference(pkg2020)
+
+	pkg2021 := test.MakeLocalPackageReference(test.Group, "v20200101")
+	pkg2021s := astmodel.MakeStoragePackageReference(pkg2021)
+	pkg2021sc := astmodel.MakeSubPackageReference("compat", pkg2021s)
+
+	pkg2022 := test.MakeLocalPackageReference(test.Group, "v20220101")
+	pkg2022s := astmodel.MakeStoragePackageReference(pkg2022)
+
+	// Arrange - Create TypeNames
+
+	// Key here is that `Address` doesn't exist in pkg2021 or pkg2021s,
+	// so we have a compat version injected into pkg2021sc
+
+	address2020 := astmodel.MakeInternalTypeName(pkg2020, "Address")
+	address2020s := astmodel.MakeInternalTypeName(pkg2020s, "Address")
+
+	address2021sc := astmodel.MakeInternalTypeName(pkg2021sc, "Address")
+
+	address2022 := astmodel.MakeInternalTypeName(pkg2022, "Address")
+	address2022s := astmodel.MakeInternalTypeName(pkg2022s, "Address")
+
+	// Act - Create the graph
+
+	omc := config.NewObjectModelConfiguration()
+	builder := NewConversionGraphBuilder(omc, "v")
+	builder.Add(address2020, address2020s)
+	builder.Add(address2021sc)
+	builder.Add(address2022, address2022s)
+
+	graph, err := builder.Build()
+	g.Expect(err).To(BeNil())
+
+	// Assert - Check size of graph
+	g.Expect(graph.TransitionCount()).To(Equal(4))
+
+	// Assert - check transitions
+	var content bytes.Buffer
+	grp := address2020.InternalPackageReference().Group()
+	knd := address2020.Name()
+	g.Expect(graph.WriteTo(grp, knd, &content)).To(Succeed())
+	gg.Assert(t, t.Name(), content.Bytes())
 }

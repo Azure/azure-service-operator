@@ -215,7 +215,7 @@ func createAllPipelineStages(
 		// TODO: For now only used for ARM
 		pipeline.InjectOriginalVersionFunction(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.CreateStorageTypes().UsedFor(pipeline.ARMTarget),
-		pipeline.CreateConversionGraph(configuration, astmodel.GeneratorVersion, log).UsedFor(pipeline.ARMTarget),
+		pipeline.CreateConversionGraph(configuration, astmodel.GeneratorVersion).UsedFor(pipeline.ARMTarget),
 		pipeline.RepairSkippingProperties().UsedFor(pipeline.ARMTarget),
 
 		// Need to regenerate the conversion graph in case our repairs for Skipping properties changed things

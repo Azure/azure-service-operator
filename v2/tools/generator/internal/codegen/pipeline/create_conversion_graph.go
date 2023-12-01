@@ -9,7 +9,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
-	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"os"
 	"path/filepath"
@@ -27,7 +26,6 @@ const CreateConversionGraphStageId = "createConversionGraph"
 func CreateConversionGraph(
 	configuration *config.Configuration,
 	generatorPrefix string,
-	log logr.Logger,
 ) *Stage {
 	stage := NewStage(
 		CreateConversionGraphStageId,
