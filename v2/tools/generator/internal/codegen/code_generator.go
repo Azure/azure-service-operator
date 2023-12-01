@@ -371,6 +371,12 @@ func (generator *CodeGenerator) executeStage(
 			// Will be wrapped by our caller with details of the stage
 			return nil, errors.Wrapf(err, "failed to generate debug report for stage")
 		}
+
+		err = stage.RunDiagnostic(generator.debugSettings, stageNumber, newState)
+		if err != nil {
+			// Will be wrapped by our caller with details of the stage
+			return nil, errors.Wrapf(err, "failed to generate diagnostic report for stage")
+		}
 	}
 
 	return
