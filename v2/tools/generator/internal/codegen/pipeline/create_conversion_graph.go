@@ -98,7 +98,10 @@ func CreateConversionGraph(
 				done.Add(key)
 
 				filename := filepath.Join(outputFolder, key)
-				graph.SaveTo(grp, name, filename)
+				err := graph.SaveTo(grp, name, filename)
+				if err != nil {
+					return errors.Wrapf(err, "writing conversion graph for %s", name)
+				}
 			}
 
 			return nil

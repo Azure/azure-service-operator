@@ -57,7 +57,7 @@ func (graph *ResourceConversionGraph) WriteTo(writer io.Writer) error {
 
 	// API versions can be identified because they are only ever the start of a link (never the end)
 	// This initial list will have too many items in it, but we'll reduce it down later
-	for from, _ := range graph.links {
+	for from := range graph.links {
 		ver := from.InternalPackageReference().ImportAlias(astmodel.VersionOnly)
 		apiVersions.Add(ver)
 	}
@@ -132,7 +132,7 @@ func (graph *ResourceConversionGraph) WriteTo(writer io.Writer) error {
 }
 
 func (graph *ResourceConversionGraph) writeLinks(writer io.Writer, linkStarts []astmodel.InternalTypeName) error {
-	var lines []string
+	lines := make([]string, 0, len(linkStarts))
 	for _, from := range linkStarts {
 		to := graph.links[from]
 
