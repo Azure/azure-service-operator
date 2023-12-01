@@ -7,8 +7,12 @@ package pipeline
 
 import (
 	"context"
+	"fmt"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	"os"
+	"path/filepath"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
@@ -50,6 +54,56 @@ func CreateConversionGraph(
 			}
 
 			return state.WithConversionGraph(graph), nil
+		})
+
+	stage.AddDiagnostic(
+		func(settings *DebugSettings, index int, state *State) error {
+			graph := state.ConversionGraph()
+			if graph == nil {
+				return errors.New("no conversion graph available")
+			}
+
+			// Create our output folder
+			outputFolder := settings.CreateFileName(fmt.Sprintf("conversion-graph-%d", index))
+			err := os.Mkdir(outputFolder, 0700)
+			if err != nil {
+				return errors.Wrapf(err, "creating output folder for conversion graph diagnostic")
+			}
+
+			done := set.Make[string]()
+			for name, def := range state.Definitions() {
+				if name.IsARMType() {
+					// ARM types don't participate in the conversion graph
+					continue
+				}
+
+				_, isResource := astmodel.AsResourceType(def.Type())
+				_, isObject := astmodel.AsObjectType(def.Type())
+				if !isResource && !isObject {
+					// Not a resource or object, so not a type we're interested in
+					continue
+				}
+
+				if !settings.MatchesGroup(name.InternalPackageReference()) {
+					// Not a group/version we're interested in
+					continue
+				}
+
+				grp := name.InternalPackageReference().Group()
+				name := name.Name()
+				key := fmt.Sprintf("%s-%s.dot", grp, name)
+				if done.Contains(key) {
+					// We've already exported this graph
+					continue
+				}
+
+				done.Add(key)
+
+				filename := filepath.Join(outputFolder, key)
+				graph.SaveTo(grp, name, filename)
+			}
+
+			return nil
 		})
 
 	stage.RequiresPrerequisiteStages(CreateStorageTypesStageID)
