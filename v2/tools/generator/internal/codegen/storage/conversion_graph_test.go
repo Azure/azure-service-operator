@@ -7,6 +7,7 @@ package storage
 
 import (
 	"bytes"
+	"fmt"
 	"testing"
 
 	"github.com/sebdah/goldie/v2"
