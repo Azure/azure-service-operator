@@ -164,6 +164,7 @@ func (r *azureDeploymentReconcilerInstance) AddInitialResourceState(ctx context.
 	}
 	genruntime.SetResourceID(r.Obj, armResource.GetID())
 	labels.SetOwnerNameLabel(r.Obj)
+	labels.SetOwnerGroupKindLabel(r.Obj)
 	return nil
 }
 

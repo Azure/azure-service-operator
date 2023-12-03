@@ -102,17 +102,17 @@ func AddLabel(obj MetaObject, k string, v string) {
 	obj.SetLabels(labels)
 }
 
-func AddToMap(labels map[string]string, k string, v string) map[string]string {
-	if labels == nil {
-		labels = map[string]string{}
+func AddToMap(m map[string]string, k string, v string) map[string]string {
+	if m == nil {
+		m = map[string]string{}
 	}
 	// I think this is the behavior we want...
 	if v == "" {
-		delete(labels, k)
+		delete(m, k)
 	} else {
-		labels[k] = v
+		m[k] = v
 	}
-	return labels
+	return m
 }
 
 // RemoveLabel removes the specified label from the object
