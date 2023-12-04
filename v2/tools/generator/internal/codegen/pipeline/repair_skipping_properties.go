@@ -235,14 +235,7 @@ func (repairer *skippingPropertyRepairer) repairChain(
 	// If the properties have the same type, we don't have a break here - so we check the remainder of the chain
 	// (This is Ok because the value serialized into the property bag from lastObserved will deserialize into the
 	// reintroduced property intact.)
-	typesSame, err := repairer.propertiesHaveStructurallyIdenticalType(lastObserved, reintroduced)
-	if err != nil {
-		return nil, errors.Wrapf(
-			err,
-			"failed to determine if properties %s and %s have the same type",
-			lastObserved,
-			reintroduced)
-	}
+	typesSame := repairer.propertiesHaveStructurallyIdenticalType(lastObserved, reintroduced)
 	if typesSame {
 		return repairer.repairChain(reintroduced)
 	}
@@ -330,17 +323,17 @@ func (repairer *skippingPropertyRepairer) lookupNext(ref astmodel.PropertyRefere
 func (repairer *skippingPropertyRepairer) propertiesHaveStructurallyIdenticalType(
 	left astmodel.PropertyReference,
 	right astmodel.PropertyReference,
-) (bool, error) {
+) bool {
 	leftType, leftOk := repairer.lookupPropertyType(left)
 	rightType, rightOk := repairer.lookupPropertyType(right)
 
 	exactlyEqual := leftOk && rightOk && leftType.Equals(rightType, astmodel.EqualityOverrides{})
 	if exactlyEqual {
-		return true, nil
+		return true
 	}
 
 	// If the types aren't exactly equal, we need to check if they're structurally equal
-	return repairer.comparer.areTypesStructurallyEqual(leftType, rightType), nil
+	return repairer.comparer.areTypesStructurallyEqual(leftType, rightType)
 }
 
 // lookupPropertyType accepts a PropertyReference and looks up the actual type of the property, returning true if found,
