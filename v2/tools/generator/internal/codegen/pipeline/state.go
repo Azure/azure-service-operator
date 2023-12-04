@@ -53,7 +53,7 @@ func (s *State) WithDefinitions(definitions astmodel.TypeDefinitionSet) *State {
 	return result
 }
 
-// WithDefinitions returns a new independentState with the given type definitions overlaid on the existing ones.
+// WithDefinitions returns a new independent State with the given type definitions overlaid on the existing ones.
 // Any new definitions are added, and any existing definitions are replaced.
 func (s *State) WithOverlaidDefinitions(definitions astmodel.TypeDefinitionSet) *State {
 	result := s.copy()

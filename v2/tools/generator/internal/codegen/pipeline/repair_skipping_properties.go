@@ -24,7 +24,7 @@ const RepairSkippingPropertiesStageID = "repairSkippingProperties"
 // different versions of ASO, or between different versions of a given resource.
 //
 // To repair these, we need to ensure that objects stored in property bags are always serialized with the same
-// shape. For more details, see ADR-2023-09-Skipping-Properties
+// shape. For more details, see https://azure.github.io/azure-service-operator/design/adr-2023-09-skipping-properties/
 //
 // Repair works by scanning for properties that are dropped between versions of a resource. We keep track of all
 // these properties, and if a specific property appears more than once (implying there are two or more sequence versions
