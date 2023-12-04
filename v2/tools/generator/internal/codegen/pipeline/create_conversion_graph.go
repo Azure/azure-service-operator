@@ -7,7 +7,11 @@ package pipeline
 
 import (
 	"context"
+	"fmt"
+	"os"
+	"path/filepath"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -22,7 +26,8 @@ const CreateConversionGraphStageId = "createConversionGraph"
 // convert resources to/from the designated storage (or hub) version
 func CreateConversionGraph(
 	configuration *config.Configuration,
-	generatorPrefix string) *Stage {
+	generatorPrefix string,
+) *Stage {
 	stage := NewStage(
 		CreateConversionGraphStageId,
 		"Create the graph of conversions between versions of each resource group",
@@ -50,6 +55,60 @@ func CreateConversionGraph(
 			return state.WithConversionGraph(graph), nil
 		})
 
+	stage.AddDiagnostic(exportConversionGraph)
+
 	stage.RequiresPrerequisiteStages(CreateStorageTypesStageID)
 	return stage
+}
+
+func exportConversionGraph(settings *DebugSettings, index int, state *State) error {
+	graph := state.ConversionGraph()
+	if graph == nil {
+		return errors.New("no conversion graph available")
+	}
+
+	// Create our output folder
+	outputFolder := settings.CreateFileName(fmt.Sprintf("conversion-graph-%d", index))
+	err := os.Mkdir(outputFolder, 0700)
+	if err != nil {
+		return errors.Wrapf(err, "creating output folder for conversion graph diagnostic")
+	}
+
+	done := set.Make[string]()
+	for name, def := range state.Definitions() {
+		if name.IsARMType() {
+			// ARM types don't participate in the conversion graph
+			continue
+		}
+
+		_, isResource := astmodel.AsResourceType(def.Type())
+		_, isObject := astmodel.AsObjectType(def.Type())
+		if !isResource && !isObject {
+			// Not a resource or object, so not a type we're interested in
+			continue
+		}
+
+		if !settings.MatchesGroup(name.InternalPackageReference()) {
+			// Not a group/version we're interested in
+			continue
+		}
+
+		grp := name.InternalPackageReference().Group()
+		name := name.Name()
+		key := fmt.Sprintf("%s-%s.gv", grp, name)
+		if done.Contains(key) {
+			// We've already exported this graph
+			continue
+		}
+
+		done.Add(key)
+
+		filename := filepath.Join(outputFolder, key)
+		err := graph.SaveTo(grp, name, filename)
+		if err != nil {
+			return errors.Wrapf(err, "writing conversion graph for %s", name)
+		}
+	}
+
+	return nil
 }

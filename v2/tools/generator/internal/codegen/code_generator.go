@@ -25,6 +25,7 @@ import (
 type CodeGenerator struct {
 	configuration *config.Configuration
 	pipeline      []*pipeline.Stage
+	debugSettings *pipeline.DebugSettings
 	debugReporter *debugReporter
 }
 
@@ -269,10 +270,9 @@ func (generator *CodeGenerator) Generate(
 		"ASO Code Generator",
 		"version", version.BuildVersion)
 
-	if generator.debugReporter != nil {
+	if generator.debugSettings != nil {
 		// Generate a diagram containing our stages
-		outputFolder := generator.debugReporter.outputFolder
-		diagram := pipeline.NewPipelineDiagram(outputFolder)
+		diagram := pipeline.NewPipelineDiagram(generator.debugSettings)
 		err := diagram.WriteDiagram(generator.pipeline)
 		if err != nil {
 			return errors.Wrapf(err, "failed to generate diagram")
@@ -291,17 +291,7 @@ func (generator *CodeGenerator) Generate(
 			return errors.Wrapf(err, "failed to execute stage %d: %s", stageNumber, stage.Description())
 		}
 
-		duration := time.Since(start).Round(time.Millisecond)
-
-		defsAdded := newState.Definitions().Except(state.Definitions())
-		defsRemoved := state.Definitions().Except(newState.Definitions())
-
-		log.Info(
-			stageDescription,
-			"elapsed", duration,
-			"added", len(defsAdded),
-			"removed", len(defsRemoved),
-			"totalDefs", len(newState.Definitions()))
+		generator.logStateChanges(start, newState, state, log, stageDescription)
 
 		state = newState
 	}
@@ -313,6 +303,26 @@ func (generator *CodeGenerator) Generate(
 	log.Info("Finished")
 
 	return nil
+}
+
+func (generator *CodeGenerator) logStateChanges(
+	start time.Time,
+	newState *pipeline.State,
+	state *pipeline.State,
+	log logr.Logger,
+	stageDescription string,
+) {
+	duration := time.Since(start).Round(time.Millisecond)
+
+	defsAdded := newState.Definitions().Except(state.Definitions())
+	defsRemoved := state.Definitions().Except(newState.Definitions())
+
+	log.Info(
+		stageDescription,
+		"elapsed", duration,
+		"added", len(defsAdded),
+		"removed", len(defsRemoved),
+		"totalDefs", len(newState.Definitions()))
 }
 
 // executeStage runs the given stage against the given state, returning the new state.
@@ -360,6 +370,12 @@ func (generator *CodeGenerator) executeStage(
 		if err != nil {
 			// Will be wrapped by our caller with details of the stage
 			return nil, errors.Wrapf(err, "failed to generate debug report for stage")
+		}
+
+		err = stage.RunDiagnostic(generator.debugSettings, stageNumber, newState)
+		if err != nil {
+			// Will be wrapped by our caller with details of the stage
+			return nil, errors.Wrapf(err, "failed to generate diagnostic report for stage")
 		}
 	}
 
@@ -455,5 +471,6 @@ func (generator *CodeGenerator) IndexOfStage(id string) int {
 // groupSpecifier indicates which groups to include (may include  wildcards).
 // outputFolder specifies where to write the debug output.
 func (generator *CodeGenerator) UseDebugMode(groupSpecifier string, outputFolder string) {
-	generator.debugReporter = newDebugReporter(groupSpecifier, outputFolder)
+	generator.debugSettings = pipeline.NewDebugSettings(groupSpecifier, outputFolder)
+	generator.debugReporter = newDebugReporter(generator.debugSettings)
 }

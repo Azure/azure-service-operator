@@ -24,9 +24,9 @@ type PipelineDiagram struct {
 }
 
 // NewPipelineDiagram creates a new PipelineDiagram to write into the specified directory.
-func NewPipelineDiagram(debugDir string) *PipelineDiagram {
+func NewPipelineDiagram(settings *DebugSettings) *PipelineDiagram {
 	return &PipelineDiagram{
-		debugDir:   debugDir,
+		debugDir:   settings.outputFolder,
 		stageIds:   make(map[*Stage]string, 70),
 		stageNames: make(map[string][]*Stage, 70),
 	}
