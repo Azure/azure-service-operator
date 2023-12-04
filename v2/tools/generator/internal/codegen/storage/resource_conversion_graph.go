@@ -7,8 +7,9 @@ package storage
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"io"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 
 	"github.com/pkg/errors"
 	"golang.org/x/exp/maps"
@@ -26,7 +27,7 @@ type ResourceConversionGraph struct {
 // LookupTransition accepts a type name and looks up the transition to the next version in the graph
 // Returns the next version, or an empty type name if not.
 func (graph *ResourceConversionGraph) LookupTransition(name astmodel.InternalTypeName) astmodel.InternalTypeName {
-	next, _ := graph.links[name]
+	next := graph.links[name]
 	return next
 }
 
@@ -72,6 +73,8 @@ func (graph *ResourceConversionGraph) WriteTo(writer io.Writer) error {
 	// Write out a graphviz file
 	err := graph.WriteLines(
 		writer,
+		"# Render with Graphviz using dot",
+		"# or try https://dreampuf.github.io/GraphvizOnline/",
 		"graph G {",
 		"    rankdir=LR;",
 		"",
