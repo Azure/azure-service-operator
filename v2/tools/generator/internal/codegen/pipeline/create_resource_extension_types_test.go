@@ -24,7 +24,7 @@ func TestGolden_ResoureExtension_OneVersion(t *testing.T) {
 	defs.AddAll(resourceV1, specV1, statusV1)
 
 	initialState, err := RunTestPipeline(
-		NewState().WithDefinitions(defs))
+		NewState(defs))
 	g.Expect(err).To(Succeed())
 
 	finalState, err := RunTestPipeline(initialState, CreateResourceExtensions("testPath", astmodel.NewIdentifierFactory()))
@@ -47,7 +47,7 @@ func TestGolden_ResoureExtension_MoreThanOneVersion(t *testing.T) {
 	defs.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2)
 
 	initialState, err := RunTestPipeline(
-		NewState().WithDefinitions(defs))
+		NewState(defs))
 	g.Expect(err).To(Succeed())
 
 	finalState, err := RunTestPipeline(initialState, CreateResourceExtensions("testPath", astmodel.NewIdentifierFactory()))

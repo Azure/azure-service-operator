@@ -52,6 +52,6 @@ func ApplyKubernetesResourceInterface(
 				updatedDefs.Add(newDef)
 			}
 
-			return state.WithDefinitions(state.Definitions().OverlayWith(updatedDefs)), nil
+			return state.WithOverlaidDefinitions(updatedDefs), nil
 		})
 }

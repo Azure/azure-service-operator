@@ -112,7 +112,7 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(resource, spec, status, addressSpec, addressStatus, locationStatus)
 
-	state := NewState().WithDefinitions(defs)
+	state := NewState(defs)
 
 	cfg := config.NewConfiguration()
 	finalState, err := RunTestPipeline(

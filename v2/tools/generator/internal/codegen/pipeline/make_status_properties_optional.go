@@ -44,10 +44,7 @@ func MakeStatusPropertiesOptional() *Stage {
 				return nil, err
 			}
 
-			remaining := state.Definitions().Except(result)
-			result.AddTypes(remaining)
-
-			return state.WithDefinitions(result), nil
+			return state.WithOverlaidDefinitions(result), nil
 		})
 }
 

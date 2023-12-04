@@ -51,6 +51,8 @@ applyDefaulterAndValidatorInterfaces              azure      Add the admission.D
 injectOriginalVersionFunction                     azure      Inject the function OriginalVersion() into each Spec type
 createStorageTypes                                azure      Create storage versions of CRD types
 createConversionGraph                             azure      Create the graph of conversions between versions of each resource group
+repairSkippingProperties                          azure      Repair property bag serialization for properties that skip resource or object versions
+createConversionGraph                             azure      Create the graph of conversions between versions of each resource group
 injectOriginalVersionProperty                     azure      Inject the property OriginalVersion into each Storage Spec type
 injectPropertyAssignmentFunctions                 azure      Inject property assignment functions AssignFrom() and AssignTo() into resources and objects
 implementConvertibleSpecInterface                 azure      Inject ConvertSpecTo() and ConvertSpecFrom() to implement genruntime.ConvertibleSpec on each Spec type
@@ -68,7 +70,6 @@ simplifyDefinitions                                          Flatten definitions
 createResourceExtensions                          azure      Create Resource Extensions for each resource type
 rogueCheck                                                   Check for rogue definitions using AnyTypes
 ensureArmTypeExistsForEveryType                   azure      Check that an ARM type exists for both Spec and Status of each resource
-detectSkippingProperties                          azure      Detect properties that skip resource or object versions
 deleteGenerated                                              Delete generated code from .
 exportPackages                                               Export packages to "."
 exportControllerResourceRegistrations             azure      Export resource registrations to ""

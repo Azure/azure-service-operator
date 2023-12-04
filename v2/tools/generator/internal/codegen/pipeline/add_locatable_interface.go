@@ -30,7 +30,7 @@ func AddLocatableInterface(idFactory astmodel.IdentifierFactory) *Stage {
 				}
 			}
 
-			return state.WithDefinitions(state.Definitions().OverlayWith(updatedDefs)), nil
+			return state.WithOverlaidDefinitions(updatedDefs), nil
 		},
 	)
 

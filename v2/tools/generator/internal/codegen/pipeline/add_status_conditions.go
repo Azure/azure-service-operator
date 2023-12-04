@@ -58,9 +58,8 @@ func AddStatusConditions(idFactory astmodel.IdentifierFactory) *Stage {
 
 				result.Add(def.WithType(resourceType))
 			}
-			result = defs.OverlayWith(result)
 
-			return state.WithDefinitions(result), nil
+			return state.WithOverlaidDefinitions(result), nil
 		})
 }
 

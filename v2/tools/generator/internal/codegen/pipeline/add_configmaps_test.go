@@ -69,7 +69,7 @@ func TestAddConfigMaps_AddsSpecWithRequiredConfigMaps(t *testing.T) {
 	addConfigMaps := AddConfigMaps(configuration)
 
 	// Don't need a context when testing
-	state := NewState().WithDefinitions(defs)
+	state := NewState(defs)
 	finalState, err := addConfigMaps.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())

@@ -44,8 +44,6 @@ func AddKubernetesExporter(idFactory astmodel.IdentifierFactory) *Stage {
 				updatedDefs.Add(updatedDef)
 			}
 
-			result := defs.OverlayWith(updatedDefs)
-
-			return state.WithDefinitions(result), nil
+			return state.WithOverlaidDefinitions(updatedDefs), nil
 		})
 }

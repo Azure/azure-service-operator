@@ -32,7 +32,7 @@ func TestGolden_InjectOriginalVersionFunction(t *testing.T) {
 	injectOriginalVersion := InjectOriginalVersionFunction(idFactory)
 
 	// Don't need a context when testing
-	state := NewState().WithDefinitions(defs)
+	state := NewState(defs)
 	finalState, err := injectOriginalVersion.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())

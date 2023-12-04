@@ -50,10 +50,7 @@ func RemoveStatusValidations() *Stage {
 			}
 			*/
 
-			remaining := state.Definitions().Except(result)
-			result.AddTypes(remaining)
-
-			return state.WithDefinitions(result), nil
+			return state.WithOverlaidDefinitions(result), nil
 		})
 }
 

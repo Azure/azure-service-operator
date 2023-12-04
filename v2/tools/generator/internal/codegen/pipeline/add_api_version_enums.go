@@ -30,12 +30,11 @@ func AddAPIVersionEnums() *Stage {
 				if rt, ok := astmodel.AsResourceType(def.Type()); ok {
 					version := apiVersions.Get(name.InternalPackageReference())
 					def = def.WithType(rt.WithAPIVersion(version.name, version.value))
+					newDefs.Add(def)
 				}
-
-				newDefs.Add(def)
 			}
 
-			return state.WithDefinitions(newDefs), nil
+			return state.WithOverlaidDefinitions(newDefs), nil
 		},
 	)
 

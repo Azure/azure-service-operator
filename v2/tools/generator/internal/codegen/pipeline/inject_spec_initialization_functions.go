@@ -75,7 +75,7 @@ func InjectSpecInitializationFunctions(
 				return nil, errors.Wrapf(kerrors.NewAggregate(errs), "failed to inject spec initialization functions")
 			}
 
-			return state.WithDefinitions(defs.OverlayWith(newDefs)), nil
+			return state.WithOverlaidDefinitions(newDefs), nil
 		})
 
 	// Needed to populate the conversion graph

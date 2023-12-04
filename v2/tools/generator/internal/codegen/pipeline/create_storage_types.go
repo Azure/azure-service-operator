@@ -66,10 +66,7 @@ func CreateStorageTypes() *Stage {
 				storageDefs.Add(storageDef)
 			}
 
-			defs := state.Definitions().Copy()
-			defs.AddTypes(storageDefs)
-
-			return state.WithDefinitions(defs), nil
+			return state.WithOverlaidDefinitions(storageDefs), nil
 		})
 
 	return stage

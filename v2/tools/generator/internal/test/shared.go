@@ -41,6 +41,9 @@ var (
 	FullAddressProperty = astmodel.NewPropertyDefinition("FullAddress", "fullAddress", astmodel.StringType).
 				WithDescription("Full written address for map or postal use")
 
+	SuburbProperty = astmodel.NewPropertyDefinition("Suburb", "suburb", astmodel.StringType).
+			WithDescription("Suburb within city or town")
+
 	CityProperty = astmodel.NewPropertyDefinition("City", "city", astmodel.StringType).
 			WithDescription("City or town (or nearest)")
 

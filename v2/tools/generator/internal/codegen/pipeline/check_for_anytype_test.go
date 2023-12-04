@@ -40,7 +40,7 @@ func TestFindsAnyTypes(t *testing.T) {
 	// One that's fine.
 	add(p3, "C", astmodel.NewArrayType(astmodel.IntType))
 
-	state := NewState().WithDefinitions(defs)
+	state := NewState(defs)
 	stage := FilterOutDefinitionsUsingAnyType(nil)
 	finalState, err := stage.Run(context.Background(), state)
 
@@ -72,7 +72,7 @@ func TestIgnoresExpectedAnyTypePackages(t *testing.T) {
 
 	exclusions := []string{"horo.logy/v20200730", "road.train/v20200730"}
 
-	state := NewState().WithDefinitions(defs)
+	state := NewState(defs)
 	finalState, err := FilterOutDefinitionsUsingAnyType(exclusions).action(context.Background(), state)
 	g.Expect(err).To(BeNil())
 
@@ -112,7 +112,7 @@ func TestComplainsAboutUnneededExclusions(t *testing.T) {
 		"road.train/v20200730",
 	}
 
-	state := NewState().WithDefinitions(defs)
+	state := NewState(defs)
 	stage := FilterOutDefinitionsUsingAnyType(exclusions)
 	finalState, err := stage.Run(context.Background(), state)
 	g.Expect(finalState).To(BeNil())
