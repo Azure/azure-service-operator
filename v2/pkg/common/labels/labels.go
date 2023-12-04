@@ -19,7 +19,7 @@ func SetOwnerNameLabel(obj genruntime.ARMMetaObject) {
 }
 
 func SetOwnerGroupKindLabel(obj genruntime.ARMMetaObject) {
-	if obj.Owner() != nil && obj.Owner().GroupKind().String() != "" {
+	if obj.Owner() != nil && obj.Owner().String() != "" {
 		genruntime.AddLabel(obj, OwnerGroupKindLabel, obj.Owner().String())
 	}
 }
