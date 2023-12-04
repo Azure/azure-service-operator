@@ -450,6 +450,23 @@ func Test_ResolveReference_ReturnsErrorIfReferenceIsNotAKubernetesReference(t *t
 	g.Expect(err).To(MatchError("reference abcd is not pointing to a Kubernetes resource"))
 }
 
+func Test_ResolveReference_ReturnsErrorIfReferenceContainsArmIdAsName(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	test, err := testSetup()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	armID := "/subscriptions/00000000-0000-0000-000000000000/resources/resourceGroups/myrg"
+
+	ref := genruntime.ResourceReference{Group: resolver.ResourceGroupGroup, Kind: resolver.ResourceGroupKind, Name: armID}
+	_, err = test.resolver.ResolveReference(ctx, ref.AsNamespacedRef(testNamespace))
+
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err).To(MatchError(fmt.Sprintf("couldn't resolve reference %s/%s. 'name' looks like it might be an ARM ID; did you mean 'armID: %s'?", testNamespace, armID, armID)))
+}
+
 func Test_ResolveReferenceToARMID_KubernetesResource_ReturnsExpectedID(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)

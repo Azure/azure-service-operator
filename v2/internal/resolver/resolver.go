@@ -172,7 +172,7 @@ func (r *Resolver) ResolveReference(ctx context.Context, ref genruntime.Namespac
 			// Check if the user has mistakenly put the armID in 'name' field
 			_, err1 := arm.ParseResourceID(ref.Name)
 			if err1 == nil {
-				return nil, errors.Errorf("couldn't resolve reference %s. Name looks like it might be an ARM ID; did you mean 'armID: %s'?", refNamespacedName, ref.Name)
+				return nil, errors.Errorf("couldn't resolve reference %s. 'name' looks like it might be an ARM ID; did you mean 'armID: %s'?", refNamespacedName.String(), ref.Name)
 			}
 			err := core.NewReferenceNotFoundError(refNamespacedName, err)
 			return nil, errors.WithStack(err)
