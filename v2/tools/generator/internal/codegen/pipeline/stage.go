@@ -27,7 +27,7 @@ type Stage struct {
 	// Stage implementation
 	action stageAction
 	// Optional diagnostic generator
-	diagnostic diagnosticAction
+	diagnostic DiagnosticAction
 	// Tag used for filtering
 	targets []Target
 	// Identifiers for other stages that must be completed before this one
@@ -38,7 +38,7 @@ type Stage struct {
 
 type stageAction func(context.Context, *State) (*State, error)
 
-type diagnosticAction func(settings *DebugSettings, index int, state *State) error
+type DiagnosticAction func(settings *DebugSettings, index int, state *State) error
 
 // NewStage creates a new pipeline stage that's ready for execution
 func NewStage(
@@ -271,6 +271,6 @@ func (stage *Stage) Targets() []Target {
 
 // AddDiagnostic specifies a diagnostic generator for this stage.
 // The generator will be used if the generator is run with a --debug flag`
-func (stage *Stage) AddDiagnostic(diagnostic diagnosticAction) {
+func (stage *Stage) AddDiagnostic(diagnostic DiagnosticAction) {
 	stage.diagnostic = diagnostic
 }
