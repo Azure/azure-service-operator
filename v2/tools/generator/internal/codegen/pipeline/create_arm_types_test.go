@@ -52,7 +52,7 @@ func TestCreateFlattenedARMType_CreatesExpectedConversions(t *testing.T) {
 	strip := StripUnreferencedTypeDefinitions()
 
 	state, err := RunTestPipeline(
-		NewState().WithDefinitions(defs),
+		NewState(defs),
 		createARMTypes,
 		applyARMConversionInterface,
 		flatten,
@@ -108,7 +108,7 @@ func TestCreateFlattenedARMTypeWithResourceRef_CreatesExpectedConversions(t *tes
 	strip := StripUnreferencedTypeDefinitions()
 
 	state, err := RunTestPipeline(
-		NewState().WithDefinitions(defs),
+		NewState(defs),
 		configToARMIDs,
 		crossResourceRefs,
 		createARMTypes,
@@ -175,7 +175,7 @@ func TestCreateFlattenedARMTypeWithConfigMap_CreatesExpectedConversions(t *testi
 	strip := StripUnreferencedTypeDefinitions()
 
 	state, err := RunTestPipeline(
-		NewState().WithDefinitions(defs),
+		NewState(defs),
 		addConfigMaps,
 		createARMTypes,
 		applyARMConversionInterface,
@@ -250,7 +250,7 @@ func TestCreateARMTypeWithConfigMap_CreatesExpectedConversions(t *testing.T) {
 	strip := StripUnreferencedTypeDefinitions()
 
 	state, err := RunTestPipeline(
-		NewState().WithDefinitions(defs),
+		NewState(defs),
 		addConfigMaps,
 		createARMTypes,
 		applyARMConversionInterface,

@@ -44,9 +44,8 @@ func TestVersionConfiguration_AddTypeAlias_WhenTypeKnown_AddsAlias(t *testing.T)
 
 	g.Expect(vc.addTypeAlias("Person", "Party")).To(Succeed())
 
-	party, err := vc.findType("Party")
+	party := vc.findType("Party")
 	g.Expect(party).To(Equal(NewTypeConfiguration("Person")))
-	g.Expect(err).To(BeNil())
 }
 
 func TestVersionConfiguration_AddTypeAlias_WhenTypeUnknown_ReturnsError(t *testing.T) {

@@ -6,7 +6,6 @@
 package config
 
 import (
-	"fmt"
 	"regexp"
 	"strings"
 
@@ -53,21 +52,6 @@ type ObjectModelConfiguration struct {
 	IsSecret                       propertyAccess[bool]
 	RenamePropertyTo               propertyAccess[string]
 	ResourceLifecycleOwnedByParent propertyAccess[string]
-}
-
-type groupAccess[T any] struct {
-	model    *ObjectModelConfiguration
-	accessor func(*GroupConfiguration) *configurable[T]
-}
-
-type typeAccess[T any] struct {
-	model    *ObjectModelConfiguration
-	accessor func(*TypeConfiguration) *configurable[T]
-}
-
-type propertyAccess[T any] struct {
-	model    *ObjectModelConfiguration
-	accessor func(*PropertyConfiguration) *configurable[T]
 }
 
 // NewObjectModelConfiguration returns a new (empty) ObjectModelConfiguration
@@ -135,14 +119,9 @@ func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.InternalPack
 		return nil
 	})
 
-	err := visitor.Visit(omc)
+	err := visitor.visit(omc)
 	if err != nil {
-		if IsNotConfiguredError(err) {
-			// No configuration for this package, we're not expecting any types
-			return false
-		}
-
-		// Some other error, we'll assume we're expecting types
+		// For any error, we'll assume we're expecting the group
 		return true
 	}
 
@@ -157,14 +136,9 @@ func (omc *ObjectModelConfiguration) IsTypeConfigured(name astmodel.InternalType
 		return nil
 	})
 
-	err := visitor.Visit(omc)
+	err := visitor.visit(omc)
 	if err != nil {
-		if IsNotConfiguredError(err) {
-			// No configuration for this type, we're not expecting it
-			return false
-		}
-
-		// Some other error, we'll assume we're expecting it
+		// For any error, we'll assume we're expecting the type
 		return true
 	}
 
@@ -180,7 +154,7 @@ func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.InternalTypeName
 			return configuration.addTypeAlias(name.Name(), alias)
 		})
 
-	err := versionVisitor.Visit(omc)
+	err := versionVisitor.visit(omc)
 	if err != nil {
 		// Should never have an error in this case, but if we do make sure we know
 		panic(err)
@@ -227,7 +201,7 @@ func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) 
 			return groupConfig.visitVersions(versionVisitor)
 		})
 
-	err := groupVisitor.Visit(omc)
+	err := groupVisitor.visit(omc)
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to find hand-crafted packages")
 	}
@@ -253,9 +227,9 @@ func (omc *ObjectModelConfiguration) visitGroup(
 	ref astmodel.InternalPackageReference,
 	visitor *configurationVisitor,
 ) error {
-	group, err := omc.findGroup(ref)
-	if err != nil {
-		return err
+	group := omc.findGroup(ref)
+	if group == nil {
+		return nil
 	}
 
 	return visitor.visitGroup(group)
@@ -275,21 +249,19 @@ func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) 
 }
 
 // findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used
-func (omc *ObjectModelConfiguration) findGroup(ref astmodel.InternalPackageReference) (*GroupConfiguration, error) {
+func (omc *ObjectModelConfiguration) findGroup(ref astmodel.InternalPackageReference) *GroupConfiguration {
 	group := ref.Group()
 
 	if omc == nil || omc.groups == nil {
-		msg := fmt.Sprintf("no configuration for group %s", group)
-		return nil, NewNotConfiguredError(msg)
+		return nil
 	}
 
 	omc.typoAdvisor.AddTerm(group)
 	if g, ok := omc.groups[group]; ok {
-		return g, nil
+		return g
 	}
 
-	msg := fmt.Sprintf("no configuration for group %s", group)
-	return nil, NewNotConfiguredError(msg).WithOptions("groups", omc.configuredGroups())
+	return nil
 }
 
 // UnmarshalYAML populates our instance from the YAML.
@@ -346,11 +318,7 @@ func (omc *ObjectModelConfiguration) ModifyGroup(
 	action func(configuration *GroupConfiguration) error,
 ) error {
 	groupName := ref.Group()
-	grp, err := omc.findGroup(ref)
-	if err != nil && !IsNotConfiguredError(err) {
-		return errors.Wrapf(err, "configuring groupName %s", groupName)
-	}
-
+	grp := omc.findGroup(ref)
 	if grp == nil {
 		grp = NewGroupConfiguration(groupName)
 		omc.addGroup(groupName, grp)
@@ -370,11 +338,7 @@ func (omc *ObjectModelConfiguration) ModifyVersion(
 	return omc.ModifyGroup(
 		ref,
 		func(configuration *GroupConfiguration) error {
-			ver, err := configuration.findVersion(ref)
-			if err != nil && !IsNotConfiguredError(err) {
-				return errors.Wrapf(err, "configuring version %s", version)
-			}
-
+			ver := configuration.findVersion(ref)
 			if ver == nil {
 				ver = NewVersionConfiguration(version)
 				configuration.addVersion(version, ver)
@@ -395,11 +359,7 @@ func (omc *ObjectModelConfiguration) ModifyType(
 		name.InternalPackageReference(),
 		func(versionConfiguration *VersionConfiguration) error {
 			typeName := name.Name()
-			typ, err := versionConfiguration.findType(typeName)
-			if err != nil && !IsNotConfiguredError(err) {
-				return errors.Wrapf(err, "configuring type %s", typeName)
-			}
-
+			typ := versionConfiguration.findType(typeName)
 			if typ == nil {
 				typ = NewTypeConfiguration(typeName)
 				versionConfiguration.addType(typeName, typ)
@@ -420,11 +380,7 @@ func (omc *ObjectModelConfiguration) ModifyProperty(
 	return omc.ModifyType(
 		typeName,
 		func(typeConfiguration *TypeConfiguration) error {
-			prop, err := typeConfiguration.findProperty(property)
-			if err != nil && !IsNotConfiguredError(err) {
-				return errors.Wrapf(err, "configuring property %s", property)
-			}
-
+			prop := typeConfiguration.findProperty(property)
 			if prop == nil {
 				name := property.String()
 				prop = NewPropertyConfiguration(name)
@@ -433,166 +389,4 @@ func (omc *ObjectModelConfiguration) ModifyProperty(
 
 			return action(prop)
 		})
-}
-
-/*
- * groupAccess
- */
-
-func makeGroupAccess[T any](
-	model *ObjectModelConfiguration,
-	accessor func(*GroupConfiguration,
-	) *configurable[T]) groupAccess[T] {
-	return groupAccess[T]{
-		model:    model,
-		accessor: accessor}
-}
-
-func (a *groupAccess[T]) Lookup(ref astmodel.InternalPackageReference) (T, error) {
-	var c *configurable[T]
-	visitor := newSingleGroupConfigurationVisitor(
-		ref,
-		func(configuration *GroupConfiguration) error {
-			c = a.accessor(configuration)
-			return nil
-		})
-
-	err := visitor.Visit(a.model)
-	if err != nil {
-		return *new(T), err
-	}
-
-	return c.Lookup()
-}
-
-func (a *groupAccess[T]) VerifyConsumed() error {
-	visitor := newEveryGroupConfigurationVisitor(
-		func(configuration *GroupConfiguration) error {
-			c := a.accessor(configuration)
-			return c.VerifyConsumed()
-		})
-	return visitor.Visit(a.model)
-}
-
-func (a *groupAccess[T]) MarkUnconsumed() error {
-	visitor := newEveryGroupConfigurationVisitor(
-		func(configuration *GroupConfiguration) error {
-			c := a.accessor(configuration)
-			c.MarkUnconsumed()
-			return nil
-		})
-
-	return visitor.Visit(a.model)
-}
-
-/*
- * typeAccess
- */
-
-// makeTypeAccess creates a new typeAccess[T] for the given model and accessor function
-func makeTypeAccess[T any](
-	model *ObjectModelConfiguration,
-	accessor func(*TypeConfiguration,
-	) *configurable[T]) typeAccess[T] {
-	return typeAccess[T]{
-		model:    model,
-		accessor: accessor}
-}
-
-// Lookup returns the configured value for the given type name
-func (a *typeAccess[T]) Lookup(name astmodel.InternalTypeName) (T, error) {
-	var c *configurable[T]
-	visitor := newSingleTypeConfigurationVisitor(
-		name,
-		func(configuration *TypeConfiguration) error {
-			c = a.accessor(configuration)
-			return nil
-		})
-
-	err := visitor.Visit(a.model)
-	if err != nil {
-		return *new(T), err
-	}
-
-	return c.Lookup()
-}
-
-// VerifyConsumed ensures that all configured values have been consumed
-func (a *typeAccess[T]) VerifyConsumed() error {
-	visitor := newEveryTypeConfigurationVisitor(
-		func(configuration *TypeConfiguration) error {
-			c := a.accessor(configuration)
-			return c.VerifyConsumed()
-		})
-	return visitor.Visit(a.model)
-}
-
-// MarkUnconsumed marks all configured values as unconsumed
-func (a *typeAccess[T]) MarkUnconsumed() error {
-	visitor := newEveryTypeConfigurationVisitor(
-		func(configuration *TypeConfiguration) error {
-			c := a.accessor(configuration)
-			c.MarkUnconsumed()
-			return nil
-		})
-
-	return visitor.Visit(a.model)
-}
-
-/*
- * PropertyAccess
- */
-
-// makePropertyAccess creates a new propertyAccess[T] for the given model and accessor function
-func makePropertyAccess[T any](
-	model *ObjectModelConfiguration,
-	accessor func(*PropertyConfiguration,
-	) *configurable[T]) propertyAccess[T] {
-	return propertyAccess[T]{
-		model:    model,
-		accessor: accessor}
-}
-
-// Lookup returns the configured value for the given type name and property name
-func (a *propertyAccess[T]) Lookup(
-	name astmodel.InternalTypeName,
-	property astmodel.PropertyName,
-) (T, error) {
-	var c *configurable[T]
-	visitor := newSinglePropertyConfigurationVisitor(
-		name,
-		property,
-		func(configuration *PropertyConfiguration) error {
-			c = a.accessor(configuration)
-			return nil
-		})
-
-	err := visitor.Visit(a.model)
-	if err != nil {
-		return *new(T), err
-	}
-
-	return c.Lookup()
-}
-
-// VerifyConsumed ensures that all configured values have been consumed
-func (a *propertyAccess[T]) VerifyConsumed() error {
-	visitor := newEveryPropertyConfigurationVisitor(
-		func(configuration *PropertyConfiguration) error {
-			c := a.accessor(configuration)
-			return c.VerifyConsumed()
-		})
-	return visitor.Visit(a.model)
-}
-
-// MarkUnconsumed marks all configured values as unconsumed
-func (a *propertyAccess[T]) MarkUnconsumed() error {
-	visitor := newEveryPropertyConfigurationVisitor(
-		func(configuration *PropertyConfiguration) error {
-			c := a.accessor(configuration)
-			c.MarkUnconsumed()
-			return nil
-		})
-
-	return visitor.Visit(a.model)
 }

@@ -34,7 +34,7 @@ func TestGolden_InjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpected
 	defs.AddAll(resource, status, spec)
 
 	initialState, err := RunTestPipeline(
-		NewState().WithDefinitions(defs),
+		NewState(defs),
 		CreateStorageTypes(),
 		CreateConversionGraph(cfg, "v"),
 		MarkLatestStorageVariantAsHubVersion(),
@@ -67,7 +67,7 @@ func TestGolden_InjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpec
 	defs.AddAll(resource, status, spec)
 
 	initialState, err := RunTestPipeline(
-		NewState().WithDefinitions(defs),
+		NewState(defs),
 		CreateStorageTypes(),
 		CreateConversionGraph(cfg, "v"),
 		MarkLatestStorageVariantAsHubVersion(),

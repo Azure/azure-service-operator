@@ -1,0 +1,9 @@
+apiVersion: managedidentity.azure.com/v1api20181130
+kind: UserAssignedIdentity
+metadata:
+  name: sampleuserassignedidentity
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg

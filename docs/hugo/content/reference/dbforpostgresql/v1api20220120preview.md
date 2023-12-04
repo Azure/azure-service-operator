@@ -936,6 +936,37 @@ config map will be created.</p>
 </tr>
 </tbody>
 </table>
+<h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServerOperatorSecrets">FlexibleServerOperatorSecrets
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServerOperatorSpec">FlexibleServerOperatorSpec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>fullyQualifiedDomainName</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>FullyQualifiedDomainName: indicates where the FullyQualifiedDomainName secret should be placed. If omitted, the secret
+will not be retrieved from Azure.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="dbforpostgresql.azure.com/v1api20220120preview.FlexibleServerOperatorSpec">FlexibleServerOperatorSpec
 </h3>
 <p>
@@ -963,6 +994,19 @@ FlexibleServerOperatorConfigMaps
 </td>
 <td>
 <p>ConfigMaps: configures where to place operator written ConfigMaps.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secrets</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServerOperatorSecrets">
+FlexibleServerOperatorSecrets
+</a>
+</em>
+</td>
+<td>
+<p>Secrets: configures where to place Azure generated secrets.</p>
 </td>
 </tr>
 </tbody>

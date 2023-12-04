@@ -75,6 +75,8 @@ import (
 	dbforpostgresql_v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
 	dbforpostgresql_v20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview"
 	dbforpostgresql_v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview/storage"
+	dbforpostgresql_v20221201 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201"
+	dbforpostgresql_v20221201s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/storage"
 	devices_customizations "github.com/Azure/azure-service-operator/v2/api/devices/customizations"
 	devices_v20210702 "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702"
 	devices_v20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/storage"
@@ -103,6 +105,8 @@ import (
 	keyvault_customizations "github.com/Azure/azure-service-operator/v2/api/keyvault/customizations"
 	keyvault_v20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
 	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/storage"
+	keyvault_v20230701 "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701"
+	keyvault_v20230701s "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/storage"
 	kubernetesconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/customizations"
 	kubernetesconfiguration_v20230501 "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
 	kubernetesconfiguration_v20230501s "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501/storage"
@@ -114,6 +118,8 @@ import (
 	managedidentity_v20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130/storage"
 	managedidentity_v20220131p "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131preview"
 	managedidentity_v20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131preview/storage"
+	managedidentity_v20230131 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
+	managedidentity_v20230131s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131/storage"
 	network_customizations "github.com/Azure/azure-service-operator/v2/api/network/customizations"
 	network_v20180501 "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501"
 	network_v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage"
@@ -154,6 +160,8 @@ import (
 	storage_v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401/storage"
 	storage_v20220901 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
 	storage_v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
+	storage_v20230101 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
+	storage_v20230101s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
 	subscription_customizations "github.com/Azure/azure-service-operator/v2/api/subscription/customizations"
 	subscription_v20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
 	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
@@ -464,7 +472,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20220101s.FlexibleServersConfiguration)})
 	result = append(result, &registration.StorageType{
-		Obj: new(dbforpostgresql_v20210601s.FlexibleServer),
+		Obj: new(dbforpostgresql_v20221201s.FlexibleServer),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.administratorLoginPassword",
@@ -474,13 +482,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.administratorLoginPassword"}, &dbforpostgresql_v20210601s.FlexibleServerList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.administratorLoginPassword"}, &dbforpostgresql_v20221201s.FlexibleServerList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20210601s.FlexibleServersConfiguration)})
-	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20210601s.FlexibleServersDatabase)})
-	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20210601s.FlexibleServersFirewallRule)})
+	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20221201s.FlexibleServersConfiguration)})
+	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20221201s.FlexibleServersDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v20221201s.FlexibleServersFirewallRule)})
 	result = append(result, &registration.StorageType{
 		Obj: new(devices_v20210702s.IotHub),
 		Indexes: []registration.Index{
@@ -569,7 +577,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(insights_v20221001s.AutoscaleSetting)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230101s.ActionGroup)})
 	result = append(result, &registration.StorageType{
-		Obj: new(keyvault_v20210401ps.Vault),
+		Obj: new(keyvault_v20230701s.Vault),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.properties.accessPolicies.applicationIdFromConfig",
@@ -591,7 +599,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.properties.accessPolicies.applicationIdFromConfig", ".spec.properties.accessPolicies.objectIdFromConfig", ".spec.properties.accessPolicies.tenantIdFromConfig", ".spec.properties.tenantIdFromConfig"}, &keyvault_v20210401ps.VaultList{}),
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.properties.accessPolicies.applicationIdFromConfig", ".spec.properties.accessPolicies.objectIdFromConfig", ".spec.properties.accessPolicies.tenantIdFromConfig", ".spec.properties.tenantIdFromConfig"}, &keyvault_v20230701s.VaultList{}),
 			},
 		},
 	})
@@ -633,9 +641,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20210701s.WorkspacesConnection)})
-	result = append(result, &registration.StorageType{Obj: new(managedidentity_v20181130s.UserAssignedIdentity)})
 	result = append(result, &registration.StorageType{
-		Obj: new(managedidentity_v20220131ps.FederatedIdentityCredential),
+		Obj: new(managedidentity_v20230131s.FederatedIdentityCredential),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.issuerFromConfig",
@@ -649,10 +656,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.issuerFromConfig", ".spec.subjectFromConfig"}, &managedidentity_v20220131ps.FederatedIdentityCredentialList{}),
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.issuerFromConfig", ".spec.subjectFromConfig"}, &managedidentity_v20230131s.FederatedIdentityCredentialList{}),
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(managedidentity_v20230131s.UserAssignedIdentity)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20180501s.DnsZone)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20180501s.DnsZonesAAAARecord)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20180501s.DnsZonesARecord)})
@@ -916,16 +924,16 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccount)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsBlobService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsBlobServicesContainer)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsFileService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsFileServicesShare)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsManagementPolicy)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsQueueService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsQueueServicesQueue)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsTableService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v20220901s.StorageAccountsTableServicesTable)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccount)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsBlobService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsBlobServicesContainer)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsFileService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsFileServicesShare)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsManagementPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsQueueService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsQueueServicesQueue)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsTableService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v20230101s.StorageAccountsTableServicesTable)})
 	result = append(result, &registration.StorageType{Obj: new(subscription_v20211001s.Alias)})
 	result = append(result, &registration.StorageType{
 		Obj: new(synapse_v20210601s.Workspace),
@@ -1133,6 +1141,18 @@ func getKnownTypes() []client.Object {
 		new(dbforpostgresql_v20220120ps.FlexibleServersConfiguration),
 		new(dbforpostgresql_v20220120ps.FlexibleServersDatabase),
 		new(dbforpostgresql_v20220120ps.FlexibleServersFirewallRule))
+	result = append(
+		result,
+		new(dbforpostgresql_v20221201.FlexibleServer),
+		new(dbforpostgresql_v20221201.FlexibleServersConfiguration),
+		new(dbforpostgresql_v20221201.FlexibleServersDatabase),
+		new(dbforpostgresql_v20221201.FlexibleServersFirewallRule))
+	result = append(
+		result,
+		new(dbforpostgresql_v20221201s.FlexibleServer),
+		new(dbforpostgresql_v20221201s.FlexibleServersConfiguration),
+		new(dbforpostgresql_v20221201s.FlexibleServersDatabase),
+		new(dbforpostgresql_v20221201s.FlexibleServersFirewallRule))
 	result = append(result, new(devices_v20210702.IotHub))
 	result = append(result, new(devices_v20210702s.IotHub))
 	result = append(
@@ -1205,6 +1225,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(insights_v20230101s.ActionGroup))
 	result = append(result, new(keyvault_v20210401p.Vault))
 	result = append(result, new(keyvault_v20210401ps.Vault))
+	result = append(result, new(keyvault_v20230701.Vault))
+	result = append(result, new(keyvault_v20230701s.Vault))
 	result = append(result, new(kubernetesconfiguration_v20230501.Extension))
 	result = append(result, new(kubernetesconfiguration_v20230501s.Extension))
 	result = append(
@@ -1221,6 +1243,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(managedidentity_v20181130s.UserAssignedIdentity))
 	result = append(result, new(managedidentity_v20220131p.FederatedIdentityCredential))
 	result = append(result, new(managedidentity_v20220131ps.FederatedIdentityCredential))
+	result = append(result, new(managedidentity_v20230131.FederatedIdentityCredential), new(managedidentity_v20230131.UserAssignedIdentity))
+	result = append(result, new(managedidentity_v20230131s.FederatedIdentityCredential), new(managedidentity_v20230131s.UserAssignedIdentity))
 	result = append(
 		result,
 		new(network_v20180501.DnsZone),
@@ -1479,6 +1503,30 @@ func getKnownTypes() []client.Object {
 		new(storage_v20220901s.StorageAccountsQueueServicesQueue),
 		new(storage_v20220901s.StorageAccountsTableService),
 		new(storage_v20220901s.StorageAccountsTableServicesTable))
+	result = append(
+		result,
+		new(storage_v20230101.StorageAccount),
+		new(storage_v20230101.StorageAccountsBlobService),
+		new(storage_v20230101.StorageAccountsBlobServicesContainer),
+		new(storage_v20230101.StorageAccountsFileService),
+		new(storage_v20230101.StorageAccountsFileServicesShare),
+		new(storage_v20230101.StorageAccountsManagementPolicy),
+		new(storage_v20230101.StorageAccountsQueueService),
+		new(storage_v20230101.StorageAccountsQueueServicesQueue),
+		new(storage_v20230101.StorageAccountsTableService),
+		new(storage_v20230101.StorageAccountsTableServicesTable))
+	result = append(
+		result,
+		new(storage_v20230101s.StorageAccount),
+		new(storage_v20230101s.StorageAccountsBlobService),
+		new(storage_v20230101s.StorageAccountsBlobServicesContainer),
+		new(storage_v20230101s.StorageAccountsFileService),
+		new(storage_v20230101s.StorageAccountsFileServicesShare),
+		new(storage_v20230101s.StorageAccountsManagementPolicy),
+		new(storage_v20230101s.StorageAccountsQueueService),
+		new(storage_v20230101s.StorageAccountsQueueServicesQueue),
+		new(storage_v20230101s.StorageAccountsTableService),
+		new(storage_v20230101s.StorageAccountsTableServicesTable))
 	result = append(result, new(subscription_v20211001.Alias))
 	result = append(result, new(subscription_v20211001s.Alias))
 	result = append(result, new(synapse_v20210601.Workspace), new(synapse_v20210601.WorkspacesBigDataPool))
@@ -1548,6 +1596,8 @@ func createScheme() *runtime.Scheme {
 	_ = dbforpostgresql_v20210601s.AddToScheme(scheme)
 	_ = dbforpostgresql_v20220120p.AddToScheme(scheme)
 	_ = dbforpostgresql_v20220120ps.AddToScheme(scheme)
+	_ = dbforpostgresql_v20221201.AddToScheme(scheme)
+	_ = dbforpostgresql_v20221201s.AddToScheme(scheme)
 	_ = devices_v20210702.AddToScheme(scheme)
 	_ = devices_v20210702s.AddToScheme(scheme)
 	_ = documentdb_v20210515.AddToScheme(scheme)
@@ -1570,6 +1620,8 @@ func createScheme() *runtime.Scheme {
 	_ = insights_v20230101s.AddToScheme(scheme)
 	_ = keyvault_v20210401p.AddToScheme(scheme)
 	_ = keyvault_v20210401ps.AddToScheme(scheme)
+	_ = keyvault_v20230701.AddToScheme(scheme)
+	_ = keyvault_v20230701s.AddToScheme(scheme)
 	_ = kubernetesconfiguration_v20230501.AddToScheme(scheme)
 	_ = kubernetesconfiguration_v20230501s.AddToScheme(scheme)
 	_ = machinelearningservices_v20210701.AddToScheme(scheme)
@@ -1578,6 +1630,8 @@ func createScheme() *runtime.Scheme {
 	_ = managedidentity_v20181130s.AddToScheme(scheme)
 	_ = managedidentity_v20220131p.AddToScheme(scheme)
 	_ = managedidentity_v20220131ps.AddToScheme(scheme)
+	_ = managedidentity_v20230131.AddToScheme(scheme)
+	_ = managedidentity_v20230131s.AddToScheme(scheme)
 	_ = network_v20180501.AddToScheme(scheme)
 	_ = network_v20180501s.AddToScheme(scheme)
 	_ = network_v20180901.AddToScheme(scheme)
@@ -1610,6 +1664,8 @@ func createScheme() *runtime.Scheme {
 	_ = storage_v20210401s.AddToScheme(scheme)
 	_ = storage_v20220901.AddToScheme(scheme)
 	_ = storage_v20220901s.AddToScheme(scheme)
+	_ = storage_v20230101.AddToScheme(scheme)
+	_ = storage_v20230101s.AddToScheme(scheme)
 	_ = subscription_v20211001.AddToScheme(scheme)
 	_ = subscription_v20211001s.AddToScheme(scheme)
 	_ = synapse_v20210601.AddToScheme(scheme)
@@ -2233,9 +2289,9 @@ func indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig(rawObj client
 	return obj.Spec.TenantIdFromConfig.Index()
 }
 
-// indexDbforpostgresqlFlexibleServerAdministratorLoginPassword an index function for dbforpostgresql_v20210601s.FlexibleServer .spec.administratorLoginPassword
+// indexDbforpostgresqlFlexibleServerAdministratorLoginPassword an index function for dbforpostgresql_v20221201s.FlexibleServer .spec.administratorLoginPassword
 func indexDbforpostgresqlFlexibleServerAdministratorLoginPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbforpostgresql_v20210601s.FlexibleServer)
+	obj, ok := rawObj.(*dbforpostgresql_v20221201s.FlexibleServer)
 	if !ok {
 		return nil
 	}
@@ -2394,9 +2450,9 @@ func indexEventgridEventSubscriptionEndpointUrl(rawObj client.Object) []string {
 	return obj.Spec.Destination.WebHook.EndpointUrl.Index()
 }
 
-// indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig an index function for keyvault_v20210401ps.Vault .spec.properties.accessPolicies.applicationIdFromConfig
+// indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.accessPolicies.applicationIdFromConfig
 func indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*keyvault_v20210401ps.Vault)
+	obj, ok := rawObj.(*keyvault_v20230701s.Vault)
 	if !ok {
 		return nil
 	}
@@ -2413,9 +2469,9 @@ func indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig(rawObj cl
 	return result
 }
 
-// indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig an index function for keyvault_v20210401ps.Vault .spec.properties.accessPolicies.objectIdFromConfig
+// indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.accessPolicies.objectIdFromConfig
 func indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*keyvault_v20210401ps.Vault)
+	obj, ok := rawObj.(*keyvault_v20230701s.Vault)
 	if !ok {
 		return nil
 	}
@@ -2432,9 +2488,9 @@ func indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig(rawObj client.
 	return result
 }
 
-// indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig an index function for keyvault_v20210401ps.Vault .spec.properties.accessPolicies.tenantIdFromConfig
+// indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.accessPolicies.tenantIdFromConfig
 func indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*keyvault_v20210401ps.Vault)
+	obj, ok := rawObj.(*keyvault_v20230701s.Vault)
 	if !ok {
 		return nil
 	}
@@ -2451,9 +2507,9 @@ func indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig(rawObj client.
 	return result
 }
 
-// indexKeyvaultVaultPropertiesTenantIdFromConfig an index function for keyvault_v20210401ps.Vault .spec.properties.tenantIdFromConfig
+// indexKeyvaultVaultPropertiesTenantIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.tenantIdFromConfig
 func indexKeyvaultVaultPropertiesTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*keyvault_v20210401ps.Vault)
+	obj, ok := rawObj.(*keyvault_v20230701s.Vault)
 	if !ok {
 		return nil
 	}
@@ -2604,9 +2660,9 @@ func indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword(rawObj 
 	return obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password.Index()
 }
 
-// indexManagedidentityFederatedIdentityCredentialIssuerFromConfig an index function for managedidentity_v20220131ps.FederatedIdentityCredential .spec.issuerFromConfig
+// indexManagedidentityFederatedIdentityCredentialIssuerFromConfig an index function for managedidentity_v20230131s.FederatedIdentityCredential .spec.issuerFromConfig
 func indexManagedidentityFederatedIdentityCredentialIssuerFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*managedidentity_v20220131ps.FederatedIdentityCredential)
+	obj, ok := rawObj.(*managedidentity_v20230131s.FederatedIdentityCredential)
 	if !ok {
 		return nil
 	}
@@ -2616,9 +2672,9 @@ func indexManagedidentityFederatedIdentityCredentialIssuerFromConfig(rawObj clie
 	return obj.Spec.IssuerFromConfig.Index()
 }
 
-// indexManagedidentityFederatedIdentityCredentialSubjectFromConfig an index function for managedidentity_v20220131ps.FederatedIdentityCredential .spec.subjectFromConfig
+// indexManagedidentityFederatedIdentityCredentialSubjectFromConfig an index function for managedidentity_v20230131s.FederatedIdentityCredential .spec.subjectFromConfig
 func indexManagedidentityFederatedIdentityCredentialSubjectFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*managedidentity_v20220131ps.FederatedIdentityCredential)
+	obj, ok := rawObj.(*managedidentity_v20230131s.FederatedIdentityCredential)
 	if !ok {
 		return nil
 	}

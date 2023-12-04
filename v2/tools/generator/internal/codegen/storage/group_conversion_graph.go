@@ -57,16 +57,10 @@ func (graph *GroupConversionGraph) searchForRenamedType(
 		return astmodel.InternalTypeName{}, nil
 	}
 
-	rename, err := graph.configuration.TypeNameInNextVersion.Lookup(name)
-	if config.IsNotConfiguredError(err) {
+	rename, ok := graph.configuration.TypeNameInNextVersion.Lookup(name)
+	if !ok {
 		// We found no configured rename, nothing to do
 		return astmodel.InternalTypeName{}, nil
-	}
-
-	// If we have any error other than a NotConfiguredError, something went wrong, and we must abort
-	if err != nil {
-		return astmodel.InternalTypeName{},
-			errors.Wrapf(err, "finding next type after %s", name)
 	}
 
 	// We have a configured rename, need to search through packages to find the type with that name

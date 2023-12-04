@@ -4,19 +4,18 @@
 package storage
 
 import (
+	"fmt"
+	v20230101s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=storage.azure.com,resources=storageaccountsfileservices,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=storage.azure.com,resources={storageaccountsfileservices/status,storageaccountsfileservices/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -42,6 +41,28 @@ func (service *StorageAccountsFileService) GetConditions() conditions.Conditions
 // SetConditions sets the conditions on the resource status
 func (service *StorageAccountsFileService) SetConditions(conditions conditions.Conditions) {
 	service.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &StorageAccountsFileService{}
+
+// ConvertFrom populates our StorageAccountsFileService from the provided hub StorageAccountsFileService
+func (service *StorageAccountsFileService) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v20230101s.StorageAccountsFileService)
+	if !ok {
+		return fmt.Errorf("expected storage/v1api20230101/storage/StorageAccountsFileService but received %T instead", hub)
+	}
+
+	return service.AssignProperties_From_StorageAccountsFileService(source)
+}
+
+// ConvertTo populates the provided hub StorageAccountsFileService from our StorageAccountsFileService
+func (service *StorageAccountsFileService) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v20230101s.StorageAccountsFileService)
+	if !ok {
+		return fmt.Errorf("expected storage/v1api20230101/storage/StorageAccountsFileService but received %T instead", hub)
+	}
+
+	return service.AssignProperties_To_StorageAccountsFileService(destination)
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsFileService{}
@@ -114,8 +135,75 @@ func (service *StorageAccountsFileService) SetStatus(status genruntime.Convertib
 	return nil
 }
 
-// Hub marks that this StorageAccountsFileService is the hub type for conversion
-func (service *StorageAccountsFileService) Hub() {}
+// AssignProperties_From_StorageAccountsFileService populates our StorageAccountsFileService from the provided source StorageAccountsFileService
+func (service *StorageAccountsFileService) AssignProperties_From_StorageAccountsFileService(source *v20230101s.StorageAccountsFileService) error {
+
+	// ObjectMeta
+	service.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec StorageAccounts_FileService_Spec
+	err := spec.AssignProperties_From_StorageAccounts_FileService_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_FileService_Spec() to populate field Spec")
+	}
+	service.Spec = spec
+
+	// Status
+	var status StorageAccounts_FileService_STATUS
+	err = status.AssignProperties_From_StorageAccounts_FileService_STATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_FileService_STATUS() to populate field Status")
+	}
+	service.Status = status
+
+	// Invoke the augmentConversionForStorageAccountsFileService interface (if implemented) to customize the conversion
+	var serviceAsAny any = service
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsFileService); ok {
+		err := augmentedService.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageAccountsFileService populates the provided destination StorageAccountsFileService from our StorageAccountsFileService
+func (service *StorageAccountsFileService) AssignProperties_To_StorageAccountsFileService(destination *v20230101s.StorageAccountsFileService) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *service.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v20230101s.StorageAccounts_FileService_Spec
+	err := service.Spec.AssignProperties_To_StorageAccounts_FileService_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_FileService_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v20230101s.StorageAccounts_FileService_STATUS
+	err = service.Status.AssignProperties_To_StorageAccounts_FileService_STATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_FileService_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForStorageAccountsFileService interface (if implemented) to customize the conversion
+	var serviceAsAny any = service
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsFileService); ok {
+		err := augmentedService.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (service *StorageAccountsFileService) OriginalGVK() *schema.GroupVersionKind {
@@ -137,6 +225,11 @@ type StorageAccountsFileServiceList struct {
 	Items           []StorageAccountsFileService `json:"items"`
 }
 
+type augmentConversionForStorageAccountsFileService interface {
+	AssignPropertiesFrom(src *v20230101s.StorageAccountsFileService) error
+	AssignPropertiesTo(dst *v20230101s.StorageAccountsFileService) error
+}
+
 // Storage version of v1api20220901.StorageAccounts_FileService_Spec
 type StorageAccounts_FileService_Spec struct {
 	Cors            *CorsRules `json:"cors,omitempty"`
@@ -156,20 +249,194 @@ var _ genruntime.ConvertibleSpec = &StorageAccounts_FileService_Spec{}
 
 // ConvertSpecFrom populates our StorageAccounts_FileService_Spec from the provided source
 func (service *StorageAccounts_FileService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == service {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v20230101s.StorageAccounts_FileService_Spec)
+	if ok {
+		// Populate our instance from source
+		return service.AssignProperties_From_StorageAccounts_FileService_Spec(src)
 	}
 
-	return source.ConvertSpecTo(service)
+	// Convert to an intermediate form
+	src = &v20230101s.StorageAccounts_FileService_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = service.AssignProperties_From_StorageAccounts_FileService_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our StorageAccounts_FileService_Spec
 func (service *StorageAccounts_FileService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == service {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v20230101s.StorageAccounts_FileService_Spec)
+	if ok {
+		// Populate destination from our instance
+		return service.AssignProperties_To_StorageAccounts_FileService_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(service)
+	// Convert to an intermediate form
+	dst = &v20230101s.StorageAccounts_FileService_Spec{}
+	err := service.AssignProperties_To_StorageAccounts_FileService_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_StorageAccounts_FileService_Spec populates our StorageAccounts_FileService_Spec from the provided source StorageAccounts_FileService_Spec
+func (service *StorageAccounts_FileService_Spec) AssignProperties_From_StorageAccounts_FileService_Spec(source *v20230101s.StorageAccounts_FileService_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Cors
+	if source.Cors != nil {
+		var cor CorsRules
+		err := cor.AssignProperties_From_CorsRules(source.Cors)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_CorsRules() to populate field Cors")
+		}
+		service.Cors = &cor
+	} else {
+		service.Cors = nil
+	}
+
+	// OriginalVersion
+	service.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		service.Owner = &owner
+	} else {
+		service.Owner = nil
+	}
+
+	// ProtocolSettings
+	if source.ProtocolSettings != nil {
+		var protocolSetting ProtocolSettings
+		err := protocolSetting.AssignProperties_From_ProtocolSettings(source.ProtocolSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ProtocolSettings() to populate field ProtocolSettings")
+		}
+		service.ProtocolSettings = &protocolSetting
+	} else {
+		service.ProtocolSettings = nil
+	}
+
+	// ShareDeleteRetentionPolicy
+	if source.ShareDeleteRetentionPolicy != nil {
+		var shareDeleteRetentionPolicy DeleteRetentionPolicy
+		err := shareDeleteRetentionPolicy.AssignProperties_From_DeleteRetentionPolicy(source.ShareDeleteRetentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy() to populate field ShareDeleteRetentionPolicy")
+		}
+		service.ShareDeleteRetentionPolicy = &shareDeleteRetentionPolicy
+	} else {
+		service.ShareDeleteRetentionPolicy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		service.PropertyBag = propertyBag
+	} else {
+		service.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccounts_FileService_Spec interface (if implemented) to customize the conversion
+	var serviceAsAny any = service
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_FileService_Spec); ok {
+		err := augmentedService.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageAccounts_FileService_Spec populates the provided destination StorageAccounts_FileService_Spec from our StorageAccounts_FileService_Spec
+func (service *StorageAccounts_FileService_Spec) AssignProperties_To_StorageAccounts_FileService_Spec(destination *v20230101s.StorageAccounts_FileService_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(service.PropertyBag)
+
+	// Cors
+	if service.Cors != nil {
+		var cor v20230101s.CorsRules
+		err := service.Cors.AssignProperties_To_CorsRules(&cor)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_CorsRules() to populate field Cors")
+		}
+		destination.Cors = &cor
+	} else {
+		destination.Cors = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = service.OriginalVersion
+
+	// Owner
+	if service.Owner != nil {
+		owner := service.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// ProtocolSettings
+	if service.ProtocolSettings != nil {
+		var protocolSetting v20230101s.ProtocolSettings
+		err := service.ProtocolSettings.AssignProperties_To_ProtocolSettings(&protocolSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ProtocolSettings() to populate field ProtocolSettings")
+		}
+		destination.ProtocolSettings = &protocolSetting
+	} else {
+		destination.ProtocolSettings = nil
+	}
+
+	// ShareDeleteRetentionPolicy
+	if service.ShareDeleteRetentionPolicy != nil {
+		var shareDeleteRetentionPolicy v20230101s.DeleteRetentionPolicy
+		err := service.ShareDeleteRetentionPolicy.AssignProperties_To_DeleteRetentionPolicy(&shareDeleteRetentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy() to populate field ShareDeleteRetentionPolicy")
+		}
+		destination.ShareDeleteRetentionPolicy = &shareDeleteRetentionPolicy
+	} else {
+		destination.ShareDeleteRetentionPolicy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccounts_FileService_Spec interface (if implemented) to customize the conversion
+	var serviceAsAny any = service
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_FileService_Spec); ok {
+		err := augmentedService.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20220901.StorageAccounts_FileService_STATUS
@@ -189,20 +456,230 @@ var _ genruntime.ConvertibleStatus = &StorageAccounts_FileService_STATUS{}
 
 // ConvertStatusFrom populates our StorageAccounts_FileService_STATUS from the provided source
 func (service *StorageAccounts_FileService_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == service {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v20230101s.StorageAccounts_FileService_STATUS)
+	if ok {
+		// Populate our instance from source
+		return service.AssignProperties_From_StorageAccounts_FileService_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(service)
+	// Convert to an intermediate form
+	src = &v20230101s.StorageAccounts_FileService_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = service.AssignProperties_From_StorageAccounts_FileService_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our StorageAccounts_FileService_STATUS
 func (service *StorageAccounts_FileService_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == service {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v20230101s.StorageAccounts_FileService_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return service.AssignProperties_To_StorageAccounts_FileService_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(service)
+	// Convert to an intermediate form
+	dst = &v20230101s.StorageAccounts_FileService_STATUS{}
+	err := service.AssignProperties_To_StorageAccounts_FileService_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_StorageAccounts_FileService_STATUS populates our StorageAccounts_FileService_STATUS from the provided source StorageAccounts_FileService_STATUS
+func (service *StorageAccounts_FileService_STATUS) AssignProperties_From_StorageAccounts_FileService_STATUS(source *v20230101s.StorageAccounts_FileService_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	service.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Cors
+	if source.Cors != nil {
+		var cor CorsRules_STATUS
+		err := cor.AssignProperties_From_CorsRules_STATUS(source.Cors)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_CorsRules_STATUS() to populate field Cors")
+		}
+		service.Cors = &cor
+	} else {
+		service.Cors = nil
+	}
+
+	// Id
+	service.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	service.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProtocolSettings
+	if source.ProtocolSettings != nil {
+		var protocolSetting ProtocolSettings_STATUS
+		err := protocolSetting.AssignProperties_From_ProtocolSettings_STATUS(source.ProtocolSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ProtocolSettings_STATUS() to populate field ProtocolSettings")
+		}
+		service.ProtocolSettings = &protocolSetting
+	} else {
+		service.ProtocolSettings = nil
+	}
+
+	// ShareDeleteRetentionPolicy
+	if source.ShareDeleteRetentionPolicy != nil {
+		var shareDeleteRetentionPolicy DeleteRetentionPolicy_STATUS
+		err := shareDeleteRetentionPolicy.AssignProperties_From_DeleteRetentionPolicy_STATUS(source.ShareDeleteRetentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy_STATUS() to populate field ShareDeleteRetentionPolicy")
+		}
+		service.ShareDeleteRetentionPolicy = &shareDeleteRetentionPolicy
+	} else {
+		service.ShareDeleteRetentionPolicy = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku_STATUS
+		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
+		}
+		service.Sku = &sku
+	} else {
+		service.Sku = nil
+	}
+
+	// Type
+	service.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		service.PropertyBag = propertyBag
+	} else {
+		service.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccounts_FileService_STATUS interface (if implemented) to customize the conversion
+	var serviceAsAny any = service
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_FileService_STATUS); ok {
+		err := augmentedService.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageAccounts_FileService_STATUS populates the provided destination StorageAccounts_FileService_STATUS from our StorageAccounts_FileService_STATUS
+func (service *StorageAccounts_FileService_STATUS) AssignProperties_To_StorageAccounts_FileService_STATUS(destination *v20230101s.StorageAccounts_FileService_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(service.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(service.Conditions)
+
+	// Cors
+	if service.Cors != nil {
+		var cor v20230101s.CorsRules_STATUS
+		err := service.Cors.AssignProperties_To_CorsRules_STATUS(&cor)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_CorsRules_STATUS() to populate field Cors")
+		}
+		destination.Cors = &cor
+	} else {
+		destination.Cors = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(service.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(service.Name)
+
+	// ProtocolSettings
+	if service.ProtocolSettings != nil {
+		var protocolSetting v20230101s.ProtocolSettings_STATUS
+		err := service.ProtocolSettings.AssignProperties_To_ProtocolSettings_STATUS(&protocolSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ProtocolSettings_STATUS() to populate field ProtocolSettings")
+		}
+		destination.ProtocolSettings = &protocolSetting
+	} else {
+		destination.ProtocolSettings = nil
+	}
+
+	// ShareDeleteRetentionPolicy
+	if service.ShareDeleteRetentionPolicy != nil {
+		var shareDeleteRetentionPolicy v20230101s.DeleteRetentionPolicy_STATUS
+		err := service.ShareDeleteRetentionPolicy.AssignProperties_To_DeleteRetentionPolicy_STATUS(&shareDeleteRetentionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy_STATUS() to populate field ShareDeleteRetentionPolicy")
+		}
+		destination.ShareDeleteRetentionPolicy = &shareDeleteRetentionPolicy
+	} else {
+		destination.ShareDeleteRetentionPolicy = nil
+	}
+
+	// Sku
+	if service.Sku != nil {
+		var sku v20230101s.Sku_STATUS
+		err := service.Sku.AssignProperties_To_Sku_STATUS(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(service.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccounts_FileService_STATUS interface (if implemented) to customize the conversion
+	var serviceAsAny any = service
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_FileService_STATUS); ok {
+		err := augmentedService.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForStorageAccounts_FileService_Spec interface {
+	AssignPropertiesFrom(src *v20230101s.StorageAccounts_FileService_Spec) error
+	AssignPropertiesTo(dst *v20230101s.StorageAccounts_FileService_Spec) error
+}
+
+type augmentConversionForStorageAccounts_FileService_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.StorageAccounts_FileService_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.StorageAccounts_FileService_STATUS) error
 }
 
 // Storage version of v1api20220901.ProtocolSettings
@@ -212,11 +689,169 @@ type ProtocolSettings struct {
 	Smb         *SmbSetting            `json:"smb,omitempty"`
 }
 
+// AssignProperties_From_ProtocolSettings populates our ProtocolSettings from the provided source ProtocolSettings
+func (settings *ProtocolSettings) AssignProperties_From_ProtocolSettings(source *v20230101s.ProtocolSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Smb
+	if source.Smb != nil {
+		var smb SmbSetting
+		err := smb.AssignProperties_From_SmbSetting(source.Smb)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SmbSetting() to populate field Smb")
+		}
+		settings.Smb = &smb
+	} else {
+		settings.Smb = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForProtocolSettings interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForProtocolSettings); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ProtocolSettings populates the provided destination ProtocolSettings from our ProtocolSettings
+func (settings *ProtocolSettings) AssignProperties_To_ProtocolSettings(destination *v20230101s.ProtocolSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// Smb
+	if settings.Smb != nil {
+		var smb v20230101s.SmbSetting
+		err := settings.Smb.AssignProperties_To_SmbSetting(&smb)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SmbSetting() to populate field Smb")
+		}
+		destination.Smb = &smb
+	} else {
+		destination.Smb = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForProtocolSettings interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForProtocolSettings); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220901.ProtocolSettings_STATUS
 // Protocol settings for file service
 type ProtocolSettings_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Smb         *SmbSetting_STATUS     `json:"smb,omitempty"`
+}
+
+// AssignProperties_From_ProtocolSettings_STATUS populates our ProtocolSettings_STATUS from the provided source ProtocolSettings_STATUS
+func (settings *ProtocolSettings_STATUS) AssignProperties_From_ProtocolSettings_STATUS(source *v20230101s.ProtocolSettings_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Smb
+	if source.Smb != nil {
+		var smb SmbSetting_STATUS
+		err := smb.AssignProperties_From_SmbSetting_STATUS(source.Smb)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SmbSetting_STATUS() to populate field Smb")
+		}
+		settings.Smb = &smb
+	} else {
+		settings.Smb = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForProtocolSettings_STATUS interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForProtocolSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ProtocolSettings_STATUS populates the provided destination ProtocolSettings_STATUS from our ProtocolSettings_STATUS
+func (settings *ProtocolSettings_STATUS) AssignProperties_To_ProtocolSettings_STATUS(destination *v20230101s.ProtocolSettings_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// Smb
+	if settings.Smb != nil {
+		var smb v20230101s.SmbSetting_STATUS
+		err := settings.Smb.AssignProperties_To_SmbSetting_STATUS(&smb)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SmbSetting_STATUS() to populate field Smb")
+		}
+		destination.Smb = &smb
+	} else {
+		destination.Smb = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForProtocolSettings_STATUS interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForProtocolSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForProtocolSettings interface {
+	AssignPropertiesFrom(src *v20230101s.ProtocolSettings) error
+	AssignPropertiesTo(dst *v20230101s.ProtocolSettings) error
+}
+
+type augmentConversionForProtocolSettings_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.ProtocolSettings_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.ProtocolSettings_STATUS) error
 }
 
 // Storage version of v1api20220901.SmbSetting
@@ -230,6 +865,104 @@ type SmbSetting struct {
 	Versions                 *string                `json:"versions,omitempty"`
 }
 
+// AssignProperties_From_SmbSetting populates our SmbSetting from the provided source SmbSetting
+func (setting *SmbSetting) AssignProperties_From_SmbSetting(source *v20230101s.SmbSetting) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AuthenticationMethods
+	setting.AuthenticationMethods = genruntime.ClonePointerToString(source.AuthenticationMethods)
+
+	// ChannelEncryption
+	setting.ChannelEncryption = genruntime.ClonePointerToString(source.ChannelEncryption)
+
+	// KerberosTicketEncryption
+	setting.KerberosTicketEncryption = genruntime.ClonePointerToString(source.KerberosTicketEncryption)
+
+	// Multichannel
+	if source.Multichannel != nil {
+		var multichannel Multichannel
+		err := multichannel.AssignProperties_From_Multichannel(source.Multichannel)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Multichannel() to populate field Multichannel")
+		}
+		setting.Multichannel = &multichannel
+	} else {
+		setting.Multichannel = nil
+	}
+
+	// Versions
+	setting.Versions = genruntime.ClonePointerToString(source.Versions)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		setting.PropertyBag = propertyBag
+	} else {
+		setting.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSmbSetting interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForSmbSetting); ok {
+		err := augmentedSetting.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SmbSetting populates the provided destination SmbSetting from our SmbSetting
+func (setting *SmbSetting) AssignProperties_To_SmbSetting(destination *v20230101s.SmbSetting) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(setting.PropertyBag)
+
+	// AuthenticationMethods
+	destination.AuthenticationMethods = genruntime.ClonePointerToString(setting.AuthenticationMethods)
+
+	// ChannelEncryption
+	destination.ChannelEncryption = genruntime.ClonePointerToString(setting.ChannelEncryption)
+
+	// KerberosTicketEncryption
+	destination.KerberosTicketEncryption = genruntime.ClonePointerToString(setting.KerberosTicketEncryption)
+
+	// Multichannel
+	if setting.Multichannel != nil {
+		var multichannel v20230101s.Multichannel
+		err := setting.Multichannel.AssignProperties_To_Multichannel(&multichannel)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Multichannel() to populate field Multichannel")
+		}
+		destination.Multichannel = &multichannel
+	} else {
+		destination.Multichannel = nil
+	}
+
+	// Versions
+	destination.Versions = genruntime.ClonePointerToString(setting.Versions)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSmbSetting interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForSmbSetting); ok {
+		err := augmentedSetting.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220901.SmbSetting_STATUS
 // Setting for SMB protocol
 type SmbSetting_STATUS struct {
@@ -241,6 +974,114 @@ type SmbSetting_STATUS struct {
 	Versions                 *string                `json:"versions,omitempty"`
 }
 
+// AssignProperties_From_SmbSetting_STATUS populates our SmbSetting_STATUS from the provided source SmbSetting_STATUS
+func (setting *SmbSetting_STATUS) AssignProperties_From_SmbSetting_STATUS(source *v20230101s.SmbSetting_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AuthenticationMethods
+	setting.AuthenticationMethods = genruntime.ClonePointerToString(source.AuthenticationMethods)
+
+	// ChannelEncryption
+	setting.ChannelEncryption = genruntime.ClonePointerToString(source.ChannelEncryption)
+
+	// KerberosTicketEncryption
+	setting.KerberosTicketEncryption = genruntime.ClonePointerToString(source.KerberosTicketEncryption)
+
+	// Multichannel
+	if source.Multichannel != nil {
+		var multichannel Multichannel_STATUS
+		err := multichannel.AssignProperties_From_Multichannel_STATUS(source.Multichannel)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Multichannel_STATUS() to populate field Multichannel")
+		}
+		setting.Multichannel = &multichannel
+	} else {
+		setting.Multichannel = nil
+	}
+
+	// Versions
+	setting.Versions = genruntime.ClonePointerToString(source.Versions)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		setting.PropertyBag = propertyBag
+	} else {
+		setting.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSmbSetting_STATUS interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForSmbSetting_STATUS); ok {
+		err := augmentedSetting.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SmbSetting_STATUS populates the provided destination SmbSetting_STATUS from our SmbSetting_STATUS
+func (setting *SmbSetting_STATUS) AssignProperties_To_SmbSetting_STATUS(destination *v20230101s.SmbSetting_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(setting.PropertyBag)
+
+	// AuthenticationMethods
+	destination.AuthenticationMethods = genruntime.ClonePointerToString(setting.AuthenticationMethods)
+
+	// ChannelEncryption
+	destination.ChannelEncryption = genruntime.ClonePointerToString(setting.ChannelEncryption)
+
+	// KerberosTicketEncryption
+	destination.KerberosTicketEncryption = genruntime.ClonePointerToString(setting.KerberosTicketEncryption)
+
+	// Multichannel
+	if setting.Multichannel != nil {
+		var multichannel v20230101s.Multichannel_STATUS
+		err := setting.Multichannel.AssignProperties_To_Multichannel_STATUS(&multichannel)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Multichannel_STATUS() to populate field Multichannel")
+		}
+		destination.Multichannel = &multichannel
+	} else {
+		destination.Multichannel = nil
+	}
+
+	// Versions
+	destination.Versions = genruntime.ClonePointerToString(setting.Versions)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSmbSetting_STATUS interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForSmbSetting_STATUS); ok {
+		err := augmentedSetting.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForSmbSetting interface {
+	AssignPropertiesFrom(src *v20230101s.SmbSetting) error
+	AssignPropertiesTo(dst *v20230101s.SmbSetting) error
+}
+
+type augmentConversionForSmbSetting_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.SmbSetting_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.SmbSetting_STATUS) error
+}
+
 // Storage version of v1api20220901.Multichannel
 // Multichannel setting. Applies to Premium FileStorage only.
 type Multichannel struct {
@@ -248,11 +1089,153 @@ type Multichannel struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_Multichannel populates our Multichannel from the provided source Multichannel
+func (multichannel *Multichannel) AssignProperties_From_Multichannel(source *v20230101s.Multichannel) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		multichannel.Enabled = &enabled
+	} else {
+		multichannel.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		multichannel.PropertyBag = propertyBag
+	} else {
+		multichannel.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForMultichannel interface (if implemented) to customize the conversion
+	var multichannelAsAny any = multichannel
+	if augmentedMultichannel, ok := multichannelAsAny.(augmentConversionForMultichannel); ok {
+		err := augmentedMultichannel.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Multichannel populates the provided destination Multichannel from our Multichannel
+func (multichannel *Multichannel) AssignProperties_To_Multichannel(destination *v20230101s.Multichannel) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(multichannel.PropertyBag)
+
+	// Enabled
+	if multichannel.Enabled != nil {
+		enabled := *multichannel.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForMultichannel interface (if implemented) to customize the conversion
+	var multichannelAsAny any = multichannel
+	if augmentedMultichannel, ok := multichannelAsAny.(augmentConversionForMultichannel); ok {
+		err := augmentedMultichannel.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220901.Multichannel_STATUS
 // Multichannel setting. Applies to Premium FileStorage only.
 type Multichannel_STATUS struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_Multichannel_STATUS populates our Multichannel_STATUS from the provided source Multichannel_STATUS
+func (multichannel *Multichannel_STATUS) AssignProperties_From_Multichannel_STATUS(source *v20230101s.Multichannel_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		multichannel.Enabled = &enabled
+	} else {
+		multichannel.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		multichannel.PropertyBag = propertyBag
+	} else {
+		multichannel.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForMultichannel_STATUS interface (if implemented) to customize the conversion
+	var multichannelAsAny any = multichannel
+	if augmentedMultichannel, ok := multichannelAsAny.(augmentConversionForMultichannel_STATUS); ok {
+		err := augmentedMultichannel.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Multichannel_STATUS populates the provided destination Multichannel_STATUS from our Multichannel_STATUS
+func (multichannel *Multichannel_STATUS) AssignProperties_To_Multichannel_STATUS(destination *v20230101s.Multichannel_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(multichannel.PropertyBag)
+
+	// Enabled
+	if multichannel.Enabled != nil {
+		enabled := *multichannel.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForMultichannel_STATUS interface (if implemented) to customize the conversion
+	var multichannelAsAny any = multichannel
+	if augmentedMultichannel, ok := multichannelAsAny.(augmentConversionForMultichannel_STATUS); ok {
+		err := augmentedMultichannel.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForMultichannel interface {
+	AssignPropertiesFrom(src *v20230101s.Multichannel) error
+	AssignPropertiesTo(dst *v20230101s.Multichannel) error
+}
+
+type augmentConversionForMultichannel_STATUS interface {
+	AssignPropertiesFrom(src *v20230101s.Multichannel_STATUS) error
+	AssignPropertiesTo(dst *v20230101s.Multichannel_STATUS) error
 }
 
 func init() {

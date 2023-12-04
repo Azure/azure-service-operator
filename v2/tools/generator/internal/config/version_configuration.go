@@ -6,7 +6,6 @@
 package config
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -51,12 +50,12 @@ func (vc *VersionConfiguration) visitType(
 	typeName string,
 	visitor *configurationVisitor,
 ) error {
-	tc, err := vc.findType(typeName)
-	if err != nil {
-		return err
+	tc := vc.findType(typeName)
+	if tc == nil {
+		return nil
 	}
 
-	err = visitor.visitType(tc)
+	err := visitor.visitType(tc)
 	if err != nil {
 		return errors.Wrapf(err, "configuration of version %s", vc.name)
 	}
@@ -81,17 +80,14 @@ func (vc *VersionConfiguration) visitTypes(visitor *configurationVisitor) error 
 }
 
 // findType uses the provided name to work out which nested TypeConfiguration should be used
-func (vc *VersionConfiguration) findType(name string) (*TypeConfiguration, error) {
+func (vc *VersionConfiguration) findType(name string) *TypeConfiguration {
 	vc.advisor.AddTerm(name)
 	n := strings.ToLower(name)
 	if t, ok := vc.types[n]; ok {
-		return t, nil
+		return t
 	}
 
-	msg := fmt.Sprintf("configuration of version %s has no detail for type %s",
-		vc.name,
-		name)
-	return nil, NewNotConfiguredError(msg).WithOptions("types", vc.configuredTypes())
+	return nil
 }
 
 // addTypeAlias adds an alias for the specified type, so it may be found with an alternative name
@@ -99,26 +95,19 @@ func (vc *VersionConfiguration) findType(name string) (*TypeConfiguration, error
 // the new name.
 func (vc *VersionConfiguration) addTypeAlias(name string, alias string) error {
 	// Lookup the existing configuration for 'name'
-	tc, err := vc.findType(name)
-	if err != nil {
-		return errors.Wrapf(err, "unable to create type alias %s", alias)
+	tc := vc.findType(name)
+	if tc == nil {
+		return errors.Errorf("unable to create type alias %s", alias)
 	}
 
 	// Make sure we don't already have a conflicting configuration for 'alias'
-	other, err := vc.findType(alias)
-	if err != nil {
-		// A NotConfiguredError is good, anything else we return
-		if !IsNotConfiguredError(err) {
-			return errors.Wrapf(err, "unable to create type alias %s", alias)
-		}
-	} else {
-		// if it's already aliased, it's ok if it's the same config, otherwise return an error
-		if other != tc {
-			return errors.Errorf(
-				"unable to create type alias %s for %s because that would conflict with existing configuration",
-				alias,
-				name)
-		}
+	// if it's already aliased, it's ok if it's the same config, otherwise return an error
+	other := vc.findType(alias)
+	if other != nil && other != tc {
+		return errors.Errorf(
+			"unable to create type alias %s for %s because that would conflict with existing configuration",
+			alias,
+			name)
 	}
 
 	// Add the alias as another route to the existing configuration

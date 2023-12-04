@@ -170,10 +170,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: MaxLength: 63
-│   │   │   ├── Rule 1: MinLength: 1
-│   │   │   └── Rule 2: Pattern: "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
+│   │   ├── AzureName: string
 │   │   ├── CreationData: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── SourceResourceReference: *genruntime.ResourceReference
@@ -1105,10 +1102,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 ├── TrustedAccessRoleBinding: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedCluster
 │   ├── Spec: Object (6 properties)
-│   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: MaxLength: 24
-│   │   │   ├── Rule 1: MinLength: 1
-│   │   │   └── Rule 2: Pattern: "^([A-Za-z0-9-])+$"
+│   │   ├── AzureName: string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag

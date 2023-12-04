@@ -238,6 +238,17 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `dbforpostgresql.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                                                                                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                     |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [FlexibleServer](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20221201/#dbforpostgresql.azure.com/v1api20221201.FlexibleServer)                             | 2022-12-01  | v1api20221201 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserver.yaml)               |
+| [FlexibleServersConfiguration](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20221201/#dbforpostgresql.azure.com/v1api20221201.FlexibleServersConfiguration) | 2022-12-01  | v1api20221201 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversconfiguration.yaml) |
+| [FlexibleServersDatabase](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20221201/#dbforpostgresql.azure.com/v1api20221201.FlexibleServersDatabase)           | 2022-12-01  | v1api20221201 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversdatabase.yaml)      |
+| [FlexibleServersFirewallRule](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20221201/#dbforpostgresql.azure.com/v1api20221201.FlexibleServersFirewallRule)   | 2022-12-01  | v1api20221201 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversfirewallrule.yaml)  |
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
@@ -342,13 +353,21 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `keyvault.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                                                                         | ARM Version | CRD Version   | Supported From | Sample                                                                                                                       |
+|----------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
+| [Vault](https://azure.github.io/azure-service-operator/reference/keyvault/v1api20230701/#keyvault.azure.com/v1api20230701.Vault) | 2023-07-01  | v1api20230701 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v1api20230701/v1api20230701_vault.yaml) |
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 
-| Resource                                                                                                                                       | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                      |
-|------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|-----------------------------------------------------------------------------------------------------------------------------|
-| [Vault](https://azure.github.io/azure-service-operator/reference/keyvault/v1api20210401preview/#keyvault.azure.com/v1api20210401preview.Vault) | 2021-04-01-preview | v1api20210401preview | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v1api/v1api20210401preview_vault.yaml) |
+| Resource                                                                                                                                       | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                     |
+|------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| [Vault](https://azure.github.io/azure-service-operator/reference/keyvault/v1api20210401preview/#keyvault.azure.com/v1api20210401preview.Vault) | 2021-04-01-preview | v1api20210401preview | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v1api20210401preview/v1api20210401preview_vault.yaml) |
 
 ## KubernetesConfiguration
 
@@ -380,14 +399,23 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `managedidentity.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                                                                                                                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                    |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [FederatedIdentityCredential](https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20230131/#managedidentity.azure.com/v1api20230131.FederatedIdentityCredential) | 2023-01-31  | v1api20230131 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api20230131/v1api20230131_federatedidentitycredential.yaml) |
+| [UserAssignedIdentity](https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20230131/#managedidentity.azure.com/v1api20230131.UserAssignedIdentity)               | 2023-01-31  | v1api20230131 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api20230131/v1api20230131_userassignedidentity.yaml)        |
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 
-| Resource                                                                                                                                                                                                 | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                   |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [FederatedIdentityCredential](https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20220131preview/#managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredential) | 2022-01-31-preview | v1api20220131preview | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api/v1api20220131preview_federatedidentitycredential.yaml) |
-| [UserAssignedIdentity](https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20181130/#managedidentity.azure.com/v1api20181130.UserAssignedIdentity)                             | 2018-11-30         | v1api20181130        | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api/v1api20181130_userassignedidentity.yaml)               |
+| Resource                                                                                                                                                                                                 | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                                  |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [FederatedIdentityCredential](https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20220131preview/#managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredential) | 2022-01-31-preview | v1api20220131preview | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api20220131preview/v1api20220131preview_federatedidentitycredential.yaml) |
+| [UserAssignedIdentity](https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20181130/#managedidentity.azure.com/v1api20181130.UserAssignedIdentity)                             | 2018-11-30         | v1api20181130        | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api20181130/v1api20181130_userassignedidentity.yaml)                      |
 
 ## Network
 
@@ -562,6 +590,23 @@ These resource(s) are available for use in the current release of ASO. Different
 ## Storage
 
 To install the CRDs for these resources, your ASO configuration must include `storage.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                                                                                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                     |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [StorageAccount](https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccount)                                             | 2023-01-01  | v1api20230101 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccount.yaml)                       |
+| [StorageAccountsBlobService](https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsBlobService)                     | 2023-01-01  | v1api20230101 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsblobservice.yaml)           |
+| [StorageAccountsBlobServicesContainer](https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsBlobServicesContainer) | 2023-01-01  | v1api20230101 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsblobservicescontainer.yaml) |
+| [StorageAccountsFileService](https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsFileService)                     | 2023-01-01  | v1api20230101 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsfileservice.yaml)           |
+| [StorageAccountsFileServicesShare](https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsFileServicesShare)         | 2023-01-01  | v1api20230101 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsfileservicesshare.yaml)     |
+| [StorageAccountsManagementPolicy](https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsManagementPolicy)           | 2023-01-01  | v1api20230101 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsmanagementpolicy.yaml)      |
+| [StorageAccountsQueueService](https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsQueueService)                   | 2023-01-01  | v1api20230101 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsqueueservice.yaml)          |
+| [StorageAccountsQueueServicesQueue](https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsQueueServicesQueue)       | 2023-01-01  | v1api20230101 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsqueueservicesqueue.yaml)    |
+| [StorageAccountsTableService](https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsTableService)                   | 2023-01-01  | v1api20230101 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountstableservice.yaml)          |
+| [StorageAccountsTableServicesTable](https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsTableServicesTable)       | 2023-01-01  | v1api20230101 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountstableservicestable.yaml)    |
 
 ### Released
 

@@ -39,10 +39,11 @@ var randomNameExclusions = []string{
 	"compute",
 	"documentdb",
 	"insights",
-	// TODO: We can use random names for 'kubernetesconfiguration' once https://github.com/Azure/azure-service-operator/issues/3544 is merged.
-	"kubernetesconfiguration",
 	"network",
 	"web",
+	// TODO: We can use random names for below once https://github.com/Azure/azure-service-operator/issues/3544 is merged.
+	"kubernetesconfiguration",
+	"managedidentity",
 }
 
 func Test_Samples_CreationAndDeletion(t *testing.T) {

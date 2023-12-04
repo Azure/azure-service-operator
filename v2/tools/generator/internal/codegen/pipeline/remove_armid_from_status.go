@@ -31,7 +31,7 @@ func FixIDFields() *Stage {
 
 			updatedDefs := astmodel.TypesDisjointUnion(updatedStatusDefs, updatedSpecDefs)
 
-			state = state.WithDefinitions(state.Definitions().OverlayWith(updatedDefs))
+			state = state.WithOverlaidDefinitions(updatedDefs)
 			return state, nil
 		})
 

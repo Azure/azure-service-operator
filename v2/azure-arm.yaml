@@ -261,6 +261,18 @@ typeTransformers:
     remove: true
     because: This property should be marked readonly
 
+  #
+  # In the group 'compute',
+  # remove the enum restrictions from the vmSize property of VirtualMachine
+  #
+  - group: compute
+    name: HardwareProfile
+    property: VmSize
+    target:
+      name: string
+      optional: true
+    because: The enum restrictions on this type are incomplete. Making this type a plain string to allow for growth of supported VM sizes without a new API version
+
   # 
   # In the group 'dataprotection',
   # from the type 'BackupVault_Spec',
@@ -1372,6 +1384,8 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.2
     2022-01-20-preview:
       FlexibleServer:
+        $azureGeneratedSecrets:
+          - FullyQualifiedDomainName
         $export: true
         $supportedFrom: v2.0.0-beta.4
         $generatedConfigs:
@@ -1385,6 +1399,34 @@ objectModelConfiguration:
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-beta.4
+      ServerProperties:
+        SourceServerResourceId:
+          $armReference: true
+      Network:
+        DelegatedSubnetResourceId:
+          $armReference: true
+        PrivateDnsZoneArmResourceId:
+          $armReference: true
+    2022-12-01:
+      DataEncryption:
+        PrimaryUserAssignedIdentityId:
+          $armReference: true
+      FlexibleServer:
+        $azureGeneratedSecrets:
+          - FullyQualifiedDomainName
+        $export: true
+        $supportedFrom: v2.5.0
+        $generatedConfigs:
+          FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+      FlexibleServers_Configuration:
+        $exportAs: FlexibleServersConfiguration
+        $supportedFrom: v2.5.0
+      FlexibleServers_Database:
+        $exportAs: FlexibleServersDatabase
+        $supportedFrom: v2.5.0
+      FlexibleServers_FirewallRule:
+        $exportAs: FlexibleServersFirewallRule
+        $supportedFrom: v2.5.0
       ServerProperties:
         SourceServerResourceId:
           $armReference: true
@@ -1634,6 +1676,23 @@ objectModelConfiguration:
       VirtualNetworkRule:
         Id:
           $armReference: true
+    2023-07-01:
+      Vault:
+        $export: true
+        $supportedFrom: v2.5.0
+      VaultProperties:
+        TenantId:
+          $importConfigMapMode: optional
+      AccessPolicyEntry:
+        TenantId:
+          $importConfigMapMode: optional
+        ApplicationId:
+          $importConfigMapMode: optional
+        ObjectId:
+          $importConfigMapMode: optional
+      VirtualNetworkRule:
+        Id:
+          $armReference: true
   kubernetesconfiguration:
     2023-05-01:
       Extension:
@@ -1658,7 +1717,22 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         Subject:
           $importConfigMapMode: optional
-
+    2023-01-31:
+      UserAssignedIdentity:
+        $export: true
+        $supportedFrom: v2.5.0
+        $generatedConfigs:
+          ClientId: $.Status.ClientId
+          PrincipalId: $.Status.PrincipalId
+          TenantId: $.Status.TenantId
+      UserAssignedIdentities_FederatedIdentityCredential:
+        $exportAs: FederatedIdentityCredential
+        $supportedFrom: v2.5.0
+      FederatedIdentityCredentialProperties:
+        Issuer:
+          $importConfigMapMode: optional
+        Subject:
+          $importConfigMapMode: optional
   machinelearningservices:
     2021-07-01:
       AksNetworkingConfiguration:
@@ -2401,6 +2475,68 @@ objectModelConfiguration:
       StorageAccounts_FileServices_Share:
         $exportAs: StorageAccountsFileServicesShare
         $supportedFrom: v2.1.0
+      SignedIdentifier:
+        Id:
+          $armReference: true
+    2023-01-01:
+      StorageAccount:
+        $export: true
+        $supportedFrom: v2.5.0
+        $azureGeneratedSecrets:
+          - Key1
+          - Key2
+          - WebEndpoint
+          - BlobEndpoint
+          - FileEndpoint
+          - QueueEndpoint
+          - TableEndpoint
+          - DfsEndpoint
+        $generatedConfigs:
+          WebEndpoint: $.Status.PrimaryEndpoints.Web
+          BlobEndpoint: $.Status.PrimaryEndpoints.Blob
+          FileEndpoint: $.Status.PrimaryEndpoints.File
+          QueueEndpoint: $.Status.PrimaryEndpoints.Queue
+          TableEndpoint: $.Status.PrimaryEndpoints.Table
+          DfsEndpoint: $.Status.PrimaryEndpoints.Dfs
+      StorageAccounts_BlobService:
+        $exportAs: StorageAccountsBlobService
+        $supportedFrom: v2.5.0
+      StorageAccounts_BlobServices_Container:
+        $exportAs: StorageAccountsBlobServicesContainer
+        $supportedFrom: v2.5.0
+      StorageAccounts_QueueService:
+        $exportAs: StorageAccountsQueueService
+        $supportedFrom: v2.5.0
+      StorageAccounts_QueueServices_Queue:
+        $exportAs: StorageAccountsQueueServicesQueue
+        $supportedFrom: v2.5.0
+      StorageAccounts_ManagementPolicy:
+        $exportAs: StorageAccountsManagementPolicy
+        $supportedFrom: v2.5.0
+      VirtualNetworkRule:
+        Id:
+          $armReference: true
+      EncryptionIdentity:
+        UserAssignedIdentity:
+          $armReference: true
+      ResourceAccessRule:
+        ResourceId:
+          $armReference: true
+      StorageAccounts_TableService:
+        $exportAs: StorageAccountsTableService
+        $supportedFrom: v2.5.0
+      StorageAccounts_TableServices_Table:
+        $exportAs: StorageAccountsTableServicesTable
+        $supportedFrom: v2.5.0
+      TableSignedIdentifier:
+        Id:
+          $armReference: true
+      StorageAccounts_FileService:
+        $exportAs: StorageAccountsFileService
+        $supportedFrom: v2.5.0
+      StorageAccounts_FileServices_Share:
+        $exportAs: StorageAccountsFileServicesShare
+        $supportedFrom: v2.5.0
       SignedIdentifier:
         Id:
           $armReference: true

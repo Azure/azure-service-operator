@@ -41,7 +41,7 @@ func InjectJsonSerializationTests(idFactory astmodel.IdentifierFactory) *Stage {
 				return nil, kerrors.NewAggregate(errs)
 			}
 
-			return state.WithDefinitions(state.Definitions().OverlayWith(modifiedDefinitions)), nil
+			return state.WithOverlaidDefinitions(modifiedDefinitions), nil
 		})
 
 	stage.RequiresPostrequisiteStages("simplifyDefinitions" /* needs flags */)

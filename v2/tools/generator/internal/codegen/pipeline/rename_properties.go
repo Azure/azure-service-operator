@@ -57,9 +57,7 @@ func RenameProperties(cfg *config.ObjectModelConfiguration) *Stage {
 				return nil, errors.Wrap(err, "verifying property rename configuration")
 			}
 
-			return state.WithDefinitions(
-					definitions.OverlayWith(modified)),
-				nil
+			return state.WithOverlaidDefinitions(modified), nil
 		})
 
 	stage.RequiresPostrequisiteStages(
@@ -94,13 +92,8 @@ func renamePropertiesInObjectType(
 	properties := make([]*astmodel.PropertyDefinition, 0, ot.Properties().Len())
 	err := ot.Properties().ForEachError(
 		func(prop *astmodel.PropertyDefinition) error {
-			name, err := cfg.RenamePropertyTo.Lookup(typeName, prop.PropertyName())
-			if err != nil {
-				// If error is just that there's no configured rename, proceed without issue
-				if !config.IsNotConfiguredError(err) {
-					return errors.Wrapf(err, "looking up rename for %s", prop.PropertyName())
-				}
-
+			name, ok := cfg.RenamePropertyTo.Lookup(typeName, prop.PropertyName())
+			if !ok {
 				properties = append(properties, prop)
 				return nil
 			}

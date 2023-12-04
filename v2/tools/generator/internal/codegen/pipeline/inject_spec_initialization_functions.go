@@ -75,7 +75,7 @@ func InjectSpecInitializationFunctions(
 				return nil, errors.Wrapf(kerrors.NewAggregate(errs), "failed to inject spec initialization functions")
 			}
 
-			return state.WithDefinitions(defs.OverlayWith(newDefs)), nil
+			return state.WithOverlaidDefinitions(newDefs), nil
 		})
 
 	// Needed to populate the conversion graph
@@ -169,19 +169,7 @@ func (s *specInitializationScanner) findResources() (astmodel.TypeDefinitionSet,
 		}
 
 		// Check configuration to see if this resource should be supported
-		importable, err := s.config.Importable.Lookup(def.Name())
-		if err != nil {
-			if config.IsNotConfiguredError(err) {
-				// Default to true if we have no explicit configuration
-				importable = true
-			} else {
-				// otherwise we record the error and skip this resource
-				errs = append(errs, errors.Wrapf(err, "looking up $importable for %q", def.Name()))
-				continue
-			}
-		}
-
-		if !importable {
+		if importable, ok := s.config.Importable.Lookup(def.Name()); ok && !importable {
 			// Cannot import this resource, so skip
 			continue
 		}

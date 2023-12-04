@@ -45,7 +45,7 @@ func TestGolden_AddOperatorSpec_AddsSpecWithConfiguredSecrets(t *testing.T) {
 	addOperatorSpec := AddOperatorSpec(configuration, idFactory)
 
 	// Don't need a context when testing
-	state := NewState().WithDefinitions(defs)
+	state := NewState(defs)
 	finalState, err := addOperatorSpec.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())
@@ -85,7 +85,7 @@ func TestAddOperatorSpec_AddsSpecWithConfiguredConfigMaps(t *testing.T) {
 	addOperatorSpec := AddOperatorSpec(configuration, idFactory)
 
 	// Don't need a context when testing
-	state := NewState().WithDefinitions(defs)
+	state := NewState(defs)
 	finalState, err := addOperatorSpec.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())
@@ -122,7 +122,7 @@ func TestAddOperatorSpec_AddsSpecWithManualConfigMaps(t *testing.T) {
 	addOperatorSpec := AddOperatorSpec(configuration, idFactory)
 
 	// Don't need a context when testing
-	state := NewState().WithDefinitions(defs)
+	state := NewState(defs)
 	finalState, err := addOperatorSpec.Run(context.TODO(), state)
 
 	g.Expect(err).To(Succeed())

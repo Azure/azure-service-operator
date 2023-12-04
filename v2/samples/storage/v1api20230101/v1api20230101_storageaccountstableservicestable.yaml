@@ -1,0 +1,8 @@
+apiVersion: storage.azure.com/v1api20230101
+kind: StorageAccountsTableServicesTable
+metadata:
+  name: sampletable
+  namespace: default
+spec:
+  owner:
+    name: samplekubestoragetable

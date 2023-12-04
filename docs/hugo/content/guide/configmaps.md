@@ -50,7 +50,7 @@ successfully been provisioned in Azure.
 The resource will not move to [Condition]( {{< relref "conditions" >}} ) `Ready=True` 
 until the data has been written.
 
-**Example (from [the UserAssignedIdentity sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/managedidentity/v1api/v1api20181130_userassignedidentity.yaml)):**
+**Example (from [the UserAssignedIdentity sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/managedidentity/v1api20181130/v1api20181130_userassignedidentity.yaml)):**
 ```yaml
 apiVersion: managedidentity.azure.com/v1api20181130
 kind: UserAssignedIdentity

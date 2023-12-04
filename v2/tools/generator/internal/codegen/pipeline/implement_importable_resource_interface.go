@@ -27,8 +27,6 @@ func ImplementImportableResourceInterface(
 		ImplementImportableResourceInterfaceStageID,
 		"Implement the ImportableResource interface for resources that support import via asoctl",
 		func(ctx context.Context, state *State) (*State, error) {
-			defs := state.Definitions()
-
 			// Scan for the resources requiring the ImportableResource interface injected
 			scanner := newSpecInitializationScanner(state.Definitions(), state.ConversionGraph(), configuration)
 			rsrcs, err := scanner.findResources()
@@ -41,7 +39,7 @@ func ImplementImportableResourceInterface(
 			var errs []error
 			newDefs := make(astmodel.TypeDefinitionSet, len(rsrcs))
 			for _, def := range rsrcs {
-				impl, err := createImportableResourceImplementation(def, defs, idFactory)
+				impl, err := createImportableResourceImplementation(def, state.Definitions(), idFactory)
 				if err != nil {
 					errs = append(errs, err)
 					continue
@@ -68,7 +66,7 @@ func ImplementImportableResourceInterface(
 			}
 
 			// Add the new definitions to the state
-			state = state.WithDefinitions(defs.OverlayWith(newDefs))
+			state = state.WithOverlaidDefinitions(newDefs)
 			return state, nil
 		})
 

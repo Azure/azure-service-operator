@@ -29,7 +29,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificVersion_VisitsExpectedVersion
 			return nil
 		})
 
-	g.Expect(visitor.Visit(omc)).To(Succeed())
+	g.Expect(visitor.visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(1))
 	g.Expect(seen).To(HaveKey(test.Pkg2022.Version()))
 }
@@ -46,7 +46,7 @@ func TestConfigurationVisitor_WhenVisitingEveryType_VisitsExpectedTypes(t *testi
 			return nil
 		})
 
-	g.Expect(visitor.Visit(omc)).To(Succeed())
+	g.Expect(visitor.visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(2))
 	g.Expect(seen).To(HaveKey("SimplePerson"))
 	g.Expect(seen).To(HaveKey("Person"))
@@ -66,7 +66,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificType_VisitsExpectedType(t *te
 			return nil
 		})
 
-	g.Expect(visitor.Visit(omc)).To(Succeed())
+	g.Expect(visitor.visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(1))
 	g.Expect(seen).To(HaveKey("Person"))
 }
@@ -83,7 +83,7 @@ func TestConfigurationVisitor_WhenVisitingEveryProperty_VisitsExpectedProperties
 			return nil
 		})
 
-	g.Expect(visitor.Visit(omc)).To(Succeed())
+	g.Expect(visitor.visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(5))
 	g.Expect(seen).To(HaveKey("FamilyName"))
 	g.Expect(seen).To(HaveKey("FirstName"))
@@ -107,7 +107,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificProperty_VisitsExpectedProper
 			return nil
 		})
 
-	g.Expect(visitor.Visit(omc)).To(Succeed())
+	g.Expect(visitor.visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(1))
 	g.Expect(seen).To(HaveKey("KnownAs"))
 }
@@ -124,7 +124,7 @@ func TestConfigurationVisitor_WhenVisitingAllGroups_VisitsExpectedGroups(t *test
 			return nil
 		})
 
-	g.Expect(visitor.Visit(omc)).To(Succeed())
+	g.Expect(visitor.visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(2))
 	g.Expect(seen).To(HaveKey(test.Group))
 	g.Expect(seen).To(HaveKey("OtherGroup"))
@@ -142,7 +142,7 @@ func TestConfigurationVisitor_WhenVisitingAllVersions_VisitsExpectedVersions(t *
 			return nil
 		})
 
-	g.Expect(visitor.Visit(omc)).To(Succeed())
+	g.Expect(visitor.visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(4))
 	g.Expect(seen).To(HaveKey(test.Pkg2020.Version()))
 	g.Expect(seen).To(HaveKey(test.Pkg2022.Version()))

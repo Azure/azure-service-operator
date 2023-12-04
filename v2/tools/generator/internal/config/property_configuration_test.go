@@ -43,8 +43,8 @@ func TestPropertyConfiguration_ARMReference_WhenSpecified_ReturnsExpectedResult(
 	property := NewPropertyConfiguration("Property")
 	property.ARMReference.Set(true)
 
-	isReference, err := property.ARMReference.Lookup()
-	g.Expect(err).To(Succeed())
+	isReference, ok := property.ARMReference.Lookup()
+	g.Expect(ok).To(BeTrue())
 	g.Expect(isReference).To(BeTrue())
 }
 
@@ -54,9 +54,8 @@ func TestPropertyConfiguration_ARMReference_WhenNotSpecified_ReturnsExpectedResu
 
 	property := NewPropertyConfiguration("Property")
 
-	_, err := property.ARMReference.Lookup()
-	g.Expect(err).NotTo(Succeed())
-	g.Expect(err.Error()).To(ContainSubstring(property.name))
+	_, ok := property.ARMReference.Lookup()
+	g.Expect(ok).To(BeFalse())
 }
 
 func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenNotConfigured_ReturnsNil(t *testing.T) {
@@ -100,7 +99,9 @@ func TestPropertyConfiguration_IsSecret_WhenSpecified_ReturnsExpectedResult(t *t
 	property := NewPropertyConfiguration("Property")
 	property.IsSecret.Set(true)
 
-	g.Expect(property.IsSecret.Lookup()).To(BeTrue())
+	isSecret, ok := property.IsSecret.Lookup()
+	g.Expect(ok).To(BeTrue())
+	g.Expect(isSecret).To(BeTrue())
 }
 
 func TestPropertyConfiguration_IsSecret_WhenNotSpecified_ReturnsExpectedResult(t *testing.T) {
@@ -109,8 +110,8 @@ func TestPropertyConfiguration_IsSecret_WhenNotSpecified_ReturnsExpectedResult(t
 
 	property := NewPropertyConfiguration("Property")
 
-	isSecret, err := property.IsSecret.Lookup()
+	isSecret, ok := property.IsSecret.Lookup()
 
-	g.Expect(err.Error()).To(ContainSubstring(property.name))
 	g.Expect(isSecret).To(BeFalse())
+	g.Expect(ok).To(BeFalse())
 }

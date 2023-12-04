@@ -29,8 +29,6 @@ type PropertyAssignmentFunctionBuilder struct {
 	conversions map[string]StoragePropertyConversion
 	// direction indicates the kind of conversion we are generating
 	direction conversions.Direction
-	// conversionContext is additional information about the context in which this conversion was made
-	conversionContext *conversions.PropertyConversionContext
 	// identifier to use for our receiver in generated code
 	receiverName string
 	// identifier to use for our parameter in generated code
@@ -60,6 +58,7 @@ type PropertyAssignmentSelector func(
 	sourceProperties conversions.ReadableConversionEndpointSet,
 	destinationProperties conversions.WritableConversionEndpointSet,
 	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+	conversionContext *conversions.PropertyConversionContext,
 ) error
 
 // NewPropertyAssignmentFunctionBuilder creates a new factory for construction of a PropertyAssignmentFunction.
@@ -132,7 +131,10 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 
 	// Create the function name
 	fnName := conversions.NameOfPropertyAssignmentFunction(
-		conversionContext.FunctionBaseName(), builder.otherDefinition.Name(), builder.direction, idFactory)
+		conversionContext.FunctionBaseName(),
+		builder.otherDefinition.Name(),
+		builder.direction,
+		idFactory)
 
 	// Select names for receiver and parameter
 	receiverName := idFactory.CreateReceiver(builder.receiverDefinition.Name().Name())
@@ -154,10 +156,12 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 	propertyBagName := knownLocals.CreateLocal("propertyBag", "", "Local", "Temp")
 
 	// Package references
+	compatPkg := astmodel.MakeCompatPackageReference(builder.receiverDefinition.Name().InternalPackageReference())
 	packageReferences := astmodel.NewPackageReferenceSet(
 		astmodel.GitHubErrorsReference,
 		astmodel.GenRuntimeReference,
-		builder.otherDefinition.Name().PackageReference())
+		builder.otherDefinition.Name().PackageReference(),
+		compatPkg)
 
 	cc := conversionContext.WithDirection(builder.direction).
 		WithPropertyBag(propertyBagName).
@@ -262,7 +266,7 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversions(
 	}
 
 	for _, s := range builder.assignmentSelectors {
-		err := s.selector(sourceEndpoints, destinationEndpoints, assign)
+		err := s.selector(sourceEndpoints, destinationEndpoints, assign, conversionContext)
 		if err != nil {
 			// Don't need to wrap this error, it's already got context
 			return err
@@ -363,6 +367,7 @@ func (*PropertyAssignmentFunctionBuilder) selectIdenticallyNamedProperties(
 	sourceProperties conversions.ReadableConversionEndpointSet,
 	destinationProperties conversions.WritableConversionEndpointSet,
 	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+	_ *conversions.PropertyConversionContext,
 ) error {
 	for destinationName, destinationEndpoint := range destinationProperties {
 		if sourceEndpoint, ok := sourceProperties[destinationName]; ok {
@@ -386,6 +391,7 @@ func (builder *PropertyAssignmentFunctionBuilder) readPropertiesFromPropertyBag(
 	sourceEndpoints conversions.ReadableConversionEndpointSet,
 	destinationEndpoints conversions.WritableConversionEndpointSet,
 	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+	conversionContext *conversions.PropertyConversionContext,
 ) error {
 	prop := builder.findPropertyBagProperty(builder.sourceType())
 	if prop == nil {
@@ -402,7 +408,8 @@ func (builder *PropertyAssignmentFunctionBuilder) readPropertiesFromPropertyBag(
 		}
 
 		// Create a new endpoint that reads from the property bag
-		sourceEndpoint := conversions.NewReadableConversionEndpointReadingPropertyBagMember(destinationName, destinationEndpoint.Endpoint().Type())
+		typeToRead := builder.findTypeForBag(destinationEndpoint.Endpoint().Type(), conversionContext)
+		sourceEndpoint := conversions.NewReadableConversionEndpointReadingPropertyBagMember(destinationName, typeToRead)
 		err := assign(sourceEndpoint, destinationEndpoint)
 		if err != nil {
 			return errors.Wrapf(err, "assigning %s from property bag", destinationName)
@@ -424,6 +431,7 @@ func (builder *PropertyAssignmentFunctionBuilder) writePropertiesToPropertyBag(
 	sourceEndpoints conversions.ReadableConversionEndpointSet,
 	destinationEndpoints conversions.WritableConversionEndpointSet,
 	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+	conversionContext *conversions.PropertyConversionContext,
 ) error {
 	prop := builder.findPropertyBagProperty(builder.destinationType())
 	if prop == nil {
@@ -439,8 +447,9 @@ func (builder *PropertyAssignmentFunctionBuilder) writePropertiesToPropertyBag(
 			continue
 		}
 
-		// Create a new endpoint that reads from the property bag
-		destinationEndpoint := conversions.NewWritableConversionEndpointWritingPropertyBagMember(sourceName, sourceEndpoint.Endpoint().Type())
+		// Create a new endpoint that writes to the property bag
+		typeToWrite := builder.findTypeForBag(sourceEndpoint.Endpoint().Type(), conversionContext)
+		destinationEndpoint := conversions.NewWritableConversionEndpointWritingPropertyBagMember(sourceName, typeToWrite)
 		err := assign(sourceEndpoint, destinationEndpoint)
 		if err != nil {
 			return errors.Wrapf(err, "assigning %s to property bag", sourceName)
@@ -461,6 +470,7 @@ func (builder *PropertyAssignmentFunctionBuilder) createSuffixMatchingAssignment
 	return func(sourceProperties conversions.ReadableConversionEndpointSet,
 		destinationProperties conversions.WritableConversionEndpointSet,
 		assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+		_ *conversions.PropertyConversionContext,
 	) error {
 		for destinationName, destinationEndpoint := range destinationProperties {
 			if !strings.HasSuffix(destinationName, destinationSuffix) {
@@ -478,4 +488,40 @@ func (builder *PropertyAssignmentFunctionBuilder) createSuffixMatchingAssignment
 
 		return nil
 	}
+}
+
+func (builder *PropertyAssignmentFunctionBuilder) findTypeForBag(
+	t astmodel.Type,
+	conversionContext *conversions.PropertyConversionContext,
+) astmodel.Type {
+	// If t is optional, look up the underlying type and then wrap
+	if opt, ok := astmodel.AsOptionalType(t); ok {
+		elem := builder.findTypeForBag(opt.Element(), conversionContext)
+		return astmodel.NewOptionalType(elem)
+	}
+
+	// If t is an array, look up the underlying type and then wrap
+	if arr, ok := astmodel.AsArrayType(t); ok {
+		elem := builder.findTypeForBag(arr.Element(), conversionContext)
+		return astmodel.NewArrayType(elem)
+	}
+
+	// If t is a map, look-up the underlying type of the value and then wrap
+	if m, ok := astmodel.AsMapType(t); ok {
+		value := builder.findTypeForBag(m.ValueType(), conversionContext)
+		return astmodel.NewMapType(m.KeyType(), value)
+	}
+
+	// If t is a TypeName, check for the existence of a compatibility type in a subpackge under the receiver
+	if tn, ok := astmodel.AsInternalTypeName(t); ok {
+		compatPkg := astmodel.MakeCompatPackageReference(
+			builder.receiverDefinition.Name().InternalPackageReference())
+		compatType := tn.WithPackageReference(compatPkg)
+		if conversionContext.Types().Contains(compatType) {
+			// Compatibility type exists - use that
+			return compatType
+		}
+	}
+
+	return t
 }

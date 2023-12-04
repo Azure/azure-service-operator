@@ -53,12 +53,16 @@ func (s *State) WithDefinitions(definitions astmodel.TypeDefinitionSet) *State {
 	return result
 }
 
+// WithDefinitions returns a new independent State with the given type definitions overlaid on the existing ones.
+// Any new definitions are added, and any existing definitions are replaced.
+func (s *State) WithOverlaidDefinitions(definitions astmodel.TypeDefinitionSet) *State {
+	result := s.copy()
+	result.definitions = result.definitions.OverlayWith(definitions)
+	return result
+}
+
 // WithConversionGraph returns a new independent State with the given conversion graph instead
 func (s *State) WithConversionGraph(graph *storage.ConversionGraph) *State {
-	if s.conversionGraph != nil {
-		panic("may only set the conversion graph once")
-	}
-
 	result := s.copy()
 	result.conversionGraph = graph
 	return result

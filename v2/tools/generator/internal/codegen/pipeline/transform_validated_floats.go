@@ -29,10 +29,7 @@ func TransformValidatedFloats() *Stage {
 				return nil, err
 			}
 
-			remaining := definitions.Except(result)
-			result.AddTypes(remaining)
-
-			return state.WithDefinitions(result), nil
+			return state.WithOverlaidDefinitions(result), nil
 		})
 
 	stage.RequiresPrerequisiteStages(RemoveStatusPropertyValidationsStageID)
