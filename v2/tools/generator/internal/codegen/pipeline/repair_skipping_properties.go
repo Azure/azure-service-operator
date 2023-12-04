@@ -75,6 +75,7 @@ type skippingPropertyRepairer struct {
 	observedProperties *astmodel.PropertyReferenceSet                            // Set of properties we've observed
 	definitions        astmodel.TypeDefinitionSet                                // Set of all known type definitions
 	conversionGraph    *storage.ConversionGraph                                  // Graph of conversions between types
+	comparer           *structuralComparer                                       // Helper used to compare types for structural equality
 }
 
 // newSkippingPropertyRepairer creates a new graph for tracking chains of properties as they evolve through different
@@ -90,6 +91,7 @@ func newSkippingPropertyRepairer(
 		observedProperties: astmodel.NewPropertyReferenceSet(),
 		definitions:        definitions,
 		conversionGraph:    conversionGraph,
+		comparer:           newStructuralComparer(definitions),
 	}
 }
 
@@ -226,7 +228,7 @@ func (detector *skippingPropertyRepairer) repairChain(
 	// If the properties have the same type, we don't have a break here - so we check the remainder of the chain
 	// (This is Ok because the value serialized into the property bag from lastObserved will deserialize into the
 	// reintroduced property intact.)
-	typesSame, err := detector.propertiesHaveSameType(lastObserved, reintroduced)
+	typesSame, err := detector.propertiesHaveStructurallyIdenticalType(lastObserved, reintroduced)
 	if err != nil {
 		return nil, errors.Wrapf(
 			err,
@@ -313,8 +315,8 @@ func (detector *skippingPropertyRepairer) lookupNext(ref astmodel.PropertyRefere
 	return astmodel.EmptyPropertyReference
 }
 
-// propertiesHaveSameType returns true if both the passed property-references exist and have the same underlying type
-func (detector *skippingPropertyRepairer) propertiesHaveSameType(
+// propertiesHaveStructurallyIdenticalType returns true if both the passed property-references exist and have the same underlying type
+func (detector *skippingPropertyRepairer) propertiesHaveStructurallyIdenticalType(
 	left astmodel.PropertyReference,
 	right astmodel.PropertyReference,
 ) (bool, error) {
@@ -326,125 +328,8 @@ func (detector *skippingPropertyRepairer) propertiesHaveSameType(
 		return true, nil
 	}
 
-	equalityOverrides := astmodel.EqualityOverrides{
-		InternalTypeName: compareInternalTypeNamesIgnoreVersion,
-	}
-	equalSameTypeNameDifferentVersion := leftOk && rightOk && leftType.Equals(rightType, equalityOverrides)
-	if !equalSameTypeNameDifferentVersion {
-		return false, nil
-	}
-
-	leftTypeName, leftOk := astmodel.ExtractTypeName(leftType)
-	rightTypeName, rightOk := astmodel.ExtractTypeName(rightType)
-
-	// If either isn't a typeName, return false
-	// Note that practically speaking actually taking this codepath should be impossible, as to get here the
-	// two properties must be: Not exactly equal, but equal if typeName versions are ignored.
-	if !leftOk || !rightOk {
-		return false, nil
-	}
-
-	leftTypeDef, err := detector.definitions.GetDefinition(leftTypeName)
-	if err != nil {
-		return false, err
-	}
-	rightTypeDef, err := detector.definitions.GetDefinition(rightTypeName)
-	if err != nil {
-		return false, err
-	}
-
-	// If the types don't match exactly, we have to determine if they match structurally
-	leftDefs, err := astmodel.FindConnectedDefinitions(detector.definitions, astmodel.MakeTypeDefinitionSetFromDefinitions(leftTypeDef))
-	if err != nil {
-		return false, err
-	}
-	rightDefs, err := astmodel.FindConnectedDefinitions(detector.definitions, astmodel.MakeTypeDefinitionSetFromDefinitions(rightTypeDef))
-	if err != nil {
-		return false, err
-	}
-
-	return areTypeSetsEqual(leftDefs, rightDefs), nil
-}
-
-func areTypeSetsEqual(left astmodel.TypeDefinitionSet, right astmodel.TypeDefinitionSet) bool {
-	if len(left) != len(right) {
-		return false
-	}
-
-	packageRefs := set.Make[astmodel.InternalPackageReference]()
-	for name := range right {
-		packageRefs.Add(name.InternalPackageReference())
-	}
-
-	if len(packageRefs) != 1 {
-		panic(fmt.Sprintf("expected rhs type names to all be from one package, but were from %d packages instead", len(packageRefs)))
-	}
-
-	rightPackageRef := packageRefs.Values()[0]
-	equalityOverrides := astmodel.EqualityOverrides{
-		InternalTypeName: compareInternalTypeNamesIgnoreVersion,
-		ObjectType:       compareObjectTypeStructure,
-	}
-
-	for leftName, leftDef := range left {
-		rightName := leftName.WithPackageReference(rightPackageRef)
-		rightDef := right[rightName]
-
-		equal := leftDef.Type().Equals(rightDef.Type(), equalityOverrides)
-		if !equal {
-			return false
-		}
-	}
-
-	return true
-}
-
-func compareInternalTypeNamesIgnoreVersion(
-	left astmodel.InternalTypeName,
-	right astmodel.InternalTypeName,
-) bool {
-	leftLPR, isLeftLocalRef := left.PackageReference().(astmodel.InternalPackageReference)
-	rightLPR, isRightLocalRef := right.PackageReference().(astmodel.InternalPackageReference)
-
-	// If we're not looking at local references, use the standard equality comparison
-	if !isLeftLocalRef || !isRightLocalRef {
-		return left.Equals(right, astmodel.EqualityOverrides{})
-	}
-
-	// If we are looking at local references, we allow them to differ by api-version and generator-version
-	if leftLPR.LocalPathPrefix() != rightLPR.LocalPathPrefix() ||
-		leftLPR.Group() != rightLPR.Group() {
-		return false
-	}
-
-	// The names must be the same
-	return left.Name() == right.Name()
-}
-
-func compareObjectTypeStructure(left *astmodel.ObjectType, right *astmodel.ObjectType) bool {
-	if left == right {
-		return true // short circuit
-	}
-
-	equalityOverrides := astmodel.EqualityOverrides{
-		InternalTypeName: compareInternalTypeNamesIgnoreVersion,
-	}
-
-	// Create a copy of the properties with description removed as we don't care if it matches
-	leftProperties := astmodel.NewPropertySet()
-	rightProperties := astmodel.NewPropertySet(left.Properties().AsSlice()...)
-	left.Properties().ForEach(func(def *astmodel.PropertyDefinition) {
-		leftProperties.Add(def.WithDescription(""))
-	})
-	right.Properties().ForEach(func(def *astmodel.PropertyDefinition) {
-		rightProperties.Add(def.WithDescription(""))
-	})
-
-	if !leftProperties.Equals(rightProperties, equalityOverrides) {
-		return false
-	}
-
-	return true
+	// If the types aren't exactly equal, we need to check if they're structurally equal
+	return detector.comparer.areTypesStructurallyEqual(leftType, rightType), nil
 }
 
 // lookupPropertyType accepts a PropertyReference and looks up the actual type of the property, returning true if found,
@@ -469,4 +354,122 @@ func (detector *skippingPropertyRepairer) lookupPropertyType(ref astmodel.Proper
 	}
 
 	return prop.PropertyType(), true
+}
+
+type structuralComparer struct {
+	definitions       astmodel.TypeDefinitionSet
+	equalityOverrides astmodel.EqualityOverrides
+}
+
+func newStructuralComparer(definitions astmodel.TypeDefinitionSet) *structuralComparer {
+	result := &structuralComparer{
+		definitions: definitions,
+	}
+
+	result.equalityOverrides = astmodel.EqualityOverrides{
+		InternalTypeName: result.equalTypesReferencedByInternalTypeNames,
+		ObjectType:       result.equalObjectTypeStructure,
+	}
+
+	return result
+}
+
+// areTypeSetsEqual returns true if the two sets of definitions are structurally equal, false otherwise.
+func (comparer *structuralComparer) areTypeSetsEqual(
+	left astmodel.TypeDefinitionSet,
+	right astmodel.TypeDefinitionSet,
+) bool {
+	if len(left) != len(right) {
+		return false
+	}
+
+	_, err := comparer.findCommonPackage(left)
+	if err != nil {
+		// Never expected to happen
+		panic(err)
+	}
+
+	rightPkg, err := comparer.findCommonPackage(right)
+	if err != nil {
+		// Never expected to happen
+		panic(err)
+	}
+
+	for leftName, leftDef := range left {
+		rightName := leftName.WithPackageReference(rightPkg)
+		rightDef, ok := right[rightName]
+		if !ok {
+			// Didn't find right-hand definition, types are not equal
+			return false
+		}
+
+		if !comparer.areTypesStructurallyEqual(leftDef.Type(), rightDef.Type()) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func (comparer *structuralComparer) areTypesStructurallyEqual(left astmodel.Type, right astmodel.Type) bool {
+	return left.Equals(right, comparer.equalityOverrides)
+}
+
+func (comparer *structuralComparer) equalObjectTypeStructure(left *astmodel.ObjectType, right *astmodel.ObjectType) bool {
+	if left == right {
+		return true // short circuit
+	}
+
+	// Create a copy of the properties with description removed as we don't care if it matches
+	leftProperties := comparer.simplifyProperties(left)
+	rightProperties := comparer.simplifyProperties(right)
+
+	return leftProperties.Equals(rightProperties, comparer.equalityOverrides)
+}
+
+func (comparer *structuralComparer) equalTypesReferencedByInternalTypeNames(
+	left astmodel.InternalTypeName,
+	right astmodel.InternalTypeName,
+) bool {
+	// Look up the definitions referenced by the names and compare them for structural equality
+	leftDef, ok := comparer.definitions[left]
+	if !ok {
+		return false
+	}
+
+	rightDef, ok := comparer.definitions[right]
+	if !ok {
+		return false
+	}
+
+	return leftDef.Type().Equals(rightDef.Type(), comparer.equalityOverrides)
+}
+
+// simplifyProperties is a helper function used to strip out details of the properties we don't care about
+// when evaluating for structural integrity
+func (comparer *structuralComparer) simplifyProperties(o *astmodel.ObjectType) astmodel.PropertySet {
+	result := astmodel.NewPropertySet()
+	o.Properties().ForEach(func(def *astmodel.PropertyDefinition) {
+		result.Add(def.WithDescription(""))
+	})
+
+	return result
+}
+
+func (comparer *structuralComparer) findCommonPackage(
+	defs astmodel.TypeDefinitionSet,
+) (astmodel.InternalPackageReference, error) {
+	pkgs := set.Make[astmodel.InternalPackageReference]()
+
+	for _, def := range defs {
+		pkgs.Add(def.Name().InternalPackageReference())
+	}
+
+	if len(pkgs) != 1 {
+		return nil, errors.Errorf(
+			"expected all definitions to be from the same package, but found %d packages instead",
+			len(pkgs))
+	}
+
+	return pkgs.Values()[0], nil
 }
