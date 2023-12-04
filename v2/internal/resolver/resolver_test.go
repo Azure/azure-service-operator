@@ -464,10 +464,10 @@ func Test_ResolveReference_ReturnsErrorIfReferenceContainsArmIdAsName(t *testing
 	_, err = test.resolver.ResolveReference(ctx, ref.AsNamespacedRef(testNamespace))
 
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(err.Message).To(ContainSubstring("couldn't resolve reference"))
-	g.Expect(err.Message).To(ContainSubstring(fmt.Sprintf("%s/%s", testNamespace, armID))	
-	g.Expect(err.Message).To(ContainSubstring("did you mean 'armID:'))
-	g.Expect(err.Message).To(ContainSubstring(armID)
+	g.Expect(err.Error()).To(ContainSubstring("couldn't resolve reference"))
+	g.Expect(err.Error()).To(ContainSubstring(fmt.Sprintf("%s/%s", testNamespace, armID)))
+	g.Expect(err.Error()).To(ContainSubstring("did you mean 'armID:"))
+	g.Expect(err.Error()).To(ContainSubstring(armID))
 }
 
 func Test_ResolveReferenceToARMID_KubernetesResource_ReturnsExpectedID(t *testing.T) {
