@@ -1,3 +1,5 @@
+# Render with Graphviz using dot
+# or try https://dreampuf.github.io/GraphvizOnline/
 graph G {
     rankdir=LR;
 
