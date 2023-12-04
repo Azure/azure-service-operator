@@ -219,7 +219,7 @@ func createAllPipelineStages(
 		pipeline.RepairSkippingProperties().UsedFor(pipeline.ARMTarget),
 
 		// Need to regenerate the conversion graph in case our repairs for Skipping properties changed things
-		pipeline.CreateConversionGraph(configuration, astmodel.GeneratorVersion, log).UsedFor(pipeline.ARMTarget),
+		pipeline.CreateConversionGraph(configuration, astmodel.GeneratorVersion).UsedFor(pipeline.ARMTarget),
 
 		pipeline.InjectOriginalVersionProperty().UsedFor(pipeline.ARMTarget),
 		pipeline.InjectPropertyAssignmentFunctions(configuration, idFactory, log).UsedFor(pipeline.ARMTarget),
