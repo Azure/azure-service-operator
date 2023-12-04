@@ -6,7 +6,6 @@
 package pipeline
 
 import (
-	"github.com/go-logr/logr"
 	"testing"
 
 	. "github.com/onsi/gomega"
