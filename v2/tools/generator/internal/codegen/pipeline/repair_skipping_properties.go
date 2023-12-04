@@ -45,7 +45,7 @@ const RepairSkippingPropertiesStageID = "repairSkippingProperties"
 //
 // Address: present in (v1, v3); (skipping v2), repair required.
 func RepairSkippingProperties() *Stage {
-	return NewStage(
+	stage := NewStage(
 		RepairSkippingPropertiesStageID,
 		"Repair property bag serialization for properties that skip resource or object versions",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -68,6 +68,14 @@ func RepairSkippingProperties() *Stage {
 
 			return state.WithOverlaidDefinitions(defs), err
 		})
+
+	// We have to have a conversion graph to detect skipping properties
+	stage.RequiresPrerequisiteStages(CreateConversionGraphStageId)
+
+	// We also require the Conversion Graph to be recreated afterwards,
+	// but our stage dependencies can't currently capture that.
+
+	return stage
 }
 
 type skippingPropertyRepairer struct {
@@ -96,13 +104,13 @@ func newSkippingPropertyRepairer(
 }
 
 // AddProperties adds all the properties from the specified type to the graph.
-func (detector *skippingPropertyRepairer) AddProperties(
+func (repairer *skippingPropertyRepairer) AddProperties(
 	name astmodel.InternalTypeName,
 	properties ...*astmodel.PropertyDefinition,
 ) error {
 	var errs []error
 	for _, property := range properties {
-		if err := detector.AddProperty(name, property); err != nil {
+		if err := repairer.AddProperty(name, property); err != nil {
 			errs = append(errs, err)
 		}
 	}
@@ -116,35 +124,34 @@ func (detector *skippingPropertyRepairer) AddProperties(
 }
 
 // AddProperty adds a single property from a type to the graph, marking it as observed
-func (detector *skippingPropertyRepairer) AddProperty(
+func (repairer *skippingPropertyRepairer) AddProperty(
 	name astmodel.InternalTypeName,
 	property *astmodel.PropertyDefinition,
 ) error {
 	ref := astmodel.MakePropertyReference(name, property.PropertyName())
-	if err := detector.establishPropertyChain(ref); err != nil {
+	if err := repairer.establishPropertyChain(ref); err != nil {
 		return errors.Wrapf(err, "adding property %s", property.PropertyName())
 	}
 
-	detector.propertyObserved(ref)
+	repairer.propertyObserved(ref)
 	return nil
 }
 
 // RepairSkippedProperties scans for properties that skip versions, and injects new types to repair the chain, returning
 // a (possibly empty) set of new definitions.
-func (detector *skippingPropertyRepairer) RepairSkippedProperties() (astmodel.TypeDefinitionSet, error) {
+func (repairer *skippingPropertyRepairer) RepairSkippedProperties() (astmodel.TypeDefinitionSet, error) {
 	result := make(astmodel.TypeDefinitionSet)
-	chains := detector.findChains().AsSlice()
-	errs := make([]error, 0, len(chains))
+	chains := repairer.findChains().AsSlice()
+	var errs []error
 	for _, ref := range chains {
-		defs, err := detector.repairChain(ref)
+		defs, err := repairer.repairChain(ref)
 		if err != nil {
 			errs = append(errs, err)
 			continue
 		}
 
-		if len(defs) > 0 {
-			result.AddTypes(defs)
-		}
+		// If the repair added any new types (mostly it won't), include them in the result
+		result.AddTypes(defs)
 	}
 
 	if len(errs) > 0 {
@@ -158,43 +165,43 @@ func (detector *skippingPropertyRepairer) RepairSkippedProperties() (astmodel.Ty
 
 // establishPropertyChain ensures that a full property chain exists for the specified property. Any missing links in the
 // chain will be created. If the required chain already exists, this is a no-op.
-func (detector *skippingPropertyRepairer) establishPropertyChain(ref astmodel.PropertyReference) error {
-	if ref.IsEmpty() || detector.hasLinkFrom(ref) {
+func (repairer *skippingPropertyRepairer) establishPropertyChain(ref astmodel.PropertyReference) error {
+	if ref.IsEmpty() || repairer.hasLinkFrom(ref) {
 		// Nothing to do
 		return nil
 	}
 
-	return detector.createPropertyChain(ref)
+	return repairer.createPropertyChain(ref)
 }
 
 // createPropertyChain creates a full property chain for the specified property.
 // ref is the property reference that specifies the start of our chain.
 // It recursively calls establishPropertyChain to avoid creating parts of the chain multiple times.
-func (detector *skippingPropertyRepairer) createPropertyChain(ref astmodel.PropertyReference) error {
-	next, err := detector.conversionGraph.FindNextProperty(ref, detector.definitions)
+func (repairer *skippingPropertyRepairer) createPropertyChain(ref astmodel.PropertyReference) error {
+	next, err := repairer.conversionGraph.FindNextProperty(ref, repairer.definitions)
 	if err != nil {
 		return errors.Wrapf(err, "creating property chain link from %s", ref.String())
 	}
 
-	detector.addLink(ref, next)
-	return detector.establishPropertyChain(next)
+	repairer.addLink(ref, next)
+	return repairer.establishPropertyChain(next)
 }
 
 // propertyObserved makes a record that a given property has been observedProperties
-func (detector *skippingPropertyRepairer) propertyObserved(ref astmodel.PropertyReference) {
-	detector.observedProperties.Add(ref)
+func (repairer *skippingPropertyRepairer) propertyObserved(ref astmodel.PropertyReference) {
+	repairer.observedProperties.Add(ref)
 }
 
 // addLink adds a link between two property references
-func (detector *skippingPropertyRepairer) addLink(ref astmodel.PropertyReference, next astmodel.PropertyReference) {
-	detector.links[ref] = next
+func (repairer *skippingPropertyRepairer) addLink(ref astmodel.PropertyReference, next astmodel.PropertyReference) {
+	repairer.links[ref] = next
 }
 
 // findChains finds all the property references that are found only as the start of a chain
-func (detector *skippingPropertyRepairer) findChains() *astmodel.PropertyReferenceSet {
+func (repairer *skippingPropertyRepairer) findChains() *astmodel.PropertyReferenceSet {
 	starts := astmodel.NewPropertyReferenceSet()
 	finishes := astmodel.NewPropertyReferenceSet()
-	for s, f := range detector.links {
+	for s, f := range repairer.links {
 		starts.Add(s)
 		finishes.Add(f)
 	}
@@ -203,23 +210,23 @@ func (detector *skippingPropertyRepairer) findChains() *astmodel.PropertyReferen
 }
 
 // hasLinkFrom returns true if we already have a link from the specified property
-func (detector *skippingPropertyRepairer) hasLinkFrom(ref astmodel.PropertyReference) bool {
-	_, found := detector.links[ref]
+func (repairer *skippingPropertyRepairer) hasLinkFrom(ref astmodel.PropertyReference) bool {
+	_, found := repairer.links[ref]
 	return found
 }
 
 // repairChain checks for a gap in the specified property chain.
 // start is the first property reference in the chain
-func (detector *skippingPropertyRepairer) repairChain(
+func (repairer *skippingPropertyRepairer) repairChain(
 	start astmodel.PropertyReference,
 ) (astmodel.TypeDefinitionSet, error) {
-	lastObserved, firstMissing := detector.findBreak(start, detector.wasPropertyObserved)
+	lastObserved, firstMissing := repairer.findBreak(start, repairer.wasPropertyObserved)
 	if firstMissing.IsEmpty() {
 		// Property was never discontinued
 		return nil, nil
 	}
 
-	lastMissing, reintroduced := detector.findBreak(firstMissing, detector.wasPropertyObserved)
+	lastMissing, reintroduced := repairer.findBreak(firstMissing, repairer.wasPropertyObserved)
 	if reintroduced.IsEmpty() {
 		// Property was never reintroduced
 		return nil, nil
@@ -228,7 +235,7 @@ func (detector *skippingPropertyRepairer) repairChain(
 	// If the properties have the same type, we don't have a break here - so we check the remainder of the chain
 	// (This is Ok because the value serialized into the property bag from lastObserved will deserialize into the
 	// reintroduced property intact.)
-	typesSame, err := detector.propertiesHaveStructurallyIdenticalType(lastObserved, reintroduced)
+	typesSame, err := repairer.propertiesHaveStructurallyIdenticalType(lastObserved, reintroduced)
 	if err != nil {
 		return nil, errors.Wrapf(
 			err,
@@ -237,14 +244,14 @@ func (detector *skippingPropertyRepairer) repairChain(
 			reintroduced)
 	}
 	if typesSame {
-		return detector.repairChain(reintroduced)
+		return repairer.repairChain(reintroduced)
 	}
 
 	// We've found a skipping property with a different shape. If it's a TypeName we need to repair it.
 	// We do this by creating a new type that has the same shape as the missing property, injected just prior to
 	// reintroduction.
 
-	lastObservedPropertyType, ok := detector.lookupPropertyType(lastObserved)
+	lastObservedPropertyType, ok := repairer.lookupPropertyType(lastObserved)
 	if !ok {
 		// Should never fail, given the way findBreak() works
 		panic(fmt.Sprintf("failed to find type for property %s", lastObserved))
@@ -254,11 +261,14 @@ func (detector *skippingPropertyRepairer) repairChain(
 	if !ok {
 		// If not a type name, defer to our existing property conversion logic
 		// Continue checking the rest of the chain
-		return detector.repairChain(reintroduced)
+		return repairer.repairChain(reintroduced)
 	}
 
-	def := detector.definitions[tn]
-	defs, err := astmodel.FindConnectedDefinitions(detector.definitions, astmodel.MakeTypeDefinitionSetFromDefinitions(def))
+	// Find the type definition for when the object was last observed
+	def := repairer.definitions[tn]
+
+	// Find all the type definitions referenced by this definition (e.g. nested types)
+	defs, err := astmodel.FindConnectedDefinitions(repairer.definitions, astmodel.MakeTypeDefinitionSetFromDefinitions(def))
 	if err != nil {
 		return nil, errors.Wrapf(
 			err,
@@ -266,6 +276,7 @@ func (detector *skippingPropertyRepairer) repairChain(
 			tn)
 	}
 
+	// Move all of these types into a compatibility package
 	compatPkg := astmodel.MakeCompatPackageReference(lastMissing.DeclaringType().InternalPackageReference())
 	renamer := astmodel.NewRenamingVisitorFromLambda(
 		func(name astmodel.InternalTypeName) astmodel.InternalTypeName {
@@ -283,8 +294,8 @@ func (detector *skippingPropertyRepairer) repairChain(
 }
 
 // wasPropertyObserved returns true if the property reference has been observedProperties; false otherwise.
-func (detector *skippingPropertyRepairer) wasPropertyObserved(ref astmodel.PropertyReference) bool {
-	return detector.observedProperties.Contains(ref)
+func (repairer *skippingPropertyRepairer) wasPropertyObserved(ref astmodel.PropertyReference) bool {
+	return repairer.observedProperties.Contains(ref)
 }
 
 // findBreak finds a pair of consecutive references where the provided predicate gives a different answer for each.
@@ -292,23 +303,23 @@ func (detector *skippingPropertyRepairer) wasPropertyObserved(ref astmodel.Prope
 // predicate is a test used to identify the pair of references to return.
 // A break is always found at the end of the chain, returning <last>, <empty>.
 // If ref is empty, will return <empty>, <empty>
-func (detector *skippingPropertyRepairer) findBreak(
+func (repairer *skippingPropertyRepairer) findBreak(
 	ref astmodel.PropertyReference,
 	predicate func(astmodel.PropertyReference) bool,
 ) (astmodel.PropertyReference, astmodel.PropertyReference) {
-	next := detector.lookupNext(ref)
+	next := repairer.lookupNext(ref)
 	if next.IsEmpty() || predicate(ref) != predicate(next) {
 		return ref, next
 	}
 
-	return detector.findBreak(next, predicate)
+	return repairer.findBreak(next, predicate)
 }
 
 // lookupNext returns the next property in the chain, if any.
 // ref is the property reference to look up.
 // returns the next property, if found; <empty>> if not.
-func (detector *skippingPropertyRepairer) lookupNext(ref astmodel.PropertyReference) astmodel.PropertyReference {
-	if next, ok := detector.links[ref]; ok {
+func (repairer *skippingPropertyRepairer) lookupNext(ref astmodel.PropertyReference) astmodel.PropertyReference {
+	if next, ok := repairer.links[ref]; ok {
 		return next
 	}
 
@@ -316,12 +327,12 @@ func (detector *skippingPropertyRepairer) lookupNext(ref astmodel.PropertyRefere
 }
 
 // propertiesHaveStructurallyIdenticalType returns true if both the passed property-references exist and have the same underlying type
-func (detector *skippingPropertyRepairer) propertiesHaveStructurallyIdenticalType(
+func (repairer *skippingPropertyRepairer) propertiesHaveStructurallyIdenticalType(
 	left astmodel.PropertyReference,
 	right astmodel.PropertyReference,
 ) (bool, error) {
-	leftType, leftOk := detector.lookupPropertyType(left)
-	rightType, rightOk := detector.lookupPropertyType(right)
+	leftType, leftOk := repairer.lookupPropertyType(left)
+	rightType, rightOk := repairer.lookupPropertyType(right)
 
 	exactlyEqual := leftOk && rightOk && leftType.Equals(rightType, astmodel.EqualityOverrides{})
 	if exactlyEqual {
@@ -329,13 +340,13 @@ func (detector *skippingPropertyRepairer) propertiesHaveStructurallyIdenticalTyp
 	}
 
 	// If the types aren't exactly equal, we need to check if they're structurally equal
-	return detector.comparer.areTypesStructurallyEqual(leftType, rightType), nil
+	return repairer.comparer.areTypesStructurallyEqual(leftType, rightType), nil
 }
 
 // lookupPropertyType accepts a PropertyReference and looks up the actual type of the property, returning true if found,
 // or false if not.
-func (detector *skippingPropertyRepairer) lookupPropertyType(ref astmodel.PropertyReference) (astmodel.Type, bool) {
-	def, ok := detector.definitions[ref.DeclaringType()]
+func (repairer *skippingPropertyRepairer) lookupPropertyType(ref astmodel.PropertyReference) (astmodel.Type, bool) {
+	def, ok := repairer.definitions[ref.DeclaringType()]
 	if !ok {
 		// Type not found
 		return nil, false
