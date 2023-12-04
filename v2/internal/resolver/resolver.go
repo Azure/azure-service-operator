@@ -8,6 +8,7 @@ package resolver
 import (
 	"context"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/pkg/errors"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -168,6 +169,11 @@ func (r *Resolver) ResolveReference(ctx context.Context, ref genruntime.Namespac
 	refObj, err := r.client.GetObject(ctx, refNamespacedName, refGVK)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
+			// Check if the user has mistakenly put the armID in 'name' field
+			_, err1 := arm.ParseResourceID(ref.Name)
+			if err1 == nil {
+				return nil, errors.Errorf("couldn't resolve reference %s. Name looks like it might be an ARM ID; did you mean 'armID: %s'?", refNamespacedName, ref.Name)
+			}
 			err := core.NewReferenceNotFoundError(refNamespacedName, err)
 			return nil, errors.WithStack(err)
 		}
