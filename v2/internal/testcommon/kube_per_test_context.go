@@ -409,6 +409,12 @@ func (tc *KubePerTestContext) CreateResourceAndWaitWithoutCleanup(obj client.Obj
 	tc.Eventually(obj).Should(tc.Match.BeProvisioned(gen))
 }
 
+func (tc *KubePerTestContext) CreateResourcesAndWaitWithoutCleanup(objs ...client.Object) {
+	for _, obj := range objs {
+		tc.CreateResourceAndWaitWithoutCleanup(obj)
+	}
+}
+
 // CreateResourcesAndWait creates the resources in K8s and waits for them to
 // change into the Provisioned state.
 func (tc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {

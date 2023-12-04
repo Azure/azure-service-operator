@@ -12,6 +12,7 @@ spec:
     kind: ApiVersionSet
     name: sampleapimversionset
   description: Description about the API
+  path: /sampleapi
   protocols:
     - http
   owner:

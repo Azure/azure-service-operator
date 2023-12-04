@@ -341,10 +341,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 ├── ProductApi: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Product
 │   ├── Spec: Object (4 properties)
-│   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: MaxLength: 256
-│   │   │   ├── Rule 1: MinLength: 1
-│   │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
+│   │   ├── AzureName: string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   └── PropertyBag: genruntime.PropertyBag
