@@ -15,13 +15,8 @@ import (
 )
 
 type ArrayValidations struct {
-	MaxItems    *int64
-	MinItems    *int64
-	UniqueItems bool
-	/*
-		maxContains *int
-		minContains *int
-	*/
+	MaxItems *int64
+	MinItems *int64
 }
 
 func (av ArrayValidations) Equals(other Validations) bool {
@@ -31,8 +26,7 @@ func (av ArrayValidations) Equals(other Validations) bool {
 	}
 
 	return equalOptionalInt64s(av.MaxItems, o.MaxItems) &&
-		equalOptionalInt64s(av.MinItems, o.MinItems) &&
-		av.UniqueItems == o.UniqueItems
+		equalOptionalInt64s(av.MinItems, o.MinItems)
 }
 
 func (av ArrayValidations) ToKubeBuilderValidations() []KubeBuilderValidation {
@@ -43,10 +37,6 @@ func (av ArrayValidations) ToKubeBuilderValidations() []KubeBuilderValidation {
 
 	if av.MinItems != nil {
 		result = append(result, MakeMinItemsValidation(*av.MinItems))
-	}
-
-	if av.UniqueItems {
-		result = append(result, MakeUniqueItemsValidation())
 	}
 
 	return result
