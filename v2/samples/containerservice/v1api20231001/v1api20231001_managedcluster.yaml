@@ -1,7 +1,7 @@
-apiVersion: containerservice.azure.com/v1api20230701
+apiVersion: containerservice.azure.com/v1api20231001
 kind: ManagedCluster
 metadata:
-  name: sample-managedcluster-20230701
+  name: sample-managedcluster-20231001
   namespace: default
 spec:
   location: westus3
