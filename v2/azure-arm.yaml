@@ -1290,7 +1290,7 @@ objectModelConfiguration:
       Fleets_UpdateRun:
         $exportAs: FleetsUpdateRun
         $supportedFrom: v2.4.0
-    2023-07-01:
+    2023-10-01:
       ContainerServiceNetworkProfile_NetworkPlugin:
         $renameTo: NetworkPlugin
       DelegatedResource:
