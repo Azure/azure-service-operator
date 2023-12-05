@@ -9,10 +9,10 @@ To install the CRDs for these resources, your ASO configuration must include `co
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                 | ARM Version | CRD Version   | Supported From | Sample |
-|--------------------------|-------------|---------------|----------------|--------|
-| ManagedCluster           | 2023-10-01  | v1api20231001 | v2.5.0         | -      |
-| ManagedClustersAgentPool | 2023-10-01  | v1api20231001 | v2.5.0         | -      |
+| Resource                 | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                  |
+|--------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ManagedCluster           | 2023-10-01  | v1api20231001 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20231001/v1api20231001_managedcluster.yaml)           |
+| ManagedClustersAgentPool | 2023-10-01  | v1api20231001 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20231001/v1api20231001_managedclustersagentpool.yaml) |
 
 ### Released
 
