@@ -10,14 +10,14 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230701"
+	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
 	"github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_AKS_ManagedCluster_20230701_CRUD(t *testing.T) {
+func Test_AKS_ManagedCluster_20231001_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -28,7 +28,7 @@ func Test_AKS_ManagedCluster_20230701_CRUD(t *testing.T) {
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	cluster := NewManagedCluster20230701(tc, rg, adminUsername, sshPublicKey)
+	cluster := NewManagedCluster20231001(tc, rg, adminUsername, sshPublicKey)
 
 	tc.CreateResourceAndWait(cluster)
 
@@ -55,14 +55,14 @@ func Test_AKS_ManagedCluster_20230701_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "AKS KubeConfig secret & configmap CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				AKS_ManagedCluster_Kubeconfig_20230701_OperatorSpec(tc, cluster)
+				AKS_ManagedCluster_Kubeconfig_20231001_OperatorSpec(tc, cluster)
 			},
 		})
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "AKS AgentPool CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				AKS_ManagedCluster_AgentPool_20230701_CRUD(tc, cluster)
+				AKS_ManagedCluster_AgentPool_20231001_CRUD(tc, cluster)
 			},
 		},
 	)
@@ -76,7 +76,7 @@ func Test_AKS_ManagedCluster_20230701_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func NewManagedCluster20230701(tc *testcommon.KubePerTestContext, rg *v1api20200601.ResourceGroup, adminUsername string, sshPublicKey *string) *aks.ManagedCluster {
+func NewManagedCluster20231001(tc *testcommon.KubePerTestContext, rg *v1api20200601.ResourceGroup, adminUsername string, sshPublicKey *string) *aks.ManagedCluster {
 	region := to.Ptr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
 	//region := tc.AzureRegion
 
@@ -120,7 +120,7 @@ func NewManagedCluster20230701(tc *testcommon.KubePerTestContext, rg *v1api20200
 	return cluster
 }
 
-func AKS_ManagedCluster_AgentPool_20230701_CRUD(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
+func AKS_ManagedCluster_AgentPool_20231001_CRUD(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
 	osType := aks.OSType_Linux
 	agentPoolMode := aks.AgentPoolMode_System
 
@@ -164,7 +164,7 @@ func AKS_ManagedCluster_AgentPool_20230701_CRUD(tc *testcommon.KubePerTestContex
 	tc.Expect(agentPool.Status.NodeLabels).To(BeEmpty())
 }
 
-func AKS_ManagedCluster_Kubeconfig_20230701_OperatorSpec(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
+func AKS_ManagedCluster_Kubeconfig_20231001_OperatorSpec(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
 	old := cluster.DeepCopy()
 	secret := "kubeconfig"
 	cluster.Spec.OperatorSpec = &aks.ManagedClusterOperatorSpec{
