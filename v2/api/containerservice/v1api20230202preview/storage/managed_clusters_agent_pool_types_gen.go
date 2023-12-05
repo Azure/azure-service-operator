@@ -5,6 +5,7 @@ package storage
 
 import (
 	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
+	v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -1660,6 +1661,154 @@ type AgentPoolNetworkProfile struct {
 	PropertyBag                         genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_AgentPoolNetworkProfile populates our AgentPoolNetworkProfile from the provided source AgentPoolNetworkProfile
+func (profile *AgentPoolNetworkProfile) AssignProperties_From_AgentPoolNetworkProfile(source *v20231001s.AgentPoolNetworkProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AllowedHostPorts
+	if source.AllowedHostPorts != nil {
+		allowedHostPortList := make([]PortRange, len(source.AllowedHostPorts))
+		for allowedHostPortIndex, allowedHostPortItem := range source.AllowedHostPorts {
+			// Shadow the loop variable to avoid aliasing
+			allowedHostPortItem := allowedHostPortItem
+			var allowedHostPort PortRange
+			err := allowedHostPort.AssignProperties_From_PortRange(&allowedHostPortItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_PortRange() to populate field AllowedHostPorts")
+			}
+			allowedHostPortList[allowedHostPortIndex] = allowedHostPort
+		}
+		profile.AllowedHostPorts = allowedHostPortList
+	} else {
+		profile.AllowedHostPorts = nil
+	}
+
+	// ApplicationSecurityGroupsReferences
+	if source.ApplicationSecurityGroupsReferences != nil {
+		applicationSecurityGroupsReferenceList := make([]genruntime.ResourceReference, len(source.ApplicationSecurityGroupsReferences))
+		for applicationSecurityGroupsReferenceIndex, applicationSecurityGroupsReferenceItem := range source.ApplicationSecurityGroupsReferences {
+			// Shadow the loop variable to avoid aliasing
+			applicationSecurityGroupsReferenceItem := applicationSecurityGroupsReferenceItem
+			applicationSecurityGroupsReferenceList[applicationSecurityGroupsReferenceIndex] = applicationSecurityGroupsReferenceItem.Copy()
+		}
+		profile.ApplicationSecurityGroupsReferences = applicationSecurityGroupsReferenceList
+	} else {
+		profile.ApplicationSecurityGroupsReferences = nil
+	}
+
+	// NodePublicIPTags
+	if source.NodePublicIPTags != nil {
+		nodePublicIPTagList := make([]IPTag, len(source.NodePublicIPTags))
+		for nodePublicIPTagIndex, nodePublicIPTagItem := range source.NodePublicIPTags {
+			// Shadow the loop variable to avoid aliasing
+			nodePublicIPTagItem := nodePublicIPTagItem
+			var nodePublicIPTag IPTag
+			err := nodePublicIPTag.AssignProperties_From_IPTag(&nodePublicIPTagItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_IPTag() to populate field NodePublicIPTags")
+			}
+			nodePublicIPTagList[nodePublicIPTagIndex] = nodePublicIPTag
+		}
+		profile.NodePublicIPTags = nodePublicIPTagList
+	} else {
+		profile.NodePublicIPTags = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAgentPoolNetworkProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForAgentPoolNetworkProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AgentPoolNetworkProfile populates the provided destination AgentPoolNetworkProfile from our AgentPoolNetworkProfile
+func (profile *AgentPoolNetworkProfile) AssignProperties_To_AgentPoolNetworkProfile(destination *v20231001s.AgentPoolNetworkProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// AllowedHostPorts
+	if profile.AllowedHostPorts != nil {
+		allowedHostPortList := make([]v20231001s.PortRange, len(profile.AllowedHostPorts))
+		for allowedHostPortIndex, allowedHostPortItem := range profile.AllowedHostPorts {
+			// Shadow the loop variable to avoid aliasing
+			allowedHostPortItem := allowedHostPortItem
+			var allowedHostPort v20231001s.PortRange
+			err := allowedHostPortItem.AssignProperties_To_PortRange(&allowedHostPort)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_PortRange() to populate field AllowedHostPorts")
+			}
+			allowedHostPortList[allowedHostPortIndex] = allowedHostPort
+		}
+		destination.AllowedHostPorts = allowedHostPortList
+	} else {
+		destination.AllowedHostPorts = nil
+	}
+
+	// ApplicationSecurityGroupsReferences
+	if profile.ApplicationSecurityGroupsReferences != nil {
+		applicationSecurityGroupsReferenceList := make([]genruntime.ResourceReference, len(profile.ApplicationSecurityGroupsReferences))
+		for applicationSecurityGroupsReferenceIndex, applicationSecurityGroupsReferenceItem := range profile.ApplicationSecurityGroupsReferences {
+			// Shadow the loop variable to avoid aliasing
+			applicationSecurityGroupsReferenceItem := applicationSecurityGroupsReferenceItem
+			applicationSecurityGroupsReferenceList[applicationSecurityGroupsReferenceIndex] = applicationSecurityGroupsReferenceItem.Copy()
+		}
+		destination.ApplicationSecurityGroupsReferences = applicationSecurityGroupsReferenceList
+	} else {
+		destination.ApplicationSecurityGroupsReferences = nil
+	}
+
+	// NodePublicIPTags
+	if profile.NodePublicIPTags != nil {
+		nodePublicIPTagList := make([]v20231001s.IPTag, len(profile.NodePublicIPTags))
+		for nodePublicIPTagIndex, nodePublicIPTagItem := range profile.NodePublicIPTags {
+			// Shadow the loop variable to avoid aliasing
+			nodePublicIPTagItem := nodePublicIPTagItem
+			var nodePublicIPTag v20231001s.IPTag
+			err := nodePublicIPTagItem.AssignProperties_To_IPTag(&nodePublicIPTag)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_IPTag() to populate field NodePublicIPTags")
+			}
+			nodePublicIPTagList[nodePublicIPTagIndex] = nodePublicIPTag
+		}
+		destination.NodePublicIPTags = nodePublicIPTagList
+	} else {
+		destination.NodePublicIPTags = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAgentPoolNetworkProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForAgentPoolNetworkProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230202preview.AgentPoolNetworkProfile_STATUS
 // Network settings of an agent pool.
 type AgentPoolNetworkProfile_STATUS struct {
@@ -1667,6 +1816,134 @@ type AgentPoolNetworkProfile_STATUS struct {
 	ApplicationSecurityGroups []string               `json:"applicationSecurityGroups,omitempty"`
 	NodePublicIPTags          []IPTag_STATUS         `json:"nodePublicIPTags,omitempty"`
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_AgentPoolNetworkProfile_STATUS populates our AgentPoolNetworkProfile_STATUS from the provided source AgentPoolNetworkProfile_STATUS
+func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_From_AgentPoolNetworkProfile_STATUS(source *v20231001s.AgentPoolNetworkProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AllowedHostPorts
+	if source.AllowedHostPorts != nil {
+		allowedHostPortList := make([]PortRange_STATUS, len(source.AllowedHostPorts))
+		for allowedHostPortIndex, allowedHostPortItem := range source.AllowedHostPorts {
+			// Shadow the loop variable to avoid aliasing
+			allowedHostPortItem := allowedHostPortItem
+			var allowedHostPort PortRange_STATUS
+			err := allowedHostPort.AssignProperties_From_PortRange_STATUS(&allowedHostPortItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_PortRange_STATUS() to populate field AllowedHostPorts")
+			}
+			allowedHostPortList[allowedHostPortIndex] = allowedHostPort
+		}
+		profile.AllowedHostPorts = allowedHostPortList
+	} else {
+		profile.AllowedHostPorts = nil
+	}
+
+	// ApplicationSecurityGroups
+	profile.ApplicationSecurityGroups = genruntime.CloneSliceOfString(source.ApplicationSecurityGroups)
+
+	// NodePublicIPTags
+	if source.NodePublicIPTags != nil {
+		nodePublicIPTagList := make([]IPTag_STATUS, len(source.NodePublicIPTags))
+		for nodePublicIPTagIndex, nodePublicIPTagItem := range source.NodePublicIPTags {
+			// Shadow the loop variable to avoid aliasing
+			nodePublicIPTagItem := nodePublicIPTagItem
+			var nodePublicIPTag IPTag_STATUS
+			err := nodePublicIPTag.AssignProperties_From_IPTag_STATUS(&nodePublicIPTagItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_IPTag_STATUS() to populate field NodePublicIPTags")
+			}
+			nodePublicIPTagList[nodePublicIPTagIndex] = nodePublicIPTag
+		}
+		profile.NodePublicIPTags = nodePublicIPTagList
+	} else {
+		profile.NodePublicIPTags = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAgentPoolNetworkProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForAgentPoolNetworkProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AgentPoolNetworkProfile_STATUS populates the provided destination AgentPoolNetworkProfile_STATUS from our AgentPoolNetworkProfile_STATUS
+func (profile *AgentPoolNetworkProfile_STATUS) AssignProperties_To_AgentPoolNetworkProfile_STATUS(destination *v20231001s.AgentPoolNetworkProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// AllowedHostPorts
+	if profile.AllowedHostPorts != nil {
+		allowedHostPortList := make([]v20231001s.PortRange_STATUS, len(profile.AllowedHostPorts))
+		for allowedHostPortIndex, allowedHostPortItem := range profile.AllowedHostPorts {
+			// Shadow the loop variable to avoid aliasing
+			allowedHostPortItem := allowedHostPortItem
+			var allowedHostPort v20231001s.PortRange_STATUS
+			err := allowedHostPortItem.AssignProperties_To_PortRange_STATUS(&allowedHostPort)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_PortRange_STATUS() to populate field AllowedHostPorts")
+			}
+			allowedHostPortList[allowedHostPortIndex] = allowedHostPort
+		}
+		destination.AllowedHostPorts = allowedHostPortList
+	} else {
+		destination.AllowedHostPorts = nil
+	}
+
+	// ApplicationSecurityGroups
+	destination.ApplicationSecurityGroups = genruntime.CloneSliceOfString(profile.ApplicationSecurityGroups)
+
+	// NodePublicIPTags
+	if profile.NodePublicIPTags != nil {
+		nodePublicIPTagList := make([]v20231001s.IPTag_STATUS, len(profile.NodePublicIPTags))
+		for nodePublicIPTagIndex, nodePublicIPTagItem := range profile.NodePublicIPTags {
+			// Shadow the loop variable to avoid aliasing
+			nodePublicIPTagItem := nodePublicIPTagItem
+			var nodePublicIPTag v20231001s.IPTag_STATUS
+			err := nodePublicIPTagItem.AssignProperties_To_IPTag_STATUS(&nodePublicIPTag)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_IPTag_STATUS() to populate field NodePublicIPTags")
+			}
+			nodePublicIPTagList[nodePublicIPTagIndex] = nodePublicIPTag
+		}
+		destination.NodePublicIPTags = nodePublicIPTagList
+	} else {
+		destination.NodePublicIPTags = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAgentPoolNetworkProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForAgentPoolNetworkProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230202preview.AgentPoolUpgradeSettings
@@ -2392,6 +2669,16 @@ func (state *PowerState) AssignProperties_To_PowerState(destination *v20230201s.
 	return nil
 }
 
+type augmentConversionForAgentPoolNetworkProfile interface {
+	AssignPropertiesFrom(src *v20231001s.AgentPoolNetworkProfile) error
+	AssignPropertiesTo(dst *v20231001s.AgentPoolNetworkProfile) error
+}
+
+type augmentConversionForAgentPoolNetworkProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20231001s.AgentPoolNetworkProfile_STATUS) error
+	AssignPropertiesTo(dst *v20231001s.AgentPoolNetworkProfile_STATUS) error
+}
+
 type augmentConversionForAgentPoolUpgradeSettings interface {
 	AssignPropertiesFrom(src *v20230201s.AgentPoolUpgradeSettings) error
 	AssignPropertiesTo(dst *v20230201s.AgentPoolUpgradeSettings) error
@@ -2435,12 +2722,136 @@ type IPTag struct {
 	Tag         *string                `json:"tag,omitempty"`
 }
 
+// AssignProperties_From_IPTag populates our IPTag from the provided source IPTag
+func (ipTag *IPTag) AssignProperties_From_IPTag(source *v20231001s.IPTag) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// IpTagType
+	ipTag.IpTagType = genruntime.ClonePointerToString(source.IpTagType)
+
+	// Tag
+	ipTag.Tag = genruntime.ClonePointerToString(source.Tag)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		ipTag.PropertyBag = propertyBag
+	} else {
+		ipTag.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForIPTag interface (if implemented) to customize the conversion
+	var ipTagAsAny any = ipTag
+	if augmentedIpTag, ok := ipTagAsAny.(augmentConversionForIPTag); ok {
+		err := augmentedIpTag.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_IPTag populates the provided destination IPTag from our IPTag
+func (ipTag *IPTag) AssignProperties_To_IPTag(destination *v20231001s.IPTag) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(ipTag.PropertyBag)
+
+	// IpTagType
+	destination.IpTagType = genruntime.ClonePointerToString(ipTag.IpTagType)
+
+	// Tag
+	destination.Tag = genruntime.ClonePointerToString(ipTag.Tag)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForIPTag interface (if implemented) to customize the conversion
+	var ipTagAsAny any = ipTag
+	if augmentedIpTag, ok := ipTagAsAny.(augmentConversionForIPTag); ok {
+		err := augmentedIpTag.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230202preview.IPTag_STATUS
 // Contains the IPTag associated with the object.
 type IPTag_STATUS struct {
 	IpTagType   *string                `json:"ipTagType,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tag         *string                `json:"tag,omitempty"`
+}
+
+// AssignProperties_From_IPTag_STATUS populates our IPTag_STATUS from the provided source IPTag_STATUS
+func (ipTag *IPTag_STATUS) AssignProperties_From_IPTag_STATUS(source *v20231001s.IPTag_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// IpTagType
+	ipTag.IpTagType = genruntime.ClonePointerToString(source.IpTagType)
+
+	// Tag
+	ipTag.Tag = genruntime.ClonePointerToString(source.Tag)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		ipTag.PropertyBag = propertyBag
+	} else {
+		ipTag.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForIPTag_STATUS interface (if implemented) to customize the conversion
+	var ipTagAsAny any = ipTag
+	if augmentedIpTag, ok := ipTagAsAny.(augmentConversionForIPTag_STATUS); ok {
+		err := augmentedIpTag.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_IPTag_STATUS populates the provided destination IPTag_STATUS from our IPTag_STATUS
+func (ipTag *IPTag_STATUS) AssignProperties_To_IPTag_STATUS(destination *v20231001s.IPTag_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(ipTag.PropertyBag)
+
+	// IpTagType
+	destination.IpTagType = genruntime.ClonePointerToString(ipTag.IpTagType)
+
+	// Tag
+	destination.Tag = genruntime.ClonePointerToString(ipTag.Tag)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForIPTag_STATUS interface (if implemented) to customize the conversion
+	var ipTagAsAny any = ipTag
+	if augmentedIpTag, ok := ipTagAsAny.(augmentConversionForIPTag_STATUS); ok {
+		err := augmentedIpTag.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230202preview.PortRange
@@ -2452,6 +2863,74 @@ type PortRange struct {
 	Protocol    *string                `json:"protocol,omitempty"`
 }
 
+// AssignProperties_From_PortRange populates our PortRange from the provided source PortRange
+func (portRange *PortRange) AssignProperties_From_PortRange(source *v20231001s.PortRange) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// PortEnd
+	portRange.PortEnd = genruntime.ClonePointerToInt(source.PortEnd)
+
+	// PortStart
+	portRange.PortStart = genruntime.ClonePointerToInt(source.PortStart)
+
+	// Protocol
+	portRange.Protocol = genruntime.ClonePointerToString(source.Protocol)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		portRange.PropertyBag = propertyBag
+	} else {
+		portRange.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPortRange interface (if implemented) to customize the conversion
+	var portRangeAsAny any = portRange
+	if augmentedPortRange, ok := portRangeAsAny.(augmentConversionForPortRange); ok {
+		err := augmentedPortRange.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PortRange populates the provided destination PortRange from our PortRange
+func (portRange *PortRange) AssignProperties_To_PortRange(destination *v20231001s.PortRange) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(portRange.PropertyBag)
+
+	// PortEnd
+	destination.PortEnd = genruntime.ClonePointerToInt(portRange.PortEnd)
+
+	// PortStart
+	destination.PortStart = genruntime.ClonePointerToInt(portRange.PortStart)
+
+	// Protocol
+	destination.Protocol = genruntime.ClonePointerToString(portRange.Protocol)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPortRange interface (if implemented) to customize the conversion
+	var portRangeAsAny any = portRange
+	if augmentedPortRange, ok := portRangeAsAny.(augmentConversionForPortRange); ok {
+		err := augmentedPortRange.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230202preview.PortRange_STATUS
 // The port range.
 type PortRange_STATUS struct {
@@ -2459,6 +2938,74 @@ type PortRange_STATUS struct {
 	PortStart   *int                   `json:"portStart,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Protocol    *string                `json:"protocol,omitempty"`
+}
+
+// AssignProperties_From_PortRange_STATUS populates our PortRange_STATUS from the provided source PortRange_STATUS
+func (portRange *PortRange_STATUS) AssignProperties_From_PortRange_STATUS(source *v20231001s.PortRange_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// PortEnd
+	portRange.PortEnd = genruntime.ClonePointerToInt(source.PortEnd)
+
+	// PortStart
+	portRange.PortStart = genruntime.ClonePointerToInt(source.PortStart)
+
+	// Protocol
+	portRange.Protocol = genruntime.ClonePointerToString(source.Protocol)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		portRange.PropertyBag = propertyBag
+	} else {
+		portRange.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPortRange_STATUS interface (if implemented) to customize the conversion
+	var portRangeAsAny any = portRange
+	if augmentedPortRange, ok := portRangeAsAny.(augmentConversionForPortRange_STATUS); ok {
+		err := augmentedPortRange.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PortRange_STATUS populates the provided destination PortRange_STATUS from our PortRange_STATUS
+func (portRange *PortRange_STATUS) AssignProperties_To_PortRange_STATUS(destination *v20231001s.PortRange_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(portRange.PropertyBag)
+
+	// PortEnd
+	destination.PortEnd = genruntime.ClonePointerToInt(portRange.PortEnd)
+
+	// PortStart
+	destination.PortStart = genruntime.ClonePointerToInt(portRange.PortStart)
+
+	// Protocol
+	destination.Protocol = genruntime.ClonePointerToString(portRange.Protocol)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPortRange_STATUS interface (if implemented) to customize the conversion
+	var portRangeAsAny any = portRange
+	if augmentedPortRange, ok := portRangeAsAny.(augmentConversionForPortRange_STATUS); ok {
+		err := augmentedPortRange.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230202preview.SysctlConfig
@@ -2983,6 +3530,26 @@ func (config *SysctlConfig_STATUS) AssignProperties_To_SysctlConfig_STATUS(desti
 
 	// No error
 	return nil
+}
+
+type augmentConversionForIPTag interface {
+	AssignPropertiesFrom(src *v20231001s.IPTag) error
+	AssignPropertiesTo(dst *v20231001s.IPTag) error
+}
+
+type augmentConversionForIPTag_STATUS interface {
+	AssignPropertiesFrom(src *v20231001s.IPTag_STATUS) error
+	AssignPropertiesTo(dst *v20231001s.IPTag_STATUS) error
+}
+
+type augmentConversionForPortRange interface {
+	AssignPropertiesFrom(src *v20231001s.PortRange) error
+	AssignPropertiesTo(dst *v20231001s.PortRange) error
+}
+
+type augmentConversionForPortRange_STATUS interface {
+	AssignPropertiesFrom(src *v20231001s.PortRange_STATUS) error
+	AssignPropertiesTo(dst *v20231001s.PortRange_STATUS) error
 }
 
 type augmentConversionForSysctlConfig interface {

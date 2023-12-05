@@ -21,9 +21,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20230701.ManagedClustersAgentPool
+// Storage version of v1api20231001.ManagedClustersAgentPool
 // Generator information:
-// - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/managedClusters.json
+// - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}
 type ManagedClustersAgentPool struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,7 +51,7 @@ func (pool *ManagedClustersAgentPool) AzureName() string {
 	return pool.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2023-07-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2023-10-01"
 func (pool ManagedClustersAgentPool) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -128,9 +128,9 @@ func (pool *ManagedClustersAgentPool) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20230701.ManagedClustersAgentPool
+// Storage version of v1api20231001.ManagedClustersAgentPool
 // Generator information:
-// - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/managedClusters.json
+// - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/managedClusters.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}
 type ManagedClustersAgentPoolList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -138,21 +138,24 @@ type ManagedClustersAgentPoolList struct {
 	Items           []ManagedClustersAgentPool `json:"items"`
 }
 
-// Storage version of v1api20230701.ManagedClusters_AgentPool_Spec
+// Storage version of v1api20231001.ManagedClusters_AgentPool_Spec
 type ManagedClusters_AgentPool_Spec struct {
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName              string        `json:"azureName,omitempty"`
-	Count                  *int          `json:"count,omitempty"`
-	CreationData           *CreationData `json:"creationData,omitempty"`
-	EnableAutoScaling      *bool         `json:"enableAutoScaling,omitempty"`
-	EnableEncryptionAtHost *bool         `json:"enableEncryptionAtHost,omitempty"`
-	EnableFIPS             *bool         `json:"enableFIPS,omitempty"`
-	EnableNodePublicIP     *bool         `json:"enableNodePublicIP,omitempty"`
-	EnableUltraSSD         *bool         `json:"enableUltraSSD,omitempty"`
-	GpuInstanceProfile     *string       `json:"gpuInstanceProfile,omitempty"`
+	AzureName string `json:"azureName,omitempty"`
+
+	// CapacityReservationGroupReference: AKS will associate the specified agent pool with the Capacity Reservation Group.
+	CapacityReservationGroupReference *genruntime.ResourceReference `armReference:"CapacityReservationGroupID" json:"capacityReservationGroupReference,omitempty"`
+	Count                             *int                          `json:"count,omitempty"`
+	CreationData                      *CreationData                 `json:"creationData,omitempty"`
+	EnableAutoScaling                 *bool                         `json:"enableAutoScaling,omitempty"`
+	EnableEncryptionAtHost            *bool                         `json:"enableEncryptionAtHost,omitempty"`
+	EnableFIPS                        *bool                         `json:"enableFIPS,omitempty"`
+	EnableNodePublicIP                *bool                         `json:"enableNodePublicIP,omitempty"`
+	EnableUltraSSD                    *bool                         `json:"enableUltraSSD,omitempty"`
+	GpuInstanceProfile                *string                       `json:"gpuInstanceProfile,omitempty"`
 
 	// HostGroupReference: This is of the form:
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}.
@@ -165,6 +168,7 @@ type ManagedClusters_AgentPool_Spec struct {
 	MaxPods            *int                          `json:"maxPods,omitempty"`
 	MinCount           *int                          `json:"minCount,omitempty"`
 	Mode               *string                       `json:"mode,omitempty"`
+	NetworkProfile     *AgentPoolNetworkProfile      `json:"networkProfile,omitempty"`
 	NodeLabels         map[string]string             `json:"nodeLabels,omitempty"`
 
 	// NodePublicIPPrefixReference: This is of the form:
@@ -229,9 +233,10 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertSpecTo(destination genruntime
 	return destination.ConvertSpecFrom(pool)
 }
 
-// Storage version of v1api20230701.ManagedClusters_AgentPool_STATUS
+// Storage version of v1api20231001.ManagedClusters_AgentPool_STATUS
 type ManagedClusters_AgentPool_STATUS struct {
 	AvailabilityZones          []string                         `json:"availabilityZones,omitempty"`
+	CapacityReservationGroupID *string                          `json:"capacityReservationGroupID,omitempty"`
 	Conditions                 []conditions.Condition           `json:"conditions,omitempty"`
 	Count                      *int                             `json:"count,omitempty"`
 	CreationData               *CreationData_STATUS             `json:"creationData,omitempty"`
@@ -252,6 +257,7 @@ type ManagedClusters_AgentPool_STATUS struct {
 	MinCount                   *int                             `json:"minCount,omitempty"`
 	Mode                       *string                          `json:"mode,omitempty"`
 	Name                       *string                          `json:"name,omitempty"`
+	NetworkProfile             *AgentPoolNetworkProfile_STATUS  `json:"networkProfile,omitempty"`
 	NodeImageVersion           *string                          `json:"nodeImageVersion,omitempty"`
 	NodeLabels                 map[string]string                `json:"nodeLabels,omitempty"`
 	NodePublicIPPrefixID       *string                          `json:"nodePublicIPPrefixID,omitempty"`
@@ -299,7 +305,25 @@ func (pool *ManagedClusters_AgentPool_STATUS) ConvertStatusTo(destination genrun
 	return destination.ConvertStatusFrom(pool)
 }
 
-// Storage version of v1api20230701.AgentPoolUpgradeSettings
+// Storage version of v1api20231001.AgentPoolNetworkProfile
+// Network settings of an agent pool.
+type AgentPoolNetworkProfile struct {
+	AllowedHostPorts                    []PortRange                    `json:"allowedHostPorts,omitempty"`
+	ApplicationSecurityGroupsReferences []genruntime.ResourceReference `armReference:"ApplicationSecurityGroups" json:"applicationSecurityGroupsReferences,omitempty"`
+	NodePublicIPTags                    []IPTag                        `json:"nodePublicIPTags,omitempty"`
+	PropertyBag                         genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20231001.AgentPoolNetworkProfile_STATUS
+// Network settings of an agent pool.
+type AgentPoolNetworkProfile_STATUS struct {
+	AllowedHostPorts          []PortRange_STATUS     `json:"allowedHostPorts,omitempty"`
+	ApplicationSecurityGroups []string               `json:"applicationSecurityGroups,omitempty"`
+	NodePublicIPTags          []IPTag_STATUS         `json:"nodePublicIPTags,omitempty"`
+	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20231001.AgentPoolUpgradeSettings
 // Settings for upgrading an agentpool
 type AgentPoolUpgradeSettings struct {
 	DrainTimeoutInMinutes *int                   `json:"drainTimeoutInMinutes,omitempty"`
@@ -307,7 +331,7 @@ type AgentPoolUpgradeSettings struct {
 	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20230701.AgentPoolUpgradeSettings_STATUS
+// Storage version of v1api20231001.AgentPoolUpgradeSettings_STATUS
 // Settings for upgrading an agentpool
 type AgentPoolUpgradeSettings_STATUS struct {
 	DrainTimeoutInMinutes *int                   `json:"drainTimeoutInMinutes,omitempty"`
@@ -315,7 +339,7 @@ type AgentPoolUpgradeSettings_STATUS struct {
 	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20230701.CreationData
+// Storage version of v1api20231001.CreationData
 // Data used when creating a target resource from a source resource.
 type CreationData struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -324,14 +348,14 @@ type CreationData struct {
 	SourceResourceReference *genruntime.ResourceReference `armReference:"SourceResourceId" json:"sourceResourceReference,omitempty"`
 }
 
-// Storage version of v1api20230701.CreationData_STATUS
+// Storage version of v1api20231001.CreationData_STATUS
 // Data used when creating a target resource from a source resource.
 type CreationData_STATUS struct {
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SourceResourceId *string                `json:"sourceResourceId,omitempty"`
 }
 
-// Storage version of v1api20230701.KubeletConfig
+// Storage version of v1api20231001.KubeletConfig
 // See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfig struct {
 	AllowedUnsafeSysctls  []string               `json:"allowedUnsafeSysctls,omitempty"`
@@ -348,7 +372,7 @@ type KubeletConfig struct {
 	TopologyManagerPolicy *string                `json:"topologyManagerPolicy,omitempty"`
 }
 
-// Storage version of v1api20230701.KubeletConfig_STATUS
+// Storage version of v1api20231001.KubeletConfig_STATUS
 // See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfig_STATUS struct {
 	AllowedUnsafeSysctls  []string               `json:"allowedUnsafeSysctls,omitempty"`
@@ -365,7 +389,7 @@ type KubeletConfig_STATUS struct {
 	TopologyManagerPolicy *string                `json:"topologyManagerPolicy,omitempty"`
 }
 
-// Storage version of v1api20230701.LinuxOSConfig
+// Storage version of v1api20231001.LinuxOSConfig
 // See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfig struct {
 	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -375,7 +399,7 @@ type LinuxOSConfig struct {
 	TransparentHugePageEnabled *string                `json:"transparentHugePageEnabled,omitempty"`
 }
 
-// Storage version of v1api20230701.LinuxOSConfig_STATUS
+// Storage version of v1api20231001.LinuxOSConfig_STATUS
 // See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfig_STATUS struct {
 	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -385,14 +409,48 @@ type LinuxOSConfig_STATUS struct {
 	TransparentHugePageEnabled *string                `json:"transparentHugePageEnabled,omitempty"`
 }
 
-// Storage version of v1api20230701.PowerState
+// Storage version of v1api20231001.PowerState
 // Describes the Power State of the cluster
 type PowerState struct {
 	Code        *string                `json:"code,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20230701.SysctlConfig
+// Storage version of v1api20231001.IPTag
+// Contains the IPTag associated with the object.
+type IPTag struct {
+	IpTagType   *string                `json:"ipTagType,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Tag         *string                `json:"tag,omitempty"`
+}
+
+// Storage version of v1api20231001.IPTag_STATUS
+// Contains the IPTag associated with the object.
+type IPTag_STATUS struct {
+	IpTagType   *string                `json:"ipTagType,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Tag         *string                `json:"tag,omitempty"`
+}
+
+// Storage version of v1api20231001.PortRange
+// The port range.
+type PortRange struct {
+	PortEnd     *int                   `json:"portEnd,omitempty"`
+	PortStart   *int                   `json:"portStart,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Protocol    *string                `json:"protocol,omitempty"`
+}
+
+// Storage version of v1api20231001.PortRange_STATUS
+// The port range.
+type PortRange_STATUS struct {
+	PortEnd     *int                   `json:"portEnd,omitempty"`
+	PortStart   *int                   `json:"portStart,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Protocol    *string                `json:"protocol,omitempty"`
+}
+
+// Storage version of v1api20231001.SysctlConfig
 // Sysctl settings for Linux agent nodes.
 type SysctlConfig struct {
 	FsAioMaxNr                     *int                   `json:"fsAioMaxNr,omitempty"`
@@ -426,7 +484,7 @@ type SysctlConfig struct {
 	VmVfsCachePressure             *int                   `json:"vmVfsCachePressure,omitempty"`
 }
 
-// Storage version of v1api20230701.SysctlConfig_STATUS
+// Storage version of v1api20231001.SysctlConfig_STATUS
 // Sysctl settings for Linux agent nodes.
 type SysctlConfig_STATUS struct {
 	FsAioMaxNr                     *int                   `json:"fsAioMaxNr,omitempty"`

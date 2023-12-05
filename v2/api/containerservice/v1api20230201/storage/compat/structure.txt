@@ -17,8 +17,30 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/st
 │   ├── Enabled: *bool
 │   ├── PropertyBag: genruntime.PropertyBag
 │   └── UpdateMode: *string
-└── ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS: Object (4 properties)
-    ├── ControlledValues: *string
-    ├── Enabled: *bool
-    ├── PropertyBag: genruntime.PropertyBag
-    └── UpdateMode: *string
+├── ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS: Object (4 properties)
+│   ├── ControlledValues: *string
+│   ├── Enabled: *bool
+│   ├── PropertyBag: genruntime.PropertyBag
+│   └── UpdateMode: *string
+├── ServiceMeshProfile: Object (3 properties)
+│   ├── Istio: *Object (2 properties)
+│   │   ├── Components: *Object (2 properties)
+│   │   │   ├── IngressGateways: Object (3 properties)[]
+│   │   │   │   ├── Enabled: *bool
+│   │   │   │   ├── Mode: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── Mode: *string
+│   └── PropertyBag: genruntime.PropertyBag
+└── ServiceMeshProfile_STATUS: Object (3 properties)
+    ├── Istio: *Object (2 properties)
+    │   ├── Components: *Object (2 properties)
+    │   │   ├── IngressGateways: Object (3 properties)[]
+    │   │   │   ├── Enabled: *bool
+    │   │   │   ├── Mode: *string
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── Mode: *string
+    └── PropertyBag: genruntime.PropertyBag

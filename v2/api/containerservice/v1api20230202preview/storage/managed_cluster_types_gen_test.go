@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
 	v20230201sc "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage/compat"
-	v20230701s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230701/storage"
+	v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -38,7 +38,7 @@ func RunResourceConversionTestForManagedCluster(subject ManagedCluster) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230701s.ManagedCluster
+	var hub v20231001s.ManagedCluster
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -6190,6 +6190,48 @@ func AddIndependentPropertyGeneratorsForPrivateLinkResource_STATUS(gens map[stri
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ServiceMeshProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServiceMeshProfile to ServiceMeshProfile via AssignProperties_To_ServiceMeshProfile & AssignProperties_From_ServiceMeshProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServiceMeshProfile, ServiceMeshProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServiceMeshProfile tests if a specific instance of ServiceMeshProfile can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForServiceMeshProfile(subject ServiceMeshProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230201sc.ServiceMeshProfile
+	err := copied.AssignProperties_To_ServiceMeshProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServiceMeshProfile
+	err = actual.AssignProperties_From_ServiceMeshProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServiceMeshProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -6262,6 +6304,48 @@ func AddIndependentPropertyGeneratorsForServiceMeshProfile(gens map[string]gopte
 // AddRelatedPropertyGeneratorsForServiceMeshProfile is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServiceMeshProfile(gens map[string]gopter.Gen) {
 	gens["Istio"] = gen.PtrOf(IstioServiceMeshGenerator())
+}
+
+func Test_ServiceMeshProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServiceMeshProfile_STATUS to ServiceMeshProfile_STATUS via AssignProperties_To_ServiceMeshProfile_STATUS & AssignProperties_From_ServiceMeshProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServiceMeshProfile_STATUS, ServiceMeshProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServiceMeshProfile_STATUS tests if a specific instance of ServiceMeshProfile_STATUS can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForServiceMeshProfile_STATUS(subject ServiceMeshProfile_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230201sc.ServiceMeshProfile_STATUS
+	err := copied.AssignProperties_To_ServiceMeshProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServiceMeshProfile_STATUS
+	err = actual.AssignProperties_From_ServiceMeshProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServiceMeshProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -7223,6 +7307,48 @@ func AddRelatedPropertyGeneratorsForContainerServiceSshConfiguration_STATUS(gens
 	gens["PublicKeys"] = gen.SliceOf(ContainerServiceSshPublicKey_STATUSGenerator())
 }
 
+func Test_IstioServiceMesh_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IstioServiceMesh to IstioServiceMesh via AssignProperties_To_IstioServiceMesh & AssignProperties_From_IstioServiceMesh returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIstioServiceMesh, IstioServiceMeshGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIstioServiceMesh tests if a specific instance of IstioServiceMesh can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForIstioServiceMesh(subject IstioServiceMesh) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230201sc.IstioServiceMesh
+	err := copied.AssignProperties_To_IstioServiceMesh(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IstioServiceMesh
+	err = actual.AssignProperties_From_IstioServiceMesh(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_IstioServiceMesh_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -7281,6 +7407,48 @@ func IstioServiceMeshGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForIstioServiceMesh is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForIstioServiceMesh(gens map[string]gopter.Gen) {
 	gens["Components"] = gen.PtrOf(IstioComponentsGenerator())
+}
+
+func Test_IstioServiceMesh_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IstioServiceMesh_STATUS to IstioServiceMesh_STATUS via AssignProperties_To_IstioServiceMesh_STATUS & AssignProperties_From_IstioServiceMesh_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIstioServiceMesh_STATUS, IstioServiceMesh_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIstioServiceMesh_STATUS tests if a specific instance of IstioServiceMesh_STATUS can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForIstioServiceMesh_STATUS(subject IstioServiceMesh_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230201sc.IstioServiceMesh_STATUS
+	err := copied.AssignProperties_To_IstioServiceMesh_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IstioServiceMesh_STATUS
+	err = actual.AssignProperties_From_IstioServiceMesh_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_IstioServiceMesh_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -11791,6 +11959,48 @@ func AddIndependentPropertyGeneratorsForContainerServiceSshPublicKey_STATUS(gens
 	gens["KeyData"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_IstioComponents_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IstioComponents to IstioComponents via AssignProperties_To_IstioComponents & AssignProperties_From_IstioComponents returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIstioComponents, IstioComponentsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIstioComponents tests if a specific instance of IstioComponents can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForIstioComponents(subject IstioComponents) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230201sc.IstioComponents
+	err := copied.AssignProperties_To_IstioComponents(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IstioComponents
+	err = actual.AssignProperties_From_IstioComponents(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_IstioComponents_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -11849,6 +12059,48 @@ func IstioComponentsGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForIstioComponents is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForIstioComponents(gens map[string]gopter.Gen) {
 	gens["IngressGateways"] = gen.SliceOf(IstioIngressGatewayGenerator())
+}
+
+func Test_IstioComponents_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IstioComponents_STATUS to IstioComponents_STATUS via AssignProperties_To_IstioComponents_STATUS & AssignProperties_From_IstioComponents_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIstioComponents_STATUS, IstioComponents_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIstioComponents_STATUS tests if a specific instance of IstioComponents_STATUS can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForIstioComponents_STATUS(subject IstioComponents_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230201sc.IstioComponents_STATUS
+	err := copied.AssignProperties_To_IstioComponents_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IstioComponents_STATUS
+	err = actual.AssignProperties_From_IstioComponents_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_IstioComponents_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -13454,6 +13706,48 @@ func AddIndependentPropertyGeneratorsForResourceReference_STATUS(gens map[string
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_IstioIngressGateway_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IstioIngressGateway to IstioIngressGateway via AssignProperties_To_IstioIngressGateway & AssignProperties_From_IstioIngressGateway returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIstioIngressGateway, IstioIngressGatewayGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIstioIngressGateway tests if a specific instance of IstioIngressGateway can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForIstioIngressGateway(subject IstioIngressGateway) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230201sc.IstioIngressGateway
+	err := copied.AssignProperties_To_IstioIngressGateway(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IstioIngressGateway
+	err = actual.AssignProperties_From_IstioIngressGateway(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_IstioIngressGateway_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -13514,6 +13808,48 @@ func IstioIngressGatewayGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIstioIngressGateway(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Mode"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_IstioIngressGateway_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IstioIngressGateway_STATUS to IstioIngressGateway_STATUS via AssignProperties_To_IstioIngressGateway_STATUS & AssignProperties_From_IstioIngressGateway_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIstioIngressGateway_STATUS, IstioIngressGateway_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIstioIngressGateway_STATUS tests if a specific instance of IstioIngressGateway_STATUS can be assigned to compat and back losslessly
+func RunPropertyAssignmentTestForIstioIngressGateway_STATUS(subject IstioIngressGateway_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230201sc.IstioIngressGateway_STATUS
+	err := copied.AssignProperties_To_IstioIngressGateway_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IstioIngressGateway_STATUS
+	err = actual.AssignProperties_From_IstioIngressGateway_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_IstioIngressGateway_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

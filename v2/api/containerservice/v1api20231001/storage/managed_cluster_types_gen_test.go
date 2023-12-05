@@ -180,6 +180,7 @@ func AddRelatedPropertyGeneratorsForManagedCluster_Spec(gens map[string]gopter.G
 	gens["PodIdentityProfile"] = gen.PtrOf(ManagedClusterPodIdentityProfileGenerator())
 	gens["PrivateLinkResources"] = gen.SliceOf(PrivateLinkResourceGenerator())
 	gens["SecurityProfile"] = gen.PtrOf(ManagedClusterSecurityProfileGenerator())
+	gens["ServiceMeshProfile"] = gen.PtrOf(ServiceMeshProfileGenerator())
 	gens["ServicePrincipalProfile"] = gen.PtrOf(ManagedClusterServicePrincipalProfileGenerator())
 	gens["Sku"] = gen.PtrOf(ManagedClusterSKUGenerator())
 	gens["StorageProfile"] = gen.PtrOf(ManagedClusterStorageProfileGenerator())
@@ -273,6 +274,7 @@ func AddIndependentPropertyGeneratorsForManagedCluster_STATUS(gens map[string]go
 	gens["PrivateFQDN"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
+	gens["ResourceUID"] = gen.PtrOf(gen.AlphaString())
 	gens["SupportPlan"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
@@ -298,6 +300,7 @@ func AddRelatedPropertyGeneratorsForManagedCluster_STATUS(gens map[string]gopter
 	gens["PowerState"] = gen.PtrOf(PowerState_STATUSGenerator())
 	gens["PrivateLinkResources"] = gen.SliceOf(PrivateLinkResource_STATUSGenerator())
 	gens["SecurityProfile"] = gen.PtrOf(ManagedClusterSecurityProfile_STATUSGenerator())
+	gens["ServiceMeshProfile"] = gen.PtrOf(ServiceMeshProfile_STATUSGenerator())
 	gens["ServicePrincipalProfile"] = gen.PtrOf(ManagedClusterServicePrincipalProfile_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(ManagedClusterSKU_STATUSGenerator())
 	gens["StorageProfile"] = gen.PtrOf(ManagedClusterStorageProfile_STATUSGenerator())
@@ -1253,6 +1256,7 @@ func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfile(gens map[stri
 	gens["CreationData"] = gen.PtrOf(CreationDataGenerator())
 	gens["KubeletConfig"] = gen.PtrOf(KubeletConfigGenerator())
 	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfigGenerator())
+	gens["NetworkProfile"] = gen.PtrOf(AgentPoolNetworkProfileGenerator())
 	gens["PowerState"] = gen.PtrOf(PowerStateGenerator())
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsGenerator())
 }
@@ -1325,6 +1329,7 @@ func ManagedClusterAgentPoolProfile_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile_STATUS(gens map[string]gopter.Gen) {
 	gens["AvailabilityZones"] = gen.SliceOf(gen.AlphaString())
+	gens["CapacityReservationGroupID"] = gen.PtrOf(gen.AlphaString())
 	gens["Count"] = gen.PtrOf(gen.Int())
 	gens["CurrentOrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableAutoScaling"] = gen.PtrOf(gen.Bool())
@@ -1368,6 +1373,7 @@ func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfile_STATUS(gens m
 	gens["CreationData"] = gen.PtrOf(CreationData_STATUSGenerator())
 	gens["KubeletConfig"] = gen.PtrOf(KubeletConfig_STATUSGenerator())
 	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfig_STATUSGenerator())
+	gens["NetworkProfile"] = gen.PtrOf(AgentPoolNetworkProfile_STATUSGenerator())
 	gens["PowerState"] = gen.PtrOf(PowerState_STATUSGenerator())
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettings_STATUSGenerator())
 }
@@ -3494,6 +3500,155 @@ func AddIndependentPropertyGeneratorsForPrivateLinkResource_STATUS(gens map[stri
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ServiceMeshProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServiceMeshProfile via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServiceMeshProfile, ServiceMeshProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServiceMeshProfile runs a test to see if a specific instance of ServiceMeshProfile round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceMeshProfile(subject ServiceMeshProfile) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServiceMeshProfile
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServiceMeshProfile instances for property testing - lazily instantiated by ServiceMeshProfileGenerator()
+var serviceMeshProfileGenerator gopter.Gen
+
+// ServiceMeshProfileGenerator returns a generator of ServiceMeshProfile instances for property testing.
+// We first initialize serviceMeshProfileGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ServiceMeshProfileGenerator() gopter.Gen {
+	if serviceMeshProfileGenerator != nil {
+		return serviceMeshProfileGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServiceMeshProfile(generators)
+	serviceMeshProfileGenerator = gen.Struct(reflect.TypeOf(ServiceMeshProfile{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServiceMeshProfile(generators)
+	AddRelatedPropertyGeneratorsForServiceMeshProfile(generators)
+	serviceMeshProfileGenerator = gen.Struct(reflect.TypeOf(ServiceMeshProfile{}), generators)
+
+	return serviceMeshProfileGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServiceMeshProfile is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServiceMeshProfile(gens map[string]gopter.Gen) {
+	gens["Mode"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForServiceMeshProfile is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServiceMeshProfile(gens map[string]gopter.Gen) {
+	gens["Istio"] = gen.PtrOf(IstioServiceMeshGenerator())
+}
+
+func Test_ServiceMeshProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServiceMeshProfile_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServiceMeshProfile_STATUS, ServiceMeshProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServiceMeshProfile_STATUS runs a test to see if a specific instance of ServiceMeshProfile_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceMeshProfile_STATUS(subject ServiceMeshProfile_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServiceMeshProfile_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServiceMeshProfile_STATUS instances for property testing - lazily instantiated by
+// ServiceMeshProfile_STATUSGenerator()
+var serviceMeshProfile_STATUSGenerator gopter.Gen
+
+// ServiceMeshProfile_STATUSGenerator returns a generator of ServiceMeshProfile_STATUS instances for property testing.
+// We first initialize serviceMeshProfile_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ServiceMeshProfile_STATUSGenerator() gopter.Gen {
+	if serviceMeshProfile_STATUSGenerator != nil {
+		return serviceMeshProfile_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServiceMeshProfile_STATUS(generators)
+	serviceMeshProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(ServiceMeshProfile_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServiceMeshProfile_STATUS(generators)
+	AddRelatedPropertyGeneratorsForServiceMeshProfile_STATUS(generators)
+	serviceMeshProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(ServiceMeshProfile_STATUS{}), generators)
+
+	return serviceMeshProfile_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServiceMeshProfile_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServiceMeshProfile_STATUS(gens map[string]gopter.Gen) {
+	gens["Mode"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForServiceMeshProfile_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServiceMeshProfile_STATUS(gens map[string]gopter.Gen) {
+	gens["Istio"] = gen.PtrOf(IstioServiceMesh_STATUSGenerator())
+}
+
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -4058,6 +4213,157 @@ func AddIndependentPropertyGeneratorsForDelegatedResource_STATUS(gens map[string
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_IstioServiceMesh_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IstioServiceMesh via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIstioServiceMesh, IstioServiceMeshGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIstioServiceMesh runs a test to see if a specific instance of IstioServiceMesh round trips to JSON and back losslessly
+func RunJSONSerializationTestForIstioServiceMesh(subject IstioServiceMesh) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IstioServiceMesh
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IstioServiceMesh instances for property testing - lazily instantiated by IstioServiceMeshGenerator()
+var istioServiceMeshGenerator gopter.Gen
+
+// IstioServiceMeshGenerator returns a generator of IstioServiceMesh instances for property testing.
+// We first initialize istioServiceMeshGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func IstioServiceMeshGenerator() gopter.Gen {
+	if istioServiceMeshGenerator != nil {
+		return istioServiceMeshGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIstioServiceMesh(generators)
+	istioServiceMeshGenerator = gen.Struct(reflect.TypeOf(IstioServiceMesh{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIstioServiceMesh(generators)
+	AddRelatedPropertyGeneratorsForIstioServiceMesh(generators)
+	istioServiceMeshGenerator = gen.Struct(reflect.TypeOf(IstioServiceMesh{}), generators)
+
+	return istioServiceMeshGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIstioServiceMesh is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIstioServiceMesh(gens map[string]gopter.Gen) {
+	gens["Revisions"] = gen.SliceOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForIstioServiceMesh is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForIstioServiceMesh(gens map[string]gopter.Gen) {
+	gens["CertificateAuthority"] = gen.PtrOf(IstioCertificateAuthorityGenerator())
+	gens["Components"] = gen.PtrOf(IstioComponentsGenerator())
+}
+
+func Test_IstioServiceMesh_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IstioServiceMesh_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIstioServiceMesh_STATUS, IstioServiceMesh_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIstioServiceMesh_STATUS runs a test to see if a specific instance of IstioServiceMesh_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForIstioServiceMesh_STATUS(subject IstioServiceMesh_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IstioServiceMesh_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IstioServiceMesh_STATUS instances for property testing - lazily instantiated by
+// IstioServiceMesh_STATUSGenerator()
+var istioServiceMesh_STATUSGenerator gopter.Gen
+
+// IstioServiceMesh_STATUSGenerator returns a generator of IstioServiceMesh_STATUS instances for property testing.
+// We first initialize istioServiceMesh_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func IstioServiceMesh_STATUSGenerator() gopter.Gen {
+	if istioServiceMesh_STATUSGenerator != nil {
+		return istioServiceMesh_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIstioServiceMesh_STATUS(generators)
+	istioServiceMesh_STATUSGenerator = gen.Struct(reflect.TypeOf(IstioServiceMesh_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIstioServiceMesh_STATUS(generators)
+	AddRelatedPropertyGeneratorsForIstioServiceMesh_STATUS(generators)
+	istioServiceMesh_STATUSGenerator = gen.Struct(reflect.TypeOf(IstioServiceMesh_STATUS{}), generators)
+
+	return istioServiceMesh_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIstioServiceMesh_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIstioServiceMesh_STATUS(gens map[string]gopter.Gen) {
+	gens["Revisions"] = gen.SliceOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForIstioServiceMesh_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForIstioServiceMesh_STATUS(gens map[string]gopter.Gen) {
+	gens["CertificateAuthority"] = gen.PtrOf(IstioCertificateAuthority_STATUSGenerator())
+	gens["Components"] = gen.PtrOf(IstioComponents_STATUSGenerator())
+}
+
 func Test_ManagedClusterAzureMonitorProfileMetrics_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -4338,6 +4644,7 @@ func ManagedClusterLoadBalancerProfileGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile(gens map[string]gopter.Gen) {
 	gens["AllocatedOutboundPorts"] = gen.PtrOf(gen.Int())
+	gens["BackendPoolType"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableMultipleStandardLoadBalancers"] = gen.PtrOf(gen.Bool())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 }
@@ -4418,6 +4725,7 @@ func ManagedClusterLoadBalancerProfile_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile_STATUS(gens map[string]gopter.Gen) {
 	gens["AllocatedOutboundPorts"] = gen.PtrOf(gen.Int())
+	gens["BackendPoolType"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableMultipleStandardLoadBalancers"] = gen.PtrOf(gen.Bool())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 }
@@ -6514,6 +6822,251 @@ func AddIndependentPropertyGeneratorsForContainerServiceSshPublicKey_STATUS(gens
 	gens["KeyData"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_IstioCertificateAuthority_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IstioCertificateAuthority via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIstioCertificateAuthority, IstioCertificateAuthorityGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIstioCertificateAuthority runs a test to see if a specific instance of IstioCertificateAuthority round trips to JSON and back losslessly
+func RunJSONSerializationTestForIstioCertificateAuthority(subject IstioCertificateAuthority) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IstioCertificateAuthority
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IstioCertificateAuthority instances for property testing - lazily instantiated by
+// IstioCertificateAuthorityGenerator()
+var istioCertificateAuthorityGenerator gopter.Gen
+
+// IstioCertificateAuthorityGenerator returns a generator of IstioCertificateAuthority instances for property testing.
+func IstioCertificateAuthorityGenerator() gopter.Gen {
+	if istioCertificateAuthorityGenerator != nil {
+		return istioCertificateAuthorityGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForIstioCertificateAuthority(generators)
+	istioCertificateAuthorityGenerator = gen.Struct(reflect.TypeOf(IstioCertificateAuthority{}), generators)
+
+	return istioCertificateAuthorityGenerator
+}
+
+// AddRelatedPropertyGeneratorsForIstioCertificateAuthority is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForIstioCertificateAuthority(gens map[string]gopter.Gen) {
+	gens["Plugin"] = gen.PtrOf(IstioPluginCertificateAuthorityGenerator())
+}
+
+func Test_IstioCertificateAuthority_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IstioCertificateAuthority_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIstioCertificateAuthority_STATUS, IstioCertificateAuthority_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIstioCertificateAuthority_STATUS runs a test to see if a specific instance of IstioCertificateAuthority_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForIstioCertificateAuthority_STATUS(subject IstioCertificateAuthority_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IstioCertificateAuthority_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IstioCertificateAuthority_STATUS instances for property testing - lazily instantiated by
+// IstioCertificateAuthority_STATUSGenerator()
+var istioCertificateAuthority_STATUSGenerator gopter.Gen
+
+// IstioCertificateAuthority_STATUSGenerator returns a generator of IstioCertificateAuthority_STATUS instances for property testing.
+func IstioCertificateAuthority_STATUSGenerator() gopter.Gen {
+	if istioCertificateAuthority_STATUSGenerator != nil {
+		return istioCertificateAuthority_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForIstioCertificateAuthority_STATUS(generators)
+	istioCertificateAuthority_STATUSGenerator = gen.Struct(reflect.TypeOf(IstioCertificateAuthority_STATUS{}), generators)
+
+	return istioCertificateAuthority_STATUSGenerator
+}
+
+// AddRelatedPropertyGeneratorsForIstioCertificateAuthority_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForIstioCertificateAuthority_STATUS(gens map[string]gopter.Gen) {
+	gens["Plugin"] = gen.PtrOf(IstioPluginCertificateAuthority_STATUSGenerator())
+}
+
+func Test_IstioComponents_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IstioComponents via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIstioComponents, IstioComponentsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIstioComponents runs a test to see if a specific instance of IstioComponents round trips to JSON and back losslessly
+func RunJSONSerializationTestForIstioComponents(subject IstioComponents) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IstioComponents
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IstioComponents instances for property testing - lazily instantiated by IstioComponentsGenerator()
+var istioComponentsGenerator gopter.Gen
+
+// IstioComponentsGenerator returns a generator of IstioComponents instances for property testing.
+func IstioComponentsGenerator() gopter.Gen {
+	if istioComponentsGenerator != nil {
+		return istioComponentsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForIstioComponents(generators)
+	istioComponentsGenerator = gen.Struct(reflect.TypeOf(IstioComponents{}), generators)
+
+	return istioComponentsGenerator
+}
+
+// AddRelatedPropertyGeneratorsForIstioComponents is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForIstioComponents(gens map[string]gopter.Gen) {
+	gens["EgressGateways"] = gen.SliceOf(IstioEgressGatewayGenerator())
+	gens["IngressGateways"] = gen.SliceOf(IstioIngressGatewayGenerator())
+}
+
+func Test_IstioComponents_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IstioComponents_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIstioComponents_STATUS, IstioComponents_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIstioComponents_STATUS runs a test to see if a specific instance of IstioComponents_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForIstioComponents_STATUS(subject IstioComponents_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IstioComponents_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IstioComponents_STATUS instances for property testing - lazily instantiated by
+// IstioComponents_STATUSGenerator()
+var istioComponents_STATUSGenerator gopter.Gen
+
+// IstioComponents_STATUSGenerator returns a generator of IstioComponents_STATUS instances for property testing.
+func IstioComponents_STATUSGenerator() gopter.Gen {
+	if istioComponents_STATUSGenerator != nil {
+		return istioComponents_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForIstioComponents_STATUS(generators)
+	istioComponents_STATUSGenerator = gen.Struct(reflect.TypeOf(IstioComponents_STATUS{}), generators)
+
+	return istioComponents_STATUSGenerator
+}
+
+// AddRelatedPropertyGeneratorsForIstioComponents_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForIstioComponents_STATUS(gens map[string]gopter.Gen) {
+	gens["EgressGateways"] = gen.SliceOf(IstioEgressGateway_STATUSGenerator())
+	gens["IngressGateways"] = gen.SliceOf(IstioIngressGateway_STATUSGenerator())
+}
+
 func Test_ManagedClusterAzureMonitorProfileKubeStateMetrics_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -7424,6 +7977,382 @@ func ResourceReference_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForResourceReference_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForResourceReference_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_IstioEgressGateway_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IstioEgressGateway via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIstioEgressGateway, IstioEgressGatewayGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIstioEgressGateway runs a test to see if a specific instance of IstioEgressGateway round trips to JSON and back losslessly
+func RunJSONSerializationTestForIstioEgressGateway(subject IstioEgressGateway) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IstioEgressGateway
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IstioEgressGateway instances for property testing - lazily instantiated by IstioEgressGatewayGenerator()
+var istioEgressGatewayGenerator gopter.Gen
+
+// IstioEgressGatewayGenerator returns a generator of IstioEgressGateway instances for property testing.
+func IstioEgressGatewayGenerator() gopter.Gen {
+	if istioEgressGatewayGenerator != nil {
+		return istioEgressGatewayGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIstioEgressGateway(generators)
+	istioEgressGatewayGenerator = gen.Struct(reflect.TypeOf(IstioEgressGateway{}), generators)
+
+	return istioEgressGatewayGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIstioEgressGateway is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIstioEgressGateway(gens map[string]gopter.Gen) {
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+	gens["NodeSelector"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+func Test_IstioEgressGateway_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IstioEgressGateway_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIstioEgressGateway_STATUS, IstioEgressGateway_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIstioEgressGateway_STATUS runs a test to see if a specific instance of IstioEgressGateway_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForIstioEgressGateway_STATUS(subject IstioEgressGateway_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IstioEgressGateway_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IstioEgressGateway_STATUS instances for property testing - lazily instantiated by
+// IstioEgressGateway_STATUSGenerator()
+var istioEgressGateway_STATUSGenerator gopter.Gen
+
+// IstioEgressGateway_STATUSGenerator returns a generator of IstioEgressGateway_STATUS instances for property testing.
+func IstioEgressGateway_STATUSGenerator() gopter.Gen {
+	if istioEgressGateway_STATUSGenerator != nil {
+		return istioEgressGateway_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIstioEgressGateway_STATUS(generators)
+	istioEgressGateway_STATUSGenerator = gen.Struct(reflect.TypeOf(IstioEgressGateway_STATUS{}), generators)
+
+	return istioEgressGateway_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIstioEgressGateway_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIstioEgressGateway_STATUS(gens map[string]gopter.Gen) {
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+	gens["NodeSelector"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+func Test_IstioIngressGateway_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IstioIngressGateway via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIstioIngressGateway, IstioIngressGatewayGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIstioIngressGateway runs a test to see if a specific instance of IstioIngressGateway round trips to JSON and back losslessly
+func RunJSONSerializationTestForIstioIngressGateway(subject IstioIngressGateway) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IstioIngressGateway
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IstioIngressGateway instances for property testing - lazily instantiated by
+// IstioIngressGatewayGenerator()
+var istioIngressGatewayGenerator gopter.Gen
+
+// IstioIngressGatewayGenerator returns a generator of IstioIngressGateway instances for property testing.
+func IstioIngressGatewayGenerator() gopter.Gen {
+	if istioIngressGatewayGenerator != nil {
+		return istioIngressGatewayGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIstioIngressGateway(generators)
+	istioIngressGatewayGenerator = gen.Struct(reflect.TypeOf(IstioIngressGateway{}), generators)
+
+	return istioIngressGatewayGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIstioIngressGateway is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIstioIngressGateway(gens map[string]gopter.Gen) {
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+	gens["Mode"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_IstioIngressGateway_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IstioIngressGateway_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIstioIngressGateway_STATUS, IstioIngressGateway_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIstioIngressGateway_STATUS runs a test to see if a specific instance of IstioIngressGateway_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForIstioIngressGateway_STATUS(subject IstioIngressGateway_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IstioIngressGateway_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IstioIngressGateway_STATUS instances for property testing - lazily instantiated by
+// IstioIngressGateway_STATUSGenerator()
+var istioIngressGateway_STATUSGenerator gopter.Gen
+
+// IstioIngressGateway_STATUSGenerator returns a generator of IstioIngressGateway_STATUS instances for property testing.
+func IstioIngressGateway_STATUSGenerator() gopter.Gen {
+	if istioIngressGateway_STATUSGenerator != nil {
+		return istioIngressGateway_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIstioIngressGateway_STATUS(generators)
+	istioIngressGateway_STATUSGenerator = gen.Struct(reflect.TypeOf(IstioIngressGateway_STATUS{}), generators)
+
+	return istioIngressGateway_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIstioIngressGateway_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIstioIngressGateway_STATUS(gens map[string]gopter.Gen) {
+	gens["Enabled"] = gen.PtrOf(gen.Bool())
+	gens["Mode"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_IstioPluginCertificateAuthority_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IstioPluginCertificateAuthority via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIstioPluginCertificateAuthority, IstioPluginCertificateAuthorityGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIstioPluginCertificateAuthority runs a test to see if a specific instance of IstioPluginCertificateAuthority round trips to JSON and back losslessly
+func RunJSONSerializationTestForIstioPluginCertificateAuthority(subject IstioPluginCertificateAuthority) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IstioPluginCertificateAuthority
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IstioPluginCertificateAuthority instances for property testing - lazily instantiated by
+// IstioPluginCertificateAuthorityGenerator()
+var istioPluginCertificateAuthorityGenerator gopter.Gen
+
+// IstioPluginCertificateAuthorityGenerator returns a generator of IstioPluginCertificateAuthority instances for property testing.
+func IstioPluginCertificateAuthorityGenerator() gopter.Gen {
+	if istioPluginCertificateAuthorityGenerator != nil {
+		return istioPluginCertificateAuthorityGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIstioPluginCertificateAuthority(generators)
+	istioPluginCertificateAuthorityGenerator = gen.Struct(reflect.TypeOf(IstioPluginCertificateAuthority{}), generators)
+
+	return istioPluginCertificateAuthorityGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIstioPluginCertificateAuthority is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIstioPluginCertificateAuthority(gens map[string]gopter.Gen) {
+	gens["CertChainObjectName"] = gen.PtrOf(gen.AlphaString())
+	gens["CertObjectName"] = gen.PtrOf(gen.AlphaString())
+	gens["KeyObjectName"] = gen.PtrOf(gen.AlphaString())
+	gens["RootCertObjectName"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_IstioPluginCertificateAuthority_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IstioPluginCertificateAuthority_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIstioPluginCertificateAuthority_STATUS, IstioPluginCertificateAuthority_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIstioPluginCertificateAuthority_STATUS runs a test to see if a specific instance of IstioPluginCertificateAuthority_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForIstioPluginCertificateAuthority_STATUS(subject IstioPluginCertificateAuthority_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IstioPluginCertificateAuthority_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IstioPluginCertificateAuthority_STATUS instances for property testing - lazily instantiated by
+// IstioPluginCertificateAuthority_STATUSGenerator()
+var istioPluginCertificateAuthority_STATUSGenerator gopter.Gen
+
+// IstioPluginCertificateAuthority_STATUSGenerator returns a generator of IstioPluginCertificateAuthority_STATUS instances for property testing.
+func IstioPluginCertificateAuthority_STATUSGenerator() gopter.Gen {
+	if istioPluginCertificateAuthority_STATUSGenerator != nil {
+		return istioPluginCertificateAuthority_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIstioPluginCertificateAuthority_STATUS(generators)
+	istioPluginCertificateAuthority_STATUSGenerator = gen.Struct(reflect.TypeOf(IstioPluginCertificateAuthority_STATUS{}), generators)
+
+	return istioPluginCertificateAuthority_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIstioPluginCertificateAuthority_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIstioPluginCertificateAuthority_STATUS(gens map[string]gopter.Gen) {
+	gens["CertChainObjectName"] = gen.PtrOf(gen.AlphaString())
+	gens["CertObjectName"] = gen.PtrOf(gen.AlphaString())
+	gens["KeyObjectName"] = gen.PtrOf(gen.AlphaString())
+	gens["KeyVaultId"] = gen.PtrOf(gen.AlphaString())
+	gens["RootCertObjectName"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ManagedClusterPodIdentityProvisioningError_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

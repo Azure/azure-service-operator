@@ -183,6 +183,7 @@ func AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_Spec(gens map[stri
 	gens["CreationData"] = gen.PtrOf(CreationDataGenerator())
 	gens["KubeletConfig"] = gen.PtrOf(KubeletConfigGenerator())
 	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfigGenerator())
+	gens["NetworkProfile"] = gen.PtrOf(AgentPoolNetworkProfileGenerator())
 	gens["PowerState"] = gen.PtrOf(PowerStateGenerator())
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsGenerator())
 }
@@ -255,6 +256,7 @@ func ManagedClusters_AgentPool_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_STATUS(gens map[string]gopter.Gen) {
 	gens["AvailabilityZones"] = gen.SliceOf(gen.AlphaString())
+	gens["CapacityReservationGroupID"] = gen.PtrOf(gen.AlphaString())
 	gens["Count"] = gen.PtrOf(gen.Int())
 	gens["CurrentOrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableAutoScaling"] = gen.PtrOf(gen.Bool())
@@ -300,8 +302,147 @@ func AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS(gens map[st
 	gens["CreationData"] = gen.PtrOf(CreationData_STATUSGenerator())
 	gens["KubeletConfig"] = gen.PtrOf(KubeletConfig_STATUSGenerator())
 	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfig_STATUSGenerator())
+	gens["NetworkProfile"] = gen.PtrOf(AgentPoolNetworkProfile_STATUSGenerator())
 	gens["PowerState"] = gen.PtrOf(PowerState_STATUSGenerator())
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettings_STATUSGenerator())
+}
+
+func Test_AgentPoolNetworkProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AgentPoolNetworkProfile via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAgentPoolNetworkProfile, AgentPoolNetworkProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAgentPoolNetworkProfile runs a test to see if a specific instance of AgentPoolNetworkProfile round trips to JSON and back losslessly
+func RunJSONSerializationTestForAgentPoolNetworkProfile(subject AgentPoolNetworkProfile) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AgentPoolNetworkProfile
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AgentPoolNetworkProfile instances for property testing - lazily instantiated by
+// AgentPoolNetworkProfileGenerator()
+var agentPoolNetworkProfileGenerator gopter.Gen
+
+// AgentPoolNetworkProfileGenerator returns a generator of AgentPoolNetworkProfile instances for property testing.
+func AgentPoolNetworkProfileGenerator() gopter.Gen {
+	if agentPoolNetworkProfileGenerator != nil {
+		return agentPoolNetworkProfileGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForAgentPoolNetworkProfile(generators)
+	agentPoolNetworkProfileGenerator = gen.Struct(reflect.TypeOf(AgentPoolNetworkProfile{}), generators)
+
+	return agentPoolNetworkProfileGenerator
+}
+
+// AddRelatedPropertyGeneratorsForAgentPoolNetworkProfile is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAgentPoolNetworkProfile(gens map[string]gopter.Gen) {
+	gens["AllowedHostPorts"] = gen.SliceOf(PortRangeGenerator())
+	gens["NodePublicIPTags"] = gen.SliceOf(IPTagGenerator())
+}
+
+func Test_AgentPoolNetworkProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AgentPoolNetworkProfile_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAgentPoolNetworkProfile_STATUS, AgentPoolNetworkProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAgentPoolNetworkProfile_STATUS runs a test to see if a specific instance of AgentPoolNetworkProfile_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForAgentPoolNetworkProfile_STATUS(subject AgentPoolNetworkProfile_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AgentPoolNetworkProfile_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AgentPoolNetworkProfile_STATUS instances for property testing - lazily instantiated by
+// AgentPoolNetworkProfile_STATUSGenerator()
+var agentPoolNetworkProfile_STATUSGenerator gopter.Gen
+
+// AgentPoolNetworkProfile_STATUSGenerator returns a generator of AgentPoolNetworkProfile_STATUS instances for property testing.
+// We first initialize agentPoolNetworkProfile_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func AgentPoolNetworkProfile_STATUSGenerator() gopter.Gen {
+	if agentPoolNetworkProfile_STATUSGenerator != nil {
+		return agentPoolNetworkProfile_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAgentPoolNetworkProfile_STATUS(generators)
+	agentPoolNetworkProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(AgentPoolNetworkProfile_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAgentPoolNetworkProfile_STATUS(generators)
+	AddRelatedPropertyGeneratorsForAgentPoolNetworkProfile_STATUS(generators)
+	agentPoolNetworkProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(AgentPoolNetworkProfile_STATUS{}), generators)
+
+	return agentPoolNetworkProfile_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForAgentPoolNetworkProfile_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAgentPoolNetworkProfile_STATUS(gens map[string]gopter.Gen) {
+	gens["ApplicationSecurityGroups"] = gen.SliceOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForAgentPoolNetworkProfile_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAgentPoolNetworkProfile_STATUS(gens map[string]gopter.Gen) {
+	gens["AllowedHostPorts"] = gen.SliceOf(PortRange_STATUSGenerator())
+	gens["NodePublicIPTags"] = gen.SliceOf(IPTag_STATUSGenerator())
 }
 
 func Test_AgentPoolUpgradeSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -895,6 +1036,252 @@ func PowerStateGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPowerState is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPowerState(gens map[string]gopter.Gen) {
 	gens["Code"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_IPTag_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IPTag via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIPTag, IPTagGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIPTag runs a test to see if a specific instance of IPTag round trips to JSON and back losslessly
+func RunJSONSerializationTestForIPTag(subject IPTag) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IPTag
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IPTag instances for property testing - lazily instantiated by IPTagGenerator()
+var ipTagGenerator gopter.Gen
+
+// IPTagGenerator returns a generator of IPTag instances for property testing.
+func IPTagGenerator() gopter.Gen {
+	if ipTagGenerator != nil {
+		return ipTagGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIPTag(generators)
+	ipTagGenerator = gen.Struct(reflect.TypeOf(IPTag{}), generators)
+
+	return ipTagGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIPTag is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIPTag(gens map[string]gopter.Gen) {
+	gens["IpTagType"] = gen.PtrOf(gen.AlphaString())
+	gens["Tag"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_IPTag_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IPTag_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIPTag_STATUS, IPTag_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIPTag_STATUS runs a test to see if a specific instance of IPTag_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForIPTag_STATUS(subject IPTag_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IPTag_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IPTag_STATUS instances for property testing - lazily instantiated by IPTag_STATUSGenerator()
+var ipTag_STATUSGenerator gopter.Gen
+
+// IPTag_STATUSGenerator returns a generator of IPTag_STATUS instances for property testing.
+func IPTag_STATUSGenerator() gopter.Gen {
+	if ipTag_STATUSGenerator != nil {
+		return ipTag_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIPTag_STATUS(generators)
+	ipTag_STATUSGenerator = gen.Struct(reflect.TypeOf(IPTag_STATUS{}), generators)
+
+	return ipTag_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIPTag_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIPTag_STATUS(gens map[string]gopter.Gen) {
+	gens["IpTagType"] = gen.PtrOf(gen.AlphaString())
+	gens["Tag"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_PortRange_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PortRange via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPortRange, PortRangeGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPortRange runs a test to see if a specific instance of PortRange round trips to JSON and back losslessly
+func RunJSONSerializationTestForPortRange(subject PortRange) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PortRange
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PortRange instances for property testing - lazily instantiated by PortRangeGenerator()
+var portRangeGenerator gopter.Gen
+
+// PortRangeGenerator returns a generator of PortRange instances for property testing.
+func PortRangeGenerator() gopter.Gen {
+	if portRangeGenerator != nil {
+		return portRangeGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPortRange(generators)
+	portRangeGenerator = gen.Struct(reflect.TypeOf(PortRange{}), generators)
+
+	return portRangeGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPortRange is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPortRange(gens map[string]gopter.Gen) {
+	gens["PortEnd"] = gen.PtrOf(gen.Int())
+	gens["PortStart"] = gen.PtrOf(gen.Int())
+	gens["Protocol"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_PortRange_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PortRange_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPortRange_STATUS, PortRange_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPortRange_STATUS runs a test to see if a specific instance of PortRange_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForPortRange_STATUS(subject PortRange_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PortRange_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PortRange_STATUS instances for property testing - lazily instantiated by PortRange_STATUSGenerator()
+var portRange_STATUSGenerator gopter.Gen
+
+// PortRange_STATUSGenerator returns a generator of PortRange_STATUS instances for property testing.
+func PortRange_STATUSGenerator() gopter.Gen {
+	if portRange_STATUSGenerator != nil {
+		return portRange_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPortRange_STATUS(generators)
+	portRange_STATUSGenerator = gen.Struct(reflect.TypeOf(PortRange_STATUS{}), generators)
+
+	return portRange_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPortRange_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPortRange_STATUS(gens map[string]gopter.Gen) {
+	gens["PortEnd"] = gen.PtrOf(gen.Int())
+	gens["PortStart"] = gen.PtrOf(gen.Int())
+	gens["Protocol"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SysctlConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
