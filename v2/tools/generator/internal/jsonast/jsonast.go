@@ -846,13 +846,11 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, lo
 func withArrayValidations(schema Schema, t *astmodel.ArrayType) astmodel.Type {
 	maxItems := schema.maxItems()
 	minItems := schema.minItems()
-	uniqueItems := schema.uniqueItems()
 
-	if maxItems != nil || minItems != nil || uniqueItems {
+	if maxItems != nil || minItems != nil {
 		return astmodel.NewValidatedType(t, astmodel.ArrayValidations{
-			MaxItems:    maxItems,
-			MinItems:    minItems,
-			UniqueItems: uniqueItems,
+			MaxItems: maxItems,
+			MinItems: minItems,
 		})
 	}
 
