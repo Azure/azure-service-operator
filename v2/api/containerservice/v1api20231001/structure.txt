@@ -391,9 +391,8 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001
 │   │   │   │   │       └── Mode: *Enum (2 values)
 │   │   │   │   │           ├── "External"
 │   │   │   │   │           └── "Internal"
-│   │   │   │   └── Revisions: Validated<string[]> (2 rules)
-│   │   │   │       ├── Rule 0: MaxItems: 2
-│   │   │   │       └── Rule 1: UniqueItems: true
+│   │   │   │   └── Revisions: Validated<string[]> (1 rule)
+│   │   │   │       └── Rule 0: MaxItems: 2
 │   │   │   └── Mode: *Enum (2 values)
 │   │   │       ├── "Disabled"
 │   │   │       └── "Istio"
