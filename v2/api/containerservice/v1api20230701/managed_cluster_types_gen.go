@@ -4584,7 +4584,7 @@ type ContainerServiceNetworkProfile struct {
 	NetworkMode *ContainerServiceNetworkProfile_NetworkMode `json:"networkMode,omitempty"`
 
 	// NetworkPlugin: Network plugin used for building the Kubernetes network.
-	NetworkPlugin *ContainerServiceNetworkProfile_NetworkPlugin `json:"networkPlugin,omitempty"`
+	NetworkPlugin *NetworkPlugin `json:"networkPlugin,omitempty"`
 
 	// NetworkPluginMode: The mode the network plugin should use.
 	NetworkPluginMode *ContainerServiceNetworkProfile_NetworkPluginMode `json:"networkPluginMode,omitempty"`
@@ -4907,7 +4907,7 @@ func (profile *ContainerServiceNetworkProfile) AssignProperties_From_ContainerSe
 
 	// NetworkPlugin
 	if source.NetworkPlugin != nil {
-		networkPlugin := ContainerServiceNetworkProfile_NetworkPlugin(*source.NetworkPlugin)
+		networkPlugin := NetworkPlugin(*source.NetworkPlugin)
 		profile.NetworkPlugin = &networkPlugin
 	} else {
 		profile.NetworkPlugin = nil
@@ -5177,7 +5177,7 @@ func (profile *ContainerServiceNetworkProfile) Initialize_From_ContainerServiceN
 
 	// NetworkPlugin
 	if source.NetworkPlugin != nil {
-		networkPlugin := ContainerServiceNetworkProfile_NetworkPlugin(*source.NetworkPlugin)
+		networkPlugin := NetworkPlugin(*source.NetworkPlugin)
 		profile.NetworkPlugin = &networkPlugin
 	} else {
 		profile.NetworkPlugin = nil
@@ -15528,15 +15528,6 @@ const (
 	ContainerServiceNetworkProfile_NetworkMode_STATUS_Transparent = ContainerServiceNetworkProfile_NetworkMode_STATUS("transparent")
 )
 
-// +kubebuilder:validation:Enum={"azure","kubenet","none"}
-type ContainerServiceNetworkProfile_NetworkPlugin string
-
-const (
-	ContainerServiceNetworkProfile_NetworkPlugin_Azure   = ContainerServiceNetworkProfile_NetworkPlugin("azure")
-	ContainerServiceNetworkProfile_NetworkPlugin_Kubenet = ContainerServiceNetworkProfile_NetworkPlugin("kubenet")
-	ContainerServiceNetworkProfile_NetworkPlugin_None    = ContainerServiceNetworkProfile_NetworkPlugin("none")
-)
-
 type ContainerServiceNetworkProfile_NetworkPlugin_STATUS string
 
 const (
@@ -19992,6 +19983,15 @@ func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_S
 	// No error
 	return nil
 }
+
+// +kubebuilder:validation:Enum={"azure","kubenet","none"}
+type NetworkPlugin string
+
+const (
+	NetworkPlugin_Azure   = NetworkPlugin("azure")
+	NetworkPlugin_Kubenet = NetworkPlugin("kubenet")
+	NetworkPlugin_None    = NetworkPlugin("none")
+)
 
 type PowerState_Code_STATUS string
 

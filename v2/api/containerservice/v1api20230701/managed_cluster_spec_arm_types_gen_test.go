@@ -608,7 +608,7 @@ func AddIndependentPropertyGeneratorsForContainerServiceNetworkProfile_ARM(gens 
 	gens["LoadBalancerSku"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfile_LoadBalancerSku_Basic, ContainerServiceNetworkProfile_LoadBalancerSku_Standard))
 	gens["NetworkDataplane"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfile_NetworkDataplane_Azure, ContainerServiceNetworkProfile_NetworkDataplane_Cilium))
 	gens["NetworkMode"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfile_NetworkMode_Bridge, ContainerServiceNetworkProfile_NetworkMode_Transparent))
-	gens["NetworkPlugin"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfile_NetworkPlugin_Azure, ContainerServiceNetworkProfile_NetworkPlugin_Kubenet, ContainerServiceNetworkProfile_NetworkPlugin_None))
+	gens["NetworkPlugin"] = gen.PtrOf(gen.OneConstOf(NetworkPlugin_Azure, NetworkPlugin_Kubenet, NetworkPlugin_None))
 	gens["NetworkPluginMode"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfile_NetworkPluginMode_Overlay))
 	gens["NetworkPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerServiceNetworkProfile_NetworkPolicy_Azure, ContainerServiceNetworkProfile_NetworkPolicy_Calico, ContainerServiceNetworkProfile_NetworkPolicy_Cilium))
 	gens["OutboundType"] = gen.PtrOf(gen.OneConstOf(

@@ -220,7 +220,7 @@ type ContainerServiceNetworkProfile_ARM struct {
 	NetworkMode *ContainerServiceNetworkProfile_NetworkMode `json:"networkMode,omitempty"`
 
 	// NetworkPlugin: Network plugin used for building the Kubernetes network.
-	NetworkPlugin *ContainerServiceNetworkProfile_NetworkPlugin `json:"networkPlugin,omitempty"`
+	NetworkPlugin *NetworkPlugin `json:"networkPlugin,omitempty"`
 
 	// NetworkPluginMode: The mode the network plugin should use.
 	NetworkPluginMode *ContainerServiceNetworkProfile_NetworkPluginMode `json:"networkPluginMode,omitempty"`

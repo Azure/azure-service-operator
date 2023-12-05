@@ -1291,6 +1291,8 @@ objectModelConfiguration:
         $exportAs: FleetsUpdateRun
         $supportedFrom: v2.4.0
     2023-07-01:
+      ContainerServiceNetworkProfile_NetworkPlugin:
+        $renameTo: NetworkPlugin
       DelegatedResource:
         ResourceId:
           $armReference: true

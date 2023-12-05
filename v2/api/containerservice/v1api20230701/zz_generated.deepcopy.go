@@ -475,7 +475,7 @@ func (in *ContainerServiceNetworkProfile) DeepCopyInto(out *ContainerServiceNetw
 	}
 	if in.NetworkPlugin != nil {
 		in, out := &in.NetworkPlugin, &out.NetworkPlugin
-		*out = new(ContainerServiceNetworkProfile_NetworkPlugin)
+		*out = new(NetworkPlugin)
 		**out = **in
 	}
 	if in.NetworkPluginMode != nil {
@@ -565,7 +565,7 @@ func (in *ContainerServiceNetworkProfile_ARM) DeepCopyInto(out *ContainerService
 	}
 	if in.NetworkPlugin != nil {
 		in, out := &in.NetworkPlugin, &out.NetworkPlugin
-		*out = new(ContainerServiceNetworkProfile_NetworkPlugin)
+		*out = new(NetworkPlugin)
 		**out = **in
 	}
 	if in.NetworkPluginMode != nil {

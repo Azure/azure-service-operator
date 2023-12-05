@@ -36,7 +36,7 @@
 | ContainerServiceNetworkProfile_NetworkDataplane_STATUS                               |               | v1api20230201 |                      |                      | v1api20230701 |
 | ContainerServiceNetworkProfile_NetworkMode                                           | v1api20210501 | v1api20230201 |                      |                      | v1api20230701 |
 | ContainerServiceNetworkProfile_NetworkMode_STATUS                                    | v1api20210501 | v1api20230201 |                      |                      | v1api20230701 |
-| ContainerServiceNetworkProfile_NetworkPlugin                                         | v1api20210501 | v1api20230201 |                      |                      | v1api20230701 |
+| ContainerServiceNetworkProfile_NetworkPlugin                                         | v1api20210501 | v1api20230201 |                      |                      |               |
 | ContainerServiceNetworkProfile_NetworkPluginMode                                     |               | v1api20230201 |                      |                      | v1api20230701 |
 | ContainerServiceNetworkProfile_NetworkPluginMode_STATUS                              |               | v1api20230201 |                      |                      | v1api20230701 |
 | ContainerServiceNetworkProfile_NetworkPlugin_STATUS                                  | v1api20210501 | v1api20230201 |                      |                      | v1api20230701 |
@@ -242,7 +242,7 @@
 | NetworkDataplane_STATUS                                                              |               |               | v1api20230202preview |                      |               |
 | NetworkMode                                                                          |               |               | v1api20230202preview |                      |               |
 | NetworkMode_STATUS                                                                   |               |               | v1api20230202preview |                      |               |
-| NetworkPlugin                                                                        |               |               | v1api20230202preview |                      |               |
+| NetworkPlugin                                                                        |               |               | v1api20230202preview |                      | v1api20230701 |
 | NetworkPluginMode                                                                    |               |               | v1api20230202preview |                      |               |
 | NetworkPluginMode_STATUS                                                             |               |               | v1api20230202preview |                      |               |
 | NetworkPlugin_STATUS                                                                 |               |               | v1api20230202preview |                      |               |
