@@ -17,6 +17,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
@@ -96,8 +97,8 @@ func secretsToWrite(obj *storage.Topic, keys armeventgrid.TopicsClientListShared
 	}
 
 	collector := secrets.NewCollector(obj.Namespace)
-	collector.AddValue(operatorSpecSecrets.Key1, *keys.Key1)
-	collector.AddValue(operatorSpecSecrets.Key2, *keys.Key2)
+	collector.AddValue(operatorSpecSecrets.Key1, to.Value(keys.Key1))
+	collector.AddValue(operatorSpecSecrets.Key2, to.Value(keys.Key2))
 
 	return collector.Values()
 }
