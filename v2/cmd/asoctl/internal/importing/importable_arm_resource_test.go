@@ -111,7 +111,7 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 			armId:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.ContainerService/managedClusters/aso-cluster",
 			expectedGroup:   "containerservice.azure.com",
 			expectedKind:    "ManagedCluster",
-			expectedVersion: "v1api20230701",
+			expectedVersion: "v1api20231001",
 		},
 	}
 
