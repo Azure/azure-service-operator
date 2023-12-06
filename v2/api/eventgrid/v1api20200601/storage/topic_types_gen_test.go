@@ -156,6 +156,7 @@ func AddIndependentPropertyGeneratorsForTopic_Spec(gens map[string]gopter.Gen) {
 func AddRelatedPropertyGeneratorsForTopic_Spec(gens map[string]gopter.Gen) {
 	gens["InboundIpRules"] = gen.SliceOf(InboundIpRuleGenerator())
 	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMappingGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(TopicOperatorSpecGenerator())
 }
 
 func Test_Topic_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -303,4 +304,119 @@ func PrivateEndpointConnection_STATUS_Topic_SubResourceEmbeddedGenerator() gopte
 // AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_TopicOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of TopicOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTopicOperatorSpec, TopicOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForTopicOperatorSpec runs a test to see if a specific instance of TopicOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForTopicOperatorSpec(subject TopicOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual TopicOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of TopicOperatorSpec instances for property testing - lazily instantiated by TopicOperatorSpecGenerator()
+var topicOperatorSpecGenerator gopter.Gen
+
+// TopicOperatorSpecGenerator returns a generator of TopicOperatorSpec instances for property testing.
+func TopicOperatorSpecGenerator() gopter.Gen {
+	if topicOperatorSpecGenerator != nil {
+		return topicOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForTopicOperatorSpec(generators)
+	topicOperatorSpecGenerator = gen.Struct(reflect.TypeOf(TopicOperatorSpec{}), generators)
+
+	return topicOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForTopicOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForTopicOperatorSpec(gens map[string]gopter.Gen) {
+	gens["Secrets"] = gen.PtrOf(TopicOperatorSecretsGenerator())
+}
+
+func Test_TopicOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of TopicOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTopicOperatorSecrets, TopicOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForTopicOperatorSecrets runs a test to see if a specific instance of TopicOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForTopicOperatorSecrets(subject TopicOperatorSecrets) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual TopicOperatorSecrets
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of TopicOperatorSecrets instances for property testing - lazily instantiated by
+// TopicOperatorSecretsGenerator()
+var topicOperatorSecretsGenerator gopter.Gen
+
+// TopicOperatorSecretsGenerator returns a generator of TopicOperatorSecrets instances for property testing.
+func TopicOperatorSecretsGenerator() gopter.Gen {
+	if topicOperatorSecretsGenerator != nil {
+		return topicOperatorSecretsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	topicOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(TopicOperatorSecrets{}), generators)
+
+	return topicOperatorSecretsGenerator
 }

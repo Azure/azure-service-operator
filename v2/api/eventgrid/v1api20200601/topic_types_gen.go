@@ -208,7 +208,7 @@ func (topic *Topic) ValidateUpdate(old runtime.Object) (admission.Warnings, erro
 
 // createValidations validates the creation of the resource
 func (topic *Topic) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){topic.validateResourceReferences, topic.validateOwnerReference}
+	return []func() (admission.Warnings, error){topic.validateResourceReferences, topic.validateOwnerReference, topic.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,6 +226,9 @@ func (topic *Topic) updateValidations() []func(old runtime.Object) (admission.Wa
 		func(old runtime.Object) (admission.Warnings, error) {
 			return topic.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return topic.validateSecretDestinations()
+		},
 	}
 }
 
@@ -241,6 +244,21 @@ func (topic *Topic) validateResourceReferences() (admission.Warnings, error) {
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (topic *Topic) validateSecretDestinations() (admission.Warnings, error) {
+	if topic.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	if topic.Spec.OperatorSpec.Secrets == nil {
+		return nil, nil
+	}
+	toValidate := []*genruntime.SecretDestination{
+		topic.Spec.OperatorSpec.Secrets.Key1,
+		topic.Spec.OperatorSpec.Secrets.Key2,
+	}
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -343,6 +361,10 @@ type Topic_Spec struct {
 	// +kubebuilder:validation:Required
 	// Location: Location of the resource.
 	Location *string `json:"location,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *TopicOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -475,6 +497,8 @@ func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		topic.Location = &location
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	topic.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -599,6 +623,18 @@ func (topic *Topic_Spec) AssignProperties_From_Topic_Spec(source *v20200601s.Top
 	// Location
 	topic.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec TopicOperatorSpec
+		err := operatorSpec.AssignProperties_From_TopicOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_TopicOperatorSpec() to populate field OperatorSpec")
+		}
+		topic.OperatorSpec = &operatorSpec
+	} else {
+		topic.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -670,6 +706,18 @@ func (topic *Topic_Spec) AssignProperties_To_Topic_Spec(destination *v20200601s.
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(topic.Location)
+
+	// OperatorSpec
+	if topic.OperatorSpec != nil {
+		var operatorSpec v20200601s.TopicOperatorSpec
+		err := topic.OperatorSpec.AssignProperties_To_TopicOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_TopicOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = topic.OriginalVersion()
@@ -1316,6 +1364,59 @@ func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) Assi
 	return nil
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type TopicOperatorSpec struct {
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *TopicOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignProperties_From_TopicOperatorSpec populates our TopicOperatorSpec from the provided source TopicOperatorSpec
+func (operator *TopicOperatorSpec) AssignProperties_From_TopicOperatorSpec(source *v20200601s.TopicOperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret TopicOperatorSecrets
+		err := secret.AssignProperties_From_TopicOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_TopicOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TopicOperatorSpec populates the provided destination TopicOperatorSpec from our TopicOperatorSpec
+func (operator *TopicOperatorSpec) AssignProperties_To_TopicOperatorSpec(destination *v20200601s.TopicOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v20200601s.TopicOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_TopicOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_TopicOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // +kubebuilder:validation:Enum={"CloudEventSchemaV1_0","CustomEventSchema","EventGridSchema"}
 type TopicProperties_InputSchema string
 
@@ -1358,6 +1459,69 @@ const (
 	TopicProperties_PublicNetworkAccess_STATUS_Disabled = TopicProperties_PublicNetworkAccess_STATUS("Disabled")
 	TopicProperties_PublicNetworkAccess_STATUS_Enabled  = TopicProperties_PublicNetworkAccess_STATUS("Enabled")
 )
+
+type TopicOperatorSecrets struct {
+	// Key1: indicates where the Key1 secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	Key1 *genruntime.SecretDestination `json:"key1,omitempty"`
+
+	// Key2: indicates where the Key2 secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	Key2 *genruntime.SecretDestination `json:"key2,omitempty"`
+}
+
+// AssignProperties_From_TopicOperatorSecrets populates our TopicOperatorSecrets from the provided source TopicOperatorSecrets
+func (secrets *TopicOperatorSecrets) AssignProperties_From_TopicOperatorSecrets(source *v20200601s.TopicOperatorSecrets) error {
+
+	// Key1
+	if source.Key1 != nil {
+		key1 := source.Key1.Copy()
+		secrets.Key1 = &key1
+	} else {
+		secrets.Key1 = nil
+	}
+
+	// Key2
+	if source.Key2 != nil {
+		key2 := source.Key2.Copy()
+		secrets.Key2 = &key2
+	} else {
+		secrets.Key2 = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TopicOperatorSecrets populates the provided destination TopicOperatorSecrets from our TopicOperatorSecrets
+func (secrets *TopicOperatorSecrets) AssignProperties_To_TopicOperatorSecrets(destination *v20200601s.TopicOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Key1
+	if secrets.Key1 != nil {
+		key1 := secrets.Key1.Copy()
+		destination.Key1 = &key1
+	} else {
+		destination.Key1 = nil
+	}
+
+	// Key2
+	if secrets.Key2 != nil {
+		key2 := secrets.Key2.Copy()
+		destination.Key2 = &key2
+	} else {
+		destination.Key2 = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 func init() {
 	SchemeBuilder.Register(&Topic{}, &TopicList{})
