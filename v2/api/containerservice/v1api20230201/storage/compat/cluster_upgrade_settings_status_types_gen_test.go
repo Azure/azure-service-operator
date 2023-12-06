@@ -120,3 +120,107 @@ func ClusterUpgradeSettings_STATUSGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForClusterUpgradeSettings_STATUS(gens map[string]gopter.Gen) {
 	gens["OverrideSettings"] = gen.PtrOf(UpgradeOverrideSettings_STATUSGenerator())
 }
+
+func Test_UpgradeOverrideSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from UpgradeOverrideSettings_STATUS to UpgradeOverrideSettings_STATUS via AssignProperties_To_UpgradeOverrideSettings_STATUS & AssignProperties_From_UpgradeOverrideSettings_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForUpgradeOverrideSettings_STATUS, UpgradeOverrideSettings_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForUpgradeOverrideSettings_STATUS tests if a specific instance of UpgradeOverrideSettings_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForUpgradeOverrideSettings_STATUS(subject UpgradeOverrideSettings_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001s.UpgradeOverrideSettings_STATUS
+	err := copied.AssignProperties_To_UpgradeOverrideSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual UpgradeOverrideSettings_STATUS
+	err = actual.AssignProperties_From_UpgradeOverrideSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_UpgradeOverrideSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of UpgradeOverrideSettings_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUpgradeOverrideSettings_STATUS, UpgradeOverrideSettings_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForUpgradeOverrideSettings_STATUS runs a test to see if a specific instance of UpgradeOverrideSettings_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForUpgradeOverrideSettings_STATUS(subject UpgradeOverrideSettings_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual UpgradeOverrideSettings_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of UpgradeOverrideSettings_STATUS instances for property testing - lazily instantiated by
+// UpgradeOverrideSettings_STATUSGenerator()
+var upgradeOverrideSettings_STATUSGenerator gopter.Gen
+
+// UpgradeOverrideSettings_STATUSGenerator returns a generator of UpgradeOverrideSettings_STATUS instances for property testing.
+func UpgradeOverrideSettings_STATUSGenerator() gopter.Gen {
+	if upgradeOverrideSettings_STATUSGenerator != nil {
+		return upgradeOverrideSettings_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForUpgradeOverrideSettings_STATUS(generators)
+	upgradeOverrideSettings_STATUSGenerator = gen.Struct(reflect.TypeOf(UpgradeOverrideSettings_STATUS{}), generators)
+
+	return upgradeOverrideSettings_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForUpgradeOverrideSettings_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUpgradeOverrideSettings_STATUS(gens map[string]gopter.Gen) {
+	gens["ControlPlaneOverrides"] = gen.SliceOf(gen.AlphaString())
+	gens["Until"] = gen.PtrOf(gen.AlphaString())
+}
