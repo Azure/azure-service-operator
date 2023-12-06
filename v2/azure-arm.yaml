@@ -44,7 +44,7 @@ supportedResourcesReport:
 typeFilters:
   - action: include
     group: containerservice
-    version: v*20230315preview
+    version: v*20230315preview;v*20230702preview
     because: We want to support Fleet
     
   - action: include
@@ -1290,6 +1290,29 @@ objectModelConfiguration:
       Fleets_UpdateRun:
         $exportAs: FleetsUpdateRun
         $supportedFrom: v2.4.0
+    2023-10-01:
+      ContainerServiceNetworkProfile_NetworkPlugin:
+        $renameTo: NetworkPlugin
+      DelegatedResource:
+        ResourceId:
+          $armReference: true
+      ManagedCluster:
+        $export: true
+        $supportedFrom: v2.5.0
+        $azureGeneratedSecrets:
+          - AdminCredentials
+          - UserCredentials
+        $generatedConfigs:
+          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+      ManagedClusters_AgentPool:
+        $exportAs: ManagedClustersAgentPool
+        $supportedFrom: v2.5.0
+      ManagedClusterServicePrincipalProfile:
+        Secret:
+          $isSecret: true
+      PrivateLinkResource:
+        Id:
+          $armReference: true
   datafactory:
     2018-06-01:
       PurviewConfiguration:

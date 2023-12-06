@@ -10,6 +10,8 @@ import (
 	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
 	v20230202p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
 	v20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview/storage"
+	v20231001 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
+	v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -24,5 +26,7 @@ func (extension *ManagedClusterExtension) GetExtendedResources() []genruntime.Ku
 		&v20230201.ManagedCluster{},
 		&v20230201s.ManagedCluster{},
 		&v20230202p.ManagedCluster{},
-		&v20230202ps.ManagedCluster{}}
+		&v20230202ps.ManagedCluster{},
+		&v20231001.ManagedCluster{},
+		&v20231001s.ManagedCluster{}}
 }
