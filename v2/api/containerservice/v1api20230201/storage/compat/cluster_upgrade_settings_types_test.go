@@ -6,8 +6,9 @@
 package compat
 
 import (
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"testing"
+
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 
 	. "github.com/onsi/gomega"
 
@@ -23,7 +24,7 @@ func Test_UpgradeOverrideSettingsAssignPropertiesTo_WhenControlPlaneOverridesEmp
 
 	// Act
 	dest := &v20231001s.UpgradeOverrideSettings{}
-	upgradeOverrideSettings.AssignPropertiesTo(dest)
+	g.Expect(upgradeOverrideSettings.AssignPropertiesTo(dest)).To(Succeed())
 
 	// Assert
 	g.Expect(*dest.ForceUpgrade).To(BeFalse())
@@ -40,7 +41,7 @@ func Test_UpgradeOverrideSettingsAssignPropertiesTo_WhenControlPlaneOverridesSpe
 
 	// Act
 	dest := &v20231001s.UpgradeOverrideSettings{}
-	upgradeOverrideSettings.AssignPropertiesTo(dest)
+	g.Expect(upgradeOverrideSettings.AssignPropertiesTo(dest)).To(Succeed())
 
 	// Assert
 	g.Expect(*dest.ForceUpgrade).To(BeTrue())
@@ -55,7 +56,7 @@ func Test_UpgradeOverrideSettingsAssignPropertiesFrom_WhenForceUpgradeIsNil_Cont
 
 	// Act
 	upgradeOverrideSettings := UpgradeOverrideSettings{}
-	upgradeOverrideSettings.AssignPropertiesFrom(src)
+	g.Expect(upgradeOverrideSettings.AssignPropertiesFrom(src)).To(Succeed())
 
 	// Assert
 	g.Expect(upgradeOverrideSettings.ControlPlaneOverrides).To(BeEmpty())
@@ -72,7 +73,7 @@ func Test_UpgradeOverrideSettingsAssignPropertiesFrom_WhenForceUpgradeIsFalse_Co
 
 	// Act
 	upgradeOverrideSettings := UpgradeOverrideSettings{}
-	upgradeOverrideSettings.AssignPropertiesFrom(src)
+	g.Expect(upgradeOverrideSettings.AssignPropertiesFrom(src)).To(Succeed())
 
 	// Assert
 	g.Expect(upgradeOverrideSettings.ControlPlaneOverrides).To(BeEmpty())
@@ -89,7 +90,7 @@ func Test_UpgradeOverrideSettingsAssignPropertiesFrom_WhenForceUpgradeIsTrue_Con
 
 	// Act
 	upgradeOverrideSettings := UpgradeOverrideSettings{}
-	upgradeOverrideSettings.AssignPropertiesFrom(src)
+	g.Expect(upgradeOverrideSettings.AssignPropertiesFrom(src)).To(Succeed())
 
 	// Assert
 	g.Expect(upgradeOverrideSettings.ControlPlaneOverrides).To(ContainElement(ignoreKubernetesDeprecations))
