@@ -20,6 +20,8 @@ func (settings *UpgradeOverrideSettings) AssignPropertiesFrom(src *v20231001s.Up
 		settings.ControlPlaneOverrides = append(settings.ControlPlaneOverrides, ignoreKubernetesDeprecations)
 	}
 
+	settings.PropertyBag.Remove("ForceUpgrade")
+
 	return nil
 }
 
