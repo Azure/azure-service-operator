@@ -1580,6 +1580,9 @@ objectModelConfiguration:
       Topic:
         $export: true
         $supportedFrom: v2.0.0-alpha.3
+        $azureGeneratedSecrets:
+          - Key1
+          - Key2
   eventhub:
     2021-11-01:
       Destination_Properties:

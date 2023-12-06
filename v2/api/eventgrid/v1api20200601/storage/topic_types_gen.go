@@ -147,6 +147,7 @@ type Topic_Spec struct {
 	InputSchema        *string             `json:"inputSchema,omitempty"`
 	InputSchemaMapping *InputSchemaMapping `json:"inputSchemaMapping,omitempty"`
 	Location           *string             `json:"location,omitempty"`
+	OperatorSpec       *TopicOperatorSpec  `json:"operatorSpec,omitempty"`
 	OriginalVersion    string              `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -224,6 +225,20 @@ func (topic *Topic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 type PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20200601.TopicOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type TopicOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Secrets     *TopicOperatorSecrets  `json:"secrets,omitempty"`
+}
+
+// Storage version of v1api20200601.TopicOperatorSecrets
+type TopicOperatorSecrets struct {
+	Key1        *genruntime.SecretDestination `json:"key1,omitempty"`
+	Key2        *genruntime.SecretDestination `json:"key2,omitempty"`
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 }
 
 func init() {
