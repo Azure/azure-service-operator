@@ -6,6 +6,8 @@
 package compat
 
 import (
+	"golang.org/x/exp/slices"
+
 	v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
@@ -17,7 +19,9 @@ const ignoreKubernetesDeprecations = "IgnoreKubernetesDeprecations"
 func (settings *UpgradeOverrideSettings) AssignPropertiesFrom(src *v20231001s.UpgradeOverrideSettings) error {
 	// If the GA version has ForceUpgrade true, the preview version needs to add "IgnoreKubernetesDeprecations"
 	if src.ForceUpgrade != nil && *src.ForceUpgrade {
-		settings.ControlPlaneOverrides = append(settings.ControlPlaneOverrides, ignoreKubernetesDeprecations)
+		if !slices.Contains(settings.ControlPlaneOverrides, ignoreKubernetesDeprecations) {
+			settings.ControlPlaneOverrides = append(settings.ControlPlaneOverrides, ignoreKubernetesDeprecations)
+		}
 	}
 
 	settings.PropertyBag.Remove("ForceUpgrade")
