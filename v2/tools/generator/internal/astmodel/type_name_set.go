@@ -117,12 +117,10 @@ func (ts TypeNameSet) Copy() TypeNameSet {
 
 // SetUnion returns a new set with all of the names in s1 or s2.
 func SetUnion(s1, s2 TypeNameSet) TypeNameSet {
-	result := NewTypeNameSet()
-	for val := range s1 {
-		result.Add(val)
-	}
+	result := s1.Copy()
 	for val := range s2 {
 		result.Add(val)
 	}
+
 	return result
 }
