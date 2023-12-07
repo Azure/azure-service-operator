@@ -47,10 +47,6 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 	optionalIntProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.OptionalIntType)
 
 	arrayOfRequiredIntProperty := astmodel.NewPropertyDefinition("Scores", "scores", astmodel.NewArrayType(astmodel.IntType))
-	requiredCurrentEnumProperty := astmodel.NewPropertyDefinition("Release", "release", currentEnum.Name())
-	requiredHubEnumProperty := astmodel.NewPropertyDefinition("Release", "release", nextEnum.Name())
-	optionalCurrentEnumProperty := astmodel.NewPropertyDefinition("Release", "release", astmodel.NewOptionalType(currentEnum.Name()))
-	optionalHubEnumProperty := astmodel.NewPropertyDefinition("Release", "release", astmodel.NewOptionalType(nextEnum.Name()))
 
 	roleType := astmodel.NewObjectType().WithProperty(requiredStringProperty).WithProperty(arrayOfRequiredIntProperty)
 	currentRole := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.currentPackage, "Release"), roleType)
@@ -82,10 +78,6 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 				astmodel.NewMapType(astmodel.StringType, astmodel.BoolType))))
 
 	factory.createPropertyAssignmentTest("NastyTest", nastyProperty, nastyProperty)
-
-	factory.createPropertyAssignmentTest("ConvertBetweenRequiredEnumAndRequiredEnum", requiredCurrentEnumProperty, requiredHubEnumProperty, currentEnum, nextEnum)
-	factory.createPropertyAssignmentTest("ConvertBetweenRequiredEnumAndOptionalEnum", requiredCurrentEnumProperty, optionalHubEnumProperty, currentEnum, nextEnum)
-	factory.createPropertyAssignmentTest("ConvertBetweenOptionalEnumAndOptionalEnum", optionalCurrentEnumProperty, optionalHubEnumProperty, currentEnum, nextEnum)
 
 	factory.createPropertyAssignmentTest("ConvertBetweenRequiredObjectAndRequiredObject", requiredCurrentRoleProperty, requiredHubRoleProperty, currentRole, hubRole)
 	factory.createPropertyAssignmentTest("ConvertBetweenRequiredObjectAndOptionalObject", requiredCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole)
@@ -230,6 +222,39 @@ func (factory *StorageConversionPropertyTestCaseFactory) createCollectionTestCas
 
 	factory.createPropertyAssignmentTest("ConvertSliceNamedIndexes", indexesProperty, hubIndexesProperty, currentRole, hubRole)
 	factory.createPropertyAssignmentTest("ConvertMapNamedKeys", keysProperty, hubKeysProperty, currentRole, hubRole)
+}
+
+// createEnumTestCases creates test cases for conversion of enum types
+func (factory *StorageConversionPropertyTestCaseFactory) createEnumTestCases() {
+	// Values for the enum
+	alpha := astmodel.MakeEnumValue("Alpha", "alpha")
+	beta := astmodel.MakeEnumValue("Beta", "beta")
+
+	// Create the enum itself
+	enumType := astmodel.NewEnumType(astmodel.StringType, alpha, beta)
+
+	// Two enum based type definitions
+	currentEnum := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.currentPackage, "Bucket"), enumType)
+	nextEnum := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.nextPackage, "Bucket"), enumType)
+
+	requiredCurrentEnumProperty := astmodel.NewPropertyDefinition("Release", "release", currentEnum.Name())
+	requiredHubEnumProperty := astmodel.NewPropertyDefinition("Release", "release", nextEnum.Name())
+	optionalCurrentEnumProperty := astmodel.NewPropertyDefinition("Release", "release", astmodel.NewOptionalType(currentEnum.Name()))
+	optionalHubEnumProperty := astmodel.NewPropertyDefinition("Release", "release", astmodel.NewOptionalType(nextEnum.Name()))
+
+	factory.createPropertyAssignmentTest("ConvertBetweenRequiredEnumAndRequiredEnum", requiredCurrentEnumProperty, requiredHubEnumProperty, currentEnum, nextEnum)
+	factory.createPropertyAssignmentTest("ConvertBetweenRequiredEnumAndOptionalEnum", requiredCurrentEnumProperty, optionalHubEnumProperty, currentEnum, nextEnum)
+	factory.createPropertyAssignmentTest("ConvertBetweenOptionalEnumAndOptionalEnum", optionalCurrentEnumProperty, optionalHubEnumProperty, currentEnum, nextEnum)
+
+	requiredSkuStringProperty := astmodel.NewPropertyDefinition("Sku", "sku", astmodel.StringType)
+	requiredNextSkuEnumProperty := astmodel.NewPropertyDefinition("Sku", "sku", nextEnum.Name())
+	optionalSkuStringProperty := astmodel.NewPropertyDefinition("Sku", "sku", astmodel.OptionalStringType)
+	optionalNextSkuEnumProperty := astmodel.NewPropertyDefinition("Sku", "sku", astmodel.NewOptionalType(nextEnum.Name()))
+
+	factory.createPropertyAssignmentTest("ConvertBetweenEnumAndBaseType", requiredSkuStringProperty, requiredNextSkuEnumProperty, nextEnum)
+	factory.createPropertyAssignmentTest("ConvertBetweenEnumAndOptionalBaseType", optionalSkuStringProperty, requiredNextSkuEnumProperty, nextEnum)
+	factory.createPropertyAssignmentTest("ConvertBetweenOptionalEnumAndBaseType", requiredSkuStringProperty, optionalNextSkuEnumProperty, nextEnum)
+	factory.createPropertyAssignmentTest("ConvertBetweenOptionalEnumAndOptionalBaseType", optionalSkuStringProperty, optionalNextSkuEnumProperty, nextEnum)
 }
 
 func (factory *StorageConversionPropertyTestCaseFactory) createPropertyAssignmentTest(
