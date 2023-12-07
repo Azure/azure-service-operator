@@ -42,29 +42,25 @@ func newStorageConversionPropertyTestCaseFactory() *StorageConversionPropertyTes
 }
 
 func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmentFunctionTestCases() map[string]*StorageConversionPropertyTestCase {
-	// Package References
-	vCurrent := test.MakeLocalPackageReference("verification", "vCurrent")
-	vNext := test.MakeLocalPackageReference("verification", "vNext")
-
 	// Custom TypeDefinitionSet
 	alpha := astmodel.MakeEnumValue("Alpha", "alpha")
 	beta := astmodel.MakeEnumValue("Beta", "beta")
 
 	enumType := astmodel.NewEnumType(astmodel.StringType, alpha, beta)
-	currentEnum := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vCurrent, "Bucket"), enumType)
-	nextEnum := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vNext, "Bucket"), enumType)
+	currentEnum := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.currentPackage, "Bucket"), enumType)
+	nextEnum := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.nextPackage, "Bucket"), enumType)
 
 	jsonObjectType := astmodel.NewMapType(astmodel.StringType, astmodel.JSONType)
 
 	// Aliases of primitive types
-	currentAge := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vCurrent, "Age"), astmodel.IntType)
-	nextAge := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vNext, "Age"), astmodel.IntType)
+	currentAge := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.currentPackage, "Age"), astmodel.IntType)
+	nextAge := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.nextPackage, "Age"), astmodel.IntType)
 
 	// Aliases of collection types
-	currentPhoneNumbers := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vCurrent, "PhoneNumbers"), astmodel.NewValidatedType(astmodel.NewArrayType(astmodel.StringType), astmodel.ArrayValidations{}))
-	nextPhoneNumbers := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vNext, "PhoneNumbers"), astmodel.NewValidatedType(astmodel.NewArrayType(astmodel.StringType), astmodel.ArrayValidations{}))
-	currentAddresses := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vCurrent, "Addresses"), astmodel.NewValidatedType(astmodel.NewMapType(astmodel.StringType, astmodel.StringType), nil))
-	nextAddresses := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vNext, "Addresses"), astmodel.NewValidatedType(astmodel.NewMapType(astmodel.StringType, astmodel.StringType), nil))
+	currentPhoneNumbers := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.currentPackage, "PhoneNumbers"), astmodel.NewValidatedType(astmodel.NewArrayType(astmodel.StringType), astmodel.ArrayValidations{}))
+	nextPhoneNumbers := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.nextPackage, "PhoneNumbers"), astmodel.NewValidatedType(astmodel.NewArrayType(astmodel.StringType), astmodel.ArrayValidations{}))
+	currentAddresses := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.currentPackage, "Addresses"), astmodel.NewValidatedType(astmodel.NewMapType(astmodel.StringType, astmodel.StringType), nil))
+	nextAddresses := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.nextPackage, "Addresses"), astmodel.NewValidatedType(astmodel.NewMapType(astmodel.StringType, astmodel.StringType), nil))
 
 	requiredStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType)
 	optionalStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.OptionalStringType)
@@ -83,8 +79,8 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 	optionalHubEnumProperty := astmodel.NewPropertyDefinition("Release", "release", astmodel.NewOptionalType(nextEnum.Name()))
 
 	roleType := astmodel.NewObjectType().WithProperty(requiredStringProperty).WithProperty(arrayOfRequiredIntProperty)
-	currentRole := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vCurrent, "Release"), roleType)
-	hubRole := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(vNext, "Release"), roleType)
+	currentRole := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.currentPackage, "Release"), roleType)
+	hubRole := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.nextPackage, "Release"), roleType)
 
 	requiredCurrentRoleProperty := astmodel.NewPropertyDefinition("Role", "role", currentRole.Name())
 	requiredHubRoleProperty := astmodel.NewPropertyDefinition("Role", "role", hubRole.Name())
