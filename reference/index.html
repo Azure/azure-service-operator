@@ -654,7 +654,6 @@
     </li>
     <li><a href="#containerservice">ContainerService</a>
       <ul>
-        <li><a href="#next-release">Next Release</a></li>
         <li><a href="#released-9">Released</a></li>
       </ul>
     </li>
@@ -680,7 +679,6 @@
     </li>
     <li><a href="#dbforpostgresql">DBforPostgreSQL</a>
       <ul>
-        <li><a href="#next-release-1">Next Release</a></li>
         <li><a href="#released-14">Released</a></li>
       </ul>
     </li>
@@ -711,7 +709,6 @@
     </li>
     <li><a href="#keyvault">KeyVault</a>
       <ul>
-        <li><a href="#next-release-2">Next Release</a></li>
         <li><a href="#released-20">Released</a></li>
       </ul>
     </li>
@@ -727,7 +724,6 @@
     </li>
     <li><a href="#managedidentity">ManagedIdentity</a>
       <ul>
-        <li><a href="#next-release-3">Next Release</a></li>
         <li><a href="#released-23">Released</a></li>
       </ul>
     </li>
@@ -768,7 +764,6 @@
     </li>
     <li><a href="#storage">Storage</a>
       <ul>
-        <li><a href="#next-release-4">Next Release</a></li>
         <li><a href="#released-31">Released</a></li>
       </ul>
     </li>
@@ -1266,35 +1261,6 @@ grouped by the originating ARM service.
 </table>
 <h2 id="containerservice">ContainerService</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>containerservice.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
-<table>
-<thead>
-<tr>
-<th>Resource</th>
-<th>ARM Version</th>
-<th>CRD Version</th>
-<th>Supported From</th>
-<th>Sample</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ManagedCluster</td>
-<td>2023-10-01</td>
-<td>v1api20231001</td>
-<td>v2.5.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20231001/v1api20231001_managedcluster.yaml">View</a></td>
-</tr>
-<tr>
-<td>ManagedClustersAgentPool</td>
-<td>2023-10-01</td>
-<td>v1api20231001</td>
-<td>v2.5.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20231001/v1api20231001_managedclustersagentpool.yaml">View</a></td>
-</tr>
-</tbody>
-</table>
 <h3 id="released-9">Released</h3>
 <p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
@@ -1330,6 +1296,13 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20230315preview/v1api20230315preview_fleetsupdaterun.yaml">View</a></td>
 </tr>
 <tr>
+<td>ManagedCluster</td>
+<td>2023-10-01</td>
+<td>v1api20231001</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20231001/v1api20231001_managedcluster.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230202preview/#containerservice.azure.com/v1api20230202preview.ManagedCluster">ManagedCluster</a></td>
 <td>2023-02-02-preview</td>
 <td>v1api20230202preview</td>
@@ -1349,6 +1322,13 @@ grouped by the originating ARM service.
 <td>v1api20210501</td>
 <td>v2.0.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20210501/v1api20210501_managedcluster.yaml">View</a></td>
+</tr>
+<tr>
+<td>ManagedClustersAgentPool</td>
+<td>2023-10-01</td>
+<td>v1api20231001</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20231001/v1api20231001_managedclustersagentpool.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230202preview/#containerservice.azure.com/v1api20230202preview.ManagedClustersAgentPool">ManagedClustersAgentPool</a></td>
@@ -1536,8 +1516,8 @@ grouped by the originating ARM service.
 </table>
 <h2 id="dbforpostgresql">DBforPostgreSQL</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>dbforpostgresql.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-1">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="released-14">Released</h3>
+<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
 <thead>
 <tr>
@@ -1557,42 +1537,6 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserver.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20221201/#dbforpostgresql.azure.com/v1api20221201.FlexibleServersConfiguration">FlexibleServersConfiguration</a></td>
-<td>2022-12-01</td>
-<td>v1api20221201</td>
-<td>v2.5.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversconfiguration.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20221201/#dbforpostgresql.azure.com/v1api20221201.FlexibleServersDatabase">FlexibleServersDatabase</a></td>
-<td>2022-12-01</td>
-<td>v1api20221201</td>
-<td>v2.5.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversdatabase.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20221201/#dbforpostgresql.azure.com/v1api20221201.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
-<td>2022-12-01</td>
-<td>v1api20221201</td>
-<td>v2.5.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversfirewallrule.yaml">View</a></td>
-</tr>
-</tbody>
-</table>
-<h3 id="released-14">Released</h3>
-<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
-<table>
-<thead>
-<tr>
-<th>Resource</th>
-<th>ARM Version</th>
-<th>CRD Version</th>
-<th>Supported From</th>
-<th>Sample</th>
-</tr>
-</thead>
-<tbody>
-<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20220120preview/#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServer">FlexibleServer</a></td>
 <td>2022-01-20-preview</td>
 <td>v1api20220120preview</td>
@@ -1605,6 +1549,13 @@ grouped by the originating ARM service.
 <td>v1api20210601</td>
 <td>v2.0.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20210601/v1api20210601_flexibleserver.yaml">View</a></td>
+</tr>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20221201/#dbforpostgresql.azure.com/v1api20221201.FlexibleServersConfiguration">FlexibleServersConfiguration</a></td>
+<td>2022-12-01</td>
+<td>v1api20221201</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversconfiguration.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20220120preview/#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersConfiguration">FlexibleServersConfiguration</a></td>
@@ -1621,6 +1572,13 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20210601/v1api20210601_flexibleserversconfiguration.yaml">View</a></td>
 </tr>
 <tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20221201/#dbforpostgresql.azure.com/v1api20221201.FlexibleServersDatabase">FlexibleServersDatabase</a></td>
+<td>2022-12-01</td>
+<td>v1api20221201</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversdatabase.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20220120preview/#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersDatabase">FlexibleServersDatabase</a></td>
 <td>2022-01-20-preview</td>
 <td>v1api20220120preview</td>
@@ -1633,6 +1591,13 @@ grouped by the originating ARM service.
 <td>v1api20210601</td>
 <td>v2.0.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20210601/v1api20210601_flexibleserversdatabase.yaml">View</a></td>
+</tr>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20221201/#dbforpostgresql.azure.com/v1api20221201.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
+<td>2022-12-01</td>
+<td>v1api20221201</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20221201/v1api20221201_flexibleserversfirewallrule.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20220120preview/#dbforpostgresql.azure.com/v1api20220120preview.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
@@ -1947,8 +1912,8 @@ grouped by the originating ARM service.
 </table>
 <h2 id="keyvault">KeyVault</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>keyvault.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-2">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="released-20">Released</h3>
+<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
 <thead>
 <tr>
@@ -1967,21 +1932,6 @@ grouped by the originating ARM service.
 <td>v2.5.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v1api20230701/v1api20230701_vault.yaml">View</a></td>
 </tr>
-</tbody>
-</table>
-<h3 id="released-20">Released</h3>
-<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
-<table>
-<thead>
-<tr>
-<th>Resource</th>
-<th>ARM Version</th>
-<th>CRD Version</th>
-<th>Supported From</th>
-<th>Sample</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/keyvault/v1api20210401preview/#keyvault.azure.com/v1api20210401preview.Vault">Vault</a></td>
 <td>2021-04-01-preview</td>
@@ -2055,8 +2005,8 @@ grouped by the originating ARM service.
 </table>
 <h2 id="managedidentity">ManagedIdentity</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>managedidentity.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-3">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="released-23">Released</h3>
+<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
 <thead>
 <tr>
@@ -2076,33 +2026,18 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api20230131/v1api20230131_federatedidentitycredential.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20230131/#managedidentity.azure.com/v1api20230131.UserAssignedIdentity">UserAssignedIdentity</a></td>
-<td>2023-01-31</td>
-<td>v1api20230131</td>
-<td>v2.5.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api20230131/v1api20230131_userassignedidentity.yaml">View</a></td>
-</tr>
-</tbody>
-</table>
-<h3 id="released-23">Released</h3>
-<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
-<table>
-<thead>
-<tr>
-<th>Resource</th>
-<th>ARM Version</th>
-<th>CRD Version</th>
-<th>Supported From</th>
-<th>Sample</th>
-</tr>
-</thead>
-<tbody>
-<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20220131preview/#managedidentity.azure.com/v1api20220131preview.FederatedIdentityCredential">FederatedIdentityCredential</a></td>
 <td>2022-01-31-preview</td>
 <td>v1api20220131preview</td>
 <td>v2.0.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api20220131preview/v1api20220131preview_federatedidentitycredential.yaml">View</a></td>
+</tr>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20230131/#managedidentity.azure.com/v1api20230131.UserAssignedIdentity">UserAssignedIdentity</a></td>
+<td>2023-01-31</td>
+<td>v1api20230131</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api20230131/v1api20230131_userassignedidentity.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20181130/#managedidentity.azure.com/v1api20181130.UserAssignedIdentity">UserAssignedIdentity</a></td>
@@ -2872,8 +2807,8 @@ grouped by the originating ARM service.
 </table>
 <h2 id="storage">Storage</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>storage.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-4">Next Release</h3>
-<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<h3 id="released-31">Released</h3>
+<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
 <thead>
 <tr>
@@ -2893,84 +2828,6 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccount.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsBlobService">StorageAccountsBlobService</a></td>
-<td>2023-01-01</td>
-<td>v1api20230101</td>
-<td>v2.5.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsblobservice.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsBlobServicesContainer">StorageAccountsBlobServicesContainer</a></td>
-<td>2023-01-01</td>
-<td>v1api20230101</td>
-<td>v2.5.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsblobservicescontainer.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsFileService">StorageAccountsFileService</a></td>
-<td>2023-01-01</td>
-<td>v1api20230101</td>
-<td>v2.5.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsfileservice.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsFileServicesShare">StorageAccountsFileServicesShare</a></td>
-<td>2023-01-01</td>
-<td>v1api20230101</td>
-<td>v2.5.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsfileservicesshare.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsManagementPolicy">StorageAccountsManagementPolicy</a></td>
-<td>2023-01-01</td>
-<td>v1api20230101</td>
-<td>v2.5.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsmanagementpolicy.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsQueueService">StorageAccountsQueueService</a></td>
-<td>2023-01-01</td>
-<td>v1api20230101</td>
-<td>v2.5.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsqueueservice.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsQueueServicesQueue">StorageAccountsQueueServicesQueue</a></td>
-<td>2023-01-01</td>
-<td>v1api20230101</td>
-<td>v2.5.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsqueueservicesqueue.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsTableService">StorageAccountsTableService</a></td>
-<td>2023-01-01</td>
-<td>v1api20230101</td>
-<td>v2.5.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountstableservice.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsTableServicesTable">StorageAccountsTableServicesTable</a></td>
-<td>2023-01-01</td>
-<td>v1api20230101</td>
-<td>v2.5.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountstableservicestable.yaml">View</a></td>
-</tr>
-</tbody>
-</table>
-<h3 id="released-31">Released</h3>
-<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
-<table>
-<thead>
-<tr>
-<th>Resource</th>
-<th>ARM Version</th>
-<th>CRD Version</th>
-<th>Supported From</th>
-<th>Sample</th>
-</tr>
-</thead>
-<tbody>
-<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20220901/#storage.azure.com/v1api20220901.StorageAccount">StorageAccount</a></td>
 <td>2022-09-01</td>
 <td>v1api20220901</td>
@@ -2983,6 +2840,13 @@ grouped by the originating ARM service.
 <td>v1api20210401</td>
 <td>v2.0.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20210401/v1api20210401_storageaccount.yaml">View</a></td>
+</tr>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsBlobService">StorageAccountsBlobService</a></td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsblobservice.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20220901/#storage.azure.com/v1api20220901.StorageAccountsBlobService">StorageAccountsBlobService</a></td>
@@ -2999,6 +2863,13 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20210401/v1api20210401_storageaccountsblobservice.yaml">View</a></td>
 </tr>
 <tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsBlobServicesContainer">StorageAccountsBlobServicesContainer</a></td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsblobservicescontainer.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20220901/#storage.azure.com/v1api20220901.StorageAccountsBlobServicesContainer">StorageAccountsBlobServicesContainer</a></td>
 <td>2022-09-01</td>
 <td>v1api20220901</td>
@@ -3013,6 +2884,13 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20210401/v1api20210401_storageaccountsblobservicescontainer.yaml">View</a></td>
 </tr>
 <tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsFileService">StorageAccountsFileService</a></td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsfileservice.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20220901/#storage.azure.com/v1api20220901.StorageAccountsFileService">StorageAccountsFileService</a></td>
 <td>2022-09-01</td>
 <td>v1api20220901</td>
@@ -3020,11 +2898,25 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20220901/v1api20220901_storageaccountsfileservice.yaml">View</a></td>
 </tr>
 <tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsFileServicesShare">StorageAccountsFileServicesShare</a></td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsfileservicesshare.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20220901/#storage.azure.com/v1api20220901.StorageAccountsFileServicesShare">StorageAccountsFileServicesShare</a></td>
 <td>2022-09-01</td>
 <td>v1api20220901</td>
 <td>v2.1.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20220901/v1api20220901_storageaccountsfileservicesshare.yaml">View</a></td>
+</tr>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsManagementPolicy">StorageAccountsManagementPolicy</a></td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsmanagementpolicy.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20220901/#storage.azure.com/v1api20220901.StorageAccountsManagementPolicy">StorageAccountsManagementPolicy</a></td>
@@ -3041,6 +2933,13 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20210401/v1api20210401_storageaccountsmanagementpolicy.yaml">View</a></td>
 </tr>
 <tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsQueueService">StorageAccountsQueueService</a></td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsqueueservice.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20220901/#storage.azure.com/v1api20220901.StorageAccountsQueueService">StorageAccountsQueueService</a></td>
 <td>2022-09-01</td>
 <td>v1api20220901</td>
@@ -3053,6 +2952,13 @@ grouped by the originating ARM service.
 <td>v1api20210401</td>
 <td>v2.0.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20210401/v1api20210401_storageaccountsqueueservice.yaml">View</a></td>
+</tr>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsQueueServicesQueue">StorageAccountsQueueServicesQueue</a></td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountsqueueservicesqueue.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20220901/#storage.azure.com/v1api20220901.StorageAccountsQueueServicesQueue">StorageAccountsQueueServicesQueue</a></td>
@@ -3069,11 +2975,25 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20210401/v1api20210401_storageaccountsqueueservicesqueue.yaml">View</a></td>
 </tr>
 <tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsTableService">StorageAccountsTableService</a></td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountstableservice.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20220901/#storage.azure.com/v1api20220901.StorageAccountsTableService">StorageAccountsTableService</a></td>
 <td>2022-09-01</td>
 <td>v1api20220901</td>
 <td>v2.1.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20220901/v1api20220901_storageaccountstableservice.yaml">View</a></td>
+</tr>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20230101/#storage.azure.com/v1api20230101.StorageAccountsTableServicesTable">StorageAccountsTableServicesTable</a></td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.5.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20230101/v1api20230101_storageaccountstableservicestable.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20220901/#storage.azure.com/v1api20220901.StorageAccountsTableServicesTable">StorageAccountsTableServicesTable</a></td>
