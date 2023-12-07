@@ -33,14 +33,28 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/st
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── Mode: *string
 │   └── PropertyBag: genruntime.PropertyBag
-└── ServiceMeshProfile_STATUS: Object (3 properties)
-    ├── Istio: *Object (2 properties)
-    │   ├── Components: *Object (2 properties)
-    │   │   ├── IngressGateways: Object (3 properties)[]
-    │   │   │   ├── Enabled: *bool
-    │   │   │   ├── Mode: *string
-    │   │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │   └── PropertyBag: genruntime.PropertyBag
-    │   └── PropertyBag: genruntime.PropertyBag
-    ├── Mode: *string
-    └── PropertyBag: genruntime.PropertyBag
+├── ServiceMeshProfile_STATUS: Object (3 properties)
+│   ├── Istio: *Object (2 properties)
+│   │   ├── Components: *Object (2 properties)
+│   │   │   ├── IngressGateways: Object (3 properties)[]
+│   │   │   │   ├── Enabled: *bool
+│   │   │   │   ├── Mode: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── Mode: *string
+│   └── PropertyBag: genruntime.PropertyBag
+├── augmentConversionForClusterUpgradeSettings: Interface
+├── augmentConversionForClusterUpgradeSettings_STATUS: Interface
+├── augmentConversionForIstioComponents: Interface
+├── augmentConversionForIstioComponents_STATUS: Interface
+├── augmentConversionForIstioIngressGateway: Interface
+├── augmentConversionForIstioIngressGateway_STATUS: Interface
+├── augmentConversionForIstioServiceMesh: Interface
+├── augmentConversionForIstioServiceMesh_STATUS: Interface
+├── augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler: Interface
+├── augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS: Interface
+├── augmentConversionForServiceMeshProfile: Interface
+├── augmentConversionForServiceMeshProfile_STATUS: Interface
+├── augmentConversionForUpgradeOverrideSettings: Interface
+└── augmentConversionForUpgradeOverrideSettings_STATUS: Interface

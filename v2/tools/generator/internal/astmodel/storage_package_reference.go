@@ -29,7 +29,11 @@ func MakeStoragePackageReference(ref InternalPackageReference) InternalPackageRe
 // IsStoragePackageReference returns true if the reference is to a storage package OR to a subpackage for storage
 func IsStoragePackageReference(reference PackageReference) bool {
 	if sub, ok := reference.(SubPackageReference); ok {
-		return sub.name == StoragePackageSuffix
+		if sub.name == StoragePackageSuffix {
+			return true
+		}
+
+		return IsStoragePackageReference(sub.parent)
 	}
 
 	return false

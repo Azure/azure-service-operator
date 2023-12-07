@@ -63,6 +63,15 @@ func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_S
 		autoscaler.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS interface (if implemented) to customize the conversion
+	var autoscalerAsAny any = autoscaler
+	if augmentedAutoscaler, ok := autoscalerAsAny.(augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS); ok {
+		err := augmentedAutoscaler.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -101,6 +110,20 @@ func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_S
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS interface (if implemented) to customize the conversion
+	var autoscalerAsAny any = autoscaler
+	if augmentedAutoscaler, ok := autoscalerAsAny.(augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS); ok {
+		err := augmentedAutoscaler.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS interface {
+	AssignPropertiesFrom(src *v20231001s.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) error
+	AssignPropertiesTo(dst *v20231001s.ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS) error
 }
