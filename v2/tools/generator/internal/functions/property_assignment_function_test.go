@@ -63,8 +63,6 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 	sliceOfStringProperty := astmodel.NewPropertyDefinition("Items", "items", astmodel.NewArrayType(astmodel.StringType))
 	mapOfStringToStringProperty := astmodel.NewPropertyDefinition("Items", "items", astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
 
-	bagProperty := astmodel.NewPropertyDefinition("propertyBag", "$propertyBag", astmodel.PropertyBagType)
-
 	idFactory := astmodel.NewIdentifierFactory()
 	ageFunction := test.NewFakeFunction("Age", idFactory)
 	ageFunction.TypeReturned = astmodel.IntType
@@ -94,17 +92,6 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 	factory.createPropertyAssignmentTest("CopyOptionalJSONProperty", optionalJSONProperty, jsonProperty)
 	factory.createPropertyAssignmentTest("CopyJSONObjectProperty", optionalJSONObjectProperty, jsonObjectProperty)
 
-	factory.createPropertyAssignmentTest("CopyRequiredStringToPropertyBag", requiredStringProperty, bagProperty)
-	factory.createPropertyAssignmentTest("CopyOptionalStringToPropertyBag", optionalStringProperty, bagProperty)
-	factory.createPropertyAssignmentTest("CopyRequiredIntToPropertyBag", requiredIntProperty, bagProperty)
-	factory.createPropertyAssignmentTest("CopyOptionalIntToPropertyBag", optionalIntProperty, bagProperty)
-
-	factory.createPropertyAssignmentTest("CopyRequiredObjectToPropertyBag", requiredCurrentRoleProperty, bagProperty, currentRole)
-	factory.createPropertyAssignmentTest("CopyOptionalObjectToPropertyBag", optionalCurrentRoleProperty, bagProperty, currentRole)
-
-	factory.createPropertyAssignmentTest("CopySliceToPropertyBag", arrayOfRequiredIntProperty, bagProperty)
-	factory.createPropertyAssignmentTest("CopyMapToPropertyBag", mapOfRequiredIntsProperty, bagProperty)
-
 	factory.createPropertyAssignmentTest("ConvertSliceNamedIndexes", indexesProperty, hubIndexesProperty, currentRole, hubRole)
 	factory.createPropertyAssignmentTest("ConvertMapNamedKeys", keysProperty, hubKeysProperty, currentRole, hubRole)
 
@@ -114,6 +101,7 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 	factory.createPrimitiveTypeTestCases()
 	factory.createCollectionTestCases()
 	factory.createEnumTestCases()
+	factory.createPropertyBagTestCases()
 	return factory.cases
 }
 
@@ -255,6 +243,37 @@ func (factory *StorageConversionPropertyTestCaseFactory) createEnumTestCases() {
 	factory.createPropertyAssignmentTest("ConvertBetweenEnumAndOptionalBaseType", optionalSkuStringProperty, requiredNextSkuEnumProperty, nextEnum)
 	factory.createPropertyAssignmentTest("ConvertBetweenOptionalEnumAndBaseType", requiredSkuStringProperty, optionalNextSkuEnumProperty, nextEnum)
 	factory.createPropertyAssignmentTest("ConvertBetweenOptionalEnumAndOptionalBaseType", optionalSkuStringProperty, optionalNextSkuEnumProperty, nextEnum)
+}
+
+// createPropertyBagTestCases creates test cases for conversion values written-to and read-from property bags
+func (factory *StorageConversionPropertyTestCaseFactory) createPropertyBagTestCases() {
+	bagProperty := astmodel.NewPropertyDefinition("propertyBag", "$propertyBag", astmodel.PropertyBagType)
+
+	requiredStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType)
+	optionalStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.OptionalStringType)
+	requiredIntProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.IntType)
+	optionalIntProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.OptionalIntType)
+
+	arrayOfRequiredIntProperty := astmodel.NewPropertyDefinition("Scores", "scores", astmodel.NewArrayType(astmodel.IntType))
+
+	roleType := astmodel.NewObjectType().WithProperty(requiredStringProperty).WithProperty(arrayOfRequiredIntProperty)
+	currentRole := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.currentPackage, "Release"), roleType)
+
+	requiredCurrentRoleProperty := astmodel.NewPropertyDefinition("Role", "role", currentRole.Name())
+	optionalCurrentRoleProperty := astmodel.NewPropertyDefinition("Role", "role", astmodel.NewOptionalType(currentRole.Name()))
+
+	mapOfRequiredIntsProperty := astmodel.NewPropertyDefinition("Ratings", "ratings", astmodel.NewMapType(astmodel.StringType, astmodel.IntType))
+
+	factory.createPropertyAssignmentTest("CopyRequiredStringToPropertyBag", requiredStringProperty, bagProperty)
+	factory.createPropertyAssignmentTest("CopyOptionalStringToPropertyBag", optionalStringProperty, bagProperty)
+	factory.createPropertyAssignmentTest("CopyRequiredIntToPropertyBag", requiredIntProperty, bagProperty)
+	factory.createPropertyAssignmentTest("CopyOptionalIntToPropertyBag", optionalIntProperty, bagProperty)
+
+	factory.createPropertyAssignmentTest("CopyRequiredObjectToPropertyBag", requiredCurrentRoleProperty, bagProperty, currentRole)
+	factory.createPropertyAssignmentTest("CopyOptionalObjectToPropertyBag", optionalCurrentRoleProperty, bagProperty, currentRole)
+
+	factory.createPropertyAssignmentTest("CopySliceToPropertyBag", arrayOfRequiredIntProperty, bagProperty)
+	factory.createPropertyAssignmentTest("CopyMapToPropertyBag", mapOfRequiredIntsProperty, bagProperty)
 }
 
 func (factory *StorageConversionPropertyTestCaseFactory) createPropertyAssignmentTest(
