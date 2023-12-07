@@ -24,7 +24,17 @@ type StorageConversionPropertyTestCase struct {
 	definitions astmodel.TypeDefinitionSet
 }
 
-func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTestCase {
+// StorageConversionPropertyTestCaseFactory creates test cases for property conversion testing.
+// We have a lot of test cases to cover, so we use a factory to create them.
+type StorageConversionPropertyTestCaseFactory struct {
+}
+
+// newStorageConversionPropertyTestCaseFactory creates a new test case factory for property conversion testing
+func newStorageConversionPropertyTestCaseFactory() *StorageConversionPropertyTestCaseFactory {
+	return &StorageConversionPropertyTestCaseFactory{}
+}
+
+func (*StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTestCase {
 	// Package References
 	vCurrent := test.MakeLocalPackageReference("verification", "vCurrent")
 	vNext := test.MakeLocalPackageReference("verification", "vNext")
@@ -280,7 +290,8 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 func TestGolden_PropertyAssignmentFunction_AsFunc(t *testing.T) {
 	t.Parallel()
 
-	for _, c := range CreatePropertyAssignmentFunctionTestCases() {
+	factory := newStorageConversionPropertyTestCaseFactory()
+	for _, c := range factory.CreatePropertyAssignmentFunctionTestCases() {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
