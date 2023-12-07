@@ -27,14 +27,17 @@ type StorageConversionPropertyTestCase struct {
 // StorageConversionPropertyTestCaseFactory creates test cases for property conversion testing.
 // We have a lot of test cases to cover, so we use a factory to create them.
 type StorageConversionPropertyTestCaseFactory struct {
+	cases map[string]*StorageConversionPropertyTestCase
 }
 
 // newStorageConversionPropertyTestCaseFactory creates a new test case factory for property conversion testing
 func newStorageConversionPropertyTestCaseFactory() *StorageConversionPropertyTestCaseFactory {
-	return &StorageConversionPropertyTestCaseFactory{}
+	return &StorageConversionPropertyTestCaseFactory{
+		cases: make(map[string]*StorageConversionPropertyTestCase),
+	}
 }
 
-func (*StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTestCase {
+func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmentFunctionTestCases() map[string]*StorageConversionPropertyTestCase {
 	// Package References
 	vCurrent := test.MakeLocalPackageReference("verification", "vCurrent")
 	vNext := test.MakeLocalPackageReference("verification", "vNext")
@@ -153,7 +156,7 @@ func (*StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmentFunctio
 		name string,
 		currentProperty *astmodel.PropertyDefinition,
 		hubProperty *astmodel.PropertyDefinition,
-		otherDefinitions ...astmodel.TypeDefinition) *StorageConversionPropertyTestCase {
+		otherDefinitions ...astmodel.TypeDefinition) {
 
 		currentType := astmodel.NewObjectType().WithProperty(currentProperty)
 		currentDefinition := astmodel.MakeTypeDefinition(
@@ -170,18 +173,18 @@ func (*StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmentFunctio
 		defs.Add(hubDefinition)
 		defs.AddAll(otherDefinitions...)
 
-		return &StorageConversionPropertyTestCase{
+		factory.addCase(&StorageConversionPropertyTestCase{
 			name:        name,
 			current:     currentDefinition,
 			other:       hubDefinition,
 			definitions: defs,
-		}
+		})
 	}
 
 	createFunctionAssignmentTest := func(
 		name string,
 		property *astmodel.PropertyDefinition,
-		function astmodel.Function) *StorageConversionPropertyTestCase {
+		function astmodel.Function) {
 
 		currentType := astmodel.NewObjectType().WithFunction(function)
 		currentDefinition := astmodel.MakeTypeDefinition(
@@ -197,103 +200,107 @@ func (*StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmentFunctio
 		defs.Add(currentDefinition)
 		defs.Add(hubDefinition)
 
-		return &StorageConversionPropertyTestCase{
+		factory.addCase(&StorageConversionPropertyTestCase{
 			name:        name,
 			current:     currentDefinition,
 			other:       hubDefinition,
 			definitions: defs,
-		}
+		})
 	}
 
-	return []*StorageConversionPropertyTestCase{
-		createPropertyAssignmentTest("SetStringFromString", requiredStringProperty, requiredStringProperty),
-		createPropertyAssignmentTest("SetStringFromOptionalString", requiredStringProperty, optionalStringProperty),
-		createPropertyAssignmentTest("SetOptionalStringFromString", optionalStringProperty, requiredStringProperty),
-		createPropertyAssignmentTest("SetOptionalStringFromOptionalString", optionalStringProperty, optionalStringProperty),
+	createPropertyAssignmentTest("SetStringFromString", requiredStringProperty, requiredStringProperty)
+	createPropertyAssignmentTest("SetStringFromOptionalString", requiredStringProperty, optionalStringProperty)
+	createPropertyAssignmentTest("SetOptionalStringFromString", optionalStringProperty, requiredStringProperty)
+	createPropertyAssignmentTest("SetOptionalStringFromOptionalString", optionalStringProperty, optionalStringProperty)
 
-		createPropertyAssignmentTest("SetIntFromInt", requiredIntProperty, requiredIntProperty),
-		createPropertyAssignmentTest("SetIntFromOptionalInt", requiredIntProperty, optionalIntProperty),
-		createPropertyAssignmentTest("SetOptionalIntFromOptionalInt", optionalIntProperty, optionalIntProperty),
+	createPropertyAssignmentTest("SetIntFromInt", requiredIntProperty, requiredIntProperty)
+	createPropertyAssignmentTest("SetIntFromOptionalInt", requiredIntProperty, optionalIntProperty)
+	createPropertyAssignmentTest("SetOptionalIntFromOptionalInt", optionalIntProperty, optionalIntProperty)
 
-		createPropertyAssignmentTest("SetArrayOfRequiredFromArrayOfRequired", arrayOfRequiredIntProperty, arrayOfRequiredIntProperty),
-		createPropertyAssignmentTest("SetArrayOfRequiredFromArrayOfOptional", arrayOfRequiredIntProperty, arrayOfOptionalIntProperty),
-		createPropertyAssignmentTest("SetArrayOfOptionalFromArrayOfRequired", arrayOfOptionalIntProperty, arrayOfRequiredIntProperty),
+	createPropertyAssignmentTest("SetArrayOfRequiredFromArrayOfRequired", arrayOfRequiredIntProperty, arrayOfRequiredIntProperty)
+	createPropertyAssignmentTest("SetArrayOfRequiredFromArrayOfOptional", arrayOfRequiredIntProperty, arrayOfOptionalIntProperty)
+	createPropertyAssignmentTest("SetArrayOfOptionalFromArrayOfRequired", arrayOfOptionalIntProperty, arrayOfRequiredIntProperty)
 
-		createPropertyAssignmentTest("SetMapOfRequiredFromMapOfRequired", mapOfRequiredIntsProperty, mapOfRequiredIntsProperty),
-		createPropertyAssignmentTest("SetMapOfRequiredFromMapOfOptional", mapOfRequiredIntsProperty, mapOfOptionalIntsProperty),
-		createPropertyAssignmentTest("SetMapOfOptionalFromMapOfRequired", mapOfOptionalIntsProperty, mapOfRequiredIntsProperty),
+	createPropertyAssignmentTest("SetMapOfRequiredFromMapOfRequired", mapOfRequiredIntsProperty, mapOfRequiredIntsProperty)
+	createPropertyAssignmentTest("SetMapOfRequiredFromMapOfOptional", mapOfRequiredIntsProperty, mapOfOptionalIntsProperty)
+	createPropertyAssignmentTest("SetMapOfOptionalFromMapOfRequired", mapOfOptionalIntsProperty, mapOfRequiredIntsProperty)
 
-		createPropertyAssignmentTest("NastyTest", nastyProperty, nastyProperty),
+	createPropertyAssignmentTest("NastyTest", nastyProperty, nastyProperty)
 
-		createPropertyAssignmentTest("ConvertBetweenRequiredEnumAndRequiredEnum", requiredCurrentEnumProperty, requiredHubEnumProperty, currentEnum, nextEnum),
-		createPropertyAssignmentTest("ConvertBetweenRequiredEnumAndOptionalEnum", requiredCurrentEnumProperty, optionalHubEnumProperty, currentEnum, nextEnum),
-		createPropertyAssignmentTest("ConvertBetweenOptionalEnumAndOptionalEnum", optionalCurrentEnumProperty, optionalHubEnumProperty, currentEnum, nextEnum),
+	createPropertyAssignmentTest("ConvertBetweenRequiredEnumAndRequiredEnum", requiredCurrentEnumProperty, requiredHubEnumProperty, currentEnum, nextEnum)
+	createPropertyAssignmentTest("ConvertBetweenRequiredEnumAndOptionalEnum", requiredCurrentEnumProperty, optionalHubEnumProperty, currentEnum, nextEnum)
+	createPropertyAssignmentTest("ConvertBetweenOptionalEnumAndOptionalEnum", optionalCurrentEnumProperty, optionalHubEnumProperty, currentEnum, nextEnum)
 
-		createPropertyAssignmentTest("ConvertBetweenRequiredObjectAndRequiredObject", requiredCurrentRoleProperty, requiredHubRoleProperty, currentRole, hubRole),
-		createPropertyAssignmentTest("ConvertBetweenRequiredObjectAndOptionalObject", requiredCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole),
-		createPropertyAssignmentTest("ConvertBetweenOptionalObjectAndOptionalObject", optionalCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole),
+	createPropertyAssignmentTest("ConvertBetweenRequiredObjectAndRequiredObject", requiredCurrentRoleProperty, requiredHubRoleProperty, currentRole, hubRole)
+	createPropertyAssignmentTest("ConvertBetweenRequiredObjectAndOptionalObject", requiredCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole)
+	createPropertyAssignmentTest("ConvertBetweenOptionalObjectAndOptionalObject", optionalCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole)
 
-		createPropertyAssignmentTest("ConvertBetweenEnumAndBaseType", requiredSkuStringProperty, requiredNextSkuEnumProperty, nextEnum),
-		createPropertyAssignmentTest("ConvertBetweenEnumAndOptionalBaseType", optionalSkuStringProperty, requiredNextSkuEnumProperty, nextEnum),
-		createPropertyAssignmentTest("ConvertBetweenOptionalEnumAndBaseType", requiredSkuStringProperty, optionalNextSkuEnumProperty, nextEnum),
-		createPropertyAssignmentTest("ConvertBetweenOptionalEnumAndOptionalBaseType", optionalSkuStringProperty, optionalNextSkuEnumProperty, nextEnum),
+	createPropertyAssignmentTest("ConvertBetweenEnumAndBaseType", requiredSkuStringProperty, requiredNextSkuEnumProperty, nextEnum)
+	createPropertyAssignmentTest("ConvertBetweenEnumAndOptionalBaseType", optionalSkuStringProperty, requiredNextSkuEnumProperty, nextEnum)
+	createPropertyAssignmentTest("ConvertBetweenOptionalEnumAndBaseType", requiredSkuStringProperty, optionalNextSkuEnumProperty, nextEnum)
+	createPropertyAssignmentTest("ConvertBetweenOptionalEnumAndOptionalBaseType", optionalSkuStringProperty, optionalNextSkuEnumProperty, nextEnum)
 
-		createPropertyAssignmentTest("ConvertBetweenAliasAndAliasType", requiredCurrentAgeProperty, requiredNextAgeProperty, currentAge, nextAge),
-		createPropertyAssignmentTest("ConvertBetweenAliasAndOptionalAliasType", requiredCurrentAgeProperty, optionalNextAgeProperty, currentAge, nextAge),
-		createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndOptionalAliasType", optionalCurrentAgeProperty, optionalNextAgeProperty, currentAge, nextAge),
-		createPropertyAssignmentTest("ConvertBetweenAliasAndBaseType", requiredCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge, nextAge),
-		createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndBaseType", optionalCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge),
-		createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndOptionalBaseType", optionalCurrentAgeProperty, optionalPrimitiveAgeProperty, currentAge),
+	createPropertyAssignmentTest("ConvertBetweenAliasAndAliasType", requiredCurrentAgeProperty, requiredNextAgeProperty, currentAge, nextAge)
+	createPropertyAssignmentTest("ConvertBetweenAliasAndOptionalAliasType", requiredCurrentAgeProperty, optionalNextAgeProperty, currentAge, nextAge)
+	createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndOptionalAliasType", optionalCurrentAgeProperty, optionalNextAgeProperty, currentAge, nextAge)
+	createPropertyAssignmentTest("ConvertBetweenAliasAndBaseType", requiredCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge, nextAge)
+	createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndBaseType", optionalCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge)
+	createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndOptionalBaseType", optionalCurrentAgeProperty, optionalPrimitiveAgeProperty, currentAge)
 
-		createPropertyAssignmentTest("ConvertBetweenArrayAliasAndArrayAlias", requiredCurrentPhoneNumbersProperty, requiredNextPhoneNumbersProperty, currentPhoneNumbers, nextPhoneNumbers),
-		createPropertyAssignmentTest("ConvertBetweenArrayAliasAndBaseType", requiredCurrentPhoneNumbersBaseTypeProperty, requiredNextPhoneNumbersProperty, nextPhoneNumbers),
-		createPropertyAssignmentTest("ConvertBetweenMapAliasAndMapAlias", requiredCurrentAddressesProperty, requiredNextAddressesProperty, currentAddresses, nextAddresses),
-		createPropertyAssignmentTest("ConvertBetweenMapAliasAndBaseType", requiredCurrentAddressesBaseTypeProperty, requiredNextAddressesProperty, nextAddresses),
-		// We don't handle/test Object Aliases here because they are always removed by the RemoveTypeAliases pipeline stage
-		// We don't handle/test optional array/map aliases because they are always made non-optional by the FixOptionalCollectionAliases stage
+	createPropertyAssignmentTest("ConvertBetweenArrayAliasAndArrayAlias", requiredCurrentPhoneNumbersProperty, requiredNextPhoneNumbersProperty, currentPhoneNumbers, nextPhoneNumbers)
+	createPropertyAssignmentTest("ConvertBetweenArrayAliasAndBaseType", requiredCurrentPhoneNumbersBaseTypeProperty, requiredNextPhoneNumbersProperty, nextPhoneNumbers)
+	createPropertyAssignmentTest("ConvertBetweenMapAliasAndMapAlias", requiredCurrentAddressesProperty, requiredNextAddressesProperty, currentAddresses, nextAddresses)
+	createPropertyAssignmentTest("ConvertBetweenMapAliasAndBaseType", requiredCurrentAddressesBaseTypeProperty, requiredNextAddressesProperty, nextAddresses)
+	// We don't handle/test Object Aliases here because they are always removed by the RemoveTypeAliases pipeline stage
+	// We don't handle/test optional array/map aliases because they are always made non-optional by the FixOptionalCollectionAliases stage
 
-		createFunctionAssignmentTest("ReadFromFunctionIntoProperty", requiredIntProperty, ageFunction),
-		createFunctionAssignmentTest("ReadFromFunctionIntoOptionalProperty", optionalIntProperty, ageFunction),
+	createFunctionAssignmentTest("ReadFromFunctionIntoProperty", requiredIntProperty, ageFunction)
+	createFunctionAssignmentTest("ReadFromFunctionIntoOptionalProperty", optionalIntProperty, ageFunction)
 
-		createPropertyAssignmentTest("CopyReferenceProperty", referenceProperty, referenceProperty),
-		createPropertyAssignmentTest("CopyKnownReferenceProperty", knownReferenceProperty, knownReferenceProperty),
+	createPropertyAssignmentTest("CopyReferenceProperty", referenceProperty, referenceProperty)
+	createPropertyAssignmentTest("CopyKnownReferenceProperty", knownReferenceProperty, knownReferenceProperty)
 
-		createPropertyAssignmentTest("CopyJSONProperty", jsonProperty, jsonProperty),
-		createPropertyAssignmentTest("CopyJSONObjectProperty", jsonObjectProperty, jsonObjectProperty),
-		createPropertyAssignmentTest("CopyOptionalJSONProperty", optionalJSONProperty, jsonProperty),
-		createPropertyAssignmentTest("CopyJSONObjectProperty", optionalJSONObjectProperty, jsonObjectProperty),
+	createPropertyAssignmentTest("CopyJSONProperty", jsonProperty, jsonProperty)
+	createPropertyAssignmentTest("CopyJSONObjectProperty", jsonObjectProperty, jsonObjectProperty)
+	createPropertyAssignmentTest("CopyOptionalJSONProperty", optionalJSONProperty, jsonProperty)
+	createPropertyAssignmentTest("CopyJSONObjectProperty", optionalJSONObjectProperty, jsonObjectProperty)
 
-		createPropertyAssignmentTest("CopyRequiredStringToPropertyBag", requiredStringProperty, bagProperty),
-		createPropertyAssignmentTest("CopyOptionalStringToPropertyBag", optionalStringProperty, bagProperty),
-		createPropertyAssignmentTest("CopyRequiredIntToPropertyBag", requiredIntProperty, bagProperty),
-		createPropertyAssignmentTest("CopyOptionalIntToPropertyBag", optionalIntProperty, bagProperty),
+	createPropertyAssignmentTest("CopyRequiredStringToPropertyBag", requiredStringProperty, bagProperty)
+	createPropertyAssignmentTest("CopyOptionalStringToPropertyBag", optionalStringProperty, bagProperty)
+	createPropertyAssignmentTest("CopyRequiredIntToPropertyBag", requiredIntProperty, bagProperty)
+	createPropertyAssignmentTest("CopyOptionalIntToPropertyBag", optionalIntProperty, bagProperty)
 
-		createPropertyAssignmentTest("CopyRequiredObjectToPropertyBag", requiredCurrentRoleProperty, bagProperty, currentRole),
-		createPropertyAssignmentTest("CopyOptionalObjectToPropertyBag", optionalCurrentRoleProperty, bagProperty, currentRole),
+	createPropertyAssignmentTest("CopyRequiredObjectToPropertyBag", requiredCurrentRoleProperty, bagProperty, currentRole)
+	createPropertyAssignmentTest("CopyOptionalObjectToPropertyBag", optionalCurrentRoleProperty, bagProperty, currentRole)
 
-		createPropertyAssignmentTest("CopySliceToPropertyBag", arrayOfRequiredIntProperty, bagProperty),
-		createPropertyAssignmentTest("CopyMapToPropertyBag", mapOfRequiredIntsProperty, bagProperty),
+	createPropertyAssignmentTest("CopySliceToPropertyBag", arrayOfRequiredIntProperty, bagProperty)
+	createPropertyAssignmentTest("CopyMapToPropertyBag", mapOfRequiredIntsProperty, bagProperty)
 
-		createPropertyAssignmentTest("ConvertSliceNamedIndexes", indexesProperty, hubIndexesProperty, currentRole, hubRole),
-		createPropertyAssignmentTest("ConvertMapNamedKeys", keysProperty, hubKeysProperty, currentRole, hubRole),
+	createPropertyAssignmentTest("ConvertSliceNamedIndexes", indexesProperty, hubIndexesProperty, currentRole, hubRole)
+	createPropertyAssignmentTest("ConvertMapNamedKeys", keysProperty, hubKeysProperty, currentRole, hubRole)
 
-		createPropertyAssignmentTest("ConvertSliceNamedIndexesOfOptionalObject", optionalIndexesProperty, optionalIndexesProperty, currentRole),
-		createPropertyAssignmentTest("ConvertMapNamedKeysOfOptionalObject", optionalKeysProperty, optionalKeysProperty, currentRole),
-		createPropertyAssignmentTest("SetSliceOfSlices", arrayofArraysProperty, arrayofArraysProperty),
-		createPropertyAssignmentTest("SetMapOfMaps", mapOfMapsProperty, mapOfMapsProperty),
+	createPropertyAssignmentTest("ConvertSliceNamedIndexesOfOptionalObject", optionalIndexesProperty, optionalIndexesProperty, currentRole)
+	createPropertyAssignmentTest("ConvertMapNamedKeysOfOptionalObject", optionalKeysProperty, optionalKeysProperty, currentRole)
+	createPropertyAssignmentTest("SetSliceOfSlices", arrayofArraysProperty, arrayofArraysProperty)
+	createPropertyAssignmentTest("SetMapOfMaps", mapOfMapsProperty, mapOfMapsProperty)
 
-		createPropertyAssignmentTest("SetSliceOfString", sliceOfStringProperty, sliceOfStringProperty),
-		createPropertyAssignmentTest("SetMapOfStringToString", mapOfStringToStringProperty, mapOfStringToStringProperty),
-	}
+	createPropertyAssignmentTest("SetSliceOfString", sliceOfStringProperty, sliceOfStringProperty)
+	createPropertyAssignmentTest("SetMapOfStringToString", mapOfStringToStringProperty, mapOfStringToStringProperty)
+
+	return factory.cases
+}
+
+func (factory *StorageConversionPropertyTestCaseFactory) addCase(c *StorageConversionPropertyTestCase) {
+	factory.cases[c.name] = c
 }
 
 func TestGolden_PropertyAssignmentFunction_AsFunc(t *testing.T) {
 	t.Parallel()
 
 	factory := newStorageConversionPropertyTestCaseFactory()
-	for _, c := range factory.CreatePropertyAssignmentFunctionTestCases() {
+	for n, c := range factory.CreatePropertyAssignmentFunctionTestCases() {
 		c := c
-		t.Run(c.name, func(t *testing.T) {
+		t.Run(n, func(t *testing.T) {
 			t.Parallel()
 			runTestPropertyAssignmentFunction_AsFunc(c, t)
 		})
