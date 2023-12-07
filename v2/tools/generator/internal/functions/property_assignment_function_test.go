@@ -42,19 +42,10 @@ func newStorageConversionPropertyTestCaseFactory() *StorageConversionPropertyTes
 }
 
 func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmentFunctionTestCases() map[string]*StorageConversionPropertyTestCase {
-	// Custom TypeDefinitionSet
-	alpha := astmodel.MakeEnumValue("Alpha", "alpha")
-	beta := astmodel.MakeEnumValue("Beta", "beta")
-
-	enumType := astmodel.NewEnumType(astmodel.StringType, alpha, beta)
-	currentEnum := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.currentPackage, "Bucket"), enumType)
-	nextEnum := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.nextPackage, "Bucket"), enumType)
-
-	jsonObjectType := astmodel.NewMapType(astmodel.StringType, astmodel.JSONType)
-
 	// Aliases of primitive types
 	currentAge := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.currentPackage, "Age"), astmodel.IntType)
 	nextAge := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.nextPackage, "Age"), astmodel.IntType)
+
 
 	// Aliases of collection types
 	currentPhoneNumbers := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.currentPackage, "PhoneNumbers"), astmodel.NewValidatedType(astmodel.NewArrayType(astmodel.StringType), astmodel.ArrayValidations{}))
@@ -63,7 +54,6 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 	nextAddresses := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.nextPackage, "Addresses"), astmodel.NewValidatedType(astmodel.NewMapType(astmodel.StringType, astmodel.StringType), nil))
 
 	requiredStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType)
-	optionalStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.OptionalStringType)
 	requiredIntProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.IntType)
 	optionalIntProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.OptionalIntType)
 
@@ -152,15 +142,6 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 			astmodel.NewArrayType(
 				astmodel.NewMapType(astmodel.StringType, astmodel.BoolType))))
 
-	factory.createPropertyAssignmentTest("SetStringFromString", requiredStringProperty, requiredStringProperty)
-	factory.createPropertyAssignmentTest("SetStringFromOptionalString", requiredStringProperty, optionalStringProperty)
-	factory.createPropertyAssignmentTest("SetOptionalStringFromString", optionalStringProperty, requiredStringProperty)
-	factory.createPropertyAssignmentTest("SetOptionalStringFromOptionalString", optionalStringProperty, optionalStringProperty)
-
-	factory.createPropertyAssignmentTest("SetIntFromInt", requiredIntProperty, requiredIntProperty)
-	factory.createPropertyAssignmentTest("SetIntFromOptionalInt", requiredIntProperty, optionalIntProperty)
-	factory.createPropertyAssignmentTest("SetOptionalIntFromOptionalInt", optionalIntProperty, optionalIntProperty)
-
 	factory.createPropertyAssignmentTest("SetArrayOfRequiredFromArrayOfRequired", arrayOfRequiredIntProperty, arrayOfRequiredIntProperty)
 	factory.createPropertyAssignmentTest("SetArrayOfRequiredFromArrayOfOptional", arrayOfRequiredIntProperty, arrayOfOptionalIntProperty)
 	factory.createPropertyAssignmentTest("SetArrayOfOptionalFromArrayOfRequired", arrayOfOptionalIntProperty, arrayOfRequiredIntProperty)
@@ -231,7 +212,44 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 	factory.createPropertyAssignmentTest("SetSliceOfString", sliceOfStringProperty, sliceOfStringProperty)
 	factory.createPropertyAssignmentTest("SetMapOfStringToString", mapOfStringToStringProperty, mapOfStringToStringProperty)
 
+	factory.createPrimitiveTypeTestCases()
 	return factory.cases
+}
+
+// createPrimitiveTypeTestCases creates test cases for conversion of primitive types (aka string, int, etc),
+// optional variations, and aliases of those types.
+func (factory *StorageConversionPropertyTestCaseFactory) createPrimitiveTypeTestCases() {
+	requiredStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType)
+	optionalStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.OptionalStringType)
+	requiredIntProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.IntType)
+	optionalIntProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.OptionalIntType)
+
+	factory.createPropertyAssignmentTest("SetStringFromString", requiredStringProperty, requiredStringProperty)
+	factory.createPropertyAssignmentTest("SetStringFromOptionalString", requiredStringProperty, optionalStringProperty)
+	factory.createPropertyAssignmentTest("SetOptionalStringFromString", optionalStringProperty, requiredStringProperty)
+	factory.createPropertyAssignmentTest("SetOptionalStringFromOptionalString", optionalStringProperty, optionalStringProperty)
+
+	factory.createPropertyAssignmentTest("SetIntFromInt", requiredIntProperty, requiredIntProperty)
+	factory.createPropertyAssignmentTest("SetIntFromOptionalInt", requiredIntProperty, optionalIntProperty)
+	factory.createPropertyAssignmentTest("SetOptionalIntFromOptionalInt", optionalIntProperty, optionalIntProperty)
+
+	// Aliases of primitive types
+	currentAge := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.currentPackage, "Age"), astmodel.IntType)
+	nextAge := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.nextPackage, "Age"), astmodel.IntType)
+
+	requiredPrimitiveAgeProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.IntType)
+	optionalPrimitiveAgeProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.OptionalIntType)
+	requiredCurrentAgeProperty := astmodel.NewPropertyDefinition("Age", "age", currentAge.Name())
+	requiredNextAgeProperty := astmodel.NewPropertyDefinition("Age", "age", nextAge.Name())
+	optionalCurrentAgeProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.NewOptionalType(currentAge.Name()))
+	optionalNextAgeProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.NewOptionalType(nextAge.Name()))
+
+	factory.createPropertyAssignmentTest("ConvertBetweenAliasAndAliasType", requiredCurrentAgeProperty, requiredNextAgeProperty, currentAge, nextAge)
+	factory.createPropertyAssignmentTest("ConvertBetweenAliasAndOptionalAliasType", requiredCurrentAgeProperty, optionalNextAgeProperty, currentAge, nextAge)
+	factory.createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndOptionalAliasType", optionalCurrentAgeProperty, optionalNextAgeProperty, currentAge, nextAge)
+	factory.createPropertyAssignmentTest("ConvertBetweenAliasAndBaseType", requiredCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge, nextAge)
+	factory.createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndBaseType", optionalCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge)
+	factory.createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndOptionalBaseType", optionalCurrentAgeProperty, optionalPrimitiveAgeProperty, currentAge)
 }
 
 func (factory *StorageConversionPropertyTestCaseFactory) createPropertyAssignmentTest(
