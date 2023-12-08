@@ -78,6 +78,7 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 	factory.createObjectAssignmentTestCases()
 	factory.createAssignmentViaFunctionTestCases()
 	factory.createAssignmentViaHelperMethodsTestCases()
+	factory.createPathologicalTestCases()
 
 	return factory.cases
 }
