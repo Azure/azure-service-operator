@@ -63,15 +63,6 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 	jsonObjectProperty := astmodel.NewPropertyDefinition("JSONObject", "jsonObject", jsonObjectType)
 	optionalJSONObjectProperty := astmodel.NewPropertyDefinition("JSONObject", "jsonObject", astmodel.NewOptionalType(jsonObjectType))
 
-	// Some pretty contrived cases to catch shadowing bugs in conversion code for arrays and maps.
-	// Array of object
-	indexesProperty := astmodel.NewPropertyDefinition("Indexes", "indexes", astmodel.NewArrayType(currentRole.Name()))
-	hubIndexesProperty := astmodel.NewPropertyDefinition("Indexes", "indexes", astmodel.NewArrayType(hubRole.Name()))
-
-	// Map of object
-	keysProperty := astmodel.NewPropertyDefinition("Keys", "keys", astmodel.NewMapType(astmodel.StringType, currentRole.Name()))
-	hubKeysProperty := astmodel.NewPropertyDefinition("Keys", "keys", astmodel.NewMapType(astmodel.StringType, hubRole.Name()))
-
 	// Handcrafted impls
 	sliceOfStringProperty := astmodel.NewPropertyDefinition("Items", "items", astmodel.NewArrayType(astmodel.StringType))
 	mapOfStringToStringProperty := astmodel.NewPropertyDefinition("Items", "items", astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
@@ -190,6 +181,7 @@ func (factory *StorageConversionPropertyTestCaseFactory) createCollectionTestCas
 	requiredStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType)
 	roleType := astmodel.NewObjectType().WithProperty(requiredStringProperty).WithProperty(arrayOfRequiredIntProperty)
 	currentRole := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.currentPackage, "Release"), roleType)
+	hubRole := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.nextPackage, "Release"), roleType)
 
 	// Array of optional object
 	optionalIndexesProperty := astmodel.NewPropertyDefinition("Indexes", "indexes", astmodel.NewArrayType(astmodel.NewOptionalType(currentRole.Name())))
@@ -225,6 +217,19 @@ func (factory *StorageConversionPropertyTestCaseFactory) createCollectionTestCas
 	factory.createPropertyAssignmentTest("ConvertBetweenArrayAliasAndBaseType", requiredCurrentPhoneNumbersBaseTypeProperty, requiredNextPhoneNumbersProperty, nextPhoneNumbers)
 	factory.createPropertyAssignmentTest("ConvertBetweenMapAliasAndMapAlias", requiredCurrentAddressesProperty, requiredNextAddressesProperty, currentAddresses, nextAddresses)
 	factory.createPropertyAssignmentTest("ConvertBetweenMapAliasAndBaseType", requiredCurrentAddressesBaseTypeProperty, requiredNextAddressesProperty, nextAddresses)
+
+	// Some pretty contrived cases to catch shadowing bugs in conversion code for arrays and maps.
+
+	// Array of object
+	indexesProperty := astmodel.NewPropertyDefinition("Indexes", "indexes", astmodel.NewArrayType(currentRole.Name()))
+	hubIndexesProperty := astmodel.NewPropertyDefinition("Indexes", "indexes", astmodel.NewArrayType(hubRole.Name()))
+
+	// Map of object
+	keysProperty := astmodel.NewPropertyDefinition("Keys", "keys", astmodel.NewMapType(astmodel.StringType, currentRole.Name()))
+	hubKeysProperty := astmodel.NewPropertyDefinition("Keys", "keys", astmodel.NewMapType(astmodel.StringType, hubRole.Name()))
+
+	factory.createPropertyAssignmentTest("ConvertSliceNamedIndexes", indexesProperty, hubIndexesProperty, currentRole, hubRole)
+	factory.createPropertyAssignmentTest("ConvertMapNamedKeys", keysProperty, hubKeysProperty, currentRole, hubRole)
 }
 
 func (factory *StorageConversionPropertyTestCaseFactory) createPropertyAssignmentTest(
