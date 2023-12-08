@@ -186,6 +186,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Api)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.ApiVersionSet)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.AuthorizationProvider)})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20220801s.Backend),
 		Indexes: []registration.Index{
@@ -985,6 +986,7 @@ func getKnownTypes() []client.Object {
 		result,
 		new(apimanagement_v20220801.Api),
 		new(apimanagement_v20220801.ApiVersionSet),
+		new(apimanagement_v20220801.AuthorizationProvider),
 		new(apimanagement_v20220801.Backend),
 		new(apimanagement_v20220801.NamedValue),
 		new(apimanagement_v20220801.Policy),
@@ -996,6 +998,7 @@ func getKnownTypes() []client.Object {
 		result,
 		new(apimanagement_v20220801s.Api),
 		new(apimanagement_v20220801s.ApiVersionSet),
+		new(apimanagement_v20220801s.AuthorizationProvider),
 		new(apimanagement_v20220801s.Backend),
 		new(apimanagement_v20220801s.NamedValue),
 		new(apimanagement_v20220801s.Policy),
@@ -1680,6 +1683,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	var result []genruntime.ResourceExtension
 	result = append(result, &apimanagement_customizations.ApiExtension{})
 	result = append(result, &apimanagement_customizations.ApiVersionSetExtension{})
+	result = append(result, &apimanagement_customizations.AuthorizationProviderExtension{})
 	result = append(result, &apimanagement_customizations.BackendExtension{})
 	result = append(result, &apimanagement_customizations.NamedValueExtension{})
 	result = append(result, &apimanagement_customizations.PolicyExtension{})

@@ -206,6 +206,35 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │           ├── "Header"
 │           ├── "Query"
 │           └── "Segment"
+├── AuthorizationProvider: Resource
+│   ├── Owner: Service
+│   ├── Spec: Object (5 properties)
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: MaxLength: 256
+│   │   │   ├── Rule 1: MinLength: 1
+│   │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
+│   │   ├── DisplayName: Validated<*string> (2 rules)
+│   │   │   ├── Rule 0: MaxLength: 300
+│   │   │   └── Rule 1: MinLength: 1
+│   │   ├── IdentityProvider: *string
+│   │   ├── Oauth2: *Object (2 properties)
+│   │   │   ├── GrantTypes: *Object (2 properties)
+│   │   │   │   ├── AuthorizationCode: map[string]string
+│   │   │   │   └── ClientCredentials: map[string]string
+│   │   │   └── RedirectUrl: *string
+│   │   └── Owner: *genruntime.KnownResourceReference
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── DisplayName: *string
+│       ├── Id: *string
+│       ├── IdentityProvider: *string
+│       ├── Name: *string
+│       ├── Oauth2: *Object (2 properties)
+│       │   ├── GrantTypes: *Object (2 properties)
+│       │   │   ├── AuthorizationCode: map[string]string
+│       │   │   └── ClientCredentials: map[string]string
+│       │   └── RedirectUrl: *string
+│       └── Type: *string
 ├── Backend: Resource
 │   ├── Owner: Service
 │   ├── Spec: Object (11 properties)
@@ -869,6 +898,28 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │       └── WsdlSelector: *Object (2 properties)
 │           ├── WsdlEndpointName: *string
 │           └── WsdlServiceName: *string
+├── Service_AuthorizationProvider_STATUS_ARM: Object (4 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (3 properties)
+│   │   ├── DisplayName: *string
+│   │   ├── IdentityProvider: *string
+│   │   └── Oauth2: *Object (2 properties)
+│   │       ├── GrantTypes: *Object (2 properties)
+│   │       │   ├── AuthorizationCode: map[string]string
+│   │       │   └── ClientCredentials: map[string]string
+│   │       └── RedirectUrl: *string
+│   └── Type: *string
+├── Service_AuthorizationProvider_Spec_ARM: Object (2 properties)
+│   ├── Name: string
+│   └── Properties: *Object (3 properties)
+│       ├── DisplayName: *string
+│       ├── IdentityProvider: *string
+│       └── Oauth2: *Object (2 properties)
+│           ├── GrantTypes: *Object (2 properties)
+│           │   ├── AuthorizationCode: map[string]string
+│           │   └── ClientCredentials: map[string]string
+│           └── RedirectUrl: *string
 ├── Service_Backend_STATUS_ARM: Object (4 properties)
 │   ├── Id: *string
 │   ├── Name: *string

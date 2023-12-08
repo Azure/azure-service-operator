@@ -52,6 +52,13 @@
 | ArmIdWrapper_STATUS                                          | v1api20220801 |
 | AuthenticationSettingsContract                               | v1api20220801 |
 | AuthenticationSettingsContract_STATUS                        | v1api20220801 |
+| AuthorizationProvider                                        | v1api20220801 |
+| AuthorizationProviderContractProperties                      | v1api20220801 |
+| AuthorizationProviderContractProperties_STATUS               | v1api20220801 |
+| AuthorizationProviderOAuth2GrantTypes                        | v1api20220801 |
+| AuthorizationProviderOAuth2GrantTypes_STATUS                 | v1api20220801 |
+| AuthorizationProviderOAuth2Settings                          | v1api20220801 |
+| AuthorizationProviderOAuth2Settings_STATUS                   | v1api20220801 |
 | Backend                                                      | v1api20220801 |
 | BackendAuthorizationHeaderCredentials                        | v1api20220801 |
 | BackendAuthorizationHeaderCredentials_STATUS                 | v1api20220801 |
@@ -119,6 +126,8 @@
 | Service_ApiVersionSet_Spec                                   | v1api20220801 |
 | Service_Api_STATUS                                           | v1api20220801 |
 | Service_Api_Spec                                             | v1api20220801 |
+| Service_AuthorizationProvider_STATUS                         | v1api20220801 |
+| Service_AuthorizationProvider_Spec                           | v1api20220801 |
 | Service_Backend_STATUS                                       | v1api20220801 |
 | Service_Backend_Spec                                         | v1api20220801 |
 | Service_NamedValue_STATUS                                    | v1api20220801 |

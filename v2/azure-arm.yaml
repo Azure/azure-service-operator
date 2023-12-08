@@ -880,6 +880,9 @@ objectModelConfiguration:
       Service_ApiVersionSet:
         $exportAs: ApiVersionSet
         $supportedFrom: v2.4.0
+      Service_AuthorizationProvider:
+        $exportAs: AuthorizationProvider
+        $supportedFrom: v2.4.0
       Service_Backend:
         $exportAs: Backend
         $supportedFrom: v2.4.0
