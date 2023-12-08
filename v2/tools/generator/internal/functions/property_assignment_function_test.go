@@ -77,6 +77,7 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 	factory.createPropertyBagTestCases()
 	factory.createObjectAssignmentTestCases()
 	factory.createAssignmentViaFunctionTestCases()
+	factory.createAssignmentViaHelperMethodsTestCases()
 
 	return factory.cases
 }
@@ -313,6 +314,23 @@ func (factory *StorageConversionPropertyTestCaseFactory) createPathologicalTestC
 				astmodel.NewMapType(astmodel.StringType, astmodel.BoolType))))
 
 	factory.createPropertyAssignmentTest("NastyTest", nastyProperty, nastyProperty)
+}
+
+// createAssignmentViaHelperMethodsTestCases creates test cases where the assignment is handled by known
+// helper methods, mostly from the genruntime package
+func (factory *StorageConversionPropertyTestCaseFactory) createAssignmentViaHelperMethodsTestCases() {
+	referenceProperty := astmodel.NewPropertyDefinition("Reference", "reference", astmodel.ResourceReferenceType)
+	knownReferenceProperty := astmodel.NewPropertyDefinition("KnownReference", "known-reference", astmodel.KnownResourceReferenceType)
+
+	// Handcrafted impls
+	sliceOfStringProperty := astmodel.NewPropertyDefinition("Items", "items", astmodel.NewArrayType(astmodel.StringType))
+	mapOfStringToStringProperty := astmodel.NewPropertyDefinition("Items", "items", astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
+
+	factory.createPropertyAssignmentTest("CopyReferenceProperty", referenceProperty, referenceProperty)
+	factory.createPropertyAssignmentTest("CopyKnownReferenceProperty", knownReferenceProperty, knownReferenceProperty)
+
+	factory.createPropertyAssignmentTest("SetSliceOfString", sliceOfStringProperty, sliceOfStringProperty)
+	factory.createPropertyAssignmentTest("SetMapOfStringToString", mapOfStringToStringProperty, mapOfStringToStringProperty)
 }
 
 func (factory *StorageConversionPropertyTestCaseFactory) createPropertyAssignmentTest(
