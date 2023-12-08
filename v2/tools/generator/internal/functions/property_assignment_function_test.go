@@ -42,31 +42,6 @@ func newStorageConversionPropertyTestCaseFactory() *StorageConversionPropertyTes
 }
 
 func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmentFunctionTestCases() map[string]*StorageConversionPropertyTestCase {
-	requiredStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType)
-
-	arrayOfRequiredIntProperty := astmodel.NewPropertyDefinition("Scores", "scores", astmodel.NewArrayType(astmodel.IntType))
-
-	roleType := astmodel.NewObjectType().WithProperty(requiredStringProperty).WithProperty(arrayOfRequiredIntProperty)
-	currentRole := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.currentPackage, "Release"), roleType)
-	hubRole := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.nextPackage, "Release"), roleType)
-
-	referenceProperty := astmodel.NewPropertyDefinition("Reference", "reference", astmodel.ResourceReferenceType)
-	knownReferenceProperty := astmodel.NewPropertyDefinition("KnownReference", "known-reference", astmodel.KnownResourceReferenceType)
-
-	// Handcrafted impls
-	sliceOfStringProperty := astmodel.NewPropertyDefinition("Items", "items", astmodel.NewArrayType(astmodel.StringType))
-	mapOfStringToStringProperty := astmodel.NewPropertyDefinition("Items", "items", astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
-
-
-	factory.createPropertyAssignmentTest("CopyReferenceProperty", referenceProperty, referenceProperty)
-	factory.createPropertyAssignmentTest("CopyKnownReferenceProperty", knownReferenceProperty, knownReferenceProperty)
-
-	factory.createPropertyAssignmentTest("ConvertSliceNamedIndexes", indexesProperty, hubIndexesProperty, currentRole, hubRole)
-	factory.createPropertyAssignmentTest("ConvertMapNamedKeys", keysProperty, hubKeysProperty, currentRole, hubRole)
-
-	factory.createPropertyAssignmentTest("SetSliceOfString", sliceOfStringProperty, sliceOfStringProperty)
-	factory.createPropertyAssignmentTest("SetMapOfStringToString", mapOfStringToStringProperty, mapOfStringToStringProperty)
-
 	// Test cases are created in batches to make it easier to see what's going on
 	// In case of failures, troubleshoot earlier batches first, as it's very likely
 	// that fixing those problems will fix later tests as well.
