@@ -73,10 +73,6 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 
 	factory.createPropertyAssignmentTest("NastyTest", nastyProperty, nastyProperty)
 
-	factory.createPropertyAssignmentTest("ConvertBetweenRequiredObjectAndRequiredObject", requiredCurrentRoleProperty, requiredHubRoleProperty, currentRole, hubRole)
-	factory.createPropertyAssignmentTest("ConvertBetweenRequiredObjectAndOptionalObject", requiredCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole)
-	factory.createPropertyAssignmentTest("ConvertBetweenOptionalObjectAndOptionalObject", optionalCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole)
-	// We don't handle/test Object Aliases here because they are always removed by the RemoveTypeAliases pipeline stage
 	factory.createFunctionAssignmentTest("ReadFromFunctionIntoProperty", requiredIntProperty, ageFunction)
 	factory.createFunctionAssignmentTest("ReadFromFunctionIntoOptionalProperty", optionalIntProperty, ageFunction)
 
@@ -97,6 +93,7 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 	factory.createEnumTestCases()
 	factory.createJSONTestCases()
 	factory.createPropertyBagTestCases()
+	factory.createObjectAssignmentTestCases()
 
 	return factory.cases
 }
@@ -285,6 +282,26 @@ func (factory *StorageConversionPropertyTestCaseFactory) createJSONTestCases() {
 	factory.createPropertyAssignmentTest("CopyJSONObjectProperty", jsonObjectProperty, jsonObjectProperty)
 	factory.createPropertyAssignmentTest("CopyOptionalJSONProperty", optionalJSONProperty, jsonProperty)
 	factory.createPropertyAssignmentTest("CopyJSONObjectProperty", optionalJSONObjectProperty, jsonObjectProperty)
+}
+
+// createObjectAssignmentTestCases creates test cases for conversion of object types and optional variations.
+// We don't handle/test Object Aliases here because they are always removed by the RemoveTypeAliases pipeline stage.
+func (factory *StorageConversionPropertyTestCaseFactory) createObjectAssignmentTestCases() {
+	requiredStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType)
+	arrayOfRequiredIntProperty := astmodel.NewPropertyDefinition("Scores", "scores", astmodel.NewArrayType(astmodel.IntType))
+
+	roleType := astmodel.NewObjectType().WithProperty(requiredStringProperty).WithProperty(arrayOfRequiredIntProperty)
+	currentRole := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.currentPackage, "Release"), roleType)
+	hubRole := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.nextPackage, "Release"), roleType)
+
+	requiredCurrentRoleProperty := astmodel.NewPropertyDefinition("Role", "role", currentRole.Name())
+	requiredHubRoleProperty := astmodel.NewPropertyDefinition("Role", "role", hubRole.Name())
+	optionalCurrentRoleProperty := astmodel.NewPropertyDefinition("Role", "role", astmodel.NewOptionalType(currentRole.Name()))
+	optionalNextRoleProperty := astmodel.NewPropertyDefinition("Role", "role", astmodel.NewOptionalType(hubRole.Name()))
+
+	factory.createPropertyAssignmentTest("ConvertBetweenRequiredObjectAndRequiredObject", requiredCurrentRoleProperty, requiredHubRoleProperty, currentRole, hubRole)
+	factory.createPropertyAssignmentTest("ConvertBetweenRequiredObjectAndOptionalObject", requiredCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole)
+	factory.createPropertyAssignmentTest("ConvertBetweenOptionalObjectAndOptionalObject", optionalCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole)
 }
 
 func (factory *StorageConversionPropertyTestCaseFactory) createPropertyAssignmentTest(
