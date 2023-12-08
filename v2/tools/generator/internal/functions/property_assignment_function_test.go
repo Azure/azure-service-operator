@@ -54,10 +54,6 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 
 	referenceProperty := astmodel.NewPropertyDefinition("Reference", "reference", astmodel.ResourceReferenceType)
 	knownReferenceProperty := astmodel.NewPropertyDefinition("KnownReference", "known-reference", astmodel.KnownResourceReferenceType)
-	jsonProperty := astmodel.NewPropertyDefinition("JSONBlob", "jsonBlob", astmodel.JSONType)
-	optionalJSONProperty := astmodel.NewPropertyDefinition("JSONBlob", "jsonBlob", astmodel.NewOptionalType(astmodel.JSONType))
-	jsonObjectProperty := astmodel.NewPropertyDefinition("JSONObject", "jsonObject", jsonObjectType)
-	optionalJSONObjectProperty := astmodel.NewPropertyDefinition("JSONObject", "jsonObject", astmodel.NewOptionalType(jsonObjectType))
 
 	// Handcrafted impls
 	sliceOfStringProperty := astmodel.NewPropertyDefinition("Items", "items", astmodel.NewArrayType(astmodel.StringType))
@@ -87,21 +83,21 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 	factory.createPropertyAssignmentTest("CopyReferenceProperty", referenceProperty, referenceProperty)
 	factory.createPropertyAssignmentTest("CopyKnownReferenceProperty", knownReferenceProperty, knownReferenceProperty)
 
-	factory.createPropertyAssignmentTest("CopyJSONProperty", jsonProperty, jsonProperty)
-	factory.createPropertyAssignmentTest("CopyJSONObjectProperty", jsonObjectProperty, jsonObjectProperty)
-	factory.createPropertyAssignmentTest("CopyOptionalJSONProperty", optionalJSONProperty, jsonProperty)
-	factory.createPropertyAssignmentTest("CopyJSONObjectProperty", optionalJSONObjectProperty, jsonObjectProperty)
-
 	factory.createPropertyAssignmentTest("ConvertSliceNamedIndexes", indexesProperty, hubIndexesProperty, currentRole, hubRole)
 	factory.createPropertyAssignmentTest("ConvertMapNamedKeys", keysProperty, hubKeysProperty, currentRole, hubRole)
 
 	factory.createPropertyAssignmentTest("SetSliceOfString", sliceOfStringProperty, sliceOfStringProperty)
 	factory.createPropertyAssignmentTest("SetMapOfStringToString", mapOfStringToStringProperty, mapOfStringToStringProperty)
 
+	// Test cases are created in batches to make it easier to see what's going on
+	// In case of failures, troubleshoot earlier batches first, as it's very likely
+	// that fixing those problems will fix later tests as well.
 	factory.createPrimitiveTypeTestCases()
 	factory.createCollectionTestCases()
 	factory.createEnumTestCases()
+	factory.createJSONTestCases()
 	factory.createPropertyBagTestCases()
+
 	return factory.cases
 }
 
@@ -274,6 +270,21 @@ func (factory *StorageConversionPropertyTestCaseFactory) createPropertyBagTestCa
 
 	factory.createPropertyAssignmentTest("CopySliceToPropertyBag", arrayOfRequiredIntProperty, bagProperty)
 	factory.createPropertyAssignmentTest("CopyMapToPropertyBag", mapOfRequiredIntsProperty, bagProperty)
+}
+
+// createJSONTestCases creates test cases for conversion of JSON types
+func (factory *StorageConversionPropertyTestCaseFactory) createJSONTestCases() {
+	jsonObjectType := astmodel.NewMapType(astmodel.StringType, astmodel.JSONType)
+
+	jsonProperty := astmodel.NewPropertyDefinition("JSONBlob", "jsonBlob", astmodel.JSONType)
+	optionalJSONProperty := astmodel.NewPropertyDefinition("JSONBlob", "jsonBlob", astmodel.NewOptionalType(astmodel.JSONType))
+	jsonObjectProperty := astmodel.NewPropertyDefinition("JSONObject", "jsonObject", jsonObjectType)
+	optionalJSONObjectProperty := astmodel.NewPropertyDefinition("JSONObject", "jsonObject", astmodel.NewOptionalType(jsonObjectType))
+
+	factory.createPropertyAssignmentTest("CopyJSONProperty", jsonProperty, jsonProperty)
+	factory.createPropertyAssignmentTest("CopyJSONObjectProperty", jsonObjectProperty, jsonObjectProperty)
+	factory.createPropertyAssignmentTest("CopyOptionalJSONProperty", optionalJSONProperty, jsonProperty)
+	factory.createPropertyAssignmentTest("CopyJSONObjectProperty", optionalJSONObjectProperty, jsonObjectProperty)
 }
 
 func (factory *StorageConversionPropertyTestCaseFactory) createPropertyAssignmentTest(
