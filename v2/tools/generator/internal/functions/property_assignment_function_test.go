@@ -57,15 +57,6 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 	sliceOfStringProperty := astmodel.NewPropertyDefinition("Items", "items", astmodel.NewArrayType(astmodel.StringType))
 	mapOfStringToStringProperty := astmodel.NewPropertyDefinition("Items", "items", astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
 
-	nastyProperty := astmodel.NewPropertyDefinition(
-		"nasty",
-		"nasty",
-		astmodel.NewMapType(
-			astmodel.StringType,
-			astmodel.NewArrayType(
-				astmodel.NewMapType(astmodel.StringType, astmodel.BoolType))))
-
-	factory.createPropertyAssignmentTest("NastyTest", nastyProperty, nastyProperty)
 
 	factory.createPropertyAssignmentTest("CopyReferenceProperty", referenceProperty, referenceProperty)
 	factory.createPropertyAssignmentTest("CopyKnownReferenceProperty", knownReferenceProperty, knownReferenceProperty)
@@ -308,6 +299,20 @@ func (factory *StorageConversionPropertyTestCaseFactory) createAssignmentViaFunc
 
 	factory.createFunctionAssignmentTest("ReadFromFunctionIntoProperty", requiredIntProperty, ageFunction)
 	factory.createFunctionAssignmentTest("ReadFromFunctionIntoOptionalProperty", optionalIntProperty, ageFunction)
+}
+
+// createPathologicalTestCases creates test cases designed to be nasty to handle, as a check that the recursive
+// approach to breaking down the assignment problem works as expected.
+func (factory *StorageConversionPropertyTestCaseFactory) createPathologicalTestCases() {
+	nastyProperty := astmodel.NewPropertyDefinition(
+		"nasty",
+		"nasty",
+		astmodel.NewMapType(
+			astmodel.StringType,
+			astmodel.NewArrayType(
+				astmodel.NewMapType(astmodel.StringType, astmodel.BoolType))))
+
+	factory.createPropertyAssignmentTest("NastyTest", nastyProperty, nastyProperty)
 }
 
 func (factory *StorageConversionPropertyTestCaseFactory) createPropertyAssignmentTest(
