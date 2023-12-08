@@ -43,8 +43,6 @@ func newStorageConversionPropertyTestCaseFactory() *StorageConversionPropertyTes
 
 func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmentFunctionTestCases() map[string]*StorageConversionPropertyTestCase {
 	requiredStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType)
-	requiredIntProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.IntType)
-	optionalIntProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.OptionalIntType)
 
 	arrayOfRequiredIntProperty := astmodel.NewPropertyDefinition("Scores", "scores", astmodel.NewArrayType(astmodel.IntType))
 
@@ -59,10 +57,6 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 	sliceOfStringProperty := astmodel.NewPropertyDefinition("Items", "items", astmodel.NewArrayType(astmodel.StringType))
 	mapOfStringToStringProperty := astmodel.NewPropertyDefinition("Items", "items", astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
 
-	idFactory := astmodel.NewIdentifierFactory()
-	ageFunction := test.NewFakeFunction("Age", idFactory)
-	ageFunction.TypeReturned = astmodel.IntType
-
 	nastyProperty := astmodel.NewPropertyDefinition(
 		"nasty",
 		"nasty",
@@ -72,9 +66,6 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 				astmodel.NewMapType(astmodel.StringType, astmodel.BoolType))))
 
 	factory.createPropertyAssignmentTest("NastyTest", nastyProperty, nastyProperty)
-
-	factory.createFunctionAssignmentTest("ReadFromFunctionIntoProperty", requiredIntProperty, ageFunction)
-	factory.createFunctionAssignmentTest("ReadFromFunctionIntoOptionalProperty", optionalIntProperty, ageFunction)
 
 	factory.createPropertyAssignmentTest("CopyReferenceProperty", referenceProperty, referenceProperty)
 	factory.createPropertyAssignmentTest("CopyKnownReferenceProperty", knownReferenceProperty, knownReferenceProperty)
@@ -94,6 +85,7 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 	factory.createJSONTestCases()
 	factory.createPropertyBagTestCases()
 	factory.createObjectAssignmentTestCases()
+	factory.createAssignmentViaFunctionTestCases()
 
 	return factory.cases
 }
@@ -302,6 +294,20 @@ func (factory *StorageConversionPropertyTestCaseFactory) createObjectAssignmentT
 	factory.createPropertyAssignmentTest("ConvertBetweenRequiredObjectAndRequiredObject", requiredCurrentRoleProperty, requiredHubRoleProperty, currentRole, hubRole)
 	factory.createPropertyAssignmentTest("ConvertBetweenRequiredObjectAndOptionalObject", requiredCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole)
 	factory.createPropertyAssignmentTest("ConvertBetweenOptionalObjectAndOptionalObject", optionalCurrentRoleProperty, optionalNextRoleProperty, currentRole, hubRole)
+}
+
+// createAssignmentViaFunctionTestCases creates test cases where reading the value is handled
+// by a provided function, along with optional variations.
+func (factory *StorageConversionPropertyTestCaseFactory) createAssignmentViaFunctionTestCases() {
+	idFactory := astmodel.NewIdentifierFactory()
+	ageFunction := test.NewFakeFunction("Age", idFactory)
+	ageFunction.TypeReturned = astmodel.IntType
+
+	requiredIntProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.IntType)
+	optionalIntProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.OptionalIntType)
+
+	factory.createFunctionAssignmentTest("ReadFromFunctionIntoProperty", requiredIntProperty, ageFunction)
+	factory.createFunctionAssignmentTest("ReadFromFunctionIntoOptionalProperty", optionalIntProperty, ageFunction)
 }
 
 func (factory *StorageConversionPropertyTestCaseFactory) createPropertyAssignmentTest(
