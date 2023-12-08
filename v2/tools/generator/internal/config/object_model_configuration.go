@@ -30,7 +30,7 @@ type ObjectModelConfiguration struct {
 	typoAdvisor *typo.Advisor
 
 	// Group access fields here (alphabetical, please)
-	PayloadType groupAccess[PayloadType]
+	PayloadType propertyAccess[PayloadType]
 
 	// Type access fields here (alphabetical, please)
 	AzureGeneratedSecrets    typeAccess[[]string]
@@ -62,8 +62,15 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 	}
 
 	// Initialize group access fields here (alphabetical, please)
+	// Initialize multi-level access fields here (alphabetical, please)
 	result.PayloadType = makeGroupAccess[PayloadType](
-		result, func(c *GroupConfiguration) *configurable[PayloadType] { return &c.PayloadType })
+		result,
+		func(c *GroupConfiguration) *configurable[PayloadType] { return &c.PayloadType },
+	).withTypeOverride(
+		func(c *TypeConfiguration) *configurable[PayloadType] { return &c.PayloadType },
+	).withPropertyOverride(
+		func(c *PropertyConfiguration) *configurable[PayloadType] { return &c.PayloadType },
+	)
 
 	// Initialize type access fields here (alphabetical, please)
 	result.AzureGeneratedSecrets = makeTypeAccess[[]string](

@@ -31,6 +31,7 @@ replaceAnyTypeWithJSON                                  Replace properties using
 improvePropertyDescriptions                             Improve property descriptions by copying from the corresponding type
 fixOptionalCollectionAliases                            Replace types which are optional aliases to collections with just the collection alias
 transformCrossResourceReferencesToString     crossplane Replace cross-resource references with string
+addSerializationTypeTag                                 Adds a property tag to properties with special serialization instructions to initialize empty collections when serializing the payload to Azure
 flattenProperties                                       Apply flattening to properties marked for flattening
 stripUnreferenced                                       Strip unreferenced types
 renameProperties                                        Rename properties

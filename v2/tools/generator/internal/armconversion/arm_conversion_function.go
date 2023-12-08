@@ -10,17 +10,16 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 // ARMConversionFunction represents an ARM conversion function for converting between a Kubernetes resource
 // and an ARM resource.
 type ARMConversionFunction struct {
-	armTypeName astmodel.TypeName
-	armType     *astmodel.ObjectType
-	idFactory   astmodel.IdentifierFactory
-	typeKind    TypeKind
-	payloadType config.PayloadType
+	armTypeName  astmodel.InternalTypeName
+	armType      *astmodel.ObjectType
+	kubeTypeName astmodel.InternalTypeName
+	idFactory    astmodel.IdentifierFactory
+	typeKind     TypeKind
 }
 
 type ConvertToARMFunction struct {

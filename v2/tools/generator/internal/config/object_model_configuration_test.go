@@ -572,7 +572,7 @@ func TestObjectModelConfiguration_LookupPayloadType_WhenConfigured_ReturnsExpect
 			})).
 		To(Succeed())
 
-	payloadType, ok := omc.PayloadType.Lookup(name.InternalPackageReference())
+	payloadType, ok := omc.PayloadType.Lookup(name, "")
 	g.Expect(ok).To(BeTrue())
 	g.Expect(payloadType).To(Equal(ExplicitProperties))
 }
@@ -592,7 +592,7 @@ func TestObjectModelConfiguration_LookupPayloadType_WhenNotConfigured_ReturnsExp
 			})).
 		To(Succeed())
 
-	_, ok := omc.PayloadType.Lookup(name.InternalPackageReference())
+	_, ok := omc.PayloadType.Lookup(name, "")
 	g.Expect(ok).To(BeFalse())
 }
 
@@ -611,7 +611,7 @@ func TestObjectModelConfiguration_VerifyPayloadTypeConsumed_WhenConsumed_Returns
 			})).
 		To(Succeed())
 
-	_, ok := omc.PayloadType.Lookup(name.InternalPackageReference())
+	_, ok := omc.PayloadType.Lookup(name, "")
 	g.Expect(ok).To(BeTrue())
 
 	err := omc.PayloadType.VerifyConsumed()

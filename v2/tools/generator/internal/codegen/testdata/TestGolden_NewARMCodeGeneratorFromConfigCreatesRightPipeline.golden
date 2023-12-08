@@ -37,6 +37,7 @@ addSecrets                                        azure      Replace properties 
 addConfigMaps                                     azure      Replace properties flagged as a configMap with genruntime.ConfigMapReference. For properties flagged as an optional configMap, add a new <property>FromConfig property.
 reportTypesAndVersions                            azure      Generate reports on types and versions in each package
 createArmTypes                                    azure      Create types for interaction with ARM
+addSerializationTypeTag                                      Adds a property tag to properties with special serialization instructions to initialize empty collections when serializing the payload to Azure
 pruneResourcesWithLifecycleOwnedByParentStage     azure      Prune embedded resources whose lifecycle is owned by the parent.
 makeOneOfDiscriminantRequired                     azure      Fix one of types to a discriminator which is not omitempty/optional
 applyArmConversionInterface                       azure      Add ARM conversion interfaces to Kubernetes types

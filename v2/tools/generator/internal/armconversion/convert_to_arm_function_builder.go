@@ -12,10 +12,8 @@ import (
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 const (
@@ -35,31 +33,21 @@ func newConvertToARMFunctionBuilder(
 	receiver astmodel.InternalTypeName,
 	methodName string,
 ) *convertToARMBuilder {
-	forceEmptyCollections := c.payloadType == config.ExplicitEmptyCollections
-	var emptyCollectionProperties set.Set[string]
-	if forceEmptyCollections {
-		// TODO: These should not be hardcoded here, instead should be in the azure-arm.yaml config
-		emptyCollectionProperties = set.Make(
-			"Tags",
-			"NodeLabels",
-			"NodeTaints")
-	}
-
 	result := &convertToARMBuilder{
 		conversionBuilder: conversionBuilder{
 			methodName:            methodName,
-			armType:               c.armType,
-			kubeType:              getReceiverObjectType(codeGenerationContext, receiver),
+			sourceType:            getReceiverObjectType(codeGenerationContext, receiver),
+			sourceTypeName:        c.kubeTypeName,
+			destinationType:       c.armType,
+			destinationTypeName:   c.armTypeName,
 			receiverIdent:         c.idFactory.CreateReceiver(receiver.Name()),
 			receiverTypeExpr:      receiver.AsType(codeGenerationContext),
-			armTypeIdent:          c.armTypeName.Name(),
 			idFactory:             c.idFactory,
 			typeKind:              c.typeKind,
-			payloadType:           c.payloadType,
 			codeGenerationContext: codeGenerationContext,
 		},
 		resultIdent:           "result",
-		typeConversionBuilder: astmodel.NewConversionFunctionBuilder(c.idFactory, codeGenerationContext).WithForceEmptyCollectionProperties(emptyCollectionProperties),
+		typeConversionBuilder: astmodel.NewConversionFunctionBuilder(c.idFactory, codeGenerationContext),
 		locals:                astmodel.NewKnownLocalsSet(c.idFactory),
 	}
 	// Add the receiver ident into the known locals
@@ -120,12 +108,12 @@ func (builder *convertToARMBuilder) functionBodyStatements() ([]dst.Stmt, error)
 
 	decl := astbuilder.ShortDeclaration(
 		builder.resultIdent,
-		astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(dst.NewIdent(builder.armTypeIdent)).Build()))
+		astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(dst.NewIdent(builder.destinationTypeIdent())).Build()))
 
 	// Each ARM object property needs to be filled out
 	conversions, err := generateTypeConversionAssignments(
-		builder.kubeType,
-		builder.armType,
+		builder.sourceType,
+		builder.destinationType,
 		builder.propertyConversionHandler)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to generate property conversions for %s", builder.methodName)
@@ -238,13 +226,15 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 
 	strStmts, err := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
-			Source:            strPropSource,
-			SourceType:        strProp.PropertyType(),
-			Destination:       destination,
-			DestinationType:   toProp.PropertyType(),
-			NameHint:          string(strProp.PropertyName()),
-			ConversionContext: nil,
-			Locals:            builder.locals,
+			Source:              strPropSource,
+			SourceType:          strProp.PropertyType(),
+			Destination:         destination,
+			DestinationType:     toProp.PropertyType(),
+			NameHint:            string(strProp.PropertyName()),
+			ConversionContext:   nil,
+			Locals:              builder.locals,
+			SourceProperty:      strProp,
+			DestinationProperty: toProp,
 		},
 	)
 	if err != nil {
@@ -256,13 +246,15 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 
 	refStmts, err := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
-			Source:            refPropSource,
-			SourceType:        refProp.PropertyType(),
-			Destination:       destination,
-			DestinationType:   toProp.PropertyType(),
-			NameHint:          string(strProp.PropertyName()),
-			ConversionContext: nil,
-			Locals:            builder.locals,
+			Source:              refPropSource,
+			SourceType:          refProp.PropertyType(),
+			Destination:         destination,
+			DestinationType:     toProp.PropertyType(),
+			NameHint:            string(strProp.PropertyName()),
+			ConversionContext:   nil,
+			Locals:              builder.locals,
+			SourceProperty:      refProp,
+			DestinationProperty: toProp,
 		},
 	)
 	if err != nil {
@@ -304,13 +296,15 @@ func (builder *convertToARMBuilder) userAssignedIdentitiesPropertyHandler(
 
 	conversion, err := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
-			Source:            source,
-			SourceType:        fromProp.PropertyType(),
-			Destination:       destination,
-			DestinationType:   toProp.PropertyType(),
-			NameHint:          string(fromProp.PropertyName()),
-			ConversionContext: nil,
-			Locals:            builder.locals,
+			Source:              source,
+			SourceType:          fromProp.PropertyType(),
+			Destination:         destination,
+			DestinationType:     toProp.PropertyType(),
+			NameHint:            string(fromProp.PropertyName()),
+			ConversionContext:   nil,
+			Locals:              builder.locals,
+			SourceProperty:      fromProp,
+			DestinationProperty: toProp,
 		},
 	)
 	if err != nil {
@@ -357,13 +351,15 @@ func (builder *convertToARMBuilder) referencePropertyHandler(
 
 	conversion, err := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
-			Source:            source,
-			SourceType:        fromProp.PropertyType(),
-			Destination:       destination,
-			DestinationType:   toProp.PropertyType(),
-			NameHint:          string(fromProp.PropertyName()),
-			ConversionContext: nil,
-			Locals:            builder.locals,
+			Source:              source,
+			SourceType:          fromProp.PropertyType(),
+			Destination:         destination,
+			DestinationType:     toProp.PropertyType(),
+			NameHint:            string(fromProp.PropertyName()),
+			ConversionContext:   nil,
+			Locals:              builder.locals,
+			SourceProperty:      fromProp,
+			DestinationProperty: toProp,
 		},
 	)
 	if err != nil {
@@ -473,14 +469,16 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 		// generate conversion
 		conversion, err := builder.typeConversionBuilder.BuildConversion(
 			astmodel.ConversionParameters{
-				Source:            astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(fromProp.PropertyName())),
-				SourceType:        fromProp.PropertyType(),
-				Destination:       astbuilder.Selector(dst.NewIdent(builder.resultIdent), string(toPropName), string(toSubProp.PropertyName())),
-				DestinationType:   toSubProp.PropertyType(),
-				NameHint:          string(toSubProp.PropertyName()),
-				ConversionContext: nil,
-				AssignmentHandler: nil,
-				Locals:            builder.locals,
+				Source:              astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(fromProp.PropertyName())),
+				SourceType:          fromProp.PropertyType(),
+				Destination:         astbuilder.Selector(dst.NewIdent(builder.resultIdent), string(toPropName), string(toSubProp.PropertyName())),
+				DestinationType:     toSubProp.PropertyType(),
+				NameHint:            string(toSubProp.PropertyName()),
+				ConversionContext:   nil,
+				AssignmentHandler:   nil,
+				Locals:              builder.locals,
+				SourceProperty:      fromProp,
+				DestinationProperty: toProp,
 			})
 		if err != nil {
 			return notHandled,
@@ -563,13 +561,15 @@ func (builder *convertToARMBuilder) propertiesByNameHandler(
 
 	conversion, err := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
-			Source:            source,
-			SourceType:        fromProp.PropertyType(),
-			Destination:       destination,
-			DestinationType:   toProp.PropertyType(),
-			NameHint:          string(toProp.PropertyName()),
-			ConversionContext: nil,
-			Locals:            builder.locals,
+			Source:              source,
+			SourceType:          fromProp.PropertyType(),
+			Destination:         destination,
+			DestinationType:     toProp.PropertyType(),
+			NameHint:            string(toProp.PropertyName()),
+			ConversionContext:   nil,
+			Locals:              builder.locals,
+			SourceProperty:      fromProp,
+			DestinationProperty: toProp,
 		},
 	)
 	if err != nil {
@@ -651,14 +651,16 @@ func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(
 	// Rely on existing conversion handler for ResourceReference type
 	conversion, err := conversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
-			Source:            refSelector,
-			SourceType:        refProperty.PropertyType(),
-			Destination:       dst.NewIdent(key),
-			DestinationType:   destinationType.KeyType(),
-			NameHint:          itemIdent,
-			ConversionContext: append(params.ConversionContext, destinationType),
-			AssignmentHandler: astmodel.AssignmentHandlerDefine,
-			Locals:            locals,
+			Source:              refSelector,
+			SourceType:          refProperty.PropertyType(),
+			Destination:         dst.NewIdent(key),
+			DestinationType:     destinationType.KeyType(),
+			NameHint:            itemIdent,
+			ConversionContext:   append(params.ConversionContext, destinationType),
+			AssignmentHandler:   astmodel.AssignmentHandlerDefine,
+			Locals:              locals,
+			SourceProperty:      params.SourceProperty,
+			DestinationProperty: params.DestinationProperty,
 		})
 	if err != nil {
 		return nil,

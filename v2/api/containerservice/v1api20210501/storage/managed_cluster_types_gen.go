@@ -293,7 +293,7 @@ type ManagedCluster_Spec struct {
 	PropertyBag             genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile `json:"servicePrincipalProfile,omitempty"`
 	Sku                     *ManagedClusterSKU                     `json:"sku,omitempty"`
-	Tags                    map[string]string                      `json:"tags,omitempty"`
+	Tags                    map[string]string                      `json:"tags,omitempty" serializationType:"explicitEmptyCollection"`
 	WindowsProfile          *ManagedClusterWindowsProfile          `json:"windowsProfile,omitempty"`
 }
 
@@ -3384,12 +3384,12 @@ type ManagedClusterAgentPoolProfile struct {
 	MinCount               *int              `json:"minCount,omitempty"`
 	Mode                   *string           `json:"mode,omitempty"`
 	Name                   *string           `json:"name,omitempty"`
-	NodeLabels             map[string]string `json:"nodeLabels,omitempty"`
+	NodeLabels             map[string]string `json:"nodeLabels,omitempty" serializationType:"explicitEmptyCollection"`
 
 	// NodePublicIPPrefixIDReference: This is of the form:
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
 	NodePublicIPPrefixIDReference *genruntime.ResourceReference `armReference:"NodePublicIPPrefixID" json:"nodePublicIPPrefixIDReference,omitempty"`
-	NodeTaints                    []string                      `json:"nodeTaints,omitempty"`
+	NodeTaints                    []string                      `json:"nodeTaints,omitempty" serializationType:"explicitEmptyCollection"`
 	OrchestratorVersion           *string                       `json:"orchestratorVersion,omitempty"`
 	OsDiskSizeGB                  *int                          `json:"osDiskSizeGB,omitempty"`
 	OsDiskType                    *string                       `json:"osDiskType,omitempty"`
@@ -3405,7 +3405,7 @@ type ManagedClusterAgentPoolProfile struct {
 	ScaleSetEvictionPolicy    *string                       `json:"scaleSetEvictionPolicy,omitempty"`
 	ScaleSetPriority          *string                       `json:"scaleSetPriority,omitempty"`
 	SpotMaxPrice              *float64                      `json:"spotMaxPrice,omitempty"`
-	Tags                      map[string]string             `json:"tags,omitempty"`
+	Tags                      map[string]string             `json:"tags,omitempty" serializationType:"explicitEmptyCollection"`
 	Type                      *string                       `json:"type,omitempty"`
 	UpgradeSettings           *AgentPoolUpgradeSettings     `json:"upgradeSettings,omitempty"`
 	VmSize                    *string                       `json:"vmSize,omitempty"`
