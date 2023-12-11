@@ -10570,6 +10570,20 @@ string
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
+&lt;code&gt;operatorSpec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicOperatorSpec&#34;&gt;
+TopicOperatorSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
 &lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
@@ -10622,6 +10636,80 @@ Topic_STATUS
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.TopicOperatorSecrets&#34;&gt;TopicOperatorSecrets
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicOperatorSpec&#34;&gt;TopicOperatorSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;key1&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination&#34;&gt;
+genruntime.SecretDestination
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Key1: indicates where the Key1 secret should be placed. If omitted, the secret will not be retrieved from Azure.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;key2&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination&#34;&gt;
+genruntime.SecretDestination
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Key2: indicates where the Key2 secret should be placed. If omitted, the secret will not be retrieved from Azure.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.TopicOperatorSpec&#34;&gt;TopicOperatorSpec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.Topic_Spec&#34;&gt;Topic_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;secrets&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicOperatorSecrets&#34;&gt;
+TopicOperatorSecrets
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Secrets: configures where to place Azure generated secrets.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -11308,6 +11396,20 @@ string
 &lt;/td&gt;
 &lt;td&gt;
 &lt;p&gt;Location: Location of the resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;operatorSpec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicOperatorSpec&#34;&gt;
+TopicOperatorSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;

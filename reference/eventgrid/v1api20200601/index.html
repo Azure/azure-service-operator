@@ -39,7 +39,7 @@
     AdvancedFilter   (Appears on:EventSubscriptionFilter)      Field Description      boolEquals  BoolEqualsAdvancedFilter     BoolEquals: Mutually exclusive with all other properties
     numberGreaterThan  NumberGreaterThanAdvancedFilter     NumberGreaterThan: Mutually exclusive with all other properties">
 
-<meta itemprop="wordCount" content="10749">
+<meta itemprop="wordCount" content="10876">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="eventgrid.azure.com/v1api20200601"/>
 <meta name="twitter:description" content="eventgrid.azure.com/v1api20200601  Package v1api20200601 contains API Schema definitions for the eventgrid v1api20200601 API group
@@ -285,6 +285,8 @@
   <a href="/azure-service-operator/reference/containerservice/v1api20230202preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20230202preview"><span class="">containerservice.azure.com/v1api20230202preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20230315preview-li">
   <a href="/azure-service-operator/reference/containerservice/v1api20230315preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20230315preview"><span class="">containerservice.azure.com/v1api20230315preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20231001-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20231001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20231001"><span class="">containerservice.azure.com/v1api20231001</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
@@ -11225,6 +11227,20 @@ string
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#eventgrid.azure.com/v1api20200601.TopicOperatorSpec">
+TopicOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -11277,6 +11293,80 @@ Topic_STATUS
 </em>
 </td>
 <td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.TopicOperatorSecrets">TopicOperatorSecrets
+</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.TopicOperatorSpec">TopicOperatorSpec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>key1</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>Key1: indicates where the Key1 secret should be placed. If omitted, the secret will not be retrieved from Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>key2</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>Key2: indicates where the Key2 secret should be placed. If omitted, the secret will not be retrieved from Azure.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="eventgrid.azure.com/v1api20200601.TopicOperatorSpec">TopicOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#eventgrid.azure.com/v1api20200601.Topic_Spec">Topic_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>secrets</code><br/>
+<em>
+<a href="#eventgrid.azure.com/v1api20200601.TopicOperatorSecrets">
+TopicOperatorSecrets
+</a>
+</em>
+</td>
+<td>
+<p>Secrets: configures where to place Azure generated secrets.</p>
 </td>
 </tr>
 </tbody>
@@ -11963,6 +12053,20 @@ string
 </td>
 <td>
 <p>Location: Location of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#eventgrid.azure.com/v1api20200601.TopicOperatorSpec">
+TopicOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
 </td>
 </tr>
 <tr>
