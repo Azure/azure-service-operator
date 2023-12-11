@@ -173,10 +173,23 @@ func CreateTypeConversion(
 		}
 	}
 
-	// No conversion found, we need to generate a useful error message, wrapping any existing error
+	// No conversion found, we need to generate a useful error message, wrapping any existing error.
+	// If the endpoints are in different packages, we want both to be qualfied with their package name.
+	// We finesse this by cross wiring the packges passed so that we only get simplified descriptions if they are
+	// in the same package.
+	describe := func(subject astmodel.Type, ref astmodel.Type) string {
+		if tn, ok := astmodel.AsInternalTypeName(ref); ok {
+			return astmodel.DebugDescription(subject, tn.InternalPackageReference())
+		}
+
+		return astmodel.DebugDescription(subject)
+	}
+
+	srcType := sourceEndpoint.Type()
+	dstType := destinationEndpoint.Type()
 	msg := fmt.Sprintf("no conversion found to assign %q from %q",
-		astmodel.DebugDescription(destinationEndpoint.Type()),
-		astmodel.DebugDescription(sourceEndpoint.Type()))
+		describe(dstType, srcType),
+		describe(srcType, dstType))
 
 	if err != nil {
 		err = errors.Wrap(err, msg)
