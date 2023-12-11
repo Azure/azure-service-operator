@@ -499,17 +499,24 @@ func TestGolden_PropertyAssignmentFunction_WhenTypeRenamed(t *testing.T) {
 	g.Expect(err).To(Succeed())
 
 	// The generated code should be using the type "Location" when referencing the earlier version of the property
-	// "Where" and "Venue" for the later version. The types are visible in declarations of temporary variables,
+	// "Where", and "Venue" for the later version. The types are visible in declarations of temporary variables,
 	// and in the name of the Assign*() functions.
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "PropertyTypeRenamed", receiverDefinition)
 }
 
-func TestGolden_PropertyAssignmentFunction_WhenSharedObjectVersion(t *testing.T) {
+func TestGolden_PropertyAssignmentFunction_WhenPropertyTypeHasIntermediateVersions_GeneratesExpectedCode(t *testing.T) {
+	// Ensure that property assignment functions correctly make use of an intermediate type when
+	// the required type conversion is not directly possible for a property.
+	//
+	// We create two versions of Person (v2020 and v2022), each with a `Residence` property of type `Location`.
+	// A v2020.Location can't be directly converted to (or from) a v2022.Location, but only by using a v2021.Location
+	// as an intermediate.
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 	injector := astmodel.NewFunctionInjector()
 
+	// Arrange - create three different versions of Location - in packages v2020, v2021, and v2022
 	location2020 := test.CreateObjectDefinition(
 		test.Pkg2020,
 		"Location",
@@ -525,6 +532,9 @@ func TestGolden_PropertyAssignmentFunction_WhenSharedObjectVersion(t *testing.T)
 		"Location",
 		test.FullAddressProperty)
 
+	// Arrange - create two different version of Person - in packages v2020, and v2022.
+	// Each has a property "Residence" of type "Location",
+	// using the local version of "Location"
 	person2020 := test.CreateObjectDefinition(
 		test.Pkg2020,
 		"Person",
@@ -535,6 +545,7 @@ func TestGolden_PropertyAssignmentFunction_WhenSharedObjectVersion(t *testing.T)
 		"Person",
 		astmodel.NewPropertyDefinition("Residence", "residence", location2022.Name()))
 
+	// Arrange - create the conversion graph between all these object versions
 	definitions := make(astmodel.TypeDefinitionSet)
 	definitions.AddAll(location2020, location2021, location2022)
 	definitions.AddAll(person2020, person2022)
@@ -547,9 +558,11 @@ func TestGolden_PropertyAssignmentFunction_WhenSharedObjectVersion(t *testing.T)
 	graph, err := builder.Build()
 	g.Expect(err).To(BeNil())
 
+	// Arrange - create the conversion context, including the conversion graph
 	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, definitions, idFactory).
 		WithConversionGraph(graph)
 
+	// Act - create both AssignTo and AssignFrom between the two versions of Person
 	assignFromBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2022, conversions.ConvertFrom)
 	assignFrom, err := assignFromBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
@@ -561,15 +574,23 @@ func TestGolden_PropertyAssignmentFunction_WhenSharedObjectVersion(t *testing.T)
 	receiverDefinition, err := injector.Inject(person2020, assignFrom, assignTo)
 	g.Expect(err).To(Succeed())
 
+	// Assert that the generated code correctly converts using the intermediate version of Location
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "SharedObject", receiverDefinition)
 }
 
-func TestGolden_PropertyAssignmentFunction_WhenMultipleIntermediateSharedObjectVersions(t *testing.T) {
+func TestGolden_PropertyAssignmentFunction_WhenPropertyTypeHasMultipleIntermediateVersions_GeneratesExpectedCode(t *testing.T) {
+	// Ensure that property assignment functions correctly make use of multiple intermediate types when
+	// the required type conversion is not directly possible for a property.
+	//
+	// We create two versions of Person (v2020 and v2022), each with a `Residence` property of type `Location`.
+	// A v2020.Location can't be directly converted to (or from) a v2022.Location, but only by using all the intermediate
+	// types of Location in turn.
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 	injector := astmodel.NewFunctionInjector()
 
+	// Arrange - create five different versions of Location - in packages v2020, v202101, v202106, v202112, and v2022
 	location2020 := test.CreateObjectDefinition(
 		test.Pkg2020,
 		"Location",
@@ -595,6 +616,7 @@ func TestGolden_PropertyAssignmentFunction_WhenMultipleIntermediateSharedObjectV
 		"Location",
 		test.FullAddressProperty)
 
+	// Arrange - create two different version of Person - in packages v2020, and v2022.
 	person2020 := test.CreateObjectDefinition(
 		test.Pkg2020,
 		"Person",
@@ -609,6 +631,7 @@ func TestGolden_PropertyAssignmentFunction_WhenMultipleIntermediateSharedObjectV
 	definitions.AddAll(location2020, location202101, location202106, location202112, location2022)
 	definitions.AddAll(person2020, person2022)
 
+	// Arrange - create the conversion graph between all these object versions
 	cfg := config.NewObjectModelConfiguration()
 	builder := storage.NewConversionGraphBuilder(cfg, "v")
 	builder.Add(
@@ -623,8 +646,11 @@ func TestGolden_PropertyAssignmentFunction_WhenMultipleIntermediateSharedObjectV
 	graph, err := builder.Build()
 	g.Expect(err).To(BeNil())
 
+	// Arrange - create the conversion context, including the conversion graph
 	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, definitions, idFactory).
 		WithConversionGraph(graph)
+
+	// Act - create both AssignTo and AssignFrom between the two versions of Person
 	assignFromBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2022, conversions.ConvertFrom)
 	assignFrom, err := assignFromBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
@@ -636,6 +662,7 @@ func TestGolden_PropertyAssignmentFunction_WhenMultipleIntermediateSharedObjectV
 	receiverDefinition, err := injector.Inject(person2020, assignFrom, assignTo)
 	g.Expect(err).To(Succeed())
 
+	// Assert - the generated code should correctly convert using all the intermediate versions of Location
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "SharedObjectMultiple", receiverDefinition)
 }
 
