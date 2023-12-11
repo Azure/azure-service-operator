@@ -511,6 +511,14 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyTypeHasIntermediateVersio
 	// We create two versions of Person (v2020 and v2022), each with a `Residence` property of type `Location`.
 	// A v2020.Location can't be directly converted to (or from) a v2022.Location, but only by using a v2021.Location
 	// as an intermediate.
+	//
+	// +----------------+                          +----------------+
+	// | v2020.Person   |--------------------------| v2022.Person   |
+	// +----------------+                          +----------------+
+	//       |                                           |
+	// +----------------+    +----------------+    +----------------+
+	// | v2020.Location | -- | v2021.Location | -- | v2022.Location |
+	// +----------------+    +----------------+    +----------------+
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
@@ -585,6 +593,14 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyTypeHasMultipleIntermedia
 	// We create two versions of Person (v2020 and v2022), each with a `Residence` property of type `Location`.
 	// A v2020.Location can't be directly converted to (or from) a v2022.Location, but only by using all the intermediate
 	// types of Location in turn.
+	//
+	// +----------------+                                                                                  +----------------+
+	// |  v2020.Person  |----------------------------------------------------------------------------------|  v2022.Person  |
+	// +----------------+                                                                                  +----------------+
+	//       |                                                                                                  |
+	// +----------------+    +--------------------+    +--------------------+    +--------------------+    +----------------+
+	// | v2020.Location | -- | v20210301.Location | -- | v20210306.Location | -- | v20210312.Location | -- | v2022.Location |
+	// +----------------+    +--------------------+    +--------------------+    +--------------------+    +----------------+
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
