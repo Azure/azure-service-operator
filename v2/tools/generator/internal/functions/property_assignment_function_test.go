@@ -513,11 +513,12 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyTypeHasIntermediateVersio
 	// as an intermediate.
 	//
 	// +----------------+                          +----------------+
-	// | v2020.Person   |--------------------------| v2022.Person   |
+	// | v2020.Person   | -----------------------> | v2022.Person   |
 	// +----------------+                          +----------------+
 	//       |                                           |
+	//       v                                           v
 	// +----------------+    +----------------+    +----------------+
-	// | v2020.Location | -- | v2021.Location | -- | v2022.Location |
+	// | v2020.Location | -> | v2021.Location | -> | v2022.Location |
 	// +----------------+    +----------------+    +----------------+
 	t.Parallel()
 	g := NewGomegaWithT(t)
@@ -595,11 +596,12 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyTypeHasMultipleIntermedia
 	// types of Location in turn.
 	//
 	// +----------------+                                                                                  +----------------+
-	// |  v2020.Person  |----------------------------------------------------------------------------------|  v2022.Person  |
+	// |  v2020.Person  | -------------------------------------------------------------------------------> |  v2022.Person  |
 	// +----------------+                                                                                  +----------------+
 	//       |                                                                                                  |
+	//       v                                                                                                  v
 	// +----------------+    +--------------------+    +--------------------+    +--------------------+    +----------------+
-	// | v2020.Location | -- | v20210301.Location | -- | v20210306.Location | -- | v20210312.Location | -- | v2022.Location |
+	// | v2020.Location | -> | v20210301.Location | -> | v20210306.Location | -> | v20210312.Location | -> | v2022.Location |
 	// +----------------+    +--------------------+    +--------------------+    +--------------------+    +----------------+
 	t.Parallel()
 	g := NewGomegaWithT(t)
