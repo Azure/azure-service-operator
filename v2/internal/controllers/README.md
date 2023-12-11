@@ -48,7 +48,7 @@ Some examples to illustrate:
 | `servicebus_namespace_basicSkuCrud_v1api20210101preview_test.go`     | Group: servicebus<br/>Subject: namespace<br/>Scenario: basicSkuCrud<br/>Version:&nbsp;v1api20210101preview            | create and maintain a Basic SKU ServiceBus Namespace.                                                        |
 | `servicebus_namespace_standardSkuCrud_v1api20211101_test.go`         | Group: servicebus<br/>Subject: namespace<br/>Scenario: standardSkuCrud<br/>Version:&nbsp;v1api20211101                | create and maintain a Standard SKU ServiceBus Namespace.                                                     |
 | `documentdb_databaseaccount_mongodbCrud_v1api20210515_test.go`       | Group: documentdb<br/>Subject: databaseaccount<br/>Scenario: mongodbCrud<br/>Version:&nbsp;v1api20210515              | create and maintain a CosmosDB account in MongoDB mode                                                       |
-| `documentdb_databaseaccount_secretsFromAzure_v1api20210515_test.go`` | Group: documentdb<br/>Subject: databaseaccount<br/>Scenario: cosmosdbSecretsFromAzure<br/>Version:&nbsp;v1api20210515 | Test that ASO can correctly create maintain a CosmosDB Database Account and retrieve access keys from Azure. |
+| `documentdb_databaseaccount_secretsFromAzure_v1api20210515_test.go` | Group: documentdb<br/>Subject: databaseaccount<br/>Scenario: cosmosdbSecretsFromAzure<br/>Version:&nbsp;v1api20210515 | Test that ASO can correctly create maintain a CosmosDB Database Account and retrieve access keys from Azure. |
 
 ### Additional Notes
 
