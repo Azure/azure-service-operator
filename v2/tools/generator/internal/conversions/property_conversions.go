@@ -1916,8 +1916,8 @@ func assignObjectDirectlyToObject(
 func assignObjectsViaIntermediateObject(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
-
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require both source and destination to not be bag items
 	if sourceEndpoint.IsBagItem() || destinationEndpoint.IsBagItem() {
 		return nil, nil
@@ -1947,14 +1947,29 @@ func assignObjectsViaIntermediateObject(
 		return nil, nil
 	}
 
-	// If our two types are not adjacent in our conversion graph, this *IS* the conversion you're looking for
-	earlierName := conversionContext.direction.SelectName(destinationName, sourceName)
-	intermediateName, err := conversionContext.FindNextType(earlierName)
-	if err != nil {
-		return nil, errors.Wrapf(
-			err,
-			"looking up next type for %s",
-			astmodel.DebugDescription(destinationEndpoint.Type()))
+	// Require a path from one name to the next, and work out an intermediate step to break down the conversion
+	var intermediateName astmodel.InternalTypeName
+	if conversionContext.PathExists(sourceName, destinationName) {
+		var err error
+		intermediateName, err = conversionContext.FindNextType(sourceName)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err,
+				"looking up next type for %s",
+				astmodel.DebugDescription(destinationEndpoint.Type()))
+		}
+	} else if conversionContext.PathExists(destinationName, sourceName) {
+		var err error
+		intermediateName, err = conversionContext.FindNextType(destinationName)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err,
+				"looking up next type for %s",
+				astmodel.DebugDescription(destinationEndpoint.Type()))
+		}
+	} else {
+		// No path between the two types, we can't handle the required conversion
+		return nil, nil
 	}
 
 	if intermediateName.IsEmpty() || astmodel.TypeEquals(intermediateName, sourceName) {
