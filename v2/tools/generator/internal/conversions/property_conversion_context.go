@@ -145,6 +145,22 @@ func (c *PropertyConversionContext) FindNextType(name astmodel.InternalTypeName)
 	return c.conversionGraph.FindNextType(name, c.definitions)
 }
 
+// PathExists returns true if a path exists in the conversion graph starting from the specified type name and ending
+// at the specified type name. If no conversion graph is available, returns false.
+func (c *PropertyConversionContext) PathExists(start astmodel.InternalTypeName, finish astmodel.InternalTypeName) bool {
+	if c.conversionGraph == nil {
+		return false
+	}
+
+	_, found := c.conversionGraph.FindInPath(
+		start,
+		func(name astmodel.InternalTypeName) bool {
+			return name == finish
+		})
+
+	return found
+}
+
 // AddPackageReference adds a new reference that's needed by the given conversion
 func (c *PropertyConversionContext) AddPackageReference(ref astmodel.PackageReference) {
 	c.additionalReferences.AddReference(ref)
