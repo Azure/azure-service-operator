@@ -684,6 +684,112 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyTypeHasMultipleIntermedia
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "SharedObjectMultiple", receiverDefinition)
 }
 
+func TestGolden_PropertyAssignmentFunction_WhenPropertyTypeVersionsAreNotInline_GeneratesExpectedCode(t *testing.T) {
+	// Ensure that property assignment functions correctly make use of multiple intermediate types when
+	// the two types are not inline with each other in the version graph.
+	//
+	// Under normal circumstances, you can always start from the 'earlier' type and follow links in the conversion
+	// graph forward until you find the 'later' type. However, if the two types are not inline with each other,
+	// the conversion instead needs to be split into two parts, based around a pivot point that's visible to both types.
+	//
+	// We create two versions of Person, v20200601preview and v20210601preview, each with a `Residence` property of type
+	// `Location`. The conversion graph for `Location` looks like this:
+	//
+	// +--------------------+    +---------------------------+    +--------------------+    +---------------------------+    +--------------------+
+	// | v20200101.Location | <- | v20200601preview.Location |    | v20210101.Location | <- | v20210601preview.Location |    | v20220101.Location |
+	// +--------------------+    +---------------------------+    +--------------------+    +---------------------------+    +--------------------+
+	//                  |   			   				              ^            |                                             ^
+	//   				+---------------------------------------------+            +---------------------------------------------+
+	//
+	// Starting from v20200601preview.Location and following the conversion graph, we encounter v20200101.Location,
+	// then v20210101.Location, and finally v20220101.Location. We never encounter v20210601preview.Location, so
+	// a direct conversion is impossible.
+	//
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	idFactory := astmodel.NewIdentifierFactory()
+	injector := astmodel.NewFunctionInjector()
+
+	// Arrange - create five different versions of Location - in packages v2020, v2020p, v2021, v2021p, and v2022
+	location2020 := test.CreateObjectDefinition(
+		test.MakeLocalPackageReference(test.Group, "v20200101"),
+		"Location",
+		test.FullAddressProperty)
+
+	location2020p := test.CreateObjectDefinition(
+		test.MakeLocalPackageReference(test.Group, "v20200601preview"),
+		"Location",
+		test.FullAddressProperty)
+
+	location2021 := test.CreateObjectDefinition(
+		test.MakeLocalPackageReference(test.Group, "v20210101"),
+		"Location",
+		test.FullAddressProperty)
+
+	location2021p := test.CreateObjectDefinition(
+		test.MakeLocalPackageReference(test.Group, "v20210601preview"),
+		"Location",
+		test.FullAddressProperty)
+
+	location2022 := test.CreateObjectDefinition(
+		test.MakeLocalPackageReference(test.Group, "v20220101"),
+		"Location",
+		test.FullAddressProperty)
+
+	// Arrange - create two different version of Person - in packages v2020p, and v2022p.
+	person2020p := test.CreateObjectDefinition(
+		test.MakeLocalPackageReference(test.Group, "v20200601preview"),
+		"Person",
+		astmodel.NewPropertyDefinition("Residence", "residence", location2020p.Name()))
+
+	person2021p := test.CreateObjectDefinition(
+		test.MakeLocalPackageReference(test.Group, "v20210601preview"),
+		"Person",
+		astmodel.NewPropertyDefinition("Residence", "residence", location2021p.Name()))
+
+	definitions := make(astmodel.TypeDefinitionSet)
+	definitions.AddAll(location2020, location2020p, location2021, location2021p, location2022)
+	definitions.AddAll(person2020p, person2021p)
+
+	// Arrange - create the conversion graph between all these object versions
+	cfg := config.NewObjectModelConfiguration()
+	builder := storage.NewConversionGraphBuilder(cfg, "v")
+	builder.Add(
+		person2020p.Name(),
+		person2021p.Name(),
+		location2020.Name(),
+		location2020p.Name(),
+		location2021.Name(),
+		location2021p.Name(),
+		location2022.Name())
+
+	graph, err := builder.Build()
+	g.Expect(err).To(BeNil())
+
+	s, err := graph.String(test.Group, "Location")
+	g.Expect(err).To(BeNil())
+	t.Log(s)
+
+	// Arrange - create the conversion context, including the conversion graph
+	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, definitions, idFactory).
+		WithConversionGraph(graph)
+
+	// Act - create both AssignTo and AssignFrom between the two versions of Person
+	assignFromBuilder := NewPropertyAssignmentFunctionBuilder(person2020p, person2021p, conversions.ConvertFrom)
+	assignFrom, err := assignFromBuilder.Build(conversionContext)
+	g.Expect(err).To(Succeed())
+
+	assignToBuilder := NewPropertyAssignmentFunctionBuilder(person2020p, person2021p, conversions.ConvertTo)
+	assignTo, err := assignToBuilder.Build(conversionContext)
+	g.Expect(err).To(Succeed())
+
+	receiverDefinition, err := injector.Inject(person2020p, assignFrom, assignTo)
+	g.Expect(err).To(Succeed())
+
+	// Assert - the generated code should correctly convert using all the intermediate versions of Location
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "SharedObjectNotInline", receiverDefinition)
+}
+
 func TestGolden_PropertyAssignmentFunction_WhenOverrideInterfacePresent(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
