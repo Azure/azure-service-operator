@@ -4,6 +4,13 @@ metadata:
   name: sampleapimauthorizationprovider
   namespace: default
 spec:
-  description: Sample authorization provider
+  displayName: "sampleauthcode"
+  identityProvider: "aad"
+  oauth2:
+    grantTypes:
+      authorizationCode:
+        clientId: "000000000"
+        clientSecret: "*"
+        resourceUri: "https://www.contoso.com"
   owner:
     name: sampleapimservice

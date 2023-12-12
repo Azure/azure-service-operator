@@ -111,6 +111,12 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 				APIM_Api_CRUD(tc, &service)
 			},
 		},
+		testcommon.Subtest{
+			Name: "APIM Authorization Provider CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_AuthorizationProvider_CRUD(tc, &service)
+			},
+		},
 	)
 }
 
@@ -328,6 +334,36 @@ func APIM_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	tc.Expect(api.Status).ToNot(BeNil())
 
 	tc.T.Log("cleaning up api")
+}
+
+func APIM_AuthorizationProvider_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+
+	authenticationCode := map[string]string{
+		"ClientId":     "000",
+		"ClientSecret": "*",
+		"ResourceUri":  "https://www.contoso.com",
+	}
+	authorizationProvider := apim.AuthorizationProvider{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
+		Spec: apim.Service_AuthorizationProvider_Spec{
+			DisplayName:      to.Ptr("sampleauthcode"),
+			IdentityProvider: to.Ptr("aad"),
+			Oauth2: &apim.AuthorizationProviderOAuth2Settings{
+				GrantTypes: &apim.AuthorizationProviderOAuth2GrantTypes{
+					AuthorizationCode: authenticationCode,
+				},
+			},
+			Owner: testcommon.AsOwner(service),
+		},
+	}
+
+	tc.T.Log("creating apim authorization provider")
+	tc.CreateResourceAndWait(&authorizationProvider)
+	defer tc.DeleteResourceAndWait(&authorizationProvider)
+
+	tc.Expect(authorizationProvider.Status).ToNot(BeNil())
+
+	tc.T.Log("cleaning up authorizationProvider")
 }
 
 func Subscription_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, subscription *apim.Subscription) {
