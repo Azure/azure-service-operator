@@ -381,7 +381,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage
 │       └── Type: *string
 └── Topic: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
-    ├── Spec: Object (10 properties)
+    ├── Spec: Object (11 properties)
     │   ├── AzureName: string
     │   ├── InboundIpRules: Object (3 properties)[]
     │   │   ├── Action: *string
@@ -415,6 +415,12 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage
     │   │   │       └── SourceField: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── Location: *string
+    │   ├── OperatorSpec: *Object (2 properties)
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Secrets: *Object (3 properties)
+    │   │       ├── Key1: *genruntime.SecretDestination
+    │   │       ├── Key2: *genruntime.SecretDestination
+    │   │       └── PropertyBag: genruntime.PropertyBag
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag

@@ -31,7 +31,7 @@ supportedResourcesReport:
   # resourcePath is a template used for generating a file path for checking whether docs for a resource have been generated
   # specified relative to the directory of outputPath, and supports the same placeholders
   resourcePathTemplate: "{group}/{version}.md"
-  currentRelease: v2.4.0
+  currentRelease: v2.5.0
 
 #
 # These filters are used early in the processing pipeline. 
@@ -44,7 +44,7 @@ supportedResourcesReport:
 typeFilters:
   - action: include
     group: containerservice
-    version: v*20230315preview
+    version: v*20230315preview;v*20230702preview
     because: We want to support Fleet
     
   - action: include
@@ -1296,6 +1296,29 @@ objectModelConfiguration:
       Fleets_UpdateRun:
         $exportAs: FleetsUpdateRun
         $supportedFrom: v2.4.0
+    2023-10-01:
+      ContainerServiceNetworkProfile_NetworkPlugin:
+        $renameTo: NetworkPlugin
+      DelegatedResource:
+        ResourceId:
+          $armReference: true
+      ManagedCluster:
+        $export: true
+        $supportedFrom: v2.5.0
+        $azureGeneratedSecrets:
+          - AdminCredentials
+          - UserCredentials
+        $generatedConfigs:
+          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+      ManagedClusters_AgentPool:
+        $exportAs: ManagedClustersAgentPool
+        $supportedFrom: v2.5.0
+      ManagedClusterServicePrincipalProfile:
+        Secret:
+          $isSecret: true
+      PrivateLinkResource:
+        Id:
+          $armReference: true
   datafactory:
     2018-06-01:
       PurviewConfiguration:
@@ -1563,6 +1586,9 @@ objectModelConfiguration:
       Topic:
         $export: true
         $supportedFrom: v2.0.0-alpha.3
+        $azureGeneratedSecrets:
+          - Key1
+          - Key2
   eventhub:
     2021-11-01:
       Destination_Properties:

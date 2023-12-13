@@ -25,7 +25,9 @@ type Stage struct {
 	// Description of the stage to use when logging
 	description string
 	// Stage implementation
-	action func(context.Context, *State) (*State, error)
+	action stageAction
+	// Optional diagnostic generator
+	diagnostic DiagnosticAction
 	// Tag used for filtering
 	targets []Target
 	// Identifiers for other stages that must be completed before this one
@@ -33,6 +35,10 @@ type Stage struct {
 	// Identifiers for other stages that must be completed after this one
 	postrequisites []string
 }
+
+type stageAction func(context.Context, *State) (*State, error)
+
+type DiagnosticAction func(settings *DebugSettings, index int, state *State) error
 
 // NewStage creates a new pipeline stage that's ready for execution
 func NewStage(
@@ -204,6 +210,15 @@ func (stage *Stage) Run(ctx context.Context, state *State) (*State, error) {
 	return resultState.WithSeenStage(stage.id), nil
 }
 
+// RunDiagnostic triggers our attached diagnostic generator, if any
+func (stage *Stage) RunDiagnostic(settings *DebugSettings, index int, state *State) error {
+	if stage.diagnostic == nil {
+		return nil
+	}
+
+	return stage.diagnostic(settings, index, state)
+}
+
 // checkPreconditions checks to ensure the preconditions of this stage have been satisfied
 func (stage *Stage) checkPreconditions(state *State) error {
 	if err := stage.checkPrerequisites(state); err != nil {
@@ -252,4 +267,10 @@ func (stage *Stage) Postrequisites() []string {
 // If no targets are returned, this stage should always be used
 func (stage *Stage) Targets() []Target {
 	return stage.targets
+}
+
+// AddDiagnostic specifies a diagnostic generator for this stage.
+// The generator will be used if the generator is run with a --debug flag`
+func (stage *Stage) AddDiagnostic(diagnostic DiagnosticAction) {
+	stage.diagnostic = diagnostic
 }

@@ -13,7 +13,6 @@ type Test struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxItems=2
 	// +kubebuilder:validation:MinItems=1
-	// +kubebuilder:validation:UniqueItems=true
 	Apple []float64 `json:"apple,omitempty"`
 
 	// +kubebuilder:validation:Required

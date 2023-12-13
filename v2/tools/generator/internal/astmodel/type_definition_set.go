@@ -488,7 +488,7 @@ func ResolveResourceSpecAndStatus(defs ReadonlyTypeDefinitions, resourceDef Type
 func FindResourceDefinitions(definitions TypeDefinitionSet) TypeDefinitionSet {
 	result := make(TypeDefinitionSet)
 
-	// Find all our resources and extract all their Specs
+	// Find all our resources
 	for _, def := range definitions {
 		_, ok := AsResourceType(def.Type())
 		if !ok {

@@ -149,10 +149,6 @@ func MakeMaxItemsValidation(length int64) KubeBuilderValidation {
 	return KubeBuilderValidation{MaxItemsValidationName, length}
 }
 
-func MakeUniqueItemsValidation() KubeBuilderValidation {
-	return KubeBuilderValidation{UniqueItemsValidationName, true}
-}
-
 func MakeMaximumValidation(value *big.Rat) KubeBuilderValidation {
 	if value.IsInt() {
 		return KubeBuilderValidation{MaximumValidationName, value.RatString()}

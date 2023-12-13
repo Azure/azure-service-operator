@@ -6,6 +6,7 @@ package storage
 import (
 	"encoding/json"
 	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201/storage"
+	v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForManagedClustersAgentPool(subject ManagedCluster
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230201s.ManagedClustersAgentPool
+	var hub v20231001s.ManagedClustersAgentPool
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -429,6 +430,48 @@ func AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS(gens map[st
 	gens["WindowsProfile"] = gen.PtrOf(AgentPoolWindowsProfile_STATUSGenerator())
 }
 
+func Test_AgentPoolNetworkProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AgentPoolNetworkProfile to AgentPoolNetworkProfile via AssignProperties_To_AgentPoolNetworkProfile & AssignProperties_From_AgentPoolNetworkProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAgentPoolNetworkProfile, AgentPoolNetworkProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAgentPoolNetworkProfile tests if a specific instance of AgentPoolNetworkProfile can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAgentPoolNetworkProfile(subject AgentPoolNetworkProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001s.AgentPoolNetworkProfile
+	err := copied.AssignProperties_To_AgentPoolNetworkProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AgentPoolNetworkProfile
+	err = actual.AssignProperties_From_AgentPoolNetworkProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AgentPoolNetworkProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -489,6 +532,48 @@ func AgentPoolNetworkProfileGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForAgentPoolNetworkProfile(gens map[string]gopter.Gen) {
 	gens["AllowedHostPorts"] = gen.SliceOf(PortRangeGenerator())
 	gens["NodePublicIPTags"] = gen.SliceOf(IPTagGenerator())
+}
+
+func Test_AgentPoolNetworkProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AgentPoolNetworkProfile_STATUS to AgentPoolNetworkProfile_STATUS via AssignProperties_To_AgentPoolNetworkProfile_STATUS & AssignProperties_From_AgentPoolNetworkProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAgentPoolNetworkProfile_STATUS, AgentPoolNetworkProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAgentPoolNetworkProfile_STATUS tests if a specific instance of AgentPoolNetworkProfile_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAgentPoolNetworkProfile_STATUS(subject AgentPoolNetworkProfile_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001s.AgentPoolNetworkProfile_STATUS
+	err := copied.AssignProperties_To_AgentPoolNetworkProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AgentPoolNetworkProfile_STATUS
+	err = actual.AssignProperties_From_AgentPoolNetworkProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AgentPoolNetworkProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1459,6 +1544,48 @@ func AddIndependentPropertyGeneratorsForPowerState(gens map[string]gopter.Gen) {
 	gens["Code"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_IPTag_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IPTag to IPTag via AssignProperties_To_IPTag & AssignProperties_From_IPTag returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIPTag, IPTagGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIPTag tests if a specific instance of IPTag can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForIPTag(subject IPTag) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001s.IPTag
+	err := copied.AssignProperties_To_IPTag(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IPTag
+	err = actual.AssignProperties_From_IPTag(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_IPTag_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1518,6 +1645,48 @@ func IPTagGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIPTag(gens map[string]gopter.Gen) {
 	gens["IpTagType"] = gen.PtrOf(gen.AlphaString())
 	gens["Tag"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_IPTag_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IPTag_STATUS to IPTag_STATUS via AssignProperties_To_IPTag_STATUS & AssignProperties_From_IPTag_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIPTag_STATUS, IPTag_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIPTag_STATUS tests if a specific instance of IPTag_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForIPTag_STATUS(subject IPTag_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001s.IPTag_STATUS
+	err := copied.AssignProperties_To_IPTag_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IPTag_STATUS
+	err = actual.AssignProperties_From_IPTag_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_IPTag_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1581,6 +1750,48 @@ func AddIndependentPropertyGeneratorsForIPTag_STATUS(gens map[string]gopter.Gen)
 	gens["Tag"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_PortRange_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PortRange to PortRange via AssignProperties_To_PortRange & AssignProperties_From_PortRange returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPortRange, PortRangeGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPortRange tests if a specific instance of PortRange can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPortRange(subject PortRange) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001s.PortRange
+	err := copied.AssignProperties_To_PortRange(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PortRange
+	err = actual.AssignProperties_From_PortRange(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_PortRange_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1641,6 +1852,48 @@ func AddIndependentPropertyGeneratorsForPortRange(gens map[string]gopter.Gen) {
 	gens["PortEnd"] = gen.PtrOf(gen.Int())
 	gens["PortStart"] = gen.PtrOf(gen.Int())
 	gens["Protocol"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_PortRange_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PortRange_STATUS to PortRange_STATUS via AssignProperties_To_PortRange_STATUS & AssignProperties_From_PortRange_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPortRange_STATUS, PortRange_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPortRange_STATUS tests if a specific instance of PortRange_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPortRange_STATUS(subject PortRange_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20231001s.PortRange_STATUS
+	err := copied.AssignProperties_To_PortRange_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PortRange_STATUS
+	err = actual.AssignProperties_From_PortRange_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_PortRange_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

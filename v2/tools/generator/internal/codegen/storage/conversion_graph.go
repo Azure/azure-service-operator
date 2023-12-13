@@ -6,7 +6,10 @@
 package storage
 
 import (
+	"bytes"
 	"github.com/pkg/errors"
+	"io"
+	"os"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -165,4 +168,40 @@ func (graph *ConversionGraph) FindNextProperty(
 	//TODO: property renaming support goes here (when implemented)
 
 	return astmodel.MakePropertyReference(nextType, ref.Property()), nil
+}
+
+func (graph *ConversionGraph) String(group string, kind string) (string, error) {
+	var content bytes.Buffer
+	err := graph.WriteTo(group, kind, &content)
+	if err != nil {
+		return "", errors.Wrapf(err, "writing conversion graph")
+	}
+
+	return content.String(), nil
+}
+
+func (graph *ConversionGraph) SaveTo(group string, kind string, filename string) error {
+	file, err := os.Create(filename)
+	if err != nil {
+		return errors.Wrapf(err, "creating %s", filename)
+	}
+
+	defer file.Close()
+
+	err = graph.WriteTo(group, kind, file)
+	if err != nil {
+		return errors.Wrapf(err, "writing conversion graph to %s", filename)
+	}
+
+	return nil
+}
+
+// WriteTo gives a debug dump of the conversion graph for a particular type name
+func (graph *ConversionGraph) WriteTo(group string, kind string, writer io.Writer) error {
+	subgraph, ok := graph.subGraphs[group]
+	if !ok {
+		return nil
+	}
+
+	return subgraph.WriteTo(kind, writer)
 }
