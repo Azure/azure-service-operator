@@ -39,6 +39,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/crdmanagement"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
@@ -333,7 +334,8 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 		kubeClient,
 		cfg.Cloud(),
 		nil,
-		armMetrics)
+		armMetrics,
+		genericarmclient.DefaultUserAgent+cfg.UserAgentSuffix)
 
 	var connectionFactory armreconciler.ARMConnectionFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (armreconciler.Connection, error) {
 		return armClientCache.GetConnection(ctx, obj)
