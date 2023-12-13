@@ -275,9 +275,29 @@ WorkspaceProperties:
 
 The best way to do this is to start from an [existing test](https://github.com/Azure/azure-service-operator/blob/main/v2/internal/controllers/crd_cosmosdb_mongodb_test.go) and modify it to work for your resource. It can also be helpful to refer to examples in the [ARM templates GitHub repo](https://github.com/Azure/azure-quickstart-templates).
 
-## Run the CRUD test for the resource and commit the recording
+Every new resource should have a handwritten test as there is always the possibility that the way a particular resource provider behaves will change with a new version. 
 
-See [the code generator README](../#running-integration-tests) for how to run recording tests.
+Given that we don't want to have to maintain tests for every version of every resource, and each additional test makes our CI test suite take lo
+nger, consider removing tests for older versions of resources when we add tests for newer versions. This is a judgment call, and we recommend di
+scussion with the team first.
+
+As an absolute minimum, we want to have tests for
+
+* the latest `stable` version of the resource;
+* the prior `stable` version of the resource; and
+* the latest `preview` version of the resource.
+
+These tests live in the [`v2/internal/controllers`](https://github.com/Azure/azure-service-operator/tree/main/v2/internal/controllers) folder and should follow the following naming convention:
+
+``` 
+<group>_<subject>_<scenario>_<version>_test.go
+```
+
+More information on the naming convention can be found in that folders [README](https://github.com/Azure/azure-service-operator/blob/main/v2/internal/controllers/README.md).
+
+### Record the test passing
+
+See [the code generator README](../#running-integration-tests) for how to run tests and record their HTTP interactions to allow replay.
 
 ## Add a new sample
 
