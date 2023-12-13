@@ -41,12 +41,13 @@ ADR documents should be updated over time to keep them relevant, typically by up
 
 [**Installing Only Selected CRDs**]({{< relref "ADR-2023-05-Installing-Only-Selected-CRDs" >}}) - Understand the need for selective CRD installation in Azure Service Operator to mitigate kube-apiserver memory usage, and the requirements for a seamless upgrade experience and default configuration that fits into minimal memory environments.
 
-[**PackageReferences**]({{< relref "ADR-2023-07-PackageReferences" >}}) - Consider the proposal for introducing a SubPackageReference in the Azure Service Operator code structure, discussing the implications for code that consumes PackageReference and the potential impact on namespace pollution and code organization.
+[**Package References**]({{< relref "ADR-2023-07-PackageReferences" >}}) - Consider the proposal for introducing a SubPackageReference in the Azure Service Operator code generator, discussing the implications for code that consumes PackageReference and the potential impact on namespace pollution and code organization.
 
 [**Patch Collections**]({{< relref "ADR-2023-04-Patch-Collections" >}}) - Address the issue of resource drift in Azure Service Operator due to Azure Resource Providers' PATCH-like behavior on PUT, and discuss potential solutions such as optional properties and explicit nulls to ensure the custom resource represents the complete desired state.
 
 [**Post-Reconciliation Extensions**]({{< relref "ADR-2023-03-Post-Reconciliation-Extension" >}}) - Understand the introduction of the PostReconciliationChecker extension in Azure Service Operator to handle post-reconciliation operations, allowing for custom conditions to be set on resources based on the status received from Azure Resource Manager.
 
+[**Skipping Properties**]({{< relref "ADR-2023-09-Skipping-Properties" >}}) - A design to address the problems that occur when a property skips multiple resource versions and has a different shape when it returns.
 
 ## 2022
 
