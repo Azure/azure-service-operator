@@ -48,7 +48,7 @@ Example: 00000000-0000-0000-0000-000000000000
 Required: True
 This may be set to empty string to configure no global credential.">
 
-<meta itemprop="wordCount" content="525">
+<meta itemprop="wordCount" content="543">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Configuring ASO"/>
 <meta name="twitter:description" content="Configuration of ASO is done primarily through a secret in the azureserviceoperator-system namespace called aso-controller-settings. This secret contains both details about the (optional) global credential as well as other operator pod options.
@@ -650,6 +650,7 @@ This may be set to empty string to configure no global credential."/>
         <li><a href="#azure_authority_host">AZURE_AUTHORITY_HOST</a></li>
         <li><a href="#azure_resource_manager_endpoint">AZURE_RESOURCE_MANAGER_ENDPOINT</a></li>
         <li><a href="#azure_resource_manager_audience">AZURE_RESOURCE_MANAGER_AUDIENCE</a></li>
+        <li><a href="#azure_user_agent_suffix">AZURE_USER_AGENT_SUFFIX</a></li>
       </ul>
     </li>
   </ul>
@@ -789,6 +790,11 @@ See <a href="https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-a
 Note that the resource manager audience is referred to as &ldquo;activeDirectoryResourceId&rdquo; in the Azure CLI.</p>
 <p><strong>Format:</strong> <code>string</code></p>
 <p><strong>Example:</strong> <code>&quot;https://management.core.chinacloudapi.cn/&quot;</code></p>
+<p><strong>Required</strong>: False</p>
+<h3 id="azure_user_agent_suffix">AZURE_USER_AGENT_SUFFIX</h3>
+<p>AZURE_USER_AGENT_SUFFIX is appended to the default User-Agent for Azure HTTP clients.</p>
+<p><strong>Format:</strong> <code>string</code></p>
+<p><strong>Example:</strong> <code>&quot;my-user-agent&quot;</code></p>
 <p><strong>Required</strong>: False</p>
 
 	
