@@ -5,4 +5,10 @@ metadata:
   namespace: default
 spec:
   owner:
-    name: sampleapimservice
+    name: sampleapimauthorization
+  objectIdFromConfig:
+    name: identity-settings
+    key: principalId
+  tenantIdFromConfig:
+    name: identity-settings
+    key: tenantId

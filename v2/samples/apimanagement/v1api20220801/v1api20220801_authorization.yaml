@@ -4,5 +4,12 @@ metadata:
   name: sampleapimauthorization
   namespace: default
 spec:
+  AuthorizationType: "OAuth2"
+  Error:
+    Code: "samplecode"
+    Message: "samplemessage"
+  Oauth2GrantType: "AuthorizationCode"
+  Status: "samplestatus"
+  Parameters: {}
   owner:
-    name: sampleapimservice
+    name: sampleapimauthorizationprovider
