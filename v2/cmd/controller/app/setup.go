@@ -334,8 +334,9 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 		kubeClient,
 		cfg.Cloud(),
 		nil,
-		armMetrics,
-		genericarmclient.DefaultUserAgent+cfg.UserAgentSuffix)
+		armMetrics)
+
+	genericarmclient.AddToUserAgent(cfg.UserAgentSuffix)
 
 	var connectionFactory armreconciler.ARMConnectionFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (armreconciler.Connection, error) {
 		return armClientCache.GetConnection(ctx, obj)

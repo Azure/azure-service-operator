@@ -150,6 +150,6 @@ AZURE_USER_AGENT_SUFFIX is appended to the default User-Agent for Azure HTTP cli
 
 **Format:** `string`
 
-**Example:** `" my-user-agent"`
+**Example:** `"my-user-agent"`
 
 **Required**: False

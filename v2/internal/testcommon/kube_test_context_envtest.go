@@ -14,6 +14,8 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
+	"sigs.k8s.io/controller-runtime/pkg/webhook"
 	"strings"
 	"sync"
 	"time"
@@ -32,9 +34,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 	ctrllog "sigs.k8s.io/controller-runtime/pkg/log"
-	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
@@ -494,8 +494,7 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 				envtest.KubeClient,
 				cfg.Cloud(),
 				perTestContext.HttpClient,
-				metrics.NewARMClientMetrics(),
-				"")
+				metrics.NewARMClientMetrics())
 
 			resources := &perNamespace{
 				armClientCache:     armClientCache,

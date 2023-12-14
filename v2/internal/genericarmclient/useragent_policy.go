@@ -18,8 +18,7 @@ type userAgentPolicy struct {
 	userAgent string
 }
 
-// DefaultUserAgent is the default User-Agent set on all HTTP requests.
-var DefaultUserAgent = "aso-controller/" + version.BuildVersion
+var userAgent = "aso-controller/" + version.BuildVersion
 
 // NewUserAgentPolicy creates a new policy.Policy appending the specified user agent to each request
 func NewUserAgentPolicy(userAgent string) policy.Policy {
@@ -40,4 +39,9 @@ func (p userAgentPolicy) Do(req *policy.Request) (*http.Response, error) {
 	}
 	req.Raw().Header.Set("user-Agent", newUserAgent)
 	return req.Next()
+}
+
+// AddToUserAgent appends the given suffix to the default user agent.
+func AddToUserAgent(suffix string) {
+	userAgent += " " + suffix
 }

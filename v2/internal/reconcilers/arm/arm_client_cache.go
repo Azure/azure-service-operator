@@ -29,7 +29,6 @@ type ARMClientCache struct {
 	kubeClient         kubeclient.Client
 	httpClient         *http.Client
 	armMetrics         *metrics.ARMClientMetrics
-	userAgent          string
 }
 
 func NewARMClientCache(
@@ -37,8 +36,7 @@ func NewARMClientCache(
 	kubeClient kubeclient.Client,
 	configuration cloud.Configuration,
 	httpClient *http.Client,
-	armMetrics *metrics.ARMClientMetrics,
-	userAgent string) *ARMClientCache {
+	armMetrics *metrics.ARMClientMetrics) *ARMClientCache {
 
 	return &ARMClientCache{
 		lock:               sync.Mutex{},
@@ -48,7 +46,6 @@ func NewARMClientCache(
 		credentialProvider: credentialProvider,
 		httpClient:         httpClient,
 		armMetrics:         armMetrics,
-		userAgent:          userAgent,
 	}
 }
 
@@ -89,7 +86,6 @@ func (c *ARMClientCache) getARMClientFromCredential(cred *identity.Credential) (
 	options := &genericarmclient.GenericClientOptions{
 		HttpClient: c.httpClient,
 		Metrics:    c.armMetrics,
-		UserAgent:  c.userAgent,
 	}
 	newClient, err := genericarmclient.NewGenericClient(c.cloudConfig, cred.TokenCredential(), options)
 	if err != nil {

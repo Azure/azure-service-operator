@@ -66,7 +66,7 @@ func NewGenericClient(
 
 	ua := options.UserAgent
 	if ua == "" {
-		ua = DefaultUserAgent
+		ua = userAgent
 	}
 
 	opts := &arm.ClientOptions{
