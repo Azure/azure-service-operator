@@ -1,0 +1,12 @@
+apiVersion: apimanagement.azure.com/v1api20220801
+kind: User
+metadata:
+  name: sampleuser
+  namespace: default
+spec:
+  firstName: developer1
+  email: test@tester.com
+  displayName: account-user
+  description: Description about the API
+  owner:
+    name: sampleapimservice
