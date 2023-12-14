@@ -897,10 +897,10 @@ objectModelConfiguration:
         $supportedFrom: v2.4.0
       Service_Products_Api:
         $exportAs: ProductApi
-        $supportedFrom: v2.5.0
+        $supportedFrom: v2.6.0
       Service_Products_Policy:
         $exportAs: ProductPolicy
-        $supportedFrom: v2.5.0
+        $supportedFrom: v2.6.0
       Service_Subscription:
         $exportAs: Subscription
         $supportedFrom: v2.4.0

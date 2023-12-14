@@ -62,7 +62,7 @@ var exclusions = []string{
 	"api",
 	"apiversionset",
 	"product",
-	"sbscription",
+	"subscription",
 	"productpolicy",
 	"productapi",
 }
