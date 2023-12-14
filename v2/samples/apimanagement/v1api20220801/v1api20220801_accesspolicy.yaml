@@ -1,0 +1,8 @@
+apiVersion: apimanagement.azure.com/v1api20220801
+kind: AccessPolicy
+metadata:
+  name: sampleapimauthorizationaccesspolicy
+  namespace: default
+spec:
+  owner:
+    name: sampleapimservice

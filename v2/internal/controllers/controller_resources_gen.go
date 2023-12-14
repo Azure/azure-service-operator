@@ -184,8 +184,28 @@ import (
 // getKnownStorageTypes returns the list of storage types which can be reconciled.
 func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.AccessPolicy),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.objectIdFromConfig",
+				Func: indexApimanagementAccessPolicyObjectIdFromConfig,
+			},
+			{
+				Key:  ".spec.tenantIdFromConfig",
+				Func: indexApimanagementAccessPolicyTenantIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.objectIdFromConfig", ".spec.tenantIdFromConfig"}, &apimanagement_v20220801s.AccessPolicyList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Api)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.ApiVersionSet)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Authorization)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.AuthorizationProvider)})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20220801s.Backend),
@@ -984,8 +1004,10 @@ func getKnownTypes() []client.Object {
 	var result []client.Object
 	result = append(
 		result,
+		new(apimanagement_v20220801.AccessPolicy),
 		new(apimanagement_v20220801.Api),
 		new(apimanagement_v20220801.ApiVersionSet),
+		new(apimanagement_v20220801.Authorization),
 		new(apimanagement_v20220801.AuthorizationProvider),
 		new(apimanagement_v20220801.Backend),
 		new(apimanagement_v20220801.NamedValue),
@@ -996,8 +1018,10 @@ func getKnownTypes() []client.Object {
 		new(apimanagement_v20220801.Subscription))
 	result = append(
 		result,
+		new(apimanagement_v20220801s.AccessPolicy),
 		new(apimanagement_v20220801s.Api),
 		new(apimanagement_v20220801s.ApiVersionSet),
+		new(apimanagement_v20220801s.Authorization),
 		new(apimanagement_v20220801s.AuthorizationProvider),
 		new(apimanagement_v20220801s.Backend),
 		new(apimanagement_v20220801s.NamedValue),
@@ -1681,8 +1705,10 @@ func createScheme() *runtime.Scheme {
 // getResourceExtensions returns a list of resource extensions
 func getResourceExtensions() []genruntime.ResourceExtension {
 	var result []genruntime.ResourceExtension
+	result = append(result, &apimanagement_customizations.AccessPolicyExtension{})
 	result = append(result, &apimanagement_customizations.ApiExtension{})
 	result = append(result, &apimanagement_customizations.ApiVersionSetExtension{})
+	result = append(result, &apimanagement_customizations.AuthorizationExtension{})
 	result = append(result, &apimanagement_customizations.AuthorizationProviderExtension{})
 	result = append(result, &apimanagement_customizations.BackendExtension{})
 	result = append(result, &apimanagement_customizations.NamedValueExtension{})
@@ -1862,6 +1888,30 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &web_customizations.ServerFarmExtension{})
 	result = append(result, &web_customizations.SiteExtension{})
 	return result
+}
+
+// indexApimanagementAccessPolicyObjectIdFromConfig an index function for apimanagement_v20220801s.AccessPolicy .spec.objectIdFromConfig
+func indexApimanagementAccessPolicyObjectIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.AccessPolicy)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ObjectIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.ObjectIdFromConfig.Index()
+}
+
+// indexApimanagementAccessPolicyTenantIdFromConfig an index function for apimanagement_v20220801s.AccessPolicy .spec.tenantIdFromConfig
+func indexApimanagementAccessPolicyTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.AccessPolicy)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.TenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.TenantIdFromConfig.Index()
 }
 
 // indexApimanagementBackendPassword an index function for apimanagement_v20220801s.Backend .spec.proxy.password

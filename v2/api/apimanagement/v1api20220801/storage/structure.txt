@@ -2,6 +2,25 @@
 github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage
 ├── APIVersion: Enum (1 value)
 │   └── "2022-08-01"
+├── AccessPolicy: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Authorization
+│   ├── Spec: Object (8 properties)
+│   │   ├── AzureName: string
+│   │   ├── ObjectId: *string
+│   │   ├── ObjectIdFromConfig: *genruntime.ConfigMapReference
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── TenantId: *string
+│   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── ObjectId: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── TenantId: *string
+│       └── Type: *string
 ├── Api: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
 │   ├── Spec: Object (29 properties)
@@ -155,6 +174,35 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │       ├── VersionHeaderName: *string
 │       ├── VersionQueryName: *string
 │       └── VersioningScheme: *string
+├── Authorization: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.AuthorizationProvider
+│   ├── Spec: Object (9 properties)
+│   │   ├── AuthorizationType: *string
+│   │   ├── AzureName: string
+│   │   ├── Error: *Object (3 properties)
+│   │   │   ├── Code: *string
+│   │   │   ├── Message: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Oauth2GrantType: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Parameters: map[string]string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Status: *string
+│   └── Status: Object (10 properties)
+│       ├── AuthorizationType: *string
+│       ├── Conditions: conditions.Condition[]
+│       ├── Error: *Object (3 properties)
+│       │   ├── Code: *string
+│       │   ├── Message: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── Oauth2GrantType: *string
+│       ├── Parameters: map[string]string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Status: *string
+│       └── Type: *string
 ├── AuthorizationProvider: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
 │   ├── Spec: Object (7 properties)
