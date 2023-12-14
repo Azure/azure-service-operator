@@ -43,5 +43,7 @@ func (p userAgentPolicy) Do(req *policy.Request) (*http.Response, error) {
 
 // AddToUserAgent appends the given suffix to the default user agent.
 func AddToUserAgent(suffix string) {
-	userAgent += " " + suffix
+	if suffix != "" {
+		userAgent += " " + suffix
+	}
 }
