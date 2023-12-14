@@ -291,6 +291,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.User),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.password",
+				Func: indexApimanagementUserPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.password"}, &apimanagement_v20220801s.UserList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20220501s.ConfigurationStore)})
 	result = append(result, &registration.StorageType{
 		Obj: new(authorization_v20220401s.RoleAssignment),
@@ -995,7 +1010,8 @@ func getKnownTypes() []client.Object {
 		new(apimanagement_v20220801.ProductApi),
 		new(apimanagement_v20220801.ProductPolicy),
 		new(apimanagement_v20220801.Service),
-		new(apimanagement_v20220801.Subscription))
+		new(apimanagement_v20220801.Subscription),
+		new(apimanagement_v20220801.User))
 	result = append(
 		result,
 		new(apimanagement_v20220801s.Api),
@@ -1008,7 +1024,8 @@ func getKnownTypes() []client.Object {
 		new(apimanagement_v20220801s.ProductApi),
 		new(apimanagement_v20220801s.ProductPolicy),
 		new(apimanagement_v20220801s.Service),
-		new(apimanagement_v20220801s.Subscription))
+		new(apimanagement_v20220801s.Subscription),
+		new(apimanagement_v20220801s.User))
 	result = append(result, new(appconfiguration_v20220501.ConfigurationStore))
 	result = append(result, new(appconfiguration_v20220501s.ConfigurationStore))
 	result = append(result, new(authorization_v20200801p.RoleAssignment))
@@ -1695,6 +1712,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &apimanagement_customizations.ProductPolicyExtension{})
 	result = append(result, &apimanagement_customizations.ServiceExtension{})
 	result = append(result, &apimanagement_customizations.SubscriptionExtension{})
+	result = append(result, &apimanagement_customizations.UserExtension{})
 	result = append(result, &appconfiguration_customizations.ConfigurationStoreExtension{})
 	result = append(result, &authorization_customizations.RoleAssignmentExtension{})
 	result = append(result, &batch_customizations.BatchAccountExtension{})
@@ -2082,6 +2100,18 @@ func indexApimanagementSubscriptionSecondaryKey(rawObj client.Object) []string {
 		return nil
 	}
 	return obj.Spec.SecondaryKey.Index()
+}
+
+// indexApimanagementUserPassword an index function for apimanagement_v20220801s.User .spec.password
+func indexApimanagementUserPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.User)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Password == nil {
+		return nil
+	}
+	return obj.Spec.Password.Index()
 }
 
 // indexAuthorizationRoleAssignmentPrincipalIdFromConfig an index function for authorization_v20220401s.RoleAssignment .spec.principalIdFromConfig

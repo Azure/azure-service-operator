@@ -10,4 +10,5 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/customizations
 ├── ProductExtension: Object (0 properties)
 ├── ProductPolicyExtension: Object (0 properties)
 ├── ServiceExtension: Object (0 properties)
-└── SubscriptionExtension: Object (0 properties)
+├── SubscriptionExtension: Object (0 properties)
+└── UserExtension: Object (0 properties)

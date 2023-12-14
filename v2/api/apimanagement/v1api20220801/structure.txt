@@ -1388,51 +1388,159 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │           ├── "rejected"
 │           ├── "submitted"
 │           └── "suspended"
-└── Subscription: Resource
+├── Service_User_STATUS_ARM: Object (4 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (8 properties)
+│   │   ├── Email: *string
+│   │   ├── FirstName: *string
+│   │   ├── Groups: Object (5 properties)[]
+│   │   │   ├── BuiltIn: *bool
+│   │   │   ├── Description: *string
+│   │   │   ├── DisplayName: *string
+│   │   │   ├── ExternalId: *string
+│   │   │   └── Type: *Enum (3 values)
+│   │   │       ├── "custom"
+│   │   │       ├── "external"
+│   │   │       └── "system"
+│   │   ├── Identities: Object (2 properties)[]
+│   │   │   ├── Id: *string
+│   │   │   └── Provider: *string
+│   │   ├── LastName: *string
+│   │   ├── Note: *string
+│   │   ├── RegistrationDate: *string
+│   │   └── State: *Enum (4 values)
+│   │       ├── "active"
+│   │       ├── "blocked"
+│   │       ├── "deleted"
+│   │       └── "pending"
+│   └── Type: *string
+├── Service_User_Spec_ARM: Object (2 properties)
+│   ├── Name: string
+│   └── Properties: *Object (9 properties)
+│       ├── AppType: *Enum (2 values)
+│       │   ├── "developerPortal"
+│       │   └── "portal"
+│       ├── Confirmation: *Enum (2 values)
+│       │   ├── "invite"
+│       │   └── "signup"
+│       ├── Email: *string
+│       ├── FirstName: *string
+│       ├── Identities: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── Provider: *string
+│       ├── LastName: *string
+│       ├── Note: *string
+│       ├── Password: *string
+│       └── State: *Enum (4 values)
+│           ├── "active"
+│           ├── "blocked"
+│           ├── "deleted"
+│           └── "pending"
+├── Subscription: Resource
+│   ├── Owner: Service
+│   ├── Spec: Object (10 properties)
+│   │   ├── AllowTracing: *bool
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: MaxLength: 256
+│   │   │   └── Rule 1: Pattern: "^[^*#&+:<>?]+$"
+│   │   ├── DisplayName: Validated<*string> (2 rules)
+│   │   │   ├── Rule 0: MaxLength: 100
+│   │   │   └── Rule 1: MinLength: 1
+│   │   ├── OperatorSpec: *Object (1 property)
+│   │   │   └── Secrets: *Object (2 properties)
+│   │   │       ├── PrimaryKey: *genruntime.SecretDestination
+│   │   │       └── SecondaryKey: *genruntime.SecretDestination
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── OwnerReference: *genruntime.ResourceReference
+│   │   ├── PrimaryKey: *genruntime.SecretReference
+│   │   ├── Scope: *string
+│   │   ├── SecondaryKey: *genruntime.SecretReference
+│   │   └── State: *Enum (6 values)
+│   │       ├── "active"
+│   │       ├── "cancelled"
+│   │       ├── "expired"
+│   │       ├── "rejected"
+│   │       ├── "submitted"
+│   │       └── "suspended"
+│   └── Status: Object (15 properties)
+│       ├── AllowTracing: *bool
+│       ├── Conditions: conditions.Condition[]
+│       ├── CreatedDate: *string
+│       ├── DisplayName: *string
+│       ├── EndDate: *string
+│       ├── ExpirationDate: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── NotificationDate: *string
+│       ├── OwnerId: *string
+│       ├── Scope: *string
+│       ├── StartDate: *string
+│       ├── State: *Enum (6 values)
+│       │   ├── "active"
+│       │   ├── "cancelled"
+│       │   ├── "expired"
+│       │   ├── "rejected"
+│       │   ├── "submitted"
+│       │   └── "suspended"
+│       ├── StateComment: *string
+│       └── Type: *string
+└── User: Resource
     ├── Owner: Service
-    ├── Spec: Object (10 properties)
-    │   ├── AllowTracing: *bool
+    ├── Spec: Object (11 properties)
+    │   ├── AppType: *Enum (2 values)
+    │   │   ├── "developerPortal"
+    │   │   └── "portal"
     │   ├── AzureName: Validated<string> (2 rules)
-    │   │   ├── Rule 0: MaxLength: 256
-    │   │   └── Rule 1: Pattern: "^[^*#&+:<>?]+$"
-    │   ├── DisplayName: Validated<*string> (2 rules)
+    │   │   ├── Rule 0: MaxLength: 80
+    │   │   └── Rule 1: MinLength: 1
+    │   ├── Confirmation: *Enum (2 values)
+    │   │   ├── "invite"
+    │   │   └── "signup"
+    │   ├── Email: Validated<*string> (2 rules)
+    │   │   ├── Rule 0: MaxLength: 254
+    │   │   └── Rule 1: MinLength: 1
+    │   ├── FirstName: Validated<*string> (2 rules)
     │   │   ├── Rule 0: MaxLength: 100
     │   │   └── Rule 1: MinLength: 1
-    │   ├── OperatorSpec: *Object (1 property)
-    │   │   └── Secrets: *Object (2 properties)
-    │   │       ├── PrimaryKey: *genruntime.SecretDestination
-    │   │       └── SecondaryKey: *genruntime.SecretDestination
+    │   ├── Identities: Object (2 properties)[]
+    │   │   ├── Provider: *string
+    │   │   └── Reference: *genruntime.ResourceReference
+    │   ├── LastName: Validated<*string> (2 rules)
+    │   │   ├── Rule 0: MaxLength: 100
+    │   │   └── Rule 1: MinLength: 1
+    │   ├── Note: *string
     │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── OwnerReference: *genruntime.ResourceReference
-    │   ├── PrimaryKey: *genruntime.SecretReference
-    │   ├── Scope: *string
-    │   ├── SecondaryKey: *genruntime.SecretReference
-    │   └── State: *Enum (6 values)
+    │   ├── Password: *genruntime.SecretReference
+    │   └── State: *Enum (4 values)
     │       ├── "active"
-    │       ├── "cancelled"
-    │       ├── "expired"
-    │       ├── "rejected"
-    │       ├── "submitted"
-    │       └── "suspended"
-    └── Status: Object (15 properties)
-        ├── AllowTracing: *bool
+    │       ├── "blocked"
+    │       ├── "deleted"
+    │       └── "pending"
+    └── Status: Object (12 properties)
         ├── Conditions: conditions.Condition[]
-        ├── CreatedDate: *string
-        ├── DisplayName: *string
-        ├── EndDate: *string
-        ├── ExpirationDate: *string
+        ├── Email: *string
+        ├── FirstName: *string
+        ├── Groups: Object (5 properties)[]
+        │   ├── BuiltIn: *bool
+        │   ├── Description: *string
+        │   ├── DisplayName: *string
+        │   ├── ExternalId: *string
+        │   └── Type: *Enum (3 values)
+        │       ├── "custom"
+        │       ├── "external"
+        │       └── "system"
         ├── Id: *string
+        ├── Identities: Object (2 properties)[]
+        │   ├── Id: *string
+        │   └── Provider: *string
+        ├── LastName: *string
         ├── Name: *string
-        ├── NotificationDate: *string
-        ├── OwnerId: *string
-        ├── Scope: *string
-        ├── StartDate: *string
-        ├── State: *Enum (6 values)
+        ├── Note: *string
+        ├── RegistrationDate: *string
+        ├── State: *Enum (4 values)
         │   ├── "active"
-        │   ├── "cancelled"
-        │   ├── "expired"
-        │   ├── "rejected"
-        │   ├── "submitted"
-        │   └── "suspended"
-        ├── StateComment: *string
+        │   ├── "blocked"
+        │   ├── "deleted"
+        │   └── "pending"
         └── Type: *string

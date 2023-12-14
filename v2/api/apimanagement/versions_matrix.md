@@ -77,6 +77,8 @@
 | CertificateConfiguration_StoreName_STATUS                    | v1api20220801 |
 | CertificateInformation                                       | v1api20220801 |
 | CertificateInformation_STATUS                                | v1api20220801 |
+| GroupContractProperties_STATUS                               | v1api20220801 |
+| GroupContractProperties_Type_STATUS                          | v1api20220801 |
 | HostnameConfiguration                                        | v1api20220801 |
 | HostnameConfiguration_CertificateSource                      | v1api20220801 |
 | HostnameConfiguration_CertificateSource_STATUS               | v1api20220801 |
@@ -141,6 +143,8 @@
 | Service_Spec                                                 | v1api20220801 |
 | Service_Subscription_STATUS                                  | v1api20220801 |
 | Service_Subscription_Spec                                    | v1api20220801 |
+| Service_User_STATUS                                          | v1api20220801 |
+| Service_User_Spec                                            | v1api20220801 |
 | Subscription                                                 | v1api20220801 |
 | SubscriptionContractProperties_STATUS                        | v1api20220801 |
 | SubscriptionContractProperties_State_STATUS                  | v1api20220801 |
@@ -151,7 +155,16 @@
 | SystemData_CreatedByType_STATUS                              | v1api20220801 |
 | SystemData_LastModifiedByType_STATUS                         | v1api20220801 |
 | SystemData_STATUS                                            | v1api20220801 |
+| User                                                         | v1api20220801 |
 | UserAssignedIdentityDetails                                  | v1api20220801 |
+| UserContractProperties_STATUS                                | v1api20220801 |
+| UserContractProperties_State_STATUS                          | v1api20220801 |
+| UserCreateParameterProperties                                | v1api20220801 |
+| UserCreateParameterProperties_AppType                        | v1api20220801 |
+| UserCreateParameterProperties_Confirmation                   | v1api20220801 |
+| UserCreateParameterProperties_State                          | v1api20220801 |
+| UserIdentityContract                                         | v1api20220801 |
+| UserIdentityContract_STATUS                                  | v1api20220801 |
 | UserIdentityProperties_STATUS                                | v1api20220801 |
 | VirtualNetworkConfiguration                                  | v1api20220801 |
 | VirtualNetworkConfiguration_STATUS                           | v1api20220801 |
