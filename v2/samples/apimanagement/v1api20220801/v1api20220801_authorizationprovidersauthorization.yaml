@@ -1,5 +1,5 @@
 apiVersion: apimanagement.azure.com/v1api20220801
-kind: Authorization
+kind: AuthorizationProvidersAuthorization
 metadata:
   name: sampleapimauthorization
   namespace: default

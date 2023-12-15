@@ -1,5 +1,5 @@
 apiVersion: apimanagement.azure.com/v1api20220801
-kind: AccessPolicy
+kind: AuthorizationProvidersAuthorizationsAccessPolicy
 metadata:
   name: sampleapimauthorizationaccesspolicy
   namespace: default
