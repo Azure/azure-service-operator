@@ -26,53 +26,53 @@ import (
 // Generator information:
 // - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/apimauthorizationproviders.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}
-type Authorization struct {
+type AuthorizationProvidersAuthorization struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Service_AuthorizationProviders_Authorization_Spec   `json:"spec,omitempty"`
 	Status            Service_AuthorizationProviders_Authorization_STATUS `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &Authorization{}
+var _ conditions.Conditioner = &AuthorizationProvidersAuthorization{}
 
 // GetConditions returns the conditions of the resource
-func (authorization *Authorization) GetConditions() conditions.Conditions {
+func (authorization *AuthorizationProvidersAuthorization) GetConditions() conditions.Conditions {
 	return authorization.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (authorization *Authorization) SetConditions(conditions conditions.Conditions) {
+func (authorization *AuthorizationProvidersAuthorization) SetConditions(conditions conditions.Conditions) {
 	authorization.Status.Conditions = conditions
 }
 
-var _ conversion.Convertible = &Authorization{}
+var _ conversion.Convertible = &AuthorizationProvidersAuthorization{}
 
-// ConvertFrom populates our Authorization from the provided hub Authorization
-func (authorization *Authorization) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220801s.Authorization)
+// ConvertFrom populates our AuthorizationProvidersAuthorization from the provided hub AuthorizationProvidersAuthorization
+func (authorization *AuthorizationProvidersAuthorization) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v20220801s.AuthorizationProvidersAuthorization)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Authorization but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801/storage/AuthorizationProvidersAuthorization but received %T instead", hub)
 	}
 
-	return authorization.AssignProperties_From_Authorization(source)
+	return authorization.AssignProperties_From_AuthorizationProvidersAuthorization(source)
 }
 
-// ConvertTo populates the provided hub Authorization from our Authorization
-func (authorization *Authorization) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220801s.Authorization)
+// ConvertTo populates the provided hub AuthorizationProvidersAuthorization from our AuthorizationProvidersAuthorization
+func (authorization *AuthorizationProvidersAuthorization) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v20220801s.AuthorizationProvidersAuthorization)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/Authorization but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801/storage/AuthorizationProvidersAuthorization but received %T instead", hub)
 	}
 
-	return authorization.AssignProperties_To_Authorization(destination)
+	return authorization.AssignProperties_To_AuthorizationProvidersAuthorization(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-apimanagement-azure-com-v1api20220801-authorization,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=authorizations,verbs=create;update,versions=v1api20220801,name=default.v1api20220801.authorizations.apimanagement.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-apimanagement-azure-com-v1api20220801-authorizationprovidersauthorization,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=authorizationprovidersauthorizations,verbs=create;update,versions=v1api20220801,name=default.v1api20220801.authorizationprovidersauthorizations.apimanagement.azure.com,admissionReviewVersions=v1
 
-var _ admission.Defaulter = &Authorization{}
+var _ admission.Defaulter = &AuthorizationProvidersAuthorization{}
 
-// Default applies defaults to the Authorization resource
-func (authorization *Authorization) Default() {
+// Default applies defaults to the AuthorizationProvidersAuthorization resource
+func (authorization *AuthorizationProvidersAuthorization) Default() {
 	authorization.defaultImpl()
 	var temp any = authorization
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
@@ -81,19 +81,21 @@ func (authorization *Authorization) Default() {
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (authorization *Authorization) defaultAzureName() {
+func (authorization *AuthorizationProvidersAuthorization) defaultAzureName() {
 	if authorization.Spec.AzureName == "" {
 		authorization.Spec.AzureName = authorization.Name
 	}
 }
 
-// defaultImpl applies the code generated defaults to the Authorization resource
-func (authorization *Authorization) defaultImpl() { authorization.defaultAzureName() }
+// defaultImpl applies the code generated defaults to the AuthorizationProvidersAuthorization resource
+func (authorization *AuthorizationProvidersAuthorization) defaultImpl() {
+	authorization.defaultAzureName()
+}
 
-var _ genruntime.ImportableResource = &Authorization{}
+var _ genruntime.ImportableResource = &AuthorizationProvidersAuthorization{}
 
 // InitializeSpec initializes the spec for this resource from the given status
-func (authorization *Authorization) InitializeSpec(status genruntime.ConvertibleStatus) error {
+func (authorization *AuthorizationProvidersAuthorization) InitializeSpec(status genruntime.ConvertibleStatus) error {
 	if s, ok := status.(*Service_AuthorizationProviders_Authorization_STATUS); ok {
 		return authorization.Spec.Initialize_From_Service_AuthorizationProviders_Authorization_STATUS(s)
 	}
@@ -101,35 +103,35 @@ func (authorization *Authorization) InitializeSpec(status genruntime.Convertible
 	return fmt.Errorf("expected Status of type Service_AuthorizationProviders_Authorization_STATUS but received %T instead", status)
 }
 
-var _ genruntime.KubernetesResource = &Authorization{}
+var _ genruntime.KubernetesResource = &AuthorizationProvidersAuthorization{}
 
 // AzureName returns the Azure name of the resource
-func (authorization *Authorization) AzureName() string {
+func (authorization *AuthorizationProvidersAuthorization) AzureName() string {
 	return authorization.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-08-01"
-func (authorization Authorization) GetAPIVersion() string {
+func (authorization AuthorizationProvidersAuthorization) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
-func (authorization *Authorization) GetResourceScope() genruntime.ResourceScope {
+func (authorization *AuthorizationProvidersAuthorization) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
-func (authorization *Authorization) GetSpec() genruntime.ConvertibleSpec {
+func (authorization *AuthorizationProvidersAuthorization) GetSpec() genruntime.ConvertibleSpec {
 	return &authorization.Spec
 }
 
 // GetStatus returns the status of this resource
-func (authorization *Authorization) GetStatus() genruntime.ConvertibleStatus {
+func (authorization *AuthorizationProvidersAuthorization) GetStatus() genruntime.ConvertibleStatus {
 	return &authorization.Status
 }
 
 // GetSupportedOperations returns the operations supported by the resource
-func (authorization *Authorization) GetSupportedOperations() []genruntime.ResourceOperation {
+func (authorization *AuthorizationProvidersAuthorization) GetSupportedOperations() []genruntime.ResourceOperation {
 	return []genruntime.ResourceOperation{
 		genruntime.ResourceOperationDelete,
 		genruntime.ResourceOperationGet,
@@ -138,23 +140,23 @@ func (authorization *Authorization) GetSupportedOperations() []genruntime.Resour
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service/authorizationProviders/authorizations"
-func (authorization *Authorization) GetType() string {
+func (authorization *AuthorizationProvidersAuthorization) GetType() string {
 	return "Microsoft.ApiManagement/service/authorizationProviders/authorizations"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (authorization *Authorization) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (authorization *AuthorizationProvidersAuthorization) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Service_AuthorizationProviders_Authorization_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
-func (authorization *Authorization) Owner() *genruntime.ResourceReference {
+func (authorization *AuthorizationProvidersAuthorization) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(authorization.Spec)
 	return authorization.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
-func (authorization *Authorization) SetStatus(status genruntime.ConvertibleStatus) error {
+func (authorization *AuthorizationProvidersAuthorization) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*Service_AuthorizationProviders_Authorization_STATUS); ok {
 		authorization.Status = *st
@@ -172,12 +174,12 @@ func (authorization *Authorization) SetStatus(status genruntime.ConvertibleStatu
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-apimanagement-azure-com-v1api20220801-authorization,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=authorizations,verbs=create;update,versions=v1api20220801,name=validate.v1api20220801.authorizations.apimanagement.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-apimanagement-azure-com-v1api20220801-authorizationprovidersauthorization,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=authorizationprovidersauthorizations,verbs=create;update,versions=v1api20220801,name=validate.v1api20220801.authorizationprovidersauthorizations.apimanagement.azure.com,admissionReviewVersions=v1
 
-var _ admission.Validator = &Authorization{}
+var _ admission.Validator = &AuthorizationProvidersAuthorization{}
 
 // ValidateCreate validates the creation of the resource
-func (authorization *Authorization) ValidateCreate() (admission.Warnings, error) {
+func (authorization *AuthorizationProvidersAuthorization) ValidateCreate() (admission.Warnings, error) {
 	validations := authorization.createValidations()
 	var temp any = authorization
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
@@ -187,7 +189,7 @@ func (authorization *Authorization) ValidateCreate() (admission.Warnings, error)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (authorization *Authorization) ValidateDelete() (admission.Warnings, error) {
+func (authorization *AuthorizationProvidersAuthorization) ValidateDelete() (admission.Warnings, error) {
 	validations := authorization.deleteValidations()
 	var temp any = authorization
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
@@ -197,7 +199,7 @@ func (authorization *Authorization) ValidateDelete() (admission.Warnings, error)
 }
 
 // ValidateUpdate validates an update of the resource
-func (authorization *Authorization) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
+func (authorization *AuthorizationProvidersAuthorization) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := authorization.updateValidations()
 	var temp any = authorization
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
@@ -207,17 +209,17 @@ func (authorization *Authorization) ValidateUpdate(old runtime.Object) (admissio
 }
 
 // createValidations validates the creation of the resource
-func (authorization *Authorization) createValidations() []func() (admission.Warnings, error) {
+func (authorization *AuthorizationProvidersAuthorization) createValidations() []func() (admission.Warnings, error) {
 	return []func() (admission.Warnings, error){authorization.validateResourceReferences, authorization.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
-func (authorization *Authorization) deleteValidations() []func() (admission.Warnings, error) {
+func (authorization *AuthorizationProvidersAuthorization) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (authorization *Authorization) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+func (authorization *AuthorizationProvidersAuthorization) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
 	return []func(old runtime.Object) (admission.Warnings, error){
 		func(old runtime.Object) (admission.Warnings, error) {
 			return authorization.validateResourceReferences()
@@ -230,12 +232,12 @@ func (authorization *Authorization) updateValidations() []func(old runtime.Objec
 }
 
 // validateOwnerReference validates the owner field
-func (authorization *Authorization) validateOwnerReference() (admission.Warnings, error) {
+func (authorization *AuthorizationProvidersAuthorization) validateOwnerReference() (admission.Warnings, error) {
 	return genruntime.ValidateOwner(authorization)
 }
 
 // validateResourceReferences validates all resource references
-func (authorization *Authorization) validateResourceReferences() (admission.Warnings, error) {
+func (authorization *AuthorizationProvidersAuthorization) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&authorization.Spec)
 	if err != nil {
 		return nil, err
@@ -244,8 +246,8 @@ func (authorization *Authorization) validateResourceReferences() (admission.Warn
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (authorization *Authorization) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*Authorization)
+func (authorization *AuthorizationProvidersAuthorization) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
+	oldObj, ok := old.(*AuthorizationProvidersAuthorization)
 	if !ok {
 		return nil, nil
 	}
@@ -253,8 +255,8 @@ func (authorization *Authorization) validateWriteOnceProperties(old runtime.Obje
 	return genruntime.ValidateWriteOnceProperties(oldObj, authorization)
 }
 
-// AssignProperties_From_Authorization populates our Authorization from the provided source Authorization
-func (authorization *Authorization) AssignProperties_From_Authorization(source *v20220801s.Authorization) error {
+// AssignProperties_From_AuthorizationProvidersAuthorization populates our AuthorizationProvidersAuthorization from the provided source AuthorizationProvidersAuthorization
+func (authorization *AuthorizationProvidersAuthorization) AssignProperties_From_AuthorizationProvidersAuthorization(source *v20220801s.AuthorizationProvidersAuthorization) error {
 
 	// ObjectMeta
 	authorization.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -279,8 +281,8 @@ func (authorization *Authorization) AssignProperties_From_Authorization(source *
 	return nil
 }
 
-// AssignProperties_To_Authorization populates the provided destination Authorization from our Authorization
-func (authorization *Authorization) AssignProperties_To_Authorization(destination *v20220801s.Authorization) error {
+// AssignProperties_To_AuthorizationProvidersAuthorization populates the provided destination AuthorizationProvidersAuthorization from our AuthorizationProvidersAuthorization
+func (authorization *AuthorizationProvidersAuthorization) AssignProperties_To_AuthorizationProvidersAuthorization(destination *v20220801s.AuthorizationProvidersAuthorization) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *authorization.ObjectMeta.DeepCopy()
@@ -306,11 +308,11 @@ func (authorization *Authorization) AssignProperties_To_Authorization(destinatio
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (authorization *Authorization) OriginalGVK() *schema.GroupVersionKind {
+func (authorization *AuthorizationProvidersAuthorization) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
 		Version: authorization.Spec.OriginalVersion(),
-		Kind:    "Authorization",
+		Kind:    "AuthorizationProvidersAuthorization",
 	}
 }
 
@@ -318,10 +320,10 @@ func (authorization *Authorization) OriginalGVK() *schema.GroupVersionKind {
 // Generator information:
 // - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/apimauthorizationproviders.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}
-type AuthorizationList struct {
+type AuthorizationProvidersAuthorizationList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Authorization `json:"items"`
+	Items           []AuthorizationProvidersAuthorization `json:"items"`
 }
 
 type Service_AuthorizationProviders_Authorization_Spec struct {
@@ -1189,5 +1191,5 @@ func (error *AuthorizationError_STATUS) AssignProperties_To_AuthorizationError_S
 }
 
 func init() {
-	SchemeBuilder.Register(&Authorization{}, &AuthorizationList{})
+	SchemeBuilder.Register(&AuthorizationProvidersAuthorization{}, &AuthorizationProvidersAuthorizationList{})
 }

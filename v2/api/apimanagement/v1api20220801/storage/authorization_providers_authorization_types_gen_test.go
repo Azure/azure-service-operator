@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_Authorization_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AuthorizationProvidersAuthorization_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Authorization via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAuthorization, AuthorizationGenerator()))
+		"Round trip of AuthorizationProvidersAuthorization via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAuthorizationProvidersAuthorization, AuthorizationProvidersAuthorizationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAuthorization runs a test to see if a specific instance of Authorization round trips to JSON and back losslessly
-func RunJSONSerializationTestForAuthorization(subject Authorization) string {
+// RunJSONSerializationTestForAuthorizationProvidersAuthorization runs a test to see if a specific instance of AuthorizationProvidersAuthorization round trips to JSON and back losslessly
+func RunJSONSerializationTestForAuthorizationProvidersAuthorization(subject AuthorizationProvidersAuthorization) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForAuthorization(subject Authorization) string {
 	}
 
 	// Deserialize back into memory
-	var actual Authorization
+	var actual AuthorizationProvidersAuthorization
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,24 +56,25 @@ func RunJSONSerializationTestForAuthorization(subject Authorization) string {
 	return ""
 }
 
-// Generator of Authorization instances for property testing - lazily instantiated by AuthorizationGenerator()
-var authorizationGenerator gopter.Gen
+// Generator of AuthorizationProvidersAuthorization instances for property testing - lazily instantiated by
+// AuthorizationProvidersAuthorizationGenerator()
+var authorizationProvidersAuthorizationGenerator gopter.Gen
 
-// AuthorizationGenerator returns a generator of Authorization instances for property testing.
-func AuthorizationGenerator() gopter.Gen {
-	if authorizationGenerator != nil {
-		return authorizationGenerator
+// AuthorizationProvidersAuthorizationGenerator returns a generator of AuthorizationProvidersAuthorization instances for property testing.
+func AuthorizationProvidersAuthorizationGenerator() gopter.Gen {
+	if authorizationProvidersAuthorizationGenerator != nil {
+		return authorizationProvidersAuthorizationGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForAuthorization(generators)
-	authorizationGenerator = gen.Struct(reflect.TypeOf(Authorization{}), generators)
+	AddRelatedPropertyGeneratorsForAuthorizationProvidersAuthorization(generators)
+	authorizationProvidersAuthorizationGenerator = gen.Struct(reflect.TypeOf(AuthorizationProvidersAuthorization{}), generators)
 
-	return authorizationGenerator
+	return authorizationProvidersAuthorizationGenerator
 }
 
-// AddRelatedPropertyGeneratorsForAuthorization is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAuthorization(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForAuthorizationProvidersAuthorization is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAuthorizationProvidersAuthorization(gens map[string]gopter.Gen) {
 	gens["Spec"] = Service_AuthorizationProviders_Authorization_SpecGenerator()
 	gens["Status"] = Service_AuthorizationProviders_Authorization_STATUSGenerator()
 }

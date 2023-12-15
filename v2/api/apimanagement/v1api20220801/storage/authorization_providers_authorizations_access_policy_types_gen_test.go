@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_AccessPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AuthorizationProvidersAuthorizationsAccessPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of AccessPolicy via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAccessPolicy, AccessPolicyGenerator()))
+		"Round trip of AuthorizationProvidersAuthorizationsAccessPolicy via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAuthorizationProvidersAuthorizationsAccessPolicy, AuthorizationProvidersAuthorizationsAccessPolicyGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAccessPolicy runs a test to see if a specific instance of AccessPolicy round trips to JSON and back losslessly
-func RunJSONSerializationTestForAccessPolicy(subject AccessPolicy) string {
+// RunJSONSerializationTestForAuthorizationProvidersAuthorizationsAccessPolicy runs a test to see if a specific instance of AuthorizationProvidersAuthorizationsAccessPolicy round trips to JSON and back losslessly
+func RunJSONSerializationTestForAuthorizationProvidersAuthorizationsAccessPolicy(subject AuthorizationProvidersAuthorizationsAccessPolicy) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForAccessPolicy(subject AccessPolicy) string {
 	}
 
 	// Deserialize back into memory
-	var actual AccessPolicy
+	var actual AuthorizationProvidersAuthorizationsAccessPolicy
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,24 +56,25 @@ func RunJSONSerializationTestForAccessPolicy(subject AccessPolicy) string {
 	return ""
 }
 
-// Generator of AccessPolicy instances for property testing - lazily instantiated by AccessPolicyGenerator()
-var accessPolicyGenerator gopter.Gen
+// Generator of AuthorizationProvidersAuthorizationsAccessPolicy instances for property testing - lazily instantiated by
+// AuthorizationProvidersAuthorizationsAccessPolicyGenerator()
+var authorizationProvidersAuthorizationsAccessPolicyGenerator gopter.Gen
 
-// AccessPolicyGenerator returns a generator of AccessPolicy instances for property testing.
-func AccessPolicyGenerator() gopter.Gen {
-	if accessPolicyGenerator != nil {
-		return accessPolicyGenerator
+// AuthorizationProvidersAuthorizationsAccessPolicyGenerator returns a generator of AuthorizationProvidersAuthorizationsAccessPolicy instances for property testing.
+func AuthorizationProvidersAuthorizationsAccessPolicyGenerator() gopter.Gen {
+	if authorizationProvidersAuthorizationsAccessPolicyGenerator != nil {
+		return authorizationProvidersAuthorizationsAccessPolicyGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForAccessPolicy(generators)
-	accessPolicyGenerator = gen.Struct(reflect.TypeOf(AccessPolicy{}), generators)
+	AddRelatedPropertyGeneratorsForAuthorizationProvidersAuthorizationsAccessPolicy(generators)
+	authorizationProvidersAuthorizationsAccessPolicyGenerator = gen.Struct(reflect.TypeOf(AuthorizationProvidersAuthorizationsAccessPolicy{}), generators)
 
-	return accessPolicyGenerator
+	return authorizationProvidersAuthorizationsAccessPolicyGenerator
 }
 
-// AddRelatedPropertyGeneratorsForAccessPolicy is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAccessPolicy(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForAuthorizationProvidersAuthorizationsAccessPolicy is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAuthorizationProvidersAuthorizationsAccessPolicy(gens map[string]gopter.Gen) {
 	gens["Spec"] = Service_AuthorizationProviders_Authorizations_AccessPolicy_SpecGenerator()
 	gens["Status"] = Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUSGenerator()
 }

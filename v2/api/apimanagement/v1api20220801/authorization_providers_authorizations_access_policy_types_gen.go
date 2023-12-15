@@ -26,53 +26,53 @@ import (
 // Generator information:
 // - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/apimauthorizationproviders.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/accessPolicies/{authorizationAccessPolicyId}
-type AccessPolicy struct {
+type AuthorizationProvidersAuthorizationsAccessPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec   `json:"spec,omitempty"`
 	Status            Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &AccessPolicy{}
+var _ conditions.Conditioner = &AuthorizationProvidersAuthorizationsAccessPolicy{}
 
 // GetConditions returns the conditions of the resource
-func (policy *AccessPolicy) GetConditions() conditions.Conditions {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) GetConditions() conditions.Conditions {
 	return policy.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (policy *AccessPolicy) SetConditions(conditions conditions.Conditions) {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) SetConditions(conditions conditions.Conditions) {
 	policy.Status.Conditions = conditions
 }
 
-var _ conversion.Convertible = &AccessPolicy{}
+var _ conversion.Convertible = &AuthorizationProvidersAuthorizationsAccessPolicy{}
 
-// ConvertFrom populates our AccessPolicy from the provided hub AccessPolicy
-func (policy *AccessPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220801s.AccessPolicy)
+// ConvertFrom populates our AuthorizationProvidersAuthorizationsAccessPolicy from the provided hub AuthorizationProvidersAuthorizationsAccessPolicy
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/AccessPolicy but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801/storage/AuthorizationProvidersAuthorizationsAccessPolicy but received %T instead", hub)
 	}
 
-	return policy.AssignProperties_From_AccessPolicy(source)
+	return policy.AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicy(source)
 }
 
-// ConvertTo populates the provided hub AccessPolicy from our AccessPolicy
-func (policy *AccessPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220801s.AccessPolicy)
+// ConvertTo populates the provided hub AuthorizationProvidersAuthorizationsAccessPolicy from our AuthorizationProvidersAuthorizationsAccessPolicy
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801/storage/AccessPolicy but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801/storage/AuthorizationProvidersAuthorizationsAccessPolicy but received %T instead", hub)
 	}
 
-	return policy.AssignProperties_To_AccessPolicy(destination)
+	return policy.AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-apimanagement-azure-com-v1api20220801-accesspolicy,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=accesspolicies,verbs=create;update,versions=v1api20220801,name=default.v1api20220801.accesspolicies.apimanagement.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-apimanagement-azure-com-v1api20220801-authorizationprovidersauthorizationsaccesspolicy,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=authorizationprovidersauthorizationsaccesspolicies,verbs=create;update,versions=v1api20220801,name=default.v1api20220801.authorizationprovidersauthorizationsaccesspolicies.apimanagement.azure.com,admissionReviewVersions=v1
 
-var _ admission.Defaulter = &AccessPolicy{}
+var _ admission.Defaulter = &AuthorizationProvidersAuthorizationsAccessPolicy{}
 
-// Default applies defaults to the AccessPolicy resource
-func (policy *AccessPolicy) Default() {
+// Default applies defaults to the AuthorizationProvidersAuthorizationsAccessPolicy resource
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) Default() {
 	policy.defaultImpl()
 	var temp any = policy
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
@@ -81,19 +81,21 @@ func (policy *AccessPolicy) Default() {
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (policy *AccessPolicy) defaultAzureName() {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) defaultAzureName() {
 	if policy.Spec.AzureName == "" {
 		policy.Spec.AzureName = policy.Name
 	}
 }
 
-// defaultImpl applies the code generated defaults to the AccessPolicy resource
-func (policy *AccessPolicy) defaultImpl() { policy.defaultAzureName() }
+// defaultImpl applies the code generated defaults to the AuthorizationProvidersAuthorizationsAccessPolicy resource
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) defaultImpl() {
+	policy.defaultAzureName()
+}
 
-var _ genruntime.ImportableResource = &AccessPolicy{}
+var _ genruntime.ImportableResource = &AuthorizationProvidersAuthorizationsAccessPolicy{}
 
 // InitializeSpec initializes the spec for this resource from the given status
-func (policy *AccessPolicy) InitializeSpec(status genruntime.ConvertibleStatus) error {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) InitializeSpec(status genruntime.ConvertibleStatus) error {
 	if s, ok := status.(*Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS); ok {
 		return policy.Spec.Initialize_From_Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS(s)
 	}
@@ -101,35 +103,35 @@ func (policy *AccessPolicy) InitializeSpec(status genruntime.ConvertibleStatus) 
 	return fmt.Errorf("expected Status of type Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS but received %T instead", status)
 }
 
-var _ genruntime.KubernetesResource = &AccessPolicy{}
+var _ genruntime.KubernetesResource = &AuthorizationProvidersAuthorizationsAccessPolicy{}
 
 // AzureName returns the Azure name of the resource
-func (policy *AccessPolicy) AzureName() string {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) AzureName() string {
 	return policy.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-08-01"
-func (policy AccessPolicy) GetAPIVersion() string {
+func (policy AuthorizationProvidersAuthorizationsAccessPolicy) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
-func (policy *AccessPolicy) GetResourceScope() genruntime.ResourceScope {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
-func (policy *AccessPolicy) GetSpec() genruntime.ConvertibleSpec {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) GetSpec() genruntime.ConvertibleSpec {
 	return &policy.Spec
 }
 
 // GetStatus returns the status of this resource
-func (policy *AccessPolicy) GetStatus() genruntime.ConvertibleStatus {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) GetStatus() genruntime.ConvertibleStatus {
 	return &policy.Status
 }
 
 // GetSupportedOperations returns the operations supported by the resource
-func (policy *AccessPolicy) GetSupportedOperations() []genruntime.ResourceOperation {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) GetSupportedOperations() []genruntime.ResourceOperation {
 	return []genruntime.ResourceOperation{
 		genruntime.ResourceOperationDelete,
 		genruntime.ResourceOperationGet,
@@ -138,23 +140,23 @@ func (policy *AccessPolicy) GetSupportedOperations() []genruntime.ResourceOperat
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service/authorizationProviders/authorizations/accessPolicies"
-func (policy *AccessPolicy) GetType() string {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) GetType() string {
 	return "Microsoft.ApiManagement/service/authorizationProviders/authorizations/accessPolicies"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (policy *AccessPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
-func (policy *AccessPolicy) Owner() *genruntime.ResourceReference {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(policy.Spec)
 	return policy.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
-func (policy *AccessPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS); ok {
 		policy.Status = *st
@@ -172,12 +174,12 @@ func (policy *AccessPolicy) SetStatus(status genruntime.ConvertibleStatus) error
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-apimanagement-azure-com-v1api20220801-accesspolicy,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=accesspolicies,verbs=create;update,versions=v1api20220801,name=validate.v1api20220801.accesspolicies.apimanagement.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-apimanagement-azure-com-v1api20220801-authorizationprovidersauthorizationsaccesspolicy,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=authorizationprovidersauthorizationsaccesspolicies,verbs=create;update,versions=v1api20220801,name=validate.v1api20220801.authorizationprovidersauthorizationsaccesspolicies.apimanagement.azure.com,admissionReviewVersions=v1
 
-var _ admission.Validator = &AccessPolicy{}
+var _ admission.Validator = &AuthorizationProvidersAuthorizationsAccessPolicy{}
 
 // ValidateCreate validates the creation of the resource
-func (policy *AccessPolicy) ValidateCreate() (admission.Warnings, error) {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) ValidateCreate() (admission.Warnings, error) {
 	validations := policy.createValidations()
 	var temp any = policy
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
@@ -187,7 +189,7 @@ func (policy *AccessPolicy) ValidateCreate() (admission.Warnings, error) {
 }
 
 // ValidateDelete validates the deletion of the resource
-func (policy *AccessPolicy) ValidateDelete() (admission.Warnings, error) {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) ValidateDelete() (admission.Warnings, error) {
 	validations := policy.deleteValidations()
 	var temp any = policy
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
@@ -197,7 +199,7 @@ func (policy *AccessPolicy) ValidateDelete() (admission.Warnings, error) {
 }
 
 // ValidateUpdate validates an update of the resource
-func (policy *AccessPolicy) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := policy.updateValidations()
 	var temp any = policy
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
@@ -207,17 +209,17 @@ func (policy *AccessPolicy) ValidateUpdate(old runtime.Object) (admission.Warnin
 }
 
 // createValidations validates the creation of the resource
-func (policy *AccessPolicy) createValidations() []func() (admission.Warnings, error) {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) createValidations() []func() (admission.Warnings, error) {
 	return []func() (admission.Warnings, error){policy.validateResourceReferences, policy.validateOwnerReference, policy.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (policy *AccessPolicy) deleteValidations() []func() (admission.Warnings, error) {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (policy *AccessPolicy) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
 	return []func(old runtime.Object) (admission.Warnings, error){
 		func(old runtime.Object) (admission.Warnings, error) {
 			return policy.validateResourceReferences()
@@ -233,7 +235,7 @@ func (policy *AccessPolicy) updateValidations() []func(old runtime.Object) (admi
 }
 
 // validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
-func (policy *AccessPolicy) validateOptionalConfigMapReferences() (admission.Warnings, error) {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) validateOptionalConfigMapReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&policy.Spec)
 	if err != nil {
 		return nil, err
@@ -242,12 +244,12 @@ func (policy *AccessPolicy) validateOptionalConfigMapReferences() (admission.War
 }
 
 // validateOwnerReference validates the owner field
-func (policy *AccessPolicy) validateOwnerReference() (admission.Warnings, error) {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) validateOwnerReference() (admission.Warnings, error) {
 	return genruntime.ValidateOwner(policy)
 }
 
 // validateResourceReferences validates all resource references
-func (policy *AccessPolicy) validateResourceReferences() (admission.Warnings, error) {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&policy.Spec)
 	if err != nil {
 		return nil, err
@@ -256,8 +258,8 @@ func (policy *AccessPolicy) validateResourceReferences() (admission.Warnings, er
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (policy *AccessPolicy) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*AccessPolicy)
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
+	oldObj, ok := old.(*AuthorizationProvidersAuthorizationsAccessPolicy)
 	if !ok {
 		return nil, nil
 	}
@@ -265,8 +267,8 @@ func (policy *AccessPolicy) validateWriteOnceProperties(old runtime.Object) (adm
 	return genruntime.ValidateWriteOnceProperties(oldObj, policy)
 }
 
-// AssignProperties_From_AccessPolicy populates our AccessPolicy from the provided source AccessPolicy
-func (policy *AccessPolicy) AssignProperties_From_AccessPolicy(source *v20220801s.AccessPolicy) error {
+// AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicy populates our AuthorizationProvidersAuthorizationsAccessPolicy from the provided source AuthorizationProvidersAuthorizationsAccessPolicy
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicy(source *v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy) error {
 
 	// ObjectMeta
 	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -291,8 +293,8 @@ func (policy *AccessPolicy) AssignProperties_From_AccessPolicy(source *v20220801
 	return nil
 }
 
-// AssignProperties_To_AccessPolicy populates the provided destination AccessPolicy from our AccessPolicy
-func (policy *AccessPolicy) AssignProperties_To_AccessPolicy(destination *v20220801s.AccessPolicy) error {
+// AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy populates the provided destination AuthorizationProvidersAuthorizationsAccessPolicy from our AuthorizationProvidersAuthorizationsAccessPolicy
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy(destination *v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
@@ -318,11 +320,11 @@ func (policy *AccessPolicy) AssignProperties_To_AccessPolicy(destination *v20220
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (policy *AccessPolicy) OriginalGVK() *schema.GroupVersionKind {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
 		Version: policy.Spec.OriginalVersion(),
-		Kind:    "AccessPolicy",
+		Kind:    "AuthorizationProvidersAuthorizationsAccessPolicy",
 	}
 }
 
@@ -330,16 +332,11 @@ func (policy *AccessPolicy) OriginalGVK() *schema.GroupVersionKind {
 // Generator information:
 // - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/apimauthorizationproviders.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/accessPolicies/{authorizationAccessPolicyId}
-type AccessPolicyList struct {
+type AuthorizationProvidersAuthorizationsAccessPolicyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []AccessPolicy `json:"items"`
+	Items           []AuthorizationProvidersAuthorizationsAccessPolicy `json:"items"`
 }
-
-// +kubebuilder:validation:Enum={"2022-08-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2022-08-01")
 
 type Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec struct {
 	// +kubebuilder:validation:MaxLength=256
@@ -358,8 +355,8 @@ type Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a apimanagement.azure.com/Authorization resource
-	Owner *genruntime.KnownResourceReference `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"Authorization"`
+	// reference to a apimanagement.azure.com/AuthorizationProvidersAuthorization resource
+	Owner *genruntime.KnownResourceReference `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"AuthorizationProvidersAuthorization"`
 
 	// TenantId: The Tenant Id
 	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
@@ -813,5 +810,5 @@ func (policy *Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS)
 }
 
 func init() {
-	SchemeBuilder.Register(&AccessPolicy{}, &AccessPolicyList{})
+	SchemeBuilder.Register(&AuthorizationProvidersAuthorizationsAccessPolicy{}, &AuthorizationProvidersAuthorizationsAccessPolicyList{})
 }

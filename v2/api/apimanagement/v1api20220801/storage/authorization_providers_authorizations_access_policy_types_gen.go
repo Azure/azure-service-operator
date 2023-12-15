@@ -11,8 +11,8 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-// +kubebuilder:rbac:groups=apimanagement.azure.com,resources=accesspolicies,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=apimanagement.azure.com,resources={accesspolicies/status,accesspolicies/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=apimanagement.azure.com,resources=authorizationprovidersauthorizationsaccesspolicies,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=apimanagement.azure.com,resources={authorizationprovidersauthorizationsaccesspolicies/status,authorizationprovidersauthorizationsaccesspolicies/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
@@ -21,58 +21,58 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20220801.AccessPolicy
+// Storage version of v1api20220801.AuthorizationProvidersAuthorizationsAccessPolicy
 // Generator information:
 // - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/apimauthorizationproviders.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/accessPolicies/{authorizationAccessPolicyId}
-type AccessPolicy struct {
+type AuthorizationProvidersAuthorizationsAccessPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec   `json:"spec,omitempty"`
 	Status            Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &AccessPolicy{}
+var _ conditions.Conditioner = &AuthorizationProvidersAuthorizationsAccessPolicy{}
 
 // GetConditions returns the conditions of the resource
-func (policy *AccessPolicy) GetConditions() conditions.Conditions {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) GetConditions() conditions.Conditions {
 	return policy.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (policy *AccessPolicy) SetConditions(conditions conditions.Conditions) {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) SetConditions(conditions conditions.Conditions) {
 	policy.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesResource = &AccessPolicy{}
+var _ genruntime.KubernetesResource = &AuthorizationProvidersAuthorizationsAccessPolicy{}
 
 // AzureName returns the Azure name of the resource
-func (policy *AccessPolicy) AzureName() string {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) AzureName() string {
 	return policy.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-08-01"
-func (policy AccessPolicy) GetAPIVersion() string {
+func (policy AuthorizationProvidersAuthorizationsAccessPolicy) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
-func (policy *AccessPolicy) GetResourceScope() genruntime.ResourceScope {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
-func (policy *AccessPolicy) GetSpec() genruntime.ConvertibleSpec {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) GetSpec() genruntime.ConvertibleSpec {
 	return &policy.Spec
 }
 
 // GetStatus returns the status of this resource
-func (policy *AccessPolicy) GetStatus() genruntime.ConvertibleStatus {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) GetStatus() genruntime.ConvertibleStatus {
 	return &policy.Status
 }
 
 // GetSupportedOperations returns the operations supported by the resource
-func (policy *AccessPolicy) GetSupportedOperations() []genruntime.ResourceOperation {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) GetSupportedOperations() []genruntime.ResourceOperation {
 	return []genruntime.ResourceOperation{
 		genruntime.ResourceOperationDelete,
 		genruntime.ResourceOperationGet,
@@ -81,23 +81,23 @@ func (policy *AccessPolicy) GetSupportedOperations() []genruntime.ResourceOperat
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service/authorizationProviders/authorizations/accessPolicies"
-func (policy *AccessPolicy) GetType() string {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) GetType() string {
 	return "Microsoft.ApiManagement/service/authorizationProviders/authorizations/accessPolicies"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (policy *AccessPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
-func (policy *AccessPolicy) Owner() *genruntime.ResourceReference {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(policy.Spec)
 	return policy.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
-func (policy *AccessPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS); ok {
 		policy.Status = *st
@@ -115,34 +115,28 @@ func (policy *AccessPolicy) SetStatus(status genruntime.ConvertibleStatus) error
 	return nil
 }
 
-// Hub marks that this AccessPolicy is the hub type for conversion
-func (policy *AccessPolicy) Hub() {}
+// Hub marks that this AuthorizationProvidersAuthorizationsAccessPolicy is the hub type for conversion
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (policy *AccessPolicy) OriginalGVK() *schema.GroupVersionKind {
+func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
 		Version: policy.Spec.OriginalVersion,
-		Kind:    "AccessPolicy",
+		Kind:    "AuthorizationProvidersAuthorizationsAccessPolicy",
 	}
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20220801.AccessPolicy
+// Storage version of v1api20220801.AuthorizationProvidersAuthorizationsAccessPolicy
 // Generator information:
 // - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/apimauthorizationproviders.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}/authorizations/{authorizationId}/accessPolicies/{authorizationAccessPolicyId}
-type AccessPolicyList struct {
+type AuthorizationProvidersAuthorizationsAccessPolicyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []AccessPolicy `json:"items"`
+	Items           []AuthorizationProvidersAuthorizationsAccessPolicy `json:"items"`
 }
-
-// Storage version of v1api20220801.APIVersion
-// +kubebuilder:validation:Enum={"2022-08-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2022-08-01")
 
 // Storage version of v1api20220801.Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec
 type Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec struct {
@@ -156,8 +150,8 @@ type Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a apimanagement.azure.com/Authorization resource
-	Owner              *genruntime.KnownResourceReference `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"Authorization"`
+	// reference to a apimanagement.azure.com/AuthorizationProvidersAuthorization resource
+	Owner              *genruntime.KnownResourceReference `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"AuthorizationProvidersAuthorization"`
 	PropertyBag        genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	TenantId           *string                            `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
 	TenantIdFromConfig *genruntime.ConfigMapReference     `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
@@ -215,5 +209,5 @@ func (policy *Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS)
 }
 
 func init() {
-	SchemeBuilder.Register(&AccessPolicy{}, &AccessPolicyList{})
+	SchemeBuilder.Register(&AuthorizationProvidersAuthorizationsAccessPolicy{}, &AuthorizationProvidersAuthorizationsAccessPolicyList{})
 }

@@ -323,6 +323,11 @@ type ApiList struct {
 	Items           []Api `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2022-08-01"}
+type APIVersion string
+
+const APIVersion_Value = APIVersion("2022-08-01")
+
 type Service_Api_Spec struct {
 	// +kubebuilder:validation:MaxLength=100
 	// APIVersion: Indicates the version identifier of the API if the API is versioned

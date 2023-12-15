@@ -887,13 +887,13 @@ objectModelConfiguration:
         $supportedFrom: v2.4.0
       Service_AuthorizationProvider:
         $exportAs: AuthorizationProvider
-        $supportedFrom: v2.4.0
+        $supportedFrom: v2.6.0
       Service_AuthorizationProviders_Authorization:
-        $exportAs: Authorization
-        $supportedFrom: v2.4.0
+        $exportAs: AuthorizationProvidersAuthorization
+        $supportedFrom: v2.6.0
       Service_AuthorizationProviders_Authorizations_AccessPolicy:
-        $exportAs: AccessPolicy
-        $supportedFrom: v2.4.0
+        $exportAs: AuthorizationProvidersAuthorizationsAccessPolicy
+        $supportedFrom: v2.6.0
       Service_Backend:
         $exportAs: Backend
         $supportedFrom: v2.4.0

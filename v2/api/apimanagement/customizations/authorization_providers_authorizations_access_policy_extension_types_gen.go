@@ -9,12 +9,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type AuthorizationExtension struct {
+type AuthorizationProvidersAuthorizationsAccessPolicyExtension struct {
 }
 
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
-func (extension *AuthorizationExtension) GetExtendedResources() []genruntime.KubernetesResource {
+func (extension *AuthorizationProvidersAuthorizationsAccessPolicyExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20220801.Authorization{},
-		&v20220801s.Authorization{}}
+		&v20220801.AuthorizationProvidersAuthorizationsAccessPolicy{},
+		&v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy{}}
 }

@@ -402,7 +402,7 @@ func APIM_Authorization_CRUD(tc *testcommon.KubePerTestContext, service client.O
 	tc.T.Log("creating apim authorization provider")
 	tc.CreateResourceAndWait(&authorizationProvider)
 
-	authorization := apim.Authorization{
+	authorization := apim.AuthorizationProvidersAuthorization{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorization")),
 		Spec: apim.Service_AuthorizationProviders_Authorization_Spec{
 			AuthorizationType: to.Ptr(apim.AuthorizationContractProperties_AuthorizationType_OAuth2),
@@ -452,7 +452,7 @@ func APIM_Authorization_AccessPolicy_CRUD(tc *testcommon.KubePerTestContext, rg 
 	tc.T.Log("creating apim authorization provider")
 	tc.CreateResourceAndWait(&authorizationProvider)
 
-	authorization := apim.Authorization{
+	authorization := apim.AuthorizationProvidersAuthorization{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorization")),
 		Spec: apim.Service_AuthorizationProviders_Authorization_Spec{
 			AuthorizationType: to.Ptr(apim.AuthorizationContractProperties_AuthorizationType_OAuth2),
@@ -499,7 +499,7 @@ func APIM_Authorization_AccessPolicy_CRUD(tc *testcommon.KubePerTestContext, rg 
 	tc.Expect(mi.Status.TenantId).ToNot(BeNil())
 	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
 
-	accessPolicy := apim.AccessPolicy{
+	accessPolicy := apim.AuthorizationProvidersAuthorizationsAccessPolicy{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorization-access-policy")),
 		Spec: apim.Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec{
 			Owner: testcommon.AsOwner(&authorization),

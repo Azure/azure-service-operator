@@ -2,25 +2,6 @@
 github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 ├── APIVersion: Enum (1 value)
 │   └── "2022-08-01"
-├── AccessPolicy: Resource
-│   ├── Owner: Authorization
-│   ├── Spec: Object (6 properties)
-│   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: MaxLength: 256
-│   │   │   ├── Rule 1: MinLength: 1
-│   │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
-│   │   ├── ObjectId: *string
-│   │   ├── ObjectIdFromConfig: *genruntime.ConfigMapReference
-│   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── TenantId: *string
-│   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
-│   └── Status: Object (6 properties)
-│       ├── Conditions: conditions.Condition[]
-│       ├── Id: *string
-│       ├── Name: *string
-│       ├── ObjectId: *string
-│       ├── TenantId: *string
-│       └── Type: *string
 ├── Api: Resource
 │   ├── Owner: Service
 │   ├── Spec: Object (27 properties)
@@ -225,7 +206,36 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │           ├── "Header"
 │           ├── "Query"
 │           └── "Segment"
-├── Authorization: Resource
+├── AuthorizationProvider: Resource
+│   ├── Owner: Service
+│   ├── Spec: Object (5 properties)
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: MaxLength: 256
+│   │   │   ├── Rule 1: MinLength: 1
+│   │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
+│   │   ├── DisplayName: Validated<*string> (2 rules)
+│   │   │   ├── Rule 0: MaxLength: 300
+│   │   │   └── Rule 1: MinLength: 1
+│   │   ├── IdentityProvider: *string
+│   │   ├── Oauth2: *Object (2 properties)
+│   │   │   ├── GrantTypes: *Object (2 properties)
+│   │   │   │   ├── AuthorizationCode: map[string]string
+│   │   │   │   └── ClientCredentials: map[string]string
+│   │   │   └── RedirectUrl: *string
+│   │   └── Owner: *genruntime.KnownResourceReference
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── DisplayName: *string
+│       ├── Id: *string
+│       ├── IdentityProvider: *string
+│       ├── Name: *string
+│       ├── Oauth2: *Object (2 properties)
+│       │   ├── GrantTypes: *Object (2 properties)
+│       │   │   ├── AuthorizationCode: map[string]string
+│       │   │   └── ClientCredentials: map[string]string
+│       │   └── RedirectUrl: *string
+│       └── Type: *string
+├── AuthorizationProvidersAuthorization: Resource
 │   ├── Owner: AuthorizationProvider
 │   ├── Spec: Object (7 properties)
 │   │   ├── AuthorizationType: *Enum (1 value)
@@ -258,34 +268,24 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │       ├── Parameters: map[string]string
 │       ├── Status: *string
 │       └── Type: *string
-├── AuthorizationProvider: Resource
-│   ├── Owner: Service
-│   ├── Spec: Object (5 properties)
+├── AuthorizationProvidersAuthorizationsAccessPolicy: Resource
+│   ├── Owner: AuthorizationProvidersAuthorization
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: Validated<string> (3 rules)
 │   │   │   ├── Rule 0: MaxLength: 256
 │   │   │   ├── Rule 1: MinLength: 1
 │   │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
-│   │   ├── DisplayName: Validated<*string> (2 rules)
-│   │   │   ├── Rule 0: MaxLength: 300
-│   │   │   └── Rule 1: MinLength: 1
-│   │   ├── IdentityProvider: *string
-│   │   ├── Oauth2: *Object (2 properties)
-│   │   │   ├── GrantTypes: *Object (2 properties)
-│   │   │   │   ├── AuthorizationCode: map[string]string
-│   │   │   │   └── ClientCredentials: map[string]string
-│   │   │   └── RedirectUrl: *string
-│   │   └── Owner: *genruntime.KnownResourceReference
-│   └── Status: Object (7 properties)
+│   │   ├── ObjectId: *string
+│   │   ├── ObjectIdFromConfig: *genruntime.ConfigMapReference
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── TenantId: *string
+│   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
+│   └── Status: Object (6 properties)
 │       ├── Conditions: conditions.Condition[]
-│       ├── DisplayName: *string
 │       ├── Id: *string
-│       ├── IdentityProvider: *string
 │       ├── Name: *string
-│       ├── Oauth2: *Object (2 properties)
-│       │   ├── GrantTypes: *Object (2 properties)
-│       │   │   ├── AuthorizationCode: map[string]string
-│       │   │   └── ClientCredentials: map[string]string
-│       │   └── RedirectUrl: *string
+│       ├── ObjectId: *string
+│       ├── TenantId: *string
 │       └── Type: *string
 ├── Backend: Resource
 │   ├── Owner: Service

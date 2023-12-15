@@ -1,7 +1,6 @@
 | Type Definitions in package "apimanagement"                       | v1api20220801 |
 |-------------------------------------------------------------------|---------------|
 | APIVersion                                                        | v1api20220801 |
-| AccessPolicy                                                      | v1api20220801 |
 | AdditionalLocation                                                | v1api20220801 |
 | AdditionalLocation_NatGatewayState                                | v1api20220801 |
 | AdditionalLocation_NatGatewayState_STATUS                         | v1api20220801 |
@@ -53,7 +52,6 @@
 | ArmIdWrapper_STATUS                                               | v1api20220801 |
 | AuthenticationSettingsContract                                    | v1api20220801 |
 | AuthenticationSettingsContract_STATUS                             | v1api20220801 |
-| Authorization                                                     | v1api20220801 |
 | AuthorizationAccessPolicyContractProperties                       | v1api20220801 |
 | AuthorizationAccessPolicyContractProperties_STATUS                | v1api20220801 |
 | AuthorizationContractProperties                                   | v1api20220801 |
@@ -71,6 +69,8 @@
 | AuthorizationProviderOAuth2GrantTypes_STATUS                      | v1api20220801 |
 | AuthorizationProviderOAuth2Settings                               | v1api20220801 |
 | AuthorizationProviderOAuth2Settings_STATUS                        | v1api20220801 |
+| AuthorizationProvidersAuthorization                               | v1api20220801 |
+| AuthorizationProvidersAuthorizationsAccessPolicy                  | v1api20220801 |
 | Backend                                                           | v1api20220801 |
 | BackendAuthorizationHeaderCredentials                             | v1api20220801 |
 | BackendAuthorizationHeaderCredentials_STATUS                      | v1api20220801 |

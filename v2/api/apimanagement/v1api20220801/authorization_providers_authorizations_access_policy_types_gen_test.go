@@ -18,32 +18,32 @@ import (
 	"testing"
 )
 
-func Test_AccessPolicy_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+func Test_AuthorizationProvidersAuthorizationsAccessPolicy_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AccessPolicy to hub returns original",
-		prop.ForAll(RunResourceConversionTestForAccessPolicy, AccessPolicyGenerator()))
+		"Round trip from AuthorizationProvidersAuthorizationsAccessPolicy to hub returns original",
+		prop.ForAll(RunResourceConversionTestForAuthorizationProvidersAuthorizationsAccessPolicy, AuthorizationProvidersAuthorizationsAccessPolicyGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunResourceConversionTestForAccessPolicy tests if a specific instance of AccessPolicy round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForAccessPolicy(subject AccessPolicy) string {
+// RunResourceConversionTestForAuthorizationProvidersAuthorizationsAccessPolicy tests if a specific instance of AuthorizationProvidersAuthorizationsAccessPolicy round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForAuthorizationProvidersAuthorizationsAccessPolicy(subject AuthorizationProvidersAuthorizationsAccessPolicy) string {
 	// Copy subject to make sure conversion doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220801s.AccessPolicy
+	var hub v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Convert from our hub version
-	var actual AccessPolicy
+	var actual AuthorizationProvidersAuthorizationsAccessPolicy
 	err = actual.ConvertFrom(&hub)
 	if err != nil {
 		return err.Error()
@@ -61,32 +61,32 @@ func RunResourceConversionTestForAccessPolicy(subject AccessPolicy) string {
 	return ""
 }
 
-func Test_AccessPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_AuthorizationProvidersAuthorizationsAccessPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AccessPolicy to AccessPolicy via AssignProperties_To_AccessPolicy & AssignProperties_From_AccessPolicy returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAccessPolicy, AccessPolicyGenerator()))
+		"Round trip from AuthorizationProvidersAuthorizationsAccessPolicy to AuthorizationProvidersAuthorizationsAccessPolicy via AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy & AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicy returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAuthorizationProvidersAuthorizationsAccessPolicy, AuthorizationProvidersAuthorizationsAccessPolicyGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAccessPolicy tests if a specific instance of AccessPolicy can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAccessPolicy(subject AccessPolicy) string {
+// RunPropertyAssignmentTestForAuthorizationProvidersAuthorizationsAccessPolicy tests if a specific instance of AuthorizationProvidersAuthorizationsAccessPolicy can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAuthorizationProvidersAuthorizationsAccessPolicy(subject AuthorizationProvidersAuthorizationsAccessPolicy) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.AccessPolicy
-	err := copied.AssignProperties_To_AccessPolicy(&other)
+	var other v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy
+	err := copied.AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AccessPolicy
-	err = actual.AssignProperties_From_AccessPolicy(&other)
+	var actual AuthorizationProvidersAuthorizationsAccessPolicy
+	err = actual.AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicy(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -103,20 +103,20 @@ func RunPropertyAssignmentTestForAccessPolicy(subject AccessPolicy) string {
 	return ""
 }
 
-func Test_AccessPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AuthorizationProvidersAuthorizationsAccessPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of AccessPolicy via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAccessPolicy, AccessPolicyGenerator()))
+		"Round trip of AuthorizationProvidersAuthorizationsAccessPolicy via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAuthorizationProvidersAuthorizationsAccessPolicy, AuthorizationProvidersAuthorizationsAccessPolicyGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAccessPolicy runs a test to see if a specific instance of AccessPolicy round trips to JSON and back losslessly
-func RunJSONSerializationTestForAccessPolicy(subject AccessPolicy) string {
+// RunJSONSerializationTestForAuthorizationProvidersAuthorizationsAccessPolicy runs a test to see if a specific instance of AuthorizationProvidersAuthorizationsAccessPolicy round trips to JSON and back losslessly
+func RunJSONSerializationTestForAuthorizationProvidersAuthorizationsAccessPolicy(subject AuthorizationProvidersAuthorizationsAccessPolicy) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -124,7 +124,7 @@ func RunJSONSerializationTestForAccessPolicy(subject AccessPolicy) string {
 	}
 
 	// Deserialize back into memory
-	var actual AccessPolicy
+	var actual AuthorizationProvidersAuthorizationsAccessPolicy
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -142,24 +142,25 @@ func RunJSONSerializationTestForAccessPolicy(subject AccessPolicy) string {
 	return ""
 }
 
-// Generator of AccessPolicy instances for property testing - lazily instantiated by AccessPolicyGenerator()
-var accessPolicyGenerator gopter.Gen
+// Generator of AuthorizationProvidersAuthorizationsAccessPolicy instances for property testing - lazily instantiated by
+// AuthorizationProvidersAuthorizationsAccessPolicyGenerator()
+var authorizationProvidersAuthorizationsAccessPolicyGenerator gopter.Gen
 
-// AccessPolicyGenerator returns a generator of AccessPolicy instances for property testing.
-func AccessPolicyGenerator() gopter.Gen {
-	if accessPolicyGenerator != nil {
-		return accessPolicyGenerator
+// AuthorizationProvidersAuthorizationsAccessPolicyGenerator returns a generator of AuthorizationProvidersAuthorizationsAccessPolicy instances for property testing.
+func AuthorizationProvidersAuthorizationsAccessPolicyGenerator() gopter.Gen {
+	if authorizationProvidersAuthorizationsAccessPolicyGenerator != nil {
+		return authorizationProvidersAuthorizationsAccessPolicyGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForAccessPolicy(generators)
-	accessPolicyGenerator = gen.Struct(reflect.TypeOf(AccessPolicy{}), generators)
+	AddRelatedPropertyGeneratorsForAuthorizationProvidersAuthorizationsAccessPolicy(generators)
+	authorizationProvidersAuthorizationsAccessPolicyGenerator = gen.Struct(reflect.TypeOf(AuthorizationProvidersAuthorizationsAccessPolicy{}), generators)
 
-	return accessPolicyGenerator
+	return authorizationProvidersAuthorizationsAccessPolicyGenerator
 }
 
-// AddRelatedPropertyGeneratorsForAccessPolicy is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAccessPolicy(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForAuthorizationProvidersAuthorizationsAccessPolicy is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAuthorizationProvidersAuthorizationsAccessPolicy(gens map[string]gopter.Gen) {
 	gens["Spec"] = Service_AuthorizationProviders_Authorizations_AccessPolicy_SpecGenerator()
 	gens["Status"] = Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUSGenerator()
 }
