@@ -275,6 +275,7 @@ func Workspaces_BigDataPool_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
+	gens["CacheSize"] = gen.PtrOf(gen.Int())
 	gens["DefaultSparkLogFolder"] = gen.PtrOf(gen.AlphaString())
 	gens["IsAutotuneEnabled"] = gen.PtrOf(gen.Bool())
 	gens["IsComputeIsolationEnabled"] = gen.PtrOf(gen.Bool())
