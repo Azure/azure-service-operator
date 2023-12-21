@@ -9,17 +9,17 @@ To install the CRDs for these resources, your ASO configuration must include `ap
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource       | ARM Version        | CRD Version          | Supported From | Sample |
-|----------------|--------------------|----------------------|----------------|--------|
-| Api            | 2023-05-01-preview | v1api20230501preview | v2.6.0         | -      |
-| ApiVersionSet  | 2023-05-01-preview | v1api20230501preview | v2.6.0         | -      |
-| Backend        | 2023-05-01-preview | v1api20230501preview | v2.6.0         | -      |
-| NamedValue     | 2023-05-01-preview | v1api20230501preview | v2.6.0         | -      |
-| Policy         | 2023-05-01-preview | v1api20230501preview | v2.6.0         | -      |
-| PolicyFragment | 2023-05-01-preview | v1api20230501preview | v2.6.0         | -      |
-| Product        | 2023-05-01-preview | v1api20230501preview | v2.6.0         | -      |
-| Service        | 2023-05-01-preview | v1api20230501preview | v2.6.0         | -      |
-| Subscription   | 2023-05-01-preview | v1api20230501preview | v2.6.0         | -      |
+| Resource       | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                   |
+|----------------|--------------------|----------------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Api            | 2023-05-01-preview | v1api20230501preview | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20230501preview/v1api20230501preview_api.yaml)            |
+| ApiVersionSet  | 2023-05-01-preview | v1api20230501preview | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20230501preview/v1api20230501preview_apiversionset.yaml)  |
+| Backend        | 2023-05-01-preview | v1api20230501preview | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20230501preview/v1api20230501preview_backend.yaml)        |
+| NamedValue     | 2023-05-01-preview | v1api20230501preview | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20230501preview/v1api20230501preview_namedvalue.yaml)     |
+| Policy         | 2023-05-01-preview | v1api20230501preview | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20230501preview/v1api20230501preview_policy.yaml)         |
+| PolicyFragment | 2023-05-01-preview | v1api20230501preview | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20230501preview/v1api20230501preview_policyfragment.yaml) |
+| Product        | 2023-05-01-preview | v1api20230501preview | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20230501preview/v1api20230501preview_product.yaml)        |
+| Service        | 2023-05-01-preview | v1api20230501preview | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20230501preview/v1api20230501preview_service.yaml)        |
+| Subscription   | 2023-05-01-preview | v1api20230501preview | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20230501preview/v1api20230501preview_subscription.yaml)   |
 
 ### Released
 
