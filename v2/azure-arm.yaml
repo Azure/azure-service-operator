@@ -952,31 +952,31 @@ objectModelConfiguration:
           $importConfigMapMode: optional
       Service:
         $export: true
-        $supportedFrom: v2.4.0
+        $supportedFrom: v2.6.0
       Service_Api:
         $exportAs: Api
-        $supportedFrom: v2.4.0
+        $supportedFrom: v2.6.0
       Service_ApiVersionSet:
         $exportAs: ApiVersionSet
-        $supportedFrom: v2.4.0
+        $supportedFrom: v2.6.0
       Service_Backend:
         $exportAs: Backend
-        $supportedFrom: v2.4.0
+        $supportedFrom: v2.6.0
       Service_NamedValue:
         $exportAs: NamedValue
-        $supportedFrom: v2.4.0
+        $supportedFrom: v2.6.0
       Service_Policy:
         $exportAs: Policy
-        $supportedFrom: v2.4.0
+        $supportedFrom: v2.6.0
       Service_PolicyFragment:
         $exportAs: PolicyFragment
-        $supportedFrom: v2.4.0
+        $supportedFrom: v2.6.0
       Service_Product:
         $exportAs: Product
-        $supportedFrom: v2.4.0
+        $supportedFrom: v2.6.0
       Service_Subscription:
         $exportAs: Subscription
-        $supportedFrom: v2.4.0
+        $supportedFrom: v2.6.0
         $azureGeneratedSecrets:
           - PrimaryKey
           - SecondaryKey
