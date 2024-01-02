@@ -24,10 +24,6 @@ func Test_ApiManagement_20230501preview_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 	rg := tc.NewTestResourceGroup()
 
-	// APIM takes a long time to provision. When you are authoring tests in this file
-	// I recommend you change this line to CreateResourceAndWaitWithoutCleanup. This way
-	// apim will not be deleted until you have finished writing your tests. Also change
-	// the code below when you create the &service
 	tc.CreateResourceAndWait(rg)
 
 	// The v2 SKU has a much quicker start up time.
@@ -50,8 +46,6 @@ func Test_ApiManagement_20230501preview_CRUD(t *testing.T) {
 		},
 	}
 
-	// APIM takes a long time to provision. When you are authoring tests in this file. I
-	// recommend you change this line to CreateResourceAndWaitWithoutCleanup.
 	tc.CreateResourceAndWait(&service)
 
 	tc.Expect(service.Status.Id).ToNot(BeNil())
@@ -74,37 +68,37 @@ func Test_ApiManagement_20230501preview_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "APIM Backend CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				APIM_Backend20230501_CRUD(tc, &service)
+				APIM_Backend20230501preview_CRUD(tc, &service)
 			},
 		},
 		testcommon.Subtest{
 			Name: "APIM Named Value CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				APIM_NamedValue20230501_CRUD(tc, &service)
+				APIM_NamedValue20230501preview_CRUD(tc, &service)
 			},
 		},
 		testcommon.Subtest{
 			Name: "APIM Policy Fragment CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				APIM_PolicyFragment_CRUD(tc, &service)
+				APIM_PolicyFragment20230501preview_CRUD(tc, &service)
 			},
 		},
 		testcommon.Subtest{
 			Name: "APIM Policy CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				APIM_Policy20230501_CRUD(tc, &service)
+				APIM_Policy20230501preview_CRUD(tc, &service)
 			},
 		},
 		testcommon.Subtest{
 			Name: "APIM Product CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				APIM_Product20230501_CRUD(tc, &service)
+				APIM_Product20230501preview_CRUD(tc, &service)
 			},
 		},
 		testcommon.Subtest{
 			Name: "APIM Api CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				APIM_Api20230501_CRUD(tc, &service)
+				APIM_Api20230501preview_CRUD(tc, &service)
 			},
 		},
 	)
@@ -139,13 +133,13 @@ func APIM_Subscription20230501preview_CRUD(tc *testcommon.KubePerTestContext, se
 		testcommon.Subtest{
 			Name: "SecretsWrittenToSameKubeSecret",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				Subscription20230501_SecretsWrittenToSameKubeSecret(tc, &subscription)
+				Subscription20230501preview_SecretsWrittenToSameKubeSecret(tc, &subscription)
 			},
 		},
 		testcommon.Subtest{
 			Name: "SecretsWrittenToDifferentKubeSecrets",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				Subscription20230501_SecretsWrittenToDifferentKubeSecrets(tc, &subscription)
+				Subscription20230501preview_SecretsWrittenToDifferentKubeSecrets(tc, &subscription)
 			},
 		},
 	)
@@ -155,7 +149,7 @@ func APIM_Subscription20230501preview_CRUD(tc *testcommon.KubePerTestContext, se
 	tc.T.Log("cleaning up subscription")
 }
 
-func APIM_Backend20230501_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+func APIM_Backend20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	// Add a simple backend
 	backend := apim.Backend{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("backend")),
@@ -177,7 +171,7 @@ func APIM_Backend20230501_CRUD(tc *testcommon.KubePerTestContext, service client
 	tc.T.Log("cleaning up backend")
 }
 
-func APIM_NamedValue20230501_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+func APIM_NamedValue20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	// Add a Plain Text Named Value
 	namedValue := apim.NamedValue{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("namedvalue")),
@@ -199,7 +193,7 @@ func APIM_NamedValue20230501_CRUD(tc *testcommon.KubePerTestContext, service cli
 	tc.T.Log("cleaning up namedValue")
 }
 
-func APIM_Policy20230501_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+func APIM_Policy20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	// Add a simple Policy
 	policy := apim.Policy{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("policy")),
@@ -218,8 +212,7 @@ func APIM_Policy20230501_CRUD(tc *testcommon.KubePerTestContext, service client.
 	tc.T.Log("cleaning up policy")
 }
 
-func APIM_PolicyFragment20230501_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
-
+func APIM_PolicyFragment20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	// Add a simple Policy Fragment
 	policyFragment := apim.PolicyFragment{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("policyfragment")),
@@ -240,7 +233,7 @@ func APIM_PolicyFragment20230501_CRUD(tc *testcommon.KubePerTestContext, service
 }
 
 // Currently not called as we need to find a way to delete the subscription
-func APIM_Product20230501_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+func APIM_Product20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 
 	productName := tc.Namer.GenerateName("cust1")
 	// Now add a product
@@ -269,7 +262,7 @@ func APIM_Product20230501_CRUD(tc *testcommon.KubePerTestContext, service client
 	tc.T.Log("cleaning up product")
 }
 
-func APIM_Api20230501_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+func APIM_Api20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 
 	versionSet := apim.ApiVersionSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs")),
@@ -326,7 +319,7 @@ func APIM_Api20230501_CRUD(tc *testcommon.KubePerTestContext, service client.Obj
 	tc.T.Log("cleaning up api")
 }
 
-func Subscription20230501_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, subscription *apim.Subscription) {
+func Subscription20230501preview_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, subscription *apim.Subscription) {
 	old := subscription.DeepCopy()
 	subscriptionSecret := "storagekeys"
 	subscription.Spec.OperatorSpec = &apim.SubscriptionOperatorSpec{
@@ -340,7 +333,7 @@ func Subscription20230501_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerT
 	tc.ExpectSecretHasKeys(subscriptionSecret, "primary", "secondary")
 }
 
-func Subscription20230501_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerTestContext, subscription *apim.Subscription) {
+func Subscription20230501preview_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerTestContext, subscription *apim.Subscription) {
 	old := subscription.DeepCopy()
 	primaryKeySecret := "secret1"
 	secondaryKeySecret := "secret2"
