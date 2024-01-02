@@ -926,7 +926,7 @@ we want to promote to having this behavior after the resource is released.</p>
 to watch the ConfigMap for changes and trigger reconciliation based on that.</li>
 </ol>
 <h4 id="implementation">Implementation</h4>
-<p>For doing dynamic serialization, see the <a href="https://github.com/go-task/task/blob/master/taskfile/var.go">go-task</a> example
+<p>For doing dynamic serialization, see the <a href="https://github.com/go-task/task/blob/master/taskfile/ast/var.go">go-task</a> example
 which does this.</p>
 <h2 id="decision">Decision</h2>
 <p>We will go with Option 3, using <code>ConfigMaps</code> and <code>OptionalConfigReference</code>. This is the most flexible option and
@@ -976,7 +976,7 @@ solves the most user requests while also limiting downsides.</p>
         
       </div>
       <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
-        <small class="text-white">&copy; 2023 Microsoft All Rights Reserved</small>
+        <small class="text-white">&copy; 2024 Microsoft All Rights Reserved</small>
         <small class="ml-1"><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></small>
 	
 		
