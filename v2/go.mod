@@ -23,7 +23,7 @@ require (
 	github.com/go-logr/logr v1.3.0
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/google/go-cmp v0.6.0
-	github.com/google/uuid v1.4.0
+	github.com/google/uuid v1.5.0
 	github.com/hbollon/go-edlib v1.6.0
 	github.com/jackc/pgx/v5 v5.5.1
 	github.com/kr/pretty v0.3.1
