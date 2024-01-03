@@ -13,3 +13,4 @@ Closes #[issue number]
 **If applicable**:
 - [ ] this PR contains documentation
 - [ ] this PR contains tests
+- [ ] this PR contains YAML Samples
