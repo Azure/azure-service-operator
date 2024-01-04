@@ -1020,6 +1020,8 @@ func getKnownTypes() []client.Object {
 		new(apimanagement_v20230501p.Policy),
 		new(apimanagement_v20230501p.PolicyFragment),
 		new(apimanagement_v20230501p.Product),
+		new(apimanagement_v20230501p.ProductApi),
+		new(apimanagement_v20230501p.ProductPolicy),
 		new(apimanagement_v20230501p.Service),
 		new(apimanagement_v20230501p.Subscription))
 	result = append(
@@ -1031,6 +1033,8 @@ func getKnownTypes() []client.Object {
 		new(apimanagement_v20230501ps.Policy),
 		new(apimanagement_v20230501ps.PolicyFragment),
 		new(apimanagement_v20230501ps.Product),
+		new(apimanagement_v20230501ps.ProductApi),
+		new(apimanagement_v20230501ps.ProductPolicy),
 		new(apimanagement_v20230501ps.Service),
 		new(apimanagement_v20230501ps.Subscription))
 	result = append(result, new(appconfiguration_v20220501.ConfigurationStore))

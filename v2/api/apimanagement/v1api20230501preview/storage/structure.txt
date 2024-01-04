@@ -385,6 +385,32 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501previe
 │       ├── SubscriptionsLimit: *int
 │       ├── Terms: *string
 │       └── Type: *string
+├── ProductApi: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview.Product
+│   ├── Spec: Object (4 properties)
+│   │   ├── AzureName: string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   └── Status: Object (2 properties)
+│       ├── Conditions: conditions.Condition[]
+│       └── PropertyBag: genruntime.PropertyBag
+├── ProductPolicy: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview.Product
+│   ├── Spec: Object (5 properties)
+│   │   ├── Format: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Value: *string
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Format: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Type: *string
+│       └── Value: *string
 ├── Service: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (28 properties)
@@ -692,6 +718,8 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501previe
 ├── augmentConversionForPolicyFragment: Interface
 ├── augmentConversionForPrivateLinkServiceConnectionState_STATUS: Interface
 ├── augmentConversionForProduct: Interface
+├── augmentConversionForProductApi: Interface
+├── augmentConversionForProductPolicy: Interface
 ├── augmentConversionForRemotePrivateEndpointConnectionWrapper_STATUS: Interface
 ├── augmentConversionForService: Interface
 ├── augmentConversionForService_ApiVersionSet_STATUS: Interface
@@ -708,6 +736,10 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501previe
 ├── augmentConversionForService_Policy_Spec: Interface
 ├── augmentConversionForService_Product_STATUS: Interface
 ├── augmentConversionForService_Product_Spec: Interface
+├── augmentConversionForService_Products_Api_STATUS: Interface
+├── augmentConversionForService_Products_Api_Spec: Interface
+├── augmentConversionForService_Products_Policy_STATUS: Interface
+├── augmentConversionForService_Products_Policy_Spec: Interface
 ├── augmentConversionForService_STATUS: Interface
 ├── augmentConversionForService_Spec: Interface
 ├── augmentConversionForService_Subscription_STATUS: Interface

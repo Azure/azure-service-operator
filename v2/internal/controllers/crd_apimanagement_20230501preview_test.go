@@ -36,7 +36,7 @@ func Test_ApiManagement_20230501preview_CRUD(t *testing.T) {
 	// Create an APIM instance. APIM has a soft delete feature; if you find that you
 	// hit this problem add the `restore` back in to resurrect it
 	service := apim.Service{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("apim-v2")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("apimv2")),
 		Spec: apim.Service_Spec{
 			Location:       to.Ptr("westeurope"), // Not supported in West US 2
 			Owner:          testcommon.AsOwner(rg),
@@ -99,6 +99,18 @@ func Test_ApiManagement_20230501preview_CRUD(t *testing.T) {
 			Name: "APIM Api CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
 				APIM_Api20230501preview_CRUD(tc, &service)
+			},
+		},
+		testcommon.Subtest{
+			Name: "APIM Product Api CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_Product_Api20230501preview_CRUD(tc, &service)
+			},
+		},
+		testcommon.Subtest{
+			Name: "APIM Product Policy CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_Product_Policy20230501preview_CRUD(tc, &service)
 			},
 		},
 	)
@@ -258,6 +270,134 @@ func APIM_Product20230501preview_CRUD(tc *testcommon.KubePerTestContext, service
 	// deleteSubscription = true
 
 	defer tc.DeleteResourceAndWait(&product)
+
+	tc.T.Log("cleaning up product")
+}
+
+func APIM_Product_Policy20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+
+	productName := tc.Namer.GenerateName("product1")
+	// Now add a product
+	product := apim.Product{
+		ObjectMeta: tc.MakeObjectMetaWithName(productName),
+		Spec: apim.Service_Product_Spec{
+			Owner:                testcommon.AsOwner(service),
+			DisplayName:          to.Ptr("Product Policy Test"),
+			Description:          to.Ptr("A product policy example"),
+			SubscriptionRequired: to.Ptr(false), // This creates a subscription anyway!
+		},
+	}
+
+	tc.T.Log("creating apim product to attach policy to")
+	tc.CreateResourceAndWait(&product)
+
+	tc.Expect(product.Status).ToNot(BeNil())
+	tc.Expect(product.Status.Id).ToNot(BeNil())
+
+	productPolicy := apim.ProductPolicy{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("productpolicy")),
+		Spec: apim.Service_Products_Policy_Spec{
+			Owner: testcommon.AsOwner(&product),
+			Value: to.Ptr("<policies><inbound><set-variable name=\"asoTest\" value=\"ProductPolicy Value\" /></inbound><backend><forward-request /></backend><outbound /></policies>"),
+		},
+	}
+
+	tc.T.Log("creating apim product policy")
+	tc.CreateResourceAndWait(&productPolicy)
+
+	tc.Expect(productPolicy.Status).ToNot(BeNil())
+	tc.Expect(productPolicy.Status.Id).ToNot(BeNil())
+
+	defer tc.DeleteResourceAndWait(&product)
+	defer tc.DeleteResourceAndWait(&productPolicy)
+
+	tc.T.Log("cleaning up product")
+}
+
+func APIM_Product_Api20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+
+	productName := tc.Namer.GenerateName("product2")
+	product := apim.Product{
+		ObjectMeta: tc.MakeObjectMetaWithName(productName),
+		Spec: apim.Service_Product_Spec{
+			Owner:                testcommon.AsOwner(service),
+			DisplayName:          to.Ptr("Product Api Test"),
+			Description:          to.Ptr("A product Api example"),
+			SubscriptionRequired: to.Ptr(false), // This creates a subscription anyway!
+		},
+	}
+
+	tc.T.Log("creating apim product to attach api to")
+	tc.CreateResourceAndWait(&product)
+
+	tc.Expect(product.Status).ToNot(BeNil())
+	tc.Expect(product.Status.Id).ToNot(BeNil())
+
+	versionSet := apim.ApiVersionSet{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs2")),
+		Spec: apim.Service_ApiVersionSet_Spec{
+			DisplayName:      to.Ptr("vs2"),
+			Description:      to.Ptr("A version set for the account api"),
+			Owner:            testcommon.AsOwner(service),
+			VersioningScheme: to.Ptr(apim.ApiVersionSetContractProperties_VersioningScheme_Segment),
+		},
+	}
+
+	tc.T.Log("creating apim version set")
+	tc.CreateResourceAndWait(&versionSet)
+
+	versionSetReference := genruntime.ResourceReference{
+		ARMID: *versionSet.Status.Id,
+	}
+
+	// Add a simple Api
+	api := apim.Api{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("api2")),
+		Spec: apim.Service_Api_Spec{
+			APIVersion:             to.Ptr("2.0.0"),
+			ApiRevision:            to.Ptr("v1"),
+			ApiRevisionDescription: to.Ptr("First Revision"),
+			ApiVersionDescription:  to.Ptr("Second Version"),
+			ApiVersionSetReference: &versionSetReference,
+			Description:            to.Ptr("A Description about the api"),
+			DisplayName:            to.Ptr("account-api2"),
+			Owner:                  testcommon.AsOwner(service),
+			Path:                   to.Ptr("/account-api2"),
+			SubscriptionRequired:   to.Ptr(false),
+			IsCurrent:              to.Ptr(true),
+			Contact: &apim.ApiContactInformation{
+				Email: to.Ptr("test@test.com"),
+				Name:  to.Ptr("Test"),
+				Url:   to.Ptr("https://www.bing.com"),
+			},
+
+			Protocols: []apim.ApiCreateOrUpdateProperties_Protocols{
+				apim.ApiCreateOrUpdateProperties_Protocols_Https},
+
+			TermsOfServiceUrl: to.Ptr("https://www.bing.com/tos"),
+			Type:              to.Ptr(apim.ApiCreateOrUpdateProperties_Type_Http),
+		},
+	}
+
+	tc.T.Log("creating apim api to attach to product")
+	tc.CreateResourceAndWait(&api)
+
+	// Now link the display name of the api to the product
+	productApi := apim.ProductApi{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("productapi")),
+		Spec: apim.Service_Products_Api_Spec{
+			Owner:     testcommon.AsOwner(&product),
+			AzureName: api.Spec.AzureName,
+		},
+	}
+
+	tc.T.Log("creating apim product api")
+	tc.CreateResourceAndWait(&productApi)
+
+	tc.Expect(productApi.Status).ToNot(BeNil())
+
+	defer tc.DeleteResourceAndWait(&product)
+	defer tc.DeleteResourceAndWait(&productApi)
 
 	tc.T.Log("cleaning up product")
 }
