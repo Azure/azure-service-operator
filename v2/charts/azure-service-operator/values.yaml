@@ -40,6 +40,9 @@ azureSyncPeriod: ""
 # See https://azure.github.io/azure-service-operator/guide/authentication/ for details on setting up Workload Identity with ASO
 useWorkloadIdentityAuth: false
 
+# azureUserAgentSuffix is appended to the default User-Agent for Azure HTTP clients.
+azureUserAgentSuffix: ""
+
 # azureAuthorityHost is the URL of the AAD authority. If not specified, the default
 # is the AAD URL for the public cloud: https://login.microsoftonline.com/. See
 # https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud
