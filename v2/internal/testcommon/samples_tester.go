@@ -63,6 +63,8 @@ var exclusions = []string{
 	"apiversionset",
 	"product",
 	"subscription",
+	"productpolicy",
+	"productapi",
 }
 
 type SamplesTester struct {

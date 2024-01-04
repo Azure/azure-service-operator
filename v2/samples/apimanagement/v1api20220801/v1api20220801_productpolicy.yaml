@@ -1,0 +1,15 @@
+apiVersion: apimanagement.azure.com/v1api20220801
+kind: ProductPolicy
+metadata:
+  name: sampleproductpolicy
+  namespace: default
+spec:
+  value: <policies>
+          <inbound />
+          <backend>
+            <forward-request />
+          </backend>
+          <outbound />
+        </policies>
+  owner:
+    name: sampleapimproduct

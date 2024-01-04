@@ -221,6 +221,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Policy)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.PolicyFragment)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Product)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.ProductApi)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.ProductPolicy)})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20220801s.Service),
 		Indexes: []registration.Index{
@@ -992,6 +994,8 @@ func getKnownTypes() []client.Object {
 		new(apimanagement_v20220801.Policy),
 		new(apimanagement_v20220801.PolicyFragment),
 		new(apimanagement_v20220801.Product),
+		new(apimanagement_v20220801.ProductApi),
+		new(apimanagement_v20220801.ProductPolicy),
 		new(apimanagement_v20220801.Service),
 		new(apimanagement_v20220801.Subscription))
 	result = append(
@@ -1003,6 +1007,8 @@ func getKnownTypes() []client.Object {
 		new(apimanagement_v20220801s.Policy),
 		new(apimanagement_v20220801s.PolicyFragment),
 		new(apimanagement_v20220801s.Product),
+		new(apimanagement_v20220801s.ProductApi),
+		new(apimanagement_v20220801s.ProductPolicy),
 		new(apimanagement_v20220801s.Service),
 		new(apimanagement_v20220801s.Subscription))
 	result = append(
@@ -1710,7 +1716,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &apimanagement_customizations.NamedValueExtension{})
 	result = append(result, &apimanagement_customizations.PolicyExtension{})
 	result = append(result, &apimanagement_customizations.PolicyFragmentExtension{})
+	result = append(result, &apimanagement_customizations.ProductApiExtension{})
 	result = append(result, &apimanagement_customizations.ProductExtension{})
+	result = append(result, &apimanagement_customizations.ProductPolicyExtension{})
 	result = append(result, &apimanagement_customizations.ServiceExtension{})
 	result = append(result, &apimanagement_customizations.SubscriptionExtension{})
 	result = append(result, &appconfiguration_customizations.ConfigurationStoreExtension{})

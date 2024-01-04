@@ -133,10 +133,12 @@
 | PrivateEndpointServiceConnectionStatus_STATUS                | v1api20220801 | v1api20230501preview |
 | PrivateLinkServiceConnectionState_STATUS                     | v1api20220801 | v1api20230501preview |
 | Product                                                      | v1api20220801 | v1api20230501preview |
+| ProductApi                                                   | v1api20220801 |                      |
 | ProductContractProperties                                    | v1api20220801 | v1api20230501preview |
 | ProductContractProperties_STATUS                             | v1api20220801 | v1api20230501preview |
 | ProductContractProperties_State                              | v1api20220801 | v1api20230501preview |
 | ProductContractProperties_State_STATUS                       | v1api20220801 | v1api20230501preview |
+| ProductPolicy                                                | v1api20220801 |                      |
 | RemotePrivateEndpointConnectionWrapper_STATUS                | v1api20220801 | v1api20230501preview |
 | Service                                                      | v1api20220801 | v1api20230501preview |
 | Service_ApiVersionSet_STATUS                                 | v1api20220801 | v1api20230501preview |
@@ -154,6 +156,11 @@
 | Service_Policy_Spec                                          | v1api20220801 | v1api20230501preview |
 | Service_Product_STATUS                                       | v1api20220801 | v1api20230501preview |
 | Service_Product_Spec                                         | v1api20220801 | v1api20230501preview |
+| Service_Products_Api_STATUS                                  | v1api20220801 |                      |
+| Service_Products_Api_Spec                                    | v1api20220801 |                      |
+| Service_Products_Policy_Name_Spec                            | v1api20220801 |                      |
+| Service_Products_Policy_STATUS                               | v1api20220801 |                      |
+| Service_Products_Policy_Spec                                 | v1api20220801 |                      |
 | Service_STATUS                                               | v1api20220801 | v1api20230501preview |
 | Service_Spec                                                 | v1api20220801 | v1api20230501preview |
 | Service_Subscription_STATUS                                  | v1api20220801 | v1api20230501preview |
