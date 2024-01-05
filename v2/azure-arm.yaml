@@ -63,6 +63,11 @@ typeFilters:
     because: We want to export this particular preview version
 
   - action: include
+    group: dbforpostgresql
+    version: v*20230601preview
+    because: We want to export this particular preview version
+
+  - action: include
     group: containerservice
     version: v*20230202preview
     because: We want to export this particular preview version
@@ -1450,6 +1455,36 @@ objectModelConfiguration:
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.5.0
+      ServerProperties:
+        SourceServerResourceId:
+          $armReference: true
+      Network:
+        DelegatedSubnetResourceId:
+          $armReference: true
+        PrivateDnsZoneArmResourceId:
+          $armReference: true
+    2023-06-01-preview:
+      DataEncryption:
+        PrimaryUserAssignedIdentityId:
+          $armReference: true
+        GeoBackupUserAssignedIdentityId:
+          $armReference: true
+      FlexibleServer:
+        $azureGeneratedSecrets:
+          - FullyQualifiedDomainName
+        $export: true
+        $supportedFrom: v2.6.0
+        $generatedConfigs:
+          FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+      FlexibleServers_Configuration:
+        $exportAs: FlexibleServersConfiguration
+        $supportedFrom: v2.6.0
+      FlexibleServers_Database:
+        $exportAs: FlexibleServersDatabase
+        $supportedFrom: v2.6.0
+      FlexibleServers_FirewallRule:
+        $exportAs: FlexibleServersFirewallRule
+        $supportedFrom: v2.6.0
       ServerProperties:
         SourceServerResourceId:
           $armReference: true

@@ -13,13 +13,13 @@ import (
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview"
+	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_DBForPostgreSQL_FlexibleServer_20220120preview_CRUD(t *testing.T) {
+func Test_DBForPostgreSQL_FlexibleServer_20230601Preview_CRUD(t *testing.T) {
 	t.Parallel()
 
 	if *isLive {
@@ -30,8 +30,8 @@ func Test_DBForPostgreSQL_FlexibleServer_20220120preview_CRUD(t *testing.T) {
 	ctx := context.Background()
 	tc := globalTestContext.ForTest(t)
 
-	//location := tc.AzureRegion Capacity crunch in West US 2 makes this not work when live
-	location := "eastus"
+	// Capacity crunch in West US 2 makes this not work when live
+	tc.AzureRegion = to.Ptr("uksouth")
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -49,13 +49,13 @@ func Test_DBForPostgreSQL_FlexibleServer_20220120preview_CRUD(t *testing.T) {
 		Name: secret.Name,
 		Key:  adminPasswordKey,
 	}
-	version := postgresql.ServerVersion_13
+	version := postgresql.ServerVersion_16
 	tier := postgresql.Sku_Tier_GeneralPurpose
 	fqdnConfig := "fqdnconfig"
 	flexibleServer := &postgresql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("postgresql"),
 		Spec: postgresql.FlexibleServer_Spec{
-			Location: &location,
+			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &postgresql.Sku{
@@ -108,19 +108,19 @@ func Test_DBForPostgreSQL_FlexibleServer_20220120preview_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "Flexible servers database CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				FlexibleServer_Database_20220120preview_CRUD(tc, flexibleServer)
+				FlexibleServer_Database_20230601Preview_CRUD(tc, flexibleServer)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Flexible servers firewall CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				FlexibleServer_FirewallRule_20220120preview_CRUD(tc, flexibleServer)
+				FlexibleServer_FirewallRule_20230601Preview_CRUD(tc, flexibleServer)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Flexible servers configuration CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				FlexibleServer_Configuration_20220120preview_CRUD(tc, flexibleServer)
+				FlexibleServer_Configuration_20230601Preview_CRUD(tc, flexibleServer)
 			},
 		},
 	)
@@ -161,7 +161,7 @@ func FlexibleServer_ConfigValuesWrittenToSameConfigMap(tc *testcommon.KubePerTes
 		*flexibleServer.Status.FullyQualifiedDomainName)
 }
 
-func FlexibleServer_Database_20220120preview_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
+func FlexibleServer_Database_20230601Preview_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	database := &postgresql.FlexibleServersDatabase{
 		ObjectMeta: tc.MakeObjectMeta("db"),
 		Spec: postgresql.FlexibleServers_Database_Spec{
@@ -175,7 +175,7 @@ func FlexibleServer_Database_20220120preview_CRUD(tc *testcommon.KubePerTestCont
 	tc.Expect(database.Status.Id).ToNot(BeNil())
 }
 
-func FlexibleServer_FirewallRule_20220120preview_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
+func FlexibleServer_FirewallRule_20230601Preview_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	firewall := &postgresql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("fwrule"),
 		Spec: postgresql.FlexibleServers_FirewallRule_Spec{
@@ -192,7 +192,7 @@ func FlexibleServer_FirewallRule_20220120preview_CRUD(tc *testcommon.KubePerTest
 	tc.Expect(firewall.Status.Id).ToNot(BeNil())
 }
 
-func FlexibleServer_Configuration_20220120preview_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
+func FlexibleServer_Configuration_20230601Preview_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	configuration := &postgresql.FlexibleServersConfiguration{
 		ObjectMeta: tc.MakeObjectMeta("pgaudit"),
 		Spec: postgresql.FlexibleServers_Configuration_Spec{
