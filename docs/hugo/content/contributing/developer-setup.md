@@ -73,7 +73,6 @@ $ docker run --env-file ~/work/envs.env --env HOSTROOT=$(git rev-parse --show-to
 
 Note: If you mount the source like this from a Windows folder, performance will be poor as file operations between the container and Windows are very slow.
 
-
 ## CLI on Linux
 
 If you are using Linux, instead of using VS Code you can run the `dev.sh` script in the root of the repository. This will install all required tooling into the `hack/tools` directory and then start a new shell with the `PATH` updated to use it.
@@ -115,7 +114,7 @@ If you see a list of tags (as shown above), then you're good to go.
 Otherwise, pull tags from your upstream repo and check again:
 
 ``` bash
-$ git-fetch --all --tags
+$ git fetch --all --tags
 Fetching origin
 $ git tag --list 'v2*'
 v2.0.0
