@@ -10,11 +10,11 @@ description: "How to set up your developer environment for Azure Service Operato
 
 We support a number of different approaches to ASO development.
 
-- Dev Container with VS Code on Linux
-- Dev Container with VS Code on Windows
-- Docker on Linux
-- CLI on Linux
-- CLI on MacOS
+- [Dev Container with VS Code on Linux](#dev-container-with-vs-code-on-linux)
+- [Dev Container with VS Code on Windows](#dev-container-with-vs-code-on-windows)
+- [Docker on Linux](#docker-on-linux)
+- [CLI on Linux](#cli-on-linux)
+- [CLI on MacOS](#cli-on-macos)
 
 Each of these is described in a different section below. See also the [troubleshooting](#troubleshooting-repo-health) sections below for help with common problems.
 
