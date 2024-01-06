@@ -36,7 +36,7 @@ set -eu
 # Be sure to use include the `#doc#` prefix on each line.
 #
 
-VERBOSE=true
+VERBOSE=false
 SKIP=false
 DEVCONTAINER=false
 
@@ -87,7 +87,9 @@ if [ "$DEVCONTAINER" = true ]; then
     BUILDX_DEST=/usr/lib/docker/cli-plugins
 else
     TOOL_DEST=$(git rev-parse --show-toplevel)/hack/tools
+    CROSSPLANE_CONFIG_DIR=$(git rev-parse --show-toplevel)/hack/crossplane/config
     mkdir -p "$TOOL_DEST"
+    mkdir -p "$CROSSPLANE_CONFIG_DIR"
     KUBEBUILDER_DEST="$TOOL_DEST/kubebuilder"
     BUILDX_DEST=$HOME/.docker/cli-plugins
 fi
@@ -139,7 +141,7 @@ write-verbose "Installing tools to $TOOL_DEST"
 TMPDIR=$(mktemp -d)
 clean() { 
     # Macos wants different flag order
-    if [[ ${os} == "darwin" ]]; then 
+    if [[ ${os} == "darwin" ]]; then
         chmod -R +w "$TMPDIR"
     else
         chmod +w -R "$TMPDIR"
@@ -233,7 +235,7 @@ fi
 write-verbose "Checking for $TOOL_DEST/trivy"
 if should-install "$TOOL_DEST/trivy"; then
     write-info "Installing trivy"
-    # This guys decided to use different naming conventions for os and arch despite trivy is 98.6% written in Go
+    # This guys decided to use different naming conventions for os(go env GOOS) and arch(go env GOARCH) despite trivy is 98.6% written in Go
     # This fixes macos arm64 architechture. Every other os/arch is named differently. Consider adding a workaround of your own ¯\_(ツ)_/¯
     if [[ ${os} == "darwin" ]] && [[ ${arch} == "arm64" ]]; then
         curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.37.3/trivy_0.37.3_macOS-ARM64.tar.gz" | tar xz -C "$TOOL_DEST" trivy
