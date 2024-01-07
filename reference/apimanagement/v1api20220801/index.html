@@ -39,7 +39,7 @@
     AdditionalLocation   (Appears on:Service_Spec)  Description of an additional API Management resource location.
     Field Description      disableGateway  bool    DisableGateway: Property only valid for an Api Management service deployed in multiple locations.">
 
-<meta itemprop="wordCount" content="18744">
+<meta itemprop="wordCount" content="19253">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="apimanagement.azure.com/v1api20220801"/>
 <meta name="twitter:description" content="apimanagement.azure.com/v1api20220801  Package v1api20220801 contains API Schema definitions for the apimanagement v1api20220801 API group
@@ -9517,7 +9517,7 @@ Service_Policy_STATUS
 <h3 id="apimanagement.azure.com/v1api20220801.PolicyContractProperties_ARM">PolicyContractProperties_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Policy_Spec_ARM">Service_Policy_Spec_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Policy_Spec_ARM">Service_Policy_Spec_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Products_Policy_Spec_ARM">Service_Products_Policy_Spec_ARM</a>)
 </p>
 <div>
 <p>Policy contract Properties.</p>
@@ -9559,7 +9559,7 @@ string
 <h3 id="apimanagement.azure.com/v1api20220801.PolicyContractProperties_Format">PolicyContractProperties_Format
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_ARM">PolicyContractProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Policy_Spec">Service_Policy_Spec</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_ARM">PolicyContractProperties_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Policy_Spec">Service_Policy_Spec</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Products_Policy_Spec">Service_Products_Policy_Spec</a>)
 </p>
 <div>
 </div>
@@ -9583,7 +9583,7 @@ string
 <h3 id="apimanagement.azure.com/v1api20220801.PolicyContractProperties_Format_STATUS">PolicyContractProperties_Format_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_STATUS_ARM">PolicyContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Policy_STATUS">Service_Policy_STATUS</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_STATUS_ARM">PolicyContractProperties_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Policy_STATUS">Service_Policy_STATUS</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Products_Policy_STATUS">Service_Products_Policy_STATUS</a>)
 </p>
 <div>
 </div>
@@ -9607,7 +9607,7 @@ string
 <h3 id="apimanagement.azure.com/v1api20220801.PolicyContractProperties_STATUS_ARM">PolicyContractProperties_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Policy_STATUS_ARM">Service_Policy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.Service_Policy_STATUS_ARM">Service_Policy_STATUS_ARM</a>, <a href="#apimanagement.azure.com/v1api20220801.Service_Products_Policy_STATUS_ARM">Service_Products_Policy_STATUS_ARM</a>)
 </p>
 <div>
 <p>Policy contract Properties.</p>
@@ -10285,6 +10285,92 @@ Service_Product_STATUS
 </tr>
 </tbody>
 </table>
+<h3 id="apimanagement.azure.com/v1api20220801.ProductApi">ProductApi
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/apimproducts.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ApiManagement/&#x200b;service/&#x200b;{serviceName}/&#x200b;products/&#x200b;{productId}/&#x200b;apis/&#x200b;{apiId}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.Service_Products_Api_Spec">
+Service_Products_Api_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a apimanagement.azure.com/Product resource</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.Service_Products_Api_STATUS">
+Service_Products_Api_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="apimanagement.azure.com/v1api20220801.ProductContractProperties_ARM">ProductContractProperties_ARM
 </h3>
 <p>
@@ -10540,6 +10626,104 @@ these terms before they can complete the subscription process.</p>
 </tr><tr><td><p>&#34;published&#34;</p></td>
 <td></td>
 </tr></tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.ProductPolicy">ProductPolicy
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/apimproducts.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ApiManagement/&#x200b;service/&#x200b;{serviceName}/&#x200b;products/&#x200b;{productId}/&#x200b;policies/&#x200b;{policyId}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.Service_Products_Policy_Spec">
+Service_Products_Policy_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>format</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_Format">
+PolicyContractProperties_Format
+</a>
+</em>
+</td>
+<td>
+<p>Format: Format of the policyContent.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a apimanagement.azure.com/Product resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Contents of the Policy as defined by the format.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.Service_Products_Policy_STATUS">
+Service_Products_Policy_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
 </table>
 <h3 id="apimanagement.azure.com/v1api20220801.RemotePrivateEndpointConnectionWrapper_STATUS">RemotePrivateEndpointConnectionWrapper_STATUS
 </h3>
@@ -13806,6 +13990,350 @@ ProductContractProperties_ARM
 </td>
 <td>
 <p>Properties: Product entity contract properties.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Products_Api_STATUS">Service_Products_Api_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ProductApi">ProductApi</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Products_Api_STATUS_ARM">Service_Products_Api_STATUS_ARM
+</h3>
+<div>
+</div>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Products_Api_Spec">Service_Products_Api_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ProductApi">ProductApi</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a apimanagement.azure.com/Product resource</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Products_Api_Spec_ARM">Service_Products_Api_Spec_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Products_Policy_STATUS">Service_Products_Policy_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ProductPolicy">ProductPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>format</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_Format_STATUS">
+PolicyContractProperties_Format_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Format: Format of the policyContent.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Contents of the Policy as defined by the format.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Products_Policy_STATUS_ARM">Service_Products_Policy_STATUS_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_STATUS_ARM">
+PolicyContractProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the Policy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Products_Policy_Spec">Service_Products_Policy_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#apimanagement.azure.com/v1api20220801.ProductPolicy">ProductPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>format</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_Format">
+PolicyContractProperties_Format
+</a>
+</em>
+</td>
+<td>
+<p>Format: Format of the policyContent.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a apimanagement.azure.com/Product resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Value: Contents of the Policy as defined by the format.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="apimanagement.azure.com/v1api20220801.Service_Products_Policy_Spec_ARM">Service_Products_Policy_Spec_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#apimanagement.azure.com/v1api20220801.PolicyContractProperties_ARM">
+PolicyContractProperties_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the Policy.</p>
 </td>
 </tr>
 </tbody>
