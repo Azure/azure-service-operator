@@ -146,6 +146,7 @@ type Workspaces_BigDataPool_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                 string                     `json:"azureName,omitempty"`
+	CacheSize                 *int                       `json:"cacheSize,omitempty"`
 	CustomLibraries           []LibraryInfo              `json:"customLibraries,omitempty"`
 	DefaultSparkLogFolder     *string                    `json:"defaultSparkLogFolder,omitempty"`
 	DynamicExecutorAllocation *DynamicExecutorAllocation `json:"dynamicExecutorAllocation,omitempty"`

@@ -1,0 +1,10 @@
+apiVersion: apimanagement.azure.com/v1api20230501preview
+kind: Subscription
+metadata:
+  name: sampleapimsubscription
+  namespace: default
+spec:
+  displayName: Sample subscription
+  scope: /apis
+  owner:
+    name: sampleapimservice

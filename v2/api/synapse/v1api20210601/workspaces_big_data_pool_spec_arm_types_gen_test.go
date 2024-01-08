@@ -161,6 +161,7 @@ func BigDataPoolResourceProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBigDataPoolResourceProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBigDataPoolResourceProperties_ARM(gens map[string]gopter.Gen) {
+	gens["CacheSize"] = gen.PtrOf(gen.Int())
 	gens["DefaultSparkLogFolder"] = gen.PtrOf(gen.AlphaString())
 	gens["IsAutotuneEnabled"] = gen.PtrOf(gen.Bool())
 	gens["IsComputeIsolationEnabled"] = gen.PtrOf(gen.Bool())

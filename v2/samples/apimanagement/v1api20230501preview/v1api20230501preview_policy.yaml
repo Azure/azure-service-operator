@@ -1,0 +1,15 @@
+apiVersion: apimanagement.azure.com/v1api20230501preview
+kind: Policy
+metadata:
+  name: sampleapimpolicy
+  namespace: default
+spec:
+  value: <policies>
+          <inbound />
+          <backend>
+            <forward-request />
+          </backend>
+          <outbound />
+        </policies>
+  owner:
+    name: sampleapimservice
