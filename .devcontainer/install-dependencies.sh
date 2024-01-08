@@ -103,10 +103,21 @@ fi
 GOVER=$(go version)
 write-info "Go version: ${GOVER[*]}"
 
+GOVERREGEX=".*go1.([0-9]+).([0-9]+).*"
 GOVERREQUIRED="go1.20.*"
 GOVERACTUAL=$(go version | { read _ _ ver _; echo "$ver"; })
-if ! [[ "$GOVERACTUAL" =~ $GOVERREQUIRED ]]; then
-    write-error "Go must be version $GOVERREQUIRED, not $GOVERACTUAL; see : https://golang.org/doc/install"
+
+if ! [[ $GOVERACTUAL =~ $GOVERREGEX ]]; then
+    write-error "Unexpected Go version format: $GOVERACTUAL"
+    exit 1
+fi
+
+GOMINORVER="${BASH_REMATCH[1]}"
+GOMINORREQUIRED=20
+
+# We allow for Go versions above the min version, but prevent versions below. This is safe given Go's back-compat guarantees
+if ! [[ $GOMINORVER -ge $GOMINORREQUIRED ]]; then
+    write-error "Go must be version 1.$GOMINORREQUIRED, not $GOVERACTUAL; see : https://golang.org/doc/install"
     exit 1
 fi
 

@@ -66,7 +66,7 @@ if __name__ == "__main__":
         # Failure may be because there are no tags, give the user some hints
         print(f"git describe failed ({git_describe.returncode}): {git_describe.stderr}", file=sys.stderr)
         print("(Do you have a shallow clone of ASO? try `git fetch --unshallow`)", file=sys.stderr)
-        print("(See https://azure.github.io/azure-service-operator/contributing/ )", file=sys.stderr)
+        print("(See https://azure.github.io/azure-service-operator/contributing/ and https://azure.github.io/azure-service-operator/contributing/developer-setup/#troubleshooting-repo-health )", file=sys.stderr)
         sys.exit(1)
 
     git_version = git_describe.stdout.strip()

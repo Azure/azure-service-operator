@@ -143,3 +143,13 @@ Note that the resource manager audience is referred to as "activeDirectoryResour
 **Example:** `"https://management.core.chinacloudapi.cn/"`
 
 **Required**: False
+
+### AZURE_USER_AGENT_SUFFIX
+
+AZURE_USER_AGENT_SUFFIX is appended to the default User-Agent for Azure HTTP clients.
+
+**Format:** `string`
+
+**Example:** `"my-user-agent"`
+
+**Required**: False

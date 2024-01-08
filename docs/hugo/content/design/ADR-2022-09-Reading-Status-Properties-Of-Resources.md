@@ -272,7 +272,7 @@ Cons:
 
 #### Implementation
 
-For doing dynamic serialization, see the [go-task](https://github.com/go-task/task/blob/master/taskfile/var.go) example
+For doing dynamic serialization, see the [go-task](https://github.com/go-task/task/blob/master/taskfile/ast/var.go) example
 which does this.
 
 ## Decision

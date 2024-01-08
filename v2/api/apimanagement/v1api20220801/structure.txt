@@ -492,6 +492,37 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │       ├── SubscriptionsLimit: *int
 │       ├── Terms: *string
 │       └── Type: *string
+├── ProductApi: Resource
+│   ├── Owner: Product
+│   ├── Spec: Object (2 properties)
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: MaxLength: 256
+│   │   │   ├── Rule 1: MinLength: 1
+│   │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
+│   │   └── Owner: *genruntime.KnownResourceReference
+│   └── Status: Object (1 property)
+│       └── Conditions: conditions.Condition[]
+├── ProductPolicy: Resource
+│   ├── Owner: Product
+│   ├── Spec: Object (3 properties)
+│   │   ├── Format: *Enum (4 values)
+│   │   │   ├── "rawxml"
+│   │   │   ├── "rawxml-link"
+│   │   │   ├── "xml"
+│   │   │   └── "xml-link"
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   └── Value: *string
+│   └── Status: Object (6 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Format: *Enum (4 values)
+│       │   ├── "rawxml"
+│       │   ├── "rawxml-link"
+│       │   ├── "xml"
+│       │   └── "xml-link"
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── Type: *string
+│       └── Value: *string
 ├── Service: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (23 properties)
@@ -1173,6 +1204,29 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │       ├── SubscriptionRequired: *bool
 │       ├── SubscriptionsLimit: *int
 │       └── Terms: *string
+├── Service_Products_Api_STATUS_ARM: Object (0 properties)
+├── Service_Products_Api_Spec_ARM: Object (1 property)
+│   └── Name: string
+├── Service_Products_Policy_STATUS_ARM: Object (4 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (2 properties)
+│   │   ├── Format: *Enum (4 values)
+│   │   │   ├── "rawxml"
+│   │   │   ├── "rawxml-link"
+│   │   │   ├── "xml"
+│   │   │   └── "xml-link"
+│   │   └── Value: *string
+│   └── Type: *string
+├── Service_Products_Policy_Spec_ARM: Object (2 properties)
+│   ├── Name: string
+│   └── Properties: *Object (2 properties)
+│       ├── Format: *Enum (4 values)
+│       │   ├── "rawxml"
+│       │   ├── "rawxml-link"
+│       │   ├── "xml"
+│       │   └── "xml-link"
+│       └── Value: *string
 ├── Service_STATUS_ARM: Object (11 properties)
 │   ├── Etag: *string
 │   ├── Id: *string

@@ -4,8 +4,8 @@ metadata:
   name: sampleapimversionset
   namespace: default
 spec:
-  displayName: /apiVersionSets/account-api
-  description: Version Set for account-api
+  displayName: v1
+  description: Version Set for v1
   versioningScheme: Segment
   owner:
     name: sampleapimservice
