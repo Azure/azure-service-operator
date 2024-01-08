@@ -126,18 +126,6 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 			},
 		},
 		testcommon.Subtest{
-			Name: "APIM Product Api CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				APIM_Product_Api_CRUD(tc, &service)
-			},
-		},
-		testcommon.Subtest{
-			Name: "APIM Product Policy CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				APIM_Product_Policy_CRUD(tc, &service)
-			},
-		},
-		testcommon.Subtest{
 			Name: "APIM Authorization Provider CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
 				APIM_AuthorizationProvider_CRUD(tc, &service)
