@@ -10,6 +10,8 @@ import (
 	v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview/storage"
 	v20221201 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201"
 	v20221201s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/storage"
+	v20230601p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview"
+	v20230601ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -24,5 +26,7 @@ func (extension *FlexibleServersFirewallRuleExtension) GetExtendedResources() []
 		&v20220120p.FlexibleServersFirewallRule{},
 		&v20220120ps.FlexibleServersFirewallRule{},
 		&v20221201.FlexibleServersFirewallRule{},
-		&v20221201s.FlexibleServersFirewallRule{}}
+		&v20221201s.FlexibleServersFirewallRule{},
+		&v20230601p.FlexibleServersFirewallRule{},
+		&v20230601ps.FlexibleServersFirewallRule{}}
 }
