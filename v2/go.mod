@@ -35,7 +35,7 @@ require (
 	github.com/spf13/cobra v1.8.0
 	golang.org/x/crypto v0.17.0
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d
-	golang.org/x/sync v0.5.0
+	golang.org/x/sync v0.6.0
 	golang.org/x/time v0.5.0
 	k8s.io/api v0.29.0
 	k8s.io/apiextensions-apiserver v0.29.0
