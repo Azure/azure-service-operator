@@ -611,6 +611,7 @@
   <ul>
     <li>
       <ul>
+        <li><a href="#next-release">Next Release</a></li>
         <li><a href="#released">Released</a></li>
       </ul>
     </li>
@@ -673,6 +674,49 @@
 		
 	</header>
 	<p>To install the CRDs for these resources, your ASO configuration must include <code>dbforpostgresql.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>ARM Version</th>
+<th>CRD Version</th>
+<th>Supported From</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FlexibleServer</td>
+<td>2023-06-01-preview</td>
+<td>v1api20230601preview</td>
+<td>v2.6.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20230601preview/v1api20230601preview_flexibleserver.yaml">View</a></td>
+</tr>
+<tr>
+<td>FlexibleServersConfiguration</td>
+<td>2023-06-01-preview</td>
+<td>v1api20230601preview</td>
+<td>v2.6.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20230601preview/v1api20230601preview_flexibleserversconfiguration.yaml">View</a></td>
+</tr>
+<tr>
+<td>FlexibleServersDatabase</td>
+<td>2023-06-01-preview</td>
+<td>v1api20230601preview</td>
+<td>v2.6.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20230601preview/v1api20230601preview_flexibleserversdatabase.yaml">View</a></td>
+</tr>
+<tr>
+<td>FlexibleServersFirewallRule</td>
+<td>2023-06-01-preview</td>
+<td>v1api20230601preview</td>
+<td>v2.6.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20230601preview/v1api20230601preview_flexibleserversfirewallrule.yaml">View</a></td>
+</tr>
+</tbody>
+</table>
 <h3 id="released">Released</h3>
 <p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
