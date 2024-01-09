@@ -7,11 +7,12 @@ spec:
   apiVersion: v1
   apiRevision: "1"
   apiRevisionDescription: Initial Version
-  ApiVersionSetReference:
+  apiVersionSetReference:
     group: apimanagement.azure.com
     kind: ApiVersionSet
     name: sampleapimversionset
   description: Description about the API
+  displayName: apiname
   path: /sampleapi
   protocols:
     - http
