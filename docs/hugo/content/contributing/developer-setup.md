@@ -79,12 +79,13 @@ If you are using Linux, instead of using VS Code you can run the `dev.sh` script
 
 ## CLI on MacOS
 
-Development of ASO on MacOS is possible (one of our team does so), but things are less automated.
+Development of ASO on MacOS is also possible.
 
-You'll need to manually install the tools as listed by `.devcontainer/install-dependencies.sh`.
+You can either use the VS Code devcontainer approach (recommended) which installs all the tools into a container, or you can install the tools directly on your Mac. In case of the latter, you'll need to install the following tools manually running: `.devcontainer/install-dependencies.sh`.
+
+This creates `hack/tools` and downloads all the required tools into it based on the architecture(arm64 or amd64) of your machine.
 
 If you have an ARM based Mac, you'll also need to install [Rosetta](https://support.apple.com/en-nz/HT211861).
-
 
 ## Troubleshooting: Repo health
 
