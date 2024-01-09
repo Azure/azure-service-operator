@@ -9,6 +9,8 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+	v1 "k8s.io/api/core/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	signalrservice "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -87,6 +89,11 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(&signalR)
 	tc.Expect(signalR.Status.Id).ToNot(BeNil())
 	armId := *signalR.Status.Id
+
+	// There should be no secrets at this point
+	secretList := &v1.SecretList{}
+	tc.ListResources(secretList, client.InNamespace(tc.Namespace))
+	tc.Expect(secretList.Items).To(HaveLen(0))
 
 	// Perform a patch to add another URL to the cors allow list.
 	old := signalR.DeepCopy()

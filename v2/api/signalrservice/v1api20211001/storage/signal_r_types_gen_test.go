@@ -160,6 +160,7 @@ func AddRelatedPropertyGeneratorsForSignalR_Spec(gens map[string]gopter.Gen) {
 	gens["Features"] = gen.SliceOf(SignalRFeatureGenerator())
 	gens["Identity"] = gen.PtrOf(ManagedIdentityGenerator())
 	gens["NetworkACLs"] = gen.PtrOf(SignalRNetworkACLsGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(SignalROperatorSpecGenerator())
 	gens["ResourceLogConfiguration"] = gen.PtrOf(ResourceLogConfigurationGenerator())
 	gens["Sku"] = gen.PtrOf(ResourceSkuGenerator())
 	gens["Tls"] = gen.PtrOf(SignalRTlsSettingsGenerator())
@@ -1306,6 +1307,67 @@ func AddRelatedPropertyGeneratorsForSignalRNetworkACLs_STATUS(gens map[string]go
 	gens["PublicNetwork"] = gen.PtrOf(NetworkACL_STATUSGenerator())
 }
 
+func Test_SignalROperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SignalROperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSignalROperatorSpec, SignalROperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSignalROperatorSpec runs a test to see if a specific instance of SignalROperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSignalROperatorSpec(subject SignalROperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SignalROperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SignalROperatorSpec instances for property testing - lazily instantiated by
+// SignalROperatorSpecGenerator()
+var signalROperatorSpecGenerator gopter.Gen
+
+// SignalROperatorSpecGenerator returns a generator of SignalROperatorSpec instances for property testing.
+func SignalROperatorSpecGenerator() gopter.Gen {
+	if signalROperatorSpecGenerator != nil {
+		return signalROperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForSignalROperatorSpec(generators)
+	signalROperatorSpecGenerator = gen.Struct(reflect.TypeOf(SignalROperatorSpec{}), generators)
+
+	return signalROperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForSignalROperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSignalROperatorSpec(gens map[string]gopter.Gen) {
+	gens["Secrets"] = gen.PtrOf(SignalROperatorSecretsGenerator())
+}
+
 func Test_SignalRTlsSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1861,6 +1923,61 @@ func ResourceLogCategory_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForResourceLogCategory_STATUS(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_SignalROperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SignalROperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSignalROperatorSecrets, SignalROperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSignalROperatorSecrets runs a test to see if a specific instance of SignalROperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForSignalROperatorSecrets(subject SignalROperatorSecrets) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SignalROperatorSecrets
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SignalROperatorSecrets instances for property testing - lazily instantiated by
+// SignalROperatorSecretsGenerator()
+var signalROperatorSecretsGenerator gopter.Gen
+
+// SignalROperatorSecretsGenerator returns a generator of SignalROperatorSecrets instances for property testing.
+func SignalROperatorSecretsGenerator() gopter.Gen {
+	if signalROperatorSecretsGenerator != nil {
+		return signalROperatorSecretsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	signalROperatorSecretsGenerator = gen.Struct(reflect.TypeOf(SignalROperatorSecrets{}), generators)
+
+	return signalROperatorSecretsGenerator
 }
 
 func Test_UpstreamTemplate_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

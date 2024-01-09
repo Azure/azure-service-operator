@@ -2315,6 +2315,11 @@ objectModelConfiguration:
       SignalR:
         $export: true
         $supportedFrom: v2.0.0-alpha.4
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
   sql:
     2021-11-01:
       # Note that there are a few commented out resources which we are not exporting for sql. They're commented out as

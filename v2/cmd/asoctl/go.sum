@@ -29,6 +29,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch v1.3.0 h1
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch v1.3.0/go.mod h1:3uruTckNIGQ4iNsvAs/qrLgWBoS1pA7pCzHFmTFU+LU=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus v1.2.0 h1:jngSeKBnzC7qIk3rvbWHsLI7eeasEucORHWr2CHX0Yg=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus v1.2.0/go.mod h1:1YXAxWw6baox+KafeQU2scy21/4IHvqXoIJuCpcvpMQ=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/signalr/armsignalr v1.2.0 h1:Y8CF7FyuVVDyX5W6Azwjj3PpwUZVbXBOCyQytv/0QEA=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/signalr/armsignalr v1.2.0/go.mod h1:tzUx/enAY8RSmQhRq02uVZFeRJxdGYT6BqXwHiHoOcU=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.5.0 h1:AifHbc4mg0x9zW52WOpKbsHaDKuRhlI7TVl47thgQ70=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.5.0/go.mod h1:T5RfihdXtBDxt1Ch2wobif3TvzTdumDy29kahv6AV9A=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription v1.2.0 h1:UrGzkHueDwAWDdjQxC+QaXHd4tVCkISYE9j7fSSXF8k=
@@ -185,8 +187,6 @@ github.com/stretchr/testify v1.7.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/
 github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO+kdMU+MU=
 github.com/stretchr/testify v1.8.1/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=
-github.com/vbauerster/mpb/v8 v8.7.0 h1:n2LTGyol7qqNBcLQn8FL5Bga2O8CGF75OOYsJVFsfMg=
-github.com/vbauerster/mpb/v8 v8.7.0/go.mod h1:0RgdqeTpu6cDbdWeSaDvEvfgm9O598rBnRZ09HKaV0k=
 github.com/vbauerster/mpb/v8 v8.7.1 h1:bQoSMMTFAg/gjsLrBYmO8gbRcZt7aDq6WI2IMa9BTqM=
 github.com/vbauerster/mpb/v8 v8.7.1/go.mod h1:fWgXcAu4W+0cBSUh4ZlaKJyC2KtgU27ZSTaiIk0QNsQ=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
