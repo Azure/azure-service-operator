@@ -255,7 +255,7 @@ fi
 # Install yq
 #doc# | YQ | v4.13.0 | https://github.com/mikefarah/yq/ |
 yq_version=v4.13.0
-yq_binary=yq_linux_amd64
+yq_binary=yq_${os}_${arch}
 write-verbose "Checking for $TOOL_DEST/yq"
 if should-install "$TOOL_DEST/yq"; then 
     write-info "Installing yq..."
