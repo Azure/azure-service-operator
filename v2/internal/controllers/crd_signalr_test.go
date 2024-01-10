@@ -15,6 +15,7 @@ import (
 	signalrservice "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_SignalRService_SignalR_CRUD(t *testing.T) {
@@ -90,11 +91,6 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 	tc.Expect(signalR.Status.Id).ToNot(BeNil())
 	armId := *signalR.Status.Id
 
-	// There should be no secrets at this point
-	secretList := &v1.SecretList{}
-	tc.ListResources(secretList, client.InNamespace(tc.Namespace))
-	tc.Expect(secretList.Items).To(HaveLen(0))
-
 	// Perform a patch to add another URL to the cors allow list.
 	old := signalR.DeepCopy()
 	signalR.Spec.Cors.AllowedOrigins = append(
@@ -104,6 +100,27 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 	tc.Expect(signalR.Status.Cors).ToNot(BeNil())
 	tc.Expect(signalR.Status.Cors.AllowedOrigins).To(ContainElement("https://definitelymydomain.horse"))
 
+	// There should be no secrets at this point
+	list := &v1.SecretList{}
+	tc.ListResources(list, client.InNamespace(tc.Namespace))
+	tc.Expect(list.Items).To(HaveLen(0))
+
+	// Run sub-tests on the cosmosdb in sequence
+	tc.RunSubtests(
+		testcommon.Subtest{
+			Name: "SecretsWrittenToSameKubeSecret",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				SignalR_SecretsWrittenToSameKubeSecret(tc, &signalR)
+			},
+		},
+		testcommon.Subtest{
+			Name: "SecretsWrittenToDifferentKubeSecrets",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				SignalR_SecretsWrittenToDifferentKubeSecrets(tc, &signalR)
+			},
+		},
+	)
+
 	tc.DeleteResourcesAndWait(&signalR)
 
 	// Ensure that the resource was really deleted in Azure
@@ -111,4 +128,69 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
+}
+
+func SignalR_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, signalR *signalrservice.SignalR) {
+	old := signalR.DeepCopy()
+	signalrSecret := "signalrsecret"
+	signalR.Spec.OperatorSpec = &signalrservice.SignalROperatorSpec{
+		Secrets: &signalrservice.SignalROperatorSecrets{
+			PrimaryKey: &genruntime.SecretDestination{
+				Name: signalrSecret,
+				Key:  "primarykey",
+			},
+			PrimaryConnectionString: &genruntime.SecretDestination{
+				Name: signalrSecret,
+				Key:  "primaryconnectionstring",
+			},
+			SecondaryKey: &genruntime.SecretDestination{
+				Name: signalrSecret,
+				Key:  "secondarykey",
+			},
+			SecondaryConnectionString: &genruntime.SecretDestination{
+				Name: signalrSecret,
+				Key:  "secondaryconnectionstring",
+			},
+		},
+	}
+	tc.PatchResourceAndWait(old, signalR)
+
+	tc.ExpectSecretHasKeys(signalrSecret, "primarykey", "primaryconnectionstring", "secondarykey", "secondaryconnectionstring")
+}
+
+func SignalR_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerTestContext, signalR *signalrservice.SignalR) {
+	old := signalR.DeepCopy()
+	primaryKeySecret := "secret1"
+	primaryConnectionString := "secret2"
+	secondaryKeySecret := "secret3"
+	secondaryConnectionString := "secret4"
+
+	// Not testing port as it's not returned by default so won't be written anyway
+
+	signalR.Spec.OperatorSpec = &signalrservice.SignalROperatorSpec{
+		Secrets: &signalrservice.SignalROperatorSecrets{
+			PrimaryKey: &genruntime.SecretDestination{
+				Name: primaryKeySecret,
+				Key:  "primarykey",
+			},
+			PrimaryConnectionString: &genruntime.SecretDestination{
+				Name: primaryConnectionString,
+				Key:  "primaryconnectionstring",
+			},
+			SecondaryKey: &genruntime.SecretDestination{
+				Name: secondaryKeySecret,
+				Key:  "secondarykey",
+			},
+			SecondaryConnectionString: &genruntime.SecretDestination{
+				Name: secondaryConnectionString,
+				Key:  "secondaryconnectionstring",
+			},
+		},
+	}
+	tc.PatchResourceAndWait(old, signalR)
+
+	tc.ExpectSecretHasKeys(primaryKeySecret, "primarykey")
+	tc.ExpectSecretHasKeys(primaryConnectionString, "primaryconnectionstring")
+	tc.ExpectSecretHasKeys(secondaryKeySecret, "secondarykey")
+	tc.ExpectSecretHasKeys(secondaryConnectionString, "secondaryconnectionstring")
 }
