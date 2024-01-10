@@ -50,6 +50,13 @@ if [ -f "$DIR/azure/fic.txt" ]; then
   fi
 fi
 
+if [ -f "$DIR/azure/roleassignmentid.txt" ]; then
+  # Need to delete the role assignment as well so we don't leak them
+  ROLE_ASSIGNMENT_ID=$(cat $DIR/azure/roleassignmentid.txt)
+  echo "Deleting role assignment: ${ROLE_ASSIGNMENT_ID}"
+  az role assignment delete --ids "${ROLE_ASSIGNMENT_ID}"
+fi
+
 if [ $(az group exists --name ${RESOURCE_GROUP}) = true ]; then
   echo "Deleting resourceGroup: ${RESOURCE_GROUP}"
   az group delete --name ${RESOURCE_GROUP} -y
