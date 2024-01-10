@@ -3,6 +3,9 @@
 # This is pinned to a particular version of go:
 FROM mcr.microsoft.com/vscode/devcontainers/go:0-1.20
 
+# https://docs.docker.com/engine/reference/builder/#automatic-platform-args-in-the-global-scope
+ARG TARGETARCH
+
 # APT dependencies
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
@@ -32,7 +35,7 @@ RUN setup-envtest use 1.27.1 --bin-dir /usr/local/envtest/bin
 # (entrypoint is only run on start, not on exec). Due to that, the following approaches do not work:
 # - ~/.bashrc - only works for one user in a shell but we must support -u $(id -u ${USER}):$(id -g ${USER}) which means the container could run as more than 1 user
 # - /etc/profile or /etc/profile.d - only works for one user in a login shell
-ENV KUBEBUILDER_ASSETS=/usr/local/envtest/bin/k8s/1.27.1-linux-amd64
+ENV KUBEBUILDER_ASSETS=/usr/local/envtest/bin/k8s/1.27.1-linux-${TARGETARCH}
 ENV PATH=$KUBEBUILDER_ASSETS:$PATH
 
 # Make kubectl completions work with 'k' alias
