@@ -13,7 +13,6 @@ import (
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
 
@@ -27,6 +26,13 @@ type ConversionParameters struct {
 	ConversionContext []Type
 	AssignmentHandler func(destination, source dst.Expr) dst.Stmt
 	Locals            *KnownLocalsSet
+
+	// SourceProperty is the source property for this conversion. Note that for recursive conversions this still refers
+	// to the source property that the conversion chain will ultimately be sourced from
+	SourceProperty *PropertyDefinition
+	// DestinationProperty is the destination property for this conversion. Note that for recursive conversions this still refers
+	// to the destination property that the conversion chain will ultimately be assigned to
+	DestinationProperty *PropertyDefinition
 }
 
 // GetSource gets the Source field.
@@ -127,9 +133,8 @@ type ConversionFunctionBuilder struct {
 	IDFactory             IdentifierFactory
 	CodeGenerationContext *CodeGenerationContext
 
-	// ForceEmptyCollections signals that collections should be initialized to a size 0 collection, rather than an empty collection
-	ForceEmptyCollections     bool
-	EmptyCollectionProperties set.Set[string]
+	// SupportExplicitEmptyCollectionsSerializationMode signals that collections can be initialized to a size 0 collection, rather than an empty collection
+	SupportExplicitEmptyCollectionsSerializationMode bool
 }
 
 // NewConversionFunctionBuilder creates a new ConversionFunctionBuilder with the default conversions already added.
@@ -138,9 +143,8 @@ func NewConversionFunctionBuilder(
 	codeGenerationContext *CodeGenerationContext,
 ) *ConversionFunctionBuilder {
 	return &ConversionFunctionBuilder{
-		IDFactory:                 idFactory,
-		CodeGenerationContext:     codeGenerationContext,
-		EmptyCollectionProperties: set.Make[string](),
+		IDFactory:             idFactory,
+		CodeGenerationContext: codeGenerationContext,
 		conversions: []ConversionHandler{
 			// Complex wrapper types checked first
 			IdentityConvertComplexOptionalProperty,
@@ -159,32 +163,13 @@ func NewConversionFunctionBuilder(
 	}
 }
 
-func (builder *ConversionFunctionBuilder) WithForceEmptyCollections() *ConversionFunctionBuilder {
-	builder.ForceEmptyCollections = true
+func (builder *ConversionFunctionBuilder) WithSupportExplicitEmptyCollectionsSerializationMode() *ConversionFunctionBuilder {
+	builder.SupportExplicitEmptyCollectionsSerializationMode = true
 	return builder
 }
 
-func (builder *ConversionFunctionBuilder) WithForceEmptyCollectionProperties(properties set.Set[string]) *ConversionFunctionBuilder {
-	if len(properties) == 0 {
-		return builder
-	}
-
-	builder.ForceEmptyCollections = true
-	builder.EmptyCollectionProperties.AddAll(properties)
-	return builder
-}
-
-func (builder *ConversionFunctionBuilder) ShouldInitializeCollectionToEmpty(nameHint string) bool {
-	if !builder.ForceEmptyCollections {
-		return false
-	}
-
-	// If there were no properties specified and ForceEmptyCollections is true, that means force everything
-	if builder.ForceEmptyCollections && len(builder.EmptyCollectionProperties) == 0 {
-		return true
-	}
-
-	return builder.EmptyCollectionProperties.Contains(nameHint)
+func (builder *ConversionFunctionBuilder) ShouldInitializeCollectionToEmpty(prop *PropertyDefinition) bool {
+	return prop.HasTagValue(SerializationType, SerializationTypeExplicitEmptyCollection)
 }
 
 // AddConversionHandlers adds the specified conversion handlers to the end of the conversion list.
@@ -243,14 +228,16 @@ func IdentityConvertComplexOptionalProperty(
 
 	conversion, err := builder.BuildConversion(
 		ConversionParameters{
-			Source:            astbuilder.Dereference(params.GetSource()),
-			SourceType:        sourceType.Element(),
-			Destination:       dst.NewIdent(tempVarIdent),
-			DestinationType:   destinationType.Element(),
-			NameHint:          params.NameHint,
-			ConversionContext: append(params.ConversionContext, destinationType),
-			AssignmentHandler: AssignmentHandlerDefine,
-			Locals:            locals,
+			Source:              astbuilder.Dereference(params.GetSource()),
+			SourceType:          sourceType.Element(),
+			Destination:         dst.NewIdent(tempVarIdent),
+			DestinationType:     destinationType.Element(),
+			NameHint:            params.NameHint,
+			ConversionContext:   append(params.ConversionContext, destinationType),
+			AssignmentHandler:   AssignmentHandlerDefine,
+			Locals:              locals,
+			SourceProperty:      params.SourceProperty,
+			DestinationProperty: params.DestinationProperty,
 		})
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to build conversion for optional element")
@@ -315,14 +302,16 @@ func IdentityConvertComplexArrayProperty(
 
 	conversion, err := builder.BuildConversion(
 		ConversionParameters{
-			Source:            dst.NewIdent(itemIdent),
-			SourceType:        sourceType.Element(),
-			Destination:       dst.Clone(destination).(dst.Expr),
-			DestinationType:   destinationType.Element(),
-			NameHint:          itemIdent,
-			ConversionContext: append(params.ConversionContext, destinationType),
-			AssignmentHandler: astbuilder.AppendItemToSlice,
-			Locals:            locals,
+			Source:              dst.NewIdent(itemIdent),
+			SourceType:          sourceType.Element(),
+			Destination:         dst.Clone(destination).(dst.Expr),
+			DestinationType:     destinationType.Element(),
+			NameHint:            itemIdent,
+			ConversionContext:   append(params.ConversionContext, destinationType),
+			AssignmentHandler:   astbuilder.AppendItemToSlice,
+			Locals:              locals,
+			SourceProperty:      params.SourceProperty,
+			DestinationProperty: params.DestinationProperty,
 		})
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to build conversion for array element")
@@ -346,7 +335,7 @@ func IdentityConvertComplexArrayProperty(
 
 	// If we must forcibly construct empty collections, check if the destination is nil and if so, construct an empty collection
 	// This only applies for top-level collections (we don't forcibly construct nested collections)
-	if depth == 0 && builder.ShouldInitializeCollectionToEmpty(params.NameHint) {
+	if depth == 0 && builder.ShouldInitializeCollectionToEmpty(params.SourceProperty) {
 		emptySlice := astbuilder.SliceLiteral(destinationType.Element().AsType(builder.CodeGenerationContext))
 		assignEmpty := astbuilder.SimpleAssignment(params.GetDestination(), emptySlice)
 		astbuilder.AddComments(
@@ -429,14 +418,16 @@ func IdentityConvertComplexMapProperty(
 
 	conversion, err := builder.BuildConversion(
 		ConversionParameters{
-			Source:            dst.NewIdent(valueIdent),
-			SourceType:        sourceType.ValueType(),
-			Destination:       dst.Clone(destination).(dst.Expr),
-			DestinationType:   destinationType.ValueType(),
-			NameHint:          nameHint,
-			ConversionContext: append(params.ConversionContext, destinationType),
-			AssignmentHandler: handler,
-			Locals:            locals,
+			Source:              dst.NewIdent(valueIdent),
+			SourceType:          sourceType.ValueType(),
+			Destination:         dst.Clone(destination).(dst.Expr),
+			DestinationType:     destinationType.ValueType(),
+			NameHint:            nameHint,
+			ConversionContext:   append(params.ConversionContext, destinationType),
+			AssignmentHandler:   handler,
+			Locals:              locals,
+			SourceProperty:      params.SourceProperty,
+			DestinationProperty: params.DestinationProperty,
 		})
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to build conversion for map value")
@@ -453,7 +444,7 @@ func IdentityConvertComplexMapProperty(
 	// If we must forcibly construct empty collections, check if the destination is nil and if so, construct an empty collection
 	// This only applies for top-level collections (we don't forcibly construct nested collections)
 	var result *dst.IfStmt
-	if depth == 0 && builder.ShouldInitializeCollectionToEmpty(params.NameHint) {
+	if depth == 0 && builder.ShouldInitializeCollectionToEmpty(params.SourceProperty) {
 		emptyMap := astbuilder.MakeMap(keyTypeAst, valueTypeAst)
 
 		assignEmpty := astbuilder.SimpleAssignment(params.GetDestination(), emptyMap)
@@ -572,14 +563,16 @@ func AssignToOptional(
 
 	conversion, err := builder.BuildConversion(
 		ConversionParameters{
-			Source:            params.Source,
-			SourceType:        params.SourceType,
-			Destination:       dst.NewIdent(tmpLocal),
-			DestinationType:   dstType,
-			NameHint:          tmpLocal,
-			ConversionContext: nil,
-			AssignmentHandler: nil,
-			Locals:            params.Locals,
+			Source:              params.Source,
+			SourceType:          params.SourceType,
+			Destination:         dst.NewIdent(tmpLocal),
+			DestinationType:     dstType,
+			NameHint:            tmpLocal,
+			ConversionContext:   nil,
+			AssignmentHandler:   nil,
+			Locals:              params.Locals,
+			SourceProperty:      params.SourceProperty,
+			DestinationProperty: params.DestinationProperty,
 		})
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to build inner conversion to optional")
@@ -633,14 +626,16 @@ func AssignFromOptional(
 
 	conversion, err := builder.BuildConversion(
 		ConversionParameters{
-			Source:            astbuilder.Dereference(params.GetSource()),
-			SourceType:        srcType,
-			Destination:       dst.NewIdent(tmpLocal),
-			DestinationType:   params.DestinationType,
-			NameHint:          tmpLocal,
-			ConversionContext: nil,
-			AssignmentHandler: nil,
-			Locals:            locals,
+			Source:              astbuilder.Dereference(params.GetSource()),
+			SourceType:          srcType,
+			Destination:         dst.NewIdent(tmpLocal),
+			DestinationType:     params.DestinationType,
+			NameHint:            tmpLocal,
+			ConversionContext:   nil,
+			AssignmentHandler:   nil,
+			Locals:              locals,
+			SourceProperty:      params.SourceProperty,
+			DestinationProperty: params.DestinationProperty,
 		})
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to build inner conversion from optional")

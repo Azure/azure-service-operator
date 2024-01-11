@@ -184,6 +184,7 @@ func createAllPipelineStages(
 		pipeline.ReportOnTypesAndVersions(configuration).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
 
 		pipeline.CreateARMTypes(configuration.ObjectModelConfiguration, idFactory, log).UsedFor(pipeline.ARMTarget),
+		pipeline.AddSerializationTypeTag(configuration),
 		pipeline.PruneResourcesWithLifecycleOwnedByParent(configuration).UsedFor(pipeline.ARMTarget),
 		pipeline.MakeOneOfDiscriminantRequired().UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyARMConversionInterface(idFactory, configuration.ObjectModelConfiguration).UsedFor(pipeline.ARMTarget),

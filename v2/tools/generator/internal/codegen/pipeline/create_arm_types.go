@@ -62,8 +62,8 @@ type armPropertyTypeConversionHandler func(
 ) (*astmodel.PropertyDefinition, error)
 
 type armPropertyTypeConversionContext struct {
-	isSpec      bool
-	payloadType config.PayloadType
+	isSpec   bool
+	typeName astmodel.InternalTypeName
 }
 
 type armTypeCreator struct {
@@ -401,7 +401,13 @@ func (c *armTypeCreator) createARMProperty(
 	// Return a property with (potentially) a new type
 	result := prop.WithType(newType)
 
-	switch convContext.payloadType {
+	var payloadType config.PayloadType
+	payloadType, ok := c.configuration.PayloadType.Lookup(convContext.typeName, prop.PropertyName())
+	if !ok {
+		payloadType = config.OmitEmptyProperties
+	}
+
+	switch payloadType {
 	case config.OmitEmptyProperties:
 		// NOP
 
@@ -534,12 +540,7 @@ func (c *armTypeCreator) createSpecConversionContext(name astmodel.InternalTypeN
 
 func (c *armTypeCreator) createConversionContext(name astmodel.InternalTypeName) *armPropertyTypeConversionContext {
 	result := &armPropertyTypeConversionContext{
-		// Default to 'omitempty' if not configured
-		payloadType: config.OmitEmptyProperties,
-	}
-
-	if pt, ok := c.configuration.PayloadType.Lookup(name.InternalPackageReference()); ok {
-		result.payloadType = pt
+		typeName: name,
 	}
 
 	return result

@@ -11,6 +11,7 @@ import (
 
 	"github.com/pkg/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/armconversion"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -220,10 +221,15 @@ func (c *armConversionApplier) transformSpec(resourceType *astmodel.ResourceType
 	return kubernetesDef, nil
 }
 
+type PayloadTypeDetails struct {
+	payloadType                       config.PayloadType
+	explicitEmptyCollectionProperties set.Set[astmodel.PropertyReference]
+}
+
 func (c *armConversionApplier) addARMConversionInterface(
 	kubeDef astmodel.TypeDefinition,
 	armDef astmodel.TypeDefinition,
-	typeType armconversion.TypeKind,
+	typeKind armconversion.TypeKind,
 ) (astmodel.TypeDefinition, error) {
 	objectType, ok := astmodel.AsObjectType(armDef.Type())
 	emptyDef := astmodel.TypeDefinition{}
@@ -231,20 +237,13 @@ func (c *armConversionApplier) addARMConversionInterface(
 		return emptyDef, errors.Errorf("ARM definition %q did not define an object type", armDef.Name())
 	}
 
-	// Determine if we need special handling for collection properties. Some RPs we need to send empty collections rather
-	// than nil collections, we need to determine if this def is subject to this requirement
-	payloadType := config.OmitEmptyProperties
-	if pt, ok := c.config.PayloadType.Lookup(kubeDef.Name().InternalPackageReference()); ok {
-		payloadType = pt
-	}
-
 	addInterfaceHandler := func(t *astmodel.ObjectType) (astmodel.Type, error) {
 		result := t.WithInterface(armconversion.NewARMConversionImplementation(
 			armDef.Name(),
 			objectType,
+			kubeDef.Name(),
 			c.idFactory,
-			typeType,
-			payloadType))
+			typeKind))
 		return result, nil
 	}
 

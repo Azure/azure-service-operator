@@ -24,14 +24,15 @@ import (
 type conversionBuilder struct {
 	receiverIdent              string
 	receiverTypeExpr           dst.Expr
-	armTypeIdent               string
 	codeGenerationContext      *astmodel.CodeGenerationContext
 	idFactory                  astmodel.IdentifierFactory
 	typeKind                   TypeKind
 	payloadType                config.PayloadType
 	methodName                 string
-	kubeType                   *astmodel.ObjectType
-	armType                    *astmodel.ObjectType
+	destinationType            *astmodel.ObjectType
+	destinationTypeName        astmodel.InternalTypeName
+	sourceType                 *astmodel.ObjectType
+	sourceTypeName             astmodel.InternalTypeName
 	propertyConversionHandlers []propertyConversionHandler
 }
 
@@ -42,6 +43,14 @@ const (
 	TypeKindSpec
 	TypeKindStatus
 )
+
+func (builder conversionBuilder) sourceTypeIdent() string {
+	return builder.sourceTypeName.Name()
+}
+
+func (builder conversionBuilder) destinationTypeIdent() string {
+	return builder.destinationTypeName.Name()
+}
 
 func (builder conversionBuilder) propertyConversionHandler(
 	toProp *astmodel.PropertyDefinition,
@@ -61,10 +70,10 @@ func (builder conversionBuilder) propertyConversionHandler(
 	}
 
 	var kubeDescription strings.Builder
-	builder.kubeType.WriteDebugDescription(&kubeDescription, nil)
+	builder.destinationType.WriteDebugDescription(&kubeDescription, nil)
 
 	var armDescription strings.Builder
-	builder.armType.WriteDebugDescription(&armDescription, nil)
+	builder.sourceType.WriteDebugDescription(&armDescription, nil)
 
 	message := fmt.Sprintf(
 		"no property found for %q in method %s()\nFrom: %s\nTo: %s",
@@ -185,32 +194,33 @@ func generateTypeConversionAssignments(
 
 // NewARMConversionImplementation creates an interface implementation with the specified ARM conversion functions
 func NewARMConversionImplementation(
-	armTypeName astmodel.TypeName,
+	armTypeName astmodel.InternalTypeName,
 	armType *astmodel.ObjectType,
+	kubeTypeName astmodel.InternalTypeName,
 	idFactory astmodel.IdentifierFactory,
 	typeKind TypeKind,
-	payloadType config.PayloadType,
 ) *astmodel.InterfaceImplementation {
 	var convertToARMFunc *ConvertToARMFunction
 	if typeKind != TypeKindStatus {
 		// status type should not have ConvertToARM
 		convertToARMFunc = &ConvertToARMFunction{
 			ARMConversionFunction: ARMConversionFunction{
-				armTypeName: armTypeName,
-				armType:     armType,
-				idFactory:   idFactory,
-				typeKind:    typeKind,
-				payloadType: payloadType,
+				armTypeName:  armTypeName,
+				armType:      armType,
+				kubeTypeName: kubeTypeName,
+				idFactory:    idFactory,
+				typeKind:     typeKind,
 			},
 		}
 	}
 
 	populateFromARMFunc := &PopulateFromARMFunction{
 		ARMConversionFunction: ARMConversionFunction{
-			armTypeName: armTypeName,
-			armType:     armType,
-			idFactory:   idFactory,
-			typeKind:    typeKind,
+			armTypeName:  armTypeName,
+			armType:      armType,
+			kubeTypeName: kubeTypeName,
+			idFactory:    idFactory,
+			typeKind:     typeKind,
 		},
 	}
 

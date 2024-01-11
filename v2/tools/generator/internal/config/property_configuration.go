@@ -147,6 +147,24 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
+		// $payloadType: <string>
+		if strings.EqualFold(lastId, payloadTypeTag) && c.Kind == yaml.ScalarNode {
+			switch strings.ToLower(c.Value) {
+			case string(OmitEmptyProperties):
+				pc.PayloadType.Set(OmitEmptyProperties)
+			case string(ExplicitCollections):
+				pc.PayloadType.Set(ExplicitCollections)
+			case string(ExplicitEmptyCollections):
+				pc.PayloadType.Set(ExplicitEmptyCollections)
+			case string(ExplicitProperties):
+				pc.PayloadType.Set(ExplicitProperties)
+			default:
+				return errors.Errorf("unknown %s value: %s.", payloadTypeTag, c.Value)
+			}
+
+			continue
+		}
+
 		// No handler for this value, return an error
 		return errors.Errorf(
 			"property configuration, unexpected yaml value %s: %s (line %d col %d)", lastId, c.Value, c.Line, c.Column)
