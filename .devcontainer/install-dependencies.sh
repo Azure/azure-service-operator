@@ -87,9 +87,7 @@ if [ "$DEVCONTAINER" = true ]; then
     BUILDX_DEST=/usr/lib/docker/cli-plugins
 else
     TOOL_DEST=$(git rev-parse --show-toplevel)/hack/tools
-    CROSSPLANE_CONFIG_DIR=$(git rev-parse --show-toplevel)/hack/crossplane/config
     mkdir -p "$TOOL_DEST"
-    mkdir -p "$CROSSPLANE_CONFIG_DIR"
     KUBEBUILDER_DEST="$TOOL_DEST/kubebuilder"
     BUILDX_DEST=$HOME/.docker/cli-plugins
 fi
