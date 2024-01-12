@@ -105,7 +105,7 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 	tc.ListResources(list, client.InNamespace(tc.Namespace))
 	tc.Expect(list.Items).To(HaveLen(0))
 
-	// Run sub-tests on the cosmosdb in sequence
+	// Run sub-tests on the SignalR service in sequence
 	tc.RunSubtests(
 		testcommon.Subtest{
 			Name: "SecretsWrittenToSameKubeSecret",
