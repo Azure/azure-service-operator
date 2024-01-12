@@ -4,7 +4,7 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001/stor
 │   └── "2021-10-01"
 └── SignalR: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
-    ├── Spec: Object (18 properties)
+    ├── Spec: Object (19 properties)
     │   ├── AzureName: string
     │   ├── Cors: *Object (2 properties)
     │   │   ├── AllowedOrigins: string[]
@@ -36,6 +36,14 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001/stor
     │   │       ├── Allow: string[]
     │   │       ├── Deny: string[]
     │   │       └── PropertyBag: genruntime.PropertyBag
+    │   ├── OperatorSpec: *Object (2 properties)
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Secrets: *Object (5 properties)
+    │   │       ├── PrimaryConnectionString: *genruntime.SecretDestination
+    │   │       ├── PrimaryKey: *genruntime.SecretDestination
+    │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │       ├── SecondaryConnectionString: *genruntime.SecretDestination
+    │   │       └── SecondaryKey: *genruntime.SecretDestination
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag

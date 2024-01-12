@@ -157,6 +157,7 @@ type SignalR_Spec struct {
 	Kind             *string              `json:"kind,omitempty"`
 	Location         *string              `json:"location,omitempty"`
 	NetworkACLs      *SignalRNetworkACLs  `json:"networkACLs,omitempty"`
+	OperatorSpec     *SignalROperatorSpec `json:"operatorSpec,omitempty"`
 	OriginalVersion  string               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -376,6 +377,13 @@ type SignalRNetworkACLs_STATUS struct {
 	PublicNetwork    *NetworkACL_STATUS          `json:"publicNetwork,omitempty"`
 }
 
+// Storage version of v1api20211001.SignalROperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SignalROperatorSpec struct {
+	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
+	Secrets     *SignalROperatorSecrets `json:"secrets,omitempty"`
+}
+
 // Storage version of v1api20211001.SignalRTlsSettings
 // TLS settings for the resource
 type SignalRTlsSettings struct {
@@ -450,6 +458,15 @@ type ResourceLogCategory_STATUS struct {
 	Enabled     *string                `json:"enabled,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20211001.SignalROperatorSecrets
+type SignalROperatorSecrets struct {
+	PrimaryConnectionString   *genruntime.SecretDestination `json:"primaryConnectionString,omitempty"`
+	PrimaryKey                *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecondaryConnectionString *genruntime.SecretDestination `json:"secondaryConnectionString,omitempty"`
+	SecondaryKey              *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
 }
 
 // Storage version of v1api20211001.UpstreamTemplate

@@ -44,3 +44,17 @@ spec:
         eventPattern: "connect,disconnect"
         hubPattern: "*"
         urlTemplate: "https://example.com/chat/api/connect"
+  operatorSpec:
+    secrets:
+      primaryKey:
+        name: authsecret
+        key: primaryKey
+      primaryConnectionString:
+        name: authsecret
+        key: primaryConnectionString
+      secondaryKey:
+        name: authsecret
+        key: secondaryKey
+      secondaryConnectionString:
+        name: authsecret
+        key: secondaryConnectionString
