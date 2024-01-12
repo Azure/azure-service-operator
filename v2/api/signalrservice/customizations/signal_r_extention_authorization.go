@@ -64,7 +64,7 @@ func (*SignalRExtension) ExportKubernetesResources(
 
 	res, err := clientFactory.NewClient().ListKeys(ctx, id.ResourceGroupName, typedObj.AzureName(), nil)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to finish the request")
+		return nil, errors.Wrapf(err, "failed to list keys")
 	}
 
 	secretSlice, err := secretsToWrite(typedObj, res.Keys)
