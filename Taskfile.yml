@@ -1022,7 +1022,7 @@ tasks:
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
       CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.CROSSPLANE_OUTPUT}}/crd/bases
       WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.CROSSPLANE_OUTPUT}}/webhook
-      RBAC_OPTIONS: rbac:roleName=manager-role # output:rbac:artifacts:config={{.CROSSPLANE_OUTPUT}}/rbac # not output currently?
+      RBAC_OPTIONS: rbac:roleName=manager-role output:rbac:artifacts:config={{.CROSSPLANE_OUTPUT}}/rbac
 
   crossplane:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CROSSPLANE_APP}}.
