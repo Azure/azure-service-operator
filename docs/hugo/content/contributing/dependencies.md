@@ -2,13 +2,13 @@
 title: Developer Dependencies
 linktitle: Dependencies
 ---
-Development of Azure Service Operator depends on a number of development tools and libraries that need to be installed. 
+Development of Azure Service Operator depends on a number of development tools and libraries that need to be installed.
 
-If you prefer to install those dependencies manually (instead of using the `.devcontainer/install-dependencies.sh` script), here is a list of what's required. 
+If you prefer to install those dependencies manually (instead of using the `.devcontainer/install-dependencies.sh` script), here is a list of what's required.
 
 | Dependency | Version | Reference |
 |:---------- |:-------:|:--------- |
-| AZWI | v1.0.0 | https://github.com/Azure/azure-workload-identity |
+| AZWI | v1.2.0 | https://github.com/Azure/azure-workload-identity |
 | BuildX | v0.11.2 | https://github.com/docker/buildx |
 | cmctl | latest | https://cert-manager.io/docs/reference/cmctl |
 | controller-gen | v0.13.0 | https://book.kubebuilder.io/reference/controller-gen |
