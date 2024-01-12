@@ -41,7 +41,7 @@ jobs:
         uses: svenstaro/upload-release-action@7319e4733ec7a184d739a6f412c40ffc339b69c7 # this is v2.5.0, but pinned
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref }}
+          tag: refs/tags/${{ env.ARTIFACT_VERSION }}
           file: "v2/out/release/*"
           file_glob: true
           prerelease: true
