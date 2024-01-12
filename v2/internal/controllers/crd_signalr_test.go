@@ -165,8 +165,6 @@ func SignalR_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerTestCont
 	secondaryKeySecret := "secret3"
 	secondaryConnectionString := "secret4"
 
-	// Not testing port as it's not returned by default so won't be written anyway
-
 	signalR.Spec.OperatorSpec = &signalrservice.SignalROperatorSpec{
 		Secrets: &signalrservice.SignalROperatorSecrets{
 			PrimaryKey: &genruntime.SecretDestination{
