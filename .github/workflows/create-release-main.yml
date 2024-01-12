@@ -7,13 +7,15 @@ on:
     branches:
       - main
 
+env:
+  ARTIFACT_VERSION: experimental
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        if: 
         with:
           fetch-depth: 0 # required to access tags
           submodules: "true"
@@ -33,30 +35,37 @@ jobs:
       - name: Build required release files
         run: |
           container_id=${{env.container_id}}
-          docker exec "$container_id" task VERSION=v0.0.0-main LATEST_VERSION_TAG=v0.0.0-main make-release-artifacts
+          docker exec "$container_id" task VERSION=${{ env.ARTIFACT_VERSION }} LATEST_VERSION_TAG=${{ env.ARTIFACT_VERSION }} make-release-artifacts
 
       - name: Upload release assets
         uses: svenstaro/upload-release-action@7319e4733ec7a184d739a6f412c40ffc339b69c7 # this is v2.5.0, but pinned
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: main
+          tag: ${{ github.ref }}
           file: "v2/out/release/*"
           file_glob: true
+          prerelease: true
+          overwrite: true
+          release_name: "Experimental"
+          body: |
+            This is the "latest" releasewhich contains the most recent commits from the main branch. (commit: ${{ github.sha }}).
+
+            **This release might not be stable.**
+
+            It is only intended for developers wishing to try out the latest feature, some of which may not be fully implemented.
 
       - name: Docker login
         run: |
           container_id=${{env.container_id}}
-          docker exec -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e DOCKER_REGISTRY -e VERSION "$container_id" task docker-login
+          docker exec -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e DOCKER_REGISTRY "$container_id" task VERSION=${{ env.ARTIFACT_VERSION }} LATEST_VERSION_TAG=${{ env.ARTIFACT_VERSION }} docker-login
         env:
           DOCKER_REGISTRY: ${{ secrets.REGISTRY_LOGIN }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          VERSION: v0.0.0
 
       - name: Build, tag and push docker image
         run: |
           container_id=${{env.container_id}}
-          docker exec -e DOCKER_PUSH_TARGET -e VERSION "$container_id" task controller:docker-push-multiarch
+          docker exec -e DOCKER_PUSH_TARGET "$container_id" task VERSION=${{ env.ARTIFACT_VERSION }} LATEST_VERSION_TAG=${{ env.ARTIFACT_VERSION }} controller:docker-push-multiarch
         env:
           DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PUBLIC }}
-          VERSION: v0.0.0
