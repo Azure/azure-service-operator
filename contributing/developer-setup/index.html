@@ -30,7 +30,7 @@
 <meta itemprop="name" content="Developer Setup">
 <meta itemprop="description" content="How to set up your developer environment for Azure Service Operator v2">
 
-<meta itemprop="wordCount" content="1214">
+<meta itemprop="wordCount" content="1257">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Developer Setup"/>
 <meta name="twitter:description" content="How to set up your developer environment for Azure Service Operator v2"/>
@@ -686,11 +686,11 @@
 	</header>    
 	<p>We support a number of different approaches to ASO development.</p>
 <ul>
-<li>Dev Container with VS Code on Linux</li>
-<li>Dev Container with VS Code on Windows</li>
-<li>Docker on Linux</li>
-<li>CLI on Linux</li>
-<li>CLI on MacOS</li>
+<li><a href="#dev-container-with-vs-code-on-linux">Dev Container with VS Code on Linux</a></li>
+<li><a href="#dev-container-with-vs-code-on-windows">Dev Container with VS Code on Windows</a></li>
+<li><a href="#docker-on-linux">Docker on Linux</a></li>
+<li><a href="#cli-on-linux">CLI on Linux</a></li>
+<li><a href="#cli-on-macos">CLI on MacOS</a></li>
 </ul>
 <p>Each of these is described in a different section below. See also the <a href="#troubleshooting-repo-health">troubleshooting</a> sections below for help with common problems.</p>
 <h2 id="dev-container-with-vs-code-on-linux">Dev Container with VS Code on Linux</h2>
@@ -763,8 +763,9 @@ $ docker run --env-file ~/work/envs.env --env HOSTROOT=$(git rev-parse --show-to
 <h2 id="cli-on-linux">CLI on Linux</h2>
 <p>If you are using Linux, instead of using VS Code you can run the <code>dev.sh</code> script in the root of the repository. This will install all required tooling into the <code>hack/tools</code> directory and then start a new shell with the <code>PATH</code> updated to use it.</p>
 <h2 id="cli-on-macos">CLI on MacOS</h2>
-<p>Development of ASO on MacOS is possible (one of our team does so), but things are less automated.</p>
-<p>You&rsquo;ll need to manually install the tools as listed by <code>.devcontainer/install-dependencies.sh</code>.</p>
+<p>Development of ASO on MacOS is also possible.</p>
+<p>You can either use the VS Code devcontainer approach (recommended) which installs all the tools into a container, or you can install the tools directly on your Mac. In case of the latter, you&rsquo;ll need to install the following tools manually running: <code>.devcontainer/install-dependencies.sh</code>.</p>
+<p>This creates <code>hack/tools</code> and downloads all the required tools into it based on the architecture(arm64 or amd64) of your machine.</p>
 <p>If you have an ARM based Mac, you&rsquo;ll also need to install <a href="https://support.apple.com/en-nz/HT211861">Rosetta</a>.</p>
 <h2 id="troubleshooting-repo-health">Troubleshooting: Repo health</h2>
 <p>A simple cloning of the ASO repo is not enough to successfully run a build. You must also ensure:</p>
@@ -787,7 +788,7 @@ v2.0.0
 v2.1.0
 </code></pre></div><p>If you see a list of tags (as shown above), then you&rsquo;re good to go.</p>
 <p>Otherwise, pull tags from your upstream repo and check again:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git-fetch --all --tags
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git fetch --all --tags
 Fetching origin
 $ git tag --list <span style="color:#e6db74">&#39;v2*&#39;</span>
 v2.0.0
