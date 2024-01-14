@@ -3,7 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 ├── APIVersion: Enum (1 value)
 │   └── "2021-11-01"
 ├── Server: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Owner: resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (18 properties)
 │   │   ├── AdministratorLogin: *string
 │   │   ├── AdministratorLoginPassword: *genruntime.SecretReference
@@ -92,7 +92,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       ├── Version: *string
 │       └── WorkspaceFeature: *string
 ├── ServersAdministrator: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.Server
+│   ├── Owner: sql/v1api20211101.Server
 │   ├── Spec: Object (9 properties)
 │   │   ├── AdministratorType: *string
 │   │   ├── Login: *string
@@ -115,7 +115,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       ├── TenantId: *string
 │       └── Type: *string
 ├── ServersAdvancedThreatProtectionSetting: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.Server
+│   ├── Owner: sql/v1api20211101.Server
 │   ├── Spec: Object (4 properties)
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -138,7 +138,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── ServersAuditingSetting: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.Server
+│   ├── Owner: sql/v1api20211101.Server
 │   ├── Spec: Object (14 properties)
 │   │   ├── AuditActionsAndGroups: string[]
 │   │   ├── IsAzureMonitorTargetEnabled: *bool
@@ -171,7 +171,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       ├── StorageEndpoint: *string
 │       └── Type: *string
 ├── ServersAzureADOnlyAuthentication: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.Server
+│   ├── Owner: sql/v1api20211101.Server
 │   ├── Spec: Object (4 properties)
 │   │   ├── AzureADOnlyAuthentication: *bool
 │   │   ├── OriginalVersion: string
@@ -185,7 +185,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── ServersConnectionPolicy: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.Server
+│   ├── Owner: sql/v1api20211101.Server
 │   ├── Spec: Object (4 properties)
 │   │   ├── ConnectionType: *string
 │   │   ├── OriginalVersion: string
@@ -201,7 +201,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── ServersDatabase: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.Server
+│   ├── Owner: sql/v1api20211101.Server
 │   ├── Spec: Object (33 properties)
 │   │   ├── AutoPauseDelay: *int
 │   │   ├── AzureName: string
@@ -318,7 +318,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       ├── Type: *string
 │       └── ZoneRedundant: *bool
 ├── ServersDatabasesAdvancedThreatProtectionSetting: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.ServersDatabase
+│   ├── Owner: sql/v1api20211101.ServersDatabase
 │   ├── Spec: Object (4 properties)
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -341,7 +341,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── ServersDatabasesAuditingSetting: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.ServersDatabase
+│   ├── Owner: sql/v1api20211101.ServersDatabase
 │   ├── Spec: Object (13 properties)
 │   │   ├── AuditActionsAndGroups: string[]
 │   │   ├── IsAzureMonitorTargetEnabled: *bool
@@ -373,7 +373,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       ├── StorageEndpoint: *string
 │       └── Type: *string
 ├── ServersDatabasesBackupLongTermRetentionPolicy: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.ServersDatabase
+│   ├── Owner: sql/v1api20211101.ServersDatabase
 │   ├── Spec: Object (7 properties)
 │   │   ├── MonthlyRetention: *string
 │   │   ├── OriginalVersion: string
@@ -393,7 +393,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       ├── WeeklyRetention: *string
 │       └── YearlyRetention: *string
 ├── ServersDatabasesBackupShortTermRetentionPolicy: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.ServersDatabase
+│   ├── Owner: sql/v1api20211101.ServersDatabase
 │   ├── Spec: Object (5 properties)
 │   │   ├── DiffBackupIntervalInHours: *int
 │   │   ├── OriginalVersion: string
@@ -409,7 +409,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       ├── RetentionDays: *int
 │       └── Type: *string
 ├── ServersDatabasesSecurityAlertPolicy: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.ServersDatabase
+│   ├── Owner: sql/v1api20211101.ServersDatabase
 │   ├── Spec: Object (10 properties)
 │   │   ├── DisabledAlerts: string[]
 │   │   ├── EmailAccountAdmins: *bool
@@ -443,7 +443,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── ServersDatabasesTransparentDataEncryption: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.ServersDatabase
+│   ├── Owner: sql/v1api20211101.ServersDatabase
 │   ├── Spec: Object (4 properties)
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -457,7 +457,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       ├── State: *string
 │       └── Type: *string
 ├── ServersDatabasesVulnerabilityAssessment: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.ServersDatabase
+│   ├── Owner: sql/v1api20211101.ServersDatabase
 │   ├── Spec: Object (8 properties)
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -484,7 +484,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       ├── StorageContainerPath: *string
 │       └── Type: *string
 ├── ServersElasticPool: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.Server
+│   ├── Owner: sql/v1api20211101.Server
 │   ├── Spec: Object (14 properties)
 │   │   ├── AzureName: string
 │   │   ├── HighAvailabilityReplicaCount: *int
@@ -538,7 +538,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       ├── Type: *string
 │       └── ZoneRedundant: *bool
 ├── ServersFailoverGroup: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.Server
+│   ├── Owner: sql/v1api20211101.Server
 │   ├── Spec: Object (9 properties)
 │   │   ├── AzureName: string
 │   │   ├── DatabasesReferences: genruntime.ResourceReference[]
@@ -580,7 +580,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── ServersFirewallRule: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.Server
+│   ├── Owner: sql/v1api20211101.Server
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── EndIpAddress: *string
@@ -597,7 +597,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       ├── StartIpAddress: *string
 │       └── Type: *string
 ├── ServersIPV6FirewallRule: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.Server
+│   ├── Owner: sql/v1api20211101.Server
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── EndIPv6Address: *string
@@ -614,7 +614,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       ├── StartIPv6Address: *string
 │       └── Type: *string
 ├── ServersOutboundFirewallRule: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.Server
+│   ├── Owner: sql/v1api20211101.Server
 │   ├── Spec: Object (4 properties)
 │   │   ├── AzureName: string
 │   │   ├── OriginalVersion: string
@@ -628,7 +628,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       ├── ProvisioningState: *string
 │       └── Type: *string
 ├── ServersSecurityAlertPolicy: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.Server
+│   ├── Owner: sql/v1api20211101.Server
 │   ├── Spec: Object (10 properties)
 │   │   ├── DisabledAlerts: string[]
 │   │   ├── EmailAccountAdmins: *bool
@@ -662,7 +662,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── ServersVirtualNetworkRule: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.Server
+│   ├── Owner: sql/v1api20211101.Server
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── IgnoreMissingVnetServiceEndpoint: *bool
@@ -680,7 +680,7 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage
 │       ├── Type: *string
 │       └── VirtualNetworkSubnetId: *string
 └── ServersVulnerabilityAssessment: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101.Server
+    ├── Owner: sql/v1api20211101.Server
     ├── Spec: Object (8 properties)
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference

@@ -3,7 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage
 ├── APIVersion: Enum (1 value)
 │   └── "2018-05-01"
 ├── DnsZone: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Owner: resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (9 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -39,7 +39,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage
 │       ├── Type: *string
 │       └── ZoneType: *string
 ├── DnsZonesAAAARecord: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1api20180501.DnsZone
+│   ├── Owner: network/v1api20180501.DnsZone
 │   ├── Spec: Object (17 properties)
 │   │   ├── AAAARecords: Object (2 properties)[]
 │   │   │   ├── Ipv6Address: *string
@@ -149,7 +149,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── DnsZonesARecord: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1api20180501.DnsZone
+│   ├── Owner: network/v1api20180501.DnsZone
 │   ├── Spec: Object (18 properties)
 │   │   ├── AAAARecords: Object (2 properties)[]
 │   │   │   ├── Ipv6Address: *string
@@ -260,7 +260,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── DnsZonesCAARecord: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1api20180501.DnsZone
+│   ├── Owner: network/v1api20180501.DnsZone
 │   ├── Spec: Object (17 properties)
 │   │   ├── AAAARecords: Object (2 properties)[]
 │   │   │   ├── Ipv6Address: *string
@@ -370,7 +370,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── DnsZonesCNAMERecord: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1api20180501.DnsZone
+│   ├── Owner: network/v1api20180501.DnsZone
 │   ├── Spec: Object (17 properties)
 │   │   ├── AAAARecords: Object (2 properties)[]
 │   │   │   ├── Ipv6Address: *string
@@ -480,7 +480,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── DnsZonesMXRecord: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1api20180501.DnsZone
+│   ├── Owner: network/v1api20180501.DnsZone
 │   ├── Spec: Object (17 properties)
 │   │   ├── AAAARecords: Object (2 properties)[]
 │   │   │   ├── Ipv6Address: *string
@@ -590,7 +590,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── DnsZonesNSRecord: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1api20180501.DnsZone
+│   ├── Owner: network/v1api20180501.DnsZone
 │   ├── Spec: Object (17 properties)
 │   │   ├── AAAARecords: Object (2 properties)[]
 │   │   │   ├── Ipv6Address: *string
@@ -700,7 +700,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── DnsZonesPTRRecord: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1api20180501.DnsZone
+│   ├── Owner: network/v1api20180501.DnsZone
 │   ├── Spec: Object (17 properties)
 │   │   ├── AAAARecords: Object (2 properties)[]
 │   │   │   ├── Ipv6Address: *string
@@ -810,7 +810,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── DnsZonesSRVRecord: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1api20180501.DnsZone
+│   ├── Owner: network/v1api20180501.DnsZone
 │   ├── Spec: Object (17 properties)
 │   │   ├── AAAARecords: Object (2 properties)[]
 │   │   │   ├── Ipv6Address: *string
@@ -920,7 +920,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── DnsZonesTXTRecord: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1api20180501.DnsZone
+│   ├── Owner: network/v1api20180501.DnsZone
 │   ├── Spec: Object (17 properties)
 │   │   ├── AAAARecords: Object (2 properties)[]
 │   │   │   ├── Ipv6Address: *string

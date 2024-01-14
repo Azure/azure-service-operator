@@ -3,7 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/s
 ├── APIVersion: Enum (1 value)
 │   └── "2021-01-01-preview"
 ├── Namespace: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Owner: resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (11 properties)
 │   │   ├── AzureName: string
 │   │   ├── Encryption: *Object (4 properties)
@@ -97,7 +97,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/s
 │       ├── UpdatedAt: *string
 │       └── ZoneRedundant: *bool
 ├── NamespacesAuthorizationRule: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview.Namespace
+│   ├── Owner: servicebus/v1api20210101preview.Namespace
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── OperatorSpec: *Object (2 properties)
@@ -128,7 +128,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/s
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── NamespacesQueue: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview.Namespace
+│   ├── Owner: servicebus/v1api20210101preview.Namespace
 │   ├── Spec: Object (18 properties)
 │   │   ├── AutoDeleteOnIdle: *string
 │   │   ├── AzureName: string
@@ -190,7 +190,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/s
 │       ├── Type: *string
 │       └── UpdatedAt: *string
 ├── NamespacesTopic: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview.Namespace
+│   ├── Owner: servicebus/v1api20210101preview.Namespace
 │   ├── Spec: Object (13 properties)
 │   │   ├── AutoDeleteOnIdle: *string
 │   │   ├── AzureName: string
@@ -242,7 +242,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/s
 │       ├── Type: *string
 │       └── UpdatedAt: *string
 ├── NamespacesTopicsSubscription: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview.NamespacesTopic
+│   ├── Owner: servicebus/v1api20210101preview.NamespacesTopic
 │   ├── Spec: Object (15 properties)
 │   │   ├── AutoDeleteOnIdle: *string
 │   │   ├── AzureName: string
@@ -297,7 +297,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview/s
 │       ├── Type: *string
 │       └── UpdatedAt: *string
 ├── NamespacesTopicsSubscriptionsRule: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview.NamespacesTopicsSubscription
+│   ├── Owner: servicebus/v1api20210101preview.NamespacesTopicsSubscription
 │   ├── Spec: Object (8 properties)
 │   │   ├── Action: *Object (4 properties)
 │   │   │   ├── CompatibilityLevel: *int
