@@ -48,7 +48,7 @@
     Value Description   &#34;Allow&#34;
   &#34;Deny&#34;">
 
-<meta itemprop="wordCount" content="6669">
+<meta itemprop="wordCount" content="6838">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="signalrservice.azure.com/v1api20211001"/>
 <meta name="twitter:description" content="signalrservice.azure.com/v1api20211001  Package v1api20211001 contains API Schema definitions for the signalrservice v1api20211001 API group
@@ -212,6 +212,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv1api20220801-li">
   <a href="/azure-service-operator/reference/apimanagement/v1api20220801/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20220801"><span class="">apimanagement.azure.com/v1api20220801</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv1api20230501preview-li">
+  <a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20230501preview"><span class="">apimanagement.azure.com/v1api20230501preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
@@ -344,6 +346,8 @@
   <a href="/azure-service-operator/reference/dbforpostgresql/v1api20220120preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20220120preview"><span class="">dbforpostgresql.azure.com/v1api20220120preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1api20221201-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/v1api20221201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20221201"><span class="">dbforpostgresql.azure.com/v1api20221201</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1api20230601preview-li">
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20230601preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20230601preview"><span class="">dbforpostgresql.azure.com/v1api20230601preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedevices-li">
@@ -2669,6 +2673,20 @@ SignalRNetworkACLs
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#signalrservice.azure.com/v1api20211001.SignalROperatorSpec">
+SignalROperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -3371,6 +3389,110 @@ NetworkACL_STATUS_ARM
 </td>
 <td>
 <p>PublicNetwork: Network ACL</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="signalrservice.azure.com/v1api20211001.SignalROperatorSecrets">SignalROperatorSecrets
+</h3>
+<p>
+(<em>Appears on:</em><a href="#signalrservice.azure.com/v1api20211001.SignalROperatorSpec">SignalROperatorSpec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>primaryConnectionString</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>PrimaryConnectionString: indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret
+will not be retrieved from Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>primaryKey</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
+Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secondaryConnectionString</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>SecondaryConnectionString: indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret
+will not be retrieved from Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secondaryKey</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
+from Azure.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="signalrservice.azure.com/v1api20211001.SignalROperatorSpec">SignalROperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#signalrservice.azure.com/v1api20211001.SignalR_Spec">SignalR_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>secrets</code><br/>
+<em>
+<a href="#signalrservice.azure.com/v1api20211001.SignalROperatorSecrets">
+SignalROperatorSecrets
+</a>
+</em>
+</td>
+<td>
+<p>Secrets: configures where to place Azure generated secrets.</p>
 </td>
 </tr>
 </tbody>
@@ -4604,6 +4726,20 @@ SignalRNetworkACLs
 </td>
 <td>
 <p>NetworkACLs: Network ACLs for the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#signalrservice.azure.com/v1api20211001.SignalROperatorSpec">
+SignalROperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
 </td>
 </tr>
 <tr>

@@ -96,6 +96,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/v1api20220801/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/v1api20230501preview/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/v1api20220501/</loc>
@@ -217,6 +219,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20220120preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20221201/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20230601preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/dependencies/</loc>
   </url><url>
