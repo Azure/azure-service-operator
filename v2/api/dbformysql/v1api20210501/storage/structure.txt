@@ -3,7 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/storage
 ├── APIVersion: Enum (1 value)
 │   └── "2021-05-01"
 ├── FlexibleServer: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Owner: resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (23 properties)
 │   │   ├── AdministratorLogin: *string
 │   │   ├── AdministratorLoginPassword: *genruntime.SecretReference
@@ -135,7 +135,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/storage
 │       ├── Type: *string
 │       └── Version: *string
 ├── FlexibleServersDatabase: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501.FlexibleServer
+│   ├── Owner: dbformysql/v1api20210501.FlexibleServer
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Charset: *string
@@ -160,7 +160,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── FlexibleServersFirewallRule: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501.FlexibleServer
+│   ├── Owner: dbformysql/v1api20210501.FlexibleServer
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── EndIpAddress: *string

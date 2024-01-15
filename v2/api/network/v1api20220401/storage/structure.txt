@@ -3,7 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage
 ├── APIVersion: Enum (1 value)
 │   └── "2022-04-01"
 ├── TrafficManagerProfile: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Owner: resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (15 properties)
 │   │   ├── AllowedEndpointRecordTypes: string[]
 │   │   ├── AzureName: string
@@ -82,7 +82,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage
 │       ├── TrafficViewEnrollmentStatus: *string
 │       └── Type: *string
 ├── TrafficManagerProfilesAzureEndpoint: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1api20220401.TrafficManagerProfile
+│   ├── Owner: network/v1api20220401.TrafficManagerProfile
 │   ├── Spec: Object (19 properties)
 │   │   ├── AlwaysServe: *string
 │   │   ├── AzureName: string
@@ -138,7 +138,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage
 │       ├── Type: *string
 │       └── Weight: *int
 ├── TrafficManagerProfilesExternalEndpoint: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1api20220401.TrafficManagerProfile
+│   ├── Owner: network/v1api20220401.TrafficManagerProfile
 │   ├── Spec: Object (19 properties)
 │   │   ├── AlwaysServe: *string
 │   │   ├── AzureName: string
@@ -194,7 +194,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage
 │       ├── Type: *string
 │       └── Weight: *int
 └── TrafficManagerProfilesNestedEndpoint: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1api20220401.TrafficManagerProfile
+    ├── Owner: network/v1api20220401.TrafficManagerProfile
     ├── Spec: Object (19 properties)
     │   ├── AlwaysServe: *string
     │   ├── AzureName: string

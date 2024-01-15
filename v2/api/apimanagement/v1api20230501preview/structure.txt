@@ -508,7 +508,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501previe
 │       ├── Type: *string
 │       └── Value: *string
 ├── Service: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Owner: resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (26 properties)
 │   │   ├── AdditionalLocations: Object (7 properties)[]
 │   │   │   ├── DisableGateway: *bool

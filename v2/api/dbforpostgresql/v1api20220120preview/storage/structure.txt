@@ -3,7 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120prev
 ├── APIVersion: Enum (1 value)
 │   └── "2022-01-20-preview"
 ├── FlexibleServer: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Owner: resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (20 properties)
 │   │   ├── AdministratorLogin: *string
 │   │   ├── AdministratorLoginPassword: *genruntime.SecretReference
@@ -105,7 +105,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120prev
 │       ├── Type: *string
 │       └── Version: *string
 ├── FlexibleServersConfiguration: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview.FlexibleServer
+│   ├── Owner: dbforpostgresql/v1api20220120preview.FlexibleServer
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── OriginalVersion: string
@@ -139,7 +139,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120prev
 │       ├── Unit: *string
 │       └── Value: *string
 ├── FlexibleServersDatabase: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview.FlexibleServer
+│   ├── Owner: dbforpostgresql/v1api20220120preview.FlexibleServer
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Charset: *string
@@ -164,7 +164,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120prev
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── FlexibleServersFirewallRule: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview.FlexibleServer
+│   ├── Owner: dbforpostgresql/v1api20220120preview.FlexibleServer
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── EndIpAddress: *string
