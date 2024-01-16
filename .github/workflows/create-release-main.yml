@@ -50,7 +50,7 @@ jobs:
           body: |
             This is the "latest" releasewhich contains the most recent commits from the main branch. (commit: ${{ github.sha }}).
 
-            **This release might not be stable.**
+            **This release might not be stable. Use at your own risk.** 
 
             It is only intended for developers wishing to try out the latest feature, some of which may not be fully implemented.
 
