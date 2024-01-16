@@ -48,7 +48,7 @@ jobs:
           overwrite: true
           release_name: "Experimental"
           body: |
-            This is the "latest" releasewhich contains the most recent commits from the main branch. (commit: ${{ github.sha }}).
+            This is an experimental release which containing the most recent commits from the main branch as of commit: ${{ github.sha }}.
 
             **This release might not be stable. Use at your own risk.** 
 
