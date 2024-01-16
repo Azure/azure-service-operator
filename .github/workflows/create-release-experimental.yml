@@ -1,4 +1,4 @@
-name: Create new preview release (main)
+name: Create new experimental release
 
 on:
   # run when pushed to main is published,
@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'docs/**'
 
 env:
   ARTIFACT_VERSION: experimental
@@ -23,7 +25,7 @@ jobs:
       - name: Build & run devcontainer image
         # this always builds a new image from scratch rather than from the build-devcontainer-image workflow output
         # so that we pick up the latest versions of everything
-        # NB: if you update this also update live-validation.yml and create-release-official.yaml
+        # NB: if you update this also update live-validation.yml, pre-release-tests.yaml and create-release-official.yaml
         id: devcontainer
         run: |
           docker build --tag devcontainer:latest .devcontainer
