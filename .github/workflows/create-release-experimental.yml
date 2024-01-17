@@ -6,8 +6,10 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - 'docs/**'
+    paths:
+      - 'v2/**'
+  # no content, allows manual triggering
+  workflow_dispatch:
 
 env:
   ARTIFACT_VERSION: experimental
