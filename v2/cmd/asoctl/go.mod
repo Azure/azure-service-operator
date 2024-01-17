@@ -16,7 +16,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.31.0
 	github.com/spf13/cobra v1.8.0
-	github.com/vbauerster/mpb/v8 v8.7.1
+	github.com/vbauerster/mpb/v8 v8.7.2
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d
 	k8s.io/api v0.29.0
 	k8s.io/apiextensions-apiserver v0.29.0
