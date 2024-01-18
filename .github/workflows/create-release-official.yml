@@ -55,5 +55,7 @@ jobs:
         run: |
           container_id=${{env.container_id}}
           docker exec -e DOCKER_PUSH_TARGET "$container_id" task controller:docker-push-multiarch
+          docker exec -e DOCKER_PUSH_TARGET -e DOCKER_REGISTRY "$container_id" task controller:acr-protect-image
         env:
           DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PUBLIC }}
+          DOCKER_REGISTRY: ${{ secrets.REGISTRY_LOGIN }}
