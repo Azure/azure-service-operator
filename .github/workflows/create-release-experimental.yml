@@ -1,11 +1,18 @@
-name: Create new release
+name: Create new experimental release
 
 on:
-  # run when a release is published,
+  # run when pushed to main is published,
   # which creates a new tag
   push:
-    tags:
-      - v2*
+    branches:
+      - main
+    paths:
+      - 'v2/**'
+  # no content, allows manual triggering
+  workflow_dispatch:
+
+env:
+  ARTIFACT_VERSION: experimental
 
 jobs:
   build-and-push:
@@ -20,7 +27,7 @@ jobs:
       - name: Build & run devcontainer image
         # this always builds a new image from scratch rather than from the build-devcontainer-image workflow output
         # so that we pick up the latest versions of everything
-        # NB: if you update this also update live-validation.yml
+        # NB: if you update this also update live-validation.yml, pre-release-tests.yaml and create-release-official.yaml
         id: devcontainer
         run: |
           docker build --tag devcontainer:latest .devcontainer
@@ -32,20 +39,29 @@ jobs:
       - name: Build required release files
         run: |
           container_id=${{env.container_id}}
-          docker exec "$container_id" task make-release-artifacts
+          docker exec "$container_id" task VERSION=${{ env.ARTIFACT_VERSION }} LATEST_VERSION_TAG=${{ env.ARTIFACT_VERSION }} make-release-artifacts
 
       - name: Upload release assets
         uses: svenstaro/upload-release-action@7319e4733ec7a184d739a6f412c40ffc339b69c7 # this is v2.5.0, but pinned
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref }}
+          tag: refs/tags/${{ env.ARTIFACT_VERSION }}
           file: "v2/out/release/*"
           file_glob: true
+          prerelease: true
+          overwrite: true
+          release_name: "Experimental"
+          body: |
+            This is an experimental release which containing the most recent commits from the main branch as of commit: ${{ github.sha }}.
+
+            **This release might not be stable. Use at your own risk.** 
+
+            It is only intended for developers wishing to try out the latest feature, some of which may not be fully implemented.
 
       - name: Docker login
         run: |
           container_id=${{env.container_id}}
-          docker exec -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e DOCKER_REGISTRY "$container_id" task docker-login
+          docker exec -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e DOCKER_REGISTRY "$container_id" task VERSION=${{ env.ARTIFACT_VERSION }} LATEST_VERSION_TAG=${{ env.ARTIFACT_VERSION }} docker-login
         env:
           DOCKER_REGISTRY: ${{ secrets.REGISTRY_LOGIN }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -54,6 +70,6 @@ jobs:
       - name: Build, tag and push docker image
         run: |
           container_id=${{env.container_id}}
-          docker exec -e DOCKER_PUSH_TARGET "$container_id" task controller:docker-push-multiarch
+          docker exec -e DOCKER_PUSH_TARGET "$container_id" task VERSION=${{ env.ARTIFACT_VERSION }} LATEST_VERSION_TAG=${{ env.ARTIFACT_VERSION }} controller:docker-push-multiarch
         env:
           DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PUBLIC }}
