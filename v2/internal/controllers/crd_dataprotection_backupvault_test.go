@@ -85,7 +85,7 @@ func Test_Dataprotection_Backupvault_CRUD(t *testing.T) {
 	// Delete the resource
 	tc.DeleteResourceAndWait(backupVault)
 
-	// Ensure that the resource group was really deleted in Azure
+	// Ensure that the resource was really deleted in Azure
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,

@@ -35,19 +35,9 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// create storage account and blob container
-	acct := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
-		Spec: storage.StorageAccount_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg),
-			Kind:     to.Ptr(storage.StorageAccount_Kind_Spec_StorageV2),
-			Sku: &storage.Sku{
-				Name: to.Ptr(storage.SkuName_Standard_LRS),
-			},
-			// TODO: They mark this property as optional but actually it is required
-			AccessTier: to.Ptr(storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot),
-		},
-	}
+	acct := newStorageAccount(tc, rg)
+	tc.CreateResourceAndWait(acct)
+
 	blobService := &storage.StorageAccountsBlobService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
 		Spec: storage.StorageAccounts_BlobService_Spec{
@@ -61,31 +51,14 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(acct, blobContainer)
+	tc.CreateResourceAndWait(blobService, blobContainer)
 
 	// create cluster
-	cluster := &aks.ManagedCluster{
-		ObjectMeta: tc.MakeObjectMeta("mc"),
-		Spec: aks.ManagedCluster_Spec{
-			Location:  tc.AzureRegion,
-			Owner:     testcommon.AsOwner(rg),
-			DnsPrefix: to.Ptr("aso"),
-			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
-				{
-					Name:   to.Ptr("ap1"),
-					Count:  to.Ptr(1),
-					VmSize: to.Ptr("Standard_DS2_v2"),
-					OsType: to.Ptr(aks.OSType_Linux),
-					Mode:   to.Ptr(aks.AgentPoolMode_System),
-				},
-			},
-			Identity: &aks.ManagedClusterIdentity{
-				Type: to.Ptr(aks.ManagedClusterIdentity_Type_SystemAssigned),
-			},
-			KubernetesVersion: to.Ptr("1.27.1"),
-		},
-	}
+	adminUsername := "adminUser"
+	sshPublicKey, err := tc.GenerateSSHKey(2048)
+	tc.Expect(err).ToNot(HaveOccurred())
 
+	cluster := NewManagedCluster20230202preview(tc, rg, adminUsername, sshPublicKey)
 	tc.CreateResourceAndWait(cluster)
 
 	// create extension
@@ -111,6 +84,9 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	}
 
 	tc.CreateResourceAndWait(extension)
+
+	tc.Expect(extension.Status.Id).ToNot(BeNil())
+	tc.Expect(extension.Status.Identity.PrincipalId).ToNot(BeNil())
 
 	// give permission to extension msi over SA
 	extenstionRoleAssignment := &authorization.RoleAssignment{
@@ -175,15 +151,68 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(trustedAccessRoleBinding)
 
 	//create backup instance
+	biName := "asotestbackupinstance"
+	backupInstance := &dataprotection.BackupVaultsBackupInstance{
+		ObjectMeta: tc.MakeObjectMeta(biName),
+		Spec: dataprotection.BackupVaults_BackupInstance_Spec{
+			Owner: testcommon.AsOwner(backupVault),
+			Properties: &dataprotection.BackupInstance{
+				FriendlyName: biName,
+				DataSourceInfo: &dataprotection.DataSourceInfo{
+					DatasourceType:   cluster.GetType(),
+					ResourceUri:      cluster.Status.Id,
+					ResourceName:     cluster.AzureName(),
+					ResourceLocation: cluster.Spec.Location,
+				},
+				DataSourceSetInfo: &dataprotection.DataSourceInfo{
+					DatasourceType:   cluster.GetType(),
+					ResourceUri:      cluster.Status.Id,
+					ResourceName:     cluster.AzureName(),
+					ResourceLocation: cluster.Spec.Location,
+				},
+				PolicyInfo: &dataprotection.PolicyInfo{
+					PolicyId: backupPolicy.Status.Id,
+					PolicyParameters: &dataprotection.PolicyParameters{
+						DataStoreParametersList: []dataprotection.DataStoreParameters{
+							{
+								AzureOperationalStoreParameters: &dataprotection.AzureOperationalStoreParameters{
+									DataStoreType:   to.Ptr(dataprotection.AzureOperationalStoreParameters_DataStoreType_OperationalStore),
+									ResourceGroupId: rg.Status.Id,
+									ObjectType:      to.Ptr(dataprotection.AzureOperationalStoreParameters_ObjectType_AzureOperationalStoreParameters),
+								},
+							},
+						},
+						BackupDatasourceParametersList: []dataprotection.BackupDatasourceParameters{
+							{
+								KubernetesCluster: &dataprotection.KubernetesCluster{
+									SnapshotVolumes:              to.Ptr(true),
+									IncludeClusterScopeResources: to.Ptr(true),
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(backupInstance)
 
 	// Assertions and Expectations
+	armId := *backupInstance.Status.Id
+	tc.Expect(backupInstance.Status.Id).ToNot(BeNil())
+	tc.Expect(backupInstance.Status.FriendlyName).To(Equal(biName))
+	tc.Expect(backupInstance.Status.Properties.DataSourceInfo.ResourceID).To(Equal(cluster.Status.Id))
+	tc.Expect(backupInstance.Status.Properties.DataSourceSetInfo.ResourceID).To(Equal(cluster.Status.Id))
+	tc.Expect(backupInstance.Status.Properties.ProtectionStatus.Status).To(BeEquivalentTo(to.Ptr(dataprotection.ProtectionStatusDetails_Status_STATUS_ProtectionConfigured)))
 
 	// Note:
-	// Patch Operations are currently not allowed on BackupInstance
+	// Patch Operations are currently not allowed on BackupInstance currently
 
 	// Delete the backupinstance
+	tc.DeleteResourceAndWait(backupInstance)
 
-	// Ensure that the resource group was really deleted in Azure
+	// Ensure that the resource was really deleted in Azure
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
