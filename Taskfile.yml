@@ -445,6 +445,23 @@ tasks:
             echo "{{.DOCKER_PUSH_TARGET}}"
           fi
 
+  controller:acr-protect-image:
+    desc: Protects an existing image in ACR from being updated or deleted
+    dir: "{{.CONTROLLER_ROOT}}"
+    run: always
+    cmds:
+      - 'if [ -z "{{.DOCKER_PUSH_TARGET}}" ]; then echo "Error: DOCKER_PUSH_TARGET must be set"; exit 1; fi'
+      - 'if [ -z "${DOCKER_REGISTRY}" ]; then echo "Error: DOCKER_REGISTRY must be set"; exit 1; fi'
+      - az acr repository update --name ${DOCKER_REGISTRY} --image "{{.DOCKER_PUSH_TARGET}}/{{.CONTROLLER_DOCKER_IMAGE}}" --write-enabled false --delete-enabled false
+    vars:
+      DOCKER_PUSH_TARGET:
+        sh: |
+          if [ ! -z "${DOCKER_PUSH_TARGET}" ]; then
+            echo "${DOCKER_PUSH_TARGET}"
+          else
+            echo "{{.DOCKER_PUSH_TARGET}}"
+          fi
+
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
     dir: "{{.CONTROLLER_ROOT}}"
