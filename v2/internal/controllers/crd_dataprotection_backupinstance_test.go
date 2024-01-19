@@ -115,8 +115,10 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(extension)
 
 	// give permission to extension msi over SA
+	extenstionRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
+	tc.Expect(err).ToNot(HaveOccurred())
 	extenstionRoleAssignment := &authorization.RoleAssignment{
-		ObjectMeta: tc.MakeObjectMeta("extenstionRoleAssignment"),
+		ObjectMeta: tc.MakeObjectMeta(extenstionRoleAssignmentGUID.String()),
 		Spec: authorization.RoleAssignment_Spec{
 			Owner:       tc.AsExtensionOwner(acct),
 			PrincipalId: extension.Status.AksAssignedIdentity.PrincipalId,
@@ -134,8 +136,10 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	tc.CreateResourcesAndWait(backupVault, backupPolicy)
 
 	// give read permission to vault msi over SRG
+	snapshotRGRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
+	tc.Expect(err).ToNot(HaveOccurred())
 	snapshotRGRoleAssignment := &authorization.RoleAssignment{
-		ObjectMeta: tc.MakeObjectMeta("snapshotRGRoleAssignment"),
+		ObjectMeta: tc.MakeObjectMeta(snapshotRGRoleAssignmentGUID.String()),
 		Spec: authorization.RoleAssignment_Spec{
 			Owner:       tc.AsExtensionOwner(rg),
 			PrincipalId: backupVault.Status.Identity.PrincipalId,
@@ -148,8 +152,10 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(snapshotRGRoleAssignment)
 
 	// give read permission to vault msi over cluster
+	clusterRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
+	tc.Expect(err).ToNot(HaveOccurred())
 	clusterRoleAssignment := &authorization.RoleAssignment{
-		ObjectMeta: tc.MakeObjectMeta("clusterRoleAssignment"),
+		ObjectMeta: tc.MakeObjectMeta(clusterRoleAssignmentGUID.String()),
 		Spec: authorization.RoleAssignment_Spec{
 			Owner:       tc.AsExtensionOwner(cluster),
 			PrincipalId: backupVault.Status.Identity.PrincipalId,
@@ -162,8 +168,10 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(clusterRoleAssignment)
 
 	// give cluster msi access over snapshot rg for pv creation
+	clusterMSIRoleAssignmentAssignmentGUID, err := tc.Namer.GenerateUUID()
+	tc.Expect(err).ToNot(HaveOccurred())
 	clusterMSIRoleAssignment := &authorization.RoleAssignment{
-		ObjectMeta: tc.MakeObjectMeta("clusterMSIRoleAssignment"),
+		ObjectMeta: tc.MakeObjectMeta(clusterMSIRoleAssignmentAssignmentGUID.String()),
 		Spec: authorization.RoleAssignment_Spec{
 			Owner:       tc.AsExtensionOwner(rg),
 			PrincipalId: cluster.Status.Identity.PrincipalId,
