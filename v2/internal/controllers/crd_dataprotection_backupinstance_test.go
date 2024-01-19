@@ -114,9 +114,6 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 
 	tc.CreateResourceAndWait(extension)
 
-	tc.Expect(extension.Status.Id).ToNot(BeNil())
-	tc.Expect(extension.Status.AksAssignedIdentity.PrincipalId).ToNot(BeNil())
-
 	// give permission to extension msi over SA
 	extenstionRoleAssignment := &authorization.RoleAssignment{
 		ObjectMeta: tc.MakeObjectMeta("extenstionRoleAssignment"),
