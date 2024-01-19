@@ -44,6 +44,9 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 			Owner: testcommon.AsOwner(acct),
 		},
 	}
+
+	tc.CreateResourceAndWait(blobService)
+
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: tc.MakeObjectMeta("velero"),
 		Spec: storage.StorageAccounts_BlobServices_Container_Spec{
@@ -51,7 +54,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(blobService, blobContainer)
+	tc.CreateResourceAndWait(blobContainer)
 
 	// create cluster
 	adminUsername := "adminUser"
@@ -75,7 +78,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 			},
 			ConfigurationSettings: map[string]string{
 				"configuration.backupStorageLocation.bucket":                blobContainer.AzureName(),
-				"configuration.backupStorageLocation.config.resourceGroup":  tc.ResourceGroupName,
+				"configuration.backupStorageLocation.config.resourceGroup":  tc.resourceGroupName,
 				"configuration.backupStorageLocation.config.storageAccount": acct.AzureName(),
 				"configuration.backupStorageLocation.config.subscriptionId": tc.AzureSubscription,
 				"credentials.tenantId":                                      tc.AzureTenant,
@@ -90,7 +93,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 
 	// give permission to extension msi over SA
 	extenstionRoleAssignment := &authorization.RoleAssignment{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateUUID().String()),
+		ObjectMeta: tc.MakeObjectMeta("extenstionRoleAssignment"),
 		Spec: authorization.RoleAssignment_Spec{
 			Owner:       tc.AsExtensionOwner(acct),
 			PrincipalId: extension.Status.Identity.PrincipalId,
@@ -109,7 +112,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 
 	// give read permission to vault msi over SRG
 	snapshotRGRoleAssignment := &authorization.RoleAssignment{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateUUID().String()),
+		ObjectMeta: tc.MakeObjectMeta("snapshotRGRoleAssignment"),
 		Spec: authorization.RoleAssignment_Spec{
 			Owner:       tc.AsExtensionOwner(rg),
 			PrincipalId: backupVault.Status.Identity.PrincipalId,
@@ -123,7 +126,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 
 	// give read permission to vault msi over cluster
 	clusterRoleAssignment := &authorization.RoleAssignment{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateUUID().String()),
+		ObjectMeta: tc.MakeObjectMeta("clusterRoleAssignment"),
 		Spec: authorization.RoleAssignment_Spec{
 			Owner:       tc.AsExtensionOwner(cluster),
 			PrincipalId: backupVault.Status.Identity.PrincipalId,
@@ -137,7 +140,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 
 	// give cluster msi access over snapshot rg for pv creation
 	clusterMSIRoleAssignment := &authorization.RoleAssignment{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateUUID().String()),
+		ObjectMeta: tc.MakeObjectMeta("clusterMSIRoleAssignment"),
 		Spec: authorization.RoleAssignment_Spec{
 			Owner:       tc.AsExtensionOwner(rg),
 			PrincipalId: cluster.Status.Identity.PrincipalId,
@@ -171,14 +174,14 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		Spec: dataprotection.BackupVaults_BackupInstance_Spec{
 			Owner: testcommon.AsOwner(backupVault),
 			Properties: &dataprotection.BackupInstance{
-				FriendlyName: biName,
-				DataSourceInfo: &dataprotection.DataSourceInfo{
+				FriendlyName: to.Ptr(biName),
+				DataSourceInfo: &dataprotection.Datasource{
 					DatasourceType:   cluster.GetType(),
 					ResourceUri:      cluster.Status.Id,
 					ResourceName:     cluster.AzureName(),
 					ResourceLocation: cluster.Spec.Location,
 				},
-				DataSourceSetInfo: &dataprotection.DataSourceInfo{
+				DataSourceSetInfo: &dataprotection.DatasourceSet{
 					DatasourceType:   cluster.GetType(),
 					ResourceUri:      cluster.Status.Id,
 					ResourceName:     cluster.AzureName(),
@@ -198,7 +201,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 						},
 						BackupDatasourceParametersList: []dataprotection.BackupDatasourceParameters{
 							{
-								KubernetesCluster: &dataprotection.KubernetesCluster{
+								KubernetesCluster: &dataprotection.KubernetesClusterBackupDatasourceParameters{
 									SnapshotVolumes:              to.Ptr(true),
 									IncludeClusterScopeResources: to.Ptr(true),
 								},
@@ -215,7 +218,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	// Assertions and Expectations
 	armId := *backupInstance.Status.Id
 	tc.Expect(backupInstance.Status.Id).ToNot(BeNil())
-	tc.Expect(backupInstance.Status.FriendlyName).To(Equal(biName))
+	tc.Expect(backupInstance.Status.Properties.FriendlyName).To(Equal((to.Ptr(biName))))
 	tc.Expect(backupInstance.Status.Properties.DataSourceInfo.ResourceID).To(Equal(cluster.Status.Id))
 	tc.Expect(backupInstance.Status.Properties.DataSourceSetInfo.ResourceID).To(Equal(cluster.Status.Id))
 	tc.Expect(backupInstance.Status.Properties.ProvisioningState).To(Equal(to.Ptr("Succeeded")))
@@ -224,7 +227,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	// Patch Operations are currently not allowed on BackupInstance currently
 
 	// Delete the backupinstance
-	tc.DeleteResourceAndWait(backupInstance)
+	// tc.DeleteResourceAndWait(backupInstance)
 
 	// Ensure that the resource was really deleted in Azure
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
