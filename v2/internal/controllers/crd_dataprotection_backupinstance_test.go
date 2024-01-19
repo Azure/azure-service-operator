@@ -16,6 +16,7 @@ import (
 	// The dataprotection package contains types and functions related to dataprotection resources.
 	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
 	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
+	akscluster "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
 	kubernetesconfiguration "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
@@ -57,11 +58,35 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(blobContainer)
 
 	// create cluster
-	adminUsername := "adminUser"
-	sshPublicKey, err := tc.GenerateSSHKey(2048)
-	tc.Expect(err).ToNot(HaveOccurred())
-
-	cluster := NewManagedCluster20230202preview(tc, rg, adminUsername, sshPublicKey)
+	osType := akscluster.OSType_Linux
+	osSKU := akscluster.OSSKU_AzureLinux
+	upgradeChannel := akscluster.ManagedClusterAutoUpgradeProfile_UpgradeChannel_NodeImage
+	agentPoolMode := akscluster.AgentPoolMode_System
+	cluster := &akscluster.ManagedCluster{
+		ObjectMeta: tc.MakeObjectMeta("mc"),
+		Spec: akscluster.ManagedCluster_Spec{
+			KubernetesVersion: to.Ptr("1.27.3"),
+			Owner:             testcommon.AsOwner(rg),
+			DnsPrefix:         to.Ptr("aso"),
+			AgentPoolProfiles: []akscluster.ManagedClusterAgentPoolProfile{
+				{
+					Name:   to.Ptr("agentpool"),
+					Count:  to.Ptr(3),
+					VmSize: to.Ptr("Standard_B4ms"),
+					OsType: &osType,
+					OsSKU:  &osSKU,
+					Mode:   &agentPoolMode,
+				},
+			},
+			Identity: &akscluster.ManagedClusterIdentity{
+				Type: to.Ptr(akscluster.ManagedClusterIdentity_Type_SystemAssigned),
+			},
+			AutoUpgradeProfile: &akscluster.ManagedClusterAutoUpgradeProfile{
+				UpgradeChannel: &upgradeChannel,
+			},
+			EnableRBAC: to.Ptr(true),
+		},
+	}
 	tc.CreateResourceAndWait(cluster)
 
 	// create extension
@@ -78,7 +103,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 			},
 			ConfigurationSettings: map[string]string{
 				"configuration.backupStorageLocation.bucket":                blobContainer.AzureName(),
-				"configuration.backupStorageLocation.config.resourceGroup":  tc.resourceGroupName,
+				"configuration.backupStorageLocation.config.resourceGroup":  rg.AzureName(),
 				"configuration.backupStorageLocation.config.storageAccount": acct.AzureName(),
 				"configuration.backupStorageLocation.config.subscriptionId": tc.AzureSubscription,
 				"credentials.tenantId":                                      tc.AzureTenant,
@@ -176,15 +201,15 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 			Properties: &dataprotection.BackupInstance{
 				FriendlyName: to.Ptr(biName),
 				DataSourceInfo: &dataprotection.Datasource{
-					DatasourceType:   cluster.GetType(),
+					DatasourceType:   to.Ptr(cluster.GetType()),
 					ResourceUri:      cluster.Status.Id,
-					ResourceName:     cluster.AzureName(),
+					ResourceName:     to.Ptr(cluster.AzureName()),
 					ResourceLocation: cluster.Spec.Location,
 				},
 				DataSourceSetInfo: &dataprotection.DatasourceSet{
-					DatasourceType:   cluster.GetType(),
+					DatasourceType:   to.Ptr(cluster.GetType()),
 					ResourceUri:      cluster.Status.Id,
-					ResourceName:     cluster.AzureName(),
+					ResourceName:     to.Ptr(cluster.AzureName()),
 					ResourceLocation: cluster.Spec.Location,
 				},
 				PolicyInfo: &dataprotection.PolicyInfo{
