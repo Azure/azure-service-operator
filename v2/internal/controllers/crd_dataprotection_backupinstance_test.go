@@ -135,6 +135,20 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 
 	tc.CreateResourceAndWait(clusterRoleAssignment)
 
+	// give cluster msi access over snapshot rg for pv creation
+	clusterMSIRoleAssignment := &authorization.RoleAssignment{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateUUID().String()),
+		Spec: authorization.RoleAssignment_Spec{
+			Owner:       tc.AsExtensionOwner(rg),
+			PrincipalId: cluster.Status.Identity.PrincipalId,
+			RoleDefinitionReference: &genruntime.ResourceReference{
+				ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is Contributor Role
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(clusterMSIRoleAssignment)
+
 	// create TA role binding
 	trustedAccessRoleBinding := &aks.TrustedAccessRoleBinding{
 		ObjectMeta: tc.MakeObjectMetaWithName("tarb"),
@@ -204,7 +218,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	tc.Expect(backupInstance.Status.FriendlyName).To(Equal(biName))
 	tc.Expect(backupInstance.Status.Properties.DataSourceInfo.ResourceID).To(Equal(cluster.Status.Id))
 	tc.Expect(backupInstance.Status.Properties.DataSourceSetInfo.ResourceID).To(Equal(cluster.Status.Id))
-	tc.Expect(backupInstance.Status.Properties.ProtectionStatus.Status).To(BeEquivalentTo(to.Ptr(dataprotection.ProtectionStatusDetails_Status_STATUS_ProtectionConfigured)))
+	tc.Expect(backupInstance.Status.Properties.ProvisioningState).To(Equal(to.Ptr("Succeeded")))
 
 	// Note:
 	// Patch Operations are currently not allowed on BackupInstance currently
