@@ -66,6 +66,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMeta("mc"),
 		Spec: akscluster.ManagedCluster_Spec{
 			KubernetesVersion: to.Ptr("1.27.3"),
+			Location:          tc.AzureRegion,
 			Owner:             testcommon.AsOwner(rg),
 			DnsPrefix:         to.Ptr("aso"),
 			AgentPoolProfiles: []akscluster.ManagedClusterAgentPoolProfile{
@@ -94,7 +95,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMeta("extension"),
 		Spec: kubernetesconfiguration.Extension_Spec{
 			ReleaseTrain:  to.Ptr("stable"),
-			ExtensionType: to.Ptr("microsoft.dataprotection"),
+			ExtensionType: to.Ptr("microsoft.dataprotection.kubernetes"),
 			Owner:         tc.AsExtensionOwner(cluster),
 			Scope: &kubernetesconfiguration.Scope{
 				Cluster: &kubernetesconfiguration.ScopeCluster{
@@ -252,7 +253,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	// Patch Operations are currently not allowed on BackupInstance currently
 
 	// Delete the backupinstance
-	// tc.DeleteResourceAndWait(backupInstance)
+	tc.DeleteResourceAndWait(backupInstance)
 
 	// Ensure that the resource was really deleted in Azure
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
