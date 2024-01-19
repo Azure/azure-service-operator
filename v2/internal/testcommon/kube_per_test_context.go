@@ -37,6 +37,7 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -83,6 +84,16 @@ func (tc KubePerTestContext) MakeObjectMetaWithName(name string) ctrl.ObjectMeta
 	return ctrl.ObjectMeta{
 		Name:      name,
 		Namespace: tc.Namespace,
+	}
+}
+
+func (tc KubePerTestContext) MakeObjectMetaWithNameAndCredentialFrom(name string, credentialFrom string) ctrl.ObjectMeta {
+	return ctrl.ObjectMeta{
+		Name:      name,
+		Namespace: tc.Namespace,
+		Annotations: map[string]string{
+			annotations.PerResourceSecret: credentialFrom,
+		},
 	}
 }
 

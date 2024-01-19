@@ -62,7 +62,7 @@ func Test_MySQL_Combined(t *testing.T) {
 		testcommon.Subtest{
 			Name: "MySQL Secret Rollover",
 			Test: func(testContext *testcommon.KubePerTestContext) {
-				MySQL_AdminSecret_Rollvoer(testContext, fqdn, adminUsername, adminPasswordKey, adminPassword, secret)
+				MySQL_AdminSecret_Rollover(testContext, fqdn, adminUsername, adminPasswordKey, adminPassword, secret)
 			},
 		},
 	)
@@ -72,7 +72,7 @@ func Test_MySQL_Combined(t *testing.T) {
 // is sent to Azure. This cannot be tested in the recording tests because they do not use
 // a cached client. The index functionality used to check if a secret is being used by an
 // ASO resource requires the cached client (the indexes are local to the cache).
-func MySQL_AdminSecret_Rollvoer(tc *testcommon.KubePerTestContext, fqdn string, adminUsername string, adminPasswordKey string, adminPassword string, secret *v1.Secret) {
+func MySQL_AdminSecret_Rollover(tc *testcommon.KubePerTestContext, fqdn string, adminUsername string, adminPasswordKey string, adminPassword string, secret *v1.Secret) {
 	// Connect to the DB
 	conn, err := mysqlutil.ConnectToDB(
 		tc.Ctx,
@@ -398,56 +398,9 @@ func MySQL_User_CRUD(tc *testcommon.KubePerTestContext, server *mysql.FlexibleSe
 //	tc.Expect(exists).To(BeFalse())
 //}
 
-func Test_MySQL_User(t *testing.T) {
-	t.Parallel()
-	tc := globalTestContext.ForTest(t)
-
-	rg := tc.CreateTestResourceGroupAndWait()
-
-	adminUsername := "myadmin"
-	adminPasswordKey := "adminPassword"
-	adminPassword := tc.Namer.GeneratePassword()
-	adminSecret := newSecret(tc, adminPasswordKey, adminPassword)
-
-	passwordKey := "password"
-	password := tc.Namer.GeneratePassword()
-	userSecret := newSecret(tc, passwordKey, password)
-
-	tc.CreateResource(adminSecret)
-	tc.CreateResource(userSecret)
-
-	flexibleServer := newMySQLServer(tc, rg, adminUsername, adminPasswordKey, adminSecret.Name)
-	firewallRule := newMySQLServerOpenFirewallRule(tc, flexibleServer)
-
-	user := &mysqlv1.User{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("user")),
-		Spec: mysqlv1.UserSpec{
-			Owner: testcommon.AsKubernetesOwner(flexibleServer),
-			Privileges: []string{
-				"CREATE USER",
-				"PROCESS",
-			},
-			LocalUser: &mysqlv1.LocalUserSpec{
-				ServerAdminUsername: adminUsername,
-				ServerAdminPassword: flexibleServer.Spec.AdministratorLoginPassword,
-				Password: &genruntime.SecretReference{
-					Name: userSecret.Name,
-					Key:  passwordKey,
-				},
-			},
-		},
-	}
-	tc.CreateResourcesAndWait(flexibleServer, firewallRule, user)
-
-	// TODO: Test other stuff?
-	// TODO: Password rollover?
-
-	tc.DeleteResourceAndWait(user)
-}
-
 func newSecret(tc *testcommon.KubePerTestContext, key string, password string) *v1.Secret {
 	secret := &v1.Secret{
-		ObjectMeta: tc.MakeObjectMeta("mysqlsecret"),
+		ObjectMeta: tc.MakeObjectMeta("secret"),
 		StringData: map[string]string{
 			key: password,
 		},

@@ -41,7 +41,8 @@ func getServerFQDN(ctx context.Context, resourceResolver *resolver.Resolver, use
 		return "", errors.Errorf("owner was not type FlexibleServer, instead: %T", ownerDetails)
 	}
 
-	// Magical assertion to ensure that this is still the storage type
+	// Assertion to ensure that this is still the storage type
+	// If this doesn't compile, update the version being imported to the new Hub version
 	var _ ctrlconversion.Hub = &dbformysql.FlexibleServer{}
 
 	if flexibleServer.Status.FullyQualifiedDomainName == nil {
