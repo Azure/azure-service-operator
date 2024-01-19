@@ -115,14 +115,14 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(extension)
 
 	tc.Expect(extension.Status.Id).ToNot(BeNil())
-	tc.Expect(extension.Status.Identity.PrincipalId).ToNot(BeNil())
+	tc.Expect(extension.Status.AksAssignedIdentity.PrincipalId).ToNot(BeNil())
 
 	// give permission to extension msi over SA
 	extenstionRoleAssignment := &authorization.RoleAssignment{
 		ObjectMeta: tc.MakeObjectMeta("extenstionRoleAssignment"),
 		Spec: authorization.RoleAssignment_Spec{
 			Owner:       tc.AsExtensionOwner(acct),
-			PrincipalId: extension.Status.Identity.PrincipalId,
+			PrincipalId: extension.Status.AksAssignedIdentity.PrincipalId,
 			RoleDefinitionReference: &genruntime.ResourceReference{
 				ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab", tc.AzureSubscription), // This is Storage Account Contributor Role
 			},
