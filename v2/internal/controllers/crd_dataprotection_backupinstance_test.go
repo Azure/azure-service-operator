@@ -13,7 +13,11 @@ import (
 	. "github.com/onsi/gomega"
 
 	// The dataprotection package contains types and functions related to dataprotection resources.
+	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
+	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
+	kubernetesconfiguration "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
 	// The testcommon package includes common testing utilities.
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	// The to package includes utilities for converting values to pointers.
@@ -58,10 +62,73 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(acct, blobContainer)
 
 	// create cluster
+	cluster := &aks.ManagedCluster{
+		ObjectMeta: tc.MakeObjectMeta("mc"),
+		Spec: aks.ManagedCluster_Spec{
+			Location:  tc.AzureRegion,
+			Owner:     testcommon.AsOwner(rg),
+			DnsPrefix: to.Ptr("aso"),
+			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
+				{
+					Name:   to.Ptr("ap1"),
+					Count:  to.Ptr(1),
+					VmSize: to.Ptr("Standard_DS2_v2"),
+					OsType: to.Ptr(aks.OSType_Linux),
+					Mode:   to.Ptr(aks.AgentPoolMode_System),
+				},
+			},
+			Identity: &aks.ManagedClusterIdentity{
+				Type: to.Ptr(aks.ManagedClusterIdentity_Type_SystemAssigned),
+			},
+			KubernetesVersion: to.Ptr("1.27.1"),
+		},
+	}
+
+	tc.CreateResourceAndWait(cluster)
 
 	// create extension
+	extension := &kubernetesconfiguration.Extension{
+		ObjectMeta: tc.MakeObjectMeta("extension"),
+		Spec: kubernetesconfiguration.Extension_Spec{
+			ReleaseTrain:  to.Ptr("stable"),
+			ExtensionType: to.Ptr("microsoft.dataprotection"),
+			Owner:         tc.AsExtensionOwner(cluster),
+			Scope: &kubernetesconfiguration.Scope{
+				Cluster: &kubernetesconfiguration.ScopeCluster{
+					ReleaseNamespace: to.Ptr("dataprotection-microsoft"),
+				},
+			},
+			ConfigurationSettings: map[string]string{
+				"configuration.backupStorageLocation.bucket":                blobContainer.AzureName(),
+				"configuration.backupStorageLocation.config.resourceGroup":  tc.ResourceGroupName,
+				"configuration.backupStorageLocation.config.storageAccount": acct.AzureName(),
+				"configuration.backupStorageLocation.config.subscriptionId": tc.AzureSubscription,
+				"credentials.tenantId":                                      tc.AzureTenant,
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(extension)
 
 	// give permission to extension msi over SA
+	roleAssignmentGUID, err := tc.Namer.GenerateUUID()
+	tc.Expect(err).ToNot(HaveOccurred())
+
+	roleAssignment := &authorization.RoleAssignment{
+		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
+		Spec: authorization.RoleAssignment_Spec{
+			Owner: tc.AsExtensionOwner(acct),
+			PrincipalIdFromConfig: &genruntime.ConfigMapReference{
+				Name: configMapName,
+				Key:  principalIdKey,
+			},
+			RoleDefinitionReference: &genruntime.ResourceReference{
+				ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is contributor
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(roleAssignment)
 
 	// create vault
 
