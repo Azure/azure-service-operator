@@ -156,7 +156,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │       ├── VersionQueryName: *string
 │       └── VersioningScheme: *string
 ├── AuthorizationProvider: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
+│   ├── Owner: apimanagement/v1api20220801.Service
 │   ├── Spec: Object (7 properties)
 │   │   ├── AzureName: string
 │   │   ├── DisplayName: *string
@@ -187,7 +187,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── AuthorizationProvidersAuthorization: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.AuthorizationProvider
+│   ├── Owner: apimanagement/v1api20220801.AuthorizationProvider
 │   ├── Spec: Object (9 properties)
 │   │   ├── AuthorizationType: *string
 │   │   ├── AzureName: string
@@ -216,7 +216,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │       ├── Status: *string
 │       └── Type: *string
 ├── AuthorizationProvidersAuthorizationsAccessPolicy: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.AuthorizationProvidersAuthorization
+│   ├── Owner: apimanagement/v1api20220801.AuthorizationProvidersAuthorization
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── ObjectId: *string

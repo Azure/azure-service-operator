@@ -951,6 +951,11 @@ objectModelConfiguration:
       ApiManagementServiceProperties:
         PublicIpAddressId:
           $armReference: true
+      AuthorizationAccessPolicyContractProperties:
+        TenantId:
+          $importConfigMapMode: optional
+        ObjectId:
+          $importConfigMapMode: optional
       BackendContractProperties:
         ResourceId:
           $armReference: true
@@ -983,6 +988,15 @@ objectModelConfiguration:
         $supportedFrom: v2.6.0
       Service_ApiVersionSet:
         $exportAs: ApiVersionSet
+        $supportedFrom: v2.6.0
+      Service_AuthorizationProvider:
+        $exportAs: AuthorizationProvider
+        $supportedFrom: v2.6.0
+      Service_AuthorizationProviders_Authorization:
+        $exportAs: AuthorizationProvidersAuthorization
+        $supportedFrom: v2.6.0
+      Service_AuthorizationProviders_Authorizations_AccessPolicy:
+        $exportAs: AuthorizationProvidersAuthorizationsAccessPolicy
         $supportedFrom: v2.6.0
       Service_Backend:
         $exportAs: Backend

@@ -217,6 +217,89 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501previe
 │           ├── "Header"
 │           ├── "Query"
 │           └── "Segment"
+├── AuthorizationProvider: Resource
+│   ├── Owner: Service
+│   ├── Spec: Object (5 properties)
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: MaxLength: 256
+│   │   │   ├── Rule 1: MinLength: 1
+│   │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
+│   │   ├── DisplayName: Validated<*string> (2 rules)
+│   │   │   ├── Rule 0: MaxLength: 300
+│   │   │   └── Rule 1: MinLength: 1
+│   │   ├── IdentityProvider: *string
+│   │   ├── Oauth2: *Object (2 properties)
+│   │   │   ├── GrantTypes: *Object (2 properties)
+│   │   │   │   ├── AuthorizationCode: map[string]string
+│   │   │   │   └── ClientCredentials: map[string]string
+│   │   │   └── RedirectUrl: *string
+│   │   └── Owner: *genruntime.KnownResourceReference
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── DisplayName: *string
+│       ├── Id: *string
+│       ├── IdentityProvider: *string
+│       ├── Name: *string
+│       ├── Oauth2: *Object (2 properties)
+│       │   ├── GrantTypes: *Object (2 properties)
+│       │   │   ├── AuthorizationCode: map[string]string
+│       │   │   └── ClientCredentials: map[string]string
+│       │   └── RedirectUrl: *string
+│       └── Type: *string
+├── AuthorizationProvidersAuthorization: Resource
+│   ├── Owner: AuthorizationProvider
+│   ├── Spec: Object (7 properties)
+│   │   ├── AuthorizationType: *Enum (1 value)
+│   │   │   └── "OAuth2"
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: MaxLength: 256
+│   │   │   ├── Rule 1: MinLength: 1
+│   │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
+│   │   ├── Error: *Object (2 properties)
+│   │   │   ├── Code: *string
+│   │   │   └── Message: *string
+│   │   ├── Oauth2GrantType: *Enum (2 values)
+│   │   │   ├── "AuthorizationCode"
+│   │   │   └── "ClientCredentials"
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Parameters: map[string]string
+│   │   └── Status: *string
+│   └── Status: Object (9 properties)
+│       ├── AuthorizationType: *Enum (1 value)
+│       │   └── "OAuth2"
+│       ├── Conditions: conditions.Condition[]
+│       ├── Error: *Object (2 properties)
+│       │   ├── Code: *string
+│       │   └── Message: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── Oauth2GrantType: *Enum (2 values)
+│       │   ├── "AuthorizationCode"
+│       │   └── "ClientCredentials"
+│       ├── Parameters: map[string]string
+│       ├── Status: *string
+│       └── Type: *string
+├── AuthorizationProvidersAuthorizationsAccessPolicy: Resource
+│   ├── Owner: AuthorizationProvidersAuthorization
+│   ├── Spec: Object (7 properties)
+│   │   ├── AppIds: string[]
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: MaxLength: 256
+│   │   │   ├── Rule 1: MinLength: 1
+│   │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
+│   │   ├── ObjectId: *string
+│   │   ├── ObjectIdFromConfig: *genruntime.ConfigMapReference
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── TenantId: *string
+│   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
+│   └── Status: Object (7 properties)
+│       ├── AppIds: string[]
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── ObjectId: *string
+│       ├── TenantId: *string
+│       └── Type: *string
 ├── Backend: Resource
 │   ├── Owner: Service
 │   ├── Spec: Object (14 properties)
@@ -1008,6 +1091,70 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501previe
 │       └── WsdlSelector: *Object (2 properties)
 │           ├── WsdlEndpointName: *string
 │           └── WsdlServiceName: *string
+├── Service_AuthorizationProvider_STATUS_ARM: Object (4 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (3 properties)
+│   │   ├── DisplayName: *string
+│   │   ├── IdentityProvider: *string
+│   │   └── Oauth2: *Object (2 properties)
+│   │       ├── GrantTypes: *Object (2 properties)
+│   │       │   ├── AuthorizationCode: map[string]string
+│   │       │   └── ClientCredentials: map[string]string
+│   │       └── RedirectUrl: *string
+│   └── Type: *string
+├── Service_AuthorizationProvider_Spec_ARM: Object (2 properties)
+│   ├── Name: string
+│   └── Properties: *Object (3 properties)
+│       ├── DisplayName: *string
+│       ├── IdentityProvider: *string
+│       └── Oauth2: *Object (2 properties)
+│           ├── GrantTypes: *Object (2 properties)
+│           │   ├── AuthorizationCode: map[string]string
+│           │   └── ClientCredentials: map[string]string
+│           └── RedirectUrl: *string
+├── Service_AuthorizationProviders_Authorization_STATUS_ARM: Object (4 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (5 properties)
+│   │   ├── AuthorizationType: *Enum (1 value)
+│   │   │   └── "OAuth2"
+│   │   ├── Error: *Object (2 properties)
+│   │   │   ├── Code: *string
+│   │   │   └── Message: *string
+│   │   ├── Oauth2GrantType: *Enum (2 values)
+│   │   │   ├── "AuthorizationCode"
+│   │   │   └── "ClientCredentials"
+│   │   ├── Parameters: map[string]string
+│   │   └── Status: *string
+│   └── Type: *string
+├── Service_AuthorizationProviders_Authorization_Spec_ARM: Object (2 properties)
+│   ├── Name: string
+│   └── Properties: *Object (5 properties)
+│       ├── AuthorizationType: *Enum (1 value)
+│       │   └── "OAuth2"
+│       ├── Error: *Object (2 properties)
+│       │   ├── Code: *string
+│       │   └── Message: *string
+│       ├── Oauth2GrantType: *Enum (2 values)
+│       │   ├── "AuthorizationCode"
+│       │   └── "ClientCredentials"
+│       ├── Parameters: map[string]string
+│       └── Status: *string
+├── Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS_ARM: Object (4 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (3 properties)
+│   │   ├── AppIds: string[]
+│   │   ├── ObjectId: *string
+│   │   └── TenantId: *string
+│   └── Type: *string
+├── Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec_ARM: Object (2 properties)
+│   ├── Name: string
+│   └── Properties: *Object (3 properties)
+│       ├── AppIds: string[]
+│       ├── ObjectId: *string
+│       └── TenantId: *string
 ├── Service_Backend_STATUS_ARM: Object (4 properties)
 │   ├── Id: *string
 │   ├── Name: *string

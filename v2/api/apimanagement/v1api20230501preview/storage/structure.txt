@@ -156,6 +156,87 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501previe
 │       ├── VersionHeaderName: *string
 │       ├── VersionQueryName: *string
 │       └── VersioningScheme: *string
+├── AuthorizationProvider: Resource
+│   ├── Owner: apimanagement/v1api20230501preview.Service
+│   ├── Spec: Object (7 properties)
+│   │   ├── AzureName: string
+│   │   ├── DisplayName: *string
+│   │   ├── IdentityProvider: *string
+│   │   ├── Oauth2: *Object (3 properties)
+│   │   │   ├── GrantTypes: *Object (3 properties)
+│   │   │   │   ├── AuthorizationCode: map[string]string
+│   │   │   │   ├── ClientCredentials: map[string]string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── RedirectUrl: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── DisplayName: *string
+│       ├── Id: *string
+│       ├── IdentityProvider: *string
+│       ├── Name: *string
+│       ├── Oauth2: *Object (3 properties)
+│       │   ├── GrantTypes: *Object (3 properties)
+│       │   │   ├── AuthorizationCode: map[string]string
+│       │   │   ├── ClientCredentials: map[string]string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── RedirectUrl: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       └── Type: *string
+├── AuthorizationProvidersAuthorization: Resource
+│   ├── Owner: apimanagement/v1api20230501preview.AuthorizationProvider
+│   ├── Spec: Object (9 properties)
+│   │   ├── AuthorizationType: *string
+│   │   ├── AzureName: string
+│   │   ├── Error: *Object (3 properties)
+│   │   │   ├── Code: *string
+│   │   │   ├── Message: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Oauth2GrantType: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Parameters: map[string]string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Status: *string
+│   └── Status: Object (10 properties)
+│       ├── AuthorizationType: *string
+│       ├── Conditions: conditions.Condition[]
+│       ├── Error: *Object (3 properties)
+│       │   ├── Code: *string
+│       │   ├── Message: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── Oauth2GrantType: *string
+│       ├── Parameters: map[string]string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Status: *string
+│       └── Type: *string
+├── AuthorizationProvidersAuthorizationsAccessPolicy: Resource
+│   ├── Owner: apimanagement/v1api20230501preview.AuthorizationProvidersAuthorization
+│   ├── Spec: Object (9 properties)
+│   │   ├── AppIds: string[]
+│   │   ├── AzureName: string
+│   │   ├── ObjectId: *string
+│   │   ├── ObjectIdFromConfig: *genruntime.ConfigMapReference
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── TenantId: *string
+│   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
+│   └── Status: Object (8 properties)
+│       ├── AppIds: string[]
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── ObjectId: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── TenantId: *string
+│       └── Type: *string
 ├── Backend: Resource
 │   ├── Owner: apimanagement/v1api20230501preview.Service
 │   ├── Spec: Object (16 properties)
@@ -687,6 +768,15 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501previe
 ├── augmentConversionForArmIdWrapper_STATUS: Interface
 ├── augmentConversionForAuthenticationSettingsContract: Interface
 ├── augmentConversionForAuthenticationSettingsContract_STATUS: Interface
+├── augmentConversionForAuthorizationError: Interface
+├── augmentConversionForAuthorizationError_STATUS: Interface
+├── augmentConversionForAuthorizationProvider: Interface
+├── augmentConversionForAuthorizationProviderOAuth2GrantTypes: Interface
+├── augmentConversionForAuthorizationProviderOAuth2GrantTypes_STATUS: Interface
+├── augmentConversionForAuthorizationProviderOAuth2Settings: Interface
+├── augmentConversionForAuthorizationProviderOAuth2Settings_STATUS: Interface
+├── augmentConversionForAuthorizationProvidersAuthorization: Interface
+├── augmentConversionForAuthorizationProvidersAuthorizationsAccessPolicy: Interface
 ├── augmentConversionForBackend: Interface
 ├── augmentConversionForBackendAuthorizationHeaderCredentials: Interface
 ├── augmentConversionForBackendAuthorizationHeaderCredentials_STATUS: Interface
@@ -726,6 +816,12 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501previe
 ├── augmentConversionForService_ApiVersionSet_Spec: Interface
 ├── augmentConversionForService_Api_STATUS: Interface
 ├── augmentConversionForService_Api_Spec: Interface
+├── augmentConversionForService_AuthorizationProvider_STATUS: Interface
+├── augmentConversionForService_AuthorizationProvider_Spec: Interface
+├── augmentConversionForService_AuthorizationProviders_Authorization_STATUS: Interface
+├── augmentConversionForService_AuthorizationProviders_Authorization_Spec: Interface
+├── augmentConversionForService_AuthorizationProviders_Authorizations_AccessPolicy_STATUS: Interface
+├── augmentConversionForService_AuthorizationProviders_Authorizations_AccessPolicy_Spec: Interface
 ├── augmentConversionForService_Backend_STATUS: Interface
 ├── augmentConversionForService_Backend_Spec: Interface
 ├── augmentConversionForService_NamedValue_STATUS: Interface

@@ -1,0 +1,16 @@
+apiVersion: apimanagement.azure.com/v1api20230501preview
+kind: AuthorizationProvider
+metadata:
+  name: sampleapimauthorizationprovider
+  namespace: default
+spec:
+  displayName: "sampleauthcode"
+  identityProvider: "aad"
+  oauth2:
+    grantTypes:
+      authorizationCode:
+        clientId: "000000000"
+        clientSecret: "*"
+        resourceUri: "https://www.contoso.com"
+  owner:
+    name: sampleapimservice

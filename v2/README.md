@@ -58,7 +58,7 @@ ASO supports more than 150 different Azure resources, with more added every rele
    First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:
 
    ```yaml
-   AZURE_TENANT_ID=<your-tenant-id-goes-here>
+   exe=<your-tenant-id-goes-here>
    AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
    ```
 
