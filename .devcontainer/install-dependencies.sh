@@ -121,6 +121,10 @@ if ! [[ $GOMINORVER -ge $GOMINORREQUIRED ]]; then
     exit 1
 fi
 
+# Define os and arch
+os=$(go env GOOS)
+arch=$(go env GOARCH)
+
 # Ensure we have AZ
 
 #doc# | AZ | latest | https://docs.microsoft.com/en-us/cli/azure/install-azure-cli |
@@ -134,7 +138,12 @@ write-verbose "Installing tools to $TOOL_DEST"
 # Install Go tools
 TMPDIR=$(mktemp -d)
 clean() { 
-    chmod +w -R "$TMPDIR"
+    # Macos wants different flag order
+    if [[ ${os} == "darwin" ]]; then
+        chmod -R +w "$TMPDIR"
+    else
+        chmod +w -R "$TMPDIR"
+    fi
     rm -rf "$TMPDIR"
 }
 trap clean EXIT
@@ -144,7 +153,7 @@ export GOPATH=$TMPDIR
 export GOCACHE=$TMPDIR/cache
 export GO111MODULE=on
 
-write-verbose "Installing Go tools…"
+write-verbose "Installing Go tools..."
 
 # go tools for vscode are preinstalled by base image (see first comment in Dockerfile)
 
@@ -216,7 +225,7 @@ fi
 write-verbose "Checking for $TOOL_DEST/go-task"
 if should-install "$TOOL_DEST/task"; then 
     write-info "Installing go-task"
-    curl -sL "https://github.com/go-task/task/releases/download/v3.31.0/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
+    curl -sL "https://github.com/go-task/task/releases/download/v3.31.0/task_${os}_${arch}.tar.gz" | tar xz -C "$TOOL_DEST" task
 fi
 
 # Install Trivy
@@ -224,53 +233,61 @@ fi
 write-verbose "Checking for $TOOL_DEST/trivy"
 if should-install "$TOOL_DEST/trivy"; then
     write-info "Installing trivy"
-    curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.37.3/trivy_0.37.3_Linux-64bit.tar.gz" | tar xz -C "$TOOL_DEST" trivy
+    # This guys decided to use different naming conventions for os(go env GOOS) and arch(go env GOARCH) despite trivy is 98.6% written in Go
+    # This fixes macos arm64 architechture. Every other os/arch is named differently. Consider adding a workaround of your own ¯\_(ツ)_/¯
+    if [[ ${os} == "darwin" ]] && [[ ${arch} == "arm64" ]]; then
+        curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.37.3/trivy_0.37.3_macOS-ARM64.tar.gz" | tar xz -C "$TOOL_DEST" trivy
+    else
+        curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.37.3/trivy_0.37.3_Linux-64bit.tar.gz" | tar xz -C "$TOOL_DEST" trivy
+    fi
 fi
 
 # Install helm
 #doc# | Helm | v3.8.0 | https://helm.sh/ |
 write-verbose "Checking for $TOOL_DEST/helm"
 if should-install "$TOOL_DEST/helm"; then
-    write-info "Installing helm…"
-    curl -sL "https://get.helm.sh/helm-v3.8.0-linux-amd64.tar.gz" | tar -C "$TOOL_DEST" --strip-components=1 -xz linux-amd64/helm
+    write-info "Installing helm..."
+    curl -sL "https://get.helm.sh/helm-v3.8.0-${os}-${arch}.tar.gz" | tar -C "$TOOL_DEST" --strip-components=1 -xz ${os}-${arch}/helm
 fi
 
 # Install yq
 #doc# | YQ | v4.13.0 | https://github.com/mikefarah/yq/ |
 yq_version=v4.13.0
-yq_binary=yq_linux_amd64
+yq_binary=yq_${os}_${arch}
 write-verbose "Checking for $TOOL_DEST/yq"
 if should-install "$TOOL_DEST/yq"; then 
-    write-info "Installing yq…"
+    write-info "Installing yq..."
     rm -f "$TOOL_DEST/yq" # remove yq in case we're forcing the install
     wget "https://github.com/mikefarah/yq/releases/download/${yq_version}/${yq_binary}.tar.gz" -O - | tar -xz -C "$TOOL_DEST" && mv "$TOOL_DEST/$yq_binary" "$TOOL_DEST/yq"
 fi
 
 # Install cmctl, used to wait for cert manager installation during some tests cases
 #doc# | cmctl | latest | https://cert-manager.io/docs/reference/cmctl |
-os=$(go env GOOS)
-arch=$(go env GOARCH)
 write-verbose "Checking for $TOOL_DEST/cmctl"
 if should-install "$TOOL_DEST/cmctl"; then 
-    write-info "Installing cmctl-${os}_${arch}…"
+    write-info "Installing cmctl-${os}_${arch}..."
     curl -L "https://github.com/jetstack/cert-manager/releases/latest/download/cmctl-${os}-${arch}.tar.gz" | tar -xz -C "$TOOL_DEST"
 fi
 
 write-verbose "Checking for $BUILDX_DEST/docker-buildx"
 #doc# | BuildX | v0.11.2 | https://github.com/docker/buildx |
 if should-install "$BUILDX_DEST/docker-buildx"; then
-    write-info "Installing buildx-${os}_${arch} to $BUILDX_DEST…"
-    mkdir -p "$BUILDX_DEST"
-    curl  -o "$BUILDX_DEST/docker-buildx" -L "https://github.com/docker/buildx/releases/download/v0.11.2/buildx-v0.11.2.${os}-${arch}"
-    chmod +x "$BUILDX_DEST/docker-buildx"
+    write-info "Installing buildx-${os}_${arch} to $BUILDX_DEST ..."
+    if ! test -f $BUILDX_DEST; then
+        mkdir -p "$BUILDX_DEST"
+    fi
+    if ! test -f $BUILDX_DEST/docker-buildx; then
+        curl  -o "$BUILDX_DEST/docker-buildx" -L "https://github.com/docker/buildx/releases/download/v0.11.2/buildx-v0.11.2.${os}-${arch}"
+        chmod +x "$BUILDX_DEST/docker-buildx"
+    fi
 fi
 
 # Install azwi
-#doc# | AZWI | v1.0.0 | https://github.com/Azure/azure-workload-identity |
+#doc# | AZWI | v1.2.0 | https://github.com/Azure/azure-workload-identity |
 write-verbose "Checking for $TOOL_DEST/azwi"
 if should-install "$TOOL_DEST/azwi"; then
-    write-info "Installing azwi…"
-    curl -sL "https://github.com/Azure/azure-workload-identity/releases/download/v1.0.0/azwi-v1.0.0-${os}-${arch}.tar.gz" | tar xz -C "$TOOL_DEST" azwi
+    write-info "Installing azwi..."
+    curl -sL "https://github.com/Azure/azure-workload-identity/releases/download/v1.2.0/azwi-v1.2.0-${os}-${arch}.tar.gz" | tar xz -C "$TOOL_DEST" azwi
 fi
 
 # Ensure tooling for Hugo is available
@@ -278,6 +295,7 @@ fi
 write-verbose "Checking for /usr/bin/postcss"
 if ! which postcss  > /dev/null 2>&1; then 
     write-info "Installing postcss"
+    npm config set fund false --location=global
     npm install --global postcss postcss-cli autoprefixer
 fi
 

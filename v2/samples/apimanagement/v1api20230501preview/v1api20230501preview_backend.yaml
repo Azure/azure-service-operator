@@ -1,0 +1,11 @@
+apiVersion: apimanagement.azure.com/v1api20230501preview
+kind: Backend
+metadata:
+  name: sampleapimbackend
+  namespace: default
+spec:
+  description: Sample backend
+  protocol: http
+  url: http://www.contoso.com
+  owner:
+    name: sampleapimservice

@@ -524,7 +524,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │       ├── Type: *string
 │       └── Value: *string
 ├── Service: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Owner: resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (23 properties)
 │   │   ├── AdditionalLocations: Object (7 properties)[]
 │   │   │   ├── DisableGateway: *bool

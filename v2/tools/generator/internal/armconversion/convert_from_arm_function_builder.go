@@ -15,7 +15,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 type convertFromARMBuilder struct {
@@ -41,14 +40,14 @@ func newConvertFromARMFunctionBuilder(
 
 		conversionBuilder: conversionBuilder{
 			methodName:            methodName,
-			armType:               c.armType,
-			kubeType:              getReceiverObjectType(codeGenerationContext, receiver),
+			sourceType:            c.armType,
+			sourceTypeName:        c.armTypeName,
+			destinationType:       getReceiverObjectType(codeGenerationContext, receiver),
+			destinationTypeName:   c.kubeTypeName,
 			receiverIdent:         c.idFactory.CreateReceiver(receiver.Name()),
 			receiverTypeExpr:      receiver.AsType(codeGenerationContext),
-			armTypeIdent:          c.armTypeName.Name(),
 			idFactory:             c.idFactory,
 			typeKind:              c.typeKind,
-			payloadType:           c.payloadType,
 			codeGenerationContext: codeGenerationContext,
 		},
 		typeConversionBuilder: astmodel.NewConversionFunctionBuilder(c.idFactory, codeGenerationContext),
@@ -65,11 +64,6 @@ func newConvertFromARMFunctionBuilder(
 	// source type and a destination type, figure out how to make the assignment work. It has no knowledge of broader
 	// object structure or other properties.
 	result.typeConversionBuilder.AddConversionHandlers(result.convertComplexTypeNameProperty)
-
-	// If this type requires special handling for collections, we add it here
-	if c.payloadType == config.ExplicitEmptyCollections {
-		result.typeConversionBuilder.PrependConversionHandlers(result.convertComplexTypeNameProperty)
-	}
 
 	result.propertyConversionHandlers = []propertyConversionHandler{
 		// Handlers for specific properties come first
@@ -115,8 +109,8 @@ func (builder *convertFromARMBuilder) functionDeclaration() (*dst.FuncDecl, erro
 
 func (builder *convertFromARMBuilder) functionBodyStatements() ([]dst.Stmt, error) {
 	conversionStmts, err := generateTypeConversionAssignments(
-		builder.armType,
-		builder.kubeType,
+		builder.sourceType,
+		builder.destinationType,
 		builder.propertyConversionHandler)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to generate conversion statements for %s", builder.methodName)
@@ -149,7 +143,7 @@ func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []d
 	typeAssert := astbuilder.TypeAssert(
 		dst.NewIdent(dest),
 		dst.NewIdent(builder.inputIdent),
-		dst.NewIdent(builder.armTypeIdent))
+		dst.NewIdent(builder.sourceTypeIdent()))
 
 	// Check the result of the type assert
 	// if !ok {
@@ -160,7 +154,7 @@ func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []d
 			fmtPackage,
 			fmt.Sprintf("unexpected type supplied for %s() function. Expected %s, got %%T",
 				builder.methodName,
-				builder.armTypeIdent),
+				builder.sourceTypeIdent()),
 			dst.NewIdent(builder.inputIdent)))
 
 	return astbuilder.Statements(typeAssert, returnIfNotOk)
@@ -270,10 +264,10 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 	ownerNameType, ok := astmodel.AsTypeName(toProp.PropertyType())
 	if !ok {
 		var kubeDescription strings.Builder
-		builder.kubeType.WriteDebugDescription(&kubeDescription, nil)
+		builder.destinationType.WriteDebugDescription(&kubeDescription, nil)
 
 		var armDescription strings.Builder
-		builder.armType.WriteDebugDescription(&armDescription, nil)
+		builder.sourceType.WriteDebugDescription(&armDescription, nil)
 
 		return notHandled,
 			errors.Errorf(
@@ -466,14 +460,16 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 
 	stmts, err := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
-			Source:            astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()), string(originalPropName)),
-			SourceType:        nestedProp.PropertyType(),
-			Destination:       astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(toProp.PropertyName())),
-			DestinationType:   toProp.PropertyType(),
-			NameHint:          string(toProp.PropertyName()),
-			ConversionContext: nil,
-			AssignmentHandler: nil,
-			Locals:            locals,
+			Source:              astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()), string(originalPropName)),
+			SourceType:          nestedProp.PropertyType(),
+			Destination:         astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(toProp.PropertyName())),
+			DestinationType:     toProp.PropertyType(),
+			NameHint:            string(toProp.PropertyName()),
+			ConversionContext:   nil,
+			AssignmentHandler:   nil,
+			Locals:              locals,
+			SourceProperty:      fromProp,
+			DestinationProperty: toProp,
 		})
 	if err != nil {
 		return notHandled,
@@ -526,14 +522,16 @@ func (builder *convertFromARMBuilder) propertiesByNameHandler(
 
 	conversion, err := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
-			Source:            astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName())),
-			SourceType:        fromProp.PropertyType(),
-			Destination:       astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(toProp.PropertyName())),
-			DestinationType:   toProp.PropertyType(),
-			NameHint:          string(toProp.PropertyName()),
-			ConversionContext: nil,
-			AssignmentHandler: nil,
-			Locals:            builder.locals,
+			Source:              astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName())),
+			SourceType:          fromProp.PropertyType(),
+			Destination:         astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(toProp.PropertyName())),
+			DestinationType:     toProp.PropertyType(),
+			NameHint:            string(toProp.PropertyName()),
+			ConversionContext:   nil,
+			AssignmentHandler:   nil,
+			Locals:              builder.locals,
+			SourceProperty:      fromProp,
+			DestinationProperty: toProp,
 		})
 	if err != nil {
 		return notHandled,

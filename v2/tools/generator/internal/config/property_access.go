@@ -76,7 +76,17 @@ func (a *propertyAccess[T]) VerifyConsumed() error {
 			c := a.accessor(configuration)
 			return c.VerifyConsumed()
 		})
-	return visitor.visit(a.model)
+
+	err := visitor.visit(a.model)
+	if err != nil {
+		return err
+	}
+
+	if a.fallback != nil {
+		return a.fallback.VerifyConsumed()
+	}
+
+	return nil
 }
 
 // MarkUnconsumed marks all configured values as unconsumed

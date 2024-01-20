@@ -6,6 +6,8 @@ package customizations
 import (
 	v20220801 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801"
 	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	v20230501p "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview"
+	v20230501ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -16,5 +18,7 @@ type ProductPolicyExtension struct {
 func (extension *ProductPolicyExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
 		&v20220801.ProductPolicy{},
-		&v20220801s.ProductPolicy{}}
+		&v20220801s.ProductPolicy{},
+		&v20230501p.ProductPolicy{},
+		&v20230501ps.ProductPolicy{}}
 }

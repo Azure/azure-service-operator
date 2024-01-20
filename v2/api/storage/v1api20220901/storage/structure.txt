@@ -3,7 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage
 ├── APIVersion: Enum (1 value)
 │   └── "2022-09-01"
 ├── StorageAccount: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Owner: resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (34 properties)
 │   │   ├── AccessTier: *string
 │   │   ├── AllowBlobPublicAccess: *bool
@@ -364,7 +364,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── StorageAccountsBlobService: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901.StorageAccount
+│   ├── Owner: storage/v1api20220901.StorageAccount
 │   ├── Spec: Object (12 properties)
 │   │   ├── AutomaticSnapshotPolicyEnabled: *bool
 │   │   ├── ChangeFeed: *Object (3 properties)
@@ -454,7 +454,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage
 │       │   └── Tier: *string
 │       └── Type: *string
 ├── StorageAccountsBlobServicesContainer: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901.StorageAccountsBlobService
+│   ├── Owner: storage/v1api20220901.StorageAccountsBlobService
 │   ├── Spec: Object (11 properties)
 │   │   ├── AzureName: string
 │   │   ├── DefaultEncryptionScope: *string
@@ -529,7 +529,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage
 │       ├── Type: *string
 │       └── Version: *string
 ├── StorageAccountsFileService: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901.StorageAccount
+│   ├── Owner: storage/v1api20220901.StorageAccount
 │   ├── Spec: Object (6 properties)
 │   │   ├── Cors: *Object (2 properties)
 │   │   │   ├── CorsRules: Object (6 properties)[]
@@ -595,7 +595,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage
 │       │   └── Tier: *string
 │       └── Type: *string
 ├── StorageAccountsFileServicesShare: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901.StorageAccountsFileService
+│   ├── Owner: storage/v1api20220901.StorageAccountsFileService
 │   ├── Spec: Object (10 properties)
 │   │   ├── AccessTier: *string
 │   │   ├── AzureName: string
@@ -647,7 +647,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage
 │       ├── Type: *string
 │       └── Version: *string
 ├── StorageAccountsManagementPolicy: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901.StorageAccount
+│   ├── Owner: storage/v1api20220901.StorageAccount
 │   ├── Spec: Object (4 properties)
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -854,7 +854,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── StorageAccountsQueueService: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901.StorageAccount
+│   ├── Owner: storage/v1api20220901.StorageAccount
 │   ├── Spec: Object (4 properties)
 │   │   ├── Cors: *Object (2 properties)
 │   │   │   ├── CorsRules: Object (6 properties)[]
@@ -884,7 +884,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── StorageAccountsQueueServicesQueue: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901.StorageAccountsQueueService
+│   ├── Owner: storage/v1api20220901.StorageAccountsQueueService
 │   ├── Spec: Object (5 properties)
 │   │   ├── AzureName: string
 │   │   ├── Metadata: map[string]string
@@ -900,7 +900,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── StorageAccountsTableService: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901.StorageAccount
+│   ├── Owner: storage/v1api20220901.StorageAccount
 │   ├── Spec: Object (4 properties)
 │   │   ├── Cors: *Object (2 properties)
 │   │   │   ├── CorsRules: Object (6 properties)[]
@@ -930,7 +930,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── StorageAccountsTableServicesTable: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901.StorageAccountsTableService
+│   ├── Owner: storage/v1api20220901.StorageAccountsTableService
 │   ├── Spec: Object (5 properties)
 │   │   ├── AzureName: string
 │   │   ├── OriginalVersion: string

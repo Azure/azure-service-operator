@@ -265,12 +265,12 @@ type ManagedClusters_AgentPool_Spec struct {
 	MaxPods                *int              `json:"maxPods,omitempty"`
 	MinCount               *int              `json:"minCount,omitempty"`
 	Mode                   *string           `json:"mode,omitempty"`
-	NodeLabels             map[string]string `json:"nodeLabels,omitempty"`
+	NodeLabels             map[string]string `json:"nodeLabels,omitempty" serializationType:"explicitEmptyCollection"`
 
 	// NodePublicIPPrefixIDReference: This is of the form:
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
 	NodePublicIPPrefixIDReference *genruntime.ResourceReference `armReference:"NodePublicIPPrefixID" json:"nodePublicIPPrefixIDReference,omitempty"`
-	NodeTaints                    []string                      `json:"nodeTaints,omitempty"`
+	NodeTaints                    []string                      `json:"nodeTaints,omitempty" serializationType:"explicitEmptyCollection"`
 	OrchestratorVersion           *string                       `json:"orchestratorVersion,omitempty"`
 	OriginalVersion               string                        `json:"originalVersion,omitempty"`
 	OsDiskSizeGB                  *int                          `json:"osDiskSizeGB,omitempty"`
@@ -293,7 +293,7 @@ type ManagedClusters_AgentPool_Spec struct {
 	ScaleSetEvictionPolicy    *string                       `json:"scaleSetEvictionPolicy,omitempty"`
 	ScaleSetPriority          *string                       `json:"scaleSetPriority,omitempty"`
 	SpotMaxPrice              *float64                      `json:"spotMaxPrice,omitempty"`
-	Tags                      map[string]string             `json:"tags,omitempty"`
+	Tags                      map[string]string             `json:"tags,omitempty" serializationType:"explicitEmptyCollection"`
 	Type                      *string                       `json:"type,omitempty"`
 	UpgradeSettings           *AgentPoolUpgradeSettings     `json:"upgradeSettings,omitempty"`
 	VmSize                    *string                       `json:"vmSize,omitempty"`

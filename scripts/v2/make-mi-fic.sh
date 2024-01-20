@@ -15,7 +15,6 @@ function retry_create_role_assignment() {
   until create_role_assignment; do
     sleep 5
   done
-
 }
 
 print_usage() {
@@ -76,11 +75,15 @@ az identity federated-credential create \
 export USER_ASSIGNED_CLIENT_ID="$(az identity show --resource-group "${RESOURCE_GROUP}" --name "${IDENTITY_NAME}" --query 'clientId' -otsv)"
 export USER_ASSIGNED_OBJECT_ID="$(az identity show --resource-group "${RESOURCE_GROUP}" --name "${IDENTITY_NAME}" --query 'principalId' -otsv)"
 
-# Assumption is if the user brought their own identity that it already has the permisisons it needs
+# Assumption is if the user brought their own identity that it already has the permissions it needs
 if [ "$EXISTING_IDENTITY" = false ]; then
   export -f create_role_assignment
   export -f retry_create_role_assignment
   timeout 1m bash -c retry_create_role_assignment
+
+  # Save the ID of the role assignment we created as well
+  ROLE_ASSIGNMENT_ID=$(az role assignment list --assignee "${USER_ASSIGNED_OBJECT_ID}" --query "[0].id" | tr -d '"')
+  echo ${ROLE_ASSIGNMENT_ID} > "${DIR}/azure/roleassignmentid.txt"
 fi
 
 echo ${USER_ASSIGNED_CLIENT_ID} > "${DIR}/azure/miclientid.txt"

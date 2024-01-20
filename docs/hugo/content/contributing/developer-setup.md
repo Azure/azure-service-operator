@@ -10,11 +10,11 @@ description: "How to set up your developer environment for Azure Service Operato
 
 We support a number of different approaches to ASO development.
 
-- Dev Container with VS Code on Linux
-- Dev Container with VS Code on Windows
-- Docker on Linux
-- CLI on Linux
-- CLI on MacOS
+- [Dev Container with VS Code on Linux](#dev-container-with-vs-code-on-linux)
+- [Dev Container with VS Code on Windows](#dev-container-with-vs-code-on-windows)
+- [Docker on Linux](#docker-on-linux)
+- [CLI on Linux](#cli-on-linux)
+- [CLI on MacOS](#cli-on-macos)
 
 Each of these is described in a different section below. See also the [troubleshooting](#troubleshooting-repo-health) sections below for help with common problems.
 
@@ -73,19 +73,19 @@ $ docker run --env-file ~/work/envs.env --env HOSTROOT=$(git rev-parse --show-to
 
 Note: If you mount the source like this from a Windows folder, performance will be poor as file operations between the container and Windows are very slow.
 
-
 ## CLI on Linux
 
 If you are using Linux, instead of using VS Code you can run the `dev.sh` script in the root of the repository. This will install all required tooling into the `hack/tools` directory and then start a new shell with the `PATH` updated to use it.
 
 ## CLI on MacOS
 
-Development of ASO on MacOS is possible (one of our team does so), but things are less automated.
+Development of ASO on MacOS is also possible.
 
-You'll need to manually install the tools as listed by `.devcontainer/install-dependencies.sh`.
+You can either use the VS Code devcontainer approach (recommended) which installs all the tools into a container, or you can install the tools directly on your Mac. In case of the latter, you'll need to install the following tools manually running: `.devcontainer/install-dependencies.sh`.
+
+This creates `hack/tools` and downloads all the required tools into it based on the architecture(arm64 or amd64) of your machine.
 
 If you have an ARM based Mac, you'll also need to install [Rosetta](https://support.apple.com/en-nz/HT211861).
-
 
 ## Troubleshooting: Repo health
 
@@ -115,7 +115,7 @@ If you see a list of tags (as shown above), then you're good to go.
 Otherwise, pull tags from your upstream repo and check again:
 
 ``` bash
-$ git-fetch --all --tags
+$ git fetch --all --tags
 Fetching origin
 $ git tag --list 'v2*'
 v2.0.0

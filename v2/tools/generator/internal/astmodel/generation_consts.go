@@ -25,4 +25,8 @@ const (
 	// PrincipalId *string `optionalConfigMapPair:"PrincipalId"`
 	// PrincipalIdRef *genruntime.ConfigMapReference `optionalConfigMapPair:"PrincipalId"`
 	OptionalConfigMapPairTag = "optionalConfigMapPair"
+
+	// SerializationType is the tag ID used for controlling if resources have special serialization rules
+	SerializationType                        = "serializationType"
+	SerializationTypeExplicitEmptyCollection = "explicitEmptyCollection"
 )

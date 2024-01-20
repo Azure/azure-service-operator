@@ -3,7 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/storage
 ├── APIVersion: Enum (1 value)
 │   └── "2021-06-01"
 ├── Workspace: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Owner: resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (21 properties)
 │   │   ├── AzureADOnlyAuthentication: *bool
 │   │   ├── AzureName: string
@@ -146,8 +146,8 @@ github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/storage
 │       │   └── Type: *string
 │       └── WorkspaceUID: *string
 └── WorkspacesBigDataPool: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601.Workspace
-    ├── Spec: Object (22 properties)
+    ├── Owner: synapse/v1api20210601.Workspace
+    ├── Spec: Object (23 properties)
     │   ├── AutoPause: *Object (3 properties)
     │   │   ├── DelayInMinutes: *int
     │   │   ├── Enabled: *bool
@@ -158,6 +158,7 @@ github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/storage
     │   │   ├── MinNodeCount: *int
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── AzureName: string
+    │   ├── CacheSize: *int
     │   ├── CustomLibraries: Object (5 properties)[]
     │   │   ├── ContainerName: *string
     │   │   ├── Name: *string

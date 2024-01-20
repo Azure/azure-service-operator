@@ -208,7 +208,7 @@ func (signalR *SignalR) ValidateUpdate(old runtime.Object) (admission.Warnings, 
 
 // createValidations validates the creation of the resource
 func (signalR *SignalR) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){signalR.validateResourceReferences, signalR.validateOwnerReference}
+	return []func() (admission.Warnings, error){signalR.validateResourceReferences, signalR.validateOwnerReference, signalR.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,6 +226,9 @@ func (signalR *SignalR) updateValidations() []func(old runtime.Object) (admissio
 		func(old runtime.Object) (admission.Warnings, error) {
 			return signalR.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return signalR.validateSecretDestinations()
+		},
 	}
 }
 
@@ -241,6 +244,23 @@ func (signalR *SignalR) validateResourceReferences() (admission.Warnings, error)
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (signalR *SignalR) validateSecretDestinations() (admission.Warnings, error) {
+	if signalR.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	if signalR.Spec.OperatorSpec.Secrets == nil {
+		return nil, nil
+	}
+	toValidate := []*genruntime.SecretDestination{
+		signalR.Spec.OperatorSpec.Secrets.PrimaryConnectionString,
+		signalR.Spec.OperatorSpec.Secrets.PrimaryKey,
+		signalR.Spec.OperatorSpec.Secrets.SecondaryConnectionString,
+		signalR.Spec.OperatorSpec.Secrets.SecondaryKey,
+	}
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -365,6 +385,10 @@ type SignalR_Spec struct {
 
 	// NetworkACLs: Network ACLs for the resource
 	NetworkACLs *SignalRNetworkACLs `json:"networkACLs,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *SignalROperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -616,6 +640,8 @@ func (signalR *SignalR_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	signalR.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -833,6 +859,18 @@ func (signalR *SignalR_Spec) AssignProperties_From_SignalR_Spec(source *v2021100
 		signalR.NetworkACLs = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec SignalROperatorSpec
+		err := operatorSpec.AssignProperties_From_SignalROperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SignalROperatorSpec() to populate field OperatorSpec")
+		}
+		signalR.OperatorSpec = &operatorSpec
+	} else {
+		signalR.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -986,6 +1024,18 @@ func (signalR *SignalR_Spec) AssignProperties_To_SignalR_Spec(destination *v2021
 		destination.NetworkACLs = &networkACL
 	} else {
 		destination.NetworkACLs = nil
+	}
+
+	// OperatorSpec
+	if signalR.OperatorSpec != nil {
+		var operatorSpec v20211001s.SignalROperatorSpec
+		err := signalR.OperatorSpec.AssignProperties_To_SignalROperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SignalROperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -4133,6 +4183,59 @@ func (acLs *SignalRNetworkACLs_STATUS) AssignProperties_To_SignalRNetworkACLs_ST
 	return nil
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SignalROperatorSpec struct {
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *SignalROperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignProperties_From_SignalROperatorSpec populates our SignalROperatorSpec from the provided source SignalROperatorSpec
+func (operator *SignalROperatorSpec) AssignProperties_From_SignalROperatorSpec(source *v20211001s.SignalROperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret SignalROperatorSecrets
+		err := secret.AssignProperties_From_SignalROperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SignalROperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SignalROperatorSpec populates the provided destination SignalROperatorSpec from our SignalROperatorSpec
+func (operator *SignalROperatorSpec) AssignProperties_To_SignalROperatorSpec(destination *v20211001s.SignalROperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v20211001s.SignalROperatorSecrets
+		err := operator.Secrets.AssignProperties_To_SignalROperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SignalROperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // TLS settings for the resource
 type SignalRTlsSettings struct {
 	// ClientCertEnabled: Request client certificate during TLS handshake if enabled
@@ -5291,6 +5394,111 @@ func (category *ResourceLogCategory_STATUS) AssignProperties_To_ResourceLogCateg
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(category.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type SignalROperatorSecrets struct {
+	// PrimaryConnectionString: indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret
+	// will not be retrieved from Azure.
+	PrimaryConnectionString *genruntime.SecretDestination `json:"primaryConnectionString,omitempty"`
+
+	// PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
+	// Azure.
+	PrimaryKey *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+
+	// SecondaryConnectionString: indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret
+	// will not be retrieved from Azure.
+	SecondaryConnectionString *genruntime.SecretDestination `json:"secondaryConnectionString,omitempty"`
+
+	// SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
+	SecondaryKey *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
+}
+
+// AssignProperties_From_SignalROperatorSecrets populates our SignalROperatorSecrets from the provided source SignalROperatorSecrets
+func (secrets *SignalROperatorSecrets) AssignProperties_From_SignalROperatorSecrets(source *v20211001s.SignalROperatorSecrets) error {
+
+	// PrimaryConnectionString
+	if source.PrimaryConnectionString != nil {
+		primaryConnectionString := source.PrimaryConnectionString.Copy()
+		secrets.PrimaryConnectionString = &primaryConnectionString
+	} else {
+		secrets.PrimaryConnectionString = nil
+	}
+
+	// PrimaryKey
+	if source.PrimaryKey != nil {
+		primaryKey := source.PrimaryKey.Copy()
+		secrets.PrimaryKey = &primaryKey
+	} else {
+		secrets.PrimaryKey = nil
+	}
+
+	// SecondaryConnectionString
+	if source.SecondaryConnectionString != nil {
+		secondaryConnectionString := source.SecondaryConnectionString.Copy()
+		secrets.SecondaryConnectionString = &secondaryConnectionString
+	} else {
+		secrets.SecondaryConnectionString = nil
+	}
+
+	// SecondaryKey
+	if source.SecondaryKey != nil {
+		secondaryKey := source.SecondaryKey.Copy()
+		secrets.SecondaryKey = &secondaryKey
+	} else {
+		secrets.SecondaryKey = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SignalROperatorSecrets populates the provided destination SignalROperatorSecrets from our SignalROperatorSecrets
+func (secrets *SignalROperatorSecrets) AssignProperties_To_SignalROperatorSecrets(destination *v20211001s.SignalROperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PrimaryConnectionString
+	if secrets.PrimaryConnectionString != nil {
+		primaryConnectionString := secrets.PrimaryConnectionString.Copy()
+		destination.PrimaryConnectionString = &primaryConnectionString
+	} else {
+		destination.PrimaryConnectionString = nil
+	}
+
+	// PrimaryKey
+	if secrets.PrimaryKey != nil {
+		primaryKey := secrets.PrimaryKey.Copy()
+		destination.PrimaryKey = &primaryKey
+	} else {
+		destination.PrimaryKey = nil
+	}
+
+	// SecondaryConnectionString
+	if secrets.SecondaryConnectionString != nil {
+		secondaryConnectionString := secrets.SecondaryConnectionString.Copy()
+		destination.SecondaryConnectionString = &secondaryConnectionString
+	} else {
+		destination.SecondaryConnectionString = nil
+	}
+
+	// SecondaryKey
+	if secrets.SecondaryKey != nil {
+		secondaryKey := secrets.SecondaryKey.Copy()
+		destination.SecondaryKey = &secondaryKey
+	} else {
+		destination.SecondaryKey = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

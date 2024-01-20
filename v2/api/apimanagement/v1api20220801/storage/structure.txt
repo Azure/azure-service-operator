@@ -3,7 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 ├── APIVersion: Enum (1 value)
 │   └── "2022-08-01"
 ├── Api: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
+│   ├── Owner: apimanagement/v1api20220801.Service
 │   ├── Spec: Object (29 properties)
 │   │   ├── APIVersion: *string
 │   │   ├── ApiRevision: *string
@@ -133,7 +133,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │       ├── TermsOfServiceUrl: *string
 │       └── Type: *string
 ├── ApiVersionSet: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
+│   ├── Owner: apimanagement/v1api20220801.Service
 │   ├── Spec: Object (9 properties)
 │   │   ├── AzureName: string
 │   │   ├── Description: *string
@@ -235,7 +235,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │       ├── TenantId: *string
 │       └── Type: *string
 ├── Backend: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
+│   ├── Owner: apimanagement/v1api20220801.Service
 │   ├── Spec: Object (13 properties)
 │   │   ├── AzureName: string
 │   │   ├── Credentials: *Object (6 properties)
@@ -321,7 +321,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │       ├── Type: *string
 │       └── Url: *string
 ├── NamedValue: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
+│   ├── Owner: apimanagement/v1api20220801.Service
 │   ├── Spec: Object (9 properties)
 │   │   ├── AzureName: string
 │   │   ├── DisplayName: *string
@@ -356,7 +356,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │       ├── Type: *string
 │       └── Value: *string
 ├── Policy: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
+│   ├── Owner: apimanagement/v1api20220801.Service
 │   ├── Spec: Object (5 properties)
 │   │   ├── Format: *string
 │   │   ├── OriginalVersion: string
@@ -372,7 +372,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │       ├── Type: *string
 │       └── Value: *string
 ├── PolicyFragment: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
+│   ├── Owner: apimanagement/v1api20220801.Service
 │   ├── Spec: Object (7 properties)
 │   │   ├── AzureName: string
 │   │   ├── Description: *string
@@ -391,7 +391,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │       ├── Type: *string
 │       └── Value: *string
 ├── Product: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
+│   ├── Owner: apimanagement/v1api20220801.Service
 │   ├── Spec: Object (11 properties)
 │   │   ├── ApprovalRequired: *bool
 │   │   ├── AzureName: string
@@ -418,7 +418,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │       ├── Terms: *string
 │       └── Type: *string
 ├── ProductApi: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Product
+│   ├── Owner: apimanagement/v1api20220801.Product
 │   ├── Spec: Object (4 properties)
 │   │   ├── AzureName: string
 │   │   ├── OriginalVersion: string
@@ -428,7 +428,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │       ├── Conditions: conditions.Condition[]
 │       └── PropertyBag: genruntime.PropertyBag
 ├── ProductPolicy: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Product
+│   ├── Owner: apimanagement/v1api20220801.Product
 │   ├── Spec: Object (5 properties)
 │   │   ├── Format: *string
 │   │   ├── OriginalVersion: string
@@ -444,7 +444,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │       ├── Type: *string
 │       └── Value: *string
 ├── Service: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Owner: resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (25 properties)
 │   │   ├── AdditionalLocations: Object (8 properties)[]
 │   │   │   ├── DisableGateway: *bool
@@ -653,7 +653,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │       ├── VirtualNetworkType: *string
 │       └── Zones: string[]
 └── Subscription: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
+    ├── Owner: apimanagement/v1api20220801.Service
     ├── Spec: Object (12 properties)
     │   ├── AllowTracing: *bool
     │   ├── AzureName: string

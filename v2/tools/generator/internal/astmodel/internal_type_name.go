@@ -165,7 +165,7 @@ func (tn InternalTypeName) Plural() InternalTypeName {
 func (tn InternalTypeName) WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference) {
 	if tn.packageReference != nil && !tn.packageReference.Equals(currentPackage) {
 		// Reference to a different package, so qualify the output.
-		builder.WriteString(tn.packageReference.String())
+		builder.WriteString(tn.packageReference.FolderPath())
 		builder.WriteString(".")
 	}
 

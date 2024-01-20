@@ -35,7 +35,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601
 │       ├── Name: *string
 │       └── Type: *string
 ├── Server: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Owner: resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (7 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string

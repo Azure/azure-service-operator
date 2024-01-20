@@ -7,6 +7,8 @@ import (
 	apimanagement_customizations "github.com/Azure/azure-service-operator/v2/api/apimanagement/customizations"
 	apimanagement_v20220801 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801"
 	apimanagement_v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	apimanagement_v20230501p "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview"
+	apimanagement_v20230501ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
 	appconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/appconfiguration/customizations"
 	appconfiguration_v20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
 	appconfiguration_v20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
@@ -79,6 +81,8 @@ import (
 	dbforpostgresql_v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20220120preview/storage"
 	dbforpostgresql_v20221201 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201"
 	dbforpostgresql_v20221201s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20221201/storage"
+	dbforpostgresql_v20230601p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview"
+	dbforpostgresql_v20230601ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20230601preview/storage"
 	devices_customizations "github.com/Azure/azure-service-operator/v2/api/devices/customizations"
 	devices_v20210702 "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702"
 	devices_v20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702/storage"
@@ -1036,6 +1040,32 @@ func getKnownTypes() []client.Object {
 		new(apimanagement_v20220801s.ProductPolicy),
 		new(apimanagement_v20220801s.Service),
 		new(apimanagement_v20220801s.Subscription))
+	result = append(
+		result,
+		new(apimanagement_v20230501p.Api),
+		new(apimanagement_v20230501p.ApiVersionSet),
+		new(apimanagement_v20230501p.Backend),
+		new(apimanagement_v20230501p.NamedValue),
+		new(apimanagement_v20230501p.Policy),
+		new(apimanagement_v20230501p.PolicyFragment),
+		new(apimanagement_v20230501p.Product),
+		new(apimanagement_v20230501p.ProductApi),
+		new(apimanagement_v20230501p.ProductPolicy),
+		new(apimanagement_v20230501p.Service),
+		new(apimanagement_v20230501p.Subscription))
+	result = append(
+		result,
+		new(apimanagement_v20230501ps.Api),
+		new(apimanagement_v20230501ps.ApiVersionSet),
+		new(apimanagement_v20230501ps.Backend),
+		new(apimanagement_v20230501ps.NamedValue),
+		new(apimanagement_v20230501ps.Policy),
+		new(apimanagement_v20230501ps.PolicyFragment),
+		new(apimanagement_v20230501ps.Product),
+		new(apimanagement_v20230501ps.ProductApi),
+		new(apimanagement_v20230501ps.ProductPolicy),
+		new(apimanagement_v20230501ps.Service),
+		new(apimanagement_v20230501ps.Subscription))
 	result = append(result, new(appconfiguration_v20220501.ConfigurationStore))
 	result = append(result, new(appconfiguration_v20220501s.ConfigurationStore))
 	result = append(result, new(authorization_v20200801p.RoleAssignment))
@@ -1184,6 +1214,18 @@ func getKnownTypes() []client.Object {
 		new(dbforpostgresql_v20221201s.FlexibleServersConfiguration),
 		new(dbforpostgresql_v20221201s.FlexibleServersDatabase),
 		new(dbforpostgresql_v20221201s.FlexibleServersFirewallRule))
+	result = append(
+		result,
+		new(dbforpostgresql_v20230601p.FlexibleServer),
+		new(dbforpostgresql_v20230601p.FlexibleServersConfiguration),
+		new(dbforpostgresql_v20230601p.FlexibleServersDatabase),
+		new(dbforpostgresql_v20230601p.FlexibleServersFirewallRule))
+	result = append(
+		result,
+		new(dbforpostgresql_v20230601ps.FlexibleServer),
+		new(dbforpostgresql_v20230601ps.FlexibleServersConfiguration),
+		new(dbforpostgresql_v20230601ps.FlexibleServersDatabase),
+		new(dbforpostgresql_v20230601ps.FlexibleServersFirewallRule))
 	result = append(result, new(devices_v20210702.IotHub))
 	result = append(result, new(devices_v20210702s.IotHub))
 	result = append(
@@ -1573,6 +1615,8 @@ func createScheme() *runtime.Scheme {
 	_ = clientgoscheme.AddToScheme(scheme)
 	_ = apimanagement_v20220801.AddToScheme(scheme)
 	_ = apimanagement_v20220801s.AddToScheme(scheme)
+	_ = apimanagement_v20230501p.AddToScheme(scheme)
+	_ = apimanagement_v20230501ps.AddToScheme(scheme)
 	_ = appconfiguration_v20220501.AddToScheme(scheme)
 	_ = appconfiguration_v20220501s.AddToScheme(scheme)
 	_ = authorization_v20200801p.AddToScheme(scheme)
@@ -1631,6 +1675,8 @@ func createScheme() *runtime.Scheme {
 	_ = dbforpostgresql_v20220120ps.AddToScheme(scheme)
 	_ = dbforpostgresql_v20221201.AddToScheme(scheme)
 	_ = dbforpostgresql_v20221201s.AddToScheme(scheme)
+	_ = dbforpostgresql_v20230601p.AddToScheme(scheme)
+	_ = dbforpostgresql_v20230601ps.AddToScheme(scheme)
 	_ = devices_v20210702.AddToScheme(scheme)
 	_ = devices_v20210702s.AddToScheme(scheme)
 	_ = documentdb_v20210515.AddToScheme(scheme)

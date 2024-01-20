@@ -1,0 +1,11 @@
+apiVersion: apimanagement.azure.com/v1api20230501preview
+kind: ApiVersionSet
+metadata:
+  name: sampleapimversionset
+  namespace: default
+spec:
+  displayName: /apiVersionSets/account-api
+  description: Version Set for account-api
+  versioningScheme: Segment
+  owner:
+    name: sampleapimservice
