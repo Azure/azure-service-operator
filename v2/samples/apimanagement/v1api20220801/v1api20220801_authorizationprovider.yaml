@@ -9,8 +9,12 @@ spec:
   oauth2:
     grantTypes:
       authorizationCode:
-        clientId: "000000000"
-        clientSecret: "*"
+        clientIdFromConfig:
+          name: identity-settings
+          key: clientId
+        clientSecret: # This is the name/key of a Kubernetes secret in the same namespace
+          name: client-secret
+          key: secret
         resourceUri: "https://www.contoso.com"
   owner:
     name: sampleapimservice

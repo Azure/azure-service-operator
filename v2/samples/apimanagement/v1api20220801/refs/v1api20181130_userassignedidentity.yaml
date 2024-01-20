@@ -9,6 +9,9 @@ spec:
     name: aso-sample-rg
   operatorSpec:
     configMaps:
+      clientId:
+        name: identity-settings
+        key: clientId
       principalId:
         name: identity-settings
         key: principalId
