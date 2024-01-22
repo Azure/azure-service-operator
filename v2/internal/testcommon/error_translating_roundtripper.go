@@ -12,8 +12,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dnaeon/go-vcr/cassette"
-	"github.com/dnaeon/go-vcr/recorder"
+	cassettev1 "github.com/dnaeon/go-vcr/cassette"
+	recorderv1 "github.com/dnaeon/go-vcr/recorder"
 	"github.com/google/go-cmp/cmp"
 	"github.com/pkg/errors"
 
@@ -32,21 +32,21 @@ import (
 //   - during record the controller does GET (404), PUT, … GET (OK)
 //   - during playback the controller does GET (which now returns OK), DELETE, PUT, …
 //     and fails due to a missing DELETE recording
-func translateErrors(r *recorder.Recorder, cassetteName string, t *testing.T) http.RoundTripper {
+func translateErrors(r *recorderv1.Recorder, cassetteName string, t *testing.T) http.RoundTripper {
 	return errorTranslation{r, cassetteName, nil, t}
 }
 
 type errorTranslation struct {
-	recorder     *recorder.Recorder
+	recorder     *recorderv1.Recorder
 	cassetteName string
 
-	cassette *cassette.Cassette
+	cassette *cassettev1.Cassette
 	t        *testing.T
 }
 
-func (w errorTranslation) ensureCassette() *cassette.Cassette {
+func (w errorTranslation) ensureCassette() *cassettev1.Cassette {
 	if w.cassette == nil {
-		cassette, err := cassette.Load(w.cassetteName)
+		cassette, err := cassettev1.Load(w.cassetteName)
 		if err != nil {
 			panic(fmt.Sprintf("unable to load cassette %q", w.cassetteName))
 		}

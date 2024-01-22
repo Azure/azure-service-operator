@@ -20,8 +20,8 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
-	"github.com/dnaeon/go-vcr/cassette"
-	"github.com/dnaeon/go-vcr/recorder"
+	cassettev1 "github.com/dnaeon/go-vcr/cassette"
+	recorderv1 "github.com/dnaeon/go-vcr/recorder"
 	"github.com/go-logr/logr"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
@@ -48,7 +48,7 @@ type PerTestContext struct {
 	TestContext
 	T                     *testing.T
 	logger                logr.Logger
-	AzureClientRecorder   *recorder.Recorder
+	AzureClientRecorder   *recorderv1.Recorder
 	AzureClient           *genericarmclient.GenericClient
 	AzureSubscription     string
 	AzureTenant           string
@@ -213,17 +213,17 @@ func ensureCassetteFileExists(cassetteName string) error {
 type recorderDetails struct {
 	creds    azcore.TokenCredential
 	ids      AzureIDs
-	recorder *recorder.Recorder
+	recorder *recorderv1.Recorder
 	cfg      config.Values
 }
 
 func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (recorderDetails, error) {
 	var err error
-	var r *recorder.Recorder
+	var r *recorderv1.Recorder
 	if recordReplay {
-		r, err = recorder.New(cassetteName)
+		r, err = recorderv1.New(cassetteName)
 	} else {
-		r, err = recorder.NewAsMode(cassetteName, recorder.ModeDisabled, nil)
+		r, err = recorderv1.NewAsMode(cassetteName, recorderv1.ModeDisabled, nil)
 	}
 
 	if err != nil {
@@ -232,8 +232,8 @@ func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (
 
 	var creds azcore.TokenCredential
 	var azureIDs AzureIDs
-	if r.Mode() == recorder.ModeRecording ||
-		r.Mode() == recorder.ModeDisabled {
+	if r.Mode() == recorderv1.ModeRecording ||
+		r.Mode() == recorderv1.ModeDisabled {
 		// if we are recording, we need auth
 		creds, azureIDs, err = getCreds()
 		if err != nil {
@@ -253,8 +253,8 @@ func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (
 	}
 
 	// check body as well as URL/Method (copied from go-vcr documentation)
-	r.SetMatcher(func(r *http.Request, i cassette.Request) bool {
-		if !cassette.DefaultMatcher(r, i) {
+	r.SetMatcher(func(r *http.Request, i cassettev1.Request) bool {
+		if !cassettev1.DefaultMatcher(r, i) {
 			return false
 		}
 
@@ -276,7 +276,7 @@ func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (
 		return b.String() == "" || hideRecordingData(b.String()) == i.Body
 	})
 
-	r.AddSaveFilter(func(i *cassette.Interaction) error {
+	r.AddSaveFilter(func(i *cassettev1.Interaction) error {
 		// rewrite all request/response fields to hide the real subscription ID
 		// this is *not* a security measure but intended to make the tests updateable from
 		// any subscription, so a contributor can update the tests against their own sub.
@@ -285,7 +285,7 @@ func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (
 		}
 
 		// Note that this changes the cassette in-place so there's no return needed
-		hideCassetteString := func(cas *cassette.Interaction, id string, replacement string) {
+		hideCassetteString := func(cas *cassettev1.Interaction, id string, replacement string) {
 			i.Request.Body = strings.ReplaceAll(cas.Request.Body, id, replacement)
 			i.Response.Body = strings.ReplaceAll(cas.Response.Body, id, replacement)
 			i.Request.URL = strings.ReplaceAll(cas.Request.URL, id, replacement)

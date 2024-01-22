@@ -17,7 +17,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dnaeon/go-vcr/recorder"
+	recorderv1 "github.com/dnaeon/go-vcr/recorder"
 	"github.com/onsi/gomega"
 	"github.com/onsi/gomega/format"
 	"github.com/pkg/errors"
@@ -305,7 +305,7 @@ var OperationTimeoutReplaying = 2 * time.Minute
 var OperationTimeoutRecording = 30 * time.Minute
 
 func (tc *KubePerTestContext) DefaultOperationTimeout() time.Duration {
-	if tc.AzureClientRecorder.Mode() == recorder.ModeReplaying {
+	if tc.AzureClientRecorder.Mode() == recorderv1.ModeReplaying {
 		return OperationTimeoutReplaying
 	}
 
@@ -325,7 +325,7 @@ var PollingIntervalRecording = 5 * time.Second
 
 // PollingInterval returns the polling interval to use for Gomega Eventually
 func (tc *KubePerTestContext) PollingInterval() time.Duration {
-	if tc.AzureClientRecorder.Mode() == recorder.ModeReplaying {
+	if tc.AzureClientRecorder.Mode() == recorderv1.ModeReplaying {
 		return PollingIntervalReplaying
 	}
 

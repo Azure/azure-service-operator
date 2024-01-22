@@ -22,7 +22,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
 	"github.com/benbjohnson/clock"
-	"github.com/dnaeon/go-vcr/recorder"
+	recorderv1 "github.com/dnaeon/go-vcr/recorder"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"golang.org/x/sync/semaphore"
