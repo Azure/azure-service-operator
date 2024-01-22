@@ -255,23 +255,23 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 
 	tc.CreateResourceAndWait(backupInstance)
 
-	// Assertions and Expectations
-	armId := *backupInstance.Status.Id
-	tc.Expect(backupInstance.Status.Id).ToNot(BeNil())
-	tc.Expect(backupInstance.Status.Properties.FriendlyName).To(BeEquivalentTo(biName))
-	tc.Expect(backupInstance.Status.Properties.DataSourceInfo.ResourceID).To(BeEquivalentTo(cluster.Status.Id))
-	tc.Expect(backupInstance.Status.Properties.DataSourceSetInfo.ResourceID).To(BeEquivalentTo(cluster.Status.Id))
-	tc.Expect(backupInstance.Status.Properties.ProvisioningState).To(BeEquivalentTo(to.Ptr("Succeeded")))
-
 	// ensuring Backup instance status changes from ConfiguringProtection to ProtectionConfigured before we start deletion
 	time.Sleep(3 * time.Minute)
 
+	// Assertions and Expectations
+	objectKey := client.ObjectKeyFromObject(backupInstance)
+
 	tc.Eventually(func() *dataprotection.ProtectionStatusDetails_Status_STATUS {
-		objectKey := client.ObjectKeyFromObject(backupInstance)
 		updated := &dataprotection.BackupVaultsBackupInstance{}
 		tc.GetResource(objectKey, updated)
 		return updated.Status.Properties.ProtectionStatus.Status
 	}).Should(BeEquivalentTo(to.Ptr(dataprotection.ProtectionStatusDetails_Status_STATUS_ProtectionConfigured)))
+
+	tc.Expect(backupInstance.Status.Id).ToNot(BeNil())
+	tc.Expect(backupInstance.Status.Properties.FriendlyName).To(BeEquivalentTo(to.Ptr(biName)))
+	tc.Expect(backupInstance.Status.Properties.DataSourceInfo.ResourceUri).To(BeEquivalentTo(cluster.Status.Id))
+	tc.Expect(backupInstance.Status.Properties.DataSourceSetInfo.ResourceUri).To(BeEquivalentTo(cluster.Status.Id))
+	tc.Expect(backupInstance.Status.Properties.ProvisioningState).To(BeEquivalentTo(to.Ptr("Succeeded")))
 
 	// Note:
 	// Patch Operations are currently not allowed on BackupInstance currently
@@ -280,6 +280,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(backupInstance)
 
 	// Ensure that the resource was really deleted in Azure
+	armId := *backupInstance.Status.Id
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
