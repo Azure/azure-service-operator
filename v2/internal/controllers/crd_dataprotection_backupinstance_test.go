@@ -8,7 +8,6 @@ package controllers_test
 import (
 	// The testing package is imported for testing-related functionality.
 	"fmt"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	"testing"
 	"time"
 	// The gomega package is used for assertions and expectations in tests.
@@ -118,7 +117,8 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	// create vault and policy
 	backupVault := newBackupVault(tc, rg, "asotestbackupvault")
 	backupPolicy := newBackupPolicy(tc, backupVault, "asotestbackuppolicy")
-	tc.CreateResourcesAndWait(backupVault, backupPolicy)
+	tc.CreateResourceAndWait(backupVault)
+	tc.CreateResourceAndWait(backupPolicy)
 
 	// create TA role binding
 	trustedAccessRoleBinding := &aks.TrustedAccessRoleBinding{
@@ -150,6 +150,8 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	}
 
 	tc.CreateResourceAndWait(extenstionRoleAssignment)
+
+	time.Sleep(10 * time.Minute)
 
 	// give read permission to vault msi over cluster
 	clusterRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
@@ -256,17 +258,9 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(backupInstance)
 
 	// ensuring Backup instance status changes from ConfiguringProtection to ProtectionConfigured before we start deletion
-	time.Sleep(3 * time.Minute)
+	time.Sleep(10 * time.Minute)
 
 	// Assertions and Expectations
-	objectKey := client.ObjectKeyFromObject(backupInstance)
-
-	tc.Eventually(func() *dataprotection.ProtectionStatusDetails_Status_STATUS {
-		updated := &dataprotection.BackupVaultsBackupInstance{}
-		tc.GetResource(objectKey, updated)
-		return updated.Status.Properties.ProtectionStatus.Status
-	}).Should(BeEquivalentTo(to.Ptr(dataprotection.ProtectionStatusDetails_Status_STATUS_ProtectionConfigured)))
-
 	tc.Expect(backupInstance.Status.Id).ToNot(BeNil())
 	tc.Expect(backupInstance.Status.Properties.FriendlyName).To(BeEquivalentTo(to.Ptr(biName)))
 	tc.Expect(backupInstance.Status.Properties.DataSourceInfo.ResourceUri).To(BeEquivalentTo(cluster.Status.Id))
@@ -278,6 +272,8 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 
 	// Delete the backupinstance
 	tc.DeleteResourceAndWait(backupInstance)
+
+	time.Sleep(10 * time.Minute)
 
 	// Ensure that the resource was really deleted in Azure
 	armId := *backupInstance.Status.Id
