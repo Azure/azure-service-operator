@@ -340,6 +340,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/sql/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/sql/v1/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/sql/v1api20211101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/</loc>
