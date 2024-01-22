@@ -68,6 +68,28 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	}
 	tc.CreateResourceAndWait(cluster)
 
+	// create storage account and blob container
+	acct := newStorageAccount(tc, rg)
+	tc.CreateResourceAndWait(acct)
+
+	blobService := &storage.StorageAccountsBlobService{
+		ObjectMeta: tc.MakeObjectMeta("blobservice"),
+		Spec: storage.StorageAccounts_BlobService_Spec{
+			Owner: testcommon.AsOwner(acct),
+		},
+	}
+
+	tc.CreateResourceAndWait(blobService)
+
+	blobContainer := &storage.StorageAccountsBlobServicesContainer{
+		ObjectMeta: tc.MakeObjectMeta("velero"),
+		Spec: storage.StorageAccounts_BlobServices_Container_Spec{
+			Owner: testcommon.AsOwner(blobService),
+		},
+	}
+
+	tc.CreateResourceAndWait(blobContainer)
+
 	// create extension
 	extension := &kubernetesconfiguration.Extension{
 		ObjectMeta: tc.MakeObjectMeta("extension"),
@@ -91,28 +113,6 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	}
 
 	tc.CreateResourceAndWait(extension)
-
-	// create storage account and blob container
-	acct := newStorageAccount(tc, rg)
-	tc.CreateResourceAndWait(acct)
-
-	blobService := &storage.StorageAccountsBlobService{
-		ObjectMeta: tc.MakeObjectMeta("blobservice"),
-		Spec: storage.StorageAccounts_BlobService_Spec{
-			Owner: testcommon.AsOwner(acct),
-		},
-	}
-
-	tc.CreateResourceAndWait(blobService)
-
-	blobContainer := &storage.StorageAccountsBlobServicesContainer{
-		ObjectMeta: tc.MakeObjectMeta("velero"),
-		Spec: storage.StorageAccounts_BlobServices_Container_Spec{
-			Owner: testcommon.AsOwner(blobService),
-		},
-	}
-
-	tc.CreateResourceAndWait(blobContainer)
 
 	// create vault and policy
 	backupVault := newBackupVault(tc, rg, "asotestbackupvault")
