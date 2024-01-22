@@ -35,28 +35,6 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// create storage account and blob container
-	acct := newStorageAccount(tc, rg)
-	tc.CreateResourceAndWait(acct)
-
-	blobService := &storage.StorageAccountsBlobService{
-		ObjectMeta: tc.MakeObjectMeta("blobservice"),
-		Spec: storage.StorageAccounts_BlobService_Spec{
-			Owner: testcommon.AsOwner(acct),
-		},
-	}
-
-	tc.CreateResourceAndWait(blobService)
-
-	blobContainer := &storage.StorageAccountsBlobServicesContainer{
-		ObjectMeta: tc.MakeObjectMeta("velero"),
-		Spec: storage.StorageAccounts_BlobServices_Container_Spec{
-			Owner: testcommon.AsOwner(blobService),
-		},
-	}
-
-	tc.CreateResourceAndWait(blobContainer)
-
 	// create cluster
 	osType := akscluster.OSType_Linux
 	osSKU := akscluster.OSSKU_AzureLinux
@@ -72,7 +50,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 			AgentPoolProfiles: []akscluster.ManagedClusterAgentPoolProfile{
 				{
 					Name:   to.Ptr("agentpool"),
-					Count:  to.Ptr(3),
+					Count:  to.Ptr(2),
 					VmSize: to.Ptr("Standard_B4ms"),
 					OsType: &osType,
 					OsSKU:  &osSKU,
@@ -114,6 +92,48 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 
 	tc.CreateResourceAndWait(extension)
 
+	// create storage account and blob container
+	acct := newStorageAccount(tc, rg)
+	tc.CreateResourceAndWait(acct)
+
+	blobService := &storage.StorageAccountsBlobService{
+		ObjectMeta: tc.MakeObjectMeta("blobservice"),
+		Spec: storage.StorageAccounts_BlobService_Spec{
+			Owner: testcommon.AsOwner(acct),
+		},
+	}
+
+	tc.CreateResourceAndWait(blobService)
+
+	blobContainer := &storage.StorageAccountsBlobServicesContainer{
+		ObjectMeta: tc.MakeObjectMeta("velero"),
+		Spec: storage.StorageAccounts_BlobServices_Container_Spec{
+			Owner: testcommon.AsOwner(blobService),
+		},
+	}
+
+	tc.CreateResourceAndWait(blobContainer)
+
+	// create vault and policy
+	backupVault := newBackupVault(tc, rg, "asotestbackupvault")
+	backupPolicy := newBackupPolicy(tc, backupVault, "asotestbackuppolicy")
+	tc.CreateResourcesAndWait(backupVault, backupPolicy)
+
+	// create TA role binding
+	trustedAccessRoleBinding := &aks.TrustedAccessRoleBinding{
+		ObjectMeta: tc.MakeObjectMetaWithName("tarb"),
+		Spec: aks.ManagedClusters_TrustedAccessRoleBinding_Spec{
+			Owner: testcommon.AsOwner(cluster),
+			Roles: []string{
+				// Microsoft.DataProtection/backupVaults/backup-operator
+				backupVault.GetType() + "/backup-operator",
+			},
+			SourceResourceReference: tc.MakeReferenceFromResource(backupVault),
+		},
+	}
+
+	tc.CreateResourceAndWait(trustedAccessRoleBinding)
+
 	// give permission to extension msi over SA
 	extenstionRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
 	tc.Expect(err).ToNot(HaveOccurred())
@@ -129,27 +149,6 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	}
 
 	tc.CreateResourceAndWait(extenstionRoleAssignment)
-
-	// create vault and policy
-	backupVault := newBackupVault(tc, rg, "asotestbackupvault")
-	backupPolicy := newBackupPolicy(tc, backupVault, "asotestbackuppolicy")
-	tc.CreateResourcesAndWait(backupVault, backupPolicy)
-
-	// give read permission to vault msi over SRG
-	snapshotRGRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
-	tc.Expect(err).ToNot(HaveOccurred())
-	snapshotRGRoleAssignment := &authorization.RoleAssignment{
-		ObjectMeta: tc.MakeObjectMeta(snapshotRGRoleAssignmentGUID.String()),
-		Spec: authorization.RoleAssignment_Spec{
-			Owner:       tc.AsExtensionOwner(rg),
-			PrincipalId: backupVault.Status.Identity.PrincipalId,
-			RoleDefinitionReference: &genruntime.ResourceReference{
-				ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7", tc.AzureSubscription), // This is Reader Role
-			},
-		},
-	}
-
-	tc.CreateResourceAndWait(snapshotRGRoleAssignment)
 
 	// give read permission to vault msi over cluster
 	clusterRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
@@ -183,20 +182,21 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 
 	tc.CreateResourceAndWait(clusterMSIRoleAssignment)
 
-	// create TA role binding
-	trustedAccessRoleBinding := &aks.TrustedAccessRoleBinding{
-		ObjectMeta: tc.MakeObjectMetaWithName("tarb"),
-		Spec: aks.ManagedClusters_TrustedAccessRoleBinding_Spec{
-			Owner: testcommon.AsOwner(cluster),
-			Roles: []string{
-				// Microsoft.DataProtection/backupVaults/backup-operator
-				backupVault.GetType() + "/backup-operator",
+	// give read permission to vault msi over SRG
+	snapshotRGRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
+	tc.Expect(err).ToNot(HaveOccurred())
+	snapshotRGRoleAssignment := &authorization.RoleAssignment{
+		ObjectMeta: tc.MakeObjectMeta(snapshotRGRoleAssignmentGUID.String()),
+		Spec: authorization.RoleAssignment_Spec{
+			Owner:       tc.AsExtensionOwner(rg),
+			PrincipalId: backupVault.Status.Identity.PrincipalId,
+			RoleDefinitionReference: &genruntime.ResourceReference{
+				ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7", tc.AzureSubscription), // This is Reader Role
 			},
-			SourceResourceReference: tc.MakeReferenceFromResource(backupVault),
 		},
 	}
 
-	tc.CreateResourceAndWait(trustedAccessRoleBinding)
+	tc.CreateResourceAndWait(snapshotRGRoleAssignment)
 
 	//create backup instance
 	biName := "asotestbackupinstance"
@@ -205,18 +205,25 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		Spec: dataprotection.BackupVaults_BackupInstance_Spec{
 			Owner: testcommon.AsOwner(backupVault),
 			Properties: &dataprotection.BackupInstance{
+				ObjectType:   to.Ptr("BackupInstance"),
 				FriendlyName: to.Ptr(biName),
 				DataSourceInfo: &dataprotection.Datasource{
-					DatasourceType:   to.Ptr(cluster.GetType()),
-					ResourceUri:      cluster.Status.Id,
-					ResourceName:     to.Ptr(cluster.AzureName()),
-					ResourceLocation: cluster.Spec.Location,
+					ObjectType:        to.Ptr("Datasource"),
+					DatasourceType:    to.Ptr(cluster.GetType()),
+					ResourceUri:       cluster.Status.Id,
+					ResourceName:      to.Ptr(cluster.AzureName()),
+					ResourceLocation:  cluster.Spec.Location,
+					ResourceType:      to.Ptr(cluster.GetType()),
+					ResourceReference: tc.MakeReferenceFromResource(cluster),
 				},
 				DataSourceSetInfo: &dataprotection.DatasourceSet{
-					DatasourceType:   to.Ptr(cluster.GetType()),
-					ResourceUri:      cluster.Status.Id,
-					ResourceName:     to.Ptr(cluster.AzureName()),
-					ResourceLocation: cluster.Spec.Location,
+					ObjectType:        to.Ptr("DatasourceSet"),
+					DatasourceType:    to.Ptr(cluster.GetType()),
+					ResourceUri:       cluster.Status.Id,
+					ResourceName:      to.Ptr(cluster.AzureName()),
+					ResourceType:      to.Ptr(cluster.GetType()),
+					ResourceLocation:  cluster.Spec.Location,
+					ResourceReference: tc.MakeReferenceFromResource(cluster),
 				},
 				PolicyInfo: &dataprotection.PolicyInfo{
 					PolicyId: backupPolicy.Status.Id,
@@ -235,6 +242,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 								KubernetesCluster: &dataprotection.KubernetesClusterBackupDatasourceParameters{
 									SnapshotVolumes:              to.Ptr(true),
 									IncludeClusterScopeResources: to.Ptr(true),
+									ObjectType:                   to.Ptr(dataprotection.KubernetesClusterBackupDatasourceParameters_ObjectType_KubernetesClusterBackupDatasourceParameters),
 								},
 							},
 						},

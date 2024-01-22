@@ -43,6 +43,11 @@ func newBackupVault(tc *testcommon.KubePerTestContext, rg *resources.ResourceGro
 						Type:          to.Ptr(dataprotection.StorageSetting_Type_LocallyRedundant),
 					},
 				},
+				SecuritySettings: &dataprotection.SecuritySettings{
+					SoftDeleteSettings: &dataprotection.SoftDeleteSettings{
+						State: to.Ptr(dataprotection.SoftDeleteSettings_State_Off),
+					},
+				},
 			},
 		},
 	}
