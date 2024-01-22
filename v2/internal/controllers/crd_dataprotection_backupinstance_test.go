@@ -8,8 +8,9 @@ package controllers_test
 import (
 	// The testing package is imported for testing-related functionality.
 	"fmt"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"testing"
-
+	"time"
 	// The gomega package is used for assertions and expectations in tests.
 	. "github.com/onsi/gomega"
 
@@ -257,10 +258,20 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	// Assertions and Expectations
 	armId := *backupInstance.Status.Id
 	tc.Expect(backupInstance.Status.Id).ToNot(BeNil())
-	tc.Expect(backupInstance.Status.Properties.FriendlyName).To(Equal((to.Ptr(biName))))
-	tc.Expect(backupInstance.Status.Properties.DataSourceInfo.ResourceID).To(Equal(cluster.Status.Id))
-	tc.Expect(backupInstance.Status.Properties.DataSourceSetInfo.ResourceID).To(Equal(cluster.Status.Id))
-	tc.Expect(backupInstance.Status.Properties.ProvisioningState).To(Equal(to.Ptr("Succeeded")))
+	tc.Expect(backupInstance.Status.Properties.FriendlyName).To(BeEquivalentTo(biName))
+	tc.Expect(backupInstance.Status.Properties.DataSourceInfo.ResourceID).To(BeEquivalentTo(cluster.Status.Id))
+	tc.Expect(backupInstance.Status.Properties.DataSourceSetInfo.ResourceID).To(BeEquivalentTo(cluster.Status.Id))
+	tc.Expect(backupInstance.Status.Properties.ProvisioningState).To(BeEquivalentTo(to.Ptr("Succeeded")))
+
+	// ensuring Backup instance status changes from ConfiguringProtection to ProtectionConfigured before we start deletion
+	time.Sleep(3 * time.Minute)
+
+	tc.Eventually(func() *dataprotection.ProtectionStatusDetails_Status_STATUS {
+		objectKey := client.ObjectKeyFromObject(backupInstance)
+		updated := &dataprotection.BackupVaultsBackupInstance{}
+		tc.GetResource(objectKey, updated)
+		return updated.Status.Properties.ProtectionStatus.Status
+	}).Should(BeEquivalentTo(to.Ptr(dataprotection.ProtectionStatusDetails_Status_STATUS_ProtectionConfigured)))
 
 	// Note:
 	// Patch Operations are currently not allowed on BackupInstance currently
