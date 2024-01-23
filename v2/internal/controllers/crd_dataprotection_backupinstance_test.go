@@ -9,7 +9,6 @@ import (
 	// The testing package is imported for testing-related functionality.
 	"fmt"
 	"testing"
-	"time"
 	// The gomega package is used for assertions and expectations in tests.
 	. "github.com/onsi/gomega"
 
@@ -150,7 +149,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	}
 
 	tc.CreateResourceAndWait(extenstionRoleAssignment)
-	
+
 	// give read permission to vault msi over cluster
 	clusterRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
 	tc.Expect(err).ToNot(HaveOccurred())
