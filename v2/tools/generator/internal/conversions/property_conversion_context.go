@@ -145,6 +145,48 @@ func (c *PropertyConversionContext) FindNextType(name astmodel.InternalTypeName)
 	return c.conversionGraph.FindNextType(name, c.definitions)
 }
 
+// PathExists returns true if a path exists in the conversion graph starting from the specified type name and ending
+// at the specified type name. If no conversion graph is available, returns false.
+func (c *PropertyConversionContext) PathExists(
+	start astmodel.InternalTypeName,
+	finish astmodel.InternalTypeName,
+) bool {
+	if c.conversionGraph == nil {
+		return false
+	}
+
+	_, found := c.conversionGraph.FindInPath(
+		start,
+		func(name astmodel.InternalTypeName) bool {
+			return name == finish
+		})
+
+	return found
+}
+
+// FindPivotType returns the type name of the pivot type between the two specified types, if any.
+func (c *PropertyConversionContext) FindPivotType(
+	start astmodel.InternalTypeName,
+	finish astmodel.InternalTypeName,
+) (astmodel.InternalTypeName, bool) {
+	// Walk the path from 'start' to find all the types visible, these are our candidate results
+	candidates := astmodel.NewInternalTypeNameSet()
+	c.conversionGraph.FindInPath(
+		start,
+		func(name astmodel.InternalTypeName) bool {
+			candidates.Add(name)
+			return false
+		})
+
+	// Walk the path from 'finish' to find the first type that's also visible from 'start'
+	pivot, found := c.conversionGraph.FindInPath(
+		finish,
+		func(name astmodel.InternalTypeName) bool {
+			return candidates.Contains(name)
+		})
+	return pivot, found
+}
+
 // AddPackageReference adds a new reference that's needed by the given conversion
 func (c *PropertyConversionContext) AddPackageReference(ref astmodel.PackageReference) {
 	c.additionalReferences.AddReference(ref)

@@ -58,7 +58,7 @@ func TestWriteDebugDescription(t *testing.T) {
 		{"Flagged alias shows details of flags", armSuit, "Suit[Flag:arm]"},
 		{"Errored type shows details of errors", erroredAge, "Error[Age|boom|oh oh]"},
 		{"Type name from current package has simple form", personId, "PersonId"},
-		{"Type name from other package shows folder path", otherPersonId, "test/v2.PersonId"},
+		{"Type name from other packages shows folder path", otherPersonId, "test/v2.PersonId"},
 		{"Type name from external package qualified by package name", SecretReferenceType, "genruntime.SecretReference"},
 	}
 
