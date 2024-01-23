@@ -1973,6 +1973,9 @@ func assignInlineObjectsViaIntermediateObject(
 		return nil, nil
 	}
 
+	// If intermediateName is empty, we didn't find an intermediate to use, so this conversion step doesn't apply.
+	// If we found either our source or destination as the intermediate type, then the two types are directly
+	// convertible and (again), this conversion step doesn't apply.
 	if intermediateName.IsEmpty() ||
 		astmodel.TypeEquals(intermediateName, sourceName) ||
 		astmodel.TypeEquals(intermediateName, destinationName) {
@@ -2113,13 +2116,13 @@ func assignNonInlineObjectsViaPivotObject(
 		return nil, nil
 	}
 
-	// Require that there's no direct conversion path
+	// Require that there's no direct conversion path between our source and destination types
 	if conversionContext.PathExists(sourceName, destinationName) ||
 		conversionContext.PathExists(destinationName, sourceName) {
 		return nil, nil
 	}
 
-	// Find the pivot type
+	// Find the pivot type; if we can't find one, this conversion doesn't apply
 	pivotName, found := conversionContext.FindPivotType(sourceName, destinationName)
 	if !found {
 		// No pivot found, do nothing
