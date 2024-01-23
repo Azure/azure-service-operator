@@ -20,6 +20,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/ssh"
+	"gopkg.in/yaml.v3"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
@@ -209,6 +210,38 @@ func ensureCassetteFileExists(cassetteName string) error {
 	return nil
 }
 
+// cassetteFileV1Exists returns true if a cassette file exists AND it contains a go-vcr V1 recording
+func cassetteFileV1Exists(cassetteName string) (bool, error) {
+	exists, err := cassetteFileExists(cassetteName)
+	if err != nil {
+		return false, errors.Wrapf(err, "checking whether v1 cassette exists")
+	}
+	if !exists {
+		return false, nil
+	}
+
+	filename := cassetteFileName(cassetteName)
+	var content struct {
+		Version int `json:"version"`
+	}
+
+	file, err := os.Open(filename)
+	if err != nil {
+		return false, errors.Wrapf(err, "opening cassette file %q", filename)
+	}
+
+	defer file.Close()
+
+	decoder := yaml.NewDecoder(file)
+
+	err = decoder.Decode(&content)
+	if err != nil {
+		return false, errors.Wrapf(err, "parsing cassette file %q", filename)
+	}
+
+	return content.Version == 1, nil
+}
+
 func cassetteFileExists(cassetteName string) (bool, error) {
 	filename := cassetteFileName(cassetteName)
 
@@ -229,12 +262,12 @@ func cassetteFileName(cassetteName string) string {
 }
 
 func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (testRecorder, error) {
-	exists, err := cassetteFileExists(cassetteName)
+	v1Exists, err := cassetteFileV1Exists(cassetteName)
 	if err != nil {
 		return nil, errors.Wrapf(err, "checking existence of cassette %s", cassetteName)
 	}
 
-	if exists {
+	if v1Exists {
 		return createPlayerV1(cassetteName, cfg)
 	}
 
