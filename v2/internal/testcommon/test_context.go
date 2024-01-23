@@ -48,7 +48,7 @@ type PerTestContext struct {
 	TestContext
 	T                     *testing.T
 	logger                logr.Logger
-	AzureClientRecorder   *recorderv1.Recorder
+	AzureClientRecorder   testRecorder
 	AzureClient           *genericarmclient.GenericClient
 	AzureSubscription     string
 	AzureTenant           string
@@ -103,16 +103,17 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 	if err != nil {
 		return PerTestContext{}, errors.Wrapf(err, "creating recorder")
 	}
+
 	// Use the recorder-specific CFG, which will force URLs and AADAuthorityHost (among other things) to default
 	// values so that the recordings look the same regardless of which cloud you ran them in
-	cfg = details.cfg
+	cfg = details.Cfg()
 
 	// To Go SDK client reuses HTTP clients among instances by default. We add handlers to the HTTP client based on
 	// the specific test in question, which means that clients cannot be reused.
 	// We explicitly create a new http.Client so that the recording from one test doesn't
 	// get used for all other parallel tests.
 	httpClient := &http.Client{
-		Transport: addCountHeader(translateErrors(details.recorder, cassetteName, t)),
+		Transport: details.CreateRoundTripper(t),
 	}
 
 	var globalARMClient *genericarmclient.GenericClient
@@ -120,14 +121,14 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 		Metrics:    metrics.NewARMClientMetrics(),
 		HttpClient: httpClient,
 	}
-	globalARMClient, err = genericarmclient.NewGenericClient(cfg.Cloud(), details.creds, options)
+	globalARMClient, err = genericarmclient.NewGenericClient(cfg.Cloud(), details.Creds(), options)
 	if err != nil {
 		return PerTestContext{}, errors.Wrapf(err, "failed to create generic ARM client")
 	}
 
 	t.Cleanup(func() {
 		if !t.Failed() {
-			err := details.recorder.Stop()
+			err := details.Stop()
 			if err != nil {
 				// cleanup function should not error-out
 				logger.Error(err, "unable to stop ARM client recorder")
@@ -160,11 +161,11 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 		Namer:                 namer,
 		NoSpaceNamer:          namer.WithSeparator(""),
 		AzureClient:           globalARMClient,
-		AzureSubscription:     details.ids.subscriptionID,
-		AzureTenant:           details.ids.tenantID,
-		AzureBillingInvoiceID: details.ids.billingInvoiceID,
+		AzureSubscription:     details.Ids().subscriptionID,
+		AzureTenant:           details.Ids().tenantID,
+		AzureBillingInvoiceID: details.Ids().billingInvoiceID,
 		AzureMatch:            NewARMMatcher(globalARMClient),
-		AzureClientRecorder:   details.recorder,
+		AzureClientRecorder:   details,
 		HttpClient:            httpClient,
 		TestName:              t.Name(),
 		Namespace:             createTestNamespaceName(t),
@@ -211,13 +212,46 @@ func ensureCassetteFileExists(cassetteName string) error {
 }
 
 type recorderDetails struct {
-	creds    azcore.TokenCredential
-	ids      AzureIDs
-	recorder *recorderv1.Recorder
-	cfg      config.Values
+	cassetteName string
+	creds        azcore.TokenCredential
+	ids          AzureIDs
+	recorder     *recorderv1.Recorder
+	cfg          config.Values
 }
 
-func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (recorderDetails, error) {
+// Cfg returns the available configuration for the test
+func (r recorderDetails) Cfg() config.Values {
+	return r.cfg
+}
+
+// Creds returns Azure credentials when running for real
+func (r recorderDetails) Creds() azcore.TokenCredential {
+	return r.creds
+}
+
+// Ids returns the available Azure resource IDs for the test
+func (r recorderDetails) Ids() AzureIDs {
+	return r.ids
+}
+
+// Stop recording
+func (r recorderDetails) Stop() error {
+	return r.recorder.Stop()
+}
+
+// IsReplaying returns true if we're replaying a recorded test, false if we're recording a new test
+func (r recorderDetails) IsReplaying() bool {
+	return r.recorder.Mode() == recorderv1.ModeReplaying
+}
+
+// CreateRoundTripper creates a client RoundTripper that can be used to record or replay HTTP requests.
+// t is a reference to the test currently executing.
+// TODO: Remove the reference to t to reduce coupling
+func (r recorderDetails) CreateRoundTripper(t *testing.T) http.RoundTripper {
+	return addCountHeader(translateErrors(r.recorder, r.cassetteName, t))
+}
+
+func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (testRecorder, error) {
 	var err error
 	var r *recorderv1.Recorder
 	if recordReplay {
@@ -343,10 +377,11 @@ func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (
 	})
 
 	return recorderDetails{
-		creds:    creds,
-		ids:      azureIDs,
-		recorder: r,
-		cfg:      cfg,
+		cassetteName: cassetteName,
+		creds:        creds,
+		ids:          azureIDs,
+		recorder:     r,
+		cfg:          cfg,
 	}, nil
 }
 

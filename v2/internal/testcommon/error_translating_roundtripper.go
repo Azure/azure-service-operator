@@ -13,7 +13,6 @@ import (
 	"testing"
 
 	cassettev1 "github.com/dnaeon/go-vcr/cassette"
-	recorderv1 "github.com/dnaeon/go-vcr/recorder"
 	"github.com/google/go-cmp/cmp"
 	"github.com/pkg/errors"
 
@@ -32,12 +31,12 @@ import (
 //   - during record the controller does GET (404), PUT, … GET (OK)
 //   - during playback the controller does GET (which now returns OK), DELETE, PUT, …
 //     and fails due to a missing DELETE recording
-func translateErrors(r *recorderv1.Recorder, cassetteName string, t *testing.T) http.RoundTripper {
+func translateErrors(r http.RoundTripper, cassetteName string, t *testing.T) http.RoundTripper {
 	return errorTranslation{r, cassetteName, nil, t}
 }
 
 type errorTranslation struct {
-	recorder     *recorderv1.Recorder
+	recorder     http.RoundTripper
 	cassetteName string
 
 	cassette *cassettev1.Cassette
