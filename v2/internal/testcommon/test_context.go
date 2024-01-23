@@ -6,24 +6,18 @@ Licensed under the MIT license.
 package testcommon
 
 import (
-	"bytes"
 	"context"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha256"
 	"encoding/hex"
-	"io"
 	"net/http"
 	"os"
 	"regexp"
 	"strings"
 	"testing"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
-	cassettev1 "github.com/dnaeon/go-vcr/cassette"
-	recorderv1 "github.com/dnaeon/go-vcr/recorder"
 	"github.com/go-logr/logr"
-	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/ssh"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -193,14 +187,17 @@ func createTestNamespaceName(t *testing.T) string {
 }
 
 func ensureCassetteFileExists(cassetteName string) error {
-	filename := cassetteName + ".yaml"
-	_, err := os.Stat(filename)
-	if err == nil {
-		return nil
-	}
-	if !os.IsNotExist(err) {
+	exists, err := cassetteFileExists(cassetteName)
+	if err != nil {
 		return err
 	}
+
+	if exists {
+		return nil
+	}
+
+	filename := cassetteFileName(cassetteName)
+
 	f, err := os.OpenFile(filename, os.O_RDONLY|os.O_CREATE, 0o644)
 	if err != nil {
 		return errors.Wrapf(err, "creating empty cassette %q", filename)
@@ -208,181 +205,40 @@ func ensureCassetteFileExists(cassetteName string) error {
 	if err := f.Close(); err != nil {
 		return errors.Wrapf(err, "failed to close empty cassette %q", filename)
 	}
+
 	return nil
 }
 
-type recorderDetails struct {
-	cassetteName string
-	creds        azcore.TokenCredential
-	ids          AzureIDs
-	recorder     *recorderv1.Recorder
-	cfg          config.Values
+func cassetteFileExists(cassetteName string) (bool, error) {
+	filename := cassetteFileName(cassetteName)
+
+	_, err := os.Stat(filename)
+	if err == nil {
+		return true, nil
+	}
+
+	if os.IsNotExist(err) {
+		return false, nil
+	}
+
+	return false, err
 }
 
-// Cfg returns the available configuration for the test
-func (r recorderDetails) Cfg() config.Values {
-	return r.cfg
-}
-
-// Creds returns Azure credentials when running for real
-func (r recorderDetails) Creds() azcore.TokenCredential {
-	return r.creds
-}
-
-// Ids returns the available Azure resource IDs for the test
-func (r recorderDetails) Ids() AzureIDs {
-	return r.ids
-}
-
-// Stop recording
-func (r recorderDetails) Stop() error {
-	return r.recorder.Stop()
-}
-
-// IsReplaying returns true if we're replaying a recorded test, false if we're recording a new test
-func (r recorderDetails) IsReplaying() bool {
-	return r.recorder.Mode() == recorderv1.ModeReplaying
-}
-
-// CreateRoundTripper creates a client RoundTripper that can be used to record or replay HTTP requests.
-// t is a reference to the test currently executing.
-// TODO: Remove the reference to t to reduce coupling
-func (r recorderDetails) CreateRoundTripper(t *testing.T) http.RoundTripper {
-	return addCountHeader(translateErrorsV1(r.recorder, r.cassetteName, t))
+func cassetteFileName(cassetteName string) string {
+	return cassetteName + ".yaml"
 }
 
 func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (testRecorder, error) {
-	var err error
-	var r *recorderv1.Recorder
-	if recordReplay {
-		r, err = recorderv1.New(cassetteName)
-	} else {
-		r, err = recorderv1.NewAsMode(cassetteName, recorderv1.ModeDisabled, nil)
-	}
-
+	exists, err := cassetteFileExists(cassetteName)
 	if err != nil {
-		return recorderDetails{}, errors.Wrapf(err, "creating recorder")
+		return nil, errors.Wrapf(err, "checking existence of cassette %s", cassetteName)
 	}
 
-	var creds azcore.TokenCredential
-	var azureIDs AzureIDs
-	if r.Mode() == recorderv1.ModeRecording ||
-		r.Mode() == recorderv1.ModeDisabled {
-		// if we are recording, we need auth
-		creds, azureIDs, err = getCreds()
-		if err != nil {
-			return recorderDetails{}, err
-		}
-	} else {
-		// if we are replaying, we won't need auth
-		// and we use a dummy subscription ID/tenant ID
-		creds = MockTokenCredential{}
-		azureIDs.tenantID = uuid.Nil.String()
-		azureIDs.subscriptionID = uuid.Nil.String()
-		azureIDs.billingInvoiceID = DummyBillingId
-		// Force these values to be the default
-		cfg.ResourceManagerEndpoint = config.DefaultEndpoint
-		cfg.ResourceManagerAudience = config.DefaultAudience
-		cfg.AzureAuthorityHost = config.DefaultAADAuthorityHost
+	if exists {
+		return createPlayerV1(cassetteName, cfg)
 	}
 
-	// check body as well as URL/Method (copied from go-vcr documentation)
-	r.SetMatcher(func(r *http.Request, i cassettev1.Request) bool {
-		if !cassettev1.DefaultMatcher(r, i) {
-			return false
-		}
-
-		// verify custom request count header (see counting_roundtripper.go)
-		if r.Header.Get(COUNT_HEADER) != i.Headers.Get(COUNT_HEADER) {
-			return false
-		}
-
-		if r.Body == nil {
-			return i.Body == ""
-		}
-
-		var b bytes.Buffer
-		if _, err := b.ReadFrom(r.Body); err != nil {
-			panic(err)
-		}
-
-		r.Body = io.NopCloser(&b)
-		return b.String() == "" || hideRecordingData(b.String()) == i.Body
-	})
-
-	r.AddSaveFilter(func(i *cassettev1.Interaction) error {
-		// rewrite all request/response fields to hide the real subscription ID
-		// this is *not* a security measure but intended to make the tests updateable from
-		// any subscription, so a contributor can update the tests against their own sub.
-		hide := func(s string, id string, replacement string) string {
-			return strings.ReplaceAll(s, id, replacement)
-		}
-
-		// Note that this changes the cassette in-place so there's no return needed
-		hideCassetteString := func(cas *cassettev1.Interaction, id string, replacement string) {
-			i.Request.Body = strings.ReplaceAll(cas.Request.Body, id, replacement)
-			i.Response.Body = strings.ReplaceAll(cas.Response.Body, id, replacement)
-			i.Request.URL = strings.ReplaceAll(cas.Request.URL, id, replacement)
-		}
-
-		// Hide the subscription ID
-		hideCassetteString(i, azureIDs.subscriptionID, uuid.Nil.String())
-		// Hide the tenant ID
-		hideCassetteString(i, azureIDs.tenantID, uuid.Nil.String())
-		// Hide the billing ID
-		if azureIDs.billingInvoiceID != "" {
-			hideCassetteString(i, azureIDs.billingInvoiceID, DummyBillingId)
-		}
-
-		// Hiding other sensitive fields
-		i.Request.Body = hideRecordingData(i.Request.Body)
-		i.Response.Body = hideRecordingData(i.Response.Body)
-		i.Request.URL = hideURLData(i.Request.URL)
-
-		for _, values := range i.Request.Headers {
-			for i := range values {
-				values[i] = hide(values[i], azureIDs.subscriptionID, uuid.Nil.String())
-				values[i] = hide(values[i], azureIDs.tenantID, uuid.Nil.String())
-				if azureIDs.billingInvoiceID != "" {
-					values[i] = hide(values[i], azureIDs.billingInvoiceID, DummyBillingId)
-				}
-			}
-		}
-
-		for key, values := range i.Response.Headers {
-			for i := range values {
-				values[i] = hide(values[i], azureIDs.subscriptionID, uuid.Nil.String())
-				values[i] = hide(values[i], azureIDs.tenantID, uuid.Nil.String())
-				if azureIDs.billingInvoiceID != "" {
-					values[i] = hide(values[i], azureIDs.billingInvoiceID, DummyBillingId)
-				}
-			}
-			// Hide the base request URL in the AzureOperation and Location headers
-			if key == genericarmclient.AsyncOperationHeader || key == genericarmclient.LocationHeader {
-				for i := range values {
-					values[i] = hideBaseRequestURL(values[i])
-				}
-			}
-		}
-
-		for _, header := range requestHeadersToRemove {
-			delete(i.Request.Headers, header)
-		}
-
-		for _, header := range responseHeadersToRemove {
-			delete(i.Response.Headers, header)
-		}
-
-		return nil
-	})
-
-	return recorderDetails{
-		cassetteName: cassetteName,
-		creds:        creds,
-		ids:          azureIDs,
-		recorder:     r,
-		cfg:          cfg,
-	}, nil
+	return createRecorderV3(cassetteName, cfg, recordReplay)
 }
 
 var requestHeadersToRemove = []string{
