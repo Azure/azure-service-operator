@@ -1,4 +1,4 @@
-name: Create new release
+name: Create new official release
 
 on:
   # run when a release is published,
@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -20,7 +20,7 @@ jobs:
       - name: Build & run devcontainer image
         # this always builds a new image from scratch rather than from the build-devcontainer-image workflow output
         # so that we pick up the latest versions of everything
-        # NB: if you update this also update live-validation.yml
+        # NB: if you update this also update live-validation.yml, pre-release-tests.yaml and create-release-experimental.yml
         id: devcontainer
         run: |
           docker build --tag devcontainer:latest .devcontainer
@@ -55,5 +55,7 @@ jobs:
         run: |
           container_id=${{env.container_id}}
           docker exec -e DOCKER_PUSH_TARGET "$container_id" task controller:docker-push-multiarch
+          docker exec -e DOCKER_PUSH_TARGET -e DOCKER_REGISTRY "$container_id" task controller:acr-protect-image
         env:
           DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PUBLIC }}
+          DOCKER_REGISTRY: ${{ secrets.REGISTRY_LOGIN }}

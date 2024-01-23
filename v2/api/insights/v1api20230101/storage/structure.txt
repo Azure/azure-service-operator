@@ -3,7 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101/storage
 ├── APIVersion: Enum (1 value)
 │   └── "2023-01-01"
 └── ActionGroup: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+    ├── Owner: resources/v1apiv20191001.ResourceGroup
     ├── Spec: Object (19 properties)
     │   ├── ArmRoleReceivers: Object (4 properties)[]
     │   │   ├── Name: *string

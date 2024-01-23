@@ -3,7 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615
 ├── APIVersion: Enum (1 value)
 │   └── "2022-06-15"
 ├── ScheduledQueryRule: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Owner: resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (20 properties)
 │   │   ├── Actions: *Object (2 properties)
 │   │   │   ├── ActionGroupsReferences: genruntime.ResourceReference[]

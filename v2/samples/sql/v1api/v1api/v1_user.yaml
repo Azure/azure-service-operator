@@ -1,0 +1,20 @@
+apiVersion: sql.azure.com/v1
+kind: User
+metadata:
+  name: sampleuser
+  namespace: default
+spec:
+  owner:
+    name: samplesqluser
+  # Roles include the following: db_owner, db_securityadmin, db_accessadmin, db_backupoperator,
+  # db_ddladmin, db_datawriter, db_datareader, db_denydatawriter, and db_denydatareader.
+  roles:
+    - "db_owner"
+  localUser:
+    serverAdminUsername: admin
+    serverAdminPassword:
+      name: server-admin-pw
+      key: password
+    password:
+      name: sampleuser-password
+      key: password
