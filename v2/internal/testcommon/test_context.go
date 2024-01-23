@@ -248,7 +248,7 @@ func (r recorderDetails) IsReplaying() bool {
 // t is a reference to the test currently executing.
 // TODO: Remove the reference to t to reduce coupling
 func (r recorderDetails) CreateRoundTripper(t *testing.T) http.RoundTripper {
-	return addCountHeader(translateErrors(r.recorder, r.cassetteName, t))
+	return addCountHeader(translateErrorsV1(r.recorder, r.cassetteName, t))
 }
 
 func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (testRecorder, error) {
