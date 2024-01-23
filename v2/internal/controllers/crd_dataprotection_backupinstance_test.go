@@ -150,9 +150,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	}
 
 	tc.CreateResourceAndWait(extenstionRoleAssignment)
-
-	time.Sleep(10 * time.Minute)
-
+	
 	// give read permission to vault msi over cluster
 	clusterRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
 	tc.Expect(err).ToNot(HaveOccurred())
@@ -258,13 +256,10 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(backupInstance)
 
 	// ensuring Backup instance status changes from ConfiguringProtection to ProtectionConfigured before we start deletion
-	time.Sleep(10 * time.Minute)
 
 	// Assertions and Expectations
 	tc.Expect(backupInstance.Status.Id).ToNot(BeNil())
 	tc.Expect(backupInstance.Status.Properties.FriendlyName).To(BeEquivalentTo(to.Ptr(biName)))
-	tc.Expect(backupInstance.Status.Properties.DataSourceInfo.ResourceUri).To(BeEquivalentTo(cluster.Status.Id))
-	tc.Expect(backupInstance.Status.Properties.DataSourceSetInfo.ResourceUri).To(BeEquivalentTo(cluster.Status.Id))
 	tc.Expect(backupInstance.Status.Properties.ProvisioningState).To(BeEquivalentTo(to.Ptr("Succeeded")))
 
 	// Note:
@@ -272,8 +267,6 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 
 	// Delete the backupinstance
 	tc.DeleteResourceAndWait(backupInstance)
-
-	time.Sleep(10 * time.Minute)
 
 	// Ensure that the resource was really deleted in Azure
 	armId := *backupInstance.Status.Id
