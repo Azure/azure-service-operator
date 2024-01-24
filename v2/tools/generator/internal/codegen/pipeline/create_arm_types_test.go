@@ -260,3 +260,83 @@ func TestCreateARMTypeWithConfigMap_CreatesExpectedConversions(t *testing.T) {
 
 	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
 }
+
+func TestCreateARMTypeWithSecret_CreatesExpectedConversions(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	secretDataProperty := astmodel.NewPropertyDefinition("SecretData", "secretData", astmodel.NewMapType(astmodel.StringType, astmodel.StringType)).
+		WithDescription("Secret data")
+	secretSliceProperty := astmodel.NewPropertyDefinition("SecretSlice", "secretSlice", astmodel.NewArrayType(astmodel.StringType)).
+		WithDescription("Secret data")
+
+	// Define a test resource
+	specProperties := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"PersonProperties",
+		test.FullNameProperty,
+		test.FamilyNameProperty,
+		test.KnownAsProperty,
+		secretDataProperty,
+		secretSliceProperty)
+	specPropertiesProp := astmodel.NewPropertyDefinition(
+		"Properties",
+		"properties",
+		specProperties.Name()).MakeTypeOptional()
+	spec := test.CreateSpec(test.Pkg2020, "Person", specPropertiesProp, test.NameProperty)
+	status := test.CreateStatus(test.Pkg2020, "Person")
+	resource := test.CreateARMResource(test.Pkg2020, "Person", spec, status, test.Pkg2020APIVersion)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resource, status, spec, specProperties, test.Pkg2020APIVersion)
+
+	idFactory := astmodel.NewIdentifierFactory()
+	omc := config.NewObjectModelConfiguration()
+	g.Expect(
+		omc.ModifyProperty(
+			specProperties.Name(),
+			test.FullNameProperty.PropertyName(),
+			func(pc *config.PropertyConfiguration) error {
+				pc.IsSecret.Set(true)
+				return nil
+			})).
+		To(Succeed())
+	g.Expect(
+		omc.ModifyProperty(
+			specProperties.Name(),
+			secretDataProperty.PropertyName(),
+			func(pc *config.PropertyConfiguration) error {
+				pc.IsSecret.Set(true)
+				return nil
+			})).
+		To(Succeed())
+	g.Expect(
+		omc.ModifyProperty(
+			specProperties.Name(),
+			secretSliceProperty.PropertyName(),
+			func(pc *config.PropertyConfiguration) error {
+				pc.IsSecret.Set(true)
+				return nil
+			})).
+		To(Succeed())
+
+	configuration := config.NewConfiguration()
+	configuration.ObjectModelConfiguration = omc
+
+	addConfigMaps := AddSecrets(configuration)
+	createARMTypes := CreateARMTypes(omc, idFactory, logr.Discard())
+	applyARMConversionInterface := ApplyARMConversionInterface(idFactory, omc)
+	simplify := SimplifyDefinitions()
+	strip := StripUnreferencedTypeDefinitions()
+
+	state, err := RunTestPipeline(
+		NewState(defs),
+		addConfigMaps,
+		createARMTypes,
+		applyARMConversionInterface,
+		simplify,
+		strip)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
+}

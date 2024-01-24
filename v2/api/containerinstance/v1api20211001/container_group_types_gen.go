@@ -8246,7 +8246,7 @@ type LogAnalytics struct {
 
 	// +kubebuilder:validation:Required
 	// WorkspaceKey: The workspace key for log analytics
-	WorkspaceKey genruntime.SecretReference `json:"workspaceKey,omitempty"`
+	WorkspaceKey *genruntime.SecretReference `json:"workspaceKey,omitempty"`
 
 	// WorkspaceResourceReference: The workspace resource id for log analytics
 	WorkspaceResourceReference *genruntime.ResourceReference `armReference:"WorkspaceResourceId" json:"workspaceResourceReference,omitempty"`
@@ -8282,11 +8282,14 @@ func (analytics *LogAnalytics) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 
 	// Set property "WorkspaceKey":
-	workspaceKeySecret, err := resolved.ResolvedSecrets.Lookup(analytics.WorkspaceKey)
-	if err != nil {
-		return nil, errors.Wrap(err, "looking up secret for property WorkspaceKey")
+	if analytics.WorkspaceKey != nil {
+		workspaceKeySecret, err := resolved.ResolvedSecrets.Lookup(*analytics.WorkspaceKey)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property WorkspaceKey")
+		}
+		workspaceKey := workspaceKeySecret
+		result.WorkspaceKey = &workspaceKey
 	}
-	result.WorkspaceKey = workspaceKeySecret
 
 	// Set property "WorkspaceResourceId":
 	if analytics.WorkspaceResourceReference != nil {
@@ -8359,9 +8362,10 @@ func (analytics *LogAnalytics) AssignProperties_From_LogAnalytics(source *v20211
 
 	// WorkspaceKey
 	if source.WorkspaceKey != nil {
-		analytics.WorkspaceKey = source.WorkspaceKey.Copy()
+		workspaceKey := source.WorkspaceKey.Copy()
+		analytics.WorkspaceKey = &workspaceKey
 	} else {
-		analytics.WorkspaceKey = genruntime.SecretReference{}
+		analytics.WorkspaceKey = nil
 	}
 
 	// WorkspaceResourceReference
@@ -8396,8 +8400,12 @@ func (analytics *LogAnalytics) AssignProperties_To_LogAnalytics(destination *v20
 	destination.WorkspaceId = genruntime.ClonePointerToString(analytics.WorkspaceId)
 
 	// WorkspaceKey
-	workspaceKey := analytics.WorkspaceKey.Copy()
-	destination.WorkspaceKey = &workspaceKey
+	if analytics.WorkspaceKey != nil {
+		workspaceKey := analytics.WorkspaceKey.Copy()
+		destination.WorkspaceKey = &workspaceKey
+	} else {
+		destination.WorkspaceKey = nil
+	}
 
 	// WorkspaceResourceReference
 	if analytics.WorkspaceResourceReference != nil {

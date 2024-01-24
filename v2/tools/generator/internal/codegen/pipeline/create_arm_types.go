@@ -329,7 +329,7 @@ func (c *armTypeCreator) createResourceReferenceProperty(
 	if astmodel.IsTypeResourceReferenceSlice(prop.PropertyType()) {
 		newPropType = astmodel.NewArrayType(astmodel.StringType)
 	} else if astmodel.IsTypeResourceReferenceMap(prop.PropertyType()) {
-		newPropType = astmodel.NewMapType(astmodel.StringType, astmodel.StringType)
+		newPropType = astmodel.MapOfStringStringType
 	} else {
 		newPropType = astmodel.StringType
 	}
@@ -347,18 +347,19 @@ func (c *armTypeCreator) createSecretReferenceProperty(
 	prop *astmodel.PropertyDefinition,
 	_ *armPropertyTypeConversionContext,
 ) (*astmodel.PropertyDefinition, error) {
-	if !astmodel.TypeEquals(prop.PropertyType(), astmodel.SecretReferenceType) &&
-		!astmodel.TypeEquals(prop.PropertyType(), astmodel.OptionalSecretReferenceType) {
+	if !astmodel.IsTypeSecretReference(prop.PropertyType()) {
 		return nil, nil
 	}
 
-	isRequired := astmodel.TypeEquals(prop.PropertyType(), astmodel.SecretReferenceType)
-
 	var newType astmodel.Type
-	if isRequired {
-		newType = astmodel.StringType
-	} else {
+	if astmodel.IsTypeSecretReferenceSlice(prop.PropertyType()) {
+		newType = astmodel.NewArrayType(astmodel.StringType)
+	} else if astmodel.IsTypeSecretReferenceMap(prop.PropertyType()) {
+		newType = astmodel.MapOfStringStringType
+	} else if astmodel.TypeEquals(prop.PropertyType(), astmodel.OptionalSecretReferenceType) {
 		newType = astmodel.OptionalStringType
+	} else {
+		newType = astmodel.StringType
 	}
 
 	return prop.WithType(newType), nil

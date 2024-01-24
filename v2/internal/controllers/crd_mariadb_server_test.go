@@ -41,7 +41,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 			Properties: &mariadb.ServerPropertiesForCreate{
 				Default: &mariadb.ServerPropertiesForDefaultCreate{
 					AdministratorLogin:         to.Ptr(adminUser),
-					AdministratorLoginPassword: adminPasswordRef,
+					AdministratorLoginPassword: &adminPasswordRef,
 					CreateMode:                 &createMode,
 					PublicNetworkAccess:        &networkAccess,
 					StorageProfile: &mariadb.StorageProfile{

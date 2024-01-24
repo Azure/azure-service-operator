@@ -220,10 +220,7 @@ func (builder *convertFromARMBuilder) secretPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	_ *astmodel.ObjectType,
 ) (propertyConversionHandlerResult, error) {
-	isSecretReference := astmodel.TypeEquals(toProp.PropertyType(), astmodel.SecretReferenceType)
-	isOptionalSecretReference := astmodel.TypeEquals(toProp.PropertyType(), astmodel.OptionalSecretReferenceType)
-
-	if !isSecretReference && !isOptionalSecretReference {
+	if !astmodel.IsTypeSecretReference(toProp.PropertyType()) {
 		return notHandled, nil
 	}
 
