@@ -45,6 +45,15 @@ jobs:
           container_id=${{env.container_id}}
           docker exec "$container_id" task VERSION=${{ env.ARTIFACT_VERSION }} LATEST_VERSION_TAG=${{ env.ARTIFACT_VERSION }} make-release-artifacts
 
+      # We delete the old release and re-create it because if we just use the overwrite argument to
+      # upload-release-action it updates the release files but doesn't change the "date" of the release.
+      # Over time this means that the release date diverges from the date the files were uploaded in a way that is
+      # likely to confuse users.
+      - name: Delete Release
+        run: gh release delete "Experimental" --cleanup-tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Upload release assets
         uses: svenstaro/upload-release-action@1beeb572c19a9242f4361f4cee78f8e0d9aec5df # this is v2.7.0, but pinned
         with:
@@ -53,7 +62,6 @@ jobs:
           file: "v2/out/release/*"
           file_glob: true
           prerelease: true
-          overwrite: true
           release_name: "Experimental"
           body: |
             This is an experimental release which containing the most recent commits from the main branch as of commit: ${{ github.sha }}.
