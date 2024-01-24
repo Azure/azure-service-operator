@@ -11,8 +11,10 @@ jobs:
       github.event_name == 'repository_dispatch' &&
       github.event.client_payload.slash_command.args.named.sha != '' &&
       contains(github.event.client_payload.pull_request.head.sha, github.event.client_payload.slash_command.args.named.sha)
+
     permissions:
       checks: write
+      packages: read
 
     steps:
       # Update check run called "integration-tests" setting status to in_progress

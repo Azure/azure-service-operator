@@ -11,6 +11,9 @@ on:
 jobs:
   gen-crd-docs:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
