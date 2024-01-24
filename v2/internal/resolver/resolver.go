@@ -91,25 +91,25 @@ func (r *Resolver) ResolveReferenceToARMID(ctx context.Context, ref genruntime.N
 }
 
 // ResolveReferencesToARMIDs resolves all provided references to their ARM IDs.
-func (r *Resolver) ResolveReferencesToARMIDs(ctx context.Context, refs map[genruntime.NamespacedResourceReference]struct{}) (genruntime.Resolved[genruntime.ResourceReference], error) {
+func (r *Resolver) ResolveReferencesToARMIDs(ctx context.Context, refs map[genruntime.NamespacedResourceReference]struct{}) (genruntime.Resolved[genruntime.ResourceReference, string], error) {
 	result := make(map[genruntime.ResourceReference]string, len(refs))
 
 	for ref := range refs {
 		armID, err := r.ResolveReferenceToARMID(ctx, ref)
 		if err != nil {
-			return genruntime.MakeResolved[genruntime.ResourceReference](nil), err
+			return genruntime.MakeResolved[genruntime.ResourceReference, string](nil), err
 		}
 		result[ref.ResourceReference] = armID
 	}
 
-	return genruntime.MakeResolved[genruntime.ResourceReference](result), nil
+	return genruntime.MakeResolved[genruntime.ResourceReference, string](result), nil
 }
 
 // ResolveResourceReferences resolves every reference found on the specified genruntime.ARMMetaObject to its corresponding ARM ID.
-func (r *Resolver) ResolveResourceReferences(ctx context.Context, metaObject genruntime.ARMMetaObject) (genruntime.Resolved[genruntime.ResourceReference], error) {
+func (r *Resolver) ResolveResourceReferences(ctx context.Context, metaObject genruntime.ARMMetaObject) (genruntime.Resolved[genruntime.ResourceReference, string], error) {
 	refs, err := reflecthelpers.FindResourceReferences(metaObject)
 	if err != nil {
-		return genruntime.Resolved[genruntime.ResourceReference]{}, errors.Wrapf(err, "finding references on %q", metaObject.GetName())
+		return genruntime.Resolved[genruntime.ResourceReference, string]{}, errors.Wrapf(err, "finding references on %q", metaObject.GetName())
 	}
 
 	// Include the namespace
@@ -121,7 +121,7 @@ func (r *Resolver) ResolveResourceReferences(ctx context.Context, metaObject gen
 	// resolve them
 	resolvedRefs, err := r.ResolveReferencesToARMIDs(ctx, namespacedRefs)
 	if err != nil {
-		return genruntime.Resolved[genruntime.ResourceReference]{}, errors.Wrapf(err, "failed resolving ARM IDs for references")
+		return genruntime.Resolved[genruntime.ResourceReference, string]{}, errors.Wrapf(err, "failed resolving ARM IDs for references")
 	}
 
 	return resolvedRefs, nil
@@ -288,15 +288,15 @@ func (r *Resolver) findGVK(ref genruntime.NamespacedResourceReference) (schema.G
 func (r *Resolver) ResolveSecretReferences(
 	ctx context.Context,
 	refs set.Set[genruntime.NamespacedSecretReference],
-) (genruntime.Resolved[genruntime.SecretReference], error) {
+) (genruntime.Resolved[genruntime.SecretReference, string], error) {
 	return r.kubeSecretResolver.ResolveSecretReferences(ctx, refs)
 }
 
 // ResolveResourceSecretReferences resolves all of the specified genruntime.MetaObject's secret references.
-func (r *Resolver) ResolveResourceSecretReferences(ctx context.Context, metaObject genruntime.MetaObject) (genruntime.Resolved[genruntime.SecretReference], error) {
+func (r *Resolver) ResolveResourceSecretReferences(ctx context.Context, metaObject genruntime.MetaObject) (genruntime.Resolved[genruntime.SecretReference, string], error) {
 	refs, err := reflecthelpers.FindSecretReferences(metaObject)
 	if err != nil {
-		return genruntime.Resolved[genruntime.SecretReference]{}, errors.Wrapf(err, "finding secrets on %q", metaObject.GetName())
+		return genruntime.Resolved[genruntime.SecretReference, string]{}, errors.Wrapf(err, "finding secrets on %q", metaObject.GetName())
 	}
 
 	// Include the namespace
@@ -308,7 +308,7 @@ func (r *Resolver) ResolveResourceSecretReferences(ctx context.Context, metaObje
 	// resolve them
 	resolvedSecrets, err := r.ResolveSecretReferences(ctx, namespacedSecretRefs)
 	if err != nil {
-		return genruntime.Resolved[genruntime.SecretReference]{}, errors.Wrapf(err, "failed resolving secret references")
+		return genruntime.Resolved[genruntime.SecretReference, string]{}, errors.Wrapf(err, "failed resolving secret references")
 	}
 
 	return resolvedSecrets, nil
@@ -318,15 +318,15 @@ func (r *Resolver) ResolveResourceSecretReferences(ctx context.Context, metaObje
 func (r *Resolver) ResolveConfigMapReferences(
 	ctx context.Context,
 	refs set.Set[genruntime.NamespacedConfigMapReference],
-) (genruntime.Resolved[genruntime.ConfigMapReference], error) {
+) (genruntime.Resolved[genruntime.ConfigMapReference, string], error) {
 	return r.kubeConfigMapResolver.ResolveConfigMapReferences(ctx, refs)
 }
 
 // ResolveResourceConfigMapReferences resolves the specified genruntime.MetaObject's configmap references.
-func (r *Resolver) ResolveResourceConfigMapReferences(ctx context.Context, metaObject genruntime.MetaObject) (genruntime.Resolved[genruntime.ConfigMapReference], error) {
+func (r *Resolver) ResolveResourceConfigMapReferences(ctx context.Context, metaObject genruntime.MetaObject) (genruntime.Resolved[genruntime.ConfigMapReference, string], error) {
 	refs, err := reflecthelpers.FindConfigMapReferences(metaObject)
 	if err != nil {
-		return genruntime.Resolved[genruntime.ConfigMapReference]{}, errors.Wrapf(err, "finding config maps on %q", metaObject.GetName())
+		return genruntime.Resolved[genruntime.ConfigMapReference, string]{}, errors.Wrapf(err, "finding config maps on %q", metaObject.GetName())
 	}
 
 	// Include the namespace
@@ -338,7 +338,7 @@ func (r *Resolver) ResolveResourceConfigMapReferences(ctx context.Context, metaO
 	// resolve them
 	resolvedConfigMaps, err := r.ResolveConfigMapReferences(ctx, namespacedConfigMapReferences)
 	if err != nil {
-		return genruntime.Resolved[genruntime.ConfigMapReference]{}, errors.Wrapf(err, "failed resolving config map references")
+		return genruntime.Resolved[genruntime.ConfigMapReference, string]{}, errors.Wrapf(err, "failed resolving config map references")
 	}
 
 	return resolvedConfigMaps, nil

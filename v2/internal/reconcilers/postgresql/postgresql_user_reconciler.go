@@ -222,7 +222,7 @@ func (r *PostgreSQLUserReconciler) UpdateStatus(ctx context.Context, log logr.Lo
 	return nil
 }
 
-func (r *PostgreSQLUserReconciler) connectToDB(ctx context.Context, _ logr.Logger, user *asopostgresql.User, secrets genruntime.Resolved[genruntime.SecretReference]) (*sql.DB, error) {
+func (r *PostgreSQLUserReconciler) connectToDB(ctx context.Context, _ logr.Logger, user *asopostgresql.User, secrets genruntime.Resolved[genruntime.SecretReference, string]) (*sql.DB, error) {
 	// Get the owner - at this point it must exist
 	ownerDetails, err := r.ResourceResolver.ResolveOwner(ctx, user)
 	if err != nil {
