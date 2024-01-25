@@ -50,7 +50,7 @@ jobs:
       # Over time this means that the release date diverges from the date the files were uploaded in a way that is
       # likely to confuse users.
       - name: Delete Release
-        run: gh release delete "Experimental" --cleanup-tag
+        run: gh release delete "experimental" --cleanup-tag -y
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
