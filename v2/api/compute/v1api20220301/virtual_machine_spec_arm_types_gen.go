@@ -890,15 +890,6 @@ type KeyVaultKeyReference_ARM struct {
 	SourceVault *SubResource_ARM `json:"sourceVault,omitempty"`
 }
 
-// Describes a reference to Key Vault Secret
-type KeyVaultSecretReference_ARM struct {
-	// SecretUrl: The URL referencing a secret in a Key Vault.
-	SecretUrl *string `json:"secretUrl,omitempty"`
-
-	// SourceVault: The relative URL of the Key Vault containing the secret.
-	SourceVault *SubResource_ARM `json:"sourceVault,omitempty"`
-}
-
 // Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Linux patch settings.
 type LinuxVMGuestPatchAutomaticByPlatformSettings_ARM struct {
 	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.

@@ -353,6 +353,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(compute_v20220301s.VirtualMachineScaleSetsExtension)})
+	result = append(result, &registration.StorageType{Obj: new(compute_v20220301s.VirtualMachinesExtension)})
 	result = append(result, &registration.StorageType{
 		Obj: new(compute_v20220702s.DiskEncryptionSet),
 		Indexes: []registration.Index{
@@ -1087,12 +1089,16 @@ func getKnownTypes() []client.Object {
 		result,
 		new(compute_v20220301.Image),
 		new(compute_v20220301.VirtualMachine),
-		new(compute_v20220301.VirtualMachineScaleSet))
+		new(compute_v20220301.VirtualMachineScaleSet),
+		new(compute_v20220301.VirtualMachineScaleSetsExtension),
+		new(compute_v20220301.VirtualMachinesExtension))
 	result = append(
 		result,
 		new(compute_v20220301s.Image),
 		new(compute_v20220301s.VirtualMachine),
-		new(compute_v20220301s.VirtualMachineScaleSet))
+		new(compute_v20220301s.VirtualMachineScaleSet),
+		new(compute_v20220301s.VirtualMachineScaleSetsExtension),
+		new(compute_v20220301s.VirtualMachinesExtension))
 	result = append(result, new(compute_v20220702.DiskEncryptionSet))
 	result = append(result, new(compute_v20220702s.DiskEncryptionSet))
 	result = append(result, new(containerinstance_v20211001.ContainerGroup))
@@ -1758,6 +1764,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &compute_customizations.SnapshotExtension{})
 	result = append(result, &compute_customizations.VirtualMachineExtension{})
 	result = append(result, &compute_customizations.VirtualMachineScaleSetExtension{})
+	result = append(result, &compute_customizations.VirtualMachineScaleSetsExtensionExtension{})
+	result = append(result, &compute_customizations.VirtualMachinesExtensionExtension{})
 	result = append(result, &containerinstance_customizations.ContainerGroupExtension{})
 	result = append(result, &containerregistry_customizations.RegistryExtension{})
 	result = append(result, &containerservice_customizations.FleetExtension{})

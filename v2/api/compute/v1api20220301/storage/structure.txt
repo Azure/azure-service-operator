@@ -1608,6 +1608,138 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage
 │       │   └── UserData: *string
 │       ├── ZoneBalance: *bool
 │       └── Zones: string[]
+├── VirtualMachineScaleSetsExtension: Resource
+│   ├── Owner: compute/v1api20220301.VirtualMachineScaleSet
+│   ├── Spec: Object (15 properties)
+│   │   ├── AutoUpgradeMinorVersion: *bool
+│   │   ├── AzureName: string
+│   │   ├── EnableAutomaticUpgrade: *bool
+│   │   ├── ForceUpdateTag: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── ProtectedSettings: map[string]v1.JSON
+│   │   ├── ProtectedSettingsFromKeyVault: *Object (3 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── SecretUrl: *string
+│   │   │   └── SourceVault: *Object (2 properties)
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── ProvisionAfterExtensions: string[]
+│   │   ├── Publisher: *string
+│   │   ├── Settings: map[string]v1.JSON
+│   │   ├── SuppressFailures: *bool
+│   │   ├── Type: *string
+│   │   └── TypeHandlerVersion: *string
+│   └── Status: Object (17 properties)
+│       ├── AutoUpgradeMinorVersion: *bool
+│       ├── Conditions: conditions.Condition[]
+│       ├── EnableAutomaticUpgrade: *bool
+│       ├── ForceUpdateTag: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PropertiesType: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProtectedSettings: map[string]v1.JSON
+│       ├── ProtectedSettingsFromKeyVault: *Object (3 properties)
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── SecretUrl: *string
+│       │   └── SourceVault: *Object (2 properties)
+│       │       ├── Id: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisionAfterExtensions: string[]
+│       ├── ProvisioningState: *string
+│       ├── Publisher: *string
+│       ├── Settings: map[string]v1.JSON
+│       ├── SuppressFailures: *bool
+│       ├── Type: *string
+│       └── TypeHandlerVersion: *string
+├── VirtualMachinesExtension: Resource
+│   ├── Owner: compute/v1api20220301.VirtualMachine
+│   ├── Spec: Object (17 properties)
+│   │   ├── AutoUpgradeMinorVersion: *bool
+│   │   ├── AzureName: string
+│   │   ├── EnableAutomaticUpgrade: *bool
+│   │   ├── ForceUpdateTag: *string
+│   │   ├── InstanceView: *Object (6 properties)
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Statuses: Object (6 properties)[]
+│   │   │   │   ├── Code: *string
+│   │   │   │   ├── DisplayStatus: *string
+│   │   │   │   ├── Level: *string
+│   │   │   │   ├── Message: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Time: *string
+│   │   │   ├── Substatuses: Object (6 properties)[]
+│   │   │   │   ├── Code: *string
+│   │   │   │   ├── DisplayStatus: *string
+│   │   │   │   ├── Level: *string
+│   │   │   │   ├── Message: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Time: *string
+│   │   │   ├── Type: *string
+│   │   │   └── TypeHandlerVersion: *string
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── ProtectedSettings: map[string]v1.JSON
+│   │   ├── ProtectedSettingsFromKeyVault: *Object (3 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── SecretUrl: *string
+│   │   │   └── SourceVault: *Object (2 properties)
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── Publisher: *string
+│   │   ├── Settings: map[string]v1.JSON
+│   │   ├── SuppressFailures: *bool
+│   │   ├── Tags: map[string]string
+│   │   ├── Type: *string
+│   │   └── TypeHandlerVersion: *string
+│   └── Status: Object (19 properties)
+│       ├── AutoUpgradeMinorVersion: *bool
+│       ├── Conditions: conditions.Condition[]
+│       ├── EnableAutomaticUpgrade: *bool
+│       ├── ForceUpdateTag: *string
+│       ├── Id: *string
+│       ├── InstanceView: *Object (6 properties)
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Statuses: Object (6 properties)[]
+│       │   │   ├── Code: *string
+│       │   │   ├── DisplayStatus: *string
+│       │   │   ├── Level: *string
+│       │   │   ├── Message: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Time: *string
+│       │   ├── Substatuses: Object (6 properties)[]
+│       │   │   ├── Code: *string
+│       │   │   ├── DisplayStatus: *string
+│       │   │   ├── Level: *string
+│       │   │   ├── Message: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Time: *string
+│       │   ├── Type: *string
+│       │   └── TypeHandlerVersion: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertiesType: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProtectedSettings: map[string]v1.JSON
+│       ├── ProtectedSettingsFromKeyVault: *Object (3 properties)
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── SecretUrl: *string
+│       │   └── SourceVault: *Object (2 properties)
+│       │       ├── Id: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── Publisher: *string
+│       ├── Settings: map[string]v1.JSON
+│       ├── SuppressFailures: *bool
+│       ├── Tags: map[string]string
+│       ├── Type: *string
+│       └── TypeHandlerVersion: *string
 ├── augmentConversionForApiErrorBase_STATUS: Interface
 ├── augmentConversionForApiError_STATUS: Interface
 ├── augmentConversionForInnerError_STATUS: Interface

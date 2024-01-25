@@ -1263,6 +1263,12 @@ objectModelConfiguration:
         $isResource: false
       VirtualMachineScaleSetNetworkConfiguration_STATUS:
         $isResource: false
+      VirtualMachines_Extension:
+        $exportAs: VirtualMachinesExtension
+        $supportedFrom: v2.6.0
+      VirtualMachineScaleSets_Extension:
+        $exportAs: VirtualMachineScaleSetsExtension
+        $supportedFrom: v2.6.0
     2022-07-02:
       DiskEncryptionSet:
         $export: true
