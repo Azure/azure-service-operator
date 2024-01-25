@@ -54,6 +54,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # See https://github.com/svenstaro/upload-release-action/issues/99, which describes a bug where (for some reason)
+      # releases that are deleted and then immediately recreated can sometimes show up as draft rather than an official
+      # release. This is a hack, but we don't have a better workaround at the moment. See https://github.com/cli/cli/issues/8458
+      # as well.
+      - name: Wait 60s
+        run: sleep 60s
+
       - name: Upload release assets
         uses: svenstaro/upload-release-action@1beeb572c19a9242f4361f4cee78f8e0d9aec5df # this is v2.7.0, but pinned
         with:
