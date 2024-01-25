@@ -162,6 +162,7 @@ func Extension_Properties_Spec_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtension_Properties_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtension_Properties_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["AutoUpgradeMinorVersion"] = gen.PtrOf(gen.Bool())
+	gens["ConfigurationProtectedSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["ConfigurationSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["ExtensionType"] = gen.PtrOf(gen.AlphaString())
 	gens["ReleaseTrain"] = gen.PtrOf(gen.AlphaString())
