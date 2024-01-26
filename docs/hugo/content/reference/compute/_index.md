@@ -12,7 +12,9 @@ Development of these new resources is complete and they will be available in the
 | Resource                                                                                                                                                                             | ARM Version | CRD Version   | Supported From | Sample |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|--------|
 | [VirtualMachineScaleSetsExtension](https://azure.github.io/azure-service-operator/reference/compute/v1api20220301/#compute.azure.com/v1api20220301.VirtualMachineScaleSetsExtension) | 2022-03-01  | v1api20220301 | v2.6.0         | -      |
+| [VirtualMachineScaleSetsExtension](https://azure.github.io/azure-service-operator/reference/compute/v1api20201201/#compute.azure.com/v1api20201201.VirtualMachineScaleSetsExtension) | 2020-12-01  | v1api20201201 | v2.6.0         | -      |
 | [VirtualMachinesExtension](https://azure.github.io/azure-service-operator/reference/compute/v1api20220301/#compute.azure.com/v1api20220301.VirtualMachinesExtension)                 | 2022-03-01  | v1api20220301 | v2.6.0         | -      |
+| [VirtualMachinesExtension](https://azure.github.io/azure-service-operator/reference/compute/v1api20201201/#compute.azure.com/v1api20201201.VirtualMachinesExtension)                 | 2020-12-01  | v1api20201201 | v2.6.0         | -      |
 
 ### Released
 
