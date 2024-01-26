@@ -127,8 +127,8 @@
 | Image_STATUS                                                                               |               |               | v1api20210701 | v1api20220301 |               |
 | Image_Spec                                                                                 |               |               | v1api20210701 | v1api20220301 |               |
 | InnerError_STATUS                                                                          |               | v1api20201201 |               | v1api20220301 | v1api20220702 |
-| InstanceViewStatus                                                                         |               |               |               | v1api20220301 |               |
-| InstanceViewStatus_Level                                                                   |               |               |               | v1api20220301 |               |
+| InstanceViewStatus                                                                         |               | v1api20201201 |               | v1api20220301 |               |
+| InstanceViewStatus_Level                                                                   |               | v1api20201201 |               | v1api20220301 |               |
 | InstanceViewStatus_Level_STATUS                                                            |               | v1api20201201 |               | v1api20220301 |               |
 | InstanceViewStatus_STATUS                                                                  |               | v1api20201201 |               | v1api20220301 |               |
 | KeyForDiskEncryptionSet                                                                    |               |               |               |               | v1api20220702 |
@@ -265,9 +265,9 @@
 | VirtualMachine                                                                             |               | v1api20201201 |               | v1api20220301 |               |
 | VirtualMachineAgentInstanceView_STATUS                                                     |               | v1api20201201 |               | v1api20220301 |               |
 | VirtualMachineExtensionHandlerInstanceView_STATUS                                          |               | v1api20201201 |               | v1api20220301 |               |
-| VirtualMachineExtensionInstanceView                                                        |               |               |               | v1api20220301 |               |
+| VirtualMachineExtensionInstanceView                                                        |               | v1api20201201 |               | v1api20220301 |               |
 | VirtualMachineExtensionInstanceView_STATUS                                                 |               | v1api20201201 |               | v1api20220301 |               |
-| VirtualMachineExtensionProperties                                                          |               |               |               | v1api20220301 |               |
+| VirtualMachineExtensionProperties                                                          |               | v1api20201201 |               | v1api20220301 |               |
 | VirtualMachineExtensionProperties_STATUS                                                   |               | v1api20201201 |               | v1api20220301 |               |
 | VirtualMachineExtension_STATUS                                                             |               | v1api20201201 |               | v1api20220301 |               |
 | VirtualMachineHealthStatus_STATUS                                                          |               | v1api20201201 |               | v1api20220301 |               |
@@ -371,14 +371,14 @@
 | VirtualMachineScaleSetVMProfile_STATUS                                                     |               | v1api20201201 |               | v1api20220301 |               |
 | VirtualMachineScaleSet_STATUS                                                              |               | v1api20201201 |               | v1api20220301 |               |
 | VirtualMachineScaleSet_Spec                                                                |               | v1api20201201 |               | v1api20220301 |               |
-| VirtualMachineScaleSetsExtension                                                           |               |               |               | v1api20220301 |               |
-| VirtualMachineScaleSets_Extension_STATUS                                                   |               |               |               | v1api20220301 |               |
-| VirtualMachineScaleSets_Extension_Spec                                                     |               |               |               | v1api20220301 |               |
+| VirtualMachineScaleSetsExtension                                                           |               | v1api20201201 |               | v1api20220301 |               |
+| VirtualMachineScaleSets_Extension_STATUS                                                   |               | v1api20201201 |               | v1api20220301 |               |
+| VirtualMachineScaleSets_Extension_Spec                                                     |               | v1api20201201 |               | v1api20220301 |               |
 | VirtualMachine_STATUS                                                                      |               | v1api20201201 |               | v1api20220301 |               |
 | VirtualMachine_Spec                                                                        |               | v1api20201201 |               | v1api20220301 |               |
-| VirtualMachinesExtension                                                                   |               |               |               | v1api20220301 |               |
-| VirtualMachines_Extension_STATUS                                                           |               |               |               | v1api20220301 |               |
-| VirtualMachines_Extension_Spec                                                             |               |               |               | v1api20220301 |               |
+| VirtualMachinesExtension                                                                   |               | v1api20201201 |               | v1api20220301 |               |
+| VirtualMachines_Extension_STATUS                                                           |               | v1api20201201 |               | v1api20220301 |               |
+| VirtualMachines_Extension_Spec                                                             |               | v1api20201201 |               | v1api20220301 |               |
 | WinRMConfiguration                                                                         |               | v1api20201201 |               | v1api20220301 |               |
 | WinRMConfiguration_STATUS                                                                  |               | v1api20201201 |               | v1api20220301 |               |
 | WinRMListener                                                                              |               | v1api20201201 |               | v1api20220301 |               |

@@ -21,9 +21,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
-// Attention: A lot of code in this file is very similar to the logic in network_security_group_extension.go, route_table_extensions.go and virtual_network_extensions.go.
+// Attention: A lot of code in this file is very similar to the logic in network_security_group_extension.go, route_table_extensions.go, virtual_network_extensions.go and compute/vmss_extensions.go.
 // The two should be kept in sync as much as possible.
-// NOTE: This wouldn't work without adding indexes in 'getGeneratedStorageTypes' method in controller_resources.go
 
 var _ extensions.ARMResourceModifier = &LoadBalancerExtension{}
 
