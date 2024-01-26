@@ -1081,8 +1081,18 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(cdn_v20210601s.Profile), new(cdn_v20210601s.ProfilesEndpoint))
 	result = append(result, new(compute_v20200930.Disk), new(compute_v20200930.Snapshot))
 	result = append(result, new(compute_v20200930s.Disk), new(compute_v20200930s.Snapshot))
-	result = append(result, new(compute_v20201201.VirtualMachine), new(compute_v20201201.VirtualMachineScaleSet))
-	result = append(result, new(compute_v20201201s.VirtualMachine), new(compute_v20201201s.VirtualMachineScaleSet))
+	result = append(
+		result,
+		new(compute_v20201201.VirtualMachine),
+		new(compute_v20201201.VirtualMachineScaleSet),
+		new(compute_v20201201.VirtualMachineScaleSetsExtension),
+		new(compute_v20201201.VirtualMachinesExtension))
+	result = append(
+		result,
+		new(compute_v20201201s.VirtualMachine),
+		new(compute_v20201201s.VirtualMachineScaleSet),
+		new(compute_v20201201s.VirtualMachineScaleSetsExtension),
+		new(compute_v20201201s.VirtualMachinesExtension))
 	result = append(result, new(compute_v20210701.Image))
 	result = append(result, new(compute_v20210701s.Image))
 	result = append(

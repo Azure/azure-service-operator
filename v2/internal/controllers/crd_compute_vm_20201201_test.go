@@ -136,6 +136,15 @@ func Test_Compute_VM_20201201_CRUD(t *testing.T) {
 	tc.Expect(vm.Status.DiagnosticsProfile.BootDiagnostics.Enabled).ToNot(BeNil())
 	tc.Expect(*vm.Status.DiagnosticsProfile.BootDiagnostics.Enabled).To(BeTrue())
 
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "VM_Extension_20201201_CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				VM_Extension_20201201_CRUD(tc, testcommon.AsOwner(vm))
+			},
+		},
+	)
+
 	// Delete VM.
 	tc.DeleteResourceAndWait(vm)
 
@@ -144,4 +153,20 @@ func Test_Compute_VM_20201201_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
+}
+
+func VM_Extension_20201201_CRUD(tc *testcommon.KubePerTestContext, vmOwnerRef *genruntime.KnownResourceReference) {
+	extension := &compute2020.VirtualMachinesExtension{
+		ObjectMeta: tc.MakeObjectMetaWithName("mycustomextension"),
+		Spec: compute2020.VirtualMachines_Extension_Spec{
+			Owner:              vmOwnerRef,
+			Location:           tc.AzureRegion,
+			Publisher:          to.Ptr("Microsoft.ManagedServices"),
+			Type:               to.Ptr("ApplicationHealthLinux"),
+			TypeHandlerVersion: to.Ptr("1.0"),
+		},
+	}
+
+	tc.CreateResourceAndWait(extension)
+	tc.Expect(extension.Status.Id).ToNot(BeNil())
 }

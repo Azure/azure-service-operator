@@ -127,6 +127,7 @@ func Test_Compute_VMSS_20220301_CRUD(t *testing.T) {
 	// Perform a simple patch to add a basic custom script extension
 	old := vmss.DeepCopy()
 	extensionName := "mycustomextension"
+	extensionName2 := "mycustomextension2"
 	vmss.Spec.VirtualMachineProfile.ExtensionProfile = &compute2022.VirtualMachineScaleSetExtensionProfile{
 		Extensions: []compute2022.VirtualMachineScaleSetExtension{
 			{
@@ -156,9 +157,34 @@ func Test_Compute_VMSS_20220301_CRUD(t *testing.T) {
 	}
 	tc.Expect(found).To(BeTrue())
 
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "VMSS_Extension_20220301_CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				VMSS_Extension_20220301_CRUD(tc, testcommon.AsOwner(vmss), extensionName2)
+			},
+		},
+	)
+
 	// Delete VMSS
 	tc.DeleteResourceAndWait(vmss)
 
 	// Ensure that the resource was really deleted in Azure
 	tc.ExpectResourceIsDeletedInAzure(armId, string(compute2022.APIVersion_Value))
+}
+
+func VMSS_Extension_20220301_CRUD(tc *testcommon.KubePerTestContext, vmssOwnerRef *genruntime.KnownResourceReference, name2 string) {
+
+	extension := &compute2022.VirtualMachineScaleSetsExtension{
+		ObjectMeta: tc.MakeObjectMetaWithName(name2),
+		Spec: compute2022.VirtualMachineScaleSets_Extension_Spec{
+			Owner:              vmssOwnerRef,
+			Publisher:          to.Ptr("Microsoft.ManagedServices"),
+			Type:               to.Ptr("ApplicationHealthLinux"),
+			TypeHandlerVersion: to.Ptr("1.0"),
+		},
+	}
+
+	tc.CreateResourceAndWait(extension)
+	tc.Expect(extension.Status.Id).ToNot(BeNil())
 }
