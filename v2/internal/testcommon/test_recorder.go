@@ -31,7 +31,7 @@ type testRecorder interface {
 	// IsReplaying returns true if we're replaying a recorded test, false if we're recording a new test
 	IsReplaying() bool
 
-	// CreateRoundTripper creates a client RoundTripper that can be used to record or replay HTTP requests.
+	// CreateClient creates an HTTP client configured to record or replay HTTP requests.
 	// t is a reference to the test currently executing.
-	CreateRoundTripper(t *testing.T) http.RoundTripper
+	CreateClient(t *testing.T) *http.Client
 }

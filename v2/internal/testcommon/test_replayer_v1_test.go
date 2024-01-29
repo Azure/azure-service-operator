@@ -7,7 +7,6 @@ package testcommon
 
 import (
 	"io"
-	"net/http"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -20,15 +19,14 @@ func TestReplayerV1_WhenRecordingExists_ReturnsResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	cfg := config.Values{}
-	replayer, err := newTestPlayerV1("recordings/" + t.Name(), cfg)
+	cassetteName := "recordings/" + t.Name()
+	replayer, err := newTestPlayerV1(cassetteName, cfg)
 	g.Expect(err).To(BeNil())
 
 	defer replayer.Stop()
 
 	url := "https://www.bing.com"
-	client := &http.Client{
-		Transport: replayer.CreateRoundTripper(t),
-	}
+	client := replayer.CreateClient(t)
 
 	resp, err := client.Get(url)
 	g.Expect(err).To(BeNil())

@@ -126,9 +126,11 @@ func (r playerDetailsV1) IsReplaying() bool {
 	return r.recorder.Mode() == recorder.ModeReplaying
 }
 
-// CreateRoundTripper creates a client RoundTripper that can be used to record or replay HTTP requests.
+	// CreateClient creates an HTTP client configured to record or replay HTTP requests.
 // t is a reference to the test currently executing.
 // TODO: Remove the reference to t to reduce coupling
-func (r playerDetailsV1) CreateRoundTripper(t *testing.T) http.RoundTripper {
-	return addCountHeader(translateErrorsV1(r.recorder, r.cassetteName, t))
+func (r playerDetailsV1) CreateClient(t *testing.T) *http.Client {
+	return &http.Client{
+		Transport: addCountHeader(translateErrorsV1(r.recorder, r.cassetteName, t)),
+	}
 }
