@@ -97,7 +97,7 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/stor
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── BackupVaultsBackupInstance: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101.BackupVault
+│   ├── Owner: dataprotection/v1api20230101.BackupVault
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── OriginalVersion: string
