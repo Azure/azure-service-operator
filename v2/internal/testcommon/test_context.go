@@ -268,7 +268,7 @@ func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (
 	}
 
 	if v1Exists {
-		return createPlayerV1(cassetteName, cfg)
+		return newTestPlayerV1(cassetteName, cfg)
 	}
 
 	return createRecorderV3(cassetteName, cfg, recordReplay)

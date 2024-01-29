@@ -33,39 +33,21 @@ type playerDetailsV1 struct {
 // Verify we implement testRecorder
 var _ testRecorder = &playerDetailsV1{}
 
-// Cfg returns the available configuration for the test
-func (r playerDetailsV1) Cfg() config.Values {
-	return r.cfg
-}
+// newTestPlayerV1 creates a TestRecorder that can be used to replay test recorded with go-vcr v1.
+// cassetteName is the name of the cassette file to replay.
+// cfg is the configuration to use when replaying the test.
+func newTestPlayerV1(
+	cassetteName string, 
+	cfg config.Values,
+) (testRecorder, error) {
+	cassetteExists, err := cassetteFileExists(cassetteName)
+	if err != nil {
+		return nil, errors.Wrapf(err, "checking for cassette file")
+	}
+	if !cassetteExists {
+		return nil, errors.Errorf("cassette %s does not exist", cassetteName)
+	}
 
-// Creds returns Azure credentials when running for real
-func (r playerDetailsV1) Creds() azcore.TokenCredential {
-	return r.creds
-}
-
-// Ids returns the available Azure resource IDs for the test
-func (r playerDetailsV1) Ids() AzureIDs {
-	return r.ids
-}
-
-// Stop recording
-func (r playerDetailsV1) Stop() error {
-	return r.recorder.Stop()
-}
-
-// IsReplaying returns true if we're replaying a recorded test, false if we're recording a new test
-func (r playerDetailsV1) IsReplaying() bool {
-	return r.recorder.Mode() == recorder.ModeReplaying
-}
-
-// CreateRoundTripper creates a client RoundTripper that can be used to record or replay HTTP requests.
-// t is a reference to the test currently executing.
-// TODO: Remove the reference to t to reduce coupling
-func (r playerDetailsV1) CreateRoundTripper(t *testing.T) http.RoundTripper {
-	return addCountHeader(translateErrorsV1(r.recorder, r.cassetteName, t))
-}
-
-func createPlayerV1(cassetteName string, cfg config.Values) (testRecorder, error) {
 	r, err := recorder.NewAsMode(cassetteName, recorder.ModeReplaying, nil)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating player")
@@ -117,4 +99,36 @@ func createPlayerV1(cassetteName string, cfg config.Values) (testRecorder, error
 		recorder:     r,
 		cfg:          cfg,
 	}, nil
+}
+
+// Cfg returns the available configuration for the test
+func (r playerDetailsV1) Cfg() config.Values {
+	return r.cfg
+}
+
+// Creds returns Azure credentials when running for real
+func (r playerDetailsV1) Creds() azcore.TokenCredential {
+	return r.creds
+}
+
+// Ids returns the available Azure resource IDs for the test
+func (r playerDetailsV1) Ids() AzureIDs {
+	return r.ids
+}
+
+// Stop recording
+func (r playerDetailsV1) Stop() error {
+	return r.recorder.Stop()
+}
+
+// IsReplaying returns true if we're replaying a recorded test, false if we're recording a new test
+func (r playerDetailsV1) IsReplaying() bool {
+	return r.recorder.Mode() == recorder.ModeReplaying
+}
+
+// CreateRoundTripper creates a client RoundTripper that can be used to record or replay HTTP requests.
+// t is a reference to the test currently executing.
+// TODO: Remove the reference to t to reduce coupling
+func (r playerDetailsV1) CreateRoundTripper(t *testing.T) http.RoundTripper {
+	return addCountHeader(translateErrorsV1(r.recorder, r.cassetteName, t))
 }
