@@ -98,8 +98,9 @@ func (e *VirtualMachineScaleSetExtension) ModifyARMResource(
 		return nil, errors.Wrapf(err, "failed to get azureExtensions")
 	}
 
+	// If the child collection is not defined, We return the arm object as is here.
 	if azureExtensions == nil {
-		log.V(Info).Info("Found no azureExtensions to include on VMSS")
+		log.V(Info).Info("Found no Extensions to include on VMSS")
 		return armObj, nil
 	}
 
@@ -214,14 +215,14 @@ func getRawChildCollection(parent map[string]any, fieldSlice ...string) ([]any, 
 	return childSlice, nil
 }
 
-func setChildCollection(parent genruntime.ARMResourceSpec, childCollectionFromAzure []any, childFieldName ...string) (err error) {
+func setChildCollection(parent genruntime.ARMResourceSpec, childCollectionFromAzure []any, childFieldPath ...string) (err error) {
 	defer func() {
 		if x := recover(); x != nil {
 			err = errors.Errorf("caught panic: %s", x)
 		}
 	}()
 
-	childField, err := getChildCollectionField(parent, childFieldName)
+	childField, err := getChildCollectionField(parent, childFieldPath)
 	if err != nil {
 		return err
 	}
