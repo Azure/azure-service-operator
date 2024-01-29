@@ -64,11 +64,9 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 			EnableRBAC: to.Ptr(true),
 		},
 	}
-	tc.CreateResourceAndWait(cluster)
 
 	// create storage account and blob container
 	acct := newStorageAccount(tc, rg)
-	tc.CreateResourceAndWait(acct)
 
 	blobService := &storage.StorageAccountsBlobService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
@@ -77,8 +75,6 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(blobService)
-
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: tc.MakeObjectMeta("velero"),
 		Spec: storage.StorageAccounts_BlobServices_Container_Spec{
@@ -86,7 +82,11 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(blobContainer)
+	// create vault and policy
+	backupVault := newBackupVault(tc, rg, "asotestbackupvault")
+	backupPolicy := newBackupPolicy(tc, backupVault, "asotestbackuppolicy")
+
+	tc.CreateResourcesAndWait(cluster, acct, blobService, blobContainer, backupVault, backupPolicy)
 
 	// create extension
 	extension := &kubernetesconfiguration.Extension{
@@ -110,14 +110,6 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(extension)
-
-	// create vault and policy
-	backupVault := newBackupVault(tc, rg, "asotestbackupvault")
-	backupPolicy := newBackupPolicy(tc, backupVault, "asotestbackuppolicy")
-	tc.CreateResourceAndWait(backupVault)
-	tc.CreateResourceAndWait(backupPolicy)
-
 	// create TA role binding
 	trustedAccessRoleBinding := &aks.TrustedAccessRoleBinding{
 		ObjectMeta: tc.MakeObjectMetaWithName("tarb"),
@@ -131,7 +123,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(trustedAccessRoleBinding)
+	tc.CreateResourcesAndWait(extension, trustedAccessRoleBinding)
 
 	// give permission to extension msi over SA
 	extenstionRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
@@ -147,8 +139,6 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(extenstionRoleAssignment)
-
 	// give read permission to vault msi over cluster
 	clusterRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
 	tc.Expect(err).ToNot(HaveOccurred())
@@ -162,8 +152,6 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 			},
 		},
 	}
-
-	tc.CreateResourceAndWait(clusterRoleAssignment)
 
 	// give cluster msi access over snapshot rg for pv creation
 	clusterMSIRoleAssignmentAssignmentGUID, err := tc.Namer.GenerateUUID()
@@ -179,8 +167,6 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(clusterMSIRoleAssignment)
-
 	// give read permission to vault msi over SRG
 	snapshotRGRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
 	tc.Expect(err).ToNot(HaveOccurred())
@@ -195,7 +181,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(snapshotRGRoleAssignment)
+	tc.CreateResourcesAndWait(extenstionRoleAssignment, clusterRoleAssignment, clusterMSIRoleAssignment, snapshotRGRoleAssignment)
 
 	//create backup instance
 	biName := "asotestbackupinstance"
