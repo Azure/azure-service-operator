@@ -12,25 +12,25 @@ spec:
     dataSourceInfo:
       objectType: Datasource
       datasourceType: Microsoft.ContainerService/managedClusters
-      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.ContainerService/managedClusters/aks
+      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.ContainerService/managedClusters/aks
       resourceName: aks
       resourceLocation: westus2
       resourceType: Microsoft.ContainerService/managedClusters
     dataSourceSetInfo:
       objectType: DatasourceSet
       datasourceType: Microsoft.ContainerService/managedClusters
-      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.ContainerService/managedClusters/aks
+      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.ContainerService/managedClusters/aks
       resourceName: aks
       resourceLocation: westus2
       resourceType: Microsoft.ContainerService/managedClusters
     policyInfo:
-      policyId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.DataProtection/backupVaults/asotestbackupvault/backupPolicies/test
+      policyId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.DataProtection/backupVaults/asotestbackupvault/backupPolicies/test
       policyParameters:
         dataStoreParametersList:
           - dataStoreType: OperationalStore
             objectType: AzureOperationalStoreParameters
-            resourceGroupId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg
-      backupDatasourceParametersList:
-        - objectType: KubernetesClusterBackupDatasourceParameters
-          snapshotVolumes: true
-          includeClusterScopeResources: true
+            resourceGroupId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg
+        backupDatasourceParametersList:
+          - objectType: KubernetesClusterBackupDatasourceParameters
+            snapshotVolumes: true
+            includeClusterScopeResources: true
