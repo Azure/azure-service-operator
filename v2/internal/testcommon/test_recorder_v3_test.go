@@ -38,7 +38,7 @@ func TestRecorderV3_WhenRecordingAndRecordingDoesNotExist_MakesRecording(t *test
 	// Ensure we clean up the cassette file at the end of the test
 	cassetteFile := cassetteFileName(cassetteName)
 	defer func() {
-		os.Remove(cassetteFile)
+		err := os.Remove(cassetteFile)
 		g.Expect(err).To(BeNil())
 	}()
 
@@ -61,9 +61,57 @@ func TestRecorderV3_WhenRecordingAndRecordingDoesNotExist_MakesRecording(t *test
 
 	// Stop the recorder
 	err = recorder.Stop()
+	g.Expect(err).To(BeNil())
 
 	// Verify we created a recording
 	exists, err = cassetteFileExists(cassetteName)
 	g.Expect(err).To(BeNil())
 	g.Expect(exists).To(BeTrue())
+}
+
+func TestRecorderV3_WhenRecordingAndRecordingExists_DoesPlayback(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	cfg := config.Values{}
+	cassetteName := "recordings/" + t.Name()
+
+	// Test prerequisite: The recording must already exist
+	exists, err := cassetteFileExists(cassetteName)
+	g.Expect(err).To(BeNil())
+	g.Expect(exists).To(BeTrue())
+
+	// Create our TestRecorder and ensure it's recording
+	recorder, err := newTestRecorderV3(cassetteName, cfg, false)
+	g.Expect(err).To(BeNil())
+	g.Expect(recorder.IsReplaying()).To(BeTrue())
+
+	url := "https://www.bing.com"
+	client := recorder.CreateClient(t)
+
+	// Make sure we can get a response from the internet
+	resp, err := client.Get(url)
+	g.Expect(err).To(BeNil())
+
+	// Ensure the body is not empty
+	body, err := io.ReadAll(resp.Body)
+	g.Expect(err).To(BeNil())
+	g.Expect(body).NotTo(HaveLen(0))
+
+	// Stop the recorder
+	err = recorder.Stop()
+	g.Expect(err).To(BeNil())
+}
+
+func TestRecorderV3_WhenPlayingBackAndRecordingDoesNotExist_ReturnsErrorOnCreation(t *testing.T) {
+	t.Parallel()
+	
+	g := NewGomegaWithT(t)
+
+	cfg := config.Values{}
+	cassetteName := "recordings/" + t.Name()
+
+	// Create our TestRecorder and ensure it fails to create because we have no recording
+	_, err := newTestRecorderV3(cassetteName, cfg, false)
+	g.Expect(err).NotTo(BeNil())
 }
