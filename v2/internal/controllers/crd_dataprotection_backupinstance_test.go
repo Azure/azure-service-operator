@@ -6,7 +6,6 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
-	// The testing package is imported for testing-related functionality.
 	"fmt"
 	"testing"
 	// The gomega package is used for assertions and expectations in tests.
