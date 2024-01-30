@@ -15,6 +15,7 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/time/rate"
 	corev1 "k8s.io/api/core/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/tools/record"
 	"k8s.io/client-go/util/workqueue"
@@ -130,12 +131,26 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		// but since we don't trigger updates on all changes (some annotations are ignored) we also MIGHT NOT get a fresh event
 		// and get stuck. The solution is to let the GET at the top of the controller check for the not-found case and requeue
 		// on everything else.
-		log.Error(err, "Failed to commit object to etcd")
+		// We avoid logging the "Failed to commit object to etcd" log if we're removing the finalizer and the error is a conflict
+		// as that means there's a VERY high probability that the error is expected (the Status write fails after the Spec
+		// write removes the finalizer). We still return the error to controller-runtime though to allow it to re-queue to us.
+		// The GET at the top of the controller will realize the object is deleted and discard the message.
+		if !wasFinalizerRemoved(originalObj, metaObj) || !apierrors.IsConflict(err) {
+			log.Error(err, "Failed to commit object to etcd")
+		}
 		return ctrl.Result{}, kubeclient.IgnoreNotFound(err)
 	}
 
 	log.V(Verbose).Info("Done with reconcile", "result", result)
 	return result, nil
+}
+
+// wasFinalizerRemoved returns true if the finalizer was removed from original.
+func wasFinalizerRemoved(original genruntime.MetaObject, updated genruntime.MetaObject) bool {
+	originalHasFinalizer := controllerutil.ContainsFinalizer(original, genruntime.ReconcilerFinalizer)
+	updatedHasFinalizer := controllerutil.ContainsFinalizer(updated, genruntime.ReconcilerFinalizer)
+
+	return originalHasFinalizer && !updatedHasFinalizer
 }
 
 func (gr *GenericReconciler) getObjectToReconcile(ctx context.Context, req ctrl.Request) (genruntime.MetaObject, error) {
