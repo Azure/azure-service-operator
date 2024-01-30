@@ -12,11 +12,11 @@ import (
 	"strings"
 	"testing"
 
-	cassettev1 "github.com/dnaeon/go-vcr/cassette"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/google/go-cmp/cmp"
 	"github.com/pkg/errors"
 
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"gopkg.in/dnaeon/go-vcr.v3/cassette"
 )
 
 // translateErrors wraps the given Recorder to handle any "Requested interaction not found"
@@ -39,13 +39,13 @@ type errorTranslation struct {
 	recorder     http.RoundTripper
 	cassetteName string
 
-	cassette *cassettev1.Cassette
+	cassette *cassette.Cassette
 	t        *testing.T
 }
 
-func (w errorTranslation) ensureCassette() *cassettev1.Cassette {
+func (w errorTranslation) ensureCassette() *cassette.Cassette {
 	if w.cassette == nil {
-		cassette, err := cassettev1.Load(w.cassetteName)
+		cassette, err := cassette.Load(w.cassetteName)
 		if err != nil {
 			panic(fmt.Sprintf("unable to load cassette %q", w.cassetteName))
 		}
@@ -116,7 +116,7 @@ func (w errorTranslation) findMatchingBodies(r *http.Request) []string {
 	urlString := r.URL.String()
 	var result []string
 	for _, interaction := range w.ensureCassette().Interactions {
-		if urlString == interaction.URL && r.Method == interaction.Request.Method &&
+		if urlString == interaction.Request.RequestURI && r.Method == interaction.Request.Method &&
 			r.Header.Get(COUNT_HEADER) == interaction.Request.Headers.Get(COUNT_HEADER) {
 			result = append(result, interaction.Request.Body)
 		}
