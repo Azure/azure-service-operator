@@ -89,6 +89,11 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		Scheme: scheme,
 	}
 
+	// TODO: Switch to klogr.New() below the below if we want controller-runtime logs in the tests.
+	// By default we've disabled controller runtime logs because they're very verbose and usually not useful.
+	//ctrl.SetLogger(klogr.New())
+	ctrl.SetLogger(logr.New(ctrllog.NullLogSink{}))
+
 	log.Println("Starting envtest")
 	kubeConfig, err := environment.Start()
 	if err != nil {
