@@ -30,6 +30,7 @@ func TestReplayerV1_WhenRecordingExists_ReturnsResult(t *testing.T) {
 
 	resp, err := client.Get(url)
 	g.Expect(err).To(BeNil())
+	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	g.Expect(err).To(BeNil())

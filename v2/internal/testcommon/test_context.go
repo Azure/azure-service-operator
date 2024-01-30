@@ -94,7 +94,7 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 	logger := NewTestLogger(t)
 
 	cassetteName := "recordings/" + t.Name()
-	details, err := createRecorder(cassetteName, cfg, tc.RecordReplay)
+	details, err := createTestRecorder(cassetteName, cfg, tc.RecordReplay)
 	if err != nil {
 		return PerTestContext{}, errors.Wrapf(err, "creating recorder")
 	}
@@ -257,20 +257,6 @@ func cassetteFileExists(cassetteName string) (bool, error) {
 
 func cassetteFileName(cassetteName string) string {
 	return cassetteName + ".yaml"
-}
-
-//TODO: Move this into test_recorder.go
-func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (testRecorder, error) {
-	v1Exists, err := cassetteFileV1Exists(cassetteName)
-	if err != nil {
-		return nil, errors.Wrapf(err, "checking existence of cassette %s", cassetteName)
-	}
-
-	if v1Exists {
-		return newTestPlayerV1(cassetteName, cfg)
-	}
-
-	return newTestRecorderV3(cassetteName, cfg, recordReplay)
 }
 
 var requestHeadersToRemove = []string{

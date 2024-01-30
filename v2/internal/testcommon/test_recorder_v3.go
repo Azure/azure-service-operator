@@ -41,7 +41,18 @@ func newTestRecorderV3(
 ) (testRecorder, error) {
 	opts := &recorder.Options{
 		CassetteName: cassetteName,
-		Mode:         recorder.ModeRecordOnce,
+	}
+
+	cassetteExists, err := cassetteFileExists(cassetteName)
+	if err != nil {
+		return nil, errors.Wrapf(err, "checking existence of cassette %s", cassetteName)
+	}
+
+	// Work out whether we are recording or replaying
+	if cassetteExists {
+		opts.Mode = recorder.ModeReplayOnly
+	} else {
+		opts.Mode = recorder.ModeRecordOnly
 	}
 
 	r, err := recorder.NewWithOptions(opts)
@@ -51,9 +62,7 @@ func newTestRecorderV3(
 
 	var creds azcore.TokenCredential
 	var azureIDs AzureIDs
-	if r.Mode() == recorder.ModeRecordOnce ||
-		r.Mode() == recorder.ModeRecordOnly ||
-		r.Mode() == recorder.ModePassthrough {
+	if r.Mode() == recorder.ModeRecordOnly {
 		// if we are recording, we need auth
 		creds, azureIDs, err = getCreds()
 		if err != nil {
@@ -217,6 +226,6 @@ func (r recorderDetailsV3) IsReplaying() bool {
 // TODO: Remove the reference to t to reduce coupling
 func (r recorderDetailsV3) CreateClient(t *testing.T) *http.Client {
 	return &http.Client{
-		Transport: r.recorder, //addCountHeader(translateErrors(r.recorder, r.cassetteName, t))
+		Transport: addCountHeader(translateErrors(r.recorder, r.cassetteName, t)),
 	}
 }

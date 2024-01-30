@@ -15,11 +15,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 )
 
+//nolint:paralleltest
 func TestRecorderV3_WhenRecordingAndRecordingDoesNotExist_MakesRecording(t *testing.T) {
 	// NB: Can't run tests using Setenv() in parallel
 	t.Setenv("AZURE_SUBSCRIPTION_ID", "00000000-0000-0000-0000-000000000000")
 	t.Setenv("AZURE_TENANT_ID", "00000000-0000-0000-0000-000000000000")
-	
+
 	g := NewGomegaWithT(t)
 
 	cfg := config.Values{}
@@ -38,12 +39,11 @@ func TestRecorderV3_WhenRecordingAndRecordingDoesNotExist_MakesRecording(t *test
 	// Ensure we clean up the cassette file at the end of the test
 	cassetteFile := cassetteFileName(cassetteName)
 	defer func() {
-		err := os.Remove(cassetteFile)
-		g.Expect(err).To(BeNil())
+		g.Expect(os.Remove(cassetteFile)).To(Succeed())
 	}()
 
 	// Create our TestRecorder and ensure it's recording
-	recorder, err := newTestRecorderV3(cassetteName, cfg, true)
+	recorder, err := newTestRecorderV3(cassetteName, cfg)
 	g.Expect(err).To(BeNil())
 	g.Expect(recorder.IsReplaying()).To(BeFalse())
 
@@ -51,8 +51,10 @@ func TestRecorderV3_WhenRecordingAndRecordingDoesNotExist_MakesRecording(t *test
 	client := recorder.CreateClient(t)
 
 	// Make sure we can get a response from the internet
+	//nolint:noctx
 	resp, err := client.Get(url)
 	g.Expect(err).To(BeNil())
+	defer resp.Body.Close()
 
 	// Ensure the body is not empty
 	body, err := io.ReadAll(resp.Body)
@@ -82,7 +84,7 @@ func TestRecorderV3_WhenRecordingAndRecordingExists_DoesPlayback(t *testing.T) {
 	g.Expect(exists).To(BeTrue())
 
 	// Create our TestRecorder and ensure it's recording
-	recorder, err := newTestRecorderV3(cassetteName, cfg, false)
+	recorder, err := newTestRecorderV3(cassetteName, cfg)
 	g.Expect(err).To(BeNil())
 	g.Expect(recorder.IsReplaying()).To(BeTrue())
 
@@ -92,6 +94,7 @@ func TestRecorderV3_WhenRecordingAndRecordingExists_DoesPlayback(t *testing.T) {
 	// Make sure we can get a response from the internet
 	resp, err := client.Get(url)
 	g.Expect(err).To(BeNil())
+	defer resp.Body.Close()
 
 	// Ensure the body is not empty
 	body, err := io.ReadAll(resp.Body)
@@ -105,14 +108,14 @@ func TestRecorderV3_WhenRecordingAndRecordingExists_DoesPlayback(t *testing.T) {
 
 func TestRecorderV3_WhenPlayingBackAndRecordingDoesNotExist_ReturnsErrorOnCreation(t *testing.T) {
 	t.Parallel()
-	
+
 	g := NewGomegaWithT(t)
 
 	cfg := config.Values{}
 	cassetteName := "recordings/" + t.Name()
 
 	// Create our TestRecorder and ensure it fails to create because we have no recording
-	_, err := newTestRecorderV3(cassetteName, cfg, false)
+	_, err := newTestRecorderV3(cassetteName, cfg)
 	g.Expect(err).NotTo(BeNil())
 	g.Expect(err.Error()).To(ContainSubstring("cassette not found"))
 }
