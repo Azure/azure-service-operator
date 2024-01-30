@@ -73,7 +73,10 @@ jobs:
           body: |
             This is an experimental release which containing the most recent commits from the main branch as of commit: ${{ github.sha }}.
 
-            **This release might not be stable. Use at your own risk.** 
+            **This release might not be stable. Use at your own risk.**
+
+            > ⚠️ The provided YAML manifest does not configure any CRDs to install by default, but is required.
+            > You must specify the CRDs that you want to use as part of `crdPattern`, for example `'resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;apimanagement.azure.com/*'`.
 
             It is only intended for developers wishing to try out the latest feature, some of which may not be fully implemented.
 
