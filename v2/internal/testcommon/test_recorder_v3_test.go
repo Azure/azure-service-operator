@@ -114,4 +114,5 @@ func TestRecorderV3_WhenPlayingBackAndRecordingDoesNotExist_ReturnsErrorOnCreati
 	// Create our TestRecorder and ensure it fails to create because we have no recording
 	_, err := newTestRecorderV3(cassetteName, cfg, false)
 	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring("cassette not found"))
 }
