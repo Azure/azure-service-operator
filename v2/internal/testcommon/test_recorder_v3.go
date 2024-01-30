@@ -35,16 +35,13 @@ var (
 	nilGuid = uuid.Nil.String()
 )
 
-func newTestRecorderV3(cassetteName string, cfg config.Values, recordReplay bool) (testRecorder, error) {
+func newTestRecorderV3(
+	cassetteName string,
+	cfg config.Values,
+) (testRecorder, error) {
 	opts := &recorder.Options{
 		CassetteName: cassetteName,
 		Mode:         recorder.ModeRecordOnce,
-	}
-
-	if recordReplay {
-		opts.Mode = recorder.ModeRecordOnce
-	} else {
-		opts.Mode = recorder.ModeReplayOnly
 	}
 
 	r, err := recorder.NewWithOptions(opts)
@@ -190,7 +187,6 @@ func redactRecording(
 	}
 }
 
-
 // Cfg returns the available configuration for the test
 func (r recorderDetailsV3) Cfg() config.Values {
 	return r.cfg
@@ -216,7 +212,7 @@ func (r recorderDetailsV3) IsReplaying() bool {
 	return r.recorder.Mode() == recorder.ModeReplayOnly
 }
 
-	// CreateClient creates an HTTP client configured to record or replay HTTP requests.
+// CreateClient creates an HTTP client configured to record or replay HTTP requests.
 // t is a reference to the test currently executing.
 // TODO: Remove the reference to t to reduce coupling
 func (r recorderDetailsV3) CreateClient(t *testing.T) *http.Client {
