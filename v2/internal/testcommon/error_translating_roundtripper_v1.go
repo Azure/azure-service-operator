@@ -32,7 +32,7 @@ import (
 //   - during playback the controller does GET (which now returns OK), DELETE, PUT, …
 //     and fails due to a missing DELETE recording
 func translateErrorsV1(r http.RoundTripper, cassetteName string, t *testing.T) http.RoundTripper {
-	return errorTranslation{r, cassetteName, nil, t}
+	return errorTranslationV1{r, cassetteName, nil, t}
 }
 
 type errorTranslationV1 struct {
