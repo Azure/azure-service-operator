@@ -144,13 +144,40 @@ func removeStatusSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeD
 	return result, nil
 }
 
+func isTypeSecretReferenceCandidate(t astmodel.Type) bool {
+	isStringOrOptionalString := astmodel.TypeEquals(astmodel.Unwrap(t), astmodel.StringType)
+
+	isStringSlice := isTypeSecretSliceCandidate(t)
+	isStringMap := isTypeSecretMapCandidate(t)
+
+	return isStringOrOptionalString || isStringSlice || isStringMap
+}
+
+func isTypeSecretSliceCandidate(t astmodel.Type) bool {
+	return astmodel.TypeEquals(t, astmodel.NewArrayType(astmodel.StringType))
+}
+
+func isTypeSecretMapCandidate(t astmodel.Type) bool {
+	return astmodel.TypeEquals(t, astmodel.MapOfStringStringType)
+}
+
 func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectType, _ any) (astmodel.Type, error) {
 	for _, prop := range it.Properties().Copy() {
 		if prop.IsSecret() {
-			// The expectation is that this is a string
 			propType := prop.PropertyType()
-			if !astmodel.Unwrap(propType).Equals(astmodel.StringType, astmodel.EqualityOverrides{}) {
-				return nil, errors.Errorf("expected property %q to be a string, but was: %T", prop.PropertyName(), propType)
+
+			// We only remove pure secret references here. For the case of secret maps, different services seem to treat them
+			// differently. Some services (such as Microsoft.KubernetesConfiguration/extensions) will return the keys of the map
+			// but not the values. Other services (such as APIM) will return certain keys and values that it knows are non-secret, but
+			// redact the ones that are secret. Since it's hard to know statically what will be returned for any given service, we
+			// default to having the map[string]string on the Status type and letting the service return what it wants.
+			if isTypeSecretMapCandidate(propType) {
+				it = it.WithProperty(prop.WithIsSecret(false))
+				continue
+			}
+
+			if !isTypeSecretReferenceCandidate(propType) {
+				return nil, errors.Errorf("expected property %q to be a string, optional string, map[string]string, or []string, but was: %q", prop.PropertyName(), astmodel.DebugDescription(propType))
 			}
 
 			it = it.WithoutProperty(prop.PropertyName())
@@ -163,22 +190,25 @@ func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectTyp
 func transformSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectType, _ any) (astmodel.Type, error) {
 	for _, prop := range it.Properties().Copy() {
 		if prop.IsSecret() {
-			// The expectation is that this is a string
 			propType := prop.PropertyType()
-			if !astmodel.Unwrap(propType).Equals(astmodel.StringType, astmodel.EqualityOverrides{}) {
-				return nil, errors.Errorf("expected property %q to be a string, but was: %T", prop.PropertyName(), propType)
-			}
 
-			// check if it's optional
-			required := prop.IsRequired()
+			if !isTypeSecretReferenceCandidate(propType) {
+				return nil, errors.Errorf("expected property %q to be a string, optional string, map[string]string, or []string, but was: %T", prop.PropertyName(), astmodel.DebugDescription(propType))
+			}
 
 			var newType astmodel.Type
-			if required {
-				newType = astmodel.SecretReferenceType
-			} else {
+			if isTypeSecretSliceCandidate(prop.PropertyType()) {
+				newType = astmodel.NewArrayType(astmodel.SecretReferenceType)
+			} else if isTypeSecretMapCandidate(prop.PropertyType()) {
+				newType = astmodel.OptionalSecretMapReferenceType
+			} else if _, ok := astmodel.AsOptionalType(prop.PropertyType()); ok {
 				newType = astmodel.NewOptionalType(astmodel.SecretReferenceType)
+			} else {
+				newType = astmodel.SecretReferenceType
 			}
-			it = it.WithProperty(prop.WithType(newType))
+
+			updatedProp := prop.WithType(newType)
+			it = it.WithProperty(updatedProp)
 		}
 	}
 

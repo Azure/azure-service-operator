@@ -181,7 +181,7 @@ func DoesPropertyLookLikeARMReference(prop *astmodel.PropertyDefinition) bool {
 	isString := astmodel.TypeEquals(prop.PropertyType(), astmodel.StringType)
 	isOptionalString := astmodel.TypeEquals(prop.PropertyType(), astmodel.OptionalStringType)
 	isStringSlice := astmodel.TypeEquals(prop.PropertyType(), astmodel.NewArrayType(astmodel.StringType))
-	isStringMap := astmodel.TypeEquals(prop.PropertyType(), astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
+	isStringMap := astmodel.TypeEquals(prop.PropertyType(), astmodel.MapOfStringStringType)
 
 	if !isString && !isOptionalString && !isStringSlice && !isStringMap {
 		return false

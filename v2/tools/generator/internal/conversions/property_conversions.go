@@ -83,6 +83,7 @@ func init() {
 		copyKnownType(astmodel.KnownResourceReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.ResourceReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.SecretReferenceType, "Copy", returnsValue),
+		copyKnownType(astmodel.SecretMapReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.SecretDestinationType, "Copy", returnsValue),
 		copyKnownType(astmodel.ConfigMapReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.ConfigMapDestinationType, "Copy", returnsValue),
@@ -1066,6 +1067,12 @@ var forbiddenConversions = []forbiddenConversion{
 		// We encounter this when initializing the spec of a resource from its status
 		fromType: astmodel.StringType,
 		toType:   astmodel.SecretReferenceType,
+	},
+	{
+		// Can't use a map[string]string (the value of a secret) to initialize a secret reference (pointing to the value source)
+		// We encounter this when initializing the spec of a resource from its status
+		fromType: astmodel.MapOfStringStringType,
+		toType:   astmodel.SecretMapReferenceType,
 	},
 }
 
