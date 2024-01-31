@@ -94,7 +94,7 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 	logger := NewTestLogger(t)
 
 	cassetteName := "recordings/" + t.Name()
-	details, err := createTestRecorder(cassetteName, cfg, tc.RecordReplay)
+	details, err := createTestRecorder(cassetteName, cfg, tc.RecordReplay, logger)
 	if err != nil {
 		return PerTestContext{}, errors.Wrapf(err, "creating recorder")
 	}

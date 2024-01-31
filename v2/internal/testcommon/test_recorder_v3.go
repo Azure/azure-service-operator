@@ -15,6 +15,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/go-logr/logr"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 
@@ -29,6 +30,7 @@ type recorderDetailsV3 struct {
 	ids          AzureIDs
 	recorder     *recorder.Recorder
 	cfg          config.Values
+	log          logr.Logger
 }
 
 var (
@@ -38,6 +40,7 @@ var (
 func newTestRecorderV3(
 	cassetteName string,
 	cfg config.Values,
+	log logr.Logger,
 ) (testRecorder, error) {
 	opts := &recorder.Options{
 		CassetteName: cassetteName,
@@ -114,6 +117,7 @@ func newTestRecorderV3(
 		ids:          azureIDs,
 		recorder:     r,
 		cfg:          cfg,
+		log:          log,
 	}, nil
 }
 
@@ -225,7 +229,11 @@ func (r recorderDetailsV3) IsReplaying() bool {
 // t is a reference to the test currently executing.
 // TODO: Remove the reference to t to reduce coupling
 func (r recorderDetailsV3) CreateClient(t *testing.T) *http.Client {
+	withReplay := newReplayRoundTripper(r.recorder, r.log)
+	withErrorTranslation := translateErrors(withReplay, r.cassetteName, t)
+	withCountHeader := addCountHeader(withErrorTranslation)
+
 	return &http.Client{
-		Transport: addCountHeader(translateErrors(r.recorder, r.cassetteName, t)),
+		Transport: withCountHeader,
 	}
 }

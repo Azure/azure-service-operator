@@ -11,6 +11,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 )
 
@@ -38,7 +39,12 @@ type testRecorder interface {
 }
 
 // createTestRecorder returns an instance of testRecorder to allow recording and playback of HTTP requests.
-func createTestRecorder(cassetteName string, cfg config.Values, recordReplay bool) (testRecorder, error) {
+func createTestRecorder(
+	cassetteName string,
+	cfg config.Values,
+	recordReplay bool,
+	log logr.Logger,
+) (testRecorder, error) {
 	if !recordReplay {
 		// We're not using VCR, so just pass through the requests
 		return newTestPassthroughRecorder(cfg)
@@ -54,5 +60,5 @@ func createTestRecorder(cassetteName string, cfg config.Values, recordReplay boo
 		return newTestPlayerV1(cassetteName, cfg)
 	}
 
-	return newTestRecorderV3(cassetteName, cfg)
+	return newTestRecorderV3(cassetteName, cfg, log)
 }
