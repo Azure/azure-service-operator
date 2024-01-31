@@ -163,7 +163,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │   │   ├── IdentityProvider: *string
 │   │   ├── Oauth2: *Object (3 properties)
 │   │   │   ├── GrantTypes: *Object (3 properties)
-│   │   │   │   ├── AuthorizationCode: map[string]string
+│   │   │   │   ├── AuthorizationCode: *genruntime.SecretMapReference
 │   │   │   │   ├── ClientCredentials: map[string]string
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag

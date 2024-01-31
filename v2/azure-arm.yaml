@@ -857,6 +857,9 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         ObjectId:
           $importConfigMapMode: optional
+      AuthorizationProviderOAuth2GrantTypes:
+        AuthorizationCode:
+          $isSecret: true
       BackendContractProperties:
         ResourceId:
           $armReference: true
@@ -956,6 +959,9 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         ObjectId:
           $importConfigMapMode: optional
+      AuthorizationProviderOAuth2GrantTypes:
+        AuthorizationCode:
+          $isSecret: true
       BackendContractProperties:
         ResourceId:
           $armReference: true

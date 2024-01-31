@@ -219,7 +219,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   ├── IdentityProvider: *string
 │   │   ├── Oauth2: *Object (2 properties)
 │   │   │   ├── GrantTypes: *Object (2 properties)
-│   │   │   │   ├── AuthorizationCode: map[string]string
+│   │   │   │   ├── AuthorizationCode: *genruntime.SecretMapReference
 │   │   │   │   └── ClientCredentials: map[string]string
 │   │   │   └── RedirectUrl: *string
 │   │   └── Owner: *genruntime.KnownResourceReference

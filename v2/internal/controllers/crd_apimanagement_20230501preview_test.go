@@ -59,6 +59,8 @@ func Test_ApiManagement_20230501preview_CRUD(t *testing.T) {
 	tc.PatchResourceAndWait(old, &service)
 	tc.Expect(service.Status.Tags).To(HaveKey("scratchcard"))
 
+	authorizationCode := createAuthorizationCodeMapReference(tc)
+
 	// Run subtests
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
@@ -118,19 +120,19 @@ func Test_ApiManagement_20230501preview_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "APIM Authorization Provider CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				APIM_AuthorizationProvider20230501preview_CRUD(tc, &service)
+				APIM_AuthorizationProvider20230501preview_CRUD(tc, &service, &authorizationCode)
 			},
 		},
 		testcommon.Subtest{
 			Name: "APIM Authorization CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				APIM_AuthorizationProviders_Authorization20230501preview_CRUD(tc, &service)
+				APIM_AuthorizationProviders_Authorization20230501preview_CRUD(tc, &service, &authorizationCode)
 			},
 		},
 		testcommon.Subtest{
 			Name: "APIM Authorization Access Policy CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				APIM_AuthorizationProviders_Authorizations_AccessPolicy20230501preview_CRUD(tc, rg, &service)
+				APIM_AuthorizationProviders_Authorizations_AccessPolicy20230501preview_CRUD(tc, rg, &service, &authorizationCode)
 			},
 		},
 	)
@@ -479,7 +481,7 @@ func APIM_Api20230501preview_CRUD(tc *testcommon.KubePerTestContext, service cli
 	tc.T.Log("cleaning up api")
 }
 
-func APIM_AuthorizationProvider20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+func APIM_AuthorizationProvider20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object, authorizationCode *genruntime.SecretMapReference) {
 
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
@@ -488,11 +490,7 @@ func APIM_AuthorizationProvider20230501preview_CRUD(tc *testcommon.KubePerTestCo
 			IdentityProvider: to.Ptr("aad"),
 			Oauth2: &apim.AuthorizationProviderOAuth2Settings{
 				GrantTypes: &apim.AuthorizationProviderOAuth2GrantTypes{
-					AuthorizationCode: map[string]string{
-						"ClientId":     "000",
-						"ClientSecret": "*",
-						"ResourceUri":  "https://www.contoso.com",
-					},
+					AuthorizationCode: authorizationCode,
 				},
 			},
 			Owner: testcommon.AsOwner(service),
@@ -508,7 +506,7 @@ func APIM_AuthorizationProvider20230501preview_CRUD(tc *testcommon.KubePerTestCo
 	tc.T.Log("cleaning up authorizationProvider")
 }
 
-func APIM_AuthorizationProviders_Authorization20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+func APIM_AuthorizationProviders_Authorization20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object, authorizationCode *genruntime.SecretMapReference) {
 
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
@@ -517,11 +515,7 @@ func APIM_AuthorizationProviders_Authorization20230501preview_CRUD(tc *testcommo
 			IdentityProvider: to.Ptr("aad"),
 			Oauth2: &apim.AuthorizationProviderOAuth2Settings{
 				GrantTypes: &apim.AuthorizationProviderOAuth2GrantTypes{
-					AuthorizationCode: map[string]string{
-						"ClientId":     "000",
-						"ClientSecret": "*",
-						"ResourceUri":  "https://www.contoso.com",
-					},
+					AuthorizationCode: authorizationCode,
 				},
 			},
 			Owner: testcommon.AsOwner(service),
@@ -558,7 +552,7 @@ func APIM_AuthorizationProviders_Authorization20230501preview_CRUD(tc *testcommo
 	tc.T.Log("cleaning up authorizationProvider")
 }
 
-func APIM_AuthorizationProviders_Authorizations_AccessPolicy20230501preview_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, service client.Object) {
+func APIM_AuthorizationProviders_Authorizations_AccessPolicy20230501preview_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, service client.Object, authorizationCode *genruntime.SecretMapReference) {
 
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
@@ -567,11 +561,7 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy20230501preview_CRUD
 			IdentityProvider: to.Ptr("aad"),
 			Oauth2: &apim.AuthorizationProviderOAuth2Settings{
 				GrantTypes: &apim.AuthorizationProviderOAuth2GrantTypes{
-					AuthorizationCode: map[string]string{
-						"ClientId":     "000",
-						"ClientSecret": "*",
-						"ResourceUri":  "https://www.contoso.com",
-					},
+					AuthorizationCode: authorizationCode,
 				},
 			},
 			Owner: testcommon.AsOwner(service),
@@ -658,6 +648,7 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy20230501preview_CRUD
 	tc.Expect(authorizationProvider.Status).ToNot(BeNil())
 	tc.T.Log("cleaning up authorizationProvider")
 }
+
 func Subscription20230501preview_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, subscription *apim.Subscription) {
 	old := subscription.DeepCopy()
 	subscriptionSecret := "storagekeys"

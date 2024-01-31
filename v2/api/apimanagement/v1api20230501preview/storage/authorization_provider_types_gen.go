@@ -784,9 +784,9 @@ type augmentConversionForAuthorizationProviderOAuth2Settings_STATUS interface {
 // Storage version of v1api20230501preview.AuthorizationProviderOAuth2GrantTypes
 // Authorization Provider oauth2 grant types settings
 type AuthorizationProviderOAuth2GrantTypes struct {
-	AuthorizationCode map[string]string      `json:"authorizationCode,omitempty"`
-	ClientCredentials map[string]string      `json:"clientCredentials,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	AuthorizationCode *genruntime.SecretMapReference `json:"authorizationCode,omitempty"`
+	ClientCredentials map[string]string              `json:"clientCredentials,omitempty"`
+	PropertyBag       genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // AssignProperties_From_AuthorizationProviderOAuth2GrantTypes populates our AuthorizationProviderOAuth2GrantTypes from the provided source AuthorizationProviderOAuth2GrantTypes
@@ -795,7 +795,12 @@ func (types *AuthorizationProviderOAuth2GrantTypes) AssignProperties_From_Author
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AuthorizationCode
-	types.AuthorizationCode = genruntime.CloneMapOfStringToString(source.AuthorizationCode)
+	if source.AuthorizationCode != nil {
+		authorizationCode := source.AuthorizationCode.Copy()
+		types.AuthorizationCode = &authorizationCode
+	} else {
+		types.AuthorizationCode = nil
+	}
 
 	// ClientCredentials
 	types.ClientCredentials = genruntime.CloneMapOfStringToString(source.ClientCredentials)
@@ -826,7 +831,12 @@ func (types *AuthorizationProviderOAuth2GrantTypes) AssignProperties_To_Authoriz
 	propertyBag := genruntime.NewPropertyBag(types.PropertyBag)
 
 	// AuthorizationCode
-	destination.AuthorizationCode = genruntime.CloneMapOfStringToString(types.AuthorizationCode)
+	if types.AuthorizationCode != nil {
+		authorizationCode := types.AuthorizationCode.Copy()
+		destination.AuthorizationCode = &authorizationCode
+	} else {
+		destination.AuthorizationCode = nil
+	}
 
 	// ClientCredentials
 	destination.ClientCredentials = genruntime.CloneMapOfStringToString(types.ClientCredentials)

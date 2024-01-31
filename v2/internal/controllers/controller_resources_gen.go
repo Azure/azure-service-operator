@@ -190,7 +190,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Api)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.ApiVersionSet)})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.AuthorizationProvider)})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.AuthorizationProvider),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.oauth2.grantTypes.authorizationCode",
+				Func: indexApimanagementAuthorizationProviderAuthorizationCode,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.oauth2.grantTypes.authorizationCode"}, &apimanagement_v20220801s.AuthorizationProviderList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.AuthorizationProvidersAuthorization)})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy),
@@ -1948,6 +1962,24 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &web_customizations.ServerFarmExtension{})
 	result = append(result, &web_customizations.SiteExtension{})
 	return result
+}
+
+// indexApimanagementAuthorizationProviderAuthorizationCode an index function for apimanagement_v20220801s.AuthorizationProvider .spec.oauth2.grantTypes.authorizationCode
+func indexApimanagementAuthorizationProviderAuthorizationCode(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.AuthorizationProvider)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Oauth2 == nil {
+		return nil
+	}
+	if obj.Spec.Oauth2.GrantTypes == nil {
+		return nil
+	}
+	if obj.Spec.Oauth2.GrantTypes.AuthorizationCode == nil {
+		return nil
+	}
+	return obj.Spec.Oauth2.GrantTypes.AuthorizationCode.Index()
 }
 
 // indexApimanagementAuthorizationProvidersAuthorizationsAccessPolicyObjectIdFromConfig an index function for apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy .spec.objectIdFromConfig

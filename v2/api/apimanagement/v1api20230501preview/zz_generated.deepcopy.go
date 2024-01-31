@@ -2356,10 +2356,8 @@ func (in *AuthorizationProviderOAuth2GrantTypes) DeepCopyInto(out *Authorization
 	*out = *in
 	if in.AuthorizationCode != nil {
 		in, out := &in.AuthorizationCode, &out.AuthorizationCode
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
+		*out = new(genruntime.SecretMapReference)
+		**out = **in
 	}
 	if in.ClientCredentials != nil {
 		in, out := &in.ClientCredentials, &out.ClientCredentials

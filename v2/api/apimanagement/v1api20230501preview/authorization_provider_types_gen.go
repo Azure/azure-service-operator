@@ -1050,7 +1050,7 @@ func (settings *AuthorizationProviderOAuth2Settings_STATUS) AssignProperties_To_
 // Authorization Provider oauth2 grant types settings
 type AuthorizationProviderOAuth2GrantTypes struct {
 	// AuthorizationCode: OAuth2 authorization code grant parameters
-	AuthorizationCode map[string]string `json:"authorizationCode,omitempty"`
+	AuthorizationCode *genruntime.SecretMapReference `json:"authorizationCode,omitempty"`
 
 	// ClientCredentials: OAuth2 client credential grant parameters
 	ClientCredentials map[string]string `json:"clientCredentials,omitempty"`
@@ -1067,10 +1067,13 @@ func (types *AuthorizationProviderOAuth2GrantTypes) ConvertToARM(resolved genrun
 
 	// Set property "AuthorizationCode":
 	if types.AuthorizationCode != nil {
-		result.AuthorizationCode = make(map[string]string, len(types.AuthorizationCode))
-		for key, value := range types.AuthorizationCode {
-			result.AuthorizationCode[key] = value
+		var temp map[string]string
+		tempSecret, err := resolved.ResolvedSecretMaps.Lookup(*types.AuthorizationCode)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property temp")
 		}
+		temp = tempSecret
+		result.AuthorizationCode = temp
 	}
 
 	// Set property "ClientCredentials":
@@ -1095,13 +1098,7 @@ func (types *AuthorizationProviderOAuth2GrantTypes) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AuthorizationProviderOAuth2GrantTypes_ARM, got %T", armInput)
 	}
 
-	// Set property "AuthorizationCode":
-	if typedInput.AuthorizationCode != nil {
-		types.AuthorizationCode = make(map[string]string, len(typedInput.AuthorizationCode))
-		for key, value := range typedInput.AuthorizationCode {
-			types.AuthorizationCode[key] = value
-		}
-	}
+	// no assignment for property "AuthorizationCode"
 
 	// Set property "ClientCredentials":
 	if typedInput.ClientCredentials != nil {
@@ -1119,7 +1116,12 @@ func (types *AuthorizationProviderOAuth2GrantTypes) PopulateFromARM(owner genrun
 func (types *AuthorizationProviderOAuth2GrantTypes) AssignProperties_From_AuthorizationProviderOAuth2GrantTypes(source *v20230501ps.AuthorizationProviderOAuth2GrantTypes) error {
 
 	// AuthorizationCode
-	types.AuthorizationCode = genruntime.CloneMapOfStringToString(source.AuthorizationCode)
+	if source.AuthorizationCode != nil {
+		authorizationCode := source.AuthorizationCode.Copy()
+		types.AuthorizationCode = &authorizationCode
+	} else {
+		types.AuthorizationCode = nil
+	}
 
 	// ClientCredentials
 	types.ClientCredentials = genruntime.CloneMapOfStringToString(source.ClientCredentials)
@@ -1134,7 +1136,12 @@ func (types *AuthorizationProviderOAuth2GrantTypes) AssignProperties_To_Authoriz
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AuthorizationCode
-	destination.AuthorizationCode = genruntime.CloneMapOfStringToString(types.AuthorizationCode)
+	if types.AuthorizationCode != nil {
+		authorizationCode := types.AuthorizationCode.Copy()
+		destination.AuthorizationCode = &authorizationCode
+	} else {
+		destination.AuthorizationCode = nil
+	}
 
 	// ClientCredentials
 	destination.ClientCredentials = genruntime.CloneMapOfStringToString(types.ClientCredentials)
