@@ -37,7 +37,7 @@ var _ testRecorder = &playerDetailsV1{}
 // cassetteName is the name of the cassette file to replay.
 // cfg is the configuration to use when replaying the test.
 func newTestPlayerV1(
-	cassetteName string, 
+	cassetteName string,
 	cfg config.Values,
 ) (testRecorder, error) {
 	cassetteExists, err := cassetteFileExists(cassetteName)
@@ -126,7 +126,7 @@ func (r playerDetailsV1) IsReplaying() bool {
 	return r.recorder.Mode() == recorder.ModeReplaying
 }
 
-	// CreateClient creates an HTTP client configured to record or replay HTTP requests.
+// CreateClient creates an HTTP client configured to record or replay HTTP requests.
 // t is a reference to the test currently executing.
 // TODO: Remove the reference to t to reduce coupling
 func (r playerDetailsV1) CreateClient(t *testing.T) *http.Client {

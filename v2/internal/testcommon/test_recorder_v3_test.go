@@ -10,6 +10,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
@@ -43,7 +44,7 @@ func TestRecorderV3_WhenRecordingAndRecordingDoesNotExist_MakesRecording(t *test
 	}()
 
 	// Create our TestRecorder and ensure it's recording
-	recorder, err := newTestRecorderV3(cassetteName, cfg)
+	recorder, err := newTestRecorderV3(cassetteName, cfg, logr.Discard())
 	g.Expect(err).To(BeNil())
 	g.Expect(recorder.IsReplaying()).To(BeFalse())
 
@@ -84,7 +85,7 @@ func TestRecorderV3_WhenRecordingAndRecordingExists_DoesPlayback(t *testing.T) {
 	g.Expect(exists).To(BeTrue())
 
 	// Create our TestRecorder and ensure it's recording
-	recorder, err := newTestRecorderV3(cassetteName, cfg)
+	recorder, err := newTestRecorderV3(cassetteName, cfg, logr.Discard())
 	g.Expect(err).To(BeNil())
 	g.Expect(recorder.IsReplaying()).To(BeTrue())
 
@@ -115,7 +116,7 @@ func TestRecorderV3_WhenPlayingBackAndRecordingDoesNotExist_ReturnsErrorOnCreati
 	cassetteName := "recordings/" + t.Name()
 
 	// Create our TestRecorder and ensure it fails to create because we have no recording
-	_, err := newTestRecorderV3(cassetteName, cfg)
+	_, err := newTestRecorderV3(cassetteName, cfg, logr.Discard())
 	g.Expect(err).NotTo(BeNil())
 	g.Expect(err.Error()).To(ContainSubstring("cassette not found"))
 }
