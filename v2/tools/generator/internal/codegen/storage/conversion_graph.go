@@ -134,6 +134,33 @@ func (graph *ConversionGraph) FindHubAndDistance(
 	return result, distance, nil
 }
 
+// FindInPath searches the path from the specified type name to the hub for a type name that matches the predicate,
+// returning either the first matching type, and true, or an empty type name and false.
+func (graph *ConversionGraph) FindInPath(
+	start astmodel.InternalTypeName,
+	predicate func(name astmodel.InternalTypeName) bool,
+) (astmodel.InternalTypeName, bool) {
+	current := start
+	for {
+		if predicate(current) {
+			return current, true
+		}
+
+		next, err := graph.FindNextType(current, nil)
+		if err != nil {
+			break
+		}
+
+		if next.IsEmpty() {
+			break
+		}
+
+		current = next
+	}
+
+	return astmodel.InternalTypeName{}, false
+}
+
 // TransitionCount returns the number of transitions in the graph
 func (graph *ConversionGraph) TransitionCount() int {
 	result := 0

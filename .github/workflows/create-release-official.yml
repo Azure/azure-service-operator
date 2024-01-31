@@ -9,7 +9,11 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
+
+    permissions:
+      contents: write # Required to write a release
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -35,7 +39,7 @@ jobs:
           docker exec "$container_id" task make-release-artifacts
 
       - name: Upload release assets
-        uses: svenstaro/upload-release-action@7319e4733ec7a184d739a6f412c40ffc339b69c7 # this is v2.5.0, but pinned
+        uses: svenstaro/upload-release-action@1beeb572c19a9242f4361f4cee78f8e0d9aec5df # this is v2.7.0, but pinned
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}

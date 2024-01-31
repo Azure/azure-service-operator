@@ -304,7 +304,7 @@ func ServerPropertiesForDefaultCreate_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForServerPropertiesForDefaultCreate_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerPropertiesForDefaultCreate_ARM(gens map[string]gopter.Gen) {
 	gens["AdministratorLogin"] = gen.PtrOf(gen.AlphaString())
-	gens["AdministratorLoginPassword"] = gen.AlphaString()
+	gens["AdministratorLoginPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["CreateMode"] = gen.OneConstOf(ServerPropertiesForDefaultCreate_CreateMode_Default)
 	gens["MinimalTlsVersion"] = gen.PtrOf(gen.OneConstOf(
 		MinimalTlsVersion_TLS1_0,

@@ -74,6 +74,7 @@ var (
 	ResourceScopeType                = MakeExternalTypeName(GenRuntimeReference, "ResourceScope")
 	ConvertToARMResolvedDetailsType  = MakeExternalTypeName(GenRuntimeReference, "ConvertToARMResolvedDetails")
 	SecretReferenceType              = MakeExternalTypeName(GenRuntimeReference, "SecretReference")
+	SecretMapReferenceType           = MakeExternalTypeName(GenRuntimeReference, "SecretMapReference")
 	ResourceExtensionType            = MakeExternalTypeName(GenRuntimeReference, "ResourceExtension")
 	SecretDestinationType            = MakeExternalTypeName(GenRuntimeReference, "SecretDestination")
 	ConfigMapDestinationType         = MakeExternalTypeName(GenRuntimeReference, "ConfigMapDestination")
@@ -91,6 +92,10 @@ var (
 	OptionalKnownResourceReferenceType = NewOptionalType(KnownResourceReferenceType)
 	OptionalResourceReferenceType      = NewOptionalType(ResourceReferenceType)
 	OptionalSecretReferenceType        = NewOptionalType(SecretReferenceType)
+	OptionalSecretMapReferenceType     = NewOptionalType(SecretMapReferenceType)
+
+	// Predeclared maps
+	MapOfStringStringType = NewMapType(StringType, StringType)
 
 	// Type names - Generic ARM client
 	GenericClientType = MakeExternalTypeName(GenericARMClientReference, "GenericClient")

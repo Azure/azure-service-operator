@@ -63,6 +63,7 @@ func newConvertToARMFunctionBuilder(
 		result.convertUserAssignedIdentitiesCollection,
 		result.convertReferenceProperty,
 		result.convertSecretProperty,
+		result.convertSecretMapProperty,
 		result.convertConfigMapProperty,
 		result.convertComplexTypeNameProperty)
 
@@ -326,7 +327,7 @@ func (builder *convertToARMBuilder) referencePropertyHandler(
 	isString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.StringType)
 	isOptionalString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.OptionalStringType)
 	isSliceString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewArrayType(astmodel.StringType))
-	isMapString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
+	isMapString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.MapOfStringStringType)
 
 	if !isString && !isOptionalString && !isSliceString && !isMapString {
 		return notHandled, nil
@@ -753,6 +754,50 @@ func (builder *convertToARMBuilder) convertSecretProperty(
 		token.DEFINE,
 		astbuilder.CallExpr(
 			astbuilder.Selector(dst.NewIdent(resolvedParameterString), "ResolvedSecrets"),
+			"Lookup",
+			params.Source))
+
+	wrappedError := astbuilder.WrapError(
+		errorsPackage,
+		"err",
+		fmt.Sprintf("looking up secret for property %s", params.NameHint))
+	returnIfNotNil := astbuilder.ReturnIfNotNil(dst.NewIdent("err"), astbuilder.Nil(), wrappedError)
+
+	result := params.AssignmentHandlerOrDefault()(params.Destination, dst.NewIdent(localVarName))
+
+	return astbuilder.Statements(secretLookup, returnIfNotNil, result), nil
+}
+
+// convertSecretMapProperty handles conversion of maps of secrets.
+// This function generates code that looks like this:
+//
+//	<namehint>Secret, err := resolved.ResolvedSecretMaps.Lookup(<source>)
+//	if err != nil {
+//		return nil, errors.Wrap(err, "looking up secret for <source>")
+//	}
+//	<destination> = <namehint>Secret
+func (builder *convertToARMBuilder) convertSecretMapProperty(
+	_ *astmodel.ConversionFunctionBuilder,
+	params astmodel.ConversionParameters,
+) ([]dst.Stmt, error) {
+	isMapStringString := astmodel.TypeEquals(params.DestinationType, astmodel.MapOfStringStringType)
+	if !isMapStringString {
+		return nil, nil
+	}
+
+	isSecretMapReference := astmodel.TypeEquals(params.SourceType, astmodel.SecretMapReferenceType)
+	if !isSecretMapReference {
+		return nil, nil
+	}
+
+	errorsPackage := builder.codeGenerationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+
+	localVarName := builder.idFactory.CreateLocal(params.NameHint + "Secret")
+	secretLookup := astbuilder.SimpleAssignmentWithErr(
+		dst.NewIdent(localVarName),
+		token.DEFINE,
+		astbuilder.CallExpr(
+			astbuilder.Selector(dst.NewIdent(resolvedParameterString), "ResolvedSecretMaps"),
 			"Lookup",
 			params.Source))
 

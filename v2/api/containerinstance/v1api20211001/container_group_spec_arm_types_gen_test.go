@@ -1280,7 +1280,7 @@ func AddIndependentPropertyGeneratorsForLogAnalytics_ARM(gens map[string]gopter.
 	gens["LogType"] = gen.PtrOf(gen.OneConstOf(LogAnalytics_LogType_ContainerInsights, LogAnalytics_LogType_ContainerInstanceLogs))
 	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["WorkspaceId"] = gen.PtrOf(gen.AlphaString())
-	gens["WorkspaceKey"] = gen.AlphaString()
+	gens["WorkspaceKey"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 

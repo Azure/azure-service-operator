@@ -520,7 +520,7 @@ func Test_ResolveSecrets_ReturnsExpectedSecretValue(t *testing.T) {
 	armID := "/subscriptions/00000000-0000-0000-000000000000/resources/resourceGroups/myrg"
 
 	resourceGroup := createResourceGroup(resourceGroupName)
-	genruntime.SetResourceID(resourceGroup, armID) // TODO: Do I actually need this here?
+	genruntime.SetResourceID(resourceGroup, armID)
 
 	err = test.client.Create(ctx, resourceGroup)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -569,6 +569,75 @@ func Test_ResolveSecrets_ReturnsReferenceNotFound(t *testing.T) {
 	namespacedRef := ref.AsNamespacedRef(testNamespace)
 
 	_, err = test.resolver.ResolveSecretReferences(ctx, set.Make(namespacedRef))
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&core.SecretNotFound{}))
+}
+
+func Test_ResolveSecretMaps_ReturnsExpectedSecretValues(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	test, err := testSetup()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	resourceGroupName := "myrg"
+	armID := "/subscriptions/00000000-0000-0000-000000000000/resources/resourceGroups/myrg"
+
+	resourceGroup := createResourceGroup(resourceGroupName)
+	genruntime.SetResourceID(resourceGroup, armID)
+
+	err = test.client.Create(ctx, resourceGroup)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	stringData := map[string]string{
+		"mysecretkey": "myPinIs1234",
+		"myotherkey":  "justKiddingIts5678",
+	}
+
+	data := make(map[string][]byte, len(stringData))
+	for k, v := range stringData {
+		data[k] = []byte(v)
+	}
+
+	secretName := "testsecret"
+	// Create a secret
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      secretName,
+			Namespace: testNamespace,
+		},
+		Data: data,
+		Type: "Opaque",
+	}
+
+	err = test.client.Create(ctx, secret)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	ref := genruntime.SecretMapReference{Name: secretName}
+	namespacedRef := ref.AsNamespacedRef(testNamespace)
+
+	resolvedSecrets, err := test.resolver.ResolveSecretMapReferences(ctx, set.Make(namespacedRef))
+	g.Expect(err).ToNot(HaveOccurred())
+
+	actualSecret, err := resolvedSecrets.Lookup(ref)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(actualSecret).To(Equal(stringData))
+}
+
+func Test_ResolveSecretMaps_ReturnsReferenceNotFound(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	test, err := testSetup()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	secretName := "testsecret"
+	ref := genruntime.SecretMapReference{Name: secretName}
+	namespacedRef := ref.AsNamespacedRef(testNamespace)
+
+	_, err = test.resolver.ResolveSecretMapReferences(ctx, set.Make(namespacedRef))
 	g.Expect(err).To(HaveOccurred())
 	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&core.SecretNotFound{}))
 }

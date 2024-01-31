@@ -2361,7 +2361,7 @@ type ServerPropertiesForDefaultCreate struct {
 
 	// +kubebuilder:validation:Required
 	// AdministratorLoginPassword: The password of the administrator login.
-	AdministratorLoginPassword genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
+	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// CreateMode: The mode to create a new server.
@@ -2400,11 +2400,14 @@ func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime
 	}
 
 	// Set property "AdministratorLoginPassword":
-	administratorLoginPasswordSecret, err := resolved.ResolvedSecrets.Lookup(create.AdministratorLoginPassword)
-	if err != nil {
-		return nil, errors.Wrap(err, "looking up secret for property AdministratorLoginPassword")
+	if create.AdministratorLoginPassword != nil {
+		administratorLoginPasswordSecret, err := resolved.ResolvedSecrets.Lookup(*create.AdministratorLoginPassword)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property AdministratorLoginPassword")
+		}
+		administratorLoginPassword := administratorLoginPasswordSecret
+		result.AdministratorLoginPassword = &administratorLoginPassword
 	}
-	result.AdministratorLoginPassword = administratorLoginPasswordSecret
 
 	// Set property "CreateMode":
 	if create.CreateMode != nil {
@@ -2517,9 +2520,10 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_From_ServerProp
 
 	// AdministratorLoginPassword
 	if source.AdministratorLoginPassword != nil {
-		create.AdministratorLoginPassword = source.AdministratorLoginPassword.Copy()
+		administratorLoginPassword := source.AdministratorLoginPassword.Copy()
+		create.AdministratorLoginPassword = &administratorLoginPassword
 	} else {
-		create.AdministratorLoginPassword = genruntime.SecretReference{}
+		create.AdministratorLoginPassword = nil
 	}
 
 	// CreateMode
@@ -2587,8 +2591,12 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_To_ServerProper
 	destination.AdministratorLogin = genruntime.ClonePointerToString(create.AdministratorLogin)
 
 	// AdministratorLoginPassword
-	administratorLoginPassword := create.AdministratorLoginPassword.Copy()
-	destination.AdministratorLoginPassword = &administratorLoginPassword
+	if create.AdministratorLoginPassword != nil {
+		administratorLoginPassword := create.AdministratorLoginPassword.Copy()
+		destination.AdministratorLoginPassword = &administratorLoginPassword
+	} else {
+		destination.AdministratorLoginPassword = nil
+	}
 
 	// CreateMode
 	if create.CreateMode != nil {

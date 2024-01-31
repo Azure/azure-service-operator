@@ -200,7 +200,7 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │   │   │       ├── AuthenticationType: *Enum (2 values)
 │   │   │       │   ├── "identityBased"
 │   │   │       │   └── "keyBased"
-│   │   │       ├── ConnectionString: genruntime.SecretReference
+│   │   │       ├── ConnectionString: *genruntime.SecretReference
 │   │   │       ├── ContainerName: *string
 │   │   │       ├── Identity: *Object (1 property)
 │   │   │       │   └── UserAssignedIdentity: *string
@@ -803,7 +803,7 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
     │       ├── AuthenticationType: *Enum (2 values)
     │       │   ├── "identityBased"
     │       │   └── "keyBased"
-    │       ├── ConnectionString: string
+    │       ├── ConnectionString: *string
     │       ├── ContainerName: *string
     │       ├── Identity: *Object (1 property)
     │       │   └── UserAssignedIdentity: *string
