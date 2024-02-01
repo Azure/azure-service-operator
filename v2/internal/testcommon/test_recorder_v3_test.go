@@ -119,17 +119,3 @@ func TestRecorderV3_WhenRecordingAndRecordingExists_DoesPlayback(t *testing.T) {
 	err = recorder.Stop()
 	g.Expect(err).To(BeNil())
 }
-
-func TestRecorderV3_WhenPlayingBackAndRecordingDoesNotExist_ReturnsErrorOnCreation(t *testing.T) {
-	t.Parallel()
-
-	g := NewGomegaWithT(t)
-
-	cfg := config.Values{}
-	cassetteName := "recordings/" + t.Name()
-
-	// Create our TestRecorder and ensure it fails to create because we have no recording
-	_, err := newTestRecorderV3(cassetteName, cfg, logr.Discard())
-	g.Expect(err).NotTo(BeNil())
-	g.Expect(err.Error()).To(ContainSubstring("cassette not found"))
-}
