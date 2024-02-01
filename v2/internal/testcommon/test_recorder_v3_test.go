@@ -76,6 +76,19 @@ func TestRecorderV3_WhenRecordingAndRecordingExists_DoesPlayback(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	//
+	// Rerecording this test can be a challenge, due to
+	// (a) a prerequisite check ensuring the cassette exists
+	// (b) a similar check ensuring we're in replay mode, and
+	// (c) the requirement for selected environment variables to be present.
+	//
+	// The easiest way to rerecord this test is to:
+	//   (i) Delete the cassette file
+	//  (ii) Comment out the prerequisite checks
+	// (iii) Define the required environment variables
+	//  (iv) go test -run TestRecorderV3_WhenRecordingAndRecordingExists_DoesPlayback
+	//
+
 	cfg := config.Values{}
 	cassetteName := "recordings/" + t.Name()
 
