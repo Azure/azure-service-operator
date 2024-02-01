@@ -139,6 +139,9 @@ func ReadFromEnvironmentForTest() (config.Values, error) {
 
 	// Test configs never want SyncPeriod set as it introduces jitter
 	cfg.SyncPeriod = nil
+	// Simulate pod namespace being set, as we're not running in a pod context so we don't have this env varaible
+	// injected automatically
+	cfg.PodNamespace = "azureserviceoperator-system"
 
 	return cfg, err
 }
