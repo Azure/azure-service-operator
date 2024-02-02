@@ -165,7 +165,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501previe
 │   │   ├── Oauth2: *Object (3 properties)
 │   │   │   ├── GrantTypes: *Object (3 properties)
 │   │   │   │   ├── AuthorizationCode: *genruntime.SecretMapReference
-│   │   │   │   ├── ClientCredentials: map[string]string
+│   │   │   │   ├── ClientCredentials: *genruntime.SecretMapReference
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── RedirectUrl: *string
@@ -189,19 +189,14 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501previe
 │       └── Type: *string
 ├── AuthorizationProvidersAuthorization: Resource
 │   ├── Owner: apimanagement/v1api20230501preview.AuthorizationProvider
-│   ├── Spec: Object (9 properties)
+│   ├── Spec: Object (7 properties)
 │   │   ├── AuthorizationType: *string
 │   │   ├── AzureName: string
-│   │   ├── Error: *Object (3 properties)
-│   │   │   ├── Code: *string
-│   │   │   ├── Message: *string
-│   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── Oauth2GrantType: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Parameters: map[string]string
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Status: *string
+│   │   ├── Parameters: *genruntime.SecretMapReference
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   └── Status: Object (10 properties)
 │       ├── AuthorizationType: *string
 │       ├── Conditions: conditions.Condition[]
@@ -768,7 +763,6 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501previe
 ├── augmentConversionForArmIdWrapper_STATUS: Interface
 ├── augmentConversionForAuthenticationSettingsContract: Interface
 ├── augmentConversionForAuthenticationSettingsContract_STATUS: Interface
-├── augmentConversionForAuthorizationError: Interface
 ├── augmentConversionForAuthorizationError_STATUS: Interface
 ├── augmentConversionForAuthorizationProvider: Interface
 ├── augmentConversionForAuthorizationProviderOAuth2GrantTypes: Interface

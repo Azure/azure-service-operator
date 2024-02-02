@@ -732,15 +732,9 @@ func AuthorizationProviderOAuth2GrantTypesGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAuthorizationProviderOAuth2GrantTypes(generators)
 	authorizationProviderOAuth2GrantTypesGenerator = gen.Struct(reflect.TypeOf(AuthorizationProviderOAuth2GrantTypes{}), generators)
 
 	return authorizationProviderOAuth2GrantTypesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAuthorizationProviderOAuth2GrantTypes is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAuthorizationProviderOAuth2GrantTypes(gens map[string]gopter.Gen) {
-	gens["ClientCredentials"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 func Test_AuthorizationProviderOAuth2GrantTypes_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

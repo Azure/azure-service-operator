@@ -237,19 +237,17 @@ type Service_AuthorizationProviders_Authorization_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string              `json:"azureName,omitempty"`
-	Error           *AuthorizationError `json:"error,omitempty"`
-	Oauth2GrantType *string             `json:"oauth2grantType,omitempty"`
-	OriginalVersion string              `json:"originalVersion,omitempty"`
+	AzureName       string  `json:"azureName,omitempty"`
+	Oauth2GrantType *string `json:"oauth2grantType,omitempty"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a apimanagement.azure.com/AuthorizationProvider resource
 	Owner       *genruntime.KnownResourceReference `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"AuthorizationProvider"`
-	Parameters  map[string]string                  `json:"parameters,omitempty"`
+	Parameters  *genruntime.SecretMapReference     `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Status      *string                            `json:"status,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Service_AuthorizationProviders_Authorization_Spec{}
@@ -313,18 +311,6 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) AssignPr
 	// AzureName
 	authorization.AzureName = source.AzureName
 
-	// Error
-	if source.Error != nil {
-		var error AuthorizationError
-		err := error.AssignProperties_From_AuthorizationError(source.Error)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AuthorizationError() to populate field Error")
-		}
-		authorization.Error = &error
-	} else {
-		authorization.Error = nil
-	}
-
 	// Oauth2GrantType
 	authorization.Oauth2GrantType = genruntime.ClonePointerToString(source.Oauth2GrantType)
 
@@ -340,10 +326,12 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) AssignPr
 	}
 
 	// Parameters
-	authorization.Parameters = genruntime.CloneMapOfStringToString(source.Parameters)
-
-	// Status
-	authorization.Status = genruntime.ClonePointerToString(source.Status)
+	if source.Parameters != nil {
+		parameter := source.Parameters.Copy()
+		authorization.Parameters = &parameter
+	} else {
+		authorization.Parameters = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -376,18 +364,6 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) AssignPr
 	// AzureName
 	destination.AzureName = authorization.AzureName
 
-	// Error
-	if authorization.Error != nil {
-		var error v20220801s.AuthorizationError
-		err := authorization.Error.AssignProperties_To_AuthorizationError(&error)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AuthorizationError() to populate field Error")
-		}
-		destination.Error = &error
-	} else {
-		destination.Error = nil
-	}
-
 	// Oauth2GrantType
 	destination.Oauth2GrantType = genruntime.ClonePointerToString(authorization.Oauth2GrantType)
 
@@ -403,10 +379,12 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) AssignPr
 	}
 
 	// Parameters
-	destination.Parameters = genruntime.CloneMapOfStringToString(authorization.Parameters)
-
-	// Status
-	destination.Status = genruntime.ClonePointerToString(authorization.Status)
+	if authorization.Parameters != nil {
+		parameter := authorization.Parameters.Copy()
+		destination.Parameters = &parameter
+	} else {
+		destination.Parameters = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -624,76 +602,6 @@ type augmentConversionForService_AuthorizationProviders_Authorization_STATUS int
 	AssignPropertiesTo(dst *v20220801s.Service_AuthorizationProviders_Authorization_STATUS) error
 }
 
-// Storage version of v1api20230501preview.AuthorizationError
-// Authorization error details.
-type AuthorizationError struct {
-	Code        *string                `json:"code,omitempty"`
-	Message     *string                `json:"message,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignProperties_From_AuthorizationError populates our AuthorizationError from the provided source AuthorizationError
-func (error *AuthorizationError) AssignProperties_From_AuthorizationError(source *v20220801s.AuthorizationError) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Code
-	error.Code = genruntime.ClonePointerToString(source.Code)
-
-	// Message
-	error.Message = genruntime.ClonePointerToString(source.Message)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		error.PropertyBag = propertyBag
-	} else {
-		error.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForAuthorizationError interface (if implemented) to customize the conversion
-	var errorAsAny any = error
-	if augmentedError, ok := errorAsAny.(augmentConversionForAuthorizationError); ok {
-		err := augmentedError.AssignPropertiesFrom(source)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_AuthorizationError populates the provided destination AuthorizationError from our AuthorizationError
-func (error *AuthorizationError) AssignProperties_To_AuthorizationError(destination *v20220801s.AuthorizationError) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(error.PropertyBag)
-
-	// Code
-	destination.Code = genruntime.ClonePointerToString(error.Code)
-
-	// Message
-	destination.Message = genruntime.ClonePointerToString(error.Message)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForAuthorizationError interface (if implemented) to customize the conversion
-	var errorAsAny any = error
-	if augmentedError, ok := errorAsAny.(augmentConversionForAuthorizationError); ok {
-		err := augmentedError.AssignPropertiesTo(destination)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1api20230501preview.AuthorizationError_STATUS
 // Authorization error details.
 type AuthorizationError_STATUS struct {
@@ -762,11 +670,6 @@ func (error *AuthorizationError_STATUS) AssignProperties_To_AuthorizationError_S
 
 	// No error
 	return nil
-}
-
-type augmentConversionForAuthorizationError interface {
-	AssignPropertiesFrom(src *v20220801s.AuthorizationError) error
-	AssignPropertiesTo(dst *v20220801s.AuthorizationError) error
 }
 
 type augmentConversionForAuthorizationError_STATUS interface {

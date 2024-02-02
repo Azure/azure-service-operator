@@ -34,24 +34,9 @@ type AuthorizationContractProperties_ARM struct {
 	// AuthorizationType: Authorization type options
 	AuthorizationType *AuthorizationContractProperties_AuthorizationType `json:"authorizationType,omitempty"`
 
-	// Error: Authorization error details.
-	Error *AuthorizationError_ARM `json:"error,omitempty"`
-
 	// Oauth2GrantType: OAuth2 grant type options
 	Oauth2GrantType *AuthorizationContractProperties_Oauth2GrantType `json:"oauth2grantType,omitempty"`
 
 	// Parameters: Authorization parameters
 	Parameters map[string]string `json:"parameters,omitempty"`
-
-	// Status: Status of the Authorization
-	Status *string `json:"status,omitempty"`
-}
-
-// Authorization error details.
-type AuthorizationError_ARM struct {
-	// Code: Error code
-	Code *string `json:"code,omitempty"`
-
-	// Message: Error message
-	Message *string `json:"message,omitempty"`
 }

@@ -337,9 +337,6 @@ type Service_AuthorizationProviders_Authorization_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// Error: Authorization error details.
-	Error *AuthorizationError `json:"error,omitempty"`
-
 	// Oauth2GrantType: OAuth2 grant type options
 	Oauth2GrantType *AuthorizationContractProperties_Oauth2GrantType `json:"oauth2grantType,omitempty"`
 
@@ -350,10 +347,7 @@ type Service_AuthorizationProviders_Authorization_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"AuthorizationProvider"`
 
 	// Parameters: Authorization parameters
-	Parameters map[string]string `json:"parameters,omitempty"`
-
-	// Status: Status of the Authorization
-	Status *string `json:"status,omitempty"`
+	Parameters *genruntime.SecretMapReference `json:"parameters,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Service_AuthorizationProviders_Authorization_Spec{}
@@ -370,37 +364,26 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) ConvertT
 
 	// Set property "Properties":
 	if authorization.AuthorizationType != nil ||
-		authorization.Error != nil ||
 		authorization.Oauth2GrantType != nil ||
-		authorization.Parameters != nil ||
-		authorization.Status != nil {
+		authorization.Parameters != nil {
 		result.Properties = &AuthorizationContractProperties_ARM{}
 	}
 	if authorization.AuthorizationType != nil {
 		authorizationType := *authorization.AuthorizationType
 		result.Properties.AuthorizationType = &authorizationType
 	}
-	if authorization.Error != nil {
-		error_ARM, err := (*authorization.Error).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		error := *error_ARM.(*AuthorizationError_ARM)
-		result.Properties.Error = &error
-	}
 	if authorization.Oauth2GrantType != nil {
 		oauth2GrantType := *authorization.Oauth2GrantType
 		result.Properties.Oauth2GrantType = &oauth2GrantType
 	}
 	if authorization.Parameters != nil {
-		result.Properties.Parameters = make(map[string]string, len(authorization.Parameters))
-		for key, value := range authorization.Parameters {
-			result.Properties.Parameters[key] = value
+		var temp map[string]string
+		tempSecret, err := resolved.ResolvedSecretMaps.Lookup(*authorization.Parameters)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property temp")
 		}
-	}
-	if authorization.Status != nil {
-		status := *authorization.Status
-		result.Properties.Status = &status
+		temp = tempSecret
+		result.Properties.Parameters = temp
 	}
 	return result, nil
 }
@@ -429,20 +412,6 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) Populate
 	// Set property "AzureName":
 	authorization.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property "Error":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Error != nil {
-			var error1 AuthorizationError
-			err := error1.PopulateFromARM(owner, *typedInput.Properties.Error)
-			if err != nil {
-				return err
-			}
-			error := error1
-			authorization.Error = &error
-		}
-	}
-
 	// Set property "Oauth2GrantType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -458,25 +427,7 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) Populate
 		ARMID: owner.ARMID,
 	}
 
-	// Set property "Parameters":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Parameters != nil {
-			authorization.Parameters = make(map[string]string, len(typedInput.Properties.Parameters))
-			for key, value := range typedInput.Properties.Parameters {
-				authorization.Parameters[key] = value
-			}
-		}
-	}
-
-	// Set property "Status":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Status != nil {
-			status := *typedInput.Properties.Status
-			authorization.Status = &status
-		}
-	}
+	// no assignment for property "Parameters"
 
 	// No error
 	return nil
@@ -546,18 +497,6 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) AssignPr
 	// AzureName
 	authorization.AzureName = source.AzureName
 
-	// Error
-	if source.Error != nil {
-		var error AuthorizationError
-		err := error.AssignProperties_From_AuthorizationError(source.Error)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AuthorizationError() to populate field Error")
-		}
-		authorization.Error = &error
-	} else {
-		authorization.Error = nil
-	}
-
 	// Oauth2GrantType
 	if source.Oauth2GrantType != nil {
 		oauth2GrantType := AuthorizationContractProperties_Oauth2GrantType(*source.Oauth2GrantType)
@@ -575,10 +514,12 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) AssignPr
 	}
 
 	// Parameters
-	authorization.Parameters = genruntime.CloneMapOfStringToString(source.Parameters)
-
-	// Status
-	authorization.Status = genruntime.ClonePointerToString(source.Status)
+	if source.Parameters != nil {
+		parameter := source.Parameters.Copy()
+		authorization.Parameters = &parameter
+	} else {
+		authorization.Parameters = nil
+	}
 
 	// No error
 	return nil
@@ -600,18 +541,6 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) AssignPr
 	// AzureName
 	destination.AzureName = authorization.AzureName
 
-	// Error
-	if authorization.Error != nil {
-		var error v20220801s.AuthorizationError
-		err := authorization.Error.AssignProperties_To_AuthorizationError(&error)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AuthorizationError() to populate field Error")
-		}
-		destination.Error = &error
-	} else {
-		destination.Error = nil
-	}
-
 	// Oauth2GrantType
 	if authorization.Oauth2GrantType != nil {
 		oauth2GrantType := string(*authorization.Oauth2GrantType)
@@ -632,10 +561,12 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) AssignPr
 	}
 
 	// Parameters
-	destination.Parameters = genruntime.CloneMapOfStringToString(authorization.Parameters)
-
-	// Status
-	destination.Status = genruntime.ClonePointerToString(authorization.Status)
+	if authorization.Parameters != nil {
+		parameter := authorization.Parameters.Copy()
+		destination.Parameters = &parameter
+	} else {
+		destination.Parameters = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -659,18 +590,6 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) Initiali
 		authorization.AuthorizationType = nil
 	}
 
-	// Error
-	if source.Error != nil {
-		var error AuthorizationError
-		err := error.Initialize_From_AuthorizationError_STATUS(source.Error)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AuthorizationError_STATUS() to populate field Error")
-		}
-		authorization.Error = &error
-	} else {
-		authorization.Error = nil
-	}
-
 	// Oauth2GrantType
 	if source.Oauth2GrantType != nil {
 		oauth2GrantType := AuthorizationContractProperties_Oauth2GrantType(*source.Oauth2GrantType)
@@ -678,12 +597,6 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) Initiali
 	} else {
 		authorization.Oauth2GrantType = nil
 	}
-
-	// Parameters
-	authorization.Parameters = genruntime.CloneMapOfStringToString(source.Parameters)
-
-	// Status
-	authorization.Status = genruntime.ClonePointerToString(source.Status)
 
 	// No error
 	return nil
@@ -1007,114 +920,6 @@ const (
 	AuthorizationContractProperties_Oauth2GrantType_STATUS_AuthorizationCode = AuthorizationContractProperties_Oauth2GrantType_STATUS("AuthorizationCode")
 	AuthorizationContractProperties_Oauth2GrantType_STATUS_ClientCredentials = AuthorizationContractProperties_Oauth2GrantType_STATUS("ClientCredentials")
 )
-
-// Authorization error details.
-type AuthorizationError struct {
-	// Code: Error code
-	Code *string `json:"code,omitempty"`
-
-	// Message: Error message
-	Message *string `json:"message,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &AuthorizationError{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (error *AuthorizationError) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if error == nil {
-		return nil, nil
-	}
-	result := &AuthorizationError_ARM{}
-
-	// Set property "Code":
-	if error.Code != nil {
-		code := *error.Code
-		result.Code = &code
-	}
-
-	// Set property "Message":
-	if error.Message != nil {
-		message := *error.Message
-		result.Message = &message
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (error *AuthorizationError) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AuthorizationError_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (error *AuthorizationError) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AuthorizationError_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AuthorizationError_ARM, got %T", armInput)
-	}
-
-	// Set property "Code":
-	if typedInput.Code != nil {
-		code := *typedInput.Code
-		error.Code = &code
-	}
-
-	// Set property "Message":
-	if typedInput.Message != nil {
-		message := *typedInput.Message
-		error.Message = &message
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_AuthorizationError populates our AuthorizationError from the provided source AuthorizationError
-func (error *AuthorizationError) AssignProperties_From_AuthorizationError(source *v20220801s.AuthorizationError) error {
-
-	// Code
-	error.Code = genruntime.ClonePointerToString(source.Code)
-
-	// Message
-	error.Message = genruntime.ClonePointerToString(source.Message)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_AuthorizationError populates the provided destination AuthorizationError from our AuthorizationError
-func (error *AuthorizationError) AssignProperties_To_AuthorizationError(destination *v20220801s.AuthorizationError) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Code
-	destination.Code = genruntime.ClonePointerToString(error.Code)
-
-	// Message
-	destination.Message = genruntime.ClonePointerToString(error.Message)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AuthorizationError_STATUS populates our AuthorizationError from the provided source AuthorizationError_STATUS
-func (error *AuthorizationError) Initialize_From_AuthorizationError_STATUS(source *AuthorizationError_STATUS) error {
-
-	// Code
-	error.Code = genruntime.ClonePointerToString(source.Code)
-
-	// Message
-	error.Message = genruntime.ClonePointerToString(source.Message)
-
-	// No error
-	return nil
-}
 
 // Authorization error details.
 type AuthorizationError_STATUS struct {

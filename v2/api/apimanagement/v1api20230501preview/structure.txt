@@ -231,7 +231,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501previe
 │   │   ├── Oauth2: *Object (2 properties)
 │   │   │   ├── GrantTypes: *Object (2 properties)
 │   │   │   │   ├── AuthorizationCode: *genruntime.SecretMapReference
-│   │   │   │   └── ClientCredentials: map[string]string
+│   │   │   │   └── ClientCredentials: *genruntime.SecretMapReference
 │   │   │   └── RedirectUrl: *string
 │   │   └── Owner: *genruntime.KnownResourceReference
 │   └── Status: Object (7 properties)
@@ -248,22 +248,18 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501previe
 │       └── Type: *string
 ├── AuthorizationProvidersAuthorization: Resource
 │   ├── Owner: AuthorizationProvider
-│   ├── Spec: Object (7 properties)
+│   ├── Spec: Object (5 properties)
 │   │   ├── AuthorizationType: *Enum (1 value)
 │   │   │   └── "OAuth2"
 │   │   ├── AzureName: Validated<string> (3 rules)
 │   │   │   ├── Rule 0: MaxLength: 256
 │   │   │   ├── Rule 1: MinLength: 1
 │   │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
-│   │   ├── Error: *Object (2 properties)
-│   │   │   ├── Code: *string
-│   │   │   └── Message: *string
 │   │   ├── Oauth2GrantType: *Enum (2 values)
 │   │   │   ├── "AuthorizationCode"
 │   │   │   └── "ClientCredentials"
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Parameters: map[string]string
-│   │   └── Status: *string
+│   │   └── Parameters: *genruntime.SecretMapReference
 │   └── Status: Object (9 properties)
 │       ├── AuthorizationType: *Enum (1 value)
 │       │   └── "OAuth2"
@@ -1130,17 +1126,13 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501previe
 │   └── Type: *string
 ├── Service_AuthorizationProviders_Authorization_Spec_ARM: Object (2 properties)
 │   ├── Name: string
-│   └── Properties: *Object (5 properties)
+│   └── Properties: *Object (3 properties)
 │       ├── AuthorizationType: *Enum (1 value)
 │       │   └── "OAuth2"
-│       ├── Error: *Object (2 properties)
-│       │   ├── Code: *string
-│       │   └── Message: *string
 │       ├── Oauth2GrantType: *Enum (2 values)
 │       │   ├── "AuthorizationCode"
 │       │   └── "ClientCredentials"
-│       ├── Parameters: map[string]string
-│       └── Status: *string
+│       └── Parameters: map[string]string
 ├── Service_AuthorizationProviders_Authorizations_AccessPolicy_STATUS_ARM: Object (4 properties)
 │   ├── Id: *string
 │   ├── Name: *string

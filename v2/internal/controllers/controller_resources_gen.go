@@ -197,15 +197,33 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.oauth2.grantTypes.authorizationCode",
 				Func: indexApimanagementAuthorizationProviderAuthorizationCode,
 			},
+			{
+				Key:  ".spec.oauth2.grantTypes.clientCredentials",
+				Func: indexApimanagementAuthorizationProviderClientCredentials,
+			},
 		},
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.oauth2.grantTypes.authorizationCode"}, &apimanagement_v20220801s.AuthorizationProviderList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.oauth2.grantTypes.authorizationCode", ".spec.oauth2.grantTypes.clientCredentials"}, &apimanagement_v20220801s.AuthorizationProviderList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.AuthorizationProvidersAuthorization)})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.AuthorizationProvidersAuthorization),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.parameters",
+				Func: indexApimanagementAuthorizationProvidersAuthorizationParameters,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.parameters"}, &apimanagement_v20220801s.AuthorizationProvidersAuthorizationList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy),
 		Indexes: []registration.Index{
@@ -1980,6 +1998,36 @@ func indexApimanagementAuthorizationProviderAuthorizationCode(rawObj client.Obje
 		return nil
 	}
 	return obj.Spec.Oauth2.GrantTypes.AuthorizationCode.Index()
+}
+
+// indexApimanagementAuthorizationProviderClientCredentials an index function for apimanagement_v20220801s.AuthorizationProvider .spec.oauth2.grantTypes.clientCredentials
+func indexApimanagementAuthorizationProviderClientCredentials(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.AuthorizationProvider)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Oauth2 == nil {
+		return nil
+	}
+	if obj.Spec.Oauth2.GrantTypes == nil {
+		return nil
+	}
+	if obj.Spec.Oauth2.GrantTypes.ClientCredentials == nil {
+		return nil
+	}
+	return obj.Spec.Oauth2.GrantTypes.ClientCredentials.Index()
+}
+
+// indexApimanagementAuthorizationProvidersAuthorizationParameters an index function for apimanagement_v20220801s.AuthorizationProvidersAuthorization .spec.parameters
+func indexApimanagementAuthorizationProvidersAuthorizationParameters(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.AuthorizationProvidersAuthorization)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Parameters == nil {
+		return nil
+	}
+	return obj.Spec.Parameters.Index()
 }
 
 // indexApimanagementAuthorizationProvidersAuthorizationsAccessPolicyObjectIdFromConfig an index function for apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy .spec.objectIdFromConfig

@@ -64,7 +64,6 @@
 | AuthorizationContractProperties_Oauth2GrantType                   | v1api20220801 | v1api20230501preview |
 | AuthorizationContractProperties_Oauth2GrantType_STATUS            | v1api20220801 | v1api20230501preview |
 | AuthorizationContractProperties_STATUS                            | v1api20220801 | v1api20230501preview |
-| AuthorizationError                                                | v1api20220801 | v1api20230501preview |
 | AuthorizationError_STATUS                                         | v1api20220801 | v1api20230501preview |
 | AuthorizationProvider                                             | v1api20220801 | v1api20230501preview |
 | AuthorizationProviderContractProperties                           | v1api20220801 | v1api20230501preview |

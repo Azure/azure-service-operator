@@ -228,7 +228,7 @@ type AuthorizationProviderOAuth2Settings_STATUS struct {
 // Authorization Provider oauth2 grant types settings
 type AuthorizationProviderOAuth2GrantTypes struct {
 	AuthorizationCode *genruntime.SecretMapReference `json:"authorizationCode,omitempty"`
-	ClientCredentials map[string]string              `json:"clientCredentials,omitempty"`
+	ClientCredentials *genruntime.SecretMapReference `json:"clientCredentials,omitempty"`
 	PropertyBag       genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 

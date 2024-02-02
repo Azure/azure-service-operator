@@ -785,7 +785,7 @@ type augmentConversionForAuthorizationProviderOAuth2Settings_STATUS interface {
 // Authorization Provider oauth2 grant types settings
 type AuthorizationProviderOAuth2GrantTypes struct {
 	AuthorizationCode *genruntime.SecretMapReference `json:"authorizationCode,omitempty"`
-	ClientCredentials map[string]string              `json:"clientCredentials,omitempty"`
+	ClientCredentials *genruntime.SecretMapReference `json:"clientCredentials,omitempty"`
 	PropertyBag       genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
@@ -803,7 +803,12 @@ func (types *AuthorizationProviderOAuth2GrantTypes) AssignProperties_From_Author
 	}
 
 	// ClientCredentials
-	types.ClientCredentials = genruntime.CloneMapOfStringToString(source.ClientCredentials)
+	if source.ClientCredentials != nil {
+		clientCredential := source.ClientCredentials.Copy()
+		types.ClientCredentials = &clientCredential
+	} else {
+		types.ClientCredentials = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -839,7 +844,12 @@ func (types *AuthorizationProviderOAuth2GrantTypes) AssignProperties_To_Authoriz
 	}
 
 	// ClientCredentials
-	destination.ClientCredentials = genruntime.CloneMapOfStringToString(types.ClientCredentials)
+	if types.ClientCredentials != nil {
+		clientCredential := types.ClientCredentials.Copy()
+		destination.ClientCredentials = &clientCredential
+	} else {
+		destination.ClientCredentials = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

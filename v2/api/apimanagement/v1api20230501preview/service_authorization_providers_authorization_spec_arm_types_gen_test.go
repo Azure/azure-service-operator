@@ -136,9 +136,6 @@ func RunJSONSerializationTestForAuthorizationContractProperties_ARM(subject Auth
 var authorizationContractProperties_ARMGenerator gopter.Gen
 
 // AuthorizationContractProperties_ARMGenerator returns a generator of AuthorizationContractProperties_ARM instances for property testing.
-// We first initialize authorizationContractProperties_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func AuthorizationContractProperties_ARMGenerator() gopter.Gen {
 	if authorizationContractProperties_ARMGenerator != nil {
 		return authorizationContractProperties_ARMGenerator
@@ -146,12 +143,6 @@ func AuthorizationContractProperties_ARMGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForAuthorizationContractProperties_ARM(generators)
-	authorizationContractProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AuthorizationContractProperties_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAuthorizationContractProperties_ARM(generators)
-	AddRelatedPropertyGeneratorsForAuthorizationContractProperties_ARM(generators)
 	authorizationContractProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AuthorizationContractProperties_ARM{}), generators)
 
 	return authorizationContractProperties_ARMGenerator
@@ -162,72 +153,4 @@ func AddIndependentPropertyGeneratorsForAuthorizationContractProperties_ARM(gens
 	gens["AuthorizationType"] = gen.PtrOf(gen.OneConstOf(AuthorizationContractProperties_AuthorizationType_OAuth2))
 	gens["Oauth2GrantType"] = gen.PtrOf(gen.OneConstOf(AuthorizationContractProperties_Oauth2GrantType_AuthorizationCode, AuthorizationContractProperties_Oauth2GrantType_ClientCredentials))
 	gens["Parameters"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForAuthorizationContractProperties_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAuthorizationContractProperties_ARM(gens map[string]gopter.Gen) {
-	gens["Error"] = gen.PtrOf(AuthorizationError_ARMGenerator())
-}
-
-func Test_AuthorizationError_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AuthorizationError_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAuthorizationError_ARM, AuthorizationError_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAuthorizationError_ARM runs a test to see if a specific instance of AuthorizationError_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAuthorizationError_ARM(subject AuthorizationError_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AuthorizationError_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AuthorizationError_ARM instances for property testing - lazily instantiated by
-// AuthorizationError_ARMGenerator()
-var authorizationError_ARMGenerator gopter.Gen
-
-// AuthorizationError_ARMGenerator returns a generator of AuthorizationError_ARM instances for property testing.
-func AuthorizationError_ARMGenerator() gopter.Gen {
-	if authorizationError_ARMGenerator != nil {
-		return authorizationError_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAuthorizationError_ARM(generators)
-	authorizationError_ARMGenerator = gen.Struct(reflect.TypeOf(AuthorizationError_ARM{}), generators)
-
-	return authorizationError_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAuthorizationError_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAuthorizationError_ARM(gens map[string]gopter.Gen) {
-	gens["Code"] = gen.PtrOf(gen.AlphaString())
-	gens["Message"] = gen.PtrOf(gen.AlphaString())
 }

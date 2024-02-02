@@ -251,9 +251,6 @@ func RunJSONSerializationTestForService_AuthorizationProviders_Authorization_Spe
 var service_AuthorizationProviders_Authorization_SpecGenerator gopter.Gen
 
 // Service_AuthorizationProviders_Authorization_SpecGenerator returns a generator of Service_AuthorizationProviders_Authorization_Spec instances for property testing.
-// We first initialize service_AuthorizationProviders_Authorization_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func Service_AuthorizationProviders_Authorization_SpecGenerator() gopter.Gen {
 	if service_AuthorizationProviders_Authorization_SpecGenerator != nil {
 		return service_AuthorizationProviders_Authorization_SpecGenerator
@@ -261,12 +258,6 @@ func Service_AuthorizationProviders_Authorization_SpecGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForService_AuthorizationProviders_Authorization_Spec(generators)
-	service_AuthorizationProviders_Authorization_SpecGenerator = gen.Struct(reflect.TypeOf(Service_AuthorizationProviders_Authorization_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_AuthorizationProviders_Authorization_Spec(generators)
-	AddRelatedPropertyGeneratorsForService_AuthorizationProviders_Authorization_Spec(generators)
 	service_AuthorizationProviders_Authorization_SpecGenerator = gen.Struct(reflect.TypeOf(Service_AuthorizationProviders_Authorization_Spec{}), generators)
 
 	return service_AuthorizationProviders_Authorization_SpecGenerator
@@ -278,13 +269,6 @@ func AddIndependentPropertyGeneratorsForService_AuthorizationProviders_Authoriza
 	gens["AzureName"] = gen.AlphaString()
 	gens["Oauth2GrantType"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Parameters"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForService_AuthorizationProviders_Authorization_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForService_AuthorizationProviders_Authorization_Spec(gens map[string]gopter.Gen) {
-	gens["Error"] = gen.PtrOf(AuthorizationErrorGenerator())
 }
 
 func Test_Service_AuthorizationProviders_Authorization_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -408,109 +392,6 @@ func AddIndependentPropertyGeneratorsForService_AuthorizationProviders_Authoriza
 // AddRelatedPropertyGeneratorsForService_AuthorizationProviders_Authorization_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForService_AuthorizationProviders_Authorization_STATUS(gens map[string]gopter.Gen) {
 	gens["Error"] = gen.PtrOf(AuthorizationError_STATUSGenerator())
-}
-
-func Test_AuthorizationError_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AuthorizationError to AuthorizationError via AssignProperties_To_AuthorizationError & AssignProperties_From_AuthorizationError returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAuthorizationError, AuthorizationErrorGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAuthorizationError tests if a specific instance of AuthorizationError can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForAuthorizationError(subject AuthorizationError) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.AuthorizationError
-	err := copied.AssignProperties_To_AuthorizationError(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AuthorizationError
-	err = actual.AssignProperties_From_AuthorizationError(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AuthorizationError_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AuthorizationError via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAuthorizationError, AuthorizationErrorGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAuthorizationError runs a test to see if a specific instance of AuthorizationError round trips to JSON and back losslessly
-func RunJSONSerializationTestForAuthorizationError(subject AuthorizationError) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AuthorizationError
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AuthorizationError instances for property testing - lazily instantiated by AuthorizationErrorGenerator()
-var authorizationErrorGenerator gopter.Gen
-
-// AuthorizationErrorGenerator returns a generator of AuthorizationError instances for property testing.
-func AuthorizationErrorGenerator() gopter.Gen {
-	if authorizationErrorGenerator != nil {
-		return authorizationErrorGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAuthorizationError(generators)
-	authorizationErrorGenerator = gen.Struct(reflect.TypeOf(AuthorizationError{}), generators)
-
-	return authorizationErrorGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAuthorizationError is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAuthorizationError(gens map[string]gopter.Gen) {
-	gens["Code"] = gen.PtrOf(gen.AlphaString())
-	gens["Message"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_AuthorizationError_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

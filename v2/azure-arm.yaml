@@ -258,13 +258,25 @@ typeTransformers:
 
   # 
   # In the group 'apimanagement', 
-  # remove the property 'ApiManagementServiceProperties.PrivateEndpointConnections'
+  # remove the properties 'ApiManagementServiceProperties.PrivateEndpointConnections', 'AuthorizationContractProperties.Error' and 'AuthorizationContractProperties.Status'
   # 
   - group: apimanagement
     name: ApiManagementServiceProperties
     property: PrivateEndpointConnections
     remove: true
     because: This property should be marked readonly
+
+  - group: apimanagement
+    name: AuthorizationContractProperties
+    property: Error
+    remove: true
+    because: This property should be marked readonly in Swagger
+
+  - group: apimanagement
+    name: AuthorizationContractProperties
+    property: Status
+    remove: true
+    because: This property should be marked readonly in Swagger
 
   #
   # In the group 'compute',
@@ -857,8 +869,13 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         ObjectId:
           $importConfigMapMode: optional
+      AuthorizationContractProperties:
+        Parameters:
+          $isSecret: true
       AuthorizationProviderOAuth2GrantTypes:
         AuthorizationCode:
+          $isSecret: true
+        ClientCredentials:
           $isSecret: true
       BackendContractProperties:
         ResourceId:
@@ -959,8 +976,13 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         ObjectId:
           $importConfigMapMode: optional
+      AuthorizationContractProperties:
+        Parameters:
+          $isSecret: true
       AuthorizationProviderOAuth2GrantTypes:
         AuthorizationCode:
+          $isSecret: true
+        ClientCredentials:
           $isSecret: true
       BackendContractProperties:
         ResourceId:

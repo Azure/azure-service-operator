@@ -1102,7 +1102,7 @@ type AuthorizationProviderOAuth2GrantTypes struct {
 	AuthorizationCode *genruntime.SecretMapReference `json:"authorizationCode,omitempty"`
 
 	// ClientCredentials: OAuth2 client credential grant parameters
-	ClientCredentials map[string]string `json:"clientCredentials,omitempty"`
+	ClientCredentials *genruntime.SecretMapReference `json:"clientCredentials,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AuthorizationProviderOAuth2GrantTypes{}
@@ -1127,10 +1127,13 @@ func (types *AuthorizationProviderOAuth2GrantTypes) ConvertToARM(resolved genrun
 
 	// Set property "ClientCredentials":
 	if types.ClientCredentials != nil {
-		result.ClientCredentials = make(map[string]string, len(types.ClientCredentials))
-		for key, value := range types.ClientCredentials {
-			result.ClientCredentials[key] = value
+		var temp map[string]string
+		tempSecret, err := resolved.ResolvedSecretMaps.Lookup(*types.ClientCredentials)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property temp")
 		}
+		temp = tempSecret
+		result.ClientCredentials = temp
 	}
 	return result, nil
 }
@@ -1142,20 +1145,14 @@ func (types *AuthorizationProviderOAuth2GrantTypes) NewEmptyARMValue() genruntim
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (types *AuthorizationProviderOAuth2GrantTypes) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AuthorizationProviderOAuth2GrantTypes_ARM)
+	_, ok := armInput.(AuthorizationProviderOAuth2GrantTypes_ARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AuthorizationProviderOAuth2GrantTypes_ARM, got %T", armInput)
 	}
 
 	// no assignment for property "AuthorizationCode"
 
-	// Set property "ClientCredentials":
-	if typedInput.ClientCredentials != nil {
-		types.ClientCredentials = make(map[string]string, len(typedInput.ClientCredentials))
-		for key, value := range typedInput.ClientCredentials {
-			types.ClientCredentials[key] = value
-		}
-	}
+	// no assignment for property "ClientCredentials"
 
 	// No error
 	return nil
@@ -1173,7 +1170,12 @@ func (types *AuthorizationProviderOAuth2GrantTypes) AssignProperties_From_Author
 	}
 
 	// ClientCredentials
-	types.ClientCredentials = genruntime.CloneMapOfStringToString(source.ClientCredentials)
+	if source.ClientCredentials != nil {
+		clientCredential := source.ClientCredentials.Copy()
+		types.ClientCredentials = &clientCredential
+	} else {
+		types.ClientCredentials = nil
+	}
 
 	// No error
 	return nil
@@ -1193,7 +1195,12 @@ func (types *AuthorizationProviderOAuth2GrantTypes) AssignProperties_To_Authoriz
 	}
 
 	// ClientCredentials
-	destination.ClientCredentials = genruntime.CloneMapOfStringToString(types.ClientCredentials)
+	if types.ClientCredentials != nil {
+		clientCredential := types.ClientCredentials.Copy()
+		destination.ClientCredentials = &clientCredential
+	} else {
+		destination.ClientCredentials = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1208,9 +1215,6 @@ func (types *AuthorizationProviderOAuth2GrantTypes) AssignProperties_To_Authoriz
 
 // Initialize_From_AuthorizationProviderOAuth2GrantTypes_STATUS populates our AuthorizationProviderOAuth2GrantTypes from the provided source AuthorizationProviderOAuth2GrantTypes_STATUS
 func (types *AuthorizationProviderOAuth2GrantTypes) Initialize_From_AuthorizationProviderOAuth2GrantTypes_STATUS(source *AuthorizationProviderOAuth2GrantTypes_STATUS) error {
-
-	// ClientCredentials
-	types.ClientCredentials = genruntime.CloneMapOfStringToString(source.ClientCredentials)
 
 	// No error
 	return nil

@@ -144,19 +144,17 @@ type Service_AuthorizationProviders_Authorization_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string              `json:"azureName,omitempty"`
-	Error           *AuthorizationError `json:"error,omitempty"`
-	Oauth2GrantType *string             `json:"oauth2grantType,omitempty"`
-	OriginalVersion string              `json:"originalVersion,omitempty"`
+	AzureName       string  `json:"azureName,omitempty"`
+	Oauth2GrantType *string `json:"oauth2grantType,omitempty"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a apimanagement.azure.com/AuthorizationProvider resource
 	Owner       *genruntime.KnownResourceReference `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"AuthorizationProvider"`
-	Parameters  map[string]string                  `json:"parameters,omitempty"`
+	Parameters  *genruntime.SecretMapReference     `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Status      *string                            `json:"status,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Service_AuthorizationProviders_Authorization_Spec{}
@@ -211,14 +209,6 @@ func (authorization *Service_AuthorizationProviders_Authorization_STATUS) Conver
 	}
 
 	return destination.ConvertStatusFrom(authorization)
-}
-
-// Storage version of v1api20220801.AuthorizationError
-// Authorization error details.
-type AuthorizationError struct {
-	Code        *string                `json:"code,omitempty"`
-	Message     *string                `json:"message,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20220801.AuthorizationError_STATUS

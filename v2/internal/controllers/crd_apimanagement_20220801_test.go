@@ -69,6 +69,8 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 	tc.PatchResourceAndWait(old, &service)
 	tc.Expect(service.Status.Tags).To(HaveKey("scratchcard"))
 
+	authorizationProviderSecrets := createAuthorizationProviderSecrets(tc, "authorizationprovider")
+
 	// Run sub-tests
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
@@ -128,19 +130,19 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "APIM Authorization Provider CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				APIM_AuthorizationProvider_CRUD(tc, &service)
+				APIM_AuthorizationProvider_CRUD(tc, &service, &authorizationProviderSecrets)
 			},
 		},
 		testcommon.Subtest{
 			Name: "APIM Authorization CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				APIM_AuthorizationProviders_Authorization_CRUD(tc, &service)
+				APIM_AuthorizationProviders_Authorization_CRUD(tc, &service, &authorizationProviderSecrets)
 			},
 		},
 		testcommon.Subtest{
 			Name: "APIM Authorization Access Policy CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				APIM_AuthorizationProviders_Authorizations_AccessPolicy_CRUD(tc, rg, &service)
+				APIM_AuthorizationProviders_Authorizations_AccessPolicy_CRUD(tc, rg, &service, &authorizationProviderSecrets)
 			},
 		},
 	)
@@ -168,7 +170,7 @@ func APIM_Subscription_CRUD(tc *testcommon.KubePerTestContext, service client.Ob
 	// There should be no secrets at this point
 	secretList := &v1.SecretList{}
 	tc.ListResources(secretList, client.InNamespace(tc.Namespace))
-	tc.Expect(secretList.Items).To(HaveLen(3)) //for each secret created for authorization provider resource
+	tc.Expect(secretList.Items).To(HaveLen(1)) //for secret created for authorization provider resource
 
 	// Run sub-tests on subscription in sequence
 	tc.RunSubtests(
@@ -489,9 +491,7 @@ func APIM_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	tc.T.Log("cleaning up api")
 }
 
-func APIM_AuthorizationProvider_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
-
-	authorizationCode := createAuthorizationCodeMapReference(tc, "authorizationprovider")
+func APIM_AuthorizationProvider_CRUD(tc *testcommon.KubePerTestContext, service client.Object, secretsMap *genruntime.SecretMapReference) {
 
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
@@ -500,7 +500,7 @@ func APIM_AuthorizationProvider_CRUD(tc *testcommon.KubePerTestContext, service 
 			IdentityProvider: to.Ptr("aad"),
 			Oauth2: &apim.AuthorizationProviderOAuth2Settings{
 				GrantTypes: &apim.AuthorizationProviderOAuth2GrantTypes{
-					AuthorizationCode: &authorizationCode,
+					AuthorizationCode: secretsMap,
 				},
 			},
 			Owner: testcommon.AsOwner(service),
@@ -516,9 +516,7 @@ func APIM_AuthorizationProvider_CRUD(tc *testcommon.KubePerTestContext, service 
 	tc.T.Log("cleaning up authorizationProvider")
 }
 
-func APIM_AuthorizationProviders_Authorization_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
-
-	authorizationCode := createAuthorizationCodeMapReference(tc, "authorization")
+func APIM_AuthorizationProviders_Authorization_CRUD(tc *testcommon.KubePerTestContext, service client.Object, secretsMap *genruntime.SecretMapReference) {
 
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
@@ -527,7 +525,7 @@ func APIM_AuthorizationProviders_Authorization_CRUD(tc *testcommon.KubePerTestCo
 			IdentityProvider: to.Ptr("aad"),
 			Oauth2: &apim.AuthorizationProviderOAuth2Settings{
 				GrantTypes: &apim.AuthorizationProviderOAuth2GrantTypes{
-					AuthorizationCode: &authorizationCode,
+					AuthorizationCode: secretsMap,
 				},
 			},
 			Owner: testcommon.AsOwner(service),
@@ -541,14 +539,8 @@ func APIM_AuthorizationProviders_Authorization_CRUD(tc *testcommon.KubePerTestCo
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorization")),
 		Spec: apim.Service_AuthorizationProviders_Authorization_Spec{
 			AuthorizationType: to.Ptr(apim.AuthorizationContractProperties_AuthorizationType_OAuth2),
-			Error: &apim.AuthorizationError{
-				Code:    to.Ptr("samplecode"),
-				Message: to.Ptr("samplemessage"),
-			},
-			Oauth2GrantType: to.Ptr(apim.AuthorizationContractProperties_Oauth2GrantType_AuthorizationCode),
-			Status:          to.Ptr("samplemessage"),
-			Parameters:      map[string]string{},
-			Owner:           testcommon.AsOwner(&authorizationProvider),
+			Oauth2GrantType:   to.Ptr(apim.AuthorizationContractProperties_Oauth2GrantType_AuthorizationCode),
+			Owner:             testcommon.AsOwner(&authorizationProvider),
 		},
 	}
 
@@ -564,9 +556,7 @@ func APIM_AuthorizationProviders_Authorization_CRUD(tc *testcommon.KubePerTestCo
 	tc.T.Log("cleaning up authorizationProvider")
 }
 
-func APIM_AuthorizationProviders_Authorizations_AccessPolicy_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, service client.Object) {
-
-	authorizationCode := createAuthorizationCodeMapReference(tc, "accesspolicy")
+func APIM_AuthorizationProviders_Authorizations_AccessPolicy_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, service client.Object, secretsMap *genruntime.SecretMapReference) {
 
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
@@ -575,7 +565,7 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy_CRUD(tc *testcommon
 			IdentityProvider: to.Ptr("aad"),
 			Oauth2: &apim.AuthorizationProviderOAuth2Settings{
 				GrantTypes: &apim.AuthorizationProviderOAuth2GrantTypes{
-					AuthorizationCode: &authorizationCode,
+					AuthorizationCode: secretsMap,
 				},
 			},
 			Owner: testcommon.AsOwner(service),
@@ -589,14 +579,8 @@ func APIM_AuthorizationProviders_Authorizations_AccessPolicy_CRUD(tc *testcommon
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorization")),
 		Spec: apim.Service_AuthorizationProviders_Authorization_Spec{
 			AuthorizationType: to.Ptr(apim.AuthorizationContractProperties_AuthorizationType_OAuth2),
-			Error: &apim.AuthorizationError{
-				Code:    to.Ptr("samplecode"),
-				Message: to.Ptr("samplemessage"),
-			},
-			Oauth2GrantType: to.Ptr(apim.AuthorizationContractProperties_Oauth2GrantType_AuthorizationCode),
-			Status:          to.Ptr("samplemessage"),
-			Parameters:      map[string]string{},
-			Owner:           testcommon.AsOwner(&authorizationProvider),
+			Oauth2GrantType:   to.Ptr(apim.AuthorizationContractProperties_Oauth2GrantType_AuthorizationCode),
+			Owner:             testcommon.AsOwner(&authorizationProvider),
 		},
 	}
 
@@ -700,7 +684,7 @@ func Subscription_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerTes
 	tc.ExpectSecretHasKeys(secondaryKeySecret, "secondarymasterkey")
 }
 
-func createAuthorizationCodeMapReference(tc *testcommon.KubePerTestContext, name string) genruntime.SecretMapReference {
+func createAuthorizationProviderSecrets(tc *testcommon.KubePerTestContext, name string) genruntime.SecretMapReference {
 	clientId := tc.Namer.GeneratePasswordOfLength(10)
 	clientSecret := tc.Namer.GeneratePasswordOfLength(10)
 
