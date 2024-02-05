@@ -488,6 +488,20 @@ doesn&amp;rsquo;t have to be.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
+&lt;code&gt;configurationProtectedSettings&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretMapReference&#34;&gt;
+genruntime.SecretMapReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ConfigurationProtectedSettings: Configuration settings that are sensitive, as name-value pairs for configuring this
+extension.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
 &lt;code&gt;configurationSettings&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 map[string]string
@@ -1035,6 +1049,18 @@ bool
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
+&lt;code&gt;configurationProtectedSettings&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ConfigurationProtectedSettings: Configuration settings that are sensitive, as name-value pairs for configuring this
+extension.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
 &lt;code&gt;configurationSettings&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 map[string]string
@@ -1219,6 +1245,18 @@ bool
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
+&lt;code&gt;configurationProtectedSettings&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ConfigurationProtectedSettings: Configuration settings that are sensitive, as name-value pairs for configuring this
+extension.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
 &lt;code&gt;configurationSettings&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 map[string]string
@@ -1330,6 +1368,18 @@ bool
 &lt;/td&gt;
 &lt;td&gt;
 &lt;p&gt;Conditions: The observed state of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;configurationProtectedSettings&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ConfigurationProtectedSettings: Configuration settings that are sensitive, as name-value pairs for configuring this
+extension.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1702,6 +1752,20 @@ string
 &lt;td&gt;
 &lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;configurationProtectedSettings&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretMapReference&#34;&gt;
+genruntime.SecretMapReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ConfigurationProtectedSettings: Configuration settings that are sensitive, as name-value pairs for configuring this
+extension.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;

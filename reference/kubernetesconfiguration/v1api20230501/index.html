@@ -39,7 +39,7 @@
     ErrorAdditionalInfo_STATUS   (Appears on:ErrorDetail_STATUS, ErrorDetail_STATUS_Unrolled)  The resource management error additional info.
     Field Description      info  map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON     Info: The additional info.">
 
-<meta itemprop="wordCount" content="2961">
+<meta itemprop="wordCount" content="3036">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="kubernetesconfiguration.azure.com/v1api20230501"/>
 <meta name="twitter:description" content="kubernetesconfiguration.azure.com/v1api20230501  Package v1api20230501 contains API Schema definitions for the kubernetesconfiguration v1api20230501 API group
@@ -1151,6 +1151,20 @@ doesn&rsquo;t have to be.</p>
 </tr>
 <tr>
 <td>
+<code>configurationProtectedSettings</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretMapReference">
+genruntime.SecretMapReference
+</a>
+</em>
+</td>
+<td>
+<p>ConfigurationProtectedSettings: Configuration settings that are sensitive, as name-value pairs for configuring this
+extension.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>configurationSettings</code><br/>
 <em>
 map[string]string
@@ -1698,6 +1712,18 @@ bool
 </tr>
 <tr>
 <td>
+<code>configurationProtectedSettings</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>ConfigurationProtectedSettings: Configuration settings that are sensitive, as name-value pairs for configuring this
+extension.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>configurationSettings</code><br/>
 <em>
 map[string]string
@@ -1882,6 +1908,18 @@ bool
 </tr>
 <tr>
 <td>
+<code>configurationProtectedSettings</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>ConfigurationProtectedSettings: Configuration settings that are sensitive, as name-value pairs for configuring this
+extension.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>configurationSettings</code><br/>
 <em>
 map[string]string
@@ -1993,6 +2031,18 @@ bool
 </td>
 <td>
 <p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>configurationProtectedSettings</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>ConfigurationProtectedSettings: Configuration settings that are sensitive, as name-value pairs for configuring this
+extension.</p>
 </td>
 </tr>
 <tr>
@@ -2365,6 +2415,20 @@ string
 <td>
 <p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>configurationProtectedSettings</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretMapReference">
+genruntime.SecretMapReference
+</a>
+</em>
+</td>
+<td>
+<p>ConfigurationProtectedSettings: Configuration settings that are sensitive, as name-value pairs for configuring this
+extension.</p>
 </td>
 </tr>
 <tr>
