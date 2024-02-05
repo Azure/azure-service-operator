@@ -6,7 +6,9 @@ Licensed under the MIT license.
 package testcommon
 
 import (
+	"context"
 	"io"
+	"net/http"
 	"os"
 	"testing"
 
@@ -106,7 +108,10 @@ func TestRecorderV3_WhenRecordingAndRecordingExists_DoesPlayback(t *testing.T) {
 	client := recorder.CreateClient(t)
 
 	// Make sure we can get a response from the internet
-	resp, err := client.Get(url)
+	req, err := http.NewRequestWithContext(context.Background(), http.MethodGet, url, nil)
+	g.Expect(err).To(BeNil())
+
+	resp, err := client.Do(req)
 	g.Expect(err).To(BeNil())
 	defer resp.Body.Close()
 

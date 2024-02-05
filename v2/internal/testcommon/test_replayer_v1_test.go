@@ -6,7 +6,9 @@ Licensed under the MIT license.
 package testcommon
 
 import (
+	"context"
 	"io"
+	"net/http"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -23,16 +25,19 @@ func TestReplayerV1_WhenRecordingExists_ReturnsResult(t *testing.T) {
 	replayer, err := newTestPlayerV1(cassetteName, cfg)
 	g.Expect(err).To(BeNil())
 
-	defer replayer.Stop()
-
 	url := "https://www.bing.com"
 	client := replayer.CreateClient(t)
 
-	resp, err := client.Get(url)
+	req, err := http.NewRequestWithContext(context.Background(), http.MethodGet, url, nil)
+	g.Expect(err).To(BeNil())
+
+	resp, err := client.Do(req)
 	g.Expect(err).To(BeNil())
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	g.Expect(err).To(BeNil())
 	g.Expect(body).NotTo(HaveLen(0))
+
+	g.Expect(replayer.Stop()).To(Succeed())
 }
