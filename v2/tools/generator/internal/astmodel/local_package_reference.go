@@ -146,6 +146,8 @@ func (pr LocalPackageReference) GroupVersion() (string, string) {
 
 // ImportAlias returns the import alias to use for this package reference
 func (pr LocalPackageReference) ImportAlias(style PackageImportStyle) string {
+	groupForAlias := strings.Replace(pr.group, ".", "", -1)
+
 	switch style {
 	case VersionOnly:
 		return fmt.Sprintf(
@@ -153,11 +155,11 @@ func (pr LocalPackageReference) ImportAlias(style PackageImportStyle) string {
 			pr.simplifiedGeneratorVersion(pr.generatorVersion),
 			pr.simplifiedApiVersion(pr.apiVersion))
 	case GroupOnly:
-		return pr.group
+		return groupForAlias
 	case GroupAndVersion:
 		return fmt.Sprintf(
 			"%s_%s%s",
-			pr.group,
+			groupForAlias,
 			pr.simplifiedGeneratorVersion(pr.generatorVersion),
 			pr.simplifiedApiVersion(pr.apiVersion))
 	default:
