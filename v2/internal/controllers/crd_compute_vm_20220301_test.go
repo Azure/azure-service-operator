@@ -126,4 +126,12 @@ func VM_Extension_20220301_CRUD(tc *testcommon.KubePerTestContext, vmOwnerRef *g
 
 	tc.CreateResourceAndWait(extension)
 	tc.Expect(extension.Status.Id).ToNot(BeNil())
+	armId := *extension.Status.Id
+
+	tc.DeleteResourceAndWait(extension)
+
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(compute2022.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
 }
