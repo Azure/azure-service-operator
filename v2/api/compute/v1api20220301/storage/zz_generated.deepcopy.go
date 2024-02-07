@@ -6101,13 +6101,6 @@ func (in *VirtualMachineScaleSetExtension) DeepCopyInto(out *VirtualMachineScale
 			(*out)[key] = val
 		}
 	}
-	if in.ProtectedSettings != nil {
-		in, out := &in.ProtectedSettings, &out.ProtectedSettings
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
-		}
-	}
 	if in.ProtectedSettingsFromKeyVault != nil {
 		in, out := &in.ProtectedSettingsFromKeyVault, &out.ProtectedSettingsFromKeyVault
 		*out = new(KeyVaultSecretReference)
@@ -8326,13 +8319,6 @@ func (in *VirtualMachineScaleSets_Extension_Spec) DeepCopyInto(out *VirtualMachi
 		*out = make(genruntime.PropertyBag, len(*in))
 		for key, val := range *in {
 			(*out)[key] = val
-		}
-	}
-	if in.ProtectedSettings != nil {
-		in, out := &in.ProtectedSettings, &out.ProtectedSettings
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
 		}
 	}
 	if in.ProtectedSettingsFromKeyVault != nil {
