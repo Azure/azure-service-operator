@@ -2,7 +2,7 @@
 
 We track upcoming work on Azure Service Operator (ASO) using [GitHub Issues](https://github.com/Azure/azure-service-operator/issues?q=is%3Aissue+is%3Aopen).
 
-## Release Cadence
+## Release Cadence & Planning
 
 We target a new release of ASO approximately every two months, though this may vary depending on the amount of work we have planned as well as external factors.
 
@@ -15,13 +15,13 @@ Our current release plan:
 | 2.8.0 | Mid June 2024 |
 | 2.9.0 | Mid August 2024 |
 
-Where linked, versions go to the list of open issues for that release.
+Where linked, versions go to a list of feature and bugs that are planned to be included in that release.
 
 Any items note completed in time for one release will be carried over to the next, and may result in us pushing other items to a later release.
 
-Partway through a release cycle, we'll review the list of issues assigned to the upcoming release and redistribute issues as needed.
+Partway through eacha release cycle, we'll review the list of issues assigned to upcoming releases and redistribute issues as needed. This usually involves some issues being moved to later releases.
 
-If you're waiting on a particular resource or feature to be released, please comment on the relevant issue (or create a new issue) to let us know. We'll do our best to keep you updated on progress.
+If you're waiting on a particular resource or feature to be released, please comment on the relevant issue (or create a new issue if there isn't already one tracking the request) to let us know. We'll do our best to keep you updated on progress.
 
 ## Experimental Releases
 
@@ -48,4 +48,5 @@ We triage new issues weekly and assign most of them to an upcoming release miles
 
 ## What about ASO v1?
 
-Azure Service Operator v1 is no longer under active development and we do not recommend it for new users. Bug and security fixes are still made to support existing users who are yet to migrate to v2.
+Azure Service Operator v1 is no longer under active development and we do not recommend it for new users. Bug and security fixes are still made when necessary to support existing users who are yet to migrate to v2. We do not plan releases of ASO v1 in advance, they are done on an ad-hoc basis as needed.
+
