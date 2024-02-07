@@ -9,7 +9,6 @@ spec:
   oauth2:
     grantTypes:
       authorizationCode:
-        authorizationCode:
-          name: authcode
+        name: authcode
   owner:
     name: sampleapimservice
