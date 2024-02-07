@@ -50,8 +50,8 @@ sed -i "s@$LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE@{{.Values.image.repository}}@g
 perl -0777 -i -pe 's/(template:\n.*metadata:\n.*annotations:\n(\s*))/$1\{\{- if .Values.podAnnotations \}\}\n$2\{\{ toYaml .Values.podAnnotations \}\}\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add pod annotations
 
 # Affinity and Toleration
-sed -i '/    spec:/a\    {{- if .Values.affinity }}\n      affinity:\n        {{ toYaml .Values.affinity}}\n    {{- end }}' "$GEN_FILES_DIR"/*_deployment_*
-sed -i '/    spec:/a\    {{- if .Values.affinity }}\n      tolerations:\n        {{ toYaml .Values.tolerations}}\n    {{- end }}' "$GEN_FILES_DIR"/*_deployment_*
+sed -i '/    spec:/a\    {{- with .Values.affinity }}\n      affinity:\n        {{- toYaml . | nindent 8 }}\n    {{- end }}' "$GEN_FILES_DIR"/*_deployment_*
+sed -i '/    spec:/a\    {{- with .Values.tolerations }}\n      tolerations:\n        {{- toYaml . | nindent 8 }}\n    {{- end }}' "$GEN_FILES_DIR"/*_deployment_*
 
 # Metrics Configuration
 flow_control "metrics-addr" "metrics-addr" "{{- if .Values.metrics.enable}}" "$GEN_FILES_DIR"/*_deployment_*
