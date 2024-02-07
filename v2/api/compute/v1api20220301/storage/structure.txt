@@ -1039,13 +1039,12 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── EvictionPolicy: *string
 │   │   │   ├── ExtensionProfile: *Object (3 properties)
-│   │   │   │   ├── Extensions: Object (13 properties)[]
+│   │   │   │   ├── Extensions: Object (12 properties)[]
 │   │   │   │   │   ├── AutoUpgradeMinorVersion: *bool
 │   │   │   │   │   ├── EnableAutomaticUpgrade: *bool
 │   │   │   │   │   ├── ForceUpdateTag: *string
 │   │   │   │   │   ├── Name: *string
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── ProtectedSettings: map[string]v1.JSON
 │   │   │   │   │   ├── ProtectedSettingsFromKeyVault: *Object (3 properties)
 │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   │   ├── SecretUrl: *string
@@ -1610,7 +1609,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage
 │       └── Zones: string[]
 ├── VirtualMachineScaleSetsExtension: Resource
 │   ├── Owner: compute/v1api20220301.VirtualMachineScaleSet
-│   ├── Spec: Object (15 properties)
+│   ├── Spec: Object (14 properties)
 │   │   ├── AutoUpgradeMinorVersion: *bool
 │   │   ├── AzureName: string
 │   │   ├── EnableAutomaticUpgrade: *bool
@@ -1618,7 +1617,6 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── ProtectedSettings: map[string]v1.JSON
 │   │   ├── ProtectedSettingsFromKeyVault: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── SecretUrl: *string

@@ -156,7 +156,6 @@ type VirtualMachineScaleSets_Extension_Spec struct {
 	// reference to a compute.azure.com/VirtualMachineScaleSet resource
 	Owner                         *genruntime.KnownResourceReference `group:"compute.azure.com" json:"owner,omitempty" kind:"VirtualMachineScaleSet"`
 	PropertyBag                   genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProtectedSettings             map[string]v1.JSON                 `json:"protectedSettings,omitempty"`
 	ProtectedSettingsFromKeyVault *KeyVaultSecretReference           `json:"protectedSettingsFromKeyVault,omitempty"`
 	ProvisionAfterExtensions      []string                           `json:"provisionAfterExtensions,omitempty"`
 	Publisher                     *string                            `json:"publisher,omitempty"`

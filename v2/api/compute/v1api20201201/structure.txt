@@ -872,12 +872,11 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201
 │   │   │   │   ├── "Deallocate"
 │   │   │   │   └── "Delete"
 │   │   │   ├── ExtensionProfile: *Object (2 properties)
-│   │   │   │   ├── Extensions: Object (10 properties)[]
+│   │   │   │   ├── Extensions: Object (9 properties)[]
 │   │   │   │   │   ├── AutoUpgradeMinorVersion: *bool
 │   │   │   │   │   ├── EnableAutomaticUpgrade: *bool
 │   │   │   │   │   ├── ForceUpdateTag: *string
 │   │   │   │   │   ├── Name: *string
-│   │   │   │   │   ├── ProtectedSettings: map[string]v1.JSON
 │   │   │   │   │   ├── ProvisionAfterExtensions: string[]
 │   │   │   │   │   ├── Publisher: *string
 │   │   │   │   │   ├── Settings: map[string]v1.JSON
@@ -1672,11 +1671,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201
 │   │   │   ├── ExtensionProfile: *Object (2 properties)
 │   │   │   │   ├── Extensions: Object (2 properties)[]
 │   │   │   │   │   ├── Name: *string
-│   │   │   │   │   └── Properties: *Object (9 properties)
+│   │   │   │   │   └── Properties: *Object (8 properties)
 │   │   │   │   │       ├── AutoUpgradeMinorVersion: *bool
 │   │   │   │   │       ├── EnableAutomaticUpgrade: *bool
 │   │   │   │   │       ├── ForceUpdateTag: *string
-│   │   │   │   │       ├── ProtectedSettings: map[string]v1.JSON
 │   │   │   │   │       ├── ProvisionAfterExtensions: string[]
 │   │   │   │   │       ├── Publisher: *string
 │   │   │   │   │       ├── Settings: map[string]v1.JSON
@@ -1868,13 +1866,12 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201
 │   └── Zones: string[]
 ├── VirtualMachineScaleSetsExtension: Resource
 │   ├── Owner: VirtualMachineScaleSet
-│   ├── Spec: Object (11 properties)
+│   ├── Spec: Object (10 properties)
 │   │   ├── AutoUpgradeMinorVersion: *bool
 │   │   ├── AzureName: string
 │   │   ├── EnableAutomaticUpgrade: *bool
 │   │   ├── ForceUpdateTag: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── ProtectedSettings: map[string]v1.JSON
 │   │   ├── ProvisionAfterExtensions: string[]
 │   │   ├── Publisher: *string
 │   │   ├── Settings: map[string]v1.JSON
@@ -1912,11 +1909,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201
 │   └── Type: *string
 ├── VirtualMachineScaleSets_Extension_Spec_ARM: Object (2 properties)
 │   ├── Name: string
-│   └── Properties: *Object (9 properties)
+│   └── Properties: *Object (8 properties)
 │       ├── AutoUpgradeMinorVersion: *bool
 │       ├── EnableAutomaticUpgrade: *bool
 │       ├── ForceUpdateTag: *string
-│       ├── ProtectedSettings: map[string]v1.JSON
 │       ├── ProvisionAfterExtensions: string[]
 │       ├── Publisher: *string
 │       ├── Settings: map[string]v1.JSON

@@ -686,13 +686,12 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── EvictionPolicy: *string
 │   │   │   ├── ExtensionProfile: *Object (3 properties)
-│   │   │   │   ├── Extensions: Object (11 properties)[]
+│   │   │   │   ├── Extensions: Object (10 properties)[]
 │   │   │   │   │   ├── AutoUpgradeMinorVersion: *bool
 │   │   │   │   │   ├── EnableAutomaticUpgrade: *bool
 │   │   │   │   │   ├── ForceUpdateTag: *string
 │   │   │   │   │   ├── Name: *string
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── ProtectedSettings: map[string]v1.JSON
 │   │   │   │   │   ├── ProvisionAfterExtensions: string[]
 │   │   │   │   │   ├── Publisher: *string
 │   │   │   │   │   ├── Settings: map[string]v1.JSON
@@ -1141,7 +1140,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │       └── Zones: string[]
 ├── VirtualMachineScaleSetsExtension: Resource
 │   ├── Owner: compute/v1api20201201.VirtualMachineScaleSet
-│   ├── Spec: Object (13 properties)
+│   ├── Spec: Object (12 properties)
 │   │   ├── AutoUpgradeMinorVersion: *bool
 │   │   ├── AzureName: string
 │   │   ├── EnableAutomaticUpgrade: *bool
@@ -1149,7 +1148,6 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── ProtectedSettings: map[string]v1.JSON
 │   │   ├── ProvisionAfterExtensions: string[]
 │   │   ├── Publisher: *string
 │   │   ├── Settings: map[string]v1.JSON

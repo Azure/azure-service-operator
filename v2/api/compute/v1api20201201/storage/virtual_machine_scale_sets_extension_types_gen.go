@@ -249,7 +249,6 @@ type VirtualMachineScaleSets_Extension_Spec struct {
 	// reference to a compute.azure.com/VirtualMachineScaleSet resource
 	Owner                    *genruntime.KnownResourceReference `group:"compute.azure.com" json:"owner,omitempty" kind:"VirtualMachineScaleSet"`
 	PropertyBag              genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProtectedSettings        map[string]v1.JSON                 `json:"protectedSettings,omitempty"`
 	ProvisionAfterExtensions []string                           `json:"provisionAfterExtensions,omitempty"`
 	Publisher                *string                            `json:"publisher,omitempty"`
 	Settings                 map[string]v1.JSON                 `json:"settings,omitempty"`
@@ -343,19 +342,6 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) AssignProperties_From_V
 		extension.Owner = &owner
 	} else {
 		extension.Owner = nil
-	}
-
-	// ProtectedSettings
-	if source.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(source.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range source.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		extension.ProtectedSettings = protectedSettingMap
-	} else {
-		extension.ProtectedSettings = nil
 	}
 
 	// ProtectedSettingsFromKeyVault
@@ -453,19 +439,6 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) AssignProperties_To_Vir
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
-	}
-
-	// ProtectedSettings
-	if extension.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(extension.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range extension.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		destination.ProtectedSettings = protectedSettingMap
-	} else {
-		destination.ProtectedSettings = nil
 	}
 
 	// ProtectedSettingsFromKeyVault

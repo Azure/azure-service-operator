@@ -602,7 +602,6 @@ type VirtualMachineScaleSetExtension struct {
 	ForceUpdateTag                *string                  `json:"forceUpdateTag,omitempty"`
 	Name                          *string                  `json:"name,omitempty"`
 	PropertyBag                   genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
-	ProtectedSettings             map[string]v1.JSON       `json:"protectedSettings,omitempty"`
 	ProtectedSettingsFromKeyVault *KeyVaultSecretReference `json:"protectedSettingsFromKeyVault,omitempty"`
 	ProvisionAfterExtensions      []string                 `json:"provisionAfterExtensions,omitempty"`
 	Publisher                     *string                  `json:"publisher,omitempty"`
