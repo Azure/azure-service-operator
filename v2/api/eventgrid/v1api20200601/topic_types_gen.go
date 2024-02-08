@@ -4,15 +4,20 @@
 package v1api20200601
 
 import (
+	"context"
 	"fmt"
 	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -99,6 +104,23 @@ func (topic *Topic) InitializeSpec(status genruntime.ConvertibleStatus) error {
 	}
 
 	return fmt.Errorf("expected Status of type Topic_STATUS but received %T instead", status)
+}
+
+var _ genruntime.KubernetesExporter = &Topic{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (topic *Topic) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(topic.Namespace)
+	if topic.Spec.OperatorSpec != nil && topic.Spec.OperatorSpec.ConfigMaps != nil {
+		if topic.Status.Endpoint != nil {
+			collector.AddValue(topic.Spec.OperatorSpec.ConfigMaps.Endpoint, *topic.Status.Endpoint)
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &Topic{}
@@ -208,7 +230,7 @@ func (topic *Topic) ValidateUpdate(old runtime.Object) (admission.Warnings, erro
 
 // createValidations validates the creation of the resource
 func (topic *Topic) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){topic.validateResourceReferences, topic.validateOwnerReference, topic.validateSecretDestinations}
+	return []func() (admission.Warnings, error){topic.validateResourceReferences, topic.validateOwnerReference, topic.validateSecretDestinations, topic.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -229,7 +251,24 @@ func (topic *Topic) updateValidations() []func(old runtime.Object) (admission.Wa
 		func(old runtime.Object) (admission.Warnings, error) {
 			return topic.validateSecretDestinations()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return topic.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (topic *Topic) validateConfigMapDestinations() (admission.Warnings, error) {
+	if topic.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	if topic.Spec.OperatorSpec.ConfigMaps == nil {
+		return nil, nil
+	}
+	toValidate := []*genruntime.ConfigMapDestination{
+		topic.Spec.OperatorSpec.ConfigMaps.Endpoint,
+	}
+	return genruntime.ValidateConfigMapDestinations(toValidate)
 }
 
 // validateOwnerReference validates the owner field
@@ -1366,12 +1405,27 @@ func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) Assi
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type TopicOperatorSpec struct {
+	// ConfigMaps: configures where to place operator written ConfigMaps.
+	ConfigMaps *TopicOperatorConfigMaps `json:"configMaps,omitempty"`
+
 	// Secrets: configures where to place Azure generated secrets.
 	Secrets *TopicOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_TopicOperatorSpec populates our TopicOperatorSpec from the provided source TopicOperatorSpec
 func (operator *TopicOperatorSpec) AssignProperties_From_TopicOperatorSpec(source *v20200601s.TopicOperatorSpec) error {
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap TopicOperatorConfigMaps
+		err := configMap.AssignProperties_From_TopicOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_TopicOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
+	}
 
 	// Secrets
 	if source.Secrets != nil {
@@ -1393,6 +1447,18 @@ func (operator *TopicOperatorSpec) AssignProperties_From_TopicOperatorSpec(sourc
 func (operator *TopicOperatorSpec) AssignProperties_To_TopicOperatorSpec(destination *v20200601s.TopicOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap v20200601s.TopicOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_TopicOperatorConfigMaps(&configMap)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_TopicOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
+	}
 
 	// Secrets
 	if operator.Secrets != nil {
@@ -1459,6 +1525,50 @@ const (
 	TopicProperties_PublicNetworkAccess_STATUS_Disabled = TopicProperties_PublicNetworkAccess_STATUS("Disabled")
 	TopicProperties_PublicNetworkAccess_STATUS_Enabled  = TopicProperties_PublicNetworkAccess_STATUS("Enabled")
 )
+
+type TopicOperatorConfigMaps struct {
+	// Endpoint: indicates where the Endpoint config map should be placed. If omitted, no config map will be created.
+	Endpoint *genruntime.ConfigMapDestination `json:"endpoint,omitempty"`
+}
+
+// AssignProperties_From_TopicOperatorConfigMaps populates our TopicOperatorConfigMaps from the provided source TopicOperatorConfigMaps
+func (maps *TopicOperatorConfigMaps) AssignProperties_From_TopicOperatorConfigMaps(source *v20200601s.TopicOperatorConfigMaps) error {
+
+	// Endpoint
+	if source.Endpoint != nil {
+		endpoint := source.Endpoint.Copy()
+		maps.Endpoint = &endpoint
+	} else {
+		maps.Endpoint = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TopicOperatorConfigMaps populates the provided destination TopicOperatorConfigMaps from our TopicOperatorConfigMaps
+func (maps *TopicOperatorConfigMaps) AssignProperties_To_TopicOperatorConfigMaps(destination *v20200601s.TopicOperatorConfigMaps) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Endpoint
+	if maps.Endpoint != nil {
+		endpoint := maps.Endpoint.Copy()
+		destination.Endpoint = &endpoint
+	} else {
+		destination.Endpoint = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 type TopicOperatorSecrets struct {
 	// Key1: indicates where the Key1 secret should be placed. If omitted, the secret will not be retrieved from Azure.
