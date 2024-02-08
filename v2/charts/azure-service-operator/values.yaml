@@ -152,4 +152,3 @@ tolerations: []
 # Inter-pod affinity/anti-affinity allows you to constrain Pods against labels on other Pods.
 # For more information, see https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
 affinity: {}
-
