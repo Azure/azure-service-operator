@@ -20,6 +20,7 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/yaml"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 
@@ -79,8 +80,8 @@ type SamplesTester struct {
 }
 
 type SampleObject struct {
-	SamplesMap map[string]genruntime.ARMMetaObject
-	RefsMap    map[string]genruntime.ARMMetaObject
+	SamplesMap map[string]client.Object
+	RefsMap    map[string]client.Object
 }
 
 func (s *SampleObject) HasSamples() bool {
@@ -89,8 +90,8 @@ func (s *SampleObject) HasSamples() bool {
 
 func NewSampleObject() *SampleObject {
 	return &SampleObject{
-		SamplesMap: make(map[string]genruntime.ARMMetaObject),
-		RefsMap:    make(map[string]genruntime.ARMMetaObject),
+		SamplesMap: make(map[string]client.Object),
+		RefsMap:    make(map[string]client.Object),
 	}
 }
 
@@ -165,7 +166,7 @@ func (t *SamplesTester) LoadSamples() (*SampleObject, error) {
 // handleObject handles the sample object by adding it into the samples map. If key already exists, then we append a
 // random string to the key and add it to the map so that we don't overwrite the sample. As keys are only used to find
 // if owner Kind actually exist in the map, so it should be fine to append random string here.
-func (t *SamplesTester) handleObject(sample genruntime.ARMMetaObject, samples map[string]genruntime.ARMMetaObject) {
+func (t *SamplesTester) handleObject(sample client.Object, samples map[string]client.Object) {
 	kind := sample.GetObjectKind().GroupVersionKind().Kind
 	_, found := samples[kind]
 	if found {
@@ -174,7 +175,7 @@ func (t *SamplesTester) handleObject(sample genruntime.ARMMetaObject, samples ma
 	samples[kind] = sample
 }
 
-func (t *SamplesTester) getObjectFromFile(path string) (genruntime.ARMMetaObject, error) {
+func (t *SamplesTester) getObjectFromFile(path string) (client.Object, error) {
 	jsonMap := make(map[string]interface{})
 
 	byteData, err := os.ReadFile(path)
@@ -200,42 +201,47 @@ func (t *SamplesTester) getObjectFromFile(path string) (genruntime.ARMMetaObject
 		return nil, err
 	}
 
-	decorder := json.NewDecoder(bytes.NewReader(jsonBytes))
-	decorder.DisallowUnknownFields()
-	err = decorder.Decode(obj)
+	decoder := json.NewDecoder(bytes.NewReader(jsonBytes))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(obj)
 	if err != nil {
 		return nil, errors.Wrapf(err, "while decoding %s", path)
 	}
 
-	return obj.(genruntime.ARMMetaObject), nil
+	return obj.(client.Object), nil
 }
 
-func (t *SamplesTester) setOwnershipAndReferences(samples map[string]genruntime.ARMMetaObject) error {
+func (t *SamplesTester) setOwnershipAndReferences(samples map[string]client.Object) error {
 	for gk, sample := range samples {
+		asoType, ok := sample.(genruntime.ARMMetaObject)
+		if !ok {
+			continue
+		}
+
 		// We don't apply ownership to the resources which have no owner
-		if sample.Owner() == nil {
+		if asoType.Owner() == nil {
 			continue
 		}
 
 		// We only set the owner name if Owner.Kind is ResourceGroup(as we have random rg names) or if we're using random names for resources.
 		// Otherwise, we let it be the same as on samples.
 		var ownersName string
-		if sample.Owner().Kind == resolver.ResourceGroupKind {
+		if asoType.Owner().Kind == resolver.ResourceGroupKind {
 			ownersName = t.rgName
 		} else if t.useRandomName {
-			owner, ok := samples[sample.Owner().Kind]
+			owner, ok := samples[asoType.Owner().Kind]
 			if !ok {
-				return fmt.Errorf("owner: %s, does not exist for resource '%s'", sample.Owner().Kind, gk)
+				return fmt.Errorf("owner: %s, does not exist for resource '%s'", asoType.Owner().Kind, gk)
 			}
 
 			ownersName = owner.GetName()
 		}
 
 		if ownersName != "" {
-			sample = setOwnersName(sample, ownersName)
+			asoType = setOwnersName(asoType, ownersName)
 		}
 
-		err := t.updateFieldsForTest(sample)
+		err := t.updateFieldsForTest(asoType)
 		if err != nil {
 			return err
 		}
@@ -264,10 +270,15 @@ func IsFolderExcluded(path string, exclusions []string) bool {
 }
 
 func IsSampleExcluded(path string, exclusions []string) bool {
+	base := filepath.Base(path)
+	split := strings.Split(base, "_")
+	if len(split) < 2 {
+		return false
+	}
+	baseWithoutAPIVersion := split[1]
+	baseWithoutAPIVersion = strings.TrimSuffix(baseWithoutAPIVersion, filepath.Ext(baseWithoutAPIVersion))
+
 	for _, exclusion := range exclusions {
-		base := filepath.Base(path)
-		baseWithoutAPIVersion := strings.Split(base, "_")[1]
-		baseWithoutAPIVersion = strings.TrimSuffix(baseWithoutAPIVersion, filepath.Ext(baseWithoutAPIVersion))
 		if baseWithoutAPIVersion == exclusion {
 			return true
 		}
