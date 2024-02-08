@@ -1,317 +1,367 @@
-| Type Definitions in package "containerservice"                                       | v1api20210501 | v1api20230201 | v1api20230202preview | v1api20230315preview | v1api20231001 |
-|--------------------------------------------------------------------------------------|---------------|---------------|----------------------|----------------------|---------------|
-| APIVersion                                                                           | v1api20210501 | v1api20230201 | v1api20230202preview | v1api20230315preview | v1api20231001 |
-| AgentPoolMode                                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| AgentPoolMode_STATUS                                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| AgentPoolNetworkProfile                                                              |               |               | v1api20230202preview |                      | v1api20231001 |
-| AgentPoolNetworkProfile_STATUS                                                       |               |               | v1api20230202preview |                      | v1api20231001 |
-| AgentPoolType                                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| AgentPoolType_STATUS                                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| AgentPoolUpgradeSettings                                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| AgentPoolUpgradeSettings_STATUS                                                      | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| AgentPoolWindowsProfile                                                              |               |               | v1api20230202preview |                      |               |
-| AgentPoolWindowsProfile_STATUS                                                       |               |               | v1api20230202preview |                      |               |
-| AzureKeyVaultKms                                                                     |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| AzureKeyVaultKms_KeyVaultNetworkAccess                                               |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS                                        |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| AzureKeyVaultKms_STATUS                                                              |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ClusterUpgradeSettings                                                               |               |               | v1api20230202preview |                      | v1api20231001 |
-| ClusterUpgradeSettings_STATUS                                                        |               |               | v1api20230202preview |                      | v1api20231001 |
-| ContainerServiceLinuxProfile                                                         | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ContainerServiceLinuxProfile_STATUS                                                  | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ContainerServiceNetworkProfile                                                       | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ContainerServiceNetworkProfile_IpFamilies                                            |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ContainerServiceNetworkProfile_IpFamilies_STATUS                                     |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ContainerServiceNetworkProfile_KubeProxyConfig                                       |               |               | v1api20230202preview |                      |               |
-| ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig                            |               |               | v1api20230202preview |                      |               |
-| ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS                     |               |               | v1api20230202preview |                      |               |
-| ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler                  |               |               | v1api20230202preview |                      |               |
-| ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_STATUS           |               |               | v1api20230202preview |                      |               |
-| ContainerServiceNetworkProfile_KubeProxyConfig_Mode                                  |               |               | v1api20230202preview |                      |               |
-| ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS                           |               |               | v1api20230202preview |                      |               |
-| ContainerServiceNetworkProfile_KubeProxyConfig_STATUS                                |               |               | v1api20230202preview |                      |               |
-| ContainerServiceNetworkProfile_LoadBalancerSku                                       | v1api20210501 | v1api20230201 |                      |                      | v1api20231001 |
-| ContainerServiceNetworkProfile_LoadBalancerSku_STATUS                                | v1api20210501 | v1api20230201 |                      |                      | v1api20231001 |
-| ContainerServiceNetworkProfile_NetworkDataplane                                      |               | v1api20230201 |                      |                      | v1api20231001 |
-| ContainerServiceNetworkProfile_NetworkDataplane_STATUS                               |               | v1api20230201 |                      |                      | v1api20231001 |
-| ContainerServiceNetworkProfile_NetworkMode                                           | v1api20210501 | v1api20230201 |                      |                      | v1api20231001 |
-| ContainerServiceNetworkProfile_NetworkMode_STATUS                                    | v1api20210501 | v1api20230201 |                      |                      | v1api20231001 |
-| ContainerServiceNetworkProfile_NetworkPlugin                                         | v1api20210501 | v1api20230201 |                      |                      |               |
-| ContainerServiceNetworkProfile_NetworkPluginMode                                     |               | v1api20230201 |                      |                      | v1api20231001 |
-| ContainerServiceNetworkProfile_NetworkPluginMode_STATUS                              |               | v1api20230201 |                      |                      | v1api20231001 |
-| ContainerServiceNetworkProfile_NetworkPlugin_STATUS                                  | v1api20210501 | v1api20230201 |                      |                      | v1api20231001 |
-| ContainerServiceNetworkProfile_NetworkPolicy                                         | v1api20210501 | v1api20230201 |                      |                      | v1api20231001 |
-| ContainerServiceNetworkProfile_NetworkPolicy_STATUS                                  | v1api20210501 | v1api20230201 |                      |                      | v1api20231001 |
-| ContainerServiceNetworkProfile_OutboundType                                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ContainerServiceNetworkProfile_OutboundType_STATUS                                   | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ContainerServiceNetworkProfile_STATUS                                                | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ContainerServiceOSDisk                                                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ContainerServiceSshConfiguration                                                     | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ContainerServiceSshConfiguration_STATUS                                              | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ContainerServiceSshPublicKey                                                         | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ContainerServiceSshPublicKey_STATUS                                                  | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ControlPlaneUpgradeOverride                                                          |               |               | v1api20230202preview |                      |               |
-| ControlPlaneUpgradeOverride_STATUS                                                   |               |               | v1api20230202preview |                      |               |
-| CreationData                                                                         |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| CreationData_STATUS                                                                  |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| DelegatedResource                                                                    |               |               |                      |                      | v1api20231001 |
-| DelegatedResource_STATUS                                                             |               |               |                      |                      | v1api20231001 |
-| ErrorAdditionalInfo_STATUS                                                           |               |               |                      | v1api20230315preview |               |
-| ErrorDetail_STATUS                                                                   |               |               |                      | v1api20230315preview |               |
-| ErrorDetail_STATUS_Unrolled                                                          |               |               |                      | v1api20230315preview |               |
-| ExtendedLocation                                                                     | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ExtendedLocationType                                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ExtendedLocationType_STATUS                                                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ExtendedLocation_STATUS                                                              | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| Fleet                                                                                |               |               |                      | v1api20230315preview |               |
-| FleetHubProfile                                                                      |               |               |                      | v1api20230315preview |               |
-| FleetHubProfile_STATUS                                                               |               |               |                      | v1api20230315preview |               |
-| FleetMemberProperties                                                                |               |               |                      | v1api20230315preview |               |
-| FleetMemberProperties_STATUS                                                         |               |               |                      | v1api20230315preview |               |
-| FleetMemberProvisioningState_STATUS                                                  |               |               |                      | v1api20230315preview |               |
-| FleetProperties                                                                      |               |               |                      | v1api20230315preview |               |
-| FleetProperties_STATUS                                                               |               |               |                      | v1api20230315preview |               |
-| FleetProvisioningState_STATUS                                                        |               |               |                      | v1api20230315preview |               |
-| Fleet_STATUS                                                                         |               |               |                      | v1api20230315preview |               |
-| Fleet_Spec                                                                           |               |               |                      | v1api20230315preview |               |
-| FleetsMember                                                                         |               |               |                      | v1api20230315preview |               |
-| FleetsUpdateRun                                                                      |               |               |                      | v1api20230315preview |               |
-| Fleets_Member_STATUS                                                                 |               |               |                      | v1api20230315preview |               |
-| Fleets_Member_Spec                                                                   |               |               |                      | v1api20230315preview |               |
-| Fleets_UpdateRun_STATUS                                                              |               |               |                      | v1api20230315preview |               |
-| Fleets_UpdateRun_Spec                                                                |               |               |                      | v1api20230315preview |               |
-| GPUInstanceProfile                                                                   | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| GPUInstanceProfile_STATUS                                                            | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| GuardrailsProfile                                                                    |               |               | v1api20230202preview |                      |               |
-| GuardrailsProfile_Level                                                              |               |               | v1api20230202preview |                      |               |
-| GuardrailsProfile_Level_STATUS                                                       |               |               | v1api20230202preview |                      |               |
-| GuardrailsProfile_STATUS                                                             |               |               | v1api20230202preview |                      |               |
-| IPTag                                                                                |               |               | v1api20230202preview |                      | v1api20231001 |
-| IPTag_STATUS                                                                         |               |               | v1api20230202preview |                      | v1api20231001 |
-| IstioCertificateAuthority                                                            |               |               |                      |                      | v1api20231001 |
-| IstioCertificateAuthority_STATUS                                                     |               |               |                      |                      | v1api20231001 |
-| IstioComponents                                                                      |               |               | v1api20230202preview |                      | v1api20231001 |
-| IstioComponents_STATUS                                                               |               |               | v1api20230202preview |                      | v1api20231001 |
-| IstioEgressGateway                                                                   |               |               |                      |                      | v1api20231001 |
-| IstioEgressGateway_STATUS                                                            |               |               |                      |                      | v1api20231001 |
-| IstioIngressGateway                                                                  |               |               | v1api20230202preview |                      | v1api20231001 |
-| IstioIngressGateway_Mode                                                             |               |               | v1api20230202preview |                      | v1api20231001 |
-| IstioIngressGateway_Mode_STATUS                                                      |               |               | v1api20230202preview |                      | v1api20231001 |
-| IstioIngressGateway_STATUS                                                           |               |               | v1api20230202preview |                      | v1api20231001 |
-| IstioPluginCertificateAuthority                                                      |               |               |                      |                      | v1api20231001 |
-| IstioPluginCertificateAuthority_STATUS                                               |               |               |                      |                      | v1api20231001 |
-| IstioServiceMesh                                                                     |               |               | v1api20230202preview |                      | v1api20231001 |
-| IstioServiceMesh_STATUS                                                              |               |               | v1api20230202preview |                      | v1api20231001 |
-| KubeletConfig                                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| KubeletConfig_STATUS                                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| KubeletDiskType                                                                      | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| KubeletDiskType_STATUS                                                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| KubernetesSupportPlan                                                                |               |               |                      |                      | v1api20231001 |
-| KubernetesSupportPlan_STATUS                                                         |               |               |                      |                      | v1api20231001 |
-| LinuxOSConfig                                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| LinuxOSConfig_STATUS                                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| LoadBalancerSku                                                                      |               |               | v1api20230202preview |                      |               |
-| LoadBalancerSku_STATUS                                                               |               |               | v1api20230202preview |                      |               |
-| ManagedCluster                                                                       | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAADProfile                                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAADProfile_STATUS                                                      | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAPIServerAccessProfile                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAPIServerAccessProfile_STATUS                                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAddonProfile                                                           | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAddonProfile_STATUS                                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAgentPoolProfile                                                       | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAgentPoolProfileProperties                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAgentPoolProfileProperties_STATUS                                      | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAgentPoolProfile_STATUS                                                | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAutoUpgradeProfile                                                     | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel                                |               |               | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS                         |               |               | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAutoUpgradeProfile_STATUS                                              | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAutoUpgradeProfile_UpgradeChannel                                      | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAzureMonitorProfile                                                    |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAzureMonitorProfileKubeStateMetrics                                    |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS                             |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAzureMonitorProfileMetrics                                             |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAzureMonitorProfileMetrics_STATUS                                      |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterAzureMonitorProfile_STATUS                                             |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterHTTPProxyConfig                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterHTTPProxyConfig_STATUS                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterIdentity                                                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterIdentity_STATUS                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterIdentity_Type                                                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterIdentity_Type_STATUS                                                   | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterIdentity_UserAssignedIdentities_STATUS                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterIngressProfile                                                         |               |               | v1api20230202preview |                      |               |
-| ManagedClusterIngressProfileWebAppRouting                                            |               |               | v1api20230202preview |                      |               |
-| ManagedClusterIngressProfileWebAppRouting_STATUS                                     |               |               | v1api20230202preview |                      |               |
-| ManagedClusterIngressProfile_STATUS                                                  |               |               | v1api20230202preview |                      |               |
-| ManagedClusterLoadBalancerProfile                                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterLoadBalancerProfile_BackendPoolType                                    |               |               | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterLoadBalancerProfile_BackendPoolType_STATUS                             |               |               | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterLoadBalancerProfile_ManagedOutboundIPs                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterLoadBalancerProfile_OutboundIPPrefixes                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterLoadBalancerProfile_OutboundIPs                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterLoadBalancerProfile_STATUS                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterManagedOutboundIPProfile                                               |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterManagedOutboundIPProfile_STATUS                                        |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterNATGatewayProfile                                                      |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterNATGatewayProfile_STATUS                                               |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterNodeResourceGroupProfile                                               |               |               | v1api20230202preview |                      |               |
-| ManagedClusterNodeResourceGroupProfile_RestrictionLevel                              |               |               | v1api20230202preview |                      |               |
-| ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS                       |               |               | v1api20230202preview |                      |               |
-| ManagedClusterNodeResourceGroupProfile_STATUS                                        |               |               | v1api20230202preview |                      |               |
-| ManagedClusterOIDCIssuerProfile                                                      |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterOIDCIssuerProfile_STATUS                                               |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterPodIdentity                                                            | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterPodIdentityException                                                   | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterPodIdentityException_STATUS                                            | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterPodIdentityProfile                                                     | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterPodIdentityProfile_STATUS                                              | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterPodIdentityProvisioningErrorBody_STATUS                                | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled                       | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterPodIdentityProvisioningError_STATUS                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterPodIdentity_ProvisioningInfo_STATUS                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterPodIdentity_ProvisioningState_STATUS                                   | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterPodIdentity_STATUS                                                     | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterProperties                                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterProperties_AutoScalerProfile                                           | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterProperties_AutoScalerProfile_Expander                                  | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterProperties_AutoScalerProfile_Expander_STATUS                           | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterProperties_AutoScalerProfile_STATUS                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterProperties_PublicNetworkAccess                                         |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterProperties_PublicNetworkAccess_STATUS                                  |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterProperties_STATUS                                                      | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterSKU                                                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterSKU_Name                                                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterSKU_Name_STATUS                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterSKU_STATUS                                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterSKU_Tier                                                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterSKU_Tier_STATUS                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterSecurityProfile                                                        |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterSecurityProfileCustomCATrustCertificates                               |               |               | v1api20230202preview |                      |               |
-| ManagedClusterSecurityProfileDefender                                                |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterSecurityProfileDefenderSecurityMonitoring                              |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS                       |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterSecurityProfileDefender_STATUS                                         |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterSecurityProfileImageCleaner                                            |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterSecurityProfileImageCleaner_STATUS                                     |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterSecurityProfileNodeRestriction                                         |               |               | v1api20230202preview |                      |               |
-| ManagedClusterSecurityProfileNodeRestriction_STATUS                                  |               |               | v1api20230202preview |                      |               |
-| ManagedClusterSecurityProfileWorkloadIdentity                                        |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterSecurityProfileWorkloadIdentity_STATUS                                 |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterSecurityProfile_STATUS                                                 |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterServicePrincipalProfile                                                | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterServicePrincipalProfile_STATUS                                         | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterStorageProfile                                                         |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterStorageProfileBlobCSIDriver                                            |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterStorageProfileBlobCSIDriver_STATUS                                     |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterStorageProfileDiskCSIDriver                                            |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterStorageProfileDiskCSIDriver_STATUS                                     |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterStorageProfileFileCSIDriver                                            |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterStorageProfileFileCSIDriver_STATUS                                     |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterStorageProfileSnapshotController                                       |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterStorageProfileSnapshotController_STATUS                                |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterStorageProfile_STATUS                                                  |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterUpdate                                                                 |               |               |                      | v1api20230315preview |               |
-| ManagedClusterUpdate_STATUS                                                          |               |               |                      | v1api20230315preview |               |
-| ManagedClusterUpgradeSpec                                                            |               |               |                      | v1api20230315preview |               |
-| ManagedClusterUpgradeSpec_STATUS                                                     |               |               |                      | v1api20230315preview |               |
-| ManagedClusterUpgradeType                                                            |               |               |                      | v1api20230315preview |               |
-| ManagedClusterUpgradeType_STATUS                                                     |               |               |                      | v1api20230315preview |               |
-| ManagedClusterWindowsProfile                                                         | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterWindowsProfile_LicenseType                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterWindowsProfile_LicenseType_STATUS                                      | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterWindowsProfile_STATUS                                                  | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterWorkloadAutoScalerProfile                                              |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterWorkloadAutoScalerProfileKeda                                          |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterWorkloadAutoScalerProfileKeda_STATUS                                   |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler                         |               |               | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ControlledValues        |               |               | v1api20230202preview |                      |               |
-| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ControlledValues_STATUS |               |               | v1api20230202preview |                      |               |
-| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS                  |               |               | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode              |               |               | v1api20230202preview |                      |               |
-| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_STATUS       |               |               | v1api20230202preview |                      |               |
-| ManagedClusterWorkloadAutoScalerProfile_STATUS                                       |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedCluster_STATUS                                                                | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedCluster_Spec                                                                  | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClustersAgentPool                                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusters_AgentPool_STATUS                                                     | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusters_AgentPool_Spec                                                       | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ManagedClusters_TrustedAccessRoleBinding_STATUS                                      |               |               | v1api20230202preview |                      |               |
-| ManagedClusters_TrustedAccessRoleBinding_Spec                                        |               |               | v1api20230202preview |                      |               |
-| MemberUpdateStatus_STATUS                                                            |               |               |                      | v1api20230315preview |               |
-| NetworkDataplane                                                                     |               |               | v1api20230202preview |                      |               |
-| NetworkDataplane_STATUS                                                              |               |               | v1api20230202preview |                      |               |
-| NetworkMode                                                                          |               |               | v1api20230202preview |                      |               |
-| NetworkMode_STATUS                                                                   |               |               | v1api20230202preview |                      |               |
-| NetworkPlugin                                                                        |               |               | v1api20230202preview |                      | v1api20231001 |
-| NetworkPluginMode                                                                    |               |               | v1api20230202preview |                      |               |
-| NetworkPluginMode_STATUS                                                             |               |               | v1api20230202preview |                      |               |
-| NetworkPlugin_STATUS                                                                 |               |               | v1api20230202preview |                      |               |
-| NetworkPolicy                                                                        |               |               | v1api20230202preview |                      |               |
-| NetworkPolicy_STATUS                                                                 |               |               | v1api20230202preview |                      |               |
-| OSDiskType                                                                           | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| OSDiskType_STATUS                                                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| OSSKU                                                                                | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| OSSKU_STATUS                                                                         | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| OSType                                                                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| OSType_STATUS                                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| PortRange                                                                            |               |               | v1api20230202preview |                      | v1api20231001 |
-| PortRange_Protocol                                                                   |               |               | v1api20230202preview |                      | v1api20231001 |
-| PortRange_Protocol_STATUS                                                            |               |               | v1api20230202preview |                      | v1api20231001 |
-| PortRange_STATUS                                                                     |               |               | v1api20230202preview |                      | v1api20231001 |
-| PowerState                                                                           |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| PowerState_Code                                                                      |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| PowerState_Code_STATUS                                                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| PowerState_STATUS                                                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| PrivateLinkResource                                                                  | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| PrivateLinkResource_STATUS                                                           | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ResourceReference                                                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ResourceReference_STATUS                                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ScaleDownMode                                                                        |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ScaleDownMode_STATUS                                                                 |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ScaleSetEvictionPolicy                                                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ScaleSetEvictionPolicy_STATUS                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ScaleSetPriority                                                                     | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ScaleSetPriority_STATUS                                                              | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| ServiceMeshProfile                                                                   |               |               | v1api20230202preview |                      | v1api20231001 |
-| ServiceMeshProfile_Mode                                                              |               |               | v1api20230202preview |                      | v1api20231001 |
-| ServiceMeshProfile_Mode_STATUS                                                       |               |               | v1api20230202preview |                      | v1api20231001 |
-| ServiceMeshProfile_STATUS                                                            |               |               | v1api20230202preview |                      | v1api20231001 |
-| SysctlConfig                                                                         | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| SysctlConfig_STATUS                                                                  | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| SystemData_CreatedByType_STATUS                                                      |               | v1api20230201 | v1api20230202preview | v1api20230315preview | v1api20231001 |
-| SystemData_LastModifiedByType_STATUS                                                 |               | v1api20230201 | v1api20230202preview | v1api20230315preview | v1api20231001 |
-| SystemData_STATUS                                                                    |               | v1api20230201 | v1api20230202preview | v1api20230315preview | v1api20231001 |
-| TrustedAccessRoleBinding                                                             |               |               | v1api20230202preview |                      |               |
-| TrustedAccessRoleBindingProperties                                                   |               |               | v1api20230202preview |                      |               |
-| TrustedAccessRoleBindingProperties_ProvisioningState_STATUS                          |               |               | v1api20230202preview |                      |               |
-| TrustedAccessRoleBindingProperties_STATUS                                            |               |               | v1api20230202preview |                      |               |
-| UpdateGroup                                                                          |               |               |                      | v1api20230315preview |               |
-| UpdateGroupStatus_STATUS                                                             |               |               |                      | v1api20230315preview |               |
-| UpdateGroup_STATUS                                                                   |               |               |                      | v1api20230315preview |               |
-| UpdateRunProperties                                                                  |               |               |                      | v1api20230315preview |               |
-| UpdateRunProperties_STATUS                                                           |               |               |                      | v1api20230315preview |               |
-| UpdateRunProvisioningState_STATUS                                                    |               |               |                      | v1api20230315preview |               |
-| UpdateRunStatus_STATUS                                                               |               |               |                      | v1api20230315preview |               |
-| UpdateRunStrategy                                                                    |               |               |                      | v1api20230315preview |               |
-| UpdateRunStrategy_STATUS                                                             |               |               |                      | v1api20230315preview |               |
-| UpdateStage                                                                          |               |               |                      | v1api20230315preview |               |
-| UpdateStageStatus_STATUS                                                             |               |               |                      | v1api20230315preview |               |
-| UpdateStage_STATUS                                                                   |               |               |                      | v1api20230315preview |               |
-| UpdateState_STATUS                                                                   |               |               |                      | v1api20230315preview |               |
-| UpdateStatus_STATUS                                                                  |               |               |                      | v1api20230315preview |               |
-| UpgradeOverrideSettings                                                              |               |               | v1api20230202preview |                      | v1api20231001 |
-| UpgradeOverrideSettings_STATUS                                                       |               |               | v1api20230202preview |                      | v1api20231001 |
-| UserAssignedIdentity                                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| UserAssignedIdentityDetails                                                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| UserAssignedIdentity_STATUS                                                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| WaitStatus_STATUS                                                                    |               |               |                      | v1api20230315preview |               |
-| WindowsGmsaProfile                                                                   |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| WindowsGmsaProfile_STATUS                                                            |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| WorkloadRuntime                                                                      |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
-| WorkloadRuntime_STATUS                                                               |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |
+| Type Definitions in package "containerservice"                                       | v1api20210501 | v1api20230201 | v1api20230202preview | v1api20230315preview | v1api20231001 | v1api20231102preview |
+|--------------------------------------------------------------------------------------|---------------|---------------|----------------------|----------------------|---------------|----------------------|
+| APIVersion                                                                           | v1api20210501 | v1api20230201 | v1api20230202preview | v1api20230315preview | v1api20231001 | v1api20231102preview |
+| AgentPoolArtifactStreamingProfile                                                    |               |               |                      |                      |               | v1api20231102preview |
+| AgentPoolArtifactStreamingProfile_STATUS                                             |               |               |                      |                      |               | v1api20231102preview |
+| AgentPoolGPUProfile                                                                  |               |               |                      |                      |               | v1api20231102preview |
+| AgentPoolGPUProfile_STATUS                                                           |               |               |                      |                      |               | v1api20231102preview |
+| AgentPoolMode                                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| AgentPoolMode_STATUS                                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| AgentPoolNetworkProfile                                                              |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| AgentPoolNetworkProfile_STATUS                                                       |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| AgentPoolSSHAccess                                                                   |               |               |                      |                      |               | v1api20231102preview |
+| AgentPoolSSHAccess_STATUS                                                            |               |               |                      |                      |               | v1api20231102preview |
+| AgentPoolSecurityProfile                                                             |               |               |                      |                      |               | v1api20231102preview |
+| AgentPoolSecurityProfile_STATUS                                                      |               |               |                      |                      |               | v1api20231102preview |
+| AgentPoolType                                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| AgentPoolType_STATUS                                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| AgentPoolUpgradeSettings                                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| AgentPoolUpgradeSettings_STATUS                                                      | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| AgentPoolWindowsProfile                                                              |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| AgentPoolWindowsProfile_STATUS                                                       |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| AzureKeyVaultKms                                                                     |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| AzureKeyVaultKms_KeyVaultNetworkAccess                                               |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| AzureKeyVaultKms_KeyVaultNetworkAccess_STATUS                                        |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| AzureKeyVaultKms_STATUS                                                              |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ClusterUpgradeSettings                                                               |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ClusterUpgradeSettings_STATUS                                                        |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ContainerServiceLinuxProfile                                                         | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ContainerServiceLinuxProfile_STATUS                                                  | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ContainerServiceNetworkProfile                                                       | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ContainerServiceNetworkProfile_IpFamilies                                            |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |                      |
+| ContainerServiceNetworkProfile_IpFamilies_STATUS                                     |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 |                      |
+| ContainerServiceNetworkProfile_KubeProxyConfig                                       |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig                            |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS                     |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler                  |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_Scheduler_STATUS           |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ContainerServiceNetworkProfile_KubeProxyConfig_Mode                                  |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ContainerServiceNetworkProfile_KubeProxyConfig_Mode_STATUS                           |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ContainerServiceNetworkProfile_KubeProxyConfig_STATUS                                |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ContainerServiceNetworkProfile_LoadBalancerSku                                       | v1api20210501 | v1api20230201 |                      |                      | v1api20231001 |                      |
+| ContainerServiceNetworkProfile_LoadBalancerSku_STATUS                                | v1api20210501 | v1api20230201 |                      |                      | v1api20231001 |                      |
+| ContainerServiceNetworkProfile_NetworkDataplane                                      |               | v1api20230201 |                      |                      | v1api20231001 |                      |
+| ContainerServiceNetworkProfile_NetworkDataplane_STATUS                               |               | v1api20230201 |                      |                      | v1api20231001 |                      |
+| ContainerServiceNetworkProfile_NetworkMode                                           | v1api20210501 | v1api20230201 |                      |                      | v1api20231001 |                      |
+| ContainerServiceNetworkProfile_NetworkMode_STATUS                                    | v1api20210501 | v1api20230201 |                      |                      | v1api20231001 |                      |
+| ContainerServiceNetworkProfile_NetworkPlugin                                         | v1api20210501 | v1api20230201 |                      |                      |               |                      |
+| ContainerServiceNetworkProfile_NetworkPluginMode                                     |               | v1api20230201 |                      |                      | v1api20231001 |                      |
+| ContainerServiceNetworkProfile_NetworkPluginMode_STATUS                              |               | v1api20230201 |                      |                      | v1api20231001 |                      |
+| ContainerServiceNetworkProfile_NetworkPlugin_STATUS                                  | v1api20210501 | v1api20230201 |                      |                      | v1api20231001 |                      |
+| ContainerServiceNetworkProfile_NetworkPolicy                                         | v1api20210501 | v1api20230201 |                      |                      | v1api20231001 |                      |
+| ContainerServiceNetworkProfile_NetworkPolicy_STATUS                                  | v1api20210501 | v1api20230201 |                      |                      | v1api20231001 |                      |
+| ContainerServiceNetworkProfile_OutboundType                                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ContainerServiceNetworkProfile_OutboundType_STATUS                                   | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ContainerServiceNetworkProfile_STATUS                                                | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ContainerServiceOSDisk                                                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ContainerServiceSshConfiguration                                                     | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ContainerServiceSshConfiguration_STATUS                                              | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ContainerServiceSshPublicKey                                                         | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ContainerServiceSshPublicKey_STATUS                                                  | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ControlPlaneUpgradeOverride                                                          |               |               | v1api20230202preview |                      |               |                      |
+| ControlPlaneUpgradeOverride_STATUS                                                   |               |               | v1api20230202preview |                      |               |                      |
+| CreationData                                                                         |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| CreationData_STATUS                                                                  |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| DelegatedResource                                                                    |               |               |                      |                      | v1api20231001 | v1api20231102preview |
+| DelegatedResource_STATUS                                                             |               |               |                      |                      | v1api20231001 | v1api20231102preview |
+| ErrorAdditionalInfo_STATUS                                                           |               |               |                      | v1api20230315preview |               |                      |
+| ErrorDetail_STATUS                                                                   |               |               |                      | v1api20230315preview |               |                      |
+| ErrorDetail_STATUS_Unrolled                                                          |               |               |                      | v1api20230315preview |               |                      |
+| Expander                                                                             |               |               |                      |                      |               | v1api20231102preview |
+| Expander_STATUS                                                                      |               |               |                      |                      |               | v1api20231102preview |
+| ExtendedLocation                                                                     | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ExtendedLocationType                                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ExtendedLocationType_STATUS                                                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ExtendedLocation_STATUS                                                              | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| Fleet                                                                                |               |               |                      | v1api20230315preview |               |                      |
+| FleetHubProfile                                                                      |               |               |                      | v1api20230315preview |               |                      |
+| FleetHubProfile_STATUS                                                               |               |               |                      | v1api20230315preview |               |                      |
+| FleetMemberProperties                                                                |               |               |                      | v1api20230315preview |               |                      |
+| FleetMemberProperties_STATUS                                                         |               |               |                      | v1api20230315preview |               |                      |
+| FleetMemberProvisioningState_STATUS                                                  |               |               |                      | v1api20230315preview |               |                      |
+| FleetProperties                                                                      |               |               |                      | v1api20230315preview |               |                      |
+| FleetProperties_STATUS                                                               |               |               |                      | v1api20230315preview |               |                      |
+| FleetProvisioningState_STATUS                                                        |               |               |                      | v1api20230315preview |               |                      |
+| Fleet_STATUS                                                                         |               |               |                      | v1api20230315preview |               |                      |
+| Fleet_Spec                                                                           |               |               |                      | v1api20230315preview |               |                      |
+| FleetsMember                                                                         |               |               |                      | v1api20230315preview |               |                      |
+| FleetsUpdateRun                                                                      |               |               |                      | v1api20230315preview |               |                      |
+| Fleets_Member_STATUS                                                                 |               |               |                      | v1api20230315preview |               |                      |
+| Fleets_Member_Spec                                                                   |               |               |                      | v1api20230315preview |               |                      |
+| Fleets_UpdateRun_STATUS                                                              |               |               |                      | v1api20230315preview |               |                      |
+| Fleets_UpdateRun_Spec                                                                |               |               |                      | v1api20230315preview |               |                      |
+| GPUInstanceProfile                                                                   | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| GPUInstanceProfile_STATUS                                                            | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| GuardrailsProfile                                                                    |               |               | v1api20230202preview |                      |               |                      |
+| GuardrailsProfile_Level                                                              |               |               | v1api20230202preview |                      |               |                      |
+| GuardrailsProfile_Level_STATUS                                                       |               |               | v1api20230202preview |                      |               |                      |
+| GuardrailsProfile_STATUS                                                             |               |               | v1api20230202preview |                      |               |                      |
+| IPTag                                                                                |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| IPTag_STATUS                                                                         |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| IpFamily                                                                             |               |               |                      |                      |               | v1api20231102preview |
+| IpFamily_STATUS                                                                      |               |               |                      |                      |               | v1api20231102preview |
+| IstioCertificateAuthority                                                            |               |               |                      |                      | v1api20231001 | v1api20231102preview |
+| IstioCertificateAuthority_STATUS                                                     |               |               |                      |                      | v1api20231001 | v1api20231102preview |
+| IstioComponents                                                                      |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| IstioComponents_STATUS                                                               |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| IstioEgressGateway                                                                   |               |               |                      |                      | v1api20231001 | v1api20231102preview |
+| IstioEgressGateway_STATUS                                                            |               |               |                      |                      | v1api20231001 | v1api20231102preview |
+| IstioIngressGateway                                                                  |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| IstioIngressGateway_Mode                                                             |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| IstioIngressGateway_Mode_STATUS                                                      |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| IstioIngressGateway_STATUS                                                           |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| IstioPluginCertificateAuthority                                                      |               |               |                      |                      | v1api20231001 | v1api20231102preview |
+| IstioPluginCertificateAuthority_STATUS                                               |               |               |                      |                      | v1api20231001 | v1api20231102preview |
+| IstioServiceMesh                                                                     |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| IstioServiceMesh_STATUS                                                              |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| KubeletConfig                                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| KubeletConfig_STATUS                                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| KubeletDiskType                                                                      | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| KubeletDiskType_STATUS                                                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| KubernetesSupportPlan                                                                |               |               |                      |                      | v1api20231001 | v1api20231102preview |
+| KubernetesSupportPlan_STATUS                                                         |               |               |                      |                      | v1api20231001 | v1api20231102preview |
+| LinuxOSConfig                                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| LinuxOSConfig_STATUS                                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| LoadBalancerSku                                                                      |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| LoadBalancerSku_STATUS                                                               |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ManagedCluster                                                                       | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAADProfile                                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAADProfile_STATUS                                                      | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAIToolchainOperatorProfile                                             |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterAIToolchainOperatorProfile_STATUS                                      |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterAPIServerAccessProfile                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAPIServerAccessProfile_STATUS                                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAddonProfile                                                           | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAddonProfile_STATUS                                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAgentPoolProfile                                                       | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAgentPoolProfileProperties                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAgentPoolProfileProperties_STATUS                                      | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAgentPoolProfile_STATUS                                                | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAutoUpgradeProfile                                                     | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel                                |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAutoUpgradeProfile_NodeOSUpgradeChannel_STATUS                         |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAutoUpgradeProfile_STATUS                                              | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAutoUpgradeProfile_UpgradeChannel                                      | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAzureMonitorProfile                                                    |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAzureMonitorProfileAppMonitoring                                       |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics                   |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics_STATUS            |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterAzureMonitorProfileAppMonitoring_STATUS                                |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterAzureMonitorProfileContainerInsights                                   |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterAzureMonitorProfileContainerInsights_STATUS                            |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterAzureMonitorProfileKubeStateMetrics                                    |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS                             |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAzureMonitorProfileLogs                                                |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterAzureMonitorProfileLogs_STATUS                                         |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterAzureMonitorProfileMetrics                                             |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAzureMonitorProfileMetrics_STATUS                                      |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterAzureMonitorProfileWindowsHostLogs                                     |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterAzureMonitorProfileWindowsHostLogs_STATUS                              |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterAzureMonitorProfile_STATUS                                             |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterCostAnalysis                                                           |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterCostAnalysis_STATUS                                                    |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterHTTPProxyConfig                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterHTTPProxyConfig_STATUS                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterIdentity                                                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterIdentity_STATUS                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterIdentity_Type                                                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterIdentity_Type_STATUS                                                   | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterIdentity_UserAssignedIdentities_STATUS                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterIngressProfile                                                         |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ManagedClusterIngressProfileWebAppRouting                                            |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ManagedClusterIngressProfileWebAppRouting_STATUS                                     |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ManagedClusterIngressProfile_STATUS                                                  |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ManagedClusterLoadBalancerProfile                                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterLoadBalancerProfile_BackendPoolType                                    |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterLoadBalancerProfile_BackendPoolType_STATUS                             |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterLoadBalancerProfile_ManagedOutboundIPs                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterLoadBalancerProfile_OutboundIPPrefixes                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterLoadBalancerProfile_OutboundIPs                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterLoadBalancerProfile_STATUS                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterManagedOutboundIPProfile                                               |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterManagedOutboundIPProfile_STATUS                                        |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterMetricsProfile                                                         |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterMetricsProfile_STATUS                                                  |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterNATGatewayProfile                                                      |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterNATGatewayProfile_STATUS                                               |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterNodeProvisioningProfile                                                |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterNodeProvisioningProfile_Mode                                           |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterNodeProvisioningProfile_Mode_STATUS                                    |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterNodeProvisioningProfile_STATUS                                         |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterNodeResourceGroupProfile                                               |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ManagedClusterNodeResourceGroupProfile_RestrictionLevel                              |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS                       |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ManagedClusterNodeResourceGroupProfile_STATUS                                        |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ManagedClusterOIDCIssuerProfile                                                      |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterOIDCIssuerProfile_STATUS                                               |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterPodIdentity                                                            | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterPodIdentityException                                                   | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterPodIdentityException_STATUS                                            | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterPodIdentityProfile                                                     | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterPodIdentityProfile_STATUS                                              | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterPodIdentityProvisioningErrorBody_STATUS                                | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled                       | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterPodIdentityProvisioningError_STATUS                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterPodIdentity_ProvisioningInfo_STATUS                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterPodIdentity_ProvisioningState_STATUS                                   | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterPodIdentity_STATUS                                                     | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterProperties                                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterProperties_AutoScalerProfile                                           | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterProperties_AutoScalerProfile_Expander                                  | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |                      |
+| ManagedClusterProperties_AutoScalerProfile_Expander_STATUS                           | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 |                      |
+| ManagedClusterProperties_AutoScalerProfile_STATUS                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterProperties_PublicNetworkAccess                                         |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterProperties_PublicNetworkAccess_STATUS                                  |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterProperties_STATUS                                                      | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterSKU                                                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterSKU_Name                                                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterSKU_Name_STATUS                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterSKU_STATUS                                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterSKU_Tier                                                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterSKU_Tier_STATUS                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterSecurityProfile                                                        |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterSecurityProfileCustomCATrustCertificates                               |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ManagedClusterSecurityProfileDefender                                                |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterSecurityProfileDefenderSecurityMonitoring                              |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS                       |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterSecurityProfileDefender_STATUS                                         |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterSecurityProfileImageCleaner                                            |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterSecurityProfileImageCleaner_STATUS                                     |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterSecurityProfileImageIntegrity                                          |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterSecurityProfileImageIntegrity_STATUS                                   |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterSecurityProfileNodeRestriction                                         |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ManagedClusterSecurityProfileNodeRestriction_STATUS                                  |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| ManagedClusterSecurityProfileWorkloadIdentity                                        |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterSecurityProfileWorkloadIdentity_STATUS                                 |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterSecurityProfile_STATUS                                                 |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterServicePrincipalProfile                                                | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterServicePrincipalProfile_STATUS                                         | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterStorageProfile                                                         |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterStorageProfileBlobCSIDriver                                            |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterStorageProfileBlobCSIDriver_STATUS                                     |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterStorageProfileDiskCSIDriver                                            |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterStorageProfileDiskCSIDriver_STATUS                                     |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterStorageProfileFileCSIDriver                                            |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterStorageProfileFileCSIDriver_STATUS                                     |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterStorageProfileSnapshotController                                       |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterStorageProfileSnapshotController_STATUS                                |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterStorageProfile_STATUS                                                  |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterUpdate                                                                 |               |               |                      | v1api20230315preview |               |                      |
+| ManagedClusterUpdate_STATUS                                                          |               |               |                      | v1api20230315preview |               |                      |
+| ManagedClusterUpgradeSpec                                                            |               |               |                      | v1api20230315preview |               |                      |
+| ManagedClusterUpgradeSpec_STATUS                                                     |               |               |                      | v1api20230315preview |               |                      |
+| ManagedClusterUpgradeType                                                            |               |               |                      | v1api20230315preview |               |                      |
+| ManagedClusterUpgradeType_STATUS                                                     |               |               |                      | v1api20230315preview |               |                      |
+| ManagedClusterWindowsProfile                                                         | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterWindowsProfile_LicenseType                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterWindowsProfile_LicenseType_STATUS                                      | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterWindowsProfile_STATUS                                                  | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterWorkloadAutoScalerProfile                                              |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterWorkloadAutoScalerProfileKeda                                          |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterWorkloadAutoScalerProfileKeda_STATUS                                   |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler                         |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling        |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_AddonAutoscaling_STATUS |               |               |                      |                      |               | v1api20231102preview |
+| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ControlledValues        |               |               | v1api20230202preview |                      |               |                      |
+| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ControlledValues_STATUS |               |               | v1api20230202preview |                      |               |                      |
+| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS                  |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode              |               |               | v1api20230202preview |                      |               |                      |
+| ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_UpdateMode_STATUS       |               |               | v1api20230202preview |                      |               |                      |
+| ManagedClusterWorkloadAutoScalerProfile_STATUS                                       |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedCluster_STATUS                                                                | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedCluster_Spec                                                                  | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClustersAgentPool                                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusters_AgentPool_STATUS                                                     | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusters_AgentPool_Spec                                                       | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ManagedClusters_TrustedAccessRoleBinding_STATUS                                      |               |               | v1api20230202preview |                      |               |                      |
+| ManagedClusters_TrustedAccessRoleBinding_Spec                                        |               |               | v1api20230202preview |                      |               |                      |
+| ManualScaleProfile                                                                   |               |               |                      |                      |               | v1api20231102preview |
+| ManualScaleProfile_STATUS                                                            |               |               |                      |                      |               | v1api20231102preview |
+| MemberUpdateStatus_STATUS                                                            |               |               |                      | v1api20230315preview |               |                      |
+| NetworkDataplane                                                                     |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| NetworkDataplane_STATUS                                                              |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| NetworkMode                                                                          |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| NetworkMode_STATUS                                                                   |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| NetworkMonitoring                                                                    |               |               |                      |                      |               | v1api20231102preview |
+| NetworkMonitoring_STATUS                                                             |               |               |                      |                      |               | v1api20231102preview |
+| NetworkPlugin                                                                        |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| NetworkPluginMode                                                                    |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| NetworkPluginMode_STATUS                                                             |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| NetworkPlugin_STATUS                                                                 |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| NetworkPolicy                                                                        |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| NetworkPolicy_STATUS                                                                 |               |               | v1api20230202preview |                      |               | v1api20231102preview |
+| OSDiskType                                                                           | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| OSDiskType_STATUS                                                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| OSSKU                                                                                | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| OSSKU_STATUS                                                                         | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| OSType                                                                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| OSType_STATUS                                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| PortRange                                                                            |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| PortRange_Protocol                                                                   |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| PortRange_Protocol_STATUS                                                            |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| PortRange_STATUS                                                                     |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| PowerState                                                                           |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| PowerState_Code                                                                      |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| PowerState_Code_STATUS                                                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| PowerState_STATUS                                                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| PrivateLinkResource                                                                  | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| PrivateLinkResource_STATUS                                                           | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ResourceReference                                                                    | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ResourceReference_STATUS                                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| SafeguardsProfile                                                                    |               |               |                      |                      |               | v1api20231102preview |
+| SafeguardsProfile_Level                                                              |               |               |                      |                      |               | v1api20231102preview |
+| SafeguardsProfile_Level_STATUS                                                       |               |               |                      |                      |               | v1api20231102preview |
+| SafeguardsProfile_STATUS                                                             |               |               |                      |                      |               | v1api20231102preview |
+| ScaleDownMode                                                                        |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ScaleDownMode_STATUS                                                                 |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ScaleProfile                                                                         |               |               |                      |                      |               | v1api20231102preview |
+| ScaleProfile_STATUS                                                                  |               |               |                      |                      |               | v1api20231102preview |
+| ScaleSetEvictionPolicy                                                               | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ScaleSetEvictionPolicy_STATUS                                                        | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ScaleSetPriority                                                                     | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ScaleSetPriority_STATUS                                                              | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ServiceMeshProfile                                                                   |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ServiceMeshProfile_Mode                                                              |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ServiceMeshProfile_Mode_STATUS                                                       |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| ServiceMeshProfile_STATUS                                                            |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| SysctlConfig                                                                         | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| SysctlConfig_STATUS                                                                  | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| SystemData_CreatedByType_STATUS                                                      |               | v1api20230201 | v1api20230202preview | v1api20230315preview | v1api20231001 | v1api20231102preview |
+| SystemData_LastModifiedByType_STATUS                                                 |               | v1api20230201 | v1api20230202preview | v1api20230315preview | v1api20231001 | v1api20231102preview |
+| SystemData_STATUS                                                                    |               | v1api20230201 | v1api20230202preview | v1api20230315preview | v1api20231001 | v1api20231102preview |
+| TrustedAccessRoleBinding                                                             |               |               | v1api20230202preview |                      |               |                      |
+| TrustedAccessRoleBindingProperties                                                   |               |               | v1api20230202preview |                      |               |                      |
+| TrustedAccessRoleBindingProperties_ProvisioningState_STATUS                          |               |               | v1api20230202preview |                      |               |                      |
+| TrustedAccessRoleBindingProperties_STATUS                                            |               |               | v1api20230202preview |                      |               |                      |
+| UpdateGroup                                                                          |               |               |                      | v1api20230315preview |               |                      |
+| UpdateGroupStatus_STATUS                                                             |               |               |                      | v1api20230315preview |               |                      |
+| UpdateGroup_STATUS                                                                   |               |               |                      | v1api20230315preview |               |                      |
+| UpdateRunProperties                                                                  |               |               |                      | v1api20230315preview |               |                      |
+| UpdateRunProperties_STATUS                                                           |               |               |                      | v1api20230315preview |               |                      |
+| UpdateRunProvisioningState_STATUS                                                    |               |               |                      | v1api20230315preview |               |                      |
+| UpdateRunStatus_STATUS                                                               |               |               |                      | v1api20230315preview |               |                      |
+| UpdateRunStrategy                                                                    |               |               |                      | v1api20230315preview |               |                      |
+| UpdateRunStrategy_STATUS                                                             |               |               |                      | v1api20230315preview |               |                      |
+| UpdateStage                                                                          |               |               |                      | v1api20230315preview |               |                      |
+| UpdateStageStatus_STATUS                                                             |               |               |                      | v1api20230315preview |               |                      |
+| UpdateStage_STATUS                                                                   |               |               |                      | v1api20230315preview |               |                      |
+| UpdateState_STATUS                                                                   |               |               |                      | v1api20230315preview |               |                      |
+| UpdateStatus_STATUS                                                                  |               |               |                      | v1api20230315preview |               |                      |
+| UpgradeOverrideSettings                                                              |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| UpgradeOverrideSettings_STATUS                                                       |               |               | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| UserAssignedIdentity                                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| UserAssignedIdentityDetails                                                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| UserAssignedIdentity_STATUS                                                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| VirtualMachineNodes                                                                  |               |               |                      |                      |               | v1api20231102preview |
+| VirtualMachineNodes_STATUS                                                           |               |               |                      |                      |               | v1api20231102preview |
+| VirtualMachinesProfile                                                               |               |               |                      |                      |               | v1api20231102preview |
+| VirtualMachinesProfile_STATUS                                                        |               |               |                      |                      |               | v1api20231102preview |
+| WaitStatus_STATUS                                                                    |               |               |                      | v1api20230315preview |               |                      |
+| WindowsGmsaProfile                                                                   |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| WindowsGmsaProfile_STATUS                                                            |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| WorkloadRuntime                                                                      |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
+| WorkloadRuntime_STATUS                                                               |               | v1api20230201 | v1api20230202preview |                      | v1api20231001 | v1api20231102preview |
