@@ -139,6 +139,9 @@ func ReadFromEnvironmentForTest() (config.Values, error) {
 
 	// Test configs never want SyncPeriod set as it introduces jitter
 	cfg.SyncPeriod = nil
+	// Simulate pod namespace being set, as we're not running in a pod context so we don't have this env varaible
+	// injected automatically
+	cfg.PodNamespace = "azureserviceoperator-system"
 
 	return cfg, err
 }
@@ -408,6 +411,11 @@ func (tc *KubePerTestContext) CreateResourceAndWait(obj client.Object) {
 
 	gen := obj.GetGeneration()
 	tc.CreateResource(obj)
+	// Only wait for ASO objects
+	// TODO: Consider making tc.Match.BeProvisioned(0) work for non-ASO objects with a Ready condition too?
+	if _, ok := obj.(genruntime.MetaObject); !ok {
+		return
+	}
 	tc.Eventually(obj).Should(tc.Match.BeProvisioned(gen))
 }
 
@@ -417,6 +425,10 @@ func (tc *KubePerTestContext) CreateResourceAndWaitWithoutCleanup(obj client.Obj
 	tc.T.Helper()
 	gen := obj.GetGeneration()
 	tc.CreateResourceUntracked(obj)
+	// Only wait for ASO objects
+	if _, ok := obj.(genruntime.MetaObject); !ok {
+		return
+	}
 	tc.Eventually(obj).Should(tc.Match.BeProvisioned(gen))
 }
 
@@ -440,6 +452,11 @@ func (tc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
 	}
 
 	for _, obj := range objs {
+		// Only wait for ASO objects
+		// TODO: Consider making tc.Match.BeProvisioned(0) work for non-ASO objects with a Ready condition too?
+		if _, ok := obj.(genruntime.MetaObject); !ok {
+			continue
+		}
 		// We can pass 0 for originalGeneration here because we're creating the resource so by definition it doesn't
 		// exist prior to this.
 		tc.Eventually(obj).Should(tc.Match.BeProvisioned(0))

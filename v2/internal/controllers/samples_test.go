@@ -6,6 +6,7 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -119,25 +120,26 @@ func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 	tc.DeleteResourceAndWait(rg)
 }
 
-func processSamples(samples map[string]genruntime.ARMMetaObject) []client.Object {
+func processSamples(samples map[string]client.Object) []client.Object {
 	samplesSlice := make([]client.Object, 0, len(samples))
 
 	for _, resourceObj := range samples {
-		obj := resourceObj.(client.Object)
+		obj := resourceObj
 		samplesSlice = append(samplesSlice, obj)
 	}
 
 	return samplesSlice
 }
 
-// findRefsAndCreateSecrets finds all references not matched by a corresponding genruntime.SecretDestination and generates
-// secrets which correspond to those references
-func findRefsAndCreateSecrets(tc *testcommon.KubePerTestContext, samples map[string]genruntime.ARMMetaObject, refs map[string]genruntime.ARMMetaObject) {
+// findRefsAndCreateSecrets finds all references not matched by a corresponding genruntime.SecretDestination or hardcoded secret
+// and generates secrets which correspond to those references
+func findRefsAndCreateSecrets(tc *testcommon.KubePerTestContext, samples map[string]client.Object, refs map[string]client.Object) {
 	allDestinations := set.Make[genruntime.SecretDestination]()
 	allReferences := set.Make[genruntime.SecretReference]()
+	allSecrets := set.Make[string]() // key is namespace + "/" + name
 
 	// Join samples and refs
-	resources := make([]genruntime.ARMMetaObject, 0, len(samples)+len(refs))
+	resources := make([]client.Object, 0, len(samples)+len(refs))
 	for _, v := range samples {
 		resources = append(resources, v)
 	}
@@ -145,11 +147,16 @@ func findRefsAndCreateSecrets(tc *testcommon.KubePerTestContext, samples map[str
 		resources = append(resources, v)
 	}
 
-	for _, resourceObj := range resources {
-		destinations, err := reflecthelpers.Find[genruntime.SecretDestination](resourceObj)
+	for _, obj := range resources {
+		if secret, ok := obj.(*v1.Secret); ok {
+			allSecrets.Add(fmt.Sprintf("%s/%s", secret.Namespace, secret.Name))
+			continue
+		}
+
+		destinations, err := reflecthelpers.Find[genruntime.SecretDestination](obj)
 		tc.Expect(err).To(BeNil())
 
-		references, err := reflecthelpers.FindSecretReferences(resourceObj)
+		references, err := reflecthelpers.FindSecretReferences(obj)
 		tc.Expect(err).To(BeNil())
 
 		allDestinations.AddAll(destinations)
@@ -162,6 +169,10 @@ func findRefsAndCreateSecrets(tc *testcommon.KubePerTestContext, samples map[str
 		matchingDestination := genruntime.SecretDestination{
 			Name: ref.Name,
 			Key:  ref.Key,
+		}
+		matchingSecret := fmt.Sprintf("%s/%s", tc.Namespace, ref.Name)
+		if allSecrets.Contains(matchingSecret) {
+			continue
 		}
 		if allDestinations.Contains(matchingDestination) {
 			continue
