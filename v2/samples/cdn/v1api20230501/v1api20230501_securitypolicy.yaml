@@ -1,0 +1,24 @@
+apiVersion: cdn.azure.com/v1api20230501
+kind: SecurityPolicy
+metadata:
+  name: aso-sample-securitypolicy
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-cdnprofile
+  parameters:
+    webApplicationFirewall:
+      associations:
+      - domains:
+        - reference:
+            group: cdn.azure.com
+            kind: AfdEndpoint
+            name: aso-sample-endpoint
+        patternsToMatch:
+        - /*
+      type: WebApplicationFirewall
+      wafPolicy:
+        reference:
+          group: network.frontdoor.azure.com
+          kind: WebApplicationFirewallPolicy
+          name: asosamplefirewall

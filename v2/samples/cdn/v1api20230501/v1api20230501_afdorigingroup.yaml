@@ -1,0 +1,16 @@
+apiVersion: cdn.azure.com/v1api20230501
+kind: AfdOriginGroup
+metadata:
+  name: aso-sample-origingroup
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-cdnprofile
+  healthProbeSettings:
+    probeIntervalInSeconds: 100
+    probePath: /
+    probeProtocol: Http
+    probeRequestType: HEAD
+  loadBalancingSettings:
+    sampleSize: 4
+    successfulSamplesRequired: 3

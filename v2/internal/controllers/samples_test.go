@@ -38,6 +38,7 @@ var randomNameExclusions = []string{
 	"cache",
 	"containerservice",
 	"compute",
+	"cdn",
 	"documentdb",
 	"insights",
 	"network",

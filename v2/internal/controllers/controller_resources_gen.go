@@ -32,6 +32,8 @@ import (
 	cdn_customizations "github.com/Azure/azure-service-operator/v2/api/cdn/customizations"
 	cdn_v20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601"
 	cdn_v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/storage"
+	cdn_v20230501 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501"
+	cdn_v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	compute_customizations "github.com/Azure/azure-service-operator/v2/api/compute/customizations"
 	compute_v20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930"
 	compute_v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/storage"
@@ -128,6 +130,9 @@ import (
 	managedidentity_v20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131preview/storage"
 	managedidentity_v20230131 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
 	managedidentity_v20230131s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131/storage"
+	networkfrontdoor_customizations "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/customizations"
+	networkfrontdoor_v20220501 "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/v1api20220501"
+	networkfrontdoor_v20220501s "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/v1api20220501/storage"
 	network_customizations "github.com/Azure/azure-service-operator/v2/api/network/customizations"
 	network_v20180501 "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501"
 	network_v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage"
@@ -373,8 +378,17 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(cache_v20230401s.RedisPatchSchedule)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20230701s.RedisEnterprise)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20230701s.RedisEnterpriseDatabase)})
-	result = append(result, &registration.StorageType{Obj: new(cdn_v20210601s.Profile)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20210601s.ProfilesEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdCustomDomain)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdOrigin)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdOriginGroup)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.Profile)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.Route)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.Rule)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.RuleSet)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.Secret)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.SecurityPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20200930s.Disk)})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20200930s.Snapshot)})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20220301s.Image)})
@@ -829,6 +843,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PrivateEndpointsPrivateDnsZoneGroup)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PrivateLinkService)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PublicIPPrefix)})
+	result = append(result, &registration.StorageType{Obj: new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v20210601s.Workspace)})
 	result = append(result, &registration.StorageType{Obj: new(resources_v20200601s.ResourceGroup)})
 	result = append(result, &registration.StorageType{Obj: new(search_v20220901s.SearchService)})
@@ -1160,6 +1175,30 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(cache_v20230701s.RedisEnterprise), new(cache_v20230701s.RedisEnterpriseDatabase))
 	result = append(result, new(cdn_v20210601.Profile), new(cdn_v20210601.ProfilesEndpoint))
 	result = append(result, new(cdn_v20210601s.Profile), new(cdn_v20210601s.ProfilesEndpoint))
+	result = append(
+		result,
+		new(cdn_v20230501.AfdCustomDomain),
+		new(cdn_v20230501.AfdEndpoint),
+		new(cdn_v20230501.AfdOrigin),
+		new(cdn_v20230501.AfdOriginGroup),
+		new(cdn_v20230501.Profile),
+		new(cdn_v20230501.Route),
+		new(cdn_v20230501.Rule),
+		new(cdn_v20230501.RuleSet),
+		new(cdn_v20230501.Secret),
+		new(cdn_v20230501.SecurityPolicy))
+	result = append(
+		result,
+		new(cdn_v20230501s.AfdCustomDomain),
+		new(cdn_v20230501s.AfdEndpoint),
+		new(cdn_v20230501s.AfdOrigin),
+		new(cdn_v20230501s.AfdOriginGroup),
+		new(cdn_v20230501s.Profile),
+		new(cdn_v20230501s.Route),
+		new(cdn_v20230501s.Rule),
+		new(cdn_v20230501s.RuleSet),
+		new(cdn_v20230501s.Secret),
+		new(cdn_v20230501s.SecurityPolicy))
 	result = append(result, new(compute_v20200930.Disk), new(compute_v20200930.Snapshot))
 	result = append(result, new(compute_v20200930s.Disk), new(compute_v20200930s.Snapshot))
 	result = append(
@@ -1504,6 +1543,8 @@ func getKnownTypes() []client.Object {
 		new(network_v20220701s.PrivateEndpointsPrivateDnsZoneGroup),
 		new(network_v20220701s.PrivateLinkService),
 		new(network_v20220701s.PublicIPPrefix))
+	result = append(result, new(networkfrontdoor_v20220501.WebApplicationFirewallPolicy))
+	result = append(result, new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy))
 	result = append(result, new(operationalinsights_v20210601.Workspace))
 	result = append(result, new(operationalinsights_v20210601s.Workspace))
 	result = append(result, new(resources_v20200601.ResourceGroup))
@@ -1707,6 +1748,8 @@ func createScheme() *runtime.Scheme {
 	_ = cache_v20230701s.AddToScheme(scheme)
 	_ = cdn_v20210601.AddToScheme(scheme)
 	_ = cdn_v20210601s.AddToScheme(scheme)
+	_ = cdn_v20230501.AddToScheme(scheme)
+	_ = cdn_v20230501s.AddToScheme(scheme)
 	_ = compute_v20200930.AddToScheme(scheme)
 	_ = compute_v20200930s.AddToScheme(scheme)
 	_ = compute_v20201201.AddToScheme(scheme)
@@ -1797,6 +1840,8 @@ func createScheme() *runtime.Scheme {
 	_ = network_v20220401s.AddToScheme(scheme)
 	_ = network_v20220701.AddToScheme(scheme)
 	_ = network_v20220701s.AddToScheme(scheme)
+	_ = networkfrontdoor_v20220501.AddToScheme(scheme)
+	_ = networkfrontdoor_v20220501s.AddToScheme(scheme)
 	_ = operationalinsights_v20210601.AddToScheme(scheme)
 	_ = operationalinsights_v20210601s.AddToScheme(scheme)
 	_ = resources_v20200601.AddToScheme(scheme)
@@ -1854,8 +1899,17 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &cache_customizations.RedisFirewallRuleExtension{})
 	result = append(result, &cache_customizations.RedisLinkedServerExtension{})
 	result = append(result, &cache_customizations.RedisPatchScheduleExtension{})
+	result = append(result, &cdn_customizations.AfdCustomDomainExtension{})
+	result = append(result, &cdn_customizations.AfdEndpointExtension{})
+	result = append(result, &cdn_customizations.AfdOriginExtension{})
+	result = append(result, &cdn_customizations.AfdOriginGroupExtension{})
 	result = append(result, &cdn_customizations.ProfileExtension{})
 	result = append(result, &cdn_customizations.ProfilesEndpointExtension{})
+	result = append(result, &cdn_customizations.RouteExtension{})
+	result = append(result, &cdn_customizations.RuleExtension{})
+	result = append(result, &cdn_customizations.RuleSetExtension{})
+	result = append(result, &cdn_customizations.SecretExtension{})
+	result = append(result, &cdn_customizations.SecurityPolicyExtension{})
 	result = append(result, &compute_customizations.DiskEncryptionSetExtension{})
 	result = append(result, &compute_customizations.DiskExtension{})
 	result = append(result, &compute_customizations.ImageExtension{})
@@ -1970,6 +2024,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.VirtualNetworkGatewayExtension{})
 	result = append(result, &network_customizations.VirtualNetworksSubnetExtension{})
 	result = append(result, &network_customizations.VirtualNetworksVirtualNetworkPeeringExtension{})
+	result = append(result, &networkfrontdoor_customizations.WebApplicationFirewallPolicyExtension{})
 	result = append(result, &operationalinsights_customizations.WorkspaceExtension{})
 	result = append(result, &resources_customizations.ResourceGroupExtension{})
 	result = append(result, &search_customizations.SearchServiceExtension{})

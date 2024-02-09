@@ -781,7 +781,13 @@ func (tc *KubePerTestContext) KubeClient() client.Client {
 func (tc *KubePerTestContext) ExportAsSample(resource client.Object) {
 	tc.T.Helper()
 
-	filename := fmt.Sprintf("%s.yaml", tc.T.Name())
+	tc.ExportAsSampleNamed(resource, tc.T.Name())
+}
+
+func (tc *KubePerTestContext) ExportAsSampleNamed(resource client.Object, name string) {
+	tc.T.Helper()
+
+	filename := fmt.Sprintf("%s.yaml", name)
 	filepath := path.Join(os.TempDir(), filename)
 
 	rsrc := resource.DeepCopyObject()
