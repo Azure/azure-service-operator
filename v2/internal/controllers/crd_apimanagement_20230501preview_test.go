@@ -482,7 +482,6 @@ func APIM_Api20230501preview_CRUD(tc *testcommon.KubePerTestContext, service cli
 }
 
 func APIM_AuthorizationProvider20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object, secretsMap *genruntime.SecretMapReference) {
-
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
 		Spec: apim.Service_AuthorizationProvider_Spec{
@@ -507,7 +506,6 @@ func APIM_AuthorizationProvider20230501preview_CRUD(tc *testcommon.KubePerTestCo
 }
 
 func APIM_AuthorizationProviders_Authorization20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object, secretsMap *genruntime.SecretMapReference) {
-
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
 		Spec: apim.Service_AuthorizationProvider_Spec{
@@ -547,7 +545,6 @@ func APIM_AuthorizationProviders_Authorization20230501preview_CRUD(tc *testcommo
 }
 
 func APIM_AuthorizationProviders_Authorizations_AccessPolicy20230501preview_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, service client.Object, secretsMap *genruntime.SecretMapReference) {
-
 	authorizationProvider := apim.AuthorizationProvider{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
 		Spec: apim.Service_AuthorizationProvider_Spec{
