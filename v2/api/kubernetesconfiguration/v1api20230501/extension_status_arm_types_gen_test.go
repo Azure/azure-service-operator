@@ -165,6 +165,7 @@ func Extension_Properties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtension_Properties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtension_Properties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["AutoUpgradeMinorVersion"] = gen.PtrOf(gen.Bool())
+	gens["ConfigurationProtectedSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["ConfigurationSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["CurrentVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["CustomLocationSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())

@@ -200,17 +200,6 @@ typeTransformers:
   # remove the property'RedisProperties_Status.AccessKeys'
   # because it's only populated in a response from Azure 
   #
-  - group: kubernetesconfiguration
-    name: Extension_Properties_Spec
-    property: ConfigurationProtectedSettings
-    remove: true
-    because: This should be reverted once 'https://github.com/Azure/azure-service-operator/issues/3435' is resolved
-
-  - group: kubernetesconfiguration
-    name: Extension_Properties_Status
-    property: ConfigurationProtectedSettings
-    remove: true
-    because: This should be reverted once 'https://github.com/Azure/azure-service-operator/issues/3435' is resolved
 
   - group: kubernetesconfiguration
     name: Extension_Properties_Spec
@@ -1818,6 +1807,8 @@ objectModelConfiguration:
         $azureGeneratedSecrets:
           - Key1
           - Key2
+        $generatedConfigs:
+          Endpoint: $.Status.Endpoint
   eventhub:
     2021-11-01:
       Destination_Properties:

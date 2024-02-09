@@ -141,3 +141,14 @@ networkPolicies:
   mysqlCIDR: 0.0.0.0/0
   # Destination CIDR for talking to PostgreSQL servers
   postgresqlCIDR: 0.0.0.0/0
+
+# Tolerations are applied to pods. Tolerations allow the scheduler to schedule pods with matching taints. Tolerations allow scheduling but don't guarantee scheduling
+# For more information, see https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration.
+tolerations: []
+
+# Affinity and anti-affinity expands the types of constraints you can define.
+# The affinity feature consists of two types of affinity:
+# Node affinity functions like the nodeSelector field but is more expressive and allows you to specify soft rules.
+# Inter-pod affinity/anti-affinity allows you to constrain Pods against labels on other Pods.
+# For more information, see https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
+affinity: {}

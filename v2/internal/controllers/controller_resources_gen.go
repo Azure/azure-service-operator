@@ -662,7 +662,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(kubernetesconfiguration_v20230501s.Extension)})
+	result = append(result, &registration.StorageType{
+		Obj: new(kubernetesconfiguration_v20230501s.Extension),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.configurationProtectedSettings",
+				Func: indexKubernetesconfigurationExtensionConfigurationProtectedSettings,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.configurationProtectedSettings"}, &kubernetesconfiguration_v20230501s.ExtensionList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20210701s.Workspace)})
 	result = append(result, &registration.StorageType{
 		Obj: new(machinelearningservices_v20210701s.WorkspacesCompute),
@@ -2712,6 +2726,18 @@ func indexKeyvaultVaultPropertiesTenantIdFromConfig(rawObj client.Object) []stri
 		return nil
 	}
 	return obj.Spec.Properties.TenantIdFromConfig.Index()
+}
+
+// indexKubernetesconfigurationExtensionConfigurationProtectedSettings an index function for kubernetesconfiguration_v20230501s.Extension .spec.configurationProtectedSettings
+func indexKubernetesconfigurationExtensionConfigurationProtectedSettings(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kubernetesconfiguration_v20230501s.Extension)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ConfigurationProtectedSettings == nil {
+		return nil
+	}
+	return obj.Spec.ConfigurationProtectedSettings.Index()
 }
 
 // indexMachinelearningservicesWorkspacesComputeAdminUserPassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword

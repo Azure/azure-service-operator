@@ -4,11 +4,16 @@
 package storage
 
 import (
+	"context"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // +kubebuilder:rbac:groups=eventgrid.azure.com,resources=topics,verbs=get;list;watch;create;update;patch;delete
@@ -42,6 +47,23 @@ func (topic *Topic) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (topic *Topic) SetConditions(conditions conditions.Conditions) {
 	topic.Status.Conditions = conditions
+}
+
+var _ genruntime.KubernetesExporter = &Topic{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (topic *Topic) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(topic.Namespace)
+	if topic.Spec.OperatorSpec != nil && topic.Spec.OperatorSpec.ConfigMaps != nil {
+		if topic.Status.Endpoint != nil {
+			collector.AddValue(topic.Spec.OperatorSpec.ConfigMaps.Endpoint, *topic.Status.Endpoint)
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &Topic{}
@@ -230,8 +252,15 @@ type PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded struct {
 // Storage version of v1api20200601.TopicOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type TopicOperatorSpec struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Secrets     *TopicOperatorSecrets  `json:"secrets,omitempty"`
+	ConfigMaps  *TopicOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
+	Secrets     *TopicOperatorSecrets    `json:"secrets,omitempty"`
+}
+
+// Storage version of v1api20200601.TopicOperatorConfigMaps
+type TopicOperatorConfigMaps struct {
+	Endpoint    *genruntime.ConfigMapDestination `json:"endpoint,omitempty"`
+	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20200601.TopicOperatorSecrets
