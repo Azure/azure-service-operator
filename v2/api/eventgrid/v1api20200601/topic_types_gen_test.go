@@ -622,7 +622,105 @@ func TopicOperatorSpecGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForTopicOperatorSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTopicOperatorSpec(gens map[string]gopter.Gen) {
+	gens["ConfigMaps"] = gen.PtrOf(TopicOperatorConfigMapsGenerator())
 	gens["Secrets"] = gen.PtrOf(TopicOperatorSecretsGenerator())
+}
+
+func Test_TopicOperatorConfigMaps_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from TopicOperatorConfigMaps to TopicOperatorConfigMaps via AssignProperties_To_TopicOperatorConfigMaps & AssignProperties_From_TopicOperatorConfigMaps returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTopicOperatorConfigMaps, TopicOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForTopicOperatorConfigMaps tests if a specific instance of TopicOperatorConfigMaps can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForTopicOperatorConfigMaps(subject TopicOperatorConfigMaps) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20200601s.TopicOperatorConfigMaps
+	err := copied.AssignProperties_To_TopicOperatorConfigMaps(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual TopicOperatorConfigMaps
+	err = actual.AssignProperties_From_TopicOperatorConfigMaps(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_TopicOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of TopicOperatorConfigMaps via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTopicOperatorConfigMaps, TopicOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForTopicOperatorConfigMaps runs a test to see if a specific instance of TopicOperatorConfigMaps round trips to JSON and back losslessly
+func RunJSONSerializationTestForTopicOperatorConfigMaps(subject TopicOperatorConfigMaps) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual TopicOperatorConfigMaps
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of TopicOperatorConfigMaps instances for property testing - lazily instantiated by
+// TopicOperatorConfigMapsGenerator()
+var topicOperatorConfigMapsGenerator gopter.Gen
+
+// TopicOperatorConfigMapsGenerator returns a generator of TopicOperatorConfigMaps instances for property testing.
+func TopicOperatorConfigMapsGenerator() gopter.Gen {
+	if topicOperatorConfigMapsGenerator != nil {
+		return topicOperatorConfigMapsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	topicOperatorConfigMapsGenerator = gen.Struct(reflect.TypeOf(TopicOperatorConfigMaps{}), generators)
+
+	return topicOperatorConfigMapsGenerator
 }
 
 func Test_TopicOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

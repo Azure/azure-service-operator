@@ -1751,6 +1751,8 @@ objectModelConfiguration:
         $azureGeneratedSecrets:
           - Key1
           - Key2
+        $generatedConfigs:
+          Endpoint: $.Status.Endpoint
   eventhub:
     2021-11-01:
       Destination_Properties:

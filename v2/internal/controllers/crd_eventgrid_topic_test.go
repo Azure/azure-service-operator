@@ -74,15 +74,23 @@ func Test_EventGrid_Topic(t *testing.T) {
 func Topic_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, topic *eventgrid.Topic) {
 	old := topic.DeepCopy()
 	topicSecret := "topickeys"
+	topicConfigMap := "topicconfigmap"
 	topic.Spec.OperatorSpec = &eventgrid.TopicOperatorSpec{
 		Secrets: &eventgrid.TopicOperatorSecrets{
 			Key1: &genruntime.SecretDestination{Name: topicSecret, Key: "key1"},
 			Key2: &genruntime.SecretDestination{Name: topicSecret, Key: "key2"},
 		},
+		ConfigMaps: &eventgrid.TopicOperatorConfigMaps{
+			Endpoint: &genruntime.ConfigMapDestination{
+				Name: topicConfigMap,
+				Key:  "endpoint",
+			},
+		},
 	}
 	tc.PatchResourceAndWait(old, topic)
 
 	tc.ExpectSecretHasKeys(topicSecret, "key1", "key2")
+	tc.ExpectConfigMapHasKeys(topicConfigMap, "endpoint")
 }
 
 func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, topic *eventgrid.Topic) {
