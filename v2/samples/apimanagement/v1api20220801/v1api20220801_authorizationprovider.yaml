@@ -1,0 +1,14 @@
+apiVersion: apimanagement.azure.com/v1api20220801
+kind: AuthorizationProvider
+metadata:
+  name: sampleapimauthorizationprovider
+  namespace: default
+spec:
+  displayName: "sampleauthcode"
+  identityProvider: "aad"
+  oauth2:
+    grantTypes:
+      authorizationCode:
+        name: authcode
+  owner:
+    name: sampleapimservice

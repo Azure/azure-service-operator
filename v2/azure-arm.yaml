@@ -247,13 +247,25 @@ typeTransformers:
 
   # 
   # In the group 'apimanagement', 
-  # remove the property 'ApiManagementServiceProperties.PrivateEndpointConnections'
+  # remove the properties 'ApiManagementServiceProperties.PrivateEndpointConnections', 'AuthorizationContractProperties.Error' and 'AuthorizationContractProperties.Status'
   # 
   - group: apimanagement
     name: ApiManagementServiceProperties
     property: PrivateEndpointConnections
     remove: true
     because: This property should be marked readonly
+
+  - group: apimanagement
+    name: AuthorizationContractProperties
+    property: Error
+    remove: true
+    because: This property should be marked readonly in Swagger
+
+  - group: apimanagement
+    name: AuthorizationContractProperties
+    property: Status
+    remove: true
+    because: This property should be marked readonly in Swagger
 
   #
   # In the group 'compute',
@@ -841,6 +853,19 @@ objectModelConfiguration:
       ApiManagementServiceProperties:
         PublicIpAddressId:
           $armReference: true
+      AuthorizationAccessPolicyContractProperties:
+        TenantId:
+          $importConfigMapMode: optional
+        ObjectId:
+          $importConfigMapMode: optional
+      AuthorizationContractProperties:
+        Parameters:
+          $isSecret: true
+      AuthorizationProviderOAuth2GrantTypes:
+        AuthorizationCode:
+          $isSecret: true
+        ClientCredentials:
+          $isSecret: true
       BackendContractProperties:
         ResourceId:
           $armReference: true
@@ -874,6 +899,15 @@ objectModelConfiguration:
       Service_ApiVersionSet:
         $exportAs: ApiVersionSet
         $supportedFrom: v2.4.0
+      Service_AuthorizationProvider:
+        $exportAs: AuthorizationProvider
+        $supportedFrom: v2.6.0
+      Service_AuthorizationProviders_Authorization:
+        $exportAs: AuthorizationProvidersAuthorization
+        $supportedFrom: v2.6.0
+      Service_AuthorizationProviders_Authorizations_AccessPolicy:
+        $exportAs: AuthorizationProvidersAuthorizationsAccessPolicy
+        $supportedFrom: v2.6.0
       Service_Backend:
         $exportAs: Backend
         $supportedFrom: v2.4.0
@@ -926,6 +960,19 @@ objectModelConfiguration:
       ApiManagementServiceProperties:
         PublicIpAddressId:
           $armReference: true
+      AuthorizationAccessPolicyContractProperties:
+        TenantId:
+          $importConfigMapMode: optional
+        ObjectId:
+          $importConfigMapMode: optional
+      AuthorizationContractProperties:
+        Parameters:
+          $isSecret: true
+      AuthorizationProviderOAuth2GrantTypes:
+        AuthorizationCode:
+          $isSecret: true
+        ClientCredentials:
+          $isSecret: true
       BackendContractProperties:
         ResourceId:
           $armReference: true
@@ -958,6 +1005,15 @@ objectModelConfiguration:
         $supportedFrom: v2.6.0
       Service_ApiVersionSet:
         $exportAs: ApiVersionSet
+        $supportedFrom: v2.6.0
+      Service_AuthorizationProvider:
+        $exportAs: AuthorizationProvider
+        $supportedFrom: v2.6.0
+      Service_AuthorizationProviders_Authorization:
+        $exportAs: AuthorizationProvidersAuthorization
+        $supportedFrom: v2.6.0
+      Service_AuthorizationProviders_Authorizations_AccessPolicy:
+        $exportAs: AuthorizationProvidersAuthorizationsAccessPolicy
         $supportedFrom: v2.6.0
       Service_Backend:
         $exportAs: Backend

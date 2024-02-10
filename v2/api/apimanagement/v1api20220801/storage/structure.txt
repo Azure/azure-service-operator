@@ -155,6 +155,80 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/stora
 │       ├── VersionHeaderName: *string
 │       ├── VersionQueryName: *string
 │       └── VersioningScheme: *string
+├── AuthorizationProvider: Resource
+│   ├── Owner: apimanagement/v1api20220801.Service
+│   ├── Spec: Object (7 properties)
+│   │   ├── AzureName: string
+│   │   ├── DisplayName: *string
+│   │   ├── IdentityProvider: *string
+│   │   ├── Oauth2: *Object (3 properties)
+│   │   │   ├── GrantTypes: *Object (3 properties)
+│   │   │   │   ├── AuthorizationCode: *genruntime.SecretMapReference
+│   │   │   │   ├── ClientCredentials: *genruntime.SecretMapReference
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── RedirectUrl: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── DisplayName: *string
+│       ├── Id: *string
+│       ├── IdentityProvider: *string
+│       ├── Name: *string
+│       ├── Oauth2: *Object (3 properties)
+│       │   ├── GrantTypes: *Object (3 properties)
+│       │   │   ├── AuthorizationCode: map[string]string
+│       │   │   ├── ClientCredentials: map[string]string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── RedirectUrl: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       └── Type: *string
+├── AuthorizationProvidersAuthorization: Resource
+│   ├── Owner: apimanagement/v1api20220801.AuthorizationProvider
+│   ├── Spec: Object (7 properties)
+│   │   ├── AuthorizationType: *string
+│   │   ├── AzureName: string
+│   │   ├── Oauth2GrantType: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Parameters: *genruntime.SecretMapReference
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   └── Status: Object (10 properties)
+│       ├── AuthorizationType: *string
+│       ├── Conditions: conditions.Condition[]
+│       ├── Error: *Object (3 properties)
+│       │   ├── Code: *string
+│       │   ├── Message: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── Oauth2GrantType: *string
+│       ├── Parameters: map[string]string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Status: *string
+│       └── Type: *string
+├── AuthorizationProvidersAuthorizationsAccessPolicy: Resource
+│   ├── Owner: apimanagement/v1api20220801.AuthorizationProvidersAuthorization
+│   ├── Spec: Object (8 properties)
+│   │   ├── AzureName: string
+│   │   ├── ObjectId: *string
+│   │   ├── ObjectIdFromConfig: *genruntime.ConfigMapReference
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── TenantId: *string
+│   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── ObjectId: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── TenantId: *string
+│       └── Type: *string
 ├── Backend: Resource
 │   ├── Owner: apimanagement/v1api20220801.Service
 │   ├── Spec: Object (13 properties)
