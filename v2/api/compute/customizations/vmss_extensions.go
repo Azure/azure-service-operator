@@ -279,11 +279,11 @@ func mergeExtensions(extensionField reflect.Value, azureExtensionsSlice reflect.
 
 	for i := 0; i < azureExtensionsSlice.Len(); i++ {
 		azureExtension := azureExtensionsSlice.Index(i)
-		newRuleName, err := getNameField(azureExtension)
+		newExtensionName, err := getNameField(azureExtension)
 		if err != nil {
 			return reflect.Value{}, errors.Wrapf(err, "failed to get name for new extension")
 		}
-		foundExistingRule := false
+		foundExistingExtension := false
 
 		for j := 0; j < extensionField.Len(); j++ {
 			existingExtension := extensionField.Index(j)
@@ -293,13 +293,13 @@ func mergeExtensions(extensionField reflect.Value, azureExtensionsSlice reflect.
 				return reflect.Value{}, errors.Wrapf(err, "failed to get name for existing extension")
 			}
 
-			if existingName.String() == newRuleName.String() {
-				foundExistingRule = true
+			if existingName.String() == newExtensionName.String() {
+				foundExistingExtension = true
 				break
 			}
 		}
 
-		if !foundExistingRule {
+		if !foundExistingExtension {
 			resultSlice = reflect.Append(resultSlice, azureExtension)
 		}
 	}

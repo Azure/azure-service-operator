@@ -34,8 +34,7 @@ func Test_FuzzySetExtensions(t *testing.T) {
 			"orchestrationMode":                      "Uniform",
 			"overprovision":                          true,
 			"platformFaultDomainCount":               3,
-			//"provisioningState":                      "Succeeded",
-			"singlePlacementGroup": false,
+			"singlePlacementGroup":                   false,
 			"upgradePolicy": map[string]any{
 				"mode": "Automatic",
 			},
