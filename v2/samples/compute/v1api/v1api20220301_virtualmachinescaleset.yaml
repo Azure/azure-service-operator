@@ -1,7 +1,7 @@
 apiVersion: compute.azure.com/v1api20220301
 kind: VirtualMachineScaleSet
 metadata:
-  name: samplevmss1
+  name: aso-sample-vmss
   namespace: default
 spec:
   location: westus3

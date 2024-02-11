@@ -1,0 +1,11 @@
+apiVersion: compute.azure.com/v1api20220301
+kind: VirtualMachineScaleSetsExtension
+metadata:
+  name: myvmssextension20220301
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-vmss
+  publisher: Microsoft.ManagedServices
+  type: ApplicationHealthLinux
+  typeHandlerVersion: "1.0"

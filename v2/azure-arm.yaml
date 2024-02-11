@@ -279,6 +279,12 @@ typeTransformers:
       optional: true
     because: The enum restrictions on this type are incomplete. Making this type a plain string to allow for growth of supported VM sizes without a new API version
 
+  - group: compute
+    name: VirtualMachineScaleSetExtensionProperties
+    property: ProtectedSettings
+    remove: true
+    because: This property should be marked as secret. However, we don't have an infra to support map[string]JSON secrets. See https://github.com/Azure/azure-service-operator/pull/3743#discussion_r1475110485
+
   # 
   # In the group 'dataprotection',
   # from the type 'BackupVault_Spec',
@@ -1254,6 +1260,12 @@ objectModelConfiguration:
         $isResource: false
       VirtualMachineScaleSetNetworkConfiguration_STATUS:
         $isResource: false
+      VirtualMachines_Extension:
+        $exportAs: VirtualMachinesExtension
+        $supportedFrom: v2.6.0
+      VirtualMachineScaleSets_Extension:
+        $exportAs: VirtualMachineScaleSetsExtension
+        $supportedFrom: v2.6.0
     2021-07-01:
       Image:
         $export: true
@@ -1308,6 +1320,12 @@ objectModelConfiguration:
         $isResource: false
       VirtualMachineScaleSetNetworkConfiguration_STATUS:
         $isResource: false
+      VirtualMachines_Extension:
+        $exportAs: VirtualMachinesExtension
+        $supportedFrom: v2.6.0
+      VirtualMachineScaleSets_Extension:
+        $exportAs: VirtualMachineScaleSetsExtension
+        $supportedFrom: v2.6.0
     2022-07-02:
       DiskEncryptionSet:
         $export: true

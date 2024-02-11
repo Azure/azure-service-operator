@@ -5692,7 +5692,6 @@ type VirtualMachineScaleSetExtension struct {
 	ForceUpdateTag           *string                `json:"forceUpdateTag,omitempty"`
 	Name                     *string                `json:"name,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProtectedSettings        map[string]v1.JSON     `json:"protectedSettings,omitempty"`
 	ProvisionAfterExtensions []string               `json:"provisionAfterExtensions,omitempty"`
 	Publisher                *string                `json:"publisher,omitempty"`
 	Settings                 map[string]v1.JSON     `json:"settings,omitempty"`
@@ -5726,19 +5725,6 @@ func (extension *VirtualMachineScaleSetExtension) AssignProperties_From_VirtualM
 
 	// Name
 	extension.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ProtectedSettings
-	if source.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(source.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range source.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		extension.ProtectedSettings = protectedSettingMap
-	} else {
-		extension.ProtectedSettings = nil
-	}
 
 	// ProtectedSettingsFromKeyVault
 	if source.ProtectedSettingsFromKeyVault != nil {
@@ -5825,19 +5811,6 @@ func (extension *VirtualMachineScaleSetExtension) AssignProperties_To_VirtualMac
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(extension.Name)
-
-	// ProtectedSettings
-	if extension.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(extension.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range extension.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		destination.ProtectedSettings = protectedSettingMap
-	} else {
-		destination.ProtectedSettings = nil
-	}
 
 	// ProtectedSettingsFromKeyVault
 	if propertyBag.Contains("ProtectedSettingsFromKeyVault") {

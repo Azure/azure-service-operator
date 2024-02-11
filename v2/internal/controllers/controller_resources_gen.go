@@ -406,6 +406,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(compute_v20220301s.VirtualMachineScaleSetsExtension)})
+	result = append(result, &registration.StorageType{Obj: new(compute_v20220301s.VirtualMachinesExtension)})
 	result = append(result, &registration.StorageType{
 		Obj: new(compute_v20220702s.DiskEncryptionSet),
 		Indexes: []registration.Index{
@@ -1158,20 +1160,34 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(cdn_v20210601s.Profile), new(cdn_v20210601s.ProfilesEndpoint))
 	result = append(result, new(compute_v20200930.Disk), new(compute_v20200930.Snapshot))
 	result = append(result, new(compute_v20200930s.Disk), new(compute_v20200930s.Snapshot))
-	result = append(result, new(compute_v20201201.VirtualMachine), new(compute_v20201201.VirtualMachineScaleSet))
-	result = append(result, new(compute_v20201201s.VirtualMachine), new(compute_v20201201s.VirtualMachineScaleSet))
+	result = append(
+		result,
+		new(compute_v20201201.VirtualMachine),
+		new(compute_v20201201.VirtualMachineScaleSet),
+		new(compute_v20201201.VirtualMachineScaleSetsExtension),
+		new(compute_v20201201.VirtualMachinesExtension))
+	result = append(
+		result,
+		new(compute_v20201201s.VirtualMachine),
+		new(compute_v20201201s.VirtualMachineScaleSet),
+		new(compute_v20201201s.VirtualMachineScaleSetsExtension),
+		new(compute_v20201201s.VirtualMachinesExtension))
 	result = append(result, new(compute_v20210701.Image))
 	result = append(result, new(compute_v20210701s.Image))
 	result = append(
 		result,
 		new(compute_v20220301.Image),
 		new(compute_v20220301.VirtualMachine),
-		new(compute_v20220301.VirtualMachineScaleSet))
+		new(compute_v20220301.VirtualMachineScaleSet),
+		new(compute_v20220301.VirtualMachineScaleSetsExtension),
+		new(compute_v20220301.VirtualMachinesExtension))
 	result = append(
 		result,
 		new(compute_v20220301s.Image),
 		new(compute_v20220301s.VirtualMachine),
-		new(compute_v20220301s.VirtualMachineScaleSet))
+		new(compute_v20220301s.VirtualMachineScaleSet),
+		new(compute_v20220301s.VirtualMachineScaleSetsExtension),
+		new(compute_v20220301s.VirtualMachinesExtension))
 	result = append(result, new(compute_v20220702.DiskEncryptionSet))
 	result = append(result, new(compute_v20220702s.DiskEncryptionSet))
 	result = append(result, new(containerinstance_v20211001.ContainerGroup))
@@ -1840,6 +1856,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &compute_customizations.SnapshotExtension{})
 	result = append(result, &compute_customizations.VirtualMachineExtension{})
 	result = append(result, &compute_customizations.VirtualMachineScaleSetExtension{})
+	result = append(result, &compute_customizations.VirtualMachineScaleSetsExtensionExtension{})
+	result = append(result, &compute_customizations.VirtualMachinesExtensionExtension{})
 	result = append(result, &containerinstance_customizations.ContainerGroupExtension{})
 	result = append(result, &containerregistry_customizations.RegistryExtension{})
 	result = append(result, &containerservice_customizations.FleetExtension{})

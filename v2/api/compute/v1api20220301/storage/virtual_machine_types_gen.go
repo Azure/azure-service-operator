@@ -669,14 +669,6 @@ type InstanceViewStatus_STATUS struct {
 	Time          *string                `json:"time,omitempty"`
 }
 
-// Storage version of v1api20220301.KeyVaultSecretReference_STATUS
-// Describes a reference to Key Vault Secret
-type KeyVaultSecretReference_STATUS struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SecretUrl   *string                `json:"secretUrl,omitempty"`
-	SourceVault *SubResource_STATUS    `json:"sourceVault,omitempty"`
-}
-
 // Storage version of v1api20220301.LinuxConfiguration
 // Specifies the Linux operating system settings on the virtual machine.
 // For a list of supported Linux
@@ -898,17 +890,6 @@ type VirtualMachineAgentInstanceView_STATUS struct {
 	PropertyBag       genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
 	Statuses          []InstanceViewStatus_STATUS                         `json:"statuses,omitempty"`
 	VmAgentVersion    *string                                             `json:"vmAgentVersion,omitempty"`
-}
-
-// Storage version of v1api20220301.VirtualMachineExtensionInstanceView_STATUS
-// The instance view of a virtual machine extension.
-type VirtualMachineExtensionInstanceView_STATUS struct {
-	Name               *string                     `json:"name,omitempty"`
-	PropertyBag        genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	Statuses           []InstanceViewStatus_STATUS `json:"statuses,omitempty"`
-	Substatuses        []InstanceViewStatus_STATUS `json:"substatuses,omitempty"`
-	Type               *string                     `json:"type,omitempty"`
-	TypeHandlerVersion *string                     `json:"typeHandlerVersion,omitempty"`
 }
 
 // Storage version of v1api20220301.VirtualMachineHealthStatus_STATUS
@@ -1452,14 +1433,6 @@ type KeyVaultKeyReference_STATUS struct {
 	KeyUrl      *string                `json:"keyUrl,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SourceVault *SubResource_STATUS    `json:"sourceVault,omitempty"`
-}
-
-// Storage version of v1api20220301.KeyVaultSecretReference
-// Describes a reference to Key Vault Secret
-type KeyVaultSecretReference struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SecretUrl   *string                `json:"secretUrl,omitempty"`
-	SourceVault *SubResource           `json:"sourceVault,omitempty"`
 }
 
 // Storage version of v1api20220301.LinuxVMGuestPatchAutomaticByPlatformSettings

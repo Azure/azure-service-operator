@@ -1,0 +1,12 @@
+apiVersion: compute.azure.com/v1api20201201
+kind: VirtualMachinesExtension
+metadata:
+  name: myvmextension
+  namespace: default
+spec:
+  owner:
+    name: samplevm
+  publisher: Microsoft.ManagedServices
+  type: ApplicationHealthLinux
+  typeHandlerVersion: "1.0"
+  location: westus3

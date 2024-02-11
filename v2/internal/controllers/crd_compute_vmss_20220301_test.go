@@ -11,6 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	compute2022 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
@@ -127,6 +128,7 @@ func Test_Compute_VMSS_20220301_CRUD(t *testing.T) {
 	// Perform a simple patch to add a basic custom script extension
 	old := vmss.DeepCopy()
 	extensionName := "mycustomextension"
+	extensionName2 := "mycustomextension2"
 	vmss.Spec.VirtualMachineProfile.ExtensionProfile = &compute2022.VirtualMachineScaleSetExtensionProfile{
 		Extensions: []compute2022.VirtualMachineScaleSetExtension{
 			{
@@ -143,6 +145,34 @@ func Test_Compute_VMSS_20220301_CRUD(t *testing.T) {
 		},
 	}
 	tc.PatchResourceAndWait(old, vmss)
+	found := checkExtensionExists2022(tc, vmss, extensionName)
+	tc.Expect(found).To(BeTrue())
+
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "VMSS_Extension_20220301_CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				VMSS_Extension_20220301_CRUD(tc, vmss, extensionName2)
+			},
+		},
+	)
+
+	objectKey := client.ObjectKeyFromObject(vmss)
+
+	tc.Eventually(func() bool {
+		var updated compute2022.VirtualMachineScaleSet
+		tc.GetResource(objectKey, &updated)
+		return checkExtensionExists2022(tc, &updated, extensionName)
+	}).Should(BeTrue())
+
+	// Delete VMSS
+	tc.DeleteResourceAndWait(vmss)
+
+	// Ensure that the resource was really deleted in Azure
+	tc.ExpectResourceIsDeletedInAzure(armId, string(compute2022.APIVersion_Value))
+}
+
+func checkExtensionExists2022(tc *testcommon.KubePerTestContext, vmss *compute2022.VirtualMachineScaleSet, extensionName string) bool {
 	tc.Expect(vmss.Status.VirtualMachineProfile).ToNot(BeNil())
 	tc.Expect(vmss.Status.VirtualMachineProfile.ExtensionProfile).ToNot(BeNil())
 	tc.Expect(len(vmss.Status.VirtualMachineProfile.ExtensionProfile.Extensions)).To(BeNumerically(">", 0))
@@ -154,11 +184,29 @@ func Test_Compute_VMSS_20220301_CRUD(t *testing.T) {
 			found = true
 		}
 	}
-	tc.Expect(found).To(BeTrue())
 
-	// Delete VMSS
-	tc.DeleteResourceAndWait(vmss)
+	return found
+}
 
-	// Ensure that the resource was really deleted in Azure
-	tc.ExpectResourceIsDeletedInAzure(armId, string(compute2022.APIVersion_Value))
+func VMSS_Extension_20220301_CRUD(tc *testcommon.KubePerTestContext, vmss *compute2022.VirtualMachineScaleSet, extensionName string) {
+	extension := &compute2022.VirtualMachineScaleSetsExtension{
+		ObjectMeta: tc.MakeObjectMetaWithName(extensionName),
+		Spec: compute2022.VirtualMachineScaleSets_Extension_Spec{
+			Owner:              testcommon.AsOwner(vmss),
+			Publisher:          to.Ptr("Microsoft.ManagedServices"),
+			Type:               to.Ptr("ApplicationHealthLinux"),
+			TypeHandlerVersion: to.Ptr("1.0"),
+		},
+	}
+
+	tc.CreateResourceAndWait(extension)
+	tc.Expect(extension.Status.Id).ToNot(BeNil())
+	armId := *extension.Status.Id
+
+	tc.DeleteResourceAndWait(extension)
+
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(compute2022.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
 }

@@ -137,6 +137,17 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `compute.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                                                                                                                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                         |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| [VirtualMachineScaleSetsExtension](https://azure.github.io/azure-service-operator/reference/compute/v1api20220301/#compute.azure.com/v1api20220301.VirtualMachineScaleSetsExtension) | 2022-03-01  | v1api20220301 | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_virtualmachinescalesetsextension.yaml) |
+| [VirtualMachineScaleSetsExtension](https://azure.github.io/azure-service-operator/reference/compute/v1api20201201/#compute.azure.com/v1api20201201.VirtualMachineScaleSetsExtension) | 2020-12-01  | v1api20201201 | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachinescalesetsextension.yaml) |
+| [VirtualMachinesExtension](https://azure.github.io/azure-service-operator/reference/compute/v1api20220301/#compute.azure.com/v1api20220301.VirtualMachinesExtension)                 | 2022-03-01  | v1api20220301 | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_virtualmachinesextension.yaml)         |
+| [VirtualMachinesExtension](https://azure.github.io/azure-service-operator/reference/compute/v1api20201201/#compute.azure.com/v1api20201201.VirtualMachinesExtension)                 | 2020-12-01  | v1api20201201 | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachinesextension.yaml)         |
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
