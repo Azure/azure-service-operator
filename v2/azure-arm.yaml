@@ -44,8 +44,7 @@ supportedResourcesReport:
 typeFilters:
   - action: include
     group: containerservice
-    version: v*20230315preview;v*20230702preview
-    because: We want to support Fleet
+    because: We know ContainerService doesn't do weird things with their previews
     
   - action: include
     group: servicebus
@@ -1519,6 +1518,44 @@ objectModelConfiguration:
       ManagedClusters_AgentPool:
         $exportAs: ManagedClustersAgentPool
         $supportedFrom: v2.5.0
+      ManagedClusterServicePrincipalProfile:
+        Secret:
+          $isSecret: true
+      PrivateLinkResource:
+        Id:
+          $armReference: true
+    2023-11-02-preview:
+      DelegatedResource:
+        ResourceId:
+          $armReference: true
+      ManagedCluster:
+        $export: true
+        $supportedFrom: v2.6.0
+        $azureGeneratedSecrets:
+          - AdminCredentials
+          - UserCredentials
+        $generatedConfigs:
+          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+      ManagedCluster_Spec:
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusterAgentPoolProfile:
+        NodeLabels:
+          $payloadType: explicitEmptyCollections
+        NodeTaints:
+          $payloadType: explicitEmptyCollections
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusterAgentPoolProfileProperties:
+        NodeLabels:
+          $payloadType: explicitEmptyCollections
+        NodeTaints:
+          $payloadType: explicitEmptyCollections
+        Tags:
+          $payloadType: explicitEmptyCollections
+      ManagedClusters_AgentPool:
+        $exportAs: ManagedClustersAgentPool
+        $supportedFrom: v2.6.0
       ManagedClusterServicePrincipalProfile:
         Secret:
           $isSecret: true
