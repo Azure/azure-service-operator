@@ -10640,6 +10640,36 @@ Topic_STATUS
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.TopicOperatorConfigMaps&#34;&gt;TopicOperatorConfigMaps
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicOperatorSpec&#34;&gt;TopicOperatorSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;endpoint&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination&#34;&gt;
+genruntime.ConfigMapDestination
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Endpoint: indicates where the Endpoint config map should be placed. If omitted, no config map will be created.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;h3 id=&#34;eventgrid.azure.com/v1api20200601.TopicOperatorSecrets&#34;&gt;TopicOperatorSecrets
 &lt;/h3&gt;
 &lt;p&gt;
@@ -10699,6 +10729,19 @@ genruntime.SecretDestination
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;configMaps&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#eventgrid.azure.com/v1api20200601.TopicOperatorConfigMaps&#34;&gt;
+TopicOperatorConfigMaps
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ConfigMaps: configures where to place operator written ConfigMaps.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;code&gt;secrets&lt;/code&gt;&lt;br/&gt;
