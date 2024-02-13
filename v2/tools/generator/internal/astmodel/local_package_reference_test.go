@@ -28,9 +28,10 @@ func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithPrope
 		apiVersion string
 		pkg        string
 	}{
-		{"Networking", "microsoft.networking", "2020-09-01", "v20200901"},
-		{"Batch (new)", "microsoft.batch", "2020-09-01", "v20200901"},
-		{"Batch (old)", "microsoft.batch", "2015-01-01", "v20150101"},
+		{"Networking", "network", "2020-09-01", "v20200901"},
+		{"Batch (new)", "batch", "2020-09-01", "v20200901"},
+		{"Batch (old)", "batch", "2015-01-01", "v20150101"},
+		{"Networking Frontdoor", "network.frontdoor", "2020-09-01", "v20200901"},
 	}
 	for _, c := range cases {
 		c := c
@@ -58,28 +59,36 @@ func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 		folderPath  string
 	}{
 		{
-			"Networking",
-			"microsoft.networking",
+			"Network",
+			"network",
 			"2020-09-01",
 			"v20200901",
-			"github.com/Azure/azure-service-operator/v2/api/microsoft.networking/v20200901",
-			"microsoft.networking/v20200901",
+			"github.com/Azure/azure-service-operator/v2/api/network/v20200901",
+			"network/v20200901",
 		},
 		{
 			"Batch (new)",
-			"microsoft.batch",
+			"batch",
 			"2020-09-01",
 			"v20200901",
-			"github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v20200901",
-			"microsoft.batch/v20200901",
+			"github.com/Azure/azure-service-operator/v2/api/batch/v20200901",
+			"batch/v20200901",
 		},
 		{
 			"Batch (old)",
-			"microsoft.batch",
+			"batch",
 			"2015-01-01",
 			"v20150101",
-			"github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v20150101",
-			"microsoft.batch/v20150101",
+			"github.com/Azure/azure-service-operator/v2/api/batch/v20150101",
+			"batch/v20150101",
+		},
+		{
+			"Network Frontdoor",
+			"network.frontdoor",
+			"2020-09-01",
+			"v20200901",
+			"github.com/Azure/azure-service-operator/v2/api/network.frontdoor/v20200901",
+			"network.frontdoor/v20200901",
 		},
 	}
 	for _, c := range cases {
@@ -101,9 +110,9 @@ func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 func TestLocalPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
 	t.Parallel()
 
-	batchRef := makeTestLocalPackageReference("microsoft.batch", "v20200901")
-	olderRef := makeTestLocalPackageReference("microsoft.batch", "v20150101")
-	networkingRef := makeTestLocalPackageReference("microsoft.networking", "v20200901")
+	batchRef := makeTestLocalPackageReference("batch", "v20200901")
+	olderRef := makeTestLocalPackageReference("batch", "v20150101")
+	networkRef := makeTestLocalPackageReference("network", "v20200901")
 	fmtRef := MakeExternalPackageReference("fmt")
 
 	cases := []struct {
@@ -114,12 +123,12 @@ func TestLocalPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
 	}{
 		{"Equal self", batchRef, batchRef, true},
 		{"Equal self", olderRef, olderRef, true},
-		{"Not equal other library name", batchRef, networkingRef, false},
-		{"Not equal other library name", networkingRef, batchRef, false},
+		{"Not equal other library name", batchRef, networkRef, false},
+		{"Not equal other library name", networkRef, batchRef, false},
 		{"Not equal other library version", batchRef, olderRef, false},
 		{"Not equal other library version", olderRef, batchRef, false},
 		{"Not equal other kind", batchRef, fmtRef, false},
-		{"Not equal other kind", networkingRef, fmtRef, false},
+		{"Not equal other kind", networkRef, fmtRef, false},
 	}
 
 	for _, c := range cases {
@@ -181,6 +190,10 @@ func Test_LocalPackageReference_ImportAlias_ReturnsExpectedAlias(t *testing.T) {
 		{"GeneratorPreviewVersionOnly", "storage", GeneratorVersion, "20200901preview", VersionOnly, "v20200901p"},
 		{"GeneratorPreviewGroupOnly", "storage", GeneratorVersion, "20200901preview", GroupOnly, "storage"},
 		{"GeneratorPreviewGroupAndVersion", "storage", GeneratorVersion, "20200901preview", GroupAndVersion, "storage_v20200901p"},
+		// Current generator version with dot in the group name
+		{"DotGroupGeneratorVersionOnly", "network.frontdoor", GeneratorVersion, "20200901", VersionOnly, "v20200901"},
+		{"DotGroupGeneratorGroupOnly", "network.frontdoor", GeneratorVersion, "20200901", GroupOnly, "networkfrontdoor"},
+		{"DotGroupGeneratorGroupAndVersion", "network.frontdoor", GeneratorVersion, "20200901", GroupAndVersion, "networkfrontdoor_v20200901"},
 		// Hard coded to v1api
 		{"v1apiVersionOnly", "storage", "v1api", "20200901", VersionOnly, "v20200901"},
 		{"v1apiGroupOnly", "storage", "v1api", "20200901", GroupOnly, "storage"},
