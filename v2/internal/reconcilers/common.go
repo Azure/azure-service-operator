@@ -33,7 +33,7 @@ func LogObj(log logr.Logger, level int, note string, obj genruntime.MetaObject) 
 				continue
 			}
 
-			if strings.Contains(key, "token") {
+			if strings.EqualFold(key, PollerResumeTokenAnnotation) {
 				// Redact annotations with sensitive values
 				value = "REDACTED"
 			}
