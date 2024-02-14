@@ -8,6 +8,8 @@ package genruntime
 import (
 	"math"
 
+	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
@@ -104,4 +106,16 @@ func GetOptionalIntValue(ptr *int) int {
 // Primarily used when initializing Spec properties from Status properties.
 func GetIntFromFloat(f float64) int {
 	return int(math.Round(f))
+}
+
+// ConvertJSONToString returns the string value of the given v1.JSON.
+func ConvertJSONToString(json v1.JSON) string {
+	return string(json.Raw)
+}
+
+// ConvertStringToJSON returns the v1.JSON value of the given string.
+func ConvertStringToJSON(s string) v1.JSON {
+	return v1.JSON{
+		Raw: []byte(s),
+	}
 }
