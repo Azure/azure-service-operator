@@ -246,15 +246,11 @@ func (factory *StorageConversionPropertyTestCaseFactory) createJSONTestCases() {
 	currentProp := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.currentPackage, "Settings"), astmodel.JSONType)
 	nextProp := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.nextPackage, "Settings"), astmodel.StringType)
 
-	requiredCurrentAgeProperty := astmodel.NewPropertyDefinition("Settings", "settings", astmodel.JSONType)
-	requiredNextAgeProperty := astmodel.NewPropertyDefinition("Settings", "settings", astmodel.StringType)
+	requiredCurrentSettingsProperty := astmodel.NewPropertyDefinition("Settings", "settings", astmodel.JSONType)
+	requiredNextSettingsProperty := astmodel.NewPropertyDefinition("Settings", "settings", astmodel.StringType)
 
-	factory.createPropertyAssignmentTest("ConvertJSONToString", requiredCurrentAgeProperty, requiredNextAgeProperty, currentProp, nextProp)
-	factory.createPropertyAssignmentTest("ConvertStringToJSON", requiredNextAgeProperty, requiredCurrentAgeProperty, nextProp, currentProp)
-
-	//factory.createPropertyAssignmentTest("ConvertJSONToString", jsonObjectProperty, stringProperty)
-	//factory.createPropertyAssignmentTest("ConvertStringToJSON", stringProperty, jsonObjectProperty)
-
+	factory.createPropertyAssignmentTest("ConvertJSONToString", requiredCurrentSettingsProperty, requiredNextSettingsProperty, currentProp, nextProp)
+	factory.createPropertyAssignmentTest("ConvertStringToJSON", requiredNextSettingsProperty, requiredCurrentSettingsProperty, nextProp, currentProp)
 }
 
 // createObjectAssignmentTestCases creates test cases for conversion of object types and optional variations.
