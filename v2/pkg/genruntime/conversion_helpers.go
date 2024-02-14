@@ -110,6 +110,10 @@ func GetIntFromFloat(f float64) int {
 
 // ConvertJSONToString returns the string value of the given v1.JSON.
 func ConvertJSONToString(json v1.JSON) string {
+	if json.Raw == nil {
+		return ""
+	}
+	
 	return string(json.Raw)
 }
 
