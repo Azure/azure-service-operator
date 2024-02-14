@@ -110,15 +110,15 @@ func GetIntFromFloat(f float64) int {
 
 // ConvertJSONToString returns the string value of the given v1.JSON.
 func ConvertJSONToString(json v1.JSON) string {
-	if json.Raw == nil {
-		return ""
-	}
-	return string(json.Raw)
+	// Ignoring error here, its always nil
+	marshalJSON, _ := json.MarshalJSON()
+	return string(marshalJSON)
 }
 
 // ConvertStringToJSON returns the v1.JSON value of the given string.
 func ConvertStringToJSON(s string) v1.JSON {
-	return v1.JSON{
-		Raw: []byte(s),
-	}
+	json := v1.JSON{}
+	// Ignoring error here, its always nil
+	_ = json.UnmarshalJSON([]byte(s))
+	return json
 }
