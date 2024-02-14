@@ -113,7 +113,6 @@ func ConvertJSONToString(json v1.JSON) string {
 	if json.Raw == nil {
 		return ""
 	}
-	
 	return string(json.Raw)
 }
 
