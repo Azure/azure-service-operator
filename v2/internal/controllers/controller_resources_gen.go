@@ -400,16 +400,48 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.virtualMachineProfile.osProfile.adminPassword",
 				Func: indexComputeVirtualMachineScaleSetAdminPassword,
 			},
+			{
+				Key:  ".spec.virtualMachineProfile.extensionProfile.extensions.protectedSettings",
+				Func: indexComputeVirtualMachineScaleSetProtectedSettings,
+			},
 		},
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualMachineProfile.osProfile.adminPassword"}, &compute_v20220301s.VirtualMachineScaleSetList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualMachineProfile.extensionProfile.extensions.protectedSettings", ".spec.virtualMachineProfile.osProfile.adminPassword"}, &compute_v20220301s.VirtualMachineScaleSetList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(compute_v20220301s.VirtualMachineScaleSetsExtension)})
-	result = append(result, &registration.StorageType{Obj: new(compute_v20220301s.VirtualMachinesExtension)})
+	result = append(result, &registration.StorageType{
+		Obj: new(compute_v20220301s.VirtualMachineScaleSetsExtension),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.protectedSettings",
+				Func: indexComputeVirtualMachineScaleSetsExtensionProtectedSettings,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.protectedSettings"}, &compute_v20220301s.VirtualMachineScaleSetsExtensionList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(compute_v20220301s.VirtualMachinesExtension),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.protectedSettings",
+				Func: indexComputeVirtualMachinesExtensionProtectedSettings,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.protectedSettings"}, &compute_v20220301s.VirtualMachinesExtensionList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{
 		Obj: new(compute_v20220702s.DiskEncryptionSet),
 		Indexes: []registration.Index{
@@ -2378,6 +2410,52 @@ func indexComputeVirtualMachineScaleSetAdminPassword(rawObj client.Object) []str
 		return nil
 	}
 	return obj.Spec.VirtualMachineProfile.OsProfile.AdminPassword.Index()
+}
+
+// indexComputeVirtualMachineScaleSetProtectedSettings an index function for compute_v20220301s.VirtualMachineScaleSet .spec.virtualMachineProfile.extensionProfile.extensions.protectedSettings
+func indexComputeVirtualMachineScaleSetProtectedSettings(rawObj client.Object) []string {
+	obj, ok := rawObj.(*compute_v20220301s.VirtualMachineScaleSet)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.VirtualMachineProfile == nil {
+		return nil
+	}
+	if obj.Spec.VirtualMachineProfile.ExtensionProfile == nil {
+		return nil
+	}
+	for _, extensionItem := range obj.Spec.VirtualMachineProfile.ExtensionProfile.Extensions {
+		if extensionItem.ProtectedSettings == nil {
+			continue
+		}
+		result = append(result, extensionItem.ProtectedSettings.Index()...)
+	}
+	return result
+}
+
+// indexComputeVirtualMachineScaleSetsExtensionProtectedSettings an index function for compute_v20220301s.VirtualMachineScaleSetsExtension .spec.protectedSettings
+func indexComputeVirtualMachineScaleSetsExtensionProtectedSettings(rawObj client.Object) []string {
+	obj, ok := rawObj.(*compute_v20220301s.VirtualMachineScaleSetsExtension)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ProtectedSettings == nil {
+		return nil
+	}
+	return obj.Spec.ProtectedSettings.Index()
+}
+
+// indexComputeVirtualMachinesExtensionProtectedSettings an index function for compute_v20220301s.VirtualMachinesExtension .spec.protectedSettings
+func indexComputeVirtualMachinesExtensionProtectedSettings(rawObj client.Object) []string {
+	obj, ok := rawObj.(*compute_v20220301s.VirtualMachinesExtension)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ProtectedSettings == nil {
+		return nil
+	}
+	return obj.Spec.ProtectedSettings.Index()
 }
 
 // indexContainerinstanceContainerGroupContainersSecureValue an index function for containerinstance_v20211001s.ContainerGroup .spec.containers.environmentVariables.secureValue

@@ -5975,9 +5975,9 @@ func (in *VirtualMachineExtensionProperties_ARM) DeepCopyInto(out *VirtualMachin
 	}
 	if in.ProtectedSettings != nil {
 		in, out := &in.ProtectedSettings, &out.ProtectedSettings
-		*out = make(map[string]v1.JSON, len(*in))
+		*out = make(map[string]string, len(*in))
 		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
+			(*out)[key] = val
 		}
 	}
 	if in.Publisher != nil {
@@ -6036,13 +6036,6 @@ func (in *VirtualMachineExtensionProperties_STATUS_ARM) DeepCopyInto(out *Virtua
 		in, out := &in.InstanceView, &out.InstanceView
 		*out = new(VirtualMachineExtensionInstanceView_STATUS_ARM)
 		(*in).DeepCopyInto(*out)
-	}
-	if in.ProtectedSettings != nil {
-		in, out := &in.ProtectedSettings, &out.ProtectedSettings
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
-		}
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
@@ -6125,13 +6118,6 @@ func (in *VirtualMachineExtension_STATUS) DeepCopyInto(out *VirtualMachineExtens
 		in, out := &in.PropertiesType, &out.PropertiesType
 		*out = new(string)
 		**out = **in
-	}
-	if in.ProtectedSettings != nil {
-		in, out := &in.ProtectedSettings, &out.ProtectedSettings
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
-		}
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
@@ -7255,6 +7241,11 @@ func (in *VirtualMachineScaleSetExtension) DeepCopyInto(out *VirtualMachineScale
 		*out = new(string)
 		**out = **in
 	}
+	if in.ProtectedSettings != nil {
+		in, out := &in.ProtectedSettings, &out.ProtectedSettings
+		*out = new(genruntime.SecretMapReference)
+		**out = **in
+	}
 	if in.ProvisionAfterExtensions != nil {
 		in, out := &in.ProvisionAfterExtensions, &out.ProvisionAfterExtensions
 		*out = make([]string, len(*in))
@@ -7420,6 +7411,13 @@ func (in *VirtualMachineScaleSetExtensionProperties_ARM) DeepCopyInto(out *Virtu
 		*out = new(string)
 		**out = **in
 	}
+	if in.ProtectedSettings != nil {
+		in, out := &in.ProtectedSettings, &out.ProtectedSettings
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
 	if in.ProvisionAfterExtensions != nil {
 		in, out := &in.ProvisionAfterExtensions, &out.ProvisionAfterExtensions
 		*out = make([]string, len(*in))
@@ -7476,13 +7474,6 @@ func (in *VirtualMachineScaleSetExtensionProperties_STATUS_ARM) DeepCopyInto(out
 		in, out := &in.ForceUpdateTag, &out.ForceUpdateTag
 		*out = new(string)
 		**out = **in
-	}
-	if in.ProtectedSettings != nil {
-		in, out := &in.ProtectedSettings, &out.ProtectedSettings
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
-		}
 	}
 	if in.ProvisionAfterExtensions != nil {
 		in, out := &in.ProvisionAfterExtensions, &out.ProvisionAfterExtensions
@@ -7585,13 +7576,6 @@ func (in *VirtualMachineScaleSetExtension_STATUS) DeepCopyInto(out *VirtualMachi
 		in, out := &in.PropertiesType, &out.PropertiesType
 		*out = new(string)
 		**out = **in
-	}
-	if in.ProtectedSettings != nil {
-		in, out := &in.ProtectedSettings, &out.ProtectedSettings
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
-		}
 	}
 	if in.ProvisionAfterExtensions != nil {
 		in, out := &in.ProvisionAfterExtensions, &out.ProvisionAfterExtensions
@@ -10731,13 +10715,6 @@ func (in *VirtualMachineScaleSets_Extension_STATUS) DeepCopyInto(out *VirtualMac
 		*out = new(string)
 		**out = **in
 	}
-	if in.ProtectedSettings != nil {
-		in, out := &in.ProtectedSettings, &out.ProtectedSettings
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
-		}
-	}
 	if in.ProvisionAfterExtensions != nil {
 		in, out := &in.ProvisionAfterExtensions, &out.ProvisionAfterExtensions
 		*out = make([]string, len(*in))
@@ -10838,6 +10815,11 @@ func (in *VirtualMachineScaleSets_Extension_Spec) DeepCopyInto(out *VirtualMachi
 	if in.Owner != nil {
 		in, out := &in.Owner, &out.Owner
 		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
+	if in.ProtectedSettings != nil {
+		in, out := &in.ProtectedSettings, &out.ProtectedSettings
+		*out = new(genruntime.SecretMapReference)
 		**out = **in
 	}
 	if in.ProvisionAfterExtensions != nil {
@@ -11457,13 +11439,6 @@ func (in *VirtualMachines_Extension_STATUS) DeepCopyInto(out *VirtualMachines_Ex
 		*out = new(string)
 		**out = **in
 	}
-	if in.ProtectedSettings != nil {
-		in, out := &in.ProtectedSettings, &out.ProtectedSettings
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
-		}
-	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
 		*out = new(string)
@@ -11592,10 +11567,8 @@ func (in *VirtualMachines_Extension_Spec) DeepCopyInto(out *VirtualMachines_Exte
 	}
 	if in.ProtectedSettings != nil {
 		in, out := &in.ProtectedSettings, &out.ProtectedSettings
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
-		}
+		*out = new(genruntime.SecretMapReference)
+		**out = **in
 	}
 	if in.Publisher != nil {
 		in, out := &in.Publisher, &out.Publisher

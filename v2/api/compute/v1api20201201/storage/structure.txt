@@ -483,7 +483,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │       ├── ProximityPlacementGroup: *Object (2 properties)
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Resources: Object (16 properties)[]
+│       ├── Resources: Object (15 properties)[]
 │       │   ├── AutoUpgradeMinorVersion: *bool
 │       │   ├── EnableAutomaticUpgrade: *bool
 │       │   ├── ForceUpdateTag: *string
@@ -511,7 +511,6 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │       │   ├── Name: *string
 │       │   ├── PropertiesType: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── ProtectedSettings: map[string]v1.JSON
 │       │   ├── ProvisioningState: *string
 │       │   ├── Publisher: *string
 │       │   ├── Settings: map[string]v1.JSON
@@ -686,12 +685,13 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── EvictionPolicy: *string
 │   │   │   ├── ExtensionProfile: *Object (3 properties)
-│   │   │   │   ├── Extensions: Object (10 properties)[]
+│   │   │   │   ├── Extensions: Object (11 properties)[]
 │   │   │   │   │   ├── AutoUpgradeMinorVersion: *bool
 │   │   │   │   │   ├── EnableAutomaticUpgrade: *bool
 │   │   │   │   │   ├── ForceUpdateTag: *string
 │   │   │   │   │   ├── Name: *string
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   ├── ProtectedSettings: *genruntime.SecretMapReference
 │   │   │   │   │   ├── ProvisionAfterExtensions: string[]
 │   │   │   │   │   ├── Publisher: *string
 │   │   │   │   │   ├── Settings: map[string]v1.JSON
@@ -951,7 +951,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   ├── EvictionPolicy: *string
 │       │   ├── ExtensionProfile: *Object (3 properties)
-│       │   │   ├── Extensions: Object (14 properties)[]
+│       │   │   ├── Extensions: Object (13 properties)[]
 │       │   │   │   ├── AutoUpgradeMinorVersion: *bool
 │       │   │   │   ├── EnableAutomaticUpgrade: *bool
 │       │   │   │   ├── ForceUpdateTag: *string
@@ -959,7 +959,6 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │       │   │   │   ├── Name: *string
 │       │   │   │   ├── PropertiesType: *string
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   ├── ProtectedSettings: map[string]v1.JSON
 │       │   │   │   ├── ProvisionAfterExtensions: string[]
 │       │   │   │   ├── ProvisioningState: *string
 │       │   │   │   ├── Publisher: *string
@@ -1140,7 +1139,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │       └── Zones: string[]
 ├── VirtualMachineScaleSetsExtension: Resource
 │   ├── Owner: compute/v1api20201201.VirtualMachineScaleSet
-│   ├── Spec: Object (12 properties)
+│   ├── Spec: Object (13 properties)
 │   │   ├── AutoUpgradeMinorVersion: *bool
 │   │   ├── AzureName: string
 │   │   ├── EnableAutomaticUpgrade: *bool
@@ -1148,12 +1147,13 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── ProtectedSettings: *genruntime.SecretMapReference
 │   │   ├── ProvisionAfterExtensions: string[]
 │   │   ├── Publisher: *string
 │   │   ├── Settings: map[string]v1.JSON
 │   │   ├── Type: *string
 │   │   └── TypeHandlerVersion: *string
-│   └── Status: Object (15 properties)
+│   └── Status: Object (14 properties)
 │       ├── AutoUpgradeMinorVersion: *bool
 │       ├── Conditions: conditions.Condition[]
 │       ├── EnableAutomaticUpgrade: *bool
@@ -1162,7 +1162,6 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │       ├── Name: *string
 │       ├── PropertiesType: *string
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── ProtectedSettings: map[string]v1.JSON
 │       ├── ProvisionAfterExtensions: string[]
 │       ├── ProvisioningState: *string
 │       ├── Publisher: *string
@@ -1199,13 +1198,13 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── ProtectedSettings: map[string]v1.JSON
+│   │   ├── ProtectedSettings: *genruntime.SecretMapReference
 │   │   ├── Publisher: *string
 │   │   ├── Settings: map[string]v1.JSON
 │   │   ├── Tags: map[string]string
 │   │   ├── Type: *string
 │   │   └── TypeHandlerVersion: *string
-│   └── Status: Object (17 properties)
+│   └── Status: Object (16 properties)
 │       ├── AutoUpgradeMinorVersion: *bool
 │       ├── Conditions: conditions.Condition[]
 │       ├── EnableAutomaticUpgrade: *bool
@@ -1234,7 +1233,6 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │       ├── Name: *string
 │       ├── PropertiesType: *string
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── ProtectedSettings: map[string]v1.JSON
 │       ├── ProvisioningState: *string
 │       ├── Publisher: *string
 │       ├── Settings: map[string]v1.JSON

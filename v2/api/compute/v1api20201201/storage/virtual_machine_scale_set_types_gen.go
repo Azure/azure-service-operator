@@ -5687,16 +5687,17 @@ func (disk *VirtualMachineScaleSetDataDisk_STATUS) AssignProperties_To_VirtualMa
 // Storage version of v1api20201201.VirtualMachineScaleSetExtension
 // Describes a Virtual Machine Scale Set Extension.
 type VirtualMachineScaleSetExtension struct {
-	AutoUpgradeMinorVersion  *bool                  `json:"autoUpgradeMinorVersion,omitempty"`
-	EnableAutomaticUpgrade   *bool                  `json:"enableAutomaticUpgrade,omitempty"`
-	ForceUpdateTag           *string                `json:"forceUpdateTag,omitempty"`
-	Name                     *string                `json:"name,omitempty"`
-	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisionAfterExtensions []string               `json:"provisionAfterExtensions,omitempty"`
-	Publisher                *string                `json:"publisher,omitempty"`
-	Settings                 map[string]v1.JSON     `json:"settings,omitempty"`
-	Type                     *string                `json:"type,omitempty"`
-	TypeHandlerVersion       *string                `json:"typeHandlerVersion,omitempty"`
+	AutoUpgradeMinorVersion  *bool                          `json:"autoUpgradeMinorVersion,omitempty"`
+	EnableAutomaticUpgrade   *bool                          `json:"enableAutomaticUpgrade,omitempty"`
+	ForceUpdateTag           *string                        `json:"forceUpdateTag,omitempty"`
+	Name                     *string                        `json:"name,omitempty"`
+	PropertyBag              genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	ProtectedSettings        *genruntime.SecretMapReference `json:"protectedSettings,omitempty"`
+	ProvisionAfterExtensions []string                       `json:"provisionAfterExtensions,omitempty"`
+	Publisher                *string                        `json:"publisher,omitempty"`
+	Settings                 map[string]v1.JSON             `json:"settings,omitempty"`
+	Type                     *string                        `json:"type,omitempty"`
+	TypeHandlerVersion       *string                        `json:"typeHandlerVersion,omitempty"`
 }
 
 // AssignProperties_From_VirtualMachineScaleSetExtension populates our VirtualMachineScaleSetExtension from the provided source VirtualMachineScaleSetExtension
@@ -5725,6 +5726,14 @@ func (extension *VirtualMachineScaleSetExtension) AssignProperties_From_VirtualM
 
 	// Name
 	extension.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProtectedSettings
+	if source.ProtectedSettings != nil {
+		protectedSetting := source.ProtectedSettings.Copy()
+		extension.ProtectedSettings = &protectedSetting
+	} else {
+		extension.ProtectedSettings = nil
+	}
 
 	// ProtectedSettingsFromKeyVault
 	if source.ProtectedSettingsFromKeyVault != nil {
@@ -5812,6 +5821,14 @@ func (extension *VirtualMachineScaleSetExtension) AssignProperties_To_VirtualMac
 	// Name
 	destination.Name = genruntime.ClonePointerToString(extension.Name)
 
+	// ProtectedSettings
+	if extension.ProtectedSettings != nil {
+		protectedSetting := extension.ProtectedSettings.Copy()
+		destination.ProtectedSettings = &protectedSetting
+	} else {
+		destination.ProtectedSettings = nil
+	}
+
 	// ProtectedSettingsFromKeyVault
 	if propertyBag.Contains("ProtectedSettingsFromKeyVault") {
 		var protectedSettingsFromKeyVault v20220301s.KeyVaultSecretReference
@@ -5893,7 +5910,6 @@ type VirtualMachineScaleSetExtension_STATUS struct {
 	Name                     *string                `json:"name,omitempty"`
 	PropertiesType           *string                `json:"properties_type,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProtectedSettings        map[string]v1.JSON     `json:"protectedSettings,omitempty"`
 	ProvisionAfterExtensions []string               `json:"provisionAfterExtensions,omitempty"`
 	ProvisioningState        *string                `json:"provisioningState,omitempty"`
 	Publisher                *string                `json:"publisher,omitempty"`
@@ -5934,19 +5950,6 @@ func (extension *VirtualMachineScaleSetExtension_STATUS) AssignProperties_From_V
 
 	// PropertiesType
 	extension.PropertiesType = genruntime.ClonePointerToString(source.PropertiesType)
-
-	// ProtectedSettings
-	if source.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(source.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range source.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		extension.ProtectedSettings = protectedSettingMap
-	} else {
-		extension.ProtectedSettings = nil
-	}
 
 	// ProtectedSettingsFromKeyVault
 	if source.ProtectedSettingsFromKeyVault != nil {
@@ -6042,19 +6045,6 @@ func (extension *VirtualMachineScaleSetExtension_STATUS) AssignProperties_To_Vir
 
 	// PropertiesType
 	destination.PropertiesType = genruntime.ClonePointerToString(extension.PropertiesType)
-
-	// ProtectedSettings
-	if extension.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(extension.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range extension.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		destination.ProtectedSettings = protectedSettingMap
-	} else {
-		destination.ProtectedSettings = nil
-	}
 
 	// ProtectedSettingsFromKeyVault
 	if propertyBag.Contains("ProtectedSettingsFromKeyVault") {

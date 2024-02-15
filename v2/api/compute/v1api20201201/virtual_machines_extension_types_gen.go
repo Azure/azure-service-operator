@@ -360,7 +360,7 @@ type VirtualMachines_Extension_Spec struct {
 
 	// ProtectedSettings: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected
 	// settings at all.
-	ProtectedSettings map[string]v1.JSON `json:"protectedSettings,omitempty"`
+	ProtectedSettings *genruntime.SecretMapReference `json:"protectedSettings,omitempty"`
 
 	// Publisher: The name of the extension handler publisher.
 	Publisher *string `json:"publisher,omitempty"`
@@ -429,10 +429,13 @@ func (extension *VirtualMachines_Extension_Spec) ConvertToARM(resolved genruntim
 		result.Properties.InstanceView = &instanceView
 	}
 	if extension.ProtectedSettings != nil {
-		result.Properties.ProtectedSettings = make(map[string]v1.JSON, len(extension.ProtectedSettings))
-		for key, value := range extension.ProtectedSettings {
-			result.Properties.ProtectedSettings[key] = *value.DeepCopy()
+		var temp map[string]string
+		tempSecret, err := resolved.ResolvedSecretMaps.Lookup(*extension.ProtectedSettings)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property temp")
 		}
+		temp = tempSecret
+		result.Properties.ProtectedSettings = temp
 	}
 	if extension.Publisher != nil {
 		publisher := *extension.Publisher
@@ -531,16 +534,7 @@ func (extension *VirtualMachines_Extension_Spec) PopulateFromARM(owner genruntim
 		ARMID: owner.ARMID,
 	}
 
-	// Set property "ProtectedSettings":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProtectedSettings != nil {
-			extension.ProtectedSettings = make(map[string]v1.JSON, len(typedInput.Properties.ProtectedSettings))
-			for key, value := range typedInput.Properties.ProtectedSettings {
-				extension.ProtectedSettings[key] = *value.DeepCopy()
-			}
-		}
-	}
+	// no assignment for property "ProtectedSettings"
 
 	// Set property "Publisher":
 	// copying flattened property:
@@ -692,13 +686,8 @@ func (extension *VirtualMachines_Extension_Spec) AssignProperties_From_VirtualMa
 
 	// ProtectedSettings
 	if source.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(source.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range source.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		extension.ProtectedSettings = protectedSettingMap
+		protectedSetting := source.ProtectedSettings.Copy()
+		extension.ProtectedSettings = &protectedSetting
 	} else {
 		extension.ProtectedSettings = nil
 	}
@@ -787,13 +776,8 @@ func (extension *VirtualMachines_Extension_Spec) AssignProperties_To_VirtualMach
 
 	// ProtectedSettings
 	if extension.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(extension.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range extension.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		destination.ProtectedSettings = protectedSettingMap
+		protectedSetting := extension.ProtectedSettings.Copy()
+		destination.ProtectedSettings = &protectedSetting
 	} else {
 		destination.ProtectedSettings = nil
 	}
@@ -874,10 +858,6 @@ type VirtualMachines_Extension_STATUS struct {
 
 	// PropertiesType: Specifies the type of the extension; an example is "CustomScriptExtension".
 	PropertiesType *string `json:"properties_type,omitempty"`
-
-	// ProtectedSettings: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected
-	// settings at all.
-	ProtectedSettings map[string]v1.JSON `json:"protectedSettings,omitempty"`
 
 	// ProvisioningState: The provisioning state, which only appears in the response.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -1032,17 +1012,6 @@ func (extension *VirtualMachines_Extension_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property "ProtectedSettings":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProtectedSettings != nil {
-			extension.ProtectedSettings = make(map[string]v1.JSON, len(typedInput.Properties.ProtectedSettings))
-			for key, value := range typedInput.Properties.ProtectedSettings {
-				extension.ProtectedSettings[key] = *value.DeepCopy()
-			}
-		}
-	}
-
 	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1148,19 +1117,6 @@ func (extension *VirtualMachines_Extension_STATUS) AssignProperties_From_Virtual
 	// PropertiesType
 	extension.PropertiesType = genruntime.ClonePointerToString(source.PropertiesType)
 
-	// ProtectedSettings
-	if source.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(source.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range source.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		extension.ProtectedSettings = protectedSettingMap
-	} else {
-		extension.ProtectedSettings = nil
-	}
-
 	// ProvisioningState
 	extension.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
@@ -1243,19 +1199,6 @@ func (extension *VirtualMachines_Extension_STATUS) AssignProperties_To_VirtualMa
 
 	// PropertiesType
 	destination.PropertiesType = genruntime.ClonePointerToString(extension.PropertiesType)
-
-	// ProtectedSettings
-	if extension.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(extension.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range extension.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		destination.ProtectedSettings = protectedSettingMap
-	} else {
-		destination.ProtectedSettings = nil
-	}
 
 	// ProvisioningState
 	destination.ProvisioningState = genruntime.ClonePointerToString(extension.ProvisioningState)
