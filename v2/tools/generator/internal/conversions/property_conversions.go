@@ -1024,6 +1024,18 @@ var handCraftedConversions = []handCraftedConversion{
 		implPackage: astmodel.GenRuntimeReference,
 		implFunc:    "GetIntFromFloat",
 	},
+	{
+		fromType:    astmodel.JSONType,
+		toType:      astmodel.StringType,
+		implPackage: astmodel.GenRuntimeReference,
+		implFunc:    "ConvertJSONToString",
+	},
+	{
+		fromType:    astmodel.StringType,
+		toType:      astmodel.JSONType,
+		implPackage: astmodel.GenRuntimeReference,
+		implFunc:    "ConvertStringToJSON",
+	},
 }
 
 func assignHandcraftedImplementations(

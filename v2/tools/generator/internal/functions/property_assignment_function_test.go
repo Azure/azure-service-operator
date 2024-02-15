@@ -242,6 +242,15 @@ func (factory *StorageConversionPropertyTestCaseFactory) createJSONTestCases() {
 	factory.createPropertyAssignmentTest("CopyJSONObjectProperty", jsonObjectProperty, jsonObjectProperty)
 	factory.createPropertyAssignmentTest("CopyOptionalJSONProperty", optionalJSONProperty, jsonProperty)
 	factory.createPropertyAssignmentTest("CopyJSONObjectProperty", optionalJSONObjectProperty, jsonObjectProperty)
+
+	currentProp := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.currentPackage, "Settings"), astmodel.JSONType)
+	nextProp := astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(factory.nextPackage, "Settings"), astmodel.StringType)
+
+	requiredCurrentSettingsProperty := astmodel.NewPropertyDefinition("Settings", "settings", astmodel.JSONType)
+	requiredNextSettingsProperty := astmodel.NewPropertyDefinition("Settings", "settings", astmodel.StringType)
+
+	factory.createPropertyAssignmentTest("ConvertJSONToString", requiredCurrentSettingsProperty, requiredNextSettingsProperty, currentProp, nextProp)
+	factory.createPropertyAssignmentTest("ConvertStringToJSON", requiredNextSettingsProperty, requiredCurrentSettingsProperty, nextProp, currentProp)
 }
 
 // createObjectAssignmentTestCases creates test cases for conversion of object types and optional variations.
