@@ -23,10 +23,10 @@ type testPassthroughRecorder struct {
 	ids   creds.AzureIDs
 }
 
-var _ testRecorder = &testPassthroughRecorder{}
+var _ vcr.Interface = &testPassthroughRecorder{}
 
 // newTestPassthroughRecorder returns an instance of testRecorder that does not record or replay HTTP requests,
-func newTestPassthroughRecorder(cfg config.Values) (testRecorder, error) {
+func newTestPassthroughRecorder(cfg config.Values) (vcr.Interface, error) {
 	creds, azureIDs, err := creds.GetCreds()
 	if err != nil {
 		return nil, err

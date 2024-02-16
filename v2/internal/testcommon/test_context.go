@@ -28,6 +28,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 )
 
 // Use WestUS2 as some things (such as VM quota) are hard to get in West US.
@@ -43,7 +44,7 @@ type PerTestContext struct {
 	TestContext
 	T                     *testing.T
 	logger                logr.Logger
-	AzureClientRecorder   testRecorder
+	AzureClientRecorder   vcr.Interface
 	AzureClient           *genericarmclient.GenericClient
 	AzureSubscription     string
 	AzureTenant           string

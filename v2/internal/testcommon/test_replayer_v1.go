@@ -19,6 +19,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 )
 
 // playerDetailsV1 is an implementation of testRecorder using go-vcr v1 that can only play back
@@ -32,7 +33,7 @@ type playerDetailsV1 struct {
 }
 
 // Verify we implement testRecorder
-var _ testRecorder = &playerDetailsV1{}
+var _ vcr.Interface = &playerDetailsV1{}
 
 // newTestPlayerV1 creates a TestRecorder that can be used to replay test recorded with go-vcr v1.
 // cassetteName is the name of the cassette file to replay.
@@ -40,7 +41,7 @@ var _ testRecorder = &playerDetailsV1{}
 func newTestPlayerV1(
 	cassetteName string,
 	cfg config.Values,
-) (testRecorder, error) {
+) (vcr.Interface, error) {
 	cassetteExists, err := cassetteFileExists(cassetteName)
 	if err != nil {
 		return nil, errors.Wrapf(err, "checking for cassette file")

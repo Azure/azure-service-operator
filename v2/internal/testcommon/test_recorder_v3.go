@@ -13,15 +13,16 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
-	"github.com/Azure/azure-service-operator/v2/internal/config"
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/go-logr/logr"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
-
 	"gopkg.in/dnaeon/go-vcr.v3/cassette"
 	"gopkg.in/dnaeon/go-vcr.v3/recorder"
+
+	"github.com/Azure/azure-service-operator/v2/internal/config"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 )
 
 // recorderDetailsV3 is an implementation of testRecorder using go-vcr v3.
@@ -42,7 +43,7 @@ func newTestRecorderV3(
 	cassetteName string,
 	cfg config.Values,
 	log logr.Logger,
-) (testRecorder, error) {
+) (vcr.Interface, error) {
 	opts := &recorder.Options{
 		CassetteName: cassetteName,
 	}
