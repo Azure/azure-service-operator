@@ -12,7 +12,7 @@ import (
 
 	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
 	subscription "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
-	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -32,7 +32,7 @@ func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	if tc.AzureBillingInvoiceID == "" {
-		t.Fatalf("%q enviornment variable must be set", testcommon.TestBillingIDVar)
+		t.Fatalf("%q enviornment variable must be set", creds.TestBillingIDVar)
 	}
 
 	// TODO: Once ManagedIdentity is registered in our sub, we can use this instead of the hardcoded identity below

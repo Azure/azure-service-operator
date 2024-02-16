@@ -11,6 +11,8 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 )
 
 // testPassthroughRecorder is an implementation of testRecorder that does not record or replay HTTP requests,
@@ -18,14 +20,14 @@ import (
 type testPassthroughRecorder struct {
 	cfg   config.Values
 	creds azcore.TokenCredential
-	ids   AzureIDs
+	ids   creds.AzureIDs
 }
 
 var _ testRecorder = &testPassthroughRecorder{}
 
 // newTestPassthroughRecorder returns an instance of testRecorder that does not record or replay HTTP requests,
 func newTestPassthroughRecorder(cfg config.Values) (testRecorder, error) {
-	creds, azureIDs, err := getCreds()
+	creds, azureIDs, err := creds.GetCreds()
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +55,7 @@ func (r *testPassthroughRecorder) Creds() azcore.TokenCredential {
 }
 
 // Ids implements testRecorder.
-func (r *testPassthroughRecorder) Ids() AzureIDs {
+func (r *testPassthroughRecorder) Ids() creds.AzureIDs {
 	return r.ids
 }
 

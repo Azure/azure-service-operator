@@ -12,6 +12,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 )
 
@@ -76,7 +77,7 @@ func Test_OwnerIsARMIDFromDifferentSubscription_ResourceFails(t *testing.T) {
 	uuid, err := tc.Namer.GenerateUUID()
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	scopedCredentialSecret := testcommon.NewScopedServicePrincipalSecret(
+	scopedCredentialSecret := creds.NewScopedServicePrincipalSecret(
 		uuid.String(),
 		tc.AzureTenant,
 		cfg.ClientID,

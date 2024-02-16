@@ -18,6 +18,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 )
 
 // playerDetailsV1 is an implementation of testRecorder using go-vcr v1 that can only play back
@@ -25,7 +26,7 @@ import (
 type playerDetailsV1 struct {
 	cassetteName string
 	creds        azcore.TokenCredential
-	ids          AzureIDs
+	ids          creds.AzureIDs
 	recorder     *recorder.Recorder
 	cfg          config.Values
 }
@@ -53,15 +54,15 @@ func newTestPlayerV1(
 		return nil, errors.Wrapf(err, "creating player")
 	}
 
-	var creds azcore.TokenCredential
-	var azureIDs AzureIDs
+	var credentials azcore.TokenCredential
+	var azureIDs creds.AzureIDs
 
 	// if We are replaying, we won't need auth
 	// and we use a dummy subscription ID/tenant ID
-	creds = MockTokenCredential{}
-	azureIDs.tenantID = uuid.Nil.String()
-	azureIDs.subscriptionID = uuid.Nil.String()
-	azureIDs.billingInvoiceID = DummyBillingId
+	credentials = MockTokenCredential{}
+	azureIDs.TenantID = uuid.Nil.String()
+	azureIDs.SubscriptionID = uuid.Nil.String()
+	azureIDs.BillingInvoiceID = DummyBillingId
 
 	// Force these values to be the default
 	cfg.ResourceManagerEndpoint = config.DefaultEndpoint
@@ -94,7 +95,7 @@ func newTestPlayerV1(
 
 	return playerDetailsV1{
 		cassetteName: cassetteName,
-		creds:        creds,
+		creds:        credentials,
 		ids:          azureIDs,
 		recorder:     r,
 		cfg:          cfg,
@@ -112,7 +113,7 @@ func (r playerDetailsV1) Creds() azcore.TokenCredential {
 }
 
 // Ids returns the available Azure resource IDs for the test
-func (r playerDetailsV1) Ids() AzureIDs {
+func (r playerDetailsV1) Ids() creds.AzureIDs {
 	return r.ids
 }
 

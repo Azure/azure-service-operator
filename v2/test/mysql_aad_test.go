@@ -14,17 +14,19 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+
 	mysqlv1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
 	mysql20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
-	"github.com/Azure/azure-service-operator/v2/internal/set"
-	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	mysqlutil "github.com/Azure/azure-service-operator/v2/internal/util/mysql"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
-	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 const (
@@ -210,7 +212,7 @@ func MySQL_AADUser_CRUD(
 	tc.Expect(serverPrivs).To(Equal(set.Make[string](user.Spec.Privileges...)))
 
 	// Update the user once again, this time to remove privs and also use a resource scoped identity
-	secret := testcommon.NewScopedManagedIdentitySecret(tc.AzureSubscription, tc.AzureTenant, to.Value(admin.Spec.Sid), "credential", tc.Namespace)
+	secret := creds.NewScopedManagedIdentitySecret(tc.AzureSubscription, tc.AzureTenant, to.Value(admin.Spec.Sid), "credential", tc.Namespace)
 	tc.CreateResource(secret)
 
 	old = user.DeepCopy()

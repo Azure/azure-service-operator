@@ -21,13 +21,14 @@ import (
 
 	"gopkg.in/dnaeon/go-vcr.v3/cassette"
 	"gopkg.in/dnaeon/go-vcr.v3/recorder"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 )
 
 // recorderDetailsV3 is an implementation of testRecorder using go-vcr v3.
 type recorderDetailsV3 struct {
 	cassetteName string
 	creds        azcore.TokenCredential
-	ids          AzureIDs
+	ids          creds.AzureIDs
 	recorder     *recorder.Recorder
 	cfg          config.Values
 	log          logr.Logger
@@ -63,21 +64,21 @@ func newTestRecorderV3(
 		return recorderDetailsV3{}, errors.Wrapf(err, "creating recorder")
 	}
 
-	var creds azcore.TokenCredential
-	var azureIDs AzureIDs
+	var credentials azcore.TokenCredential
+	var azureIDs creds.AzureIDs
 	if r.Mode() == recorder.ModeRecordOnly {
 		// if we are recording, we need auth
-		creds, azureIDs, err = getCreds()
+		credentials, azureIDs, err = creds.GetCreds()
 		if err != nil {
 			return nil, err
 		}
 	} else {
 		// if we are replaying, we won't need auth
 		// and we use a dummy subscription ID/tenant ID
-		creds = MockTokenCredential{}
-		azureIDs.tenantID = nilGuid
-		azureIDs.subscriptionID = nilGuid
-		azureIDs.billingInvoiceID = DummyBillingId
+		credentials = MockTokenCredential{}
+		azureIDs.TenantID = nilGuid
+		azureIDs.SubscriptionID = nilGuid
+		azureIDs.BillingInvoiceID = DummyBillingId
 
 		// Force these values to be the default
 		cfg.ResourceManagerEndpoint = config.DefaultEndpoint
@@ -113,7 +114,7 @@ func newTestRecorderV3(
 
 	return recorderDetailsV3{
 		cassetteName: cassetteName,
-		creds:        creds,
+		creds:        credentials,
 		ids:          azureIDs,
 		recorder:     r,
 		cfg:          cfg,
@@ -126,7 +127,7 @@ func newTestRecorderV3(
 // a a security measure but intended to make the tests updateable from
 // any subscription, so a contributor can update the tests against their own sub.
 func redactRecording(
-	azureIDs AzureIDs,
+	azureIDs creds.AzureIDs,
 ) recorder.HookFunc {
 	hide := func(s string, id string, replacement string) string {
 		return strings.ReplaceAll(s, id, replacement)
@@ -142,14 +143,14 @@ func redactRecording(
 		}
 
 		// Hide the subscription ID
-		hideCassetteString(i, azureIDs.subscriptionID, nilGuid)
+		hideCassetteString(i, azureIDs.SubscriptionID, nilGuid)
 
 		// Hide the tenant ID
-		hideCassetteString(i, azureIDs.tenantID, nilGuid)
+		hideCassetteString(i, azureIDs.TenantID, nilGuid)
 
 		// Hide the billing ID
-		if azureIDs.billingInvoiceID != "" {
-			hideCassetteString(i, azureIDs.billingInvoiceID, DummyBillingId)
+		if azureIDs.BillingInvoiceID != "" {
+			hideCassetteString(i, azureIDs.BillingInvoiceID, DummyBillingId)
 		}
 
 		// Hiding other sensitive fields
@@ -160,10 +161,10 @@ func redactRecording(
 		// Hide sensitive request headers
 		for _, values := range i.Request.Headers {
 			for i := range values {
-				values[i] = hide(values[i], azureIDs.subscriptionID, nilGuid)
-				values[i] = hide(values[i], azureIDs.tenantID, nilGuid)
-				if azureIDs.billingInvoiceID != "" {
-					values[i] = hide(values[i], azureIDs.billingInvoiceID, DummyBillingId)
+				values[i] = hide(values[i], azureIDs.SubscriptionID, nilGuid)
+				values[i] = hide(values[i], azureIDs.TenantID, nilGuid)
+				if azureIDs.BillingInvoiceID != "" {
+					values[i] = hide(values[i], azureIDs.BillingInvoiceID, DummyBillingId)
 				}
 			}
 		}
@@ -171,10 +172,10 @@ func redactRecording(
 		// Hide sensitive response headers
 		for key, values := range i.Response.Headers {
 			for i := range values {
-				values[i] = hide(values[i], azureIDs.subscriptionID, nilGuid)
-				values[i] = hide(values[i], azureIDs.tenantID, nilGuid)
-				if azureIDs.billingInvoiceID != "" {
-					values[i] = hide(values[i], azureIDs.billingInvoiceID, DummyBillingId)
+				values[i] = hide(values[i], azureIDs.SubscriptionID, nilGuid)
+				values[i] = hide(values[i], azureIDs.TenantID, nilGuid)
+				if azureIDs.BillingInvoiceID != "" {
+					values[i] = hide(values[i], azureIDs.BillingInvoiceID, DummyBillingId)
 				}
 			}
 
@@ -211,7 +212,7 @@ func (r recorderDetailsV3) Creds() azcore.TokenCredential {
 }
 
 // Ids returns the available Azure resource IDs for the test
-func (r recorderDetailsV3) Ids() AzureIDs {
+func (r recorderDetailsV3) Ids() creds.AzureIDs {
 	return r.ids
 }
 
