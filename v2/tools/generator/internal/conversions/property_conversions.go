@@ -1049,16 +1049,18 @@ func assignHandcraftedImplementations(
 	}
 
 	// Search for a handcrafted conversion to use
-	var conversion *handCraftedConversion
+	conversionFound := false
+	var conversion handCraftedConversion
 	for _, impl := range handCraftedConversions {
 		if astmodel.TypeEquals(sourceEndpoint.Type(), impl.fromType) &&
 			astmodel.TypeEquals(destinationEndpoint.Type(), impl.toType) {
-			conversion = &impl
+			conversion = impl
+			conversionFound = true
 			break
 		}
 	}
 
-	if conversion == nil {
+	if !conversionFound {
 		// No handcrafted conversion found
 		return nil, nil
 	}
