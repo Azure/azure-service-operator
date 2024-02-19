@@ -16,7 +16,7 @@ require (
 	github.com/go-logr/logr v1.4.1
 	github.com/go-logr/zerologr v1.2.3
 	github.com/go-openapi/jsonpointer v0.20.2
-	github.com/go-openapi/spec v0.20.9
+	github.com/go-openapi/spec v0.20.14
 	github.com/gobuffalo/flect v1.0.2
 	github.com/google/go-cmp v0.6.0
 	github.com/kr/pretty v0.3.1
