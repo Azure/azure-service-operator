@@ -726,6 +726,15 @@ func loadAllSchemas(
 				astmodel.GeneratorVersion,
 				version)
 
+			// We need the file if the version is short (e.g. "v1") because those are often shared between
+			// resource providers.
+			// Alternatively, we need the file if we have configuration for the group
+			fileNeeded := len(version) < 10 ||
+				config.ObjectModelConfiguration.IsGroupConfigured(pkg)
+			if !fileNeeded {
+				return nil
+			}
+
 			// all files are loaded in parallel to speed this up
 			logInfoSparse(
 				log,
