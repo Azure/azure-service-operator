@@ -313,10 +313,8 @@ func loadSwaggerData(
 ) (jsonast.SwaggerTypes, error) {
 	schemas, err := loadAllSchemas(
 		ctx,
-		config.SchemaRoot,
-		config.LocalPathPrefix(),
 		idFactory,
-		config.Status.Overrides,
+		config,
 		log)
 	if err != nil {
 		return jsonast.SwaggerTypes{}, err
@@ -684,12 +682,14 @@ func shouldSkipDir(filePath string) bool {
 // shouldSkipDir), and returns those files in a map of path→swagger spec.
 func loadAllSchemas(
 	ctx context.Context,
-	rootPath string,
-	localPathPrefix string,
 	idFactory astmodel.IdentifierFactory,
-	overrides []config.SchemaOverride,
+	config *config.Configuration,
 	log logr.Logger,
 ) (map[string]jsonast.PackageAndSwagger, error) {
+	rootPath := config.SchemaRoot
+	localPathPrefix := config.LocalPathPrefix()
+	overrides := config.Status.Overrides
+
 	var mutex sync.Mutex
 	schemas := make(map[string]jsonast.PackageAndSwagger)
 
