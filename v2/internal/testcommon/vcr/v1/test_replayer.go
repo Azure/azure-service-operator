@@ -94,7 +94,7 @@ func NewTestPlayer(
 		return b.String() == "" || vcr.HideRecordingData(b.String()) == i.Body
 	})
 
-	return playerDetails{
+	return &playerDetails{
 		cassetteName: cassetteName,
 		creds:        credentials,
 		ids:          azureIDs,
@@ -104,34 +104,34 @@ func NewTestPlayer(
 }
 
 // Cfg returns the available configuration for the test
-func (r playerDetails) Cfg() config.Values {
+func (r *playerDetails) Cfg() config.Values {
 	return r.cfg
 }
 
 // Creds returns Azure credentials when running for real
-func (r playerDetails) Creds() azcore.TokenCredential {
+func (r *playerDetails) Creds() azcore.TokenCredential {
 	return r.creds
 }
 
-// Ids returns the available Azure resource IDs for the test
-func (r playerDetails) Ids() creds.AzureIDs {
+// IDs returns the available Azure resource IDs for the test
+func (r *playerDetails) IDs() creds.AzureIDs {
 	return r.ids
 }
 
 // Stop recording
-func (r playerDetails) Stop() error {
+func (r *playerDetails) Stop() error {
 	return r.recorder.Stop()
 }
 
 // IsReplaying returns true if we're replaying a recorded test, false if we're recording a new test
-func (r playerDetails) IsReplaying() bool {
+func (r *playerDetails) IsReplaying() bool {
 	return r.recorder.Mode() == recorder.ModeReplaying
 }
 
 // CreateClient creates an HTTP client configured to record or replay HTTP requests.
 // t is a reference to the test currently executing.
 // TODO: Remove the reference to t to reduce coupling
-func (r playerDetails) CreateClient(t *testing.T) *http.Client {
+func (r *playerDetails) CreateClient(t *testing.T) *http.Client {
 	return &http.Client{
 		Transport: vcr.AddCountHeader(translateErrors(r.recorder, r.cassetteName, t)),
 	}

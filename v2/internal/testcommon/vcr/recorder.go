@@ -23,8 +23,8 @@ type Interface interface {
 	// Creds returns Azure credentials when running for real
 	Creds() azcore.TokenCredential
 
-	// Ids returns the available Azure resource IDs for the test
-	Ids() creds.AzureIDs
+	// IDs returns the available Azure resource IDs for the test
+	IDs() creds.AzureIDs
 
 	// Stop recording
 	Stop() error

@@ -62,7 +62,7 @@ func NewTestRecorder(
 
 	r, err := recorder.NewWithOptions(opts)
 	if err != nil {
-		return recorderDetails{}, errors.Wrapf(err, "creating recorder")
+		return nil, errors.Wrapf(err, "creating recorder")
 	}
 
 	var credentials azcore.TokenCredential
@@ -113,7 +113,7 @@ func NewTestRecorder(
 
 	r.AddHook(redactRecording(azureIDs), recorder.BeforeSaveHook)
 
-	return recorderDetails{
+	return &recorderDetails{
 		cassetteName: cassetteName,
 		creds:        credentials,
 		ids:          azureIDs,
@@ -196,34 +196,33 @@ func redactRecording(
 }
 
 // Cfg returns the available configuration for the test
-func (r recorderDetails) Cfg() config.Values {
+func (r *recorderDetails) Cfg() config.Values {
 	return r.cfg
 }
 
 // Creds returns Azure credentials when running for real
-func (r recorderDetails) Creds() azcore.TokenCredential {
+func (r *recorderDetails) Creds() azcore.TokenCredential {
 	return r.creds
 }
 
-// Ids returns the available Azure resource IDs for the test
-func (r recorderDetails) Ids() creds.AzureIDs {
+// IDs returns the available Azure resource IDs for the test
+func (r *recorderDetails) IDs() creds.AzureIDs {
 	return r.ids
 }
 
 // Stop recording
-func (r recorderDetails) Stop() error {
+func (r *recorderDetails) Stop() error {
 	return r.recorder.Stop()
 }
 
 // IsReplaying returns true if we're replaying a recorded test, false if we're recording a new test
-func (r recorderDetails) IsReplaying() bool {
+func (r *recorderDetails) IsReplaying() bool {
 	return r.recorder.Mode() == recorder.ModeReplayOnly
 }
 
 // CreateClient creates an HTTP client configured to record or replay HTTP requests.
 // t is a reference to the test currently executing.
-// TODO: Remove the reference to t to reduce coupling
-func (r recorderDetails) CreateClient(t *testing.T) *http.Client {
+func (r *recorderDetails) CreateClient(t *testing.T) *http.Client {
 	withReplay := NewReplayRoundTripper(r.recorder, r.log)
 	withErrorTranslation := translateErrors(withReplay, r.cassetteName, t)
 	withCountHeader := vcr.AddCountHeader(withErrorTranslation)

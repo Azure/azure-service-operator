@@ -54,8 +54,8 @@ func (r *testPassthroughRecorder) Creds() azcore.TokenCredential {
 	return r.creds
 }
 
-// Ids implements testRecorder.
-func (r *testPassthroughRecorder) Ids() creds.AzureIDs {
+// IDs implements testRecorder.
+func (r *testPassthroughRecorder) IDs() creds.AzureIDs {
 	return r.ids
 }
 
