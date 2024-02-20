@@ -28,13 +28,13 @@ func createTestRecorder(
 	}
 
 	// If a cassette file exists in the old format, use the old player
-	v1Exists, err := v1.CassetteFileV1Exists(cassetteName)
+	v1Exists, err := v1.CassetteFileExists(cassetteName)
 	if err != nil {
 		return nil, errors.Wrapf(err, "checking existence of cassette %s", cassetteName)
 	}
 
 	if v1Exists {
-		return v1.NewTestPlayerV1(cassetteName, cfg)
+		return v1.NewTestPlayer(cassetteName, cfg)
 	}
 
 	return v3.NewTestRecorderV3(cassetteName, cfg, log)

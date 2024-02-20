@@ -16,13 +16,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 )
 
-func TestReplayerV1_WhenRecordingExists_ReturnsResult(t *testing.T) {
+func TestReplayer_WhenRecordingExists_ReturnsResult(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	cfg := config.Values{}
 	cassetteName := "recordings/" + t.Name()
-	replayer, err := NewTestPlayerV1(cassetteName, cfg)
+	replayer, err := NewTestPlayer(cassetteName, cfg)
 	g.Expect(err).To(BeNil())
 
 	url := "https://www.bing.com"

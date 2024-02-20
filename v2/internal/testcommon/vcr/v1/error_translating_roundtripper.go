@@ -20,7 +20,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-// translateErrorsV1 wraps a go-vcr v1 recorder to handle any "Requested interaction not found"
+// translateErrors wraps a go-vcr v1 recorder to handle any "Requested interaction not found"
 // and log better information about what the expected request was.
 //
 // By default the error will be returned to the controller which might ignore/retry it
@@ -32,11 +32,11 @@ import (
 //   - during record the controller does GET (404), PUT, … GET (OK)
 //   - during playback the controller does GET (which now returns OK), DELETE, PUT, …
 //     and fails due to a missing DELETE recording
-func translateErrorsV1(r http.RoundTripper, cassetteName string, t *testing.T) http.RoundTripper {
-	return errorTranslationV1{r, cassetteName, nil, t}
+func translateErrors(r http.RoundTripper, cassetteName string, t *testing.T) http.RoundTripper {
+	return errorTranslation{r, cassetteName, nil, t}
 }
 
-type errorTranslationV1 struct {
+type errorTranslation struct {
 	recorder     http.RoundTripper
 	cassetteName string
 
@@ -44,7 +44,7 @@ type errorTranslationV1 struct {
 	t        *testing.T
 }
 
-func (w errorTranslationV1) ensureCassette() *cassettev1.Cassette {
+func (w errorTranslation) ensureCassette() *cassettev1.Cassette {
 	if w.cassette == nil {
 		cassette, err := cassettev1.Load(w.cassetteName)
 		if err != nil {
@@ -57,7 +57,7 @@ func (w errorTranslationV1) ensureCassette() *cassettev1.Cassette {
 	return w.cassette
 }
 
-func (w errorTranslationV1) RoundTrip(req *http.Request) (*http.Response, error) {
+func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 	resp, originalErr := w.recorder.RoundTrip(req)
 	// sorry, go-vcr doesn't expose the error type or message
 	if originalErr == nil || !strings.Contains(originalErr.Error(), "interaction not found") {
@@ -113,7 +113,7 @@ func (w errorTranslationV1) RoundTrip(req *http.Request) (*http.Response, error)
 }
 
 // finds bodies for interactions where request method, URL, and vcr.COUNT_HEADER match
-func (w errorTranslationV1) findMatchingBodies(r *http.Request) []string {
+func (w errorTranslation) findMatchingBodies(r *http.Request) []string {
 	urlString := r.URL.String()
 	var result []string
 	for _, interaction := range w.ensureCassette().Interactions {

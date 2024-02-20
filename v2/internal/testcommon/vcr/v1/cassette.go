@@ -14,8 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 )
 
-// CassetteFileV1Exists returns true if a cassette file exists AND it contains a go-vcr V1 recording
-func CassetteFileV1Exists(cassetteName string) (bool, error) {
+// CassetteFileExists returns true if a cassette file exists AND it contains a go-vcr V1 recording
+func CassetteFileExists(cassetteName string) (bool, error) {
 	exists, err := vcr.CassetteFileExists(cassetteName)
 	if err != nil {
 		return false, errors.Wrapf(err, "checking whether v1 cassette exists")
