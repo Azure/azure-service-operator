@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package testcommon
+package vcr
 
 import (
 	"net/http"
@@ -11,8 +11,8 @@ import (
 	"gopkg.in/dnaeon/go-vcr.v3/cassette"
 )
 
-// fakeRoundTripper is a fake implementation of http.RoundTripper used in testing.
-type fakeRoundTripper struct {
+// FakeRoundTripper is a fake implementation of http.RoundTripper used in testing.
+type FakeRoundTripper struct {
 	responses map[string][]fakeRoundTripResponse
 }
 
@@ -21,16 +21,16 @@ type fakeRoundTripResponse struct {
 	err      error
 }
 
-var _ http.RoundTripper = &fakeRoundTripper{}
+var _ http.RoundTripper = &FakeRoundTripper{}
 
-func newFakeRoundTripper() *fakeRoundTripper {
-	return &fakeRoundTripper{
+func NewFakeRoundTripper() *FakeRoundTripper {
+	return &FakeRoundTripper{
 		responses: make(map[string][]fakeRoundTripResponse),
 	}
 }
 
 // RoundTrip implements http.RoundTripper.
-func (fake *fakeRoundTripper) RoundTrip(request *http.Request) (*http.Response, error) {
+func (fake *FakeRoundTripper) RoundTrip(request *http.Request) (*http.Response, error) {
 	key := request.URL.String()
 	if available, ok := fake.responses[key]; ok {
 		if len(available) > 0 {
@@ -46,13 +46,13 @@ func (fake *fakeRoundTripper) RoundTrip(request *http.Request) (*http.Response, 
 }
 
 // AddResponse adds a response to the fake round tripper.
-func (fake *fakeRoundTripper) AddResponse(request *http.Request, response *http.Response) {
+func (fake *FakeRoundTripper) AddResponse(request *http.Request, response *http.Response) {
 	key := request.URL.String()
 	fake.responses[key] = append(fake.responses[key], fakeRoundTripResponse{response: response})
 }
 
 // AddError adds an error to the fake round tripper.
-func (fake *fakeRoundTripper) AddError(request *http.Request, err error) {
+func (fake *FakeRoundTripper) AddError(request *http.Request, err error) {
 	key := request.URL.String()
 	fake.responses[key] = append(fake.responses[key], fakeRoundTripResponse{err: err})
 }
