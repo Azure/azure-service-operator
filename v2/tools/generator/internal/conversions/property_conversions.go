@@ -218,8 +218,8 @@ func NameOfPropertyAssignmentFunction(
 func directAssignmentPropertyConversion(
 	reader dst.Expr,
 	writer func(dst.Expr) []dst.Stmt,
-	knownLocals *astmodel.KnownLocalsSet,
-	generationContext *astmodel.CodeGenerationContext,
+	_ *astmodel.KnownLocalsSet,
+	_ *astmodel.CodeGenerationContext,
 ) ([]dst.Stmt, error) {
 	return writer(reader), nil
 }
@@ -1041,29 +1041,53 @@ var handCraftedConversions = []handCraftedConversion{
 func assignHandcraftedImplementations(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	_ *PropertyConversionContext) (PropertyConversion, error) {
-
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require both source and destination to not be bag items
 	if sourceEndpoint.IsBagItem() || destinationEndpoint.IsBagItem() {
 		return nil, nil
 	}
 
+	// Search for a handcrafted conversion to use
+	conversionFound := false
+	var conversion handCraftedConversion
 	for _, impl := range handCraftedConversions {
 		if astmodel.TypeEquals(sourceEndpoint.Type(), impl.fromType) &&
 			astmodel.TypeEquals(destinationEndpoint.Type(), impl.toType) {
-			return func(
-				reader dst.Expr,
-				writer func(dst.Expr) []dst.Stmt,
-				knownLocals *astmodel.KnownLocalsSet,
-				generationContext *astmodel.CodeGenerationContext,
-			) ([]dst.Stmt, error) {
-				pkg := generationContext.MustGetImportedPackageName(impl.implPackage)
-				return writer(astbuilder.CallQualifiedFunc(pkg, impl.implFunc, reader)), nil
-			}, nil
+			conversion = impl
+			conversionFound = true
+			break
 		}
 	}
 
-	return nil, nil
+	if !conversionFound {
+		// No handcrafted conversion found
+		return nil, nil
+	}
+
+	// Make sure all the necessary packages are referenced
+	if ftn, ok := astmodel.AsTypeName(conversion.fromType); ok {
+		// Include a reference to the package our from type is found in
+		conversionContext.AddPackageReference(ftn.PackageReference())
+	}
+
+	if ttn, ok := astmodel.AsTypeName(conversion.toType); ok {
+		// Include a reference to the package our to type is found in
+		conversionContext.AddPackageReference(ttn.PackageReference())
+	}
+
+	// Include a reference to the package our implementation is found in
+	conversionContext.AddPackageReference(conversion.implPackage)
+
+	return func(
+		reader dst.Expr,
+		writer func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
+		pkg := generationContext.MustGetImportedPackageName(conversion.implPackage)
+		return writer(astbuilder.CallQualifiedFunc(pkg, conversion.implFunc, reader)), nil
+	}, nil
 }
 
 // forbiddenConversion represents a conversion that we know we shouldn't even attempt to do
