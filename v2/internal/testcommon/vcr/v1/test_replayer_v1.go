@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package testcommon
+package v1
 
 import (
 	"bytes"
@@ -38,11 +38,11 @@ var _ vcr.Interface = &playerDetailsV1{}
 // newTestPlayerV1 creates a TestRecorder that can be used to replay test recorded with go-vcr v1.
 // cassetteName is the name of the cassette file to replay.
 // cfg is the configuration to use when replaying the test.
-func newTestPlayerV1(
+func NewTestPlayerV1(
 	cassetteName string,
 	cfg config.Values,
 ) (vcr.Interface, error) {
-	cassetteExists, err := cassetteFileExists(cassetteName)
+	cassetteExists, err := vcr.CassetteFileExists(cassetteName)
 	if err != nil {
 		return nil, errors.Wrapf(err, "checking for cassette file")
 	}
@@ -60,10 +60,10 @@ func newTestPlayerV1(
 
 	// if We are replaying, we won't need auth
 	// and we use a dummy subscription ID/tenant ID
-	credentials = MockTokenCredential{}
+	credentials = creds.MockTokenCredential{}
 	azureIDs.TenantID = uuid.Nil.String()
 	azureIDs.SubscriptionID = uuid.Nil.String()
-	azureIDs.BillingInvoiceID = DummyBillingId
+	azureIDs.BillingInvoiceID = creds.DummyBillingId
 
 	// Force these values to be the default
 	cfg.ResourceManagerEndpoint = config.DefaultEndpoint
@@ -77,7 +77,7 @@ func newTestPlayerV1(
 		}
 
 		// verify custom request count header (see counting_roundtripper.go)
-		if r.Header.Get(COUNT_HEADER) != i.Headers.Get(COUNT_HEADER) {
+		if r.Header.Get(vcr.COUNT_HEADER) != i.Headers.Get(vcr.COUNT_HEADER) {
 			return false
 		}
 
@@ -91,7 +91,7 @@ func newTestPlayerV1(
 		}
 
 		r.Body = io.NopCloser(&b)
-		return b.String() == "" || hideRecordingData(b.String()) == i.Body
+		return b.String() == "" || vcr.HideRecordingData(b.String()) == i.Body
 	})
 
 	return playerDetailsV1{
@@ -133,6 +133,6 @@ func (r playerDetailsV1) IsReplaying() bool {
 // TODO: Remove the reference to t to reduce coupling
 func (r playerDetailsV1) CreateClient(t *testing.T) *http.Client {
 	return &http.Client{
-		Transport: addCountHeader(translateErrorsV1(r.recorder, r.cassetteName, t)),
+		Transport: vcr.AddCountHeader(translateErrorsV1(r.recorder, r.cassetteName, t)),
 	}
 }

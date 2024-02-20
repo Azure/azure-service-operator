@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package testcommon
+package v1
 
 import (
 	"context"
@@ -22,7 +22,7 @@ func TestReplayerV1_WhenRecordingExists_ReturnsResult(t *testing.T) {
 
 	cfg := config.Values{}
 	cassetteName := "recordings/" + t.Name()
-	replayer, err := newTestPlayerV1(cassetteName, cfg)
+	replayer, err := NewTestPlayerV1(cassetteName, cfg)
 	g.Expect(err).To(BeNil())
 
 	url := "https://www.bing.com"

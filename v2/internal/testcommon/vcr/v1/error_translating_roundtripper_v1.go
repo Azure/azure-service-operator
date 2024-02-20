@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package testcommon
+package v1
 
 import (
 	"fmt"
@@ -16,6 +16,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/pkg/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
@@ -73,7 +74,7 @@ func (w errorTranslationV1) RoundTrip(req *http.Request) (*http.Response, error)
 
 		// Apply the same body filtering that we do in recordings so that the diffs don't show things
 		// that we've just removed
-		sentBodyString = hideRecordingData(string(bodyBytes))
+		sentBodyString = vcr.HideRecordingData(string(bodyBytes))
 	}
 
 	// find all request bodies for the specified method/URL combination
@@ -86,7 +87,7 @@ func (w errorTranslationV1) RoundTrip(req *http.Request) (*http.Response, error)
 				w.cassetteName,
 				req.Method,
 				req.URL.String(),
-				req.Header.Get(COUNT_HEADER)),
+				req.Header.Get(vcr.COUNT_HEADER)),
 			conditions.ConditionSeverityError,
 			conditions.ReasonReconciliationFailedPermanently)
 	}
@@ -111,13 +112,13 @@ func (w errorTranslationV1) RoundTrip(req *http.Request) (*http.Response, error)
 		conditions.ReasonReconciliationFailedPermanently)
 }
 
-// finds bodies for interactions where request method, URL, and COUNT_HEADER match
+// finds bodies for interactions where request method, URL, and vcr.COUNT_HEADER match
 func (w errorTranslationV1) findMatchingBodies(r *http.Request) []string {
 	urlString := r.URL.String()
 	var result []string
 	for _, interaction := range w.ensureCassette().Interactions {
 		if urlString == interaction.URL && r.Method == interaction.Request.Method &&
-			r.Header.Get(COUNT_HEADER) == interaction.Request.Headers.Get(COUNT_HEADER) {
+			r.Header.Get(vcr.COUNT_HEADER) == interaction.Request.Headers.Get(vcr.COUNT_HEADER) {
 			result = append(result, interaction.Request.Body)
 		}
 	}
