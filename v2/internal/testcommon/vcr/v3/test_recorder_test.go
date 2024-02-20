@@ -20,7 +20,7 @@ import (
 )
 
 //nolint:paralleltest
-func TestRecorderV3_WhenRecordingAndRecordingDoesNotExist_MakesRecording(t *testing.T) {
+func TestRecorder_WhenRecordingAndRecordingDoesNotExist_MakesRecording(t *testing.T) {
 	// NB: Can't run tests using Setenv() in parallel
 	t.Setenv("AZURE_SUBSCRIPTION_ID", "00000000-0000-0000-0000-000000000000")
 	t.Setenv("AZURE_TENANT_ID", "00000000-0000-0000-0000-000000000000")
@@ -47,7 +47,7 @@ func TestRecorderV3_WhenRecordingAndRecordingDoesNotExist_MakesRecording(t *test
 	}()
 
 	// Create our TestRecorder and ensure it's recording
-	recorder, err := NewTestRecorderV3(cassetteName, cfg, logr.Discard())
+	recorder, err := NewTestRecorder(cassetteName, cfg, logr.Discard())
 	g.Expect(err).To(BeNil())
 	g.Expect(recorder.IsReplaying()).To(BeFalse())
 
@@ -75,7 +75,7 @@ func TestRecorderV3_WhenRecordingAndRecordingDoesNotExist_MakesRecording(t *test
 	g.Expect(exists).To(BeTrue())
 }
 
-func TestRecorderV3_WhenRecordingAndRecordingExists_DoesPlayback(t *testing.T) {
+func TestRecorder_WhenRecordingAndRecordingExists_DoesPlayback(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -101,7 +101,7 @@ func TestRecorderV3_WhenRecordingAndRecordingExists_DoesPlayback(t *testing.T) {
 	g.Expect(exists).To(BeTrue())
 
 	// Create our TestRecorder and ensure it's recording
-	recorder, err := NewTestRecorderV3(cassetteName, cfg, logr.Discard())
+	recorder, err := NewTestRecorder(cassetteName, cfg, logr.Discard())
 	g.Expect(err).To(BeNil())
 	g.Expect(recorder.IsReplaying()).To(BeTrue())
 

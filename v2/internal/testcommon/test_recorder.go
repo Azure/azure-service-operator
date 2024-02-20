@@ -37,5 +37,5 @@ func createTestRecorder(
 		return v1.NewTestPlayer(cassetteName, cfg)
 	}
 
-	return v3.NewTestRecorderV3(cassetteName, cfg, log)
+	return v3.NewTestRecorder(cassetteName, cfg, log)
 }

@@ -25,8 +25,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 )
 
-// recorderDetailsV3 is an implementation of testRecorder using go-vcr v3.
-type recorderDetailsV3 struct {
+// recorderDetails is an implementation of testRecorder using go-vcr v3.
+type recorderDetails struct {
 	cassetteName string
 	creds        azcore.TokenCredential
 	ids          creds.AzureIDs
@@ -39,7 +39,7 @@ var (
 	nilGuid = uuid.Nil.String()
 )
 
-func NewTestRecorderV3(
+func NewTestRecorder(
 	cassetteName string,
 	cfg config.Values,
 	log logr.Logger,
@@ -62,7 +62,7 @@ func NewTestRecorderV3(
 
 	r, err := recorder.NewWithOptions(opts)
 	if err != nil {
-		return recorderDetailsV3{}, errors.Wrapf(err, "creating recorder")
+		return recorderDetails{}, errors.Wrapf(err, "creating recorder")
 	}
 
 	var credentials azcore.TokenCredential
@@ -113,7 +113,7 @@ func NewTestRecorderV3(
 
 	r.AddHook(redactRecording(azureIDs), recorder.BeforeSaveHook)
 
-	return recorderDetailsV3{
+	return recorderDetails{
 		cassetteName: cassetteName,
 		creds:        credentials,
 		ids:          azureIDs,
@@ -196,34 +196,34 @@ func redactRecording(
 }
 
 // Cfg returns the available configuration for the test
-func (r recorderDetailsV3) Cfg() config.Values {
+func (r recorderDetails) Cfg() config.Values {
 	return r.cfg
 }
 
 // Creds returns Azure credentials when running for real
-func (r recorderDetailsV3) Creds() azcore.TokenCredential {
+func (r recorderDetails) Creds() azcore.TokenCredential {
 	return r.creds
 }
 
 // Ids returns the available Azure resource IDs for the test
-func (r recorderDetailsV3) Ids() creds.AzureIDs {
+func (r recorderDetails) Ids() creds.AzureIDs {
 	return r.ids
 }
 
 // Stop recording
-func (r recorderDetailsV3) Stop() error {
+func (r recorderDetails) Stop() error {
 	return r.recorder.Stop()
 }
 
 // IsReplaying returns true if we're replaying a recorded test, false if we're recording a new test
-func (r recorderDetailsV3) IsReplaying() bool {
+func (r recorderDetails) IsReplaying() bool {
 	return r.recorder.Mode() == recorder.ModeReplayOnly
 }
 
 // CreateClient creates an HTTP client configured to record or replay HTTP requests.
 // t is a reference to the test currently executing.
 // TODO: Remove the reference to t to reduce coupling
-func (r recorderDetailsV3) CreateClient(t *testing.T) *http.Client {
+func (r recorderDetails) CreateClient(t *testing.T) *http.Client {
 	withReplay := NewReplayRoundTripper(r.recorder, r.log)
 	withErrorTranslation := translateErrors(withReplay, r.cassetteName, t)
 	withCountHeader := vcr.AddCountHeader(withErrorTranslation)
