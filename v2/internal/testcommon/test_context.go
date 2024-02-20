@@ -12,15 +12,12 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"net/http"
-	"os"
-	"regexp"
 	"strings"
 	"testing"
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/ssh"
-	"gopkg.in/yaml.v3"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
@@ -76,8 +73,6 @@ const ResourcePrefix = "asotest"
 // Instead, deletion should be time-based - delete any leaked resources older than X hours. These are generally run against
 // either a real cluster or a kind cluster.
 const LiveResourcePrefix = "asolivetest"
-
-const DummyBillingId = "/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31/billingProfiles/0000-0000-000-000/invoiceSections/0000-0000-000-000"
 
 func NewTestContext(
 	region string,
@@ -135,7 +130,7 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 				// requests. Create an empty cassette to record that
 				// so subsequent replay tests can run without needing
 				// credentials.
-				err = ensureCassetteFileExists(cassetteName)
+				err = vcr.EnsureCassetteFileExists(cassetteName)
 				if err != nil {
 					logger.Error(err, "ensuring cassette file exists")
 					t.Fail()
@@ -184,179 +179,6 @@ func createTestNamespaceName(t *testing.T) string {
 	disambig := hashStr[0:disambigLength]
 	result = result[0:(maxLen - disambigLength - 1 /* hyphen */)]
 	return result + "-" + disambig
-}
-
-func ensureCassetteFileExists(cassetteName string) error {
-	exists, err := cassetteFileExists(cassetteName)
-	if err != nil {
-		return err
-	}
-
-	if exists {
-		return nil
-	}
-
-	filename := cassetteFileName(cassetteName)
-
-	f, err := os.OpenFile(filename, os.O_RDONLY|os.O_CREATE, 0o644)
-	if err != nil {
-		return errors.Wrapf(err, "creating empty cassette %q", filename)
-	}
-	if err := f.Close(); err != nil {
-		return errors.Wrapf(err, "failed to close empty cassette %q", filename)
-	}
-
-	return nil
-}
-
-// cassetteFileV1Exists returns true if a cassette file exists AND it contains a go-vcr V1 recording
-func cassetteFileV1Exists(cassetteName string) (bool, error) {
-	exists, err := cassetteFileExists(cassetteName)
-	if err != nil {
-		return false, errors.Wrapf(err, "checking whether v1 cassette exists")
-	}
-	if !exists {
-		return false, nil
-	}
-
-	filename := cassetteFileName(cassetteName)
-	var content struct {
-		Version int `json:"version"`
-	}
-
-	file, err := os.Open(filename)
-	if err != nil {
-		return false, errors.Wrapf(err, "opening cassette file %q", filename)
-	}
-
-	defer file.Close()
-
-	decoder := yaml.NewDecoder(file)
-
-	err = decoder.Decode(&content)
-	if err != nil {
-		return false, errors.Wrapf(err, "parsing cassette file %q", filename)
-	}
-
-	return content.Version == 1, nil
-}
-
-func cassetteFileExists(cassetteName string) (bool, error) {
-	filename := cassetteFileName(cassetteName)
-
-	_, err := os.Stat(filename)
-	if err == nil {
-		return true, nil
-	}
-
-	if os.IsNotExist(err) {
-		return false, nil
-	}
-
-	return false, err
-}
-
-func cassetteFileName(cassetteName string) string {
-	return cassetteName + ".yaml"
-}
-
-var requestHeadersToRemove = []string{
-	// remove all Authorization headers from stored requests
-	"Authorization",
-
-	// Not needed, adds to diff churn:
-	"User-Agent",
-}
-
-var responseHeadersToRemove = []string{
-	// Request IDs
-	"X-Ms-Arm-Service-Request-Id",
-	"X-Ms-Correlation-Request-Id",
-	"X-Ms-Request-Id",
-	"X-Ms-Routing-Request-Id",
-	"X-Ms-Client-Request-Id",
-	"Client-Request-Id",
-
-	// Quota limits
-	"X-Ms-Ratelimit-Remaining-Subscription-Deletes",
-	"X-Ms-Ratelimit-Remaining-Subscription-Reads",
-	"X-Ms-Ratelimit-Remaining-Subscription-Writes",
-
-	// Not needed, adds to diff churn
-	"Date",
-}
-
-var (
-	dateMatcher     = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)
-	sshKeyMatcher   = regexp.MustCompile("ssh-rsa [0-9a-zA-Z+/=]+")
-	passwordMatcher = regexp.MustCompile("\"pass[^\"]*?pass\"")
-
-	// keyMatcher matches any valid base64 value with at least 10 sets of 4 bytes of data that ends in = or ==.
-	// Both storage account keys and Redis account keys are longer than that and end in = or ==. Note that technically
-	// base64 values need not end in == or =, but allowing for that in the match will flag tons of false positives as
-	// any text (including long URLs) have strings of characters that meet this requirement. There are other base64 values
-	// in the payloads (such as operationResults URLs for polling async operations for some services) that seem to use
-	// very long base64 strings as well.
-	keyMatcher = regexp.MustCompile("(?:[A-Za-z0-9+/]{4}){10,}(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)")
-
-	// kubeConfigMatcher specifically matches base64 data returned by the AKS get keys API
-	kubeConfigMatcher = regexp.MustCompile(`"value": "[a-zA-Z0-9+/]+={0,2}"`)
-
-	// baseURLMatcher matches the base part of a URL
-	baseURLMatcher = regexp.MustCompile(`^https://[^/]+/`)
-
-	// customKeyMatcher is used to match 'key' or 'Key' followed by the base64 patterns without '=' padding.
-	customKeyMatcher  = regexp.MustCompile(`"([a-z]+)?[K-k]ey":"[a-zA-Z0-9+/]+"`)
-	customKeyReplacer = regexp.MustCompile(`"(?:[A-Za-z0-9+/]{4}){10,}(?:[A-Za-z0-9+/]{4}|[A-Za-z0-9+/])"`)
-)
-
-// hideDates replaces all ISO8601 datetimes with a fixed value
-// this lets us match requests that may contain time-sensitive information (timestamps, etc)
-func hideDates(s string) string {
-	return dateMatcher.ReplaceAllLiteralString(s, "2001-02-03T04:05:06Z") // this should be recognizable/parseable as a fake date
-}
-
-// hideSSHKeys hides anything that looks like SSH keys
-func hideSSHKeys(s string) string {
-	return sshKeyMatcher.ReplaceAllLiteralString(s, "ssh-rsa {KEY}")
-}
-
-// hidePasswords hides anything that looks like a generated password
-func hidePasswords(s string) string {
-	return passwordMatcher.ReplaceAllLiteralString(s, "\"{PASSWORD}\"")
-}
-
-func hideKeys(s string) string {
-	return keyMatcher.ReplaceAllLiteralString(s, "{KEY}")
-}
-
-func hideKubeConfigs(s string) string {
-	return kubeConfigMatcher.ReplaceAllLiteralString(s, `"value": "IA=="`) // Have to replace with valid base64 data, so replace with " "
-}
-
-func hideBaseRequestURL(s string) string {
-	return baseURLMatcher.ReplaceAllLiteralString(s, `https://management.azure.com/`)
-}
-
-func hideCustomKeys(s string) string {
-	return customKeyMatcher.ReplaceAllStringFunc(s, func(matched string) string {
-		return customKeyReplacer.ReplaceAllString(matched, `"{KEY}"`)
-	})
-}
-
-func hideRecordingData(s string) string {
-	result := hideDates(s)
-	result = hideSSHKeys(result)
-	result = hidePasswords(result)
-	result = hideKubeConfigs(result)
-	result = hideKeys(result)
-	result = hideCustomKeys(result)
-
-	return result
-}
-
-func hideURLData(s string) string {
-	return hideBaseRequestURL(s)
 }
 
 func (tc PerTestContext) NewTestResourceGroup() *resources.ResourceGroup {
