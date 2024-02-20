@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package testcommon
+package v3
 
 import (
 	"context"
@@ -16,6 +16,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 )
 
 //nolint:paralleltest
@@ -35,18 +36,18 @@ func TestRecorderV3_WhenRecordingAndRecordingDoesNotExist_MakesRecording(t *test
 	// this file as a failure.
 	// We're noisy about it (instead of just deleting the file proactively) in order to
 	// ensure the dev knows the file shouldn't be committed.
-	exists, err := cassetteFileExists(cassetteName)
+	exists, err := vcr.CassetteFileExists(cassetteName)
 	g.Expect(err).To(BeNil())
 	g.Expect(exists).To(BeFalse())
 
 	// Ensure we clean up the cassette file at the end of the test
-	cassetteFile := cassetteFileName(cassetteName)
+	cassetteFile := vcr.CassetteFileName(cassetteName)
 	defer func() {
 		g.Expect(os.Remove(cassetteFile)).To(Succeed())
 	}()
 
 	// Create our TestRecorder and ensure it's recording
-	recorder, err := newTestRecorderV3(cassetteName, cfg, logr.Discard())
+	recorder, err := NewTestRecorderV3(cassetteName, cfg, logr.Discard())
 	g.Expect(err).To(BeNil())
 	g.Expect(recorder.IsReplaying()).To(BeFalse())
 
@@ -69,7 +70,7 @@ func TestRecorderV3_WhenRecordingAndRecordingDoesNotExist_MakesRecording(t *test
 	g.Expect(err).To(BeNil())
 
 	// Verify we created a recording
-	exists, err = cassetteFileExists(cassetteName)
+	exists, err = vcr.CassetteFileExists(cassetteName)
 	g.Expect(err).To(BeNil())
 	g.Expect(exists).To(BeTrue())
 }
@@ -95,12 +96,12 @@ func TestRecorderV3_WhenRecordingAndRecordingExists_DoesPlayback(t *testing.T) {
 	cassetteName := "recordings/" + t.Name()
 
 	// Test prerequisite: The recording must already exist
-	exists, err := cassetteFileExists(cassetteName)
+	exists, err := vcr.CassetteFileExists(cassetteName)
 	g.Expect(err).To(BeNil())
 	g.Expect(exists).To(BeTrue())
 
 	// Create our TestRecorder and ensure it's recording
-	recorder, err := newTestRecorderV3(cassetteName, cfg, logr.Discard())
+	recorder, err := NewTestRecorderV3(cassetteName, cfg, logr.Discard())
 	g.Expect(err).To(BeNil())
 	g.Expect(recorder.IsReplaying()).To(BeTrue())
 

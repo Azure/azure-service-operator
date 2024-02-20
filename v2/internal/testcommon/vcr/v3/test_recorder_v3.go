@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package testcommon
+package v3
 
 import (
 	"bytes"
@@ -39,7 +39,7 @@ var (
 	nilGuid = uuid.Nil.String()
 )
 
-func newTestRecorderV3(
+func NewTestRecorderV3(
 	cassetteName string,
 	cfg config.Values,
 	log logr.Logger,
@@ -48,7 +48,7 @@ func newTestRecorderV3(
 		CassetteName: cassetteName,
 	}
 
-	cassetteExists, err := cassetteFileExists(cassetteName)
+	cassetteExists, err := vcr.CassetteFileExists(cassetteName)
 	if err != nil {
 		return nil, errors.Wrapf(err, "checking existence of cassette %s", cassetteName)
 	}
@@ -76,10 +76,10 @@ func newTestRecorderV3(
 	} else {
 		// if we are replaying, we won't need auth
 		// and we use a dummy subscription ID/tenant ID
-		credentials = MockTokenCredential{}
+		credentials = creds.MockTokenCredential{}
 		azureIDs.TenantID = nilGuid
 		azureIDs.SubscriptionID = nilGuid
-		azureIDs.BillingInvoiceID = DummyBillingId
+		azureIDs.BillingInvoiceID = creds.DummyBillingId
 
 		// Force these values to be the default
 		cfg.ResourceManagerEndpoint = config.DefaultEndpoint
@@ -94,7 +94,7 @@ func newTestRecorderV3(
 		}
 
 		// verify custom request count header (see counting_roundtripper.go)
-		if r.Header.Get(COUNT_HEADER) != i.Headers.Get(COUNT_HEADER) {
+		if r.Header.Get(vcr.COUNT_HEADER) != i.Headers.Get(vcr.COUNT_HEADER) {
 			return false
 		}
 
@@ -108,7 +108,7 @@ func newTestRecorderV3(
 		}
 
 		r.Body = io.NopCloser(&b)
-		return b.String() == "" || hideRecordingData(b.String()) == i.Body
+		return b.String() == "" || vcr.HideRecordingData(b.String()) == i.Body
 	})
 
 	r.AddHook(redactRecording(azureIDs), recorder.BeforeSaveHook)
@@ -151,13 +151,13 @@ func redactRecording(
 
 		// Hide the billing ID
 		if azureIDs.BillingInvoiceID != "" {
-			hideCassetteString(i, azureIDs.BillingInvoiceID, DummyBillingId)
+			hideCassetteString(i, azureIDs.BillingInvoiceID, creds.DummyBillingId)
 		}
 
 		// Hiding other sensitive fields
-		i.Request.Body = hideRecordingData(i.Request.Body)
-		i.Response.Body = hideRecordingData(i.Response.Body)
-		i.Request.URL = hideURLData(i.Request.URL)
+		i.Request.Body = vcr.HideRecordingData(i.Request.Body)
+		i.Response.Body = vcr.HideRecordingData(i.Response.Body)
+		i.Request.URL = vcr.HideURLData(i.Request.URL)
 
 		// Hide sensitive request headers
 		for _, values := range i.Request.Headers {
@@ -165,7 +165,7 @@ func redactRecording(
 				values[i] = hide(values[i], azureIDs.SubscriptionID, nilGuid)
 				values[i] = hide(values[i], azureIDs.TenantID, nilGuid)
 				if azureIDs.BillingInvoiceID != "" {
-					values[i] = hide(values[i], azureIDs.BillingInvoiceID, DummyBillingId)
+					values[i] = hide(values[i], azureIDs.BillingInvoiceID, creds.DummyBillingId)
 				}
 			}
 		}
@@ -176,27 +176,20 @@ func redactRecording(
 				values[i] = hide(values[i], azureIDs.SubscriptionID, nilGuid)
 				values[i] = hide(values[i], azureIDs.TenantID, nilGuid)
 				if azureIDs.BillingInvoiceID != "" {
-					values[i] = hide(values[i], azureIDs.BillingInvoiceID, DummyBillingId)
+					values[i] = hide(values[i], azureIDs.BillingInvoiceID, creds.DummyBillingId)
 				}
 			}
 
 			// Hide the base request URL in the AzureOperation and Location headers
 			if key == genericarmclient.AsyncOperationHeader || key == genericarmclient.LocationHeader {
 				for i := range values {
-					values[i] = hideBaseRequestURL(values[i])
+					values[i] = vcr.HideBaseRequestURL(values[i])
 				}
 			}
 		}
 
-		// Remove request headers
-		for _, header := range requestHeadersToRemove {
-			delete(i.Request.Headers, header)
-		}
-
-		// Remove response headers
-		for _, header := range responseHeadersToRemove {
-			delete(i.Response.Headers, header)
-		}
+		vcr.RedactRequestHeaders(i.Request.Headers)
+		vcr.RedactResponseHeaders(i.Response.Headers)
 
 		return nil
 	}
@@ -231,9 +224,9 @@ func (r recorderDetailsV3) IsReplaying() bool {
 // t is a reference to the test currently executing.
 // TODO: Remove the reference to t to reduce coupling
 func (r recorderDetailsV3) CreateClient(t *testing.T) *http.Client {
-	withReplay := newReplayRoundTripper(r.recorder, r.log)
+	withReplay := NewReplayRoundTripper(r.recorder, r.log)
 	withErrorTranslation := translateErrors(withReplay, r.cassetteName, t)
-	withCountHeader := addCountHeader(withErrorTranslation)
+	withCountHeader := vcr.AddCountHeader(withErrorTranslation)
 
 	return &http.Client{
 		Transport: withCountHeader,

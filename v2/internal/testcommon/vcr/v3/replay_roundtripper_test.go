@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package testcommon
+package v3
 
 import (
 	"net/http"
@@ -13,6 +13,8 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/go-logr/logr"
+
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 )
 
 func TestReplayRoundTripperRoundTrip_GivenSingleGET_ReturnsMultipleTimes(t *testing.T) {
@@ -29,11 +31,11 @@ func TestReplayRoundTripperRoundTrip_GivenSingleGET_ReturnsMultipleTimes(t *test
 		StatusCode: 200,
 	}
 
-	fake := newFakeRoundTripper()
+	fake := vcr.NewFakeRoundTripper()
 	fake.AddResponse(req, resp)
 
 	// Act
-	replayer := newReplayRoundTripper(fake, logr.Discard())
+	replayer := NewReplayRoundTripper(fake, logr.Discard())
 
 	// Assert - first request works
 	//nolint:bodyclose // there's no actual body in this response to close
@@ -68,11 +70,11 @@ func TestReplayRoundTripperRoundTrip_GivenSinglePUT_ReturnsOnceExtra(t *testing.
 		StatusCode: 200,
 	}
 
-	fake := newFakeRoundTripper()
+	fake := vcr.NewFakeRoundTripper()
 	fake.AddResponse(req, resp)
 
 	// Act
-	replayer := newReplayRoundTripper(fake, logr.Discard())
+	replayer := NewReplayRoundTripper(fake, logr.Discard())
 
 	// Assert - first request works
 	//nolint:bodyclose // there's no actual body in this response to close
@@ -88,6 +90,6 @@ func TestReplayRoundTripperRoundTrip_GivenSinglePUT_ReturnsOnceExtra(t *testing.
 
 	// Assert - third request fails because we've had our one replay
 	//nolint:bodyclose // there's no actual body in this response to close
-	resp, err = replayer.RoundTrip(req)
+	_, err = replayer.RoundTrip(req)
 	g.Expect(err).To(HaveOccurred())
 }

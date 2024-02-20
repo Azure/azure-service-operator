@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package testcommon
+package v3
 
 import (
 	"errors"
@@ -30,10 +30,10 @@ type replayRoundTripper struct {
 var _ http.RoundTripper = &replayRoundTripper{}
 
 // newReplayRoundTripper creates a new replayRoundTripper that will replay selected requests to improve test resilience.
-func newReplayRoundTripper(
+func NewReplayRoundTripper(
 	inner http.RoundTripper,
 	log logr.Logger,
-) *replayRoundTripper {
+) http.RoundTripper {
 	return &replayRoundTripper{
 		inner: inner,
 		gets:  make(map[string]*http.Response),
@@ -99,6 +99,7 @@ func (replayer *replayRoundTripper) roundTripPut(request *http.Request) (*http.R
 
 		// We didn't find an interaction, see if we have a cached response to return
 		if cachedResponse, ok := replayer.puts[request.URL.String()]; ok {
+			// Remove it from the cache to ensure we only replay it once
 			delete(replayer.puts, request.URL.String())
 			replayer.log.Info("Replaying PUT request", "url", request.URL.String())
 			return cachedResponse, nil
