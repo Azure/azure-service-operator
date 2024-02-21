@@ -12,6 +12,8 @@ IgnoreURLs:
   - /js/
   - index.xml
   - example.com
+  - "https://stackoverflow.com/questions/53866196/how-best-to-say-a-value-is-required-in-a-helm-chart" # Returns 403, even though valid
+  - "https://stackoverflow.com/questions/55503893/helm-patch-default-service-account" # Returns 403, even though valid
   - "https://armwiki.azurewebsites.net/api_contracts/guidelines/templatedeployment.html" # Returns 404 even though valid
   - "https://marketplace.visualstudio.com/items" # Marketplace links return 401 even if valid
   - "https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/async-api-reference.md" # Manually checked, not a 404
