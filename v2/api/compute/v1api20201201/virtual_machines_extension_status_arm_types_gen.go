@@ -42,10 +42,6 @@ type VirtualMachineExtensionProperties_STATUS_ARM struct {
 	// InstanceView: The virtual machine extension instance view.
 	InstanceView *VirtualMachineExtensionInstanceView_STATUS_ARM `json:"instanceView,omitempty"`
 
-	// ProtectedSettings: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected
-	// settings at all.
-	ProtectedSettings map[string]v1.JSON `json:"protectedSettings,omitempty"`
-
 	// ProvisioningState: The provisioning state, which only appears in the response.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 

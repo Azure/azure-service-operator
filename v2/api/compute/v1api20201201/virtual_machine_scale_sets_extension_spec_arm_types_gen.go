@@ -48,6 +48,10 @@ type VirtualMachineScaleSetExtensionProperties_ARM struct {
 	// update even if the extension configuration has not changed.
 	ForceUpdateTag *string `json:"forceUpdateTag,omitempty"`
 
+	// ProtectedSettings: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected
+	// settings at all.
+	ProtectedSettings map[string]string `json:"protectedSettings,omitempty"`
+
 	// ProvisionAfterExtensions: Collection of extension names after which this extension needs to be provisioned.
 	ProvisionAfterExtensions []string `json:"provisionAfterExtensions,omitempty"`
 
