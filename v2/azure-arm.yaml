@@ -1343,6 +1343,7 @@ objectModelConfiguration:
           - UserCredentials
         $generatedConfigs:
           OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+          PrincipalId: $.Status.Identity.PrincipalId
       ManagedCluster_Spec:
         Tags:
           $payloadType: explicitEmptyCollections
@@ -1378,6 +1379,7 @@ objectModelConfiguration:
           - UserCredentials
         $generatedConfigs:
           OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+          PrincipalId: $.Status.Identity.PrincipalId
       ManagedCluster_Spec:
         Tags:
           $payloadType: explicitEmptyCollections
@@ -1436,6 +1438,7 @@ objectModelConfiguration:
           - UserCredentials
         $generatedConfigs:
           OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+          PrincipalId: $.Status.Identity.PrincipalId
       ManagedCluster_Spec:
         Tags:
           $payloadType: explicitEmptyCollections
@@ -1478,6 +1481,8 @@ objectModelConfiguration:
       BackupVault: 
         $export: true 
         $supportedFrom: v2.2.0 
+        $generatedConfigs:
+          PrincipalId: $.Status.Identity.PrincipalId
       BackupVaults_BackupPolicy: 
         $exportAs: BackupVaultsBackupPolicy 
         $supportedFrom: v2.2.0 
@@ -1906,6 +1911,8 @@ objectModelConfiguration:
       Extension:
         $export: true
         $supportedFrom: v2.4.0
+        $generatedConfigs:
+          PrincipalId: $.Status.AksAssignedIdentity.PrincipalId
   managedidentity:
     2018-11-30:
       UserAssignedIdentity:
