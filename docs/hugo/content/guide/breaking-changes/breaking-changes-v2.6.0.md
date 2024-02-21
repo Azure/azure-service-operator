@@ -4,7 +4,9 @@ linkTitle: "v2.6.0"
 weight: 70
 ---
 
-## VirtualMachineScaleSet VirtualMachineProfile.ExtensionProfile.Extension.ProtectedSettings field is now marked as a SecretReference
+## VirtualMachineScaleSet ProtectedSettings now a SecretReference
+
+The property `VirtualMachineProfile.ExtensionProfile.Extension.ProtectedSettings` on `VirtualMachineScaleSet` has been changed from a string to a `SecretReference`
 We always try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security problem and as such we've
 decided to make a break to correct this issue.
 
