@@ -6,17 +6,25 @@ Licensed under the MIT license.
 package v3
 
 import (
+	"bytes"
+	"crypto/sha256"
 	"errors"
+	"fmt"
+	"io"
 	"net/http"
 	"sync"
 
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 	"github.com/go-logr/logr"
 	"gopkg.in/dnaeon/go-vcr.v3/cassette"
 )
 
 // replayRoundTripper wraps an inner round tripper and replays requests in order to improve the resilience of ASO tests.
-// PUT requests are cached by target URL, and may be replayed ONCE if an extra PUT occurs.
+//
+// PUT requests are cached by hash of the (sanitised) PUT body and may be replayed ONCE if an extra PUT occurs.
+//
 // GET requests are cached by target URL, and may be replayed multiple times.
+//
 // This combination should allow additional reconciles - an extra PUT gets returned the same long running operation as
 // the original, which a GET then shows is complete.
 type replayRoundTripper struct {
@@ -87,6 +95,10 @@ func (replayer *replayRoundTripper) roundTripGet(request *http.Request) (*http.R
 }
 
 func (replayer *replayRoundTripper) roundTripPut(request *http.Request) (*http.Response, error) {
+	// Calculate a hash of the request body to use as a cache key
+	// We need this whether we are updating our cache or replaying
+	hash := replayer.hashOfPUTBody(request)
+
 	response, err := replayer.inner.RoundTrip(request)
 	if err != nil {
 		// We have an error - return it, unless it's from go-vcr
@@ -98,10 +110,10 @@ func (replayer *replayRoundTripper) roundTripPut(request *http.Request) (*http.R
 		defer replayer.padlock.Unlock()
 
 		// We didn't find an interaction, see if we have a cached response to return
-		if cachedResponse, ok := replayer.puts[request.URL.String()]; ok {
+		if cachedResponse, ok := replayer.puts[hash]; ok {
 			// Remove it from the cache to ensure we only replay it once
-			delete(replayer.puts, request.URL.String())
-			replayer.log.Info("Replaying PUT request", "url", request.URL.String())
+			delete(replayer.puts, hash)
+			replayer.log.Info("Replaying PUT request", "url", request.URL.String(), "hash", hash)
 			return cachedResponse, nil
 		}
 
@@ -113,6 +125,29 @@ func (replayer *replayRoundTripper) roundTripPut(request *http.Request) (*http.R
 	defer replayer.padlock.Unlock()
 
 	// We have a response, cache it and return it
-	replayer.puts[request.URL.String()] = response
+	replayer.puts[hash] = response
 	return response, nil
+}
+
+// hashOfPUTBody calculates a hash of the body of a PUT request, for use as a cache key.
+// The body is santised before calculating the hash to ensure that the same request body always results in the same hash.
+func (replayer *replayRoundTripper) hashOfPUTBody(request *http.Request) string {
+	// Read all the content of the request body
+	var body bytes.Buffer
+	_, err := body.ReadFrom(request.Body)
+	if err != nil {
+		// Should never fail
+		panic(fmt.Sprintf("reading request.Body failed: %s", err))
+	}
+
+	// Apply the same body filtering that we do in recordings so that the hash is consistent
+	bodyString := vcr.HideRecordingData(string(body.Bytes()))
+
+	// Calculate a hash based on body string
+	hash := sha256.Sum256([]byte(bodyString))
+
+	// Reset the body so it can be read again
+	request.Body = io.NopCloser(&body)
+
+	return fmt.Sprintf("%x", hash)
 }

@@ -6,8 +6,10 @@ Licensed under the MIT license.
 package v3
 
 import (
+	"io"
 	"net/http"
 	"net/url"
+	"strings"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -25,6 +27,7 @@ func TestReplayRoundTripperRoundTrip_GivenSingleGET_ReturnsMultipleTimes(t *test
 	req := &http.Request{
 		URL:    &url.URL{Path: "/foo"},
 		Method: http.MethodGet,
+		Body:   io.NopCloser(strings.NewReader("GET body goes here")),
 	}
 
 	resp := &http.Response{
@@ -64,6 +67,7 @@ func TestReplayRoundTripperRoundTrip_GivenSinglePUT_ReturnsOnceExtra(t *testing.
 	req := &http.Request{
 		URL:    &url.URL{Path: "/foo"},
 		Method: http.MethodPut,
+		Body:   io.NopCloser(strings.NewReader("PUT body goes here")),
 	}
 
 	resp := &http.Response{
