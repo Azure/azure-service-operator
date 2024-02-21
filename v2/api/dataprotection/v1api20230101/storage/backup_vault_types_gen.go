@@ -4,11 +4,16 @@
 package storage
 
 import (
+	"context"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // +kubebuilder:rbac:groups=dataprotection.azure.com,resources=backupvaults,verbs=get;list;watch;create;update;patch;delete
@@ -42,6 +47,25 @@ func (vault *BackupVault) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (vault *BackupVault) SetConditions(conditions conditions.Conditions) {
 	vault.Status.Conditions = conditions
+}
+
+var _ genruntime.KubernetesExporter = &BackupVault{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (vault *BackupVault) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(vault.Namespace)
+	if vault.Spec.OperatorSpec != nil && vault.Spec.OperatorSpec.ConfigMaps != nil {
+		if vault.Status.Identity != nil {
+			if vault.Status.Identity.PrincipalId != nil {
+				collector.AddValue(vault.Spec.OperatorSpec.ConfigMaps.PrincipalId, *vault.Status.Identity.PrincipalId)
+			}
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &BackupVault{}
@@ -148,10 +172,11 @@ const APIVersion_Value = APIVersion("2023-01-01")
 type BackupVault_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string              `json:"azureName,omitempty"`
-	Identity        *DppIdentityDetails `json:"identity,omitempty"`
-	Location        *string             `json:"location,omitempty"`
-	OriginalVersion string              `json:"originalVersion,omitempty"`
+	AzureName       string                   `json:"azureName,omitempty"`
+	Identity        *DppIdentityDetails      `json:"identity,omitempty"`
+	Location        *string                  `json:"location,omitempty"`
+	OperatorSpec    *BackupVaultOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                   `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -233,6 +258,13 @@ type BackupVault_STATUS struct {
 	StorageSettings                 []StorageSetting_STATUS     `json:"storageSettings,omitempty"`
 }
 
+// Storage version of v1api20230101.BackupVaultOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type BackupVaultOperatorSpec struct {
+	ConfigMaps  *BackupVaultOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1api20230101.BackupVaultSpec
 // Backup Vault
 type BackupVaultSpec struct {
@@ -269,6 +301,12 @@ type SystemData_STATUS struct {
 	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20230101.BackupVaultOperatorConfigMaps
+type BackupVaultOperatorConfigMaps struct {
+	PrincipalId *genruntime.ConfigMapDestination `json:"principalId,omitempty"`
+	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20230101.FeatureSettings

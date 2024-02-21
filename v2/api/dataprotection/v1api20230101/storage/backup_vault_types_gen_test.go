@@ -153,6 +153,7 @@ func AddIndependentPropertyGeneratorsForBackupVault_Spec(gens map[string]gopter.
 // AddRelatedPropertyGeneratorsForBackupVault_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBackupVault_Spec(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(DppIdentityDetailsGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(BackupVaultOperatorSpecGenerator())
 	gens["Properties"] = gen.PtrOf(BackupVaultSpecGenerator())
 }
 
@@ -316,6 +317,67 @@ func AddRelatedPropertyGeneratorsForBackupVault_STATUS(gens map[string]gopter.Ge
 	gens["ResourceMoveDetails"] = gen.PtrOf(ResourceMoveDetails_STATUSGenerator())
 	gens["SecuritySettings"] = gen.PtrOf(SecuritySettings_STATUSGenerator())
 	gens["StorageSettings"] = gen.SliceOf(StorageSetting_STATUSGenerator())
+}
+
+func Test_BackupVaultOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BackupVaultOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackupVaultOperatorSpec, BackupVaultOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBackupVaultOperatorSpec runs a test to see if a specific instance of BackupVaultOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackupVaultOperatorSpec(subject BackupVaultOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BackupVaultOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BackupVaultOperatorSpec instances for property testing - lazily instantiated by
+// BackupVaultOperatorSpecGenerator()
+var backupVaultOperatorSpecGenerator gopter.Gen
+
+// BackupVaultOperatorSpecGenerator returns a generator of BackupVaultOperatorSpec instances for property testing.
+func BackupVaultOperatorSpecGenerator() gopter.Gen {
+	if backupVaultOperatorSpecGenerator != nil {
+		return backupVaultOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForBackupVaultOperatorSpec(generators)
+	backupVaultOperatorSpecGenerator = gen.Struct(reflect.TypeOf(BackupVaultOperatorSpec{}), generators)
+
+	return backupVaultOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForBackupVaultOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBackupVaultOperatorSpec(gens map[string]gopter.Gen) {
+	gens["ConfigMaps"] = gen.PtrOf(BackupVaultOperatorConfigMapsGenerator())
 }
 
 func Test_BackupVaultSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -567,6 +629,61 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_BackupVaultOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BackupVaultOperatorConfigMaps via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackupVaultOperatorConfigMaps, BackupVaultOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBackupVaultOperatorConfigMaps runs a test to see if a specific instance of BackupVaultOperatorConfigMaps round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackupVaultOperatorConfigMaps(subject BackupVaultOperatorConfigMaps) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BackupVaultOperatorConfigMaps
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BackupVaultOperatorConfigMaps instances for property testing - lazily instantiated by
+// BackupVaultOperatorConfigMapsGenerator()
+var backupVaultOperatorConfigMapsGenerator gopter.Gen
+
+// BackupVaultOperatorConfigMapsGenerator returns a generator of BackupVaultOperatorConfigMaps instances for property testing.
+func BackupVaultOperatorConfigMapsGenerator() gopter.Gen {
+	if backupVaultOperatorConfigMapsGenerator != nil {
+		return backupVaultOperatorConfigMapsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	backupVaultOperatorConfigMapsGenerator = gen.Struct(reflect.TypeOf(BackupVaultOperatorConfigMaps{}), generators)
+
+	return backupVaultOperatorConfigMapsGenerator
 }
 
 func Test_FeatureSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -118,6 +118,13 @@ func (cluster *ManagedCluster) ExportKubernetesResources(_ context.Context, _ ge
 			}
 		}
 	}
+	if cluster.Spec.OperatorSpec != nil && cluster.Spec.OperatorSpec.ConfigMaps != nil {
+		if cluster.Status.Identity != nil {
+			if cluster.Status.Identity.PrincipalId != nil {
+				collector.AddValue(cluster.Spec.OperatorSpec.ConfigMaps.PrincipalId, *cluster.Status.Identity.PrincipalId)
+			}
+		}
+	}
 	result, err := collector.Values()
 	if err != nil {
 		return nil, err
@@ -269,6 +276,7 @@ func (cluster *ManagedCluster) validateConfigMapDestinations() (admission.Warnin
 	}
 	toValidate := []*genruntime.ConfigMapDestination{
 		cluster.Spec.OperatorSpec.ConfigMaps.OIDCIssuerProfile,
+		cluster.Spec.OperatorSpec.ConfigMaps.PrincipalId,
 	}
 	return genruntime.ValidateConfigMapDestinations(toValidate)
 }
@@ -18552,6 +18560,9 @@ type ManagedClusterOperatorConfigMaps struct {
 	// OIDCIssuerProfile: indicates where the OIDCIssuerProfile config map should be placed. If omitted, no config map will be
 	// created.
 	OIDCIssuerProfile *genruntime.ConfigMapDestination `json:"oidcIssuerProfile,omitempty"`
+
+	// PrincipalId: indicates where the PrincipalId config map should be placed. If omitted, no config map will be created.
+	PrincipalId *genruntime.ConfigMapDestination `json:"principalId,omitempty"`
 }
 
 // AssignProperties_From_ManagedClusterOperatorConfigMaps populates our ManagedClusterOperatorConfigMaps from the provided source ManagedClusterOperatorConfigMaps
@@ -18563,6 +18574,14 @@ func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_From_ManagedClust
 		maps.OIDCIssuerProfile = &oidcIssuerProfile
 	} else {
 		maps.OIDCIssuerProfile = nil
+	}
+
+	// PrincipalId
+	if source.PrincipalId != nil {
+		principalId := source.PrincipalId.Copy()
+		maps.PrincipalId = &principalId
+	} else {
+		maps.PrincipalId = nil
 	}
 
 	// No error
@@ -18580,6 +18599,14 @@ func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_To_ManagedCluster
 		destination.OIDCIssuerProfile = &oidcIssuerProfile
 	} else {
 		destination.OIDCIssuerProfile = nil
+	}
+
+	// PrincipalId
+	if maps.PrincipalId != nil {
+		principalId := maps.PrincipalId.Copy()
+		destination.PrincipalId = &principalId
+	} else {
+		destination.PrincipalId = nil
 	}
 
 	// Update the property bag

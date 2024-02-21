@@ -5,31 +5,31 @@ metadata:
   namespace: default
 spec:
   owner:
-    name: mayaggarshimvault
+    name: asotestbackupvault
   properties:
     objectType: BackupInstance
     friendlyName: asotestbackupinstance
     dataSourceInfo:
       objectType: Datasource
       datasourceType: Microsoft.ContainerService/managedClusters
-      resourceUri: /subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/mayaggarshim/providers/Microsoft.ContainerService/managedClusters/mayaggarshim
-      resourceName: mayaggarshim
-      resourceLocation: eastasia
+      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.ContainerService/managedClusters/aks
+      resourceName: aks
+      resourceLocation: westus2
       resourceType: Microsoft.ContainerService/managedClusters
     dataSourceSetInfo:
       objectType: DatasourceSet
       datasourceType: Microsoft.ContainerService/managedClusters
-      resourceUri: /subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/mayaggarshim/providers/Microsoft.ContainerService/managedClusters/mayaggarshim
-      resourceName: mayaggarshim
-      resourceLocation: eastasia
+      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.ContainerService/managedClusters/aks
+      resourceName: aks
+      resourceLocation: westus2
       resourceType: Microsoft.ContainerService/managedClusters
     policyInfo:
-      policyId: /subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/mayaggarshim/providers/Microsoft.DataProtection/backupVaults/mayaggarshimvault/backupPolicies/testing
+      policyId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.DataProtection/backupVaults/asotestbackupvault/backupPolicies/test
       policyParameters:
         dataStoreParametersList:
           - dataStoreType: OperationalStore
             objectType: AzureOperationalStoreParameters
-            resourceGroupId: /subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/mayaggarshim
+            resourceGroupId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg
         backupDatasourceParametersList:
           - objectType: KubernetesClusterBackupDatasourceParameters
             snapshotVolumes: true

@@ -4,15 +4,20 @@
 package v1api20230101
 
 import (
+	"context"
 	"fmt"
 	v20230101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/storage"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -99,6 +104,25 @@ func (vault *BackupVault) InitializeSpec(status genruntime.ConvertibleStatus) er
 	}
 
 	return fmt.Errorf("expected Status of type BackupVaultResource_STATUS but received %T instead", status)
+}
+
+var _ genruntime.KubernetesExporter = &BackupVault{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (vault *BackupVault) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(vault.Namespace)
+	if vault.Spec.OperatorSpec != nil && vault.Spec.OperatorSpec.ConfigMaps != nil {
+		if vault.Status.Identity != nil {
+			if vault.Status.Identity.PrincipalId != nil {
+				collector.AddValue(vault.Spec.OperatorSpec.ConfigMaps.PrincipalId, *vault.Status.Identity.PrincipalId)
+			}
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &BackupVault{}
@@ -208,7 +232,7 @@ func (vault *BackupVault) ValidateUpdate(old runtime.Object) (admission.Warnings
 
 // createValidations validates the creation of the resource
 func (vault *BackupVault) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){vault.validateResourceReferences, vault.validateOwnerReference}
+	return []func() (admission.Warnings, error){vault.validateResourceReferences, vault.validateOwnerReference, vault.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,7 +250,24 @@ func (vault *BackupVault) updateValidations() []func(old runtime.Object) (admiss
 		func(old runtime.Object) (admission.Warnings, error) {
 			return vault.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return vault.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (vault *BackupVault) validateConfigMapDestinations() (admission.Warnings, error) {
+	if vault.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	if vault.Spec.OperatorSpec.ConfigMaps == nil {
+		return nil, nil
+	}
+	toValidate := []*genruntime.ConfigMapDestination{
+		vault.Spec.OperatorSpec.ConfigMaps.PrincipalId,
+	}
+	return genruntime.ValidateConfigMapDestinations(toValidate)
 }
 
 // validateOwnerReference validates the owner field
@@ -340,6 +381,10 @@ type BackupVault_Spec struct {
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *BackupVaultOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -433,6 +478,8 @@ func (vault *BackupVault_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		location := *typedInput.Location
 		vault.Location = &location
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	vault.Owner = &genruntime.KnownResourceReference{
@@ -534,6 +581,18 @@ func (vault *BackupVault_Spec) AssignProperties_From_BackupVault_Spec(source *v2
 	// Location
 	vault.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec BackupVaultOperatorSpec
+		err := operatorSpec.AssignProperties_From_BackupVaultOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_BackupVaultOperatorSpec() to populate field OperatorSpec")
+		}
+		vault.OperatorSpec = &operatorSpec
+	} else {
+		vault.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -583,6 +642,18 @@ func (vault *BackupVault_Spec) AssignProperties_To_BackupVault_Spec(destination 
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(vault.Location)
+
+	// OperatorSpec
+	if vault.OperatorSpec != nil {
+		var operatorSpec v20230101s.BackupVaultOperatorSpec
+		err := vault.OperatorSpec.AssignProperties_To_BackupVaultOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_BackupVaultOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = vault.OriginalVersion()
@@ -1297,6 +1368,59 @@ func (vault *BackupVault_STATUS) AssignProperties_To_BackupVault_STATUS(destinat
 	return nil
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type BackupVaultOperatorSpec struct {
+	// ConfigMaps: configures where to place operator written ConfigMaps.
+	ConfigMaps *BackupVaultOperatorConfigMaps `json:"configMaps,omitempty"`
+}
+
+// AssignProperties_From_BackupVaultOperatorSpec populates our BackupVaultOperatorSpec from the provided source BackupVaultOperatorSpec
+func (operator *BackupVaultOperatorSpec) AssignProperties_From_BackupVaultOperatorSpec(source *v20230101s.BackupVaultOperatorSpec) error {
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap BackupVaultOperatorConfigMaps
+		err := configMap.AssignProperties_From_BackupVaultOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_BackupVaultOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BackupVaultOperatorSpec populates the provided destination BackupVaultOperatorSpec from our BackupVaultOperatorSpec
+func (operator *BackupVaultOperatorSpec) AssignProperties_To_BackupVaultOperatorSpec(destination *v20230101s.BackupVaultOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap v20230101s.BackupVaultOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_BackupVaultOperatorConfigMaps(&configMap)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_BackupVaultOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Backup Vault
 type BackupVaultSpec struct {
 	// FeatureSettings: Feature Settings
@@ -1929,6 +2053,50 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 		destination.LastModifiedByType = &lastModifiedByType
 	} else {
 		destination.LastModifiedByType = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type BackupVaultOperatorConfigMaps struct {
+	// PrincipalId: indicates where the PrincipalId config map should be placed. If omitted, no config map will be created.
+	PrincipalId *genruntime.ConfigMapDestination `json:"principalId,omitempty"`
+}
+
+// AssignProperties_From_BackupVaultOperatorConfigMaps populates our BackupVaultOperatorConfigMaps from the provided source BackupVaultOperatorConfigMaps
+func (maps *BackupVaultOperatorConfigMaps) AssignProperties_From_BackupVaultOperatorConfigMaps(source *v20230101s.BackupVaultOperatorConfigMaps) error {
+
+	// PrincipalId
+	if source.PrincipalId != nil {
+		principalId := source.PrincipalId.Copy()
+		maps.PrincipalId = &principalId
+	} else {
+		maps.PrincipalId = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BackupVaultOperatorConfigMaps populates the provided destination BackupVaultOperatorConfigMaps from our BackupVaultOperatorConfigMaps
+func (maps *BackupVaultOperatorConfigMaps) AssignProperties_To_BackupVaultOperatorConfigMaps(destination *v20230101s.BackupVaultOperatorConfigMaps) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PrincipalId
+	if maps.PrincipalId != nil {
+		principalId := maps.PrincipalId.Copy()
+		destination.PrincipalId = &principalId
+	} else {
+		destination.PrincipalId = nil
 	}
 
 	// Update the property bag

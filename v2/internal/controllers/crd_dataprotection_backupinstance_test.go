@@ -40,7 +40,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	osSKU := akscluster.OSSKU_AzureLinux
 	upgradeChannel := akscluster.ManagedClusterAutoUpgradeProfile_UpgradeChannel_NodeImage
 	agentPoolMode := akscluster.AgentPoolMode_System
-	cluster := &akscluster.Extension{
+	cluster := &akscluster.ManagedCluster{
 		ObjectMeta: tc.MakeObjectMeta("mc"),
 		Spec: akscluster.ManagedCluster_Spec{
 			KubernetesVersion: to.Ptr("1.27.3"),
@@ -136,7 +136,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		Spec: aks.ManagedClusters_TrustedAccessRoleBinding_Spec{
 			Owner: testcommon.AsOwner(cluster),
 			Roles: []string{
-				"Microsoft.DataProtection/backupVaults//backup-operator",
+				"Microsoft.DataProtection/backupVaults/backup-operator",
 			},
 			SourceResourceReference: tc.MakeReferenceFromResource(backupVault),
 		},

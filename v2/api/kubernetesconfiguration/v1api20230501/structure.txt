@@ -3,7 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api2023
 ├── APIVersion: Enum (1 value)
 │   └── "2023-05-01"
 ├── Extension: Resource
-│   ├── Spec: Object (12 properties)
+│   ├── Spec: Object (13 properties)
 │   │   ├── AksAssignedIdentity: *Object (1 property)
 │   │   │   └── Type: *Enum (2 values)
 │   │   │       ├── "SystemAssigned"
@@ -15,6 +15,9 @@ github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api2023
 │   │   ├── Identity: *Object (1 property)
 │   │   │   └── Type: *Enum (1 value)
 │   │   │       └── "SystemAssigned"
+│   │   ├── OperatorSpec: *Object (1 property)
+│   │   │   └── ConfigMaps: *Object (1 property)
+│   │   │       └── PrincipalId: *genruntime.ConfigMapDestination
 │   │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   │   ├── Plan: *Object (5 properties)
 │   │   │   ├── Name: *string
