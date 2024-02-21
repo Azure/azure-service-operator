@@ -90,7 +90,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	}
 
 	// create vault and policy
-	backupVaultConfigMapName := "backupVault-configmap"
+	backupVaultConfigMapName := "backupvault-configmap"
 	backupVaultPrincipalIdKey := "principalId"
 	backupVault := newBackupVault(tc, rg, "asotestbackupvault")
 	backupVault.Spec.OperatorSpec = &dataprotection.BackupVaultOperatorSpec{
@@ -210,9 +210,6 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourcesAndWait(cluster, acct, blobService, blobContainer, backupVault, backupPolicy, extension,
-		trustedAccessRoleBinding, extenstionRoleAssignment, clusterRoleAssignment, clusterMSIRoleAssignment, snapshotRGRoleAssignment)
-
 	//create backup instance
 	biName := "asotestbackupinstance"
 	backupInstance := &dataprotection.BackupVaultsBackupInstance{
@@ -267,9 +264,8 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(backupInstance)
-
-	// ensuring Backup instance status changes from ConfiguringProtection to ProtectionConfigured before we start deletion
+	tc.CreateResourcesAndWait(cluster, acct, blobService, blobContainer, backupVault, backupPolicy, extension,
+		trustedAccessRoleBinding, extenstionRoleAssignment, clusterRoleAssignment, clusterMSIRoleAssignment, snapshotRGRoleAssignment, backupInstance)
 
 	// Assertions and Expectations
 	tc.Expect(backupInstance.Status.Id).ToNot(BeNil())

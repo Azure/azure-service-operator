@@ -1,30 +1,30 @@
 apiVersion: dataprotection.azure.com/v1api20230101
 kind: BackupVaultsBackupInstance
 metadata:
-  name: asotestbackupinstance
+  name: aso-sample-backupinstance
   namespace: default
 spec:
   owner:
-    name: asotestbackupvault
+    name: aso-sample-backupvault
   properties:
     objectType: BackupInstance
-    friendlyName: asotestbackupinstance
+    friendlyName: aso-sample-backupinstance
     dataSourceInfo:
       objectType: Datasource
       datasourceType: Microsoft.ContainerService/managedClusters
-      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.ContainerService/managedClusters/aks
-      resourceName: aks
+      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.ContainerService/managedClusters/aso-sample-aks
+      resourceName: aso-sample-aks
       resourceLocation: westus2
       resourceType: Microsoft.ContainerService/managedClusters
     dataSourceSetInfo:
       objectType: DatasourceSet
       datasourceType: Microsoft.ContainerService/managedClusters
-      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.ContainerService/managedClusters/aks
-      resourceName: aks
+      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.ContainerService/managedClusters/aso-sample-aks
+      resourceName: aso-sample-aks
       resourceLocation: westus2
       resourceType: Microsoft.ContainerService/managedClusters
     policyInfo:
-      policyId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.DataProtection/backupVaults/asotestbackupvault/backupPolicies/test
+      policyId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.DataProtection/backupVaults/aso-sample-backupvault/backupPolicies/aso-sample-backuppolicy
       policyParameters:
         dataStoreParametersList:
           - dataStoreType: OperationalStore

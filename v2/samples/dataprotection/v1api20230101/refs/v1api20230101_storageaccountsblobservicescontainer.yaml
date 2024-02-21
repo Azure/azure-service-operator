@@ -1,0 +1,8 @@
+apiVersion: storage.azure.com/v1api20230101
+kind: StorageAccountsBlobServicesContainer
+metadata:
+  name: samplecontainer
+  namespace: default
+spec:
+  owner:
+    name: samplekubestorageservice
