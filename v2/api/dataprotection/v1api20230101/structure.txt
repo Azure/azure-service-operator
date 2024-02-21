@@ -288,32 +288,32 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101
 │   │   │   ├── FriendlyName: *string
 │   │   │   ├── ObjectType: *string
 │   │   │   ├── PolicyInfo: *Object (2 properties)
-│   │   │   │   ├── PolicyId: *string
-│   │   │   │   └── PolicyParameters: *Object (2 properties)
-│   │   │   │       ├── BackupDatasourceParametersList: Object (2 properties)[]
-│   │   │   │       │   ├── Blob: *Object (2 properties)
-│   │   │   │       │   │   ├── ContainersList: string[]
-│   │   │   │       │   │   └── ObjectType: *Enum (1 value)
-│   │   │   │       │   │       └── "BlobBackupDatasourceParameters"
-│   │   │   │       │   └── KubernetesCluster: *Object (8 properties)
-│   │   │   │       │       ├── ExcludedNamespaces: string[]
-│   │   │   │       │       ├── ExcludedResourceTypes: string[]
-│   │   │   │       │       ├── IncludeClusterScopeResources: *bool
-│   │   │   │       │       ├── IncludedNamespaces: string[]
-│   │   │   │       │       ├── IncludedResourceTypes: string[]
-│   │   │   │       │       ├── LabelSelectors: string[]
-│   │   │   │       │       ├── ObjectType: *Enum (1 value)
-│   │   │   │       │       │   └── "KubernetesClusterBackupDatasourceParameters"
-│   │   │   │       │       └── SnapshotVolumes: *bool
-│   │   │   │       └── DataStoreParametersList: Object (1 property)[]
-│   │   │   │           └── AzureOperationalStoreParameters: *Object (3 properties)
-│   │   │   │               ├── DataStoreType: *Enum (3 values)
-│   │   │   │               │   ├── "ArchiveStore"
-│   │   │   │               │   ├── "OperationalStore"
-│   │   │   │               │   └── "VaultStore"
-│   │   │   │               ├── ObjectType: *Enum (1 value)
-│   │   │   │               │   └── "AzureOperationalStoreParameters"
-│   │   │   │               └── ResourceGroupId: *string
+│   │   │   │   ├── PolicyParameters: *Object (2 properties)
+│   │   │   │   │   ├── BackupDatasourceParametersList: Object (2 properties)[]
+│   │   │   │   │   │   ├── Blob: *Object (2 properties)
+│   │   │   │   │   │   │   ├── ContainersList: string[]
+│   │   │   │   │   │   │   └── ObjectType: *Enum (1 value)
+│   │   │   │   │   │   │       └── "BlobBackupDatasourceParameters"
+│   │   │   │   │   │   └── KubernetesCluster: *Object (8 properties)
+│   │   │   │   │   │       ├── ExcludedNamespaces: string[]
+│   │   │   │   │   │       ├── ExcludedResourceTypes: string[]
+│   │   │   │   │   │       ├── IncludeClusterScopeResources: *bool
+│   │   │   │   │   │       ├── IncludedNamespaces: string[]
+│   │   │   │   │   │       ├── IncludedResourceTypes: string[]
+│   │   │   │   │   │       ├── LabelSelectors: string[]
+│   │   │   │   │   │       ├── ObjectType: *Enum (1 value)
+│   │   │   │   │   │       │   └── "KubernetesClusterBackupDatasourceParameters"
+│   │   │   │   │   │       └── SnapshotVolumes: *bool
+│   │   │   │   │   └── DataStoreParametersList: Object (1 property)[]
+│   │   │   │   │       └── AzureOperationalStoreParameters: *Object (3 properties)
+│   │   │   │   │           ├── DataStoreType: *Enum (3 values)
+│   │   │   │   │           │   ├── "ArchiveStore"
+│   │   │   │   │           │   ├── "OperationalStore"
+│   │   │   │   │           │   └── "VaultStore"
+│   │   │   │   │           ├── ObjectType: *Enum (1 value)
+│   │   │   │   │           │   └── "AzureOperationalStoreParameters"
+│   │   │   │   │           └── ResourceGroupId: *string
+│   │   │   │   └── PolicyReference: *genruntime.ResourceReference
 │   │   │   └── ValidationType: *Enum (2 values)
 │   │   │       ├── "DeepValidation"
 │   │   │       └── "ShallowValidation"

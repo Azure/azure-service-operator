@@ -238,7 +238,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 					ResourceReference: tc.MakeReferenceFromResource(cluster),
 				},
 				PolicyInfo: &dataprotection.PolicyInfo{
-					PolicyId: backupPolicy.Status.Id,
+					PolicyReference: tc.MakeReferenceFromResource(backupPolicy),
 					PolicyParameters: &dataprotection.PolicyParameters{
 						DataStoreParametersList: []dataprotection.DataStoreParameters{
 							{

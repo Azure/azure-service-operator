@@ -1400,30 +1400,16 @@ func RunJSONSerializationTestForPolicyInfo(subject PolicyInfo) string {
 var policyInfoGenerator gopter.Gen
 
 // PolicyInfoGenerator returns a generator of PolicyInfo instances for property testing.
-// We first initialize policyInfoGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func PolicyInfoGenerator() gopter.Gen {
 	if policyInfoGenerator != nil {
 		return policyInfoGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPolicyInfo(generators)
-	policyInfoGenerator = gen.Struct(reflect.TypeOf(PolicyInfo{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPolicyInfo(generators)
 	AddRelatedPropertyGeneratorsForPolicyInfo(generators)
 	policyInfoGenerator = gen.Struct(reflect.TypeOf(PolicyInfo{}), generators)
 
 	return policyInfoGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPolicyInfo is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPolicyInfo(gens map[string]gopter.Gen) {
-	gens["PolicyId"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForPolicyInfo is a factory method for creating gopter generators

@@ -2552,11 +2552,11 @@ func (datasourceSet *DatasourceSet_STATUS) AssignProperties_To_DatasourceSet_STA
 
 // Policy Info in backupInstance
 type PolicyInfo struct {
-	// +kubebuilder:validation:Required
-	PolicyId *string `json:"policyId,omitempty"`
-
 	// PolicyParameters: Policy parameters for the backup instance
 	PolicyParameters *PolicyParameters `json:"policyParameters,omitempty"`
+
+	// +kubebuilder:validation:Required
+	PolicyReference *genruntime.ResourceReference `armReference:"PolicyId" json:"policyReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PolicyInfo{}
@@ -2569,9 +2569,13 @@ func (info *PolicyInfo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	result := &PolicyInfo_ARM{}
 
 	// Set property "PolicyId":
-	if info.PolicyId != nil {
-		policyId := *info.PolicyId
-		result.PolicyId = &policyId
+	if info.PolicyReference != nil {
+		policyReferenceARMID, err := resolved.ResolvedReferences.Lookup(*info.PolicyReference)
+		if err != nil {
+			return nil, err
+		}
+		policyReference := policyReferenceARMID
+		result.PolicyId = &policyReference
 	}
 
 	// Set property "PolicyParameters":
@@ -2598,12 +2602,6 @@ func (info *PolicyInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PolicyInfo_ARM, got %T", armInput)
 	}
 
-	// Set property "PolicyId":
-	if typedInput.PolicyId != nil {
-		policyId := *typedInput.PolicyId
-		info.PolicyId = &policyId
-	}
-
 	// Set property "PolicyParameters":
 	if typedInput.PolicyParameters != nil {
 		var policyParameters1 PolicyParameters
@@ -2615,15 +2613,14 @@ func (info *PolicyInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 		info.PolicyParameters = &policyParameters
 	}
 
+	// no assignment for property "PolicyReference"
+
 	// No error
 	return nil
 }
 
 // AssignProperties_From_PolicyInfo populates our PolicyInfo from the provided source PolicyInfo
 func (info *PolicyInfo) AssignProperties_From_PolicyInfo(source *v20230101s.PolicyInfo) error {
-
-	// PolicyId
-	info.PolicyId = genruntime.ClonePointerToString(source.PolicyId)
 
 	// PolicyParameters
 	if source.PolicyParameters != nil {
@@ -2637,6 +2634,14 @@ func (info *PolicyInfo) AssignProperties_From_PolicyInfo(source *v20230101s.Poli
 		info.PolicyParameters = nil
 	}
 
+	// PolicyReference
+	if source.PolicyReference != nil {
+		policyReference := source.PolicyReference.Copy()
+		info.PolicyReference = &policyReference
+	} else {
+		info.PolicyReference = nil
+	}
+
 	// No error
 	return nil
 }
@@ -2645,9 +2650,6 @@ func (info *PolicyInfo) AssignProperties_From_PolicyInfo(source *v20230101s.Poli
 func (info *PolicyInfo) AssignProperties_To_PolicyInfo(destination *v20230101s.PolicyInfo) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// PolicyId
-	destination.PolicyId = genruntime.ClonePointerToString(info.PolicyId)
 
 	// PolicyParameters
 	if info.PolicyParameters != nil {
@@ -2659,6 +2661,14 @@ func (info *PolicyInfo) AssignProperties_To_PolicyInfo(destination *v20230101s.P
 		destination.PolicyParameters = &policyParameter
 	} else {
 		destination.PolicyParameters = nil
+	}
+
+	// PolicyReference
+	if info.PolicyReference != nil {
+		policyReference := info.PolicyReference.Copy()
+		destination.PolicyReference = &policyReference
+	} else {
+		destination.PolicyReference = nil
 	}
 
 	// Update the property bag
@@ -2675,9 +2685,6 @@ func (info *PolicyInfo) AssignProperties_To_PolicyInfo(destination *v20230101s.P
 // Initialize_From_PolicyInfo_STATUS populates our PolicyInfo from the provided source PolicyInfo_STATUS
 func (info *PolicyInfo) Initialize_From_PolicyInfo_STATUS(source *PolicyInfo_STATUS) error {
 
-	// PolicyId
-	info.PolicyId = genruntime.ClonePointerToString(source.PolicyId)
-
 	// PolicyParameters
 	if source.PolicyParameters != nil {
 		var policyParameter PolicyParameters
@@ -2688,6 +2695,14 @@ func (info *PolicyInfo) Initialize_From_PolicyInfo_STATUS(source *PolicyInfo_STA
 		info.PolicyParameters = &policyParameter
 	} else {
 		info.PolicyParameters = nil
+	}
+
+	// PolicyReference
+	if source.PolicyId != nil {
+		policyReference := genruntime.CreateResourceReferenceFromARMID(*source.PolicyId)
+		info.PolicyReference = &policyReference
+	} else {
+		info.PolicyReference = nil
 	}
 
 	// No error

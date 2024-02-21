@@ -139,7 +139,6 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/stor
 │   │   │   ├── FriendlyName: *string
 │   │   │   ├── ObjectType: *string
 │   │   │   ├── PolicyInfo: *Object (3 properties)
-│   │   │   │   ├── PolicyId: *string
 │   │   │   │   ├── PolicyParameters: *Object (3 properties)
 │   │   │   │   │   ├── BackupDatasourceParametersList: Object (3 properties)[]
 │   │   │   │   │   │   ├── Blob: *Object (3 properties)
@@ -165,6 +164,7 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/stor
 │   │   │   │   │   │   │   └── ResourceGroupId: *string
 │   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── PolicyReference: *genruntime.ResourceReference
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── ValidationType: *string

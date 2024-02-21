@@ -312,9 +312,11 @@ type DatasourceSet_STATUS struct {
 // Storage version of v1api20230101.PolicyInfo
 // Policy Info in backupInstance
 type PolicyInfo struct {
-	PolicyId         *string                `json:"policyId,omitempty"`
-	PolicyParameters *PolicyParameters      `json:"policyParameters,omitempty"`
-	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	PolicyParameters *PolicyParameters `json:"policyParameters,omitempty"`
+
+	// +kubebuilder:validation:Required
+	PolicyReference *genruntime.ResourceReference `armReference:"PolicyId" json:"policyReference,omitempty"`
+	PropertyBag     genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20230101.PolicyInfo_STATUS

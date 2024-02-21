@@ -24,7 +24,7 @@ spec:
       resourceLocation: westus2
       resourceType: Microsoft.ContainerService/managedClusters
     policyInfo:
-      policyId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.DataProtection/backupVaults/aso-sample-backupvault/backupPolicies/aso-sample-backuppolicy
+      policyReference: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.DataProtection/backupVaults/aso-sample-backupvault/backupPolicies/aso-sample-backuppolicy
       policyParameters:
         dataStoreParametersList:
           - dataStoreType: OperationalStore

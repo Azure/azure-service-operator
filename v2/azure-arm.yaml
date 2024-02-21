@@ -1495,6 +1495,9 @@ objectModelConfiguration:
       Datasource:
         ResourceID:
           $armReference: true
+      PolicyInfo:
+        PolicyId:
+          $armReference: true
   dbformariadb:
     2018-06-01:
       Server:
