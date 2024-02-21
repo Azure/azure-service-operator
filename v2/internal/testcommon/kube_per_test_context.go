@@ -37,6 +37,7 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/matchers"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,6 +51,7 @@ type KubePerTestContext struct {
 	G          gomega.Gomega
 	Verify     *Verify
 	Match      *KubeMatcher
+	MatchAzure *matchers.Azure
 	scheme     *runtime.Scheme
 
 	tracker *ResourceTracker
@@ -182,6 +184,7 @@ func (ctx KubeGlobalContext) forTestWithConfig(t *testing.T, cfg config.Values, 
 
 	verify := NewVerify(kubeClient)
 	match := NewKubeMatcher(verify, baseCtx.Ctx)
+	matchAzure := matchers.NewAzure(baseCtx.Ctx, perTestContext.AzureClient)
 
 	format.MaxLength = 0 // Disable output truncation
 
@@ -191,6 +194,7 @@ func (ctx KubeGlobalContext) forTestWithConfig(t *testing.T, cfg config.Values, 
 		kubeClient:          kubeClient,
 		Verify:              verify,
 		Match:               match,
+		MatchAzure:          matchAzure,
 		scheme:              scheme,
 		G:                   gomega.NewWithT(t),
 		tracker:             &ResourceTracker{},

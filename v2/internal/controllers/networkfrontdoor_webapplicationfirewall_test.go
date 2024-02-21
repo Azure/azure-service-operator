@@ -16,6 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
+// Test built from the following sample:
 // https://github.com/Azure/azure-quickstart-templates/blob/master/quickstarts/microsoft.cdn/front-door-standard-premium-rate-limit/azuredeploy.json
 
 func Test_NetworkFrontDoorFirewallPolicy_CRUD(t *testing.T) {

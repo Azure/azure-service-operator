@@ -99,16 +99,32 @@ func Test_CDN_Profile_AFD_CRUD(t *testing.T) {
 	)
 
 	// Unroll the resources in reverse order to ensure that delete works
-	expectCDNDeleteSucceeds(tc, route, *route.Status.Id)
-	expectCDNDeleteSucceeds(tc, origin, *origin.Status.Id)
-	expectCDNDeleteSucceeds(tc, originGroup, *originGroup.Status.Id)
-	expectCDNDeleteSucceeds(tc, rule, *rule.Status.Id)
-	expectCDNDeleteSucceeds(tc, ruleSet, *ruleSet.Status.Id)
-	expectCDNDeleteSucceeds(tc, securityPolicy, *securityPolicy.Status.Id)
-	expectCDNDeleteSucceeds(tc, endpoint, *endpoint.Status.Id)
-	expectCDNDeleteSucceeds(tc, customDomain, *customDomain.Status.Id)
+	tc.DeleteResourceAndWait(route)
+	tc.Expect(route.Status.Id).To(tc.MatchAzure.BeDeleted(string(cdn.APIVersion_Value)))
 
-	expectCDNDeleteSucceeds(tc, profile, *profile.Status.Id)
+	tc.DeleteResourceAndWait(origin)
+	tc.Expect(origin.Status.Id).To(tc.MatchAzure.BeDeleted(string(cdn.APIVersion_Value)))
+
+	tc.DeleteResourceAndWait(originGroup)
+	tc.Expect(originGroup.Status.Id).To(tc.MatchAzure.BeDeleted(string(cdn.APIVersion_Value)))
+
+	tc.DeleteResourceAndWait(rule)
+	tc.Expect(rule.Status.Id).To(tc.MatchAzure.BeDeleted(string(cdn.APIVersion_Value)))
+
+	tc.DeleteResourceAndWait(ruleSet)
+	tc.Expect(ruleSet.Status.Id).To(tc.MatchAzure.BeDeleted(string(cdn.APIVersion_Value)))
+
+	tc.DeleteResourceAndWait(securityPolicy)
+	tc.Expect(securityPolicy.Status.Id).To(tc.MatchAzure.BeDeleted(string(cdn.APIVersion_Value)))
+
+	tc.DeleteResourceAndWait(endpoint)
+	tc.Expect(endpoint.Status.Id).To(tc.MatchAzure.BeDeleted(string(cdn.APIVersion_Value)))
+
+	tc.DeleteResourceAndWait(customDomain)
+	tc.Expect(customDomain.Status.Id).To(tc.MatchAzure.BeDeleted(string(cdn.APIVersion_Value)))
+
+	tc.DeleteResourceAndWait(profile)
+	tc.Expect(profile.Status.Id).To(tc.MatchAzure.BeDeleted(string(cdn.APIVersion_Value)))
 }
 
 func expectCDNDeleteSucceeds(tc *testcommon.KubePerTestContext, obj genruntime.ARMMetaObject, id string) {

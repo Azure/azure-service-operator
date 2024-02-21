@@ -52,5 +52,6 @@ func isSecurityPolicyRetryableBadRequest(err *genericarmclient.CloudError) bool 
 	// string matching for error detection is fragile but unfortunately there's no better way to determine this given the
 	// shape the API returns
 	return err.Code() == "BadRequest" &&
-		strings.Contains(err.Message(), "is not associated with the AFDX profile or is in a invalid provisioning state")
+		strings.Contains(err.Message(), "is not associated with the AFDX profile") &&
+		strings.Contains(err.Message(), "is in a invalid provisioning state")
 }

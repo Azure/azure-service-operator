@@ -53,5 +53,6 @@ func isRouteRetryableBadRequest(err *genericarmclient.CloudError) bool {
 	// string matching for error detection is fragile but unfortunately there's no better way to determine this given the
 	// shape the API returns
 	return err.Code() == "BadRequest" &&
-		strings.Contains(err.Message(), "Please make sure that the originGroup is created successfully and at least one enabled origin is created under the origin group")
+		strings.Contains(err.Message(), "originGroup is created successfully") &&
+		strings.Contains(err.Message(), "at least one enabled origin is created")
 }

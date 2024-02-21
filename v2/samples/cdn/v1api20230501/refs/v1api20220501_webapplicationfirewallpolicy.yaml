@@ -23,7 +23,6 @@ spec:
       rateLimitThreshold: 10
       ruleType: RateLimitRule
   location: global
-
   policySettings:
     enabledState: Enabled
     mode: Detection
