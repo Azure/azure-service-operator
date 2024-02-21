@@ -290,6 +290,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/authentication/multitenant-deployment/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/network.frontdoor/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20180501/</loc>
