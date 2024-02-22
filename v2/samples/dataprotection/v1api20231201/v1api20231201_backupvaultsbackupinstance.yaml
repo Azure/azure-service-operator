@@ -1,0 +1,36 @@
+apiVersion: dataprotection.azure.com/v1api20230101
+kind: BackupVaultsBackupInstance
+metadata:
+  name: aso-sample-backupinstance
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-backupvault
+  properties:
+    objectType: BackupInstance
+    friendlyName: aso-sample-backupinstance
+    dataSourceInfo:
+      objectType: Datasource
+      datasourceType: Microsoft.ContainerService/managedClusters
+      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.ContainerService/managedClusters/aso-sample-aks
+      resourceName: aso-sample-aks
+      resourceLocation: westus2
+      resourceType: Microsoft.ContainerService/managedClusters
+    dataSourceSetInfo:
+      objectType: DatasourceSet
+      datasourceType: Microsoft.ContainerService/managedClusters
+      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.ContainerService/managedClusters/aso-sample-aks
+      resourceName: aso-sample-aks
+      resourceLocation: westus2
+      resourceType: Microsoft.ContainerService/managedClusters
+    policyInfo:
+      policyReference: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.DataProtection/backupVaults/aso-sample-backupvault/backupPolicies/aso-sample-backuppolicy
+      policyParameters:
+        dataStoreParametersList:
+          - dataStoreType: OperationalStore
+            objectType: AzureOperationalStoreParameters
+            resourceGroupId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg
+        backupDatasourceParametersList:
+          - objectType: KubernetesClusterBackupDatasourceParameters
+            snapshotVolumes: true
+            includeClusterScopeResources: true

@@ -6,6 +6,7 @@ package v1api20230101
 import (
 	"encoding/json"
 	v20230101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/storage"
+	v20231201s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231201/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForBackupVaultsBackupInstance(subject BackupVaults
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230101s.BackupVaultsBackupInstance
+	var hub v20231201s.BackupVaultsBackupInstance
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

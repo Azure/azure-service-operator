@@ -49,22 +49,36 @@ var _ conversion.Convertible = &BackupVaultsBackupPolicy{}
 
 // ConvertFrom populates our BackupVaultsBackupPolicy from the provided hub BackupVaultsBackupPolicy
 func (policy *BackupVaultsBackupPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20230101s.BackupVaultsBackupPolicy)
-	if !ok {
-		return fmt.Errorf("expected dataprotection/v1api20230101/storage/BackupVaultsBackupPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20230101s.BackupVaultsBackupPolicy
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return policy.AssignProperties_From_BackupVaultsBackupPolicy(source)
+	err = policy.AssignProperties_From_BackupVaultsBackupPolicy(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to policy")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub BackupVaultsBackupPolicy from our BackupVaultsBackupPolicy
 func (policy *BackupVaultsBackupPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20230101s.BackupVaultsBackupPolicy)
-	if !ok {
-		return fmt.Errorf("expected dataprotection/v1api20230101/storage/BackupVaultsBackupPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20230101s.BackupVaultsBackupPolicy
+	err := policy.AssignProperties_To_BackupVaultsBackupPolicy(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from policy")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return policy.AssignProperties_To_BackupVaultsBackupPolicy(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-dataprotection-azure-com-v1api20230101-backupvaultsbackuppolicy,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dataprotection.azure.com,resources=backupvaultsbackuppolicies,verbs=create;update,versions=v1api20230101,name=default.v1api20230101.backupvaultsbackuppolicies.dataprotection.azure.com,admissionReviewVersions=v1
@@ -89,17 +103,6 @@ func (policy *BackupVaultsBackupPolicy) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the BackupVaultsBackupPolicy resource
 func (policy *BackupVaultsBackupPolicy) defaultImpl() { policy.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &BackupVaultsBackupPolicy{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (policy *BackupVaultsBackupPolicy) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*BackupVaults_BackupPolicy_STATUS); ok {
-		return policy.Spec.Initialize_From_BackupVaults_BackupPolicy_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type BackupVaults_BackupPolicy_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &BackupVaultsBackupPolicy{}
 
@@ -521,25 +524,6 @@ func (policy *BackupVaults_BackupPolicy_Spec) AssignProperties_To_BackupVaults_B
 	return nil
 }
 
-// Initialize_From_BackupVaults_BackupPolicy_STATUS populates our BackupVaults_BackupPolicy_Spec from the provided source BackupVaults_BackupPolicy_STATUS
-func (policy *BackupVaults_BackupPolicy_Spec) Initialize_From_BackupVaults_BackupPolicy_STATUS(source *BackupVaults_BackupPolicy_STATUS) error {
-
-	// Properties
-	if source.Properties != nil {
-		var property BaseBackupPolicy
-		err := property.Initialize_From_BaseBackupPolicy_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BaseBackupPolicy_STATUS() to populate field Properties")
-		}
-		policy.Properties = &property
-	} else {
-		policy.Properties = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (policy *BackupVaults_BackupPolicy_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -875,25 +859,6 @@ func (policy *BaseBackupPolicy) AssignProperties_To_BaseBackupPolicy(destination
 	return nil
 }
 
-// Initialize_From_BaseBackupPolicy_STATUS populates our BaseBackupPolicy from the provided source BaseBackupPolicy_STATUS
-func (policy *BaseBackupPolicy) Initialize_From_BaseBackupPolicy_STATUS(source *BaseBackupPolicy_STATUS) error {
-
-	// BackupPolicy
-	if source.BackupPolicy != nil {
-		var backupPolicy BackupPolicy
-		err := backupPolicy.Initialize_From_BackupPolicy_STATUS(source.BackupPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BackupPolicy_STATUS() to populate field BackupPolicy")
-		}
-		policy.BackupPolicy = &backupPolicy
-	} else {
-		policy.BackupPolicy = nil
-	}
-
-	// No error
-	return nil
-}
-
 type BaseBackupPolicy_STATUS struct {
 	// BackupPolicy: Mutually exclusive with all other properties
 	BackupPolicy *BackupPolicy_STATUS `json:"backupPolicy,omitempty"`
@@ -1127,42 +1092,6 @@ func (policy *BackupPolicy) AssignProperties_To_BackupPolicy(destination *v20230
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BackupPolicy_STATUS populates our BackupPolicy from the provided source BackupPolicy_STATUS
-func (policy *BackupPolicy) Initialize_From_BackupPolicy_STATUS(source *BackupPolicy_STATUS) error {
-
-	// DatasourceTypes
-	policy.DatasourceTypes = genruntime.CloneSliceOfString(source.DatasourceTypes)
-
-	// ObjectType
-	if source.ObjectType != nil {
-		objectType := BackupPolicy_ObjectType(*source.ObjectType)
-		policy.ObjectType = &objectType
-	} else {
-		policy.ObjectType = nil
-	}
-
-	// PolicyRules
-	if source.PolicyRules != nil {
-		policyRuleList := make([]BasePolicyRule, len(source.PolicyRules))
-		for policyRuleIndex, policyRuleItem := range source.PolicyRules {
-			// Shadow the loop variable to avoid aliasing
-			policyRuleItem := policyRuleItem
-			var policyRule BasePolicyRule
-			err := policyRule.Initialize_From_BasePolicyRule_STATUS(&policyRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_BasePolicyRule_STATUS() to populate field PolicyRules")
-			}
-			policyRuleList[policyRuleIndex] = policyRule
-		}
-		policy.PolicyRules = policyRuleList
-	} else {
-		policy.PolicyRules = nil
 	}
 
 	// No error
@@ -1437,37 +1366,6 @@ func (rule *BasePolicyRule) AssignProperties_To_BasePolicyRule(destination *v202
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BasePolicyRule_STATUS populates our BasePolicyRule from the provided source BasePolicyRule_STATUS
-func (rule *BasePolicyRule) Initialize_From_BasePolicyRule_STATUS(source *BasePolicyRule_STATUS) error {
-
-	// AzureBackup
-	if source.AzureBackup != nil {
-		var azureBackup AzureBackupRule
-		err := azureBackup.Initialize_From_AzureBackupRule_STATUS(source.AzureBackup)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AzureBackupRule_STATUS() to populate field AzureBackup")
-		}
-		rule.AzureBackup = &azureBackup
-	} else {
-		rule.AzureBackup = nil
-	}
-
-	// AzureRetention
-	if source.AzureRetention != nil {
-		var azureRetention AzureRetentionRule
-		err := azureRetention.Initialize_From_AzureRetentionRule_STATUS(source.AzureRetention)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AzureRetentionRule_STATUS() to populate field AzureRetention")
-		}
-		rule.AzureRetention = &azureRetention
-	} else {
-		rule.AzureRetention = nil
 	}
 
 	// No error
@@ -1831,60 +1729,6 @@ func (rule *AzureBackupRule) AssignProperties_To_AzureBackupRule(destination *v2
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AzureBackupRule_STATUS populates our AzureBackupRule from the provided source AzureBackupRule_STATUS
-func (rule *AzureBackupRule) Initialize_From_AzureBackupRule_STATUS(source *AzureBackupRule_STATUS) error {
-
-	// BackupParameters
-	if source.BackupParameters != nil {
-		var backupParameter BackupParameters
-		err := backupParameter.Initialize_From_BackupParameters_STATUS(source.BackupParameters)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BackupParameters_STATUS() to populate field BackupParameters")
-		}
-		rule.BackupParameters = &backupParameter
-	} else {
-		rule.BackupParameters = nil
-	}
-
-	// DataStore
-	if source.DataStore != nil {
-		var dataStore DataStoreInfoBase
-		err := dataStore.Initialize_From_DataStoreInfoBase_STATUS(source.DataStore)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DataStoreInfoBase_STATUS() to populate field DataStore")
-		}
-		rule.DataStore = &dataStore
-	} else {
-		rule.DataStore = nil
-	}
-
-	// Name
-	rule.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ObjectType
-	if source.ObjectType != nil {
-		objectType := AzureBackupRule_ObjectType(*source.ObjectType)
-		rule.ObjectType = &objectType
-	} else {
-		rule.ObjectType = nil
-	}
-
-	// Trigger
-	if source.Trigger != nil {
-		var trigger TriggerContext
-		err := trigger.Initialize_From_TriggerContext_STATUS(source.Trigger)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_TriggerContext_STATUS() to populate field Trigger")
-		}
-		rule.Trigger = &trigger
-	} else {
-		rule.Trigger = nil
 	}
 
 	// No error
@@ -2266,50 +2110,6 @@ func (rule *AzureRetentionRule) AssignProperties_To_AzureRetentionRule(destinati
 	return nil
 }
 
-// Initialize_From_AzureRetentionRule_STATUS populates our AzureRetentionRule from the provided source AzureRetentionRule_STATUS
-func (rule *AzureRetentionRule) Initialize_From_AzureRetentionRule_STATUS(source *AzureRetentionRule_STATUS) error {
-
-	// IsDefault
-	if source.IsDefault != nil {
-		isDefault := *source.IsDefault
-		rule.IsDefault = &isDefault
-	} else {
-		rule.IsDefault = nil
-	}
-
-	// Lifecycles
-	if source.Lifecycles != nil {
-		lifecycleList := make([]SourceLifeCycle, len(source.Lifecycles))
-		for lifecycleIndex, lifecycleItem := range source.Lifecycles {
-			// Shadow the loop variable to avoid aliasing
-			lifecycleItem := lifecycleItem
-			var lifecycle SourceLifeCycle
-			err := lifecycle.Initialize_From_SourceLifeCycle_STATUS(&lifecycleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SourceLifeCycle_STATUS() to populate field Lifecycles")
-			}
-			lifecycleList[lifecycleIndex] = lifecycle
-		}
-		rule.Lifecycles = lifecycleList
-	} else {
-		rule.Lifecycles = nil
-	}
-
-	// Name
-	rule.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ObjectType
-	if source.ObjectType != nil {
-		objectType := AzureRetentionRule_ObjectType(*source.ObjectType)
-		rule.ObjectType = &objectType
-	} else {
-		rule.ObjectType = nil
-	}
-
-	// No error
-	return nil
-}
-
 type AzureRetentionRule_STATUS struct {
 	IsDefault  *bool                                 `json:"isDefault,omitempty"`
 	Lifecycles []SourceLifeCycle_STATUS              `json:"lifecycles,omitempty"`
@@ -2557,25 +2357,6 @@ func (parameters *BackupParameters) AssignProperties_To_BackupParameters(destina
 	return nil
 }
 
-// Initialize_From_BackupParameters_STATUS populates our BackupParameters from the provided source BackupParameters_STATUS
-func (parameters *BackupParameters) Initialize_From_BackupParameters_STATUS(source *BackupParameters_STATUS) error {
-
-	// AzureBackupParams
-	if source.AzureBackupParams != nil {
-		var azureBackupParam AzureBackupParams
-		err := azureBackupParam.Initialize_From_AzureBackupParams_STATUS(source.AzureBackupParams)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AzureBackupParams_STATUS() to populate field AzureBackupParams")
-		}
-		parameters.AzureBackupParams = &azureBackupParam
-	} else {
-		parameters.AzureBackupParams = nil
-	}
-
-	// No error
-	return nil
-}
-
 type BackupParameters_STATUS struct {
 	// AzureBackupParams: Mutually exclusive with all other properties
 	AzureBackupParams *AzureBackupParams_STATUS `json:"azureBackupParams,omitempty"`
@@ -2759,24 +2540,6 @@ func (base *DataStoreInfoBase) AssignProperties_To_DataStoreInfoBase(destination
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DataStoreInfoBase_STATUS populates our DataStoreInfoBase from the provided source DataStoreInfoBase_STATUS
-func (base *DataStoreInfoBase) Initialize_From_DataStoreInfoBase_STATUS(source *DataStoreInfoBase_STATUS) error {
-
-	// DataStoreType
-	if source.DataStoreType != nil {
-		dataStoreType := DataStoreInfoBase_DataStoreType(*source.DataStoreType)
-		base.DataStoreType = &dataStoreType
-	} else {
-		base.DataStoreType = nil
-	}
-
-	// ObjectType
-	base.ObjectType = genruntime.ClonePointerToString(source.ObjectType)
 
 	// No error
 	return nil
@@ -3066,55 +2829,6 @@ func (cycle *SourceLifeCycle) AssignProperties_To_SourceLifeCycle(destination *v
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SourceLifeCycle_STATUS populates our SourceLifeCycle from the provided source SourceLifeCycle_STATUS
-func (cycle *SourceLifeCycle) Initialize_From_SourceLifeCycle_STATUS(source *SourceLifeCycle_STATUS) error {
-
-	// DeleteAfter
-	if source.DeleteAfter != nil {
-		var deleteAfter DeleteOption
-		err := deleteAfter.Initialize_From_DeleteOption_STATUS(source.DeleteAfter)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DeleteOption_STATUS() to populate field DeleteAfter")
-		}
-		cycle.DeleteAfter = &deleteAfter
-	} else {
-		cycle.DeleteAfter = nil
-	}
-
-	// SourceDataStore
-	if source.SourceDataStore != nil {
-		var sourceDataStore DataStoreInfoBase
-		err := sourceDataStore.Initialize_From_DataStoreInfoBase_STATUS(source.SourceDataStore)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DataStoreInfoBase_STATUS() to populate field SourceDataStore")
-		}
-		cycle.SourceDataStore = &sourceDataStore
-	} else {
-		cycle.SourceDataStore = nil
-	}
-
-	// TargetDataStoreCopySettings
-	if source.TargetDataStoreCopySettings != nil {
-		targetDataStoreCopySettingList := make([]TargetCopySetting, len(source.TargetDataStoreCopySettings))
-		for targetDataStoreCopySettingIndex, targetDataStoreCopySettingItem := range source.TargetDataStoreCopySettings {
-			// Shadow the loop variable to avoid aliasing
-			targetDataStoreCopySettingItem := targetDataStoreCopySettingItem
-			var targetDataStoreCopySetting TargetCopySetting
-			err := targetDataStoreCopySetting.Initialize_From_TargetCopySetting_STATUS(&targetDataStoreCopySettingItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_TargetCopySetting_STATUS() to populate field TargetDataStoreCopySettings")
-			}
-			targetDataStoreCopySettingList[targetDataStoreCopySettingIndex] = targetDataStoreCopySetting
-		}
-		cycle.TargetDataStoreCopySettings = targetDataStoreCopySettingList
-	} else {
-		cycle.TargetDataStoreCopySettings = nil
 	}
 
 	// No error
@@ -3435,37 +3149,6 @@ func (context *TriggerContext) AssignProperties_To_TriggerContext(destination *v
 	return nil
 }
 
-// Initialize_From_TriggerContext_STATUS populates our TriggerContext from the provided source TriggerContext_STATUS
-func (context *TriggerContext) Initialize_From_TriggerContext_STATUS(source *TriggerContext_STATUS) error {
-
-	// Adhoc
-	if source.Adhoc != nil {
-		var adhoc AdhocBasedTriggerContext
-		err := adhoc.Initialize_From_AdhocBasedTriggerContext_STATUS(source.Adhoc)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AdhocBasedTriggerContext_STATUS() to populate field Adhoc")
-		}
-		context.Adhoc = &adhoc
-	} else {
-		context.Adhoc = nil
-	}
-
-	// Schedule
-	if source.Schedule != nil {
-		var schedule ScheduleBasedTriggerContext
-		err := schedule.Initialize_From_ScheduleBasedTriggerContext_STATUS(source.Schedule)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ScheduleBasedTriggerContext_STATUS() to populate field Schedule")
-		}
-		context.Schedule = &schedule
-	} else {
-		context.Schedule = nil
-	}
-
-	// No error
-	return nil
-}
-
 type TriggerContext_STATUS struct {
 	// Adhoc: Mutually exclusive with all other properties
 	Adhoc *AdhocBasedTriggerContext_STATUS `json:"adhocBasedTriggerContext,omitempty"`
@@ -3714,33 +3397,6 @@ func (context *AdhocBasedTriggerContext) AssignProperties_To_AdhocBasedTriggerCo
 	return nil
 }
 
-// Initialize_From_AdhocBasedTriggerContext_STATUS populates our AdhocBasedTriggerContext from the provided source AdhocBasedTriggerContext_STATUS
-func (context *AdhocBasedTriggerContext) Initialize_From_AdhocBasedTriggerContext_STATUS(source *AdhocBasedTriggerContext_STATUS) error {
-
-	// ObjectType
-	if source.ObjectType != nil {
-		objectType := AdhocBasedTriggerContext_ObjectType(*source.ObjectType)
-		context.ObjectType = &objectType
-	} else {
-		context.ObjectType = nil
-	}
-
-	// TaggingCriteria
-	if source.TaggingCriteria != nil {
-		var taggingCriterion AdhocBasedTaggingCriteria
-		err := taggingCriterion.Initialize_From_AdhocBasedTaggingCriteria_STATUS(source.TaggingCriteria)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AdhocBasedTaggingCriteria_STATUS() to populate field TaggingCriteria")
-		}
-		context.TaggingCriteria = &taggingCriterion
-	} else {
-		context.TaggingCriteria = nil
-	}
-
-	// No error
-	return nil
-}
-
 type AdhocBasedTriggerContext_STATUS struct {
 	// ObjectType: Type of the specific object - used for deserializing
 	ObjectType *AdhocBasedTriggerContext_ObjectType_STATUS `json:"objectType,omitempty"`
@@ -3946,24 +3602,6 @@ func (params *AzureBackupParams) AssignProperties_To_AzureBackupParams(destinati
 	return nil
 }
 
-// Initialize_From_AzureBackupParams_STATUS populates our AzureBackupParams from the provided source AzureBackupParams_STATUS
-func (params *AzureBackupParams) Initialize_From_AzureBackupParams_STATUS(source *AzureBackupParams_STATUS) error {
-
-	// BackupType
-	params.BackupType = genruntime.ClonePointerToString(source.BackupType)
-
-	// ObjectType
-	if source.ObjectType != nil {
-		objectType := AzureBackupParams_ObjectType(*source.ObjectType)
-		params.ObjectType = &objectType
-	} else {
-		params.ObjectType = nil
-	}
-
-	// No error
-	return nil
-}
-
 type AzureBackupParams_STATUS struct {
 	// BackupType: BackupType ; Full/Incremental etc
 	BackupType *string `json:"backupType,omitempty"`
@@ -4138,25 +3776,6 @@ func (option *DeleteOption) AssignProperties_To_DeleteOption(destination *v20230
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DeleteOption_STATUS populates our DeleteOption from the provided source DeleteOption_STATUS
-func (option *DeleteOption) Initialize_From_DeleteOption_STATUS(source *DeleteOption_STATUS) error {
-
-	// AbsoluteDeleteOption
-	if source.AbsoluteDeleteOption != nil {
-		var absoluteDeleteOption AbsoluteDeleteOption
-		err := absoluteDeleteOption.Initialize_From_AbsoluteDeleteOption_STATUS(source.AbsoluteDeleteOption)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AbsoluteDeleteOption_STATUS() to populate field AbsoluteDeleteOption")
-		}
-		option.AbsoluteDeleteOption = &absoluteDeleteOption
-	} else {
-		option.AbsoluteDeleteOption = nil
 	}
 
 	// No error
@@ -4426,51 +4045,6 @@ func (context *ScheduleBasedTriggerContext) AssignProperties_To_ScheduleBasedTri
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ScheduleBasedTriggerContext_STATUS populates our ScheduleBasedTriggerContext from the provided source ScheduleBasedTriggerContext_STATUS
-func (context *ScheduleBasedTriggerContext) Initialize_From_ScheduleBasedTriggerContext_STATUS(source *ScheduleBasedTriggerContext_STATUS) error {
-
-	// ObjectType
-	if source.ObjectType != nil {
-		objectType := ScheduleBasedTriggerContext_ObjectType(*source.ObjectType)
-		context.ObjectType = &objectType
-	} else {
-		context.ObjectType = nil
-	}
-
-	// Schedule
-	if source.Schedule != nil {
-		var schedule BackupSchedule
-		err := schedule.Initialize_From_BackupSchedule_STATUS(source.Schedule)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BackupSchedule_STATUS() to populate field Schedule")
-		}
-		context.Schedule = &schedule
-	} else {
-		context.Schedule = nil
-	}
-
-	// TaggingCriteria
-	if source.TaggingCriteria != nil {
-		taggingCriterionList := make([]TaggingCriteria, len(source.TaggingCriteria))
-		for taggingCriterionIndex, taggingCriterionItem := range source.TaggingCriteria {
-			// Shadow the loop variable to avoid aliasing
-			taggingCriterionItem := taggingCriterionItem
-			var taggingCriterion TaggingCriteria
-			err := taggingCriterion.Initialize_From_TaggingCriteria_STATUS(&taggingCriterionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_TaggingCriteria_STATUS() to populate field TaggingCriteria")
-			}
-			taggingCriterionList[taggingCriterionIndex] = taggingCriterion
-		}
-		context.TaggingCriteria = taggingCriterionList
-	} else {
-		context.TaggingCriteria = nil
 	}
 
 	// No error
@@ -4780,37 +4354,6 @@ func (setting *TargetCopySetting) AssignProperties_To_TargetCopySetting(destinat
 	return nil
 }
 
-// Initialize_From_TargetCopySetting_STATUS populates our TargetCopySetting from the provided source TargetCopySetting_STATUS
-func (setting *TargetCopySetting) Initialize_From_TargetCopySetting_STATUS(source *TargetCopySetting_STATUS) error {
-
-	// CopyAfter
-	if source.CopyAfter != nil {
-		var copyAfter CopyOption
-		err := copyAfter.Initialize_From_CopyOption_STATUS(source.CopyAfter)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CopyOption_STATUS() to populate field CopyAfter")
-		}
-		setting.CopyAfter = &copyAfter
-	} else {
-		setting.CopyAfter = nil
-	}
-
-	// DataStore
-	if source.DataStore != nil {
-		var dataStore DataStoreInfoBase
-		err := dataStore.Initialize_From_DataStoreInfoBase_STATUS(source.DataStore)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DataStoreInfoBase_STATUS() to populate field DataStore")
-		}
-		setting.DataStore = &dataStore
-	} else {
-		setting.DataStore = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Target copy settings
 type TargetCopySetting_STATUS struct {
 	// CopyAfter: It can be CustomCopyOption or ImmediateCopyOption.
@@ -5033,24 +4576,6 @@ func (option *AbsoluteDeleteOption) AssignProperties_To_AbsoluteDeleteOption(des
 	return nil
 }
 
-// Initialize_From_AbsoluteDeleteOption_STATUS populates our AbsoluteDeleteOption from the provided source AbsoluteDeleteOption_STATUS
-func (option *AbsoluteDeleteOption) Initialize_From_AbsoluteDeleteOption_STATUS(source *AbsoluteDeleteOption_STATUS) error {
-
-	// Duration
-	option.Duration = genruntime.ClonePointerToString(source.Duration)
-
-	// ObjectType
-	if source.ObjectType != nil {
-		objectType := AbsoluteDeleteOption_ObjectType(*source.ObjectType)
-		option.ObjectType = &objectType
-	} else {
-		option.ObjectType = nil
-	}
-
-	// No error
-	return nil
-}
-
 type AbsoluteDeleteOption_STATUS struct {
 	// Duration: Duration of deletion after given timespan
 	Duration *string `json:"duration,omitempty"`
@@ -5232,25 +4757,6 @@ func (criteria *AdhocBasedTaggingCriteria) AssignProperties_To_AdhocBasedTagging
 	return nil
 }
 
-// Initialize_From_AdhocBasedTaggingCriteria_STATUS populates our AdhocBasedTaggingCriteria from the provided source AdhocBasedTaggingCriteria_STATUS
-func (criteria *AdhocBasedTaggingCriteria) Initialize_From_AdhocBasedTaggingCriteria_STATUS(source *AdhocBasedTaggingCriteria_STATUS) error {
-
-	// TagInfo
-	if source.TagInfo != nil {
-		var tagInfo RetentionTag
-		err := tagInfo.Initialize_From_RetentionTag_STATUS(source.TagInfo)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RetentionTag_STATUS() to populate field TagInfo")
-		}
-		criteria.TagInfo = &tagInfo
-	} else {
-		criteria.TagInfo = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Adhoc backup tagging criteria
 type AdhocBasedTaggingCriteria_STATUS struct {
 	// TagInfo: Retention tag information
@@ -5422,19 +4928,6 @@ func (schedule *BackupSchedule) AssignProperties_To_BackupSchedule(destination *
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BackupSchedule_STATUS populates our BackupSchedule from the provided source BackupSchedule_STATUS
-func (schedule *BackupSchedule) Initialize_From_BackupSchedule_STATUS(source *BackupSchedule_STATUS) error {
-
-	// RepeatingTimeIntervals
-	schedule.RepeatingTimeIntervals = genruntime.CloneSliceOfString(source.RepeatingTimeIntervals)
-
-	// TimeZone
-	schedule.TimeZone = genruntime.ClonePointerToString(source.TimeZone)
 
 	// No error
 	return nil
@@ -5703,49 +5196,6 @@ func (option *CopyOption) AssignProperties_To_CopyOption(destination *v20230101s
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CopyOption_STATUS populates our CopyOption from the provided source CopyOption_STATUS
-func (option *CopyOption) Initialize_From_CopyOption_STATUS(source *CopyOption_STATUS) error {
-
-	// CopyOnExpiry
-	if source.CopyOnExpiry != nil {
-		var copyOnExpiry CopyOnExpiryOption
-		err := copyOnExpiry.Initialize_From_CopyOnExpiryOption_STATUS(source.CopyOnExpiry)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CopyOnExpiryOption_STATUS() to populate field CopyOnExpiry")
-		}
-		option.CopyOnExpiry = &copyOnExpiry
-	} else {
-		option.CopyOnExpiry = nil
-	}
-
-	// CustomCopy
-	if source.CustomCopy != nil {
-		var customCopy CustomCopyOption
-		err := customCopy.Initialize_From_CustomCopyOption_STATUS(source.CustomCopy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CustomCopyOption_STATUS() to populate field CustomCopy")
-		}
-		option.CustomCopy = &customCopy
-	} else {
-		option.CustomCopy = nil
-	}
-
-	// ImmediateCopy
-	if source.ImmediateCopy != nil {
-		var immediateCopy ImmediateCopyOption
-		err := immediateCopy.Initialize_From_ImmediateCopyOption_STATUS(source.ImmediateCopy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ImmediateCopyOption_STATUS() to populate field ImmediateCopy")
-		}
-		option.ImmediateCopy = &immediateCopy
-	} else {
-		option.ImmediateCopy = nil
 	}
 
 	// No error
@@ -6123,54 +5573,6 @@ func (criteria *TaggingCriteria) AssignProperties_To_TaggingCriteria(destination
 	return nil
 }
 
-// Initialize_From_TaggingCriteria_STATUS populates our TaggingCriteria from the provided source TaggingCriteria_STATUS
-func (criteria *TaggingCriteria) Initialize_From_TaggingCriteria_STATUS(source *TaggingCriteria_STATUS) error {
-
-	// Criteria
-	if source.Criteria != nil {
-		criterionList := make([]BackupCriteria, len(source.Criteria))
-		for criterionIndex, criterionItem := range source.Criteria {
-			// Shadow the loop variable to avoid aliasing
-			criterionItem := criterionItem
-			var criterion BackupCriteria
-			err := criterion.Initialize_From_BackupCriteria_STATUS(&criterionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_BackupCriteria_STATUS() to populate field Criteria")
-			}
-			criterionList[criterionIndex] = criterion
-		}
-		criteria.Criteria = criterionList
-	} else {
-		criteria.Criteria = nil
-	}
-
-	// IsDefault
-	if source.IsDefault != nil {
-		isDefault := *source.IsDefault
-		criteria.IsDefault = &isDefault
-	} else {
-		criteria.IsDefault = nil
-	}
-
-	// TagInfo
-	if source.TagInfo != nil {
-		var tagInfo RetentionTag
-		err := tagInfo.Initialize_From_RetentionTag_STATUS(source.TagInfo)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RetentionTag_STATUS() to populate field TagInfo")
-		}
-		criteria.TagInfo = &tagInfo
-	} else {
-		criteria.TagInfo = nil
-	}
-
-	// TaggingPriority
-	criteria.TaggingPriority = genruntime.ClonePointerToInt(source.TaggingPriority)
-
-	// No error
-	return nil
-}
-
 // Tagging criteria
 type TaggingCriteria_STATUS struct {
 	// Criteria: Criteria which decides whether the tag can be applied to a triggered backup.
@@ -6442,25 +5844,6 @@ func (criteria *BackupCriteria) AssignProperties_To_BackupCriteria(destination *
 	return nil
 }
 
-// Initialize_From_BackupCriteria_STATUS populates our BackupCriteria from the provided source BackupCriteria_STATUS
-func (criteria *BackupCriteria) Initialize_From_BackupCriteria_STATUS(source *BackupCriteria_STATUS) error {
-
-	// ScheduleBasedBackupCriteria
-	if source.ScheduleBasedBackupCriteria != nil {
-		var scheduleBasedBackupCriterion ScheduleBasedBackupCriteria
-		err := scheduleBasedBackupCriterion.Initialize_From_ScheduleBasedBackupCriteria_STATUS(source.ScheduleBasedBackupCriteria)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ScheduleBasedBackupCriteria_STATUS() to populate field ScheduleBasedBackupCriteria")
-		}
-		criteria.ScheduleBasedBackupCriteria = &scheduleBasedBackupCriterion
-	} else {
-		criteria.ScheduleBasedBackupCriteria = nil
-	}
-
-	// No error
-	return nil
-}
-
 type BackupCriteria_STATUS struct {
 	// ScheduleBasedBackupCriteria: Mutually exclusive with all other properties
 	ScheduleBasedBackupCriteria *ScheduleBasedBackupCriteria_STATUS `json:"scheduleBasedBackupCriteria,omitempty"`
@@ -6616,21 +5999,6 @@ func (option *CopyOnExpiryOption) AssignProperties_To_CopyOnExpiryOption(destina
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CopyOnExpiryOption_STATUS populates our CopyOnExpiryOption from the provided source CopyOnExpiryOption_STATUS
-func (option *CopyOnExpiryOption) Initialize_From_CopyOnExpiryOption_STATUS(source *CopyOnExpiryOption_STATUS) error {
-
-	// ObjectType
-	if source.ObjectType != nil {
-		objectType := CopyOnExpiryOption_ObjectType(*source.ObjectType)
-		option.ObjectType = &objectType
-	} else {
-		option.ObjectType = nil
 	}
 
 	// No error
@@ -6803,24 +6171,6 @@ func (option *CustomCopyOption) AssignProperties_To_CustomCopyOption(destination
 	return nil
 }
 
-// Initialize_From_CustomCopyOption_STATUS populates our CustomCopyOption from the provided source CustomCopyOption_STATUS
-func (option *CustomCopyOption) Initialize_From_CustomCopyOption_STATUS(source *CustomCopyOption_STATUS) error {
-
-	// Duration
-	option.Duration = genruntime.ClonePointerToString(source.Duration)
-
-	// ObjectType
-	if source.ObjectType != nil {
-		objectType := CustomCopyOption_ObjectType(*source.ObjectType)
-		option.ObjectType = &objectType
-	} else {
-		option.ObjectType = nil
-	}
-
-	// No error
-	return nil
-}
-
 type CustomCopyOption_STATUS struct {
 	// Duration: Data copied after given timespan
 	Duration *string `json:"duration,omitempty"`
@@ -6981,21 +6331,6 @@ func (option *ImmediateCopyOption) AssignProperties_To_ImmediateCopyOption(desti
 	return nil
 }
 
-// Initialize_From_ImmediateCopyOption_STATUS populates our ImmediateCopyOption from the provided source ImmediateCopyOption_STATUS
-func (option *ImmediateCopyOption) Initialize_From_ImmediateCopyOption_STATUS(source *ImmediateCopyOption_STATUS) error {
-
-	// ObjectType
-	if source.ObjectType != nil {
-		objectType := ImmediateCopyOption_ObjectType(*source.ObjectType)
-		option.ObjectType = &objectType
-	} else {
-		option.ObjectType = nil
-	}
-
-	// No error
-	return nil
-}
-
 type ImmediateCopyOption_STATUS struct {
 	// ObjectType: Type of the specific object - used for deserializing
 	ObjectType *ImmediateCopyOption_ObjectType_STATUS `json:"objectType,omitempty"`
@@ -7131,16 +6466,6 @@ func (retentionTag *RetentionTag) AssignProperties_To_RetentionTag(destination *
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RetentionTag_STATUS populates our RetentionTag from the provided source RetentionTag_STATUS
-func (retentionTag *RetentionTag) Initialize_From_RetentionTag_STATUS(source *RetentionTag_STATUS) error {
-
-	// TagName
-	retentionTag.TagName = genruntime.ClonePointerToString(source.TagName)
 
 	// No error
 	return nil
@@ -7549,98 +6874,6 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_To_ScheduleBasedBa
 	return nil
 }
 
-// Initialize_From_ScheduleBasedBackupCriteria_STATUS populates our ScheduleBasedBackupCriteria from the provided source ScheduleBasedBackupCriteria_STATUS
-func (criteria *ScheduleBasedBackupCriteria) Initialize_From_ScheduleBasedBackupCriteria_STATUS(source *ScheduleBasedBackupCriteria_STATUS) error {
-
-	// AbsoluteCriteria
-	if source.AbsoluteCriteria != nil {
-		absoluteCriterionList := make([]ScheduleBasedBackupCriteria_AbsoluteCriteria, len(source.AbsoluteCriteria))
-		for absoluteCriterionIndex, absoluteCriterionItem := range source.AbsoluteCriteria {
-			// Shadow the loop variable to avoid aliasing
-			absoluteCriterionItem := absoluteCriterionItem
-			absoluteCriterion := ScheduleBasedBackupCriteria_AbsoluteCriteria(absoluteCriterionItem)
-			absoluteCriterionList[absoluteCriterionIndex] = absoluteCriterion
-		}
-		criteria.AbsoluteCriteria = absoluteCriterionList
-	} else {
-		criteria.AbsoluteCriteria = nil
-	}
-
-	// DaysOfMonth
-	if source.DaysOfMonth != nil {
-		daysOfMonthList := make([]Day, len(source.DaysOfMonth))
-		for daysOfMonthIndex, daysOfMonthItem := range source.DaysOfMonth {
-			// Shadow the loop variable to avoid aliasing
-			daysOfMonthItem := daysOfMonthItem
-			var daysOfMonth Day
-			err := daysOfMonth.Initialize_From_Day_STATUS(&daysOfMonthItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_Day_STATUS() to populate field DaysOfMonth")
-			}
-			daysOfMonthList[daysOfMonthIndex] = daysOfMonth
-		}
-		criteria.DaysOfMonth = daysOfMonthList
-	} else {
-		criteria.DaysOfMonth = nil
-	}
-
-	// DaysOfTheWeek
-	if source.DaysOfTheWeek != nil {
-		daysOfTheWeekList := make([]ScheduleBasedBackupCriteria_DaysOfTheWeek, len(source.DaysOfTheWeek))
-		for daysOfTheWeekIndex, daysOfTheWeekItem := range source.DaysOfTheWeek {
-			// Shadow the loop variable to avoid aliasing
-			daysOfTheWeekItem := daysOfTheWeekItem
-			daysOfTheWeek := ScheduleBasedBackupCriteria_DaysOfTheWeek(daysOfTheWeekItem)
-			daysOfTheWeekList[daysOfTheWeekIndex] = daysOfTheWeek
-		}
-		criteria.DaysOfTheWeek = daysOfTheWeekList
-	} else {
-		criteria.DaysOfTheWeek = nil
-	}
-
-	// MonthsOfYear
-	if source.MonthsOfYear != nil {
-		monthsOfYearList := make([]ScheduleBasedBackupCriteria_MonthsOfYear, len(source.MonthsOfYear))
-		for monthsOfYearIndex, monthsOfYearItem := range source.MonthsOfYear {
-			// Shadow the loop variable to avoid aliasing
-			monthsOfYearItem := monthsOfYearItem
-			monthsOfYear := ScheduleBasedBackupCriteria_MonthsOfYear(monthsOfYearItem)
-			monthsOfYearList[monthsOfYearIndex] = monthsOfYear
-		}
-		criteria.MonthsOfYear = monthsOfYearList
-	} else {
-		criteria.MonthsOfYear = nil
-	}
-
-	// ObjectType
-	if source.ObjectType != nil {
-		objectType := ScheduleBasedBackupCriteria_ObjectType(*source.ObjectType)
-		criteria.ObjectType = &objectType
-	} else {
-		criteria.ObjectType = nil
-	}
-
-	// ScheduleTimes
-	criteria.ScheduleTimes = genruntime.CloneSliceOfString(source.ScheduleTimes)
-
-	// WeeksOfTheMonth
-	if source.WeeksOfTheMonth != nil {
-		weeksOfTheMonthList := make([]ScheduleBasedBackupCriteria_WeeksOfTheMonth, len(source.WeeksOfTheMonth))
-		for weeksOfTheMonthIndex, weeksOfTheMonthItem := range source.WeeksOfTheMonth {
-			// Shadow the loop variable to avoid aliasing
-			weeksOfTheMonthItem := weeksOfTheMonthItem
-			weeksOfTheMonth := ScheduleBasedBackupCriteria_WeeksOfTheMonth(weeksOfTheMonthItem)
-			weeksOfTheMonthList[weeksOfTheMonthIndex] = weeksOfTheMonth
-		}
-		criteria.WeeksOfTheMonth = weeksOfTheMonthList
-	} else {
-		criteria.WeeksOfTheMonth = nil
-	}
-
-	// No error
-	return nil
-}
-
 type ScheduleBasedBackupCriteria_STATUS struct {
 	// AbsoluteCriteria: it contains absolute values like "AllBackup" / "FirstOfDay" / "FirstOfWeek" / "FirstOfMonth"
 	// and should be part of AbsoluteMarker enum
@@ -8005,24 +7238,6 @@ func (day *Day) AssignProperties_To_Day(destination *v20230101s.Day) error {
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Day_STATUS populates our Day from the provided source Day_STATUS
-func (day *Day) Initialize_From_Day_STATUS(source *Day_STATUS) error {
-
-	// Date
-	day.Date = genruntime.ClonePointerToInt(source.Date)
-
-	// IsLast
-	if source.IsLast != nil {
-		isLast := *source.IsLast
-		day.IsLast = &isLast
-	} else {
-		day.IsLast = nil
 	}
 
 	// No error

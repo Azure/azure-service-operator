@@ -49,22 +49,36 @@ var _ conversion.Convertible = &BackupVaultsBackupInstance{}
 
 // ConvertFrom populates our BackupVaultsBackupInstance from the provided hub BackupVaultsBackupInstance
 func (instance *BackupVaultsBackupInstance) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20230101s.BackupVaultsBackupInstance)
-	if !ok {
-		return fmt.Errorf("expected dataprotection/v1api20230101/storage/BackupVaultsBackupInstance but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20230101s.BackupVaultsBackupInstance
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return instance.AssignProperties_From_BackupVaultsBackupInstance(source)
+	err = instance.AssignProperties_From_BackupVaultsBackupInstance(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to instance")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub BackupVaultsBackupInstance from our BackupVaultsBackupInstance
 func (instance *BackupVaultsBackupInstance) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20230101s.BackupVaultsBackupInstance)
-	if !ok {
-		return fmt.Errorf("expected dataprotection/v1api20230101/storage/BackupVaultsBackupInstance but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20230101s.BackupVaultsBackupInstance
+	err := instance.AssignProperties_To_BackupVaultsBackupInstance(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from instance")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return instance.AssignProperties_To_BackupVaultsBackupInstance(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-dataprotection-azure-com-v1api20230101-backupvaultsbackupinstance,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dataprotection.azure.com,resources=backupvaultsbackupinstances,verbs=create;update,versions=v1api20230101,name=default.v1api20230101.backupvaultsbackupinstances.dataprotection.azure.com,admissionReviewVersions=v1
@@ -89,17 +103,6 @@ func (instance *BackupVaultsBackupInstance) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the BackupVaultsBackupInstance resource
 func (instance *BackupVaultsBackupInstance) defaultImpl() { instance.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &BackupVaultsBackupInstance{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (instance *BackupVaultsBackupInstance) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*BackupVaults_BackupInstance_STATUS); ok {
-		return instance.Spec.Initialize_From_BackupVaults_BackupInstance_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type BackupVaults_BackupInstance_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &BackupVaultsBackupInstance{}
 
@@ -541,28 +544,6 @@ func (instance *BackupVaults_BackupInstance_Spec) AssignProperties_To_BackupVaul
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BackupVaults_BackupInstance_STATUS populates our BackupVaults_BackupInstance_Spec from the provided source BackupVaults_BackupInstance_STATUS
-func (instance *BackupVaults_BackupInstance_Spec) Initialize_From_BackupVaults_BackupInstance_STATUS(source *BackupVaults_BackupInstance_STATUS) error {
-
-	// Properties
-	if source.Properties != nil {
-		var property BackupInstance
-		err := property.Initialize_From_BackupInstance_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BackupInstance_STATUS() to populate field Properties")
-		}
-		instance.Properties = &property
-	} else {
-		instance.Properties = nil
-	}
-
-	// Tags
-	instance.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1141,75 +1122,6 @@ func (instance *BackupInstance) AssignProperties_To_BackupInstance(destination *
 	return nil
 }
 
-// Initialize_From_BackupInstance_STATUS populates our BackupInstance from the provided source BackupInstance_STATUS
-func (instance *BackupInstance) Initialize_From_BackupInstance_STATUS(source *BackupInstance_STATUS) error {
-
-	// DataSourceInfo
-	if source.DataSourceInfo != nil {
-		var dataSourceInfo Datasource
-		err := dataSourceInfo.Initialize_From_Datasource_STATUS(source.DataSourceInfo)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Datasource_STATUS() to populate field DataSourceInfo")
-		}
-		instance.DataSourceInfo = &dataSourceInfo
-	} else {
-		instance.DataSourceInfo = nil
-	}
-
-	// DataSourceSetInfo
-	if source.DataSourceSetInfo != nil {
-		var dataSourceSetInfo DatasourceSet
-		err := dataSourceSetInfo.Initialize_From_DatasourceSet_STATUS(source.DataSourceSetInfo)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DatasourceSet_STATUS() to populate field DataSourceSetInfo")
-		}
-		instance.DataSourceSetInfo = &dataSourceSetInfo
-	} else {
-		instance.DataSourceSetInfo = nil
-	}
-
-	// DatasourceAuthCredentials
-	if source.DatasourceAuthCredentials != nil {
-		var datasourceAuthCredential AuthCredentials
-		err := datasourceAuthCredential.Initialize_From_AuthCredentials_STATUS(source.DatasourceAuthCredentials)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AuthCredentials_STATUS() to populate field DatasourceAuthCredentials")
-		}
-		instance.DatasourceAuthCredentials = &datasourceAuthCredential
-	} else {
-		instance.DatasourceAuthCredentials = nil
-	}
-
-	// FriendlyName
-	instance.FriendlyName = genruntime.ClonePointerToString(source.FriendlyName)
-
-	// ObjectType
-	instance.ObjectType = genruntime.ClonePointerToString(source.ObjectType)
-
-	// PolicyInfo
-	if source.PolicyInfo != nil {
-		var policyInfo PolicyInfo
-		err := policyInfo.Initialize_From_PolicyInfo_STATUS(source.PolicyInfo)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PolicyInfo_STATUS() to populate field PolicyInfo")
-		}
-		instance.PolicyInfo = &policyInfo
-	} else {
-		instance.PolicyInfo = nil
-	}
-
-	// ValidationType
-	if source.ValidationType != nil {
-		validationType := BackupInstance_ValidationType(*source.ValidationType)
-		instance.ValidationType = &validationType
-	} else {
-		instance.ValidationType = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Backup Instance
 type BackupInstance_STATUS struct {
 	// CurrentProtectionState: Specifies the current protection state of the resource
@@ -1676,25 +1588,6 @@ func (credentials *AuthCredentials) AssignProperties_To_AuthCredentials(destinat
 	return nil
 }
 
-// Initialize_From_AuthCredentials_STATUS populates our AuthCredentials from the provided source AuthCredentials_STATUS
-func (credentials *AuthCredentials) Initialize_From_AuthCredentials_STATUS(source *AuthCredentials_STATUS) error {
-
-	// SecretStoreBasedAuthCredentials
-	if source.SecretStoreBasedAuthCredentials != nil {
-		var secretStoreBasedAuthCredential SecretStoreBasedAuthCredentials
-		err := secretStoreBasedAuthCredential.Initialize_From_SecretStoreBasedAuthCredentials_STATUS(source.SecretStoreBasedAuthCredentials)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SecretStoreBasedAuthCredentials_STATUS() to populate field SecretStoreBasedAuthCredentials")
-		}
-		credentials.SecretStoreBasedAuthCredentials = &secretStoreBasedAuthCredential
-	} else {
-		credentials.SecretStoreBasedAuthCredentials = nil
-	}
-
-	// No error
-	return nil
-}
-
 type AuthCredentials_STATUS struct {
 	// SecretStoreBasedAuthCredentials: Mutually exclusive with all other properties
 	SecretStoreBasedAuthCredentials *SecretStoreBasedAuthCredentials_STATUS `json:"secretStoreBasedAuthCredentials,omitempty"`
@@ -1983,31 +1876,6 @@ func (datasource *Datasource) AssignProperties_To_Datasource(destination *v20230
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Datasource_STATUS populates our Datasource from the provided source Datasource_STATUS
-func (datasource *Datasource) Initialize_From_Datasource_STATUS(source *Datasource_STATUS) error {
-
-	// DatasourceType
-	datasource.DatasourceType = genruntime.ClonePointerToString(source.DatasourceType)
-
-	// ObjectType
-	datasource.ObjectType = genruntime.ClonePointerToString(source.ObjectType)
-
-	// ResourceLocation
-	datasource.ResourceLocation = genruntime.ClonePointerToString(source.ResourceLocation)
-
-	// ResourceName
-	datasource.ResourceName = genruntime.ClonePointerToString(source.ResourceName)
-
-	// ResourceType
-	datasource.ResourceType = genruntime.ClonePointerToString(source.ResourceType)
-
-	// ResourceUri
-	datasource.ResourceUri = genruntime.ClonePointerToString(source.ResourceUri)
 
 	// No error
 	return nil
@@ -2375,31 +2243,6 @@ func (datasourceSet *DatasourceSet) AssignProperties_To_DatasourceSet(destinatio
 	return nil
 }
 
-// Initialize_From_DatasourceSet_STATUS populates our DatasourceSet from the provided source DatasourceSet_STATUS
-func (datasourceSet *DatasourceSet) Initialize_From_DatasourceSet_STATUS(source *DatasourceSet_STATUS) error {
-
-	// DatasourceType
-	datasourceSet.DatasourceType = genruntime.ClonePointerToString(source.DatasourceType)
-
-	// ObjectType
-	datasourceSet.ObjectType = genruntime.ClonePointerToString(source.ObjectType)
-
-	// ResourceLocation
-	datasourceSet.ResourceLocation = genruntime.ClonePointerToString(source.ResourceLocation)
-
-	// ResourceName
-	datasourceSet.ResourceName = genruntime.ClonePointerToString(source.ResourceName)
-
-	// ResourceType
-	datasourceSet.ResourceType = genruntime.ClonePointerToString(source.ResourceType)
-
-	// ResourceUri
-	datasourceSet.ResourceUri = genruntime.ClonePointerToString(source.ResourceUri)
-
-	// No error
-	return nil
-}
-
 // DatasourceSet details of datasource to be backed up
 type DatasourceSet_STATUS struct {
 	// DatasourceType: DatasourceType of the resource.
@@ -2676,33 +2519,6 @@ func (info *PolicyInfo) AssignProperties_To_PolicyInfo(destination *v20230101s.P
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_PolicyInfo_STATUS populates our PolicyInfo from the provided source PolicyInfo_STATUS
-func (info *PolicyInfo) Initialize_From_PolicyInfo_STATUS(source *PolicyInfo_STATUS) error {
-
-	// PolicyParameters
-	if source.PolicyParameters != nil {
-		var policyParameter PolicyParameters
-		err := policyParameter.Initialize_From_PolicyParameters_STATUS(source.PolicyParameters)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PolicyParameters_STATUS() to populate field PolicyParameters")
-		}
-		info.PolicyParameters = &policyParameter
-	} else {
-		info.PolicyParameters = nil
-	}
-
-	// PolicyReference
-	if source.PolicyId != nil {
-		policyReference := genruntime.CreateResourceReferenceFromARMID(*source.PolicyId)
-		info.PolicyReference = &policyReference
-	} else {
-		info.PolicyReference = nil
 	}
 
 	// No error
@@ -3463,49 +3279,6 @@ func (parameters *PolicyParameters) AssignProperties_To_PolicyParameters(destina
 	return nil
 }
 
-// Initialize_From_PolicyParameters_STATUS populates our PolicyParameters from the provided source PolicyParameters_STATUS
-func (parameters *PolicyParameters) Initialize_From_PolicyParameters_STATUS(source *PolicyParameters_STATUS) error {
-
-	// BackupDatasourceParametersList
-	if source.BackupDatasourceParametersList != nil {
-		backupDatasourceParametersList := make([]BackupDatasourceParameters, len(source.BackupDatasourceParametersList))
-		for backupDatasourceParametersListIndex, backupDatasourceParametersListItem := range source.BackupDatasourceParametersList {
-			// Shadow the loop variable to avoid aliasing
-			backupDatasourceParametersListItem := backupDatasourceParametersListItem
-			var backupDatasourceParametersListLocal BackupDatasourceParameters
-			err := backupDatasourceParametersListLocal.Initialize_From_BackupDatasourceParameters_STATUS(&backupDatasourceParametersListItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_BackupDatasourceParameters_STATUS() to populate field BackupDatasourceParametersList")
-			}
-			backupDatasourceParametersList[backupDatasourceParametersListIndex] = backupDatasourceParametersListLocal
-		}
-		parameters.BackupDatasourceParametersList = backupDatasourceParametersList
-	} else {
-		parameters.BackupDatasourceParametersList = nil
-	}
-
-	// DataStoreParametersList
-	if source.DataStoreParametersList != nil {
-		dataStoreParametersList := make([]DataStoreParameters, len(source.DataStoreParametersList))
-		for dataStoreParametersListIndex, dataStoreParametersListItem := range source.DataStoreParametersList {
-			// Shadow the loop variable to avoid aliasing
-			dataStoreParametersListItem := dataStoreParametersListItem
-			var dataStoreParametersListLocal DataStoreParameters
-			err := dataStoreParametersListLocal.Initialize_From_DataStoreParameters_STATUS(&dataStoreParametersListItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_DataStoreParameters_STATUS() to populate field DataStoreParametersList")
-			}
-			dataStoreParametersList[dataStoreParametersListIndex] = dataStoreParametersListLocal
-		}
-		parameters.DataStoreParametersList = dataStoreParametersList
-	} else {
-		parameters.DataStoreParametersList = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Parameters in Policy
 type PolicyParameters_STATUS struct {
 	// BackupDatasourceParametersList: Gets or sets the Backup Data Source Parameters
@@ -3770,33 +3543,6 @@ func (credentials *SecretStoreBasedAuthCredentials) AssignProperties_To_SecretSt
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SecretStoreBasedAuthCredentials_STATUS populates our SecretStoreBasedAuthCredentials from the provided source SecretStoreBasedAuthCredentials_STATUS
-func (credentials *SecretStoreBasedAuthCredentials) Initialize_From_SecretStoreBasedAuthCredentials_STATUS(source *SecretStoreBasedAuthCredentials_STATUS) error {
-
-	// ObjectType
-	if source.ObjectType != nil {
-		objectType := SecretStoreBasedAuthCredentials_ObjectType(*source.ObjectType)
-		credentials.ObjectType = &objectType
-	} else {
-		credentials.ObjectType = nil
-	}
-
-	// SecretStoreResource
-	if source.SecretStoreResource != nil {
-		var secretStoreResource SecretStoreResource
-		err := secretStoreResource.Initialize_From_SecretStoreResource_STATUS(source.SecretStoreResource)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SecretStoreResource_STATUS() to populate field SecretStoreResource")
-		}
-		credentials.SecretStoreResource = &secretStoreResource
-	} else {
-		credentials.SecretStoreResource = nil
 	}
 
 	// No error
@@ -4259,37 +4005,6 @@ func (parameters *BackupDatasourceParameters) AssignProperties_To_BackupDatasour
 	return nil
 }
 
-// Initialize_From_BackupDatasourceParameters_STATUS populates our BackupDatasourceParameters from the provided source BackupDatasourceParameters_STATUS
-func (parameters *BackupDatasourceParameters) Initialize_From_BackupDatasourceParameters_STATUS(source *BackupDatasourceParameters_STATUS) error {
-
-	// Blob
-	if source.Blob != nil {
-		var blob BlobBackupDatasourceParameters
-		err := blob.Initialize_From_BlobBackupDatasourceParameters_STATUS(source.Blob)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BlobBackupDatasourceParameters_STATUS() to populate field Blob")
-		}
-		parameters.Blob = &blob
-	} else {
-		parameters.Blob = nil
-	}
-
-	// KubernetesCluster
-	if source.KubernetesCluster != nil {
-		var kubernetesCluster KubernetesClusterBackupDatasourceParameters
-		err := kubernetesCluster.Initialize_From_KubernetesClusterBackupDatasourceParameters_STATUS(source.KubernetesCluster)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KubernetesClusterBackupDatasourceParameters_STATUS() to populate field KubernetesCluster")
-		}
-		parameters.KubernetesCluster = &kubernetesCluster
-	} else {
-		parameters.KubernetesCluster = nil
-	}
-
-	// No error
-	return nil
-}
-
 type BackupDatasourceParameters_STATUS struct {
 	// Blob: Mutually exclusive with all other properties
 	Blob *BlobBackupDatasourceParameters_STATUS `json:"blobBackupDatasourceParameters,omitempty"`
@@ -4503,25 +4218,6 @@ func (parameters *DataStoreParameters) AssignProperties_To_DataStoreParameters(d
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DataStoreParameters_STATUS populates our DataStoreParameters from the provided source DataStoreParameters_STATUS
-func (parameters *DataStoreParameters) Initialize_From_DataStoreParameters_STATUS(source *DataStoreParameters_STATUS) error {
-
-	// AzureOperationalStoreParameters
-	if source.AzureOperationalStoreParameters != nil {
-		var azureOperationalStoreParameter AzureOperationalStoreParameters
-		err := azureOperationalStoreParameter.Initialize_From_AzureOperationalStoreParameters_STATUS(source.AzureOperationalStoreParameters)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AzureOperationalStoreParameters_STATUS() to populate field AzureOperationalStoreParameters")
-		}
-		parameters.AzureOperationalStoreParameters = &azureOperationalStoreParameter
-	} else {
-		parameters.AzureOperationalStoreParameters = nil
 	}
 
 	// No error
@@ -4811,27 +4507,6 @@ func (resource *SecretStoreResource) AssignProperties_To_SecretStoreResource(des
 	return nil
 }
 
-// Initialize_From_SecretStoreResource_STATUS populates our SecretStoreResource from the provided source SecretStoreResource_STATUS
-func (resource *SecretStoreResource) Initialize_From_SecretStoreResource_STATUS(source *SecretStoreResource_STATUS) error {
-
-	// SecretStoreType
-	if source.SecretStoreType != nil {
-		secretStoreType := SecretStoreResource_SecretStoreType(*source.SecretStoreType)
-		resource.SecretStoreType = &secretStoreType
-	} else {
-		resource.SecretStoreType = nil
-	}
-
-	// Uri
-	resource.Uri = genruntime.ClonePointerToString(source.Uri)
-
-	// Value
-	resource.Value = genruntime.ClonePointerToString(source.Value)
-
-	// No error
-	return nil
-}
-
 // Class representing a secret store resource.
 type SecretStoreResource_STATUS struct {
 	// SecretStoreType: Gets or sets the type of secret store
@@ -5064,32 +4739,6 @@ func (parameters *AzureOperationalStoreParameters) AssignProperties_To_AzureOper
 	return nil
 }
 
-// Initialize_From_AzureOperationalStoreParameters_STATUS populates our AzureOperationalStoreParameters from the provided source AzureOperationalStoreParameters_STATUS
-func (parameters *AzureOperationalStoreParameters) Initialize_From_AzureOperationalStoreParameters_STATUS(source *AzureOperationalStoreParameters_STATUS) error {
-
-	// DataStoreType
-	if source.DataStoreType != nil {
-		dataStoreType := AzureOperationalStoreParameters_DataStoreType(*source.DataStoreType)
-		parameters.DataStoreType = &dataStoreType
-	} else {
-		parameters.DataStoreType = nil
-	}
-
-	// ObjectType
-	if source.ObjectType != nil {
-		objectType := AzureOperationalStoreParameters_ObjectType(*source.ObjectType)
-		parameters.ObjectType = &objectType
-	} else {
-		parameters.ObjectType = nil
-	}
-
-	// ResourceGroupId
-	parameters.ResourceGroupId = genruntime.ClonePointerToString(source.ResourceGroupId)
-
-	// No error
-	return nil
-}
-
 type AzureOperationalStoreParameters_STATUS struct {
 	// DataStoreType: type of datastore; Operational/Vault/Archive
 	DataStoreType *AzureOperationalStoreParameters_DataStoreType_STATUS `json:"dataStoreType,omitempty"`
@@ -5289,24 +4938,6 @@ func (parameters *BlobBackupDatasourceParameters) AssignProperties_To_BlobBackup
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BlobBackupDatasourceParameters_STATUS populates our BlobBackupDatasourceParameters from the provided source BlobBackupDatasourceParameters_STATUS
-func (parameters *BlobBackupDatasourceParameters) Initialize_From_BlobBackupDatasourceParameters_STATUS(source *BlobBackupDatasourceParameters_STATUS) error {
-
-	// ContainersList
-	parameters.ContainersList = genruntime.CloneSliceOfString(source.ContainersList)
-
-	// ObjectType
-	if source.ObjectType != nil {
-		objectType := BlobBackupDatasourceParameters_ObjectType(*source.ObjectType)
-		parameters.ObjectType = &objectType
-	} else {
-		parameters.ObjectType = nil
 	}
 
 	// No error
@@ -5632,52 +5263,6 @@ func (parameters *KubernetesClusterBackupDatasourceParameters) AssignProperties_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_KubernetesClusterBackupDatasourceParameters_STATUS populates our KubernetesClusterBackupDatasourceParameters from the provided source KubernetesClusterBackupDatasourceParameters_STATUS
-func (parameters *KubernetesClusterBackupDatasourceParameters) Initialize_From_KubernetesClusterBackupDatasourceParameters_STATUS(source *KubernetesClusterBackupDatasourceParameters_STATUS) error {
-
-	// ExcludedNamespaces
-	parameters.ExcludedNamespaces = genruntime.CloneSliceOfString(source.ExcludedNamespaces)
-
-	// ExcludedResourceTypes
-	parameters.ExcludedResourceTypes = genruntime.CloneSliceOfString(source.ExcludedResourceTypes)
-
-	// IncludeClusterScopeResources
-	if source.IncludeClusterScopeResources != nil {
-		includeClusterScopeResource := *source.IncludeClusterScopeResources
-		parameters.IncludeClusterScopeResources = &includeClusterScopeResource
-	} else {
-		parameters.IncludeClusterScopeResources = nil
-	}
-
-	// IncludedNamespaces
-	parameters.IncludedNamespaces = genruntime.CloneSliceOfString(source.IncludedNamespaces)
-
-	// IncludedResourceTypes
-	parameters.IncludedResourceTypes = genruntime.CloneSliceOfString(source.IncludedResourceTypes)
-
-	// LabelSelectors
-	parameters.LabelSelectors = genruntime.CloneSliceOfString(source.LabelSelectors)
-
-	// ObjectType
-	if source.ObjectType != nil {
-		objectType := KubernetesClusterBackupDatasourceParameters_ObjectType(*source.ObjectType)
-		parameters.ObjectType = &objectType
-	} else {
-		parameters.ObjectType = nil
-	}
-
-	// SnapshotVolumes
-	if source.SnapshotVolumes != nil {
-		snapshotVolume := *source.SnapshotVolumes
-		parameters.SnapshotVolumes = &snapshotVolume
-	} else {
-		parameters.SnapshotVolumes = nil
 	}
 
 	// No error

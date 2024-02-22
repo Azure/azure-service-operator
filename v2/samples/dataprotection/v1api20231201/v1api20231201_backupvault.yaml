@@ -1,0 +1,20 @@
+apiVersion: dataprotection.azure.com/v1api20230101
+kind: BackupVault
+metadata:
+  name: aso-sample-backupvault
+  namespace: default
+spec:
+  operatorSpec:
+    configMaps:
+      principalId:
+        name: backupvault-configmap
+        key: principalId
+  location: westus2
+  owner:
+    name: aso-sample-rgx
+  identity:
+    type: SystemAssigned
+  properties:
+    storageSettings:
+      - datastoreType: VaultStore
+        type: LocallyRedundant
