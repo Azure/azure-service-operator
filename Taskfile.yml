@@ -448,6 +448,8 @@ tasks:
   controller:acr-protect-image:
     desc: Protects an existing image in ACR from being updated or deleted
     dir: "{{.CONTROLLER_ROOT}}"
+    deps:
+      - az-login
     run: always
     cmds:
       - 'if [ -z "{{.DOCKER_PUSH_TARGET}}" ]; then echo "Error: DOCKER_PUSH_TARGET must be set"; exit 1; fi'
