@@ -34,6 +34,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.2.0/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.6.0/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/</loc>
@@ -177,6 +179,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230315preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20231001/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20231102preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</loc>
   </url><url>
