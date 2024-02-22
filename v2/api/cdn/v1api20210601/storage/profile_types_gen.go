@@ -4,19 +4,18 @@
 package storage
 
 import (
+	"fmt"
+	v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=cdn.azure.com,resources=profiles,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=cdn.azure.com,resources={profiles/status,profiles/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -42,6 +41,28 @@ func (profile *Profile) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (profile *Profile) SetConditions(conditions conditions.Conditions) {
 	profile.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &Profile{}
+
+// ConvertFrom populates our Profile from the provided hub Profile
+func (profile *Profile) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v20230501s.Profile)
+	if !ok {
+		return fmt.Errorf("expected cdn/v1api20230501/storage/Profile but received %T instead", hub)
+	}
+
+	return profile.AssignProperties_From_Profile(source)
+}
+
+// ConvertTo populates the provided hub Profile from our Profile
+func (profile *Profile) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v20230501s.Profile)
+	if !ok {
+		return fmt.Errorf("expected cdn/v1api20230501/storage/Profile but received %T instead", hub)
+	}
+
+	return profile.AssignProperties_To_Profile(destination)
 }
 
 var _ genruntime.KubernetesResource = &Profile{}
@@ -115,8 +136,75 @@ func (profile *Profile) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// Hub marks that this Profile is the hub type for conversion
-func (profile *Profile) Hub() {}
+// AssignProperties_From_Profile populates our Profile from the provided source Profile
+func (profile *Profile) AssignProperties_From_Profile(source *v20230501s.Profile) error {
+
+	// ObjectMeta
+	profile.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec Profile_Spec
+	err := spec.AssignProperties_From_Profile_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_Profile_Spec() to populate field Spec")
+	}
+	profile.Spec = spec
+
+	// Status
+	var status Profile_STATUS
+	err = status.AssignProperties_From_Profile_STATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_Profile_STATUS() to populate field Status")
+	}
+	profile.Status = status
+
+	// Invoke the augmentConversionForProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Profile populates the provided destination Profile from our Profile
+func (profile *Profile) AssignProperties_To_Profile(destination *v20230501s.Profile) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *profile.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v20230501s.Profile_Spec
+	err := profile.Spec.AssignProperties_To_Profile_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_Profile_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v20230501s.Profile_STATUS
+	err = profile.Status.AssignProperties_To_Profile_STATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_Profile_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (profile *Profile) OriginalGVK() *schema.GroupVersionKind {
@@ -144,6 +232,11 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-06-01")
 
+type augmentConversionForProfile interface {
+	AssignPropertiesFrom(src *v20230501s.Profile) error
+	AssignPropertiesTo(dst *v20230501s.Profile) error
+}
+
 // Storage version of v1api20210601.Profile_Spec
 type Profile_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -167,20 +260,190 @@ var _ genruntime.ConvertibleSpec = &Profile_Spec{}
 
 // ConvertSpecFrom populates our Profile_Spec from the provided source
 func (profile *Profile_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == profile {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v20230501s.Profile_Spec)
+	if ok {
+		// Populate our instance from source
+		return profile.AssignProperties_From_Profile_Spec(src)
 	}
 
-	return source.ConvertSpecTo(profile)
+	// Convert to an intermediate form
+	src = &v20230501s.Profile_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = profile.AssignProperties_From_Profile_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our Profile_Spec
 func (profile *Profile_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == profile {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v20230501s.Profile_Spec)
+	if ok {
+		// Populate destination from our instance
+		return profile.AssignProperties_To_Profile_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(profile)
+	// Convert to an intermediate form
+	dst = &v20230501s.Profile_Spec{}
+	err := profile.AssignProperties_To_Profile_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Profile_Spec populates our Profile_Spec from the provided source Profile_Spec
+func (profile *Profile_Spec) AssignProperties_From_Profile_Spec(source *v20230501s.Profile_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	profile.AzureName = source.AzureName
+
+	// Identity
+	if source.Identity != nil {
+		propertyBag.Add("Identity", *source.Identity)
+	} else {
+		propertyBag.Remove("Identity")
+	}
+
+	// Location
+	profile.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OriginResponseTimeoutSeconds
+	profile.OriginResponseTimeoutSeconds = genruntime.ClonePointerToInt(source.OriginResponseTimeoutSeconds)
+
+	// OriginalVersion
+	profile.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		profile.Owner = &owner
+	} else {
+		profile.Owner = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku
+		err := sku.AssignProperties_From_Sku(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+		}
+		profile.Sku = &sku
+	} else {
+		profile.Sku = nil
+	}
+
+	// Tags
+	profile.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForProfile_Spec interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForProfile_Spec); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Profile_Spec populates the provided destination Profile_Spec from our Profile_Spec
+func (profile *Profile_Spec) AssignProperties_To_Profile_Spec(destination *v20230501s.Profile_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// AzureName
+	destination.AzureName = profile.AzureName
+
+	// Identity
+	if propertyBag.Contains("Identity") {
+		var identity v20230501s.ManagedServiceIdentity
+		err := propertyBag.Pull("Identity", &identity)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'Identity' from propertyBag")
+		}
+
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(profile.Location)
+
+	// OriginResponseTimeoutSeconds
+	destination.OriginResponseTimeoutSeconds = genruntime.ClonePointerToInt(profile.OriginResponseTimeoutSeconds)
+
+	// OriginalVersion
+	destination.OriginalVersion = profile.OriginalVersion
+
+	// Owner
+	if profile.Owner != nil {
+		owner := profile.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Sku
+	if profile.Sku != nil {
+		var sku v20230501s.Sku
+		err := profile.Sku.AssignProperties_To_Sku(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(profile.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForProfile_Spec interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForProfile_Spec); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20210601.Profile_STATUS
@@ -206,20 +469,264 @@ var _ genruntime.ConvertibleStatus = &Profile_STATUS{}
 
 // ConvertStatusFrom populates our Profile_STATUS from the provided source
 func (profile *Profile_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == profile {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v20230501s.Profile_STATUS)
+	if ok {
+		// Populate our instance from source
+		return profile.AssignProperties_From_Profile_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(profile)
+	// Convert to an intermediate form
+	src = &v20230501s.Profile_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = profile.AssignProperties_From_Profile_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our Profile_STATUS
 func (profile *Profile_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == profile {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v20230501s.Profile_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return profile.AssignProperties_To_Profile_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(profile)
+	// Convert to an intermediate form
+	dst = &v20230501s.Profile_STATUS{}
+	err := profile.AssignProperties_To_Profile_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Profile_STATUS populates our Profile_STATUS from the provided source Profile_STATUS
+func (profile *Profile_STATUS) AssignProperties_From_Profile_STATUS(source *v20230501s.Profile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	profile.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// ExtendedProperties
+	if len(source.ExtendedProperties) > 0 {
+		propertyBag.Add("ExtendedProperties", source.ExtendedProperties)
+	} else {
+		propertyBag.Remove("ExtendedProperties")
+	}
+
+	// FrontDoorId
+	profile.FrontDoorId = genruntime.ClonePointerToString(source.FrontDoorId)
+
+	// Id
+	profile.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Identity
+	if source.Identity != nil {
+		propertyBag.Add("Identity", *source.Identity)
+	} else {
+		propertyBag.Remove("Identity")
+	}
+
+	// Kind
+	profile.Kind = genruntime.ClonePointerToString(source.Kind)
+
+	// Location
+	profile.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	profile.Name = genruntime.ClonePointerToString(source.Name)
+
+	// OriginResponseTimeoutSeconds
+	profile.OriginResponseTimeoutSeconds = genruntime.ClonePointerToInt(source.OriginResponseTimeoutSeconds)
+
+	// ProvisioningState
+	profile.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// ResourceState
+	profile.ResourceState = genruntime.ClonePointerToString(source.ResourceState)
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku_STATUS
+		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
+		}
+		profile.Sku = &sku
+	} else {
+		profile.Sku = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		profile.SystemData = &systemDatum
+	} else {
+		profile.SystemData = nil
+	}
+
+	// Tags
+	profile.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	profile.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Profile_STATUS populates the provided destination Profile_STATUS from our Profile_STATUS
+func (profile *Profile_STATUS) AssignProperties_To_Profile_STATUS(destination *v20230501s.Profile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(profile.Conditions)
+
+	// ExtendedProperties
+	if propertyBag.Contains("ExtendedProperties") {
+		var extendedProperty map[string]string
+		err := propertyBag.Pull("ExtendedProperties", &extendedProperty)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'ExtendedProperties' from propertyBag")
+		}
+
+		destination.ExtendedProperties = extendedProperty
+	} else {
+		destination.ExtendedProperties = nil
+	}
+
+	// FrontDoorId
+	destination.FrontDoorId = genruntime.ClonePointerToString(profile.FrontDoorId)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(profile.Id)
+
+	// Identity
+	if propertyBag.Contains("Identity") {
+		var identity v20230501s.ManagedServiceIdentity_STATUS
+		err := propertyBag.Pull("Identity", &identity)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'Identity' from propertyBag")
+		}
+
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// Kind
+	destination.Kind = genruntime.ClonePointerToString(profile.Kind)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(profile.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(profile.Name)
+
+	// OriginResponseTimeoutSeconds
+	destination.OriginResponseTimeoutSeconds = genruntime.ClonePointerToInt(profile.OriginResponseTimeoutSeconds)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(profile.ProvisioningState)
+
+	// ResourceState
+	destination.ResourceState = genruntime.ClonePointerToString(profile.ResourceState)
+
+	// Sku
+	if profile.Sku != nil {
+		var sku v20230501s.Sku_STATUS
+		err := profile.Sku.AssignProperties_To_Sku_STATUS(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// SystemData
+	if profile.SystemData != nil {
+		var systemDatum v20230501s.SystemData_STATUS
+		err := profile.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(profile.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(profile.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForProfile_Spec interface {
+	AssignPropertiesFrom(src *v20230501s.Profile_Spec) error
+	AssignPropertiesTo(dst *v20230501s.Profile_Spec) error
+}
+
+type augmentConversionForProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20230501s.Profile_STATUS) error
+	AssignPropertiesTo(dst *v20230501s.Profile_STATUS) error
 }
 
 // Storage version of v1api20210601.Sku
@@ -252,6 +759,62 @@ type Sku struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_Sku populates our Sku from the provided source Sku
+func (sku *Sku) AssignProperties_From_Sku(source *v20230501s.Sku) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	sku.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		sku.PropertyBag = propertyBag
+	} else {
+		sku.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSku interface (if implemented) to customize the conversion
+	var skuAsAny any = sku
+	if augmentedSku, ok := skuAsAny.(augmentConversionForSku); ok {
+		err := augmentedSku.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Sku populates the provided destination Sku from our Sku
+func (sku *Sku) AssignProperties_To_Sku(destination *v20230501s.Sku) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(sku.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSku interface (if implemented) to customize the conversion
+	var skuAsAny any = sku
+	if augmentedSku, ok := skuAsAny.(augmentConversionForSku); ok {
+		err := augmentedSku.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210601.Sku_STATUS
 // Standard_Verizon = The SKU name for a Standard Verizon CDN profile.
 // Premium_Verizon = The SKU name for a Premium Verizon
@@ -282,6 +845,62 @@ type Sku_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_Sku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
+func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20230501s.Sku_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	sku.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		sku.PropertyBag = propertyBag
+	} else {
+		sku.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSku_STATUS interface (if implemented) to customize the conversion
+	var skuAsAny any = sku
+	if augmentedSku, ok := skuAsAny.(augmentConversionForSku_STATUS); ok {
+		err := augmentedSku.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Sku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
+func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20230501s.Sku_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(sku.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSku_STATUS interface (if implemented) to customize the conversion
+	var skuAsAny any = sku
+	if augmentedSku, ok := skuAsAny.(augmentConversionForSku_STATUS); ok {
+		err := augmentedSku.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210601.SystemData_STATUS
 // Read only system data
 type SystemData_STATUS struct {
@@ -292,6 +911,107 @@ type SystemData_STATUS struct {
 	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20230501s.SystemData_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CreatedAt
+	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
+
+	// CreatedBy
+	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
+
+	// CreatedByType
+	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
+
+	// LastModifiedAt
+	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
+
+	// LastModifiedBy
+	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
+
+	// LastModifiedByType
+	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		data.PropertyBag = propertyBag
+	} else {
+		data.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
+	var dataAsAny any = data
+	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
+		err := augmentedData.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20230501s.SystemData_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
+
+	// CreatedAt
+	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
+
+	// CreatedBy
+	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
+
+	// CreatedByType
+	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
+
+	// LastModifiedAt
+	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
+
+	// LastModifiedBy
+	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
+
+	// LastModifiedByType
+	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
+	var dataAsAny any = data
+	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
+		err := augmentedData.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForSku interface {
+	AssignPropertiesFrom(src *v20230501s.Sku) error
+	AssignPropertiesTo(dst *v20230501s.Sku) error
+}
+
+type augmentConversionForSku_STATUS interface {
+	AssignPropertiesFrom(src *v20230501s.Sku_STATUS) error
+	AssignPropertiesTo(dst *v20230501s.Sku_STATUS) error
+}
+
+type augmentConversionForSystemData_STATUS interface {
+	AssignPropertiesFrom(src *v20230501s.SystemData_STATUS) error
+	AssignPropertiesTo(dst *v20230501s.SystemData_STATUS) error
 }
 
 func init() {

@@ -349,6 +349,10 @@ type VirtualMachineScaleSets_Extension_Spec struct {
 	// reference to a compute.azure.com/VirtualMachineScaleSet resource
 	Owner *genruntime.KnownResourceReference `group:"compute.azure.com" json:"owner,omitempty" kind:"VirtualMachineScaleSet"`
 
+	// ProtectedSettings: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected
+	// settings at all.
+	ProtectedSettings *genruntime.SecretMapReference `json:"protectedSettings,omitempty"`
+
 	// ProtectedSettingsFromKeyVault: The extensions protected settings that are passed by reference, and consumed from key
 	// vault
 	ProtectedSettingsFromKeyVault *KeyVaultSecretReference `json:"protectedSettingsFromKeyVault,omitempty"`
@@ -389,6 +393,7 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) ConvertToARM(resolved g
 	if extension.AutoUpgradeMinorVersion != nil ||
 		extension.EnableAutomaticUpgrade != nil ||
 		extension.ForceUpdateTag != nil ||
+		extension.ProtectedSettings != nil ||
 		extension.ProtectedSettingsFromKeyVault != nil ||
 		extension.ProvisionAfterExtensions != nil ||
 		extension.Publisher != nil ||
@@ -409,6 +414,15 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) ConvertToARM(resolved g
 	if extension.ForceUpdateTag != nil {
 		forceUpdateTag := *extension.ForceUpdateTag
 		result.Properties.ForceUpdateTag = &forceUpdateTag
+	}
+	if extension.ProtectedSettings != nil {
+		var temp map[string]string
+		tempSecret, err := resolved.ResolvedSecretMaps.Lookup(*extension.ProtectedSettings)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property temp")
+		}
+		temp = tempSecret
+		result.Properties.ProtectedSettings = temp
 	}
 	if extension.ProtectedSettingsFromKeyVault != nil {
 		protectedSettingsFromKeyVault_ARM, err := (*extension.ProtectedSettingsFromKeyVault).ConvertToARM(resolved)
@@ -493,6 +507,8 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) PopulateFromARM(owner g
 		Name:  owner.Name,
 		ARMID: owner.ARMID,
 	}
+
+	// no assignment for property "ProtectedSettings"
 
 	// Set property "ProtectedSettingsFromKeyVault":
 	// copying flattened property:
@@ -650,6 +666,14 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) AssignProperties_From_V
 		extension.Owner = nil
 	}
 
+	// ProtectedSettings
+	if source.ProtectedSettings != nil {
+		protectedSetting := source.ProtectedSettings.Copy()
+		extension.ProtectedSettings = &protectedSetting
+	} else {
+		extension.ProtectedSettings = nil
+	}
+
 	// ProtectedSettingsFromKeyVault
 	if source.ProtectedSettingsFromKeyVault != nil {
 		var protectedSettingsFromKeyVault KeyVaultSecretReference
@@ -735,6 +759,14 @@ func (extension *VirtualMachineScaleSets_Extension_Spec) AssignProperties_To_Vir
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
+	}
+
+	// ProtectedSettings
+	if extension.ProtectedSettings != nil {
+		protectedSetting := extension.ProtectedSettings.Copy()
+		destination.ProtectedSettings = &protectedSetting
+	} else {
+		destination.ProtectedSettings = nil
 	}
 
 	// ProtectedSettingsFromKeyVault
@@ -900,10 +932,6 @@ type VirtualMachineScaleSets_Extension_STATUS struct {
 	// PropertiesType: Specifies the type of the extension; an example is "CustomScriptExtension".
 	PropertiesType *string `json:"properties_type,omitempty"`
 
-	// ProtectedSettings: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected
-	// settings at all.
-	ProtectedSettings map[string]v1.JSON `json:"protectedSettings,omitempty"`
-
 	// ProtectedSettingsFromKeyVault: The extensions protected settings that are passed by reference, and consumed from key
 	// vault
 	ProtectedSettingsFromKeyVault *KeyVaultSecretReference_STATUS `json:"protectedSettingsFromKeyVault,omitempty"`
@@ -1045,17 +1073,6 @@ func (extension *VirtualMachineScaleSets_Extension_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property "ProtectedSettings":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProtectedSettings != nil {
-			extension.ProtectedSettings = make(map[string]v1.JSON, len(typedInput.Properties.ProtectedSettings))
-			for key, value := range typedInput.Properties.ProtectedSettings {
-				extension.ProtectedSettings[key] = *value.DeepCopy()
-			}
-		}
-	}
-
 	// Set property "ProtectedSettingsFromKeyVault":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1169,19 +1186,6 @@ func (extension *VirtualMachineScaleSets_Extension_STATUS) AssignProperties_From
 	// PropertiesType
 	extension.PropertiesType = genruntime.ClonePointerToString(source.PropertiesType)
 
-	// ProtectedSettings
-	if source.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(source.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range source.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		extension.ProtectedSettings = protectedSettingMap
-	} else {
-		extension.ProtectedSettings = nil
-	}
-
 	// ProtectedSettingsFromKeyVault
 	if source.ProtectedSettingsFromKeyVault != nil {
 		var protectedSettingsFromKeyVault KeyVaultSecretReference_STATUS
@@ -1269,19 +1273,6 @@ func (extension *VirtualMachineScaleSets_Extension_STATUS) AssignProperties_To_V
 
 	// PropertiesType
 	destination.PropertiesType = genruntime.ClonePointerToString(extension.PropertiesType)
-
-	// ProtectedSettings
-	if extension.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(extension.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range extension.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		destination.ProtectedSettings = protectedSettingMap
-	} else {
-		destination.ProtectedSettings = nil
-	}
 
 	// ProtectedSettingsFromKeyVault
 	if extension.ProtectedSettingsFromKeyVault != nil {

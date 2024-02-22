@@ -576,6 +576,14 @@ func getProperties(
 			// TODO: for JSON serialization this needs to be unpacked into "parent"
 			additionalPropsType, err := scanner.RunHandlerForSchema(ctx, additionalPropSchema)
 			if err != nil {
+				// If the error is an UnknownSchemaError AND we have properties already, we skip generating
+				// the additional properties. As mentioned above, this isn't 100% following the spec, but
+				// it seems to do the right thing
+				var use *UnknownSchemaError
+				if errors.As(err, &use) && len(properties) > 0 {
+					return properties, nil
+				}
+
 				return nil, err
 			}
 

@@ -66,6 +66,9 @@ var exclusions = []string{
 	"subscription",
 	"productpolicy",
 	"productapi",
+
+	// Excluding cdn secret as it requires KV secrets
+	"secret",
 }
 
 type SamplesTester struct {

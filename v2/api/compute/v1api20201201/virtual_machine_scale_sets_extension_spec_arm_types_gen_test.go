@@ -153,6 +153,7 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionPropertie
 	gens["AutoUpgradeMinorVersion"] = gen.PtrOf(gen.Bool())
 	gens["EnableAutomaticUpgrade"] = gen.PtrOf(gen.Bool())
 	gens["ForceUpdateTag"] = gen.PtrOf(gen.AlphaString())
+	gens["ProtectedSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["ProvisionAfterExtensions"] = gen.SliceOf(gen.AlphaString())
 	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())

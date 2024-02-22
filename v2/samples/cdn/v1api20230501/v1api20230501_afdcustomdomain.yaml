@@ -1,0 +1,9 @@
+apiVersion: cdn.azure.com/v1api20230501
+kind: AfdCustomDomain
+metadata:
+  name: aso-sample-custdomain
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-cdnprofile
+  hostName: example.com

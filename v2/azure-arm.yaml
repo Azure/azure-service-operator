@@ -279,10 +279,27 @@ typeTransformers:
     because: The enum restrictions on this type are incomplete. Making this type a plain string to allow for growth of supported VM sizes without a new API version
 
   - group: compute
-    name: VirtualMachineScaleSetExtensionProperties
+    name: VirtualMachineScaleSetExtensionProperties;VirtualMachineExtensionProperties
+    property: ProtectedSettings
+    ifType:
+      map:
+        key:
+          name: string
+        value:
+          name: any
+    target:
+      map:
+        key:
+          name: string
+        value:
+          name: string
+    because: ProtectedSettings is defined as map[string]v1.JSON and it should be a marked as secret.
+
+  - group: compute
+    name: VirtualMachineScaleSetExtensionProperties_STATUS;VirtualMachineExtensionProperties_STATUS
     property: ProtectedSettings
     remove: true
-    because: This property should be marked as secret. However, we don't have an infra to support map[string]JSON secrets. See https://github.com/Azure/azure-service-operator/pull/3743#discussion_r1475110485
+    because: We don't want Protected settings on status
 
   # 
   # In the group 'dataprotection',
@@ -841,6 +858,12 @@ status:
 #     The value should be the name of the parent resource which owns the lifecycle of the
 #     sub-resource.
 #
+# $renameTo: <string>
+#     Changes the name of the property.
+#
+#     The name in the serialized ARM payload does NOT change. This only changes the name of the property
+#     in the ASO types. The shape serialized to ARM uses the original name.
+#
 objectModelConfiguration:
   apimanagement:
     2022-08-01:
@@ -1168,20 +1191,26 @@ objectModelConfiguration:
         $supportedFrom: v2.3.0
   cdn:
     2021-06-01:
+      # DeepCreatedOriginGroup actually is a resource, for some CDN SKUs it's required to be specified on the CDN endpoint
+      # while for other SKUs it seems to be optional on the endpoint (or may not be allowed to be set on the endpoint at all, I am not sure).
+      # Given the requirement at least for classic CDNs (Sku == Standard_Microsoft) to specify Origin at the Endpoint scope
+      # we can't treat this purely as a resource. Instead, I think this field is like AKS AgentPools - both embedded and not, and
+      # the author of the ASO resource must choose which makes sense for their context.
+      # This comment applies to all the "DeepCreated*" resources.
       DeepCreatedOriginGroup:
-        $isResource: false  # TODO[breaking]: This actually is a resource but we initially had it in our model so leaving it here for now
+        $isResource: false
       DeepCreatedOriginGroup_STATUS:
         $isResource: false
       DeepCreatedOriginGroupProperties:
-        $isResource: false  # TODO[breaking]: This actually is a resource but we initially had it in our model so leaving it here for now
+        $isResource: false
       DeepCreatedOriginGroupProperties_STATUS:
         $isResource: false
       DeepCreatedOrigin:
-        $isResource: false  # TODO[breaking]: This actually is a resource but we initially had it in our model so leaving it here for now
+        $isResource: false
       DeepCreatedOrigin_STATUS:
         $isResource: false
       DeepCreatedOriginProperties:
-        $isResource: false  # TODO[breaking]: This actually is a resource but we initially had it in our model so leaving it here for now
+        $isResource: false
         PrivateLinkLocation:
           $armReference: true
         PrivateLinkResourceId:
@@ -1197,6 +1226,78 @@ objectModelConfiguration:
       Profiles_Endpoint:
         $exportAs: ProfilesEndpoint
         $supportedFrom: v2.0.0-beta.1
+    2023-05-01:
+      # DeepCreatedOriginGroup actually is a resource, for some CDN SKUs it's required to be specified on the CDN endpoint
+      # while for other SKUs it seems to be optional on the endpoint (or may not be allowed to be set on the endpoint at all, I am not sure).
+      # Given the requirement at least for classic CDNs (Sku == Standard_Microsoft) to specify Origin at the Endpoint scope
+      # we can't treat this purely as a resource. Instead, I think this field is like AKS AgentPools - both embedded and not, and
+      # the author of the ASO resource must choose which makes sense for their context.
+      # This comment applies to all the "DeepCreated*" resources.
+      DeepCreatedOriginGroup:
+        $isResource: false
+      DeepCreatedOriginGroup_STATUS:
+        $isResource: false
+      DeepCreatedOriginGroupProperties:
+        $isResource: false
+      DeepCreatedOriginGroupProperties_STATUS:
+        $isResource: false
+      DeepCreatedOrigin:
+        $isResource: false
+      DeepCreatedOrigin_STATUS:
+        $isResource: false
+      DeepCreatedOriginProperties_STATUS:
+        $isResource: false
+      Profile:
+        $export: true
+        $supportedFrom: v2.6.0
+# The below resources could be exported but are part of "CDN classic".
+# This part of the CDN/AzureFrontdoor API is confusing but our understanding is that
+# the "classic" CDN is not preferred compared to AFD, so for now we aren't exporting these.
+#      Profiles_Endpoint:
+#        $exportAs: ProfilesEndpoint
+#        $supportedFrom: v2.6.0
+#      Profiles_Endpoints_OriginGroup:
+#        $exportAs: OriginGroup
+#        $supportedFrom: v2.6.0
+#      Profiles_Endpoints_Origin:
+#        $exportAs: Origin
+#        $supportedFrom: v2.6.0
+#      Profiles_Endpoints_CustomDomain:
+#        $exportAs: CustomDomain
+#        $supportedFrom: v2.6.0
+      Profiles_CustomDomain:
+        $exportAs: AfdCustomDomain
+        $supportedFrom: v2.6.0
+      Profiles_AfdEndpoint:
+        $exportAs: AfdEndpoint
+        $supportedFrom: v2.6.0
+      Profiles_OriginGroup:
+        $exportAs: AfdOriginGroup
+        $supportedFrom: v2.6.0
+      Profiles_OriginGroups_Origin:
+        $exportAs: AfdOrigin
+        $supportedFrom: v2.6.0
+      Profiles_AfdEndpoints_Route:
+        $exportAs: Route
+        $supportedFrom: v2.6.0
+      Profiles_RuleSet:
+        $exportAs: RuleSet
+        $supportedFrom: v2.6.0
+      Profiles_RuleSets_Rule:
+        $exportAs: Rule
+        $supportedFrom: v2.6.0
+      Profiles_RuleSets_Rule_Spec:
+        Conditions:
+          $renameTo: RuleConditions # Renamed to not clash with our "Conditions"
+      Profiles_RuleSets_Rule_STATUS:
+        Conditions:
+          $renameTo: RuleConditions # Renamed to not clash with our "Conditions"
+      Profiles_SecurityPolicy:
+        $exportAs: SecurityPolicy
+        $supportedFrom: v2.6.0
+      Profiles_Secret:
+        $exportAs: Secret
+        $supportedFrom: v2.6.0
   compute:
     2020-09-30:
       CreationData:
@@ -1265,6 +1366,12 @@ objectModelConfiguration:
       VirtualMachineScaleSets_Extension:
         $exportAs: VirtualMachineScaleSetsExtension
         $supportedFrom: v2.6.0
+      VirtualMachineScaleSetExtensionProperties:
+        ProtectedSettings:
+          $isSecret: true
+      VirtualMachineExtensionProperties:
+        ProtectedSettings:
+          $isSecret: true
     2021-07-01:
       Image:
         $export: true
@@ -1325,6 +1432,12 @@ objectModelConfiguration:
       VirtualMachineScaleSets_Extension:
         $exportAs: VirtualMachineScaleSetsExtension
         $supportedFrom: v2.6.0
+      VirtualMachineScaleSetExtensionProperties:
+        ProtectedSettings:
+          $isSecret: true
+      VirtualMachineExtensionProperties:
+        ProtectedSettings:
+          $isSecret: true
     2022-07-02:
       DiskEncryptionSet:
         $export: true
@@ -2426,6 +2539,11 @@ objectModelConfiguration:
       PrivateDnsZonePropertiesFormat:
         PrivateDnsZoneId:
           $armReference: true
+  network.frontdoor:
+    2022-05-01:
+      FrontDoorWebApplicationFirewallPolicy:
+        $exportAs: WebApplicationFirewallPolicy
+        $supportedFrom: v2.6.0
   operationalinsights:
     2021-06-01:
       Workspace:

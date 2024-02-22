@@ -1,0 +1,28 @@
+apiVersion: cdn.azure.com/v1api20230501
+kind: Rule
+metadata:
+  name: asosamplerule
+  namespace: default
+spec:
+  owner:
+    name: asosampleruleset
+  actions:
+  - urlRedirect:
+      name: UrlRedirect
+      parameters:
+        customHostname: microsoft.com
+        customPath: /
+        destinationProtocol: Https
+        redirectType: TemporaryRedirect
+        typeName: DeliveryRuleUrlRedirectActionParameters
+  ruleconditions:
+  - urlPath:
+      name: UrlPath
+      parameters:
+        matchValues:
+        - secure/
+        negateCondition: false
+        operator: BeginsWith
+        transforms:
+        - Lowercase
+        typeName: DeliveryRuleUrlPathMatchConditionParameters

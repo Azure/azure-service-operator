@@ -7671,6 +7671,10 @@ type VirtualMachineScaleSetExtension struct {
 	// Name: The name of the extension.
 	Name *string `json:"name,omitempty"`
 
+	// ProtectedSettings: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected
+	// settings at all.
+	ProtectedSettings *genruntime.SecretMapReference `json:"protectedSettings,omitempty"`
+
 	// ProvisionAfterExtensions: Collection of extension names after which this extension needs to be provisioned.
 	ProvisionAfterExtensions []string `json:"provisionAfterExtensions,omitempty"`
 
@@ -7706,6 +7710,7 @@ func (extension *VirtualMachineScaleSetExtension) ConvertToARM(resolved genrunti
 	if extension.AutoUpgradeMinorVersion != nil ||
 		extension.EnableAutomaticUpgrade != nil ||
 		extension.ForceUpdateTag != nil ||
+		extension.ProtectedSettings != nil ||
 		extension.ProvisionAfterExtensions != nil ||
 		extension.Publisher != nil ||
 		extension.Settings != nil ||
@@ -7724,6 +7729,15 @@ func (extension *VirtualMachineScaleSetExtension) ConvertToARM(resolved genrunti
 	if extension.ForceUpdateTag != nil {
 		forceUpdateTag := *extension.ForceUpdateTag
 		result.Properties.ForceUpdateTag = &forceUpdateTag
+	}
+	if extension.ProtectedSettings != nil {
+		var temp map[string]string
+		tempSecret, err := resolved.ResolvedSecretMaps.Lookup(*extension.ProtectedSettings)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property temp")
+		}
+		temp = tempSecret
+		result.Properties.ProtectedSettings = temp
 	}
 	for _, item := range extension.ProvisionAfterExtensions {
 		result.Properties.ProvisionAfterExtensions = append(result.Properties.ProvisionAfterExtensions, item)
@@ -7793,6 +7807,8 @@ func (extension *VirtualMachineScaleSetExtension) PopulateFromARM(owner genrunti
 		name := *typedInput.Name
 		extension.Name = &name
 	}
+
+	// no assignment for property "ProtectedSettings"
 
 	// Set property "ProvisionAfterExtensions":
 	// copying flattened property:
@@ -7869,6 +7885,14 @@ func (extension *VirtualMachineScaleSetExtension) AssignProperties_From_VirtualM
 	// Name
 	extension.Name = genruntime.ClonePointerToString(source.Name)
 
+	// ProtectedSettings
+	if source.ProtectedSettings != nil {
+		protectedSetting := source.ProtectedSettings.Copy()
+		extension.ProtectedSettings = &protectedSetting
+	} else {
+		extension.ProtectedSettings = nil
+	}
+
 	// ProvisionAfterExtensions
 	extension.ProvisionAfterExtensions = genruntime.CloneSliceOfString(source.ProvisionAfterExtensions)
 
@@ -7924,6 +7948,14 @@ func (extension *VirtualMachineScaleSetExtension) AssignProperties_To_VirtualMac
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(extension.Name)
+
+	// ProtectedSettings
+	if extension.ProtectedSettings != nil {
+		protectedSetting := extension.ProtectedSettings.Copy()
+		destination.ProtectedSettings = &protectedSetting
+	} else {
+		destination.ProtectedSettings = nil
+	}
 
 	// ProvisionAfterExtensions
 	destination.ProvisionAfterExtensions = genruntime.CloneSliceOfString(extension.ProvisionAfterExtensions)
@@ -7984,10 +8016,6 @@ type VirtualMachineScaleSetExtension_STATUS struct {
 
 	// PropertiesType: Specifies the type of the extension; an example is "CustomScriptExtension".
 	PropertiesType *string `json:"properties_type,omitempty"`
-
-	// ProtectedSettings: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected
-	// settings at all.
-	ProtectedSettings map[string]v1.JSON `json:"protectedSettings,omitempty"`
 
 	// ProvisionAfterExtensions: Collection of extension names after which this extension needs to be provisioned.
 	ProvisionAfterExtensions []string `json:"provisionAfterExtensions,omitempty"`
@@ -8067,17 +8095,6 @@ func (extension *VirtualMachineScaleSetExtension_STATUS) PopulateFromARM(owner g
 		if typedInput.Properties.Type != nil {
 			propertiesType := *typedInput.Properties.Type
 			extension.PropertiesType = &propertiesType
-		}
-	}
-
-	// Set property "ProtectedSettings":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProtectedSettings != nil {
-			extension.ProtectedSettings = make(map[string]v1.JSON, len(typedInput.Properties.ProtectedSettings))
-			for key, value := range typedInput.Properties.ProtectedSettings {
-				extension.ProtectedSettings[key] = *value.DeepCopy()
-			}
 		}
 	}
 
@@ -8168,19 +8185,6 @@ func (extension *VirtualMachineScaleSetExtension_STATUS) AssignProperties_From_V
 	// PropertiesType
 	extension.PropertiesType = genruntime.ClonePointerToString(source.PropertiesType)
 
-	// ProtectedSettings
-	if source.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(source.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range source.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		extension.ProtectedSettings = protectedSettingMap
-	} else {
-		extension.ProtectedSettings = nil
-	}
-
 	// ProvisionAfterExtensions
 	extension.ProvisionAfterExtensions = genruntime.CloneSliceOfString(source.ProvisionAfterExtensions)
 
@@ -8245,19 +8249,6 @@ func (extension *VirtualMachineScaleSetExtension_STATUS) AssignProperties_To_Vir
 
 	// PropertiesType
 	destination.PropertiesType = genruntime.ClonePointerToString(extension.PropertiesType)
-
-	// ProtectedSettings
-	if extension.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(extension.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range extension.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		destination.ProtectedSettings = protectedSettingMap
-	} else {
-		destination.ProtectedSettings = nil
-	}
 
 	// ProvisionAfterExtensions
 	destination.ProvisionAfterExtensions = genruntime.CloneSliceOfString(extension.ProvisionAfterExtensions)

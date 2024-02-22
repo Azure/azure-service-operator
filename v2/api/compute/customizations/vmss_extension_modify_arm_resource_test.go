@@ -62,10 +62,10 @@ func Test_FuzzySetExtensions(t *testing.T) {
 
 	// Note that many of these fields are readonly and will not be present on the PUT
 
-	vmssExtensions, err := getRawChildCollection(rawVMSSWithExtensions, "properties", "virtualMachineProfile", "extensionProfile", "extensions")
+	vmssExtensions, err := getRawChildCollection(rawVMSSWithExtensions, rawChildCollectionPath...)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	err = setChildCollection(vmss, vmssExtensions, "Properties", "VirtualMachineProfile", "ExtensionProfile", "Extensions")
+	err = setChildCollection(vmss, vmssExtensions, childCollectionPathARM...)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(vmss.Location).To(Equal(to.Ptr("westus")))
 	g.Expect(vmss.Properties).ToNot(BeNil())
@@ -143,10 +143,10 @@ func Test_FuzzySetVMSS_ExtensionsMerged(t *testing.T) {
 		"type": "Microsoft.Compute/virtualMachineScaleSets",
 	}
 
-	vmssExtension, err := getRawChildCollection(rawVMSSWithExtensions, "properties", "virtualMachineProfile", "extensionProfile", "extensions")
+	vmssExtension, err := getRawChildCollection(rawVMSSWithExtensions, rawChildCollectionPath...)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	err = setChildCollection(vmss, vmssExtension, "Properties", "VirtualMachineProfile", "ExtensionProfile", "Extensions")
+	err = setChildCollection(vmss, vmssExtension, childCollectionPathARM...)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(vmss.Location).To(Equal(to.Ptr("westus")))
 	g.Expect(vmss.Properties).ToNot(BeNil())

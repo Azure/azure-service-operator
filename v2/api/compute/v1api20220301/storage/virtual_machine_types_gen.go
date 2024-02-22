@@ -494,7 +494,6 @@ type VirtualMachineExtension_STATUS struct {
 	Name                          *string                                     `json:"name,omitempty"`
 	PropertiesType                *string                                     `json:"properties_type,omitempty"`
 	PropertyBag                   genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
-	ProtectedSettings             map[string]v1.JSON                          `json:"protectedSettings,omitempty"`
 	ProtectedSettingsFromKeyVault *KeyVaultSecretReference_STATUS             `json:"protectedSettingsFromKeyVault,omitempty"`
 	ProvisioningState             *string                                     `json:"provisioningState,omitempty"`
 	Publisher                     *string                                     `json:"publisher,omitempty"`

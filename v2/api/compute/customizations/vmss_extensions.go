@@ -28,6 +28,9 @@ import (
 
 var _ extensions.ErrorClassifier = &VirtualMachineScaleSetExtension{}
 
+var rawChildCollectionPath = []string{"properties", "virtualMachineProfile", "extensionProfile", "extensions"}
+var childCollectionPathARM = []string{"Properties", "VirtualMachineProfile", "ExtensionProfile", "Extensions"}
+
 // ClassifyError evaluates the provided error, returning whether it is fatal or can be retried.
 func (e *VirtualMachineScaleSetExtension) ClassifyError(
 	cloudError *genericarmclient.CloudError,
@@ -93,9 +96,9 @@ func (e *VirtualMachineScaleSetExtension) ModifyARMResource(
 		return nil, errors.Wrapf(err, "getting resource with ID: %q", resourceID)
 	}
 
-	azureExtensions, err := getRawChildCollection(raw, "properties", "virtualMachineProfile", "extensionProfile", "azureExtensions")
+	azureExtensions, err := getRawChildCollection(raw, rawChildCollectionPath...)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to get azureExtensions")
+		return nil, errors.Wrapf(err, "failed to get VMSS Extensions")
 	}
 
 	// If the child collection is not defined, We return the arm object as is here.
@@ -104,11 +107,11 @@ func (e *VirtualMachineScaleSetExtension) ModifyARMResource(
 		return armObj, nil
 	}
 
-	log.V(Info).Info("Found azureExtensions to include on VMSS", "count", len(azureExtensions), "names", genruntime.RawNames(azureExtensions))
+	log.V(Info).Info("Found Extensions to include on VMSS", "count", len(azureExtensions), "names", genruntime.RawNames(azureExtensions))
 
-	err = setChildCollection(armObj.Spec(), azureExtensions, "Properties", "VirtualMachineProfile", "ExtensionProfile", "Extensions")
+	err = setChildCollection(armObj.Spec(), azureExtensions, childCollectionPathARM...)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to set azureExtensions")
+		return nil, errors.Wrapf(err, "failed to set VMSS Extensions")
 	}
 
 	return armObj, nil

@@ -56,7 +56,7 @@ type VirtualMachineExtensionProperties_ARM struct {
 
 	// ProtectedSettings: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected
 	// settings at all.
-	ProtectedSettings map[string]v1.JSON `json:"protectedSettings,omitempty"`
+	ProtectedSettings map[string]string `json:"protectedSettings,omitempty"`
 
 	// Publisher: The name of the extension handler publisher.
 	Publisher *string `json:"publisher,omitempty"`
