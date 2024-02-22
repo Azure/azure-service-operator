@@ -62,7 +62,18 @@ jobs:
         run: |
           container_id=${{env.container_id}}
           docker exec -e DOCKER_PUSH_TARGET "$container_id" task controller:docker-push-multiarch
-          docker exec -e DOCKER_PUSH_TARGET -e DOCKER_REGISTRY "$container_id" task controller:acr-protect-image
         env:
           DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PUBLIC }}
           DOCKER_REGISTRY: ${{ secrets.REGISTRY_LOGIN }}
+
+      - name: Protect image
+        run: |
+          container_id=${{env.container_id}}
+          docker exec -e DOCKER_PUSH_TARGET -e DOCKER_REGISTRY -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "$container_id" task controller:acr-protect-image
+        env:
+          DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PUBLIC }}
+          DOCKER_REGISTRY: ${{ secrets.REGISTRY_LOGIN }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
