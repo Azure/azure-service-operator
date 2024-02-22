@@ -33,7 +33,7 @@ vars:
     sh: "{{.SCRIPTS_ROOT}}/build_version.py v2"
 
   LATEST_VERSION_TAG:
-    sh: git describe --tags $(git rev-list --tags=v2* --max-count=1)
+    sh: git describe --tags $(git rev-list --tags="v2*" --max-count=1)
 
   VERSION_FLAGS: '"-X {{.PACKAGE}}/internal/version.BuildVersion={{.VERSION}}"'
   LDFLAGS: -ldflags {{.VERSION_FLAGS}}
