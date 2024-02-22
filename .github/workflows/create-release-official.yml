@@ -21,6 +21,9 @@ jobs:
           fetch-depth: 0 # required to access tags
           submodules: "true"
 
+      - name: Force docker to SSD
+        run: sudo scripts/v2/linux-docker-use-ssd.sh --containerd true
+
       - name: Build & run devcontainer image
         # this always builds a new image from scratch rather than from the build-devcontainer-image workflow output
         # so that we pick up the latest versions of everything
