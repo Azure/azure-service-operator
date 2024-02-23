@@ -267,6 +267,11 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 
 	objectKey := client.ObjectKeyFromObject(&backupInstance)
 
+	// Assertions and Expectations
+	tc.Expect(backupInstance.Status.Id).ToNot(BeNil())
+	tc.Expect(backupInstance.Status.Properties.FriendlyName).To(BeEquivalentTo(to.Ptr(biName)))
+	tc.Expect(backupInstance.Status.Properties.ProvisioningState).To(BeEquivalentTo(to.Ptr("Succeeded")))
+
 	// Ensure state got updated in Azure.
 	tc.Eventually(func() string {
 		var updated dataprotection.BackupVaultsBackupInstance
@@ -274,11 +279,6 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		protectionStatus := *updated.Status.Properties.ProtectionStatus.Status
 		return strings.ToLower(protectionStatus)
 	}).Should(Equal(string("protectionconfigured"))) // This is the expected value
-
-	// Assertions and Expectations
-	tc.Expect(backupInstance.Status.Id).ToNot(BeNil())
-	tc.Expect(backupInstance.Status.Properties.FriendlyName).To(BeEquivalentTo(to.Ptr(biName)))
-	tc.Expect(backupInstance.Status.Properties.ProvisioningState).To(BeEquivalentTo(to.Ptr("Succeeded")))
 
 	// Note:
 	// Patch Operations are currently not allowed on BackupInstance currently
