@@ -11,8 +11,8 @@ Our current release plan:
 | Version | Estimated Release |
 | ------- | -----------------:|
 | [2.7.0](https://github.com/Azure/azure-service-operator/issues?q=is%3Aopen+is%3Aissue+milestone%3Av2.7.0) | Mid April 2024 |
-| 2.8.0 | Mid June 2024 |
-| 2.9.0 | Mid August 2024 |
+| [2.8.0](https://github.com/Azure/azure-service-operator/issues?q=is%3Aopen+is%3Aissue+milestone%3Av2.8.0) | Mid June 2024 |
+| [2.9.0](https://github.com/Azure/azure-service-operator/issues?q=is%3Aopen+is%3Aissue+milestone%3Av2.9.0) | Mid August 2024 |
 | 2.10.0 | Mid October 2024 |
 
 Where linked, versions go to a list of feature and bugs that are planned to be included in that release.
