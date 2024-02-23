@@ -7,22 +7,20 @@ package controllers_test
 
 import (
 	"fmt"
-	"testing"
-	// The gomega package is used for assertions and expectations in tests.
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	. "github.com/onsi/gomega"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"strings"
+	"testing"
 
-	// The dataprotection package contains types and functions related to dataprotection resources.
 	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
 	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
 	akscluster "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
-	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api202301201"
+	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231201"
 	kubernetesconfiguration "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20230101"
-	// The testcommon package includes common testing utilities.
-	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	// The to package includes utilities for converting values to pointers.
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
@@ -266,6 +264,16 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 
 	tc.CreateResourcesAndWait(cluster, acct, blobService, blobContainer, backupVault, backupPolicy, extension,
 		trustedAccessRoleBinding, extenstionRoleAssignment, clusterRoleAssignment, clusterMSIRoleAssignment, snapshotRGRoleAssignment, backupInstance)
+
+	objectKey := client.ObjectKeyFromObject(&backupInstance)
+
+	// Ensure state got updated in Azure.
+	tc.Eventually(func() string {
+		var updated dataprotection.BackupVaultsBackupInstance
+		tc.GetResource(objectKey, &updated)
+		protectionStatus := *updated.Status.Properties.ProtectionStatus.Status
+		return strings.ToLower(protectionStatus)
+	}).Should(Equal(string("protectionconfigured"))) // This is the expected value
 
 	// Assertions and Expectations
 	tc.Expect(backupInstance.Status.Id).ToNot(BeNil())
