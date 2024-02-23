@@ -27,6 +27,10 @@ For background information, check out [this Cognitect blog entry](https://www.co
 
 ADR documents should be updated over time to keep them relevant, typically by updating the *Experience Report* section.
 
+## 2024
+
+[**Upstream Deletion**]({{< relref "ADR-2024-02-Upstream-Deletion" >}}) - when might deletion of an upstream resource occur and how will the ASO project handle it.
+
 ## 2023
 
 [**Adoption Policy**]({{< relref "ADR-2023-02-Adoption-Policy" >}}) - Understand the policy for adopting pre-existing Azure resources in Kubernetes through the Azure Service Operator, including the principles guiding resource adoption and the user's ability to control operator actions.
