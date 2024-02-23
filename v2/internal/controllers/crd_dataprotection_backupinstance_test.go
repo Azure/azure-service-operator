@@ -261,8 +261,10 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourcesAndWait(cluster, acct, blobService, blobContainer, backupVault, backupPolicy, extension,
-		trustedAccessRoleBinding, extenstionRoleAssignment, clusterRoleAssignment, clusterMSIRoleAssignment, snapshotRGRoleAssignment, backupInstance)
+	// tc.CreateResourcesAndWait(cluster, acct, blobService, blobContainer, backupVault, backupPolicy, extension,
+	//	trustedAccessRoleBinding, extenstionRoleAssignment, clusterRoleAssignment, clusterMSIRoleAssignment, snapshotRGRoleAssignment, backupInstance)
+
+	tc.CreateResourcesAndWait(cluster)
 
 	objectKey := client.ObjectKeyFromObject(backupInstance)
 
