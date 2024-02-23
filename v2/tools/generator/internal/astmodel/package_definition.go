@@ -20,11 +20,12 @@ import (
 
 // PackageDefinition is the definition of a package
 type PackageDefinition struct {
-	PackageName string            // Name  of the package
-	GroupName   string            // Group to which the package belongs
-	Version     string            // Kubernetes version of this package
-	Path        string            // relative Path to the package
-	definitions TypeDefinitionSet // set of definitions in this package
+	PackageName string                   // Name  of the package
+	GroupName   string                   // Group to which the package belongs
+	Version     string                   // Kubernetes version of this package
+	Path        string                   // relative Path to the package
+	definitions TypeDefinitionSet        // set of definitions in this package
+	ref         InternalPackageReference // Internal package reference used to reference this package
 }
 
 // NewPackageDefinition constructs a new package definition
@@ -34,6 +35,7 @@ func NewPackageDefinition(ref InternalPackageReference) *PackageDefinition {
 		GroupName:   ref.Group(),
 		Path:        ref.FolderPath(),
 		definitions: make(TypeDefinitionSet),
+		ref:         ref,
 	}
 
 	result.Version = result.createVersion(ref)
@@ -71,18 +73,29 @@ func (p *PackageDefinition) EmitDefinitions(
 		return 0, err
 	}
 
-	// Check if current package contains resources
-	if resources := FindResourceDefinitions(p.definitions); len(resources) > 0 {
+	packageContainsResources := p.containsResources()
+	isStoragePackage := IsStoragePackageReference(p.ref)
+	isCompatPackage := IsCompatPackageReference(p.ref)
 
-		// If package contains resources, then we generate GroupVersion file for the package
-		err = emitGroupVersionFile(p, outputDir)
+	// Check if current package contains resources
+	if packageContainsResources {
+		// generate GroupVersion file for the package
+		err = p.emitGroupVersionFile(outputDir)
 		if err != nil {
 			return 0, err
 		}
+	} else if isCompatPackage {
+		// If it is a compat package, then we generate a stub GroupVersion file
+		err = p.emitGroupVersionStub(outputDir)
+		if err != nil {
+			return 0, err
+		}
+	}
 
+	if emitDocFiles && packageContainsResources && !isStoragePackage {
 		// If emitDocFiles is true from config and is not Storage package, then we generate doc file for the package
-		if !strings.HasSuffix(p.PackageName, StoragePackageSuffix) && emitDocFiles {
-			if err = emitDocFile(p, outputDir); err != nil {
+		if !strings.HasSuffix(p.PackageName, StoragePackageName) && emitDocFiles {
+			if err = p.emitDocFile(outputDir); err != nil {
 				return 0, err
 			}
 		}
