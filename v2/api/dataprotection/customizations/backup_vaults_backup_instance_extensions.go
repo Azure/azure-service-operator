@@ -10,11 +10,12 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	armdataprotection "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dataprotection/armdataprotection"
+	armdataprotection "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dataprotection/armdataprotection/v3"
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231201/storage"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -87,15 +88,24 @@ func (ext *BackupVaultsBackupInstanceExtension) PreReconcileCheck(
 
 			fmt.Sprintf("########################## Starting NewBackupInstancesClient for Backup Instance ##########################")
 
-			var dataProtectionClient *armdataprotection.BackupInstancesClient
-			dataProtectionClient, err = dataProtectionClient.NewBackupInstancesClient(subscription, armClient.Creds(), armClient.ClientOptions())
+			clientFactory, err := armdataprotection.NewClientFactory(subscription, armClient.Creds(), armClient.ClientOptions())
 
-			var parameters *armdataprotection.SyncBackupInstanceRequest
-			parameters.SyncType = armdataprotection.SyncType.SyncTypeDefault
+			if err != nil {
+				log.Error(err, "failed to create client")
+			}
+
+			var parameters armdataprotection.SyncBackupInstanceRequest
+			parameters.SyncType = to.Ptr(armdataprotection.SyncTypeDefault)
 
 			fmt.Sprintf("########################## Starting BeginSyncBackupInstance for Backup Instance ##########################")
 
-			dataProtectionClient.BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters)
+			poller, err := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, nil)
+
+			_, err = poller.PollUntilDone(ctx, nil)
+
+			if err != nil {
+				log.Error(err, "failed to pull the result")
+			}
 
 			fmt.Sprintf("########################## Ending reconcilation for Backup Instance ##########################")
 		}

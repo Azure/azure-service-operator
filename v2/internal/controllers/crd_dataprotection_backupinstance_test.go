@@ -12,7 +12,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"strings"
 	"testing"
 
 	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
@@ -265,7 +264,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	tc.CreateResourcesAndWait(cluster, acct, blobService, blobContainer, backupVault, backupPolicy, extension,
 		trustedAccessRoleBinding, extenstionRoleAssignment, clusterRoleAssignment, clusterMSIRoleAssignment, snapshotRGRoleAssignment, backupInstance)
 
-	objectKey := client.ObjectKeyFromObject(&backupInstance)
+	objectKey := client.ObjectKeyFromObject(backupInstance)
 
 	// Assertions and Expectations
 	tc.Expect(backupInstance.Status.Id).ToNot(BeNil())
@@ -273,12 +272,11 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	tc.Expect(backupInstance.Status.Properties.ProvisioningState).To(BeEquivalentTo(to.Ptr("Succeeded")))
 
 	// Ensure state got updated in Azure.
-	tc.Eventually(func() string {
+	tc.Eventually(func() *dataprotection.ProtectionStatusDetails_Status_STATUS {
 		var updated dataprotection.BackupVaultsBackupInstance
 		tc.GetResource(objectKey, &updated)
-		protectionStatus := *updated.Status.Properties.ProtectionStatus.Status
-		return strings.ToLower(protectionStatus)
-	}).Should(Equal(string("protectionconfigured"))) // This is the expected value
+		return updated.Status.Properties.ProtectionStatus.Status
+	}).Should(Equal(to.Ptr(dataprotection.ProtectionStatusDetails_Status_STATUS_ProtectionConfigured))) // This is the expected value
 
 	// Note:
 	// Patch Operations are currently not allowed on BackupInstance currently
