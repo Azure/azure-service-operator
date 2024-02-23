@@ -40,6 +40,8 @@ func (ext *BackupVaultsBackupInstanceExtension) PreReconcileCheck(
 	// if the hub storage version changes.
 	backupInstance, ok := obj.(*dataprotection.BackupVaultsBackupInstance)
 
+	fmt.Sprintf("########################## Starting reconcilation for Backup Instance ##########################")
+
 	if !ok {
 		return extensions.PreReconcileCheckResult{},
 			errors.Errorf("cannot run on unknown resource type %T, expected *dataprotection.BackupVaultsBackupInstance", obj)
@@ -83,13 +85,19 @@ func (ext *BackupVaultsBackupInstanceExtension) PreReconcileCheck(
 			rg := id.ResourceGroupName
 			vaultName := id.Parent.Name
 
+			fmt.Sprintf("########################## Starting NewBackupInstancesClient for Backup Instance ##########################")
+
 			var dataProtectionClient *armdataprotection.BackupInstancesClient
 			dataProtectionClient, err = dataProtectionClient.NewBackupInstancesClient(subscription, armClient.Creds(), armClient.ClientOptions())
 
 			var parameters *armdataprotection.SyncBackupInstanceRequest
 			parameters.SyncType = armdataprotection.SyncType.SyncTypeDefault
 
+			fmt.Sprintf("########################## Starting BeginSyncBackupInstance for Backup Instance ##########################")
+
 			dataProtectionClient.BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters)
+
+			fmt.Sprintf("########################## Ending reconcilation for Backup Instance ##########################")
 		}
 	}
 
