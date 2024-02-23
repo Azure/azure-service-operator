@@ -101,225 +101,6 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/stor
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Tags: map[string]string
 │       └── Type: *string
-├── BackupVaultsBackupInstance: Resource
-│   ├── Owner: dataprotection/v1api20230101.BackupVault
-│   ├── Spec: Object (6 properties)
-│   │   ├── AzureName: string
-│   │   ├── OriginalVersion: string
-│   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Properties: *Object (8 properties)
-│   │   │   ├── DataSourceInfo: *Object (8 properties)
-│   │   │   │   ├── DatasourceType: *string
-│   │   │   │   ├── ObjectType: *string
-│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   ├── ResourceLocation: *string
-│   │   │   │   ├── ResourceName: *string
-│   │   │   │   ├── ResourceReference: *genruntime.ResourceReference
-│   │   │   │   ├── ResourceType: *string
-│   │   │   │   └── ResourceUri: *string
-│   │   │   ├── DataSourceSetInfo: *Object (8 properties)
-│   │   │   │   ├── DatasourceType: *string
-│   │   │   │   ├── ObjectType: *string
-│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   ├── ResourceLocation: *string
-│   │   │   │   ├── ResourceName: *string
-│   │   │   │   ├── ResourceReference: *genruntime.ResourceReference
-│   │   │   │   ├── ResourceType: *string
-│   │   │   │   └── ResourceUri: *string
-│   │   │   ├── DatasourceAuthCredentials: *Object (2 properties)
-│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   └── SecretStoreBasedAuthCredentials: *Object (3 properties)
-│   │   │   │       ├── ObjectType: *string
-│   │   │   │       ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │       └── SecretStoreResource: *Object (4 properties)
-│   │   │   │           ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │           ├── SecretStoreType: *string
-│   │   │   │           ├── Uri: *string
-│   │   │   │           └── Value: *string
-│   │   │   ├── FriendlyName: *string
-│   │   │   ├── ObjectType: *string
-│   │   │   ├── PolicyInfo: *Object (3 properties)
-│   │   │   │   ├── PolicyParameters: *Object (3 properties)
-│   │   │   │   │   ├── BackupDatasourceParametersList: Object (3 properties)[]
-│   │   │   │   │   │   ├── Blob: *Object (3 properties)
-│   │   │   │   │   │   │   ├── ContainersList: string[]
-│   │   │   │   │   │   │   ├── ObjectType: *string
-│   │   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │   ├── KubernetesCluster: *Object (9 properties)
-│   │   │   │   │   │   │   ├── ExcludedNamespaces: string[]
-│   │   │   │   │   │   │   ├── ExcludedResourceTypes: string[]
-│   │   │   │   │   │   │   ├── IncludeClusterScopeResources: *bool
-│   │   │   │   │   │   │   ├── IncludedNamespaces: string[]
-│   │   │   │   │   │   │   ├── IncludedResourceTypes: string[]
-│   │   │   │   │   │   │   ├── LabelSelectors: string[]
-│   │   │   │   │   │   │   ├── ObjectType: *string
-│   │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │   │   └── SnapshotVolumes: *bool
-│   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── DataStoreParametersList: Object (2 properties)[]
-│   │   │   │   │   │   ├── AzureOperationalStoreParameters: *Object (4 properties)
-│   │   │   │   │   │   │   ├── DataStoreType: *string
-│   │   │   │   │   │   │   ├── ObjectType: *string
-│   │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │   │   └── ResourceGroupId: *string
-│   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   ├── PolicyReference: *genruntime.ResourceReference
-│   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── ValidationType: *string
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: map[string]string
-│   └── Status: Object (8 properties)
-│       ├── Conditions: conditions.Condition[]
-│       ├── Id: *string
-│       ├── Name: *string
-│       ├── Properties: *Object (12 properties)
-│       │   ├── CurrentProtectionState: *string
-│       │   ├── DataSourceInfo: *Object (8 properties)
-│       │   │   ├── DatasourceType: *string
-│       │   │   ├── ObjectType: *string
-│       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── ResourceID: *string
-│       │   │   ├── ResourceLocation: *string
-│       │   │   ├── ResourceName: *string
-│       │   │   ├── ResourceType: *string
-│       │   │   └── ResourceUri: *string
-│       │   ├── DataSourceSetInfo: *Object (8 properties)
-│       │   │   ├── DatasourceType: *string
-│       │   │   ├── ObjectType: *string
-│       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── ResourceID: *string
-│       │   │   ├── ResourceLocation: *string
-│       │   │   ├── ResourceName: *string
-│       │   │   ├── ResourceType: *string
-│       │   │   └── ResourceUri: *string
-│       │   ├── DatasourceAuthCredentials: *Object (2 properties)
-│       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   └── SecretStoreBasedAuthCredentials: *Object (3 properties)
-│       │   │       ├── ObjectType: *string
-│       │   │       ├── PropertyBag: genruntime.PropertyBag
-│       │   │       └── SecretStoreResource: *Object (4 properties)
-│       │   │           ├── PropertyBag: genruntime.PropertyBag
-│       │   │           ├── SecretStoreType: *string
-│       │   │           ├── Uri: *string
-│       │   │           └── Value: *string
-│       │   ├── FriendlyName: *string
-│       │   ├── ObjectType: *string
-│       │   ├── PolicyInfo: *Object (4 properties)
-│       │   │   ├── PolicyId: *string
-│       │   │   ├── PolicyParameters: *Object (3 properties)
-│       │   │   │   ├── BackupDatasourceParametersList: Object (3 properties)[]
-│       │   │   │   │   ├── Blob: *Object (3 properties)
-│       │   │   │   │   │   ├── ContainersList: string[]
-│       │   │   │   │   │   ├── ObjectType: *string
-│       │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   │   │   ├── KubernetesCluster: *Object (9 properties)
-│       │   │   │   │   │   ├── ExcludedNamespaces: string[]
-│       │   │   │   │   │   ├── ExcludedResourceTypes: string[]
-│       │   │   │   │   │   ├── IncludeClusterScopeResources: *bool
-│       │   │   │   │   │   ├── IncludedNamespaces: string[]
-│       │   │   │   │   │   ├── IncludedResourceTypes: string[]
-│       │   │   │   │   │   ├── LabelSelectors: string[]
-│       │   │   │   │   │   ├── ObjectType: *string
-│       │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   │   │   └── SnapshotVolumes: *bool
-│       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   │   ├── DataStoreParametersList: Object (2 properties)[]
-│       │   │   │   │   ├── AzureOperationalStoreParameters: *Object (4 properties)
-│       │   │   │   │   │   ├── DataStoreType: *string
-│       │   │   │   │   │   ├── ObjectType: *string
-│       │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   │   │   └── ResourceGroupId: *string
-│       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── PolicyVersion: *string
-│       │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── ProtectionErrorDetails: *Object (10 properties)
-│       │   │   ├── Code: *string
-│       │   │   ├── Details: Object (9 properties)[]
-│       │   │   │   ├── Code: *string
-│       │   │   │   ├── InnerError: *Object (4 properties)
-│       │   │   │   │   ├── AdditionalInfo: map[string]string
-│       │   │   │   │   ├── Code: *string
-│       │   │   │   │   ├── EmbeddedInnerError: *Object (3 properties)
-│       │   │   │   │   │   ├── AdditionalInfo: map[string]string
-│       │   │   │   │   │   ├── Code: *string
-│       │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   │   ├── IsRetryable: *bool
-│       │   │   │   ├── IsUserError: *bool
-│       │   │   │   ├── Message: *string
-│       │   │   │   ├── Properties: map[string]string
-│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   ├── RecommendedAction: string[]
-│       │   │   │   └── Target: *string
-│       │   │   ├── InnerError: *Object (4 properties)
-│       │   │   │   ├── AdditionalInfo: map[string]string
-│       │   │   │   ├── Code: *string
-│       │   │   │   ├── EmbeddedInnerError: *Object (3 properties)
-│       │   │   │   │   ├── AdditionalInfo: map[string]string
-│       │   │   │   │   ├── Code: *string
-│       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── IsRetryable: *bool
-│       │   │   ├── IsUserError: *bool
-│       │   │   ├── Message: *string
-│       │   │   ├── Properties: map[string]string
-│       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── RecommendedAction: string[]
-│       │   │   └── Target: *string
-│       │   ├── ProtectionStatus: *Object (3 properties)
-│       │   │   ├── ErrorDetails: *Object (10 properties)
-│       │   │   │   ├── Code: *string
-│       │   │   │   ├── Details: Object (9 properties)[]
-│       │   │   │   │   ├── Code: *string
-│       │   │   │   │   ├── InnerError: *Object (4 properties)
-│       │   │   │   │   │   ├── AdditionalInfo: map[string]string
-│       │   │   │   │   │   ├── Code: *string
-│       │   │   │   │   │   ├── EmbeddedInnerError: *Object (3 properties)
-│       │   │   │   │   │   │   ├── AdditionalInfo: map[string]string
-│       │   │   │   │   │   │   ├── Code: *string
-│       │   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   │   │   ├── IsRetryable: *bool
-│       │   │   │   │   ├── IsUserError: *bool
-│       │   │   │   │   ├── Message: *string
-│       │   │   │   │   ├── Properties: map[string]string
-│       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   │   ├── RecommendedAction: string[]
-│       │   │   │   │   └── Target: *string
-│       │   │   │   ├── InnerError: *Object (4 properties)
-│       │   │   │   │   ├── AdditionalInfo: map[string]string
-│       │   │   │   │   ├── Code: *string
-│       │   │   │   │   ├── EmbeddedInnerError: *Object (3 properties)
-│       │   │   │   │   │   ├── AdditionalInfo: map[string]string
-│       │   │   │   │   │   ├── Code: *string
-│       │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   │   ├── IsRetryable: *bool
-│       │   │   │   ├── IsUserError: *bool
-│       │   │   │   ├── Message: *string
-│       │   │   │   ├── Properties: map[string]string
-│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   ├── RecommendedAction: string[]
-│       │   │   │   └── Target: *string
-│       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   └── Status: *string
-│       │   ├── ProvisioningState: *string
-│       │   └── ValidationType: *string
-│       ├── PropertyBag: genruntime.PropertyBag
-│       ├── SystemData: *Object (7 properties)
-│       │   ├── CreatedAt: *string
-│       │   ├── CreatedBy: *string
-│       │   ├── CreatedByType: *string
-│       │   ├── LastModifiedAt: *string
-│       │   ├── LastModifiedBy: *string
-│       │   ├── LastModifiedByType: *string
-│       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Tags: map[string]string
-│       └── Type: *string
 ├── BackupVaultsBackupPolicy: Resource
 │   ├── Owner: dataprotection/v1api20230101.BackupVault
 │   ├── Spec: Object (5 properties)
@@ -541,24 +322,16 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/stor
 ├── augmentConversionForAdhocBasedTaggingCriteria_STATUS: Interface
 ├── augmentConversionForAdhocBasedTriggerContext: Interface
 ├── augmentConversionForAdhocBasedTriggerContext_STATUS: Interface
-├── augmentConversionForAuthCredentials: Interface
-├── augmentConversionForAuthCredentials_STATUS: Interface
 ├── augmentConversionForAzureBackupParams: Interface
 ├── augmentConversionForAzureBackupParams_STATUS: Interface
 ├── augmentConversionForAzureBackupRule: Interface
 ├── augmentConversionForAzureBackupRule_STATUS: Interface
 ├── augmentConversionForAzureMonitorAlertSettings: Interface
 ├── augmentConversionForAzureMonitorAlertSettings_STATUS: Interface
-├── augmentConversionForAzureOperationalStoreParameters: Interface
-├── augmentConversionForAzureOperationalStoreParameters_STATUS: Interface
 ├── augmentConversionForAzureRetentionRule: Interface
 ├── augmentConversionForAzureRetentionRule_STATUS: Interface
 ├── augmentConversionForBackupCriteria: Interface
 ├── augmentConversionForBackupCriteria_STATUS: Interface
-├── augmentConversionForBackupDatasourceParameters: Interface
-├── augmentConversionForBackupDatasourceParameters_STATUS: Interface
-├── augmentConversionForBackupInstance: Interface
-├── augmentConversionForBackupInstance_STATUS: Interface
 ├── augmentConversionForBackupParameters: Interface
 ├── augmentConversionForBackupParameters_STATUS: Interface
 ├── augmentConversionForBackupPolicy: Interface
@@ -572,18 +345,13 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/stor
 ├── augmentConversionForBackupVaultSpec: Interface
 ├── augmentConversionForBackupVault_STATUS: Interface
 ├── augmentConversionForBackupVault_Spec: Interface
-├── augmentConversionForBackupVaultsBackupInstance: Interface
 ├── augmentConversionForBackupVaultsBackupPolicy: Interface
-├── augmentConversionForBackupVaults_BackupInstance_STATUS: Interface
-├── augmentConversionForBackupVaults_BackupInstance_Spec: Interface
 ├── augmentConversionForBackupVaults_BackupPolicy_STATUS: Interface
 ├── augmentConversionForBackupVaults_BackupPolicy_Spec: Interface
 ├── augmentConversionForBaseBackupPolicy: Interface
 ├── augmentConversionForBaseBackupPolicy_STATUS: Interface
 ├── augmentConversionForBasePolicyRule: Interface
 ├── augmentConversionForBasePolicyRule_STATUS: Interface
-├── augmentConversionForBlobBackupDatasourceParameters: Interface
-├── augmentConversionForBlobBackupDatasourceParameters_STATUS: Interface
 ├── augmentConversionForCopyOnExpiryOption: Interface
 ├── augmentConversionForCopyOnExpiryOption_STATUS: Interface
 ├── augmentConversionForCopyOption: Interface
@@ -594,12 +362,6 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/stor
 ├── augmentConversionForCustomCopyOption_STATUS: Interface
 ├── augmentConversionForDataStoreInfoBase: Interface
 ├── augmentConversionForDataStoreInfoBase_STATUS: Interface
-├── augmentConversionForDataStoreParameters: Interface
-├── augmentConversionForDataStoreParameters_STATUS: Interface
-├── augmentConversionForDatasource: Interface
-├── augmentConversionForDatasourceSet: Interface
-├── augmentConversionForDatasourceSet_STATUS: Interface
-├── augmentConversionForDatasource_STATUS: Interface
 ├── augmentConversionForDay: Interface
 ├── augmentConversionForDay_STATUS: Interface
 ├── augmentConversionForDeleteOption: Interface
@@ -612,17 +374,8 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/stor
 ├── augmentConversionForImmediateCopyOption_STATUS: Interface
 ├── augmentConversionForImmutabilitySettings: Interface
 ├── augmentConversionForImmutabilitySettings_STATUS: Interface
-├── augmentConversionForInnerError_STATUS: Interface
-├── augmentConversionForInnerError_STATUS_Unrolled: Interface
-├── augmentConversionForKubernetesClusterBackupDatasourceParameters: Interface
-├── augmentConversionForKubernetesClusterBackupDatasourceParameters_STATUS: Interface
 ├── augmentConversionForMonitoringSettings: Interface
 ├── augmentConversionForMonitoringSettings_STATUS: Interface
-├── augmentConversionForPolicyInfo: Interface
-├── augmentConversionForPolicyInfo_STATUS: Interface
-├── augmentConversionForPolicyParameters: Interface
-├── augmentConversionForPolicyParameters_STATUS: Interface
-├── augmentConversionForProtectionStatusDetails_STATUS: Interface
 ├── augmentConversionForResourceMoveDetails_STATUS: Interface
 ├── augmentConversionForRetentionTag: Interface
 ├── augmentConversionForRetentionTag_STATUS: Interface
@@ -630,10 +383,6 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/stor
 ├── augmentConversionForScheduleBasedBackupCriteria_STATUS: Interface
 ├── augmentConversionForScheduleBasedTriggerContext: Interface
 ├── augmentConversionForScheduleBasedTriggerContext_STATUS: Interface
-├── augmentConversionForSecretStoreBasedAuthCredentials: Interface
-├── augmentConversionForSecretStoreBasedAuthCredentials_STATUS: Interface
-├── augmentConversionForSecretStoreResource: Interface
-├── augmentConversionForSecretStoreResource_STATUS: Interface
 ├── augmentConversionForSecuritySettings: Interface
 ├── augmentConversionForSecuritySettings_STATUS: Interface
 ├── augmentConversionForSoftDeleteSettings: Interface
@@ -648,6 +397,4 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/stor
 ├── augmentConversionForTargetCopySetting: Interface
 ├── augmentConversionForTargetCopySetting_STATUS: Interface
 ├── augmentConversionForTriggerContext: Interface
-├── augmentConversionForTriggerContext_STATUS: Interface
-├── augmentConversionForUserFacingError_STATUS: Interface
-└── augmentConversionForUserFacingError_STATUS_Unrolled: Interface
+└── augmentConversionForTriggerContext_STATUS: Interface

@@ -5,7 +5,7 @@ package storage
 
 import (
 	"fmt"
-	v20231201s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231201/storage"
+	v20231101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -47,9 +47,9 @@ var _ conversion.Convertible = &BackupVaultsBackupPolicy{}
 
 // ConvertFrom populates our BackupVaultsBackupPolicy from the provided hub BackupVaultsBackupPolicy
 func (policy *BackupVaultsBackupPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20231201s.BackupVaultsBackupPolicy)
+	source, ok := hub.(*v20231101s.BackupVaultsBackupPolicy)
 	if !ok {
-		return fmt.Errorf("expected dataprotection/v1api20231201/storage/BackupVaultsBackupPolicy but received %T instead", hub)
+		return fmt.Errorf("expected dataprotection/v1api20231101/storage/BackupVaultsBackupPolicy but received %T instead", hub)
 	}
 
 	return policy.AssignProperties_From_BackupVaultsBackupPolicy(source)
@@ -57,9 +57,9 @@ func (policy *BackupVaultsBackupPolicy) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub BackupVaultsBackupPolicy from our BackupVaultsBackupPolicy
 func (policy *BackupVaultsBackupPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20231201s.BackupVaultsBackupPolicy)
+	destination, ok := hub.(*v20231101s.BackupVaultsBackupPolicy)
 	if !ok {
-		return fmt.Errorf("expected dataprotection/v1api20231201/storage/BackupVaultsBackupPolicy but received %T instead", hub)
+		return fmt.Errorf("expected dataprotection/v1api20231101/storage/BackupVaultsBackupPolicy but received %T instead", hub)
 	}
 
 	return policy.AssignProperties_To_BackupVaultsBackupPolicy(destination)
@@ -137,7 +137,7 @@ func (policy *BackupVaultsBackupPolicy) SetStatus(status genruntime.ConvertibleS
 }
 
 // AssignProperties_From_BackupVaultsBackupPolicy populates our BackupVaultsBackupPolicy from the provided source BackupVaultsBackupPolicy
-func (policy *BackupVaultsBackupPolicy) AssignProperties_From_BackupVaultsBackupPolicy(source *v20231201s.BackupVaultsBackupPolicy) error {
+func (policy *BackupVaultsBackupPolicy) AssignProperties_From_BackupVaultsBackupPolicy(source *v20231101s.BackupVaultsBackupPolicy) error {
 
 	// ObjectMeta
 	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -172,13 +172,13 @@ func (policy *BackupVaultsBackupPolicy) AssignProperties_From_BackupVaultsBackup
 }
 
 // AssignProperties_To_BackupVaultsBackupPolicy populates the provided destination BackupVaultsBackupPolicy from our BackupVaultsBackupPolicy
-func (policy *BackupVaultsBackupPolicy) AssignProperties_To_BackupVaultsBackupPolicy(destination *v20231201s.BackupVaultsBackupPolicy) error {
+func (policy *BackupVaultsBackupPolicy) AssignProperties_To_BackupVaultsBackupPolicy(destination *v20231101s.BackupVaultsBackupPolicy) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20231201s.BackupVaults_BackupPolicy_Spec
+	var spec v20231101s.BackupVaults_BackupPolicy_Spec
 	err := policy.Spec.AssignProperties_To_BackupVaults_BackupPolicy_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_BackupVaults_BackupPolicy_Spec() to populate field Spec")
@@ -186,7 +186,7 @@ func (policy *BackupVaultsBackupPolicy) AssignProperties_To_BackupVaultsBackupPo
 	destination.Spec = spec
 
 	// Status
-	var status v20231201s.BackupVaults_BackupPolicy_STATUS
+	var status v20231101s.BackupVaults_BackupPolicy_STATUS
 	err = policy.Status.AssignProperties_To_BackupVaults_BackupPolicy_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_BackupVaults_BackupPolicy_STATUS() to populate field Status")
@@ -227,8 +227,8 @@ type BackupVaultsBackupPolicyList struct {
 }
 
 type augmentConversionForBackupVaultsBackupPolicy interface {
-	AssignPropertiesFrom(src *v20231201s.BackupVaultsBackupPolicy) error
-	AssignPropertiesTo(dst *v20231201s.BackupVaultsBackupPolicy) error
+	AssignPropertiesFrom(src *v20231101s.BackupVaultsBackupPolicy) error
+	AssignPropertiesTo(dst *v20231101s.BackupVaultsBackupPolicy) error
 }
 
 // Storage version of v1api20230101.BackupVaults_BackupPolicy_Spec
@@ -251,14 +251,14 @@ var _ genruntime.ConvertibleSpec = &BackupVaults_BackupPolicy_Spec{}
 
 // ConvertSpecFrom populates our BackupVaults_BackupPolicy_Spec from the provided source
 func (policy *BackupVaults_BackupPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20231201s.BackupVaults_BackupPolicy_Spec)
+	src, ok := source.(*v20231101s.BackupVaults_BackupPolicy_Spec)
 	if ok {
 		// Populate our instance from source
 		return policy.AssignProperties_From_BackupVaults_BackupPolicy_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20231201s.BackupVaults_BackupPolicy_Spec{}
+	src = &v20231101s.BackupVaults_BackupPolicy_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -275,14 +275,14 @@ func (policy *BackupVaults_BackupPolicy_Spec) ConvertSpecFrom(source genruntime.
 
 // ConvertSpecTo populates the provided destination from our BackupVaults_BackupPolicy_Spec
 func (policy *BackupVaults_BackupPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20231201s.BackupVaults_BackupPolicy_Spec)
+	dst, ok := destination.(*v20231101s.BackupVaults_BackupPolicy_Spec)
 	if ok {
 		// Populate destination from our instance
 		return policy.AssignProperties_To_BackupVaults_BackupPolicy_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20231201s.BackupVaults_BackupPolicy_Spec{}
+	dst = &v20231101s.BackupVaults_BackupPolicy_Spec{}
 	err := policy.AssignProperties_To_BackupVaults_BackupPolicy_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -298,7 +298,7 @@ func (policy *BackupVaults_BackupPolicy_Spec) ConvertSpecTo(destination genrunti
 }
 
 // AssignProperties_From_BackupVaults_BackupPolicy_Spec populates our BackupVaults_BackupPolicy_Spec from the provided source BackupVaults_BackupPolicy_Spec
-func (policy *BackupVaults_BackupPolicy_Spec) AssignProperties_From_BackupVaults_BackupPolicy_Spec(source *v20231201s.BackupVaults_BackupPolicy_Spec) error {
+func (policy *BackupVaults_BackupPolicy_Spec) AssignProperties_From_BackupVaults_BackupPolicy_Spec(source *v20231101s.BackupVaults_BackupPolicy_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -349,7 +349,7 @@ func (policy *BackupVaults_BackupPolicy_Spec) AssignProperties_From_BackupVaults
 }
 
 // AssignProperties_To_BackupVaults_BackupPolicy_Spec populates the provided destination BackupVaults_BackupPolicy_Spec from our BackupVaults_BackupPolicy_Spec
-func (policy *BackupVaults_BackupPolicy_Spec) AssignProperties_To_BackupVaults_BackupPolicy_Spec(destination *v20231201s.BackupVaults_BackupPolicy_Spec) error {
+func (policy *BackupVaults_BackupPolicy_Spec) AssignProperties_To_BackupVaults_BackupPolicy_Spec(destination *v20231101s.BackupVaults_BackupPolicy_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
@@ -369,7 +369,7 @@ func (policy *BackupVaults_BackupPolicy_Spec) AssignProperties_To_BackupVaults_B
 
 	// Properties
 	if policy.Properties != nil {
-		var property v20231201s.BaseBackupPolicy
+		var property v20231101s.BaseBackupPolicy
 		err := policy.Properties.AssignProperties_To_BaseBackupPolicy(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BaseBackupPolicy() to populate field Properties")
@@ -414,14 +414,14 @@ var _ genruntime.ConvertibleStatus = &BackupVaults_BackupPolicy_STATUS{}
 
 // ConvertStatusFrom populates our BackupVaults_BackupPolicy_STATUS from the provided source
 func (policy *BackupVaults_BackupPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20231201s.BackupVaults_BackupPolicy_STATUS)
+	src, ok := source.(*v20231101s.BackupVaults_BackupPolicy_STATUS)
 	if ok {
 		// Populate our instance from source
 		return policy.AssignProperties_From_BackupVaults_BackupPolicy_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20231201s.BackupVaults_BackupPolicy_STATUS{}
+	src = &v20231101s.BackupVaults_BackupPolicy_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -438,14 +438,14 @@ func (policy *BackupVaults_BackupPolicy_STATUS) ConvertStatusFrom(source genrunt
 
 // ConvertStatusTo populates the provided destination from our BackupVaults_BackupPolicy_STATUS
 func (policy *BackupVaults_BackupPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20231201s.BackupVaults_BackupPolicy_STATUS)
+	dst, ok := destination.(*v20231101s.BackupVaults_BackupPolicy_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return policy.AssignProperties_To_BackupVaults_BackupPolicy_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20231201s.BackupVaults_BackupPolicy_STATUS{}
+	dst = &v20231101s.BackupVaults_BackupPolicy_STATUS{}
 	err := policy.AssignProperties_To_BackupVaults_BackupPolicy_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -461,7 +461,7 @@ func (policy *BackupVaults_BackupPolicy_STATUS) ConvertStatusTo(destination genr
 }
 
 // AssignProperties_From_BackupVaults_BackupPolicy_STATUS populates our BackupVaults_BackupPolicy_STATUS from the provided source BackupVaults_BackupPolicy_STATUS
-func (policy *BackupVaults_BackupPolicy_STATUS) AssignProperties_From_BackupVaults_BackupPolicy_STATUS(source *v20231201s.BackupVaults_BackupPolicy_STATUS) error {
+func (policy *BackupVaults_BackupPolicy_STATUS) AssignProperties_From_BackupVaults_BackupPolicy_STATUS(source *v20231101s.BackupVaults_BackupPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -522,7 +522,7 @@ func (policy *BackupVaults_BackupPolicy_STATUS) AssignProperties_From_BackupVaul
 }
 
 // AssignProperties_To_BackupVaults_BackupPolicy_STATUS populates the provided destination BackupVaults_BackupPolicy_STATUS from our BackupVaults_BackupPolicy_STATUS
-func (policy *BackupVaults_BackupPolicy_STATUS) AssignProperties_To_BackupVaults_BackupPolicy_STATUS(destination *v20231201s.BackupVaults_BackupPolicy_STATUS) error {
+func (policy *BackupVaults_BackupPolicy_STATUS) AssignProperties_To_BackupVaults_BackupPolicy_STATUS(destination *v20231101s.BackupVaults_BackupPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
@@ -537,7 +537,7 @@ func (policy *BackupVaults_BackupPolicy_STATUS) AssignProperties_To_BackupVaults
 
 	// Properties
 	if policy.Properties != nil {
-		var property v20231201s.BaseBackupPolicy_STATUS
+		var property v20231101s.BaseBackupPolicy_STATUS
 		err := policy.Properties.AssignProperties_To_BaseBackupPolicy_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BaseBackupPolicy_STATUS() to populate field Properties")
@@ -549,7 +549,7 @@ func (policy *BackupVaults_BackupPolicy_STATUS) AssignProperties_To_BackupVaults
 
 	// SystemData
 	if policy.SystemData != nil {
-		var systemDatum v20231201s.SystemData_STATUS
+		var systemDatum v20231101s.SystemData_STATUS
 		err := policy.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -583,13 +583,13 @@ func (policy *BackupVaults_BackupPolicy_STATUS) AssignProperties_To_BackupVaults
 }
 
 type augmentConversionForBackupVaults_BackupPolicy_Spec interface {
-	AssignPropertiesFrom(src *v20231201s.BackupVaults_BackupPolicy_Spec) error
-	AssignPropertiesTo(dst *v20231201s.BackupVaults_BackupPolicy_Spec) error
+	AssignPropertiesFrom(src *v20231101s.BackupVaults_BackupPolicy_Spec) error
+	AssignPropertiesTo(dst *v20231101s.BackupVaults_BackupPolicy_Spec) error
 }
 
 type augmentConversionForBackupVaults_BackupPolicy_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.BackupVaults_BackupPolicy_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.BackupVaults_BackupPolicy_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.BackupVaults_BackupPolicy_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.BackupVaults_BackupPolicy_STATUS) error
 }
 
 // Storage version of v1api20230101.BaseBackupPolicy
@@ -599,7 +599,7 @@ type BaseBackupPolicy struct {
 }
 
 // AssignProperties_From_BaseBackupPolicy populates our BaseBackupPolicy from the provided source BaseBackupPolicy
-func (policy *BaseBackupPolicy) AssignProperties_From_BaseBackupPolicy(source *v20231201s.BaseBackupPolicy) error {
+func (policy *BaseBackupPolicy) AssignProperties_From_BaseBackupPolicy(source *v20231101s.BaseBackupPolicy) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -636,13 +636,13 @@ func (policy *BaseBackupPolicy) AssignProperties_From_BaseBackupPolicy(source *v
 }
 
 // AssignProperties_To_BaseBackupPolicy populates the provided destination BaseBackupPolicy from our BaseBackupPolicy
-func (policy *BaseBackupPolicy) AssignProperties_To_BaseBackupPolicy(destination *v20231201s.BaseBackupPolicy) error {
+func (policy *BaseBackupPolicy) AssignProperties_To_BaseBackupPolicy(destination *v20231101s.BaseBackupPolicy) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
 	// BackupPolicy
 	if policy.BackupPolicy != nil {
-		var backupPolicy v20231201s.BackupPolicy
+		var backupPolicy v20231101s.BackupPolicy
 		err := policy.BackupPolicy.AssignProperties_To_BackupPolicy(&backupPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BackupPolicy() to populate field BackupPolicy")
@@ -679,7 +679,7 @@ type BaseBackupPolicy_STATUS struct {
 }
 
 // AssignProperties_From_BaseBackupPolicy_STATUS populates our BaseBackupPolicy_STATUS from the provided source BaseBackupPolicy_STATUS
-func (policy *BaseBackupPolicy_STATUS) AssignProperties_From_BaseBackupPolicy_STATUS(source *v20231201s.BaseBackupPolicy_STATUS) error {
+func (policy *BaseBackupPolicy_STATUS) AssignProperties_From_BaseBackupPolicy_STATUS(source *v20231101s.BaseBackupPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -716,13 +716,13 @@ func (policy *BaseBackupPolicy_STATUS) AssignProperties_From_BaseBackupPolicy_ST
 }
 
 // AssignProperties_To_BaseBackupPolicy_STATUS populates the provided destination BaseBackupPolicy_STATUS from our BaseBackupPolicy_STATUS
-func (policy *BaseBackupPolicy_STATUS) AssignProperties_To_BaseBackupPolicy_STATUS(destination *v20231201s.BaseBackupPolicy_STATUS) error {
+func (policy *BaseBackupPolicy_STATUS) AssignProperties_To_BaseBackupPolicy_STATUS(destination *v20231101s.BaseBackupPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
 	// BackupPolicy
 	if policy.BackupPolicy != nil {
-		var backupPolicy v20231201s.BackupPolicy_STATUS
+		var backupPolicy v20231101s.BackupPolicy_STATUS
 		err := policy.BackupPolicy.AssignProperties_To_BackupPolicy_STATUS(&backupPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BackupPolicy_STATUS() to populate field BackupPolicy")
@@ -753,13 +753,13 @@ func (policy *BaseBackupPolicy_STATUS) AssignProperties_To_BaseBackupPolicy_STAT
 }
 
 type augmentConversionForBaseBackupPolicy interface {
-	AssignPropertiesFrom(src *v20231201s.BaseBackupPolicy) error
-	AssignPropertiesTo(dst *v20231201s.BaseBackupPolicy) error
+	AssignPropertiesFrom(src *v20231101s.BaseBackupPolicy) error
+	AssignPropertiesTo(dst *v20231101s.BaseBackupPolicy) error
 }
 
 type augmentConversionForBaseBackupPolicy_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.BaseBackupPolicy_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.BaseBackupPolicy_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.BaseBackupPolicy_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.BaseBackupPolicy_STATUS) error
 }
 
 // Storage version of v1api20230101.BackupPolicy
@@ -771,7 +771,7 @@ type BackupPolicy struct {
 }
 
 // AssignProperties_From_BackupPolicy populates our BackupPolicy from the provided source BackupPolicy
-func (policy *BackupPolicy) AssignProperties_From_BackupPolicy(source *v20231201s.BackupPolicy) error {
+func (policy *BackupPolicy) AssignProperties_From_BackupPolicy(source *v20231101s.BackupPolicy) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -820,7 +820,7 @@ func (policy *BackupPolicy) AssignProperties_From_BackupPolicy(source *v20231201
 }
 
 // AssignProperties_To_BackupPolicy populates the provided destination BackupPolicy from our BackupPolicy
-func (policy *BackupPolicy) AssignProperties_To_BackupPolicy(destination *v20231201s.BackupPolicy) error {
+func (policy *BackupPolicy) AssignProperties_To_BackupPolicy(destination *v20231101s.BackupPolicy) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
@@ -832,11 +832,11 @@ func (policy *BackupPolicy) AssignProperties_To_BackupPolicy(destination *v20231
 
 	// PolicyRules
 	if policy.PolicyRules != nil {
-		policyRuleList := make([]v20231201s.BasePolicyRule, len(policy.PolicyRules))
+		policyRuleList := make([]v20231101s.BasePolicyRule, len(policy.PolicyRules))
 		for policyRuleIndex, policyRuleItem := range policy.PolicyRules {
 			// Shadow the loop variable to avoid aliasing
 			policyRuleItem := policyRuleItem
-			var policyRule v20231201s.BasePolicyRule
+			var policyRule v20231101s.BasePolicyRule
 			err := policyRuleItem.AssignProperties_To_BasePolicyRule(&policyRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_BasePolicyRule() to populate field PolicyRules")
@@ -877,7 +877,7 @@ type BackupPolicy_STATUS struct {
 }
 
 // AssignProperties_From_BackupPolicy_STATUS populates our BackupPolicy_STATUS from the provided source BackupPolicy_STATUS
-func (policy *BackupPolicy_STATUS) AssignProperties_From_BackupPolicy_STATUS(source *v20231201s.BackupPolicy_STATUS) error {
+func (policy *BackupPolicy_STATUS) AssignProperties_From_BackupPolicy_STATUS(source *v20231101s.BackupPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -926,7 +926,7 @@ func (policy *BackupPolicy_STATUS) AssignProperties_From_BackupPolicy_STATUS(sou
 }
 
 // AssignProperties_To_BackupPolicy_STATUS populates the provided destination BackupPolicy_STATUS from our BackupPolicy_STATUS
-func (policy *BackupPolicy_STATUS) AssignProperties_To_BackupPolicy_STATUS(destination *v20231201s.BackupPolicy_STATUS) error {
+func (policy *BackupPolicy_STATUS) AssignProperties_To_BackupPolicy_STATUS(destination *v20231101s.BackupPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
@@ -938,11 +938,11 @@ func (policy *BackupPolicy_STATUS) AssignProperties_To_BackupPolicy_STATUS(desti
 
 	// PolicyRules
 	if policy.PolicyRules != nil {
-		policyRuleList := make([]v20231201s.BasePolicyRule_STATUS, len(policy.PolicyRules))
+		policyRuleList := make([]v20231101s.BasePolicyRule_STATUS, len(policy.PolicyRules))
 		for policyRuleIndex, policyRuleItem := range policy.PolicyRules {
 			// Shadow the loop variable to avoid aliasing
 			policyRuleItem := policyRuleItem
-			var policyRule v20231201s.BasePolicyRule_STATUS
+			var policyRule v20231101s.BasePolicyRule_STATUS
 			err := policyRuleItem.AssignProperties_To_BasePolicyRule_STATUS(&policyRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_BasePolicyRule_STATUS() to populate field PolicyRules")
@@ -975,13 +975,13 @@ func (policy *BackupPolicy_STATUS) AssignProperties_To_BackupPolicy_STATUS(desti
 }
 
 type augmentConversionForBackupPolicy interface {
-	AssignPropertiesFrom(src *v20231201s.BackupPolicy) error
-	AssignPropertiesTo(dst *v20231201s.BackupPolicy) error
+	AssignPropertiesFrom(src *v20231101s.BackupPolicy) error
+	AssignPropertiesTo(dst *v20231101s.BackupPolicy) error
 }
 
 type augmentConversionForBackupPolicy_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.BackupPolicy_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.BackupPolicy_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.BackupPolicy_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.BackupPolicy_STATUS) error
 }
 
 // Storage version of v1api20230101.BasePolicyRule
@@ -992,7 +992,7 @@ type BasePolicyRule struct {
 }
 
 // AssignProperties_From_BasePolicyRule populates our BasePolicyRule from the provided source BasePolicyRule
-func (rule *BasePolicyRule) AssignProperties_From_BasePolicyRule(source *v20231201s.BasePolicyRule) error {
+func (rule *BasePolicyRule) AssignProperties_From_BasePolicyRule(source *v20231101s.BasePolicyRule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1041,13 +1041,13 @@ func (rule *BasePolicyRule) AssignProperties_From_BasePolicyRule(source *v202312
 }
 
 // AssignProperties_To_BasePolicyRule populates the provided destination BasePolicyRule from our BasePolicyRule
-func (rule *BasePolicyRule) AssignProperties_To_BasePolicyRule(destination *v20231201s.BasePolicyRule) error {
+func (rule *BasePolicyRule) AssignProperties_To_BasePolicyRule(destination *v20231101s.BasePolicyRule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
 	// AzureBackup
 	if rule.AzureBackup != nil {
-		var azureBackup v20231201s.AzureBackupRule
+		var azureBackup v20231101s.AzureBackupRule
 		err := rule.AzureBackup.AssignProperties_To_AzureBackupRule(&azureBackup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AzureBackupRule() to populate field AzureBackup")
@@ -1059,7 +1059,7 @@ func (rule *BasePolicyRule) AssignProperties_To_BasePolicyRule(destination *v202
 
 	// AzureRetention
 	if rule.AzureRetention != nil {
-		var azureRetention v20231201s.AzureRetentionRule
+		var azureRetention v20231101s.AzureRetentionRule
 		err := rule.AzureRetention.AssignProperties_To_AzureRetentionRule(&azureRetention)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AzureRetentionRule() to populate field AzureRetention")
@@ -1097,7 +1097,7 @@ type BasePolicyRule_STATUS struct {
 }
 
 // AssignProperties_From_BasePolicyRule_STATUS populates our BasePolicyRule_STATUS from the provided source BasePolicyRule_STATUS
-func (rule *BasePolicyRule_STATUS) AssignProperties_From_BasePolicyRule_STATUS(source *v20231201s.BasePolicyRule_STATUS) error {
+func (rule *BasePolicyRule_STATUS) AssignProperties_From_BasePolicyRule_STATUS(source *v20231101s.BasePolicyRule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1146,13 +1146,13 @@ func (rule *BasePolicyRule_STATUS) AssignProperties_From_BasePolicyRule_STATUS(s
 }
 
 // AssignProperties_To_BasePolicyRule_STATUS populates the provided destination BasePolicyRule_STATUS from our BasePolicyRule_STATUS
-func (rule *BasePolicyRule_STATUS) AssignProperties_To_BasePolicyRule_STATUS(destination *v20231201s.BasePolicyRule_STATUS) error {
+func (rule *BasePolicyRule_STATUS) AssignProperties_To_BasePolicyRule_STATUS(destination *v20231101s.BasePolicyRule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
 	// AzureBackup
 	if rule.AzureBackup != nil {
-		var azureBackup v20231201s.AzureBackupRule_STATUS
+		var azureBackup v20231101s.AzureBackupRule_STATUS
 		err := rule.AzureBackup.AssignProperties_To_AzureBackupRule_STATUS(&azureBackup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AzureBackupRule_STATUS() to populate field AzureBackup")
@@ -1164,7 +1164,7 @@ func (rule *BasePolicyRule_STATUS) AssignProperties_To_BasePolicyRule_STATUS(des
 
 	// AzureRetention
 	if rule.AzureRetention != nil {
-		var azureRetention v20231201s.AzureRetentionRule_STATUS
+		var azureRetention v20231101s.AzureRetentionRule_STATUS
 		err := rule.AzureRetention.AssignProperties_To_AzureRetentionRule_STATUS(&azureRetention)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AzureRetentionRule_STATUS() to populate field AzureRetention")
@@ -1195,13 +1195,13 @@ func (rule *BasePolicyRule_STATUS) AssignProperties_To_BasePolicyRule_STATUS(des
 }
 
 type augmentConversionForBasePolicyRule interface {
-	AssignPropertiesFrom(src *v20231201s.BasePolicyRule) error
-	AssignPropertiesTo(dst *v20231201s.BasePolicyRule) error
+	AssignPropertiesFrom(src *v20231101s.BasePolicyRule) error
+	AssignPropertiesTo(dst *v20231101s.BasePolicyRule) error
 }
 
 type augmentConversionForBasePolicyRule_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.BasePolicyRule_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.BasePolicyRule_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.BasePolicyRule_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.BasePolicyRule_STATUS) error
 }
 
 // Storage version of v1api20230101.AzureBackupRule
@@ -1215,7 +1215,7 @@ type AzureBackupRule struct {
 }
 
 // AssignProperties_From_AzureBackupRule populates our AzureBackupRule from the provided source AzureBackupRule
-func (rule *AzureBackupRule) AssignProperties_From_AzureBackupRule(source *v20231201s.AzureBackupRule) error {
+func (rule *AzureBackupRule) AssignProperties_From_AzureBackupRule(source *v20231101s.AzureBackupRule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1282,13 +1282,13 @@ func (rule *AzureBackupRule) AssignProperties_From_AzureBackupRule(source *v2023
 }
 
 // AssignProperties_To_AzureBackupRule populates the provided destination AzureBackupRule from our AzureBackupRule
-func (rule *AzureBackupRule) AssignProperties_To_AzureBackupRule(destination *v20231201s.AzureBackupRule) error {
+func (rule *AzureBackupRule) AssignProperties_To_AzureBackupRule(destination *v20231101s.AzureBackupRule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
 	// BackupParameters
 	if rule.BackupParameters != nil {
-		var backupParameter v20231201s.BackupParameters
+		var backupParameter v20231101s.BackupParameters
 		err := rule.BackupParameters.AssignProperties_To_BackupParameters(&backupParameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BackupParameters() to populate field BackupParameters")
@@ -1300,7 +1300,7 @@ func (rule *AzureBackupRule) AssignProperties_To_AzureBackupRule(destination *v2
 
 	// DataStore
 	if rule.DataStore != nil {
-		var dataStore v20231201s.DataStoreInfoBase
+		var dataStore v20231101s.DataStoreInfoBase
 		err := rule.DataStore.AssignProperties_To_DataStoreInfoBase(&dataStore)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase() to populate field DataStore")
@@ -1318,7 +1318,7 @@ func (rule *AzureBackupRule) AssignProperties_To_AzureBackupRule(destination *v2
 
 	// Trigger
 	if rule.Trigger != nil {
-		var trigger v20231201s.TriggerContext
+		var trigger v20231101s.TriggerContext
 		err := rule.Trigger.AssignProperties_To_TriggerContext(&trigger)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_TriggerContext() to populate field Trigger")
@@ -1359,7 +1359,7 @@ type AzureBackupRule_STATUS struct {
 }
 
 // AssignProperties_From_AzureBackupRule_STATUS populates our AzureBackupRule_STATUS from the provided source AzureBackupRule_STATUS
-func (rule *AzureBackupRule_STATUS) AssignProperties_From_AzureBackupRule_STATUS(source *v20231201s.AzureBackupRule_STATUS) error {
+func (rule *AzureBackupRule_STATUS) AssignProperties_From_AzureBackupRule_STATUS(source *v20231101s.AzureBackupRule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1426,13 +1426,13 @@ func (rule *AzureBackupRule_STATUS) AssignProperties_From_AzureBackupRule_STATUS
 }
 
 // AssignProperties_To_AzureBackupRule_STATUS populates the provided destination AzureBackupRule_STATUS from our AzureBackupRule_STATUS
-func (rule *AzureBackupRule_STATUS) AssignProperties_To_AzureBackupRule_STATUS(destination *v20231201s.AzureBackupRule_STATUS) error {
+func (rule *AzureBackupRule_STATUS) AssignProperties_To_AzureBackupRule_STATUS(destination *v20231101s.AzureBackupRule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
 	// BackupParameters
 	if rule.BackupParameters != nil {
-		var backupParameter v20231201s.BackupParameters_STATUS
+		var backupParameter v20231101s.BackupParameters_STATUS
 		err := rule.BackupParameters.AssignProperties_To_BackupParameters_STATUS(&backupParameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BackupParameters_STATUS() to populate field BackupParameters")
@@ -1444,7 +1444,7 @@ func (rule *AzureBackupRule_STATUS) AssignProperties_To_AzureBackupRule_STATUS(d
 
 	// DataStore
 	if rule.DataStore != nil {
-		var dataStore v20231201s.DataStoreInfoBase_STATUS
+		var dataStore v20231101s.DataStoreInfoBase_STATUS
 		err := rule.DataStore.AssignProperties_To_DataStoreInfoBase_STATUS(&dataStore)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase_STATUS() to populate field DataStore")
@@ -1462,7 +1462,7 @@ func (rule *AzureBackupRule_STATUS) AssignProperties_To_AzureBackupRule_STATUS(d
 
 	// Trigger
 	if rule.Trigger != nil {
-		var trigger v20231201s.TriggerContext_STATUS
+		var trigger v20231101s.TriggerContext_STATUS
 		err := rule.Trigger.AssignProperties_To_TriggerContext_STATUS(&trigger)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_TriggerContext_STATUS() to populate field Trigger")
@@ -1502,7 +1502,7 @@ type AzureRetentionRule struct {
 }
 
 // AssignProperties_From_AzureRetentionRule populates our AzureRetentionRule from the provided source AzureRetentionRule
-func (rule *AzureRetentionRule) AssignProperties_From_AzureRetentionRule(source *v20231201s.AzureRetentionRule) error {
+func (rule *AzureRetentionRule) AssignProperties_From_AzureRetentionRule(source *v20231101s.AzureRetentionRule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1559,7 +1559,7 @@ func (rule *AzureRetentionRule) AssignProperties_From_AzureRetentionRule(source 
 }
 
 // AssignProperties_To_AzureRetentionRule populates the provided destination AzureRetentionRule from our AzureRetentionRule
-func (rule *AzureRetentionRule) AssignProperties_To_AzureRetentionRule(destination *v20231201s.AzureRetentionRule) error {
+func (rule *AzureRetentionRule) AssignProperties_To_AzureRetentionRule(destination *v20231101s.AzureRetentionRule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
@@ -1573,11 +1573,11 @@ func (rule *AzureRetentionRule) AssignProperties_To_AzureRetentionRule(destinati
 
 	// Lifecycles
 	if rule.Lifecycles != nil {
-		lifecycleList := make([]v20231201s.SourceLifeCycle, len(rule.Lifecycles))
+		lifecycleList := make([]v20231101s.SourceLifeCycle, len(rule.Lifecycles))
 		for lifecycleIndex, lifecycleItem := range rule.Lifecycles {
 			// Shadow the loop variable to avoid aliasing
 			lifecycleItem := lifecycleItem
-			var lifecycle v20231201s.SourceLifeCycle
+			var lifecycle v20231101s.SourceLifeCycle
 			err := lifecycleItem.AssignProperties_To_SourceLifeCycle(&lifecycle)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SourceLifeCycle() to populate field Lifecycles")
@@ -1625,7 +1625,7 @@ type AzureRetentionRule_STATUS struct {
 }
 
 // AssignProperties_From_AzureRetentionRule_STATUS populates our AzureRetentionRule_STATUS from the provided source AzureRetentionRule_STATUS
-func (rule *AzureRetentionRule_STATUS) AssignProperties_From_AzureRetentionRule_STATUS(source *v20231201s.AzureRetentionRule_STATUS) error {
+func (rule *AzureRetentionRule_STATUS) AssignProperties_From_AzureRetentionRule_STATUS(source *v20231101s.AzureRetentionRule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1682,7 +1682,7 @@ func (rule *AzureRetentionRule_STATUS) AssignProperties_From_AzureRetentionRule_
 }
 
 // AssignProperties_To_AzureRetentionRule_STATUS populates the provided destination AzureRetentionRule_STATUS from our AzureRetentionRule_STATUS
-func (rule *AzureRetentionRule_STATUS) AssignProperties_To_AzureRetentionRule_STATUS(destination *v20231201s.AzureRetentionRule_STATUS) error {
+func (rule *AzureRetentionRule_STATUS) AssignProperties_To_AzureRetentionRule_STATUS(destination *v20231101s.AzureRetentionRule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
@@ -1696,11 +1696,11 @@ func (rule *AzureRetentionRule_STATUS) AssignProperties_To_AzureRetentionRule_ST
 
 	// Lifecycles
 	if rule.Lifecycles != nil {
-		lifecycleList := make([]v20231201s.SourceLifeCycle_STATUS, len(rule.Lifecycles))
+		lifecycleList := make([]v20231101s.SourceLifeCycle_STATUS, len(rule.Lifecycles))
 		for lifecycleIndex, lifecycleItem := range rule.Lifecycles {
 			// Shadow the loop variable to avoid aliasing
 			lifecycleItem := lifecycleItem
-			var lifecycle v20231201s.SourceLifeCycle_STATUS
+			var lifecycle v20231101s.SourceLifeCycle_STATUS
 			err := lifecycleItem.AssignProperties_To_SourceLifeCycle_STATUS(&lifecycle)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SourceLifeCycle_STATUS() to populate field Lifecycles")
@@ -1739,23 +1739,23 @@ func (rule *AzureRetentionRule_STATUS) AssignProperties_To_AzureRetentionRule_ST
 }
 
 type augmentConversionForAzureBackupRule interface {
-	AssignPropertiesFrom(src *v20231201s.AzureBackupRule) error
-	AssignPropertiesTo(dst *v20231201s.AzureBackupRule) error
+	AssignPropertiesFrom(src *v20231101s.AzureBackupRule) error
+	AssignPropertiesTo(dst *v20231101s.AzureBackupRule) error
 }
 
 type augmentConversionForAzureBackupRule_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.AzureBackupRule_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.AzureBackupRule_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.AzureBackupRule_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.AzureBackupRule_STATUS) error
 }
 
 type augmentConversionForAzureRetentionRule interface {
-	AssignPropertiesFrom(src *v20231201s.AzureRetentionRule) error
-	AssignPropertiesTo(dst *v20231201s.AzureRetentionRule) error
+	AssignPropertiesFrom(src *v20231101s.AzureRetentionRule) error
+	AssignPropertiesTo(dst *v20231101s.AzureRetentionRule) error
 }
 
 type augmentConversionForAzureRetentionRule_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.AzureRetentionRule_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.AzureRetentionRule_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.AzureRetentionRule_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.AzureRetentionRule_STATUS) error
 }
 
 // Storage version of v1api20230101.BackupParameters
@@ -1765,7 +1765,7 @@ type BackupParameters struct {
 }
 
 // AssignProperties_From_BackupParameters populates our BackupParameters from the provided source BackupParameters
-func (parameters *BackupParameters) AssignProperties_From_BackupParameters(source *v20231201s.BackupParameters) error {
+func (parameters *BackupParameters) AssignProperties_From_BackupParameters(source *v20231101s.BackupParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1802,13 +1802,13 @@ func (parameters *BackupParameters) AssignProperties_From_BackupParameters(sourc
 }
 
 // AssignProperties_To_BackupParameters populates the provided destination BackupParameters from our BackupParameters
-func (parameters *BackupParameters) AssignProperties_To_BackupParameters(destination *v20231201s.BackupParameters) error {
+func (parameters *BackupParameters) AssignProperties_To_BackupParameters(destination *v20231101s.BackupParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
 	// AzureBackupParams
 	if parameters.AzureBackupParams != nil {
-		var azureBackupParam v20231201s.AzureBackupParams
+		var azureBackupParam v20231101s.AzureBackupParams
 		err := parameters.AzureBackupParams.AssignProperties_To_AzureBackupParams(&azureBackupParam)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AzureBackupParams() to populate field AzureBackupParams")
@@ -1845,7 +1845,7 @@ type BackupParameters_STATUS struct {
 }
 
 // AssignProperties_From_BackupParameters_STATUS populates our BackupParameters_STATUS from the provided source BackupParameters_STATUS
-func (parameters *BackupParameters_STATUS) AssignProperties_From_BackupParameters_STATUS(source *v20231201s.BackupParameters_STATUS) error {
+func (parameters *BackupParameters_STATUS) AssignProperties_From_BackupParameters_STATUS(source *v20231101s.BackupParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1882,13 +1882,13 @@ func (parameters *BackupParameters_STATUS) AssignProperties_From_BackupParameter
 }
 
 // AssignProperties_To_BackupParameters_STATUS populates the provided destination BackupParameters_STATUS from our BackupParameters_STATUS
-func (parameters *BackupParameters_STATUS) AssignProperties_To_BackupParameters_STATUS(destination *v20231201s.BackupParameters_STATUS) error {
+func (parameters *BackupParameters_STATUS) AssignProperties_To_BackupParameters_STATUS(destination *v20231101s.BackupParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
 	// AzureBackupParams
 	if parameters.AzureBackupParams != nil {
-		var azureBackupParam v20231201s.AzureBackupParams_STATUS
+		var azureBackupParam v20231101s.AzureBackupParams_STATUS
 		err := parameters.AzureBackupParams.AssignProperties_To_AzureBackupParams_STATUS(&azureBackupParam)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AzureBackupParams_STATUS() to populate field AzureBackupParams")
@@ -1927,7 +1927,7 @@ type DataStoreInfoBase struct {
 }
 
 // AssignProperties_From_DataStoreInfoBase populates our DataStoreInfoBase from the provided source DataStoreInfoBase
-func (base *DataStoreInfoBase) AssignProperties_From_DataStoreInfoBase(source *v20231201s.DataStoreInfoBase) error {
+func (base *DataStoreInfoBase) AssignProperties_From_DataStoreInfoBase(source *v20231101s.DataStoreInfoBase) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1958,7 +1958,7 @@ func (base *DataStoreInfoBase) AssignProperties_From_DataStoreInfoBase(source *v
 }
 
 // AssignProperties_To_DataStoreInfoBase populates the provided destination DataStoreInfoBase from our DataStoreInfoBase
-func (base *DataStoreInfoBase) AssignProperties_To_DataStoreInfoBase(destination *v20231201s.DataStoreInfoBase) error {
+func (base *DataStoreInfoBase) AssignProperties_To_DataStoreInfoBase(destination *v20231101s.DataStoreInfoBase) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(base.PropertyBag)
 
@@ -1997,7 +1997,7 @@ type DataStoreInfoBase_STATUS struct {
 }
 
 // AssignProperties_From_DataStoreInfoBase_STATUS populates our DataStoreInfoBase_STATUS from the provided source DataStoreInfoBase_STATUS
-func (base *DataStoreInfoBase_STATUS) AssignProperties_From_DataStoreInfoBase_STATUS(source *v20231201s.DataStoreInfoBase_STATUS) error {
+func (base *DataStoreInfoBase_STATUS) AssignProperties_From_DataStoreInfoBase_STATUS(source *v20231101s.DataStoreInfoBase_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2028,7 +2028,7 @@ func (base *DataStoreInfoBase_STATUS) AssignProperties_From_DataStoreInfoBase_ST
 }
 
 // AssignProperties_To_DataStoreInfoBase_STATUS populates the provided destination DataStoreInfoBase_STATUS from our DataStoreInfoBase_STATUS
-func (base *DataStoreInfoBase_STATUS) AssignProperties_To_DataStoreInfoBase_STATUS(destination *v20231201s.DataStoreInfoBase_STATUS) error {
+func (base *DataStoreInfoBase_STATUS) AssignProperties_To_DataStoreInfoBase_STATUS(destination *v20231101s.DataStoreInfoBase_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(base.PropertyBag)
 
@@ -2068,7 +2068,7 @@ type SourceLifeCycle struct {
 }
 
 // AssignProperties_From_SourceLifeCycle populates our SourceLifeCycle from the provided source SourceLifeCycle
-func (cycle *SourceLifeCycle) AssignProperties_From_SourceLifeCycle(source *v20231201s.SourceLifeCycle) error {
+func (cycle *SourceLifeCycle) AssignProperties_From_SourceLifeCycle(source *v20231101s.SourceLifeCycle) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2135,13 +2135,13 @@ func (cycle *SourceLifeCycle) AssignProperties_From_SourceLifeCycle(source *v202
 }
 
 // AssignProperties_To_SourceLifeCycle populates the provided destination SourceLifeCycle from our SourceLifeCycle
-func (cycle *SourceLifeCycle) AssignProperties_To_SourceLifeCycle(destination *v20231201s.SourceLifeCycle) error {
+func (cycle *SourceLifeCycle) AssignProperties_To_SourceLifeCycle(destination *v20231101s.SourceLifeCycle) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(cycle.PropertyBag)
 
 	// DeleteAfter
 	if cycle.DeleteAfter != nil {
-		var deleteAfter v20231201s.DeleteOption
+		var deleteAfter v20231101s.DeleteOption
 		err := cycle.DeleteAfter.AssignProperties_To_DeleteOption(&deleteAfter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeleteOption() to populate field DeleteAfter")
@@ -2153,7 +2153,7 @@ func (cycle *SourceLifeCycle) AssignProperties_To_SourceLifeCycle(destination *v
 
 	// SourceDataStore
 	if cycle.SourceDataStore != nil {
-		var sourceDataStore v20231201s.DataStoreInfoBase
+		var sourceDataStore v20231101s.DataStoreInfoBase
 		err := cycle.SourceDataStore.AssignProperties_To_DataStoreInfoBase(&sourceDataStore)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase() to populate field SourceDataStore")
@@ -2165,11 +2165,11 @@ func (cycle *SourceLifeCycle) AssignProperties_To_SourceLifeCycle(destination *v
 
 	// TargetDataStoreCopySettings
 	if cycle.TargetDataStoreCopySettings != nil {
-		targetDataStoreCopySettingList := make([]v20231201s.TargetCopySetting, len(cycle.TargetDataStoreCopySettings))
+		targetDataStoreCopySettingList := make([]v20231101s.TargetCopySetting, len(cycle.TargetDataStoreCopySettings))
 		for targetDataStoreCopySettingIndex, targetDataStoreCopySettingItem := range cycle.TargetDataStoreCopySettings {
 			// Shadow the loop variable to avoid aliasing
 			targetDataStoreCopySettingItem := targetDataStoreCopySettingItem
-			var targetDataStoreCopySetting v20231201s.TargetCopySetting
+			var targetDataStoreCopySetting v20231101s.TargetCopySetting
 			err := targetDataStoreCopySettingItem.AssignProperties_To_TargetCopySetting(&targetDataStoreCopySetting)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_TargetCopySetting() to populate field TargetDataStoreCopySettings")
@@ -2211,7 +2211,7 @@ type SourceLifeCycle_STATUS struct {
 }
 
 // AssignProperties_From_SourceLifeCycle_STATUS populates our SourceLifeCycle_STATUS from the provided source SourceLifeCycle_STATUS
-func (cycle *SourceLifeCycle_STATUS) AssignProperties_From_SourceLifeCycle_STATUS(source *v20231201s.SourceLifeCycle_STATUS) error {
+func (cycle *SourceLifeCycle_STATUS) AssignProperties_From_SourceLifeCycle_STATUS(source *v20231101s.SourceLifeCycle_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2278,13 +2278,13 @@ func (cycle *SourceLifeCycle_STATUS) AssignProperties_From_SourceLifeCycle_STATU
 }
 
 // AssignProperties_To_SourceLifeCycle_STATUS populates the provided destination SourceLifeCycle_STATUS from our SourceLifeCycle_STATUS
-func (cycle *SourceLifeCycle_STATUS) AssignProperties_To_SourceLifeCycle_STATUS(destination *v20231201s.SourceLifeCycle_STATUS) error {
+func (cycle *SourceLifeCycle_STATUS) AssignProperties_To_SourceLifeCycle_STATUS(destination *v20231101s.SourceLifeCycle_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(cycle.PropertyBag)
 
 	// DeleteAfter
 	if cycle.DeleteAfter != nil {
-		var deleteAfter v20231201s.DeleteOption_STATUS
+		var deleteAfter v20231101s.DeleteOption_STATUS
 		err := cycle.DeleteAfter.AssignProperties_To_DeleteOption_STATUS(&deleteAfter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeleteOption_STATUS() to populate field DeleteAfter")
@@ -2296,7 +2296,7 @@ func (cycle *SourceLifeCycle_STATUS) AssignProperties_To_SourceLifeCycle_STATUS(
 
 	// SourceDataStore
 	if cycle.SourceDataStore != nil {
-		var sourceDataStore v20231201s.DataStoreInfoBase_STATUS
+		var sourceDataStore v20231101s.DataStoreInfoBase_STATUS
 		err := cycle.SourceDataStore.AssignProperties_To_DataStoreInfoBase_STATUS(&sourceDataStore)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase_STATUS() to populate field SourceDataStore")
@@ -2308,11 +2308,11 @@ func (cycle *SourceLifeCycle_STATUS) AssignProperties_To_SourceLifeCycle_STATUS(
 
 	// TargetDataStoreCopySettings
 	if cycle.TargetDataStoreCopySettings != nil {
-		targetDataStoreCopySettingList := make([]v20231201s.TargetCopySetting_STATUS, len(cycle.TargetDataStoreCopySettings))
+		targetDataStoreCopySettingList := make([]v20231101s.TargetCopySetting_STATUS, len(cycle.TargetDataStoreCopySettings))
 		for targetDataStoreCopySettingIndex, targetDataStoreCopySettingItem := range cycle.TargetDataStoreCopySettings {
 			// Shadow the loop variable to avoid aliasing
 			targetDataStoreCopySettingItem := targetDataStoreCopySettingItem
-			var targetDataStoreCopySetting v20231201s.TargetCopySetting_STATUS
+			var targetDataStoreCopySetting v20231101s.TargetCopySetting_STATUS
 			err := targetDataStoreCopySettingItem.AssignProperties_To_TargetCopySetting_STATUS(&targetDataStoreCopySetting)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_TargetCopySetting_STATUS() to populate field TargetDataStoreCopySettings")
@@ -2352,7 +2352,7 @@ type TriggerContext struct {
 }
 
 // AssignProperties_From_TriggerContext populates our TriggerContext from the provided source TriggerContext
-func (context *TriggerContext) AssignProperties_From_TriggerContext(source *v20231201s.TriggerContext) error {
+func (context *TriggerContext) AssignProperties_From_TriggerContext(source *v20231101s.TriggerContext) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2401,13 +2401,13 @@ func (context *TriggerContext) AssignProperties_From_TriggerContext(source *v202
 }
 
 // AssignProperties_To_TriggerContext populates the provided destination TriggerContext from our TriggerContext
-func (context *TriggerContext) AssignProperties_To_TriggerContext(destination *v20231201s.TriggerContext) error {
+func (context *TriggerContext) AssignProperties_To_TriggerContext(destination *v20231101s.TriggerContext) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(context.PropertyBag)
 
 	// Adhoc
 	if context.Adhoc != nil {
-		var adhoc v20231201s.AdhocBasedTriggerContext
+		var adhoc v20231101s.AdhocBasedTriggerContext
 		err := context.Adhoc.AssignProperties_To_AdhocBasedTriggerContext(&adhoc)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AdhocBasedTriggerContext() to populate field Adhoc")
@@ -2419,7 +2419,7 @@ func (context *TriggerContext) AssignProperties_To_TriggerContext(destination *v
 
 	// Schedule
 	if context.Schedule != nil {
-		var schedule v20231201s.ScheduleBasedTriggerContext
+		var schedule v20231101s.ScheduleBasedTriggerContext
 		err := context.Schedule.AssignProperties_To_ScheduleBasedTriggerContext(&schedule)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScheduleBasedTriggerContext() to populate field Schedule")
@@ -2457,7 +2457,7 @@ type TriggerContext_STATUS struct {
 }
 
 // AssignProperties_From_TriggerContext_STATUS populates our TriggerContext_STATUS from the provided source TriggerContext_STATUS
-func (context *TriggerContext_STATUS) AssignProperties_From_TriggerContext_STATUS(source *v20231201s.TriggerContext_STATUS) error {
+func (context *TriggerContext_STATUS) AssignProperties_From_TriggerContext_STATUS(source *v20231101s.TriggerContext_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2506,13 +2506,13 @@ func (context *TriggerContext_STATUS) AssignProperties_From_TriggerContext_STATU
 }
 
 // AssignProperties_To_TriggerContext_STATUS populates the provided destination TriggerContext_STATUS from our TriggerContext_STATUS
-func (context *TriggerContext_STATUS) AssignProperties_To_TriggerContext_STATUS(destination *v20231201s.TriggerContext_STATUS) error {
+func (context *TriggerContext_STATUS) AssignProperties_To_TriggerContext_STATUS(destination *v20231101s.TriggerContext_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(context.PropertyBag)
 
 	// Adhoc
 	if context.Adhoc != nil {
-		var adhoc v20231201s.AdhocBasedTriggerContext_STATUS
+		var adhoc v20231101s.AdhocBasedTriggerContext_STATUS
 		err := context.Adhoc.AssignProperties_To_AdhocBasedTriggerContext_STATUS(&adhoc)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AdhocBasedTriggerContext_STATUS() to populate field Adhoc")
@@ -2524,7 +2524,7 @@ func (context *TriggerContext_STATUS) AssignProperties_To_TriggerContext_STATUS(
 
 	// Schedule
 	if context.Schedule != nil {
-		var schedule v20231201s.ScheduleBasedTriggerContext_STATUS
+		var schedule v20231101s.ScheduleBasedTriggerContext_STATUS
 		err := context.Schedule.AssignProperties_To_ScheduleBasedTriggerContext_STATUS(&schedule)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScheduleBasedTriggerContext_STATUS() to populate field Schedule")
@@ -2562,7 +2562,7 @@ type AdhocBasedTriggerContext struct {
 }
 
 // AssignProperties_From_AdhocBasedTriggerContext populates our AdhocBasedTriggerContext from the provided source AdhocBasedTriggerContext
-func (context *AdhocBasedTriggerContext) AssignProperties_From_AdhocBasedTriggerContext(source *v20231201s.AdhocBasedTriggerContext) error {
+func (context *AdhocBasedTriggerContext) AssignProperties_From_AdhocBasedTriggerContext(source *v20231101s.AdhocBasedTriggerContext) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2602,7 +2602,7 @@ func (context *AdhocBasedTriggerContext) AssignProperties_From_AdhocBasedTrigger
 }
 
 // AssignProperties_To_AdhocBasedTriggerContext populates the provided destination AdhocBasedTriggerContext from our AdhocBasedTriggerContext
-func (context *AdhocBasedTriggerContext) AssignProperties_To_AdhocBasedTriggerContext(destination *v20231201s.AdhocBasedTriggerContext) error {
+func (context *AdhocBasedTriggerContext) AssignProperties_To_AdhocBasedTriggerContext(destination *v20231101s.AdhocBasedTriggerContext) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(context.PropertyBag)
 
@@ -2611,7 +2611,7 @@ func (context *AdhocBasedTriggerContext) AssignProperties_To_AdhocBasedTriggerCo
 
 	// TaggingCriteria
 	if context.TaggingCriteria != nil {
-		var taggingCriterion v20231201s.AdhocBasedTaggingCriteria
+		var taggingCriterion v20231101s.AdhocBasedTaggingCriteria
 		err := context.TaggingCriteria.AssignProperties_To_AdhocBasedTaggingCriteria(&taggingCriterion)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AdhocBasedTaggingCriteria() to populate field TaggingCriteria")
@@ -2649,7 +2649,7 @@ type AdhocBasedTriggerContext_STATUS struct {
 }
 
 // AssignProperties_From_AdhocBasedTriggerContext_STATUS populates our AdhocBasedTriggerContext_STATUS from the provided source AdhocBasedTriggerContext_STATUS
-func (context *AdhocBasedTriggerContext_STATUS) AssignProperties_From_AdhocBasedTriggerContext_STATUS(source *v20231201s.AdhocBasedTriggerContext_STATUS) error {
+func (context *AdhocBasedTriggerContext_STATUS) AssignProperties_From_AdhocBasedTriggerContext_STATUS(source *v20231101s.AdhocBasedTriggerContext_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2689,7 +2689,7 @@ func (context *AdhocBasedTriggerContext_STATUS) AssignProperties_From_AdhocBased
 }
 
 // AssignProperties_To_AdhocBasedTriggerContext_STATUS populates the provided destination AdhocBasedTriggerContext_STATUS from our AdhocBasedTriggerContext_STATUS
-func (context *AdhocBasedTriggerContext_STATUS) AssignProperties_To_AdhocBasedTriggerContext_STATUS(destination *v20231201s.AdhocBasedTriggerContext_STATUS) error {
+func (context *AdhocBasedTriggerContext_STATUS) AssignProperties_To_AdhocBasedTriggerContext_STATUS(destination *v20231101s.AdhocBasedTriggerContext_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(context.PropertyBag)
 
@@ -2698,7 +2698,7 @@ func (context *AdhocBasedTriggerContext_STATUS) AssignProperties_To_AdhocBasedTr
 
 	// TaggingCriteria
 	if context.TaggingCriteria != nil {
-		var taggingCriterion v20231201s.AdhocBasedTaggingCriteria_STATUS
+		var taggingCriterion v20231101s.AdhocBasedTaggingCriteria_STATUS
 		err := context.TaggingCriteria.AssignProperties_To_AdhocBasedTaggingCriteria_STATUS(&taggingCriterion)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AdhocBasedTaggingCriteria_STATUS() to populate field TaggingCriteria")
@@ -2729,43 +2729,43 @@ func (context *AdhocBasedTriggerContext_STATUS) AssignProperties_To_AdhocBasedTr
 }
 
 type augmentConversionForBackupParameters interface {
-	AssignPropertiesFrom(src *v20231201s.BackupParameters) error
-	AssignPropertiesTo(dst *v20231201s.BackupParameters) error
+	AssignPropertiesFrom(src *v20231101s.BackupParameters) error
+	AssignPropertiesTo(dst *v20231101s.BackupParameters) error
 }
 
 type augmentConversionForBackupParameters_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.BackupParameters_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.BackupParameters_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.BackupParameters_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.BackupParameters_STATUS) error
 }
 
 type augmentConversionForDataStoreInfoBase interface {
-	AssignPropertiesFrom(src *v20231201s.DataStoreInfoBase) error
-	AssignPropertiesTo(dst *v20231201s.DataStoreInfoBase) error
+	AssignPropertiesFrom(src *v20231101s.DataStoreInfoBase) error
+	AssignPropertiesTo(dst *v20231101s.DataStoreInfoBase) error
 }
 
 type augmentConversionForDataStoreInfoBase_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.DataStoreInfoBase_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.DataStoreInfoBase_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.DataStoreInfoBase_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.DataStoreInfoBase_STATUS) error
 }
 
 type augmentConversionForSourceLifeCycle interface {
-	AssignPropertiesFrom(src *v20231201s.SourceLifeCycle) error
-	AssignPropertiesTo(dst *v20231201s.SourceLifeCycle) error
+	AssignPropertiesFrom(src *v20231101s.SourceLifeCycle) error
+	AssignPropertiesTo(dst *v20231101s.SourceLifeCycle) error
 }
 
 type augmentConversionForSourceLifeCycle_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.SourceLifeCycle_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.SourceLifeCycle_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.SourceLifeCycle_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.SourceLifeCycle_STATUS) error
 }
 
 type augmentConversionForTriggerContext interface {
-	AssignPropertiesFrom(src *v20231201s.TriggerContext) error
-	AssignPropertiesTo(dst *v20231201s.TriggerContext) error
+	AssignPropertiesFrom(src *v20231101s.TriggerContext) error
+	AssignPropertiesTo(dst *v20231101s.TriggerContext) error
 }
 
 type augmentConversionForTriggerContext_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.TriggerContext_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.TriggerContext_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.TriggerContext_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.TriggerContext_STATUS) error
 }
 
 // Storage version of v1api20230101.AzureBackupParams
@@ -2776,7 +2776,7 @@ type AzureBackupParams struct {
 }
 
 // AssignProperties_From_AzureBackupParams populates our AzureBackupParams from the provided source AzureBackupParams
-func (params *AzureBackupParams) AssignProperties_From_AzureBackupParams(source *v20231201s.AzureBackupParams) error {
+func (params *AzureBackupParams) AssignProperties_From_AzureBackupParams(source *v20231101s.AzureBackupParams) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2807,7 +2807,7 @@ func (params *AzureBackupParams) AssignProperties_From_AzureBackupParams(source 
 }
 
 // AssignProperties_To_AzureBackupParams populates the provided destination AzureBackupParams from our AzureBackupParams
-func (params *AzureBackupParams) AssignProperties_To_AzureBackupParams(destination *v20231201s.AzureBackupParams) error {
+func (params *AzureBackupParams) AssignProperties_To_AzureBackupParams(destination *v20231101s.AzureBackupParams) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(params.PropertyBag)
 
@@ -2845,7 +2845,7 @@ type AzureBackupParams_STATUS struct {
 }
 
 // AssignProperties_From_AzureBackupParams_STATUS populates our AzureBackupParams_STATUS from the provided source AzureBackupParams_STATUS
-func (params *AzureBackupParams_STATUS) AssignProperties_From_AzureBackupParams_STATUS(source *v20231201s.AzureBackupParams_STATUS) error {
+func (params *AzureBackupParams_STATUS) AssignProperties_From_AzureBackupParams_STATUS(source *v20231101s.AzureBackupParams_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2876,7 +2876,7 @@ func (params *AzureBackupParams_STATUS) AssignProperties_From_AzureBackupParams_
 }
 
 // AssignProperties_To_AzureBackupParams_STATUS populates the provided destination AzureBackupParams_STATUS from our AzureBackupParams_STATUS
-func (params *AzureBackupParams_STATUS) AssignProperties_To_AzureBackupParams_STATUS(destination *v20231201s.AzureBackupParams_STATUS) error {
+func (params *AzureBackupParams_STATUS) AssignProperties_To_AzureBackupParams_STATUS(destination *v20231101s.AzureBackupParams_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(params.PropertyBag)
 
@@ -2913,7 +2913,7 @@ type DeleteOption struct {
 }
 
 // AssignProperties_From_DeleteOption populates our DeleteOption from the provided source DeleteOption
-func (option *DeleteOption) AssignProperties_From_DeleteOption(source *v20231201s.DeleteOption) error {
+func (option *DeleteOption) AssignProperties_From_DeleteOption(source *v20231101s.DeleteOption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2950,13 +2950,13 @@ func (option *DeleteOption) AssignProperties_From_DeleteOption(source *v20231201
 }
 
 // AssignProperties_To_DeleteOption populates the provided destination DeleteOption from our DeleteOption
-func (option *DeleteOption) AssignProperties_To_DeleteOption(destination *v20231201s.DeleteOption) error {
+func (option *DeleteOption) AssignProperties_To_DeleteOption(destination *v20231101s.DeleteOption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(option.PropertyBag)
 
 	// AbsoluteDeleteOption
 	if option.AbsoluteDeleteOption != nil {
-		var absoluteDeleteOption v20231201s.AbsoluteDeleteOption
+		var absoluteDeleteOption v20231101s.AbsoluteDeleteOption
 		err := option.AbsoluteDeleteOption.AssignProperties_To_AbsoluteDeleteOption(&absoluteDeleteOption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AbsoluteDeleteOption() to populate field AbsoluteDeleteOption")
@@ -2993,7 +2993,7 @@ type DeleteOption_STATUS struct {
 }
 
 // AssignProperties_From_DeleteOption_STATUS populates our DeleteOption_STATUS from the provided source DeleteOption_STATUS
-func (option *DeleteOption_STATUS) AssignProperties_From_DeleteOption_STATUS(source *v20231201s.DeleteOption_STATUS) error {
+func (option *DeleteOption_STATUS) AssignProperties_From_DeleteOption_STATUS(source *v20231101s.DeleteOption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3030,13 +3030,13 @@ func (option *DeleteOption_STATUS) AssignProperties_From_DeleteOption_STATUS(sou
 }
 
 // AssignProperties_To_DeleteOption_STATUS populates the provided destination DeleteOption_STATUS from our DeleteOption_STATUS
-func (option *DeleteOption_STATUS) AssignProperties_To_DeleteOption_STATUS(destination *v20231201s.DeleteOption_STATUS) error {
+func (option *DeleteOption_STATUS) AssignProperties_To_DeleteOption_STATUS(destination *v20231101s.DeleteOption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(option.PropertyBag)
 
 	// AbsoluteDeleteOption
 	if option.AbsoluteDeleteOption != nil {
-		var absoluteDeleteOption v20231201s.AbsoluteDeleteOption_STATUS
+		var absoluteDeleteOption v20231101s.AbsoluteDeleteOption_STATUS
 		err := option.AbsoluteDeleteOption.AssignProperties_To_AbsoluteDeleteOption_STATUS(&absoluteDeleteOption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AbsoluteDeleteOption_STATUS() to populate field AbsoluteDeleteOption")
@@ -3075,7 +3075,7 @@ type ScheduleBasedTriggerContext struct {
 }
 
 // AssignProperties_From_ScheduleBasedTriggerContext populates our ScheduleBasedTriggerContext from the provided source ScheduleBasedTriggerContext
-func (context *ScheduleBasedTriggerContext) AssignProperties_From_ScheduleBasedTriggerContext(source *v20231201s.ScheduleBasedTriggerContext) error {
+func (context *ScheduleBasedTriggerContext) AssignProperties_From_ScheduleBasedTriggerContext(source *v20231101s.ScheduleBasedTriggerContext) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3133,7 +3133,7 @@ func (context *ScheduleBasedTriggerContext) AssignProperties_From_ScheduleBasedT
 }
 
 // AssignProperties_To_ScheduleBasedTriggerContext populates the provided destination ScheduleBasedTriggerContext from our ScheduleBasedTriggerContext
-func (context *ScheduleBasedTriggerContext) AssignProperties_To_ScheduleBasedTriggerContext(destination *v20231201s.ScheduleBasedTriggerContext) error {
+func (context *ScheduleBasedTriggerContext) AssignProperties_To_ScheduleBasedTriggerContext(destination *v20231101s.ScheduleBasedTriggerContext) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(context.PropertyBag)
 
@@ -3142,7 +3142,7 @@ func (context *ScheduleBasedTriggerContext) AssignProperties_To_ScheduleBasedTri
 
 	// Schedule
 	if context.Schedule != nil {
-		var schedule v20231201s.BackupSchedule
+		var schedule v20231101s.BackupSchedule
 		err := context.Schedule.AssignProperties_To_BackupSchedule(&schedule)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BackupSchedule() to populate field Schedule")
@@ -3154,11 +3154,11 @@ func (context *ScheduleBasedTriggerContext) AssignProperties_To_ScheduleBasedTri
 
 	// TaggingCriteria
 	if context.TaggingCriteria != nil {
-		taggingCriterionList := make([]v20231201s.TaggingCriteria, len(context.TaggingCriteria))
+		taggingCriterionList := make([]v20231101s.TaggingCriteria, len(context.TaggingCriteria))
 		for taggingCriterionIndex, taggingCriterionItem := range context.TaggingCriteria {
 			// Shadow the loop variable to avoid aliasing
 			taggingCriterionItem := taggingCriterionItem
-			var taggingCriterion v20231201s.TaggingCriteria
+			var taggingCriterion v20231101s.TaggingCriteria
 			err := taggingCriterionItem.AssignProperties_To_TaggingCriteria(&taggingCriterion)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_TaggingCriteria() to populate field TaggingCriteria")
@@ -3199,7 +3199,7 @@ type ScheduleBasedTriggerContext_STATUS struct {
 }
 
 // AssignProperties_From_ScheduleBasedTriggerContext_STATUS populates our ScheduleBasedTriggerContext_STATUS from the provided source ScheduleBasedTriggerContext_STATUS
-func (context *ScheduleBasedTriggerContext_STATUS) AssignProperties_From_ScheduleBasedTriggerContext_STATUS(source *v20231201s.ScheduleBasedTriggerContext_STATUS) error {
+func (context *ScheduleBasedTriggerContext_STATUS) AssignProperties_From_ScheduleBasedTriggerContext_STATUS(source *v20231101s.ScheduleBasedTriggerContext_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3257,7 +3257,7 @@ func (context *ScheduleBasedTriggerContext_STATUS) AssignProperties_From_Schedul
 }
 
 // AssignProperties_To_ScheduleBasedTriggerContext_STATUS populates the provided destination ScheduleBasedTriggerContext_STATUS from our ScheduleBasedTriggerContext_STATUS
-func (context *ScheduleBasedTriggerContext_STATUS) AssignProperties_To_ScheduleBasedTriggerContext_STATUS(destination *v20231201s.ScheduleBasedTriggerContext_STATUS) error {
+func (context *ScheduleBasedTriggerContext_STATUS) AssignProperties_To_ScheduleBasedTriggerContext_STATUS(destination *v20231101s.ScheduleBasedTriggerContext_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(context.PropertyBag)
 
@@ -3266,7 +3266,7 @@ func (context *ScheduleBasedTriggerContext_STATUS) AssignProperties_To_ScheduleB
 
 	// Schedule
 	if context.Schedule != nil {
-		var schedule v20231201s.BackupSchedule_STATUS
+		var schedule v20231101s.BackupSchedule_STATUS
 		err := context.Schedule.AssignProperties_To_BackupSchedule_STATUS(&schedule)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BackupSchedule_STATUS() to populate field Schedule")
@@ -3278,11 +3278,11 @@ func (context *ScheduleBasedTriggerContext_STATUS) AssignProperties_To_ScheduleB
 
 	// TaggingCriteria
 	if context.TaggingCriteria != nil {
-		taggingCriterionList := make([]v20231201s.TaggingCriteria_STATUS, len(context.TaggingCriteria))
+		taggingCriterionList := make([]v20231101s.TaggingCriteria_STATUS, len(context.TaggingCriteria))
 		for taggingCriterionIndex, taggingCriterionItem := range context.TaggingCriteria {
 			// Shadow the loop variable to avoid aliasing
 			taggingCriterionItem := taggingCriterionItem
-			var taggingCriterion v20231201s.TaggingCriteria_STATUS
+			var taggingCriterion v20231101s.TaggingCriteria_STATUS
 			err := taggingCriterionItem.AssignProperties_To_TaggingCriteria_STATUS(&taggingCriterion)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_TaggingCriteria_STATUS() to populate field TaggingCriteria")
@@ -3323,7 +3323,7 @@ type TargetCopySetting struct {
 }
 
 // AssignProperties_From_TargetCopySetting populates our TargetCopySetting from the provided source TargetCopySetting
-func (setting *TargetCopySetting) AssignProperties_From_TargetCopySetting(source *v20231201s.TargetCopySetting) error {
+func (setting *TargetCopySetting) AssignProperties_From_TargetCopySetting(source *v20231101s.TargetCopySetting) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3372,13 +3372,13 @@ func (setting *TargetCopySetting) AssignProperties_From_TargetCopySetting(source
 }
 
 // AssignProperties_To_TargetCopySetting populates the provided destination TargetCopySetting from our TargetCopySetting
-func (setting *TargetCopySetting) AssignProperties_To_TargetCopySetting(destination *v20231201s.TargetCopySetting) error {
+func (setting *TargetCopySetting) AssignProperties_To_TargetCopySetting(destination *v20231101s.TargetCopySetting) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(setting.PropertyBag)
 
 	// CopyAfter
 	if setting.CopyAfter != nil {
-		var copyAfter v20231201s.CopyOption
+		var copyAfter v20231101s.CopyOption
 		err := setting.CopyAfter.AssignProperties_To_CopyOption(&copyAfter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CopyOption() to populate field CopyAfter")
@@ -3390,7 +3390,7 @@ func (setting *TargetCopySetting) AssignProperties_To_TargetCopySetting(destinat
 
 	// DataStore
 	if setting.DataStore != nil {
-		var dataStore v20231201s.DataStoreInfoBase
+		var dataStore v20231101s.DataStoreInfoBase
 		err := setting.DataStore.AssignProperties_To_DataStoreInfoBase(&dataStore)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase() to populate field DataStore")
@@ -3429,7 +3429,7 @@ type TargetCopySetting_STATUS struct {
 }
 
 // AssignProperties_From_TargetCopySetting_STATUS populates our TargetCopySetting_STATUS from the provided source TargetCopySetting_STATUS
-func (setting *TargetCopySetting_STATUS) AssignProperties_From_TargetCopySetting_STATUS(source *v20231201s.TargetCopySetting_STATUS) error {
+func (setting *TargetCopySetting_STATUS) AssignProperties_From_TargetCopySetting_STATUS(source *v20231101s.TargetCopySetting_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3478,13 +3478,13 @@ func (setting *TargetCopySetting_STATUS) AssignProperties_From_TargetCopySetting
 }
 
 // AssignProperties_To_TargetCopySetting_STATUS populates the provided destination TargetCopySetting_STATUS from our TargetCopySetting_STATUS
-func (setting *TargetCopySetting_STATUS) AssignProperties_To_TargetCopySetting_STATUS(destination *v20231201s.TargetCopySetting_STATUS) error {
+func (setting *TargetCopySetting_STATUS) AssignProperties_To_TargetCopySetting_STATUS(destination *v20231101s.TargetCopySetting_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(setting.PropertyBag)
 
 	// CopyAfter
 	if setting.CopyAfter != nil {
-		var copyAfter v20231201s.CopyOption_STATUS
+		var copyAfter v20231101s.CopyOption_STATUS
 		err := setting.CopyAfter.AssignProperties_To_CopyOption_STATUS(&copyAfter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CopyOption_STATUS() to populate field CopyAfter")
@@ -3496,7 +3496,7 @@ func (setting *TargetCopySetting_STATUS) AssignProperties_To_TargetCopySetting_S
 
 	// DataStore
 	if setting.DataStore != nil {
-		var dataStore v20231201s.DataStoreInfoBase_STATUS
+		var dataStore v20231101s.DataStoreInfoBase_STATUS
 		err := setting.DataStore.AssignProperties_To_DataStoreInfoBase_STATUS(&dataStore)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DataStoreInfoBase_STATUS() to populate field DataStore")
@@ -3534,7 +3534,7 @@ type AbsoluteDeleteOption struct {
 }
 
 // AssignProperties_From_AbsoluteDeleteOption populates our AbsoluteDeleteOption from the provided source AbsoluteDeleteOption
-func (option *AbsoluteDeleteOption) AssignProperties_From_AbsoluteDeleteOption(source *v20231201s.AbsoluteDeleteOption) error {
+func (option *AbsoluteDeleteOption) AssignProperties_From_AbsoluteDeleteOption(source *v20231101s.AbsoluteDeleteOption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3565,7 +3565,7 @@ func (option *AbsoluteDeleteOption) AssignProperties_From_AbsoluteDeleteOption(s
 }
 
 // AssignProperties_To_AbsoluteDeleteOption populates the provided destination AbsoluteDeleteOption from our AbsoluteDeleteOption
-func (option *AbsoluteDeleteOption) AssignProperties_To_AbsoluteDeleteOption(destination *v20231201s.AbsoluteDeleteOption) error {
+func (option *AbsoluteDeleteOption) AssignProperties_To_AbsoluteDeleteOption(destination *v20231101s.AbsoluteDeleteOption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(option.PropertyBag)
 
@@ -3603,7 +3603,7 @@ type AbsoluteDeleteOption_STATUS struct {
 }
 
 // AssignProperties_From_AbsoluteDeleteOption_STATUS populates our AbsoluteDeleteOption_STATUS from the provided source AbsoluteDeleteOption_STATUS
-func (option *AbsoluteDeleteOption_STATUS) AssignProperties_From_AbsoluteDeleteOption_STATUS(source *v20231201s.AbsoluteDeleteOption_STATUS) error {
+func (option *AbsoluteDeleteOption_STATUS) AssignProperties_From_AbsoluteDeleteOption_STATUS(source *v20231101s.AbsoluteDeleteOption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3634,7 +3634,7 @@ func (option *AbsoluteDeleteOption_STATUS) AssignProperties_From_AbsoluteDeleteO
 }
 
 // AssignProperties_To_AbsoluteDeleteOption_STATUS populates the provided destination AbsoluteDeleteOption_STATUS from our AbsoluteDeleteOption_STATUS
-func (option *AbsoluteDeleteOption_STATUS) AssignProperties_To_AbsoluteDeleteOption_STATUS(destination *v20231201s.AbsoluteDeleteOption_STATUS) error {
+func (option *AbsoluteDeleteOption_STATUS) AssignProperties_To_AbsoluteDeleteOption_STATUS(destination *v20231101s.AbsoluteDeleteOption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(option.PropertyBag)
 
@@ -3672,7 +3672,7 @@ type AdhocBasedTaggingCriteria struct {
 }
 
 // AssignProperties_From_AdhocBasedTaggingCriteria populates our AdhocBasedTaggingCriteria from the provided source AdhocBasedTaggingCriteria
-func (criteria *AdhocBasedTaggingCriteria) AssignProperties_From_AdhocBasedTaggingCriteria(source *v20231201s.AdhocBasedTaggingCriteria) error {
+func (criteria *AdhocBasedTaggingCriteria) AssignProperties_From_AdhocBasedTaggingCriteria(source *v20231101s.AdhocBasedTaggingCriteria) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3709,13 +3709,13 @@ func (criteria *AdhocBasedTaggingCriteria) AssignProperties_From_AdhocBasedTaggi
 }
 
 // AssignProperties_To_AdhocBasedTaggingCriteria populates the provided destination AdhocBasedTaggingCriteria from our AdhocBasedTaggingCriteria
-func (criteria *AdhocBasedTaggingCriteria) AssignProperties_To_AdhocBasedTaggingCriteria(destination *v20231201s.AdhocBasedTaggingCriteria) error {
+func (criteria *AdhocBasedTaggingCriteria) AssignProperties_To_AdhocBasedTaggingCriteria(destination *v20231101s.AdhocBasedTaggingCriteria) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(criteria.PropertyBag)
 
 	// TagInfo
 	if criteria.TagInfo != nil {
-		var tagInfo v20231201s.RetentionTag
+		var tagInfo v20231101s.RetentionTag
 		err := criteria.TagInfo.AssignProperties_To_RetentionTag(&tagInfo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RetentionTag() to populate field TagInfo")
@@ -3753,7 +3753,7 @@ type AdhocBasedTaggingCriteria_STATUS struct {
 }
 
 // AssignProperties_From_AdhocBasedTaggingCriteria_STATUS populates our AdhocBasedTaggingCriteria_STATUS from the provided source AdhocBasedTaggingCriteria_STATUS
-func (criteria *AdhocBasedTaggingCriteria_STATUS) AssignProperties_From_AdhocBasedTaggingCriteria_STATUS(source *v20231201s.AdhocBasedTaggingCriteria_STATUS) error {
+func (criteria *AdhocBasedTaggingCriteria_STATUS) AssignProperties_From_AdhocBasedTaggingCriteria_STATUS(source *v20231101s.AdhocBasedTaggingCriteria_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3790,13 +3790,13 @@ func (criteria *AdhocBasedTaggingCriteria_STATUS) AssignProperties_From_AdhocBas
 }
 
 // AssignProperties_To_AdhocBasedTaggingCriteria_STATUS populates the provided destination AdhocBasedTaggingCriteria_STATUS from our AdhocBasedTaggingCriteria_STATUS
-func (criteria *AdhocBasedTaggingCriteria_STATUS) AssignProperties_To_AdhocBasedTaggingCriteria_STATUS(destination *v20231201s.AdhocBasedTaggingCriteria_STATUS) error {
+func (criteria *AdhocBasedTaggingCriteria_STATUS) AssignProperties_To_AdhocBasedTaggingCriteria_STATUS(destination *v20231101s.AdhocBasedTaggingCriteria_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(criteria.PropertyBag)
 
 	// TagInfo
 	if criteria.TagInfo != nil {
-		var tagInfo v20231201s.RetentionTag_STATUS
+		var tagInfo v20231101s.RetentionTag_STATUS
 		err := criteria.TagInfo.AssignProperties_To_RetentionTag_STATUS(&tagInfo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RetentionTag_STATUS() to populate field TagInfo")
@@ -3827,53 +3827,53 @@ func (criteria *AdhocBasedTaggingCriteria_STATUS) AssignProperties_To_AdhocBased
 }
 
 type augmentConversionForAdhocBasedTriggerContext interface {
-	AssignPropertiesFrom(src *v20231201s.AdhocBasedTriggerContext) error
-	AssignPropertiesTo(dst *v20231201s.AdhocBasedTriggerContext) error
+	AssignPropertiesFrom(src *v20231101s.AdhocBasedTriggerContext) error
+	AssignPropertiesTo(dst *v20231101s.AdhocBasedTriggerContext) error
 }
 
 type augmentConversionForAdhocBasedTriggerContext_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.AdhocBasedTriggerContext_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.AdhocBasedTriggerContext_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.AdhocBasedTriggerContext_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.AdhocBasedTriggerContext_STATUS) error
 }
 
 type augmentConversionForAzureBackupParams interface {
-	AssignPropertiesFrom(src *v20231201s.AzureBackupParams) error
-	AssignPropertiesTo(dst *v20231201s.AzureBackupParams) error
+	AssignPropertiesFrom(src *v20231101s.AzureBackupParams) error
+	AssignPropertiesTo(dst *v20231101s.AzureBackupParams) error
 }
 
 type augmentConversionForAzureBackupParams_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.AzureBackupParams_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.AzureBackupParams_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.AzureBackupParams_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.AzureBackupParams_STATUS) error
 }
 
 type augmentConversionForDeleteOption interface {
-	AssignPropertiesFrom(src *v20231201s.DeleteOption) error
-	AssignPropertiesTo(dst *v20231201s.DeleteOption) error
+	AssignPropertiesFrom(src *v20231101s.DeleteOption) error
+	AssignPropertiesTo(dst *v20231101s.DeleteOption) error
 }
 
 type augmentConversionForDeleteOption_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.DeleteOption_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.DeleteOption_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.DeleteOption_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.DeleteOption_STATUS) error
 }
 
 type augmentConversionForScheduleBasedTriggerContext interface {
-	AssignPropertiesFrom(src *v20231201s.ScheduleBasedTriggerContext) error
-	AssignPropertiesTo(dst *v20231201s.ScheduleBasedTriggerContext) error
+	AssignPropertiesFrom(src *v20231101s.ScheduleBasedTriggerContext) error
+	AssignPropertiesTo(dst *v20231101s.ScheduleBasedTriggerContext) error
 }
 
 type augmentConversionForScheduleBasedTriggerContext_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.ScheduleBasedTriggerContext_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.ScheduleBasedTriggerContext_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.ScheduleBasedTriggerContext_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.ScheduleBasedTriggerContext_STATUS) error
 }
 
 type augmentConversionForTargetCopySetting interface {
-	AssignPropertiesFrom(src *v20231201s.TargetCopySetting) error
-	AssignPropertiesTo(dst *v20231201s.TargetCopySetting) error
+	AssignPropertiesFrom(src *v20231101s.TargetCopySetting) error
+	AssignPropertiesTo(dst *v20231101s.TargetCopySetting) error
 }
 
 type augmentConversionForTargetCopySetting_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.TargetCopySetting_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.TargetCopySetting_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.TargetCopySetting_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.TargetCopySetting_STATUS) error
 }
 
 // Storage version of v1api20230101.BackupSchedule
@@ -3885,7 +3885,7 @@ type BackupSchedule struct {
 }
 
 // AssignProperties_From_BackupSchedule populates our BackupSchedule from the provided source BackupSchedule
-func (schedule *BackupSchedule) AssignProperties_From_BackupSchedule(source *v20231201s.BackupSchedule) error {
+func (schedule *BackupSchedule) AssignProperties_From_BackupSchedule(source *v20231101s.BackupSchedule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3916,7 +3916,7 @@ func (schedule *BackupSchedule) AssignProperties_From_BackupSchedule(source *v20
 }
 
 // AssignProperties_To_BackupSchedule populates the provided destination BackupSchedule from our BackupSchedule
-func (schedule *BackupSchedule) AssignProperties_To_BackupSchedule(destination *v20231201s.BackupSchedule) error {
+func (schedule *BackupSchedule) AssignProperties_To_BackupSchedule(destination *v20231101s.BackupSchedule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(schedule.PropertyBag)
 
@@ -3955,7 +3955,7 @@ type BackupSchedule_STATUS struct {
 }
 
 // AssignProperties_From_BackupSchedule_STATUS populates our BackupSchedule_STATUS from the provided source BackupSchedule_STATUS
-func (schedule *BackupSchedule_STATUS) AssignProperties_From_BackupSchedule_STATUS(source *v20231201s.BackupSchedule_STATUS) error {
+func (schedule *BackupSchedule_STATUS) AssignProperties_From_BackupSchedule_STATUS(source *v20231101s.BackupSchedule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3986,7 +3986,7 @@ func (schedule *BackupSchedule_STATUS) AssignProperties_From_BackupSchedule_STAT
 }
 
 // AssignProperties_To_BackupSchedule_STATUS populates the provided destination BackupSchedule_STATUS from our BackupSchedule_STATUS
-func (schedule *BackupSchedule_STATUS) AssignProperties_To_BackupSchedule_STATUS(destination *v20231201s.BackupSchedule_STATUS) error {
+func (schedule *BackupSchedule_STATUS) AssignProperties_To_BackupSchedule_STATUS(destination *v20231101s.BackupSchedule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(schedule.PropertyBag)
 
@@ -4025,7 +4025,7 @@ type CopyOption struct {
 }
 
 // AssignProperties_From_CopyOption populates our CopyOption from the provided source CopyOption
-func (option *CopyOption) AssignProperties_From_CopyOption(source *v20231201s.CopyOption) error {
+func (option *CopyOption) AssignProperties_From_CopyOption(source *v20231101s.CopyOption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4086,13 +4086,13 @@ func (option *CopyOption) AssignProperties_From_CopyOption(source *v20231201s.Co
 }
 
 // AssignProperties_To_CopyOption populates the provided destination CopyOption from our CopyOption
-func (option *CopyOption) AssignProperties_To_CopyOption(destination *v20231201s.CopyOption) error {
+func (option *CopyOption) AssignProperties_To_CopyOption(destination *v20231101s.CopyOption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(option.PropertyBag)
 
 	// CopyOnExpiry
 	if option.CopyOnExpiry != nil {
-		var copyOnExpiry v20231201s.CopyOnExpiryOption
+		var copyOnExpiry v20231101s.CopyOnExpiryOption
 		err := option.CopyOnExpiry.AssignProperties_To_CopyOnExpiryOption(&copyOnExpiry)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CopyOnExpiryOption() to populate field CopyOnExpiry")
@@ -4104,7 +4104,7 @@ func (option *CopyOption) AssignProperties_To_CopyOption(destination *v20231201s
 
 	// CustomCopy
 	if option.CustomCopy != nil {
-		var customCopy v20231201s.CustomCopyOption
+		var customCopy v20231101s.CustomCopyOption
 		err := option.CustomCopy.AssignProperties_To_CustomCopyOption(&customCopy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CustomCopyOption() to populate field CustomCopy")
@@ -4116,7 +4116,7 @@ func (option *CopyOption) AssignProperties_To_CopyOption(destination *v20231201s
 
 	// ImmediateCopy
 	if option.ImmediateCopy != nil {
-		var immediateCopy v20231201s.ImmediateCopyOption
+		var immediateCopy v20231101s.ImmediateCopyOption
 		err := option.ImmediateCopy.AssignProperties_To_ImmediateCopyOption(&immediateCopy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ImmediateCopyOption() to populate field ImmediateCopy")
@@ -4155,7 +4155,7 @@ type CopyOption_STATUS struct {
 }
 
 // AssignProperties_From_CopyOption_STATUS populates our CopyOption_STATUS from the provided source CopyOption_STATUS
-func (option *CopyOption_STATUS) AssignProperties_From_CopyOption_STATUS(source *v20231201s.CopyOption_STATUS) error {
+func (option *CopyOption_STATUS) AssignProperties_From_CopyOption_STATUS(source *v20231101s.CopyOption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4216,13 +4216,13 @@ func (option *CopyOption_STATUS) AssignProperties_From_CopyOption_STATUS(source 
 }
 
 // AssignProperties_To_CopyOption_STATUS populates the provided destination CopyOption_STATUS from our CopyOption_STATUS
-func (option *CopyOption_STATUS) AssignProperties_To_CopyOption_STATUS(destination *v20231201s.CopyOption_STATUS) error {
+func (option *CopyOption_STATUS) AssignProperties_To_CopyOption_STATUS(destination *v20231101s.CopyOption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(option.PropertyBag)
 
 	// CopyOnExpiry
 	if option.CopyOnExpiry != nil {
-		var copyOnExpiry v20231201s.CopyOnExpiryOption_STATUS
+		var copyOnExpiry v20231101s.CopyOnExpiryOption_STATUS
 		err := option.CopyOnExpiry.AssignProperties_To_CopyOnExpiryOption_STATUS(&copyOnExpiry)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CopyOnExpiryOption_STATUS() to populate field CopyOnExpiry")
@@ -4234,7 +4234,7 @@ func (option *CopyOption_STATUS) AssignProperties_To_CopyOption_STATUS(destinati
 
 	// CustomCopy
 	if option.CustomCopy != nil {
-		var customCopy v20231201s.CustomCopyOption_STATUS
+		var customCopy v20231101s.CustomCopyOption_STATUS
 		err := option.CustomCopy.AssignProperties_To_CustomCopyOption_STATUS(&customCopy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CustomCopyOption_STATUS() to populate field CustomCopy")
@@ -4246,7 +4246,7 @@ func (option *CopyOption_STATUS) AssignProperties_To_CopyOption_STATUS(destinati
 
 	// ImmediateCopy
 	if option.ImmediateCopy != nil {
-		var immediateCopy v20231201s.ImmediateCopyOption_STATUS
+		var immediateCopy v20231101s.ImmediateCopyOption_STATUS
 		err := option.ImmediateCopy.AssignProperties_To_ImmediateCopyOption_STATUS(&immediateCopy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ImmediateCopyOption_STATUS() to populate field ImmediateCopy")
@@ -4287,7 +4287,7 @@ type TaggingCriteria struct {
 }
 
 // AssignProperties_From_TaggingCriteria populates our TaggingCriteria from the provided source TaggingCriteria
-func (criteria *TaggingCriteria) AssignProperties_From_TaggingCriteria(source *v20231201s.TaggingCriteria) error {
+func (criteria *TaggingCriteria) AssignProperties_From_TaggingCriteria(source *v20231101s.TaggingCriteria) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4353,17 +4353,17 @@ func (criteria *TaggingCriteria) AssignProperties_From_TaggingCriteria(source *v
 }
 
 // AssignProperties_To_TaggingCriteria populates the provided destination TaggingCriteria from our TaggingCriteria
-func (criteria *TaggingCriteria) AssignProperties_To_TaggingCriteria(destination *v20231201s.TaggingCriteria) error {
+func (criteria *TaggingCriteria) AssignProperties_To_TaggingCriteria(destination *v20231101s.TaggingCriteria) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(criteria.PropertyBag)
 
 	// Criteria
 	if criteria.Criteria != nil {
-		criterionList := make([]v20231201s.BackupCriteria, len(criteria.Criteria))
+		criterionList := make([]v20231101s.BackupCriteria, len(criteria.Criteria))
 		for criterionIndex, criterionItem := range criteria.Criteria {
 			// Shadow the loop variable to avoid aliasing
 			criterionItem := criterionItem
-			var criterion v20231201s.BackupCriteria
+			var criterion v20231101s.BackupCriteria
 			err := criterionItem.AssignProperties_To_BackupCriteria(&criterion)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_BackupCriteria() to populate field Criteria")
@@ -4385,7 +4385,7 @@ func (criteria *TaggingCriteria) AssignProperties_To_TaggingCriteria(destination
 
 	// TagInfo
 	if criteria.TagInfo != nil {
-		var tagInfo v20231201s.RetentionTag
+		var tagInfo v20231101s.RetentionTag
 		err := criteria.TagInfo.AssignProperties_To_RetentionTag(&tagInfo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RetentionTag() to populate field TagInfo")
@@ -4429,7 +4429,7 @@ type TaggingCriteria_STATUS struct {
 }
 
 // AssignProperties_From_TaggingCriteria_STATUS populates our TaggingCriteria_STATUS from the provided source TaggingCriteria_STATUS
-func (criteria *TaggingCriteria_STATUS) AssignProperties_From_TaggingCriteria_STATUS(source *v20231201s.TaggingCriteria_STATUS) error {
+func (criteria *TaggingCriteria_STATUS) AssignProperties_From_TaggingCriteria_STATUS(source *v20231101s.TaggingCriteria_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4495,17 +4495,17 @@ func (criteria *TaggingCriteria_STATUS) AssignProperties_From_TaggingCriteria_ST
 }
 
 // AssignProperties_To_TaggingCriteria_STATUS populates the provided destination TaggingCriteria_STATUS from our TaggingCriteria_STATUS
-func (criteria *TaggingCriteria_STATUS) AssignProperties_To_TaggingCriteria_STATUS(destination *v20231201s.TaggingCriteria_STATUS) error {
+func (criteria *TaggingCriteria_STATUS) AssignProperties_To_TaggingCriteria_STATUS(destination *v20231101s.TaggingCriteria_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(criteria.PropertyBag)
 
 	// Criteria
 	if criteria.Criteria != nil {
-		criterionList := make([]v20231201s.BackupCriteria_STATUS, len(criteria.Criteria))
+		criterionList := make([]v20231101s.BackupCriteria_STATUS, len(criteria.Criteria))
 		for criterionIndex, criterionItem := range criteria.Criteria {
 			// Shadow the loop variable to avoid aliasing
 			criterionItem := criterionItem
-			var criterion v20231201s.BackupCriteria_STATUS
+			var criterion v20231101s.BackupCriteria_STATUS
 			err := criterionItem.AssignProperties_To_BackupCriteria_STATUS(&criterion)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_BackupCriteria_STATUS() to populate field Criteria")
@@ -4527,7 +4527,7 @@ func (criteria *TaggingCriteria_STATUS) AssignProperties_To_TaggingCriteria_STAT
 
 	// TagInfo
 	if criteria.TagInfo != nil {
-		var tagInfo v20231201s.RetentionTag_STATUS
+		var tagInfo v20231101s.RetentionTag_STATUS
 		err := criteria.TagInfo.AssignProperties_To_RetentionTag_STATUS(&tagInfo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RetentionTag_STATUS() to populate field TagInfo")
@@ -4561,53 +4561,53 @@ func (criteria *TaggingCriteria_STATUS) AssignProperties_To_TaggingCriteria_STAT
 }
 
 type augmentConversionForAbsoluteDeleteOption interface {
-	AssignPropertiesFrom(src *v20231201s.AbsoluteDeleteOption) error
-	AssignPropertiesTo(dst *v20231201s.AbsoluteDeleteOption) error
+	AssignPropertiesFrom(src *v20231101s.AbsoluteDeleteOption) error
+	AssignPropertiesTo(dst *v20231101s.AbsoluteDeleteOption) error
 }
 
 type augmentConversionForAbsoluteDeleteOption_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.AbsoluteDeleteOption_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.AbsoluteDeleteOption_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.AbsoluteDeleteOption_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.AbsoluteDeleteOption_STATUS) error
 }
 
 type augmentConversionForAdhocBasedTaggingCriteria interface {
-	AssignPropertiesFrom(src *v20231201s.AdhocBasedTaggingCriteria) error
-	AssignPropertiesTo(dst *v20231201s.AdhocBasedTaggingCriteria) error
+	AssignPropertiesFrom(src *v20231101s.AdhocBasedTaggingCriteria) error
+	AssignPropertiesTo(dst *v20231101s.AdhocBasedTaggingCriteria) error
 }
 
 type augmentConversionForAdhocBasedTaggingCriteria_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.AdhocBasedTaggingCriteria_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.AdhocBasedTaggingCriteria_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.AdhocBasedTaggingCriteria_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.AdhocBasedTaggingCriteria_STATUS) error
 }
 
 type augmentConversionForBackupSchedule interface {
-	AssignPropertiesFrom(src *v20231201s.BackupSchedule) error
-	AssignPropertiesTo(dst *v20231201s.BackupSchedule) error
+	AssignPropertiesFrom(src *v20231101s.BackupSchedule) error
+	AssignPropertiesTo(dst *v20231101s.BackupSchedule) error
 }
 
 type augmentConversionForBackupSchedule_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.BackupSchedule_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.BackupSchedule_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.BackupSchedule_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.BackupSchedule_STATUS) error
 }
 
 type augmentConversionForCopyOption interface {
-	AssignPropertiesFrom(src *v20231201s.CopyOption) error
-	AssignPropertiesTo(dst *v20231201s.CopyOption) error
+	AssignPropertiesFrom(src *v20231101s.CopyOption) error
+	AssignPropertiesTo(dst *v20231101s.CopyOption) error
 }
 
 type augmentConversionForCopyOption_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.CopyOption_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.CopyOption_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.CopyOption_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.CopyOption_STATUS) error
 }
 
 type augmentConversionForTaggingCriteria interface {
-	AssignPropertiesFrom(src *v20231201s.TaggingCriteria) error
-	AssignPropertiesTo(dst *v20231201s.TaggingCriteria) error
+	AssignPropertiesFrom(src *v20231101s.TaggingCriteria) error
+	AssignPropertiesTo(dst *v20231101s.TaggingCriteria) error
 }
 
 type augmentConversionForTaggingCriteria_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.TaggingCriteria_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.TaggingCriteria_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.TaggingCriteria_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.TaggingCriteria_STATUS) error
 }
 
 // Storage version of v1api20230101.BackupCriteria
@@ -4617,7 +4617,7 @@ type BackupCriteria struct {
 }
 
 // AssignProperties_From_BackupCriteria populates our BackupCriteria from the provided source BackupCriteria
-func (criteria *BackupCriteria) AssignProperties_From_BackupCriteria(source *v20231201s.BackupCriteria) error {
+func (criteria *BackupCriteria) AssignProperties_From_BackupCriteria(source *v20231101s.BackupCriteria) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4654,13 +4654,13 @@ func (criteria *BackupCriteria) AssignProperties_From_BackupCriteria(source *v20
 }
 
 // AssignProperties_To_BackupCriteria populates the provided destination BackupCriteria from our BackupCriteria
-func (criteria *BackupCriteria) AssignProperties_To_BackupCriteria(destination *v20231201s.BackupCriteria) error {
+func (criteria *BackupCriteria) AssignProperties_To_BackupCriteria(destination *v20231101s.BackupCriteria) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(criteria.PropertyBag)
 
 	// ScheduleBasedBackupCriteria
 	if criteria.ScheduleBasedBackupCriteria != nil {
-		var scheduleBasedBackupCriterion v20231201s.ScheduleBasedBackupCriteria
+		var scheduleBasedBackupCriterion v20231101s.ScheduleBasedBackupCriteria
 		err := criteria.ScheduleBasedBackupCriteria.AssignProperties_To_ScheduleBasedBackupCriteria(&scheduleBasedBackupCriterion)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScheduleBasedBackupCriteria() to populate field ScheduleBasedBackupCriteria")
@@ -4697,7 +4697,7 @@ type BackupCriteria_STATUS struct {
 }
 
 // AssignProperties_From_BackupCriteria_STATUS populates our BackupCriteria_STATUS from the provided source BackupCriteria_STATUS
-func (criteria *BackupCriteria_STATUS) AssignProperties_From_BackupCriteria_STATUS(source *v20231201s.BackupCriteria_STATUS) error {
+func (criteria *BackupCriteria_STATUS) AssignProperties_From_BackupCriteria_STATUS(source *v20231101s.BackupCriteria_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4734,13 +4734,13 @@ func (criteria *BackupCriteria_STATUS) AssignProperties_From_BackupCriteria_STAT
 }
 
 // AssignProperties_To_BackupCriteria_STATUS populates the provided destination BackupCriteria_STATUS from our BackupCriteria_STATUS
-func (criteria *BackupCriteria_STATUS) AssignProperties_To_BackupCriteria_STATUS(destination *v20231201s.BackupCriteria_STATUS) error {
+func (criteria *BackupCriteria_STATUS) AssignProperties_To_BackupCriteria_STATUS(destination *v20231101s.BackupCriteria_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(criteria.PropertyBag)
 
 	// ScheduleBasedBackupCriteria
 	if criteria.ScheduleBasedBackupCriteria != nil {
-		var scheduleBasedBackupCriterion v20231201s.ScheduleBasedBackupCriteria_STATUS
+		var scheduleBasedBackupCriterion v20231101s.ScheduleBasedBackupCriteria_STATUS
 		err := criteria.ScheduleBasedBackupCriteria.AssignProperties_To_ScheduleBasedBackupCriteria_STATUS(&scheduleBasedBackupCriterion)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScheduleBasedBackupCriteria_STATUS() to populate field ScheduleBasedBackupCriteria")
@@ -4777,7 +4777,7 @@ type CopyOnExpiryOption struct {
 }
 
 // AssignProperties_From_CopyOnExpiryOption populates our CopyOnExpiryOption from the provided source CopyOnExpiryOption
-func (option *CopyOnExpiryOption) AssignProperties_From_CopyOnExpiryOption(source *v20231201s.CopyOnExpiryOption) error {
+func (option *CopyOnExpiryOption) AssignProperties_From_CopyOnExpiryOption(source *v20231101s.CopyOnExpiryOption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4805,7 +4805,7 @@ func (option *CopyOnExpiryOption) AssignProperties_From_CopyOnExpiryOption(sourc
 }
 
 // AssignProperties_To_CopyOnExpiryOption populates the provided destination CopyOnExpiryOption from our CopyOnExpiryOption
-func (option *CopyOnExpiryOption) AssignProperties_To_CopyOnExpiryOption(destination *v20231201s.CopyOnExpiryOption) error {
+func (option *CopyOnExpiryOption) AssignProperties_To_CopyOnExpiryOption(destination *v20231101s.CopyOnExpiryOption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(option.PropertyBag)
 
@@ -4839,7 +4839,7 @@ type CopyOnExpiryOption_STATUS struct {
 }
 
 // AssignProperties_From_CopyOnExpiryOption_STATUS populates our CopyOnExpiryOption_STATUS from the provided source CopyOnExpiryOption_STATUS
-func (option *CopyOnExpiryOption_STATUS) AssignProperties_From_CopyOnExpiryOption_STATUS(source *v20231201s.CopyOnExpiryOption_STATUS) error {
+func (option *CopyOnExpiryOption_STATUS) AssignProperties_From_CopyOnExpiryOption_STATUS(source *v20231101s.CopyOnExpiryOption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4867,7 +4867,7 @@ func (option *CopyOnExpiryOption_STATUS) AssignProperties_From_CopyOnExpiryOptio
 }
 
 // AssignProperties_To_CopyOnExpiryOption_STATUS populates the provided destination CopyOnExpiryOption_STATUS from our CopyOnExpiryOption_STATUS
-func (option *CopyOnExpiryOption_STATUS) AssignProperties_To_CopyOnExpiryOption_STATUS(destination *v20231201s.CopyOnExpiryOption_STATUS) error {
+func (option *CopyOnExpiryOption_STATUS) AssignProperties_To_CopyOnExpiryOption_STATUS(destination *v20231101s.CopyOnExpiryOption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(option.PropertyBag)
 
@@ -4902,7 +4902,7 @@ type CustomCopyOption struct {
 }
 
 // AssignProperties_From_CustomCopyOption populates our CustomCopyOption from the provided source CustomCopyOption
-func (option *CustomCopyOption) AssignProperties_From_CustomCopyOption(source *v20231201s.CustomCopyOption) error {
+func (option *CustomCopyOption) AssignProperties_From_CustomCopyOption(source *v20231101s.CustomCopyOption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4933,7 +4933,7 @@ func (option *CustomCopyOption) AssignProperties_From_CustomCopyOption(source *v
 }
 
 // AssignProperties_To_CustomCopyOption populates the provided destination CustomCopyOption from our CustomCopyOption
-func (option *CustomCopyOption) AssignProperties_To_CustomCopyOption(destination *v20231201s.CustomCopyOption) error {
+func (option *CustomCopyOption) AssignProperties_To_CustomCopyOption(destination *v20231101s.CustomCopyOption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(option.PropertyBag)
 
@@ -4971,7 +4971,7 @@ type CustomCopyOption_STATUS struct {
 }
 
 // AssignProperties_From_CustomCopyOption_STATUS populates our CustomCopyOption_STATUS from the provided source CustomCopyOption_STATUS
-func (option *CustomCopyOption_STATUS) AssignProperties_From_CustomCopyOption_STATUS(source *v20231201s.CustomCopyOption_STATUS) error {
+func (option *CustomCopyOption_STATUS) AssignProperties_From_CustomCopyOption_STATUS(source *v20231101s.CustomCopyOption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5002,7 +5002,7 @@ func (option *CustomCopyOption_STATUS) AssignProperties_From_CustomCopyOption_ST
 }
 
 // AssignProperties_To_CustomCopyOption_STATUS populates the provided destination CustomCopyOption_STATUS from our CustomCopyOption_STATUS
-func (option *CustomCopyOption_STATUS) AssignProperties_To_CustomCopyOption_STATUS(destination *v20231201s.CustomCopyOption_STATUS) error {
+func (option *CustomCopyOption_STATUS) AssignProperties_To_CustomCopyOption_STATUS(destination *v20231101s.CustomCopyOption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(option.PropertyBag)
 
@@ -5039,7 +5039,7 @@ type ImmediateCopyOption struct {
 }
 
 // AssignProperties_From_ImmediateCopyOption populates our ImmediateCopyOption from the provided source ImmediateCopyOption
-func (option *ImmediateCopyOption) AssignProperties_From_ImmediateCopyOption(source *v20231201s.ImmediateCopyOption) error {
+func (option *ImmediateCopyOption) AssignProperties_From_ImmediateCopyOption(source *v20231101s.ImmediateCopyOption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5067,7 +5067,7 @@ func (option *ImmediateCopyOption) AssignProperties_From_ImmediateCopyOption(sou
 }
 
 // AssignProperties_To_ImmediateCopyOption populates the provided destination ImmediateCopyOption from our ImmediateCopyOption
-func (option *ImmediateCopyOption) AssignProperties_To_ImmediateCopyOption(destination *v20231201s.ImmediateCopyOption) error {
+func (option *ImmediateCopyOption) AssignProperties_To_ImmediateCopyOption(destination *v20231101s.ImmediateCopyOption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(option.PropertyBag)
 
@@ -5101,7 +5101,7 @@ type ImmediateCopyOption_STATUS struct {
 }
 
 // AssignProperties_From_ImmediateCopyOption_STATUS populates our ImmediateCopyOption_STATUS from the provided source ImmediateCopyOption_STATUS
-func (option *ImmediateCopyOption_STATUS) AssignProperties_From_ImmediateCopyOption_STATUS(source *v20231201s.ImmediateCopyOption_STATUS) error {
+func (option *ImmediateCopyOption_STATUS) AssignProperties_From_ImmediateCopyOption_STATUS(source *v20231101s.ImmediateCopyOption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5129,7 +5129,7 @@ func (option *ImmediateCopyOption_STATUS) AssignProperties_From_ImmediateCopyOpt
 }
 
 // AssignProperties_To_ImmediateCopyOption_STATUS populates the provided destination ImmediateCopyOption_STATUS from our ImmediateCopyOption_STATUS
-func (option *ImmediateCopyOption_STATUS) AssignProperties_To_ImmediateCopyOption_STATUS(destination *v20231201s.ImmediateCopyOption_STATUS) error {
+func (option *ImmediateCopyOption_STATUS) AssignProperties_To_ImmediateCopyOption_STATUS(destination *v20231101s.ImmediateCopyOption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(option.PropertyBag)
 
@@ -5164,7 +5164,7 @@ type RetentionTag struct {
 }
 
 // AssignProperties_From_RetentionTag populates our RetentionTag from the provided source RetentionTag
-func (retentionTag *RetentionTag) AssignProperties_From_RetentionTag(source *v20231201s.RetentionTag) error {
+func (retentionTag *RetentionTag) AssignProperties_From_RetentionTag(source *v20231101s.RetentionTag) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5192,7 +5192,7 @@ func (retentionTag *RetentionTag) AssignProperties_From_RetentionTag(source *v20
 }
 
 // AssignProperties_To_RetentionTag populates the provided destination RetentionTag from our RetentionTag
-func (retentionTag *RetentionTag) AssignProperties_To_RetentionTag(destination *v20231201s.RetentionTag) error {
+func (retentionTag *RetentionTag) AssignProperties_To_RetentionTag(destination *v20231101s.RetentionTag) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(retentionTag.PropertyBag)
 
@@ -5229,7 +5229,7 @@ type RetentionTag_STATUS struct {
 }
 
 // AssignProperties_From_RetentionTag_STATUS populates our RetentionTag_STATUS from the provided source RetentionTag_STATUS
-func (retentionTag *RetentionTag_STATUS) AssignProperties_From_RetentionTag_STATUS(source *v20231201s.RetentionTag_STATUS) error {
+func (retentionTag *RetentionTag_STATUS) AssignProperties_From_RetentionTag_STATUS(source *v20231101s.RetentionTag_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5263,7 +5263,7 @@ func (retentionTag *RetentionTag_STATUS) AssignProperties_From_RetentionTag_STAT
 }
 
 // AssignProperties_To_RetentionTag_STATUS populates the provided destination RetentionTag_STATUS from our RetentionTag_STATUS
-func (retentionTag *RetentionTag_STATUS) AssignProperties_To_RetentionTag_STATUS(destination *v20231201s.RetentionTag_STATUS) error {
+func (retentionTag *RetentionTag_STATUS) AssignProperties_To_RetentionTag_STATUS(destination *v20231101s.RetentionTag_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(retentionTag.PropertyBag)
 
@@ -5297,53 +5297,53 @@ func (retentionTag *RetentionTag_STATUS) AssignProperties_To_RetentionTag_STATUS
 }
 
 type augmentConversionForBackupCriteria interface {
-	AssignPropertiesFrom(src *v20231201s.BackupCriteria) error
-	AssignPropertiesTo(dst *v20231201s.BackupCriteria) error
+	AssignPropertiesFrom(src *v20231101s.BackupCriteria) error
+	AssignPropertiesTo(dst *v20231101s.BackupCriteria) error
 }
 
 type augmentConversionForBackupCriteria_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.BackupCriteria_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.BackupCriteria_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.BackupCriteria_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.BackupCriteria_STATUS) error
 }
 
 type augmentConversionForCopyOnExpiryOption interface {
-	AssignPropertiesFrom(src *v20231201s.CopyOnExpiryOption) error
-	AssignPropertiesTo(dst *v20231201s.CopyOnExpiryOption) error
+	AssignPropertiesFrom(src *v20231101s.CopyOnExpiryOption) error
+	AssignPropertiesTo(dst *v20231101s.CopyOnExpiryOption) error
 }
 
 type augmentConversionForCopyOnExpiryOption_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.CopyOnExpiryOption_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.CopyOnExpiryOption_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.CopyOnExpiryOption_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.CopyOnExpiryOption_STATUS) error
 }
 
 type augmentConversionForCustomCopyOption interface {
-	AssignPropertiesFrom(src *v20231201s.CustomCopyOption) error
-	AssignPropertiesTo(dst *v20231201s.CustomCopyOption) error
+	AssignPropertiesFrom(src *v20231101s.CustomCopyOption) error
+	AssignPropertiesTo(dst *v20231101s.CustomCopyOption) error
 }
 
 type augmentConversionForCustomCopyOption_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.CustomCopyOption_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.CustomCopyOption_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.CustomCopyOption_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.CustomCopyOption_STATUS) error
 }
 
 type augmentConversionForImmediateCopyOption interface {
-	AssignPropertiesFrom(src *v20231201s.ImmediateCopyOption) error
-	AssignPropertiesTo(dst *v20231201s.ImmediateCopyOption) error
+	AssignPropertiesFrom(src *v20231101s.ImmediateCopyOption) error
+	AssignPropertiesTo(dst *v20231101s.ImmediateCopyOption) error
 }
 
 type augmentConversionForImmediateCopyOption_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.ImmediateCopyOption_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.ImmediateCopyOption_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.ImmediateCopyOption_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.ImmediateCopyOption_STATUS) error
 }
 
 type augmentConversionForRetentionTag interface {
-	AssignPropertiesFrom(src *v20231201s.RetentionTag) error
-	AssignPropertiesTo(dst *v20231201s.RetentionTag) error
+	AssignPropertiesFrom(src *v20231101s.RetentionTag) error
+	AssignPropertiesTo(dst *v20231101s.RetentionTag) error
 }
 
 type augmentConversionForRetentionTag_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.RetentionTag_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.RetentionTag_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.RetentionTag_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.RetentionTag_STATUS) error
 }
 
 // Storage version of v1api20230101.ScheduleBasedBackupCriteria
@@ -5359,7 +5359,7 @@ type ScheduleBasedBackupCriteria struct {
 }
 
 // AssignProperties_From_ScheduleBasedBackupCriteria populates our ScheduleBasedBackupCriteria from the provided source ScheduleBasedBackupCriteria
-func (criteria *ScheduleBasedBackupCriteria) AssignProperties_From_ScheduleBasedBackupCriteria(source *v20231201s.ScheduleBasedBackupCriteria) error {
+func (criteria *ScheduleBasedBackupCriteria) AssignProperties_From_ScheduleBasedBackupCriteria(source *v20231101s.ScheduleBasedBackupCriteria) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5420,7 +5420,7 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_From_ScheduleBased
 }
 
 // AssignProperties_To_ScheduleBasedBackupCriteria populates the provided destination ScheduleBasedBackupCriteria from our ScheduleBasedBackupCriteria
-func (criteria *ScheduleBasedBackupCriteria) AssignProperties_To_ScheduleBasedBackupCriteria(destination *v20231201s.ScheduleBasedBackupCriteria) error {
+func (criteria *ScheduleBasedBackupCriteria) AssignProperties_To_ScheduleBasedBackupCriteria(destination *v20231101s.ScheduleBasedBackupCriteria) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(criteria.PropertyBag)
 
@@ -5429,11 +5429,11 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_To_ScheduleBasedBa
 
 	// DaysOfMonth
 	if criteria.DaysOfMonth != nil {
-		daysOfMonthList := make([]v20231201s.Day, len(criteria.DaysOfMonth))
+		daysOfMonthList := make([]v20231101s.Day, len(criteria.DaysOfMonth))
 		for daysOfMonthIndex, daysOfMonthItem := range criteria.DaysOfMonth {
 			// Shadow the loop variable to avoid aliasing
 			daysOfMonthItem := daysOfMonthItem
-			var daysOfMonth v20231201s.Day
+			var daysOfMonth v20231101s.Day
 			err := daysOfMonthItem.AssignProperties_To_Day(&daysOfMonth)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_Day() to populate field DaysOfMonth")
@@ -5493,7 +5493,7 @@ type ScheduleBasedBackupCriteria_STATUS struct {
 }
 
 // AssignProperties_From_ScheduleBasedBackupCriteria_STATUS populates our ScheduleBasedBackupCriteria_STATUS from the provided source ScheduleBasedBackupCriteria_STATUS
-func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_From_ScheduleBasedBackupCriteria_STATUS(source *v20231201s.ScheduleBasedBackupCriteria_STATUS) error {
+func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_From_ScheduleBasedBackupCriteria_STATUS(source *v20231101s.ScheduleBasedBackupCriteria_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5554,7 +5554,7 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_From_Schedu
 }
 
 // AssignProperties_To_ScheduleBasedBackupCriteria_STATUS populates the provided destination ScheduleBasedBackupCriteria_STATUS from our ScheduleBasedBackupCriteria_STATUS
-func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_To_ScheduleBasedBackupCriteria_STATUS(destination *v20231201s.ScheduleBasedBackupCriteria_STATUS) error {
+func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_To_ScheduleBasedBackupCriteria_STATUS(destination *v20231101s.ScheduleBasedBackupCriteria_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(criteria.PropertyBag)
 
@@ -5563,11 +5563,11 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_To_Schedule
 
 	// DaysOfMonth
 	if criteria.DaysOfMonth != nil {
-		daysOfMonthList := make([]v20231201s.Day_STATUS, len(criteria.DaysOfMonth))
+		daysOfMonthList := make([]v20231101s.Day_STATUS, len(criteria.DaysOfMonth))
 		for daysOfMonthIndex, daysOfMonthItem := range criteria.DaysOfMonth {
 			// Shadow the loop variable to avoid aliasing
 			daysOfMonthItem := daysOfMonthItem
-			var daysOfMonth v20231201s.Day_STATUS
+			var daysOfMonth v20231101s.Day_STATUS
 			err := daysOfMonthItem.AssignProperties_To_Day_STATUS(&daysOfMonth)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_Day_STATUS() to populate field DaysOfMonth")
@@ -5615,13 +5615,13 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_To_Schedule
 }
 
 type augmentConversionForScheduleBasedBackupCriteria interface {
-	AssignPropertiesFrom(src *v20231201s.ScheduleBasedBackupCriteria) error
-	AssignPropertiesTo(dst *v20231201s.ScheduleBasedBackupCriteria) error
+	AssignPropertiesFrom(src *v20231101s.ScheduleBasedBackupCriteria) error
+	AssignPropertiesTo(dst *v20231101s.ScheduleBasedBackupCriteria) error
 }
 
 type augmentConversionForScheduleBasedBackupCriteria_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.ScheduleBasedBackupCriteria_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.ScheduleBasedBackupCriteria_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.ScheduleBasedBackupCriteria_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.ScheduleBasedBackupCriteria_STATUS) error
 }
 
 // Storage version of v1api20230101.Day
@@ -5633,7 +5633,7 @@ type Day struct {
 }
 
 // AssignProperties_From_Day populates our Day from the provided source Day
-func (day *Day) AssignProperties_From_Day(source *v20231201s.Day) error {
+func (day *Day) AssignProperties_From_Day(source *v20231101s.Day) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5669,7 +5669,7 @@ func (day *Day) AssignProperties_From_Day(source *v20231201s.Day) error {
 }
 
 // AssignProperties_To_Day populates the provided destination Day from our Day
-func (day *Day) AssignProperties_To_Day(destination *v20231201s.Day) error {
+func (day *Day) AssignProperties_To_Day(destination *v20231101s.Day) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(day.PropertyBag)
 
@@ -5713,7 +5713,7 @@ type Day_STATUS struct {
 }
 
 // AssignProperties_From_Day_STATUS populates our Day_STATUS from the provided source Day_STATUS
-func (day *Day_STATUS) AssignProperties_From_Day_STATUS(source *v20231201s.Day_STATUS) error {
+func (day *Day_STATUS) AssignProperties_From_Day_STATUS(source *v20231101s.Day_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5749,7 +5749,7 @@ func (day *Day_STATUS) AssignProperties_From_Day_STATUS(source *v20231201s.Day_S
 }
 
 // AssignProperties_To_Day_STATUS populates the provided destination Day_STATUS from our Day_STATUS
-func (day *Day_STATUS) AssignProperties_To_Day_STATUS(destination *v20231201s.Day_STATUS) error {
+func (day *Day_STATUS) AssignProperties_To_Day_STATUS(destination *v20231101s.Day_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(day.PropertyBag)
 
@@ -5785,13 +5785,13 @@ func (day *Day_STATUS) AssignProperties_To_Day_STATUS(destination *v20231201s.Da
 }
 
 type augmentConversionForDay interface {
-	AssignPropertiesFrom(src *v20231201s.Day) error
-	AssignPropertiesTo(dst *v20231201s.Day) error
+	AssignPropertiesFrom(src *v20231101s.Day) error
+	AssignPropertiesTo(dst *v20231101s.Day) error
 }
 
 type augmentConversionForDay_STATUS interface {
-	AssignPropertiesFrom(src *v20231201s.Day_STATUS) error
-	AssignPropertiesTo(dst *v20231201s.Day_STATUS) error
+	AssignPropertiesFrom(src *v20231101s.Day_STATUS) error
+	AssignPropertiesTo(dst *v20231101s.Day_STATUS) error
 }
 
 func init() {

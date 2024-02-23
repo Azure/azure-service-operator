@@ -13,7 +13,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	// The dataprotection package contains types and functions related to dataprotection resources.
-	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231201"
+	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	// The testcommon package includes common testing utilities.
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"

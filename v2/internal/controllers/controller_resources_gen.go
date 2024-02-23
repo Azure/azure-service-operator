@@ -66,8 +66,8 @@ import (
 	dataprotection_customizations "github.com/Azure/azure-service-operator/v2/api/dataprotection/customizations"
 	dataprotection_v20230101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
 	dataprotection_v20230101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/storage"
-	dataprotection_v20231201 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231201"
-	dataprotection_v20231201s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231201/storage"
+	dataprotection_v20231101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
+	dataprotection_v20231101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
 	dbformariadb_customizations "github.com/Azure/azure-service-operator/v2/api/dbformariadb/customizations"
 	dbformariadb_v20180601 "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601"
 	dbformariadb_v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
@@ -423,9 +423,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20231001s.ManagedClustersAgentPool)})
 	result = append(result, &registration.StorageType{Obj: new(datafactory_v20180601s.Factory)})
-	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231201s.BackupVault)})
-	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231201s.BackupVaultsBackupInstance)})
-	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231201s.BackupVaultsBackupPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVault)})
+	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVaultsBackupInstance)})
+	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVaultsBackupPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(dbformariadb_v20180601s.Configuration)})
 	result = append(result, &registration.StorageType{Obj: new(dbformariadb_v20180601s.Database)})
 	result = append(result, &registration.StorageType{
@@ -1130,26 +1130,18 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(containerservice_v20231001s.ManagedCluster), new(containerservice_v20231001s.ManagedClustersAgentPool))
 	result = append(result, new(datafactory_v20180601.Factory))
 	result = append(result, new(datafactory_v20180601s.Factory))
+	result = append(result, new(dataprotection_v20230101.BackupVault), new(dataprotection_v20230101.BackupVaultsBackupPolicy))
+	result = append(result, new(dataprotection_v20230101s.BackupVault), new(dataprotection_v20230101s.BackupVaultsBackupPolicy))
 	result = append(
 		result,
-		new(dataprotection_v20230101.BackupVault),
-		new(dataprotection_v20230101.BackupVaultsBackupInstance),
-		new(dataprotection_v20230101.BackupVaultsBackupPolicy))
+		new(dataprotection_v20231101.BackupVault),
+		new(dataprotection_v20231101.BackupVaultsBackupInstance),
+		new(dataprotection_v20231101.BackupVaultsBackupPolicy))
 	result = append(
 		result,
-		new(dataprotection_v20230101s.BackupVault),
-		new(dataprotection_v20230101s.BackupVaultsBackupInstance),
-		new(dataprotection_v20230101s.BackupVaultsBackupPolicy))
-	result = append(
-		result,
-		new(dataprotection_v20231201.BackupVault),
-		new(dataprotection_v20231201.BackupVaultsBackupInstance),
-		new(dataprotection_v20231201.BackupVaultsBackupPolicy))
-	result = append(
-		result,
-		new(dataprotection_v20231201s.BackupVault),
-		new(dataprotection_v20231201s.BackupVaultsBackupInstance),
-		new(dataprotection_v20231201s.BackupVaultsBackupPolicy))
+		new(dataprotection_v20231101s.BackupVault),
+		new(dataprotection_v20231101s.BackupVaultsBackupInstance),
+		new(dataprotection_v20231101s.BackupVaultsBackupPolicy))
 	result = append(
 		result,
 		new(dbformariadb_v20180601.Configuration),
@@ -1657,8 +1649,8 @@ func createScheme() *runtime.Scheme {
 	_ = datafactory_v20180601s.AddToScheme(scheme)
 	_ = dataprotection_v20230101.AddToScheme(scheme)
 	_ = dataprotection_v20230101s.AddToScheme(scheme)
-	_ = dataprotection_v20231201.AddToScheme(scheme)
-	_ = dataprotection_v20231201s.AddToScheme(scheme)
+	_ = dataprotection_v20231101.AddToScheme(scheme)
+	_ = dataprotection_v20231101s.AddToScheme(scheme)
 	_ = dbformariadb_v20180601.AddToScheme(scheme)
 	_ = dbformariadb_v20180601s.AddToScheme(scheme)
 	_ = dbformysql_v20210501.AddToScheme(scheme)

@@ -16,7 +16,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	armdataprotection "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dataprotection/armdataprotection/v3"
-	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231201/storage"
+	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
