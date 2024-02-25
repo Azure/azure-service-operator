@@ -645,10 +645,9 @@ func (extractor *SwaggerTypeExtractor) expandAndCanonicalizePath(
 	ctx context.Context,
 	operationPath string,
 	scanner *SchemaScanner,
-
-	var results = []string{
 	parameters []spec.Parameter,
 ) []string {
+	results := []string{
 		operationPath,
 	}
 

@@ -145,7 +145,7 @@ func (ri *ResourceImporter) queueUniqueImporters(
 	var queue []ImportableResource
 	var current ImportableResource = nil
 
-	var running = true
+	running := true
 	for running {
 		// Dequeue from our internal buffer if needed
 		if current == nil && len(queue) > 0 {
