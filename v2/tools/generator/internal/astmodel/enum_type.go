@@ -90,8 +90,8 @@ func (enum *EnumType) createBaseDeclaration(
 	codeGenerationContext *CodeGenerationContext,
 	name TypeName,
 	description []string,
-	validations []KubeBuilderValidation) dst.Decl {
-
+	validations []KubeBuilderValidation,
+) dst.Decl {
 	typeSpecification := &dst.TypeSpec{
 		Name: dst.NewIdent(name.Name()),
 		Type: enum.baseType.AsType(codeGenerationContext),

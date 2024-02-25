@@ -62,7 +62,8 @@ var _ astmodel.Function = &ResourceConversionFunction{}
 func NewResourceConversionFunction(
 	hub astmodel.InternalTypeName,
 	propertyFunction *PropertyAssignmentFunction,
-	idFactory astmodel.IdentifierFactory) *ResourceConversionFunction {
+	idFactory astmodel.IdentifierFactory,
+) *ResourceConversionFunction {
 	result := &ResourceConversionFunction{
 		hub:              hub,
 		propertyFunction: propertyFunction,
@@ -98,7 +99,6 @@ func (fn *ResourceConversionFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
-
 	// Create a sensible name for our receiver
 	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
 
@@ -149,7 +149,8 @@ func (fn *ResourceConversionFunction) Hub() astmodel.TypeName {
 //
 // return <receiver>.AssignProperties(To|From)<type>(<local>)
 func (fn *ResourceConversionFunction) directConversion(
-	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	receiverName string, generationContext *astmodel.CodeGenerationContext,
+) []dst.Stmt {
 	fmtPackage := generationContext.MustGetImportedPackageName(astmodel.FmtReference)
 
 	hubPackage := fn.hub.InternalPackageReference().FolderPath()
@@ -196,7 +197,8 @@ func (fn *ResourceConversionFunction) directConversion(
 //
 // return nil
 func (fn *ResourceConversionFunction) indirectConversionFromHub(
-	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	receiverName string, generationContext *astmodel.CodeGenerationContext,
+) []dst.Stmt {
 	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
 	localId := fn.localVariableId()
 	errIdent := dst.NewIdent("err")
@@ -255,7 +257,8 @@ func (fn *ResourceConversionFunction) indirectConversionFromHub(
 //
 // return nil
 func (fn *ResourceConversionFunction) indirectConversionToHub(
-	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	receiverName string, generationContext *astmodel.CodeGenerationContext,
+) []dst.Stmt {
 	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
 	localId := fn.localVariableId()
 	errIdent := dst.NewIdent("err")

@@ -63,8 +63,8 @@ func createOperatorSpecIfNeeded(
 	defs astmodel.TypeDefinitionSet,
 	configuration *config.Configuration,
 	idFactory astmodel.IdentifierFactory,
-	resource astmodel.TypeDefinition) (astmodel.TypeDefinitionSet, ExportedProperties, error) {
-
+	resource astmodel.TypeDefinition,
+) (astmodel.TypeDefinitionSet, ExportedProperties, error) {
 	resolved, err := defs.ResolveResourceSpecAndStatus(resource)
 	if err != nil {
 		return nil, nil, errors.Wrapf(err, "resolving resource spec and status for %s", resource.Name())
@@ -245,8 +245,8 @@ func makeJSONPathFromProps(props []*astmodel.PropertyDefinition) string {
 func getConfigMapProperties(
 	defs astmodel.TypeDefinitionSet,
 	configuration *config.Configuration,
-	resource astmodel.TypeDefinition) ([]string, ExportedProperties, error) {
-
+	resource astmodel.TypeDefinition,
+) ([]string, ExportedProperties, error) {
 	configMapPaths, configMapPathsOk := configuration.ObjectModelConfiguration.GeneratedConfigs.Lookup(resource.Name())
 	additionalConfigMaps, additionalConfigMapsOk := configuration.ObjectModelConfiguration.ManualConfigs.Lookup(resource.Name())
 
@@ -288,7 +288,8 @@ type operatorSpecBuilder struct {
 func newOperatorSpecBuilder(
 	configuration *config.Configuration,
 	idFactory astmodel.IdentifierFactory,
-	resource astmodel.TypeDefinition) *operatorSpecBuilder {
+	resource astmodel.TypeDefinition,
+) *operatorSpecBuilder {
 	result := &operatorSpecBuilder{
 		idFactory:     idFactory,
 		configuration: configuration,
@@ -349,8 +350,8 @@ func (b *operatorSpecBuilder) newConfigMapProperty(configMapTypeName astmodel.Ty
 }
 
 func (b *operatorSpecBuilder) addSecretsToOperatorSpec(
-	azureGeneratedSecrets []string) {
-
+	azureGeneratedSecrets []string,
+) {
 	if len(azureGeneratedSecrets) == 0 {
 		return // Nothing to do
 	}
@@ -392,8 +393,8 @@ func (b *operatorSpecBuilder) addSecretsToOperatorSpec(
 }
 
 func (b *operatorSpecBuilder) addConfigs(
-	exportedConfigs []string) {
-
+	exportedConfigs []string,
+) {
 	if len(exportedConfigs) == 0 {
 		return // Nothing to do
 	}

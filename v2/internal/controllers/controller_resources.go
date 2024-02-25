@@ -50,8 +50,8 @@ func GetKnownStorageTypes(
 	credentialProvider identity.CredentialProvider,
 	kubeClient kubeclient.Client,
 	positiveConditions *conditions.PositiveConditionBuilder,
-	options generic.Options) ([]*registration.StorageType, error) {
-
+	options generic.Options,
+) ([]*registration.StorageType, error) {
 	resourceResolver := resolver.NewResolver(kubeClient)
 	knownStorageTypes, err := getGeneratedStorageTypes(mgr, armConnectionFactory, kubeClient, resourceResolver, positiveConditions, options)
 	if err != nil {
@@ -152,7 +152,8 @@ func getGeneratedStorageTypes(
 	kubeClient kubeclient.Client,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
-	options generic.Options) ([]*registration.StorageType, error) {
+	options generic.Options,
+) ([]*registration.StorageType, error) {
 	knownStorageTypes := getKnownStorageTypes()
 
 	err := resourceResolver.IndexStorageTypes(mgr.GetScheme(), knownStorageTypes)
@@ -195,7 +196,8 @@ func augmentWithARMReconciler(
 	positiveConditions *conditions.PositiveConditionBuilder,
 	options generic.Options,
 	extension genruntime.ResourceExtension,
-	t *registration.StorageType) {
+	t *registration.StorageType,
+) {
 	t.Reconciler = arm.NewAzureDeploymentReconciler(
 		armConnectionFactory,
 		kubeClient,

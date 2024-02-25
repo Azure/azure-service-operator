@@ -510,8 +510,8 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 func (builder *convertToARMBuilder) buildToPropInitializer(
 	fromProps []*astmodel.PropertyDefinition,
 	toPropTypeName astmodel.TypeName,
-	toPropName astmodel.PropertyName) dst.Stmt {
-
+	toPropName astmodel.PropertyName,
+) dst.Stmt {
 	// build (x != nil, y != nil, …)
 	conditions := make([]dst.Expr, 0, len(fromProps))
 	for _, prop := range fromProps {

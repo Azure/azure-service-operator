@@ -86,7 +86,8 @@ const DummyBillingId = "/providers/Microsoft.Billing/billingAccounts/00000000-00
 func NewTestContext(
 	region string,
 	recordReplay bool,
-	nameConfig *ResourceNameConfig) TestContext {
+	nameConfig *ResourceNameConfig,
+) TestContext {
 	return TestContext{
 		AzureRegion:  &region,
 		RecordReplay: recordReplay,

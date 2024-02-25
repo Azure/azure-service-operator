@@ -179,7 +179,8 @@ func (graph *ConversionGraph) TransitionCount() int {
 // definitions is a set of known definitions.
 func (graph *ConversionGraph) FindNextProperty(
 	ref astmodel.PropertyReference,
-	definitions astmodel.TypeDefinitionSet) (astmodel.PropertyReference, error) {
+	definitions astmodel.TypeDefinitionSet,
+) (astmodel.PropertyReference, error) {
 	nextType, err := graph.FindNextType(ref.DeclaringType(), definitions)
 	if err != nil {
 		// Something went wrong

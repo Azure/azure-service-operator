@@ -48,7 +48,8 @@ func NewResourceImporter(
 	scheme *runtime.Scheme,
 	client *genericarmclient.GenericClient,
 	log logr.Logger,
-	progress *mpb.Progress) *ResourceImporter {
+	progress *mpb.Progress,
+) *ResourceImporter {
 	return &ResourceImporter{
 		scheme:   scheme,
 		client:   client,

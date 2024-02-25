@@ -83,7 +83,8 @@ var _ astmodel.Function = &PivotConversionFunction{}
 // idFactory is an identifier factory to use for generating local identifiers
 func NewSpecPivotConversionFunction(
 	direction conversions.Direction,
-	idFactory astmodel.IdentifierFactory) *PivotConversionFunction {
+	idFactory astmodel.IdentifierFactory,
+) *PivotConversionFunction {
 	result := &PivotConversionFunction{
 		nameFrom:      "ConvertSpecFrom",
 		nameTo:        "ConvertSpecTo",
@@ -101,7 +102,8 @@ func NewSpecPivotConversionFunction(
 // idFactory is an identifier factory to use for generating local identifiers
 func NewStatusPivotConversionFunction(
 	direction conversions.Direction,
-	idFactory astmodel.IdentifierFactory) *PivotConversionFunction {
+	idFactory astmodel.IdentifierFactory,
+) *PivotConversionFunction {
 	result := &PivotConversionFunction{
 		nameFrom:      "ConvertStatusFrom",
 		nameTo:        "ConvertStatusTo",
@@ -166,8 +168,8 @@ func (fn *PivotConversionFunction) AsFunc(
 func (fn *PivotConversionFunction) bodyForPivot(
 	receiverName string,
 	parameterName string,
-	generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-
+	generationContext *astmodel.CodeGenerationContext,
+) []dst.Stmt {
 	errorsPkg := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
 
 	fnNameForOtherDirection := fn.direction.SelectString(fn.nameTo, fn.nameFrom)

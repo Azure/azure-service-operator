@@ -472,8 +472,8 @@ func (tc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
 func (tc *KubePerTestContext) CreateResourceAndWaitForState(
 	obj client.Object,
 	status metav1.ConditionStatus,
-	severity conditions.ConditionSeverity) {
-
+	severity conditions.ConditionSeverity,
+) {
 	tc.T.Helper()
 	tc.CreateResource(obj)
 	tc.Eventually(obj).Should(tc.Match.BeInState(status, severity, 0))
@@ -508,7 +508,8 @@ func (tc *KubePerTestContext) PatchResourceAndWaitForState(
 	old client.Object,
 	new client.Object,
 	status metav1.ConditionStatus,
-	severity conditions.ConditionSeverity) {
+	severity conditions.ConditionSeverity,
+) {
 	gen := old.GetGeneration()
 
 	tc.T.Helper()

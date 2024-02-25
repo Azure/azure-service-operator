@@ -41,8 +41,8 @@ func WaitFor(ctx context.Context, timeout time.Duration, check func(context.Cont
 func SetupTeardownTestMain(
 	m *testing.M,
 	setup func() error,
-	teardown func() error) int {
-
+	teardown func() error,
+) int {
 	// safety check before calling testing.Short()
 	if !flag.CommandLine.Parsed() {
 		flag.Parse()

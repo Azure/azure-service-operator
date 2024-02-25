@@ -46,8 +46,8 @@ func (sr *StructureReport) writeBlock(
 	writer io.Writer,
 	indents []string,
 	prefixForItem string,
-	prefixForSubItems string) error {
-
+	prefixForSubItems string,
+) error {
 	// Write existing prefix
 	for _, i := range indents {
 		_, err := io.WriteString(writer, i)

@@ -146,7 +146,8 @@ func (tcr *TypeCatalogReport) WriteTo(writer io.Writer) error {
 // Definitions are written in alphabetical order, by case-sensitive sort
 func (tcr *TypeCatalogReport) writeDefinitions(
 	rpt *StructureReport,
-	definitions astmodel.TypeDefinitionSet) {
+	definitions astmodel.TypeDefinitionSet,
+) {
 	defs := definitions.AsSlice()
 	sort.Slice(defs, func(i, j int) bool {
 		return defs[i].Name().Name() < defs[j].Name().Name()
@@ -314,8 +315,8 @@ func (tcr *TypeCatalogReport) writeComplexType(
 	rpt *StructureReport,
 	propertyType astmodel.Type,
 	currentPackage astmodel.InternalPackageReference,
-	parentTypes astmodel.TypeNameSet) {
-
+	parentTypes astmodel.TypeNameSet,
+) {
 	// If we have a complex type, we may need to write it out in detail
 	switch t := propertyType.(type) {
 	case *astmodel.ObjectType,

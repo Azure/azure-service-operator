@@ -64,8 +64,8 @@ func NewAzureDeploymentReconciler(
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
 	cfg config.Values,
-	extension genruntime.ResourceExtension) *AzureDeploymentReconciler {
-
+	extension genruntime.ResourceExtension,
+) *AzureDeploymentReconciler {
 	return &AzureDeploymentReconciler{
 		ARMConnectionFactory: armConnectionFactory,
 		KubeClient:           kubeClient,

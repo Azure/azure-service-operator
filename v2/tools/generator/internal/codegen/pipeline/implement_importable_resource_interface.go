@@ -22,7 +22,8 @@ const ImplementImportableResourceInterfaceStageID = "implementImportableResource
 
 func ImplementImportableResourceInterface(
 	configuration *config.Configuration,
-	idFactory astmodel.IdentifierFactory) *Stage {
+	idFactory astmodel.IdentifierFactory,
+) *Stage {
 	stage := NewStage(
 		ImplementImportableResourceInterfaceStageID,
 		"Implement the ImportableResource interface for resources that support import via asoctl",

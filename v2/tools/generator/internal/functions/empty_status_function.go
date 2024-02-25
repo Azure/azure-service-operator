@@ -15,7 +15,8 @@ import (
 // NewEmptyStatusFunction creates a new function to generate NewEmptyStatus() on resource types
 func NewEmptyStatusFunction(
 	status astmodel.TypeName,
-	idFactory astmodel.IdentifierFactory) *ObjectFunction {
+	idFactory astmodel.IdentifierFactory,
+) *ObjectFunction {
 	result := NewObjectFunction(
 		"NewEmptyStatus",
 		idFactory,

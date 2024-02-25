@@ -33,8 +33,8 @@ var _ GoSourceFile = &FileDefinition{}
 func NewFileDefinition(
 	packageRef InternalPackageReference,
 	definitions []TypeDefinition,
-	generatedPackages map[InternalPackageReference]*PackageDefinition) *FileDefinition {
-
+	generatedPackages map[InternalPackageReference]*PackageDefinition,
+) *FileDefinition {
 	// Topological sort of the definitions, putting them in order of reference
 	ranks := calcRanks(definitions)
 	sort.Slice(definitions, func(i, j int) bool {

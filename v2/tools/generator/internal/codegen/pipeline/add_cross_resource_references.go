@@ -206,8 +206,8 @@ func MakeARMIDToResourceReferenceTypeVisitor(idFactory astmodel.IdentifierFactor
 func makeResourceReferenceProperty(
 	typeName astmodel.InternalTypeName,
 	idFactory astmodel.IdentifierFactory,
-	existing *astmodel.PropertyDefinition) *astmodel.PropertyDefinition {
-
+	existing *astmodel.PropertyDefinition,
+) *astmodel.PropertyDefinition {
 	_, isSlice := astmodel.AsArrayType(existing.PropertyType())
 	_, isMap := astmodel.AsMapType(existing.PropertyType())
 	var referencePropertyName string

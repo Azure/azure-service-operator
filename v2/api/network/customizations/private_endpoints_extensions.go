@@ -28,8 +28,8 @@ func (extension *PrivateEndpointExtension) PostReconcileCheck(
 	_ *resolver.Resolver,
 	_ *genericarmclient.GenericClient,
 	_ logr.Logger,
-	_ extensions.PostReconcileCheckFunc) (extensions.PostReconcileCheckResult, error) {
-
+	_ extensions.PostReconcileCheckFunc,
+) (extensions.PostReconcileCheckResult, error) {
 	endpoint, ok := obj.(*network.PrivateEndpoint)
 	if !ok {
 		return extensions.PostReconcileCheckResult{},

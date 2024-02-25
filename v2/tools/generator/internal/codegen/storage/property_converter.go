@@ -67,7 +67,8 @@ func (p *PropertyConverter) ConvertProperty(property *astmodel.PropertyDefinitio
 
 // stripAllValidations removes all validations
 func (p *PropertyConverter) stripAllValidations(
-	this *astmodel.TypeVisitor[any], v *astmodel.ValidatedType, ctx any) (astmodel.Type, error) {
+	this *astmodel.TypeVisitor[any], v *astmodel.ValidatedType, ctx any,
+) (astmodel.Type, error) {
 	// strip all type validations from storage properties
 	// act as if they do not exist
 	return this.Visit(v.ElementType(), ctx)
@@ -75,7 +76,8 @@ func (p *PropertyConverter) stripAllValidations(
 
 // useBaseTypeForEnumerations replaces an enumeration with its underlying base type
 func (p *PropertyConverter) useBaseTypeForEnumerations(
-	tv *astmodel.TypeVisitor[any], et *astmodel.EnumType, ctx any) (astmodel.Type, error) {
+	tv *astmodel.TypeVisitor[any], et *astmodel.EnumType, ctx any,
+) (astmodel.Type, error) {
 	return tv.Visit(et.BaseType(), ctx)
 }
 
@@ -87,8 +89,8 @@ func (p *PropertyConverter) useBaseTypeForEnumerations(
 //	o  If a TypeName references an alias for a primitive type (these are used to specify validations), it is replaced
 //	   with the primitive type
 func (p *PropertyConverter) shortCircuitNamesOfSimpleTypes(
-	tv *astmodel.TypeVisitor[any], tn astmodel.InternalTypeName, ctx any) (astmodel.Type, error) {
-
+	tv *astmodel.TypeVisitor[any], tn astmodel.InternalTypeName, ctx any,
+) (astmodel.Type, error) {
 	// for nonlocal packages, preserve the name as is
 	if astmodel.IsExternalPackageReference(tn.PackageReference()) {
 		return tn, nil
@@ -134,8 +136,8 @@ type propertyConversion = func(property *astmodel.PropertyDefinition) (*astmodel
 // preserveKubernetesResourceStorageProperties preserves properties required by the
 // KubernetesResource interface as they're always required exactly as declared
 func (p *PropertyConverter) preserveKubernetesResourceStorageProperties(
-	prop *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
-
+	prop *astmodel.PropertyDefinition,
+) (*astmodel.PropertyDefinition, error) {
 	if astmodel.IsKubernetesResourceProperty(prop.PropertyName()) {
 		// Keep these (mostly) unchanged
 		if vt, ok := prop.PropertyType().(*astmodel.ValidatedType); ok {
@@ -155,8 +157,8 @@ func (p *PropertyConverter) preserveKubernetesResourceStorageProperties(
 // preserveResourceReferenceProperties preserves properties required by the
 // KubernetesResource interface as they're always required exactly as declared
 func (p *PropertyConverter) preserveResourceReferenceProperties(
-	prop *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
-
+	prop *astmodel.PropertyDefinition,
+) (*astmodel.PropertyDefinition, error) {
 	propertyType := prop.PropertyType()
 	if opt, ok := astmodel.AsOptionalType(propertyType); ok {
 		if astmodel.TypeEquals(opt.Element(), astmodel.ResourceReferenceType) {
@@ -175,8 +177,8 @@ func (p *PropertyConverter) preserveResourceReferenceProperties(
 }
 
 func (p *PropertyConverter) defaultPropertyConversion(
-	property *astmodel.PropertyDefinition) (*astmodel.PropertyDefinition, error) {
-
+	property *astmodel.PropertyDefinition,
+) (*astmodel.PropertyDefinition, error) {
 	propertyType, err := p.visitor.Visit(property.PropertyType(), nil)
 	if err != nil {
 		return nil, errors.Wrapf(err, "converting property %q", property.PropertyName())

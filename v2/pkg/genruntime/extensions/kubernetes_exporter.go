@@ -28,8 +28,8 @@ func CreateKubernetesExporter(
 	ctx context.Context,
 	host genruntime.ResourceExtension,
 	armClient *genericarmclient.GenericClient,
-	log logr.Logger) KubernetesExportFunc {
-
+	log logr.Logger,
+) KubernetesExportFunc {
 	impl, ok := host.(genruntime.KubernetesExporter)
 	if !ok {
 		return func(obj genruntime.MetaObject) ([]client.Object, error) {

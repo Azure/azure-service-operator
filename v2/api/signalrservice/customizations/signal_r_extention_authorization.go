@@ -31,7 +31,8 @@ func (*SignalRExtension) ExportKubernetesResources(
 	ctx context.Context,
 	obj genruntime.MetaObject,
 	armClient *genericarmclient.GenericClient,
-	log logr.Logger) ([]client.Object, error) {
+	log logr.Logger,
+) ([]client.Object, error) {
 	// Make sure we're working with the current hub version of the resource
 	// This will need to be updated if the hub version changes
 	typedObj, ok := obj.(*signalr.SignalR)

@@ -29,8 +29,8 @@ var _ ReadonlyTypeDefinitions = &CodeGenerationContext{}
 func NewCodeGenerationContext(
 	currentPackage InternalPackageReference,
 	packageImports *PackageImportSet,
-	generatedPackages map[InternalPackageReference]*PackageDefinition) *CodeGenerationContext {
-
+	generatedPackages map[InternalPackageReference]*PackageDefinition,
+) *CodeGenerationContext {
 	imports := NewPackageImportSet()
 	imports.Merge(packageImports)
 

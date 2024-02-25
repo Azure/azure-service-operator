@@ -40,8 +40,8 @@ func NewMySQLUserReconciler(
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
 	credentialProvider identity.CredentialProvider,
-	cfg config.Values) *MySQLUserReconciler {
-
+	cfg config.Values,
+) *MySQLUserReconciler {
 	return &MySQLUserReconciler{
 		ResourceResolver:   resourceResolver,
 		CredentialProvider: credentialProvider,

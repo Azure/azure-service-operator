@@ -46,8 +46,8 @@ func AddCrossplaneForProvider(idFactory astmodel.IdentifierFactory) *Stage {
 func nestSpecIntoForProvider(
 	idFactory astmodel.IdentifierFactory,
 	definitions astmodel.TypeDefinitionSet,
-	typeDef astmodel.TypeDefinition) ([]astmodel.TypeDefinition, error) {
-
+	typeDef astmodel.TypeDefinition,
+) ([]astmodel.TypeDefinition, error) {
 	resource, ok := astmodel.AsResourceType(typeDef.Type())
 	if !ok {
 		return nil, errors.Errorf("provided typeDef was not a resourceType, instead %T", typeDef.Type())
@@ -78,8 +78,8 @@ func nestType(
 	definitions astmodel.TypeDefinitionSet,
 	outerTypeName astmodel.InternalTypeName,
 	nestedTypeName string,
-	nestedPropertyName string) ([]astmodel.TypeDefinition, error) {
-
+	nestedPropertyName string,
+) ([]astmodel.TypeDefinition, error) {
 	outerType, ok := definitions[outerTypeName]
 	if !ok {
 		return nil, errors.Errorf("couldn't find type %q", outerTypeName)

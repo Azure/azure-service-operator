@@ -253,7 +253,8 @@ func (v *ValidatorBuilder) validateBody(
 	implFunctionName string,
 	overrideFunctionName string,
 	validationFunctionName string,
-	funcParamIdent string) []dst.Stmt {
+	funcParamIdent string,
+) []dst.Stmt {
 	overrideInterfaceType := astmodel.GenRuntimeValidatorInterfaceName.AsType(codeGenerationContext)
 
 	validationsIdent := "validations"
