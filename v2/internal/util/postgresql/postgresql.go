@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"strings"
 
-	_ "github.com/jackc/pgx/v5/stdlib" //the pgx lib
+	_ "github.com/jackc/pgx/v5/stdlib" // the pgx lib
 	"github.com/pkg/errors"
 )
 

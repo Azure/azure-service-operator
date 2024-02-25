@@ -7,6 +7,7 @@ package config
 
 import (
 	"fmt"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"

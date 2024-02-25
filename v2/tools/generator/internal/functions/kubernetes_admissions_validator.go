@@ -7,9 +7,10 @@ package functions
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"strings"
 
 	"github.com/dave/dst"
 

@@ -9,7 +9,7 @@ import (
 	"context"
 
 	"github.com/go-logr/logr"
-	_ "github.com/go-sql-driver/mysql" //mysql driver
+	_ "github.com/go-sql-driver/mysql" // mysql driver
 	"github.com/pkg/errors"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"

@@ -14,11 +14,12 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
-	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
-	"sigs.k8s.io/controller-runtime/pkg/webhook"
 	"strings"
 	"sync"
 	"time"
+
+	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
+	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
 	"github.com/benbjohnson/clock"
 	"github.com/dnaeon/go-vcr/recorder"

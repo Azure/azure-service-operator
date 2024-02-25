@@ -10,7 +10,7 @@ import (
 	"os"
 	"testing"
 
-	_ "github.com/go-sql-driver/mysql" //sql drive link
+	_ "github.com/go-sql-driver/mysql" // sql drive link
 	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"
 

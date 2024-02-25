@@ -6,9 +6,10 @@
 package functions
 
 import (
-	"github.com/pkg/errors"
 	"go/token"
 	"sort"
+
+	"github.com/pkg/errors"
 
 	"github.com/dave/dst"
 

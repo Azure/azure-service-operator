@@ -6,10 +6,12 @@
 package pipeline
 
 import (
-	"github.com/pkg/errors"
 	"go/token"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sort"
+
+	"github.com/pkg/errors"
+
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/dave/dst"
 

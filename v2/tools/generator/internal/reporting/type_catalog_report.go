@@ -7,11 +7,12 @@ package reporting
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/internal/set"
-	"golang.org/x/exp/slices"
 	"io"
 	"os"
 	"sort"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"golang.org/x/exp/slices"
 
 	"github.com/pkg/errors"
 
