@@ -15,7 +15,8 @@ title: Creating a new release
 
 7. Publish the release. This will automatically trigger a GitHub action to build and publish an updated Docker image with the latest manager changes.
 8. Ensure that the action associated with your release finishes successfully.
-9. [Update our documentation](#update-documentation) to move resources listed under "Next Release" to the heading "Released".
+9. [Update our documentation](#update-resource-documentation) to move resources listed under "Next Release" to the heading "Released".
+10. [Update the ROADMAP](#update-roadmap) to reflect the new release.
 
 ## Catalog breaking changes
 
