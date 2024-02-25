@@ -76,7 +76,6 @@ func ConfigStore_WriteSecrets(tc *testcommon.KubePerTestContext, cs *appconfig.C
 	old := cs.DeepCopy()
 	csKeysSecret := "cskeyssecret"
 	cs.Spec.OperatorSpec = &appconfig.ConfigurationStoreOperatorSpec{
-
 		Secrets: &appconfig.ConfigurationStoreOperatorSecrets{
 			PrimaryConnectionString:           &genruntime.SecretDestination{Name: csKeysSecret, Key: "primaryConnectionString"},
 			SecondaryConnectionString:         &genruntime.SecretDestination{Name: csKeysSecret, Key: "secondaryConnectionString"},

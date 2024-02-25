@@ -140,7 +140,6 @@ func newConfigMapTypeWalker(
 	defs astmodel.TypeDefinitionSet,
 	paths map[string]string,
 ) *configMapTypeWalker {
-
 	result := &configMapTypeWalker{
 		configuredProperties: paths,
 		exportedProperties:   make(ExportedProperties),

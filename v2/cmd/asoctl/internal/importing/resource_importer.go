@@ -80,7 +80,6 @@ func (ri *ResourceImporter) AddARMID(armID string) error {
 func (ri *ResourceImporter) Import(
 	ctx context.Context,
 ) (*ResourceImportResult, error) {
-
 	workers := 1
 	candidates := make(chan ImportableResource)  // candidates that need to be deduped
 	pending := make(chan ImportableResource)     // importers that are pending import

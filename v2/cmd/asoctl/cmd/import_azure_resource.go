@@ -52,7 +52,6 @@ func newImportAzureResourceCommand() *cobra.Command {
 
 // importAzureResource imports an ARM resource and writes the YAML to stdout or a file
 func importAzureResource(ctx context.Context, armIDs []string, options importAzureResourceOptions) error {
-
 	log, progress := CreateLoggerAndProgressBar()
 
 	// TODO: Support other Azure clouds

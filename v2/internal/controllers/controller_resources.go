@@ -208,7 +208,6 @@ func augmentWithARMReconciler(
 }
 
 func augmentWithPredicate(t *registration.StorageType) {
-
 	t.Predicate = makeStandardPredicate()
 }
 
@@ -268,7 +267,6 @@ func CreateScheme() *runtime.Scheme {
 
 // GetResourceExtensions returns a map between resource and resource extension
 func GetResourceExtensions(scheme *runtime.Scheme) (map[schema.GroupVersionKind]genruntime.ResourceExtension, error) {
-
 	extensionMapping := make(map[schema.GroupVersionKind]genruntime.ResourceExtension)
 
 	for _, extension := range getResourceExtensions() {

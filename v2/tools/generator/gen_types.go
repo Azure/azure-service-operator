@@ -60,7 +60,6 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 			}
 
 			err = cg.Generate(ctx, log)
-
 			if err != nil {
 				err = errors.Wrap(err, "error generating code")
 				return err

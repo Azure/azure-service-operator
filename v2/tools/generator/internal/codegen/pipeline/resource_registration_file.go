@@ -277,7 +277,6 @@ func createGetKnownTypesFunc(
 func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 ) dst.Decl {
-
 	funcName := "getKnownStorageTypes"
 	funcComment := "returns the list of storage types which can be reconciled."
 

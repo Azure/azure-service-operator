@@ -16,7 +16,6 @@ func NewLocatableResource(
 	idFactory astmodel.IdentifierFactory,
 	resourceType *astmodel.ResourceType,
 ) *astmodel.InterfaceImplementation {
-
 	f := NewResourceFunction(
 		"Location",
 		resourceType,

@@ -74,7 +74,6 @@ func (*SignalRExtension) ExportKubernetesResources(
 	}
 
 	return secrets.SliceToClientObjectSlice(secretSlice), nil
-
 }
 
 func secretsSpecified(obj *signalr.SignalR) bool {

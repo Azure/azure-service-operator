@@ -83,7 +83,6 @@ func TestGroupConfiguration_FindVersion_GivenTypeName_ReturnsExpectedVersion(t *
 			}
 		})
 	}
-
 }
 
 func loadTestData(t *testing.T) []byte {

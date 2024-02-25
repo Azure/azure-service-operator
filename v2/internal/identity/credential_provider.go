@@ -262,7 +262,6 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 		authMode, err := authModeOrDefault(string(value))
 		if err != nil {
 			return nil, errors.Wrap(err, errors.Errorf("invalid identity auth mode for %q encountered", nsName).Error())
-
 		}
 
 		if authMode == config.PodIdentityAuthMode {
@@ -270,7 +269,6 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 				ClientOptions: azcore.ClientOptions{},
 				ID:            azidentity.ClientID(clientID),
 			})
-
 			if err != nil {
 				return nil, errors.Wrap(err, errors.Errorf("invalid Managed Identity for %q encountered", nsName).Error())
 			}

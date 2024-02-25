@@ -33,7 +33,6 @@ type AzureIDs struct {
 }
 
 func getCreds() (azcore.TokenCredential, AzureIDs, error) {
-
 	if cachedCreds != nil {
 		return cachedCreds, cachedIds, nil
 	}

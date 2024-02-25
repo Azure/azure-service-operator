@@ -90,5 +90,4 @@ func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
-
 }

@@ -47,7 +47,6 @@ func (ex *VaultExtension) ModifyARMResource(
 	resolver *resolver.Resolver,
 	log logr.Logger,
 ) (genruntime.ARMResource, error) {
-
 	kv, ok := obj.(*keyvault.Vault)
 	if !ok {
 		return nil, errors.Errorf(

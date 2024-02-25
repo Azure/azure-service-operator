@@ -807,7 +807,6 @@ func (tc *KubePerTestContext) ExportAsSampleNamed(resource client.Object, name s
 }
 
 func (tc *KubePerTestContext) cleanSample(resource any) {
-
 	if kr, ok := resource.(genruntime.KubernetesResource); ok {
 		// Remove Status
 		emptyStatus := kr.NewEmptyStatus()

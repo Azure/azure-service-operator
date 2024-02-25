@@ -40,7 +40,6 @@ type BeDeletedInAzureMatcher struct {
 var _ types.GomegaMatcher = &BeDeletedInAzureMatcher{}
 
 func (m *BeDeletedInAzureMatcher) Match(actual interface{}) (bool, error) {
-
 	if actual == nil {
 		return false, nil
 	}

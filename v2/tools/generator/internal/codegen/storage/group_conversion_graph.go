@@ -53,7 +53,6 @@ func (graph *GroupConversionGraph) searchForRenamedType(
 	name astmodel.InternalTypeName,
 	definitions astmodel.TypeDefinitionSet,
 ) (astmodel.InternalTypeName, error) {
-
 	// No configuration, or we're not looking at a storage package
 	if graph.configuration == nil || !astmodel.IsStoragePackageReference(name.PackageReference()) {
 		return astmodel.InternalTypeName{}, nil

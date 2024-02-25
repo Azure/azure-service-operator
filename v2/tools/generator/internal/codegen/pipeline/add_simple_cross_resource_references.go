@@ -20,7 +20,6 @@ func TransformCrossResourceReferencesToString() *Stage {
 		TransformCrossResourceReferencesToStringStageID,
 		"Replace cross-resource references with string",
 		func(ctx context.Context, state *State) (*State, error) {
-
 			updatedDefs, err := stripARMIDPrimitiveTypes(state.Definitions())
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to strip ARM ID primitive types")

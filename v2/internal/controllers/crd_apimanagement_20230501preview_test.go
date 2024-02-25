@@ -268,7 +268,6 @@ func APIM_PolicyFragment20230501preview_CRUD(tc *testcommon.KubePerTestContext, 
 
 // Currently not called as we need to find a way to delete the subscription
 func APIM_Product20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
-
 	productName := tc.Namer.GenerateName("cust1")
 	// Now add a product
 	product := apim.Product{
@@ -297,7 +296,6 @@ func APIM_Product20230501preview_CRUD(tc *testcommon.KubePerTestContext, service
 }
 
 func APIM_Product_Policy20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
-
 	productName := tc.Namer.GenerateName("product1")
 	// Now add a product
 	product := apim.Product{
@@ -337,7 +335,6 @@ func APIM_Product_Policy20230501preview_CRUD(tc *testcommon.KubePerTestContext, 
 }
 
 func APIM_Product_Api20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
-
 	productName := tc.Namer.GenerateName("product2")
 	product := apim.Product{
 		ObjectMeta: tc.MakeObjectMetaWithName(productName),
@@ -426,7 +423,6 @@ func APIM_Product_Api20230501preview_CRUD(tc *testcommon.KubePerTestContext, ser
 }
 
 func APIM_Api20230501preview_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
-
 	versionSet := apim.ApiVersionSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs")),
 		Spec: apim.Service_ApiVersionSet_Spec{

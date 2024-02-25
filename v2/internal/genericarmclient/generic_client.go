@@ -117,7 +117,6 @@ func NewGenericClient(
 		creds:    creds,
 		opts:     opts,
 	}, nil
-
 }
 
 // Creds returns the credentials used by this client

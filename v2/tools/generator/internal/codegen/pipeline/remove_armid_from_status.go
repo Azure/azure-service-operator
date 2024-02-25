@@ -18,7 +18,6 @@ func FixIDFields() *Stage {
 		"fixIdFields",
 		"Remove ARM ID annotations from status, and Id from Spec types",
 		func(ctx context.Context, state *State) (*State, error) {
-
 			updatedStatusDefs, err := replaceStatusARMIDWithString(state.Definitions())
 			if err != nil {
 				return nil, err

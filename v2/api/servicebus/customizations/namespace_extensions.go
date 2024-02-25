@@ -105,7 +105,6 @@ func namespaceSecretsSpecified(obj *servicebus.Namespace) bool {
 		specSecrets.PrimaryConnectionString != nil ||
 		specSecrets.SecondaryKey != nil ||
 		specSecrets.SecondaryConnectionString != nil
-
 }
 
 func namespaceSecretsToWrite(

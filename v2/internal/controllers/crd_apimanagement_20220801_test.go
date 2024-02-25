@@ -257,7 +257,6 @@ func APIM_Policy_CRUD(tc *testcommon.KubePerTestContext, service client.Object) 
 }
 
 func APIM_PolicyFragment_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
-
 	// Add a simple Policy Fragment
 	policyFragment := apim.PolicyFragment{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("policyfragment")),
@@ -278,7 +277,6 @@ func APIM_PolicyFragment_CRUD(tc *testcommon.KubePerTestContext, service client.
 }
 
 func APIM_Product_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
-
 	productName := tc.Namer.GenerateName("cust1")
 	// Now add a product
 	product := apim.Product{
@@ -307,7 +305,6 @@ func APIM_Product_CRUD(tc *testcommon.KubePerTestContext, service client.Object)
 }
 
 func APIM_Product_Policy_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
-
 	productName := tc.Namer.GenerateName("product1")
 	// Now add a product
 	product := apim.Product{
@@ -347,7 +344,6 @@ func APIM_Product_Policy_CRUD(tc *testcommon.KubePerTestContext, service client.
 }
 
 func APIM_Product_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
-
 	productName := tc.Namer.GenerateName("product2")
 	product := apim.Product{
 		ObjectMeta: tc.MakeObjectMetaWithName(productName),
@@ -436,7 +432,6 @@ func APIM_Product_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Obj
 }
 
 func APIM_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
-
 	versionSet := apim.ApiVersionSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs")),
 		Spec: apim.Service_ApiVersionSet_Spec{

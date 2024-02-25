@@ -416,7 +416,6 @@ func IdentityVisitOfResourceType[C any](this *TypeVisitor[C], it *ResourceType, 
 }
 
 func IdentityVisitOfOneOfType[C any](this *TypeVisitor[C], it *OneOfType, ctx C) (Type, error) {
-
 	result := it.WithoutAnyPropertyObjects()
 
 	propertyObjects := it.PropertyObjects()
@@ -444,7 +443,6 @@ func IdentityVisitOfOneOfType[C any](this *TypeVisitor[C], it *OneOfType, ctx C)
 		newTypes = append(newTypes, newType)
 		return nil
 	})
-
 	if err != nil {
 		return nil, err
 	}

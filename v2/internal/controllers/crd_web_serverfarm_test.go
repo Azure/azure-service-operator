@@ -44,7 +44,6 @@ func Test_Web_ServerFarm_CRUD(t *testing.T) {
 		string(v1api20220301.APIVersion_Value))
 	tc.Expect(err).ToNot(gomega.HaveOccurred())
 	tc.Expect(exists).To(gomega.BeFalse())
-
 }
 
 func newServerFarm(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, location string) *v1api20220301.ServerFarm {

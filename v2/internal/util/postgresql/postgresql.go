@@ -26,7 +26,6 @@ const DefaultMaintanenceDatabase = "postgres"
 
 // ConnectToDB connects to the PostgreSQL db using the given credentials
 func ConnectToDB(ctx context.Context, fullservername string, database string, port int, user string, password string) (*sql.DB, error) {
-
 	connString := fmt.Sprintf("host=%s user=%s password=%s port=%d dbname=%s sslmode=require connect_timeout=30", fullservername, user, password, port, database)
 
 	db, err := sql.Open(PDriverName, connString)

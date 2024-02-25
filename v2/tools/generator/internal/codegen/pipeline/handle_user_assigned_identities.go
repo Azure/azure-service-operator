@@ -20,7 +20,6 @@ func HandleUserAssignedIdentities() *Stage {
 		HandleUserAssignedIdentitiesStageID,
 		"Transform UserAssignedIdentities on spec types be resource references with the expected shape",
 		func(ctx context.Context, state *State) (*State, error) {
-
 			transformer := newUserAssignedIdentityTransformer()
 
 			updatedDefs := make(astmodel.TypeDefinitionSet)

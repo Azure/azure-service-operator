@@ -114,7 +114,6 @@ func (v Values) String() string {
 
 // Cloud returns the cloud the configuration is using
 func (v Values) Cloud() cloud.Configuration {
-
 	// Special handling if we've got all the defaults just return the official public cloud
 	// configuration
 	hasDefaultAzureAuthorityHost := v.AzureAuthorityHost == "" || v.AzureAuthorityHost == DefaultAADAuthorityHost

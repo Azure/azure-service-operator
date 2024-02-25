@@ -130,7 +130,6 @@ func WorkspaceConnection_CRUD(tc *testcommon.KubePerTestContext, workspaces *mac
 }
 
 func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, rg *resources.ResourceGroup) {
-
 	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
 	tc.CreateResourceAndWait(vnet)
 
@@ -158,7 +157,6 @@ func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.
 	tc.DeleteResourceAndWait(vm)
 	tc.DeleteResourceAndWait(networkInterface)
 	tc.DeleteResourceAndWait(vnet)
-
 }
 
 func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, vm *v1api20201201.VirtualMachine, secret genruntime.SecretReference) *machinelearningservices.WorkspacesCompute {
@@ -198,7 +196,6 @@ func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.K
 }
 
 func newVMNetworkInterfaceWithPublicIP(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, subnet *network.VirtualNetworksSubnet, publicIP *network.PublicIPAddress, nsg *network.NetworkSecurityGroup) *network.NetworkInterface {
-
 	dynamic := network.IPAllocationMethod_Dynamic
 	return &network.NetworkInterface{
 		ObjectMeta: tc.MakeObjectMeta("nic"),
@@ -233,7 +230,6 @@ func newNetworkSecurityGroup(tc *testcommon.KubePerTestContext, owner *genruntim
 			Owner:    owner,
 		},
 	}
-
 }
 
 func newNetworkSecurityGroupRule(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.NetworkSecurityGroupsSecurityRule {

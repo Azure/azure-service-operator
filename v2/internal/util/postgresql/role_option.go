@@ -25,7 +25,6 @@ type SQLRoleOptionDelta struct {
 // because they are only settable with an existing a superuser
 // Azure Flexible server does not offer superuser access for customers
 type RoleOptions struct {
-
 	// WITH LOGIN or NOLOGIN
 	Login bool
 

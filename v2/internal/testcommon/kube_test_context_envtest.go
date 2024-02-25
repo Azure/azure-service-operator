@@ -470,7 +470,6 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 	}
 
 	create := func(perTestContext PerTestContext, cfg config.Values) (*KubeBaseTestContext, error) {
-
 		replaying := perTestContext.AzureClientRecorder.Mode() == recorder.ModeReplaying
 		testCfg := testConfig{
 			Values:             cfg,

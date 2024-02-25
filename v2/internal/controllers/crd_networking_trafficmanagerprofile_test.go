@@ -91,7 +91,6 @@ func Test_Networking_TrafficManagerProfile(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
-
 }
 
 func Networking_TrafficManagerProfiles_NestedEndpoint(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, tmp *network.TrafficManagerProfile) {

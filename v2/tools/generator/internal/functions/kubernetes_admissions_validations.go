@@ -184,7 +184,6 @@ func validateWriteOncePropertiesFunction(
 //
 // return genruntime.ValidateWriteOnceProperties(oldObj, <receiverIndent>)
 func validateWriteOncePropertiesFunctionBody(receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
-
 	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
 	obj := dst.NewIdent("oldObj")

@@ -2063,7 +2063,6 @@ func assignInlineObjectsViaIntermediateObject(
 		knownLocals *astmodel.KnownLocalsSet,
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
-
 		// We capture the expression written by the first step pass it to the second step,
 		// allowing us to avoid extra local variable (this is a bit sneaky, as we rely on assignObjectDirectlyFromObject
 		// and assignObjectDirectlyToObject using a local variable themselves.)
@@ -2220,7 +2219,6 @@ func assignNonInlineObjectsViaPivotObject(
 		knownLocals *astmodel.KnownLocalsSet,
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
-
 		// We capture the expression written by the first step pass it to the second step,
 		// allowing us to avoid extra local variable (this is a bit sneaky, as we rely on assignObjectDirectlyFromObject
 		// and assignObjectDirectlyToObject using a local variable themselves.)

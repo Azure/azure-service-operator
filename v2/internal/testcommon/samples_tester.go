@@ -125,7 +125,6 @@ func (t *SamplesTester) LoadSamples() (*SampleObject, error) {
 
 	err := filepath.Walk(t.groupVersionPath,
 		func(filePath string, info os.FileInfo, err error) error {
-
 			if !info.IsDir() && !IsSampleExcluded(filePath, exclusions) {
 				sample, err := t.getObjectFromFile(filePath)
 				if err != nil {
@@ -148,7 +147,6 @@ func (t *SamplesTester) LoadSamples() (*SampleObject, error) {
 			}
 			return nil
 		})
-
 	if err != nil {
 		return nil, err
 	}
@@ -263,7 +261,6 @@ func setOwnersName(sample genruntime.ARMMetaObject, ownerName string) genruntime
 
 func IsFolderExcluded(path string, exclusions []string) bool {
 	for _, exclusion := range exclusions {
-
 		if strings.Contains(path, "/"+exclusion+"/") {
 			return true
 		}
@@ -304,7 +301,6 @@ func (t *SamplesTester) updateFieldsForTest(obj genruntime.ARMMetaObject) error 
 
 // visitStruct checks and sets the SubscriptionID and ResourceGroup name for ARM references to current values
 func (t *SamplesTester) visitStruct(this *reflecthelpers.ReflectVisitor, it reflect.Value, ctx any) error {
-
 	// Configure any ResourceReference we find
 	if it.Type() == reflect.TypeOf(genruntime.ResourceReference{}) {
 		return t.visitResourceReference(this, it, ctx)

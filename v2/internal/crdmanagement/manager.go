@@ -103,7 +103,6 @@ func (m *Manager) FindMatchingCRDs(
 	goal []apiextensions.CustomResourceDefinition,
 	comparators ...func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool,
 ) map[string]apiextensions.CustomResourceDefinition {
-
 	matching := make(map[string]apiextensions.CustomResourceDefinition)
 
 	// Build a map so lookup is faster
@@ -147,7 +146,6 @@ func (m *Manager) FindNonMatchingCRDs(
 	goal []apiextensions.CustomResourceDefinition,
 	comparators ...func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool,
 ) map[string]apiextensions.CustomResourceDefinition {
-
 	// Just invert the comparators and call FindMatchingCRDs
 	invertedComparators := make([]func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool, 0, len(comparators))
 	for _, c := range comparators {
@@ -169,7 +167,6 @@ func (m *Manager) DetermineCRDsToInstallOrUpgrade(
 	existingCRDs []apiextensions.CustomResourceDefinition,
 	patterns string,
 ) ([]*CRDInstallationInstruction, error) {
-
 	m.logger.V(Info).Info("Goal CRDs", "count", len(goalCRDs))
 	m.logger.V(Info).Info("Existing CRDs", "count", len(existingCRDs))
 

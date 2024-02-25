@@ -61,7 +61,6 @@ func (tcr *TypeCatalogReport) AddHeader(lines ...string) {
 
 // SaveTo writes the report to the specified file
 func (tcr *TypeCatalogReport) SaveTo(filePath string) error {
-
 	file, err := os.Create(filePath)
 	if err != nil {
 		return err
@@ -368,7 +367,6 @@ func (tcr *TypeCatalogReport) asDefinitionToInline(
 	t astmodel.Type,
 	parentTypes astmodel.TypeNameSet,
 ) (*astmodel.TypeDefinition, bool) {
-
 	// We can inline a typename if we have a definition for it, and if it's not already inlined
 	if n, ok := astmodel.AsInternalTypeName(t); ok {
 		if parentTypes.Contains(n) {
