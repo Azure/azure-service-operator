@@ -210,6 +210,10 @@ go-install gen-crd-api-reference-docs github.com/ahmetb/gen-crd-api-reference-do
 #doc# | setup-envtest | latest | https://book.kubebuilder.io/reference/envtest.html |
 go-install setup-envtest sigs.k8s.io/controller-runtime/tools/setup-envtest@latest
 
+# Stricter GO formatting
+#doc# | gofumpt | latest | https://pkg.go.dev/mvdan.cc/gofumpt |
+go-install gofumpt mvdan.cc/gofumpt@latest
+
 # Install golangci-lint
 #doc# | golangci-lint | 1.51.2 | https://github.com/golangci/golangci-lint |
 write-verbose "Checking for $TOOL_DEST/golangci-lint"

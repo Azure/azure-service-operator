@@ -70,7 +70,7 @@ tasks:
       - asoctl:quick-checks
       - crossplane:quick-checks
     cmds:
-      - task: format-code  # Run after the deps to avoid racing with generated file creation
+      - task: format-code # Run after the deps to avoid racing with generated file creation
 
   ci:
     desc: Run all CI checks.
@@ -93,7 +93,7 @@ tasks:
     desc: Ensure all code is formatted
     dir: v2
     cmds:
-      - gofmt -l -s -w .
+      - gofumpt -l -s -w .
 
   build-docs-site:
     cmds:
@@ -621,7 +621,7 @@ tasks:
       - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/generated/patches" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/generated/patches" -type f -delete; fi
       - cd v2/api && controller-gen {{.OBJECT_OPTIONS}} paths=./...
       - cd v2/api && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
-      - cd v2/api && gofmt -l -s -w . # format all generated code
+      - cd v2/api && gofumpt -l -s -w . # format all generated code
     vars:
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
       CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.CONTROLLER_OUTPUT}}/crd/generated/bases
@@ -1036,7 +1036,7 @@ tasks:
       - if [ -d "{{.CROSSPLANE_OUTPUT}}/crd/patches" ]; then find "{{.CROSSPLANE_OUTPUT}}/crd/patches" -type f -delete; fi
       - cd apis && controller-gen {{.OBJECT_OPTIONS}} paths=./...
       - cd apis && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
-      - cd apis && gofmt -l -s -w . # format all generated code
+      - cd apis && gofumpt -l -s -w . # format all generated code
     vars:
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
       CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.CROSSPLANE_OUTPUT}}/crd/bases
