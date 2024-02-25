@@ -17,6 +17,7 @@ import (
 
 var IDsArrayProperty = astmodel.NewPropertyDefinition("Ids", "ids", astmodel.NewArrayType(astmodel.ARMIDType)).
 	WithDescription("This is the important line here. The final type should be []genruntime.ResourceReference")
+
 var IDsMapProperty = astmodel.NewPropertyDefinition("Ids", "ids", astmodel.NewMapType(astmodel.StringType, astmodel.ARMIDType)).
 	WithDescription("This is the important line here. The final type should be map[string]genruntime.ResourceReference")
 

@@ -332,6 +332,7 @@ func (tcr *TypeCatalogReport) writeComplexType(
 		tcr.writeComplexType(rpt, t.Element(), currentPackage, parentTypes)
 	}
 }
+
 func (tcr *TypeCatalogReport) writeErroredType(
 	rpt *StructureReport,
 	et *astmodel.ErroredType,
