@@ -29,10 +29,12 @@ import (
 
 // ServiceOperatorVersionLabelOld is the label the CRDs have on them containing the ASO version. This value must match the value
 // injected by config/crd/labels.yaml
-const ServiceOperatorVersionLabelOld = "serviceoperator.azure.com/version"
-const ServiceOperatorVersionLabel = "app.kubernetes.io/version"
-const ServiceOperatorAppLabel = "app.kubernetes.io/name"
-const ServiceOperatorAppValue = "azure-service-operator"
+const (
+	ServiceOperatorVersionLabelOld = "serviceoperator.azure.com/version"
+	ServiceOperatorVersionLabel    = "app.kubernetes.io/version"
+	ServiceOperatorAppLabel        = "app.kubernetes.io/name"
+	ServiceOperatorAppValue        = "azure-service-operator"
+)
 
 const CRDLocation = "crds"
 

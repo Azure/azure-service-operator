@@ -15,9 +15,11 @@ type SubPackageReference struct {
 	name   string
 }
 
-var _ PackageReference = SubPackageReference{}
-var _ InternalPackageReference = SubPackageReference{}
-var _ DerivedPackageReference = SubPackageReference{}
+var (
+	_ PackageReference         = SubPackageReference{}
+	_ InternalPackageReference = SubPackageReference{}
+	_ DerivedPackageReference  = SubPackageReference{}
+)
 
 var _ fmt.Stringer = SubPackageReference{}
 

@@ -19,9 +19,11 @@ import (
 // These are hardcoded because the init function that initializes them in azcore isn't in /cloud it's in /arm which
 // we don't import.
 
-var DefaultEndpoint = "https://management.azure.com"
-var DefaultAudience = "https://management.core.windows.net/"
-var DefaultAADAuthorityHost = "https://login.microsoftonline.com/"
+var (
+	DefaultEndpoint         = "https://management.azure.com"
+	DefaultAudience         = "https://management.core.windows.net/"
+	DefaultAADAuthorityHost = "https://login.microsoftonline.com/"
+)
 
 // NOTE: Changes to documentation or available values here should be documented in Helm values.yaml as well
 

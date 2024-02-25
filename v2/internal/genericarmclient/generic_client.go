@@ -24,8 +24,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 )
 
-const CreatePollerID = "GenericClient.CreateOrUpdateByID"
-const DeletePollerID = "GenericClient.DeleteByID"
+const (
+	CreatePollerID = "GenericClient.CreateOrUpdateByID"
+	DeletePollerID = "GenericClient.DeleteByID"
+)
 
 // NOTE: All of these methods (and types) were adapted from
 // https://github.com/Azure/azure-sdk-for-go/blob/sdk/resources/armresources/v0.3.0/sdk/resources/armresources/zz_generated_resources_client.go
