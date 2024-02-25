@@ -181,8 +181,8 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 	_, isString := astmodel.AsPrimitiveType(toProp.PropertyType())
 
 	// TODO: Do we support slices or maps? Skipped for now
-	//isSliceString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewArrayType(astmodel.StringType))
-	//isMapString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
+	// isSliceString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewArrayType(astmodel.StringType))
+	// isMapString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
 
 	if !isString {
 		return notHandled, nil

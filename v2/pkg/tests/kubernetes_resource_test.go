@@ -30,5 +30,5 @@ func TestNewEmptyVersionedResource_WorksWhenNoPivotNeeded(t *testing.T) {
 	g.Expect(rsrc).NotTo(BeNil())
 }
 
-//TODO: once we have multiple versions of a resource, we should test that the pivot works too
-//func TestNewEmptyVersionedResource_WorksWhenPivotNeeded(t *testing.T) {
+// TODO: once we have multiple versions of a resource, we should test that the pivot works too
+// func TestNewEmptyVersionedResource_WorksWhenPivotNeeded(t *testing.T) {

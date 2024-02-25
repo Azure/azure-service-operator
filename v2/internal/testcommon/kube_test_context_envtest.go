@@ -156,7 +156,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 
 	// TODO: Uncomment the below if we want controller-runtime logs in the tests.
 	// By default we've disabled controller runtime logs because they're very verbose and usually not useful.
-	//ctrl.SetLogger(klogr.New())
+	// ctrl.SetLogger(klogr.New())
 	ctrl.SetLogger(logr.New(ctrllog.NullLogSink{}))
 
 	loggerFactory := func(obj metav1.Object) logr.Logger {

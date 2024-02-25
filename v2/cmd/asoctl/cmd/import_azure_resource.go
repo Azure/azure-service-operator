@@ -55,7 +55,7 @@ func importAzureResource(ctx context.Context, armIDs []string, options importAzu
 
 	log, progress := CreateLoggerAndProgressBar()
 
-	//TODO: Support other Azure clouds
+	// TODO: Support other Azure clouds
 	activeCloud := cloud.AzurePublic
 	creds, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {

@@ -194,7 +194,7 @@ func (graph *ConversionGraph) FindNextProperty(
 		return astmodel.EmptyPropertyReference, nil
 	}
 
-	//TODO: property renaming support goes here (when implemented)
+	// TODO: property renaming support goes here (when implemented)
 
 	return astmodel.MakePropertyReference(nextType, ref.Property()), nil
 }

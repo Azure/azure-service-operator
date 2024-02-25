@@ -95,7 +95,7 @@ func GetUserRoleOptions(ctx context.Context, db *sql.DB, user SQLUser) (*RoleOpt
 		if err != nil {
 			return nil, errors.Wrapf(err, "extracting RoleOption field")
 		}
-		//No error handling required here, as sql returns already defined constants
+		// No error handling required here, as sql returns already defined constants
 	}
 	if rows.Err() != nil {
 		return nil, errors.Wrap(rows.Err(), "iterating RoleOptions")

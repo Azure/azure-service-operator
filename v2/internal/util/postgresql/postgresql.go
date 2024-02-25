@@ -44,7 +44,7 @@ func ConnectToDB(ctx context.Context, fullservername string, database string, po
 
 func CreateUser(ctx context.Context, db *sql.DB, username string, password string) (*SQLUser, error) {
 	// make an effort to prevent sql injection
-	//TODO find better solution to check user and password for SQL Injection
+	// TODO find better solution to check user and password for SQL Injection
 	if err := FindBadChars(username); err != nil {
 		return nil, errors.Wrap(err, "problem found with username")
 	}
@@ -60,7 +60,7 @@ func CreateUser(ctx context.Context, db *sql.DB, username string, password strin
 
 func UpdateUser(ctx context.Context, db *sql.DB, user SQLUser, password string) error {
 	// make an effort to prevent sql injection
-	//TODO find better solution to check password for SQL Injection
+	// TODO find better solution to check password for SQL Injection
 	if err := FindBadChars(password); err != nil {
 		return errors.Wrap(err, "problem found with password")
 	}

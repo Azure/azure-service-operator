@@ -160,7 +160,7 @@ func APIM_Subscription20230501preview_CRUD(tc *testcommon.KubePerTestContext, se
 	// There should be no secrets at this point
 	secretList := &v1.SecretList{}
 	tc.ListResources(secretList, client.InNamespace(tc.Namespace))
-	tc.Expect(secretList.Items).To(HaveLen(1)) //for secret created for authorization provider resource
+	tc.Expect(secretList.Items).To(HaveLen(1)) // for secret created for authorization provider resource
 
 	// Run sub-tests on subscription in sequence
 	tc.RunSubtests(
