@@ -69,7 +69,7 @@ func exportConversionGraph(settings *DebugSettings, index int, state *State) err
 
 	// Create our output folder
 	outputFolder := settings.CreateFileName(fmt.Sprintf("conversion-graph-%d", index))
-	err := os.Mkdir(outputFolder, 0700)
+	err := os.Mkdir(outputFolder, 0o700)
 	if err != nil {
 		return errors.Wrapf(err, "creating output folder for conversion graph diagnostic")
 	}

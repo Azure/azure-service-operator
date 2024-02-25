@@ -843,7 +843,7 @@ func (tc *KubePerTestContext) exportAsYAML(resource runtime.Object, filePath str
 		return errors.Wrapf(err, "couldn't create directory path to %s", filePath)
 	}
 
-	file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
+	file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0o600)
 	if err != nil {
 		return errors.Wrapf(err, "failed to open file %s", filePath)
 	}
