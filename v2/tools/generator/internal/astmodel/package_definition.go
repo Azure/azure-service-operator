@@ -86,7 +86,7 @@ func (p *PackageDefinition) EmitDefinitions(
 		}
 	} else if isCompatPackage {
 		// If it is a compat package, then we generate a stub GroupVersion file
-		err = p.emitGroupVersionStub(outputDir)
+		err = p.emitSubpackageStub(outputDir)
 		if err != nil {
 			return 0, err
 		}
@@ -214,10 +214,10 @@ func (p *PackageDefinition) emitGroupVersionFile(outputDir string) error {
 	return p.emitTemplateFile(groupVersionFileTemplate, gvFile)
 }
 
-// emitGroupVersionStub writes a `groupversion_info.go` stub for subpackages
-func (p *PackageDefinition) emitGroupVersionStub(outputDir string) error {
-	gvFile := filepath.Join(outputDir, "groupversion_info"+CodeGeneratedFileSuffix+".go")
-	return p.emitTemplateFile(groupVersionStubTemplate, gvFile)
+// emitSubpackageStub writes a `subpackage_info_gen.go` stub for subpackages
+func (p *PackageDefinition) emitSubpackageStub(outputDir string) error {
+	gvFile := filepath.Join(outputDir, "subpackage_info"+CodeGeneratedFileSuffix+".go")
+	return p.emitTemplateFile(subpackageStubTemplate, gvFile)
 }
 
 func (p *PackageDefinition) emitDocFile(outputDir string) error {
@@ -319,9 +319,9 @@ var (
 )
 `))
 
-// groupVersionStubTemplate is a template for the `groupversion_info.go` file generated for
+// subpackageStubTemplate is a template for the `groupversion_info.go` file generated for
 // subpackages within each API package.
-var groupVersionStubTemplate = template.Must(template.New("groupVersionFile").Parse(`/*
+var subpackageStubTemplate = template.Must(template.New("groupVersionFile").Parse(`/*
 Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
