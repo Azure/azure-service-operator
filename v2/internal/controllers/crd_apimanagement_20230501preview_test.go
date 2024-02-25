@@ -394,7 +394,8 @@ func APIM_Product_Api20230501preview_CRUD(tc *testcommon.KubePerTestContext, ser
 			},
 
 			Protocols: []apim.ApiCreateOrUpdateProperties_Protocols{
-				apim.ApiCreateOrUpdateProperties_Protocols_Https},
+				apim.ApiCreateOrUpdateProperties_Protocols_Https,
+			},
 
 			TermsOfServiceUrl: to.Ptr("https://www.bing.com/tos"),
 			Type:              to.Ptr(apim.ApiCreateOrUpdateProperties_Type_Http),
@@ -465,7 +466,8 @@ func APIM_Api20230501preview_CRUD(tc *testcommon.KubePerTestContext, service cli
 			},
 
 			Protocols: []apim.ApiCreateOrUpdateProperties_Protocols{
-				apim.ApiCreateOrUpdateProperties_Protocols_Https},
+				apim.ApiCreateOrUpdateProperties_Protocols_Https,
+			},
 
 			TermsOfServiceUrl: to.Ptr("https://www.bing.com/tos"),
 			Type:              to.Ptr(apim.ApiCreateOrUpdateProperties_Type_Http),

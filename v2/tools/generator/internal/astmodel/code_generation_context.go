@@ -38,7 +38,8 @@ func NewCodeGenerationContext(
 		currentPackage:    currentPackage,
 		packageImports:    imports,
 		generatedPackages: generatedPackages,
-		usedImports:       NewPackageImportSet()}
+		usedImports:       NewPackageImportSet(),
+	}
 }
 
 // CurrentPackage returns the current package being generated

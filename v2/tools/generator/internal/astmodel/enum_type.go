@@ -47,7 +47,8 @@ func NewEnumType(baseType *PrimitiveType, options ...EnumValue) *EnumType {
 	return &EnumType{
 		baseType:       baseType,
 		options:        options,
-		emitValidation: true}
+		emitValidation: true,
+	}
 }
 
 // WithoutValidation returns a copy of this enum, without associated Kubebuilder annotations.
