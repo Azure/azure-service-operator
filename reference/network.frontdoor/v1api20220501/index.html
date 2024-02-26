@@ -18,34 +18,46 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>containerregistry.azure.com/v1api20210901 | Azure Service Operator</title>
-<meta name="description" content="containerregistry.azure.com/v1api20210901  Package v1api20210901 contains API Schema definitions for the containerregistry v1api20210901 API group
- Resource Types:  APIVersion (string alias)      Value Description   &amp;#34;2021-09-01&amp;#34;
-    EncryptionProperty   (Appears on:Registry_Spec)      Field Description      keyVaultProperties  KeyVaultProperties     KeyVaultProperties: Key vault properties.
-    status  EncryptionProperty_Status     Status: Indicates whether or not the encryption is enabled for container registry.">
-<meta property="og:title" content="containerregistry.azure.com/v1api20210901" />
-<meta property="og:description" content="containerregistry.azure.com/v1api20210901  Package v1api20210901 contains API Schema definitions for the containerregistry v1api20210901 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2021-09-01&#34;
-    EncryptionProperty   (Appears on:Registry_Spec)      Field Description      keyVaultProperties  KeyVaultProperties     KeyVaultProperties: Key vault properties.
-    status  EncryptionProperty_Status     Status: Indicates whether or not the encryption is enabled for container registry." />
+<title>network.frontdoor.azure.com/v1api20220501 | Azure Service Operator</title>
+<meta name="description" content="network.frontdoor.azure.com/v1api20220501  Package v1api20220501 contains API Schema definitions for the network.frontdoor v1api20220501 API group
+ Resource Types:  APIVersion (string alias)      Value Description   &amp;#34;2022-05-01&amp;#34;
+    ActionType (string alias)  (Appears on:CustomRule, CustomRule_ARM, ManagedRuleOverride, ManagedRuleOverride_ARM)  Defines the action to take on rule match.
+    Value Description   &amp;#34;Allow&amp;#34;
+  &amp;#34;AnomalyScoring&amp;#34;
+  &amp;#34;Block&amp;#34;
+  &amp;#34;Log&amp;#34;">
+<meta property="og:title" content="network.frontdoor.azure.com/v1api20220501" />
+<meta property="og:description" content="network.frontdoor.azure.com/v1api20220501  Package v1api20220501 contains API Schema definitions for the network.frontdoor v1api20220501 API group
+ Resource Types:  APIVersion (string alias)      Value Description   &#34;2022-05-01&#34;
+    ActionType (string alias)  (Appears on:CustomRule, CustomRule_ARM, ManagedRuleOverride, ManagedRuleOverride_ARM)  Defines the action to take on rule match.
+    Value Description   &#34;Allow&#34;
+  &#34;AnomalyScoring&#34;
+  &#34;Block&#34;
+  &#34;Log&#34;" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/containerregistry/v1api20210901/" /><meta property="article:section" content="reference" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/network.frontdoor/v1api20220501/" /><meta property="article:section" content="reference" />
 
 
 
-<meta itemprop="name" content="containerregistry.azure.com/v1api20210901">
-<meta itemprop="description" content="containerregistry.azure.com/v1api20210901  Package v1api20210901 contains API Schema definitions for the containerregistry v1api20210901 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2021-09-01&#34;
-    EncryptionProperty   (Appears on:Registry_Spec)      Field Description      keyVaultProperties  KeyVaultProperties     KeyVaultProperties: Key vault properties.
-    status  EncryptionProperty_Status     Status: Indicates whether or not the encryption is enabled for container registry.">
+<meta itemprop="name" content="network.frontdoor.azure.com/v1api20220501">
+<meta itemprop="description" content="network.frontdoor.azure.com/v1api20220501  Package v1api20220501 contains API Schema definitions for the network.frontdoor v1api20220501 API group
+ Resource Types:  APIVersion (string alias)      Value Description   &#34;2022-05-01&#34;
+    ActionType (string alias)  (Appears on:CustomRule, CustomRule_ARM, ManagedRuleOverride, ManagedRuleOverride_ARM)  Defines the action to take on rule match.
+    Value Description   &#34;Allow&#34;
+  &#34;AnomalyScoring&#34;
+  &#34;Block&#34;
+  &#34;Log&#34;">
 
-<meta itemprop="wordCount" content="3661">
+<meta itemprop="wordCount" content="3723">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="containerregistry.azure.com/v1api20210901"/>
-<meta name="twitter:description" content="containerregistry.azure.com/v1api20210901  Package v1api20210901 contains API Schema definitions for the containerregistry v1api20210901 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2021-09-01&#34;
-    EncryptionProperty   (Appears on:Registry_Spec)      Field Description      keyVaultProperties  KeyVaultProperties     KeyVaultProperties: Key vault properties.
-    status  EncryptionProperty_Status     Status: Indicates whether or not the encryption is enabled for container registry."/>
+<meta name="twitter:title" content="network.frontdoor.azure.com/v1api20220501"/>
+<meta name="twitter:description" content="network.frontdoor.azure.com/v1api20220501  Package v1api20220501 contains API Schema definitions for the network.frontdoor v1api20220501 API group
+ Resource Types:  APIVersion (string alias)      Value Description   &#34;2022-05-01&#34;
+    ActionType (string alias)  (Appears on:CustomRule, CustomRule_ARM, ManagedRuleOverride, ManagedRuleOverride_ARM)  Defines the action to take on rule match.
+    Value Description   &#34;Allow&#34;
+  &#34;AnomalyScoring&#34;
+  &#34;Block&#34;
+  &#34;Log&#34;"/>
 
 
 
@@ -273,11 +285,11 @@
   <a href="/azure-service-operator/reference/containerinstance/v1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1api20211001"><span class="">containerinstance.azure.com/v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencecontainerregistry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" title="ContainerRegistry Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">ContainerRegistry</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
-  <a href="/azure-service-operator/reference/containerregistry/v1api20210901/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20210901"><span class="td-sidebar-nav-active-item">containerregistry.azure.com/v1api20210901</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
+  <a href="/azure-service-operator/reference/containerregistry/v1api20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20210901"><span class="">containerregistry.azure.com/v1api20210901</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
@@ -423,11 +435,11 @@
   <a href="/azure-service-operator/reference/managedidentity/v1api20230131/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20230131"><span class="">managedidentity.azure.com/v1api20230131</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
   <a href="/azure-service-operator/reference/network.frontdoor/" title="Network Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetworkfrontdoor"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501-li">
-  <a href="/azure-service-operator/reference/network.frontdoor/v1api20220501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501"><span class="">network.frontdoor.azure.com/v1api20220501</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501-li">
+  <a href="/azure-service-operator/reference/network.frontdoor/v1api20220501/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501"><span class="td-sidebar-nav-active-item">network.frontdoor.azure.com/v1api20220501</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
@@ -673,16 +685,16 @@
     <a href="https://azure.github.io/azure-service-operator/reference/">Supported Resources</a>
   </li>
   <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/reference/containerregistry/">ContainerRegistry</a>
+    <a href="https://azure.github.io/azure-service-operator/reference/network.frontdoor/">Network</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/reference/containerregistry/v1api20210901/" aria-disabled="true" class="btn-link disabled">containerregistry.azure.com/v1api20210901</a>
+    <a href="https://azure.github.io/azure-service-operator/reference/network.frontdoor/v1api20220501/" aria-disabled="true" class="btn-link disabled">network.frontdoor.azure.com/v1api20220501</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>containerregistry.azure.com/v1api20210901</h1>
+	<h1>network.frontdoor.azure.com/v1api20220501</h1>
 	
 	<header class="article-meta">
 		
@@ -699,13 +711,13 @@
 
 		
 	</header>    
-	<h2 id="containerregistry.azure.com/v1api20210901">containerregistry.azure.com/v1api20210901</h2>
+	<h2 id="network.frontdoor.azure.com/v1api20220501">network.frontdoor.azure.com/v1api20220501</h2>
 <div>
-<p>Package v1api20210901 contains API Schema definitions for the containerregistry v1api20210901 API group</p>
+<p>Package v1api20220501 contains API Schema definitions for the network.frontdoor v1api20220501 API group</p>
 </div>
 Resource Types:
 <ul></ul>
-<h3 id="containerregistry.azure.com/v1api20210901.APIVersion">APIVersion
+<h3 id="network.frontdoor.azure.com/v1api20220501.APIVersion">APIVersion
 (<code>string</code> alias)</h3>
 <div>
 </div>
@@ -716,188 +728,17 @@ Resource Types:
 <th>Description</th>
 </tr>
 </thead>
-<tbody><tr><td><p>&#34;2021-09-01&#34;</p></td>
+<tbody><tr><td><p>&#34;2022-05-01&#34;</p></td>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.EncryptionProperty">EncryptionProperty
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_Spec">Registry_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keyVaultProperties</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.KeyVaultProperties">
-KeyVaultProperties
-</a>
-</em>
-</td>
-<td>
-<p>KeyVaultProperties: Key vault properties.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_Status">
-EncryptionProperty_Status
-</a>
-</em>
-</td>
-<td>
-<p>Status: Indicates whether or not the encryption is enabled for container registry.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.EncryptionProperty_ARM">EncryptionProperty_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ARM">RegistryProperties_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keyVaultProperties</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.KeyVaultProperties_ARM">
-KeyVaultProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>KeyVaultProperties: Key vault properties.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_Status">
-EncryptionProperty_Status
-</a>
-</em>
-</td>
-<td>
-<p>Status: Indicates whether or not the encryption is enabled for container registry.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.EncryptionProperty_STATUS">EncryptionProperty_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keyVaultProperties</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.KeyVaultProperties_STATUS">
-KeyVaultProperties_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>KeyVaultProperties: Key vault properties.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_Status_STATUS">
-EncryptionProperty_Status_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: Indicates whether or not the encryption is enabled for container registry.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.EncryptionProperty_STATUS_ARM">EncryptionProperty_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>keyVaultProperties</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.KeyVaultProperties_STATUS_ARM">
-KeyVaultProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>KeyVaultProperties: Key vault properties.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_Status_STATUS">
-EncryptionProperty_Status_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: Indicates whether or not the encryption is enabled for container registry.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.EncryptionProperty_Status">EncryptionProperty_Status
+<h3 id="network.frontdoor.azure.com/v1api20220501.ActionType">ActionType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty">EncryptionProperty</a>, <a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_ARM">EncryptionProperty_ARM</a>)
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.CustomRule">CustomRule</a>, <a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_ARM">CustomRule_ARM</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride">ManagedRuleOverride</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_ARM">ManagedRuleOverride_ARM</a>)
 </p>
 <div>
+<p>Defines the action to take on rule match.</p>
 </div>
 <table>
 <thead>
@@ -906,18 +747,25 @@ EncryptionProperty_Status_STATUS
 <th>Description</th>
 </tr>
 </thead>
-<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
 <td></td>
-</tr><tr><td><p>&#34;enabled&#34;</p></td>
+</tr><tr><td><p>&#34;AnomalyScoring&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Block&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Log&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Redirect&#34;</p></td>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.EncryptionProperty_Status_STATUS">EncryptionProperty_Status_STATUS
+<h3 id="network.frontdoor.azure.com/v1api20220501.ActionType_STATUS">ActionType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_STATUS">EncryptionProperty_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_STATUS_ARM">EncryptionProperty_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS">CustomRule_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS_ARM">CustomRule_STATUS_ARM</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS">ManagedRuleOverride_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS_ARM">ManagedRuleOverride_STATUS_ARM</a>)
 </p>
 <div>
+<p>Defines the action to take on rule match.</p>
 </div>
 <table>
 <thead>
@@ -926,183 +774,22 @@ EncryptionProperty_Status_STATUS
 <th>Description</th>
 </tr>
 </thead>
-<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<tbody><tr><td><p>&#34;Allow&#34;</p></td>
 <td></td>
-</tr><tr><td><p>&#34;enabled&#34;</p></td>
+</tr><tr><td><p>&#34;AnomalyScoring&#34;</p></td>
 <td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.ExportPolicy">ExportPolicy
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Policies">Policies</a>)
-</p>
-<div>
-<p>The export policy for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_Status">
-ExportPolicy_Status
-</a>
-</em>
-</td>
-<td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.ExportPolicy_ARM">ExportPolicy_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Policies_ARM">Policies_ARM</a>)
-</p>
-<div>
-<p>The export policy for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_Status">
-ExportPolicy_Status
-</a>
-</em>
-</td>
-<td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.ExportPolicy_STATUS">ExportPolicy_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Policies_STATUS">Policies_STATUS</a>)
-</p>
-<div>
-<p>The export policy for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_Status_STATUS">
-ExportPolicy_Status_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.ExportPolicy_STATUS_ARM">ExportPolicy_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Policies_STATUS_ARM">Policies_STATUS_ARM</a>)
-</p>
-<div>
-<p>The export policy for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_Status_STATUS">
-ExportPolicy_Status_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.ExportPolicy_Status">ExportPolicy_Status
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.ExportPolicy">ExportPolicy</a>, <a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_ARM">ExportPolicy_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+</tr><tr><td><p>&#34;Block&#34;</p></td>
 <td></td>
-</tr><tr><td><p>&#34;enabled&#34;</p></td>
+</tr><tr><td><p>&#34;Log&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Redirect&#34;</p></td>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.ExportPolicy_Status_STATUS">ExportPolicy_Status_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_STATUS">ExportPolicy_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_STATUS_ARM">ExportPolicy_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.IPRule">IPRule
+<h3 id="network.frontdoor.azure.com/v1api20220501.CustomRule">CustomRule
 </h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet">NetworkRuleSet</a>)
-</p>
 <div>
-<p>IP rule with specific IP or IP range in CIDR format.</p>
+<p>Defines contents of a web application rule</p>
 </div>
 <table>
 <thead>
@@ -1116,35 +803,200 @@ ExportPolicy_Status_STATUS
 <td>
 <code>action</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.IPRule_Action">
-IPRule_Action
+<a href="#network.frontdoor.azure.com/v1api20220501.ActionType">
+ActionType
 </a>
 </em>
 </td>
 <td>
-<p>Action: The action of IP ACL rule.</p>
+<p>Action: Describes what action to be applied when rule matches.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>value</code><br/>
+<code>enabledState</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_EnabledState">
+CustomRule_EnabledState
+</a>
+</em>
+</td>
+<td>
+<p>EnabledState: Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>matchConditions</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition">
+[]MatchCondition
+</a>
+</em>
+</td>
+<td>
+<p>MatchConditions: List of match conditions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</p>
+<p>Name: Describes the name of the rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>priority</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>Priority: Describes priority of the rule. Rules with a lower value will be evaluated before rules with a higher value.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>rateLimitDurationInMinutes</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>RateLimitDurationInMinutes: Time window for resetting the rate limit count. Default is 1 minute.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>rateLimitThreshold</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>RateLimitThreshold: Number of allowed requests per client within the time window.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleType</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_RuleType">
+CustomRule_RuleType
+</a>
+</em>
+</td>
+<td>
+<p>RuleType: Describes type of rule.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.IPRule_ARM">IPRule_ARM
+<h3 id="network.frontdoor.azure.com/v1api20220501.CustomRuleList_ARM">CustomRuleList_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_ARM">NetworkRuleSet_ARM</a>)
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_ARM">WebApplicationFirewallPolicyProperties_ARM</a>)
 </p>
 <div>
-<p>IP rule with specific IP or IP range in CIDR format.</p>
+<p>Defines contents of custom rules</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>rules</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_ARM">
+[]CustomRule_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Rules: List of rules</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.CustomRuleList_STATUS">CustomRuleList_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_STATUS">FrontDoorWebApplicationFirewallPolicy_STATUS</a>)
+</p>
+<div>
+<p>Defines contents of custom rules</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>rules</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS">
+[]CustomRule_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Rules: List of rules</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.CustomRuleList_STATUS_ARM">CustomRuleList_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_STATUS_ARM">WebApplicationFirewallPolicyProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>Defines contents of custom rules</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>rules</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS_ARM">
+[]CustomRule_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Rules: List of rules</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.CustomRule_ARM">CustomRule_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.CustomRuleList_ARM">CustomRuleList_ARM</a>)
+</p>
+<div>
+<p>Defines contents of a web application rule</p>
 </div>
 <table>
 <thead>
@@ -1158,32 +1010,104 @@ string
 <td>
 <code>action</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.IPRule_Action">
-IPRule_Action
+<a href="#network.frontdoor.azure.com/v1api20220501.ActionType">
+ActionType
 </a>
 </em>
 </td>
 <td>
-<p>Action: The action of IP ACL rule.</p>
+<p>Action: Describes what action to be applied when rule matches.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>value</code><br/>
+<code>enabledState</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_EnabledState">
+CustomRule_EnabledState
+</a>
+</em>
+</td>
+<td>
+<p>EnabledState: Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>matchConditions</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_ARM">
+[]MatchCondition_ARM
+</a>
+</em>
+</td>
+<td>
+<p>MatchConditions: List of match conditions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</p>
+<p>Name: Describes the name of the rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>priority</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>Priority: Describes priority of the rule. Rules with a lower value will be evaluated before rules with a higher value.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>rateLimitDurationInMinutes</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>RateLimitDurationInMinutes: Time window for resetting the rate limit count. Default is 1 minute.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>rateLimitThreshold</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>RateLimitThreshold: Number of allowed requests per client within the time window.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleType</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_RuleType">
+CustomRule_RuleType
+</a>
+</em>
+</td>
+<td>
+<p>RuleType: Describes type of rule.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.IPRule_Action">IPRule_Action
+<h3 id="network.frontdoor.azure.com/v1api20220501.CustomRule_EnabledState">CustomRule_EnabledState
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IPRule">IPRule</a>, <a href="#containerregistry.azure.com/v1api20210901.IPRule_ARM">IPRule_ARM</a>)
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.CustomRule">CustomRule</a>, <a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_ARM">CustomRule_ARM</a>)
 </p>
 <div>
 </div>
@@ -1194,14 +1118,16 @@ string
 <th>Description</th>
 </tr>
 </thead>
-<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.IPRule_Action_STATUS">IPRule_Action_STATUS
+<h3 id="network.frontdoor.azure.com/v1api20220501.CustomRule_EnabledState_STATUS">CustomRule_EnabledState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IPRule_STATUS">IPRule_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.IPRule_STATUS_ARM">IPRule_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS">CustomRule_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS_ARM">CustomRule_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -1212,17 +1138,59 @@ string
 <th>Description</th>
 </tr>
 </thead>
-<tbody><tr><td><p>&#34;Allow&#34;</p></td>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.IPRule_STATUS">IPRule_STATUS
+<h3 id="network.frontdoor.azure.com/v1api20220501.CustomRule_RuleType">CustomRule_RuleType
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.CustomRule">CustomRule</a>, <a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_ARM">CustomRule_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;MatchRule&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RateLimitRule&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.CustomRule_RuleType_STATUS">CustomRule_RuleType_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS">CustomRule_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS_ARM">CustomRule_STATUS_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;MatchRule&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RateLimitRule&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS">CustomRule_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>)
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.CustomRuleList_STATUS">CustomRuleList_STATUS</a>)
 </p>
 <div>
-<p>IP rule with specific IP or IP range in CIDR format.</p>
+<p>Defines contents of a web application rule</p>
 </div>
 <table>
 <thead>
@@ -1236,35 +1204,107 @@ string
 <td>
 <code>action</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.IPRule_Action_STATUS">
-IPRule_Action_STATUS
+<a href="#network.frontdoor.azure.com/v1api20220501.ActionType_STATUS">
+ActionType_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>Action: The action of IP ACL rule.</p>
+<p>Action: Describes what action to be applied when rule matches.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>value</code><br/>
+<code>enabledState</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_EnabledState_STATUS">
+CustomRule_EnabledState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>EnabledState: Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>matchConditions</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS">
+[]MatchCondition_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>MatchConditions: List of match conditions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</p>
+<p>Name: Describes the name of the rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>priority</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>Priority: Describes priority of the rule. Rules with a lower value will be evaluated before rules with a higher value.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>rateLimitDurationInMinutes</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>RateLimitDurationInMinutes: Time window for resetting the rate limit count. Default is 1 minute.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>rateLimitThreshold</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>RateLimitThreshold: Number of allowed requests per client within the time window.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleType</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_RuleType_STATUS">
+CustomRule_RuleType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>RuleType: Describes type of rule.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.IPRule_STATUS_ARM">IPRule_STATUS_ARM
+<h3 id="network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS_ARM">CustomRule_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_STATUS_ARM">NetworkRuleSet_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.CustomRuleList_STATUS_ARM">CustomRuleList_STATUS_ARM</a>)
 </p>
 <div>
-<p>IP rule with specific IP or IP range in CIDR format.</p>
+<p>Defines contents of a web application rule</p>
 </div>
 <table>
 <thead>
@@ -1278,35 +1318,106 @@ string
 <td>
 <code>action</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.IPRule_Action_STATUS">
-IPRule_Action_STATUS
+<a href="#network.frontdoor.azure.com/v1api20220501.ActionType_STATUS">
+ActionType_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>Action: The action of IP ACL rule.</p>
+<p>Action: Describes what action to be applied when rule matches.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>value</code><br/>
+<code>enabledState</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_EnabledState_STATUS">
+CustomRule_EnabledState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>EnabledState: Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>matchConditions</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS_ARM">
+[]MatchCondition_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>MatchConditions: List of match conditions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</p>
+<p>Name: Describes the name of the rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>priority</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>Priority: Describes priority of the rule. Rules with a lower value will be evaluated before rules with a higher value.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>rateLimitDurationInMinutes</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>RateLimitDurationInMinutes: Time window for resetting the rate limit count. Default is 1 minute.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>rateLimitThreshold</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>RateLimitThreshold: Number of allowed requests per client within the time window.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleType</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_RuleType_STATUS">
+CustomRule_RuleType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>RuleType: Describes type of rule.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.IdentityProperties">IdentityProperties
+<h3 id="network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_STATUS">FrontDoorWebApplicationFirewallPolicy_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_Spec">Registry_Spec</a>)
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicy">WebApplicationFirewallPolicy</a>)
 </p>
 <div>
-<p>Managed identity for the resource.</p>
 </div>
 <table>
 <thead>
@@ -1318,64 +1429,202 @@ string
 <tbody>
 <tr>
 <td>
-<code>principalId</code><br/>
+<code>conditions</code><br/>
 <em>
-string
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal ID of resource identity.</p>
+<p>Conditions: The observed state of the resource</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>tenantId</code><br/>
+<code>customRules</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.CustomRuleList_STATUS">
+CustomRuleList_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>CustomRules: Describes custom rules inside the policy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>etag</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>TenantId: The tenant ID of resource.</p>
+<p>Etag: Gets a unique read-only string that changes whenever the resource is updated.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>frontendEndpointLinks</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.FrontendEndpointLink_STATUS">
+[]FrontendEndpointLink_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>FrontendEndpointLinks: Describes Frontend Endpoints associated with this Web Application Firewall policy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Resource ID.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: Resource location.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>managedRules</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSetList_STATUS">
+ManagedRuleSetList_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ManagedRules: Describes managed rules inside the policy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: Resource name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>policySettings</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS">
+PolicySettings_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>PolicySettings: Describes settings for the policy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ProvisioningState: Provisioning state of the policy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>resourceState</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_ResourceState_STATUS">
+WebApplicationFirewallPolicyProperties_ResourceState_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>routingRuleLinks</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.RoutingRuleLink_STATUS">
+[]RoutingRuleLink_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>RoutingRuleLinks: Describes Routing Rules associated with this Web Application Firewall policy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>securityPolicyLinks</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.SecurityPolicyLink_STATUS">
+[]SecurityPolicyLink_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SecurityPolicyLinks: Describes Security Policy associated with this Web Application Firewall policy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sku</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.Sku_STATUS">
+Sku_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Sku: The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>type</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_Type">
-IdentityProperties_Type
-</a>
+string
 </em>
 </td>
 <td>
-<p>Type: The identity type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.UserAssignedIdentityDetails">
-[]UserAssignedIdentityDetails
-</a>
-</em>
-</td>
-<td>
-<p>UserAssignedIdentities: The list of user identities associated with the resource. The user identity
-dictionary key references will be ARM resource ids in the form:
-&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;
-providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
+<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.IdentityProperties_ARM">IdentityProperties_ARM
+<h3 id="network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_STATUS_ARM">FrontDoorWebApplicationFirewallPolicy_STATUS_ARM
 </h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_Spec_ARM">Registry_Spec_ARM</a>)
-</p>
 <div>
-<p>Managed identity for the resource.</p>
 </div>
 <table>
 <thead>
@@ -1387,243 +1636,102 @@ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;
 <tbody>
 <tr>
 <td>
-<code>principalId</code><br/>
+<code>etag</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal ID of resource identity.</p>
+<p>Etag: Gets a unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>tenantId</code><br/>
+<code>id</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>TenantId: The tenant ID of resource.</p>
+<p>Id: Resource ID.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: Resource location.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: Resource name.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_STATUS_ARM">
+WebApplicationFirewallPolicyProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the web application firewall policy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sku</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.Sku_STATUS_ARM">
+Sku_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Sku: The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>type</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_Type">
-IdentityProperties_Type
-</a>
+string
 </em>
 </td>
 <td>
-<p>Type: The identity type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.UserAssignedIdentityDetails_ARM">
-map[string]./api/containerregistry/v1api20210901.UserAssignedIdentityDetails_ARM
-</a>
-</em>
-</td>
-<td>
+<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.IdentityProperties_STATUS">IdentityProperties_STATUS
+<h3 id="network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_Spec">FrontDoorWebApplicationFirewallPolicy_Spec
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
-</p>
-<div>
-<p>Managed identity for the resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The principal ID of resource identity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: The tenant ID of resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_Type_STATUS">
-IdentityProperties_Type_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: The identity type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.UserIdentityProperties_STATUS">
-map[string]./api/containerregistry/v1api20210901.UserIdentityProperties_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>UserAssignedIdentities: The list of user identities associated with the resource. The user identity
-dictionary key references will be ARM resource ids in the form:
-&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;
-providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.IdentityProperties_STATUS_ARM">IdentityProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS_ARM">Registry_STATUS_ARM</a>)
-</p>
-<div>
-<p>Managed identity for the resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The principal ID of resource identity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>TenantId: The tenant ID of resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_Type_STATUS">
-IdentityProperties_Type_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: The identity type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>userAssignedIdentities</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.UserIdentityProperties_STATUS_ARM">
-map[string]./api/containerregistry/v1api20210901.UserIdentityProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>UserAssignedIdentities: The list of user identities associated with the resource. The user identity
-dictionary key references will be ARM resource ids in the form:
-&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;
-providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.IdentityProperties_Type">IdentityProperties_Type
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IdentityProperties">IdentityProperties</a>, <a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_ARM">IdentityProperties_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.IdentityProperties_Type_STATUS">IdentityProperties_Type_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_STATUS">IdentityProperties_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_STATUS_ARM">IdentityProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SystemAssigned, UserAssigned&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;UserAssigned&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.KeyVaultProperties">KeyVaultProperties
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty">EncryptionProperty</a>)
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicy">WebApplicationFirewallPolicy</a>)
 </p>
 <div>
 </div>
@@ -1637,33 +1745,120 @@ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;
 <tbody>
 <tr>
 <td>
-<code>identity</code><br/>
+<code>azureName</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>Identity: The client id of the identity which will be used to access key vault.</p>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>keyIdentifier</code><br/>
+<code>customRules</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.CustomRuleList">
+CustomRuleList
+</a>
+</em>
+</td>
+<td>
+<p>CustomRules: Describes custom rules inside the policy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>etag</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>KeyIdentifier: Key vault uri to access the encryption key.</p>
+<p>Etag: Gets a unique read-only string that changes whenever the resource is updated.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: Resource location.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>managedRules</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSetList">
+ManagedRuleSetList
+</a>
+</em>
+</td>
+<td>
+<p>ManagedRules: Describes managed rules inside the policy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>policySettings</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings">
+PolicySettings
+</a>
+</em>
+</td>
+<td>
+<p>PolicySettings: Describes settings for the policy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sku</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.Sku">
+Sku
+</a>
+</em>
+</td>
+<td>
+<p>Sku: The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.KeyVaultProperties_ARM">KeyVaultProperties_ARM
+<h3 id="network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_Spec_ARM">FrontDoorWebApplicationFirewallPolicy_Spec_ARM
 </h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_ARM">EncryptionProperty_ARM</a>)
-</p>
 <div>
 </div>
 <table>
@@ -1676,677 +1871,82 @@ string
 <tbody>
 <tr>
 <td>
-<code>identity</code><br/>
+<code>etag</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>Identity: The client id of the identity which will be used to access key vault.</p>
+<p>Etag: Gets a unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>keyIdentifier</code><br/>
+<code>location</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>KeyIdentifier: Key vault uri to access the encryption key.</p>
+<p>Location: Resource location.</p>
 </td>
 </tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.KeyVaultProperties_STATUS">KeyVaultProperties_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_STATUS">EncryptionProperty_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td>
-<code>identity</code><br/>
+<code>name</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>Identity: The client id of the identity which will be used to access key vault.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>keyIdentifier</code><br/>
+<code>properties</code><br/>
 <em>
-string
+<a href="#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_ARM">
+WebApplicationFirewallPolicyProperties_ARM
+</a>
 </em>
 </td>
 <td>
-<p>KeyIdentifier: Key vault uri to access the encryption key.</p>
+<p>Properties: Properties of the web application firewall policy.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>keyRotationEnabled</code><br/>
+<code>sku</code><br/>
 <em>
-bool
+<a href="#network.frontdoor.azure.com/v1api20220501.Sku_ARM">
+Sku_ARM
+</a>
 </em>
 </td>
 <td>
-<p>KeyRotationEnabled: Auto key rotation status for a CMK enabled registry.</p>
+<p>Sku: The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>lastKeyRotationTimestamp</code><br/>
+<code>tags</code><br/>
 <em>
-string
+map[string]string
 </em>
 </td>
 <td>
-<p>LastKeyRotationTimestamp: Timestamp of the last successful key rotation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>versionedKeyIdentifier</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>VersionedKeyIdentifier: The fully qualified key identifier that includes the version of the key that is actually used
-for encryption.</p>
+<p>Tags: Resource tags.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.KeyVaultProperties_STATUS_ARM">KeyVaultProperties_STATUS_ARM
+<h3 id="network.frontdoor.azure.com/v1api20220501.FrontendEndpointLink_STATUS">FrontendEndpointLink_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_STATUS_ARM">EncryptionProperty_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_STATUS">FrontDoorWebApplicationFirewallPolicy_STATUS</a>)
 </p>
 <div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Identity: The client id of the identity which will be used to access key vault.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyIdentifier</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>KeyIdentifier: Key vault uri to access the encryption key.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>keyRotationEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>KeyRotationEnabled: Auto key rotation status for a CMK enabled registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastKeyRotationTimestamp</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastKeyRotationTimestamp: Timestamp of the last successful key rotation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>versionedKeyIdentifier</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>VersionedKeyIdentifier: The fully qualified key identifier that includes the version of the key that is actually used
-for encryption.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.NetworkRuleSet">NetworkRuleSet
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_Spec">Registry_Spec</a>)
-</p>
-<div>
-<p>The network rule set for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>defaultAction</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_DefaultAction">
-NetworkRuleSet_DefaultAction
-</a>
-</em>
-</td>
-<td>
-<p>DefaultAction: The default action of allow or deny when no other rules match.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ipRules</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.IPRule">
-[]IPRule
-</a>
-</em>
-</td>
-<td>
-<p>IpRules: The IP ACL rules.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.NetworkRuleSet_ARM">NetworkRuleSet_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ARM">RegistryProperties_ARM</a>)
-</p>
-<div>
-<p>The network rule set for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>defaultAction</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_DefaultAction">
-NetworkRuleSet_DefaultAction
-</a>
-</em>
-</td>
-<td>
-<p>DefaultAction: The default action of allow or deny when no other rules match.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ipRules</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.IPRule_ARM">
-[]IPRule_ARM
-</a>
-</em>
-</td>
-<td>
-<p>IpRules: The IP ACL rules.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.NetworkRuleSet_DefaultAction">NetworkRuleSet_DefaultAction
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet">NetworkRuleSet</a>, <a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_ARM">NetworkRuleSet_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Allow&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Deny&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.NetworkRuleSet_DefaultAction_STATUS">NetworkRuleSet_DefaultAction_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_STATUS_ARM">NetworkRuleSet_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Allow&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Deny&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.NetworkRuleSet_STATUS">NetworkRuleSet_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
-</p>
-<div>
-<p>The network rule set for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>defaultAction</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_DefaultAction_STATUS">
-NetworkRuleSet_DefaultAction_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>DefaultAction: The default action of allow or deny when no other rules match.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ipRules</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.IPRule_STATUS">
-[]IPRule_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>IpRules: The IP ACL rules.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.NetworkRuleSet_STATUS_ARM">NetworkRuleSet_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>The network rule set for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>defaultAction</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_DefaultAction_STATUS">
-NetworkRuleSet_DefaultAction_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>DefaultAction: The default action of allow or deny when no other rules match.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ipRules</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.IPRule_STATUS_ARM">
-[]IPRule_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>IpRules: The IP ACL rules.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.Policies">Policies
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_Spec">Registry_Spec</a>)
-</p>
-<div>
-<p>The policies for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>exportPolicy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.ExportPolicy">
-ExportPolicy
-</a>
-</em>
-</td>
-<td>
-<p>ExportPolicy: The export policy for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>quarantinePolicy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy">
-QuarantinePolicy
-</a>
-</em>
-</td>
-<td>
-<p>QuarantinePolicy: The quarantine policy for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>retentionPolicy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy">
-RetentionPolicy
-</a>
-</em>
-</td>
-<td>
-<p>RetentionPolicy: The retention policy for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>trustPolicy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy">
-TrustPolicy
-</a>
-</em>
-</td>
-<td>
-<p>TrustPolicy: The content trust policy for a container registry.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.Policies_ARM">Policies_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ARM">RegistryProperties_ARM</a>)
-</p>
-<div>
-<p>The policies for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>exportPolicy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_ARM">
-ExportPolicy_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ExportPolicy: The export policy for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>quarantinePolicy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_ARM">
-QuarantinePolicy_ARM
-</a>
-</em>
-</td>
-<td>
-<p>QuarantinePolicy: The quarantine policy for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>retentionPolicy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_ARM">
-RetentionPolicy_ARM
-</a>
-</em>
-</td>
-<td>
-<p>RetentionPolicy: The retention policy for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>trustPolicy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_ARM">
-TrustPolicy_ARM
-</a>
-</em>
-</td>
-<td>
-<p>TrustPolicy: The content trust policy for a container registry.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.Policies_STATUS">Policies_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
-</p>
-<div>
-<p>The policies for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>exportPolicy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_STATUS">
-ExportPolicy_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ExportPolicy: The export policy for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>quarantinePolicy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_STATUS">
-QuarantinePolicy_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>QuarantinePolicy: The quarantine policy for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>retentionPolicy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_STATUS">
-RetentionPolicy_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>RetentionPolicy: The retention policy for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>trustPolicy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_STATUS">
-TrustPolicy_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>TrustPolicy: The content trust policy for a container registry.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.Policies_STATUS_ARM">Policies_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>The policies for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>exportPolicy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.ExportPolicy_STATUS_ARM">
-ExportPolicy_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>ExportPolicy: The export policy for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>quarantinePolicy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_STATUS_ARM">
-QuarantinePolicy_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>QuarantinePolicy: The quarantine policy for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>retentionPolicy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_STATUS_ARM">
-RetentionPolicy_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>RetentionPolicy: The retention policy for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>trustPolicy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_STATUS_ARM">
-TrustPolicy_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>TrustPolicy: The content trust policy for a container registry.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
-</p>
-<div>
-<p>An object that represents a private endpoint connection for a container registry.</p>
+<p>Defines the Resource ID for a Frontend Endpoint.</p>
 </div>
 <table>
 <thead>
@@ -2364,18 +1964,18 @@ string
 </em>
 </td>
 <td>
-<p>Id: The resource ID.</p>
+<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.PrivateEndpointConnection_STATUS_ARM">PrivateEndpointConnection_STATUS_ARM
+<h3 id="network.frontdoor.azure.com/v1api20220501.FrontendEndpointLink_STATUS_ARM">FrontendEndpointLink_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_STATUS_ARM">WebApplicationFirewallPolicyProperties_STATUS_ARM</a>)
 </p>
 <div>
-<p>An object that represents a private endpoint connection for a container registry.</p>
+<p>Defines the Resource ID for a Frontend Endpoint.</p>
 </div>
 <table>
 <thead>
@@ -2393,139 +1993,169 @@ string
 </em>
 </td>
 <td>
-<p>Id: The resource ID.</p>
+<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.QuarantinePolicy">QuarantinePolicy
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Policies">Policies</a>)
-</p>
-<div>
-<p>The quarantine policy for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_Status">
-QuarantinePolicy_Status
-</a>
-</em>
-</td>
-<td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.QuarantinePolicy_ARM">QuarantinePolicy_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Policies_ARM">Policies_ARM</a>)
-</p>
-<div>
-<p>The quarantine policy for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_Status">
-QuarantinePolicy_Status
-</a>
-</em>
-</td>
-<td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.QuarantinePolicy_STATUS">QuarantinePolicy_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Policies_STATUS">Policies_STATUS</a>)
-</p>
-<div>
-<p>The quarantine policy for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_Status_STATUS">
-QuarantinePolicy_Status_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.QuarantinePolicy_STATUS_ARM">QuarantinePolicy_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Policies_STATUS_ARM">Policies_STATUS_ARM</a>)
-</p>
-<div>
-<p>The quarantine policy for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_Status_STATUS">
-QuarantinePolicy_Status_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.QuarantinePolicy_Status">QuarantinePolicy_Status
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleEnabledState">ManagedRuleEnabledState
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy">QuarantinePolicy</a>, <a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_ARM">QuarantinePolicy_ARM</a>)
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride">ManagedRuleOverride</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_ARM">ManagedRuleOverride_ARM</a>)
+</p>
+<div>
+<p>Describes if the managed rule is in enabled or disabled state.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleEnabledState_STATUS">ManagedRuleEnabledState_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS">ManagedRuleOverride_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS_ARM">ManagedRuleOverride_STATUS_ARM</a>)
+</p>
+<div>
+<p>Describes if the managed rule is in enabled or disabled state.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion">ManagedRuleExclusion
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleGroupOverride">ManagedRuleGroupOverride</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride">ManagedRuleOverride</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet">ManagedRuleSet</a>)
+</p>
+<div>
+<p>Exclude variables from managed rule evaluation.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>matchVariable</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_MatchVariable">
+ManagedRuleExclusion_MatchVariable
+</a>
+</em>
+</td>
+<td>
+<p>MatchVariable: The variable type to be excluded.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>selector</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Selector: Selector value for which elements in the collection this exclusion applies to.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>selectorMatchOperator</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_SelectorMatchOperator">
+ManagedRuleExclusion_SelectorMatchOperator
+</a>
+</em>
+</td>
+<td>
+<p>SelectorMatchOperator: Comparison operator to apply to the selector when specifying which elements in the collection
+this exclusion applies to.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_ARM">ManagedRuleExclusion_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleGroupOverride_ARM">ManagedRuleGroupOverride_ARM</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_ARM">ManagedRuleOverride_ARM</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_ARM">ManagedRuleSet_ARM</a>)
+</p>
+<div>
+<p>Exclude variables from managed rule evaluation.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>matchVariable</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_MatchVariable">
+ManagedRuleExclusion_MatchVariable
+</a>
+</em>
+</td>
+<td>
+<p>MatchVariable: The variable type to be excluded.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>selector</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Selector: Selector value for which elements in the collection this exclusion applies to.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>selectorMatchOperator</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_SelectorMatchOperator">
+ManagedRuleExclusion_SelectorMatchOperator
+</a>
+</em>
+</td>
+<td>
+<p>SelectorMatchOperator: Comparison operator to apply to the selector when specifying which elements in the collection
+this exclusion applies to.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_MatchVariable">ManagedRuleExclusion_MatchVariable
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion">ManagedRuleExclusion</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_ARM">ManagedRuleExclusion_ARM</a>)
 </p>
 <div>
 </div>
@@ -2536,16 +2166,22 @@ QuarantinePolicy_Status_STATUS
 <th>Description</th>
 </tr>
 </thead>
-<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<tbody><tr><td><p>&#34;QueryStringArgNames&#34;</p></td>
 <td></td>
-</tr><tr><td><p>&#34;enabled&#34;</p></td>
+</tr><tr><td><p>&#34;RequestBodyJsonArgNames&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RequestBodyPostArgNames&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RequestCookieNames&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RequestHeaderNames&#34;</p></td>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.QuarantinePolicy_Status_STATUS">QuarantinePolicy_Status_STATUS
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_MatchVariable_STATUS">ManagedRuleExclusion_MatchVariable_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_STATUS">QuarantinePolicy_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.QuarantinePolicy_STATUS_ARM">QuarantinePolicy_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS">ManagedRuleExclusion_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS_ARM">ManagedRuleExclusion_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2556,18 +2192,2470 @@ QuarantinePolicy_Status_STATUS
 <th>Description</th>
 </tr>
 </thead>
-<tbody><tr><td><p>&#34;disabled&#34;</p></td>
+<tbody><tr><td><p>&#34;QueryStringArgNames&#34;</p></td>
 <td></td>
-</tr><tr><td><p>&#34;enabled&#34;</p></td>
+</tr><tr><td><p>&#34;RequestBodyJsonArgNames&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RequestBodyPostArgNames&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RequestCookieNames&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RequestHeaderNames&#34;</p></td>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.Registry">Registry
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS">ManagedRuleExclusion_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleGroupOverride_STATUS">ManagedRuleGroupOverride_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS">ManagedRuleOverride_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_STATUS">ManagedRuleSet_STATUS</a>)
+</p>
+<div>
+<p>Exclude variables from managed rule evaluation.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>matchVariable</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_MatchVariable_STATUS">
+ManagedRuleExclusion_MatchVariable_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>MatchVariable: The variable type to be excluded.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>selector</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Selector: Selector value for which elements in the collection this exclusion applies to.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>selectorMatchOperator</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_SelectorMatchOperator_STATUS">
+ManagedRuleExclusion_SelectorMatchOperator_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SelectorMatchOperator: Comparison operator to apply to the selector when specifying which elements in the collection
+this exclusion applies to.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS_ARM">ManagedRuleExclusion_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleGroupOverride_STATUS_ARM">ManagedRuleGroupOverride_STATUS_ARM</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS_ARM">ManagedRuleOverride_STATUS_ARM</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_STATUS_ARM">ManagedRuleSet_STATUS_ARM</a>)
+</p>
+<div>
+<p>Exclude variables from managed rule evaluation.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>matchVariable</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_MatchVariable_STATUS">
+ManagedRuleExclusion_MatchVariable_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>MatchVariable: The variable type to be excluded.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>selector</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Selector: Selector value for which elements in the collection this exclusion applies to.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>selectorMatchOperator</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_SelectorMatchOperator_STATUS">
+ManagedRuleExclusion_SelectorMatchOperator_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SelectorMatchOperator: Comparison operator to apply to the selector when specifying which elements in the collection
+this exclusion applies to.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_SelectorMatchOperator">ManagedRuleExclusion_SelectorMatchOperator
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion">ManagedRuleExclusion</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_ARM">ManagedRuleExclusion_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Contains&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;EndsWith&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Equals&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;EqualsAny&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;StartsWith&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_SelectorMatchOperator_STATUS">ManagedRuleExclusion_SelectorMatchOperator_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS">ManagedRuleExclusion_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS_ARM">ManagedRuleExclusion_STATUS_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Contains&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;EndsWith&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Equals&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;EqualsAny&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;StartsWith&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleGroupOverride">ManagedRuleGroupOverride
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet">ManagedRuleSet</a>)
+</p>
+<div>
+<p>Defines a managed rule group override setting.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>exclusions</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion">
+[]ManagedRuleExclusion
+</a>
+</em>
+</td>
+<td>
+<p>Exclusions: Describes the exclusions that are applied to all rules in the group.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleGroupName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RuleGroupName: Describes the managed rule group to override.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>rules</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride">
+[]ManagedRuleOverride
+</a>
+</em>
+</td>
+<td>
+<p>Rules: List of rules that will be disabled. If none specified, all rules in the group will be disabled.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleGroupOverride_ARM">ManagedRuleGroupOverride_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_ARM">ManagedRuleSet_ARM</a>)
+</p>
+<div>
+<p>Defines a managed rule group override setting.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>exclusions</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_ARM">
+[]ManagedRuleExclusion_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Exclusions: Describes the exclusions that are applied to all rules in the group.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleGroupName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RuleGroupName: Describes the managed rule group to override.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>rules</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_ARM">
+[]ManagedRuleOverride_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Rules: List of rules that will be disabled. If none specified, all rules in the group will be disabled.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleGroupOverride_STATUS">ManagedRuleGroupOverride_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_STATUS">ManagedRuleSet_STATUS</a>)
+</p>
+<div>
+<p>Defines a managed rule group override setting.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>exclusions</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS">
+[]ManagedRuleExclusion_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Exclusions: Describes the exclusions that are applied to all rules in the group.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleGroupName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RuleGroupName: Describes the managed rule group to override.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>rules</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS">
+[]ManagedRuleOverride_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Rules: List of rules that will be disabled. If none specified, all rules in the group will be disabled.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleGroupOverride_STATUS_ARM">ManagedRuleGroupOverride_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_STATUS_ARM">ManagedRuleSet_STATUS_ARM</a>)
+</p>
+<div>
+<p>Defines a managed rule group override setting.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>exclusions</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS_ARM">
+[]ManagedRuleExclusion_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Exclusions: Describes the exclusions that are applied to all rules in the group.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleGroupName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RuleGroupName: Describes the managed rule group to override.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>rules</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS_ARM">
+[]ManagedRuleOverride_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Rules: List of rules that will be disabled. If none specified, all rules in the group will be disabled.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride">ManagedRuleOverride
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleGroupOverride">ManagedRuleGroupOverride</a>)
+</p>
+<div>
+<p>Defines a managed rule group override setting.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>action</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ActionType">
+ActionType
+</a>
+</em>
+</td>
+<td>
+<p>Action: Describes the override action to be applied when rule matches.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>enabledState</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleEnabledState">
+ManagedRuleEnabledState
+</a>
+</em>
+</td>
+<td>
+<p>EnabledState: Describes if the managed rule is in enabled or disabled state. Defaults to Disabled if not specified.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>exclusions</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion">
+[]ManagedRuleExclusion
+</a>
+</em>
+</td>
+<td>
+<p>Exclusions: Describes the exclusions that are applied to this specific rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RuleId: Identifier for the managed rule.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_ARM">ManagedRuleOverride_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleGroupOverride_ARM">ManagedRuleGroupOverride_ARM</a>)
+</p>
+<div>
+<p>Defines a managed rule group override setting.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>action</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ActionType">
+ActionType
+</a>
+</em>
+</td>
+<td>
+<p>Action: Describes the override action to be applied when rule matches.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>enabledState</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleEnabledState">
+ManagedRuleEnabledState
+</a>
+</em>
+</td>
+<td>
+<p>EnabledState: Describes if the managed rule is in enabled or disabled state. Defaults to Disabled if not specified.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>exclusions</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_ARM">
+[]ManagedRuleExclusion_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Exclusions: Describes the exclusions that are applied to this specific rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RuleId: Identifier for the managed rule.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS">ManagedRuleOverride_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleGroupOverride_STATUS">ManagedRuleGroupOverride_STATUS</a>)
+</p>
+<div>
+<p>Defines a managed rule group override setting.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>action</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ActionType_STATUS">
+ActionType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Action: Describes the override action to be applied when rule matches.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>enabledState</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleEnabledState_STATUS">
+ManagedRuleEnabledState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>EnabledState: Describes if the managed rule is in enabled or disabled state. Defaults to Disabled if not specified.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>exclusions</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS">
+[]ManagedRuleExclusion_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Exclusions: Describes the exclusions that are applied to this specific rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RuleId: Identifier for the managed rule.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleOverride_STATUS_ARM">ManagedRuleOverride_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleGroupOverride_STATUS_ARM">ManagedRuleGroupOverride_STATUS_ARM</a>)
+</p>
+<div>
+<p>Defines a managed rule group override setting.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>action</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ActionType_STATUS">
+ActionType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Action: Describes the override action to be applied when rule matches.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>enabledState</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleEnabledState_STATUS">
+ManagedRuleEnabledState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>EnabledState: Describes if the managed rule is in enabled or disabled state. Defaults to Disabled if not specified.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>exclusions</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS_ARM">
+[]ManagedRuleExclusion_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Exclusions: Describes the exclusions that are applied to this specific rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RuleId: Identifier for the managed rule.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleSet">ManagedRuleSet
+</h3>
+<div>
+<p>Defines a managed rule set.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>exclusions</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion">
+[]ManagedRuleExclusion
+</a>
+</em>
+</td>
+<td>
+<p>Exclusions: Describes the exclusions that are applied to all rules in the set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleGroupOverrides</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleGroupOverride">
+[]ManagedRuleGroupOverride
+</a>
+</em>
+</td>
+<td>
+<p>RuleGroupOverrides: Defines the rule group overrides to apply to the rule set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleSetAction</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSetActionType">
+ManagedRuleSetActionType
+</a>
+</em>
+</td>
+<td>
+<p>RuleSetAction: Defines the rule set action.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleSetType</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RuleSetType: Defines the rule set type to use.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleSetVersion</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RuleSetVersion: Defines the version of the rule set to use.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleSetActionType">ManagedRuleSetActionType
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet">ManagedRuleSet</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_ARM">ManagedRuleSet_ARM</a>)
+</p>
+<div>
+<p>Defines the action to take when a managed rule set score threshold is met.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Block&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Log&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Redirect&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleSetActionType_STATUS">ManagedRuleSetActionType_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_STATUS">ManagedRuleSet_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_STATUS_ARM">ManagedRuleSet_STATUS_ARM</a>)
+</p>
+<div>
+<p>Defines the action to take when a managed rule set score threshold is met.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Block&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Log&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Redirect&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleSetList_ARM">ManagedRuleSetList_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_ARM">WebApplicationFirewallPolicyProperties_ARM</a>)
+</p>
+<div>
+<p>Defines the list of managed rule sets for the policy.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>managedRuleSets</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_ARM">
+[]ManagedRuleSet_ARM
+</a>
+</em>
+</td>
+<td>
+<p>ManagedRuleSets: List of rule sets.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleSetList_STATUS">ManagedRuleSetList_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_STATUS">FrontDoorWebApplicationFirewallPolicy_STATUS</a>)
+</p>
+<div>
+<p>Defines the list of managed rule sets for the policy.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>managedRuleSets</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_STATUS">
+[]ManagedRuleSet_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ManagedRuleSets: List of rule sets.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleSetList_STATUS_ARM">ManagedRuleSetList_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_STATUS_ARM">WebApplicationFirewallPolicyProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>Defines the list of managed rule sets for the policy.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>managedRuleSets</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_STATUS_ARM">
+[]ManagedRuleSet_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>ManagedRuleSets: List of rule sets.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_ARM">ManagedRuleSet_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSetList_ARM">ManagedRuleSetList_ARM</a>)
+</p>
+<div>
+<p>Defines a managed rule set.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>exclusions</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_ARM">
+[]ManagedRuleExclusion_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Exclusions: Describes the exclusions that are applied to all rules in the set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleGroupOverrides</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleGroupOverride_ARM">
+[]ManagedRuleGroupOverride_ARM
+</a>
+</em>
+</td>
+<td>
+<p>RuleGroupOverrides: Defines the rule group overrides to apply to the rule set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleSetAction</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSetActionType">
+ManagedRuleSetActionType
+</a>
+</em>
+</td>
+<td>
+<p>RuleSetAction: Defines the rule set action.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleSetType</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RuleSetType: Defines the rule set type to use.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleSetVersion</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RuleSetVersion: Defines the version of the rule set to use.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_STATUS">ManagedRuleSet_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSetList_STATUS">ManagedRuleSetList_STATUS</a>)
+</p>
+<div>
+<p>Defines a managed rule set.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>exclusions</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS">
+[]ManagedRuleExclusion_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Exclusions: Describes the exclusions that are applied to all rules in the set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleGroupOverrides</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleGroupOverride_STATUS">
+[]ManagedRuleGroupOverride_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>RuleGroupOverrides: Defines the rule group overrides to apply to the rule set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleSetAction</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSetActionType_STATUS">
+ManagedRuleSetActionType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>RuleSetAction: Defines the rule set action.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleSetType</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RuleSetType: Defines the rule set type to use.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleSetVersion</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RuleSetVersion: Defines the version of the rule set to use.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.ManagedRuleSet_STATUS_ARM">ManagedRuleSet_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSetList_STATUS_ARM">ManagedRuleSetList_STATUS_ARM</a>)
+</p>
+<div>
+<p>Defines a managed rule set.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>exclusions</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleExclusion_STATUS_ARM">
+[]ManagedRuleExclusion_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Exclusions: Describes the exclusions that are applied to all rules in the set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleGroupOverrides</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleGroupOverride_STATUS_ARM">
+[]ManagedRuleGroupOverride_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>RuleGroupOverrides: Defines the rule group overrides to apply to the rule set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleSetAction</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSetActionType_STATUS">
+ManagedRuleSetActionType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>RuleSetAction: Defines the rule set action.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleSetType</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RuleSetType: Defines the rule set type to use.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ruleSetVersion</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RuleSetVersion: Defines the version of the rule set to use.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.MatchCondition">MatchCondition
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.CustomRule">CustomRule</a>)
+</p>
+<div>
+<p>Define a match condition.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>matchValue</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>MatchValue: List of possible match values.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>matchVariable</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_MatchVariable">
+MatchCondition_MatchVariable
+</a>
+</em>
+</td>
+<td>
+<p>MatchVariable: Request variable to compare with.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>negateCondition</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>NegateCondition: Describes if the result of this condition should be negated.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operator</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_Operator">
+MatchCondition_Operator
+</a>
+</em>
+</td>
+<td>
+<p>Operator: Comparison type to use for matching with the variable value.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>selector</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Selector: Match against a specific key from the QueryString, PostArgs, RequestHeader or Cookies variables. Default is
+null.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>transforms</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.TransformType">
+[]TransformType
+</a>
+</em>
+</td>
+<td>
+<p>Transforms: List of transforms.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.MatchCondition_ARM">MatchCondition_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_ARM">CustomRule_ARM</a>)
+</p>
+<div>
+<p>Define a match condition.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>matchValue</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>MatchValue: List of possible match values.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>matchVariable</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_MatchVariable">
+MatchCondition_MatchVariable
+</a>
+</em>
+</td>
+<td>
+<p>MatchVariable: Request variable to compare with.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>negateCondition</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>NegateCondition: Describes if the result of this condition should be negated.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operator</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_Operator">
+MatchCondition_Operator
+</a>
+</em>
+</td>
+<td>
+<p>Operator: Comparison type to use for matching with the variable value.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>selector</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Selector: Match against a specific key from the QueryString, PostArgs, RequestHeader or Cookies variables. Default is
+null.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>transforms</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.TransformType">
+[]TransformType
+</a>
+</em>
+</td>
+<td>
+<p>Transforms: List of transforms.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.MatchCondition_MatchVariable">MatchCondition_MatchVariable
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition">MatchCondition</a>, <a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_ARM">MatchCondition_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Cookies&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PostArgs&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;QueryString&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RemoteAddr&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RequestBody&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RequestHeader&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RequestMethod&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RequestUri&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SocketAddr&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.MatchCondition_MatchVariable_STATUS">MatchCondition_MatchVariable_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS">MatchCondition_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS_ARM">MatchCondition_STATUS_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Cookies&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;PostArgs&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;QueryString&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RemoteAddr&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RequestBody&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RequestHeader&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RequestMethod&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RequestUri&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;SocketAddr&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.MatchCondition_Operator">MatchCondition_Operator
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition">MatchCondition</a>, <a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_ARM">MatchCondition_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Any&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;BeginsWith&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Contains&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;EndsWith&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Equal&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GeoMatch&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GreaterThan&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GreaterThanOrEqual&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;IPMatch&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;LessThan&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;LessThanOrEqual&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RegEx&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.MatchCondition_Operator_STATUS">MatchCondition_Operator_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS">MatchCondition_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS_ARM">MatchCondition_STATUS_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Any&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;BeginsWith&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Contains&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;EndsWith&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Equal&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GeoMatch&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GreaterThan&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;GreaterThanOrEqual&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;IPMatch&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;LessThan&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;LessThanOrEqual&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RegEx&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS">MatchCondition_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS">CustomRule_STATUS</a>)
+</p>
+<div>
+<p>Define a match condition.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>matchValue</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>MatchValue: List of possible match values.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>matchVariable</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_MatchVariable_STATUS">
+MatchCondition_MatchVariable_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>MatchVariable: Request variable to compare with.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>negateCondition</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>NegateCondition: Describes if the result of this condition should be negated.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operator</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_Operator_STATUS">
+MatchCondition_Operator_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Operator: Comparison type to use for matching with the variable value.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>selector</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Selector: Match against a specific key from the QueryString, PostArgs, RequestHeader or Cookies variables. Default is
+null.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>transforms</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.TransformType_STATUS">
+[]TransformType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Transforms: List of transforms.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS_ARM">MatchCondition_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.CustomRule_STATUS_ARM">CustomRule_STATUS_ARM</a>)
+</p>
+<div>
+<p>Define a match condition.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>matchValue</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>MatchValue: List of possible match values.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>matchVariable</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_MatchVariable_STATUS">
+MatchCondition_MatchVariable_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>MatchVariable: Request variable to compare with.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>negateCondition</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>NegateCondition: Describes if the result of this condition should be negated.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operator</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_Operator_STATUS">
+MatchCondition_Operator_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Operator: Comparison type to use for matching with the variable value.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>selector</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Selector: Match against a specific key from the QueryString, PostArgs, RequestHeader or Cookies variables. Default is
+null.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>transforms</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.TransformType_STATUS">
+[]TransformType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Transforms: List of transforms.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.PolicySettings">PolicySettings
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_Spec">FrontDoorWebApplicationFirewallPolicy_Spec</a>)
+</p>
+<div>
+<p>Defines top-level WebApplicationFirewallPolicy configuration settings.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>customBlockResponseBody</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CustomBlockResponseBody: If the action type is block, customer can override the response body. The body must be
+specified in base64 encoding.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>customBlockResponseStatusCode</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>CustomBlockResponseStatusCode: If the action type is block, customer can override the response status code.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>enabledState</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_EnabledState">
+PolicySettings_EnabledState
+</a>
+</em>
+</td>
+<td>
+<p>EnabledState: Describes if the policy is in enabled or disabled state. Defaults to Enabled if not specified.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>mode</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_Mode">
+PolicySettings_Mode
+</a>
+</em>
+</td>
+<td>
+<p>Mode: Describes if it is in detection mode or prevention mode at policy level.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>redirectUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RedirectUrl: If action type is redirect, this field represents redirect URL for the client.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>requestBodyCheck</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_RequestBodyCheck">
+PolicySettings_RequestBodyCheck
+</a>
+</em>
+</td>
+<td>
+<p>RequestBodyCheck: Describes if policy managed rules will inspect the request body content.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.PolicySettings_ARM">PolicySettings_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_ARM">WebApplicationFirewallPolicyProperties_ARM</a>)
+</p>
+<div>
+<p>Defines top-level WebApplicationFirewallPolicy configuration settings.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>customBlockResponseBody</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CustomBlockResponseBody: If the action type is block, customer can override the response body. The body must be
+specified in base64 encoding.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>customBlockResponseStatusCode</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>CustomBlockResponseStatusCode: If the action type is block, customer can override the response status code.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>enabledState</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_EnabledState">
+PolicySettings_EnabledState
+</a>
+</em>
+</td>
+<td>
+<p>EnabledState: Describes if the policy is in enabled or disabled state. Defaults to Enabled if not specified.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>mode</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_Mode">
+PolicySettings_Mode
+</a>
+</em>
+</td>
+<td>
+<p>Mode: Describes if it is in detection mode or prevention mode at policy level.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>redirectUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RedirectUrl: If action type is redirect, this field represents redirect URL for the client.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>requestBodyCheck</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_RequestBodyCheck">
+PolicySettings_RequestBodyCheck
+</a>
+</em>
+</td>
+<td>
+<p>RequestBodyCheck: Describes if policy managed rules will inspect the request body content.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.PolicySettings_EnabledState">PolicySettings_EnabledState
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings">PolicySettings</a>, <a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_ARM">PolicySettings_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.PolicySettings_EnabledState_STATUS">PolicySettings_EnabledState_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS">PolicySettings_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS_ARM">PolicySettings_STATUS_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.PolicySettings_Mode">PolicySettings_Mode
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings">PolicySettings</a>, <a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_ARM">PolicySettings_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Detection&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Prevention&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.PolicySettings_Mode_STATUS">PolicySettings_Mode_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS">PolicySettings_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS_ARM">PolicySettings_STATUS_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Detection&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Prevention&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.PolicySettings_RequestBodyCheck">PolicySettings_RequestBodyCheck
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings">PolicySettings</a>, <a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_ARM">PolicySettings_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.PolicySettings_RequestBodyCheck_STATUS">PolicySettings_RequestBodyCheck_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS">PolicySettings_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS_ARM">PolicySettings_STATUS_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS">PolicySettings_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_STATUS">FrontDoorWebApplicationFirewallPolicy_STATUS</a>)
+</p>
+<div>
+<p>Defines top-level WebApplicationFirewallPolicy configuration settings.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>customBlockResponseBody</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CustomBlockResponseBody: If the action type is block, customer can override the response body. The body must be
+specified in base64 encoding.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>customBlockResponseStatusCode</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>CustomBlockResponseStatusCode: If the action type is block, customer can override the response status code.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>enabledState</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_EnabledState_STATUS">
+PolicySettings_EnabledState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>EnabledState: Describes if the policy is in enabled or disabled state. Defaults to Enabled if not specified.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>mode</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_Mode_STATUS">
+PolicySettings_Mode_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Mode: Describes if it is in detection mode or prevention mode at policy level.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>redirectUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RedirectUrl: If action type is redirect, this field represents redirect URL for the client.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>requestBodyCheck</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_RequestBodyCheck_STATUS">
+PolicySettings_RequestBodyCheck_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>RequestBodyCheck: Describes if policy managed rules will inspect the request body content.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS_ARM">PolicySettings_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_STATUS_ARM">WebApplicationFirewallPolicyProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>Defines top-level WebApplicationFirewallPolicy configuration settings.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>customBlockResponseBody</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CustomBlockResponseBody: If the action type is block, customer can override the response body. The body must be
+specified in base64 encoding.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>customBlockResponseStatusCode</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>CustomBlockResponseStatusCode: If the action type is block, customer can override the response status code.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>enabledState</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_EnabledState_STATUS">
+PolicySettings_EnabledState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>EnabledState: Describes if the policy is in enabled or disabled state. Defaults to Enabled if not specified.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>mode</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_Mode_STATUS">
+PolicySettings_Mode_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Mode: Describes if it is in detection mode or prevention mode at policy level.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>redirectUrl</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>RedirectUrl: If action type is redirect, this field represents redirect URL for the client.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>requestBodyCheck</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_RequestBodyCheck_STATUS">
+PolicySettings_RequestBodyCheck_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>RequestBodyCheck: Describes if policy managed rules will inspect the request body content.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.RoutingRuleLink_STATUS">RoutingRuleLink_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_STATUS">FrontDoorWebApplicationFirewallPolicy_STATUS</a>)
+</p>
+<div>
+<p>Defines the Resource ID for a Routing Rule.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Resource ID.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.RoutingRuleLink_STATUS_ARM">RoutingRuleLink_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_STATUS_ARM">WebApplicationFirewallPolicyProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>Defines the Resource ID for a Routing Rule.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Resource ID.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.SecurityPolicyLink_STATUS">SecurityPolicyLink_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_STATUS">FrontDoorWebApplicationFirewallPolicy_STATUS</a>)
+</p>
+<div>
+<p>Defines the Resource ID for a Security Policy.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Resource ID.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.SecurityPolicyLink_STATUS_ARM">SecurityPolicyLink_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_STATUS_ARM">WebApplicationFirewallPolicyProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>Defines the Resource ID for a Security Policy.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Resource ID.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.Sku">Sku
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_Spec">FrontDoorWebApplicationFirewallPolicy_Spec</a>)
+</p>
+<div>
+<p>The pricing tier of the web application firewall policy.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.Sku_Name">
+Sku_Name
+</a>
+</em>
+</td>
+<td>
+<p>Name: Name of the pricing tier.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.Sku_ARM">Sku_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_Spec_ARM">FrontDoorWebApplicationFirewallPolicy_Spec_ARM</a>)
+</p>
+<div>
+<p>The pricing tier of the web application firewall policy.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.Sku_Name">
+Sku_Name
+</a>
+</em>
+</td>
+<td>
+<p>Name: Name of the pricing tier.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.Sku_Name">Sku_Name
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.Sku">Sku</a>, <a href="#network.frontdoor.azure.com/v1api20220501.Sku_ARM">Sku_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Classic_AzureFrontDoor&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium_AzureFrontDoor&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_AzureFrontDoor&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.Sku_Name_STATUS">Sku_Name_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.Sku_STATUS">Sku_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Classic_AzureFrontDoor&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Premium_AzureFrontDoor&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Standard_AzureFrontDoor&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.Sku_STATUS">Sku_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_STATUS">FrontDoorWebApplicationFirewallPolicy_STATUS</a>)
+</p>
+<div>
+<p>The pricing tier of the web application firewall policy.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.Sku_Name_STATUS">
+Sku_Name_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Name: Name of the pricing tier.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.Sku_STATUS_ARM">Sku_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_STATUS_ARM">FrontDoorWebApplicationFirewallPolicy_STATUS_ARM</a>)
+</p>
+<div>
+<p>The pricing tier of the web application firewall policy.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+<a href="#network.frontdoor.azure.com/v1api20220501.Sku_Name_STATUS">
+Sku_Name_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Name: Name of the pricing tier.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.TransformType">TransformType
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition">MatchCondition</a>, <a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_ARM">MatchCondition_ARM</a>)
+</p>
+<div>
+<p>Describes what transforms applied before matching.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Lowercase&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RemoveNulls&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Trim&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Uppercase&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UrlDecode&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UrlEncode&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.TransformType_STATUS">TransformType_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS">MatchCondition_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.MatchCondition_STATUS_ARM">MatchCondition_STATUS_ARM</a>)
+</p>
+<div>
+<p>Describes what transforms applied before matching.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Lowercase&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;RemoveNulls&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Trim&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Uppercase&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UrlDecode&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;UrlEncode&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicy">WebApplicationFirewallPolicy
 </h3>
 <div>
 <p>Generator information:
-- Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json
-- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ContainerRegistry/&#x200b;registries/&#x200b;{registryName}</&#x200b;p>
+- Generated from: /frontdoor/resource-manager/Microsoft.Network/stable/2022-05-01/webapplicationfirewall.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;FrontDoorWebApplicationFirewallPolicies/&#x200b;{policyName}</&#x200b;p>
 </div>
 <table>
 <thead>
@@ -2595,8 +4683,8 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.Registry_Spec">
-Registry_Spec
+<a href="#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_Spec">
+FrontDoorWebApplicationFirewallPolicy_Spec
 </a>
 </em>
 </td>
@@ -2604,17 +4692,6 @@ Registry_Spec
 <br/>
 <br/>
 <table>
-<tr>
-<td>
-<code>adminUserEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>AdminUserEnabled: The value that indicates whether the admin user is enabled.</p>
-</td>
-</tr>
 <tr>
 <td>
 <code>azureName</code><br/>
@@ -2629,39 +4706,26 @@ doesn&rsquo;t have to be.</p>
 </tr>
 <tr>
 <td>
-<code>dataEndpointEnabled</code><br/>
+<code>customRules</code><br/>
 <em>
-bool
-</em>
-</td>
-<td>
-<p>DataEndpointEnabled: Enable a single data endpoint per region for serving data.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty">
-EncryptionProperty
+<a href="#network.frontdoor.azure.com/v1api20220501.CustomRuleList">
+CustomRuleList
 </a>
 </em>
 </td>
 <td>
-<p>Encryption: The encryption settings of container registry.</p>
+<p>CustomRules: Describes custom rules inside the policy.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>identity</code><br/>
+<code>etag</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.IdentityProperties">
-IdentityProperties
-</a>
+string
 </em>
 </td>
 <td>
-<p>Identity: The identity of the container registry.</p>
+<p>Etag: Gets a unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -2672,33 +4736,20 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource. This cannot be changed after the resource is created.</p>
+<p>Location: Resource location.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>networkRuleBypassOptions</code><br/>
+<code>managedRules</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_NetworkRuleBypassOptions">
-RegistryProperties_NetworkRuleBypassOptions
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSetList">
+ManagedRuleSetList
 </a>
 </em>
 </td>
 <td>
-<p>NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkRuleSet</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet">
-NetworkRuleSet
-</a>
-</em>
-</td>
-<td>
-<p>NetworkRuleSet: The network rule set for a container registry.</p>
+<p>ManagedRules: Describes managed rules inside the policy.</p>
 </td>
 </tr>
 <tr>
@@ -2718,41 +4769,28 @@ reference to a resources.azure.com/ResourceGroup resource</p>
 </tr>
 <tr>
 <td>
-<code>policies</code><br/>
+<code>policySettings</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.Policies">
-Policies
+<a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings">
+PolicySettings
 </a>
 </em>
 </td>
 <td>
-<p>Policies: The policies for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_PublicNetworkAccess">
-RegistryProperties_PublicNetworkAccess
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for the container registry.</p>
+<p>PolicySettings: Describes settings for the policy.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>sku</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.Sku">
+<a href="#network.frontdoor.azure.com/v1api20220501.Sku">
 Sku
 </a>
 </em>
 </td>
 <td>
-<p>Sku: The SKU of the container registry.</p>
+<p>Sku: The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified.</p>
 </td>
 </tr>
 <tr>
@@ -2763,20 +4801,7 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: The tags of the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>zoneRedundancy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ZoneRedundancy">
-RegistryProperties_ZoneRedundancy
-</a>
-</em>
-</td>
-<td>
-<p>ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry</p>
+<p>Tags: Resource tags.</p>
 </td>
 </tr>
 </table>
@@ -2786,8 +4811,8 @@ RegistryProperties_ZoneRedundancy
 <td>
 <code>status</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">
-Registry_STATUS
+<a href="#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_STATUS">
+FrontDoorWebApplicationFirewallPolicy_STATUS
 </a>
 </em>
 </td>
@@ -2796,13 +4821,13 @@ Registry_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_ARM">RegistryProperties_ARM
+<h3 id="network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_ARM">WebApplicationFirewallPolicyProperties_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_Spec_ARM">Registry_Spec_ARM</a>)
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_Spec_ARM">FrontDoorWebApplicationFirewallPolicy_Spec_ARM</a>)
 </p>
 <div>
-<p>The properties of a container registry.</p>
+<p>Defines web application firewall policy properties.</p>
 </div>
 <table>
 <thead>
@@ -2814,110 +4839,49 @@ Registry_STATUS
 <tbody>
 <tr>
 <td>
-<code>adminUserEnabled</code><br/>
+<code>customRules</code><br/>
 <em>
-bool
-</em>
-</td>
-<td>
-<p>AdminUserEnabled: The value that indicates whether the admin user is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>dataEndpointEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DataEndpointEnabled: Enable a single data endpoint per region for serving data.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_ARM">
-EncryptionProperty_ARM
+<a href="#network.frontdoor.azure.com/v1api20220501.CustomRuleList_ARM">
+CustomRuleList_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Encryption: The encryption settings of container registry.</p>
+<p>CustomRules: Describes custom rules inside the policy.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>networkRuleBypassOptions</code><br/>
+<code>managedRules</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_NetworkRuleBypassOptions">
-RegistryProperties_NetworkRuleBypassOptions
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSetList_ARM">
+ManagedRuleSetList_ARM
 </a>
 </em>
 </td>
 <td>
-<p>NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.</p>
+<p>ManagedRules: Describes managed rules inside the policy.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>networkRuleSet</code><br/>
+<code>policySettings</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_ARM">
-NetworkRuleSet_ARM
+<a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_ARM">
+PolicySettings_ARM
 </a>
 </em>
 </td>
 <td>
-<p>NetworkRuleSet: The network rule set for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>policies</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.Policies_ARM">
-Policies_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Policies: The policies for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_PublicNetworkAccess">
-RegistryProperties_PublicNetworkAccess
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for the container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>zoneRedundancy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ZoneRedundancy">
-RegistryProperties_ZoneRedundancy
-</a>
-</em>
-</td>
-<td>
-<p>ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry</p>
+<p>PolicySettings: Describes settings for the policy.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_NetworkRuleBypassOptions">RegistryProperties_NetworkRuleBypassOptions
+<h3 id="network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_ResourceState_STATUS">WebApplicationFirewallPolicyProperties_ResourceState_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ARM">RegistryProperties_ARM</a>, <a href="#containerregistry.azure.com/v1api20210901.Registry_Spec">Registry_Spec</a>)
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_STATUS">FrontDoorWebApplicationFirewallPolicy_STATUS</a>, <a href="#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_STATUS_ARM">WebApplicationFirewallPolicyProperties_STATUS_ARM</a>)
 </p>
 <div>
 </div>
@@ -2928,107 +4892,27 @@ RegistryProperties_ZoneRedundancy
 <th>Description</th>
 </tr>
 </thead>
-<tbody><tr><td><p>&#34;AzureServices&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_NetworkRuleBypassOptions_STATUS">RegistryProperties_NetworkRuleBypassOptions_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM</a>, <a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;AzureServices&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_ProvisioningState_STATUS">RegistryProperties_ProvisioningState_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM</a>, <a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Creating&#34;</p></td>
+<tbody><tr><td><p>&#34;Creating&#34;</p></td>
 <td></td>
 </tr><tr><td><p>&#34;Deleting&#34;</p></td>
 <td></td>
-</tr><tr><td><p>&#34;Failed&#34;</p></td>
+</tr><tr><td><p>&#34;Disabled&#34;</p></td>
 <td></td>
-</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Updating&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_PublicNetworkAccess">RegistryProperties_PublicNetworkAccess
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ARM">RegistryProperties_ARM</a>, <a href="#containerregistry.azure.com/v1api20210901.Registry_Spec">Registry_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+</tr><tr><td><p>&#34;Disabling&#34;</p></td>
 <td></td>
 </tr><tr><td><p>&#34;Enabled&#34;</p></td>
 <td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_PublicNetworkAccess_STATUS">RegistryProperties_PublicNetworkAccess_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM</a>, <a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+</tr><tr><td><p>&#34;Enabling&#34;</p></td>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM
+<h3 id="network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_STATUS_ARM">WebApplicationFirewallPolicyProperties_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS_ARM">Registry_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#network.frontdoor.azure.com/v1api20220501.FrontDoorWebApplicationFirewallPolicy_STATUS_ARM">FrontDoorWebApplicationFirewallPolicy_STATUS_ARM</a>)
 </p>
 <div>
-<p>The properties of a container registry.</p>
+<p>Defines web application firewall policy properties.</p>
 </div>
 <table>
 <thead>
@@ -3040,2056 +4924,103 @@ RegistryProperties_ZoneRedundancy
 <tbody>
 <tr>
 <td>
-<code>adminUserEnabled</code><br/>
+<code>customRules</code><br/>
 <em>
-bool
-</em>
-</td>
-<td>
-<p>AdminUserEnabled: The value that indicates whether the admin user is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>creationDate</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreationDate: The creation date of the container registry in ISO8601 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>dataEndpointEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DataEndpointEnabled: Enable a single data endpoint per region for serving data.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>dataEndpointHostNames</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>DataEndpointHostNames: List of host names that will serve data when dataEndpointEnabled is true.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_STATUS_ARM">
-EncryptionProperty_STATUS_ARM
+<a href="#network.frontdoor.azure.com/v1api20220501.CustomRuleList_STATUS_ARM">
+CustomRuleList_STATUS_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Encryption: The encryption settings of container registry.</p>
+<p>CustomRules: Describes custom rules inside the policy.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>loginServer</code><br/>
+<code>frontendEndpointLinks</code><br/>
 <em>
-string
-</em>
-</td>
-<td>
-<p>LoginServer: The URL that can be used to log into the container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkRuleBypassOptions</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_NetworkRuleBypassOptions_STATUS">
-RegistryProperties_NetworkRuleBypassOptions_STATUS
+<a href="#network.frontdoor.azure.com/v1api20220501.FrontendEndpointLink_STATUS_ARM">
+[]FrontendEndpointLink_STATUS_ARM
 </a>
 </em>
 </td>
 <td>
-<p>NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.</p>
+<p>FrontendEndpointLinks: Describes Frontend Endpoints associated with this Web Application Firewall policy.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>networkRuleSet</code><br/>
+<code>managedRules</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_STATUS_ARM">
-NetworkRuleSet_STATUS_ARM
+<a href="#network.frontdoor.azure.com/v1api20220501.ManagedRuleSetList_STATUS_ARM">
+ManagedRuleSetList_STATUS_ARM
 </a>
 </em>
 </td>
 <td>
-<p>NetworkRuleSet: The network rule set for a container registry.</p>
+<p>ManagedRules: Describes managed rules inside the policy.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>policies</code><br/>
+<code>policySettings</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.Policies_STATUS_ARM">
-Policies_STATUS_ARM
+<a href="#network.frontdoor.azure.com/v1api20220501.PolicySettings_STATUS_ARM">
+PolicySettings_STATUS_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Policies: The policies for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateEndpointConnections</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.PrivateEndpointConnection_STATUS_ARM">
-[]PrivateEndpointConnection_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>PrivateEndpointConnections: List of private endpoint connections for a container registry.</p>
+<p>PolicySettings: Describes settings for the policy.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>provisioningState</code><br/>
 <em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ProvisioningState_STATUS">
-RegistryProperties_ProvisioningState_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: The provisioning state of the container registry at the time the operation was called.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_PublicNetworkAccess_STATUS">
-RegistryProperties_PublicNetworkAccess_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for the container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.Status_STATUS_ARM">
-Status_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Status: The status of the container registry at the time the operation was called.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>zoneRedundancy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ZoneRedundancy_STATUS">
-RegistryProperties_ZoneRedundancy_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_ZoneRedundancy">RegistryProperties_ZoneRedundancy
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ARM">RegistryProperties_ARM</a>, <a href="#containerregistry.azure.com/v1api20210901.Registry_Spec">Registry_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.RegistryProperties_ZoneRedundancy_STATUS">RegistryProperties_ZoneRedundancy_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM</a>, <a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry">Registry</a>)
-</p>
-<div>
-<p>An object that represents a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>adminUserEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>AdminUserEnabled: The value that indicates whether the admin user is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>creationDate</code><br/>
-<em>
 string
 </em>
 </td>
 <td>
-<p>CreationDate: The creation date of the container registry in ISO8601 format.</p>
+<p>ProvisioningState: Provisioning state of the policy.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>dataEndpointEnabled</code><br/>
+<code>resourceState</code><br/>
 <em>
-bool
-</em>
-</td>
-<td>
-<p>DataEndpointEnabled: Enable a single data endpoint per region for serving data.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>dataEndpointHostNames</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>DataEndpointHostNames: List of host names that will serve data when dataEndpointEnabled is true.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty_STATUS">
-EncryptionProperty_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: The encryption settings of container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: The resource ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_STATUS">
-IdentityProperties_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Identity: The identity of the container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The location of the resource. This cannot be changed after the resource is created.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>loginServer</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LoginServer: The URL that can be used to log into the container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkRuleBypassOptions</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_NetworkRuleBypassOptions_STATUS">
-RegistryProperties_NetworkRuleBypassOptions_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkRuleSet</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet_STATUS">
-NetworkRuleSet_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>NetworkRuleSet: The network rule set for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>policies</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.Policies_STATUS">
-Policies_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Policies: The policies for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateEndpointConnections</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.PrivateEndpointConnection_STATUS">
-[]PrivateEndpointConnection_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>PrivateEndpointConnections: List of private endpoint connections for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ProvisioningState_STATUS">
-RegistryProperties_ProvisioningState_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: The provisioning state of the container registry at the time the operation was called.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_PublicNetworkAccess_STATUS">
-RegistryProperties_PublicNetworkAccess_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for the container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.Sku_STATUS">
-Sku_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The SKU of the container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.Status_STATUS">
-Status_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: The status of the container registry at the time the operation was called.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: The tags of the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>zoneRedundancy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ZoneRedundancy_STATUS">
-RegistryProperties_ZoneRedundancy_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.Registry_STATUS_ARM">Registry_STATUS_ARM
-</h3>
-<div>
-<p>An object that represents a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: The resource ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_STATUS_ARM">
-IdentityProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Identity: The identity of the container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The location of the resource. This cannot be changed after the resource is created.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">
-RegistryProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: The properties of the container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.Sku_STATUS_ARM">
-Sku_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The SKU of the container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.SystemData_STATUS_ARM">
-SystemData_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: The tags of the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.Registry_Spec">Registry_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry">Registry</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>adminUserEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>AdminUserEnabled: The value that indicates whether the admin user is enabled.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>dataEndpointEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DataEndpointEnabled: Enable a single data endpoint per region for serving data.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>encryption</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.EncryptionProperty">
-EncryptionProperty
-</a>
-</em>
-</td>
-<td>
-<p>Encryption: The encryption settings of container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.IdentityProperties">
-IdentityProperties
-</a>
-</em>
-</td>
-<td>
-<p>Identity: The identity of the container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The location of the resource. This cannot be changed after the resource is created.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkRuleBypassOptions</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_NetworkRuleBypassOptions">
-RegistryProperties_NetworkRuleBypassOptions
-</a>
-</em>
-</td>
-<td>
-<p>NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkRuleSet</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.NetworkRuleSet">
-NetworkRuleSet
-</a>
-</em>
-</td>
-<td>
-<p>NetworkRuleSet: The network rule set for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>policies</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.Policies">
-Policies
-</a>
-</em>
-</td>
-<td>
-<p>Policies: The policies for a container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccess</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_PublicNetworkAccess">
-RegistryProperties_PublicNetworkAccess
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for the container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.Sku">
-Sku
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The SKU of the container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: The tags of the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>zoneRedundancy</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ZoneRedundancy">
-RegistryProperties_ZoneRedundancy
-</a>
-</em>
-</td>
-<td>
-<p>ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.Registry_Spec_ARM">Registry_Spec_ARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_ARM">
-IdentityProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Identity: The identity of the container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The location of the resource. This cannot be changed after the resource is created.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_ARM">
-RegistryProperties_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: The properties of the container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.Sku_ARM">
-Sku_ARM
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The SKU of the container registry.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: The tags of the resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.RetentionPolicy">RetentionPolicy
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Policies">Policies</a>)
-</p>
-<div>
-<p>The retention policy for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>days</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Days: The number of days to retain an untagged manifest after which it gets purged.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_Status">
-RetentionPolicy_Status
-</a>
-</em>
-</td>
-<td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.RetentionPolicy_ARM">RetentionPolicy_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Policies_ARM">Policies_ARM</a>)
-</p>
-<div>
-<p>The retention policy for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>days</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Days: The number of days to retain an untagged manifest after which it gets purged.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_Status">
-RetentionPolicy_Status
-</a>
-</em>
-</td>
-<td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.RetentionPolicy_STATUS">RetentionPolicy_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Policies_STATUS">Policies_STATUS</a>)
-</p>
-<div>
-<p>The retention policy for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>days</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Days: The number of days to retain an untagged manifest after which it gets purged.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastUpdatedTime</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastUpdatedTime: The timestamp when the policy was last updated.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_Status_STATUS">
-RetentionPolicy_Status_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.RetentionPolicy_STATUS_ARM">RetentionPolicy_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Policies_STATUS_ARM">Policies_STATUS_ARM</a>)
-</p>
-<div>
-<p>The retention policy for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>days</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>Days: The number of days to retain an untagged manifest after which it gets purged.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastUpdatedTime</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastUpdatedTime: The timestamp when the policy was last updated.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_Status_STATUS">
-RetentionPolicy_Status_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.RetentionPolicy_Status">RetentionPolicy_Status
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy">RetentionPolicy</a>, <a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_ARM">RetentionPolicy_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.RetentionPolicy_Status_STATUS">RetentionPolicy_Status_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_STATUS">RetentionPolicy_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.RetentionPolicy_STATUS_ARM">RetentionPolicy_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.Sku">Sku
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_Spec">Registry_Spec</a>)
-</p>
-<div>
-<p>The SKU of a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.Sku_Name">
-Sku_Name
-</a>
-</em>
-</td>
-<td>
-<p>Name: The SKU name of the container registry. Required for registry creation.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.Sku_ARM">Sku_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_Spec_ARM">Registry_Spec_ARM</a>)
-</p>
-<div>
-<p>The SKU of a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.Sku_Name">
-Sku_Name
-</a>
-</em>
-</td>
-<td>
-<p>Name: The SKU name of the container registry. Required for registry creation.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.Sku_Name">Sku_Name
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Sku">Sku</a>, <a href="#containerregistry.azure.com/v1api20210901.Sku_ARM">Sku_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Basic&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Classic&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Premium&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Standard&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.Sku_Name_STATUS">Sku_Name_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Sku_STATUS">Sku_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Basic&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Classic&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Premium&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Standard&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.Sku_STATUS">Sku_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
-</p>
-<div>
-<p>The SKU of a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.Sku_Name_STATUS">
-Sku_Name_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Name: The SKU name of the container registry. Required for registry creation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tier</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.Sku_Tier_STATUS">
-Sku_Tier_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Tier: The SKU tier based on the SKU name.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.Sku_STATUS_ARM">Sku_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS_ARM">Registry_STATUS_ARM</a>)
-</p>
-<div>
-<p>The SKU of a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.Sku_Name_STATUS">
-Sku_Name_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Name: The SKU name of the container registry. Required for registry creation.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tier</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.Sku_Tier_STATUS">
-Sku_Tier_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Tier: The SKU tier based on the SKU name.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.Sku_Tier_STATUS">Sku_Tier_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Sku_STATUS">Sku_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Basic&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Classic&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Premium&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Standard&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.Status_STATUS">Status_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
-</p>
-<div>
-<p>The status of an Azure resource at the time the operation was called.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>displayStatus</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DisplayStatus: The short label for the status.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>message</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Message: The detailed message for the status, including alerts and error messages.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>timestamp</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Timestamp: The timestamp when the status was changed to the current value.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.Status_STATUS_ARM">Status_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.RegistryProperties_STATUS_ARM">RegistryProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>The status of an Azure resource at the time the operation was called.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>displayStatus</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DisplayStatus: The short label for the status.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>message</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Message: The detailed message for the status, including alerts and error messages.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>timestamp</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Timestamp: The timestamp when the status was changed to the current value.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.SystemData_STATUS">SystemData_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.SystemData_STATUS">SystemData_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.SystemData_STATUS">SystemData_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS">Registry_STATUS</a>)
-</p>
-<div>
-<p>Metadata pertaining to creation and last modification of the resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedBy: The identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdByType</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>CreatedByType: The type of identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedAt: The timestamp of resource modification (UTC).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedByType</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.SystemData_STATUS_ARM">SystemData_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Registry_STATUS_ARM">Registry_STATUS_ARM</a>)
-</p>
-<div>
-<p>Metadata pertaining to creation and last modification of the resource.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedBy: The identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdByType</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>CreatedByType: The type of identity that created the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedAt: The timestamp of resource modification (UTC).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedByType</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.TrustPolicy">TrustPolicy
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Policies">Policies</a>)
-</p>
-<div>
-<p>The content trust policy for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_Status">
-TrustPolicy_Status
-</a>
-</em>
-</td>
-<td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_Type">
-TrustPolicy_Type
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of trust policy.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.TrustPolicy_ARM">TrustPolicy_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Policies_ARM">Policies_ARM</a>)
-</p>
-<div>
-<p>The content trust policy for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_Status">
-TrustPolicy_Status
-</a>
-</em>
-</td>
-<td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_Type">
-TrustPolicy_Type
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of trust policy.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.TrustPolicy_STATUS">TrustPolicy_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Policies_STATUS">Policies_STATUS</a>)
-</p>
-<div>
-<p>The content trust policy for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_Status_STATUS">
-TrustPolicy_Status_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_Type_STATUS">
-TrustPolicy_Type_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of trust policy.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.TrustPolicy_STATUS_ARM">TrustPolicy_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.Policies_STATUS_ARM">Policies_STATUS_ARM</a>)
-</p>
-<div>
-<p>The content trust policy for a container registry.</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_Status_STATUS">
-TrustPolicy_Status_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_Type_STATUS">
-TrustPolicy_Type_STATUS
-</a>
-</em>
-</td>
-<td>
-<p>Type: The type of trust policy.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.TrustPolicy_Status">TrustPolicy_Status
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.TrustPolicy">TrustPolicy</a>, <a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_ARM">TrustPolicy_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.TrustPolicy_Status_STATUS">TrustPolicy_Status_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_STATUS">TrustPolicy_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_STATUS_ARM">TrustPolicy_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.TrustPolicy_Type">TrustPolicy_Type
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.TrustPolicy">TrustPolicy</a>, <a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_ARM">TrustPolicy_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Notary&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.TrustPolicy_Type_STATUS">TrustPolicy_Type_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_STATUS">TrustPolicy_STATUS</a>, <a href="#containerregistry.azure.com/v1api20210901.TrustPolicy_STATUS_ARM">TrustPolicy_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Notary&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.UserAssignedIdentityDetails">UserAssignedIdentityDetails
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IdentityProperties">IdentityProperties</a>)
-</p>
-<div>
-<p>Information about the user assigned identity for the resource</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>reference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
+<a href="#network.frontdoor.azure.com/v1api20220501.WebApplicationFirewallPolicyProperties_ResourceState_STATUS">
+WebApplicationFirewallPolicyProperties_ResourceState_STATUS
 </a>
 </em>
 </td>
 <td>
 </td>
 </tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.UserAssignedIdentityDetails_ARM">UserAssignedIdentityDetails_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_ARM">IdentityProperties_ARM</a>)
-</p>
-<div>
-<p>Information about the user assigned identity for the resource</p>
-</div>
-<h3 id="containerregistry.azure.com/v1api20210901.UserIdentityProperties_STATUS">UserIdentityProperties_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_STATUS">IdentityProperties_STATUS</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td>
-<code>clientId</code><br/>
+<code>routingRuleLinks</code><br/>
 <em>
-string
+<a href="#network.frontdoor.azure.com/v1api20220501.RoutingRuleLink_STATUS_ARM">
+[]RoutingRuleLink_STATUS_ARM
+</a>
 </em>
 </td>
 <td>
-<p>ClientId: The client id of user assigned identity.</p>
+<p>RoutingRuleLinks: Describes Routing Rules associated with this Web Application Firewall policy.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>principalId</code><br/>
+<code>securityPolicyLinks</code><br/>
 <em>
-string
+<a href="#network.frontdoor.azure.com/v1api20220501.SecurityPolicyLink_STATUS_ARM">
+[]SecurityPolicyLink_STATUS_ARM
+</a>
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal id of user assigned identity.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1api20210901.UserIdentityProperties_STATUS_ARM">UserIdentityProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#containerregistry.azure.com/v1api20210901.IdentityProperties_STATUS_ARM">IdentityProperties_STATUS_ARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clientId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClientId: The client id of user assigned identity.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>principalId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrincipalId: The principal id of user assigned identity.</p>
+<p>SecurityPolicyLinks: Describes Security Policy associated with this Web Application Firewall policy.</p>
 </td>
 </tr>
 </tbody>

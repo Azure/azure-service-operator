@@ -138,6 +138,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cdn/v1api20210601/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/cdn/v1api20230501/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/chained-storage-versions/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/clarifying-object-structure/</loc>
@@ -309,6 +311,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20220401/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20220701/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/network.frontdoor/v1api20220501/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights/</loc>
   </url><url>
