@@ -1109,6 +1109,8 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.2
         $defaultAzureName: false
       RoleAssignmentProperties:
+        DelegatedManagedIdentityResourceId:
+          $armReference: false # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
         RoleDefinitionId:
           $armReference: true
         PrincipalId:
@@ -1119,6 +1121,8 @@ objectModelConfiguration:
         $supportedFrom: v2.4.0
         $defaultAzureName: false
       RoleAssignmentProperties:
+        DelegatedManagedIdentityResourceId:
+          $armReference: false # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
         RoleDefinitionId:
           $armReference: true
         PrincipalId:
@@ -1728,6 +1732,9 @@ objectModelConfiguration:
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
+      ServerProperties:
+        SourceServerResourceId:
+          $armReference: false # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
     2022-01-01:
       FlexibleServers_Administrator:
         $exportAs: FlexibleServersAdministrator
@@ -2152,6 +2159,12 @@ objectModelConfiguration:
       AksNetworkingConfiguration:
         SubnetId:
           $armReference: true
+      IdentityForCmk:
+        UserAssignedIdentity:
+          $armReference: false # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
+      KeyVaultProperties:
+        KeyVaultArmId:
+          $armReference: false # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
       Kubernetes:
         ResourceId:
           $armReference: true
