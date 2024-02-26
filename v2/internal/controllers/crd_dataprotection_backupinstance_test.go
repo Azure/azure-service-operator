@@ -40,10 +40,9 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	cluster := &akscluster.ManagedCluster{
 		ObjectMeta: tc.MakeObjectMeta("mc"),
 		Spec: akscluster.ManagedCluster_Spec{
-			KubernetesVersion: to.Ptr("1.27.3"),
-			Location:          tc.AzureRegion,
-			Owner:             testcommon.AsOwner(rg),
-			DnsPrefix:         to.Ptr("aso"),
+			Location:  tc.AzureRegion,
+			Owner:     testcommon.AsOwner(rg),
+			DnsPrefix: to.Ptr("aso"),
 			AgentPoolProfiles: []akscluster.ManagedClusterAgentPoolProfile{
 				{
 					Name:   to.Ptr("agentpool"),
@@ -61,6 +60,11 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 				UpgradeChannel: &upgradeChannel,
 			},
 			EnableRBAC: to.Ptr(true),
+			AddonProfiles: map[string]akscluster.ManagedClusterAddonProfile{
+				"azurepolicy": {
+					Enabled: to.Ptr(true),
+				},
+			},
 			OperatorSpec: &akscluster.ManagedClusterOperatorSpec{
 				ConfigMaps: &akscluster.ManagedClusterOperatorConfigMaps{
 					PrincipalId: &genruntime.ConfigMapDestination{Name: clusterConfigMapName, Key: clusterPrincipalIdKey},
@@ -261,10 +265,8 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		},
 	}
 
-	// tc.CreateResourcesAndWait(cluster, acct, blobService, blobContainer, backupVault, backupPolicy, extension,
-	//	trustedAccessRoleBinding, extenstionRoleAssignment, clusterRoleAssignment, clusterMSIRoleAssignment, snapshotRGRoleAssignment, backupInstance)
-
-	tc.CreateResourcesAndWait(cluster)
+	tc.CreateResourcesAndWait(cluster, acct, blobService, blobContainer, backupVault, backupPolicy, extension,
+		trustedAccessRoleBinding, extenstionRoleAssignment, clusterRoleAssignment, clusterMSIRoleAssignment, snapshotRGRoleAssignment, backupInstance)
 
 	objectKey := client.ObjectKeyFromObject(backupInstance)
 
