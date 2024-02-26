@@ -7,10 +7,10 @@ package pipeline
 
 import (
 	"context"
-
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"regexp"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -174,6 +174,8 @@ func MakeARMIDPropertyTypeVisitor(
 	return visitor
 }
 
+var armIDNameRegex = regexp.MustCompile("(?i)(^Id$|ResourceID|ARMID)")
+
 // DoesPropertyLookLikeARMReference uses a simple heuristic to determine if a property looks like it might be an ARM reference.
 // This can be used for logging/reporting purposes to discover references which we missed.
 func DoesPropertyLookLikeARMReference(prop *astmodel.PropertyDefinition) bool {
@@ -187,9 +189,10 @@ func DoesPropertyLookLikeARMReference(prop *astmodel.PropertyDefinition) bool {
 		return false
 	}
 
+	hasMatchingName := armIDNameRegex.MatchString(prop.PropertyName().String())
 	hasMatchingDescription := armIDDescriptionRegex.MatchString(prop.Description())
-	namedID := prop.HasName("Id")
-	if hasMatchingDescription || namedID {
+
+	if hasMatchingName || hasMatchingDescription {
 		return true
 	}
 
