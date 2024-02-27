@@ -97,7 +97,7 @@ func (replayer *replayRoundTripper) roundTripGet(request *http.Request) (*http.R
 func (replayer *replayRoundTripper) roundTripPut(request *http.Request) (*http.Response, error) {
 	// Calculate a hash of the request body to use as a cache key
 	// We need this whether we are updating our cache or replaying
-	hash := replayer.hashOfPutBody(request)
+	hash := replayer.hashOfBody(request)
 
 	response, err := replayer.inner.RoundTrip(request)
 	if err != nil {
@@ -129,9 +129,9 @@ func (replayer *replayRoundTripper) roundTripPut(request *http.Request) (*http.R
 	return response, nil
 }
 
-// hashOfPutBody calculates a hash of the body of a PUT request, for use as a cache key.
+// hashOfBody calculates a hash of the body of a request, for use as a cache key.
 // The body is santised before calculating the hash to ensure that the same request body always results in the same hash.
-func (replayer *replayRoundTripper) hashOfPutBody(request *http.Request) string {
+func (replayer *replayRoundTripper) hashOfBody(request *http.Request) string {
 	// Read all the content of the request body
 	var body bytes.Buffer
 	_, err := body.ReadFrom(request.Body)
