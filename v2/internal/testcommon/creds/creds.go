@@ -67,7 +67,8 @@ func GetCreds() (azcore.TokenCredential, AzureIDs, error) {
 	return creds, ids, nil
 }
 
-func NewScopedCredentialSecret(subscriptionID, tenantID, name, namespace string) *v1.Secret {
+// newScopedCredentialSecret is the internal factory used to create credential secrets
+func newScopedCredentialSecret(subscriptionID, tenantID, name, namespace string) *v1.Secret {
 	secretData := make(map[string][]byte)
 
 	secretData[config.AzureTenantID] = []byte(tenantID)
@@ -90,7 +91,7 @@ func NewScopedServicePrincipalSecret(
 	name string,
 	namespace string,
 ) *v1.Secret {
-	secret := NewScopedCredentialSecret(subscriptionID, tenantID, name, namespace)
+	secret := newScopedCredentialSecret(subscriptionID, tenantID, name, namespace)
 
 	secret.Data[config.AzureClientID] = []byte(clientID)
 	secret.Data[config.AzureClientSecret] = []byte(clientSecret)
@@ -105,7 +106,7 @@ func NewScopedManagedIdentitySecret(
 	name string,
 	namespace string,
 ) *v1.Secret {
-	secret := NewScopedCredentialSecret(subscriptionID, tenantID, name, namespace)
+	secret := newScopedCredentialSecret(subscriptionID, tenantID, name, namespace)
 
 	secret.Data[config.AzureClientID] = []byte(clientID)
 
@@ -120,7 +121,7 @@ func NewScopedServicePrincipalCertificateSecret(
 	name string,
 	namespace string,
 ) *v1.Secret {
-	secret := NewScopedCredentialSecret(subscriptionID, tenantID, name, namespace)
+	secret := newScopedCredentialSecret(subscriptionID, tenantID, name, namespace)
 
 	secret.Data[config.AzureClientID] = []byte(clientID)
 	secret.Data[config.AzureClientCertificate] = []byte(clientCert)
