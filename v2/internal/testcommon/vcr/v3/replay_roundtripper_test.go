@@ -176,6 +176,7 @@ func TestReplayRoundTripperRoundTrip_GivenMultiplePUTsToSameURL_ReturnsExpectedB
 	assertResponse(t, actual, 200, "PUT response Beta goes here")
 
 	// Assert - second gamma request works by replaying the first
+	//nolint:bodyclose // there's no actual body in this response to close
 	actual, err = replayer.RoundTrip(gammaRequest)
 	g.Expect(err).ToNot(HaveOccurred())
 	assertResponse(t, actual, 200, "PUT response Gamma goes here")

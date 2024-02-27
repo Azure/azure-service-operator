@@ -135,7 +135,6 @@ func redactRecording(
 	}
 
 	return func(i *cassette.Interaction) error {
-
 		// Note that this changes the cassette in-place so there's no return needed
 		hideCassetteString := func(cas *cassette.Interaction, id string, replacement string) {
 			i.Request.Body = hide(cas.Request.Body, id, replacement)
