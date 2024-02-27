@@ -10,7 +10,8 @@ import (
 	"regexp"
 )
 
-var RequestHeadersToRemove = []string{
+// requestHeadersToRemove is the list of request headers to remove when recording or replaying.
+var requestHeadersToRemove = []string{
 	// remove all Authorization headers from stored requests
 	"Authorization",
 
@@ -19,12 +20,13 @@ var RequestHeadersToRemove = []string{
 }
 
 func RedactRequestHeaders(headers http.Header) {
-	for _, header := range RequestHeadersToRemove {
+	for _, header := range requestHeadersToRemove {
 		delete(headers, header)
 	}
 }
 
-var ResponseHeadersToRemove = []string{
+// responseHeadersToRemove is the list of response headers to remove when recording or replaying.
+var responseHeadersToRemove = []string{
 	// Request IDs
 	"X-Ms-Arm-Service-Request-Id",
 	"X-Ms-Correlation-Request-Id",
@@ -43,7 +45,7 @@ var ResponseHeadersToRemove = []string{
 }
 
 func RedactResponseHeaders(headers http.Header) {
-	for _, header := range ResponseHeadersToRemove {
+	for _, header := range responseHeadersToRemove {
 		delete(headers, header)
 	}
 }
