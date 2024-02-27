@@ -54,11 +54,11 @@ func (ext *BackupVaultsBackupInstanceExtension) PreReconcileCheck(
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = backupInstance
 
-	if backupInstance == nil || owner == nil || backupInstance.Status.Id == nil || backupInstance.Status.Properties == nil {
-		log.V(Debug).Info("########################## BlockReconcile status for Backup Instance ##########################")
-		return extensions.BlockReconcile(
-				fmt.Sprintf("Backup Instance %q is null.", backupInstance.GetName())),
-			nil
+	if backupInstance == nil || owner == nil || backupInstance.Status.Id == nil ||
+		backupInstance.Status.Properties == nil || backupInstance.Status.Properties.ProtectionStatus == nil ||
+		backupInstance.Status.Properties.ProtectionStatus.Status == nil {
+		log.V(Debug).Info("########################## Backup Instance not yet ready ##########################")
+		return extensions.ProceedWithReconcile(), nil
 	}
 
 	protectionStatus := *backupInstance.Status.Properties.ProtectionStatus.Status
@@ -69,26 +69,20 @@ func (ext *BackupVaultsBackupInstanceExtension) PreReconcileCheck(
 	protectionStatusErrorCode := ""
 
 	if !strings.Contains(protectionStatus, "protectionerror") {
-		log.V(Debug).Info("########################## BlockReconcile protectionerror for Backup Instance ##########################")
-		return extensions.BlockReconcile(
-				fmt.Sprintf("Backup Instance %q is not in protectionerror state. Provisioning state: %q", backupInstance.GetName(), protectionStatus)),
-			nil
+		log.V(Debug).Info("########################## ProtectionStatus is not protectionerror ##########################" + protectionStatus)
+		return extensions.ProceedWithReconcile(), nil
 	}
 
 	if backupInstance.Status.Properties.ProtectionStatus.ErrorDetails == nil {
-		log.V(Debug).Info("########################## BlockReconcile no error for Backup Instance ##########################")
-		return extensions.BlockReconcile(
-				fmt.Sprintf("Backup Instance %q has no errors %q", backupInstance.GetName(), protectionStatus)),
-			nil
+		log.V(Debug).Info("########################## No error for Backup Instance ##########################")
+		return extensions.ProceedWithReconcile(), nil
 	}
 
 	protectionStatusErrorCode = strings.ToLower(*backupInstance.Status.Properties.ProtectionStatus.ErrorDetails.Code)
 
 	if protectionStatusErrorCode == "" || !strings.Contains(protectionStatusErrorCode, "usererror") {
-		log.V(Debug).Info("########################## BlockReconcile user error for Backup Instance ##########################")
-		return extensions.BlockReconcile(
-				fmt.Sprintf("Backup Instance %q having Protection Status ErrorCode as %q", backupInstance.GetName(), protectionStatusErrorCode)),
-			nil
+		log.V(Debug).Info("##########################  Backup Instance error is not user error ##########################" + protectionStatusErrorCode)
+		return extensions.ProceedWithReconcile(), nil
 	}
 
 	id, err := genruntime.GetAndParseResourceID(backupInstance)
