@@ -54,7 +54,7 @@ func (ext *BackupVaultsBackupInstanceExtension) PreReconcileCheck(
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = backupInstance
 
-	if backupInstance == nil || owner == nil {
+	if backupInstance == nil || owner == nil || backupInstance.Status.Id == nil || backupInstance.Status.Properties == nil {
 		log.V(Debug).Info("########################## BlockReconcile status for Backup Instance ##########################")
 		return extensions.BlockReconcile(
 				fmt.Sprintf("Backup Instance %q is null.", backupInstance.GetName())),
