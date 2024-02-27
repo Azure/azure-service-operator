@@ -24,7 +24,7 @@ func createTestRecorder(
 ) (vcr.Interface, error) {
 	if !recordReplay {
 		// We're not using VCR, so just pass through the requests
-		return newTestPassthroughRecorder(cfg)
+		return vcr.NewTestPassthroughRecorder(cfg)
 	}
 
 	// If a cassette file exists in the old format, use the old player

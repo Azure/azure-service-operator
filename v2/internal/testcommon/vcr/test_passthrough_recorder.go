@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package testcommon
+package vcr
 
 import (
 	"net/http"
@@ -12,7 +12,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
-	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 )
 
 // testPassthroughRecorder is an implementation of testRecorder that does not record or replay HTTP requests,
@@ -23,10 +22,10 @@ type testPassthroughRecorder struct {
 	ids   creds.AzureIDs
 }
 
-var _ vcr.Interface = &testPassthroughRecorder{}
+var _ Interface = &testPassthroughRecorder{}
 
-// newTestPassthroughRecorder returns an instance of testRecorder that does not record or replay HTTP requests,
-func newTestPassthroughRecorder(cfg config.Values) (vcr.Interface, error) {
+// NewTestPassthroughRecorder returns an instance of testRecorder that does not record or replay HTTP requests,
+func NewTestPassthroughRecorder(cfg config.Values) (Interface, error) {
 	creds, azureIDs, err := creds.GetCreds()
 	if err != nil {
 		return nil, err
