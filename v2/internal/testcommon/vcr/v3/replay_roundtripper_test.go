@@ -59,7 +59,7 @@ func TestReplayRoundTripperRoundTrip_GivenSingleGET_ReturnsMultipleTimes(t *test
 	g.Expect(resp.StatusCode).To(Equal(200))
 }
 
-func TestReplayRoundTripperRoundTrip_GivenSinglePUT_ReturnsOnceExtra(t *testing.T) {
+func TestReplayRoundTripperRoundTrip_GivenSinglePut_ReturnsOnceExtra(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
