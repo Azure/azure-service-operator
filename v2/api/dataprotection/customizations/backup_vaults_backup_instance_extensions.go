@@ -21,7 +21,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
@@ -38,12 +37,10 @@ func (ext *BackupVaultsBackupInstanceExtension) PreReconcileCheck(
 	_ extensions.PreReconcileCheckFunc,
 ) (extensions.PreReconcileCheckResult, error) {
 
-	// This has to be the current hub storage version. It will need to be updated
-	// if the hub storage version changes.
-	backupInstance, ok := obj.(*dataprotection.BackupVaultsBackupInstance)
-
 	log.V(Debug).Info("########################## Starting reconcilation for Backup Instance ##########################")
 	fmt.Sprintf("########################## Starting reconcilation for Backup Instance ##########################")
+
+	backupInstance, ok := obj.(*dataprotection.BackupVaultsBackupInstance)
 
 	if !ok {
 		return extensions.PreReconcileCheckResult{},
@@ -54,76 +51,67 @@ func (ext *BackupVaultsBackupInstanceExtension) PreReconcileCheck(
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = backupInstance
 
-	// Check to see if the owning cluster is in a state that will block us from reconciling
-	if owner != nil {
-		if backupInstance, ok := owner.(*dataprotection.BackupVaultsBackupInstance); ok {
-			protectionStatus := strings.ToLower(*backupInstance.Status.Properties.ProtectionStatus.Status)
-			protectionStatusErrorCode := ""
+	protectionStatus := strings.ToLower(*backupInstance.Status.Properties.ProtectionStatus.Status)
+	protectionStatusErrorCode := ""
 
-			if backupInstance.Status.Properties.ProtectionStatus.ErrorDetails == nil {
-				log.V(Debug).Info("########################## BlockReconcile no error for Backup Instance ##########################")
-				return extensions.BlockReconcile(
-						fmt.Sprintf("Backup Instance %q has no errors %q", owner.GetName(), protectionStatus)),
-					nil
-			}
-
-			if strings.Contains(protectionStatus, "protectionerror") {
-				log.V(Debug).Info("########################## BlockReconcile protectionerror for Backup Instance ##########################")
-				return extensions.BlockReconcile(
-						fmt.Sprintf("Backup Instance %q is not in protectionerror state. Provisioning state: %q", owner.GetName(), protectionStatus)),
-					nil
-			}
-
-			protectionStatusErrorCode = strings.ToLower(*backupInstance.Status.Properties.ProtectionStatus.ErrorDetails.Code)
-
-			if protectionStatusErrorCode == "" || !strings.Contains(protectionStatusErrorCode, "usererror") {
-				return extensions.BlockReconcile(
-						fmt.Sprintf("Backup Instance %q having Protection Status ErrorCode as %q", owner.GetName(), protectionStatusErrorCode)),
-					nil
-			}
-
-			id, err := genruntime.GetAndParseResourceID(backupInstance)
-			if err != nil {
-				return extensions.BlockReconcile(
-						fmt.Sprintf("Backup Instance Id %q is not parsed", owner.GetName())),
-					nil
-			}
-
-			subscription := id.SubscriptionID
-			rg := id.ResourceGroupName
-			vaultName := id.Parent.Name
-
-			log.V(Debug).Info("########################## Starting NewBackupInstancesClient for Backup Instance ##########################")
-			fmt.Sprintf("########################## Starting NewBackupInstancesClient for Backup Instance ##########################")
-
-			clientFactory, err := armdataprotection.NewClientFactory(subscription, armClient.Creds(), armClient.ClientOptions())
-
-			if err != nil {
-				log.Error(err, "failed to create client")
-			}
-
-			var parameters armdataprotection.SyncBackupInstanceRequest
-			parameters.SyncType = to.Ptr(armdataprotection.SyncTypeDefault)
-
-			log.V(Debug).Info("########################## Starting BeginSyncBackupInstance for Backup Instance ##########################")
-			fmt.Sprintf("########################## Starting BeginSyncBackupInstance for Backup Instance ##########################")
-
-			poller, err := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, nil)
-
-			_, err = poller.PollUntilDone(ctx, nil)
-
-			if err != nil {
-				log.Error(err, "failed to pull the result")
-			}
-
-			log.V(Debug).Info("########################## Ending reconcilation for Backup Instance ##########################")
-			fmt.Sprintf("########################## Ending reconcilation for Backup Instance ##########################")
-		}
+	if !strings.Contains(protectionStatus, "protectionerror") {
+		log.V(Debug).Info("########################## BlockReconcile protectionerror for Backup Instance ##########################")
+		return extensions.BlockReconcile(
+				fmt.Sprintf("Backup Instance %q is not in protectionerror state. Provisioning state: %q", owner.GetName(), protectionStatus)),
+			nil
 	}
+
+	if backupInstance.Status.Properties.ProtectionStatus.ErrorDetails == nil {
+		log.V(Debug).Info("########################## BlockReconcile no error for Backup Instance ##########################")
+		return extensions.BlockReconcile(
+				fmt.Sprintf("Backup Instance %q has no errors %q", owner.GetName(), protectionStatus)),
+			nil
+	}
+
+	protectionStatusErrorCode = strings.ToLower(*backupInstance.Status.Properties.ProtectionStatus.ErrorDetails.Code)
+
+	if protectionStatusErrorCode == "" || !strings.Contains(protectionStatusErrorCode, "usererror") {
+		return extensions.BlockReconcile(
+				fmt.Sprintf("Backup Instance %q having Protection Status ErrorCode as %q", owner.GetName(), protectionStatusErrorCode)),
+			nil
+	}
+
+	id, err := genruntime.GetAndParseResourceID(backupInstance)
+	if err != nil {
+		return extensions.BlockReconcile(
+				fmt.Sprintf("Backup Instance Id %q is not parsed", owner.GetName())),
+			nil
+	}
+
+	subscription := id.SubscriptionID
+	rg := id.ResourceGroupName
+	vaultName := id.Parent.Name
+
+	log.V(Debug).Info("########################## Starting NewBackupInstancesClient for Backup Instance ##########################")
+	fmt.Sprintf("########################## Starting NewBackupInstancesClient for Backup Instance ##########################")
+
+	clientFactory, err := armdataprotection.NewClientFactory(subscription, armClient.Creds(), armClient.ClientOptions())
+
+	if err != nil {
+		log.Error(err, "failed to create armdataprotection client")
+	}
+
+	var parameters armdataprotection.SyncBackupInstanceRequest
+	parameters.SyncType = to.Ptr(armdataprotection.SyncTypeDefault)
+
+	log.V(Debug).Info("########################## Starting BeginSyncBackupInstance for Backup Instance ##########################")
+	fmt.Sprintf("########################## Starting BeginSyncBackupInstance for Backup Instance ##########################")
+
+	poller, err := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, nil)
+
+	_, err = poller.PollUntilDone(ctx, nil)
+
+	if err != nil {
+		log.Error(err, "failed BeginSyncBackupInstance to pull the result")
+	}
+
+	log.V(Debug).Info("########################## Ending reconcilation for Backup Instance ##########################")
+	fmt.Sprintf("########################## Ending reconcilation for Backup Instance ##########################")
 
 	return extensions.ProceedWithReconcile(), nil
 }
-
-var nonBlockingBackupInstanceProtectionStatus = set.Make(
-	"",
-)
