@@ -92,11 +92,14 @@ image:
 # 'address' field defines the metrics binding address on which metrics
 metrics:
   enable: true
+  # secureMetrics controls whether metrics should be served via 'http' or 'https'.
+  # Flagging secureMetrics as true would use https
+  secureMetrics: false
   address: 0.0.0.0:{{ .Values.metrics.port }}
   port: 8080
 
 # installCRDs configures if the operator attempts to install and manage the CRDs associated with ASO.
-# If the operator does not install and manage the CRDs on its own, you must manually install the appropriate
+# If the operator does not install and manage the s on its own, you must manually install the appropriate
 # CRDs for version of the ASO operator you're running. Manually installing a subset of the CRDs is supported;
 # the operator will only reconcile that subset if those are the only CRDs it finds when the pod starts.
 installCRDs: true

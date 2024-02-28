@@ -9,6 +9,8 @@ import (
 	"context"
 	"fmt"
 	"math/rand"
+	"net/http"
+	"net/http/pprof"
 	"os"
 	"regexp"
 	"time"
@@ -131,9 +133,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 		LeaderElection:         flgs.EnableLeaderElection,
 		LeaderElectionID:       "controllers-leader-election-azinfra-generated",
 		HealthProbeBindAddress: flgs.HealthAddr,
-		Metrics: server.Options{
-			BindAddress: flgs.MetricsAddr,
-		},
+		Metrics:                getMetricsOpts(flgs),
 		WebhookServer: webhook.NewServer(webhook.Options{
 			Port:    flgs.WebhookPort,
 			CertDir: flgs.WebhookCertDir,
@@ -251,6 +251,29 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 		os.Exit(1)
 	}
 	return mgr
+}
+
+func getMetricsOpts(flags Flags) server.Options {
+	var metricsOptions server.Options
+	if flags.SecureMetrics {
+		metricsOptions = server.Options{
+			BindAddress:   flags.MetricsAddr,
+			SecureServing: flags.SecureMetrics,
+			// Note that pprof endpoints are meant to be sensitive and shouldn't be exposed publicly.
+			ExtraHandlers: map[string]http.Handler{
+				"/debug/pprof/":        http.HandlerFunc(pprof.Index),
+				"/debug/pprof/cmdline": http.HandlerFunc(pprof.Cmdline),
+				"/debug/pprof/profile": http.HandlerFunc(pprof.Profile),
+				"/debug/pprof/symbol":  http.HandlerFunc(pprof.Symbol),
+				"/debug/pprof/trace":   http.HandlerFunc(pprof.Trace),
+			},
+		}
+	} else {
+		metricsOptions = server.Options{
+			BindAddress: flags.MetricsAddr,
+		}
+	}
+	return metricsOptions
 }
 
 func getDefaultAzureCredential(cfg config.Values, setupLog logr.Logger) (*identity.Credential, error) {

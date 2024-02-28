@@ -16,6 +16,7 @@ import (
 
 type Flags struct {
 	MetricsAddr          string
+	SecureMetrics        bool
 	HealthAddr           string
 	WebhookPort          int
 	WebhookCertDir       string
@@ -44,6 +45,7 @@ func ParseFlags(args []string) (Flags, error) {
 	klog.InitFlags(flagSet)
 
 	var metricsAddr string
+	var secureMetrics bool
 	var healthAddr string
 	var webhookPort int
 	var webhookCertDir string
@@ -54,6 +56,8 @@ func ParseFlags(args []string) (Flags, error) {
 
 	// default here for 'MetricsAddr' is set to "0", which sets metrics to be disabled if 'metrics-addr' flag is omitted.
 	flagSet.StringVar(&metricsAddr, "metrics-addr", "0", "The address the metric endpoint binds to.")
+	flagSet.BoolVar(&secureMetrics, "secure-metrics", false, "Enable secure metrics. This will enable serving pprof endpoints and metrics securely using https")
+
 	flagSet.StringVar(&healthAddr, "health-addr", "", "The address the healthz endpoint binds to.")
 	flagSet.IntVar(&webhookPort, "webhook-port", 9443, "The port the webhook endpoint binds to.")
 	flagSet.StringVar(&webhookCertDir, "webhook-cert-dir", "", "The directory the webhook server's certs are stored.")
@@ -69,6 +73,7 @@ func ParseFlags(args []string) (Flags, error) {
 
 	return Flags{
 		MetricsAddr:          metricsAddr,
+		SecureMetrics:        secureMetrics,
 		HealthAddr:           healthAddr,
 		WebhookPort:          webhookPort,
 		WebhookCertDir:       webhookCertDir,

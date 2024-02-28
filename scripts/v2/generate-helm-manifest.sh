@@ -4,11 +4,10 @@
 
 set -e
 
-KUBE_RBAC_PROXY=$1
-LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE=$2
-PUBLIC_REGISTRY=$3
-VERSION=$4
-DIR=$5
+LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE=$1
+PUBLIC_REGISTRY=$2
+VERSION=$3
+DIR=$4
 
 ASO_CHART="$DIR"charts/azure-service-operator
 GEN_FILES_DIR="$ASO_CHART"/templates/generated
@@ -43,8 +42,8 @@ rm "$GEN_FILES_DIR"/*_namespace_* # remove namespace as we will let Helm manage 
 sed -i "s/\(version: \)\(.*\)/\1${VERSION//v}/g" "$ASO_CHART"/Chart.yaml  # find version key and update the value with the current version
 
 # Deployment replacements
-grep -E $KUBE_RBAC_PROXY "$GEN_FILES_DIR"/*_deployment_* > /dev/null # Ensure that what we're about to try to replace actually exists (if it doesn't we want to fail)
-sed -i "s@$KUBE_RBAC_PROXY.*@{{.Values.image.kubeRBACProxy}}@g" "$GEN_FILES_DIR"/*_deployment_*
+#grep -E $KUBE_RBAC_PROXY "$GEN_FILES_DIR"/*_deployment_* > /dev/null # Ensure that what we're about to try to replace actually exists (if it doesn't we want to fail)
+#sed -i "s@$KUBE_RBAC_PROXY.*@{{.Values.image.kubeRBACProxy}}@g" "$GEN_FILES_DIR"/*_deployment_*
 sed -i "s@$LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE@{{.Values.image.repository}}@g" "$GEN_FILES_DIR"/*_deployment_* # Replace hardcoded ASO image
 # Perl multiline replacements - using this because it's tricky to do these sorts of multiline replacements with sed
 perl -0777 -i -pe 's/(template:\n.*metadata:\n.*annotations:\n(\s*))/$1\{\{- if .Values.podAnnotations \}\}\n$2\{\{ toYaml .Values.podAnnotations \}\}\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add pod annotations
@@ -54,7 +53,8 @@ perl -0777 -i -pe 's/(spec:\n.*template:\n.*spec:\n(\s*))/$1\{\{- with .Values.a
 perl -0777 -i -pe 's/(spec:\n.*template:\n.*spec:\n(\s*))/$1\{\{- with .Values.tolerations \}\}\n$2tolerations:\n$2\{\{- toYaml . | nindent 8 \}\}\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add pod annotations
 
 # Metrics Configuration
-flow_control "metrics-addr" "metrics-addr" "{{- if .Values.metrics.enable}}" "$GEN_FILES_DIR"/*_deployment_*
+flow_control "metrics-addr" "secure-metrics" "{{- if .Values.metrics.enable}}" "$GEN_FILES_DIR"/*_deployment_*
+sed -i "1,/secure-metrics=.*/s/\(secure-metrics=\)\(.*\)/\1{{ .Values.metrics.secureMetrics }}/g" "$GEN_FILES_DIR"/*_deployment_*
 sed -i "1,/metrics-addr=.*/s/\(metrics-addr=\)\(.*\)/\1{{ tpl .Values.metrics.address . }}/g" "$GEN_FILES_DIR"/*_deployment_*
 sed -i 's/containerPort: 8080/containerPort: {{ .Values.metrics.port | default 8080 }}/g' "$GEN_FILES_DIR"/*_deployment_*
 sed -i '1 i {{- if .Values.metrics.enable -}}' "$GEN_FILES_DIR"/*controller-manager-metrics-service*
@@ -87,8 +87,8 @@ flow_control "aadpodidbinding" "aadpodidbinding" "$IF_TENANT" "$GEN_FILES_DIR"/*
 
 flow_control "--enable-leader-election" "--enable-leader-election" "$IF_TENANT" "$GEN_FILES_DIR"/*_deployment_*
 
-# TODO: This bit is tricky to exclude kube-rbac-proxy and webhook stuff.
-flow_control "mountPath: \/tmp\/k8s-webhook-server\/serving-certs" "name: https" "$IF_CLUSTER" "$GEN_FILES_DIR"/*_deployment_*
+sed -i "/mountPath: \/tmp\/k8s-webhook-server\/serving-certs/i \  \ $IF_CLUSTER" "$GEN_FILES_DIR"/*_deployment_*
+sed -i "/nodeSelector:/i \  \ {{- end }}" "$GEN_FILES_DIR"/*_deployment_*
 flow_control "- name: cert" "secretName" "$IF_CLUSTER" "$GEN_FILES_DIR"/*_deployment_*
 flow_control "--webhook-cert-dir=" "--webhook-cert-dir=" "$IF_CLUSTER" "$GEN_FILES_DIR"/*_deployment_*
 sed -i 's/\/tmp\/k8s-webhook-server\/serving-certs/{{ .Values.webhook.certDir }}/g' "$GEN_FILES_DIR"/*_deployment_*
