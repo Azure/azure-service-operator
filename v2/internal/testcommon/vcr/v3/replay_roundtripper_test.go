@@ -122,7 +122,7 @@ func TestReplayRoundTripperRoundTrip_GivenMultiplePUTsToSameURL_ReturnsExpectedB
 	}
 
 	betaResponse := &http.Response{
-		StatusCode: 200,
+		StatusCode: 203,
 		Body:       io.NopCloser(strings.NewReader("PUT response Beta goes here")),
 	}
 
@@ -155,7 +155,7 @@ func TestReplayRoundTripperRoundTrip_GivenMultiplePUTsToSameURL_ReturnsExpectedB
 	//nolint:bodyclose // there's no actual body in this response to close
 	actual, err = replayer.RoundTrip(betaRequest)
 	g.Expect(err).ToNot(HaveOccurred())
-	assertResponse(t, actual, 200, "PUT response Beta goes here")
+	assertResponse(t, actual, 203, "PUT response Beta goes here")
 
 	// Assert - first gamma request works
 	//nolint:bodyclose // there's no actual body in this response to close
@@ -173,7 +173,7 @@ func TestReplayRoundTripperRoundTrip_GivenMultiplePUTsToSameURL_ReturnsExpectedB
 	//nolint:bodyclose // there's no actual body in this response to close
 	actual, err = replayer.RoundTrip(betaRequest)
 	g.Expect(err).ToNot(HaveOccurred())
-	assertResponse(t, actual, 200, "PUT response Beta goes here")
+	assertResponse(t, actual, 203, "PUT response Beta goes here")
 
 	// Assert - second gamma request works by replaying the first
 	//nolint:bodyclose // there's no actual body in this response to close
