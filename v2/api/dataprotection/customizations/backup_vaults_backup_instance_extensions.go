@@ -61,7 +61,7 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 		log.V(Debug).Info("########################## Protection Status ##########################" + protectionStatus)
 
 		if !nonRetryableBackupInstanceStates.Contains(protectionStatus) {
-			if (protectionStatus == "ProtectionError") {
+			if protectionStatus == "ProtectionError" {
 				log.V(Debug).Info("########################## Protection Status is Protection Error ##########################")
 				protectionStatusErrorCode := ""
 				if backupInstance.Status.Properties.ProtectionStatus.ErrorDetails == nil {
