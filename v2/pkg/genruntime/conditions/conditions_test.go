@@ -317,6 +317,12 @@ func Test_SetConditionReasonAware_OverwritesAsExpected(t *testing.T) {
 		1,
 		conditions.ReasonSecretNotFound.Name,
 		"a message")
+	azureResourceNotFound := builder.MakeFalseCondition(
+		conditions.ConditionTypeReady,
+		conditions.ConditionSeverityError,
+		1,
+		conditions.ReasonAzureResourceNotFound.Name,
+		"a message")
 	arbitraryInfoCondition := builder.MakeFalseCondition(
 		conditions.ConditionTypeReady,
 		conditions.ConditionSeverityInfo,
@@ -355,6 +361,7 @@ func Test_SetConditionReasonAware_OverwritesAsExpected(t *testing.T) {
 		{name: "Reconciling overwrites same generation ReferenceNotFound", initial: &referenceNotFoundCondition, new: reconcilingCondition, expectedOverwrite: true},
 		{name: "Reconciling overwrites same generation SecretNotFound", initial: &secretNotFoundCondition, new: reconcilingCondition, expectedOverwrite: true},
 		{name: "Reconciling overwrites same generation ReferenceNotFound", initial: &referenceNotFoundCondition, new: reconcilingCondition, expectedOverwrite: true},
+		{name: "Reconciling overwrites same generation AzureResourceNotFound ", initial: &azureResourceNotFound, new: reconcilingCondition, expectedOverwrite: true},
 		{name: "Reconciling overwrites same generation Info", initial: &arbitraryInfoCondition, new: reconcilingCondition, expectedOverwrite: true},
 		{name: "Reconciling overwrites same generation WaitingForOwner", initial: &waitingForOwnerWarningCondition, new: reconcilingCondition, expectedOverwrite: true},
 
