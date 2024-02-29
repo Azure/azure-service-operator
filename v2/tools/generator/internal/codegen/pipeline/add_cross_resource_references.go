@@ -20,7 +20,6 @@ import (
 // TransformCrossResourceReferencesStageID is the unique identifier for this pipeline stage
 const TransformCrossResourceReferencesStageID = "transformCrossResourceReferences"
 
-var armIDDescriptionRegex = regexp.MustCompile("(?i)(.*/subscriptions/.*?/resourceGroups/.*|ARMID|ARM ID|Resource ID|resourceId)")
 var idRegex = regexp.MustCompile("^(.*)I[d|D]s?$")
 
 // TransformCrossResourceReferences replaces cross resource references with genruntime.ResourceReference.

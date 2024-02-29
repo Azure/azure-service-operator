@@ -174,7 +174,10 @@ func MakeARMIDPropertyTypeVisitor(
 	return visitor
 }
 
-var armIDNameRegex = regexp.MustCompile("(?i)(^Id$|ResourceID|ARMID)")
+var (
+	armIDNameRegex        = regexp.MustCompile("(?i)(^Id$|ResourceID|ARMID)")
+	armIDDescriptionRegex = regexp.MustCompile("(?i)(.*/subscriptions/.*?/resourceGroups/.*|ARMID|ARM ID|Resource ID|resourceId)")
+)
 
 // DoesPropertyLookLikeARMReference uses a simple heuristic to determine if a property looks like it might be an ARM reference.
 // This can be used for logging/reporting purposes to discover references which we missed.
