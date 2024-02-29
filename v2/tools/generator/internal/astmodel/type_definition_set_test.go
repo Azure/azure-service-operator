@@ -396,7 +396,8 @@ func createTestResource(
 // createTestSpec makes a spec for testing
 func createTestSpec(
 	name string,
-	properties ...*PropertyDefinition) TypeDefinition {
+	properties ...*PropertyDefinition,
+) TypeDefinition {
 	specName := MakeInternalTypeName(pkg, name+SpecSuffix)
 	return MakeTypeDefinition(
 		specName,
@@ -406,7 +407,8 @@ func createTestSpec(
 // createTestStatus makes a status for testing
 func createTestStatus(
 	name string,
-	properties ...*PropertyDefinition) TypeDefinition {
+	properties ...*PropertyDefinition,
+) TypeDefinition {
 	statusName := MakeInternalTypeName(pkg, name+StatusSuffix)
 	return MakeTypeDefinition(
 		statusName,

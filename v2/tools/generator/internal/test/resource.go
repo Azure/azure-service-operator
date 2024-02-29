@@ -17,8 +17,8 @@ func CreateResource(
 	name string,
 	spec astmodel.TypeDefinition,
 	status astmodel.TypeDefinition,
-	functions ...astmodel.Function) astmodel.TypeDefinition {
-
+	functions ...astmodel.Function,
+) astmodel.TypeDefinition {
 	resourceType := astmodel.NewResourceType(spec.Name(), status.Name())
 	for _, fn := range functions {
 		resourceType = resourceType.WithFunction(fn)
@@ -33,8 +33,8 @@ func CreateARMResource(
 	spec astmodel.TypeDefinition,
 	status astmodel.TypeDefinition,
 	apiVersion astmodel.TypeDefinition,
-	functions ...astmodel.Function) astmodel.TypeDefinition {
-
+	functions ...astmodel.Function,
+) astmodel.TypeDefinition {
 	resourceType := astmodel.NewResourceType(spec.Name(), status.Name())
 	for _, fn := range functions {
 		resourceType = resourceType.WithFunction(fn)
@@ -55,7 +55,8 @@ func CreateARMResource(
 
 func MakeSpecName(
 	pkg astmodel.InternalPackageReference,
-	name string) astmodel.InternalTypeName {
+	name string,
+) astmodel.InternalTypeName {
 	return astmodel.MakeInternalTypeName(pkg, name+astmodel.SpecSuffix)
 }
 
@@ -63,7 +64,8 @@ func MakeSpecName(
 func CreateSpec(
 	pkg astmodel.InternalPackageReference,
 	name string,
-	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
+	properties ...*astmodel.PropertyDefinition,
+) astmodel.TypeDefinition {
 	specName := MakeSpecName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		specName,
@@ -72,7 +74,8 @@ func CreateSpec(
 
 func MakeStatusName(
 	pkg astmodel.InternalPackageReference,
-	name string) astmodel.InternalTypeName {
+	name string,
+) astmodel.InternalTypeName {
 	return astmodel.MakeInternalTypeName(pkg, name+astmodel.StatusSuffix)
 }
 
@@ -80,7 +83,8 @@ func MakeStatusName(
 func CreateStatus(
 	pkg astmodel.InternalPackageReference,
 	name string,
-	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
+	properties ...*astmodel.PropertyDefinition,
+) astmodel.TypeDefinition {
 	statusName := MakeStatusName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		statusName,
@@ -91,8 +95,8 @@ func CreateStatus(
 func CreateObjectDefinition(
 	pkg astmodel.InternalPackageReference,
 	name string,
-	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
-
+	properties ...*astmodel.PropertyDefinition,
+) astmodel.TypeDefinition {
 	typeName := astmodel.MakeInternalTypeName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		typeName,
@@ -104,8 +108,8 @@ func CreateObjectDefinitionWithFunction(
 	pkg astmodel.InternalPackageReference,
 	name string,
 	function astmodel.Function,
-	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
-
+	properties ...*astmodel.PropertyDefinition,
+) astmodel.TypeDefinition {
 	typeName := astmodel.MakeInternalTypeName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		typeName,
@@ -119,7 +123,8 @@ func CreateObjectType(properties ...*astmodel.PropertyDefinition) *astmodel.Obje
 func CreateSimpleResource(
 	pkg astmodel.InternalPackageReference,
 	name string,
-	specProperties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
+	specProperties ...*astmodel.PropertyDefinition,
+) astmodel.TypeDefinition {
 	spec := CreateSpec(pkg, name, specProperties...)
 	status := CreateStatus(pkg, name)
 	return CreateResource(pkg, name, spec, status)

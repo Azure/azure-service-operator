@@ -31,6 +31,7 @@ func (m *HubVersionMarker) MarkAsStorageVersion(def astmodel.TypeDefinition) (as
 
 // markResourceAsStorageVersion marks the supplied resource as the canonical hub (storage) version
 func (m *HubVersionMarker) markResourceAsStorageVersion(
-	_ *astmodel.TypeVisitor[any], rt *astmodel.ResourceType, _ interface{}) (astmodel.Type, error) {
+	_ *astmodel.TypeVisitor[any], rt *astmodel.ResourceType, _ interface{},
+) (astmodel.Type, error) {
 	return rt.MarkAsStorageVersion(), nil
 }

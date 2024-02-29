@@ -17,7 +17,6 @@ func AddDefaulterInterface(
 	idFactory astmodel.IdentifierFactory,
 	defaultFunctions []*functions.ResourceFunction,
 ) (astmodel.TypeDefinition, error) {
-
 	resourceType, ok := resourceDef.Type().(*astmodel.ResourceType)
 	if !ok {
 		return astmodel.TypeDefinition{}, errors.Errorf("cannot add defaulter interface to non-resource type: %s %T", resourceDef.Name(), resourceDef.Type())

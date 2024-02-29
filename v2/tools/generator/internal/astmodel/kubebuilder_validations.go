@@ -153,7 +153,7 @@ func MakeMaximumValidation(value *big.Rat) KubeBuilderValidation {
 	if value.IsInt() {
 		return KubeBuilderValidation{MaximumValidationName, value.RatString()}
 	} else {
-		//TODO (@bearps) Restore this check when we modify AsDeclarations() to allow error returns
+		// TODO (@bearps) Restore this check when we modify AsDeclarations() to allow error returns
 		if floatValue, ok := value.Float64(); ok {
 			return KubeBuilderValidation{MaximumValidationName, floatValue}
 		}
@@ -167,7 +167,7 @@ func MaxMinimumValidation(value *big.Rat) KubeBuilderValidation {
 	if value.IsInt() {
 		return KubeBuilderValidation{MinimumValidationName, value.RatString()}
 	} else {
-		//TODO (@bearps) Restore this check when we modify AsDeclarations() to allow error returns
+		// TODO (@bearps) Restore this check when we modify AsDeclarations() to allow error returns
 		if floatValue, ok := value.Float64(); ok {
 			return KubeBuilderValidation{MinimumValidationName, floatValue}
 		}
@@ -189,7 +189,7 @@ func MakeMultipleOfValidation(value *big.Rat) KubeBuilderValidation {
 	if value.IsInt() {
 		return KubeBuilderValidation{MultipleOfValidationName, value.RatString()}
 	} else {
-		//TODO (@bearps) Restore this check when we modify AsDeclarations() to allow error returns
+		// TODO (@bearps) Restore this check when we modify AsDeclarations() to allow error returns
 		if floatValue, ok := value.Float64(); ok {
 			return KubeBuilderValidation{MultipleOfValidationName, floatValue}
 		}

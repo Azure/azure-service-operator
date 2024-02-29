@@ -7,8 +7,9 @@ package functions
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
 	"sort"
+
+	"github.com/pkg/errors"
 
 	"github.com/dave/dst"
 

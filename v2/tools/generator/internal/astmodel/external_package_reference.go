@@ -16,8 +16,10 @@ type ExternalPackageReference struct {
 	packagePath string
 }
 
-var _ PackageReference = ExternalPackageReference{}
-var _ fmt.Stringer = ExternalPackageReference{}
+var (
+	_ PackageReference = ExternalPackageReference{}
+	_ fmt.Stringer     = ExternalPackageReference{}
+)
 
 // MakeExternalPackageReference creates a new package reference from a path
 func MakeExternalPackageReference(packagePath string) ExternalPackageReference {

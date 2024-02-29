@@ -50,8 +50,8 @@ func GetKnownStorageTypes(
 	credentialProvider identity.CredentialProvider,
 	kubeClient kubeclient.Client,
 	positiveConditions *conditions.PositiveConditionBuilder,
-	options generic.Options) ([]*registration.StorageType, error) {
-
+	options generic.Options,
+) ([]*registration.StorageType, error) {
 	resourceResolver := resolver.NewResolver(kubeClient)
 	knownStorageTypes, err := getGeneratedStorageTypes(mgr, armConnectionFactory, kubeClient, resourceResolver, positiveConditions, options)
 	if err != nil {
@@ -152,7 +152,8 @@ func getGeneratedStorageTypes(
 	kubeClient kubeclient.Client,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
-	options generic.Options) ([]*registration.StorageType, error) {
+	options generic.Options,
+) ([]*registration.StorageType, error) {
 	knownStorageTypes := getKnownStorageTypes()
 
 	err := resourceResolver.IndexStorageTypes(mgr.GetScheme(), knownStorageTypes)
@@ -195,7 +196,8 @@ func augmentWithARMReconciler(
 	positiveConditions *conditions.PositiveConditionBuilder,
 	options generic.Options,
 	extension genruntime.ResourceExtension,
-	t *registration.StorageType) {
+	t *registration.StorageType,
+) {
 	t.Reconciler = arm.NewAzureDeploymentReconciler(
 		armConnectionFactory,
 		kubeClient,
@@ -206,7 +208,6 @@ func augmentWithARMReconciler(
 }
 
 func augmentWithPredicate(t *registration.StorageType) {
-
 	t.Predicate = makeStandardPredicate()
 }
 
@@ -266,7 +267,6 @@ func CreateScheme() *runtime.Scheme {
 
 // GetResourceExtensions returns a map between resource and resource extension
 func GetResourceExtensions(scheme *runtime.Scheme) (map[schema.GroupVersionKind]genruntime.ResourceExtension, error) {
-
 	extensionMapping := make(map[schema.GroupVersionKind]genruntime.ResourceExtension)
 
 	for _, extension := range getResourceExtensions() {

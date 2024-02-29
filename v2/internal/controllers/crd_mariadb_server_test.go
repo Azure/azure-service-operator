@@ -101,7 +101,8 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 func createPasswordSecret(
 	name string,
 	key string,
-	tc *testcommon.KubePerTestContext) genruntime.SecretReference {
+	tc *testcommon.KubePerTestContext,
+) genruntime.SecretReference {
 	password := tc.Namer.GeneratePasswordOfLength(40)
 
 	secret := &v1.Secret{

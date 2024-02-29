@@ -7,11 +7,12 @@ package reporting
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/internal/set"
-	"golang.org/x/exp/slices"
 	"io"
 	"os"
 	"sort"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"golang.org/x/exp/slices"
 
 	"github.com/pkg/errors"
 
@@ -60,7 +61,6 @@ func (tcr *TypeCatalogReport) AddHeader(lines ...string) {
 
 // SaveTo writes the report to the specified file
 func (tcr *TypeCatalogReport) SaveTo(filePath string) error {
-
 	file, err := os.Create(filePath)
 	if err != nil {
 		return err
@@ -146,7 +146,8 @@ func (tcr *TypeCatalogReport) WriteTo(writer io.Writer) error {
 // Definitions are written in alphabetical order, by case-sensitive sort
 func (tcr *TypeCatalogReport) writeDefinitions(
 	rpt *StructureReport,
-	definitions astmodel.TypeDefinitionSet) {
+	definitions astmodel.TypeDefinitionSet,
+) {
 	defs := definitions.AsSlice()
 	sort.Slice(defs, func(i, j int) bool {
 		return defs[i].Name().Name() < defs[j].Name().Name()
@@ -314,8 +315,8 @@ func (tcr *TypeCatalogReport) writeComplexType(
 	rpt *StructureReport,
 	propertyType astmodel.Type,
 	currentPackage astmodel.InternalPackageReference,
-	parentTypes astmodel.TypeNameSet) {
-
+	parentTypes astmodel.TypeNameSet,
+) {
 	// If we have a complex type, we may need to write it out in detail
 	switch t := propertyType.(type) {
 	case *astmodel.ObjectType,
@@ -330,6 +331,7 @@ func (tcr *TypeCatalogReport) writeComplexType(
 		tcr.writeComplexType(rpt, t.Element(), currentPackage, parentTypes)
 	}
 }
+
 func (tcr *TypeCatalogReport) writeErroredType(
 	rpt *StructureReport,
 	et *astmodel.ErroredType,
@@ -365,7 +367,6 @@ func (tcr *TypeCatalogReport) asDefinitionToInline(
 	t astmodel.Type,
 	parentTypes astmodel.TypeNameSet,
 ) (*astmodel.TypeDefinition, bool) {
-
 	// We can inline a typename if we have a definition for it, and if it's not already inlined
 	if n, ok := astmodel.AsInternalTypeName(t); ok {
 		if parentTypes.Contains(n) {

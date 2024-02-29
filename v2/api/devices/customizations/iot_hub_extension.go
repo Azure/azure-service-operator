@@ -30,8 +30,8 @@ func (ext *IotHubExtension) ExportKubernetesResources(
 	ctx context.Context,
 	obj genruntime.MetaObject,
 	armClient *genericarmclient.GenericClient,
-	log logr.Logger) ([]client.Object, error) {
-
+	log logr.Logger,
+) ([]client.Object, error) {
 	// This has to be the current hub devices version. It will need to be updated
 	// if the hub devices version changes.
 	typedObj, ok := obj.(*devices.IotHub)

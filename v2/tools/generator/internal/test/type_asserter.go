@@ -73,7 +73,8 @@ func (a *typeAsserter) assertFile(
 	name string,
 	defs []astmodel.TypeDefinition,
 	refs []astmodel.TypeDefinition,
-	renderer func(defs []astmodel.TypeDefinition) (string, error)) {
+	renderer func(defs []astmodel.TypeDefinition) (string, error),
+) {
 	content, err := renderer(defs)
 	if err != nil {
 		a.t.Fatalf("rendering content: %s", err)

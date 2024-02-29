@@ -34,7 +34,8 @@ type configurationVisitor struct {
 func newSinglePropertyConfigurationVisitor(
 	typeName astmodel.InternalTypeName,
 	property astmodel.PropertyName,
-	action func(configuration *PropertyConfiguration) error) *configurationVisitor {
+	action func(configuration *PropertyConfiguration) error,
+) *configurationVisitor {
 	return &configurationVisitor{
 		ref:            typeName.InternalPackageReference(),
 		typeName:       typeName.Name(),
@@ -49,7 +50,8 @@ func newSinglePropertyConfigurationVisitor(
 // Returns nil if every call to action was successful (returned nil); otherwise returns an aggregated error containing
 // all the errors returned.
 func newEveryPropertyConfigurationVisitor(
-	action func(configuration *PropertyConfiguration) error) *configurationVisitor {
+	action func(configuration *PropertyConfiguration) error,
+) *configurationVisitor {
 	return &configurationVisitor{
 		handleProperty: action,
 	}
@@ -62,7 +64,8 @@ func newEveryPropertyConfigurationVisitor(
 // an error, and (false, nil) if the type does not exist.
 func newSingleTypeConfigurationVisitor(
 	typeName astmodel.InternalTypeName,
-	action func(configuration *TypeConfiguration) error) *configurationVisitor {
+	action func(configuration *TypeConfiguration) error,
+) *configurationVisitor {
 	return &configurationVisitor{
 		ref:        typeName.InternalPackageReference(),
 		typeName:   typeName.Name(),
@@ -75,7 +78,8 @@ func newSingleTypeConfigurationVisitor(
 // action is the action to apply to each type.
 // Returns nil if every call to action returned nil; otherwise returns an aggregated error containing all the errors returned.
 func newEveryTypeConfigurationVisitor(
-	action func(configuration *TypeConfiguration) error) *configurationVisitor {
+	action func(configuration *TypeConfiguration) error,
+) *configurationVisitor {
 	return &configurationVisitor{
 		handleType: action,
 	}
@@ -88,7 +92,8 @@ func newEveryTypeConfigurationVisitor(
 // an error, and (false, nil) if the type does not exist.
 func newSingleVersionConfigurationVisitor(
 	ref astmodel.InternalPackageReference,
-	action func(configuration *VersionConfiguration) error) *configurationVisitor {
+	action func(configuration *VersionConfiguration) error,
+) *configurationVisitor {
 	return &configurationVisitor{
 		ref:           ref,
 		handleVersion: action,
@@ -98,7 +103,8 @@ func newSingleVersionConfigurationVisitor(
 // newEveryVersionConfigurationVisitor creates a ConfigurationVisitor to apply an action to every version configuration.
 // action is the action to apply to each version.
 func newEveryVersionConfigurationVisitor(
-	action func(configuration *VersionConfiguration) error) *configurationVisitor {
+	action func(configuration *VersionConfiguration) error,
+) *configurationVisitor {
 	return &configurationVisitor{
 		handleVersion: action,
 	}
@@ -111,7 +117,8 @@ func newEveryVersionConfigurationVisitor(
 // an error, and (false, nil) if the group does not exist.
 func newSingleGroupConfigurationVisitor(
 	ref astmodel.InternalPackageReference,
-	action func(configuration *GroupConfiguration) error) *configurationVisitor {
+	action func(configuration *GroupConfiguration) error,
+) *configurationVisitor {
 	return &configurationVisitor{
 		ref:         ref,
 		handleGroup: action,
@@ -121,7 +128,8 @@ func newSingleGroupConfigurationVisitor(
 // newEveryGroupConfigurationVisitor creates a ConfigurationVisitor to apply an action to every group configuration.
 // action is the action to apply to each group.
 func newEveryGroupConfigurationVisitor(
-	action func(configuration *GroupConfiguration) error) *configurationVisitor {
+	action func(configuration *GroupConfiguration) error,
+) *configurationVisitor {
 	return &configurationVisitor{
 		handleGroup: action,
 	}

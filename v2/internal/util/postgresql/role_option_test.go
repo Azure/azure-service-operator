@@ -21,22 +21,25 @@ func TestDiffCurrentAndExpectedSQLRoleOptions(t *testing.T) {
 		currentRoleOptions         RoleOptions
 		expectedRoleOptions        RoleOptions
 		expectedChangedRoleOptions set.Set[RoleOption]
-	}{{
-		name:                       "Current and expected equal",
-		currentRoleOptions:         RoleOptions{Login: true, CreateRole: false, CreateDb: false, Replication: false},
-		expectedRoleOptions:        RoleOptions{Login: true},
-		expectedChangedRoleOptions: set.Make[RoleOption](),
-	}, {
-		name:                       "Expected has single option more than current",
-		currentRoleOptions:         RoleOptions{Login: true, CreateRole: false, CreateDb: false, Replication: false},
-		expectedRoleOptions:        RoleOptions{Login: true, CreateDb: true},
-		expectedChangedRoleOptions: set.Set[RoleOption]{CreateDb: {}},
-	}, {
-		name:                       "Expected all new values are set",
-		currentRoleOptions:         RoleOptions{Login: true, CreateRole: false, CreateDb: false, Replication: false},
-		expectedRoleOptions:        RoleOptions{Login: false, CreateRole: true, CreateDb: true, Replication: true},
-		expectedChangedRoleOptions: set.Set[RoleOption]{NoLogin: {}, CreateRole: {}, CreateDb: {}, Replication: {}},
-	},
+	}{
+		{
+			name:                       "Current and expected equal",
+			currentRoleOptions:         RoleOptions{Login: true, CreateRole: false, CreateDb: false, Replication: false},
+			expectedRoleOptions:        RoleOptions{Login: true},
+			expectedChangedRoleOptions: set.Make[RoleOption](),
+		},
+		{
+			name:                       "Expected has single option more than current",
+			currentRoleOptions:         RoleOptions{Login: true, CreateRole: false, CreateDb: false, Replication: false},
+			expectedRoleOptions:        RoleOptions{Login: true, CreateDb: true},
+			expectedChangedRoleOptions: set.Set[RoleOption]{CreateDb: {}},
+		},
+		{
+			name:                       "Expected all new values are set",
+			currentRoleOptions:         RoleOptions{Login: true, CreateRole: false, CreateDb: false, Replication: false},
+			expectedRoleOptions:        RoleOptions{Login: false, CreateRole: true, CreateDb: true, Replication: true},
+			expectedChangedRoleOptions: set.Set[RoleOption]{NoLogin: {}, CreateRole: {}, CreateDb: {}, Replication: {}},
+		},
 		{
 			name:                       "Expected all new values are set (non defaults)",
 			currentRoleOptions:         RoleOptions{Login: false, CreateRole: true, CreateDb: true, Replication: true},
@@ -54,7 +57,8 @@ func TestDiffCurrentAndExpectedSQLRoleOptions(t *testing.T) {
 			currentRoleOptions:         RoleOptions{},
 			expectedRoleOptions:        RoleOptions{Login: true},
 			expectedChangedRoleOptions: set.Set[RoleOption]{Login: {}},
-		}, {
+		},
+		{
 			name:                       "Test CreateRole changed",
 			currentRoleOptions:         RoleOptions{},
 			expectedRoleOptions:        RoleOptions{CreateRole: true},

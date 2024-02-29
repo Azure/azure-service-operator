@@ -7,9 +7,10 @@ package functions
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"strings"
 
 	"github.com/dave/dst"
 
@@ -253,7 +254,8 @@ func (v *ValidatorBuilder) validateBody(
 	implFunctionName string,
 	overrideFunctionName string,
 	validationFunctionName string,
-	funcParamIdent string) []dst.Stmt {
+	funcParamIdent string,
+) []dst.Stmt {
 	overrideInterfaceType := astmodel.GenRuntimeValidatorInterfaceName.AsType(codeGenerationContext)
 
 	validationsIdent := "validations"

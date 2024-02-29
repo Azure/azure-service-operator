@@ -22,7 +22,6 @@ func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFac
 		CreateResourceExtensionsStageID,
 		"Create Resource Extensions for each resource type",
 		func(ctx context.Context, state *State) (*State, error) {
-
 			// Map of the new extension types, to all the resource types names on which the extension applies to
 			extendedResourceTypesMapping := make(map[astmodel.InternalTypeName][]astmodel.InternalTypeName)
 			extendedResourceDefs := make(astmodel.TypeDefinitionSet)

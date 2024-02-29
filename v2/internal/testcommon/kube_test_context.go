@@ -30,8 +30,8 @@ func NewKubeContext(
 	useEnvTest bool,
 	recordReplay bool,
 	region string,
-	nameConfig *ResourceNameConfig) (KubeGlobalContext, error) {
-
+	nameConfig *ResourceNameConfig,
+) (KubeGlobalContext, error) {
 	var err error
 	var cbtc BaseTestContextFactory
 	var cleanup func() = func() {}

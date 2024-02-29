@@ -771,7 +771,8 @@ func ConvertToARMResourceImpl(
 	metaObject genruntime.ARMMetaObject,
 	scheme *runtime.Scheme,
 	resolver *resolver.Resolver,
-	subscriptionID string) (genruntime.ARMResource, error) {
+	subscriptionID string,
+) (genruntime.ARMResource, error) {
 	spec, err := genruntime.GetVersionedSpec(metaObject, scheme)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get spec from %s", metaObject.GetObjectKind().GroupVersionKind())
@@ -821,8 +822,8 @@ func (r *azureDeploymentReconcilerInstance) deleteResource(
 	log logr.Logger,
 	resolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
-	obj genruntime.ARMMetaObject) (ctrl.Result, error) {
-
+	obj genruntime.ARMMetaObject,
+) (ctrl.Result, error) {
 	// If we have no resourceID to begin with, the Azure resource was never created
 	resourceID := genruntime.GetResourceIDOrDefault(obj)
 	if resourceID == "" {

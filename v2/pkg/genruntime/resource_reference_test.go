@@ -13,11 +13,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-var validARMIDRef = genruntime.ResourceReference{ARMID: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/microsoft.compute/VirtualMachine/myvm"}
-var validKubRef = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Kind: "ResourceGroup", Name: "myrg"}
-var invalidRefBothSpecified = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Kind: "ResourceGroup", Name: "myrg", ARMID: "oops"}
-var invalidRefNeitherSpecified = genruntime.ResourceReference{}
-var invalidRefIncompleteKubReference = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Name: "myrg"}
+var (
+	validARMIDRef                    = genruntime.ResourceReference{ARMID: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/microsoft.compute/VirtualMachine/myvm"}
+	validKubRef                      = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Kind: "ResourceGroup", Name: "myrg"}
+	invalidRefBothSpecified          = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Kind: "ResourceGroup", Name: "myrg", ARMID: "oops"}
+	invalidRefNeitherSpecified       = genruntime.ResourceReference{}
+	invalidRefIncompleteKubReference = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Name: "myrg"}
+)
 
 func Test_ResourceReference_Validate(t *testing.T) {
 	t.Parallel()

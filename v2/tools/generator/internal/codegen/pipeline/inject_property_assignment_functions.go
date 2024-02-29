@@ -122,7 +122,8 @@ func newPropertyAssignmentFunctionsFactory(
 	graph *storage.ConversionGraph,
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
-	definitions astmodel.TypeDefinitionSet) *propertyAssignmentFunctionsFactory {
+	definitions astmodel.TypeDefinitionSet,
+) *propertyAssignmentFunctionsFactory {
 	return &propertyAssignmentFunctionsFactory{
 		graph:            graph,
 		idFactory:        idFactory,

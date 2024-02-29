@@ -10,7 +10,7 @@ import (
 	"os"
 	"testing"
 
-	_ "github.com/go-sql-driver/mysql" //sql drive link
+	_ "github.com/go-sql-driver/mysql" // sql drive link
 	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"
 
@@ -133,8 +133,8 @@ func MySQL_AADUser_CRUD(
 	server *mysql.FlexibleServer,
 	rg *resources.ResourceGroup,
 	admin *mysql20220101.FlexibleServersAdministrator,
-	standardAdminPassword string) {
-
+	standardAdminPassword string,
+) {
 	configMapName := "my-configmap"
 	clientIDKey := "clientId"
 	tenantIDKey := "tenantId"
@@ -260,8 +260,8 @@ func MySQL_LocalUser_AADAdmin_CRUD(
 	tc *testcommon.KubePerTestContext,
 	server *mysql.FlexibleServer,
 	admin *mysql20220101.FlexibleServersAdministrator,
-	standardAdminPassword string) {
-
+	standardAdminPassword string,
+) {
 	passwordKey := "password"
 	password := tc.Namer.GeneratePassword()
 	userSecret := newSecret(tc, passwordKey, password)
@@ -335,8 +335,8 @@ func MySQL_AADUserAndGroup_CRUD(
 	tc *testcommon.KubePerTestContext,
 	server *mysql.FlexibleServer,
 	admin *mysql20220101.FlexibleServersAdministrator,
-	standardAdminPassword string) {
-
+	standardAdminPassword string,
+) {
 	// Note: when logging in to the DB you still log in with the actual username not the alias.
 	// Alias is just for management of it in SQL.
 	alias := "myaliaseduser"

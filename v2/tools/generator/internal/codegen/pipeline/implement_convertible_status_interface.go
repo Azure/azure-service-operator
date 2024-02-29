@@ -49,7 +49,8 @@ func ImplementConvertibleStatusInterface(idFactory astmodel.IdentifierFactory) *
 // actual code generated.
 func createConvertibleStatusInterfaceImplementation(
 	status astmodel.TypeDefinition,
-	idFactory astmodel.IdentifierFactory) *astmodel.InterfaceImplementation {
+	idFactory astmodel.IdentifierFactory,
+) *astmodel.InterfaceImplementation {
 	container, ok := astmodel.AsFunctionContainer(status.Type())
 	if !ok {
 		// This shouldn't happen due to earlier filtering
@@ -71,8 +72,8 @@ func createConvertibleStatusInterfaceImplementation(
 func createConvertibleStatusFunction(
 	direction conversions.Direction,
 	container astmodel.FunctionContainer,
-	idFactory astmodel.IdentifierFactory) astmodel.Function {
-
+	idFactory astmodel.IdentifierFactory,
+) astmodel.Function {
 	for _, fn := range container.Functions() {
 		if propertyAssignmentFn, ok := fn.(*functions.PropertyAssignmentFunction); ok {
 			if propertyAssignmentFn.Direction() != direction {

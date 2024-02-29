@@ -530,7 +530,6 @@ func IdentityAssignPrimitiveType(
 		params.AssignmentHandlerOrDefault()(
 			params.GetDestination(),
 			params.GetSource())), nil
-
 }
 
 // AssignToOptional assigns address of source to destination.
@@ -554,7 +553,6 @@ func AssignToOptional(
 			params.AssignmentHandlerOrDefault()(
 				params.GetDestination(),
 				astbuilder.AddrOf(params.GetSource()))), nil
-
 	}
 
 	// a more complex conversion is needed

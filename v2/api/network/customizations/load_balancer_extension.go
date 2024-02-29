@@ -35,7 +35,6 @@ func (extension *LoadBalancerExtension) ModifyARMResource(
 	resolver *resolver.Resolver,
 	log logr.Logger,
 ) (genruntime.ARMResource, error) {
-
 	typedObj, ok := obj.(*network.LoadBalancer)
 	if !ok {
 		return nil, errors.Errorf("cannot run on unknown resource type %T, expected *network.LoadBalancer", obj)

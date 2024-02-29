@@ -86,7 +86,8 @@ const DummyBillingId = "/providers/Microsoft.Billing/billingAccounts/00000000-00
 func NewTestContext(
 	region string,
 	recordReplay bool,
-	nameConfig *ResourceNameConfig) TestContext {
+	nameConfig *ResourceNameConfig,
+) TestContext {
 	return TestContext{
 		AzureRegion:  &region,
 		RecordReplay: recordReplay,
@@ -199,7 +200,7 @@ func ensureCassetteFileExists(cassetteName string) error {
 	if !os.IsNotExist(err) {
 		return err
 	}
-	f, err := os.OpenFile(filename, os.O_RDONLY|os.O_CREATE, 0644)
+	f, err := os.OpenFile(filename, os.O_RDONLY|os.O_CREATE, 0o644)
 	if err != nil {
 		return errors.Wrapf(err, "creating empty cassette %q", filename)
 	}

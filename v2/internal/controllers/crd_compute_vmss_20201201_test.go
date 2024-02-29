@@ -313,5 +313,4 @@ func VMSS_Extension_20201201_CRUD(tc *testcommon.KubePerTestContext, vmss *compu
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
-
 }

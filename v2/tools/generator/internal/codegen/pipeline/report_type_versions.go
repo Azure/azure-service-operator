@@ -93,12 +93,12 @@ func (report *PackagesMatrixReport) WriteTableTo(table *reporting.SparseTable, p
 
 	outputFolder := filepath.Join(outputPath, pkg)
 	if _, err := os.Stat(outputFolder); os.IsNotExist(err) {
-		err = os.MkdirAll(outputFolder, 0700)
+		err = os.MkdirAll(outputFolder, 0o700)
 		if err != nil {
 			return errors.Wrapf(err, "Unable to create directory %q", outputFolder)
 		}
 	}
 
 	destination := filepath.Join(outputFolder, "versions_matrix.md")
-	return os.WriteFile(destination, []byte(buffer.String()), 0600)
+	return os.WriteFile(destination, []byte(buffer.String()), 0o600)
 }

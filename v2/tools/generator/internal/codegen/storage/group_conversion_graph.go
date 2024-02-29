@@ -6,8 +6,9 @@
 package storage
 
 import (
-	"github.com/pkg/errors"
 	"io"
+
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -52,7 +53,6 @@ func (graph *GroupConversionGraph) searchForRenamedType(
 	name astmodel.InternalTypeName,
 	definitions astmodel.TypeDefinitionSet,
 ) (astmodel.InternalTypeName, error) {
-
 	// No configuration, or we're not looking at a storage package
 	if graph.configuration == nil || !astmodel.IsStoragePackageReference(name.PackageReference()) {
 		return astmodel.InternalTypeName{}, nil

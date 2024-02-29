@@ -27,7 +27,8 @@ var _ astmodel.Function = &ObjectFunction{}
 func NewObjectFunction(
 	name string,
 	idFactory astmodel.IdentifierFactory,
-	asFunc ObjectFunctionHandler) *ObjectFunction {
+	asFunc ObjectFunctionHandler,
+) *ObjectFunction {
 	return &ObjectFunction{
 		name:             name,
 		asFunc:           asFunc,

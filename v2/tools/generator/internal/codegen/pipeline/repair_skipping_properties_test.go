@@ -243,7 +243,8 @@ func AssertLinkExists(
 	g *WithT,
 	repairer *skippingPropertyRepairer,
 	def astmodel.TypeDefinition,
-	property astmodel.PropertyName) {
+	property astmodel.PropertyName,
+) {
 	ref := astmodel.MakePropertyReference(def.Name(), property)
 	g.Expect(repairer.links).To(HaveKey(ref))
 }
