@@ -175,13 +175,13 @@ type Extension_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                      string                              `json:"azureName,omitempty"`
+	AzureName                      string                         `json:"azureName,omitempty"`
 	ConfigurationProtectedSettings *genruntime.SecretMapReference `json:"configurationProtectedSettings,omitempty"`
-	ConfigurationSettings          map[string]string                   `json:"configurationSettings,omitempty"`
-	ExtensionType                  *string                             `json:"extensionType,omitempty"`
-	Identity                       *Identity                           `json:"identity,omitempty"`
-	OperatorSpec          *ExtensionOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion                string                              `json:"originalVersion,omitempty"`
+	ConfigurationSettings          map[string]string              `json:"configurationSettings,omitempty"`
+	ExtensionType                  *string                        `json:"extensionType,omitempty"`
+	Identity                       *Identity                      `json:"identity,omitempty"`
+	OperatorSpec                   *ExtensionOperatorSpec         `json:"operatorSpec,omitempty"`
+	OriginalVersion                string                         `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also

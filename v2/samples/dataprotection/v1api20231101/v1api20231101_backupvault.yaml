@@ -1,4 +1,4 @@
-apiVersion: dataprotection.azure.com/v1api20230101
+apiVersion: dataprotection.azure.com/v1api20231101
 kind: BackupVault
 metadata:
   name: aso-sample-backupvault

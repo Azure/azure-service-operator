@@ -1,4 +1,4 @@
-apiVersion: dataprotection.azure.com/v1api20230101
+apiVersion: dataprotection.azure.com/v1api20231101
 kind: BackupVaultsBackupPolicy
 metadata:
   name: aso-sample-backuppolicy
@@ -28,7 +28,7 @@ spec:
                 schedule:
                   timeZone: UTC
                   repeatingTimeIntervals:
-                    - 'R/2023-06-07T10:26:32+00:00/PT4H'
+                    - "R/2023-06-07T10:26:32+00:00/PT4H"
                 taggingCriteria:
                   - isDefault: true
                     taggingPriority: 99
@@ -46,4 +46,3 @@ spec:
                 sourceDataStore:
                   dataStoreType: OperationalStore
                   objectType: DataStoreInfoBase
-
