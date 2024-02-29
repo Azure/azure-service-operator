@@ -21,6 +21,7 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -166,7 +167,7 @@ func newClientSecretCredential(subscriptionID, tenantID, name, namespace string)
 		return nil, errors.Errorf("required environment variable %q was not supplied", AzureClientIDMultitenantVar)
 	}
 
-	return testcommon.NewScopedServicePrincipalSecret(subscriptionID, tenantID, clientID, clientSecret, name, namespace), nil
+	return creds.NewScopedServicePrincipalSecret(subscriptionID, tenantID, clientID, clientSecret, name, namespace), nil
 }
 
 func newClientCertificateCredential(subscriptionID, tenantID, name, namespace string) (*v1.Secret, error) {
@@ -180,7 +181,7 @@ func newClientCertificateCredential(subscriptionID, tenantID, name, namespace st
 		return nil, errors.Errorf("required environment variable %q was not supplied", AzureClientIDMultitenantCertAuthVar)
 	}
 
-	return testcommon.NewScopedServicePrincipalCertificateSecret(subscriptionID, tenantID, clientID, clientCert, name, namespace), nil
+	return creds.NewScopedServicePrincipalCertificateSecret(subscriptionID, tenantID, clientID, clientCert, name, namespace), nil
 }
 
 func newStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {

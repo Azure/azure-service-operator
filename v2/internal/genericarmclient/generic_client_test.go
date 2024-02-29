@@ -23,6 +23,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -198,7 +199,7 @@ func Test_NewResourceGroup_SubscriptionNotRegisteredError(t *testing.T) {
 		HttpClient: server.Client(),
 		Metrics:    metrics,
 	}
-	client, err := genericarmclient.NewGenericClient(cfg, testcommon.MockTokenCredential{}, options)
+	client, err := genericarmclient.NewGenericClient(cfg, creds.MockTokenCredential{}, options)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	resourceURI := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Fake/fakeResource/fake", subscriptionId, "myrg")

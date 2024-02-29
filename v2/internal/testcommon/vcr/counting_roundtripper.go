@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package testcommon
+package vcr
 
 import (
 	"fmt"
@@ -24,7 +24,7 @@ type requestCounter struct {
 	counts      map[string]uint32
 }
 
-func addCountHeader(inner http.RoundTripper) *requestCounter {
+func AddCountHeader(inner http.RoundTripper) *requestCounter {
 	return &requestCounter{
 		inner:       inner,
 		counts:      make(map[string]uint32),
