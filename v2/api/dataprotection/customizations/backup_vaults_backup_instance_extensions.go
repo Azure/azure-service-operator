@@ -29,10 +29,22 @@ import (
 var _ extensions.PreReconciliationChecker = &BackupVaultsBackupInstanceExtension{}
 var _ extensions.PostReconciliationChecker = &BackupVaultsBackupInstanceExtension{}
 
-var nonRetryableBackupInstanceStates = set.Make(
-	"protectionstopped",
-	"softdeleted",
-	"configuringprotectionfailed",
+var nonRetryableStates = set.Make(
+	"ConfiguringProtectionFailed",
+	"Invalid",
+	"NotProtected",
+	"ProtectionConfigured",
+	"SoftDeleted",
+	"ProtectionStopped",
+	"BackupSchedulesSuspended",
+	"RetentionSchedulesSuspended",
+)
+
+var retryableStates = set.Make(
+	"ProtectionError",
+	"UpdatingProtection",
+	"ConfiguringProtection",
+	"SoftDeleting",
 )
 
 func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
@@ -58,58 +70,48 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 		backupInstance.Status.Properties.ProtectionStatus.Status != nil {
 
 		protectionStatus := *backupInstance.Status.Properties.ProtectionStatus.Status
-		log.V(Debug).Info("########################## Protection Status ##########################" + protectionStatus)
+		log.V(Debug).Info(fmt.Sprintf("########################## Protection Status is  %q ##########################", protectionStatus))
 
-		if !nonRetryableBackupInstanceStates.Contains(protectionStatus) {
-			if protectionStatus == "ProtectionError" {
-				log.V(Debug).Info("########################## Protection Status is Protection Error ##########################")
-				protectionStatusErrorCode := ""
-				if backupInstance.Status.Properties.ProtectionStatus.ErrorDetails == nil {
-					log.V(Debug).Info("########################## BlockReconcile No error for Backup Instance ##########################")
+		// return success for reconcilation if the state is non-retryable
+		if nonRetryableStates.Contains(protectionStatus) {
+			log.V(Debug).Info("########################## Returning PostReconcileCheckResultSuccess ##########################")
+			return extensions.PostReconcileCheckResultSuccess(), nil
+		}
+
+		// call sync api only when protection status is ProtectionError and error code is usererror
+		if protectionStatus == "ProtectionError" {
+			protectionStatusErrorCode := ""
+			protectionStatusErrorCode = strings.ToLower(*backupInstance.Status.Properties.ProtectionStatus.ErrorDetails.Code)
+			log.V(Debug).Info(fmt.Sprintf("########################## Protection Error code is  %q ##########################", protectionStatusErrorCode))
+
+			if protectionStatusErrorCode != "" && strings.Contains(protectionStatusErrorCode, "usererror") {
+				id, _ := genruntime.GetAndParseResourceID(backupInstance)
+				subscription := id.SubscriptionID
+				rg := id.ResourceGroupName
+				vaultName := id.Parent.Name
+
+				log.V(Debug).Info("########################## Starting NewBackupInstancesClient for Backup Instance ##########################")
+				clientFactory, err := armdataprotection.NewClientFactory(subscription, armClient.Creds(), armClient.ClientOptions())
+				if err != nil {
+					log.Error(err, "failed to create armdataprotection client")
 				}
 
-				protectionStatusErrorCode = strings.ToLower(*backupInstance.Status.Properties.ProtectionStatus.ErrorDetails.Code)
+				var parameters armdataprotection.SyncBackupInstanceRequest
+				parameters.SyncType = to.Ptr(armdataprotection.SyncTypeDefault)
+				log.V(Debug).Info("########################## Starting BeginSyncBackupInstance for Backup Instance ##########################")
+				poller, err := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, nil)
+				if err != nil {
+					log.Error(err, "failed BeginSyncBackupInstance to get the result")
+				}
 
-				log.V(Debug).Info("########################## Protection Error code is ##########################" + protectionStatusErrorCode)
-
-				if protectionStatusErrorCode != "" &&
-					strings.Contains(protectionStatusErrorCode, "usererror") {
-
-					id, _ := genruntime.GetAndParseResourceID(backupInstance)
-
-					subscription := id.SubscriptionID
-					rg := id.ResourceGroupName
-					vaultName := id.Parent.Name
-
-					log.V(Debug).Info("########################## Starting NewBackupInstancesClient for Backup Instance ##########################")
-
-					clientFactory, err := armdataprotection.NewClientFactory(subscription, armClient.Creds(), armClient.ClientOptions())
-					if err != nil {
-						log.Error(err, "failed to create armdataprotection client")
-					}
-
-					var parameters armdataprotection.SyncBackupInstanceRequest
-					parameters.SyncType = to.Ptr(armdataprotection.SyncTypeDefault)
-
-					log.V(Debug).Info("########################## Starting BeginSyncBackupInstance for Backup Instance ##########################")
-					poller, err := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, nil)
-					if err != nil {
-						log.Error(err, "failed BeginSyncBackupInstance to get the result")
-					}
-
-					_, err = poller.PollUntilDone(ctx, nil)
-					if err != nil {
-						log.Error(err, "failed BeginSyncBackupInstance to poll the result")
-					}
+				_, err = poller.PollUntilDone(ctx, nil)
+				if err != nil {
+					log.Error(err, "failed BeginSyncBackupInstance to poll the result")
 				}
 			}
-			return extensions.PostReconcileCheckResultFailure(
-				fmt.Sprintf("Backup Instance is in State: %q", protectionStatus)), nil
 		}
 	}
-
-	log.V(Debug).Info("########################## Ending Post-reconcilation for Backup Instance ##########################")
-	return extensions.PostReconcileCheckResultSuccess(), nil
+	return extensions.PostReconcileCheckResultFailure("Backup Instance is in non terminal state"), nil
 }
 
 func (ext *BackupVaultsBackupInstanceExtension) PreReconcileCheck(
