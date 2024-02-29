@@ -35,9 +35,7 @@ type recorderDetails struct {
 	log          logr.Logger
 }
 
-var (
-	nilGuid = uuid.Nil.String()
-)
+var nilGuid = uuid.Nil.String()
 
 func NewTestRecorder(
 	cassetteName string,

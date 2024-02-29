@@ -23,7 +23,7 @@ func EnsureCassetteFileExists(cassetteName string) error {
 
 	filename := CassetteFileName(cassetteName)
 
-	f, err := os.OpenFile(filename, os.O_RDONLY|os.O_CREATE, 0644)
+	f, err := os.OpenFile(filename, os.O_RDONLY|os.O_CREATE, 0o644)
 	if err != nil {
 		return errors.Wrapf(err, "creating empty cassette %q", filename)
 	}
