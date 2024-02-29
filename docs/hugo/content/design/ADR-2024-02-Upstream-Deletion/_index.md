@@ -2,8 +2,7 @@
 title: 2024-02 Upstream Deletion
 ---
 
-What do we do if/when a resource supported by ASO v2 is deleted upstream - removed from the Azure OpenAPI repository? 
-
+What do we do if/when a resource supported by ASO v2 is deleted upstream - removed from the Azure OpenAPI repository?
 
 ## Context
 
@@ -13,7 +12,7 @@ Since that time, ASO has migrated to depend soley on the [azure-rest-api-specs](
 
 However, we decided that this question still needed to be considered, as it may come up again in the future and we need to have a plan in place for how to handle it.
 
-Fortunately, the `azure-rest-api-specs` is very tightly controlled and is used as the source of truth for code generation of client APIs across multiple languages (including Python, Java, C# and Go) so it's vanishingly unlikely for a resource version to be removed without warning. 
+Fortunately, the `azure-rest-api-specs` is very tightly controlled and is used as the source of truth for code generation of client APIs across multiple languages (including Python, Java, C# and Go) so it's vanishingly unlikely for a resource version to be removed without warning.
 
 ### Scenario A: Deletion of preview version
 
@@ -34,7 +33,9 @@ In either case, the removal of the old version from ASO will be a breaking chang
 
 ### Scenario: Deletion of GA version
 
-The deletion of a GA version of a resource is much rarer event, and requires a much longer notice and deprecation period. 
+The deletion of a GA version of a resource is much rarer event, and requires a much longer notice and deprecation period.
+
+Either the resource provider will stop accepting the old version of the resource, or it will be entirely shut down.
 
 ASO should be aware of this change well in advance, and should be able to support migration by including a later version of the resource in a new release. We should also document the upcoming deprecation so that users know they need to migrate.
 
@@ -44,9 +45,10 @@ Even rarer, this can happen when a service is retired or replaced. ASO should be
 
 ## Decision
 
-Deletion of an upstream resource inevitably results in that resource being removed from ASO as we don't retain sufficient information to regenerate the resource. This is a breaking change.
+Deletion inevitably means that attempts to use the API will fail because the backing resource provider will no longer accept the requests.
+
+This is a breaking change no matter what ASO does, even if we found a way to work around our current inability to regenerate the resource.
 
 ASO should work to be aware of upcoming deprecations, to document them where ASO users may be affected, and to provide migration paths to newer versions where possible.
 
-We may want to consider building upgrade tooling into `asoctl` on occasion.
-
+We may want to consider building upgrade tooling into `asoctl` to make migration smoother.
