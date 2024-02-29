@@ -11,13 +11,13 @@ In July 2022, we encountered a problem when the preview versions of the `Microso
 
 Since that time, ASO has migrated to depend soley on the [azure-rest-api-specs](https://github.com/Azure/azure-rest-api-specs) repo (see [PR#2323](https://github.com/Azure/azure-service-operator/pull/2323), merged December 2022) so the problem with `RoleAssignment` went away.
 
-However, we decided that this question still needed to be considered, as it's likely to come up again in the future and we need to have a plan in place for how to handle it.
+However, we decided that this question still needed to be considered, as it may come up again in the future and we need to have a plan in place for how to handle it.
 
 Fortunately, the `azure-rest-api-specs` is very tightly controlled and is used as the source of truth for code generation of client APIs across multiple languages (including Python, Java, C# and Go) so it's vanishingly unlikely for a resource version to be removed without warning. 
 
 ### Scenario A: Deletion of preview version
 
-The most likely scenario is that an old preview version of a service is removed. Preview versions are only guaranteed to be supported for 90 days after creation, though in practice they are retained much much longer.
+The most likely scenario is that an old preview version of a service is removed. Preview versions are only guaranteed to be supported for 90 days after creation, though in practice they are retained much longer.
 
 > When releasing a new preview, the service team may completely retire any previous preview versions after giving customers at least 90 days to upgrade their code.
   -- [Microsoft Azure REST API Guidelines](https://github.com/microsoft/api-guidelines/blob/vNext/azure/Guidelines.md), retrieved 23 Feb 2024
