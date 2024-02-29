@@ -14,6 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
+// TODO: Put this into a subpackage
 // TODO: Would we rather these just be on testcontext? Might read better
 type KubeMatcher struct {
 	ctx    context.Context

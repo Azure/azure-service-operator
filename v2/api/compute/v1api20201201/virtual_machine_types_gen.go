@@ -5606,10 +5606,6 @@ type VirtualMachineExtension_STATUS struct {
 	// PropertiesType: Specifies the type of the extension; an example is "CustomScriptExtension".
 	PropertiesType *string `json:"properties_type,omitempty"`
 
-	// ProtectedSettings: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected
-	// settings at all.
-	ProtectedSettings map[string]v1.JSON `json:"protectedSettings,omitempty"`
-
 	// ProvisioningState: The provisioning state, which only appears in the response.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
@@ -5708,17 +5704,6 @@ func (extension *VirtualMachineExtension_STATUS) PopulateFromARM(owner genruntim
 		if typedInput.Properties.Type != nil {
 			propertiesType := *typedInput.Properties.Type
 			extension.PropertiesType = &propertiesType
-		}
-	}
-
-	// Set property "ProtectedSettings":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProtectedSettings != nil {
-			extension.ProtectedSettings = make(map[string]v1.JSON, len(typedInput.Properties.ProtectedSettings))
-			for key, value := range typedInput.Properties.ProtectedSettings {
-				extension.ProtectedSettings[key] = *value.DeepCopy()
-			}
 		}
 	}
 
@@ -5824,19 +5809,6 @@ func (extension *VirtualMachineExtension_STATUS) AssignProperties_From_VirtualMa
 	// PropertiesType
 	extension.PropertiesType = genruntime.ClonePointerToString(source.PropertiesType)
 
-	// ProtectedSettings
-	if source.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(source.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range source.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		extension.ProtectedSettings = protectedSettingMap
-	} else {
-		extension.ProtectedSettings = nil
-	}
-
 	// ProvisioningState
 	extension.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
@@ -5916,19 +5888,6 @@ func (extension *VirtualMachineExtension_STATUS) AssignProperties_To_VirtualMach
 
 	// PropertiesType
 	destination.PropertiesType = genruntime.ClonePointerToString(extension.PropertiesType)
-
-	// ProtectedSettings
-	if extension.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(extension.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range extension.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		destination.ProtectedSettings = protectedSettingMap
-	} else {
-		destination.ProtectedSettings = nil
-	}
 
 	// ProvisioningState
 	destination.ProvisioningState = genruntime.ClonePointerToString(extension.ProvisioningState)
@@ -11020,193 +10979,6 @@ func (view *VirtualMachineAgentInstanceView_STATUS) AssignProperties_To_VirtualM
 
 	// VmAgentVersion
 	destination.VmAgentVersion = genruntime.ClonePointerToString(view.VmAgentVersion)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The instance view of a virtual machine extension.
-type VirtualMachineExtensionInstanceView_STATUS struct {
-	// Name: The virtual machine extension name.
-	Name *string `json:"name,omitempty"`
-
-	// Statuses: The resource status information.
-	Statuses []InstanceViewStatus_STATUS `json:"statuses,omitempty"`
-
-	// Substatuses: The resource status information.
-	Substatuses []InstanceViewStatus_STATUS `json:"substatuses,omitempty"`
-
-	// Type: Specifies the type of the extension; an example is "CustomScriptExtension".
-	Type *string `json:"type,omitempty"`
-
-	// TypeHandlerVersion: Specifies the version of the script handler.
-	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &VirtualMachineExtensionInstanceView_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (view *VirtualMachineExtensionInstanceView_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineExtensionInstanceView_STATUS_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (view *VirtualMachineExtensionInstanceView_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineExtensionInstanceView_STATUS_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineExtensionInstanceView_STATUS_ARM, got %T", armInput)
-	}
-
-	// Set property "Name":
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		view.Name = &name
-	}
-
-	// Set property "Statuses":
-	for _, item := range typedInput.Statuses {
-		var item1 InstanceViewStatus_STATUS
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		view.Statuses = append(view.Statuses, item1)
-	}
-
-	// Set property "Substatuses":
-	for _, item := range typedInput.Substatuses {
-		var item1 InstanceViewStatus_STATUS
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		view.Substatuses = append(view.Substatuses, item1)
-	}
-
-	// Set property "Type":
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		view.Type = &typeVar
-	}
-
-	// Set property "TypeHandlerVersion":
-	if typedInput.TypeHandlerVersion != nil {
-		typeHandlerVersion := *typedInput.TypeHandlerVersion
-		view.TypeHandlerVersion = &typeHandlerVersion
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_VirtualMachineExtensionInstanceView_STATUS populates our VirtualMachineExtensionInstanceView_STATUS from the provided source VirtualMachineExtensionInstanceView_STATUS
-func (view *VirtualMachineExtensionInstanceView_STATUS) AssignProperties_From_VirtualMachineExtensionInstanceView_STATUS(source *v20201201s.VirtualMachineExtensionInstanceView_STATUS) error {
-
-	// Name
-	view.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Statuses
-	if source.Statuses != nil {
-		statusList := make([]InstanceViewStatus_STATUS, len(source.Statuses))
-		for statusIndex, statusItem := range source.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status InstanceViewStatus_STATUS
-			err := status.AssignProperties_From_InstanceViewStatus_STATUS(&statusItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_InstanceViewStatus_STATUS() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		view.Statuses = statusList
-	} else {
-		view.Statuses = nil
-	}
-
-	// Substatuses
-	if source.Substatuses != nil {
-		substatusList := make([]InstanceViewStatus_STATUS, len(source.Substatuses))
-		for substatusIndex, substatusItem := range source.Substatuses {
-			// Shadow the loop variable to avoid aliasing
-			substatusItem := substatusItem
-			var substatus InstanceViewStatus_STATUS
-			err := substatus.AssignProperties_From_InstanceViewStatus_STATUS(&substatusItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_InstanceViewStatus_STATUS() to populate field Substatuses")
-			}
-			substatusList[substatusIndex] = substatus
-		}
-		view.Substatuses = substatusList
-	} else {
-		view.Substatuses = nil
-	}
-
-	// Type
-	view.Type = genruntime.ClonePointerToString(source.Type)
-
-	// TypeHandlerVersion
-	view.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachineExtensionInstanceView_STATUS populates the provided destination VirtualMachineExtensionInstanceView_STATUS from our VirtualMachineExtensionInstanceView_STATUS
-func (view *VirtualMachineExtensionInstanceView_STATUS) AssignProperties_To_VirtualMachineExtensionInstanceView_STATUS(destination *v20201201s.VirtualMachineExtensionInstanceView_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(view.Name)
-
-	// Statuses
-	if view.Statuses != nil {
-		statusList := make([]v20201201s.InstanceViewStatus_STATUS, len(view.Statuses))
-		for statusIndex, statusItem := range view.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status v20201201s.InstanceViewStatus_STATUS
-			err := statusItem.AssignProperties_To_InstanceViewStatus_STATUS(&status)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_InstanceViewStatus_STATUS() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		destination.Statuses = statusList
-	} else {
-		destination.Statuses = nil
-	}
-
-	// Substatuses
-	if view.Substatuses != nil {
-		substatusList := make([]v20201201s.InstanceViewStatus_STATUS, len(view.Substatuses))
-		for substatusIndex, substatusItem := range view.Substatuses {
-			// Shadow the loop variable to avoid aliasing
-			substatusItem := substatusItem
-			var substatus v20201201s.InstanceViewStatus_STATUS
-			err := substatusItem.AssignProperties_To_InstanceViewStatus_STATUS(&substatus)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_InstanceViewStatus_STATUS() to populate field Substatuses")
-			}
-			substatusList[substatusIndex] = substatus
-		}
-		destination.Substatuses = substatusList
-	} else {
-		destination.Substatuses = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(view.Type)
-
-	// TypeHandlerVersion
-	destination.TypeHandlerVersion = genruntime.ClonePointerToString(view.TypeHandlerVersion)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -17,12 +17,19 @@ env:
 jobs:
   build-and-push:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
+
+    permissions:
+      contents: write # Required to write a release
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0 # required to access tags
           submodules: "true"
+
+      - name: Force docker to SSD
+        run: sudo scripts/v2/linux-docker-use-ssd.sh --containerd true
 
       - name: Build & run devcontainer image
         # this always builds a new image from scratch rather than from the build-devcontainer-image workflow output
@@ -41,20 +48,38 @@ jobs:
           container_id=${{env.container_id}}
           docker exec "$container_id" task VERSION=${{ env.ARTIFACT_VERSION }} LATEST_VERSION_TAG=${{ env.ARTIFACT_VERSION }} make-release-artifacts
 
+      # We delete the old release and re-create it because if we just use the overwrite argument to
+      # upload-release-action it updates the release files but doesn't change the "date" of the release.
+      # Over time this means that the release date diverges from the date the files were uploaded in a way that is
+      # likely to confuse users.
+      - name: Delete Release
+        run: gh release delete "experimental" --cleanup-tag -y
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # See https://github.com/svenstaro/upload-release-action/issues/99, which describes a bug where (for some reason)
+      # releases that are deleted and then immediately recreated can sometimes show up as draft rather than an official
+      # release. This is a hack, but we don't have a better workaround at the moment. See https://github.com/cli/cli/issues/8458
+      # as well.
+      - name: Wait 60s
+        run: sleep 60s
+
       - name: Upload release assets
-        uses: svenstaro/upload-release-action@7319e4733ec7a184d739a6f412c40ffc339b69c7 # this is v2.5.0, but pinned
+        uses: svenstaro/upload-release-action@1beeb572c19a9242f4361f4cee78f8e0d9aec5df # this is v2.7.0, but pinned
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: refs/tags/${{ env.ARTIFACT_VERSION }}
           file: "v2/out/release/*"
           file_glob: true
           prerelease: true
-          overwrite: true
           release_name: "Experimental"
           body: |
             This is an experimental release which containing the most recent commits from the main branch as of commit: ${{ github.sha }}.
 
-            **This release might not be stable. Use at your own risk.** 
+            **This release might not be stable. Use at your own risk.**
+
+            > ⚠️ The provided YAML manifest does not configure any CRDs to install by default, but is required.
+            > You must specify the CRDs that you want to use as part of `crdPattern`, for example `'resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;apimanagement.azure.com/*'`.
 
             It is only intended for developers wishing to try out the latest feature, some of which may not be fully implemented.
 

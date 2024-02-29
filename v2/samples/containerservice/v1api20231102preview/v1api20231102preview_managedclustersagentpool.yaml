@@ -1,0 +1,12 @@
+apiVersion: containerservice.azure.com/v1api20231102preview
+kind: ManagedClustersAgentPool
+metadata:
+  name: pool20231102
+  namespace: default
+spec:
+  owner:
+    name: sample-managedcluster-20231102preview
+  count: 1
+  vmSize: Standard_DS2_v2
+  osType: Linux
+  mode: User

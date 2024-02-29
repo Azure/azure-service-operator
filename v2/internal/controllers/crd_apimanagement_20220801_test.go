@@ -13,6 +13,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	apim "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -66,6 +68,8 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 	service.Spec.Tags = map[string]string{"scratchcard": "lanyard"}
 	tc.PatchResourceAndWait(old, &service)
 	tc.Expect(service.Status.Tags).To(HaveKey("scratchcard"))
+
+	authorizationProviderSecrets := createAuthorizationProviderSecrets(tc, "authorizationprovider")
 
 	// Run sub-tests
 	tc.RunParallelSubtests(
@@ -123,6 +127,24 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 				APIM_Product_Policy_CRUD(tc, &service)
 			},
 		},
+		testcommon.Subtest{
+			Name: "APIM Authorization Provider CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_AuthorizationProvider_CRUD(tc, &service, &authorizationProviderSecrets)
+			},
+		},
+		testcommon.Subtest{
+			Name: "APIM Authorization CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_AuthorizationProviders_Authorization_CRUD(tc, &service, &authorizationProviderSecrets)
+			},
+		},
+		testcommon.Subtest{
+			Name: "APIM Authorization Access Policy CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_AuthorizationProviders_Authorizations_AccessPolicy_CRUD(tc, rg, &service, &authorizationProviderSecrets)
+			},
+		},
 	)
 }
 
@@ -148,7 +170,7 @@ func APIM_Subscription_CRUD(tc *testcommon.KubePerTestContext, service client.Ob
 	// There should be no secrets at this point
 	secretList := &v1.SecretList{}
 	tc.ListResources(secretList, client.InNamespace(tc.Namespace))
-	tc.Expect(secretList.Items).To(HaveLen(0))
+	tc.Expect(secretList.Items).To(HaveLen(1)) //for secret created for authorization provider resource
 
 	// Run sub-tests on subscription in sequence
 	tc.RunSubtests(
@@ -469,6 +491,159 @@ func APIM_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	tc.T.Log("cleaning up api")
 }
 
+func APIM_AuthorizationProvider_CRUD(tc *testcommon.KubePerTestContext, service client.Object, secretsMap *genruntime.SecretMapReference) {
+	authorizationProvider := apim.AuthorizationProvider{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
+		Spec: apim.Service_AuthorizationProvider_Spec{
+			DisplayName:      to.Ptr("sampleauthcode"),
+			IdentityProvider: to.Ptr("aad"),
+			Oauth2: &apim.AuthorizationProviderOAuth2Settings{
+				GrantTypes: &apim.AuthorizationProviderOAuth2GrantTypes{
+					AuthorizationCode: secretsMap,
+				},
+			},
+			Owner: testcommon.AsOwner(service),
+		},
+	}
+
+	tc.T.Log("creating apim authorization provider")
+	tc.CreateResourceAndWait(&authorizationProvider)
+	defer tc.DeleteResourceAndWait(&authorizationProvider)
+
+	tc.Expect(authorizationProvider.Status).ToNot(BeNil())
+
+	tc.T.Log("cleaning up authorizationProvider")
+}
+
+func APIM_AuthorizationProviders_Authorization_CRUD(tc *testcommon.KubePerTestContext, service client.Object, secretsMap *genruntime.SecretMapReference) {
+	authorizationProvider := apim.AuthorizationProvider{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
+		Spec: apim.Service_AuthorizationProvider_Spec{
+			DisplayName:      to.Ptr("sampleauthcode"),
+			IdentityProvider: to.Ptr("aad"),
+			Oauth2: &apim.AuthorizationProviderOAuth2Settings{
+				GrantTypes: &apim.AuthorizationProviderOAuth2GrantTypes{
+					AuthorizationCode: secretsMap,
+				},
+			},
+			Owner: testcommon.AsOwner(service),
+		},
+	}
+
+	tc.T.Log("creating apim authorization provider")
+	tc.CreateResourceAndWait(&authorizationProvider)
+
+	authorization := apim.AuthorizationProvidersAuthorization{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorization")),
+		Spec: apim.Service_AuthorizationProviders_Authorization_Spec{
+			AuthorizationType: to.Ptr(apim.AuthorizationContractProperties_AuthorizationType_OAuth2),
+			Oauth2GrantType:   to.Ptr(apim.AuthorizationContractProperties_Oauth2GrantType_AuthorizationCode),
+			Owner:             testcommon.AsOwner(&authorizationProvider),
+		},
+	}
+
+	tc.T.Log("creating apim authorization")
+	tc.CreateResourceAndWait(&authorization)
+
+	defer tc.DeleteResourceAndWait(&authorization)
+	tc.Expect(authorization.Status).ToNot(BeNil())
+	tc.T.Log("cleaning up authorization")
+
+	defer tc.DeleteResourceAndWait(&authorizationProvider)
+	tc.Expect(authorizationProvider.Status).ToNot(BeNil())
+	tc.T.Log("cleaning up authorizationProvider")
+}
+
+func APIM_AuthorizationProviders_Authorizations_AccessPolicy_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, service client.Object, secretsMap *genruntime.SecretMapReference) {
+	authorizationProvider := apim.AuthorizationProvider{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorizationprovider")),
+		Spec: apim.Service_AuthorizationProvider_Spec{
+			DisplayName:      to.Ptr("sampleauthcode"),
+			IdentityProvider: to.Ptr("aad"),
+			Oauth2: &apim.AuthorizationProviderOAuth2Settings{
+				GrantTypes: &apim.AuthorizationProviderOAuth2GrantTypes{
+					AuthorizationCode: secretsMap,
+				},
+			},
+			Owner: testcommon.AsOwner(service),
+		},
+	}
+
+	tc.T.Log("creating apim authorization provider")
+	tc.CreateResourceAndWait(&authorizationProvider)
+
+	authorization := apim.AuthorizationProvidersAuthorization{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorization")),
+		Spec: apim.Service_AuthorizationProviders_Authorization_Spec{
+			AuthorizationType: to.Ptr(apim.AuthorizationContractProperties_AuthorizationType_OAuth2),
+			Oauth2GrantType:   to.Ptr(apim.AuthorizationContractProperties_Oauth2GrantType_AuthorizationCode),
+			Owner:             testcommon.AsOwner(&authorizationProvider),
+		},
+	}
+
+	tc.T.Log("creating apim authorization")
+	tc.CreateResourceAndWait(&authorization)
+
+	configMapName := "my-configmap"
+	principalIdKey := "principalId"
+	tenantIDKey := "tenantId"
+
+	// Create a managed identity to use as the AAD administrator
+	mi := &managedidentity.UserAssignedIdentity{
+		ObjectMeta: tc.MakeObjectMeta("mi"),
+		Spec: managedidentity.UserAssignedIdentity_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			OperatorSpec: &managedidentity.UserAssignedIdentityOperatorSpec{
+				ConfigMaps: &managedidentity.UserAssignedIdentityOperatorConfigMaps{
+					PrincipalId: &genruntime.ConfigMapDestination{
+						Name: configMapName,
+						Key:  principalIdKey,
+					},
+					TenantId: &genruntime.ConfigMapDestination{
+						Name: configMapName,
+						Key:  tenantIDKey,
+					},
+				},
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(mi)
+	tc.Expect(mi.Status.TenantId).ToNot(BeNil())
+	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
+
+	accessPolicy := apim.AuthorizationProvidersAuthorizationsAccessPolicy{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("authorization-access-policy")),
+		Spec: apim.Service_AuthorizationProviders_Authorizations_AccessPolicy_Spec{
+			Owner: testcommon.AsOwner(&authorization),
+			TenantIdFromConfig: &genruntime.ConfigMapReference{
+				Name: configMapName,
+				Key:  tenantIDKey,
+			},
+			ObjectIdFromConfig: &genruntime.ConfigMapReference{
+				Name: configMapName,
+				Key:  principalIdKey,
+			},
+		},
+	}
+
+	tc.T.Log("creating apim authorization accessPolicy")
+	tc.CreateResourceAndWait(&accessPolicy)
+
+	defer tc.DeleteResourceAndWait(&accessPolicy)
+	tc.Expect(accessPolicy.Status).ToNot(BeNil())
+	tc.T.Log("cleaning up authorization accessPolicy")
+
+	defer tc.DeleteResourceAndWait(&authorization)
+	tc.Expect(authorization.Status).ToNot(BeNil())
+	tc.T.Log("cleaning up authorization")
+
+	defer tc.DeleteResourceAndWait(&authorizationProvider)
+	tc.Expect(authorizationProvider.Status).ToNot(BeNil())
+	tc.T.Log("cleaning up authorizationProvider")
+}
+
 func Subscription_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, subscription *apim.Subscription) {
 	old := subscription.DeepCopy()
 	subscriptionSecret := "storagekeys"
@@ -504,4 +679,34 @@ func Subscription_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerTes
 
 	tc.ExpectSecretHasKeys(primaryKeySecret, "primarymasterkey")
 	tc.ExpectSecretHasKeys(secondaryKeySecret, "secondarymasterkey")
+}
+
+func createAuthorizationProviderSecrets(tc *testcommon.KubePerTestContext, name string) genruntime.SecretMapReference {
+	clientId := tc.Namer.GeneratePasswordOfLength(10)
+	clientSecret := tc.Namer.GeneratePasswordOfLength(10)
+
+	clientIdKey := "clientId"
+	clientSecretKey := "clientSecret"
+
+	stringData := map[string]string{
+		clientIdKey:     clientId,
+		clientSecretKey: clientSecret,
+		"ResourceUri":   "https://www.contoso.com",
+	}
+
+	data := make(map[string][]byte, len(stringData))
+	for k, v := range stringData {
+		data[k] = []byte(v)
+	}
+
+	secret := &v1.Secret{
+		ObjectMeta: tc.MakeObjectMeta(name),
+		Data:       data,
+		Type:       "Opaque",
+	}
+
+	tc.CreateResource(secret)
+	secretRef := genruntime.SecretMapReference{Name: secret.Name}
+
+	return secretRef
 }

@@ -10,6 +10,10 @@ on:
 jobs:
   generate:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
+
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

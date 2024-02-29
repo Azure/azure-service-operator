@@ -171,12 +171,13 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 	}, nil
 }
 
+var replaceRegex = regexp.MustCompile("[./_]+")
+
 func createTestNamespaceName(t *testing.T) string {
 	const maxLen = 63
 	const disambigLength = 5
 
-	name := strings.ReplaceAll(strings.ToLower(t.Name()), "/", "-")
-	result := "aso-" + strings.ReplaceAll(name, "_", "-")
+	result := "aso-" + replaceRegex.ReplaceAllString(strings.ToLower(t.Name()), "-")
 	if len(result) <= maxLen {
 		return result
 	}

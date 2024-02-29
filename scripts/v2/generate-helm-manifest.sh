@@ -49,6 +49,10 @@ sed -i "s@$LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE@{{.Values.image.repository}}@g
 # Perl multiline replacements - using this because it's tricky to do these sorts of multiline replacements with sed
 perl -0777 -i -pe 's/(template:\n.*metadata:\n.*annotations:\n(\s*))/$1\{\{- if .Values.podAnnotations \}\}\n$2\{\{ toYaml .Values.podAnnotations \}\}\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add pod annotations
 
+# Affinity and Toleration
+perl -0777 -i -pe 's/(spec:\n.*template:\n.*spec:\n(\s*))/$1\{\{- with .Values.affinity \}\}\n$2affinity:\n$2\{\{- toYaml . | nindent 8 \}\}\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add pod annotations
+perl -0777 -i -pe 's/(spec:\n.*template:\n.*spec:\n(\s*))/$1\{\{- with .Values.tolerations \}\}\n$2tolerations:\n$2\{\{- toYaml . | nindent 8 \}\}\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add pod annotations
+
 # Metrics Configuration
 flow_control "metrics-addr" "metrics-addr" "{{- if .Values.metrics.enable}}" "$GEN_FILES_DIR"/*_deployment_*
 sed -i "1,/metrics-addr=.*/s/\(metrics-addr=\)\(.*\)/\1{{ tpl .Values.metrics.address . }}/g" "$GEN_FILES_DIR"/*_deployment_*

@@ -1,0 +1,8 @@
+apiVersion: cdn.azure.com/v1api20230501
+kind: RuleSet
+metadata:
+  name: asosampleruleset
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-cdnprofile

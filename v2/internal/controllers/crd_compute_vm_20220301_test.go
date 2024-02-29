@@ -93,10 +93,43 @@ func Test_Compute_VM_20220301_CRUD(t *testing.T) {
 	tc.Expect(vm.Status.DiagnosticsProfile.BootDiagnostics.Enabled).ToNot(BeNil())
 	tc.Expect(*vm.Status.DiagnosticsProfile.BootDiagnostics.Enabled).To(BeTrue())
 
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "VM_Extension_20220301_CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				VM_Extension_20220301_CRUD(tc, testcommon.AsOwner(vm))
+			},
+		},
+	)
+
 	// Delete VM.
 	tc.DeleteResourceAndWait(vm)
 
 	// Ensure that the resource was really deleted in Azure
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(compute2022.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
+}
+
+func VM_Extension_20220301_CRUD(tc *testcommon.KubePerTestContext, vmOwnerRef *genruntime.KnownResourceReference) {
+	extension := &compute2022.VirtualMachinesExtension{
+		ObjectMeta: tc.MakeObjectMetaWithName("mycustomextension"),
+		Spec: compute2022.VirtualMachines_Extension_Spec{
+			Owner:              vmOwnerRef,
+			Location:           tc.AzureRegion,
+			Publisher:          to.Ptr("Microsoft.ManagedServices"),
+			Type:               to.Ptr("ApplicationHealthLinux"),
+			TypeHandlerVersion: to.Ptr("1.0"),
+		},
+	}
+
+	tc.CreateResourceAndWait(extension)
+	tc.Expect(extension.Status.Id).ToNot(BeNil())
+	armId := *extension.Status.Id
+
+	tc.DeleteResourceAndWait(extension)
+
 	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(compute2022.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())

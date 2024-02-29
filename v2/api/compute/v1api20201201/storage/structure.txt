@@ -483,7 +483,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │       ├── ProximityPlacementGroup: *Object (2 properties)
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Resources: Object (16 properties)[]
+│       ├── Resources: Object (15 properties)[]
 │       │   ├── AutoUpgradeMinorVersion: *bool
 │       │   ├── EnableAutomaticUpgrade: *bool
 │       │   ├── ForceUpdateTag: *string
@@ -511,7 +511,6 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │       │   ├── Name: *string
 │       │   ├── PropertiesType: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── ProtectedSettings: map[string]v1.JSON
 │       │   ├── ProvisioningState: *string
 │       │   ├── Publisher: *string
 │       │   ├── Settings: map[string]v1.JSON
@@ -692,7 +691,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │   │   │   │   │   ├── ForceUpdateTag: *string
 │   │   │   │   │   ├── Name: *string
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── ProtectedSettings: map[string]v1.JSON
+│   │   │   │   │   ├── ProtectedSettings: *genruntime.SecretMapReference
 │   │   │   │   │   ├── ProvisionAfterExtensions: string[]
 │   │   │   │   │   ├── Publisher: *string
 │   │   │   │   │   ├── Settings: map[string]v1.JSON
@@ -952,7 +951,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   ├── EvictionPolicy: *string
 │       │   ├── ExtensionProfile: *Object (3 properties)
-│       │   │   ├── Extensions: Object (14 properties)[]
+│       │   │   ├── Extensions: Object (13 properties)[]
 │       │   │   │   ├── AutoUpgradeMinorVersion: *bool
 │       │   │   │   ├── EnableAutomaticUpgrade: *bool
 │       │   │   │   ├── ForceUpdateTag: *string
@@ -960,7 +959,6 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │       │   │   │   ├── Name: *string
 │       │   │   │   ├── PropertiesType: *string
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   ├── ProtectedSettings: map[string]v1.JSON
 │       │   │   │   ├── ProvisionAfterExtensions: string[]
 │       │   │   │   ├── ProvisioningState: *string
 │       │   │   │   ├── Publisher: *string
@@ -1139,6 +1137,108 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 │       │       └── PropertyBag: genruntime.PropertyBag
 │       ├── ZoneBalance: *bool
 │       └── Zones: string[]
+├── VirtualMachineScaleSetsExtension: Resource
+│   ├── Owner: compute/v1api20201201.VirtualMachineScaleSet
+│   ├── Spec: Object (13 properties)
+│   │   ├── AutoUpgradeMinorVersion: *bool
+│   │   ├── AzureName: string
+│   │   ├── EnableAutomaticUpgrade: *bool
+│   │   ├── ForceUpdateTag: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── ProtectedSettings: *genruntime.SecretMapReference
+│   │   ├── ProvisionAfterExtensions: string[]
+│   │   ├── Publisher: *string
+│   │   ├── Settings: map[string]v1.JSON
+│   │   ├── Type: *string
+│   │   └── TypeHandlerVersion: *string
+│   └── Status: Object (14 properties)
+│       ├── AutoUpgradeMinorVersion: *bool
+│       ├── Conditions: conditions.Condition[]
+│       ├── EnableAutomaticUpgrade: *bool
+│       ├── ForceUpdateTag: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PropertiesType: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisionAfterExtensions: string[]
+│       ├── ProvisioningState: *string
+│       ├── Publisher: *string
+│       ├── Settings: map[string]v1.JSON
+│       ├── Type: *string
+│       └── TypeHandlerVersion: *string
+├── VirtualMachinesExtension: Resource
+│   ├── Owner: compute/v1api20201201.VirtualMachine
+│   ├── Spec: Object (15 properties)
+│   │   ├── AutoUpgradeMinorVersion: *bool
+│   │   ├── AzureName: string
+│   │   ├── EnableAutomaticUpgrade: *bool
+│   │   ├── ForceUpdateTag: *string
+│   │   ├── InstanceView: *Object (6 properties)
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Statuses: Object (6 properties)[]
+│   │   │   │   ├── Code: *string
+│   │   │   │   ├── DisplayStatus: *string
+│   │   │   │   ├── Level: *string
+│   │   │   │   ├── Message: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Time: *string
+│   │   │   ├── Substatuses: Object (6 properties)[]
+│   │   │   │   ├── Code: *string
+│   │   │   │   ├── DisplayStatus: *string
+│   │   │   │   ├── Level: *string
+│   │   │   │   ├── Message: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Time: *string
+│   │   │   ├── Type: *string
+│   │   │   └── TypeHandlerVersion: *string
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── ProtectedSettings: *genruntime.SecretMapReference
+│   │   ├── Publisher: *string
+│   │   ├── Settings: map[string]v1.JSON
+│   │   ├── Tags: map[string]string
+│   │   ├── Type: *string
+│   │   └── TypeHandlerVersion: *string
+│   └── Status: Object (16 properties)
+│       ├── AutoUpgradeMinorVersion: *bool
+│       ├── Conditions: conditions.Condition[]
+│       ├── EnableAutomaticUpgrade: *bool
+│       ├── ForceUpdateTag: *string
+│       ├── Id: *string
+│       ├── InstanceView: *Object (6 properties)
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Statuses: Object (6 properties)[]
+│       │   │   ├── Code: *string
+│       │   │   ├── DisplayStatus: *string
+│       │   │   ├── Level: *string
+│       │   │   ├── Message: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Time: *string
+│       │   ├── Substatuses: Object (6 properties)[]
+│       │   │   ├── Code: *string
+│       │   │   ├── DisplayStatus: *string
+│       │   │   ├── Level: *string
+│       │   │   ├── Message: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Time: *string
+│       │   ├── Type: *string
+│       │   └── TypeHandlerVersion: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertiesType: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── Publisher: *string
+│       ├── Settings: map[string]v1.JSON
+│       ├── Tags: map[string]string
+│       ├── Type: *string
+│       └── TypeHandlerVersion: *string
 ├── augmentConversionForAdditionalCapabilities: Interface
 ├── augmentConversionForAdditionalCapabilities_STATUS: Interface
 ├── augmentConversionForAdditionalUnattendContent: Interface
@@ -1173,6 +1273,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 ├── augmentConversionForImageReference: Interface
 ├── augmentConversionForImageReference_STATUS: Interface
 ├── augmentConversionForInnerError_STATUS: Interface
+├── augmentConversionForInstanceViewStatus: Interface
 ├── augmentConversionForInstanceViewStatus_STATUS: Interface
 ├── augmentConversionForKeyVaultKeyReference: Interface
 ├── augmentConversionForKeyVaultKeyReference_STATUS: Interface
@@ -1232,6 +1333,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 ├── augmentConversionForVirtualMachine: Interface
 ├── augmentConversionForVirtualMachineAgentInstanceView_STATUS: Interface
 ├── augmentConversionForVirtualMachineExtensionHandlerInstanceView_STATUS: Interface
+├── augmentConversionForVirtualMachineExtensionInstanceView: Interface
 ├── augmentConversionForVirtualMachineExtensionInstanceView_STATUS: Interface
 ├── augmentConversionForVirtualMachineExtension_STATUS: Interface
 ├── augmentConversionForVirtualMachineHealthStatus_STATUS: Interface
@@ -1276,8 +1378,14 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage
 ├── augmentConversionForVirtualMachineScaleSetVMProfile_STATUS: Interface
 ├── augmentConversionForVirtualMachineScaleSet_STATUS: Interface
 ├── augmentConversionForVirtualMachineScaleSet_Spec: Interface
+├── augmentConversionForVirtualMachineScaleSetsExtension: Interface
+├── augmentConversionForVirtualMachineScaleSets_Extension_STATUS: Interface
+├── augmentConversionForVirtualMachineScaleSets_Extension_Spec: Interface
 ├── augmentConversionForVirtualMachine_STATUS: Interface
 ├── augmentConversionForVirtualMachine_Spec: Interface
+├── augmentConversionForVirtualMachinesExtension: Interface
+├── augmentConversionForVirtualMachines_Extension_STATUS: Interface
+├── augmentConversionForVirtualMachines_Extension_Spec: Interface
 ├── augmentConversionForWinRMConfiguration: Interface
 ├── augmentConversionForWinRMConfiguration_STATUS: Interface
 ├── augmentConversionForWinRMListener: Interface

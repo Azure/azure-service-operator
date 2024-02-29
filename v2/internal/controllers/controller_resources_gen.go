@@ -32,6 +32,8 @@ import (
 	cdn_customizations "github.com/Azure/azure-service-operator/v2/api/cdn/customizations"
 	cdn_v20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601"
 	cdn_v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/storage"
+	cdn_v20230501 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501"
+	cdn_v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	compute_customizations "github.com/Azure/azure-service-operator/v2/api/compute/customizations"
 	compute_v20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930"
 	compute_v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/storage"
@@ -60,6 +62,8 @@ import (
 	containerservice_v20230315ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview/storage"
 	containerservice_v20231001 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
 	containerservice_v20231001s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001/storage"
+	containerservice_v20231102p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231102preview"
+	containerservice_v20231102ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231102preview/storage"
 	datafactory_customizations "github.com/Azure/azure-service-operator/v2/api/datafactory/customizations"
 	datafactory_v20180601 "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601"
 	datafactory_v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
@@ -128,6 +132,9 @@ import (
 	managedidentity_v20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131preview/storage"
 	managedidentity_v20230131 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
 	managedidentity_v20230131s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131/storage"
+	networkfrontdoor_customizations "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/customizations"
+	networkfrontdoor_v20220501 "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/v1api20220501"
+	networkfrontdoor_v20220501s "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/v1api20220501/storage"
 	network_customizations "github.com/Azure/azure-service-operator/v2/api/network/customizations"
 	network_v20180501 "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501"
 	network_v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage"
@@ -192,6 +199,59 @@ func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Api)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.ApiVersionSet)})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.AuthorizationProvider),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.oauth2.grantTypes.authorizationCode",
+				Func: indexApimanagementAuthorizationProviderAuthorizationCode,
+			},
+			{
+				Key:  ".spec.oauth2.grantTypes.clientCredentials",
+				Func: indexApimanagementAuthorizationProviderClientCredentials,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.oauth2.grantTypes.authorizationCode", ".spec.oauth2.grantTypes.clientCredentials"}, &apimanagement_v20220801s.AuthorizationProviderList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.AuthorizationProvidersAuthorization),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.parameters",
+				Func: indexApimanagementAuthorizationProvidersAuthorizationParameters,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.parameters"}, &apimanagement_v20220801s.AuthorizationProvidersAuthorizationList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.objectIdFromConfig",
+				Func: indexApimanagementAuthorizationProvidersAuthorizationsAccessPolicyObjectIdFromConfig,
+			},
+			{
+				Key:  ".spec.tenantIdFromConfig",
+				Func: indexApimanagementAuthorizationProvidersAuthorizationsAccessPolicyTenantIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.objectIdFromConfig", ".spec.tenantIdFromConfig"}, &apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicyList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20220801s.Backend),
 		Indexes: []registration.Index{
@@ -320,8 +380,17 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(cache_v20230401s.RedisPatchSchedule)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20230701s.RedisEnterprise)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20230701s.RedisEnterpriseDatabase)})
-	result = append(result, &registration.StorageType{Obj: new(cdn_v20210601s.Profile)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20210601s.ProfilesEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdCustomDomain)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdOrigin)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdOriginGroup)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.Profile)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.Route)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.Rule)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.RuleSet)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.Secret)})
+	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.SecurityPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20200930s.Disk)})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20200930s.Snapshot)})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20220301s.Image)})
@@ -347,11 +416,45 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.virtualMachineProfile.osProfile.adminPassword",
 				Func: indexComputeVirtualMachineScaleSetAdminPassword,
 			},
+			{
+				Key:  ".spec.virtualMachineProfile.extensionProfile.extensions.protectedSettings",
+				Func: indexComputeVirtualMachineScaleSetProtectedSettings,
+			},
 		},
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualMachineProfile.osProfile.adminPassword"}, &compute_v20220301s.VirtualMachineScaleSetList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualMachineProfile.extensionProfile.extensions.protectedSettings", ".spec.virtualMachineProfile.osProfile.adminPassword"}, &compute_v20220301s.VirtualMachineScaleSetList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(compute_v20220301s.VirtualMachineScaleSetsExtension),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.protectedSettings",
+				Func: indexComputeVirtualMachineScaleSetsExtensionProtectedSettings,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.protectedSettings"}, &compute_v20220301s.VirtualMachineScaleSetsExtensionList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(compute_v20220301s.VirtualMachinesExtension),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.protectedSettings",
+				Func: indexComputeVirtualMachinesExtensionProtectedSettings,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.protectedSettings"}, &compute_v20220301s.VirtualMachinesExtensionList{}),
 			},
 		},
 	})
@@ -612,7 +715,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(kubernetesconfiguration_v20230501s.Extension)})
+	result = append(result, &registration.StorageType{
+		Obj: new(kubernetesconfiguration_v20230501s.Extension),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.configurationProtectedSettings",
+				Func: indexKubernetesconfigurationExtensionConfigurationProtectedSettings,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.configurationProtectedSettings"}, &kubernetesconfiguration_v20230501s.ExtensionList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20210701s.Workspace)})
 	result = append(result, &registration.StorageType{
 		Obj: new(machinelearningservices_v20210701s.WorkspacesCompute),
@@ -761,6 +878,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PrivateEndpointsPrivateDnsZoneGroup)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PrivateLinkService)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PublicIPPrefix)})
+	result = append(result, &registration.StorageType{Obj: new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v20210601s.Workspace)})
 	result = append(result, &registration.StorageType{Obj: new(resources_v20200601s.ResourceGroup)})
 	result = append(result, &registration.StorageType{Obj: new(search_v20220901s.SearchService)})
@@ -994,6 +1112,9 @@ func getKnownTypes() []client.Object {
 		result,
 		new(apimanagement_v20220801.Api),
 		new(apimanagement_v20220801.ApiVersionSet),
+		new(apimanagement_v20220801.AuthorizationProvider),
+		new(apimanagement_v20220801.AuthorizationProvidersAuthorization),
+		new(apimanagement_v20220801.AuthorizationProvidersAuthorizationsAccessPolicy),
 		new(apimanagement_v20220801.Backend),
 		new(apimanagement_v20220801.NamedValue),
 		new(apimanagement_v20220801.Policy),
@@ -1007,6 +1128,9 @@ func getKnownTypes() []client.Object {
 		result,
 		new(apimanagement_v20220801s.Api),
 		new(apimanagement_v20220801s.ApiVersionSet),
+		new(apimanagement_v20220801s.AuthorizationProvider),
+		new(apimanagement_v20220801s.AuthorizationProvidersAuthorization),
+		new(apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy),
 		new(apimanagement_v20220801s.Backend),
 		new(apimanagement_v20220801s.NamedValue),
 		new(apimanagement_v20220801s.Policy),
@@ -1020,6 +1144,9 @@ func getKnownTypes() []client.Object {
 		result,
 		new(apimanagement_v20230501p.Api),
 		new(apimanagement_v20230501p.ApiVersionSet),
+		new(apimanagement_v20230501p.AuthorizationProvider),
+		new(apimanagement_v20230501p.AuthorizationProvidersAuthorization),
+		new(apimanagement_v20230501p.AuthorizationProvidersAuthorizationsAccessPolicy),
 		new(apimanagement_v20230501p.Backend),
 		new(apimanagement_v20230501p.NamedValue),
 		new(apimanagement_v20230501p.Policy),
@@ -1033,6 +1160,9 @@ func getKnownTypes() []client.Object {
 		result,
 		new(apimanagement_v20230501ps.Api),
 		new(apimanagement_v20230501ps.ApiVersionSet),
+		new(apimanagement_v20230501ps.AuthorizationProvider),
+		new(apimanagement_v20230501ps.AuthorizationProvidersAuthorization),
+		new(apimanagement_v20230501ps.AuthorizationProvidersAuthorizationsAccessPolicy),
 		new(apimanagement_v20230501ps.Backend),
 		new(apimanagement_v20230501ps.NamedValue),
 		new(apimanagement_v20230501ps.Policy),
@@ -1080,22 +1210,60 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(cache_v20230701s.RedisEnterprise), new(cache_v20230701s.RedisEnterpriseDatabase))
 	result = append(result, new(cdn_v20210601.Profile), new(cdn_v20210601.ProfilesEndpoint))
 	result = append(result, new(cdn_v20210601s.Profile), new(cdn_v20210601s.ProfilesEndpoint))
+	result = append(
+		result,
+		new(cdn_v20230501.AfdCustomDomain),
+		new(cdn_v20230501.AfdEndpoint),
+		new(cdn_v20230501.AfdOrigin),
+		new(cdn_v20230501.AfdOriginGroup),
+		new(cdn_v20230501.Profile),
+		new(cdn_v20230501.Route),
+		new(cdn_v20230501.Rule),
+		new(cdn_v20230501.RuleSet),
+		new(cdn_v20230501.Secret),
+		new(cdn_v20230501.SecurityPolicy))
+	result = append(
+		result,
+		new(cdn_v20230501s.AfdCustomDomain),
+		new(cdn_v20230501s.AfdEndpoint),
+		new(cdn_v20230501s.AfdOrigin),
+		new(cdn_v20230501s.AfdOriginGroup),
+		new(cdn_v20230501s.Profile),
+		new(cdn_v20230501s.Route),
+		new(cdn_v20230501s.Rule),
+		new(cdn_v20230501s.RuleSet),
+		new(cdn_v20230501s.Secret),
+		new(cdn_v20230501s.SecurityPolicy))
 	result = append(result, new(compute_v20200930.Disk), new(compute_v20200930.Snapshot))
 	result = append(result, new(compute_v20200930s.Disk), new(compute_v20200930s.Snapshot))
-	result = append(result, new(compute_v20201201.VirtualMachine), new(compute_v20201201.VirtualMachineScaleSet))
-	result = append(result, new(compute_v20201201s.VirtualMachine), new(compute_v20201201s.VirtualMachineScaleSet))
+	result = append(
+		result,
+		new(compute_v20201201.VirtualMachine),
+		new(compute_v20201201.VirtualMachineScaleSet),
+		new(compute_v20201201.VirtualMachineScaleSetsExtension),
+		new(compute_v20201201.VirtualMachinesExtension))
+	result = append(
+		result,
+		new(compute_v20201201s.VirtualMachine),
+		new(compute_v20201201s.VirtualMachineScaleSet),
+		new(compute_v20201201s.VirtualMachineScaleSetsExtension),
+		new(compute_v20201201s.VirtualMachinesExtension))
 	result = append(result, new(compute_v20210701.Image))
 	result = append(result, new(compute_v20210701s.Image))
 	result = append(
 		result,
 		new(compute_v20220301.Image),
 		new(compute_v20220301.VirtualMachine),
-		new(compute_v20220301.VirtualMachineScaleSet))
+		new(compute_v20220301.VirtualMachineScaleSet),
+		new(compute_v20220301.VirtualMachineScaleSetsExtension),
+		new(compute_v20220301.VirtualMachinesExtension))
 	result = append(
 		result,
 		new(compute_v20220301s.Image),
 		new(compute_v20220301s.VirtualMachine),
-		new(compute_v20220301s.VirtualMachineScaleSet))
+		new(compute_v20220301s.VirtualMachineScaleSet),
+		new(compute_v20220301s.VirtualMachineScaleSetsExtension),
+		new(compute_v20220301s.VirtualMachinesExtension))
 	result = append(result, new(compute_v20220702.DiskEncryptionSet))
 	result = append(result, new(compute_v20220702s.DiskEncryptionSet))
 	result = append(result, new(containerinstance_v20211001.ContainerGroup))
@@ -1128,6 +1296,8 @@ func getKnownTypes() []client.Object {
 		new(containerservice_v20230315ps.FleetsUpdateRun))
 	result = append(result, new(containerservice_v20231001.ManagedCluster), new(containerservice_v20231001.ManagedClustersAgentPool))
 	result = append(result, new(containerservice_v20231001s.ManagedCluster), new(containerservice_v20231001s.ManagedClustersAgentPool))
+	result = append(result, new(containerservice_v20231102p.ManagedCluster), new(containerservice_v20231102p.ManagedClustersAgentPool))
+	result = append(result, new(containerservice_v20231102ps.ManagedCluster), new(containerservice_v20231102ps.ManagedClustersAgentPool))
 	result = append(result, new(datafactory_v20180601.Factory))
 	result = append(result, new(datafactory_v20180601s.Factory))
 	result = append(result, new(dataprotection_v20230101.BackupVault), new(dataprotection_v20230101.BackupVaultsBackupPolicy))
@@ -1418,6 +1588,8 @@ func getKnownTypes() []client.Object {
 		new(network_v20220701s.PrivateEndpointsPrivateDnsZoneGroup),
 		new(network_v20220701s.PrivateLinkService),
 		new(network_v20220701s.PublicIPPrefix))
+	result = append(result, new(networkfrontdoor_v20220501.WebApplicationFirewallPolicy))
+	result = append(result, new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy))
 	result = append(result, new(operationalinsights_v20210601.Workspace))
 	result = append(result, new(operationalinsights_v20210601s.Workspace))
 	result = append(result, new(resources_v20200601.ResourceGroup))
@@ -1621,6 +1793,8 @@ func createScheme() *runtime.Scheme {
 	_ = cache_v20230701s.AddToScheme(scheme)
 	_ = cdn_v20210601.AddToScheme(scheme)
 	_ = cdn_v20210601s.AddToScheme(scheme)
+	_ = cdn_v20230501.AddToScheme(scheme)
+	_ = cdn_v20230501s.AddToScheme(scheme)
 	_ = compute_v20200930.AddToScheme(scheme)
 	_ = compute_v20200930s.AddToScheme(scheme)
 	_ = compute_v20201201.AddToScheme(scheme)
@@ -1645,6 +1819,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v20230315ps.AddToScheme(scheme)
 	_ = containerservice_v20231001.AddToScheme(scheme)
 	_ = containerservice_v20231001s.AddToScheme(scheme)
+	_ = containerservice_v20231102p.AddToScheme(scheme)
+	_ = containerservice_v20231102ps.AddToScheme(scheme)
 	_ = datafactory_v20180601.AddToScheme(scheme)
 	_ = datafactory_v20180601s.AddToScheme(scheme)
 	_ = dataprotection_v20230101.AddToScheme(scheme)
@@ -1711,6 +1887,8 @@ func createScheme() *runtime.Scheme {
 	_ = network_v20220401s.AddToScheme(scheme)
 	_ = network_v20220701.AddToScheme(scheme)
 	_ = network_v20220701s.AddToScheme(scheme)
+	_ = networkfrontdoor_v20220501.AddToScheme(scheme)
+	_ = networkfrontdoor_v20220501s.AddToScheme(scheme)
 	_ = operationalinsights_v20210601.AddToScheme(scheme)
 	_ = operationalinsights_v20210601s.AddToScheme(scheme)
 	_ = resources_v20200601.AddToScheme(scheme)
@@ -1747,6 +1925,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	var result []genruntime.ResourceExtension
 	result = append(result, &apimanagement_customizations.ApiExtension{})
 	result = append(result, &apimanagement_customizations.ApiVersionSetExtension{})
+	result = append(result, &apimanagement_customizations.AuthorizationProviderExtension{})
+	result = append(result, &apimanagement_customizations.AuthorizationProvidersAuthorizationExtension{})
+	result = append(result, &apimanagement_customizations.AuthorizationProvidersAuthorizationsAccessPolicyExtension{})
 	result = append(result, &apimanagement_customizations.BackendExtension{})
 	result = append(result, &apimanagement_customizations.NamedValueExtension{})
 	result = append(result, &apimanagement_customizations.PolicyExtension{})
@@ -1765,14 +1946,25 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &cache_customizations.RedisFirewallRuleExtension{})
 	result = append(result, &cache_customizations.RedisLinkedServerExtension{})
 	result = append(result, &cache_customizations.RedisPatchScheduleExtension{})
+	result = append(result, &cdn_customizations.AfdCustomDomainExtension{})
+	result = append(result, &cdn_customizations.AfdEndpointExtension{})
+	result = append(result, &cdn_customizations.AfdOriginExtension{})
+	result = append(result, &cdn_customizations.AfdOriginGroupExtension{})
 	result = append(result, &cdn_customizations.ProfileExtension{})
 	result = append(result, &cdn_customizations.ProfilesEndpointExtension{})
+	result = append(result, &cdn_customizations.RouteExtension{})
+	result = append(result, &cdn_customizations.RuleExtension{})
+	result = append(result, &cdn_customizations.RuleSetExtension{})
+	result = append(result, &cdn_customizations.SecretExtension{})
+	result = append(result, &cdn_customizations.SecurityPolicyExtension{})
 	result = append(result, &compute_customizations.DiskEncryptionSetExtension{})
 	result = append(result, &compute_customizations.DiskExtension{})
 	result = append(result, &compute_customizations.ImageExtension{})
 	result = append(result, &compute_customizations.SnapshotExtension{})
 	result = append(result, &compute_customizations.VirtualMachineExtension{})
 	result = append(result, &compute_customizations.VirtualMachineScaleSetExtension{})
+	result = append(result, &compute_customizations.VirtualMachineScaleSetsExtensionExtension{})
+	result = append(result, &compute_customizations.VirtualMachinesExtensionExtension{})
 	result = append(result, &containerinstance_customizations.ContainerGroupExtension{})
 	result = append(result, &containerregistry_customizations.RegistryExtension{})
 	result = append(result, &containerservice_customizations.FleetExtension{})
@@ -1880,6 +2072,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.VirtualNetworkGatewayExtension{})
 	result = append(result, &network_customizations.VirtualNetworksSubnetExtension{})
 	result = append(result, &network_customizations.VirtualNetworksVirtualNetworkPeeringExtension{})
+	result = append(result, &networkfrontdoor_customizations.WebApplicationFirewallPolicyExtension{})
 	result = append(result, &operationalinsights_customizations.WorkspaceExtension{})
 	result = append(result, &resources_customizations.ResourceGroupExtension{})
 	result = append(result, &search_customizations.SearchServiceExtension{})
@@ -1928,6 +2121,78 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &web_customizations.ServerFarmExtension{})
 	result = append(result, &web_customizations.SiteExtension{})
 	return result
+}
+
+// indexApimanagementAuthorizationProviderAuthorizationCode an index function for apimanagement_v20220801s.AuthorizationProvider .spec.oauth2.grantTypes.authorizationCode
+func indexApimanagementAuthorizationProviderAuthorizationCode(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.AuthorizationProvider)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Oauth2 == nil {
+		return nil
+	}
+	if obj.Spec.Oauth2.GrantTypes == nil {
+		return nil
+	}
+	if obj.Spec.Oauth2.GrantTypes.AuthorizationCode == nil {
+		return nil
+	}
+	return obj.Spec.Oauth2.GrantTypes.AuthorizationCode.Index()
+}
+
+// indexApimanagementAuthorizationProviderClientCredentials an index function for apimanagement_v20220801s.AuthorizationProvider .spec.oauth2.grantTypes.clientCredentials
+func indexApimanagementAuthorizationProviderClientCredentials(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.AuthorizationProvider)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Oauth2 == nil {
+		return nil
+	}
+	if obj.Spec.Oauth2.GrantTypes == nil {
+		return nil
+	}
+	if obj.Spec.Oauth2.GrantTypes.ClientCredentials == nil {
+		return nil
+	}
+	return obj.Spec.Oauth2.GrantTypes.ClientCredentials.Index()
+}
+
+// indexApimanagementAuthorizationProvidersAuthorizationParameters an index function for apimanagement_v20220801s.AuthorizationProvidersAuthorization .spec.parameters
+func indexApimanagementAuthorizationProvidersAuthorizationParameters(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.AuthorizationProvidersAuthorization)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Parameters == nil {
+		return nil
+	}
+	return obj.Spec.Parameters.Index()
+}
+
+// indexApimanagementAuthorizationProvidersAuthorizationsAccessPolicyObjectIdFromConfig an index function for apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy .spec.objectIdFromConfig
+func indexApimanagementAuthorizationProvidersAuthorizationsAccessPolicyObjectIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ObjectIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.ObjectIdFromConfig.Index()
+}
+
+// indexApimanagementAuthorizationProvidersAuthorizationsAccessPolicyTenantIdFromConfig an index function for apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy .spec.tenantIdFromConfig
+func indexApimanagementAuthorizationProvidersAuthorizationsAccessPolicyTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.AuthorizationProvidersAuthorizationsAccessPolicy)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.TenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.TenantIdFromConfig.Index()
 }
 
 // indexApimanagementBackendPassword an index function for apimanagement_v20220801s.Backend .spec.proxy.password
@@ -2216,6 +2481,52 @@ func indexComputeVirtualMachineScaleSetAdminPassword(rawObj client.Object) []str
 		return nil
 	}
 	return obj.Spec.VirtualMachineProfile.OsProfile.AdminPassword.Index()
+}
+
+// indexComputeVirtualMachineScaleSetProtectedSettings an index function for compute_v20220301s.VirtualMachineScaleSet .spec.virtualMachineProfile.extensionProfile.extensions.protectedSettings
+func indexComputeVirtualMachineScaleSetProtectedSettings(rawObj client.Object) []string {
+	obj, ok := rawObj.(*compute_v20220301s.VirtualMachineScaleSet)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.VirtualMachineProfile == nil {
+		return nil
+	}
+	if obj.Spec.VirtualMachineProfile.ExtensionProfile == nil {
+		return nil
+	}
+	for _, extensionItem := range obj.Spec.VirtualMachineProfile.ExtensionProfile.Extensions {
+		if extensionItem.ProtectedSettings == nil {
+			continue
+		}
+		result = append(result, extensionItem.ProtectedSettings.Index()...)
+	}
+	return result
+}
+
+// indexComputeVirtualMachineScaleSetsExtensionProtectedSettings an index function for compute_v20220301s.VirtualMachineScaleSetsExtension .spec.protectedSettings
+func indexComputeVirtualMachineScaleSetsExtensionProtectedSettings(rawObj client.Object) []string {
+	obj, ok := rawObj.(*compute_v20220301s.VirtualMachineScaleSetsExtension)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ProtectedSettings == nil {
+		return nil
+	}
+	return obj.Spec.ProtectedSettings.Index()
+}
+
+// indexComputeVirtualMachinesExtensionProtectedSettings an index function for compute_v20220301s.VirtualMachinesExtension .spec.protectedSettings
+func indexComputeVirtualMachinesExtensionProtectedSettings(rawObj client.Object) []string {
+	obj, ok := rawObj.(*compute_v20220301s.VirtualMachinesExtension)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ProtectedSettings == nil {
+		return nil
+	}
+	return obj.Spec.ProtectedSettings.Index()
 }
 
 // indexContainerinstanceContainerGroupContainersSecureValue an index function for containerinstance_v20211001s.ContainerGroup .spec.containers.environmentVariables.secureValue
@@ -2588,6 +2899,18 @@ func indexKeyvaultVaultPropertiesTenantIdFromConfig(rawObj client.Object) []stri
 		return nil
 	}
 	return obj.Spec.Properties.TenantIdFromConfig.Index()
+}
+
+// indexKubernetesconfigurationExtensionConfigurationProtectedSettings an index function for kubernetesconfiguration_v20230501s.Extension .spec.configurationProtectedSettings
+func indexKubernetesconfigurationExtensionConfigurationProtectedSettings(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kubernetesconfiguration_v20230501s.Extension)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ConfigurationProtectedSettings == nil {
+		return nil
+	}
+	return obj.Spec.ConfigurationProtectedSettings.Index()
 }
 
 // indexMachinelearningservicesWorkspacesComputeAdminUserPassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword

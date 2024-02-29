@@ -1,0 +1,11 @@
+apiVersion: compute.azure.com/v1api20201201
+kind: VirtualMachineScaleSetsExtension
+metadata:
+  name: myvmssextension
+  namespace: default
+spec:
+  owner:
+    name: samplevmss
+  publisher: Microsoft.ManagedServices
+  type: ApplicationHealthLinux
+  typeHandlerVersion: "1.0"

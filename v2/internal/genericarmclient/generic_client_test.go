@@ -41,7 +41,7 @@ func Test_NewResourceGroup(t *testing.T) {
 	resourceGroup := testContext.NewTestResourceGroup()
 	resolved := genruntime.ConvertToARMResolvedDetails{
 		Name:               resourceGroup.Name,
-		ResolvedReferences: genruntime.MakeResolved[genruntime.ResourceReference](nil),
+		ResolvedReferences: genruntime.MakeResolved[genruntime.ResourceReference, string](nil),
 	}
 	spec, err := resourceGroup.Spec.ConvertToARM(resolved)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -103,7 +103,7 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 
 	resolved := genruntime.ConvertToARMResolvedDetails{
 		Name:               rgName,
-		ResolvedReferences: genruntime.MakeResolved[genruntime.ResourceReference](nil),
+		ResolvedReferences: genruntime.MakeResolved[genruntime.ResourceReference, string](nil),
 	}
 	spec, err := resourceGroup.Spec.ConvertToARM(resolved)
 	g.Expect(err).ToNot(HaveOccurred())

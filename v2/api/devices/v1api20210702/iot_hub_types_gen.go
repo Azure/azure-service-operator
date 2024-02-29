@@ -6320,7 +6320,7 @@ type StorageEndpointProperties struct {
 
 	// +kubebuilder:validation:Required
 	// ConnectionString: The connection string for the Azure Storage account to which files are uploaded.
-	ConnectionString genruntime.SecretReference `json:"connectionString,omitempty"`
+	ConnectionString *genruntime.SecretReference `json:"connectionString,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// ContainerName: The name of the root container where you upload files. The container need not exist but should be
@@ -6351,11 +6351,14 @@ func (properties *StorageEndpointProperties) ConvertToARM(resolved genruntime.Co
 	}
 
 	// Set property "ConnectionString":
-	connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(properties.ConnectionString)
-	if err != nil {
-		return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
+	if properties.ConnectionString != nil {
+		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
+		}
+		connectionString := connectionStringSecret
+		result.ConnectionString = &connectionString
 	}
-	result.ConnectionString = connectionStringSecret
 
 	// Set property "ContainerName":
 	if properties.ContainerName != nil {
@@ -6441,9 +6444,10 @@ func (properties *StorageEndpointProperties) AssignProperties_From_StorageEndpoi
 
 	// ConnectionString
 	if source.ConnectionString != nil {
-		properties.ConnectionString = source.ConnectionString.Copy()
+		connectionString := source.ConnectionString.Copy()
+		properties.ConnectionString = &connectionString
 	} else {
-		properties.ConnectionString = genruntime.SecretReference{}
+		properties.ConnectionString = nil
 	}
 
 	// ContainerName
@@ -6482,8 +6486,12 @@ func (properties *StorageEndpointProperties) AssignProperties_To_StorageEndpoint
 	}
 
 	// ConnectionString
-	connectionString := properties.ConnectionString.Copy()
-	destination.ConnectionString = &connectionString
+	if properties.ConnectionString != nil {
+		connectionString := properties.ConnectionString.Copy()
+		destination.ConnectionString = &connectionString
+	} else {
+		destination.ConnectionString = nil
+	}
 
 	// ContainerName
 	destination.ContainerName = genruntime.ClonePointerToString(properties.ContainerName)

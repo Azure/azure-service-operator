@@ -881,7 +881,7 @@ func StorageEndpointProperties_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageEndpointProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageEndpointProperties_ARM(gens map[string]gopter.Gen) {
 	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(StorageEndpointProperties_AuthenticationType_IdentityBased, StorageEndpointProperties_AuthenticationType_KeyBased))
-	gens["ConnectionString"] = gen.AlphaString()
+	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["ContainerName"] = gen.PtrOf(gen.AlphaString())
 	gens["SasTtlAsIso8601"] = gen.PtrOf(gen.AlphaString())
 }

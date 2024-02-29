@@ -1,0 +1,10 @@
+apiVersion: cdn.azure.com/v1api20230501
+kind: AfdEndpoint
+metadata:
+  name: aso-sample-endpoint
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-cdnprofile
+  enabledState: Enabled
+  location: Global

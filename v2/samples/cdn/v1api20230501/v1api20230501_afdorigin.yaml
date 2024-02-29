@@ -1,0 +1,10 @@
+apiVersion: cdn.azure.com/v1api20230501
+kind: AfdOrigin
+metadata:
+  name: aso-sample-origin
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-origingroup
+  hostName: example.com
+  httpPort: 80

@@ -1,0 +1,26 @@
+apiVersion: cdn.azure.com/v1api20230501
+kind: Route
+metadata:
+  name: aso-sample-route
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-endpoint
+  forwardingProtocol: HttpOnly
+  httpsRedirect: Enabled
+  linkToDefaultDomain: Enabled
+  originGroup:
+    reference:
+      group: cdn.azure.com
+      kind: AfdOriginGroup
+      name: aso-sample-origingroup
+  patternsToMatch:
+  - /*
+  ruleSets:
+  - reference:
+      group: cdn.azure.com
+      kind: RuleSet
+      name: asosampleruleset
+  supportedProtocols:
+  - Http
+  - Https

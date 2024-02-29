@@ -10,12 +10,19 @@ on:
 jobs:
   build-and-push:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
+
+    permissions:
+      contents: write # Required to write a release
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0 # required to access tags
           submodules: "true"
+
+      - name: Force docker to SSD
+        run: sudo scripts/v2/linux-docker-use-ssd.sh --containerd true
 
       - name: Build & run devcontainer image
         # this always builds a new image from scratch rather than from the build-devcontainer-image workflow output
@@ -35,7 +42,7 @@ jobs:
           docker exec "$container_id" task make-release-artifacts
 
       - name: Upload release assets
-        uses: svenstaro/upload-release-action@7319e4733ec7a184d739a6f412c40ffc339b69c7 # this is v2.5.0, but pinned
+        uses: svenstaro/upload-release-action@1beeb572c19a9242f4361f4cee78f8e0d9aec5df # this is v2.7.0, but pinned
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
@@ -55,7 +62,17 @@ jobs:
         run: |
           container_id=${{env.container_id}}
           docker exec -e DOCKER_PUSH_TARGET "$container_id" task controller:docker-push-multiarch
-          docker exec -e DOCKER_PUSH_TARGET -e DOCKER_REGISTRY "$container_id" task controller:acr-protect-image
+        env:
+          DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PUBLIC }}
+
+      - name: Protect image
+        run: |
+          container_id=${{env.container_id}}
+          docker exec -e DOCKER_PUSH_TARGET -e DOCKER_REGISTRY -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "$container_id" task controller:acr-protect-image
         env:
           DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PUBLIC }}
           DOCKER_REGISTRY: ${{ secrets.REGISTRY_LOGIN }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}

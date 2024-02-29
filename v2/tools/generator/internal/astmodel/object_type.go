@@ -61,7 +61,10 @@ func NewObjectType() *ObjectType {
 	}
 }
 
-func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error) {
+func (objectType *ObjectType) AsDeclarations(
+	codeGenerationContext *CodeGenerationContext,
+	declContext DeclarationContext,
+) ([]dst.Decl, error) {
 	declaration := &dst.GenDecl{
 		Decs: dst.GenDeclDecorations{
 			NodeDecs: dst.NodeDecs{
@@ -86,9 +89,7 @@ func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 	decls, err := objectType.generateMethodDecls(codeGenerationContext, declContext.Name)
 	if err != nil {
-		// Something went wrong; once AsDeclarations is refactored to have an error return,
-		// we can return them, but in the meantime panic
-		panic(errors.Wrapf(err, "generating method declarations for %s", declContext.Name))
+		return nil, errors.Wrapf(err, "generating method declarations for %s", declContext.Name)
 	}
 
 	result = append(result, decls...)

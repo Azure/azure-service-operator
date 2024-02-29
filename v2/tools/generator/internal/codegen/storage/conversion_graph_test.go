@@ -385,3 +385,65 @@ func TestGolden_ConversionGraph_WhenCompatPackagePresent_HasExpectedTransitions(
 	g.Expect(graph.WriteTo(grp, knd, &content)).To(Succeed())
 	gg.Assert(t, t.Name(), content.Bytes())
 }
+
+func Test_ConversionGraph_FindInPath_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Create some resources to use for testing.
+	// Three versions of the Person resource, plus the storage variants of those
+	person2020 := test.CreateSimpleResource(test.Pkg2020, "Person")
+	person2020s := test.CreateSimpleResource(test.Pkg2020s, "Person")
+	person2021 := test.CreateSimpleResource(test.Pkg2021, "Person")
+	person2021s := test.CreateSimpleResource(test.Pkg2021s, "Person")
+	person2022 := test.CreateSimpleResource(test.Pkg2022, "Person")
+	person2022s := test.CreateSimpleResource(test.Pkg2022s, "Person")
+
+	// Create our set of definitions
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(person2020, person2021, person2022)
+	defs.AddAll(person2020s, person2021s, person2022s)
+
+	// Create a builder, and use it to configure a graph to test
+	omc := config.NewObjectModelConfiguration()
+	builder := NewConversionGraphBuilder(omc, "v")
+	builder.Add(person2020.Name(), person2020s.Name(), person2021.Name(), person2021s.Name(), person2022.Name(), person2022s.Name())
+
+	graph, err := builder.Build()
+	g.Expect(err).To(Succeed())
+
+	cases := []struct {
+		start         astmodel.InternalTypeName
+		end           astmodel.InternalTypeName
+		expectedTypes int // Expected count of encountered Types, including both start and end
+	}{
+		{person2020.Name(), person2020s.Name(), 2},
+		{person2021.Name(), person2021s.Name(), 2},
+		{person2022.Name(), person2022s.Name(), 2},
+		{person2020s.Name(), person2021s.Name(), 2},
+		{person2021s.Name(), person2022s.Name(), 2},
+		{person2020.Name(), person2021s.Name(), 3},
+		{person2020.Name(), person2022s.Name(), 4},
+		{person2021.Name(), person2022s.Name(), 3},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(
+			fmt.Sprintf("%s to %s", c.start, c.end),
+			func(t *testing.T) {
+				t.Parallel()
+				gg := NewGomegaWithT(t)
+
+				count := 0
+				_, found := graph.FindInPath(
+					c.start,
+					func(t astmodel.InternalTypeName) bool {
+						count++
+						return t == c.end
+					})
+				gg.Expect(found).To(BeTrue())
+				gg.Expect(count).To(Equal(c.expectedTypes))
+			})
+	}
+}
