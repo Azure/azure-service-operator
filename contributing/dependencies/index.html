@@ -21,11 +21,11 @@
 <title>Developer Dependencies | Azure Service Operator</title>
 <meta name="description" content="Development of Azure Service Operator depends on a number of development tools and libraries that need to be installed.
 If you prefer to install those dependencies manually (instead of using the .devcontainer/install-dependencies.sh script), here is a list of what&amp;rsquo;s required.
-   Dependency Version Reference     AZWI v1.2.0 https://github.com/Azure/azure-workload-identity   BuildX v0.11.2 https://github.com/docker/buildx   cmctl latest https://cert-manager.io/docs/reference/cmctl   controller-gen v0.13.0 https://book.kubebuilder.io/reference/controller-gen   conversion-gen v0.">
+   Dependency Version Reference     AZ latest https://docs.microsoft.com/en-us/cli/azure/install-azure-cli   AZWI v1.2.0 https://github.com/Azure/azure-workload-identity   BuildX v0.11.2 https://github.com/docker/buildx   cmctl latest https://cert-manager.io/docs/reference/cmctl   controller-gen v0.">
 <meta property="og:title" content="Developer Dependencies" />
 <meta property="og:description" content="Development of Azure Service Operator depends on a number of development tools and libraries that need to be installed.
 If you prefer to install those dependencies manually (instead of using the .devcontainer/install-dependencies.sh script), here is a list of what&rsquo;s required.
-   Dependency Version Reference     AZWI v1.2.0 https://github.com/Azure/azure-workload-identity   BuildX v0.11.2 https://github.com/docker/buildx   cmctl latest https://cert-manager.io/docs/reference/cmctl   controller-gen v0.13.0 https://book.kubebuilder.io/reference/controller-gen   conversion-gen v0." />
+   Dependency Version Reference     AZ latest https://docs.microsoft.com/en-us/cli/azure/install-azure-cli   AZWI v1.2.0 https://github.com/Azure/azure-workload-identity   BuildX v0.11.2 https://github.com/docker/buildx   cmctl latest https://cert-manager.io/docs/reference/cmctl   controller-gen v0." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/dependencies/" /><meta property="article:section" content="contributing" />
 
@@ -34,14 +34,14 @@ If you prefer to install those dependencies manually (instead of using the .devc
 <meta itemprop="name" content="Developer Dependencies">
 <meta itemprop="description" content="Development of Azure Service Operator depends on a number of development tools and libraries that need to be installed.
 If you prefer to install those dependencies manually (instead of using the .devcontainer/install-dependencies.sh script), here is a list of what&rsquo;s required.
-   Dependency Version Reference     AZWI v1.2.0 https://github.com/Azure/azure-workload-identity   BuildX v0.11.2 https://github.com/docker/buildx   cmctl latest https://cert-manager.io/docs/reference/cmctl   controller-gen v0.13.0 https://book.kubebuilder.io/reference/controller-gen   conversion-gen v0.">
+   Dependency Version Reference     AZ latest https://docs.microsoft.com/en-us/cli/azure/install-azure-cli   AZWI v1.2.0 https://github.com/Azure/azure-workload-identity   BuildX v0.11.2 https://github.com/docker/buildx   cmctl latest https://cert-manager.io/docs/reference/cmctl   controller-gen v0.">
 
-<meta itemprop="wordCount" content="154">
+<meta itemprop="wordCount" content="164">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Developer Dependencies"/>
 <meta name="twitter:description" content="Development of Azure Service Operator depends on a number of development tools and libraries that need to be installed.
 If you prefer to install those dependencies manually (instead of using the .devcontainer/install-dependencies.sh script), here is a list of what&rsquo;s required.
-   Dependency Version Reference     AZWI v1.2.0 https://github.com/Azure/azure-workload-identity   BuildX v0.11.2 https://github.com/docker/buildx   cmctl latest https://cert-manager.io/docs/reference/cmctl   controller-gen v0.13.0 https://book.kubebuilder.io/reference/controller-gen   conversion-gen v0."/>
+   Dependency Version Reference     AZ latest https://docs.microsoft.com/en-us/cli/azure/install-azure-cli   AZWI v1.2.0 https://github.com/Azure/azure-workload-identity   BuildX v0.11.2 https://github.com/docker/buildx   cmctl latest https://cert-manager.io/docs/reference/cmctl   controller-gen v0."/>
 
 
 
@@ -591,6 +591,8 @@ If you prefer to install those dependencies manually (instead of using the .devc
   <a href="/azure-service-operator/design/adr-2023-07-packagereferences/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-07-packagereferences"><span class="">2023-07 Package References</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-09-skipping-properties-li">
   <a href="/azure-service-operator/design/adr-2023-09-skipping-properties/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2023-09-skipping-properties"><span class="">2023-09 Complex Properties that Skip Versions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion-li">
+  <a href="/azure-service-operator/design/adr-2024-02-upstream-deletion/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignadr-2024-02-upstream-deletion"><span class="">2024-02 Upstream Deletion</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
@@ -704,6 +706,11 @@ If you prefer to install those dependencies manually (instead of using the .devc
 </thead>
 <tbody>
 <tr>
+<td style="text-align:left">AZ</td>
+<td style="text-align:center">latest</td>
+<td style="text-align:left"><a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli">https://docs.microsoft.com/en-us/cli/azure/install-azure-cli</a></td>
+</tr>
+<tr>
 <td style="text-align:left">AZWI</td>
 <td style="text-align:center">v1.2.0</td>
 <td style="text-align:left"><a href="https://github.com/Azure/azure-workload-identity">https://github.com/Azure/azure-workload-identity</a></td>
@@ -732,6 +739,16 @@ If you prefer to install those dependencies manually (instead of using the .devc
 <td style="text-align:left">gen-crd-api-reference-docs</td>
 <td style="text-align:center">11fe95cb</td>
 <td style="text-align:left"><a href="https://github.com/ahmetb/gen-crd-api-reference-docs">https://github.com/ahmetb/gen-crd-api-reference-docs</a></td>
+</tr>
+<tr>
+<td style="text-align:left">Go</td>
+<td style="text-align:center">1.20</td>
+<td style="text-align:left"><a href="https://golang.org/doc/install">https://golang.org/doc/install</a> #</td>
+</tr>
+<tr>
+<td style="text-align:left">gofumpt</td>
+<td style="text-align:center">latest</td>
+<td style="text-align:left"><a href="https://pkg.go.dev/mvdan.cc/gofumpt">https://pkg.go.dev/mvdan.cc/gofumpt</a></td>
 </tr>
 <tr>
 <td style="text-align:left">golangci-lint</td>
