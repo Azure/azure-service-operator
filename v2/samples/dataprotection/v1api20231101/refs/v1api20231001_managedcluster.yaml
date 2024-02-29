@@ -21,6 +21,9 @@ spec:
   autoUpgradeProfile:
     upgradeChannel: NodeImage
   enableRBAC: true
+  addonProfiles:
+    azurepolicy:
+      enabled: true
   operatorSpec:
     configMaps:
       principalId:
