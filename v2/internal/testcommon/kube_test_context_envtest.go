@@ -14,11 +14,12 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
-	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
-	"sigs.k8s.io/controller-runtime/pkg/webhook"
 	"strings"
 	"sync"
 	"time"
+
+	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
+	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
 	"github.com/benbjohnson/clock"
 	"github.com/dnaeon/go-vcr/recorder"
@@ -155,7 +156,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 
 	// TODO: Uncomment the below if we want controller-runtime logs in the tests.
 	// By default we've disabled controller runtime logs because they're very verbose and usually not useful.
-	//ctrl.SetLogger(klogr.New())
+	// ctrl.SetLogger(klogr.New())
 	ctrl.SetLogger(logr.New(ctrllog.NullLogSink{}))
 
 	loggerFactory := func(obj metav1.Object) logr.Logger {
@@ -469,7 +470,6 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 	}
 
 	create := func(perTestContext PerTestContext, cfg config.Values) (*KubeBaseTestContext, error) {
-
 		replaying := perTestContext.AzureClientRecorder.Mode() == recorder.ModeReplaying
 		testCfg := testConfig{
 			Values:             cfg,

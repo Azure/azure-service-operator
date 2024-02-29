@@ -36,7 +36,8 @@ func (pi *PropertyInjector) Inject(def TypeDefinition, prop *PropertyDefinition)
 
 // injectPropertyIntoObject takes the property provided as a context and includes it on the provided object type
 func (pi *PropertyInjector) injectPropertyIntoObject(
-	_ *TypeVisitor[*PropertyDefinition], ot *ObjectType, prop *PropertyDefinition) (Type, error) {
+	_ *TypeVisitor[*PropertyDefinition], ot *ObjectType, prop *PropertyDefinition,
+) (Type, error) {
 	// Ensure that we don't already have a property with the same name
 	if _, ok := ot.Property(prop.PropertyName()); ok {
 		return nil, errors.Errorf("already has property named %q", prop.PropertyName())

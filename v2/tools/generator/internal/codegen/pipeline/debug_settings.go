@@ -6,11 +6,12 @@
 package pipeline
 
 import (
-	"github.com/Azure/azure-service-operator/v2/internal/util/match"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	"github.com/Azure/azure-service-operator/v2/internal/util/match"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 type DebugSettings struct {

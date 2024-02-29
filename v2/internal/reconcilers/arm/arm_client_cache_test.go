@@ -31,9 +31,11 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
-const testPodNamespace = "azureserviceoperator-system-test"
-const testSubscriptionID = "00000011-1111-0011-1100-110000000000" // Arbitrary GUID that isn't all 0s
-const fakeID = "00000000-0000-0000-0000-000000000000"
+const (
+	testPodNamespace   = "azureserviceoperator-system-test"
+	testSubscriptionID = "00000011-1111-0011-1100-110000000000" // Arbitrary GUID that isn't all 0s
+	fakeID             = "00000000-0000-0000-0000-000000000000"
+)
 
 func NewFakeKubeClient(s *runtime.Scheme) kubeclient.Client {
 	fakeClient := fake.NewClientBuilder().WithScheme(s).Build()

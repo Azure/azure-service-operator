@@ -7,8 +7,9 @@ package pipeline
 
 import (
 	"context"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 	"testing"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 

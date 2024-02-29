@@ -6,9 +6,10 @@
 package astmodel
 
 import (
-	"golang.org/x/exp/slices"
 	"strings"
 	"unicode"
+
+	"golang.org/x/exp/slices"
 )
 
 const (

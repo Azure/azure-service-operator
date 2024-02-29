@@ -7,9 +7,10 @@ package astmodel
 
 import (
 	"go/token"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sort"
 	"strings"
+
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
@@ -31,8 +32,10 @@ type ObjectType struct {
 }
 
 // for want of a better place for this to live…
-var AdditionalPropertiesPropertyName = PropertyName("AdditionalProperties")
-var AdditionalPropertiesJsonName = "additionalProperties"
+var (
+	AdditionalPropertiesPropertyName = PropertyName("AdditionalProperties")
+	AdditionalPropertiesJsonName     = "additionalProperties"
+)
 
 // EmptyObjectType is an empty object
 var EmptyObjectType = NewObjectType()

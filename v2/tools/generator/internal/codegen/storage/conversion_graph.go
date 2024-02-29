@@ -7,9 +7,10 @@ package storage
 
 import (
 	"bytes"
-	"github.com/pkg/errors"
 	"io"
 	"os"
+
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -179,7 +180,8 @@ func (graph *ConversionGraph) TransitionCount() int {
 // definitions is a set of known definitions.
 func (graph *ConversionGraph) FindNextProperty(
 	ref astmodel.PropertyReference,
-	definitions astmodel.TypeDefinitionSet) (astmodel.PropertyReference, error) {
+	definitions astmodel.TypeDefinitionSet,
+) (astmodel.PropertyReference, error) {
 	nextType, err := graph.FindNextType(ref.DeclaringType(), definitions)
 	if err != nil {
 		// Something went wrong
@@ -192,7 +194,7 @@ func (graph *ConversionGraph) FindNextProperty(
 		return astmodel.EmptyPropertyReference, nil
 	}
 
-	//TODO: property renaming support goes here (when implemented)
+	// TODO: property renaming support goes here (when implemented)
 
 	return astmodel.MakePropertyReference(nextType, ref.Property()), nil
 }

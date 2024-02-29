@@ -866,7 +866,6 @@ func withArrayValidations(schema Schema, t *astmodel.ArrayType) astmodel.Type {
 }
 
 func getSubSchemaType(schema Schema) (SchemaType, error) {
-
 	// handle special nodes:
 	switch {
 	case len(schema.enumValues()) > 0: // this should come before the primitive checks below

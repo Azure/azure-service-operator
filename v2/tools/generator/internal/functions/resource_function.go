@@ -36,7 +36,8 @@ func NewResourceFunction(
 	resource *astmodel.ResourceType,
 	idFactory astmodel.IdentifierFactory,
 	asFunc ResourceFunctionHandler,
-	requiredPackages *astmodel.PackageReferenceSet) *ResourceFunction {
+	requiredPackages *astmodel.PackageReferenceSet,
+) *ResourceFunction {
 	return &ResourceFunction{
 		name:             name,
 		resource:         resource,

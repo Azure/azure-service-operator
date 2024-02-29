@@ -94,8 +94,8 @@ func getDefaults(
 func getValidations(
 	resourceDef astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
-	defs astmodel.TypeDefinitionSet) (map[functions.ValidationKind][]*functions.ResourceFunction, error) {
-
+	defs astmodel.TypeDefinitionSet,
+) (map[functions.ValidationKind][]*functions.ResourceFunction, error) {
 	resource, ok := resourceDef.Type().(*astmodel.ResourceType)
 	if !ok {
 		return nil, errors.Errorf("resource %s did not have type of kind *astmodel.ResourceType, instead %T", resourceDef.Name(), resourceDef.Type())

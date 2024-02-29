@@ -25,7 +25,8 @@ func makeTypeAccess[T any](
 ) typeAccess[T] {
 	return typeAccess[T]{
 		model:    model,
-		accessor: accessor}
+		accessor: accessor,
+	}
 }
 
 func (a typeAccess[T]) withPropertyOverride(

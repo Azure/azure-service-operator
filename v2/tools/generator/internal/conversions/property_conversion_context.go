@@ -43,7 +43,8 @@ type PropertyConversionContext struct {
 func NewPropertyConversionContext(
 	functionBaseName string,
 	definitions astmodel.TypeDefinitionSet,
-	idFactory astmodel.IdentifierFactory) *PropertyConversionContext {
+	idFactory astmodel.IdentifierFactory,
+) *PropertyConversionContext {
 	return &PropertyConversionContext{
 		functionBaseName:     functionBaseName,
 		definitions:          definitions,

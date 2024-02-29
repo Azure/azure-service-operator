@@ -90,7 +90,7 @@ func Test_AKS_ManagedCluster_20230202Preview_CRUD(t *testing.T) {
 
 func NewManagedCluster20230202preview(tc *testcommon.KubePerTestContext, rg *v1api20200601.ResourceGroup, adminUsername string, sshPublicKey *string) *aks.ManagedCluster {
 	region := to.Ptr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
-	//region := tc.AzureRegion
+	// region := tc.AzureRegion
 
 	cluster := &aks.ManagedCluster{
 		ObjectMeta: tc.MakeObjectMeta("mc"),
@@ -199,7 +199,6 @@ func AKS_ManagedCluster_TrustedAccessRoleBinding_20230102Preview_CRUD(
 	resourceGroup *v1api20200601.ResourceGroup,
 	cluster *aks.ManagedCluster,
 ) {
-
 	// Create a storage account and key vault to use for the workspace
 	sa := newStorageAccount(tc, resourceGroup)
 	tc.CreateResourceAndWait(sa)

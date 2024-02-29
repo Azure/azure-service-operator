@@ -16,7 +16,8 @@ import (
 // It should be equivalent to ConvertToARM("") on a default struct value.
 func NewNewEmptyARMValueFunc(
 	armType astmodel.TypeName,
-	idFactory astmodel.IdentifierFactory) astmodel.Function {
+	idFactory astmodel.IdentifierFactory,
+) astmodel.Function {
 	result := NewObjectFunction(
 		"NewEmptyARMValue",
 		idFactory,

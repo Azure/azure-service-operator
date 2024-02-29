@@ -24,8 +24,8 @@ func GetNonReadyCRDs(
 	cfg config.Values,
 	crdManager *Manager,
 	goalCRDs []apiextensions.CustomResourceDefinition,
-	existingCRDs []apiextensions.CustomResourceDefinition) map[string]apiextensions.CustomResourceDefinition {
-
+	existingCRDs []apiextensions.CustomResourceDefinition,
+) map[string]apiextensions.CustomResourceDefinition {
 	equalityCheck := SpecEqual
 	// If we're not the webhooks install, we're in multitenant mode and we expect that the CRD webhook points to a different
 	// namespace than ours. We don't actually know what the right namespace is though so we can't verify it - we just have to trust it's right.

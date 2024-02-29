@@ -21,7 +21,6 @@ func TransformValidatedFloats() *Stage {
 		TransformValidatedFloatsStageID,
 		"Transform validated 'spec' float type values to validated integer types for compatibility with controller-gen",
 		func(ctx context.Context, state *State) (*State, error) {
-
 			definitions := state.Definitions()
 
 			result, err := getFloatTransformations(definitions)

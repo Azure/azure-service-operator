@@ -49,7 +49,8 @@ func ImplementConvertibleSpecInterface(idFactory astmodel.IdentifierFactory) *St
 // actual code generated.
 func createConvertibleSpecInterfaceImplementation(
 	spec astmodel.TypeDefinition,
-	idFactory astmodel.IdentifierFactory) *astmodel.InterfaceImplementation {
+	idFactory astmodel.IdentifierFactory,
+) *astmodel.InterfaceImplementation {
 	container, ok := astmodel.AsFunctionContainer(spec.Type())
 	if !ok {
 		// This shouldn't happen due to earlier filtering
@@ -71,8 +72,8 @@ func createConvertibleSpecInterfaceImplementation(
 func createConvertibleSpecFunction(
 	direction conversions.Direction,
 	container astmodel.FunctionContainer,
-	idFactory astmodel.IdentifierFactory) astmodel.Function {
-
+	idFactory astmodel.IdentifierFactory,
+) astmodel.Function {
 	for _, fn := range container.Functions() {
 		if propertyAssignmentFn, ok := fn.(*functions.PropertyAssignmentFunction); ok {
 			if propertyAssignmentFn.Direction() != direction {

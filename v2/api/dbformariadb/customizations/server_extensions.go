@@ -28,8 +28,8 @@ func (ext *ServerExtension) ExportKubernetesResources(
 	ctx context.Context,
 	obj genruntime.MetaObject,
 	armClient *genericarmclient.GenericClient,
-	log logr.Logger) ([]client.Object, error) {
-
+	log logr.Logger,
+) ([]client.Object, error) {
 	// This has to be the current storage version. It will need to be updated
 	// if the storage version changes.
 	typedObj, ok := obj.(*mariadb.Server)

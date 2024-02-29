@@ -46,7 +46,6 @@ func (w *GoSourceFileWriter) SaveToWriter(destination io.Writer) error {
 
 // SaveToFile writes the given FileAst to the specified file path
 func (w *GoSourceFileWriter) SaveToFile(filePath string) error {
-
 	file, err := os.Create(filePath)
 	if err != nil {
 		return err

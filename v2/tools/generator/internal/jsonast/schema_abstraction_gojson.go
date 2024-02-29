@@ -6,11 +6,12 @@
 package jsonast
 
 import (
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"math/big"
 	"net/url"
 	"regexp"
 	"strings"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 
 	"github.com/pkg/errors"
 	"github.com/xeipuuv/gojsonschema"

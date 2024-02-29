@@ -18,10 +18,12 @@ type propertyAccess[T any] struct {
 func makePropertyAccess[T any](
 	model *ObjectModelConfiguration,
 	accessor func(*PropertyConfiguration,
-	) *configurable[T]) propertyAccess[T] {
+	) *configurable[T],
+) propertyAccess[T] {
 	return propertyAccess[T]{
 		model:    model,
-		accessor: accessor}
+		accessor: accessor,
+	}
 }
 
 // Lookup returns the configured value for the given type name and property name

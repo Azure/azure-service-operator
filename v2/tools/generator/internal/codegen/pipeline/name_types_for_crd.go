@@ -196,7 +196,6 @@ var suffixesToFloat = []string{
 }
 
 func newNameHint(name astmodel.TypeName) nameHint {
-
 	baseName := name.Name()
 	var suffixes []string
 	done := false
@@ -230,7 +229,6 @@ func (n nameHint) WithBasePart(part string) nameHint {
 }
 
 func (n nameHint) WithSuffixPart(suffix string) nameHint {
-
 	newSuffix := strings.TrimPrefix(suffix, "_")
 	if n.suffix != "" {
 		newSuffix = n.suffix + "_" + newSuffix

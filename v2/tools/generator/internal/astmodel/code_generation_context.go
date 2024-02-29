@@ -29,8 +29,8 @@ var _ ReadonlyTypeDefinitions = &CodeGenerationContext{}
 func NewCodeGenerationContext(
 	currentPackage InternalPackageReference,
 	packageImports *PackageImportSet,
-	generatedPackages map[InternalPackageReference]*PackageDefinition) *CodeGenerationContext {
-
+	generatedPackages map[InternalPackageReference]*PackageDefinition,
+) *CodeGenerationContext {
 	imports := NewPackageImportSet()
 	imports.Merge(packageImports)
 
@@ -38,7 +38,8 @@ func NewCodeGenerationContext(
 		currentPackage:    currentPackage,
 		packageImports:    imports,
 		generatedPackages: generatedPackages,
-		usedImports:       NewPackageImportSet()}
+		usedImports:       NewPackageImportSet(),
+	}
 }
 
 // CurrentPackage returns the current package being generated
@@ -102,7 +103,6 @@ func (ctx *CodeGenerationContext) GetGeneratedPackage(reference InternalPackageR
 // GetDefinition looks up a particular type definition in a package available in this context
 func (ctx *CodeGenerationContext) GetDefinition(name InternalTypeName) (TypeDefinition, error) {
 	pkg, err := ctx.GetGeneratedPackage(name.InternalPackageReference())
-
 	if err != nil {
 		return TypeDefinition{}, err
 	}

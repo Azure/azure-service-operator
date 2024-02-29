@@ -118,7 +118,6 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 }
 
 func LoadBalancer_InboundNatRule_CRUD(tc *testcommon.KubePerTestContext, lb *network.LoadBalancer, frontendIPConfigurationARMID string) {
-
 	natRule := &network.LoadBalancersInboundNatRule{
 		ObjectMeta: tc.MakeObjectMeta("rule"),
 		Spec: network.LoadBalancers_InboundNatRule_Spec{
@@ -145,7 +144,6 @@ func LoadBalancer_InboundNatRule_CRUD(tc *testcommon.KubePerTestContext, lb *net
 	tc.Expect(natRule.Status.FrontendPort).To(BeEquivalentTo(&port))
 
 	tc.DeleteResourceAndWait(natRule)
-
 }
 
 // TODO: This is still really awkward

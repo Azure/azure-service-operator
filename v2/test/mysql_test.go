@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	_ "github.com/go-sql-driver/mysql" //sql drive link
+	_ "github.com/go-sql-driver/mysql" // sql drive link
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 

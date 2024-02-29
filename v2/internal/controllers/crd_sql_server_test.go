@@ -150,7 +150,7 @@ func SQL_Server_ConnectionPolicy_CRUD(tc *testcommon.KubePerTestContext, server 
 	tc.Expect(policy.Status.Id).ToNot(BeNil())
 
 	// TODO: Delete is not allowed for this resource
-	//tc.DeleteResourceAndWait(policy)
+	// tc.DeleteResourceAndWait(policy)
 }
 
 func SQL_Server_AdvancedThreatProtection_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server) {
@@ -210,12 +210,12 @@ func SQL_Server_VulnerabilityAssessments_CRUD(tc *testcommon.KubePerTestContext,
 
 	tc.DeleteResourceAndWait(vulnerabilityAssessment)
 	// TODO: It seems like delete of this resource isn't actually honored by the service - it's accepted but doesn't remove the resource
-	//exists, _, err := tc.AzureClient.HeadByID(
+	// exists, _, err := tc.AzureClient.HeadByID(
 	//	tc.Ctx,
 	//	armId,
 	//	string(sql.APIVersion_Value))
-	//tc.Expect(err).ToNot(HaveOccurred())
-	//tc.Expect(exists).To(BeFalse())
+	// tc.Expect(err).ToNot(HaveOccurred())
+	// tc.Expect(exists).To(BeFalse())
 }
 
 func SQL_Server_FirewallRules_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server) {
@@ -525,12 +525,12 @@ func SQL_Database_VulnerabilityAssessment_CRUD(tc *testcommon.KubePerTestContext
 
 	tc.DeleteResourceAndWait(vulnerabilityAssessment)
 	// TODO: It seems like delete of this resource isn't actually honored by the service - it's accepted but doesn't remove the resource
-	//exists, _, err := tc.AzureClient.HeadByID(
+	// exists, _, err := tc.AzureClient.HeadByID(
 	//	tc.Ctx,
 	//	armId,
 	//	string(sql.APIVersion_Value))
-	//tc.Expect(err).ToNot(HaveOccurred())
-	//tc.Expect(exists).To(BeFalse())
+	// tc.Expect(err).ToNot(HaveOccurred())
+	// tc.Expect(exists).To(BeFalse())
 }
 
 func SQL_Database_AuditingSetting_CRUD(tc *testcommon.KubePerTestContext, db *sql.ServersDatabase, storageDetails vulnStorageAccountDetails) {

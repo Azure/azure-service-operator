@@ -19,8 +19,10 @@ import (
 
 // this is shared between tests because
 // instantiating it requires HTTP calls
-var cachedCreds azcore.TokenCredential
-var cachedIds AzureIDs
+var (
+	cachedCreds azcore.TokenCredential
+	cachedIds   AzureIDs
+)
 
 const TestBillingIDVar = "TEST_BILLING_ID"
 
@@ -31,7 +33,6 @@ type AzureIDs struct {
 }
 
 func getCreds() (azcore.TokenCredential, AzureIDs, error) {
-
 	if cachedCreds != nil {
 		return cachedCreds, cachedIds, nil
 	}

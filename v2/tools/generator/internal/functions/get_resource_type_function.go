@@ -23,8 +23,8 @@ const (
 func NewGetTypeFunction(
 	armType string,
 	idFactory astmodel.IdentifierFactory,
-	receiverType ReceiverType) astmodel.Function {
-
+	receiverType ReceiverType,
+) astmodel.Function {
 	// Trim any "'s around armType
 	armType = strings.Trim(armType, "\"")
 

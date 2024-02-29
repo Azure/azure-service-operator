@@ -65,8 +65,8 @@ func RegisterAll(
 	kubeClient kubeclient.Client,
 	positiveConditions *conditions.PositiveConditionBuilder,
 	objs []*registration.StorageType,
-	options Options) error {
-
+	options Options,
+) error {
 	// pre-register any indexes we need
 	for _, obj := range objs {
 		for _, indexer := range obj.Indexes {
@@ -95,8 +95,8 @@ func register(
 	kubeClient kubeclient.Client,
 	positiveConditions *conditions.PositiveConditionBuilder,
 	info *registration.StorageType,
-	options Options) error {
-
+	options Options,
+) error {
 	// Use the provided GVK to construct a new runtime object of the desired concrete type.
 	gvk, err := apiutil.GVKForObject(info.Obj, mgr.GetScheme())
 	if err != nil {
