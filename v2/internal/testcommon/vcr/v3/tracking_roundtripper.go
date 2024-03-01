@@ -86,8 +86,18 @@ func (rt *requestCounter) addHashHeader(req *http.Request) {
 	// Calculate a hash based on body string
 	hash := sha256.Sum256([]byte(bodyString))
 
-	// Set the header
+	// Format hash as a hex string
+	hashString := fmt.Sprintf("%x", hash)
+
+	// Allocate a number
+	rt.countsMutex.Lock()
+	count := rt.counts[hashString]
+	rt.counts[hashString] = count + 1
+	rt.countsMutex.Unlock()
+
+	// Set the headers
 	req.Header.Set(HASH_HEADER, fmt.Sprintf("%x", hash))
+	req.Header.Set(COUNT_HEADER, fmt.Sprintf("%d", count))
 
 	// Reset the body so it can be read again
 	_, _ = rsc.Seek(0, io.SeekStart)
