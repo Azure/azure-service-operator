@@ -12,6 +12,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/pkg/errors"
 )
@@ -23,33 +24,72 @@ const DetermineResourceOwnershipStageId = "determineResourceOwnership"
 func DetermineResourceOwnership(
 	configuration *config.Configuration,
 ) *Stage {
-	return NewLegacyStage(
+	return NewStage(
 		DetermineResourceOwnershipStageId,
 		"Determine ARM resource relationships",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			return determineOwnership(definitions, configuration)
+		func(ctx context.Context, state *State) (*State, error) {
+			determiner := newOwnershipStage(configuration, state.Definitions())
+			defs, err := determiner.assignOwners()
+			if err != nil {
+				return nil, errors.Wrapf(err, "failed to determine resource ownership")
+			}
+
+			return state.WithOverlaidDefinitions(defs), nil
 		})
 }
 
-func determineOwnership(
-	definitions astmodel.TypeDefinitionSet,
-	configuration *config.Configuration,
-) (astmodel.TypeDefinitionSet, error) {
-	updatedDefs := make(astmodel.TypeDefinitionSet)
+type ownershipStage struct {
+	configuration        *config.Configuration
+	definitions          astmodel.TypeDefinitionSet
+	resourcesByParentURI map[string][]astmodel.InternalTypeName
+}
 
-	resources := astmodel.FindResourceDefinitions(definitions)
+func newOwnershipStage(
+	configuration *config.Configuration,
+	definitions astmodel.TypeDefinitionSet,
+) *ownershipStage {
+	result := &ownershipStage{
+		configuration:        configuration,
+		definitions:          definitions,
+		resourcesByParentURI: make(map[string][]astmodel.InternalTypeName),
+	}
+
+	result.indexByParent()
+	return result
+}
+
+func (o *ownershipStage) indexByParent() {
+	resources := astmodel.FindResourceDefinitions(o.definitions)
+
+	// Index all resources by canonical URL of their parent
 	for _, def := range resources {
-		resolved, err := definitions.ResolveResourceSpecAndStatus(def)
+		rt, _ := astmodel.AsResourceType(def.Type())
+		canonical := o.canonicalizeURI(rt.ARMURI())
+		parent := o.uriOfParentResource(canonical)
+		o.resourcesByParentURI[parent] = append(o.resourcesByParentURI[parent], def.Name())
+	}
+}
+
+func (o *ownershipStage) assignOwners() (astmodel.TypeDefinitionSet, error) {
+	updatedDefs := make(astmodel.TypeDefinitionSet)
+	resources := astmodel.FindResourceDefinitions(o.definitions)
+
+	// Loop through and associate children with parents, if found
+	var errs []error
+	for _, def := range resources {
+		resolved, err := o.definitions.ResolveResourceSpecAndStatus(def)
 		if err != nil {
 			return nil, errors.Wrapf(err, "unable to find resource %s spec and status", def.Name())
 		}
 
-		rt := def.Type().(*astmodel.ResourceType)
-		childResourceTypeNames := findChildren(rt, def.Name(), resources)
+		childResourceTypeNames := o.findChildren(def)
 
-		err = updateChildResourceDefinitionsWithOwner(definitions, childResourceTypeNames, def.Name(), updatedDefs)
+		err = o.updateChildResourceDefinitionsWithOwner(childResourceTypeNames, def.Name(), updatedDefs)
 		if err != nil {
-			return nil, err
+			errs = append(
+				errs,
+				errors.Wrapf(err, "failed to update ownership for resource %s", def.Name()))
+			continue
 		}
 
 		// Remove the resources property from the owning resource spec
@@ -58,75 +98,50 @@ func determineOwnership(
 		updatedDefs[resolved.SpecDef.Name()] = newDef
 	}
 
-	setDefaultOwner(configuration, definitions, updatedDefs)
-
-	return definitions.OverlayWith(updatedDefs), nil
-}
-
-var urlParamRegex = regexp.MustCompile("\\{.*?}")
-
-func findChildren(
-	rt *astmodel.ResourceType,
-	resourceName astmodel.InternalTypeName,
-	others astmodel.TypeDefinitionSet,
-) []astmodel.InternalTypeName {
-	// append "/" to the ARM URI so that if this is (e.g.):
-	//     /resource/name
-	// it doesn't match as a prefix of:
-	//     /resource/namedThing
-	// but it is a prefix of:
-	//     /resource/name/subresource/subname
-	myPrefix := rt.ARMURI() + "/"
-	myPrefix = canonicalizeURI(myPrefix)
-
-	var result []astmodel.InternalTypeName
-	for otherName, otherDef := range others {
-		other, ok := astmodel.AsResourceType(otherDef.Type())
-		if !ok {
-			continue
-		}
-		if rt == other {
-			continue // don’t self-own
-		}
-
-		// TODO: If it ever arises that we have a resource whose owner doesn't exist in the same API
-		// TODO: version this might be an issue.
-		// Ownership transcends APIVersion, but in order for things like $exportAs to work, it's best if
-		// ownership for each resource points to the owner in the same package. This ensures that standard tools
-		// like renamingVisitor work.
-		if !otherDef.Name().PackageReference().Equals(resourceName.PackageReference()) {
-			continue // Don't own if in a different package
-		}
-
-		otherURI := canonicalizeURI(other.ARMURI())
-
-		// Compare case-insensitive in case specs have different URL casings in their Swagger
-		if strings.HasPrefix(strings.ToLower(otherURI), strings.ToLower(myPrefix)) {
-			// now, accept it only if it contains two '/' exactly:
-			// so that the string is of the form:
-			//     {prefix}/resourceType/resourceName
-			// and not a grandchild resource:
-			//     {prefix}/resourceType/resourceName/anotherResourceType/anotherResourceName
-			withoutPrefix := otherURI[len(myPrefix)-1:]
-			if strings.Count(withoutPrefix, "/") == 2 {
-				result = append(result, otherName)
-			}
-
-		}
+	if len(errs) > 0 {
+		return nil, errors.Wrapf(
+			kerrors.NewAggregate(errs),
+			"failed to update ownership for some resources")
 	}
 
-	return result
+	o.setDefaultOwner(updatedDefs)
+
+	return updatedDefs, nil
 }
 
-func canonicalizeURI(uri string) string {
+var urlParamRegex = regexp.MustCompile(`\{.*?}`)
+
+func (o *ownershipStage) findChildren(
+	def astmodel.TypeDefinition,
+) []astmodel.InternalTypeName {
+	rt, ok := astmodel.AsResourceType(def.Type())
+	if !ok {
+		return nil
+	}
+
+	resourceURI := o.canonicalizeURI(rt.ARMURI())
+	return o.resourcesByParentURI[resourceURI]
+}
+
+func (*ownershipStage) canonicalizeURI(uri string) string {
 	// Replace all {.*}'s with {}, in case different URIs use different names for the same
 	// parameter
 	uri = urlParamRegex.ReplaceAllString(uri, "{}")
-	return uri
+	uri = strings.TrimSuffix(uri, "/")
+	return strings.ToLower(uri)
 }
 
-func updateChildResourceDefinitionsWithOwner(
-	definitions astmodel.TypeDefinitionSet,
+// uriOfParentResource removes the last two segments of the URI, which are the resource type and resource name
+func (*ownershipStage) uriOfParentResource(uri string) string {
+	parts := strings.Split(uri, "/")
+	if len(parts) < 2 {
+		return ""
+	}
+
+	return strings.Join(parts[:len(parts)-2], "/")
+}
+
+func (o *ownershipStage) updateChildResourceDefinitionsWithOwner(
 	childResourceTypeNames []astmodel.InternalTypeName,
 	owningResourceName astmodel.InternalTypeName,
 	updatedDefs astmodel.TypeDefinitionSet,
@@ -136,9 +151,18 @@ func updateChildResourceDefinitionsWithOwner(
 		typeName = typeName.Singular()
 
 		// Confirm the type really exists
-		childResourceDef, ok := definitions[typeName]
+		childResourceDef, ok := o.definitions[typeName]
 		if !ok {
 			return errors.Errorf("couldn't find child resource type %s", typeName)
+		}
+
+		// TODO: If it ever arises that we have a resource whose owner doesn't exist in the same API
+		// TODO: version this might be an issue.
+		// Ownership transcends APIVersion, but in order for things like $exportAs to work, it's best if
+		// ownership for each resource points to the owner in the same package. This ensures that standard tools
+		// like renamingVisitor work.
+		if !typeName.InternalPackageReference().Equals(owningResourceName.InternalPackageReference()) {
+			continue // Don't own if in a different package
 		}
 
 		// Update the definition of the child resource type to point to its owner
@@ -174,13 +198,11 @@ func updateChildResourceDefinitionsWithOwner(
 
 // setDefaultOwner sets a default owner for all resources which don't have one. The default owner is ResourceGroup.
 // Extension resources have no owner set, as they are a special case.
-func setDefaultOwner(
-	configuration *config.Configuration,
-	definitions astmodel.TypeDefinitionSet,
+func (o *ownershipStage) setDefaultOwner(
 	updatedDefs astmodel.TypeDefinitionSet,
 ) {
 	// Go over all the resource types and flag any that don't have an owner as having resource group as their owner
-	for _, def := range definitions {
+	for _, def := range o.definitions {
 		// Check if we've already modified this type - we need to use the already modified value
 		if updatedDef, ok := updatedDefs[def.Name()]; ok {
 			def = updatedDef
@@ -195,7 +217,7 @@ func setDefaultOwner(
 			ownerTypeName := astmodel.MakeInternalTypeName(
 				// Note that the version doesn't really matter here -- it's removed later. We just need to refer to the logical
 				// resource group really
-				configuration.MakeLocalPackageReference("resources", "v20191001"),
+				o.configuration.MakeLocalPackageReference("resources", "v20191001"),
 				"ResourceGroup")
 			updatedType := resourceType.WithOwner(ownerTypeName) // TODO: Note that right now... this type doesn't actually exist...
 			// This can overwrite because a resource with no owner may have had child resources,
