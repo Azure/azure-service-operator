@@ -92,7 +92,7 @@ func NewTestRecorder(
 		}
 
 		// verify custom request count header (see counting_roundtripper.go)
-		if r.Header.Get(vcr.COUNT_HEADER) != i.Headers.Get(vcr.COUNT_HEADER) {
+		if r.Header.Get(COUNT_HEADER) != i.Headers.Get(COUNT_HEADER) {
 			return false
 		}
 
@@ -222,9 +222,9 @@ func (r *recorderDetails) IsReplaying() bool {
 func (r *recorderDetails) CreateClient(t *testing.T) *http.Client {
 	withReplay := NewReplayRoundTripper(r.recorder, r.log)
 	withErrorTranslation := translateErrors(withReplay, r.cassetteName, t)
-	withCountHeader := vcr.AddCountHeader(withErrorTranslation)
+	withTrackingHeaders := AddTrackingHeaders(withErrorTranslation)
 
 	return &http.Client{
-		Transport: withCountHeader,
+		Transport: withTrackingHeaders,
 	}
 }

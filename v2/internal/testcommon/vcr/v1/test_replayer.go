@@ -77,7 +77,7 @@ func NewTestPlayer(
 		}
 
 		// verify custom request count header (see counting_roundtripper.go)
-		if r.Header.Get(vcr.COUNT_HEADER) != i.Headers.Get(vcr.COUNT_HEADER) {
+		if r.Header.Get(COUNT_HEADER) != i.Headers.Get(COUNT_HEADER) {
 			return false
 		}
 
@@ -132,7 +132,10 @@ func (r *player) IsReplaying() bool {
 // t is a reference to the test currently executing.
 // TODO: Remove the reference to t to reduce coupling
 func (r *player) CreateClient(t *testing.T) *http.Client {
+	withErrorTranslation := translateErrors(r.recorder, r.cassetteName, t)
+	withCountHeader := AddCountHeader(withErrorTranslation)
+
 	return &http.Client{
-		Transport: vcr.AddCountHeader(translateErrors(r.recorder, r.cassetteName, t)),
+		Transport: withCountHeader,
 	}
 }
