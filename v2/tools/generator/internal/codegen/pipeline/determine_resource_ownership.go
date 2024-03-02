@@ -66,7 +66,9 @@ func (o *ownershipStage) indexByParent() {
 		rt, _ := astmodel.AsResourceType(def.Type())
 		canonical := o.canonicalizeURI(rt.ARMURI())
 		parent := o.uriOfParentResource(canonical)
-		o.resourcesByParentURI[parent] = append(o.resourcesByParentURI[parent], def.Name())
+		if parent != "" {
+			o.resourcesByParentURI[parent] = append(o.resourcesByParentURI[parent], def.Name())
+		}
 	}
 }
 
