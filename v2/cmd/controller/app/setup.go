@@ -33,6 +33,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
+	"sigs.k8s.io/controller-runtime/pkg/metrics/filters"
 	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
@@ -257,8 +258,9 @@ func getMetricsOpts(flags Flags) server.Options {
 	var metricsOptions server.Options
 	if flags.SecureMetrics {
 		metricsOptions = server.Options{
-			BindAddress:   flags.MetricsAddr,
-			SecureServing: flags.SecureMetrics,
+			BindAddress:    flags.MetricsAddr,
+			SecureServing:  true,
+			FilterProvider: filters.WithAuthenticationAndAuthorization,
 			// Note that pprof endpoints are meant to be sensitive and shouldn't be exposed publicly.
 			ExtraHandlers: map[string]http.Handler{
 				"/debug/pprof/":        http.HandlerFunc(pprof.Index),
