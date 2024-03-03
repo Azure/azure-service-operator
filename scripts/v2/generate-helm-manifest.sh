@@ -42,8 +42,6 @@ rm "$GEN_FILES_DIR"/*_namespace_* # remove namespace as we will let Helm manage 
 sed -i "s/\(version: \)\(.*\)/\1${VERSION//v}/g" "$ASO_CHART"/Chart.yaml  # find version key and update the value with the current version
 
 # Deployment replacements
-#grep -E $KUBE_RBAC_PROXY "$GEN_FILES_DIR"/*_deployment_* > /dev/null # Ensure that what we're about to try to replace actually exists (if it doesn't we want to fail)
-#sed -i "s@$KUBE_RBAC_PROXY.*@{{.Values.image.kubeRBACProxy}}@g" "$GEN_FILES_DIR"/*_deployment_*
 sed -i "s@$LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE@{{.Values.image.repository}}@g" "$GEN_FILES_DIR"/*_deployment_* # Replace hardcoded ASO image
 # Perl multiline replacements - using this because it's tricky to do these sorts of multiline replacements with sed
 perl -0777 -i -pe 's/(template:\n.*metadata:\n.*annotations:\n(\s*))/$1\{\{- if .Values.podAnnotations \}\}\n$2\{\{ toYaml .Values.podAnnotations \}\}\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add pod annotations
@@ -56,9 +54,9 @@ perl -0777 -i -pe 's/(spec:\n.*template:\n.*spec:\n(\s*))/$1\{\{- with .Values.t
 flow_control "metrics-addr" "secure-metrics" "{{- if .Values.metrics.enable}}" "$GEN_FILES_DIR"/*_deployment_*
 sed -i "1,/secure-metrics=.*/s/\(secure-metrics=\)\(.*\)/\1{{ .Values.metrics.secureMetrics }}/g" "$GEN_FILES_DIR"/*_deployment_*
 sed -i "1,/metrics-addr=.*/s/\(metrics-addr=\)\(.*\)/\1{{ tpl .Values.metrics.address . }}/g" "$GEN_FILES_DIR"/*_deployment_*
-sed -i 's/containerPort: 8080/containerPort: {{ .Values.metrics.port | default 8080 }}/g' "$GEN_FILES_DIR"/*_deployment_*
+sed -i 's/containerPort: 8080/containerPort: {{ .Values.metrics.port | default 8443 }}/g' "$GEN_FILES_DIR"/*_deployment_*
 sed -i '1 i {{- if .Values.metrics.enable -}}' "$GEN_FILES_DIR"/*controller-manager-metrics-service*
-sed -i 's/port: 8080/port: {{ .Values.metrics.port | default 8080 }}/g' "$GEN_FILES_DIR"/*controller-manager-metrics-service*
+sed -i 's/port: 8080/port: {{ .Values.metrics.port | default 8443 }}/g' "$GEN_FILES_DIR"/*controller-manager-metrics-service*
 sed -i -e '$a{{- end }}' "$GEN_FILES_DIR"/*controller-manager-metrics-service*
 find "$GEN_FILES_DIR" -type f -exec sed -i 's/azureserviceoperator-system/{{ .Release.Namespace }}/g' {} \;
 

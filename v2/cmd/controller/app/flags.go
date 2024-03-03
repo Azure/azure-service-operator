@@ -56,7 +56,7 @@ func ParseFlags(args []string) (Flags, error) {
 
 	// default here for 'MetricsAddr' is set to "0", which sets metrics to be disabled if 'metrics-addr' flag is omitted.
 	flagSet.StringVar(&metricsAddr, "metrics-addr", "0", "The address the metric endpoint binds to.")
-	flagSet.BoolVar(&secureMetrics, "secure-metrics", false, "Enable secure metrics. This will enable serving pprof endpoints and metrics securely using https")
+	flagSet.BoolVar(&secureMetrics, "secure-metrics", true, "Enable secure metrics. This will enable serving pprof endpoints and metrics securely using https")
 
 	flagSet.StringVar(&healthAddr, "health-addr", "", "The address the healthz endpoint binds to.")
 	flagSet.IntVar(&webhookPort, "webhook-port", 9443, "The port the webhook endpoint binds to.")

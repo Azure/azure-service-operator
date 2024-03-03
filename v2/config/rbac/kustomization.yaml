@@ -11,5 +11,5 @@ resources:
 - leader_election_role_binding.yaml
 # Comment the following 3 lines if you want to disable
 # the SecureMetrics which protects your /metrics endpoint.
-- auth_proxy_role.yaml
-- auth_proxy_role_binding.yaml
+- metrics_role.yaml
+- metrics_role_binding.yaml

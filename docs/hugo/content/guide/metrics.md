@@ -9,18 +9,18 @@ The metrics exposed fall into two groups: Azure based metrics, and reconciler me
 
 By default, secure metrics for ASOv2 are turned on and can be toggled by the following options:
 
--  ### ASOv2 Helm Chart
+### ASOv2 Helm Chart
 
     While installing the Helm chart, we can turn the metrics _**on**_ and _**off**_ and set the metrics expose address using the 
     below settings. Also, we can change the settings inside `values.yaml` file for ASOv2 Helm chart.
 
     ```
     --set metrics.enable=true/false (default: true)
-    --set metrics.secure-metrics=true/false (default: false)
-    --set metrics.address=0.0.0.0:8080 (default)
+    --set metrics.secure-metrics=true/false (default: true)
+    --set metrics.address=0.0.0.0:8443 (default)
     ```
 
-- ### Deployment YAML
+### Deployment YAML
     
     In the deployment yaml, we can turn _**off**_ the metrics by omitting the `metrics-addr` flag. We can also change to use 
     a different metrics-addr by changing the default value of that same flag.
@@ -30,31 +30,31 @@ By default, secure metrics for ASOv2 are turned on and can be toggled by the fol
       containers:
        - args:
          - --metrics-addr=0.0.0.0:8080 (default)    
-         - --secure-metrics=true/false (default: false)
+         - --secure-metrics=true/false (default: true)
     ```
 
-## Scraping Metrics Securely via HTTPs
+## Scraping Metrics Securely via HTTPs using RBAC
 
 A ServiceAccount token is required to scrape metrics securely. The corresponding ServiceAccount needs permissions on the "/metrics" and "debug/pprof" paths. 
 This can be achieved e.g. by following the [Kubernetes documentation](https://kubernetes.io/docs/concepts/cluster-administration/system-metrics/).
 
 - Use the settings below in your deployment: 
 
-- #### ASOv2 Helm Chart
-    ```
-    --set metrics.enable=true
-    --set metrics.secure-metrics=true
-    --set metrics.address=0.0.0.0:8443
-    ```
-
-- #### Deployment YAML
-    ```
-    spec:
-      containers:
-       - args:
-         - --metrics-addr=0.0.0.0:8443  
-         - --secure-metrics=true 
-    ```
+    ### ASOv2 Helm Chart
+        ```
+        --set metrics.enable=true
+        --set metrics.secure-metrics=true
+        --set metrics.address=0.0.0.0:8443
+        ```
+    
+    ### Deployment YAML
+        ```
+        spec:
+          containers:
+           - args:
+             - --metrics-addr=0.0.0.0:8443  
+             - --secure-metrics=true 
+        ```
 
 - Deploy the following RBAC configuration:
     ```
