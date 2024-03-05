@@ -24,7 +24,6 @@ import (
 
 func TestReplayRoundTripperRoundTrip_GivenSingleGET_ReturnsMultipleTimes(t *testing.T) {
 	t.Parallel()
-	g := NewGomegaWithT(t)
 
 	// Arrange
 	req := &http.Request{
@@ -35,6 +34,7 @@ func TestReplayRoundTripperRoundTrip_GivenSingleGET_ReturnsMultipleTimes(t *test
 
 	resp := &http.Response{
 		StatusCode: 200,
+		Body:       io.NopCloser(strings.NewReader("GET response goes here")),
 	}
 
 	fake := vcr.NewFakeRoundTripper()
@@ -44,22 +44,13 @@ func TestReplayRoundTripperRoundTrip_GivenSingleGET_ReturnsMultipleTimes(t *test
 	replayer := NewReplayRoundTripper(fake, logr.Discard())
 
 	// Assert - first request works
-	//nolint:bodyclose // there's no actual body in this response to close
-	resp, err := replayer.RoundTrip(req)
-	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(resp.StatusCode).To(Equal(200))
+	assertExpectedResponse(t, replayer, req, 200, "GET response goes here")
 
 	// Assert - second request works by replaying the first
-	//nolint:bodyclose // there's no actual body in this response to close
-	resp, err = replayer.RoundTrip(req)
-	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(resp.StatusCode).To(Equal(200))
+	assertExpectedResponse(t, replayer, req, 200, "GET response goes here")
 
 	// Assert - third request works by replaying the first
-	//nolint:bodyclose // there's no actual body in this response to close
-	resp, err = replayer.RoundTrip(req)
-	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(resp.StatusCode).To(Equal(200))
+	assertExpectedResponse(t, replayer, req, 200, "GET response goes here")
 }
 
 func TestReplayRoundTripperRoundTrip_GivenSinglePut_ReturnsOnceExtra(t *testing.T) {
@@ -75,6 +66,7 @@ func TestReplayRoundTripperRoundTrip_GivenSinglePut_ReturnsOnceExtra(t *testing.
 
 	resp := &http.Response{
 		StatusCode: 200,
+		Body:       io.NopCloser(strings.NewReader("PUT response goes here")),
 	}
 
 	fake := vcr.NewFakeRoundTripper()
@@ -84,20 +76,13 @@ func TestReplayRoundTripperRoundTrip_GivenSinglePut_ReturnsOnceExtra(t *testing.
 	replayer := NewReplayRoundTripper(fake, logr.Discard())
 
 	// Assert - first request works
-	//nolint:bodyclose // there's no actual body in this response to close
-	resp, err := replayer.RoundTrip(req)
-	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(resp.StatusCode).To(Equal(200))
+	assertExpectedResponse(t, replayer, req, 200, "PUT response goes here")
 
 	// Assert - second request works by replaying the first
-	//nolint:bodyclose // there's no actual body in this response to close
-	resp, err = replayer.RoundTrip(req)
-	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(resp.StatusCode).To(Equal(200))
+	assertExpectedResponse(t, replayer, req, 200, "PUT response goes here")
 
 	// Assert - third request fails because we've had our one replay
-	//nolint:bodyclose // there's no actual body in this response to close
-	_, err = replayer.RoundTrip(req)
+	_, err := replayer.RoundTrip(req)
 	g.Expect(err).To(HaveOccurred())
 }
 
@@ -105,16 +90,19 @@ func TestReplayRoundTripperRoundTrip_GivenMultiplePUTsToSameURL_ReturnsExpectedB
 	t.Parallel()
 
 	// Arrange
+	//nolint:bodyclose // response body is a string, no need to close
 	alphaRequest, alphaResponse := createPutRequestAndResponse(
 		"/foo",
 		"Alpha goes here",
 		200)
 
+	//nolint:bodyclose // response body is a string, no need to close
 	betaRequest, betaResponse := createPutRequestAndResponse(
 		"/foo",
 		"Beta goes here",
 		203)
 
+	//nolint:bodyclose // response body is a string, no need to close
 	gammaRequest, gammaResponse := createPutRequestAndResponse(
 		"/foo",
 		"Gamma goes here",
@@ -231,10 +219,11 @@ func assertExpectedResponse(
 	g.Expect(response.StatusCode).To(Equal(expectedStatus))
 
 	var body bytes.Buffer
-	_, err = body.ReadFrom(response.Body)
-	g.Expect(err).ToNot(HaveOccurred())
-
-	g.Expect(string(body.String())).To(ContainSubstring(expectedBodyContent))
+	if response.Body != nil {
+		_, err = body.ReadFrom(response.Body)
+		g.Expect(err).ToNot(HaveOccurred())
+		g.Expect(string(body.String())).To(ContainSubstring(expectedBodyContent))
+	}
 
 	// Reset the body so it can be read again
 	response.Body = io.NopCloser(&body)
