@@ -57,11 +57,9 @@ func TestGolden_ResoureExtension_MoreThanOneVersion(t *testing.T) {
 }
 
 func getResourceExtensionTestData(pkg astmodel.LocalPackageReference, resourceName string) (astmodel.TypeDefinition, astmodel.TypeDefinition, astmodel.TypeDefinition) {
-
 	spec := test.CreateSpec(pkg, resourceName, test.FullNameProperty, test.FamilyNameProperty, test.KnownAsProperty)
 	status := test.CreateStatus(pkg, resourceName)
 	resource := test.CreateResource(pkg, resourceName, spec, status)
 
 	return resource, spec, status
-
 }

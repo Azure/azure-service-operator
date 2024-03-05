@@ -131,7 +131,6 @@ func (factory *identifierFactory) createIdentifierImpl(name string, visibility V
 }
 
 func (factory *identifierFactory) createIdentifierUncached(name string, visibility Visibility, reservedWords reservedWordConsideration) string {
-
 	// Trim any leading or trailing underscores before proceeding.
 	name = strings.Trim(name, "_")
 

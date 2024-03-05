@@ -74,6 +74,7 @@ func TestResourceConversionGraph_WithTwoGAReferences_HasExpectedTransitions(t *t
 	after2020s := graph.LookupTransition(after2020)
 	g.Expect(after2020s).NotTo(BeNil())
 }
+
 func TestResourceConversionGraph_WithGAAndPreviewReferences_HasExpectedTransitions(t *testing.T) {
 	/*
 	 * Test that a graph containing two GA and one *Preview* API release (and matching storage versions) ends up with

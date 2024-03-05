@@ -41,7 +41,8 @@ func NewCleaner(
 	apiExtensionsClient apiextensionsclient.CustomResourceDefinitionInterface,
 	client client.Client,
 	dryRun bool,
-	log logr.Logger) *Cleaner {
+	log logr.Logger,
+) *Cleaner {
 	migrationBackoff := wait.Backoff{
 		Duration: 2 * time.Second, // wait 2s between attempts, this will help us in a state of conflict.
 		Steps:    3,               // 3 retry on error attempts per object
@@ -156,8 +157,8 @@ func (c *Cleaner) Run(ctx context.Context) error {
 func (c *Cleaner) updateStorageVersions(
 	ctx context.Context,
 	crd apiextensions.CustomResourceDefinition,
-	newStoredVersions []string) error {
-
+	newStoredVersions []string,
+) error {
 	if c.dryRun {
 		c.log.Info(
 			"Would update storedVersions",

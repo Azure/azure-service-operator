@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	_ "github.com/jackc/pgx/v5/stdlib" //the pgx lib
+	_ "github.com/jackc/pgx/v5/stdlib" // the pgx lib
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 

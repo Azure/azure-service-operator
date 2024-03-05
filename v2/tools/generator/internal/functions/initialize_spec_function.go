@@ -23,7 +23,8 @@ import (
 func NewInitializeSpecFunction(
 	def astmodel.TypeDefinition,
 	specInitializeFunction string,
-	idFactory astmodel.IdentifierFactory) (astmodel.Function, error) {
+	idFactory astmodel.IdentifierFactory,
+) (astmodel.Function, error) {
 	rsrc, ok := astmodel.AsResourceType(def.Type())
 	if !ok {
 		return nil, errors.Errorf("expected %q to be a resource", def.Name())

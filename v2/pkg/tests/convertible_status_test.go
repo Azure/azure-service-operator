@@ -30,9 +30,8 @@ func TestGetVersionedStatus_WorksWhenNoPivotNeeded(t *testing.T) {
 	g.Expect(rsrc).NotTo(BeNil())
 }
 
-//TODO: once we have multiple versions of a resource, we should test that the pivot works too
-//func TestGetVersionedStatus_WorksWhenPivotNeeded(t *testing.T) {
-
+// TODO: once we have multiple versions of a resource, we should test that the pivot works too
+// func TestGetVersionedStatus_WorksWhenPivotNeeded(t *testing.T) {
 func TestNewEmptyVersionedStatus_WorksWhenNoPivotNeeded(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
@@ -48,5 +47,5 @@ func TestNewEmptyVersionedStatus_WorksWhenNoPivotNeeded(t *testing.T) {
 	g.Expect(rsrc).NotTo(BeNil())
 }
 
-//TODO: once we have multiple versions of a resource, we should test that the pivot works too
-//func TestNewEmptyVersionedStatus_WorksWhenPivotNeeded(t *testing.T) {
+// TODO: once we have multiple versions of a resource, we should test that the pivot works too
+// func TestNewEmptyVersionedStatus_WorksWhenPivotNeeded(t *testing.T) {

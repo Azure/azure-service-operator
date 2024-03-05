@@ -80,7 +80,8 @@ func newARMTypeCreator(
 	definitions astmodel.TypeDefinitionSet,
 	configuration *config.ObjectModelConfiguration,
 	idFactory astmodel.IdentifierFactory,
-	log logr.Logger) *armTypeCreator {
+	log logr.Logger,
+) *armTypeCreator {
 	result := &armTypeCreator{
 		definitions: definitions,
 		idFactory:   idFactory,

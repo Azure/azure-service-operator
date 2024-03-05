@@ -12,7 +12,7 @@ import (
 
 	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
 	subscription "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
-	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -32,7 +32,7 @@ func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	if tc.AzureBillingInvoiceID == "" {
-		t.Fatalf("%q enviornment variable must be set", testcommon.TestBillingIDVar)
+		t.Fatalf("%q enviornment variable must be set", creds.TestBillingIDVar)
 	}
 
 	// TODO: Once ManagedIdentity is registered in our sub, we can use this instead of the hardcoded identity below
@@ -74,7 +74,7 @@ func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
 		Spec: authorization.RoleAssignment_Spec{
 			Owner: tc.AsExtensionOwner(sub),
-			//PrincipalId: mi.Status.PrincipalId,
+			// PrincipalId: mi.Status.PrincipalId,
 			PrincipalId: to.Ptr("1605884e-16c3-4fc0-bf09-4220deecef02"), // 1605884e-16c3-4fc0-bf09-4220deecef02 == my user in PPE
 			RoleDefinitionReference: &genruntime.ResourceReference{
 				ARMID: "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635", // This is owner
@@ -90,5 +90,4 @@ func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
-
 }

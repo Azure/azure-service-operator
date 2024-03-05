@@ -34,8 +34,8 @@ func (e *Verify) HasState(
 	obj client.Object,
 	desiredState metav1.ConditionStatus,
 	desiredSeverity conditions.ConditionSeverity,
-	oldGeneration int64) (bool, error) {
-
+	oldGeneration int64,
+) (bool, error) {
 	key := client.ObjectKeyFromObject(obj)
 
 	// In order to ensure that "old state" is cleared out from obj, we need to:

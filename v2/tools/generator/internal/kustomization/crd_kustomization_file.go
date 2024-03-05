@@ -57,7 +57,7 @@ func (k *CRDKustomizeFile) Save(destination string) error {
 		return errors.Wrap(err, "serializing to yaml")
 	}
 
-	err = ioutil.WriteFile(destination, data, 0644) // #nosec G306
+	err = ioutil.WriteFile(destination, data, 0o644) // #nosec G306
 	if err != nil {
 		return errors.Wrapf(err, "writing to %s", destination)
 	}

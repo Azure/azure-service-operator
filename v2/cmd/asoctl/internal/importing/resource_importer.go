@@ -48,7 +48,8 @@ func NewResourceImporter(
 	scheme *runtime.Scheme,
 	client *genericarmclient.GenericClient,
 	log logr.Logger,
-	progress *mpb.Progress) *ResourceImporter {
+	progress *mpb.Progress,
+) *ResourceImporter {
 	return &ResourceImporter{
 		scheme:   scheme,
 		client:   client,
@@ -79,7 +80,6 @@ func (ri *ResourceImporter) AddARMID(armID string) error {
 func (ri *ResourceImporter) Import(
 	ctx context.Context,
 ) (*ResourceImportResult, error) {
-
 	workers := 1
 	candidates := make(chan ImportableResource)  // candidates that need to be deduped
 	pending := make(chan ImportableResource)     // importers that are pending import
@@ -144,7 +144,7 @@ func (ri *ResourceImporter) queueUniqueImporters(
 	var queue []ImportableResource
 	var current ImportableResource = nil
 
-	var running = true
+	running := true
 	for running {
 		// Dequeue from our internal buffer if needed
 		if current == nil && len(queue) > 0 {

@@ -159,7 +159,8 @@ func init() {
 func CreateTypeConversion(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	var result PropertyConversion
 	var err error
 	for _, f := range propertyConversionFactories {
@@ -252,8 +253,8 @@ func directAssignmentPropertyConversion(
 func writeToBagItem(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
-
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require destination to be a property bag item
 	destinationBagItem, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type())
 	if !destinationIsBagItem {
@@ -374,8 +375,8 @@ func writeToBagItem(
 func assignToOptional(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
-
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require destination to not be a bag item
 	if destinationEndpoint.IsBagItem() {
 		return nil, nil
@@ -606,8 +607,8 @@ func pullFromBagItem(
 func assignFromOptional(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
-
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require source to not be a bag item
 	if sourceEndpoint.IsBagItem() {
 		return nil, nil
@@ -693,8 +694,8 @@ func assignFromOptional(
 func assignToEnumeration(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
-
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require destination to not be a bag item
 	if destinationEndpoint.IsBagItem() {
 		return nil, nil
@@ -754,8 +755,8 @@ func assignToEnumeration(
 func assignPrimitiveFromPrimitive(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	_ *PropertyConversionContext) (PropertyConversion, error) {
-
+	_ *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require both source and destination to not be bag items
 	if sourceEndpoint.IsBagItem() || destinationEndpoint.IsBagItem() {
 		return nil, nil
@@ -793,8 +794,8 @@ func assignPrimitiveFromPrimitive(
 func assignAliasedPrimitiveFromAliasedPrimitive(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
-
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require both source and destination to not be bag items
 	if sourceEndpoint.IsBagItem() || destinationEndpoint.IsBagItem() {
 		return nil, nil
@@ -848,8 +849,8 @@ func assignAliasedPrimitiveFromAliasedPrimitive(
 func assignFromAliasedType(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
-
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require source to not be a bag item
 	if sourceEndpoint.IsBagItem() {
 		return nil, nil
@@ -905,8 +906,8 @@ func assignFromAliasedType(
 func assignToAliasedType(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
-
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require destination to not be a bag item
 	if destinationEndpoint.IsBagItem() {
 		return nil, nil
@@ -1117,8 +1118,8 @@ var forbiddenConversions = []forbiddenConversion{
 func neuterForbiddenConversions(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	_ *PropertyConversionContext) (PropertyConversion, error) {
-
+	_ *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require both source and destination to not be bag items
 	if sourceEndpoint.IsBagItem() || destinationEndpoint.IsBagItem() {
 		return nil, nil
@@ -1156,8 +1157,8 @@ func neuterForbiddenConversions(
 func assignArrayFromArray(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
-
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require both source and destination to not be bag items
 	if sourceEndpoint.IsBagItem() || destinationEndpoint.IsBagItem() {
 		return nil, nil
@@ -1290,8 +1291,8 @@ func assignArrayFromArray(
 func assignMapFromMap(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
-
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require both source and destination to not be bag items
 	if sourceEndpoint.IsBagItem() || destinationEndpoint.IsBagItem() {
 		return nil, nil
@@ -1436,8 +1437,8 @@ func assignMapFromMap(
 func assignUserAssignedIdentityMapFromArray(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
-
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// There's no conversion in the other direction (array -> map) for this because property_conversions only deals with:
 	// 1. Conversions between storage types, where UserAssignedIdentity's are arrays on both sides and don't need
 	//    special handling.
@@ -1501,7 +1502,6 @@ func assignUserAssignedIdentityMapFromArray(
 		knownLocals *astmodel.KnownLocalsSet,
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
-
 		// <source>List := make([]<type>, 0, len(<source>)
 		tempId := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "List")
 		declaration := astbuilder.ShortDeclaration(
@@ -1578,8 +1578,8 @@ func assignUserAssignedIdentityMapFromArray(
 func assignEnumFromEnum(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
-
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require both source and destination to not be bag items
 	if sourceEndpoint.IsBagItem() || destinationEndpoint.IsBagItem() {
 		return nil, nil
@@ -1643,8 +1643,8 @@ func assignEnumFromEnum(
 func assignPrimitiveFromEnum(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
-
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require both source and destination to not be bag items
 	if sourceEndpoint.IsBagItem() || destinationEndpoint.IsBagItem() {
 		return nil, nil
@@ -1700,8 +1700,8 @@ func assignPrimitiveFromEnum(
 func assignObjectDirectlyFromObject(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
-
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require expected direction
 	if conversionContext.direction != ConvertFrom {
 		return nil, nil
@@ -1824,8 +1824,8 @@ func assignObjectDirectlyFromObject(
 func assignObjectDirectlyToObject(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
-	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
-
+	conversionContext *PropertyConversionContext,
+) (PropertyConversion, error) {
 	// Require expected direction
 	if conversionContext.direction != ConvertTo {
 		return nil, nil
@@ -2063,7 +2063,6 @@ func assignInlineObjectsViaIntermediateObject(
 		knownLocals *astmodel.KnownLocalsSet,
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
-
 		// We capture the expression written by the first step pass it to the second step,
 		// allowing us to avoid extra local variable (this is a bit sneaky, as we rely on assignObjectDirectlyFromObject
 		// and assignObjectDirectlyToObject using a local variable themselves.)
@@ -2220,7 +2219,6 @@ func assignNonInlineObjectsViaPivotObject(
 		knownLocals *astmodel.KnownLocalsSet,
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
-
 		// We capture the expression written by the first step pass it to the second step,
 		// allowing us to avoid extra local variable (this is a bit sneaky, as we rely on assignObjectDirectlyFromObject
 		// and assignObjectDirectlyToObject using a local variable themselves.)

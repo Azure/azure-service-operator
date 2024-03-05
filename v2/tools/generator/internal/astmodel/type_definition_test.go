@@ -109,7 +109,6 @@ func TestApplyObjectTransformation_GivenObjectAndTransformation_AppliesTransform
 	prop, ok := ot.Property("FullName")
 	g.Expect(ok).To(BeTrue())
 	g.Expect(prop).NotTo(BeNil())
-
 }
 
 func TestApplyObjectTransformation_GivenObjectAndTransformationReturningError_ReturnsError(t *testing.T) {

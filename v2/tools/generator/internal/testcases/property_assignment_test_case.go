@@ -33,8 +33,8 @@ var _ astmodel.TestCase = &PropertyAssignmentTestCase{}
 func NewPropertyAssignmentTestCase(
 	name astmodel.TypeName,
 	container astmodel.FunctionContainer,
-	idFactory astmodel.IdentifierFactory) *PropertyAssignmentTestCase {
-
+	idFactory astmodel.IdentifierFactory,
+) *PropertyAssignmentTestCase {
 	result := &PropertyAssignmentTestCase{
 		subject:   name,
 		idFactory: idFactory,
@@ -115,7 +115,8 @@ func (p *PropertyAssignmentTestCase) RequiredImports() *astmodel.PackageImportSe
 // subject is the name of the type under test
 // codeGenerationContext contains reference material to use when generating
 func (p *PropertyAssignmentTestCase) AsFuncs(
-	receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext) []dst.Decl {
+	receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext,
+) []dst.Decl {
 	return []dst.Decl{
 		p.createTestRunner(codeGenerationContext),
 		p.createTestMethod(receiver, codeGenerationContext),
@@ -222,7 +223,8 @@ func (p *PropertyAssignmentTestCase) createTestRunner(codegenContext *astmodel.C
 // createTestMethod generates the AST for a method to run a single test conversion and back again
 func (p *PropertyAssignmentTestCase) createTestMethod(
 	subject astmodel.TypeName,
-	codegenContext *astmodel.CodeGenerationContext) dst.Decl {
+	codegenContext *astmodel.CodeGenerationContext,
+) dst.Decl {
 	const (
 		errId        = "err"
 		copiedId     = "copied"

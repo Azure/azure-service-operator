@@ -34,7 +34,6 @@ type BeDeletedMatcher struct {
 var _ types.GomegaMatcher = &BeDeletedMatcher{}
 
 func (m *BeDeletedMatcher) Match(actual interface{}) (bool, error) {
-
 	if actual == nil {
 		return false, nil
 	}

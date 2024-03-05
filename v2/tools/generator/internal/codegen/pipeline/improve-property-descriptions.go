@@ -7,8 +7,9 @@ package pipeline
 
 import (
 	"context"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"strings"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // ImprovePropertyDescriptionsStageId is the unique identifier for this pipeline stage

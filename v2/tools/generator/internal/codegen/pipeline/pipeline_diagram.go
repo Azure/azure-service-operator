@@ -36,7 +36,7 @@ func NewPipelineDiagram(settings *DebugSettings) *PipelineDiagram {
 func (diagram *PipelineDiagram) WriteDiagram(stages []*Stage) error {
 	dotsrc := diagram.createDiagram(stages)
 	filename := filepath.Join(diagram.debugDir, "pipeline.dot")
-	err := os.WriteFile(filename, dotsrc, 0600)
+	err := os.WriteFile(filename, dotsrc, 0o600)
 	return errors.Wrapf(err, "failed to write diagram to %s", filename)
 }
 

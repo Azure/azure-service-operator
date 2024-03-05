@@ -592,8 +592,8 @@ func (extractor *SwaggerTypeExtractor) getNameParameterType(
 	ctx context.Context,
 	operationPath string,
 	scanner *SchemaScanner,
-	parameters []spec.Parameter) astmodel.Type {
-
+	parameters []spec.Parameter,
+) astmodel.Type {
 	lastParam, ok := extractor.extractLastPathParam(operationPath, parameters)
 	if !ok {
 		panic(fmt.Sprintf("couldn't find path parameter for %s", operationPath))
@@ -645,9 +645,9 @@ func (extractor *SwaggerTypeExtractor) expandAndCanonicalizePath(
 	ctx context.Context,
 	operationPath string,
 	scanner *SchemaScanner,
-	parameters []spec.Parameter) []string {
-
-	var results = []string{
+	parameters []spec.Parameter,
+) []string {
+	results := []string{
 		operationPath,
 	}
 

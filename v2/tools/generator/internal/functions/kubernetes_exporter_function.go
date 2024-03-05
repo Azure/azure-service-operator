@@ -6,9 +6,10 @@
 package functions
 
 import (
-	"github.com/pkg/errors"
 	"go/token"
 	"sort"
+
+	"github.com/pkg/errors"
 
 	"github.com/dave/dst"
 
@@ -30,7 +31,8 @@ func NewKubernetesExporterBuilder(
 	resourceName astmodel.TypeName,
 	resource *astmodel.ResourceType,
 	idFactory astmodel.IdentifierFactory,
-	mappings map[string][]*astmodel.PropertyDefinition) *KubernetesExporterBuilder {
+	mappings map[string][]*astmodel.PropertyDefinition,
+) *KubernetesExporterBuilder {
 	return &KubernetesExporterBuilder{
 		resourceName: resourceName,
 		resource:     resource,
@@ -222,7 +224,8 @@ func (d *KubernetesExporterBuilder) addCollectorStmt(
 	collectorIdent string,
 	propertyPath []*astmodel.PropertyDefinition,
 	propertyNames []string,
-	operatorSpecPropertyName string) dst.Stmt {
+	operatorSpecPropertyName string,
+) dst.Stmt {
 	operatorSpecSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec", astmodel.OperatorSpecProperty)
 	operatorSpecConfigMapsSelector := astbuilder.Selector(operatorSpecSelector, astmodel.OperatorSpecConfigMapsProperty)
 

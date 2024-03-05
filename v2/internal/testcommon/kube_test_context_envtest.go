@@ -14,14 +14,11 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
-	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
-	"sigs.k8s.io/controller-runtime/pkg/webhook"
 	"strings"
 	"sync"
 	"time"
 
 	"github.com/benbjohnson/clock"
-	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"golang.org/x/sync/semaphore"
@@ -34,7 +31,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 	ctrllog "sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
+	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
@@ -88,6 +87,11 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		},
 		Scheme: scheme,
 	}
+
+	// TODO: Switch to klogr.New() below the below if we want controller-runtime logs in the tests.
+	// By default we've disabled controller runtime logs because they're very verbose and usually not useful.
+	// ctrl.SetLogger(klogr.New())
+	ctrl.SetLogger(logr.New(ctrllog.NullLogSink{}))
 
 	log.Println("Starting envtest")
 	kubeConfig, err := environment.Start()
@@ -155,7 +159,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 
 	// TODO: Uncomment the below if we want controller-runtime logs in the tests.
 	// By default we've disabled controller runtime logs because they're very verbose and usually not useful.
-	//ctrl.SetLogger(klogr.New())
+	// ctrl.SetLogger(klogr.New())
 	ctrl.SetLogger(logr.New(ctrllog.NullLogSink{}))
 
 	loggerFactory := func(obj metav1.Object) logr.Logger {
@@ -469,11 +473,9 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 	}
 
 	create := func(perTestContext PerTestContext, cfg config.Values) (*KubeBaseTestContext, error) {
-
-		replaying := perTestContext.AzureClientRecorder.Mode() == recorder.ModeReplaying
 		testCfg := testConfig{
 			Values:             cfg,
-			Replaying:          replaying,
+			Replaying:          perTestContext.AzureClientRecorder.IsReplaying(),
 			CountsTowardsLimit: perTestContext.CountsTowardsParallelLimits,
 		}
 		envtest, err := envTests.getEnvTestForConfig(perTestContext.Ctx, testCfg, perTestContext.logger)

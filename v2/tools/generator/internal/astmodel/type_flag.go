@@ -30,7 +30,6 @@ func (f TypeFlag) ApplyTo(t Type) *FlaggedType {
 
 // RemoveFrom applies the tag to the provided type
 func (f TypeFlag) RemoveFrom(t Type) (Type, error) {
-
 	removeFlag := func(it *FlaggedType) Type {
 		return it.WithoutFlag(f)
 	}

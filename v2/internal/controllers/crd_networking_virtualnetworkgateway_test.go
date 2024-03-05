@@ -40,7 +40,6 @@ func Test_Networking_VirtualNetworkGateway_CRUD(t *testing.T) {
 
 	tc.CreateResourceAndWait(gateway)
 	tc.DeleteResourceAndWait(gateway)
-
 }
 
 func newVnetGateway(tc *testcommon.KubePerTestContext, publicIPAddress *network.PublicIPAddress, subnet *network.VirtualNetworksSubnet, rg *resources.ResourceGroup) *network.VirtualNetworkGateway {

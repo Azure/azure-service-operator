@@ -91,7 +91,6 @@ var (
 
 // CreateLogger creates a logger  for console output.
 func CreateLogger() logr.Logger {
-
 	// Configure console writer for ZeroLog
 	output := zerolog.ConsoleWriter{
 		Out:        os.Stderr,      // Write to StdErr

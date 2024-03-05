@@ -7,8 +7,9 @@ package astmodel
 
 import (
 	"go/token"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sort"
+
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/dave/dst"
 	"golang.org/x/exp/maps"

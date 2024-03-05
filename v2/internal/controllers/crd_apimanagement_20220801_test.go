@@ -170,7 +170,7 @@ func APIM_Subscription_CRUD(tc *testcommon.KubePerTestContext, service client.Ob
 	// There should be no secrets at this point
 	secretList := &v1.SecretList{}
 	tc.ListResources(secretList, client.InNamespace(tc.Namespace))
-	tc.Expect(secretList.Items).To(HaveLen(1)) //for secret created for authorization provider resource
+	tc.Expect(secretList.Items).To(HaveLen(1)) // for secret created for authorization provider resource
 
 	// Run sub-tests on subscription in sequence
 	tc.RunSubtests(
@@ -257,7 +257,6 @@ func APIM_Policy_CRUD(tc *testcommon.KubePerTestContext, service client.Object) 
 }
 
 func APIM_PolicyFragment_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
-
 	// Add a simple Policy Fragment
 	policyFragment := apim.PolicyFragment{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("policyfragment")),
@@ -278,7 +277,6 @@ func APIM_PolicyFragment_CRUD(tc *testcommon.KubePerTestContext, service client.
 }
 
 func APIM_Product_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
-
 	productName := tc.Namer.GenerateName("cust1")
 	// Now add a product
 	product := apim.Product{
@@ -307,7 +305,6 @@ func APIM_Product_CRUD(tc *testcommon.KubePerTestContext, service client.Object)
 }
 
 func APIM_Product_Policy_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
-
 	productName := tc.Namer.GenerateName("product1")
 	// Now add a product
 	product := apim.Product{
@@ -347,7 +344,6 @@ func APIM_Product_Policy_CRUD(tc *testcommon.KubePerTestContext, service client.
 }
 
 func APIM_Product_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
-
 	productName := tc.Namer.GenerateName("product2")
 	product := apim.Product{
 		ObjectMeta: tc.MakeObjectMetaWithName(productName),
@@ -404,7 +400,8 @@ func APIM_Product_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Obj
 			},
 
 			Protocols: []apim.ApiCreateOrUpdateProperties_Protocols{
-				apim.ApiCreateOrUpdateProperties_Protocols_Https},
+				apim.ApiCreateOrUpdateProperties_Protocols_Https,
+			},
 
 			TermsOfServiceUrl: to.Ptr("https://www.bing.com/tos"),
 			Type:              to.Ptr(apim.ApiCreateOrUpdateProperties_Type_Http),
@@ -435,7 +432,6 @@ func APIM_Product_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Obj
 }
 
 func APIM_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
-
 	versionSet := apim.ApiVersionSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs")),
 		Spec: apim.Service_ApiVersionSet_Spec{
@@ -475,7 +471,8 @@ func APIM_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 			},
 
 			Protocols: []apim.ApiCreateOrUpdateProperties_Protocols{
-				apim.ApiCreateOrUpdateProperties_Protocols_Https},
+				apim.ApiCreateOrUpdateProperties_Protocols_Https,
+			},
 
 			TermsOfServiceUrl: to.Ptr("https://www.bing.com/tos"),
 			Type:              to.Ptr(apim.ApiCreateOrUpdateProperties_Type_Http),

@@ -51,7 +51,7 @@ func Test_Networking_PrivateDnsZone_CRUD(t *testing.T) {
 
 	tc.DeleteResourceAndWait(zone)
 
-	//Ensure that the resource was really deleted in Azure
+	// Ensure that the resource was really deleted in Azure
 	armId, hasID := genruntime.GetResourceID(zone)
 	tc.Expect(hasID).To(BeTrue())
 

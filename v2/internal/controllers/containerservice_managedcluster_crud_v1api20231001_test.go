@@ -78,7 +78,7 @@ func Test_AKS_ManagedCluster_20231001_CRUD(t *testing.T) {
 
 func NewManagedCluster20231001(tc *testcommon.KubePerTestContext, rg *v1api20200601.ResourceGroup, adminUsername string, sshPublicKey *string) *aks.ManagedCluster {
 	region := to.Ptr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
-	//region := tc.AzureRegion
+	// region := tc.AzureRegion
 
 	cluster := &aks.ManagedCluster{
 		ObjectMeta: tc.MakeObjectMeta("mc"),

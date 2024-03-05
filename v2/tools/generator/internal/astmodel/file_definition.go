@@ -36,7 +36,6 @@ func NewFileDefinition(
 	definitions []TypeDefinition,
 	generatedPackages map[InternalPackageReference]*PackageDefinition,
 ) *FileDefinition {
-
 	// Topological sort of the definitions, putting them in order of reference
 	ranks := calcRanks(definitions)
 	sort.Slice(definitions, func(i, j int) bool {
@@ -139,7 +138,6 @@ func assignRanks(definers []TypeDefinition, ranks map[TypeName]int) []TypeDefini
 
 // generateImports products the definitive set of imports for use in this file
 func (file *FileDefinition) generateImports() *PackageImportSet {
-
 	allReferences := NewPackageReferenceSet()
 	for _, s := range file.definitions {
 		allReferences.Merge(s.RequiredPackageReferences())

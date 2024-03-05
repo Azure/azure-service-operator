@@ -34,7 +34,6 @@ func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) *Stage 
 		"allof-anyof-objects",
 		"Convert allOf and oneOf to object types",
 		func(ctx context.Context, state *State) (*State, error) {
-
 			baseSynthesizer := newSynthesizer(state.Definitions(), idFactory)
 
 			newDefs := make(astmodel.TypeDefinitionSet)
@@ -414,7 +413,6 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 func (s synthesizer) oneOfToObject(
 	oneOf *astmodel.OneOfType,
 ) (astmodel.Type, error) {
-
 	if oneOf.HasDiscriminatorValue() {
 		propertyObjects := oneOf.PropertyObjects()
 		types := make([]astmodel.Type, 0, len(propertyObjects))

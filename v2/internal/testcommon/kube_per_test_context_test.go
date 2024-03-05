@@ -6,8 +6,9 @@ Licensed under the MIT license.
 package testcommon
 
 import (
-	. "github.com/onsi/gomega"
 	"testing"
+
+	. "github.com/onsi/gomega"
 )
 
 func TestSanitiseSample(t *testing.T) {

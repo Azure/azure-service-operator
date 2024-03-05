@@ -25,7 +25,8 @@ func NewInterfaceImplementationInjector() *InterfaceImplementationInjector {
 
 // Inject modifies the passed type definition by injecting the passed interface implementation
 func (injector *InterfaceImplementationInjector) Inject(
-	def TypeDefinition, implementations ...*InterfaceImplementation) (TypeDefinition, error) {
+	def TypeDefinition, implementations ...*InterfaceImplementation,
+) (TypeDefinition, error) {
 	result := def
 
 	for _, impl := range implementations {
@@ -42,7 +43,8 @@ func (injector *InterfaceImplementationInjector) Inject(
 // injectInterfaceImplementationIntoObject takes the interface implementationprovided as a context and includes it on
 // the provided object type
 func (_ *InterfaceImplementationInjector) injectInterfaceImplementationIntoObject(
-	_ *TypeVisitor[any], ot *ObjectType, ctx interface{}) (Type, error) {
+	_ *TypeVisitor[any], ot *ObjectType, ctx interface{},
+) (Type, error) {
 	impl := ctx.(*InterfaceImplementation)
 	return ot.WithInterface(impl), nil
 }
@@ -50,7 +52,8 @@ func (_ *InterfaceImplementationInjector) injectInterfaceImplementationIntoObjec
 // injectInterfaceImplementationIntoResource takes the interface implementation provided as a context and includes it on
 // the provided resource type
 func (_ *InterfaceImplementationInjector) injectInterfaceImplementationIntoResource(
-	_ *TypeVisitor[any], rt *ResourceType, ctx interface{}) (Type, error) {
+	_ *TypeVisitor[any], rt *ResourceType, ctx interface{},
+) (Type, error) {
 	impl := ctx.(*InterfaceImplementation)
 	return rt.WithInterface(impl), nil
 }
