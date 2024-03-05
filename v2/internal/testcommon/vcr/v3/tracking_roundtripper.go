@@ -6,6 +6,7 @@ Licensed under the MIT license.
 package v3
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"fmt"
 	"io"
@@ -13,6 +14,14 @@ import (
 	"sync"
 
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
+)
+
+const (
+	// COUNT_HEADER is the name of the header used to record the sequence number of a request
+	COUNT_HEADER = "TEST-REQUEST-ATTEMPT"
+
+	// HASH_HEADER is the name of the header used to record the hash of a request body
+	HASH_HEADER = "TEST-REQUEST-HASH"
 )
 
 // Wraps an inner HTTP roundtripper to add a
@@ -36,21 +45,27 @@ func AddTrackingHeaders(inner http.RoundTripper) *requestCounter {
 	}
 }
 
-const (
-	COUNT_HEADER string = "TEST-REQUEST-ATTEMPT"
-	HASH_HEADER  string = "TEST-REQUEST-HASH"
-)
-
 var _ http.RoundTripper = &requestCounter{}
 
 func (rt *requestCounter) RoundTrip(req *http.Request) (*http.Response, error) {
-	if req.Method == "PUT" || req.Method == "POST" {
+	if rt.useHash(req) {
 		rt.addHashHeader(req)
 	} else {
 		rt.addCountHeader(req)
 	}
 
 	return rt.inner.RoundTrip(req)
+}
+
+// useHash returns true if we should use a hash to match this request
+func (rt *requestCounter) useHash(req *http.Request) bool {
+	if req.Method != "PUT" && req.Method != "POST" {
+		// Only use a hash for PUT and POST methods
+		return false
+	}
+
+	// Can only use a hash if there is a body
+	return req.Body != nil
 }
 
 func (rt *requestCounter) addCountHeader(req *http.Request) {
@@ -67,21 +82,17 @@ func (rt *requestCounter) addCountHeader(req *http.Request) {
 	req.Header.Set(COUNT_HEADER, fmt.Sprintf("%d", count))
 }
 
-func (rt *requestCounter) addHashHeader(req *http.Request) {
-	rsc, ok := req.Body.(io.ReadSeekCloser)
-	if !ok {
-		panic(fmt.Sprintf("req.Body is not an io.ReadSeekCloser, it is a %T", req.Body))
-	}
-
-	// Calculate a hash based on the request body, but sanitise it first so it's the same for each test run
-	bodyBytes, bodyErr := io.ReadAll(rsc)
-	if bodyErr != nil {
-		// see invocation of SetMatcher in the createRecorder, which does this
-		panic("io.ReadAll(req.Body) failed, this should always succeed because req.Body has been replaced by a buffer")
+func (rt *requestCounter) addHashHeader(request *http.Request) {
+	// Read all the content of the request body
+	var body bytes.Buffer
+	_, err := body.ReadFrom(request.Body)
+	if err != nil {
+		// Should never fail
+		panic(fmt.Sprintf("reading request.Body failed: %s", err))
 	}
 
 	// Apply the same body filtering that we do in recordings so that the hash is consistent
-	bodyString := vcr.HideRecordingData(string(bodyBytes))
+	bodyString := vcr.HideRecordingData(string(body.Bytes()))
 
 	// Calculate a hash based on body string
 	hash := sha256.Sum256([]byte(bodyString))
@@ -89,16 +100,20 @@ func (rt *requestCounter) addHashHeader(req *http.Request) {
 	// Format hash as a hex string
 	hashString := fmt.Sprintf("%x", hash)
 
-	// Allocate a number
+	// Allocate a number based on the hash (not the URL)
 	rt.countsMutex.Lock()
 	count := rt.counts[hashString]
 	rt.counts[hashString] = count + 1
 	rt.countsMutex.Unlock()
 
 	// Set the headers
-	req.Header.Set(HASH_HEADER, fmt.Sprintf("%x", hash))
-	req.Header.Set(COUNT_HEADER, fmt.Sprintf("%d", count))
+	if request.Header == nil {
+		request.Header = make(http.Header)
+	}
+
+	request.Header.Set(HASH_HEADER, fmt.Sprintf("%x", hash))
+	request.Header.Set(COUNT_HEADER, fmt.Sprintf("%d", count))
 
 	// Reset the body so it can be read again
-	_, _ = rsc.Seek(0, io.SeekStart)
+	request.Body = io.NopCloser(&body)
 }
