@@ -82,6 +82,7 @@ func TestReplayRoundTripperRoundTrip_GivenSinglePut_ReturnsOnceExtra(t *testing.
 	assertExpectedResponse(t, replayer, req, 200, "PUT response goes here")
 
 	// Assert - third request fails because we've had our one replay
+	//nolint:bodyclose // response body is a string, no need to close
 	_, err := replayer.RoundTrip(req)
 	g.Expect(err).To(HaveOccurred())
 }
