@@ -3,7 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: azure-service-operator-allow-ingress
-  namespace: {{ .Release.Namespace }}
+  namespace: azureserviceoperator-system
 spec:
   ingress:
   - from:
@@ -19,7 +19,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: azure-service-operator-allow-egress
-  namespace: {{ .Release.Namespace }}
+  namespace: azureserviceoperator-system
 spec:
   egress:
   # Required for communication with DNS

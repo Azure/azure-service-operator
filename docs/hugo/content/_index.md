@@ -188,6 +188,7 @@ C:\> helm upgrade --install aso2 aso2/azure-service-operator ^
     --set crdPattern=resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*
 ```
 {{% /tab %}}
+Note: ASO is recommended to be _only_ installed under `azureserviceoperator-system` namespace
 {{< /tabpane >}}
 
 {{% alert title="Warning" color="warning" %}}

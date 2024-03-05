@@ -60,7 +60,6 @@ sed -i 's/containerPort: 8080/containerPort: {{ .Values.metrics.port | default 8
 sed -i '1 i {{- if .Values.metrics.enable -}}' "$GEN_FILES_DIR"/*controller-manager-metrics-service*
 sed -i 's/port: 8080/port: {{ .Values.metrics.port | default 8080 }}/g' "$GEN_FILES_DIR"/*controller-manager-metrics-service*
 sed -i -e '$a{{- end }}' "$GEN_FILES_DIR"/*controller-manager-metrics-service*
-find "$GEN_FILES_DIR" -type f -exec sed -i 's/azureserviceoperator-system/{{ .Release.Namespace }}/g' {} \;
 
 # Apply CRD guards
 sed -i "1 s/^/$IF_CRDS\n/;$ a {{- end }}" "$GEN_FILES_DIR"/*crd-manager-role*

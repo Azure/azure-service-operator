@@ -13,4 +13,4 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: azureserviceoperator-pre-upgrade-checker
-  namespace: {{ .Release.Namespace }}
+  namespace: azureserviceoperator-system
