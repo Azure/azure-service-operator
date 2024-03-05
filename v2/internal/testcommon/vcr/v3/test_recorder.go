@@ -6,8 +6,6 @@ Licensed under the MIT license.
 package v3
 
 import (
-	"bytes"
-	"io"
 	"net/http"
 	"strings"
 	"testing"
@@ -91,22 +89,25 @@ func NewTestRecorder(
 			return false
 		}
 
-		// verify custom request count header (see counting_roundtripper.go)
-		if r.Header.Get(COUNT_HEADER) != i.Headers.Get(COUNT_HEADER) {
-			return false
+		// verify custom request count header matches, if present
+		if header := r.Header.Get(COUNT_HEADER); header != "" {
+			if header != i.Headers.Get(COUNT_HEADER) {
+				return false
+			}
+		}
+
+		// verify custom body hash header matches, if present
+		if header := r.Header.Get(HASH_HEADER); header != "" {
+			if header != i.Headers.Get(HASH_HEADER) {
+				return false
+			}
 		}
 
 		if r.Body == nil {
 			return i.Body == ""
 		}
 
-		var b bytes.Buffer
-		if _, err := b.ReadFrom(r.Body); err != nil {
-			panic(err)
-		}
-
-		r.Body = io.NopCloser(&b)
-		return b.String() == "" || vcr.HideRecordingData(b.String()) == i.Body
+		return true
 	})
 
 	r.AddHook(redactRecording(azureIDs), recorder.BeforeSaveHook)
