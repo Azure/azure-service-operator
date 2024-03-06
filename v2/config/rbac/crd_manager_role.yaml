@@ -14,6 +14,7 @@ rules:
       - patch
       - update
       - watch
+  # Below roles are required for secure metrics
   - apiGroups:
       - authentication.k8s.io
     resources:
