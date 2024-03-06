@@ -49,7 +49,7 @@ var _ http.RoundTripper = &requestCounter{}
 
 func (rt *requestCounter) RoundTrip(req *http.Request) (*http.Response, error) {
 	if rt.useHash(req) {
-		rt.addHashHeader(req)
+		rt.addContentHeaders(req)
 	} else {
 		rt.addCountHeader(req)
 	}
@@ -68,6 +68,7 @@ func (rt *requestCounter) useHash(req *http.Request) bool {
 	return req.Body != nil
 }
 
+// addCountHeader adds a header to the request based on the URL requested
 func (rt *requestCounter) addCountHeader(req *http.Request) {
 	// Count keys are based on method and URL
 	key := req.Method + ":" + req.URL.String()
@@ -82,7 +83,8 @@ func (rt *requestCounter) addCountHeader(req *http.Request) {
 	req.Header.Set(COUNT_HEADER, fmt.Sprintf("%d", count))
 }
 
-func (rt *requestCounter) addHashHeader(request *http.Request) {
+// addContentHeaders adds headers to the request based on the content of the request body
+func (rt *requestCounter) addContentHeaders(request *http.Request) {
 	// Read all the content of the request body
 	var body bytes.Buffer
 	_, err := body.ReadFrom(request.Body)

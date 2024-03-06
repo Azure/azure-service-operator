@@ -104,6 +104,7 @@ func NewTestRecorder(
 		}
 
 		if r.Body == nil {
+			// Empty bodies are stored by go-vcr as empty strings
 			return i.Body == ""
 		}
 
