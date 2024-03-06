@@ -7,9 +7,10 @@ package functions
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
 	"go/token"
 	"sort"
+
+	"github.com/pkg/errors"
 
 	"github.com/dave/dst"
 	"golang.org/x/exp/maps"

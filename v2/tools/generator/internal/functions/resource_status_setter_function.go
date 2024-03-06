@@ -27,8 +27,8 @@ var _ astmodel.Function = &ResourceStatusSetterFunction{}
 // idFactory is an IdentifierFactory for creating local variable names
 func NewResourceStatusSetterFunction(
 	resource *astmodel.ResourceType,
-	idFactory astmodel.IdentifierFactory) *ResourceStatusSetterFunction {
-
+	idFactory astmodel.IdentifierFactory,
+) *ResourceStatusSetterFunction {
 	statusTypeName, ok := astmodel.AsTypeName(resource.StatusType())
 	if !ok {
 		panic(fmt.Sprintf("expected Status to be a TypeName but found %T", resource.StatusType()))

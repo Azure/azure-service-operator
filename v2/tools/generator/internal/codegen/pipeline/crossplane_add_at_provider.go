@@ -51,8 +51,8 @@ func AddCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) *Stage {
 func nestStatusIntoAtProvider(
 	idFactory astmodel.IdentifierFactory,
 	definitions astmodel.TypeDefinitionSet,
-	typeDef astmodel.TypeDefinition) ([]astmodel.TypeDefinition, error) {
-
+	typeDef astmodel.TypeDefinition,
+) ([]astmodel.TypeDefinition, error) {
 	resource, ok := astmodel.AsResourceType(typeDef.Type())
 	if !ok {
 		return nil, errors.Errorf("provided typeDef was not a resourceType, instead %T", typeDef.Type())

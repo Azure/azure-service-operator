@@ -37,7 +37,6 @@ func IsExtensionType(typeName string) bool {
 	if !ok {
 		// No known extension resource types
 		return false
-
 	}
 
 	return s.Contains(typeName)

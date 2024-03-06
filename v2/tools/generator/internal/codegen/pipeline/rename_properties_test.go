@@ -171,7 +171,7 @@ func Test_RenameProperties_WhenFlattening_PopulatesExpectedARMProperty(t *testin
 		test.FullNameProperty,
 		test.KnownAsProperty,
 		test.FamilyNameProperty,
-		//addressProperty,
+		// addressProperty,
 	)
 
 	personResourceType := astmodel.NewResourceType(personSpec.Name(), personStatus.Name()).

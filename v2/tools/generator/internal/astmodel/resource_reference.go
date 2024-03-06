@@ -5,8 +5,10 @@
 
 package astmodel
 
-var arrayResourceReferenceType = NewArrayType(ResourceReferenceType)
-var mapResourceReferenceType = NewMapType(StringType, ResourceReferenceType)
+var (
+	arrayResourceReferenceType = NewArrayType(ResourceReferenceType)
+	mapResourceReferenceType   = NewMapType(StringType, ResourceReferenceType)
+)
 
 func IsTypeResourceReference(t Type) bool {
 	isResourceReference := TypeEquals(t, ResourceReferenceType)

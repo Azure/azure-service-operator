@@ -20,7 +20,6 @@ func FixOptionalCollectionAliases() *Stage {
 		FixOptionalCollectionAliasesStageId,
 		"Replace types which are optional aliases to collections with just the collection alias",
 		func(ctx context.Context, state *State) (*State, error) {
-
 			fixer := optionalCollectionAliasFixer{
 				definitions: state.Definitions(),
 			}

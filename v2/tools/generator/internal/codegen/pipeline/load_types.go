@@ -125,8 +125,10 @@ func LoadTypes(
 		})
 }
 
-var resourceGroupScopeRegex = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/resourcegroups/[^/]+/.*`)
-var locationScopeRegex = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/.*`)
+var (
+	resourceGroupScopeRegex = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/resourcegroups/[^/]+/.*`)
+	locationScopeRegex      = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/.*`)
+)
 
 func categorizeResourceScope(armURI string) astmodel.ResourceScope {
 	// this is a bit of a hack, eventually we should have better scope support.

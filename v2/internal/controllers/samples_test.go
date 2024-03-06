@@ -62,7 +62,6 @@ func Test_Samples_CreationAndDeletion(t *testing.T) {
 
 	_ = filepath.WalkDir(samplesPath,
 		func(filePath string, info os.DirEntry, err error) error {
-
 			if info.IsDir() && !testcommon.IsFolderExcluded(filePath, skipTests) {
 				basePath := filepath.Base(filePath)
 				// proceed only if the base path is the matching versions.
@@ -79,11 +78,9 @@ func Test_Samples_CreationAndDeletion(t *testing.T) {
 			}
 			return err
 		})
-
 }
 
 func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
-
 	rg := tc.NewTestResourceGroup()
 	useRandomName := !testcommon.IsFolderExcluded(groupVersionPath, randomNameExclusions)
 	samples, err := testcommon.NewSamplesTester(

@@ -6,8 +6,9 @@
 package astbuilder
 
 import (
-	"github.com/dave/dst"
 	"go/token"
+
+	"github.com/dave/dst"
 )
 
 // CallFunc creates an expression to call a function with specified arguments

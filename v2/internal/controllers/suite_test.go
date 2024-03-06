@@ -22,8 +22,10 @@ const (
 	DefaultResourceTimeout = 10 * time.Minute
 )
 
-var globalTestContext testcommon.KubeGlobalContext
-var isLive = flag.Bool("live", false, "Enable to skip tests in live mode")
+var (
+	globalTestContext testcommon.KubeGlobalContext
+	isLive            = flag.Bool("live", false, "Enable to skip tests in live mode")
+)
 
 func setup() error {
 	options := getOptions()

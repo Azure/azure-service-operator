@@ -29,7 +29,7 @@ func Test_DBForPostgreSQL_FlexibleServer_20221201_CRUD(t *testing.T) {
 	ctx := context.Background()
 	tc := globalTestContext.ForTest(t)
 
-	//location := tc.AzureRegion Capacity crunch in West US 2 makes this not work when live
+	// location := tc.AzureRegion Capacity crunch in West US 2 makes this not work when live
 	location := "eastus"
 
 	rg := tc.CreateTestResourceGroupAndWait()

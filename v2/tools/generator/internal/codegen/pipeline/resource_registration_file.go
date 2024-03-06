@@ -6,10 +6,12 @@
 package pipeline
 
 import (
-	"github.com/pkg/errors"
 	"go/token"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sort"
+
+	"github.com/pkg/errors"
+
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/dave/dst"
 
@@ -99,9 +101,6 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 
 	// Create Resource Extensions
 	resourceExtensionTypes := r.createGetResourceExtensions(codeGenContext)
-	if err != nil {
-		return nil, err
-	}
 	decls = append(decls, resourceExtensionTypes)
 
 	// All the index functions
@@ -275,7 +274,6 @@ func createGetKnownTypesFunc(
 func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 ) dst.Decl {
-
 	funcName := "getKnownStorageTypes"
 	funcComment := "returns the list of storage types which can be reconciled."
 

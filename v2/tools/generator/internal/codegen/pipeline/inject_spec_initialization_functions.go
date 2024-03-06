@@ -26,7 +26,8 @@ const InjectSpecInitializationFunctionsStageID = "injectSpecInitializationFuncti
 // resource is imported.
 func InjectSpecInitializationFunctions(
 	configuration *config.Configuration,
-	idFactory astmodel.IdentifierFactory) *Stage {
+	idFactory astmodel.IdentifierFactory,
+) *Stage {
 	stage := NewStage(
 		InjectSpecInitializationFunctionsStageID,
 		"Inject spec initialization functions Initialize_From_*() into resources and objects",

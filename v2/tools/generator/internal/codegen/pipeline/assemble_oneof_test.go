@@ -6,9 +6,10 @@
 package pipeline
 
 import (
+	"testing"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
-	"testing"
 
 	. "github.com/onsi/gomega"
 )

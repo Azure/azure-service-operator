@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package testcommon
+package v3
 
 import (
 	"fmt"
@@ -12,11 +12,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dnaeon/go-vcr/cassette"
-	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/google/go-cmp/cmp"
 	"github.com/pkg/errors"
+	"gopkg.in/dnaeon/go-vcr.v3/cassette"
 
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
@@ -32,12 +32,12 @@ import (
 //   - during record the controller does GET (404), PUT, … GET (OK)
 //   - during playback the controller does GET (which now returns OK), DELETE, PUT, …
 //     and fails due to a missing DELETE recording
-func translateErrors(r *recorder.Recorder, cassetteName string, t *testing.T) http.RoundTripper {
+func translateErrors(r http.RoundTripper, cassetteName string, t *testing.T) http.RoundTripper {
 	return errorTranslation{r, cassetteName, nil, t}
 }
 
 type errorTranslation struct {
-	recorder     *recorder.Recorder
+	recorder     http.RoundTripper
 	cassetteName string
 
 	cassette *cassette.Cassette
@@ -74,20 +74,28 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 
 		// Apply the same body filtering that we do in recordings so that the diffs don't show things
 		// that we've just removed
-		sentBodyString = hideRecordingData(string(bodyBytes))
+		sentBodyString = vcr.HideRecordingData(string(bodyBytes))
 	}
 
 	// find all request bodies for the specified method/URL combination
 	matchingBodies := w.findMatchingBodies(req)
 
 	if len(matchingBodies) == 0 {
+		var discriminator string
+		if header := req.Header.Get(COUNT_HEADER); header != "" {
+			discriminator = fmt.Sprintf(" (attempt: %s)", header)
+		} else if header := req.Header.Get(HASH_HEADER); header != "" {
+			discriminator = fmt.Sprintf(" (hash: %s)", header)
+		}
+
 		return nil, conditions.NewReadyConditionImpactingError(
-			errors.Errorf("cannot find go-vcr recording for request from test %q (cassette: %q) (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n",
+			errors.Errorf(
+				"cannot find go-vcr recording for request from test %q (cassette: %q) (no responses recorded for this method/URL): %s %s %s\n\n",
 				w.t.Name(),
 				w.cassetteName,
 				req.Method,
 				req.URL.String(),
-				req.Header.Get(COUNT_HEADER)),
+				discriminator),
 			conditions.ConditionSeverityError,
 			conditions.ReasonReconciliationFailedPermanently)
 	}
@@ -117,7 +125,7 @@ func (w errorTranslation) findMatchingBodies(r *http.Request) []string {
 	urlString := r.URL.String()
 	var result []string
 	for _, interaction := range w.ensureCassette().Interactions {
-		if urlString == interaction.URL && r.Method == interaction.Request.Method &&
+		if urlString == interaction.Request.RequestURI && r.Method == interaction.Request.Method &&
 			r.Header.Get(COUNT_HEADER) == interaction.Request.Headers.Get(COUNT_HEADER) {
 			result = append(result, interaction.Request.Body)
 		}

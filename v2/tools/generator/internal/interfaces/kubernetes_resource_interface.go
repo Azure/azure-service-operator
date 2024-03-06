@@ -151,7 +151,6 @@ func getAzureNameFunctionsForType(
 	definitions astmodel.TypeDefinitionSet,
 	log logr.Logger,
 ) (functions.ObjectFunctionHandler, functions.ObjectFunctionHandler, error) {
-
 	if opt, ok := astmodel.AsOptionalType(t); ok {
 		t = opt.BaseType()
 	}

@@ -24,7 +24,7 @@ func Test_AKS_ManagedCluster_20210501_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	region := to.Ptr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
-	//region := tc.AzureRegion
+	// region := tc.AzureRegion
 
 	adminUsername := "adminUser"
 	sshPublicKey, err := tc.GenerateSSHKey(2048)

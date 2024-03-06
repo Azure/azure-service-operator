@@ -17,7 +17,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/onsi/gomega"
 	"github.com/onsi/gomega/format"
 	"github.com/pkg/errors"
@@ -305,7 +304,7 @@ var OperationTimeoutReplaying = 2 * time.Minute
 var OperationTimeoutRecording = 30 * time.Minute
 
 func (tc *KubePerTestContext) DefaultOperationTimeout() time.Duration {
-	if tc.AzureClientRecorder.Mode() == recorder.ModeReplaying {
+	if tc.AzureClientRecorder.IsReplaying() {
 		return OperationTimeoutReplaying
 	}
 
@@ -325,7 +324,7 @@ var PollingIntervalRecording = 5 * time.Second
 
 // PollingInterval returns the polling interval to use for Gomega Eventually
 func (tc *KubePerTestContext) PollingInterval() time.Duration {
-	if tc.AzureClientRecorder.Mode() == recorder.ModeReplaying {
+	if tc.AzureClientRecorder.IsReplaying() {
 		return PollingIntervalReplaying
 	}
 
@@ -472,8 +471,8 @@ func (tc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
 func (tc *KubePerTestContext) CreateResourceAndWaitForState(
 	obj client.Object,
 	status metav1.ConditionStatus,
-	severity conditions.ConditionSeverity) {
-
+	severity conditions.ConditionSeverity,
+) {
 	tc.T.Helper()
 	tc.CreateResource(obj)
 	tc.Eventually(obj).Should(tc.Match.BeInState(status, severity, 0))
@@ -508,7 +507,8 @@ func (tc *KubePerTestContext) PatchResourceAndWaitForState(
 	old client.Object,
 	new client.Object,
 	status metav1.ConditionStatus,
-	severity conditions.ConditionSeverity) {
+	severity conditions.ConditionSeverity,
+) {
 	gen := old.GetGeneration()
 
 	tc.T.Helper()
@@ -806,7 +806,6 @@ func (tc *KubePerTestContext) ExportAsSampleNamed(resource client.Object, name s
 }
 
 func (tc *KubePerTestContext) cleanSample(resource any) {
-
 	if kr, ok := resource.(genruntime.KubernetesResource); ok {
 		// Remove Status
 		emptyStatus := kr.NewEmptyStatus()
@@ -842,7 +841,7 @@ func (tc *KubePerTestContext) exportAsYAML(resource runtime.Object, filePath str
 		return errors.Wrapf(err, "couldn't create directory path to %s", filePath)
 	}
 
-	file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0600)
+	file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0o600)
 	if err != nil {
 		return errors.Wrapf(err, "failed to open file %s", filePath)
 	}

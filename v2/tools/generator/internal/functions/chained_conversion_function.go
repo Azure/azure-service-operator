@@ -65,7 +65,8 @@ var _ astmodel.Function = &ChainedConversionFunction{}
 // idFactory is an identifier factory to use for generating local identifiers
 func NewSpecChainedConversionFunction(
 	propertyFunction *PropertyAssignmentFunction,
-	idFactory astmodel.IdentifierFactory) *ChainedConversionFunction {
+	idFactory astmodel.IdentifierFactory,
+) *ChainedConversionFunction {
 	result := &ChainedConversionFunction{
 		name:                            propertyFunction.direction.SelectString("ConvertSpecFrom", "ConvertSpecTo"),
 		parameterType:                   astmodel.ConvertibleSpecInterfaceType,
@@ -85,7 +86,8 @@ func NewSpecChainedConversionFunction(
 // idFactory is an identifier factory to use for generating local identifiers
 func NewStatusChainedConversionFunction(
 	propertyFunction *PropertyAssignmentFunction,
-	idFactory astmodel.IdentifierFactory) *ChainedConversionFunction {
+	idFactory astmodel.IdentifierFactory,
+) *ChainedConversionFunction {
 	result := &ChainedConversionFunction{
 		name:                            propertyFunction.direction.SelectString("ConvertStatusFrom", "ConvertStatusTo"),
 		parameterType:                   astmodel.ConvertibleStatusInterfaceType,
@@ -167,8 +169,8 @@ func (fn *ChainedConversionFunction) AsFunc(
 //
 // For ConvertTo, we have essentially the same structure, but two-step conversion is done in the other order.
 func (fn *ChainedConversionFunction) bodyForConvert(
-	receiverName string, parameterName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-
+	receiverName string, parameterName string, generationContext *astmodel.CodeGenerationContext,
+) []dst.Stmt {
 	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
 
 	receiver := dst.NewIdent(receiverName)

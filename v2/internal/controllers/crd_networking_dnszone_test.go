@@ -43,7 +43,7 @@ func Test_Networking_DnsZone_CRUD(t *testing.T) {
 
 	tc.DeleteResourceAndWait(zone)
 
-	//Ensure that the resource was really deleted in Azure
+	// Ensure that the resource was really deleted in Azure
 	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())

@@ -27,6 +27,10 @@ For background information, check out [this Cognitect blog entry](https://www.co
 
 ADR documents should be updated over time to keep them relevant, typically by updating the *Experience Report* section.
 
+## 2024
+
+[**Upstream Deletion**]({{< relref "ADR-2024-02-Upstream-Deletion" >}}) - when might deletion of an upstream resource occur and how will ASO handle it.
+
 ## 2023
 
 [**Adoption Policy**]({{< relref "ADR-2023-02-Adoption-Policy" >}}) - Understand the policy for adopting pre-existing Azure resources in Kubernetes through the Azure Service Operator, including the principles guiding resource adoption and the user's ability to control operator actions.
@@ -67,7 +71,6 @@ ADR documents should be updated over time to keep them relevant, typically by up
 
 [**Reconciliation Extensions**]({{< relref "ADR-2022-12-Reconciliation-Extensions" >}}) - Understand the need for reconciliation extensions in Azure Service Operator to handle resources in transient states that preclude successful PUT operations, and the proposal for an extension point to modify the reconciliation flow accordingly.
 
-
 ## 2021
 
 [**API Version Recovery**]({{< relref "ADR-2021-06-API-Version-Recovery" >}}) - Identity the challenges of API version recovery in Azure Service Operator, discussing the importance of using the correct Azure API version for expected behavior, and the need to pivot back to the original version for generating the correct ARM payload.
@@ -84,7 +87,6 @@ ADR documents should be updated over time to keep them relevant, typically by up
 
 [**Why Code Generation?**]({{< relref "ADR-2020-04-Code-Generation" >}}) - rationale and impact of adopting code generation in the Azure Service Operator, including the benefits of full feature coverage, reduced overhead for new resources, and consistent behavior across all resources.
 
-
 ## Older
 
 [**Clarifying Object Structure**]({{< relref "clarifying-object-structure" >}}) - Dive into the challenges of differentiating Azure-specific properties from operator-specific properties in the object structure of resources, with a focus on potential solutions for Status and upcoming properties like SecretConfiguration and Credentials.
@@ -97,8 +99,6 @@ ADR documents should be updated over time to keep them relevant, typically by up
 
 [**Managing dataplane secrets**]({{< relref "secrets" >}}) - managing dataplane secrets in Azure Service Operator, including the drawbacks of auto-generating secrets and the implications for secret rollover, control, security, resource adoption, and GitOps compatibility.
 
-
 [**Reporting Resource Status**]({{< relref "resource-states" >}}) - a proposal for reporting resource status in Azure Service Operator, discussing the distinction between operator status and Azure resource state, and the current state and limitations of both handcrafted and auto-generated resources.
 
 [**Type References and Ownership**]({{< relref "type-references-and-ownership" >}}) - type references and ownership in Azure Service Operator, discussing goals such as idiomatic expression of Azure resource relationships, automatic ownership, garbage collection, and interaction with non-Kubernetes managed Azure resources.
-

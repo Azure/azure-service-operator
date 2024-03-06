@@ -30,5 +30,5 @@ func TestGetVersionedSpec_WorksWhenNoPivotNeeded(t *testing.T) {
 	g.Expect(rsrc).NotTo(BeNil())
 }
 
-//TODO (@unrepentantgeek): once we have multiple versions of a resource, we should test that the pivot works too
-//func TestGetVersionedSpec_WorksWhenPivotNeeded(t *testing.T) {
+// TODO (@unrepentantgeek): once we have multiple versions of a resource, we should test that the pivot works too
+// func TestGetVersionedSpec_WorksWhenPivotNeeded(t *testing.T) {

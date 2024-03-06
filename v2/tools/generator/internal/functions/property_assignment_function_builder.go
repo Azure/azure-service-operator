@@ -70,7 +70,6 @@ func NewPropertyAssignmentFunctionBuilder(
 	otherDefinition astmodel.TypeDefinition,
 	direction conversions.Direction,
 ) *PropertyAssignmentFunctionBuilder {
-
 	result := &PropertyAssignmentFunctionBuilder{
 		receiverDefinition: receiver,
 		otherDefinition:    otherDefinition,

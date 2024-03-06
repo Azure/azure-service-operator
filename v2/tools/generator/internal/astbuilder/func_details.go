@@ -25,7 +25,6 @@ type FuncDetails struct {
 // NewTestFuncDetails returns a FuncDetails for a test method
 // Tests require a particular signature, so this makes it simpler to create test functions
 func NewTestFuncDetails(testingPackage string, testName string, body ...dst.Stmt) *FuncDetails {
-
 	// Ensure the method name starts with `Test` as required
 	var name string
 	if strings.HasPrefix(testName, "Test") {

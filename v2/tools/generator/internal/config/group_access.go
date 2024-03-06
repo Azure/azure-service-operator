@@ -23,7 +23,8 @@ func makeGroupAccess[T any](
 ) groupAccess[T] {
 	return groupAccess[T]{
 		model:    model,
-		accessor: accessor}
+		accessor: accessor,
+	}
 }
 
 func (a groupAccess[T]) withTypeOverride(

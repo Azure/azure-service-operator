@@ -20,11 +20,12 @@ import (
 
 // PackageDefinition is the definition of a package
 type PackageDefinition struct {
-	PackageName string            // Name  of the package
-	GroupName   string            // Group to which the package belongs
-	Version     string            // Kubernetes version of this package
-	Path        string            // relative Path to the package
-	definitions TypeDefinitionSet // set of definitions in this package
+	PackageName string                   // Name  of the package
+	GroupName   string                   // Group to which the package belongs
+	Version     string                   // Kubernetes version of this package
+	Path        string                   // relative Path to the package
+	definitions TypeDefinitionSet        // set of definitions in this package
+	ref         InternalPackageReference // Internal package reference used to reference this package
 }
 
 // NewPackageDefinition constructs a new package definition
@@ -34,6 +35,7 @@ func NewPackageDefinition(ref InternalPackageReference) *PackageDefinition {
 		GroupName:   ref.Group(),
 		Path:        ref.FolderPath(),
 		definitions: make(TypeDefinitionSet),
+		ref:         ref,
 	}
 
 	result.Version = result.createVersion(ref)
@@ -71,18 +73,29 @@ func (p *PackageDefinition) EmitDefinitions(
 		return 0, err
 	}
 
-	// Check if current package contains resources
-	if resources := FindResourceDefinitions(p.definitions); len(resources) > 0 {
+	packageContainsResources := p.containsResources()
+	isStoragePackage := IsStoragePackageReference(p.ref)
+	isCompatPackage := IsCompatPackageReference(p.ref)
 
-		// If package contains resources, then we generate GroupVersion file for the package
-		err = emitGroupVersionFile(p, outputDir)
+	// Check if current package contains resources
+	if packageContainsResources {
+		// generate GroupVersion file for the package
+		err = p.emitGroupVersionFile(outputDir)
 		if err != nil {
 			return 0, err
 		}
+	} else if isCompatPackage {
+		// If it is a compat package, then we generate a stub GroupVersion file
+		err = p.emitSubpackageStub(outputDir)
+		if err != nil {
+			return 0, err
+		}
+	}
 
+	if emitDocFiles && packageContainsResources && !isStoragePackage {
 		// If emitDocFiles is true from config and is not Storage package, then we generate doc file for the package
-		if !strings.HasSuffix(p.PackageName, StoragePackageSuffix) && emitDocFiles {
-			if err = emitDocFile(p, outputDir); err != nil {
+		if !strings.HasSuffix(p.PackageName, StoragePackageName) && emitDocFiles {
+			if err = p.emitDocFile(outputDir); err != nil {
 				return 0, err
 			}
 		}
@@ -189,6 +202,44 @@ func (p *PackageDefinition) createVersion(ref InternalPackageReference) string {
 	return ""
 }
 
+// containsResources returns true if this package contains any resources
+func (p *PackageDefinition) containsResources() bool {
+	rsrcs := FindResourceDefinitions(p.definitions)
+	return len(rsrcs) > 0
+}
+
+// emitGroupVersionFile writes a `groupversion_info.go` file for the package
+func (p *PackageDefinition) emitGroupVersionFile(outputDir string) error {
+	gvFile := filepath.Join(outputDir, "groupversion_info"+CodeGeneratedFileSuffix+".go")
+	return p.emitTemplateFile(groupVersionFileTemplate, gvFile)
+}
+
+// emitSubpackageStub writes a `subpackage_info_gen.go` stub for subpackages
+func (p *PackageDefinition) emitSubpackageStub(outputDir string) error {
+	gvFile := filepath.Join(outputDir, "subpackage_info"+CodeGeneratedFileSuffix+".go")
+	return p.emitTemplateFile(subpackageStubTemplate, gvFile)
+}
+
+func (p *PackageDefinition) emitDocFile(outputDir string) error {
+	docFile := filepath.Join(outputDir, "doc.go")
+	return p.emitTemplateFile(docFileTemplate, docFile)
+}
+
+func (pkgDef *PackageDefinition) emitTemplateFile(template *template.Template, fileRef string) error {
+	buf := &bytes.Buffer{}
+	err := template.Execute(buf, pkgDef)
+	if err != nil {
+		return err
+	}
+
+	err = os.WriteFile(fileRef, buf.Bytes(), 0o600)
+	if err != nil {
+		return errors.Wrapf(err, "error writing file %q", fileRef)
+	}
+
+	return nil
+}
+
 func allocateTypesToFiles(definitions TypeDefinitionSet) map[string][]TypeDefinition {
 	graph := MakeReferenceGraphWithResourcesAsRoots(definitions)
 
@@ -232,6 +283,8 @@ func allocateTypesToFiles(definitions TypeDefinitionSet) map[string][]TypeDefini
 	return filesToGenerate
 }
 
+// groupVersionFileTemplate is a template for the `groupversion_info_gen.go` file generated
+// for each API package.
 var groupVersionFileTemplate = template.Must(template.New("groupVersionFile").Parse(`/*
 Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
@@ -266,11 +319,20 @@ var (
 )
 `))
 
-func emitGroupVersionFile(pkgDef *PackageDefinition, outputDir string) error {
-	gvFile := filepath.Join(outputDir, "groupversion_info"+CodeGeneratedFileSuffix+".go")
-	return emitTemplateFile(pkgDef, groupVersionFileTemplate, gvFile)
-}
+// subpackageStubTemplate is a template for the `groupversion_info.go` file generated for
+// subpackages within each API package.
+var subpackageStubTemplate = template.Must(template.New("groupVersionFile").Parse(`/*
+Copyright (c) Microsoft Corporation.
+Licensed under the MIT license.
+*/
 
+// Code generated by azure-service-operator-codegen. DO NOT EDIT.
+
+// +kubebuilder:object:generate=true
+package {{.PackageName}}
+`))
+
+// docFileTemplate is a template for the `doc.go` file we generate for each API package.
 var docFileTemplate = template.Must(template.New("docFile").Parse(`/*
 Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
@@ -282,23 +344,3 @@ Licensed under the MIT license.
 // +groupName={{.GroupName}}.azure.com
 package {{.PackageName}}
 `))
-
-func emitDocFile(pkgDef *PackageDefinition, outputDir string) error {
-	docFile := filepath.Join(outputDir, "doc.go")
-	return emitTemplateFile(pkgDef, docFileTemplate, docFile)
-}
-
-func emitTemplateFile(pkgDef *PackageDefinition, template *template.Template, fileRef string) error {
-	buf := &bytes.Buffer{}
-	err := template.Execute(buf, pkgDef)
-	if err != nil {
-		return err
-	}
-
-	err = os.WriteFile(fileRef, buf.Bytes(), 0o600)
-	if err != nil {
-		return errors.Wrapf(err, "error writing file %q", fileRef)
-	}
-
-	return nil
-}

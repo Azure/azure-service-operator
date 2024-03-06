@@ -34,7 +34,6 @@ func (ext *WorkspaceExtension) ExportKubernetesResources(
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
 ) ([]client.Object, error) {
-
 	// This has to be the current hub storage version. It will need to be updated
 	// if the hub storage version changes.
 	typedObj, ok := obj.(*storage.Workspace)

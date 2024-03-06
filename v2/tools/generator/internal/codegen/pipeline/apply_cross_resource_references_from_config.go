@@ -7,9 +7,11 @@ package pipeline
 
 import (
 	"context"
+	"regexp"
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -174,22 +176,40 @@ func MakeARMIDPropertyTypeVisitor(
 	return visitor
 }
 
+var (
+	armIDNameRegex        = regexp.MustCompile("(?i)(^Id$|ResourceID|ARMID)")
+	armIDDescriptionRegex = regexp.MustCompile("(?i)(.*/subscriptions/.*?/resourceGroups/.*|ARMID|ARM ID|Resource ID|resourceId)")
+)
+
 // DoesPropertyLookLikeARMReference uses a simple heuristic to determine if a property looks like it might be an ARM reference.
 // This can be used for logging/reporting purposes to discover references which we missed.
 func DoesPropertyLookLikeARMReference(prop *astmodel.PropertyDefinition) bool {
 	// The property must be a string, optional string, list of strings, or map[string]string
-	isString := astmodel.TypeEquals(prop.PropertyType(), astmodel.StringType)
-	isOptionalString := astmodel.TypeEquals(prop.PropertyType(), astmodel.OptionalStringType)
-	isStringSlice := astmodel.TypeEquals(prop.PropertyType(), astmodel.NewArrayType(astmodel.StringType))
-	isStringMap := astmodel.TypeEquals(prop.PropertyType(), astmodel.MapOfStringStringType)
-
-	if !isString && !isOptionalString && !isStringSlice && !isStringMap {
-		return false
+	mightBeReference := false
+	if pt, ok := astmodel.AsPrimitiveType(prop.PropertyType()); ok {
+		// Might be a reference if we have a primitive type that's a string
+		mightBeReference = pt == astmodel.StringType
 	}
 
+	if at, ok := astmodel.AsArrayType(prop.PropertyType()); ok {
+		// Might be references if we have an array of strings
+		elementType, elementTypeIsPrimitive := astmodel.AsPrimitiveType(at.Element())
+		mightBeReference = elementTypeIsPrimitive &&
+			elementType == astmodel.StringType
+	}
+
+	if mt, ok := astmodel.AsMapType(prop.PropertyType()); ok {
+		// Might be references if we have a map of strings to strings
+		keyType, keyTypeIsPrimitive := astmodel.AsPrimitiveType(mt.KeyType())
+		valueType, valueTypeIsPrimitive := astmodel.AsPrimitiveType(mt.ValueType())
+		mightBeReference = keyTypeIsPrimitive && valueTypeIsPrimitive &&
+			keyType == astmodel.StringType && valueType == astmodel.StringType
+	}
+
+	hasMatchingName := armIDNameRegex.MatchString(prop.PropertyName().String())
 	hasMatchingDescription := armIDDescriptionRegex.MatchString(prop.Description())
-	namedID := prop.HasName("Id")
-	if hasMatchingDescription || namedID {
+
+	if mightBeReference && (hasMatchingName || hasMatchingDescription) {
 		return true
 	}
 

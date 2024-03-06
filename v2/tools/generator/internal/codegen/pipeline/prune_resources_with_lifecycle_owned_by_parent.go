@@ -96,7 +96,6 @@ func flagPrunedEmptyProperties(
 	result, err := emptyObjectVisitor.VisitDefinitions(defs, emptyPrunedPropertiesArm)
 	if err != nil {
 		return nil, err
-
 	}
 
 	return result, nil

@@ -60,7 +60,9 @@ func Test_Workspace_BigDataPool(t *testing.T) {
 			},
 			Location: to.Ptr("eastus2"),
 			Owner:    testcommon.AsOwner(rg),
-			Tags:     map[string]string{"cheese": "blue"},
+			Tags: map[string]string{
+				"cheese": "blue",
+			},
 		},
 	}
 
@@ -68,6 +70,7 @@ func Test_Workspace_BigDataPool(t *testing.T) {
 
 	tc.Expect(ws.Status.Id).ToNot(BeNil())
 	wsArmId := *ws.Status.Id
+
 	// Perform a simple patch
 	old := ws.DeepCopy()
 	ws.Spec.Tags["cheese"] = "époisses"

@@ -52,7 +52,6 @@ func TestDiffCurrentAndExpectedSQLRoles(t *testing.T) {
 			expectedRoleDeletes: set.Set[string]{"db_datawriter": {}, "db_accessadmin": {}, "db_ddladmin": {}},
 		},
 		{
-
 			name:                "Expected has many roles more than current",
 			currentRoles:        set.Set[string]{"db_datareader": {}, "db_securityadmin": {}},
 			expectedRoles:       set.Set[string]{"db_datareader": {}, "db_datawriter": {}, "db_accessadmin": {}, "db_securityadmin": {}, "db_ddladmin": {}},

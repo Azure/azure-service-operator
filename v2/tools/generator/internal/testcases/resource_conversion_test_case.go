@@ -35,8 +35,8 @@ var _ astmodel.TestCase = &ResourceConversionTestCase{}
 func NewResourceConversionTestCase(
 	name astmodel.TypeName,
 	resourceType *astmodel.ResourceType,
-	idFactory astmodel.IdentifierFactory) (*ResourceConversionTestCase, error) {
-
+	idFactory astmodel.IdentifierFactory,
+) (*ResourceConversionTestCase, error) {
 	result := &ResourceConversionTestCase{
 		subject:   name,
 		idFactory: idFactory,
@@ -258,7 +258,8 @@ func (tc *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.
 // return ""
 func (tc *ResourceConversionTestCase) createTestMethod(
 	subject astmodel.TypeName,
-	codegenContext *astmodel.CodeGenerationContext) dst.Decl {
+	codegenContext *astmodel.CodeGenerationContext,
+) dst.Decl {
 	const (
 		errId        = "err"
 		hubId        = "hub"

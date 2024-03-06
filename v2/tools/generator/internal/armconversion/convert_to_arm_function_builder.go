@@ -142,7 +142,6 @@ func (builder *convertToARMBuilder) namePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	_ *astmodel.ObjectType,
 ) (propertyConversionHandlerResult, error) {
-
 	if toProp.PropertyName() != "Name" || builder.typeKind != TypeKindSpec {
 		return notHandled, nil
 	}
@@ -163,7 +162,6 @@ func (builder *convertToARMBuilder) operatorSpecPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	_ *astmodel.ObjectType,
 ) (propertyConversionHandlerResult, error) {
-
 	if toProp.PropertyName() != astmodel.OperatorSpecProperty || builder.typeKind != TypeKindSpec {
 		return notHandled, nil
 	}
@@ -176,13 +174,12 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType,
 ) (propertyConversionHandlerResult, error) {
-
 	// This is just an optimization to avoid scanning excess properties collections
 	_, isString := astmodel.AsPrimitiveType(toProp.PropertyType())
 
 	// TODO: Do we support slices or maps? Skipped for now
-	//isSliceString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewArrayType(astmodel.StringType))
-	//isMapString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
+	// isSliceString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewArrayType(astmodel.StringType))
+	// isMapString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
 
 	if !isString {
 		return notHandled, nil
@@ -275,7 +272,6 @@ func (builder *convertToARMBuilder) userAssignedIdentitiesPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType,
 ) (propertyConversionHandlerResult, error) {
-
 	if _, ok := astmodel.IsUserAssignedIdentityProperty(toProp); !ok {
 		return notHandled, nil
 	}
@@ -322,7 +318,6 @@ func (builder *convertToARMBuilder) referencePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType,
 ) (propertyConversionHandlerResult, error) {
-
 	// This is just an optimization to avoid scanning excess properties collections
 	isString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.StringType)
 	isOptionalString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.OptionalStringType)
@@ -388,7 +383,6 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType,
 ) (propertyConversionHandlerResult, error) {
-
 	toPropName := toProp.PropertyName()
 
 	// collect any fromProps that were flattened from the to-prop
@@ -510,8 +504,8 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 func (builder *convertToARMBuilder) buildToPropInitializer(
 	fromProps []*astmodel.PropertyDefinition,
 	toPropTypeName astmodel.TypeName,
-	toPropName astmodel.PropertyName) dst.Stmt {
-
+	toPropName astmodel.PropertyName,
+) dst.Stmt {
 	// build (x != nil, y != nil, …)
 	conditions := make([]dst.Expr, 0, len(fromProps))
 	for _, prop := range fromProps {
@@ -540,7 +534,6 @@ func (builder *convertToARMBuilder) propertiesByNameHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType,
 ) (propertyConversionHandlerResult, error) {
-
 	fromProp, found := fromType.Property(toProp.PropertyName())
 	if !found {
 		// No direct match by name, look for renames

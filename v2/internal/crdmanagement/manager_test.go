@@ -41,7 +41,7 @@ func Test_LoadCRDs(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	crdPath := filepath.Join(dir, "crd.yaml")
-	g.Expect(os.WriteFile(crdPath, bytes, 0600)).To(Succeed())
+	g.Expect(os.WriteFile(crdPath, bytes, 0o600)).To(Succeed())
 
 	crdManager := crdmanagement.NewManager(logger, nil)
 
@@ -80,7 +80,7 @@ func Test_LoadCRDs_FixesNamespace(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	crdPath := filepath.Join(dir, "crd.yaml")
-	g.Expect(os.WriteFile(crdPath, bytes, 0600)).To(Succeed())
+	g.Expect(os.WriteFile(crdPath, bytes, 0o600)).To(Succeed())
 
 	crdManager := crdmanagement.NewManager(logger, nil)
 

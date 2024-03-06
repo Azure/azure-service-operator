@@ -15,7 +15,8 @@
 	],
 	"settings": {
 		"gopls": {
-			"formatting.local": "github.com/Azure/azure-service-operator"
+			"formatting.local": "github.com/Azure/azure-service-operator",
+			"formatting.gofumpt": true
 		}
 	}
 }

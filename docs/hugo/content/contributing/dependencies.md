@@ -2,18 +2,21 @@
 title: Developer Dependencies
 linktitle: Dependencies
 ---
-Development of Azure Service Operator depends on a number of development tools and libraries that need to be installed.
+Development of Azure Service Operator depends on a number of development tools and libraries that need to be installed. 
 
-If you prefer to install those dependencies manually (instead of using the `.devcontainer/install-dependencies.sh` script), here is a list of what's required.
+If you prefer to install those dependencies manually (instead of using the `.devcontainer/install-dependencies.sh` script), here is a list of what's required. 
 
 | Dependency | Version | Reference |
 |:---------- |:-------:|:--------- |
+| AZ | latest | https://docs.microsoft.com/en-us/cli/azure/install-azure-cli |
 | AZWI | v1.2.0 | https://github.com/Azure/azure-workload-identity |
 | BuildX | v0.11.2 | https://github.com/docker/buildx |
 | cmctl | latest | https://cert-manager.io/docs/reference/cmctl |
 | controller-gen | v0.13.0 | https://book.kubebuilder.io/reference/controller-gen |
 | conversion-gen | v0.28.0 | https://pkg.go.dev/k8s.io/code-generator/cmd/conversion-gen |
 | gen-crd-api-reference-docs | 11fe95cb | https://github.com/ahmetb/gen-crd-api-reference-docs |
+| Go | 1.20 | https://golang.org/doc/install #
+| gofumpt | latest | https://pkg.go.dev/mvdan.cc/gofumpt |
 | golangci-lint | 1.51.2 | https://github.com/golangci/golangci-lint |
 | Helm | v3.8.0 | https://helm.sh/ |
 | htmltest | latest | https://github.com/wjdp/htmltest (but see https://github.com/theunrepentantgeek/htmltest for our custom build )

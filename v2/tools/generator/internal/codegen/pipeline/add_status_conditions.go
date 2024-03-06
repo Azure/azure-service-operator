@@ -67,8 +67,8 @@ func AddStatusConditions(idFactory astmodel.IdentifierFactory) *Stage {
 // SetConditions() methods, implementing the genruntime.Conditioner interface.
 func NewConditionerInterfaceImpl(
 	idFactory astmodel.IdentifierFactory,
-	resource *astmodel.ResourceType) (*astmodel.InterfaceImplementation, error) {
-
+	resource *astmodel.ResourceType,
+) (*astmodel.InterfaceImplementation, error) {
 	getConditions := functions.NewResourceFunction(
 		"Get"+astmodel.ConditionsProperty,
 		resource,

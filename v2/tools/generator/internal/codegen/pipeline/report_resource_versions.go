@@ -153,7 +153,6 @@ func (report *ResourceVersionsReport) loadFragments() error {
 			report.availableFragments[name] = string(content)
 			return nil
 		})
-
 	if err != nil {
 		return errors.Wrapf(err, "Unable to load fragments from %q", fragmentsPath)
 	}
@@ -265,7 +264,6 @@ func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
 	frontMatter string,
 	buffer *strings.Builder,
 ) error {
-
 	if frontMatter != "" {
 		buffer.WriteString(frontMatter)
 	} else {
@@ -663,7 +661,6 @@ func (report *ResourceVersionsReport) supportedFrom(typeName astmodel.InternalTy
 // Read in any front matter present in our output file, so we preserve it when writing out the new file.
 // Returns an empty string if the file doesn't exist
 func (report *ResourceVersionsReport) readFrontMatter(outputPath string) string {
-
 	if _, err := os.Stat(outputPath); os.IsNotExist(err) {
 		return ""
 	}

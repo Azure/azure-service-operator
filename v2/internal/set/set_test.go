@@ -6,8 +6,9 @@
 package set
 
 import (
-	. "github.com/onsi/gomega"
 	"testing"
+
+	. "github.com/onsi/gomega"
 )
 
 func TestSet_WhenConstructedWithItems_HasExpectedSize(t *testing.T) {

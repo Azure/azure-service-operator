@@ -27,7 +27,8 @@ var _ astmodel.Function = &PureFunction{}
 func NewPureFunction(
 	name string,
 	idFactory astmodel.IdentifierFactory,
-	asFunc PureFunctionHandler) *PureFunction {
+	asFunc PureFunctionHandler,
+) *PureFunction {
 	return &PureFunction{
 		name:             name,
 		asFunc:           asFunc,

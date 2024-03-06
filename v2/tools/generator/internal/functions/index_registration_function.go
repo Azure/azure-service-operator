@@ -146,7 +146,6 @@ func (f *IndexRegistrationFunction) singleValue(selector *dst.SelectorExpr) []ds
 
 // multipleValues is used when there are collections in the property path.
 func (f *IndexRegistrationFunction) multipleValues(selector *dst.SelectorExpr) ([]dst.Stmt, error) {
-
 	// var result []string
 	resultVar := astbuilder.LocalVariableDeclaration(
 		"result",
