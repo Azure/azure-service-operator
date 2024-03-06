@@ -6,8 +6,6 @@ Licensed under the MIT license.
 package v3
 
 import (
-	"bytes"
-	"io"
 	"net/http"
 	"strings"
 	"testing"
@@ -91,22 +89,26 @@ func NewTestRecorder(
 			return false
 		}
 
-		// verify custom request count header (see counting_roundtripper.go)
-		if r.Header.Get(vcr.COUNT_HEADER) != i.Headers.Get(vcr.COUNT_HEADER) {
-			return false
+		// verify custom request count header matches, if present
+		if header := r.Header.Get(COUNT_HEADER); header != "" {
+			if header != i.Headers.Get(COUNT_HEADER) {
+				return false
+			}
+		}
+
+		// verify custom body hash header matches, if present
+		if header := r.Header.Get(HASH_HEADER); header != "" {
+			if header != i.Headers.Get(HASH_HEADER) {
+				return false
+			}
 		}
 
 		if r.Body == nil {
+			// Empty bodies are stored by go-vcr as empty strings
 			return i.Body == ""
 		}
 
-		var b bytes.Buffer
-		if _, err := b.ReadFrom(r.Body); err != nil {
-			panic(err)
-		}
-
-		r.Body = io.NopCloser(&b)
-		return b.String() == "" || vcr.HideRecordingData(b.String()) == i.Body
+		return true
 	})
 
 	r.AddHook(redactRecording(azureIDs), recorder.BeforeSaveHook)
@@ -222,9 +224,9 @@ func (r *recorderDetails) IsReplaying() bool {
 func (r *recorderDetails) CreateClient(t *testing.T) *http.Client {
 	withReplay := NewReplayRoundTripper(r.recorder, r.log)
 	withErrorTranslation := translateErrors(withReplay, r.cassetteName, t)
-	withCountHeader := vcr.AddCountHeader(withErrorTranslation)
+	withTrackingHeaders := AddTrackingHeaders(withErrorTranslation)
 
 	return &http.Client{
-		Transport: withCountHeader,
+		Transport: withTrackingHeaders,
 	}
 }

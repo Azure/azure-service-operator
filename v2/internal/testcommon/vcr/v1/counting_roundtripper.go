@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package vcr
+package v1
 
 import (
 	"fmt"
@@ -36,10 +36,13 @@ var COUNT_HEADER string = "TEST-REQUEST-ATTEMPT"
 
 func (rt *requestCounter) RoundTrip(req *http.Request) (*http.Response, error) {
 	key := req.Method + ":" + req.URL.String()
+
+	// Read the current
 	rt.countsMutex.Lock()
 	count := rt.counts[key]
 	rt.counts[key] = count + 1
 	rt.countsMutex.Unlock()
+
 	req.Header.Set(COUNT_HEADER, fmt.Sprintf("%d", count))
 	return rt.inner.RoundTrip(req)
 }
