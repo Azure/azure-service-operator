@@ -1,7 +1,7 @@
 apiVersion: storage.azure.com/v1api20230101
 kind: StorageAccountsBlobService
 metadata:
-  name: samplekubestorageservice
+  name: asodpsamplekubestorageservice
   namespace: default
 spec:
   owner:
