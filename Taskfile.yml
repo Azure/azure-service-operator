@@ -945,12 +945,12 @@ tasks:
       # This below is added to test if ASO works fine in namespaces other than 'azureserviceoperator-system"
       NAMESPACE: "custom-namespace"
     cmds:
-#      - task: controller:kind-create
-#      - task: controller:install-cert-manager
-#      - task: controller:docker-push-local
-#      - task: controller:gen-helm-manifest
+      - task: controller:kind-create
+      - task: controller:install-cert-manager
+      - task: controller:docker-push-local
+      - task: controller:gen-helm-manifest
       # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
-#      - "cmctl check api --wait=2m"
+      - "cmctl check api --wait=2m"
       # Install cluster scope chart (mode == webhooks)
       - "helm upgrade --install --set multitenant.enable=true --set azureOperatorMode=webhooks \
            --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
