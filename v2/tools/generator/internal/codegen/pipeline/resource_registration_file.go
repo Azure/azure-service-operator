@@ -101,9 +101,6 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 
 	// Create Resource Extensions
 	resourceExtensionTypes := r.createGetResourceExtensions(codeGenContext)
-	if err != nil {
-		return nil, err
-	}
 	decls = append(decls, resourceExtensionTypes)
 
 	// All the index functions
