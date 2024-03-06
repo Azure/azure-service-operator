@@ -51,8 +51,9 @@ perl -0777 -i -pe 's/(spec:\n.*template:\n.*spec:\n(\s*))/$1\{\{- with .Values.a
 perl -0777 -i -pe 's/(spec:\n.*template:\n.*spec:\n(\s*))/$1\{\{- with .Values.tolerations \}\}\n$2tolerations:\n$2\{\{- toYaml . | nindent 8 \}\}\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add pod annotations
 
 # Metrics Configuration
-flow_control "metrics-addr" "secure-metrics" "{{- if .Values.metrics.enable}}" "$GEN_FILES_DIR"/*_deployment_*
-sed -i "1,/secure-metrics=.*/s/\(secure-metrics=\)\(.*\)/\1{{ .Values.metrics.secureMetrics }}/g" "$GEN_FILES_DIR"/*_deployment_*
+flow_control "metrics-addr" "profiling-metricsq" "{{- if .Values.metrics.enable}}" "$GEN_FILES_DIR"/*_deployment_*
+sed -i "1,/secure-metrics=.*/s/\(secure-metrics=\)\(.*\)/\1{{ .Values.metrics.secure }}/g" "$GEN_FILES_DIR"/*_deployment_*
+sed -i "1,/profiling-metrics=.*/s/\(profiling-metrics=\)\(.*\)/\1{{ .Values.metrics.profiling }}/g" "$GEN_FILES_DIR"/*_deployment_*
 sed -i "1,/metrics-addr=.*/s/\(metrics-addr=\)\(.*\)/\1{{ tpl .Values.metrics.address . }}/g" "$GEN_FILES_DIR"/*_deployment_*
 sed -i 's/containerPort: 8080/containerPort: {{ .Values.metrics.port | default 8443 }}/g' "$GEN_FILES_DIR"/*_deployment_*
 sed -i '1 i {{- if .Values.metrics.enable -}}' "$GEN_FILES_DIR"/*controller-manager-metrics-service*

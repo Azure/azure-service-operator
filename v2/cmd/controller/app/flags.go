@@ -16,20 +16,23 @@ import (
 
 type Flags struct {
 	MetricsAddr          string
+	ProfilingMetrics     bool
 	SecureMetrics        bool
 	HealthAddr           string
 	WebhookPort          int
 	WebhookCertDir       string
 	EnableLeaderElection bool
 	CRDManagementMode    string
-	CRDPatterns          string // This is a ; delimited string containing a collection of patterns
+	CRDPatterns          string // This is a ';' delimited string containing a collection of patterns
 	PreUpgradeCheck      bool
 }
 
 func (f Flags) String() string {
 	return fmt.Sprintf(
-		"MetricsAddr: %s, HealthAddr: %s, WebhookPort: %d, WebhookCertDir: %s, EnableLeaderElection: %t, CRDManagementMode: %s, CRDPatterns: %s, PreUpgradeCheck: %t",
+		"MetricsAddr: %s, SecureMetrics: %t, ProfilingMetrics: %t, HealthAddr: %s, WebhookPort: %d, WebhookCertDir: %s, EnableLeaderElection: %t, CRDManagementMode: %s, CRDPatterns: %s, PreUpgradeCheck: %t",
 		f.MetricsAddr,
+		f.SecureMetrics,
+		f.ProfilingMetrics,
 		f.HealthAddr,
 		f.WebhookPort,
 		f.WebhookCertDir,
@@ -45,6 +48,7 @@ func ParseFlags(args []string) (Flags, error) {
 	klog.InitFlags(flagSet)
 
 	var metricsAddr string
+	var profilingMetrics bool
 	var secureMetrics bool
 	var healthAddr string
 	var webhookPort int
@@ -56,7 +60,8 @@ func ParseFlags(args []string) (Flags, error) {
 
 	// default here for 'MetricsAddr' is set to "0", which sets metrics to be disabled if 'metrics-addr' flag is omitted.
 	flagSet.StringVar(&metricsAddr, "metrics-addr", "0", "The address the metric endpoint binds to.")
-	flagSet.BoolVar(&secureMetrics, "secure-metrics", true, "Enable secure metrics. This will enable serving pprof endpoints and metrics securely using https")
+	flagSet.BoolVar(&secureMetrics, "secure-metrics", true, "Enable secure metrics. This secures the pprof and metrics endpoints via Kubernetes RBAC and HTTPS")
+	flagSet.BoolVar(&profilingMetrics, "profiling-metrics", true, "Enable pprof metrics, only enabled in conjunction with secure-metrics. This will enable serving pprof metrics endpoints")
 
 	flagSet.StringVar(&healthAddr, "health-addr", "", "The address the healthz endpoint binds to.")
 	flagSet.IntVar(&webhookPort, "webhook-port", 9443, "The port the webhook endpoint binds to.")

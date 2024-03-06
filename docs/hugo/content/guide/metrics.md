@@ -16,7 +16,8 @@ By default, secure metrics for ASOv2 are turned on and can be toggled by the fol
 
     ```
     --set metrics.enable=true/false (default: true)
-    --set metrics.secure-metrics=true/false (default: true)
+    --set metrics.secure=true/false (default: true)
+    --set metrics.profiling=true/false (default: false)
     --set metrics.address=0.0.0.0:8443 (default)
     ```
 
@@ -31,6 +32,7 @@ By default, secure metrics for ASOv2 are turned on and can be toggled by the fol
        - args:
          - --metrics-addr=0.0.0.0:8080 (default)    
          - --secure-metrics=true/false (default: true)
+         - --profiling-metrics=true/false (default: false)
     ```
 
 ## Scraping Metrics Securely via HTTPs using RBAC
@@ -38,62 +40,65 @@ By default, secure metrics for ASOv2 are turned on and can be toggled by the fol
 A ServiceAccount token is required to scrape metrics securely. The corresponding ServiceAccount needs permissions on the "/metrics" and "debug/pprof" paths. 
 This can be achieved e.g. by following the [Kubernetes documentation](https://kubernetes.io/docs/concepts/cluster-administration/system-metrics/).
 
-- Use the settings below in your deployment: 
+Follow the steps below to scrape metrics securely.
 
-    ### ASOv2 Helm Chart
-        ```
-        --set metrics.enable=true
-        --set metrics.secure-metrics=true
-        --set metrics.address=0.0.0.0:8443
-        ```
+### ASOv2 Helm Chart
+  ```
+  --set metrics.enable=true
+  --set metrics.secure=true
+  --set metrics.profiling=true
+  --set metrics.address=0.0.0.0:8443
+  ```
     
-    ### Deployment YAML
-        ```
-        spec:
-          containers:
-           - args:
-             - --metrics-addr=0.0.0.0:8443  
-             - --secure-metrics=true 
-        ```
+### Deployment YAML
+  ```
+  spec:
+    containers:
+     - args:
+       - --metrics-addr=0.0.0.0:8443  
+       - --secure-metrics=true 
+       - --profiling-metrics=true
+  ```
 
-- Deploy the following RBAC configuration:
-    ```
-    cat << EOT | kubectl apply -f -
-    apiVersion: rbac.authorization.k8s.io/v1
+Deploy the following RBAC configuration. This creates a role that can scrape metrics.
+  ```
+  cat << EOT | kubectl apply -f -
+  apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRole
+  metadata:
+  name: default-metrics
+  rules:
+  - nonResourceURLs:
+      - "/metrics"
+      - "/debug/pprof/*"
+        verbs:
+      - get
+  ---
+  apiVersion: rbac.authorization.k8s.io/v1
+  kind: ClusterRoleBinding
+  metadata:
+  name: default-metrics
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
     kind: ClusterRole
-    metadata:
     name: default-metrics
-    rules:
-    - nonResourceURLs:
-        - "/metrics"
-        - "/debug/pprof/*"
-          verbs:
-        - get
-    ---
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRoleBinding
-    metadata:
-    name: default-metrics
-    roleRef:
-      apiGroup: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: default-metrics
-    subjects:
-    - kind: ServiceAccount
-      name: default
-      namespace: default
-      EOT
-    ```
-- Open a port-forward
+  subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: default
+    EOT
+  ```
+Test locally:
+  - Open a port-forward
 
-    ```
-    kubectl port-forward deployments/azureserviceoperator-controller-manager -n azureserviceoperator-system 8443
-    ```
-- Create a ServiceAccount token and scrape metrics
-    ```
-    TOKEN=$(kubectl create token default)
-    curl https://localhost:8443/metrics --header "Authorization: Bearer $TOKEN" -k
-    ```
+      ```
+      kubectl port-forward deployments/azureserviceoperator-controller-manager -n azureserviceoperator-system 8443
+      ```
+  - Create a ServiceAccount token and scrape metrics
+      ```
+      TOKEN=$(kubectl create token default)
+      curl https://localhost:8443/metrics --header "Authorization: Bearer $TOKEN" -k
+      ```
   
 ## Understanding the ASOv2 Metrics
 

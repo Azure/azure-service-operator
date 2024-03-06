@@ -91,10 +91,12 @@ image:
 # 'address' field defines the metrics binding address on which metrics
 metrics:
   enable: true
-  # secureMetrics controls whether metrics should be served via 'http' or 'https'.
-  # Flagging secureMetrics as true would use https
+  # secure controls whether metrics should be served via 'http' or 'https'.
+  # Flagging secure as 'true' would use https
   # Refer to https://azure.github.io/azure-service-operator/guide/metrics/ for more information
-  secureMetrics: true
+  secure: true
+  # profiling endpoints are only enabled when serving metrics securely
+  profiling: false
   address: 0.0.0.0:{{ .Values.metrics.port }}
   port: 8443
 

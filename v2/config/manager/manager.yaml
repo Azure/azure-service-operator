@@ -39,7 +39,8 @@ spec:
       containers:
       - args:
         - --metrics-addr=:8443
-        - --secure-metrics=false
+        - --secure-metrics=true
+        - --profiling-metrics=false
         - --health-addr=:8081
         - --enable-leader-election
         - --v=2

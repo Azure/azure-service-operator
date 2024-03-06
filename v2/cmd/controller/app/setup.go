@@ -256,19 +256,26 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 
 func getMetricsOpts(flags Flags) server.Options {
 	var metricsOptions server.Options
+
 	if flags.SecureMetrics {
-		metricsOptions = server.Options{
-			BindAddress:    flags.MetricsAddr,
-			SecureServing:  true,
-			FilterProvider: filters.WithAuthenticationAndAuthorization,
-			// Note that pprof endpoints are meant to be sensitive and shouldn't be exposed publicly.
-			ExtraHandlers: map[string]http.Handler{
+		var pprofHandlers map[string]http.Handler
+
+		if flags.ProfilingMetrics {
+			pprofHandlers = map[string]http.Handler{
 				"/debug/pprof/":        http.HandlerFunc(pprof.Index),
 				"/debug/pprof/cmdline": http.HandlerFunc(pprof.Cmdline),
 				"/debug/pprof/profile": http.HandlerFunc(pprof.Profile),
 				"/debug/pprof/symbol":  http.HandlerFunc(pprof.Symbol),
 				"/debug/pprof/trace":   http.HandlerFunc(pprof.Trace),
-			},
+			}
+		}
+
+		metricsOptions = server.Options{
+			BindAddress:    flags.MetricsAddr,
+			SecureServing:  true,
+			FilterProvider: filters.WithAuthenticationAndAuthorization,
+			// Note that pprof endpoints are meant to be sensitive and shouldn't be exposed publicly.
+			ExtraHandlers: pprofHandlers,
 		}
 	} else {
 		metricsOptions = server.Options{
