@@ -24,13 +24,14 @@ spec:
       resourceLocation: westus2
       resourceType: Microsoft.ContainerService/managedClusters
     policyInfo:
-      policyReference: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.DataProtection/backupVaults/aso-sample-backupvault/backupPolicies/aso-sample-backuppolicy
       policyParameters:
         dataStoreParametersList:
-          - dataStoreType: OperationalStore
-            objectType: AzureOperationalStoreParameters
-            resourceGroupId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg
+          - azureOperationalStoreParameters:
+              objectType: AzureOperationalStoreParameters
+              resourceGroupId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg
+              dataStoreType: OperationalStore
         backupDatasourceParametersList:
-          - objectType: KubernetesClusterBackupDatasourceParameters
-            snapshotVolumes: true
-            includeClusterScopeResources: true
+          - kubernetesClusterBackupDatasourceParameters:
+              includeClusterScopeResources: true
+              snapshotVolumes: true
+              objectType: KubernetesClusterBackupDatasourceParameters
