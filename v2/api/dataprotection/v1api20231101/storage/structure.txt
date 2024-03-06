@@ -137,7 +137,7 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/stor
 │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   │   ├── ResourceReference: *genruntime.ResourceReference
 │   │   │   │   ├── ResourceType: *string
-│   │   │   │   └── ResourceUri: *string
+│   │   │   │   └── ResourceUriReference: *genruntime.ResourceReference
 │   │   │   ├── DataSourceSetInfo: *Object (9 properties)
 │   │   │   │   ├── DatasourceType: *string
 │   │   │   │   ├── ObjectType: *string
@@ -151,7 +151,7 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/stor
 │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   │   ├── ResourceReference: *genruntime.ResourceReference
 │   │   │   │   ├── ResourceType: *string
-│   │   │   │   └── ResourceUri: *string
+│   │   │   │   └── ResourceUriReference: *genruntime.ResourceReference
 │   │   │   ├── DatasourceAuthCredentials: *Object (2 properties)
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── SecretStoreBasedAuthCredentials: *Object (3 properties)
@@ -195,7 +195,7 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/stor
 │   │   │   │   │   │   │   ├── DataStoreType: *string
 │   │   │   │   │   │   │   ├── ObjectType: *string
 │   │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │   │   └── ResourceGroupId: *string
+│   │   │   │   │   │   │   └── ResourceGroupReference: *genruntime.ResourceReference
 │   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   │   ├── PolicyReference: *genruntime.ResourceReference

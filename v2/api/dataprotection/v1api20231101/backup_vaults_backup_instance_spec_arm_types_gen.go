@@ -120,9 +120,7 @@ type Datasource_ARM struct {
 
 	// ResourceType: Resource Type of Datasource.
 	ResourceType *string `json:"resourceType,omitempty"`
-
-	// ResourceUri: Uri of the resource.
-	ResourceUri *string `json:"resourceUri,omitempty"`
+	ResourceUri  *string `json:"resourceUri,omitempty"`
 }
 
 // DatasourceSet details of datasource to be backed up
@@ -145,9 +143,7 @@ type DatasourceSet_ARM struct {
 
 	// ResourceType: Resource Type of Datasource.
 	ResourceType *string `json:"resourceType,omitempty"`
-
-	// ResourceUri: Uri of the resource.
-	ResourceUri *string `json:"resourceUri,omitempty"`
+	ResourceUri  *string `json:"resourceUri,omitempty"`
 }
 
 type IdentityDetails_ARM struct {
@@ -310,10 +306,8 @@ type AzureOperationalStoreParameters_ARM struct {
 	DataStoreType *AzureOperationalStoreParameters_DataStoreType `json:"dataStoreType,omitempty"`
 
 	// ObjectType: Type of the specific object - used for deserializing
-	ObjectType AzureOperationalStoreParameters_ObjectType `json:"objectType,omitempty"`
-
-	// ResourceGroupId: Gets or sets the Snapshot Resource Group Uri.
-	ResourceGroupId *string `json:"resourceGroupId,omitempty"`
+	ObjectType      AzureOperationalStoreParameters_ObjectType `json:"objectType,omitempty"`
+	ResourceGroupId *string                                    `json:"resourceGroupId,omitempty"`
 }
 
 type BlobBackupDatasourceParameters_ARM struct {

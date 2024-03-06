@@ -12,10 +12,14 @@ spec:
     dataSourceInfo:
       objectType: Datasource
       datasourceType: Microsoft.ContainerService/managedClusters
-      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.ContainerService/managedClusters/aso-sample-aks
       resourceName: aso-sample-aks
       resourceLocation: westus2
       resourceType: Microsoft.ContainerService/managedClusters
+      resourceUri:
+        resourceUriReference: 
+        name: aso-sample-aks
+        group: containerservice.azure.com
+        kind: ManagedCluster
       resourceReference:
         name: aso-sample-aks
         group: containerservice.azure.com
@@ -23,10 +27,13 @@ spec:
     dataSourceSetInfo:
       objectType: DatasourceSet
       datasourceType: Microsoft.ContainerService/managedClusters
-      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.ContainerService/managedClusters/aso-sample-aks
       resourceName: aso-sample-aks
       resourceLocation: westus2
       resourceType: Microsoft.ContainerService/managedClusters
+      resourceUriReference: 
+        name: aso-sample-aks
+        group: containerservice.azure.com
+        kind: ManagedCluster
       resourceReference:
         name: aso-sample-aks
         group: containerservice.azure.com
@@ -40,7 +47,10 @@ spec:
         dataStoreParametersList:
           - azureOperationalStoreParameters:
               objectType: AzureOperationalStoreParameters
-              resourceGroupId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg
+              resourceGroupReference: 
+                name: aso-sample-rg
+                group: resources.azure.com
+                kind: ResourceGroup
               dataStoreType: OperationalStore
         backupDatasourceParametersList:
           - kubernetesClusterBackupDatasourceParameters:

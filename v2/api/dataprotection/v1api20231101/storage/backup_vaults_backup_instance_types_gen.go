@@ -266,7 +266,9 @@ type Datasource struct {
 	// be the ID created by backup service via Fabric/Vault.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceID" json:"resourceReference,omitempty"`
 	ResourceType      *string                       `json:"resourceType,omitempty"`
-	ResourceUri       *string                       `json:"resourceUri,omitempty"`
+
+	// ResourceUriReference: Uri of the resource.
+	ResourceUriReference *genruntime.ResourceReference `armReference:"ResourceUri" json:"resourceUriReference,omitempty"`
 }
 
 // Storage version of v1api20231101.Datasource_STATUS
@@ -298,7 +300,9 @@ type DatasourceSet struct {
 	// be the ID created by backup service via Fabric/Vault.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceID" json:"resourceReference,omitempty"`
 	ResourceType      *string                       `json:"resourceType,omitempty"`
-	ResourceUri       *string                       `json:"resourceUri,omitempty"`
+
+	// ResourceUriReference: Uri of the resource.
+	ResourceUriReference *genruntime.ResourceReference `armReference:"ResourceUri" json:"resourceUriReference,omitempty"`
 }
 
 // Storage version of v1api20231101.DatasourceSet_STATUS
@@ -500,10 +504,12 @@ type SecretStoreResource_STATUS struct {
 
 // Storage version of v1api20231101.AzureOperationalStoreParameters
 type AzureOperationalStoreParameters struct {
-	DataStoreType   *string                `json:"dataStoreType,omitempty"`
-	ObjectType      *string                `json:"objectType,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ResourceGroupId *string                `json:"resourceGroupId,omitempty"`
+	DataStoreType *string                `json:"dataStoreType,omitempty"`
+	ObjectType    *string                `json:"objectType,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// ResourceGroupReference: Gets or sets the Snapshot Resource Group Uri.
+	ResourceGroupReference *genruntime.ResourceReference `armReference:"ResourceGroupId" json:"resourceGroupReference,omitempty"`
 }
 
 // Storage version of v1api20231101.AzureOperationalStoreParameters_STATUS

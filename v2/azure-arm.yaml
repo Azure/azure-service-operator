@@ -1718,11 +1718,18 @@ objectModelConfiguration:
       DatasourceSet:
         ResourceID:
           $armReference: true
+        ResourceUri:
+          $armReference: true
       Datasource:
         ResourceID:
           $armReference: true
+        ResourceUri:
+          $armReference: true  
       PolicyInfo:
         PolicyId:
+          $armReference: true
+      AzureOperationalStoreParameters:
+        ResourceGroupId:
           $armReference: true
   dbformariadb:
     2018-06-01:

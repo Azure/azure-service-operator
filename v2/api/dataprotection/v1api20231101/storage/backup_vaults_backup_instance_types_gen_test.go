@@ -608,7 +608,6 @@ func AddIndependentPropertyGeneratorsForDatasource(gens map[string]gopter.Gen) {
 	gens["ResourceLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceName"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceType"] = gen.PtrOf(gen.AlphaString())
-	gens["ResourceUri"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDatasource is a factory method for creating gopter generators
@@ -767,7 +766,6 @@ func AddIndependentPropertyGeneratorsForDatasourceSet(gens map[string]gopter.Gen
 	gens["ResourceLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceName"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceType"] = gen.PtrOf(gen.AlphaString())
-	gens["ResourceUri"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDatasourceSet is a factory method for creating gopter generators
@@ -2490,7 +2488,6 @@ func AzureOperationalStoreParametersGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAzureOperationalStoreParameters(gens map[string]gopter.Gen) {
 	gens["DataStoreType"] = gen.PtrOf(gen.AlphaString())
 	gens["ObjectType"] = gen.PtrOf(gen.AlphaString())
-	gens["ResourceGroupId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_AzureOperationalStoreParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

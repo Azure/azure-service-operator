@@ -1901,8 +1901,8 @@ type Datasource struct {
 	// ResourceType: Resource Type of Datasource.
 	ResourceType *string `json:"resourceType,omitempty"`
 
-	// ResourceUri: Uri of the resource.
-	ResourceUri *string `json:"resourceUri,omitempty"`
+	// ResourceUriReference: Uri of the resource.
+	ResourceUriReference *genruntime.ResourceReference `armReference:"ResourceUri" json:"resourceUriReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Datasource{}
@@ -1965,9 +1965,13 @@ func (datasource *Datasource) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 
 	// Set property "ResourceUri":
-	if datasource.ResourceUri != nil {
-		resourceUri := *datasource.ResourceUri
-		result.ResourceUri = &resourceUri
+	if datasource.ResourceUriReference != nil {
+		resourceUriReferenceARMID, err := resolved.ResolvedReferences.Lookup(*datasource.ResourceUriReference)
+		if err != nil {
+			return nil, err
+		}
+		resourceUriReference := resourceUriReferenceARMID
+		result.ResourceUri = &resourceUriReference
 	}
 	return result, nil
 }
@@ -2027,11 +2031,7 @@ func (datasource *Datasource) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		datasource.ResourceType = &resourceType
 	}
 
-	// Set property "ResourceUri":
-	if typedInput.ResourceUri != nil {
-		resourceUri := *typedInput.ResourceUri
-		datasource.ResourceUri = &resourceUri
-	}
+	// no assignment for property "ResourceUriReference"
 
 	// No error
 	return nil
@@ -2075,8 +2075,13 @@ func (datasource *Datasource) AssignProperties_From_Datasource(source *v20231101
 	// ResourceType
 	datasource.ResourceType = genruntime.ClonePointerToString(source.ResourceType)
 
-	// ResourceUri
-	datasource.ResourceUri = genruntime.ClonePointerToString(source.ResourceUri)
+	// ResourceUriReference
+	if source.ResourceUriReference != nil {
+		resourceUriReference := source.ResourceUriReference.Copy()
+		datasource.ResourceUriReference = &resourceUriReference
+	} else {
+		datasource.ResourceUriReference = nil
+	}
 
 	// No error
 	return nil
@@ -2122,8 +2127,13 @@ func (datasource *Datasource) AssignProperties_To_Datasource(destination *v20231
 	// ResourceType
 	destination.ResourceType = genruntime.ClonePointerToString(datasource.ResourceType)
 
-	// ResourceUri
-	destination.ResourceUri = genruntime.ClonePointerToString(datasource.ResourceUri)
+	// ResourceUriReference
+	if datasource.ResourceUriReference != nil {
+		resourceUriReference := datasource.ResourceUriReference.Copy()
+		destination.ResourceUriReference = &resourceUriReference
+	} else {
+		destination.ResourceUriReference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2165,9 +2175,6 @@ func (datasource *Datasource) Initialize_From_Datasource_STATUS(source *Datasour
 
 	// ResourceType
 	datasource.ResourceType = genruntime.ClonePointerToString(source.ResourceType)
-
-	// ResourceUri
-	datasource.ResourceUri = genruntime.ClonePointerToString(source.ResourceUri)
 
 	// No error
 	return nil
@@ -2386,8 +2393,8 @@ type DatasourceSet struct {
 	// ResourceType: Resource Type of Datasource.
 	ResourceType *string `json:"resourceType,omitempty"`
 
-	// ResourceUri: Uri of the resource.
-	ResourceUri *string `json:"resourceUri,omitempty"`
+	// ResourceUriReference: Uri of the resource.
+	ResourceUriReference *genruntime.ResourceReference `armReference:"ResourceUri" json:"resourceUriReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatasourceSet{}
@@ -2450,9 +2457,13 @@ func (datasourceSet *DatasourceSet) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 
 	// Set property "ResourceUri":
-	if datasourceSet.ResourceUri != nil {
-		resourceUri := *datasourceSet.ResourceUri
-		result.ResourceUri = &resourceUri
+	if datasourceSet.ResourceUriReference != nil {
+		resourceUriReferenceARMID, err := resolved.ResolvedReferences.Lookup(*datasourceSet.ResourceUriReference)
+		if err != nil {
+			return nil, err
+		}
+		resourceUriReference := resourceUriReferenceARMID
+		result.ResourceUri = &resourceUriReference
 	}
 	return result, nil
 }
@@ -2512,11 +2523,7 @@ func (datasourceSet *DatasourceSet) PopulateFromARM(owner genruntime.ArbitraryOw
 		datasourceSet.ResourceType = &resourceType
 	}
 
-	// Set property "ResourceUri":
-	if typedInput.ResourceUri != nil {
-		resourceUri := *typedInput.ResourceUri
-		datasourceSet.ResourceUri = &resourceUri
-	}
+	// no assignment for property "ResourceUriReference"
 
 	// No error
 	return nil
@@ -2560,8 +2567,13 @@ func (datasourceSet *DatasourceSet) AssignProperties_From_DatasourceSet(source *
 	// ResourceType
 	datasourceSet.ResourceType = genruntime.ClonePointerToString(source.ResourceType)
 
-	// ResourceUri
-	datasourceSet.ResourceUri = genruntime.ClonePointerToString(source.ResourceUri)
+	// ResourceUriReference
+	if source.ResourceUriReference != nil {
+		resourceUriReference := source.ResourceUriReference.Copy()
+		datasourceSet.ResourceUriReference = &resourceUriReference
+	} else {
+		datasourceSet.ResourceUriReference = nil
+	}
 
 	// No error
 	return nil
@@ -2607,8 +2619,13 @@ func (datasourceSet *DatasourceSet) AssignProperties_To_DatasourceSet(destinatio
 	// ResourceType
 	destination.ResourceType = genruntime.ClonePointerToString(datasourceSet.ResourceType)
 
-	// ResourceUri
-	destination.ResourceUri = genruntime.ClonePointerToString(datasourceSet.ResourceUri)
+	// ResourceUriReference
+	if datasourceSet.ResourceUriReference != nil {
+		resourceUriReference := datasourceSet.ResourceUriReference.Copy()
+		destination.ResourceUriReference = &resourceUriReference
+	} else {
+		destination.ResourceUriReference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2650,9 +2667,6 @@ func (datasourceSet *DatasourceSet) Initialize_From_DatasourceSet_STATUS(source 
 
 	// ResourceType
 	datasourceSet.ResourceType = genruntime.ClonePointerToString(source.ResourceType)
-
-	// ResourceUri
-	datasourceSet.ResourceUri = genruntime.ClonePointerToString(source.ResourceUri)
 
 	// No error
 	return nil
@@ -5801,8 +5815,8 @@ type AzureOperationalStoreParameters struct {
 	// ObjectType: Type of the specific object - used for deserializing
 	ObjectType *AzureOperationalStoreParameters_ObjectType `json:"objectType,omitempty"`
 
-	// ResourceGroupId: Gets or sets the Snapshot Resource Group Uri.
-	ResourceGroupId *string `json:"resourceGroupId,omitempty"`
+	// ResourceGroupReference: Gets or sets the Snapshot Resource Group Uri.
+	ResourceGroupReference *genruntime.ResourceReference `armReference:"ResourceGroupId" json:"resourceGroupReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AzureOperationalStoreParameters{}
@@ -5826,9 +5840,13 @@ func (parameters *AzureOperationalStoreParameters) ConvertToARM(resolved genrunt
 	}
 
 	// Set property "ResourceGroupId":
-	if parameters.ResourceGroupId != nil {
-		resourceGroupId := *parameters.ResourceGroupId
-		result.ResourceGroupId = &resourceGroupId
+	if parameters.ResourceGroupReference != nil {
+		resourceGroupReferenceARMID, err := resolved.ResolvedReferences.Lookup(*parameters.ResourceGroupReference)
+		if err != nil {
+			return nil, err
+		}
+		resourceGroupReference := resourceGroupReferenceARMID
+		result.ResourceGroupId = &resourceGroupReference
 	}
 	return result, nil
 }
@@ -5854,11 +5872,7 @@ func (parameters *AzureOperationalStoreParameters) PopulateFromARM(owner genrunt
 	// Set property "ObjectType":
 	parameters.ObjectType = &typedInput.ObjectType
 
-	// Set property "ResourceGroupId":
-	if typedInput.ResourceGroupId != nil {
-		resourceGroupId := *typedInput.ResourceGroupId
-		parameters.ResourceGroupId = &resourceGroupId
-	}
+	// no assignment for property "ResourceGroupReference"
 
 	// No error
 	return nil
@@ -5883,8 +5897,13 @@ func (parameters *AzureOperationalStoreParameters) AssignProperties_From_AzureOp
 		parameters.ObjectType = nil
 	}
 
-	// ResourceGroupId
-	parameters.ResourceGroupId = genruntime.ClonePointerToString(source.ResourceGroupId)
+	// ResourceGroupReference
+	if source.ResourceGroupReference != nil {
+		resourceGroupReference := source.ResourceGroupReference.Copy()
+		parameters.ResourceGroupReference = &resourceGroupReference
+	} else {
+		parameters.ResourceGroupReference = nil
+	}
 
 	// No error
 	return nil
@@ -5911,8 +5930,13 @@ func (parameters *AzureOperationalStoreParameters) AssignProperties_To_AzureOper
 		destination.ObjectType = nil
 	}
 
-	// ResourceGroupId
-	destination.ResourceGroupId = genruntime.ClonePointerToString(parameters.ResourceGroupId)
+	// ResourceGroupReference
+	if parameters.ResourceGroupReference != nil {
+		resourceGroupReference := parameters.ResourceGroupReference.Copy()
+		destination.ResourceGroupReference = &resourceGroupReference
+	} else {
+		destination.ResourceGroupReference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5944,8 +5968,13 @@ func (parameters *AzureOperationalStoreParameters) Initialize_From_AzureOperatio
 		parameters.ObjectType = nil
 	}
 
-	// ResourceGroupId
-	parameters.ResourceGroupId = genruntime.ClonePointerToString(source.ResourceGroupId)
+	// ResourceGroupReference
+	if source.ResourceGroupId != nil {
+		resourceGroupReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceGroupId)
+		parameters.ResourceGroupReference = &resourceGroupReference
+	} else {
+		parameters.ResourceGroupReference = nil
+	}
 
 	// No error
 	return nil
