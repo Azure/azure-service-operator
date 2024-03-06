@@ -212,48 +212,6 @@ func (t *SamplesTester) getObjectFromFile(path string) (client.Object, error) {
 	return obj.(client.Object), nil
 }
 
-func (t *SamplesTester) setOwnershipAndReferences(samples map[string]client.Object, refsMap map[string]client.Object, isSamples bool) error {
-	for gk, sample := range samples {
-		asoType, ok := sample.(genruntime.ARMMetaObject)
-		if !ok {
-			continue
-		}
-
-		// We don't apply ownership to the resources which have no owner
-		if asoType.Owner() == nil {
-			continue
-		}
-
-		// We only set the owner name if Owner.Kind is ResourceGroup(as we have random rg names) or if we're using random names for resources.
-		// Otherwise, we let it be the same as on samples.
-		var ownersName string
-		if asoType.Owner().Kind == resolver.ResourceGroupKind {
-			ownersName = t.rgName
-		} else if t.useRandomName {
-			owner, ok := samples[asoType.Owner().Kind]
-			if !ok {
-				if isSamples {
-					owner, ok = refsMap[asoType.Owner().Kind]
-				}
-				return fmt.Errorf("owner: %s, does not exist for resource '%s'", asoType.Owner().Kind, gk)
-			}
-
-			ownersName = owner.GetName()
-		}
-
-		if ownersName != "" {
-			asoType = setOwnersName(asoType, ownersName)
-		}
-
-		err := t.updateFieldsForTest(asoType)
-		if err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
 func (t *SamplesTester) setSamplesOwnershipAndReferences(samples map[string]client.Object, refs map[string]client.Object) error {
 	for gk, sample := range samples {
 		asoType, ok := sample.(genruntime.ARMMetaObject)
