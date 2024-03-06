@@ -15,8 +15,7 @@ spec:
       resourceName: aso-sample-aks
       resourceLocation: westus2
       resourceType: Microsoft.ContainerService/managedClusters
-      resourceUri:
-        resourceUriReference: 
+      resourceUriReference:
         name: aso-sample-aks
         group: containerservice.azure.com
         kind: ManagedCluster
@@ -30,7 +29,7 @@ spec:
       resourceName: aso-sample-aks
       resourceLocation: westus2
       resourceType: Microsoft.ContainerService/managedClusters
-      resourceUriReference: 
+      resourceUriReference:
         name: aso-sample-aks
         group: containerservice.azure.com
         kind: ManagedCluster
@@ -47,7 +46,7 @@ spec:
         dataStoreParametersList:
           - azureOperationalStoreParameters:
               objectType: AzureOperationalStoreParameters
-              resourceGroupReference: 
+              resourceGroupReference:
                 name: aso-sample-rg
                 group: resources.azure.com
                 kind: ResourceGroup

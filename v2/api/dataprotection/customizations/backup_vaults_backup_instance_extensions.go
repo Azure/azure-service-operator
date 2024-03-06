@@ -26,8 +26,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
-var _ extensions.PreReconciliationChecker = &BackupVaultsBackupInstanceExtension{}
-var _ extensions.PostReconciliationChecker = &BackupVaultsBackupInstanceExtension{}
+var (
+	_ extensions.PreReconciliationChecker  = &BackupVaultsBackupInstanceExtension{}
+	_ extensions.PostReconciliationChecker = &BackupVaultsBackupInstanceExtension{}
+)
 
 var nonRetryableStates = set.Make(
 	"ConfiguringProtectionFailed",
@@ -54,8 +56,8 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 	_ *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
-	_ extensions.PostReconcileCheckFunc) (extensions.PostReconcileCheckResult, error) {
-
+	_ extensions.PostReconcileCheckFunc,
+) (extensions.PostReconcileCheckResult, error) {
 	log.V(Debug).Info("########################## Starting Post-reconcilation for Backup Instance ##########################")
 	backupInstance, ok := obj.(*dataprotection.BackupVaultsBackupInstance)
 	if !ok {
@@ -123,7 +125,6 @@ func (ext *BackupVaultsBackupInstanceExtension) PreReconcileCheck(
 	log logr.Logger,
 	_ extensions.PreReconcileCheckFunc,
 ) (extensions.PreReconcileCheckResult, error) {
-
 	log.V(Debug).Info("########################## Starting Pre-reconcilation for Backup Instance ##########################")
 	backupInstance, ok := obj.(*dataprotection.BackupVaultsBackupInstance)
 	if !ok {

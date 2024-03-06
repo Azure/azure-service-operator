@@ -688,9 +688,9 @@ func (in *AzureOperationalStoreParameters) DeepCopyInto(out *AzureOperationalSto
 		*out = new(AzureOperationalStoreParameters_ObjectType)
 		**out = **in
 	}
-	if in.ResourceGroupId != nil {
-		in, out := &in.ResourceGroupId, &out.ResourceGroupId
-		*out = new(string)
+	if in.ResourceGroupReference != nil {
+		in, out := &in.ResourceGroupReference, &out.ResourceGroupReference
+		*out = new(genruntime.ResourceReference)
 		**out = **in
 	}
 }
@@ -3611,9 +3611,9 @@ func (in *Datasource) DeepCopyInto(out *Datasource) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.ResourceUri != nil {
-		in, out := &in.ResourceUri, &out.ResourceUri
-		*out = new(string)
+	if in.ResourceUriReference != nil {
+		in, out := &in.ResourceUriReference, &out.ResourceUriReference
+		*out = new(genruntime.ResourceReference)
 		**out = **in
 	}
 }
@@ -3666,9 +3666,9 @@ func (in *DatasourceSet) DeepCopyInto(out *DatasourceSet) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.ResourceUri != nil {
-		in, out := &in.ResourceUri, &out.ResourceUri
-		*out = new(string)
+	if in.ResourceUriReference != nil {
+		in, out := &in.ResourceUriReference, &out.ResourceUriReference
+		*out = new(genruntime.ResourceReference)
 		**out = **in
 	}
 }
