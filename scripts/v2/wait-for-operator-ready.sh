@@ -10,12 +10,15 @@ set -o pipefail
 print_usage() {
   echo "Usage: wait-for-operator-ready.sh [-c]"
   echo "    -c: Do NOT wait for CRDs to reach established state"
+  echo "    -n: Specify the namespace for the operator (default is 'azureserviceoperator-system')"
 }
 
+OPERATOR_NAMESPACE="azureserviceoperator-system"  # Default namespace
 CHECK_ESTABLISHED=1
-while getopts 'co' flag; do
+while getopts 'c:n:' flag; do
   case "${flag}" in
     c) CHECK_ESTABLISHED=0 ;;
+    n) OPERATOR_NAMESPACE="${OPTARG}" ;;
     *) print_usage
        exit 1 ;;
   esac
@@ -52,7 +55,7 @@ if [[ "$CHECK_ESTABLISHED" -eq 1 ]]; then
 fi
 
 echo "Waiting for pod ready..."
-kubectl wait --for=condition=ready --timeout=3m pod -n azureserviceoperator-system -l control-plane=controller-manager
+kubectl wait --for=condition=ready --timeout=3m pod -n "$OPERATOR_NAMESPACE" -l control-plane=controller-manager
 
 echo "Waiting for CRD cabundle..."
 export -f all_crds_have_cabundle
