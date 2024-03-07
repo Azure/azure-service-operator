@@ -887,7 +887,7 @@ tasks:
     desc: Waits for the operator and associated CRDs to be ready
     run: always
     cmds:
-      - "{{.SCRIPTS_ROOT}}/wait-for-operator-ready.sh -n '{{default \"azureserviceoperator-system\" .NAMESPACE}}' {{.ARGS}}"
+      - "{{.SCRIPTS_ROOT}}/wait-for-operator-ready.sh -n '{{default .ASO_NAMESPACE .NAMESPACE}}' {{.ARGS}}"
 
   controller:kind-create-with-service-principal:
     desc: Creates a local kind cluster with ASO using service principal auth.
