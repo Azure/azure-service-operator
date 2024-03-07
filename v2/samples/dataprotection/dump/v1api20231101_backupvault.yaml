@@ -7,7 +7,7 @@ spec:
   operatorSpec:
     configMaps:
       principalId:
-        name: backupvault-configmap
+        name: bv-test-configmap
         key: principalId
   location: westus2
   owner:

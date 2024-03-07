@@ -10,7 +10,7 @@ spec:
   dnsPrefix: aso
   agentPoolProfiles:
     - name: agentpool
-      count: 2
+      count: 1
       vmSize: Standard_B4ms
       osType: Linux
       osSKU: AzureLinux
