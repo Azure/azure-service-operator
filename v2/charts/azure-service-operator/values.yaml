@@ -95,7 +95,14 @@ metrics:
   # Flagging secure as 'true' would use https
   # Refer to https://azure.github.io/azure-service-operator/guide/metrics/ for more information
   secure: true
-  # profiling endpoints are only enabled when serving metrics securely
+  # profiling exposes below endpoints.
+  # /debug/pprof/
+  # /debug/pprof/cmdline
+  # /debug/pprof/profile
+  # /debug/pprof/symbol
+  # /debug/pprof/trace
+  #
+  # pprof endpoints are sensitive and can only be enabled when serving metrics securely
   profiling: false
   address: 0.0.0.0:{{ .Values.metrics.port }}
   port: 8443
