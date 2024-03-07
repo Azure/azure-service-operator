@@ -152,12 +152,12 @@ func (t *SamplesTester) LoadSamples() (*SampleObject, error) {
 	}
 
 	// We add ownership once we have all the resources in the map
-	err = t.setOwnershipAndReferences(samples.SamplesMap)
+	err = t.setSamplesOwnershipAndReferences(samples.SamplesMap, samples.RefsMap)
 	if err != nil {
 		return nil, err
 	}
 
-	err = t.setOwnershipAndReferences(samples.RefsMap)
+	err = t.setRefsOwnershipAndReferences(samples.RefsMap)
 	if err != nil {
 		return nil, err
 	}
@@ -212,7 +212,7 @@ func (t *SamplesTester) getObjectFromFile(path string) (client.Object, error) {
 	return obj.(client.Object), nil
 }
 
-func (t *SamplesTester) setOwnershipAndReferences(samples map[string]client.Object) error {
+func (t *SamplesTester) setSamplesOwnershipAndReferences(samples map[string]client.Object, refs map[string]client.Object) error {
 	for gk, sample := range samples {
 		asoType, ok := sample.(genruntime.ARMMetaObject)
 		if !ok {
@@ -230,13 +230,53 @@ func (t *SamplesTester) setOwnershipAndReferences(samples map[string]client.Obje
 		if asoType.Owner().Kind == resolver.ResourceGroupKind {
 			ownersName = t.rgName
 		} else if t.useRandomName {
-			owner, ok := samples[asoType.Owner().Kind]
-			if !ok {
+			// Check if the owner exists in refs, then continue. We don't use random names for refs so its correct anyway.
+			owner, found := refs[asoType.Owner().Kind]
+			if found {
+				continue
+			}
+
+			owner, found = samples[asoType.Owner().Kind]
+			if !found {
 				return fmt.Errorf("owner: %s, does not exist for resource '%s'", asoType.Owner().Kind, gk)
 			}
 
 			ownersName = owner.GetName()
 		}
+
+		if ownersName != "" {
+			asoType = setOwnersName(asoType, ownersName)
+		}
+
+		err := t.updateFieldsForTest(asoType)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (t *SamplesTester) setRefsOwnershipAndReferences(samples map[string]client.Object) error {
+	for _, sample := range samples {
+		asoType, ok := sample.(genruntime.ARMMetaObject)
+		if !ok {
+			continue
+		}
+
+		// We don't apply ownership to the resources which have no owner
+		if asoType.Owner() == nil {
+			continue
+		}
+
+		// We only set the owner name if Owner.Kind is ResourceGroup(as we have random rg names) or if we're using random names for resources.
+		// Otherwise, we let it be the same as on samples.
+		var ownersName string
+		if asoType.Owner().Kind != resolver.ResourceGroupKind {
+			continue
+		}
+
+		ownersName = t.rgName
 
 		if ownersName != "" {
 			asoType = setOwnersName(asoType, ownersName)
