@@ -263,7 +263,6 @@ func getMetricsOpts(flags Flags) server.Options {
 			SecureServing:  true,
 			FilterProvider: filters.WithAuthenticationAndAuthorization,
 		}
-		
 		// Note that pprof endpoints are meant to be sensitive and shouldn't be exposed publicly.
 		if flags.ProfilingMetrics {
 			metricsOptions.ExtraHandlers = map[string]http.Handler{
