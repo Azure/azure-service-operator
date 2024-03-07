@@ -1,11 +1,11 @@
 apiVersion: dataprotection.azure.com/v1api20231101
 kind: BackupVaultsBackupPolicy
 metadata:
-  name: aso-sample-backuppolicy
+  name: aso-test-backuppolicy
   namespace: default
 spec:
   owner:
-    name: aso-sample-backupvault
+    name: aso-test-backupvault
   properties:
     backupPolicy:
       datasourceTypes:

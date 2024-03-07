@@ -11,7 +11,7 @@ spec:
         key: principalId
   location: westus2
   owner:
-    name: aso-sample-rgx
+    name: aso-sample-rg
   identity:
     type: SystemAssigned
   properties:

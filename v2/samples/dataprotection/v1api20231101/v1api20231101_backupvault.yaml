@@ -1,7 +1,7 @@
 apiVersion: dataprotection.azure.com/v1api20231101
 kind: BackupVault
 metadata:
-  name: aso-sample-backupvault
+  name: aso-test-backupvault
   namespace: default
 spec:
   operatorSpec:
@@ -11,7 +11,7 @@ spec:
         key: principalId
   location: westus2
   owner:
-    name: aso-sample-rgx
+    name: aso-sample-rg
   identity:
     type: SystemAssigned
   properties:
