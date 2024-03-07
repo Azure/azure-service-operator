@@ -1,3 +1,8 @@
+# create 4 role assingments and trusted access to make it protection configured.
+# Extension identity on SA
+# Vault identity on cluster
+# Vault identity on RG
+# Cluster identity on RG
 apiVersion: dataprotection.azure.com/v1api20231101
 kind: BackupVaultsBackupInstance
 metadata:
@@ -5,7 +10,7 @@ metadata:
   namespace: default
 spec:
   owner:
-    name: aso-sample-backupvault
+    name: aso-sample-backupvault 
   properties:
     objectType: BackupInstance
     friendlyName: aso-sample-backupinstance
