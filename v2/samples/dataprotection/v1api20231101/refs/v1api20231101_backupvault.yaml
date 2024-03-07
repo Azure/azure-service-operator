@@ -18,3 +18,7 @@ spec:
     storageSettings:
       - datastoreType: VaultStore
         type: LocallyRedundant
+    securitySettings:
+      softDeleteSettings:
+        state: "Off"
+
