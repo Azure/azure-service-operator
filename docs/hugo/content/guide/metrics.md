@@ -42,23 +42,26 @@ This can be achieved e.g. by following the [Kubernetes documentation](https://ku
 
 Follow the steps below to scrape metrics securely.
 
-### ASOv2 Helm Chart
-  ```
-  --set metrics.enable=true
-  --set metrics.secure=true
-  --set metrics.profiling=true
-  --set metrics.address=0.0.0.0:8443
-  ```
-    
-### Deployment YAML
-  ```
-  spec:
-    containers:
-     - args:
-       - --metrics-addr=0.0.0.0:8443  
-       - --secure-metrics=true 
-       - --profiling-metrics=true
-  ```
+{{< tabpane text=true left=true >}}
+{{% tab header="Helm Chart" %}}
+``` Helm Chart
+--set metrics.enable=true
+--set metrics.secure=true
+--set metrics.profiling=true
+--set metrics.address=0.0.0.0:8443
+```
+{{% /tab %}}
+{{% tab header="Deployment YAML" %}}
+``` Deployment YAML
+spec:
+containers:
+ - args:
+   - --metrics-addr=0.0.0.0:8443  
+   - --secure-metrics=true 
+   - --profiling-metrics=true
+```
+{{% /tab %}}
+{{< /tabpane >}}
 
 Deploy the following RBAC configuration. This creates a role that can scrape metrics.
   ```
