@@ -6,7 +6,7 @@ metadata:
 spec:
   # This resource can be owner by any resource. In this example we've chosen a resource group for simplicity
   owner:
-    name: aso-sample-rg
+    name: aso-snapshot-rg
     group: resources.azure.com
     kind: ResourceGroup
   # This is the Principal ID of the AAD identity to which the role will be assigned

@@ -10,7 +10,7 @@ metadata:
   namespace: default
 spec:
   owner:
-    name: aso-sample-backupvault 
+    name: aso-sample-backupvault
   properties:
     objectType: BackupInstance
     friendlyName: aso-sample-backupinstance
@@ -52,7 +52,7 @@ spec:
           - azureOperationalStoreParameters:
               objectType: AzureOperationalStoreParameters
               resourceGroupReference:
-                name: aso-sample-rg
+                name: aso-snapshot-rg
                 group: resources.azure.com
                 kind: ResourceGroup
               dataStoreType: OperationalStore
