@@ -20,12 +20,12 @@
 
 <title>Metrics | Azure Service Operator</title>
 <meta name="description" content="Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing. The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from controller-runtime).
-Toggling the metrics By default, metrics for ASOv2 are turned on and can be toggled by the following options:
-  ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics on and off and set the metrics expose address using the below settings.">
+Toggling the metrics By default, secure metrics for ASOv2 are turned on and can be toggled by the following options:
+ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics _**on**_ and _**off**_ and set the metrics expose address using the below settings.">
 <meta property="og:title" content="Metrics" />
 <meta property="og:description" content="Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing. The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from controller-runtime).
-Toggling the metrics By default, metrics for ASOv2 are turned on and can be toggled by the following options:
-  ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics on and off and set the metrics expose address using the below settings." />
+Toggling the metrics By default, secure metrics for ASOv2 are turned on and can be toggled by the following options:
+ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics _**on**_ and _**off**_ and set the metrics expose address using the below settings." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/metrics/" /><meta property="article:section" content="guide" />
 
@@ -33,15 +33,15 @@ Toggling the metrics By default, metrics for ASOv2 are turned on and can be togg
 
 <meta itemprop="name" content="Metrics">
 <meta itemprop="description" content="Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing. The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from controller-runtime).
-Toggling the metrics By default, metrics for ASOv2 are turned on and can be toggled by the following options:
-  ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics on and off and set the metrics expose address using the below settings.">
+Toggling the metrics By default, secure metrics for ASOv2 are turned on and can be toggled by the following options:
+ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics _**on**_ and _**off**_ and set the metrics expose address using the below settings.">
 
-<meta itemprop="wordCount" content="354">
+<meta itemprop="wordCount" content="533">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Metrics"/>
 <meta name="twitter:description" content="Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing. The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from controller-runtime).
-Toggling the metrics By default, metrics for ASOv2 are turned on and can be toggled by the following options:
-  ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics on and off and set the metrics expose address using the below settings."/>
+Toggling the metrics By default, secure metrics for ASOv2 are turned on and can be toggled by the following options:
+ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics _**on**_ and _**off**_ and set the metrics expose address using the below settings."/>
 
 
 
@@ -648,6 +648,7 @@ Toggling the metrics By default, metrics for ASOv2 are turned on and can be togg
         <li><a href="#deployment-yaml">Deployment YAML</a></li>
       </ul>
     </li>
+    <li><a href="#scraping-metrics-securely-via-https-using-rbac">Scraping Metrics Securely via HTTPs using RBAC</a></li>
     <li><a href="#understanding-the-asov2-metrics">Understanding the ASOv2 Metrics</a>
       <ul>
         <li><a href="#labels">Labels</a></li>
@@ -714,23 +715,111 @@ Toggling the metrics By default, metrics for ASOv2 are turned on and can be togg
 	<p>Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing.
 The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from <code>controller-runtime</code>).</p>
 <h2 id="toggling-the-metrics">Toggling the metrics</h2>
-<p>By default, metrics for ASOv2 are turned on and can be toggled by the following options:</p>
-<ul>
-<li>
+<p>By default, secure metrics for ASOv2 are turned on and can be toggled by the following options:</p>
 <h3 id="asov2-helm-chart">ASOv2 Helm Chart</h3>
-<p>While installing the Helm chart, we can turn the metrics <em><strong>on</strong></em> and <em><strong>off</strong></em> and set the metrics expose address using the
-below settings. Also, we can change the settings inside <code>values.yaml</code> file for ASOv2 Helm chart.</p>
-<pre tabindex="0"><code>--set metrics.enable=true/false (default: true)
---set metrics.address=0.0.0.0:8080 (default)    
-</code></pre></li>
-<li>
+<pre><code>While installing the Helm chart, we can turn the metrics _**on**_ and _**off**_ and set the metrics expose address using the 
+below settings. Also, we can change the settings inside `values.yaml` file for ASOv2 Helm chart.
+
+```
+--set metrics.enable=true/false (default: true)
+--set metrics.secure=true/false (default: true)
+--set metrics.profiling=true/false (default: false)
+--set metrics.address=0.0.0.0:8443 (default)
+```
+</code></pre>
 <h3 id="deployment-yaml">Deployment YAML</h3>
-<p>In the deployment yaml, we can turn <em><strong>off</strong></em> the metrics by omitting the <code>metrics-addr</code> flag. We can also change to use
-a different metrics-addr by changing the default value of that same flag.</p>
-<pre tabindex="0"><code>spec:
+<pre><code>In the deployment yaml, we can turn _**off**_ the metrics by omitting the `metrics-addr` flag. We can also change to use 
+a different metrics-addr by changing the default value of that same flag.
+
+```
+spec:
   containers:
    - args:
      - --metrics-addr=0.0.0.0:8080 (default)    
+     - --secure-metrics=true/false (default: true)
+     - --profiling-metrics=true/false (default: false)
+```
+</code></pre>
+<h2 id="scraping-metrics-securely-via-https-using-rbac">Scraping Metrics Securely via HTTPs using RBAC</h2>
+<p>A ServiceAccount token is required to scrape metrics securely. The corresponding ServiceAccount needs permissions on the &ldquo;/metrics&rdquo; and &ldquo;debug/pprof&rdquo; paths.
+This can be achieved e.g. by following the <a href="https://kubernetes.io/docs/concepts/cluster-administration/system-metrics/">Kubernetes documentation</a>.</p>
+<p>Follow the steps below to scrape metrics securely.</p>
+
+
+
+<ul class="nav nav-tabs" id="tabs-0" role="tablist">
+  <li class="nav-item">
+      <a class="nav-link active"
+          id="tabs-00-00-tab" data-toggle="tab" href="#tabs-00-00" role="tab"
+          aria-controls="tabs-00-00" aria-selected="false">
+        Helm Chart
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link"
+          id="tabs-00-01-tab" data-toggle="tab" href="#tabs-00-01" role="tab"
+          aria-controls="tabs-00-01" aria-selected="false">
+        Deployment YAML
+      </a>
+    </li>
+</ul>
+
+<div class="tab-content" id="tabs-0-content">
+    <div class="tab-body tab-pane fade show active"
+        id="tabs-00-00" role="tabpanel" aria-labelled-by="tabs-00-00-tab">
+        <pre tabindex="0"><code class="language-Helm" data-lang="Helm">--set metrics.enable=true
+--set metrics.secure=true
+--set metrics.profiling=true
+--set metrics.address=0.0.0.0:8443
+</code></pre>
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-00-01" role="tabpanel" aria-labelled-by="tabs-00-01-tab">
+        <pre tabindex="0"><code class="language-Deployment" data-lang="Deployment">spec:
+containers:
+ - args:
+   - --metrics-addr=0.0.0.0:8443  
+   - --secure-metrics=true 
+   - --profiling-metrics=true
+</code></pre>
+    </div>
+</div>
+
+<p>Deploy the following RBAC configuration. This creates a role that can scrape metrics.</p>
+<pre tabindex="0"><code>cat &lt;&lt; EOT | kubectl apply -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+name: default-metrics
+rules:
+- nonResourceURLs:
+    - &quot;/metrics&quot;
+    - &quot;/debug/pprof/*&quot;
+      verbs:
+    - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+name: default-metrics
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: default-metrics
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: default
+  EOT
+</code></pre><p>Test locally:</p>
+<ul>
+<li>
+<p>Open a port-forward</p>
+<pre tabindex="0"><code>kubectl port-forward deployments/azureserviceoperator-controller-manager -n azureserviceoperator-system 8443
+</code></pre></li>
+<li>
+<p>Create a ServiceAccount token and scrape metrics</p>
+<pre tabindex="0"><code>TOKEN=$(kubectl create token default)
+curl https://localhost:8443/metrics --header &quot;Authorization: Bearer $TOKEN&quot; -k
 </code></pre></li>
 </ul>
 <h2 id="understanding-the-asov2-metrics">Understanding the ASOv2 Metrics</h2>
