@@ -38,7 +38,9 @@ spec:
       serviceAccountName: default
       containers:
       - args:
-        - --metrics-addr=:8080
+        - --metrics-addr=:8443
+        - --secure-metrics=true
+        - --profiling-metrics=false
         - --health-addr=:8081
         - --enable-leader-election
         - --v=2
@@ -47,7 +49,7 @@ spec:
           - containerPort: 8081
             name: health-port
             protocol: TCP
-          - containerPort: 8080
+          - containerPort: 8443
             name: metrics-port
             protocol: TCP
         livenessProbe:
