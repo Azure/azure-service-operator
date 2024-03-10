@@ -36,7 +36,7 @@ Version Integration We would add new hand-written resources into ASO v2 with the
 Discussions so far have identified three possible solutions - version integration, resource import job and resource import tool.
 Version Integration We would add new hand-written resources into ASO v2 with the same names and shapes as the resources supported by ASO v1.">
 
-<meta itemprop="wordCount" content="1158">
+<meta itemprop="wordCount" content="1160">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="2022-11: ASO v1 Migration and Resource Import"/>
 <meta name="twitter:description" content="Context We have a significant number of customers successfully using ASO v1 whom we want to migrate to ASO v2. This requires both feature parity (so that users don&rsquo;t lose functionality when they switch) and a straightforward migration path (if it&rsquo;s too hard to migrate, they won&rsquo;t).
@@ -741,8 +741,8 @@ Version Integration We would add new hand-written resources into ASO v2 with the
 <li>Con: Awkward to model a run-once action as a CRD as there is no reconcile to be done after the first pass, though there are examples of such resources in core k8s API such as <code>Job</code> and a pattern we could follow.</li>
 <li>Con: Reconciliation of this job would be entirely unlike any existing ASO resource.</li>
 <li>Con: It&rsquo;s highly unlikely that the resource would be ready for use, as it wouldn&rsquo;t have any ASO specific configuration, requiring users to awkwardly download the YAML, make any required changes, and then reapply it to the cluster.</li>
-<li>Con: Unless we immediately annotated the resource as <code>skip-reconcile</code> for safety, ASO would immediately pick up the resource and start reconciling it. In most cases this would be benign, but there is potential for <em>bad things</em> to happen. This is the opposite of the usually desired <em>pit of success</em>.</li>
-<li>Con: If we do mark the resource as <code>skip-reconcile</code>, users will need to manually remove the annotation before things work.</li>
+<li>Con: Unless we immediately annotated the resource to skip reconciliation for safety, ASO would immediately pick up the resource and start reconciling it. In most cases this would be benign, but there is potential for <em>bad things</em> to happen. This is the opposite of the usually desired <em>pit of success</em>.</li>
+<li>Con: If we do annotate the resource to skip reconciliation, users will need to manually remove the annotation before things work.</li>
 <li>Con: The job would need to be cleaned up manually afterwards</li>
 </ul>
 <h4 id="see-also">See also</h4>
