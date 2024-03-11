@@ -47,8 +47,6 @@ vars:
   CROSSPLANE_OUTPUT:
     sh: 'realpath hack/crossplane/config'
 
-  KUBE_RBAC_PROXY: gcr.io/kubebuilder/kube-rbac-proxy
-
   # how long to let tests against live resources run for
   LIVE_TEST_TIMEOUT: 3h
 
@@ -694,7 +692,7 @@ tasks:
     deps: 
       - controller:generate-kustomize
     cmds:
-      - "{{.SCRIPTS_ROOT}}/generate-helm-manifest.sh {{.KUBE_RBAC_PROXY}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} {{.PUBLIC_REGISTRY}} {{.LATEST_VERSION_TAG}} `pwd`/"
+      - "{{.SCRIPTS_ROOT}}/generate-helm-manifest.sh {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} {{.PUBLIC_REGISTRY}} {{.LATEST_VERSION_TAG}} `pwd`/"
 
   controller:install-helm:
     desc: Generate and install helm chart on cluster

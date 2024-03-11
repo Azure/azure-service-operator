@@ -86,14 +86,26 @@ webhook:
 # repository).
 image:
   repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.6.0
-  kubeRBACProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
 
 # 'metrics' define settings for the metrics from controller.
 # 'address' field defines the metrics binding address on which metrics
 metrics:
   enable: true
+  # secure controls whether metrics should be served via 'http' or 'https'.
+  # Flagging secure as 'true' would use https
+  # Refer to https://azure.github.io/azure-service-operator/guide/metrics/ for more information
+  secure: true
+  # profiling exposes below endpoints.
+  # /debug/pprof/
+  # /debug/pprof/cmdline
+  # /debug/pprof/profile
+  # /debug/pprof/symbol
+  # /debug/pprof/trace
+  #
+  # pprof endpoints are sensitive and can only be enabled when serving metrics securely
+  profiling: false
   address: 0.0.0.0:{{ .Values.metrics.port }}
-  port: 8080
+  port: 8443
 
 # installCRDs configures if the operator attempts to install and manage the CRDs associated with ASO.
 # If the operator does not install and manage the CRDs on its own, you must manually install the appropriate

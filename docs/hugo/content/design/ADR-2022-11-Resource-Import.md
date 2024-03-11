@@ -33,8 +33,8 @@ Hand craft a new _job_ CRD that allows specification of an existing Azure Resour
 * Con: Awkward to model a run-once action as a CRD as there is no reconcile to be done after the first pass, though there are examples of such resources in core k8s API such as `Job` and a pattern we could follow.
 * Con: Reconciliation of this job would be entirely unlike any existing ASO resource.
 * Con: It's highly unlikely that the resource would be ready for use, as it wouldn't have any ASO specific configuration, requiring users to awkwardly download the YAML, make any required changes, and then reapply it to the cluster.
-* Con: Unless we immediately annotated the resource as `skip-reconcile` for safety, ASO would immediately pick up the resource and start reconciling it. In most cases this would be benign, but there is potential for _bad things_ to happen. This is the opposite of the usually desired *pit of success*.
-* Con: If we do mark the resource as `skip-reconcile`, users will need to manually remove the annotation before things work.
+* Con: Unless we immediately annotated the resource to skip reconciliation for safety, ASO would immediately pick up the resource and start reconciling it. In most cases this would be benign, but there is potential for _bad things_ to happen. This is the opposite of the usually desired *pit of success*.
+* Con: If we do annotate the resource to skip reconciliation, users will need to manually remove the annotation before things work.
 * Con: The job would need to be cleaned up manually afterwards
 
 #### See also
