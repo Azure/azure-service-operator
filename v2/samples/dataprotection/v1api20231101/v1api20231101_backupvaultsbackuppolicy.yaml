@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   owner:
-    name: aso-test-backupvault
+    name: aso-sample-backupvault
   properties:
     backupPolicy:
       datasourceTypes:

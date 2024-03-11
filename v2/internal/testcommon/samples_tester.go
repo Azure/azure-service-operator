@@ -71,7 +71,7 @@ var exclusions = []string{
 	"secret",
 
 	// Exclude backupvaultsbackupinstance as it requires role assignments to be created after backup instance is created to make it land into protection configured state.
-	// "backupvaultsbackupinstance",
+	"backupvaultsbackupinstance",
 }
 
 type SamplesTester struct {
