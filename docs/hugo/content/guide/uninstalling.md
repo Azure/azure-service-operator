@@ -1,5 +1,6 @@
 ---
 title: "Uninstalling"
+weight: 10
 ---
 
 ## Before you uninstall
