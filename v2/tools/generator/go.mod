@@ -16,7 +16,7 @@ require (
 	github.com/go-logr/logr v1.4.1
 	github.com/go-logr/zerologr v1.2.3
 	github.com/go-openapi/jsonpointer v0.21.0
-	github.com/go-openapi/spec v0.20.14
+	github.com/go-openapi/spec v0.21.0
 	github.com/gobuffalo/flect v1.0.2
 	github.com/google/go-cmp v0.6.0
 	github.com/kr/pretty v0.3.1
@@ -39,7 +39,7 @@ require (
 )
 
 require (
-	github.com/go-openapi/jsonreference v0.20.4 // indirect
+	github.com/go-openapi/jsonreference v0.21.0 // indirect
 	github.com/go-openapi/swag v0.23.0 // indirect
 	github.com/hbollon/go-edlib v1.6.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
