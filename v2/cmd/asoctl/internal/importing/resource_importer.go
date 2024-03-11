@@ -304,7 +304,7 @@ func (ri *ResourceImporter) createProgressBar(
 		mpb.PrependDecorators(
 			decor.Name(name, decor.WCSyncSpaceR)),
 		mpb.AppendDecorators(
-			decor.Percentage(decor.WC{W: 5})))
+			decor.CountersNoUnit("%d/%d", decor.WCSyncSpaceR)))
 
 	// Monitor for progress updates
 	go func() {
@@ -345,7 +345,8 @@ func (ri *ResourceImporter) createSubProgressBar(
 		mpb.BarRemoveOnComplete(),
 		mpb.PrependDecorators(
 			decor.Name(name, decor.WCSyncSpaceR)),
-		mpb.AppendDecorators(decor.Percentage(decor.WC{W: 5})))
+		mpb.AppendDecorators(
+			decor.CountersNoUnit("%d/%d", decor.WCSyncSpaceR)))
 
 	// Monitor for progress updates
 	go func() {
