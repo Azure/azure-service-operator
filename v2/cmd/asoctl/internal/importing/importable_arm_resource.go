@@ -383,12 +383,12 @@ func (i *importableARMResource) createImportableObjectFromID(
 
 	gvk, gvkErr := i.groupVersionKindFromID(armID)
 	if gvkErr != nil {
-		return nil, errors.Wrap(err, "unable to determine GVK of resource")
+		return nil, errors.Wrap(gvkErr, "unable to determine GVK of resource")
 	}
 
 	obj, objErr := i.createBlankObjectFromGVK(gvk)
 	if objErr != nil {
-		return nil, errors.Wrap(err, "unable to create blank resource")
+		return nil, errors.Wrap(objErr, "unable to create blank resource")
 	}
 
 	importable, ok := obj.(genruntime.ImportableARMResource)
