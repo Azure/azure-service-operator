@@ -79,7 +79,9 @@ func NewPropertyAssignmentFunctionBuilder(
 
 	result.assignmentSelectors = []assignmentSelector{
 		{0, result.selectIdenticallyNamedProperties},
-		{100, result.readPropertiesFromPropertyBag}, // High sequence numbers to ensure these are executed last
+		{1, result.selectRenamedProperties},
+		// High sequence numbers to ensure these are executed last
+		{100, result.readPropertiesFromPropertyBag},
 		{100, result.writePropertiesToPropertyBag},
 	}
 
@@ -119,7 +121,8 @@ func (builder *PropertyAssignmentFunctionBuilder) AddSuffixMatchingAssignmentSel
 	sourceSuffix string,
 	destinationSuffix string,
 ) {
-	builder.AddAssignmentSelector(builder.createSuffixMatchingAssignmentSelector(sourceSuffix, destinationSuffix))
+	builder.AddAssignmentSelector(
+		builder.createSuffixMatchingAssignmentSelector(sourceSuffix, destinationSuffix))
 }
 
 func (builder *PropertyAssignmentFunctionBuilder) Build(
@@ -370,6 +373,59 @@ func (*PropertyAssignmentFunctionBuilder) selectIdenticallyNamedProperties(
 ) error {
 	for destinationName, destinationEndpoint := range destinationProperties {
 		if sourceEndpoint, ok := sourceProperties[destinationName]; ok {
+			err := assign(sourceEndpoint, destinationEndpoint)
+			if err != nil {
+				return errors.Wrapf(err, "assigning %s", destinationName)
+			}
+		}
+	}
+
+	return nil
+}
+
+// selectRenamedProperties matches up properties that were renamed in the later version
+// sourceProperties is a set of endpoints that can be read from.
+// destinationProperties is a set of endpoints that can be written to.
+// assign is a function that will be called for each matching property, with the source and destination endpoints
+// for that property.
+// Returns an error if any of the assignments fail.
+func (builder *PropertyAssignmentFunctionBuilder) selectRenamedProperties(
+	sourceProperties conversions.ReadableConversionEndpointSet,
+	destinationProperties conversions.WritableConversionEndpointSet,
+	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+	conversionContext *conversions.PropertyConversionContext,
+) error {
+	// Create a map of active renames, from the source name to the destination name
+	// Depending on the direction of conversion, we need populate this differently
+	renames := make(map[string]string)
+	if conversionContext.HasDirection(conversions.ConvertTo) {
+		// Source type is receiver, use that to look up renames
+		for source := range sourceProperties {
+			if name, renamed := conversionContext.PropertyRename(
+				builder.receiverDefinition.Name(),
+				astmodel.PropertyName(source)); renamed {
+				renames[source] = name
+			}
+		}
+	} else {
+		// Destination type is receiver, use that to look up renames
+		for destination := range destinationProperties {
+			if name, renamed := conversionContext.PropertyRename(
+				builder.receiverDefinition.Name(),
+				astmodel.PropertyName(destination)); renamed {
+				renames[name] = destination
+			}
+		}
+	}
+
+	// Match up any renamed properties
+	for sourceName, sourceEndpoint := range sourceProperties {
+		destinationName, renamed := renames[sourceName]
+		if !renamed {
+			continue
+		}
+
+		if destinationEndpoint, ok := destinationProperties[destinationName]; ok {
 			err := assign(sourceEndpoint, destinationEndpoint)
 			if err != nil {
 				return errors.Wrapf(err, "assigning %s", destinationName)
