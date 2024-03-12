@@ -6,11 +6,13 @@
 package importing
 
 import (
+	"strings"
 	"sync"
+
+	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 var (
@@ -23,8 +25,14 @@ func FindGroupKindForResourceType(t string) (schema.GroupKind, bool) {
 		resourceTypeGK = createTypeToGKMap()
 	})
 
+	t = canonicalizeAzureTypeString(t)
 	gk, ok := resourceTypeGK[t]
 	return gk, ok
+}
+
+func canonicalizeAzureTypeString(t string) string {
+	// ToLower the type, as Azure type names are not case-sensitive
+	return strings.ToLower(t)
 }
 
 func createTypeToGKMap() map[string]schema.GroupKind {
@@ -43,7 +51,8 @@ func createTypeToGKMap() map[string]schema.GroupKind {
 			continue
 		}
 
-		result[rsrc.GetType()] = gvk.GroupKind()
+		typeStr := canonicalizeAzureTypeString(rsrc.GetType())
+		result[typeStr] = gvk.GroupKind()
 	}
 
 	return result

@@ -357,12 +357,14 @@ func (*importableARMResource) classifyError(err error) (string, bool) {
 			return "access forbidden", true
 		}
 
-		if responseError.StatusCode == http.StatusBadRequest &&
-			strings.Contains(responseError.Error(), "RequestUrlInvalid") {
-			// We constructed an invalid URL
-			// (Seems that some extension resources aren't permitted on some resource types)
-			// An empty error is special cased as a silent skip, so we don't alarm casual users
-			return "", true
+		if responseError.StatusCode == http.StatusBadRequest {
+			if strings.Contains(responseError.Error(), "RequestUrlInvalid") ||
+				strings.Contains(responseError.Error(), "ValidationFailed") {
+				// We constructed an invalid URL
+				// (Seems that some extension resources aren't permitted on some resource types)
+				// An empty error is special cased as a silent skip, so we don't alarm casual users
+				return "", true
+			}
 		}
 	}
 
@@ -383,12 +385,12 @@ func (i *importableARMResource) createImportableObjectFromID(
 
 	gvk, gvkErr := i.groupVersionKindFromID(armID)
 	if gvkErr != nil {
-		return nil, errors.Wrap(err, "unable to determine GVK of resource")
+		return nil, errors.Wrap(gvkErr, "unable to determine GVK of resource")
 	}
 
 	obj, objErr := i.createBlankObjectFromGVK(gvk)
 	if objErr != nil {
-		return nil, errors.Wrap(err, "unable to create blank resource")
+		return nil, errors.Wrap(objErr, "unable to create blank resource")
 	}
 
 	importable, ok := obj.(genruntime.ImportableARMResource)
