@@ -2511,17 +2511,17 @@ const (
 	WorkspaceCapping_DataIngestionStatus_STATUS_SubscriptionSuspended = WorkspaceCapping_DataIngestionStatus_STATUS("SubscriptionSuspended")
 )
 
-// +kubebuilder:validation:Enum={100,1000,200,2000,300,400,500,5000}
+// +kubebuilder:validation:Enum={100,200,300,400,500,1000,2000,5000}
 type WorkspaceSku_CapacityReservationLevel int
 
 const (
 	WorkspaceSku_CapacityReservationLevel_100  = WorkspaceSku_CapacityReservationLevel(100)
-	WorkspaceSku_CapacityReservationLevel_1000 = WorkspaceSku_CapacityReservationLevel(1000)
 	WorkspaceSku_CapacityReservationLevel_200  = WorkspaceSku_CapacityReservationLevel(200)
-	WorkspaceSku_CapacityReservationLevel_2000 = WorkspaceSku_CapacityReservationLevel(2000)
 	WorkspaceSku_CapacityReservationLevel_300  = WorkspaceSku_CapacityReservationLevel(300)
 	WorkspaceSku_CapacityReservationLevel_400  = WorkspaceSku_CapacityReservationLevel(400)
 	WorkspaceSku_CapacityReservationLevel_500  = WorkspaceSku_CapacityReservationLevel(500)
+	WorkspaceSku_CapacityReservationLevel_1000 = WorkspaceSku_CapacityReservationLevel(1000)
+	WorkspaceSku_CapacityReservationLevel_2000 = WorkspaceSku_CapacityReservationLevel(2000)
 	WorkspaceSku_CapacityReservationLevel_5000 = WorkspaceSku_CapacityReservationLevel(5000)
 )
 
@@ -2529,12 +2529,12 @@ type WorkspaceSku_CapacityReservationLevel_STATUS int
 
 const (
 	WorkspaceSku_CapacityReservationLevel_STATUS_100  = WorkspaceSku_CapacityReservationLevel_STATUS(100)
-	WorkspaceSku_CapacityReservationLevel_STATUS_1000 = WorkspaceSku_CapacityReservationLevel_STATUS(1000)
 	WorkspaceSku_CapacityReservationLevel_STATUS_200  = WorkspaceSku_CapacityReservationLevel_STATUS(200)
-	WorkspaceSku_CapacityReservationLevel_STATUS_2000 = WorkspaceSku_CapacityReservationLevel_STATUS(2000)
 	WorkspaceSku_CapacityReservationLevel_STATUS_300  = WorkspaceSku_CapacityReservationLevel_STATUS(300)
 	WorkspaceSku_CapacityReservationLevel_STATUS_400  = WorkspaceSku_CapacityReservationLevel_STATUS(400)
 	WorkspaceSku_CapacityReservationLevel_STATUS_500  = WorkspaceSku_CapacityReservationLevel_STATUS(500)
+	WorkspaceSku_CapacityReservationLevel_STATUS_1000 = WorkspaceSku_CapacityReservationLevel_STATUS(1000)
+	WorkspaceSku_CapacityReservationLevel_STATUS_2000 = WorkspaceSku_CapacityReservationLevel_STATUS(2000)
 	WorkspaceSku_CapacityReservationLevel_STATUS_5000 = WorkspaceSku_CapacityReservationLevel_STATUS(5000)
 )
 
