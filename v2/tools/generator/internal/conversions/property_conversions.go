@@ -726,25 +726,66 @@ func assignToEnumeration(
 		return nil, nil
 	}
 
+	conversionContext.AddPackageReference(astmodel.StringsReference)
+
 	return func(
 		reader dst.Expr,
 		writer func(dst.Expr) []dst.Stmt,
 		knownLocals *astmodel.KnownLocalsSet,
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
-		convertingWriter := func(expr dst.Expr) []dst.Stmt {
-			cast := &dst.CallExpr{
-				Fun:  dstName.AsType(generationContext),
-				Args: []dst.Expr{expr},
-			}
-			return writer(cast)
+		// If the enum is NOT based on a string, we can just do a direct cast and keep things simple
+		if dstEnum.BaseType() != astmodel.StringType {
+			return writer(astbuilder.CallFunc(dstName.Name(), reader)), nil
 		}
 
-		return conversion(
-			reader,
-			convertingWriter,
-			knownLocals,
-			generationContext)
+		var cacheOriginal dst.Stmt
+		var actualReader dst.Expr
+
+		// If the value we're reading is a local or a field, it's cheap to read and we can skip
+		// using a local (which makes the generated code easier to read). In other cases, we want
+		// to cache the value in a local to avoid repeating any expensive conversion.
+
+		switch reader.(type) {
+		case *dst.Ident, *dst.SelectorExpr:
+			// reading a local variable or a field
+			cacheOriginal = nil
+			actualReader = reader
+		default:
+			// Something else, so we cache the original
+			local := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "", "Cache")
+			cacheOriginal = astbuilder.ShortDeclaration(local, reader)
+			actualReader = dst.NewIdent(local)
+		}
+
+		mapperId := dstEnum.MapperVariableName(dstName)
+		stringsPkg := generationContext.MustGetImportedPackageName(astmodel.StringsReference)
+
+		// <mapperVar>[strings.ToLower( <reader> )]
+		lookup := &dst.IndexExpr{
+			X: dst.NewIdent(mapperId),
+			Index: astbuilder.CallQualifiedFunc(
+				stringsPkg,
+				"ToLower",
+				actualReader),
+		}
+
+		enumValueId := knownLocals.CreateLocal(destinationEndpoint.name, "", "Value", "Mapped")
+		enumOkId := knownLocals.CreateLocal(destinationEndpoint.name, "Ok")
+
+		// if <cacheVar>, <okVar> := <lookup>; <okVar> {
+		ifStmt := astbuilder.IfExprOk(
+			enumValueId,
+			enumOkId,
+			lookup,
+			writer(dst.NewIdent(enumValueId))...,
+		)
+
+		// Add else clause to cast, in case it's not an expected value
+		cast := writer(astbuilder.CallFunc(dstName.Name(), reader))
+
+		ifStmt.Else = astbuilder.StatementBlock(cast...)
+		return astbuilder.Statements(cacheOriginal, ifStmt), nil
 	}, nil
 }
 
