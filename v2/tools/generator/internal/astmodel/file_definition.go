@@ -160,7 +160,10 @@ func (file *FileDefinition) generateImports() *PackageImportSet {
 // AsAst generates an AST node representing this file
 func (file *FileDefinition) AsAst() (result *dst.File, err error) {
 	// Create context from imports
-	codeGenContext := NewCodeGenerationContext(file.packageReference, file.generateImports(), file.generatedPackages)
+	codeGenContext := NewCodeGenerationContext(
+		file.packageReference,
+		file.generateImports(),
+		file.generatedPackages)
 
 	// Create all definitions:
 	var declarations []dst.Decl
