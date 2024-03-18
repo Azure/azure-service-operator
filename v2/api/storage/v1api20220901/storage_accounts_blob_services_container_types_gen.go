@@ -625,8 +625,9 @@ func (container *StorageAccounts_BlobServices_Container_Spec) AssignProperties_F
 
 	// PublicAccess
 	if source.PublicAccess != nil {
-		publicAccess := ContainerProperties_PublicAccess(*source.PublicAccess)
-		container.PublicAccess = &publicAccess
+		publicAccess := *source.PublicAccess
+		publicAccessTemp := genruntime.ToEnum(publicAccess, containerProperties_PublicAccess_Values)
+		container.PublicAccess = &publicAccessTemp
 	} else {
 		container.PublicAccess = nil
 	}
@@ -1183,24 +1184,27 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) AssignProperties
 
 	// LeaseDuration
 	if source.LeaseDuration != nil {
-		leaseDuration := ContainerProperties_LeaseDuration_STATUS(*source.LeaseDuration)
-		container.LeaseDuration = &leaseDuration
+		leaseDuration := *source.LeaseDuration
+		leaseDurationTemp := genruntime.ToEnum(leaseDuration, containerProperties_LeaseDuration_STATUS_Values)
+		container.LeaseDuration = &leaseDurationTemp
 	} else {
 		container.LeaseDuration = nil
 	}
 
 	// LeaseState
 	if source.LeaseState != nil {
-		leaseState := ContainerProperties_LeaseState_STATUS(*source.LeaseState)
-		container.LeaseState = &leaseState
+		leaseState := *source.LeaseState
+		leaseStateTemp := genruntime.ToEnum(leaseState, containerProperties_LeaseState_STATUS_Values)
+		container.LeaseState = &leaseStateTemp
 	} else {
 		container.LeaseState = nil
 	}
 
 	// LeaseStatus
 	if source.LeaseStatus != nil {
-		leaseStatus := ContainerProperties_LeaseStatus_STATUS(*source.LeaseStatus)
-		container.LeaseStatus = &leaseStatus
+		leaseStatus := *source.LeaseStatus
+		leaseStatusTemp := genruntime.ToEnum(leaseStatus, containerProperties_LeaseStatus_STATUS_Values)
+		container.LeaseStatus = &leaseStatusTemp
 	} else {
 		container.LeaseStatus = nil
 	}
@@ -1225,8 +1229,9 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) AssignProperties
 
 	// PublicAccess
 	if source.PublicAccess != nil {
-		publicAccess := ContainerProperties_PublicAccess_STATUS(*source.PublicAccess)
-		container.PublicAccess = &publicAccess
+		publicAccess := *source.PublicAccess
+		publicAccessTemp := genruntime.ToEnum(publicAccess, containerProperties_PublicAccess_STATUS_Values)
+		container.PublicAccess = &publicAccessTemp
 	} else {
 		container.PublicAccess = nil
 	}
@@ -1416,6 +1421,12 @@ const (
 	ContainerProperties_LeaseDuration_STATUS_Infinite = ContainerProperties_LeaseDuration_STATUS("Infinite")
 )
 
+// Mapping from string to ContainerProperties_LeaseDuration_STATUS
+var containerProperties_LeaseDuration_STATUS_Values = map[string]ContainerProperties_LeaseDuration_STATUS{
+	"fixed":    ContainerProperties_LeaseDuration_STATUS_Fixed,
+	"infinite": ContainerProperties_LeaseDuration_STATUS_Infinite,
+}
+
 type ContainerProperties_LeaseState_STATUS string
 
 const (
@@ -1426,12 +1437,27 @@ const (
 	ContainerProperties_LeaseState_STATUS_Leased    = ContainerProperties_LeaseState_STATUS("Leased")
 )
 
+// Mapping from string to ContainerProperties_LeaseState_STATUS
+var containerProperties_LeaseState_STATUS_Values = map[string]ContainerProperties_LeaseState_STATUS{
+	"available": ContainerProperties_LeaseState_STATUS_Available,
+	"breaking":  ContainerProperties_LeaseState_STATUS_Breaking,
+	"broken":    ContainerProperties_LeaseState_STATUS_Broken,
+	"expired":   ContainerProperties_LeaseState_STATUS_Expired,
+	"leased":    ContainerProperties_LeaseState_STATUS_Leased,
+}
+
 type ContainerProperties_LeaseStatus_STATUS string
 
 const (
 	ContainerProperties_LeaseStatus_STATUS_Locked   = ContainerProperties_LeaseStatus_STATUS("Locked")
 	ContainerProperties_LeaseStatus_STATUS_Unlocked = ContainerProperties_LeaseStatus_STATUS("Unlocked")
 )
+
+// Mapping from string to ContainerProperties_LeaseStatus_STATUS
+var containerProperties_LeaseStatus_STATUS_Values = map[string]ContainerProperties_LeaseStatus_STATUS{
+	"locked":   ContainerProperties_LeaseStatus_STATUS_Locked,
+	"unlocked": ContainerProperties_LeaseStatus_STATUS_Unlocked,
+}
 
 // +kubebuilder:validation:Enum={"Blob","Container","None"}
 type ContainerProperties_PublicAccess string
@@ -1442,6 +1468,13 @@ const (
 	ContainerProperties_PublicAccess_None      = ContainerProperties_PublicAccess("None")
 )
 
+// Mapping from string to ContainerProperties_PublicAccess
+var containerProperties_PublicAccess_Values = map[string]ContainerProperties_PublicAccess{
+	"blob":      ContainerProperties_PublicAccess_Blob,
+	"container": ContainerProperties_PublicAccess_Container,
+	"none":      ContainerProperties_PublicAccess_None,
+}
+
 type ContainerProperties_PublicAccess_STATUS string
 
 const (
@@ -1449,6 +1482,13 @@ const (
 	ContainerProperties_PublicAccess_STATUS_Container = ContainerProperties_PublicAccess_STATUS("Container")
 	ContainerProperties_PublicAccess_STATUS_None      = ContainerProperties_PublicAccess_STATUS("None")
 )
+
+// Mapping from string to ContainerProperties_PublicAccess_STATUS
+var containerProperties_PublicAccess_STATUS_Values = map[string]ContainerProperties_PublicAccess_STATUS{
+	"blob":      ContainerProperties_PublicAccess_STATUS_Blob,
+	"container": ContainerProperties_PublicAccess_STATUS_Container,
+	"none":      ContainerProperties_PublicAccess_STATUS_None,
+}
 
 // The properties of an ImmutabilityPolicy of a blob container.
 type ImmutabilityPolicyProperties_STATUS struct {
@@ -1576,8 +1616,9 @@ func (properties *ImmutabilityPolicyProperties_STATUS) AssignProperties_From_Imm
 
 	// State
 	if source.State != nil {
-		state := ImmutabilityPolicyProperty_State_STATUS(*source.State)
-		properties.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, immutabilityPolicyProperty_State_STATUS_Values)
+		properties.State = &stateTemp
 	} else {
 		properties.State = nil
 	}
@@ -1813,8 +1854,9 @@ func (versioning *ImmutableStorageWithVersioning_STATUS) AssignProperties_From_I
 
 	// MigrationState
 	if source.MigrationState != nil {
-		migrationState := ImmutableStorageWithVersioning_MigrationState_STATUS(*source.MigrationState)
-		versioning.MigrationState = &migrationState
+		migrationState := *source.MigrationState
+		migrationStateTemp := genruntime.ToEnum(migrationState, immutableStorageWithVersioning_MigrationState_STATUS_Values)
+		versioning.MigrationState = &migrationStateTemp
 	} else {
 		versioning.MigrationState = nil
 	}
@@ -2026,12 +2068,24 @@ const (
 	ImmutabilityPolicyProperty_State_STATUS_Unlocked = ImmutabilityPolicyProperty_State_STATUS("Unlocked")
 )
 
+// Mapping from string to ImmutabilityPolicyProperty_State_STATUS
+var immutabilityPolicyProperty_State_STATUS_Values = map[string]ImmutabilityPolicyProperty_State_STATUS{
+	"locked":   ImmutabilityPolicyProperty_State_STATUS_Locked,
+	"unlocked": ImmutabilityPolicyProperty_State_STATUS_Unlocked,
+}
+
 type ImmutableStorageWithVersioning_MigrationState_STATUS string
 
 const (
 	ImmutableStorageWithVersioning_MigrationState_STATUS_Completed  = ImmutableStorageWithVersioning_MigrationState_STATUS("Completed")
 	ImmutableStorageWithVersioning_MigrationState_STATUS_InProgress = ImmutableStorageWithVersioning_MigrationState_STATUS("InProgress")
 )
+
+// Mapping from string to ImmutableStorageWithVersioning_MigrationState_STATUS
+var immutableStorageWithVersioning_MigrationState_STATUS_Values = map[string]ImmutableStorageWithVersioning_MigrationState_STATUS{
+	"completed":  ImmutableStorageWithVersioning_MigrationState_STATUS_Completed,
+	"inprogress": ImmutableStorageWithVersioning_MigrationState_STATUS_InProgress,
+}
 
 // Protected append writes history setting for the blob container with Legal holds.
 type ProtectedAppendWritesHistory_STATUS struct {
@@ -2371,8 +2425,9 @@ func (property *UpdateHistoryProperty_STATUS) AssignProperties_From_UpdateHistor
 
 	// Update
 	if source.Update != nil {
-		update := UpdateHistoryProperty_Update_STATUS(*source.Update)
-		property.Update = &update
+		update := *source.Update
+		updateTemp := genruntime.ToEnum(update, updateHistoryProperty_Update_STATUS_Values)
+		property.Update = &updateTemp
 	} else {
 		property.Update = nil
 	}
@@ -2446,6 +2501,13 @@ const (
 	UpdateHistoryProperty_Update_STATUS_Lock   = UpdateHistoryProperty_Update_STATUS("lock")
 	UpdateHistoryProperty_Update_STATUS_Put    = UpdateHistoryProperty_Update_STATUS("put")
 )
+
+// Mapping from string to UpdateHistoryProperty_Update_STATUS
+var updateHistoryProperty_Update_STATUS_Values = map[string]UpdateHistoryProperty_Update_STATUS{
+	"extend": UpdateHistoryProperty_Update_STATUS_Extend,
+	"lock":   UpdateHistoryProperty_Update_STATUS_Lock,
+	"put":    UpdateHistoryProperty_Update_STATUS_Put,
+}
 
 func init() {
 	SchemeBuilder.Register(&StorageAccountsBlobServicesContainer{}, &StorageAccountsBlobServicesContainerList{})

@@ -710,8 +710,9 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) AssignProperties_From
 
 	// AlwaysServe
 	if source.AlwaysServe != nil {
-		alwaysServe := EndpointProperties_AlwaysServe(*source.AlwaysServe)
-		endpoint.AlwaysServe = &alwaysServe
+		alwaysServe := *source.AlwaysServe
+		alwaysServeTemp := genruntime.ToEnum(alwaysServe, endpointProperties_AlwaysServe_Values)
+		endpoint.AlwaysServe = &alwaysServeTemp
 	} else {
 		endpoint.AlwaysServe = nil
 	}
@@ -742,16 +743,18 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_Spec) AssignProperties_From
 
 	// EndpointMonitorStatus
 	if source.EndpointMonitorStatus != nil {
-		endpointMonitorStatus := EndpointProperties_EndpointMonitorStatus(*source.EndpointMonitorStatus)
-		endpoint.EndpointMonitorStatus = &endpointMonitorStatus
+		endpointMonitorStatus := *source.EndpointMonitorStatus
+		endpointMonitorStatusTemp := genruntime.ToEnum(endpointMonitorStatus, endpointProperties_EndpointMonitorStatus_Values)
+		endpoint.EndpointMonitorStatus = &endpointMonitorStatusTemp
 	} else {
 		endpoint.EndpointMonitorStatus = nil
 	}
 
 	// EndpointStatus
 	if source.EndpointStatus != nil {
-		endpointStatus := EndpointProperties_EndpointStatus(*source.EndpointStatus)
-		endpoint.EndpointStatus = &endpointStatus
+		endpointStatus := *source.EndpointStatus
+		endpointStatusTemp := genruntime.ToEnum(endpointStatus, endpointProperties_EndpointStatus_Values)
+		endpoint.EndpointStatus = &endpointStatusTemp
 	} else {
 		endpoint.EndpointStatus = nil
 	}
@@ -1351,8 +1354,9 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) AssignProperties_Fr
 
 	// AlwaysServe
 	if source.AlwaysServe != nil {
-		alwaysServe := EndpointProperties_AlwaysServe_STATUS(*source.AlwaysServe)
-		endpoint.AlwaysServe = &alwaysServe
+		alwaysServe := *source.AlwaysServe
+		alwaysServeTemp := genruntime.ToEnum(alwaysServe, endpointProperties_AlwaysServe_STATUS_Values)
+		endpoint.AlwaysServe = &alwaysServeTemp
 	} else {
 		endpoint.AlwaysServe = nil
 	}
@@ -1383,16 +1387,18 @@ func (endpoint *Trafficmanagerprofiles_AzureEndpoint_STATUS) AssignProperties_Fr
 
 	// EndpointMonitorStatus
 	if source.EndpointMonitorStatus != nil {
-		endpointMonitorStatus := EndpointProperties_EndpointMonitorStatus_STATUS(*source.EndpointMonitorStatus)
-		endpoint.EndpointMonitorStatus = &endpointMonitorStatus
+		endpointMonitorStatus := *source.EndpointMonitorStatus
+		endpointMonitorStatusTemp := genruntime.ToEnum(endpointMonitorStatus, endpointProperties_EndpointMonitorStatus_STATUS_Values)
+		endpoint.EndpointMonitorStatus = &endpointMonitorStatusTemp
 	} else {
 		endpoint.EndpointMonitorStatus = nil
 	}
 
 	// EndpointStatus
 	if source.EndpointStatus != nil {
-		endpointStatus := EndpointProperties_EndpointStatus_STATUS(*source.EndpointStatus)
-		endpoint.EndpointStatus = &endpointStatus
+		endpointStatus := *source.EndpointStatus
+		endpointStatusTemp := genruntime.ToEnum(endpointStatus, endpointProperties_EndpointStatus_STATUS_Values)
+		endpoint.EndpointStatus = &endpointStatusTemp
 	} else {
 		endpoint.EndpointStatus = nil
 	}
@@ -1575,12 +1581,24 @@ const (
 	EndpointProperties_AlwaysServe_Enabled  = EndpointProperties_AlwaysServe("Enabled")
 )
 
+// Mapping from string to EndpointProperties_AlwaysServe
+var endpointProperties_AlwaysServe_Values = map[string]EndpointProperties_AlwaysServe{
+	"disabled": EndpointProperties_AlwaysServe_Disabled,
+	"enabled":  EndpointProperties_AlwaysServe_Enabled,
+}
+
 type EndpointProperties_AlwaysServe_STATUS string
 
 const (
 	EndpointProperties_AlwaysServe_STATUS_Disabled = EndpointProperties_AlwaysServe_STATUS("Disabled")
 	EndpointProperties_AlwaysServe_STATUS_Enabled  = EndpointProperties_AlwaysServe_STATUS("Enabled")
 )
+
+// Mapping from string to EndpointProperties_AlwaysServe_STATUS
+var endpointProperties_AlwaysServe_STATUS_Values = map[string]EndpointProperties_AlwaysServe_STATUS{
+	"disabled": EndpointProperties_AlwaysServe_STATUS_Disabled,
+	"enabled":  EndpointProperties_AlwaysServe_STATUS_Enabled,
+}
 
 type EndpointProperties_CustomHeaders struct {
 	// Name: Header name.
@@ -1775,6 +1793,17 @@ const (
 	EndpointProperties_EndpointMonitorStatus_Unmonitored      = EndpointProperties_EndpointMonitorStatus("Unmonitored")
 )
 
+// Mapping from string to EndpointProperties_EndpointMonitorStatus
+var endpointProperties_EndpointMonitorStatus_Values = map[string]EndpointProperties_EndpointMonitorStatus{
+	"checkingendpoint": EndpointProperties_EndpointMonitorStatus_CheckingEndpoint,
+	"degraded":         EndpointProperties_EndpointMonitorStatus_Degraded,
+	"disabled":         EndpointProperties_EndpointMonitorStatus_Disabled,
+	"inactive":         EndpointProperties_EndpointMonitorStatus_Inactive,
+	"online":           EndpointProperties_EndpointMonitorStatus_Online,
+	"stopped":          EndpointProperties_EndpointMonitorStatus_Stopped,
+	"unmonitored":      EndpointProperties_EndpointMonitorStatus_Unmonitored,
+}
+
 type EndpointProperties_EndpointMonitorStatus_STATUS string
 
 const (
@@ -1787,6 +1816,17 @@ const (
 	EndpointProperties_EndpointMonitorStatus_STATUS_Unmonitored      = EndpointProperties_EndpointMonitorStatus_STATUS("Unmonitored")
 )
 
+// Mapping from string to EndpointProperties_EndpointMonitorStatus_STATUS
+var endpointProperties_EndpointMonitorStatus_STATUS_Values = map[string]EndpointProperties_EndpointMonitorStatus_STATUS{
+	"checkingendpoint": EndpointProperties_EndpointMonitorStatus_STATUS_CheckingEndpoint,
+	"degraded":         EndpointProperties_EndpointMonitorStatus_STATUS_Degraded,
+	"disabled":         EndpointProperties_EndpointMonitorStatus_STATUS_Disabled,
+	"inactive":         EndpointProperties_EndpointMonitorStatus_STATUS_Inactive,
+	"online":           EndpointProperties_EndpointMonitorStatus_STATUS_Online,
+	"stopped":          EndpointProperties_EndpointMonitorStatus_STATUS_Stopped,
+	"unmonitored":      EndpointProperties_EndpointMonitorStatus_STATUS_Unmonitored,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type EndpointProperties_EndpointStatus string
 
@@ -1795,12 +1835,24 @@ const (
 	EndpointProperties_EndpointStatus_Enabled  = EndpointProperties_EndpointStatus("Enabled")
 )
 
+// Mapping from string to EndpointProperties_EndpointStatus
+var endpointProperties_EndpointStatus_Values = map[string]EndpointProperties_EndpointStatus{
+	"disabled": EndpointProperties_EndpointStatus_Disabled,
+	"enabled":  EndpointProperties_EndpointStatus_Enabled,
+}
+
 type EndpointProperties_EndpointStatus_STATUS string
 
 const (
 	EndpointProperties_EndpointStatus_STATUS_Disabled = EndpointProperties_EndpointStatus_STATUS("Disabled")
 	EndpointProperties_EndpointStatus_STATUS_Enabled  = EndpointProperties_EndpointStatus_STATUS("Enabled")
 )
+
+// Mapping from string to EndpointProperties_EndpointStatus_STATUS
+var endpointProperties_EndpointStatus_STATUS_Values = map[string]EndpointProperties_EndpointStatus_STATUS{
+	"disabled": EndpointProperties_EndpointStatus_STATUS_Disabled,
+	"enabled":  EndpointProperties_EndpointStatus_STATUS_Enabled,
+}
 
 type EndpointProperties_Subnets struct {
 	// First: First address in the subnet.

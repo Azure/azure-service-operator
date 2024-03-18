@@ -224,6 +224,13 @@ const (
 	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
 )
 
+// Mapping from string to Sku_Tier_STATUS
+var sku_Tier_STATUS_Values = map[string]Sku_Tier_STATUS{
+	"burstable":       Sku_Tier_STATUS_Burstable,
+	"generalpurpose":  Sku_Tier_STATUS_GeneralPurpose,
+	"memoryoptimized": Sku_Tier_STATUS_MemoryOptimized,
+}
+
 // Storage properties of a server
 type Storage_STATUS_ARM struct {
 	// StorageSizeGB: Max storage allowed for a server.
@@ -239,6 +246,14 @@ const (
 	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
 type SystemData_LastModifiedByType_STATUS string
 
 const (
@@ -248,12 +263,26 @@ const (
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
+}
+
 type UserAssignedIdentity_Type_STATUS string
 
 const (
 	UserAssignedIdentity_Type_STATUS_None         = UserAssignedIdentity_Type_STATUS("None")
 	UserAssignedIdentity_Type_STATUS_UserAssigned = UserAssignedIdentity_Type_STATUS("UserAssigned")
 )
+
+// Mapping from string to UserAssignedIdentity_Type_STATUS
+var userAssignedIdentity_Type_STATUS_Values = map[string]UserAssignedIdentity_Type_STATUS{
+	"none":         UserAssignedIdentity_Type_STATUS_None,
+	"userassigned": UserAssignedIdentity_Type_STATUS_UserAssigned,
+}
 
 // Describes a single user-assigned identity associated with the application.
 type UserIdentity_STATUS_ARM struct {

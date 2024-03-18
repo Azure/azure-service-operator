@@ -1162,8 +1162,9 @@ func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(so
 
 	// AccessTier
 	if source.AccessTier != nil {
-		accessTier := StorageAccountPropertiesCreateParameters_AccessTier(*source.AccessTier)
-		account.AccessTier = &accessTier
+		accessTier := *source.AccessTier
+		accessTierTemp := genruntime.ToEnum(accessTier, storageAccountPropertiesCreateParameters_AccessTier_Values)
+		account.AccessTier = &accessTierTemp
 	} else {
 		account.AccessTier = nil
 	}
@@ -1194,8 +1195,9 @@ func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(so
 
 	// AllowedCopyScope
 	if source.AllowedCopyScope != nil {
-		allowedCopyScope := StorageAccountPropertiesCreateParameters_AllowedCopyScope(*source.AllowedCopyScope)
-		account.AllowedCopyScope = &allowedCopyScope
+		allowedCopyScope := *source.AllowedCopyScope
+		allowedCopyScopeTemp := genruntime.ToEnum(allowedCopyScope, storageAccountPropertiesCreateParameters_AllowedCopyScope_Values)
+		account.AllowedCopyScope = &allowedCopyScopeTemp
 	} else {
 		account.AllowedCopyScope = nil
 	}
@@ -1237,8 +1239,9 @@ func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(so
 
 	// DnsEndpointType
 	if source.DnsEndpointType != nil {
-		dnsEndpointType := StorageAccountPropertiesCreateParameters_DnsEndpointType(*source.DnsEndpointType)
-		account.DnsEndpointType = &dnsEndpointType
+		dnsEndpointType := *source.DnsEndpointType
+		dnsEndpointTypeTemp := genruntime.ToEnum(dnsEndpointType, storageAccountPropertiesCreateParameters_DnsEndpointType_Values)
+		account.DnsEndpointType = &dnsEndpointTypeTemp
 	} else {
 		account.DnsEndpointType = nil
 	}
@@ -1337,16 +1340,18 @@ func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(so
 
 	// Kind
 	if source.Kind != nil {
-		kind := StorageAccount_Kind_Spec(*source.Kind)
-		account.Kind = &kind
+		kind := *source.Kind
+		kindTemp := genruntime.ToEnum(kind, storageAccount_Kind_Spec_Values)
+		account.Kind = &kindTemp
 	} else {
 		account.Kind = nil
 	}
 
 	// LargeFileSharesState
 	if source.LargeFileSharesState != nil {
-		largeFileSharesState := StorageAccountPropertiesCreateParameters_LargeFileSharesState(*source.LargeFileSharesState)
-		account.LargeFileSharesState = &largeFileSharesState
+		largeFileSharesState := *source.LargeFileSharesState
+		largeFileSharesStateTemp := genruntime.ToEnum(largeFileSharesState, storageAccountPropertiesCreateParameters_LargeFileSharesState_Values)
+		account.LargeFileSharesState = &largeFileSharesStateTemp
 	} else {
 		account.LargeFileSharesState = nil
 	}
@@ -1356,8 +1361,9 @@ func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(so
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := StorageAccountPropertiesCreateParameters_MinimumTlsVersion(*source.MinimumTlsVersion)
-		account.MinimumTlsVersion = &minimumTlsVersion
+		minimumTlsVersion := *source.MinimumTlsVersion
+		minimumTlsVersionTemp := genruntime.ToEnum(minimumTlsVersion, storageAccountPropertiesCreateParameters_MinimumTlsVersion_Values)
+		account.MinimumTlsVersion = &minimumTlsVersionTemp
 	} else {
 		account.MinimumTlsVersion = nil
 	}
@@ -1396,8 +1402,9 @@ func (account *StorageAccount_Spec) AssignProperties_From_StorageAccount_Spec(so
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := StorageAccountPropertiesCreateParameters_PublicNetworkAccess(*source.PublicNetworkAccess)
-		account.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, storageAccountPropertiesCreateParameters_PublicNetworkAccess_Values)
+		account.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		account.PublicNetworkAccess = nil
 	}
@@ -2499,8 +2506,9 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 
 	// AccessTier
 	if source.AccessTier != nil {
-		accessTier := StorageAccountProperties_AccessTier_STATUS(*source.AccessTier)
-		account.AccessTier = &accessTier
+		accessTier := *source.AccessTier
+		accessTierTemp := genruntime.ToEnum(accessTier, storageAccountProperties_AccessTier_STATUS_Values)
+		account.AccessTier = &accessTierTemp
 	} else {
 		account.AccessTier = nil
 	}
@@ -2531,8 +2539,9 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 
 	// AllowedCopyScope
 	if source.AllowedCopyScope != nil {
-		allowedCopyScope := StorageAccountProperties_AllowedCopyScope_STATUS(*source.AllowedCopyScope)
-		account.AllowedCopyScope = &allowedCopyScope
+		allowedCopyScope := *source.AllowedCopyScope
+		allowedCopyScopeTemp := genruntime.ToEnum(allowedCopyScope, storageAccountProperties_AllowedCopyScope_STATUS_Values)
+		account.AllowedCopyScope = &allowedCopyScopeTemp
 	} else {
 		account.AllowedCopyScope = nil
 	}
@@ -2589,8 +2598,9 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 
 	// DnsEndpointType
 	if source.DnsEndpointType != nil {
-		dnsEndpointType := StorageAccountProperties_DnsEndpointType_STATUS(*source.DnsEndpointType)
-		account.DnsEndpointType = &dnsEndpointType
+		dnsEndpointType := *source.DnsEndpointType
+		dnsEndpointTypeTemp := genruntime.ToEnum(dnsEndpointType, storageAccountProperties_DnsEndpointType_STATUS_Values)
+		account.DnsEndpointType = &dnsEndpointTypeTemp
 	} else {
 		account.DnsEndpointType = nil
 	}
@@ -2724,16 +2734,18 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 
 	// Kind
 	if source.Kind != nil {
-		kind := StorageAccount_Kind_STATUS(*source.Kind)
-		account.Kind = &kind
+		kind := *source.Kind
+		kindTemp := genruntime.ToEnum(kind, storageAccount_Kind_STATUS_Values)
+		account.Kind = &kindTemp
 	} else {
 		account.Kind = nil
 	}
 
 	// LargeFileSharesState
 	if source.LargeFileSharesState != nil {
-		largeFileSharesState := StorageAccountProperties_LargeFileSharesState_STATUS(*source.LargeFileSharesState)
-		account.LargeFileSharesState = &largeFileSharesState
+		largeFileSharesState := *source.LargeFileSharesState
+		largeFileSharesStateTemp := genruntime.ToEnum(largeFileSharesState, storageAccountProperties_LargeFileSharesState_STATUS_Values)
+		account.LargeFileSharesState = &largeFileSharesStateTemp
 	} else {
 		account.LargeFileSharesState = nil
 	}
@@ -2746,8 +2758,9 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := StorageAccountProperties_MinimumTlsVersion_STATUS(*source.MinimumTlsVersion)
-		account.MinimumTlsVersion = &minimumTlsVersion
+		minimumTlsVersion := *source.MinimumTlsVersion
+		minimumTlsVersionTemp := genruntime.ToEnum(minimumTlsVersion, storageAccountProperties_MinimumTlsVersion_STATUS_Values)
+		account.MinimumTlsVersion = &minimumTlsVersionTemp
 	} else {
 		account.MinimumTlsVersion = nil
 	}
@@ -2802,16 +2815,18 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := StorageAccountProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		account.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, storageAccountProperties_ProvisioningState_STATUS_Values)
+		account.ProvisioningState = &provisioningStateTemp
 	} else {
 		account.ProvisioningState = nil
 	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := StorageAccountProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-		account.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, storageAccountProperties_PublicNetworkAccess_STATUS_Values)
+		account.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		account.PublicNetworkAccess = nil
 	}
@@ -2869,16 +2884,18 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 
 	// StatusOfPrimary
 	if source.StatusOfPrimary != nil {
-		statusOfPrimary := StorageAccountProperties_StatusOfPrimary_STATUS(*source.StatusOfPrimary)
-		account.StatusOfPrimary = &statusOfPrimary
+		statusOfPrimary := *source.StatusOfPrimary
+		statusOfPrimaryTemp := genruntime.ToEnum(statusOfPrimary, storageAccountProperties_StatusOfPrimary_STATUS_Values)
+		account.StatusOfPrimary = &statusOfPrimaryTemp
 	} else {
 		account.StatusOfPrimary = nil
 	}
 
 	// StatusOfSecondary
 	if source.StatusOfSecondary != nil {
-		statusOfSecondary := StorageAccountProperties_StatusOfSecondary_STATUS(*source.StatusOfSecondary)
-		account.StatusOfSecondary = &statusOfSecondary
+		statusOfSecondary := *source.StatusOfSecondary
+		statusOfSecondaryTemp := genruntime.ToEnum(statusOfSecondary, storageAccountProperties_StatusOfSecondary_STATUS_Values)
+		account.StatusOfSecondary = &statusOfSecondaryTemp
 	} else {
 		account.StatusOfSecondary = nil
 	}
@@ -3443,16 +3460,18 @@ func (authentication *AzureFilesIdentityBasedAuthentication) AssignProperties_Fr
 
 	// DefaultSharePermission
 	if source.DefaultSharePermission != nil {
-		defaultSharePermission := AzureFilesIdentityBasedAuthentication_DefaultSharePermission(*source.DefaultSharePermission)
-		authentication.DefaultSharePermission = &defaultSharePermission
+		defaultSharePermission := *source.DefaultSharePermission
+		defaultSharePermissionTemp := genruntime.ToEnum(defaultSharePermission, azureFilesIdentityBasedAuthentication_DefaultSharePermission_Values)
+		authentication.DefaultSharePermission = &defaultSharePermissionTemp
 	} else {
 		authentication.DefaultSharePermission = nil
 	}
 
 	// DirectoryServiceOptions
 	if source.DirectoryServiceOptions != nil {
-		directoryServiceOption := AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions(*source.DirectoryServiceOptions)
-		authentication.DirectoryServiceOptions = &directoryServiceOption
+		directoryServiceOption := *source.DirectoryServiceOptions
+		directoryServiceOptionTemp := genruntime.ToEnum(directoryServiceOption, azureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Values)
+		authentication.DirectoryServiceOptions = &directoryServiceOptionTemp
 	} else {
 		authentication.DirectoryServiceOptions = nil
 	}
@@ -3575,16 +3594,18 @@ func (authentication *AzureFilesIdentityBasedAuthentication_STATUS) AssignProper
 
 	// DefaultSharePermission
 	if source.DefaultSharePermission != nil {
-		defaultSharePermission := AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS(*source.DefaultSharePermission)
-		authentication.DefaultSharePermission = &defaultSharePermission
+		defaultSharePermission := *source.DefaultSharePermission
+		defaultSharePermissionTemp := genruntime.ToEnum(defaultSharePermission, azureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_Values)
+		authentication.DefaultSharePermission = &defaultSharePermissionTemp
 	} else {
 		authentication.DefaultSharePermission = nil
 	}
 
 	// DirectoryServiceOptions
 	if source.DirectoryServiceOptions != nil {
-		directoryServiceOption := AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS(*source.DirectoryServiceOptions)
-		authentication.DirectoryServiceOptions = &directoryServiceOption
+		directoryServiceOption := *source.DirectoryServiceOptions
+		directoryServiceOptionTemp := genruntime.ToEnum(directoryServiceOption, azureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_Values)
+		authentication.DirectoryServiceOptions = &directoryServiceOptionTemp
 	} else {
 		authentication.DirectoryServiceOptions = nil
 	}
@@ -3723,7 +3744,8 @@ func (status *BlobRestoreStatus_STATUS) AssignProperties_From_BlobRestoreStatus_
 
 	// Status
 	if source.Status != nil {
-		statusTemp := BlobRestoreStatus_Status_STATUS(*source.Status)
+		statusValue := *source.Status
+		statusTemp := genruntime.ToEnum(statusValue, blobRestoreStatus_Status_STATUS_Values)
 		status.Status = &statusTemp
 	} else {
 		status.Status = nil
@@ -4118,8 +4140,9 @@ func (encryption *Encryption) AssignProperties_From_Encryption(source *v20220901
 
 	// KeySource
 	if source.KeySource != nil {
-		keySource := Encryption_KeySource(*source.KeySource)
-		encryption.KeySource = &keySource
+		keySource := *source.KeySource
+		keySourceTemp := genruntime.ToEnum(keySource, encryption_KeySource_Values)
+		encryption.KeySource = &keySourceTemp
 	} else {
 		encryption.KeySource = nil
 	}
@@ -4328,8 +4351,9 @@ func (encryption *Encryption_STATUS) AssignProperties_From_Encryption_STATUS(sou
 
 	// KeySource
 	if source.KeySource != nil {
-		keySource := Encryption_KeySource_STATUS(*source.KeySource)
-		encryption.KeySource = &keySource
+		keySource := *source.KeySource
+		keySourceTemp := genruntime.ToEnum(keySource, encryption_KeySource_STATUS_Values)
+		encryption.KeySource = &keySourceTemp
 	} else {
 		encryption.KeySource = nil
 	}
@@ -4716,8 +4740,9 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType(*source.Type)
-		location.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, extendedLocationType_Values)
+		location.Type = &typeTemp
 	} else {
 		location.Type = nil
 	}
@@ -4800,8 +4825,9 @@ func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType_STATUS(*source.Type)
-		location.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, extendedLocationType_STATUS_Values)
+		location.Type = &typeTemp
 	} else {
 		location.Type = nil
 	}
@@ -4907,8 +4933,9 @@ func (stats *GeoReplicationStats_STATUS) AssignProperties_From_GeoReplicationSta
 
 	// Status
 	if source.Status != nil {
-		status := GeoReplicationStats_Status_STATUS(*source.Status)
-		stats.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, geoReplicationStats_Status_STATUS_Values)
+		stats.Status = &statusTemp
 	} else {
 		stats.Status = nil
 	}
@@ -5021,8 +5048,9 @@ func (identity *Identity) AssignProperties_From_Identity(source *v20220901s.Iden
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, identity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -5168,8 +5196,9 @@ func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *v
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, identity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -5829,16 +5858,18 @@ func (ruleSet *NetworkRuleSet) AssignProperties_From_NetworkRuleSet(source *v202
 
 	// Bypass
 	if source.Bypass != nil {
-		bypass := NetworkRuleSet_Bypass(*source.Bypass)
-		ruleSet.Bypass = &bypass
+		bypass := *source.Bypass
+		bypassTemp := genruntime.ToEnum(bypass, networkRuleSet_Bypass_Values)
+		ruleSet.Bypass = &bypassTemp
 	} else {
 		ruleSet.Bypass = nil
 	}
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		defaultAction := NetworkRuleSet_DefaultAction(*source.DefaultAction)
-		ruleSet.DefaultAction = &defaultAction
+		defaultAction := *source.DefaultAction
+		defaultActionTemp := genruntime.ToEnum(defaultAction, networkRuleSet_DefaultAction_Values)
+		ruleSet.DefaultAction = &defaultActionTemp
 	} else {
 		ruleSet.DefaultAction = nil
 	}
@@ -6071,16 +6102,18 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_From_NetworkRuleSet_STATU
 
 	// Bypass
 	if source.Bypass != nil {
-		bypass := NetworkRuleSet_Bypass_STATUS(*source.Bypass)
-		ruleSet.Bypass = &bypass
+		bypass := *source.Bypass
+		bypassTemp := genruntime.ToEnum(bypass, networkRuleSet_Bypass_STATUS_Values)
+		ruleSet.Bypass = &bypassTemp
 	} else {
 		ruleSet.Bypass = nil
 	}
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		defaultAction := NetworkRuleSet_DefaultAction_STATUS(*source.DefaultAction)
-		ruleSet.DefaultAction = &defaultAction
+		defaultAction := *source.DefaultAction
+		defaultActionTemp := genruntime.ToEnum(defaultAction, networkRuleSet_DefaultAction_STATUS_Values)
+		ruleSet.DefaultAction = &defaultActionTemp
 	} else {
 		ruleSet.DefaultAction = nil
 	}
@@ -6386,8 +6419,9 @@ func (preference *RoutingPreference) AssignProperties_From_RoutingPreference(sou
 
 	// RoutingChoice
 	if source.RoutingChoice != nil {
-		routingChoice := RoutingPreference_RoutingChoice(*source.RoutingChoice)
-		preference.RoutingChoice = &routingChoice
+		routingChoice := *source.RoutingChoice
+		routingChoiceTemp := genruntime.ToEnum(routingChoice, routingPreference_RoutingChoice_Values)
+		preference.RoutingChoice = &routingChoiceTemp
 	} else {
 		preference.RoutingChoice = nil
 	}
@@ -6506,8 +6540,9 @@ func (preference *RoutingPreference_STATUS) AssignProperties_From_RoutingPrefere
 
 	// RoutingChoice
 	if source.RoutingChoice != nil {
-		routingChoice := RoutingPreference_RoutingChoice_STATUS(*source.RoutingChoice)
-		preference.RoutingChoice = &routingChoice
+		routingChoice := *source.RoutingChoice
+		routingChoiceTemp := genruntime.ToEnum(routingChoice, routingPreference_RoutingChoice_STATUS_Values)
+		preference.RoutingChoice = &routingChoiceTemp
 	} else {
 		preference.RoutingChoice = nil
 	}
@@ -6623,8 +6658,9 @@ func (policy *SasPolicy) AssignProperties_From_SasPolicy(source *v20220901s.SasP
 
 	// ExpirationAction
 	if source.ExpirationAction != nil {
-		expirationAction := SasPolicy_ExpirationAction(*source.ExpirationAction)
-		policy.ExpirationAction = &expirationAction
+		expirationAction := *source.ExpirationAction
+		expirationActionTemp := genruntime.ToEnum(expirationAction, sasPolicy_ExpirationAction_Values)
+		policy.ExpirationAction = &expirationActionTemp
 	} else {
 		policy.ExpirationAction = nil
 	}
@@ -6707,8 +6743,9 @@ func (policy *SasPolicy_STATUS) AssignProperties_From_SasPolicy_STATUS(source *v
 
 	// ExpirationAction
 	if source.ExpirationAction != nil {
-		expirationAction := SasPolicy_ExpirationAction_STATUS(*source.ExpirationAction)
-		policy.ExpirationAction = &expirationAction
+		expirationAction := *source.ExpirationAction
+		expirationActionTemp := genruntime.ToEnum(expirationAction, sasPolicy_ExpirationAction_STATUS_Values)
+		policy.ExpirationAction = &expirationActionTemp
 	} else {
 		policy.ExpirationAction = nil
 	}
@@ -6814,16 +6851,18 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20220901s.Sku) error {
 
 	// Name
 	if source.Name != nil {
-		name := SkuName(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, skuName_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := Tier(*source.Tier)
-		sku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, tier_Values)
+		sku.Tier = &tierTemp
 	} else {
 		sku.Tier = nil
 	}
@@ -6909,16 +6948,18 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20220901s.Sku_S
 
 	// Name
 	if source.Name != nil {
-		name := SkuName_STATUS(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, skuName_STATUS_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := Tier_STATUS(*source.Tier)
-		sku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, tier_STATUS_Values)
+		sku.Tier = &tierTemp
 	} else {
 		sku.Tier = nil
 	}
@@ -7047,12 +7088,25 @@ const (
 	StorageAccountProperties_AccessTier_STATUS_Premium = StorageAccountProperties_AccessTier_STATUS("Premium")
 )
 
+// Mapping from string to StorageAccountProperties_AccessTier_STATUS
+var storageAccountProperties_AccessTier_STATUS_Values = map[string]StorageAccountProperties_AccessTier_STATUS{
+	"cool":    StorageAccountProperties_AccessTier_STATUS_Cool,
+	"hot":     StorageAccountProperties_AccessTier_STATUS_Hot,
+	"premium": StorageAccountProperties_AccessTier_STATUS_Premium,
+}
+
 type StorageAccountProperties_AllowedCopyScope_STATUS string
 
 const (
 	StorageAccountProperties_AllowedCopyScope_STATUS_AAD         = StorageAccountProperties_AllowedCopyScope_STATUS("AAD")
 	StorageAccountProperties_AllowedCopyScope_STATUS_PrivateLink = StorageAccountProperties_AllowedCopyScope_STATUS("PrivateLink")
 )
+
+// Mapping from string to StorageAccountProperties_AllowedCopyScope_STATUS
+var storageAccountProperties_AllowedCopyScope_STATUS_Values = map[string]StorageAccountProperties_AllowedCopyScope_STATUS{
+	"aad":         StorageAccountProperties_AllowedCopyScope_STATUS_AAD,
+	"privatelink": StorageAccountProperties_AllowedCopyScope_STATUS_PrivateLink,
+}
 
 type StorageAccountProperties_DnsEndpointType_STATUS string
 
@@ -7061,12 +7115,24 @@ const (
 	StorageAccountProperties_DnsEndpointType_STATUS_Standard     = StorageAccountProperties_DnsEndpointType_STATUS("Standard")
 )
 
+// Mapping from string to StorageAccountProperties_DnsEndpointType_STATUS
+var storageAccountProperties_DnsEndpointType_STATUS_Values = map[string]StorageAccountProperties_DnsEndpointType_STATUS{
+	"azurednszone": StorageAccountProperties_DnsEndpointType_STATUS_AzureDnsZone,
+	"standard":     StorageAccountProperties_DnsEndpointType_STATUS_Standard,
+}
+
 type StorageAccountProperties_LargeFileSharesState_STATUS string
 
 const (
 	StorageAccountProperties_LargeFileSharesState_STATUS_Disabled = StorageAccountProperties_LargeFileSharesState_STATUS("Disabled")
 	StorageAccountProperties_LargeFileSharesState_STATUS_Enabled  = StorageAccountProperties_LargeFileSharesState_STATUS("Enabled")
 )
+
+// Mapping from string to StorageAccountProperties_LargeFileSharesState_STATUS
+var storageAccountProperties_LargeFileSharesState_STATUS_Values = map[string]StorageAccountProperties_LargeFileSharesState_STATUS{
+	"disabled": StorageAccountProperties_LargeFileSharesState_STATUS_Disabled,
+	"enabled":  StorageAccountProperties_LargeFileSharesState_STATUS_Enabled,
+}
 
 type StorageAccountProperties_MinimumTlsVersion_STATUS string
 
@@ -7076,6 +7142,13 @@ const (
 	StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_2 = StorageAccountProperties_MinimumTlsVersion_STATUS("TLS1_2")
 )
 
+// Mapping from string to StorageAccountProperties_MinimumTlsVersion_STATUS
+var storageAccountProperties_MinimumTlsVersion_STATUS_Values = map[string]StorageAccountProperties_MinimumTlsVersion_STATUS{
+	"tls1_0": StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_0,
+	"tls1_1": StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_1,
+	"tls1_2": StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_2,
+}
+
 type StorageAccountProperties_ProvisioningState_STATUS string
 
 const (
@@ -7084,12 +7157,25 @@ const (
 	StorageAccountProperties_ProvisioningState_STATUS_Succeeded    = StorageAccountProperties_ProvisioningState_STATUS("Succeeded")
 )
 
+// Mapping from string to StorageAccountProperties_ProvisioningState_STATUS
+var storageAccountProperties_ProvisioningState_STATUS_Values = map[string]StorageAccountProperties_ProvisioningState_STATUS{
+	"creating":     StorageAccountProperties_ProvisioningState_STATUS_Creating,
+	"resolvingdns": StorageAccountProperties_ProvisioningState_STATUS_ResolvingDNS,
+	"succeeded":    StorageAccountProperties_ProvisioningState_STATUS_Succeeded,
+}
+
 type StorageAccountProperties_PublicNetworkAccess_STATUS string
 
 const (
 	StorageAccountProperties_PublicNetworkAccess_STATUS_Disabled = StorageAccountProperties_PublicNetworkAccess_STATUS("Disabled")
 	StorageAccountProperties_PublicNetworkAccess_STATUS_Enabled  = StorageAccountProperties_PublicNetworkAccess_STATUS("Enabled")
 )
+
+// Mapping from string to StorageAccountProperties_PublicNetworkAccess_STATUS
+var storageAccountProperties_PublicNetworkAccess_STATUS_Values = map[string]StorageAccountProperties_PublicNetworkAccess_STATUS{
+	"disabled": StorageAccountProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  StorageAccountProperties_PublicNetworkAccess_STATUS_Enabled,
+}
 
 type StorageAccountProperties_StatusOfPrimary_STATUS string
 
@@ -7098,12 +7184,24 @@ const (
 	StorageAccountProperties_StatusOfPrimary_STATUS_Unavailable = StorageAccountProperties_StatusOfPrimary_STATUS("unavailable")
 )
 
+// Mapping from string to StorageAccountProperties_StatusOfPrimary_STATUS
+var storageAccountProperties_StatusOfPrimary_STATUS_Values = map[string]StorageAccountProperties_StatusOfPrimary_STATUS{
+	"available":   StorageAccountProperties_StatusOfPrimary_STATUS_Available,
+	"unavailable": StorageAccountProperties_StatusOfPrimary_STATUS_Unavailable,
+}
+
 type StorageAccountProperties_StatusOfSecondary_STATUS string
 
 const (
 	StorageAccountProperties_StatusOfSecondary_STATUS_Available   = StorageAccountProperties_StatusOfSecondary_STATUS("available")
 	StorageAccountProperties_StatusOfSecondary_STATUS_Unavailable = StorageAccountProperties_StatusOfSecondary_STATUS("unavailable")
 )
+
+// Mapping from string to StorageAccountProperties_StatusOfSecondary_STATUS
+var storageAccountProperties_StatusOfSecondary_STATUS_Values = map[string]StorageAccountProperties_StatusOfSecondary_STATUS{
+	"available":   StorageAccountProperties_StatusOfSecondary_STATUS_Available,
+	"unavailable": StorageAccountProperties_StatusOfSecondary_STATUS_Unavailable,
+}
 
 // +kubebuilder:validation:Enum={"Cool","Hot","Premium"}
 type StorageAccountPropertiesCreateParameters_AccessTier string
@@ -7114,6 +7212,13 @@ const (
 	StorageAccountPropertiesCreateParameters_AccessTier_Premium = StorageAccountPropertiesCreateParameters_AccessTier("Premium")
 )
 
+// Mapping from string to StorageAccountPropertiesCreateParameters_AccessTier
+var storageAccountPropertiesCreateParameters_AccessTier_Values = map[string]StorageAccountPropertiesCreateParameters_AccessTier{
+	"cool":    StorageAccountPropertiesCreateParameters_AccessTier_Cool,
+	"hot":     StorageAccountPropertiesCreateParameters_AccessTier_Hot,
+	"premium": StorageAccountPropertiesCreateParameters_AccessTier_Premium,
+}
+
 // +kubebuilder:validation:Enum={"AAD","PrivateLink"}
 type StorageAccountPropertiesCreateParameters_AllowedCopyScope string
 
@@ -7121,6 +7226,12 @@ const (
 	StorageAccountPropertiesCreateParameters_AllowedCopyScope_AAD         = StorageAccountPropertiesCreateParameters_AllowedCopyScope("AAD")
 	StorageAccountPropertiesCreateParameters_AllowedCopyScope_PrivateLink = StorageAccountPropertiesCreateParameters_AllowedCopyScope("PrivateLink")
 )
+
+// Mapping from string to StorageAccountPropertiesCreateParameters_AllowedCopyScope
+var storageAccountPropertiesCreateParameters_AllowedCopyScope_Values = map[string]StorageAccountPropertiesCreateParameters_AllowedCopyScope{
+	"aad":         StorageAccountPropertiesCreateParameters_AllowedCopyScope_AAD,
+	"privatelink": StorageAccountPropertiesCreateParameters_AllowedCopyScope_PrivateLink,
+}
 
 // +kubebuilder:validation:Enum={"AzureDnsZone","Standard"}
 type StorageAccountPropertiesCreateParameters_DnsEndpointType string
@@ -7130,6 +7241,12 @@ const (
 	StorageAccountPropertiesCreateParameters_DnsEndpointType_Standard     = StorageAccountPropertiesCreateParameters_DnsEndpointType("Standard")
 )
 
+// Mapping from string to StorageAccountPropertiesCreateParameters_DnsEndpointType
+var storageAccountPropertiesCreateParameters_DnsEndpointType_Values = map[string]StorageAccountPropertiesCreateParameters_DnsEndpointType{
+	"azurednszone": StorageAccountPropertiesCreateParameters_DnsEndpointType_AzureDnsZone,
+	"standard":     StorageAccountPropertiesCreateParameters_DnsEndpointType_Standard,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type StorageAccountPropertiesCreateParameters_LargeFileSharesState string
 
@@ -7137,6 +7254,12 @@ const (
 	StorageAccountPropertiesCreateParameters_LargeFileSharesState_Disabled = StorageAccountPropertiesCreateParameters_LargeFileSharesState("Disabled")
 	StorageAccountPropertiesCreateParameters_LargeFileSharesState_Enabled  = StorageAccountPropertiesCreateParameters_LargeFileSharesState("Enabled")
 )
+
+// Mapping from string to StorageAccountPropertiesCreateParameters_LargeFileSharesState
+var storageAccountPropertiesCreateParameters_LargeFileSharesState_Values = map[string]StorageAccountPropertiesCreateParameters_LargeFileSharesState{
+	"disabled": StorageAccountPropertiesCreateParameters_LargeFileSharesState_Disabled,
+	"enabled":  StorageAccountPropertiesCreateParameters_LargeFileSharesState_Enabled,
+}
 
 // +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2"}
 type StorageAccountPropertiesCreateParameters_MinimumTlsVersion string
@@ -7147,6 +7270,13 @@ const (
 	StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_2 = StorageAccountPropertiesCreateParameters_MinimumTlsVersion("TLS1_2")
 )
 
+// Mapping from string to StorageAccountPropertiesCreateParameters_MinimumTlsVersion
+var storageAccountPropertiesCreateParameters_MinimumTlsVersion_Values = map[string]StorageAccountPropertiesCreateParameters_MinimumTlsVersion{
+	"tls1_0": StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_0,
+	"tls1_1": StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_1,
+	"tls1_2": StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_2,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type StorageAccountPropertiesCreateParameters_PublicNetworkAccess string
 
@@ -7154,6 +7284,12 @@ const (
 	StorageAccountPropertiesCreateParameters_PublicNetworkAccess_Disabled = StorageAccountPropertiesCreateParameters_PublicNetworkAccess("Disabled")
 	StorageAccountPropertiesCreateParameters_PublicNetworkAccess_Enabled  = StorageAccountPropertiesCreateParameters_PublicNetworkAccess("Enabled")
 )
+
+// Mapping from string to StorageAccountPropertiesCreateParameters_PublicNetworkAccess
+var storageAccountPropertiesCreateParameters_PublicNetworkAccess_Values = map[string]StorageAccountPropertiesCreateParameters_PublicNetworkAccess{
+	"disabled": StorageAccountPropertiesCreateParameters_PublicNetworkAccess_Disabled,
+	"enabled":  StorageAccountPropertiesCreateParameters_PublicNetworkAccess_Enabled,
+}
 
 // This defines the sku conversion status object for asynchronous sku conversions.
 type StorageAccountSkuConversionStatus_STATUS struct {
@@ -7220,8 +7356,9 @@ func (status *StorageAccountSkuConversionStatus_STATUS) AssignProperties_From_St
 
 	// SkuConversionStatus
 	if source.SkuConversionStatus != nil {
-		skuConversionStatus := StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS(*source.SkuConversionStatus)
-		status.SkuConversionStatus = &skuConversionStatus
+		skuConversionStatus := *source.SkuConversionStatus
+		skuConversionStatusTemp := genruntime.ToEnum(skuConversionStatus, storageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Values)
+		status.SkuConversionStatus = &skuConversionStatusTemp
 	} else {
 		status.SkuConversionStatus = nil
 	}
@@ -7231,8 +7368,9 @@ func (status *StorageAccountSkuConversionStatus_STATUS) AssignProperties_From_St
 
 	// TargetSkuName
 	if source.TargetSkuName != nil {
-		targetSkuName := SkuName_STATUS(*source.TargetSkuName)
-		status.TargetSkuName = &targetSkuName
+		targetSkuName := *source.TargetSkuName
+		targetSkuNameTemp := genruntime.ToEnum(targetSkuName, skuName_STATUS_Values)
+		status.TargetSkuName = &targetSkuNameTemp
 	} else {
 		status.TargetSkuName = nil
 	}
@@ -7384,8 +7522,9 @@ func (properties *AccountImmutabilityPolicyProperties) AssignProperties_From_Acc
 
 	// State
 	if source.State != nil {
-		state := AccountImmutabilityPolicyProperties_State(*source.State)
-		properties.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, accountImmutabilityPolicyProperties_State_Values)
+		properties.State = &stateTemp
 	} else {
 		properties.State = nil
 	}
@@ -7505,8 +7644,9 @@ func (properties *AccountImmutabilityPolicyProperties_STATUS) AssignProperties_F
 
 	// State
 	if source.State != nil {
-		state := AccountImmutabilityPolicyProperties_State_STATUS(*source.State)
-		properties.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, accountImmutabilityPolicyProperties_State_STATUS_Values)
+		properties.State = &stateTemp
 	} else {
 		properties.State = nil
 	}
@@ -7707,8 +7847,9 @@ func (properties *ActiveDirectoryProperties) AssignProperties_From_ActiveDirecto
 
 	// AccountType
 	if source.AccountType != nil {
-		accountType := ActiveDirectoryProperties_AccountType(*source.AccountType)
-		properties.AccountType = &accountType
+		accountType := *source.AccountType
+		accountTypeTemp := genruntime.ToEnum(accountType, activeDirectoryProperties_AccountType_Values)
+		properties.AccountType = &accountTypeTemp
 	} else {
 		properties.AccountType = nil
 	}
@@ -7881,8 +8022,9 @@ func (properties *ActiveDirectoryProperties_STATUS) AssignProperties_From_Active
 
 	// AccountType
 	if source.AccountType != nil {
-		accountType := ActiveDirectoryProperties_AccountType_STATUS(*source.AccountType)
-		properties.AccountType = &accountType
+		accountType := *source.AccountType
+		accountTypeTemp := genruntime.ToEnum(accountType, activeDirectoryProperties_AccountType_STATUS_Values)
+		properties.AccountType = &accountTypeTemp
 	} else {
 		properties.AccountType = nil
 	}
@@ -7967,6 +8109,14 @@ const (
 	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthentication_DefaultSharePermission("StorageFileDataSmbShareReader")
 )
 
+// Mapping from string to AzureFilesIdentityBasedAuthentication_DefaultSharePermission
+var azureFilesIdentityBasedAuthentication_DefaultSharePermission_Values = map[string]AzureFilesIdentityBasedAuthentication_DefaultSharePermission{
+	"none":                               AzureFilesIdentityBasedAuthentication_DefaultSharePermission_None,
+	"storagefiledatasmbsharecontributor": AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareContributor,
+	"storagefiledatasmbshareelevatedcontributor": AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareElevatedContributor,
+	"storagefiledatasmbsharereader":              AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareReader,
+}
+
 type AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS string
 
 const (
@@ -7975,6 +8125,14 @@ const (
 	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS("StorageFileDataSmbShareElevatedContributor")
 	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS("StorageFileDataSmbShareReader")
 )
+
+// Mapping from string to AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS
+var azureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_Values = map[string]AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS{
+	"none":                               AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_None,
+	"storagefiledatasmbsharecontributor": AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareContributor,
+	"storagefiledatasmbshareelevatedcontributor": AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareElevatedContributor,
+	"storagefiledatasmbsharereader":              AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareReader,
+}
 
 // +kubebuilder:validation:Enum={"AADDS","AADKERB","AD","None"}
 type AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions string
@@ -7986,6 +8144,14 @@ const (
 	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_None    = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions("None")
 )
 
+// Mapping from string to AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions
+var azureFilesIdentityBasedAuthentication_DirectoryServiceOptions_Values = map[string]AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions{
+	"aadds":   AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AADDS,
+	"aadkerb": AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AADKERB,
+	"ad":      AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_AD,
+	"none":    AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_None,
+}
+
 type AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS string
 
 const (
@@ -7994,6 +8160,14 @@ const (
 	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_AD      = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS("AD")
 	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_None    = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS("None")
 )
+
+// Mapping from string to AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS
+var azureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_Values = map[string]AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS{
+	"aadds":   AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_AADDS,
+	"aadkerb": AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_AADKERB,
+	"ad":      AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_AD,
+	"none":    AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_None,
+}
 
 // Blob restore parameters
 type BlobRestoreParameters_STATUS struct {
@@ -8111,6 +8285,13 @@ const (
 	BlobRestoreStatus_Status_STATUS_InProgress = BlobRestoreStatus_Status_STATUS("InProgress")
 )
 
+// Mapping from string to BlobRestoreStatus_Status_STATUS
+var blobRestoreStatus_Status_STATUS_Values = map[string]BlobRestoreStatus_Status_STATUS{
+	"complete":   BlobRestoreStatus_Status_STATUS_Complete,
+	"failed":     BlobRestoreStatus_Status_STATUS_Failed,
+	"inprogress": BlobRestoreStatus_Status_STATUS_InProgress,
+}
+
 // +kubebuilder:validation:Enum={"Microsoft.Keyvault","Microsoft.Storage"}
 type Encryption_KeySource string
 
@@ -8119,12 +8300,24 @@ const (
 	Encryption_KeySource_MicrosoftStorage  = Encryption_KeySource("Microsoft.Storage")
 )
 
+// Mapping from string to Encryption_KeySource
+var encryption_KeySource_Values = map[string]Encryption_KeySource{
+	"microsoft.keyvault": Encryption_KeySource_MicrosoftKeyvault,
+	"microsoft.storage":  Encryption_KeySource_MicrosoftStorage,
+}
+
 type Encryption_KeySource_STATUS string
 
 const (
 	Encryption_KeySource_STATUS_MicrosoftKeyvault = Encryption_KeySource_STATUS("Microsoft.Keyvault")
 	Encryption_KeySource_STATUS_MicrosoftStorage  = Encryption_KeySource_STATUS("Microsoft.Storage")
 )
+
+// Mapping from string to Encryption_KeySource_STATUS
+var encryption_KeySource_STATUS_Values = map[string]Encryption_KeySource_STATUS{
+	"microsoft.keyvault": Encryption_KeySource_STATUS_MicrosoftKeyvault,
+	"microsoft.storage":  Encryption_KeySource_STATUS_MicrosoftStorage,
+}
 
 // Encryption identity for the storage account.
 type EncryptionIdentity struct {
@@ -8758,6 +8951,13 @@ const (
 	GeoReplicationStats_Status_STATUS_Unavailable = GeoReplicationStats_Status_STATUS("Unavailable")
 )
 
+// Mapping from string to GeoReplicationStats_Status_STATUS
+var geoReplicationStats_Status_STATUS_Values = map[string]GeoReplicationStats_Status_STATUS{
+	"bootstrap":   GeoReplicationStats_Status_STATUS_Bootstrap,
+	"live":        GeoReplicationStats_Status_STATUS_Live,
+	"unavailable": GeoReplicationStats_Status_STATUS_Unavailable,
+}
+
 // IP rule with specific IP or IP range in CIDR format.
 type IPRule struct {
 	// Action: The action of IP ACL rule.
@@ -8824,8 +9024,9 @@ func (rule *IPRule) AssignProperties_From_IPRule(source *v20220901s.IPRule) erro
 
 	// Action
 	if source.Action != nil {
-		action := IPRule_Action(*source.Action)
-		rule.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, iPRule_Action_Values)
+		rule.Action = &actionTemp
 	} else {
 		rule.Action = nil
 	}
@@ -8908,8 +9109,9 @@ func (rule *IPRule_STATUS) AssignProperties_From_IPRule_STATUS(source *v20220901
 
 	// Action
 	if source.Action != nil {
-		action := IPRule_Action_STATUS(*source.Action)
-		rule.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, iPRule_Action_STATUS_Values)
+		rule.Action = &actionTemp
 	} else {
 		rule.Action = nil
 	}
@@ -9209,6 +9411,14 @@ const (
 	NetworkRuleSet_Bypass_None          = NetworkRuleSet_Bypass("None")
 )
 
+// Mapping from string to NetworkRuleSet_Bypass
+var networkRuleSet_Bypass_Values = map[string]NetworkRuleSet_Bypass{
+	"azureservices": NetworkRuleSet_Bypass_AzureServices,
+	"logging":       NetworkRuleSet_Bypass_Logging,
+	"metrics":       NetworkRuleSet_Bypass_Metrics,
+	"none":          NetworkRuleSet_Bypass_None,
+}
+
 type NetworkRuleSet_Bypass_STATUS string
 
 const (
@@ -9218,6 +9428,14 @@ const (
 	NetworkRuleSet_Bypass_STATUS_None          = NetworkRuleSet_Bypass_STATUS("None")
 )
 
+// Mapping from string to NetworkRuleSet_Bypass_STATUS
+var networkRuleSet_Bypass_STATUS_Values = map[string]NetworkRuleSet_Bypass_STATUS{
+	"azureservices": NetworkRuleSet_Bypass_STATUS_AzureServices,
+	"logging":       NetworkRuleSet_Bypass_STATUS_Logging,
+	"metrics":       NetworkRuleSet_Bypass_STATUS_Metrics,
+	"none":          NetworkRuleSet_Bypass_STATUS_None,
+}
+
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type NetworkRuleSet_DefaultAction string
 
@@ -9226,12 +9444,24 @@ const (
 	NetworkRuleSet_DefaultAction_Deny  = NetworkRuleSet_DefaultAction("Deny")
 )
 
+// Mapping from string to NetworkRuleSet_DefaultAction
+var networkRuleSet_DefaultAction_Values = map[string]NetworkRuleSet_DefaultAction{
+	"allow": NetworkRuleSet_DefaultAction_Allow,
+	"deny":  NetworkRuleSet_DefaultAction_Deny,
+}
+
 type NetworkRuleSet_DefaultAction_STATUS string
 
 const (
 	NetworkRuleSet_DefaultAction_STATUS_Allow = NetworkRuleSet_DefaultAction_STATUS("Allow")
 	NetworkRuleSet_DefaultAction_STATUS_Deny  = NetworkRuleSet_DefaultAction_STATUS("Deny")
 )
+
+// Mapping from string to NetworkRuleSet_DefaultAction_STATUS
+var networkRuleSet_DefaultAction_STATUS_Values = map[string]NetworkRuleSet_DefaultAction_STATUS{
+	"allow": NetworkRuleSet_DefaultAction_STATUS_Allow,
+	"deny":  NetworkRuleSet_DefaultAction_STATUS_Deny,
+}
 
 // Resource Access Rule.
 type ResourceAccessRule struct {
@@ -9420,6 +9650,12 @@ const (
 	RoutingPreference_RoutingChoice_MicrosoftRouting = RoutingPreference_RoutingChoice("MicrosoftRouting")
 )
 
+// Mapping from string to RoutingPreference_RoutingChoice
+var routingPreference_RoutingChoice_Values = map[string]RoutingPreference_RoutingChoice{
+	"internetrouting":  RoutingPreference_RoutingChoice_InternetRouting,
+	"microsoftrouting": RoutingPreference_RoutingChoice_MicrosoftRouting,
+}
+
 type RoutingPreference_RoutingChoice_STATUS string
 
 const (
@@ -9427,14 +9663,30 @@ const (
 	RoutingPreference_RoutingChoice_STATUS_MicrosoftRouting = RoutingPreference_RoutingChoice_STATUS("MicrosoftRouting")
 )
 
+// Mapping from string to RoutingPreference_RoutingChoice_STATUS
+var routingPreference_RoutingChoice_STATUS_Values = map[string]RoutingPreference_RoutingChoice_STATUS{
+	"internetrouting":  RoutingPreference_RoutingChoice_STATUS_InternetRouting,
+	"microsoftrouting": RoutingPreference_RoutingChoice_STATUS_MicrosoftRouting,
+}
+
 // +kubebuilder:validation:Enum={"Log"}
 type SasPolicy_ExpirationAction string
 
 const SasPolicy_ExpirationAction_Log = SasPolicy_ExpirationAction("Log")
 
+// Mapping from string to SasPolicy_ExpirationAction
+var sasPolicy_ExpirationAction_Values = map[string]SasPolicy_ExpirationAction{
+	"log": SasPolicy_ExpirationAction_Log,
+}
+
 type SasPolicy_ExpirationAction_STATUS string
 
 const SasPolicy_ExpirationAction_STATUS_Log = SasPolicy_ExpirationAction_STATUS("Log")
+
+// Mapping from string to SasPolicy_ExpirationAction_STATUS
+var sasPolicy_ExpirationAction_STATUS_Values = map[string]SasPolicy_ExpirationAction_STATUS{
+	"log": SasPolicy_ExpirationAction_STATUS_Log,
+}
 
 // The URIs that are used to perform a retrieval of a public blob, file, web or dfs object via a internet routing endpoint.
 type StorageAccountInternetEndpoints_STATUS struct {
@@ -10005,6 +10257,13 @@ const (
 	StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Succeeded  = StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS("Succeeded")
 )
 
+// Mapping from string to StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS
+var storageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Values = map[string]StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS{
+	"failed":     StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Failed,
+	"inprogress": StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_InProgress,
+	"succeeded":  StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS_Succeeded,
+}
+
 // UserAssignedIdentity for the resource.
 type UserAssignedIdentity_STATUS struct {
 	// ClientId: The client ID of the identity.
@@ -10195,8 +10454,9 @@ func (rule *VirtualNetworkRule) AssignProperties_From_VirtualNetworkRule(source 
 
 	// Action
 	if source.Action != nil {
-		action := VirtualNetworkRule_Action(*source.Action)
-		rule.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, virtualNetworkRule_Action_Values)
+		rule.Action = &actionTemp
 	} else {
 		rule.Action = nil
 	}
@@ -10211,8 +10471,9 @@ func (rule *VirtualNetworkRule) AssignProperties_From_VirtualNetworkRule(source 
 
 	// State
 	if source.State != nil {
-		state := VirtualNetworkRule_State(*source.State)
-		rule.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, virtualNetworkRule_State_Values)
+		rule.State = &stateTemp
 	} else {
 		rule.State = nil
 	}
@@ -10315,8 +10576,9 @@ func (rule *VirtualNetworkRule_STATUS) AssignProperties_From_VirtualNetworkRule_
 
 	// Action
 	if source.Action != nil {
-		action := VirtualNetworkRule_Action_STATUS(*source.Action)
-		rule.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, virtualNetworkRule_Action_STATUS_Values)
+		rule.Action = &actionTemp
 	} else {
 		rule.Action = nil
 	}
@@ -10326,8 +10588,9 @@ func (rule *VirtualNetworkRule_STATUS) AssignProperties_From_VirtualNetworkRule_
 
 	// State
 	if source.State != nil {
-		state := VirtualNetworkRule_State_STATUS(*source.State)
-		rule.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, virtualNetworkRule_State_STATUS_Values)
+		rule.State = &stateTemp
 	} else {
 		rule.State = nil
 	}
@@ -10380,6 +10643,13 @@ const (
 	AccountImmutabilityPolicyProperties_State_Unlocked = AccountImmutabilityPolicyProperties_State("Unlocked")
 )
 
+// Mapping from string to AccountImmutabilityPolicyProperties_State
+var accountImmutabilityPolicyProperties_State_Values = map[string]AccountImmutabilityPolicyProperties_State{
+	"disabled": AccountImmutabilityPolicyProperties_State_Disabled,
+	"locked":   AccountImmutabilityPolicyProperties_State_Locked,
+	"unlocked": AccountImmutabilityPolicyProperties_State_Unlocked,
+}
+
 type AccountImmutabilityPolicyProperties_State_STATUS string
 
 const (
@@ -10387,6 +10657,13 @@ const (
 	AccountImmutabilityPolicyProperties_State_STATUS_Locked   = AccountImmutabilityPolicyProperties_State_STATUS("Locked")
 	AccountImmutabilityPolicyProperties_State_STATUS_Unlocked = AccountImmutabilityPolicyProperties_State_STATUS("Unlocked")
 )
+
+// Mapping from string to AccountImmutabilityPolicyProperties_State_STATUS
+var accountImmutabilityPolicyProperties_State_STATUS_Values = map[string]AccountImmutabilityPolicyProperties_State_STATUS{
+	"disabled": AccountImmutabilityPolicyProperties_State_STATUS_Disabled,
+	"locked":   AccountImmutabilityPolicyProperties_State_STATUS_Locked,
+	"unlocked": AccountImmutabilityPolicyProperties_State_STATUS_Unlocked,
+}
 
 // +kubebuilder:validation:Enum={"Computer","User"}
 type ActiveDirectoryProperties_AccountType string
@@ -10396,12 +10673,24 @@ const (
 	ActiveDirectoryProperties_AccountType_User     = ActiveDirectoryProperties_AccountType("User")
 )
 
+// Mapping from string to ActiveDirectoryProperties_AccountType
+var activeDirectoryProperties_AccountType_Values = map[string]ActiveDirectoryProperties_AccountType{
+	"computer": ActiveDirectoryProperties_AccountType_Computer,
+	"user":     ActiveDirectoryProperties_AccountType_User,
+}
+
 type ActiveDirectoryProperties_AccountType_STATUS string
 
 const (
 	ActiveDirectoryProperties_AccountType_STATUS_Computer = ActiveDirectoryProperties_AccountType_STATUS("Computer")
 	ActiveDirectoryProperties_AccountType_STATUS_User     = ActiveDirectoryProperties_AccountType_STATUS("User")
 )
+
+// Mapping from string to ActiveDirectoryProperties_AccountType_STATUS
+var activeDirectoryProperties_AccountType_STATUS_Values = map[string]ActiveDirectoryProperties_AccountType_STATUS{
+	"computer": ActiveDirectoryProperties_AccountType_STATUS_Computer,
+	"user":     ActiveDirectoryProperties_AccountType_STATUS_User,
+}
 
 // Blob range
 type BlobRestoreRange_STATUS struct {
@@ -10552,8 +10841,9 @@ func (service *EncryptionService) AssignProperties_From_EncryptionService(source
 
 	// KeyType
 	if source.KeyType != nil {
-		keyType := EncryptionService_KeyType(*source.KeyType)
-		service.KeyType = &keyType
+		keyType := *source.KeyType
+		keyTypeTemp := genruntime.ToEnum(keyType, encryptionService_KeyType_Values)
+		service.KeyType = &keyTypeTemp
 	} else {
 		service.KeyType = nil
 	}
@@ -10658,8 +10948,9 @@ func (service *EncryptionService_STATUS) AssignProperties_From_EncryptionService
 
 	// KeyType
 	if source.KeyType != nil {
-		keyType := EncryptionService_KeyType_STATUS(*source.KeyType)
-		service.KeyType = &keyType
+		keyType := *source.KeyType
+		keyTypeTemp := genruntime.ToEnum(keyType, encryptionService_KeyType_STATUS_Values)
+		service.KeyType = &keyTypeTemp
 	} else {
 		service.KeyType = nil
 	}
@@ -10711,18 +11002,38 @@ type IPRule_Action string
 
 const IPRule_Action_Allow = IPRule_Action("Allow")
 
+// Mapping from string to IPRule_Action
+var iPRule_Action_Values = map[string]IPRule_Action{
+	"allow": IPRule_Action_Allow,
+}
+
 type IPRule_Action_STATUS string
 
 const IPRule_Action_STATUS_Allow = IPRule_Action_STATUS("Allow")
+
+// Mapping from string to IPRule_Action_STATUS
+var iPRule_Action_STATUS_Values = map[string]IPRule_Action_STATUS{
+	"allow": IPRule_Action_STATUS_Allow,
+}
 
 // +kubebuilder:validation:Enum={"Allow"}
 type VirtualNetworkRule_Action string
 
 const VirtualNetworkRule_Action_Allow = VirtualNetworkRule_Action("Allow")
 
+// Mapping from string to VirtualNetworkRule_Action
+var virtualNetworkRule_Action_Values = map[string]VirtualNetworkRule_Action{
+	"allow": VirtualNetworkRule_Action_Allow,
+}
+
 type VirtualNetworkRule_Action_STATUS string
 
 const VirtualNetworkRule_Action_STATUS_Allow = VirtualNetworkRule_Action_STATUS("Allow")
+
+// Mapping from string to VirtualNetworkRule_Action_STATUS
+var virtualNetworkRule_Action_STATUS_Values = map[string]VirtualNetworkRule_Action_STATUS{
+	"allow": VirtualNetworkRule_Action_STATUS_Allow,
+}
 
 // +kubebuilder:validation:Enum={"Deprovisioning","Failed","NetworkSourceDeleted","Provisioning","Succeeded"}
 type VirtualNetworkRule_State string
@@ -10735,6 +11046,15 @@ const (
 	VirtualNetworkRule_State_Succeeded            = VirtualNetworkRule_State("Succeeded")
 )
 
+// Mapping from string to VirtualNetworkRule_State
+var virtualNetworkRule_State_Values = map[string]VirtualNetworkRule_State{
+	"deprovisioning":       VirtualNetworkRule_State_Deprovisioning,
+	"failed":               VirtualNetworkRule_State_Failed,
+	"networksourcedeleted": VirtualNetworkRule_State_NetworkSourceDeleted,
+	"provisioning":         VirtualNetworkRule_State_Provisioning,
+	"succeeded":            VirtualNetworkRule_State_Succeeded,
+}
+
 type VirtualNetworkRule_State_STATUS string
 
 const (
@@ -10745,6 +11065,15 @@ const (
 	VirtualNetworkRule_State_STATUS_Succeeded            = VirtualNetworkRule_State_STATUS("Succeeded")
 )
 
+// Mapping from string to VirtualNetworkRule_State_STATUS
+var virtualNetworkRule_State_STATUS_Values = map[string]VirtualNetworkRule_State_STATUS{
+	"deprovisioning":       VirtualNetworkRule_State_STATUS_Deprovisioning,
+	"failed":               VirtualNetworkRule_State_STATUS_Failed,
+	"networksourcedeleted": VirtualNetworkRule_State_STATUS_NetworkSourceDeleted,
+	"provisioning":         VirtualNetworkRule_State_STATUS_Provisioning,
+	"succeeded":            VirtualNetworkRule_State_STATUS_Succeeded,
+}
+
 // +kubebuilder:validation:Enum={"Account","Service"}
 type EncryptionService_KeyType string
 
@@ -10753,12 +11082,24 @@ const (
 	EncryptionService_KeyType_Service = EncryptionService_KeyType("Service")
 )
 
+// Mapping from string to EncryptionService_KeyType
+var encryptionService_KeyType_Values = map[string]EncryptionService_KeyType{
+	"account": EncryptionService_KeyType_Account,
+	"service": EncryptionService_KeyType_Service,
+}
+
 type EncryptionService_KeyType_STATUS string
 
 const (
 	EncryptionService_KeyType_STATUS_Account = EncryptionService_KeyType_STATUS("Account")
 	EncryptionService_KeyType_STATUS_Service = EncryptionService_KeyType_STATUS("Service")
 )
+
+// Mapping from string to EncryptionService_KeyType_STATUS
+var encryptionService_KeyType_STATUS_Values = map[string]EncryptionService_KeyType_STATUS{
+	"account": EncryptionService_KeyType_STATUS_Account,
+	"service": EncryptionService_KeyType_STATUS_Service,
+}
 
 func init() {
 	SchemeBuilder.Register(&StorageAccount{}, &StorageAccountList{})

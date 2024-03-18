@@ -117,6 +117,14 @@ const (
 	ResourceIdentity_Type_UserAssigned               = ResourceIdentity_Type("UserAssigned")
 )
 
+// Mapping from string to ResourceIdentity_Type
+var resourceIdentity_Type_Values = map[string]ResourceIdentity_Type{
+	"none":                         ResourceIdentity_Type_None,
+	"systemassigned":               ResourceIdentity_Type_SystemAssigned,
+	"systemassigned, userassigned": ResourceIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 ResourceIdentity_Type_UserAssigned,
+}
+
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
 type SystemData_CreatedByType string
 
@@ -127,6 +135,14 @@ const (
 	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
 )
 
+// Mapping from string to SystemData_CreatedByType
+var systemData_CreatedByType_Values = map[string]SystemData_CreatedByType{
+	"application":     SystemData_CreatedByType_Application,
+	"key":             SystemData_CreatedByType_Key,
+	"managedidentity": SystemData_CreatedByType_ManagedIdentity,
+	"user":            SystemData_CreatedByType_User,
+}
+
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
 type SystemData_LastModifiedByType string
 
@@ -136,6 +152,14 @@ const (
 	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
 	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
 )
+
+// Mapping from string to SystemData_LastModifiedByType
+var systemData_LastModifiedByType_Values = map[string]SystemData_LastModifiedByType{
+	"application":     SystemData_LastModifiedByType_Application,
+	"key":             SystemData_LastModifiedByType_Key,
+	"managedidentity": SystemData_LastModifiedByType_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_User,
+}
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {

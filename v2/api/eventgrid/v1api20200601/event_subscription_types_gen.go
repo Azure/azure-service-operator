@@ -602,8 +602,9 @@ func (subscription *EventSubscription_Spec) AssignProperties_From_EventSubscript
 
 	// EventDeliverySchema
 	if source.EventDeliverySchema != nil {
-		eventDeliverySchema := EventSubscriptionProperties_EventDeliverySchema(*source.EventDeliverySchema)
-		subscription.EventDeliverySchema = &eventDeliverySchema
+		eventDeliverySchema := *source.EventDeliverySchema
+		eventDeliverySchemaTemp := genruntime.ToEnum(eventDeliverySchema, eventSubscriptionProperties_EventDeliverySchema_Values)
+		subscription.EventDeliverySchema = &eventDeliverySchemaTemp
 	} else {
 		subscription.EventDeliverySchema = nil
 	}
@@ -1098,8 +1099,9 @@ func (subscription *EventSubscription_STATUS) AssignProperties_From_EventSubscri
 
 	// EventDeliverySchema
 	if source.EventDeliverySchema != nil {
-		eventDeliverySchema := EventSubscriptionProperties_EventDeliverySchema_STATUS(*source.EventDeliverySchema)
-		subscription.EventDeliverySchema = &eventDeliverySchema
+		eventDeliverySchema := *source.EventDeliverySchema
+		eventDeliverySchemaTemp := genruntime.ToEnum(eventDeliverySchema, eventSubscriptionProperties_EventDeliverySchema_STATUS_Values)
+		subscription.EventDeliverySchema = &eventDeliverySchemaTemp
 	} else {
 		subscription.EventDeliverySchema = nil
 	}
@@ -1130,8 +1132,9 @@ func (subscription *EventSubscription_STATUS) AssignProperties_From_EventSubscri
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := EventSubscriptionProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		subscription.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, eventSubscriptionProperties_ProvisioningState_STATUS_Values)
+		subscription.ProvisioningState = &provisioningStateTemp
 	} else {
 		subscription.ProvisioningState = nil
 	}
@@ -2697,6 +2700,13 @@ const (
 	EventSubscriptionProperties_EventDeliverySchema_EventGridSchema      = EventSubscriptionProperties_EventDeliverySchema("EventGridSchema")
 )
 
+// Mapping from string to EventSubscriptionProperties_EventDeliverySchema
+var eventSubscriptionProperties_EventDeliverySchema_Values = map[string]EventSubscriptionProperties_EventDeliverySchema{
+	"cloudeventschemav1_0": EventSubscriptionProperties_EventDeliverySchema_CloudEventSchemaV1_0,
+	"custominputschema":    EventSubscriptionProperties_EventDeliverySchema_CustomInputSchema,
+	"eventgridschema":      EventSubscriptionProperties_EventDeliverySchema_EventGridSchema,
+}
+
 type EventSubscriptionProperties_EventDeliverySchema_STATUS string
 
 const (
@@ -2704,6 +2714,13 @@ const (
 	EventSubscriptionProperties_EventDeliverySchema_STATUS_CustomInputSchema    = EventSubscriptionProperties_EventDeliverySchema_STATUS("CustomInputSchema")
 	EventSubscriptionProperties_EventDeliverySchema_STATUS_EventGridSchema      = EventSubscriptionProperties_EventDeliverySchema_STATUS("EventGridSchema")
 )
+
+// Mapping from string to EventSubscriptionProperties_EventDeliverySchema_STATUS
+var eventSubscriptionProperties_EventDeliverySchema_STATUS_Values = map[string]EventSubscriptionProperties_EventDeliverySchema_STATUS{
+	"cloudeventschemav1_0": EventSubscriptionProperties_EventDeliverySchema_STATUS_CloudEventSchemaV1_0,
+	"custominputschema":    EventSubscriptionProperties_EventDeliverySchema_STATUS_CustomInputSchema,
+	"eventgridschema":      EventSubscriptionProperties_EventDeliverySchema_STATUS_EventGridSchema,
+}
 
 type EventSubscriptionProperties_ProvisioningState_STATUS string
 
@@ -2716,6 +2733,17 @@ const (
 	EventSubscriptionProperties_ProvisioningState_STATUS_Succeeded            = EventSubscriptionProperties_ProvisioningState_STATUS("Succeeded")
 	EventSubscriptionProperties_ProvisioningState_STATUS_Updating             = EventSubscriptionProperties_ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to EventSubscriptionProperties_ProvisioningState_STATUS
+var eventSubscriptionProperties_ProvisioningState_STATUS_Values = map[string]EventSubscriptionProperties_ProvisioningState_STATUS{
+	"awaitingmanualaction": EventSubscriptionProperties_ProvisioningState_STATUS_AwaitingManualAction,
+	"canceled":             EventSubscriptionProperties_ProvisioningState_STATUS_Canceled,
+	"creating":             EventSubscriptionProperties_ProvisioningState_STATUS_Creating,
+	"deleting":             EventSubscriptionProperties_ProvisioningState_STATUS_Deleting,
+	"failed":               EventSubscriptionProperties_ProvisioningState_STATUS_Failed,
+	"succeeded":            EventSubscriptionProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":             EventSubscriptionProperties_ProvisioningState_STATUS_Updating,
+}
 
 // Information about the retry policy for an event subscription.
 type RetryPolicy struct {
@@ -4276,8 +4304,9 @@ func (destination *AzureFunctionEventSubscriptionDestination) AssignProperties_F
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := AzureFunctionEventSubscriptionDestination_EndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
+		endpointType := *source.EndpointType
+		endpointTypeTemp := genruntime.ToEnum(endpointType, azureFunctionEventSubscriptionDestination_EndpointType_Values)
+		destination.EndpointType = &endpointTypeTemp
 	} else {
 		destination.EndpointType = nil
 	}
@@ -4435,8 +4464,9 @@ func (destination *AzureFunctionEventSubscriptionDestination_STATUS) AssignPrope
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := AzureFunctionEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
-		destination.EndpointType = &endpointType
+		endpointType := *source.EndpointType
+		endpointTypeTemp := genruntime.ToEnum(endpointType, azureFunctionEventSubscriptionDestination_EndpointType_STATUS_Values)
+		destination.EndpointType = &endpointTypeTemp
 	} else {
 		destination.EndpointType = nil
 	}
@@ -4552,8 +4582,9 @@ func (destination *EventHubEventSubscriptionDestination) AssignProperties_From_E
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := EventHubEventSubscriptionDestination_EndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
+		endpointType := *source.EndpointType
+		endpointTypeTemp := genruntime.ToEnum(endpointType, eventHubEventSubscriptionDestination_EndpointType_Values)
+		destination.EndpointType = &endpointTypeTemp
 	} else {
 		destination.EndpointType = nil
 	}
@@ -4668,8 +4699,9 @@ func (destination *EventHubEventSubscriptionDestination_STATUS) AssignProperties
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := EventHubEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
-		destination.EndpointType = &endpointType
+		endpointType := *source.EndpointType
+		endpointTypeTemp := genruntime.ToEnum(endpointType, eventHubEventSubscriptionDestination_EndpointType_STATUS_Values)
+		destination.EndpointType = &endpointTypeTemp
 	} else {
 		destination.EndpointType = nil
 	}
@@ -4772,8 +4804,9 @@ func (destination *HybridConnectionEventSubscriptionDestination) AssignPropertie
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := HybridConnectionEventSubscriptionDestination_EndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
+		endpointType := *source.EndpointType
+		endpointTypeTemp := genruntime.ToEnum(endpointType, hybridConnectionEventSubscriptionDestination_EndpointType_Values)
+		destination.EndpointType = &endpointTypeTemp
 	} else {
 		destination.EndpointType = nil
 	}
@@ -4888,8 +4921,9 @@ func (destination *HybridConnectionEventSubscriptionDestination_STATUS) AssignPr
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := HybridConnectionEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
-		destination.EndpointType = &endpointType
+		endpointType := *source.EndpointType
+		endpointTypeTemp := genruntime.ToEnum(endpointType, hybridConnectionEventSubscriptionDestination_EndpointType_STATUS_Values)
+		destination.EndpointType = &endpointTypeTemp
 	} else {
 		destination.EndpointType = nil
 	}
@@ -4993,8 +5027,9 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := ServiceBusQueueEventSubscriptionDestination_EndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
+		endpointType := *source.EndpointType
+		endpointTypeTemp := genruntime.ToEnum(endpointType, serviceBusQueueEventSubscriptionDestination_EndpointType_Values)
+		destination.EndpointType = &endpointTypeTemp
 	} else {
 		destination.EndpointType = nil
 	}
@@ -5109,8 +5144,9 @@ func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) AssignPro
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
-		destination.EndpointType = &endpointType
+		endpointType := *source.EndpointType
+		endpointTypeTemp := genruntime.ToEnum(endpointType, serviceBusQueueEventSubscriptionDestination_EndpointType_STATUS_Values)
+		destination.EndpointType = &endpointTypeTemp
 	} else {
 		destination.EndpointType = nil
 	}
@@ -5214,8 +5250,9 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := ServiceBusTopicEventSubscriptionDestination_EndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
+		endpointType := *source.EndpointType
+		endpointTypeTemp := genruntime.ToEnum(endpointType, serviceBusTopicEventSubscriptionDestination_EndpointType_Values)
+		destination.EndpointType = &endpointTypeTemp
 	} else {
 		destination.EndpointType = nil
 	}
@@ -5331,8 +5368,9 @@ func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) AssignPro
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
-		destination.EndpointType = &endpointType
+		endpointType := *source.EndpointType
+		endpointTypeTemp := genruntime.ToEnum(endpointType, serviceBusTopicEventSubscriptionDestination_EndpointType_STATUS_Values)
+		destination.EndpointType = &endpointTypeTemp
 	} else {
 		destination.EndpointType = nil
 	}
@@ -5454,8 +5492,9 @@ func (destination *StorageBlobDeadLetterDestination) AssignProperties_From_Stora
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := StorageBlobDeadLetterDestination_EndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
+		endpointType := *source.EndpointType
+		endpointTypeTemp := genruntime.ToEnum(endpointType, storageBlobDeadLetterDestination_EndpointType_Values)
+		destination.EndpointType = &endpointTypeTemp
 	} else {
 		destination.EndpointType = nil
 	}
@@ -5591,8 +5630,9 @@ func (destination *StorageBlobDeadLetterDestination_STATUS) AssignProperties_Fro
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := StorageBlobDeadLetterDestination_EndpointType_STATUS(*source.EndpointType)
-		destination.EndpointType = &endpointType
+		endpointType := *source.EndpointType
+		endpointTypeTemp := genruntime.ToEnum(endpointType, storageBlobDeadLetterDestination_EndpointType_STATUS_Values)
+		destination.EndpointType = &endpointTypeTemp
 	} else {
 		destination.EndpointType = nil
 	}
@@ -5715,8 +5755,9 @@ func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_Fr
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := StorageQueueEventSubscriptionDestination_EndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
+		endpointType := *source.EndpointType
+		endpointTypeTemp := genruntime.ToEnum(endpointType, storageQueueEventSubscriptionDestination_EndpointType_Values)
+		destination.EndpointType = &endpointTypeTemp
 	} else {
 		destination.EndpointType = nil
 	}
@@ -5853,8 +5894,9 @@ func (destination *StorageQueueEventSubscriptionDestination_STATUS) AssignProper
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := StorageQueueEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
-		destination.EndpointType = &endpointType
+		endpointType := *source.EndpointType
+		endpointTypeTemp := genruntime.ToEnum(endpointType, storageQueueEventSubscriptionDestination_EndpointType_STATUS_Values)
+		destination.EndpointType = &endpointTypeTemp
 	} else {
 		destination.EndpointType = nil
 	}
@@ -6039,8 +6081,9 @@ func (destination *WebHookEventSubscriptionDestination) AssignProperties_From_We
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := WebHookEventSubscriptionDestination_EndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
+		endpointType := *source.EndpointType
+		endpointTypeTemp := genruntime.ToEnum(endpointType, webHookEventSubscriptionDestination_EndpointType_Values)
+		destination.EndpointType = &endpointTypeTemp
 	} else {
 		destination.EndpointType = nil
 	}
@@ -6236,8 +6279,9 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) AssignProperties_
 
 	// EndpointType
 	if source.EndpointType != nil {
-		endpointType := WebHookEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
-		destination.EndpointType = &endpointType
+		endpointType := *source.EndpointType
+		endpointTypeTemp := genruntime.ToEnum(endpointType, webHookEventSubscriptionDestination_EndpointType_STATUS_Values)
+		destination.EndpointType = &endpointTypeTemp
 	} else {
 		destination.EndpointType = nil
 	}
@@ -6296,9 +6340,19 @@ type AzureFunctionEventSubscriptionDestination_EndpointType string
 
 const AzureFunctionEventSubscriptionDestination_EndpointType_AzureFunction = AzureFunctionEventSubscriptionDestination_EndpointType("AzureFunction")
 
+// Mapping from string to AzureFunctionEventSubscriptionDestination_EndpointType
+var azureFunctionEventSubscriptionDestination_EndpointType_Values = map[string]AzureFunctionEventSubscriptionDestination_EndpointType{
+	"azurefunction": AzureFunctionEventSubscriptionDestination_EndpointType_AzureFunction,
+}
+
 type AzureFunctionEventSubscriptionDestination_EndpointType_STATUS string
 
 const AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_AzureFunction = AzureFunctionEventSubscriptionDestination_EndpointType_STATUS("AzureFunction")
+
+// Mapping from string to AzureFunctionEventSubscriptionDestination_EndpointType_STATUS
+var azureFunctionEventSubscriptionDestination_EndpointType_STATUS_Values = map[string]AzureFunctionEventSubscriptionDestination_EndpointType_STATUS{
+	"azurefunction": AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_AzureFunction,
+}
 
 type BoolEqualsAdvancedFilter struct {
 	// Key: The field/property in the event based on which you want to filter.
@@ -6379,8 +6433,9 @@ func (filter *BoolEqualsAdvancedFilter) AssignProperties_From_BoolEqualsAdvanced
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := BoolEqualsAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, boolEqualsAdvancedFilter_OperatorType_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -6510,8 +6565,9 @@ func (filter *BoolEqualsAdvancedFilter_STATUS) AssignProperties_From_BoolEqualsA
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := BoolEqualsAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, boolEqualsAdvancedFilter_OperatorType_STATUS_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -6568,18 +6624,38 @@ type EventHubEventSubscriptionDestination_EndpointType string
 
 const EventHubEventSubscriptionDestination_EndpointType_EventHub = EventHubEventSubscriptionDestination_EndpointType("EventHub")
 
+// Mapping from string to EventHubEventSubscriptionDestination_EndpointType
+var eventHubEventSubscriptionDestination_EndpointType_Values = map[string]EventHubEventSubscriptionDestination_EndpointType{
+	"eventhub": EventHubEventSubscriptionDestination_EndpointType_EventHub,
+}
+
 type EventHubEventSubscriptionDestination_EndpointType_STATUS string
 
 const EventHubEventSubscriptionDestination_EndpointType_STATUS_EventHub = EventHubEventSubscriptionDestination_EndpointType_STATUS("EventHub")
+
+// Mapping from string to EventHubEventSubscriptionDestination_EndpointType_STATUS
+var eventHubEventSubscriptionDestination_EndpointType_STATUS_Values = map[string]EventHubEventSubscriptionDestination_EndpointType_STATUS{
+	"eventhub": EventHubEventSubscriptionDestination_EndpointType_STATUS_EventHub,
+}
 
 // +kubebuilder:validation:Enum={"HybridConnection"}
 type HybridConnectionEventSubscriptionDestination_EndpointType string
 
 const HybridConnectionEventSubscriptionDestination_EndpointType_HybridConnection = HybridConnectionEventSubscriptionDestination_EndpointType("HybridConnection")
 
+// Mapping from string to HybridConnectionEventSubscriptionDestination_EndpointType
+var hybridConnectionEventSubscriptionDestination_EndpointType_Values = map[string]HybridConnectionEventSubscriptionDestination_EndpointType{
+	"hybridconnection": HybridConnectionEventSubscriptionDestination_EndpointType_HybridConnection,
+}
+
 type HybridConnectionEventSubscriptionDestination_EndpointType_STATUS string
 
 const HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_HybridConnection = HybridConnectionEventSubscriptionDestination_EndpointType_STATUS("HybridConnection")
+
+// Mapping from string to HybridConnectionEventSubscriptionDestination_EndpointType_STATUS
+var hybridConnectionEventSubscriptionDestination_EndpointType_STATUS_Values = map[string]HybridConnectionEventSubscriptionDestination_EndpointType_STATUS{
+	"hybridconnection": HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_HybridConnection,
+}
 
 type NumberGreaterThanAdvancedFilter struct {
 	// Key: The field/property in the event based on which you want to filter.
@@ -6660,8 +6736,9 @@ func (filter *NumberGreaterThanAdvancedFilter) AssignProperties_From_NumberGreat
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberGreaterThanAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, numberGreaterThanAdvancedFilter_OperatorType_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -6791,8 +6868,9 @@ func (filter *NumberGreaterThanAdvancedFilter_STATUS) AssignProperties_From_Numb
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberGreaterThanAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, numberGreaterThanAdvancedFilter_OperatorType_STATUS_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -6923,8 +7001,9 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) AssignProperties_From_Num
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberGreaterThanOrEqualsAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, numberGreaterThanOrEqualsAdvancedFilter_OperatorType_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -7054,8 +7133,9 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) AssignProperties_F
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, numberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -7184,8 +7264,9 @@ func (filter *NumberInAdvancedFilter) AssignProperties_From_NumberInAdvancedFilt
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberInAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, numberInAdvancedFilter_OperatorType_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -7329,8 +7410,9 @@ func (filter *NumberInAdvancedFilter_STATUS) AssignProperties_From_NumberInAdvan
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberInAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, numberInAdvancedFilter_OperatorType_STATUS_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -7471,8 +7553,9 @@ func (filter *NumberLessThanAdvancedFilter) AssignProperties_From_NumberLessThan
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberLessThanAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, numberLessThanAdvancedFilter_OperatorType_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -7602,8 +7685,9 @@ func (filter *NumberLessThanAdvancedFilter_STATUS) AssignProperties_From_NumberL
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberLessThanAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, numberLessThanAdvancedFilter_OperatorType_STATUS_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -7734,8 +7818,9 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) AssignProperties_From_Number
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberLessThanOrEqualsAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, numberLessThanOrEqualsAdvancedFilter_OperatorType_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -7865,8 +7950,9 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) AssignProperties_From
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, numberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -7995,8 +8081,9 @@ func (filter *NumberNotInAdvancedFilter) AssignProperties_From_NumberNotInAdvanc
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberNotInAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, numberNotInAdvancedFilter_OperatorType_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -8140,8 +8227,9 @@ func (filter *NumberNotInAdvancedFilter_STATUS) AssignProperties_From_NumberNotI
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := NumberNotInAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, numberNotInAdvancedFilter_OperatorType_STATUS_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -8208,36 +8296,76 @@ type ServiceBusQueueEventSubscriptionDestination_EndpointType string
 
 const ServiceBusQueueEventSubscriptionDestination_EndpointType_ServiceBusQueue = ServiceBusQueueEventSubscriptionDestination_EndpointType("ServiceBusQueue")
 
+// Mapping from string to ServiceBusQueueEventSubscriptionDestination_EndpointType
+var serviceBusQueueEventSubscriptionDestination_EndpointType_Values = map[string]ServiceBusQueueEventSubscriptionDestination_EndpointType{
+	"servicebusqueue": ServiceBusQueueEventSubscriptionDestination_EndpointType_ServiceBusQueue,
+}
+
 type ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS string
 
 const ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ServiceBusQueue = ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS("ServiceBusQueue")
+
+// Mapping from string to ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS
+var serviceBusQueueEventSubscriptionDestination_EndpointType_STATUS_Values = map[string]ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS{
+	"servicebusqueue": ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ServiceBusQueue,
+}
 
 // +kubebuilder:validation:Enum={"ServiceBusTopic"}
 type ServiceBusTopicEventSubscriptionDestination_EndpointType string
 
 const ServiceBusTopicEventSubscriptionDestination_EndpointType_ServiceBusTopic = ServiceBusTopicEventSubscriptionDestination_EndpointType("ServiceBusTopic")
 
+// Mapping from string to ServiceBusTopicEventSubscriptionDestination_EndpointType
+var serviceBusTopicEventSubscriptionDestination_EndpointType_Values = map[string]ServiceBusTopicEventSubscriptionDestination_EndpointType{
+	"servicebustopic": ServiceBusTopicEventSubscriptionDestination_EndpointType_ServiceBusTopic,
+}
+
 type ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS string
 
 const ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ServiceBusTopic = ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS("ServiceBusTopic")
+
+// Mapping from string to ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS
+var serviceBusTopicEventSubscriptionDestination_EndpointType_STATUS_Values = map[string]ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS{
+	"servicebustopic": ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ServiceBusTopic,
+}
 
 // +kubebuilder:validation:Enum={"StorageBlob"}
 type StorageBlobDeadLetterDestination_EndpointType string
 
 const StorageBlobDeadLetterDestination_EndpointType_StorageBlob = StorageBlobDeadLetterDestination_EndpointType("StorageBlob")
 
+// Mapping from string to StorageBlobDeadLetterDestination_EndpointType
+var storageBlobDeadLetterDestination_EndpointType_Values = map[string]StorageBlobDeadLetterDestination_EndpointType{
+	"storageblob": StorageBlobDeadLetterDestination_EndpointType_StorageBlob,
+}
+
 type StorageBlobDeadLetterDestination_EndpointType_STATUS string
 
 const StorageBlobDeadLetterDestination_EndpointType_STATUS_StorageBlob = StorageBlobDeadLetterDestination_EndpointType_STATUS("StorageBlob")
+
+// Mapping from string to StorageBlobDeadLetterDestination_EndpointType_STATUS
+var storageBlobDeadLetterDestination_EndpointType_STATUS_Values = map[string]StorageBlobDeadLetterDestination_EndpointType_STATUS{
+	"storageblob": StorageBlobDeadLetterDestination_EndpointType_STATUS_StorageBlob,
+}
 
 // +kubebuilder:validation:Enum={"StorageQueue"}
 type StorageQueueEventSubscriptionDestination_EndpointType string
 
 const StorageQueueEventSubscriptionDestination_EndpointType_StorageQueue = StorageQueueEventSubscriptionDestination_EndpointType("StorageQueue")
 
+// Mapping from string to StorageQueueEventSubscriptionDestination_EndpointType
+var storageQueueEventSubscriptionDestination_EndpointType_Values = map[string]StorageQueueEventSubscriptionDestination_EndpointType{
+	"storagequeue": StorageQueueEventSubscriptionDestination_EndpointType_StorageQueue,
+}
+
 type StorageQueueEventSubscriptionDestination_EndpointType_STATUS string
 
 const StorageQueueEventSubscriptionDestination_EndpointType_STATUS_StorageQueue = StorageQueueEventSubscriptionDestination_EndpointType_STATUS("StorageQueue")
+
+// Mapping from string to StorageQueueEventSubscriptionDestination_EndpointType_STATUS
+var storageQueueEventSubscriptionDestination_EndpointType_STATUS_Values = map[string]StorageQueueEventSubscriptionDestination_EndpointType_STATUS{
+	"storagequeue": StorageQueueEventSubscriptionDestination_EndpointType_STATUS_StorageQueue,
+}
 
 type StringBeginsWithAdvancedFilter struct {
 	// Key: The field/property in the event based on which you want to filter.
@@ -8316,8 +8444,9 @@ func (filter *StringBeginsWithAdvancedFilter) AssignProperties_From_StringBegins
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := StringBeginsWithAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, stringBeginsWithAdvancedFilter_OperatorType_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -8431,8 +8560,9 @@ func (filter *StringBeginsWithAdvancedFilter_STATUS) AssignProperties_From_Strin
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := StringBeginsWithAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, stringBeginsWithAdvancedFilter_OperatorType_STATUS_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -8551,8 +8681,9 @@ func (filter *StringContainsAdvancedFilter) AssignProperties_From_StringContains
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := StringContainsAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, stringContainsAdvancedFilter_OperatorType_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -8666,8 +8797,9 @@ func (filter *StringContainsAdvancedFilter_STATUS) AssignProperties_From_StringC
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := StringContainsAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, stringContainsAdvancedFilter_OperatorType_STATUS_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -8786,8 +8918,9 @@ func (filter *StringEndsWithAdvancedFilter) AssignProperties_From_StringEndsWith
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := StringEndsWithAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, stringEndsWithAdvancedFilter_OperatorType_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -8901,8 +9034,9 @@ func (filter *StringEndsWithAdvancedFilter_STATUS) AssignProperties_From_StringE
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := StringEndsWithAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, stringEndsWithAdvancedFilter_OperatorType_STATUS_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -9021,8 +9155,9 @@ func (filter *StringInAdvancedFilter) AssignProperties_From_StringInAdvancedFilt
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := StringInAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, stringInAdvancedFilter_OperatorType_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -9136,8 +9271,9 @@ func (filter *StringInAdvancedFilter_STATUS) AssignProperties_From_StringInAdvan
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := StringInAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, stringInAdvancedFilter_OperatorType_STATUS_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -9256,8 +9392,9 @@ func (filter *StringNotInAdvancedFilter) AssignProperties_From_StringNotInAdvanc
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := StringNotInAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, stringNotInAdvancedFilter_OperatorType_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -9371,8 +9508,9 @@ func (filter *StringNotInAdvancedFilter_STATUS) AssignProperties_From_StringNotI
 
 	// OperatorType
 	if source.OperatorType != nil {
-		operatorType := StringNotInAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
-		filter.OperatorType = &operatorType
+		operatorType := *source.OperatorType
+		operatorTypeTemp := genruntime.ToEnum(operatorType, stringNotInAdvancedFilter_OperatorType_STATUS_Values)
+		filter.OperatorType = &operatorTypeTemp
 	} else {
 		filter.OperatorType = nil
 	}
@@ -9419,117 +9557,247 @@ type WebHookEventSubscriptionDestination_EndpointType string
 
 const WebHookEventSubscriptionDestination_EndpointType_WebHook = WebHookEventSubscriptionDestination_EndpointType("WebHook")
 
+// Mapping from string to WebHookEventSubscriptionDestination_EndpointType
+var webHookEventSubscriptionDestination_EndpointType_Values = map[string]WebHookEventSubscriptionDestination_EndpointType{
+	"webhook": WebHookEventSubscriptionDestination_EndpointType_WebHook,
+}
+
 type WebHookEventSubscriptionDestination_EndpointType_STATUS string
 
 const WebHookEventSubscriptionDestination_EndpointType_STATUS_WebHook = WebHookEventSubscriptionDestination_EndpointType_STATUS("WebHook")
+
+// Mapping from string to WebHookEventSubscriptionDestination_EndpointType_STATUS
+var webHookEventSubscriptionDestination_EndpointType_STATUS_Values = map[string]WebHookEventSubscriptionDestination_EndpointType_STATUS{
+	"webhook": WebHookEventSubscriptionDestination_EndpointType_STATUS_WebHook,
+}
 
 // +kubebuilder:validation:Enum={"BoolEquals"}
 type BoolEqualsAdvancedFilter_OperatorType string
 
 const BoolEqualsAdvancedFilter_OperatorType_BoolEquals = BoolEqualsAdvancedFilter_OperatorType("BoolEquals")
 
+// Mapping from string to BoolEqualsAdvancedFilter_OperatorType
+var boolEqualsAdvancedFilter_OperatorType_Values = map[string]BoolEqualsAdvancedFilter_OperatorType{
+	"boolequals": BoolEqualsAdvancedFilter_OperatorType_BoolEquals,
+}
+
 type BoolEqualsAdvancedFilter_OperatorType_STATUS string
 
 const BoolEqualsAdvancedFilter_OperatorType_STATUS_BoolEquals = BoolEqualsAdvancedFilter_OperatorType_STATUS("BoolEquals")
+
+// Mapping from string to BoolEqualsAdvancedFilter_OperatorType_STATUS
+var boolEqualsAdvancedFilter_OperatorType_STATUS_Values = map[string]BoolEqualsAdvancedFilter_OperatorType_STATUS{
+	"boolequals": BoolEqualsAdvancedFilter_OperatorType_STATUS_BoolEquals,
+}
 
 // +kubebuilder:validation:Enum={"NumberGreaterThan"}
 type NumberGreaterThanAdvancedFilter_OperatorType string
 
 const NumberGreaterThanAdvancedFilter_OperatorType_NumberGreaterThan = NumberGreaterThanAdvancedFilter_OperatorType("NumberGreaterThan")
 
+// Mapping from string to NumberGreaterThanAdvancedFilter_OperatorType
+var numberGreaterThanAdvancedFilter_OperatorType_Values = map[string]NumberGreaterThanAdvancedFilter_OperatorType{
+	"numbergreaterthan": NumberGreaterThanAdvancedFilter_OperatorType_NumberGreaterThan,
+}
+
 type NumberGreaterThanAdvancedFilter_OperatorType_STATUS string
 
 const NumberGreaterThanAdvancedFilter_OperatorType_STATUS_NumberGreaterThan = NumberGreaterThanAdvancedFilter_OperatorType_STATUS("NumberGreaterThan")
+
+// Mapping from string to NumberGreaterThanAdvancedFilter_OperatorType_STATUS
+var numberGreaterThanAdvancedFilter_OperatorType_STATUS_Values = map[string]NumberGreaterThanAdvancedFilter_OperatorType_STATUS{
+	"numbergreaterthan": NumberGreaterThanAdvancedFilter_OperatorType_STATUS_NumberGreaterThan,
+}
 
 // +kubebuilder:validation:Enum={"NumberGreaterThanOrEquals"}
 type NumberGreaterThanOrEqualsAdvancedFilter_OperatorType string
 
 const NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_NumberGreaterThanOrEquals = NumberGreaterThanOrEqualsAdvancedFilter_OperatorType("NumberGreaterThanOrEquals")
 
+// Mapping from string to NumberGreaterThanOrEqualsAdvancedFilter_OperatorType
+var numberGreaterThanOrEqualsAdvancedFilter_OperatorType_Values = map[string]NumberGreaterThanOrEqualsAdvancedFilter_OperatorType{
+	"numbergreaterthanorequals": NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_NumberGreaterThanOrEquals,
+}
+
 type NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS string
 
 const NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_NumberGreaterThanOrEquals = NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS("NumberGreaterThanOrEquals")
+
+// Mapping from string to NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS
+var numberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_Values = map[string]NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS{
+	"numbergreaterthanorequals": NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_NumberGreaterThanOrEquals,
+}
 
 // +kubebuilder:validation:Enum={"NumberIn"}
 type NumberInAdvancedFilter_OperatorType string
 
 const NumberInAdvancedFilter_OperatorType_NumberIn = NumberInAdvancedFilter_OperatorType("NumberIn")
 
+// Mapping from string to NumberInAdvancedFilter_OperatorType
+var numberInAdvancedFilter_OperatorType_Values = map[string]NumberInAdvancedFilter_OperatorType{
+	"numberin": NumberInAdvancedFilter_OperatorType_NumberIn,
+}
+
 type NumberInAdvancedFilter_OperatorType_STATUS string
 
 const NumberInAdvancedFilter_OperatorType_STATUS_NumberIn = NumberInAdvancedFilter_OperatorType_STATUS("NumberIn")
+
+// Mapping from string to NumberInAdvancedFilter_OperatorType_STATUS
+var numberInAdvancedFilter_OperatorType_STATUS_Values = map[string]NumberInAdvancedFilter_OperatorType_STATUS{
+	"numberin": NumberInAdvancedFilter_OperatorType_STATUS_NumberIn,
+}
 
 // +kubebuilder:validation:Enum={"NumberLessThan"}
 type NumberLessThanAdvancedFilter_OperatorType string
 
 const NumberLessThanAdvancedFilter_OperatorType_NumberLessThan = NumberLessThanAdvancedFilter_OperatorType("NumberLessThan")
 
+// Mapping from string to NumberLessThanAdvancedFilter_OperatorType
+var numberLessThanAdvancedFilter_OperatorType_Values = map[string]NumberLessThanAdvancedFilter_OperatorType{
+	"numberlessthan": NumberLessThanAdvancedFilter_OperatorType_NumberLessThan,
+}
+
 type NumberLessThanAdvancedFilter_OperatorType_STATUS string
 
 const NumberLessThanAdvancedFilter_OperatorType_STATUS_NumberLessThan = NumberLessThanAdvancedFilter_OperatorType_STATUS("NumberLessThan")
+
+// Mapping from string to NumberLessThanAdvancedFilter_OperatorType_STATUS
+var numberLessThanAdvancedFilter_OperatorType_STATUS_Values = map[string]NumberLessThanAdvancedFilter_OperatorType_STATUS{
+	"numberlessthan": NumberLessThanAdvancedFilter_OperatorType_STATUS_NumberLessThan,
+}
 
 // +kubebuilder:validation:Enum={"NumberLessThanOrEquals"}
 type NumberLessThanOrEqualsAdvancedFilter_OperatorType string
 
 const NumberLessThanOrEqualsAdvancedFilter_OperatorType_NumberLessThanOrEquals = NumberLessThanOrEqualsAdvancedFilter_OperatorType("NumberLessThanOrEquals")
 
+// Mapping from string to NumberLessThanOrEqualsAdvancedFilter_OperatorType
+var numberLessThanOrEqualsAdvancedFilter_OperatorType_Values = map[string]NumberLessThanOrEqualsAdvancedFilter_OperatorType{
+	"numberlessthanorequals": NumberLessThanOrEqualsAdvancedFilter_OperatorType_NumberLessThanOrEquals,
+}
+
 type NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS string
 
 const NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_NumberLessThanOrEquals = NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS("NumberLessThanOrEquals")
+
+// Mapping from string to NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS
+var numberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_Values = map[string]NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS{
+	"numberlessthanorequals": NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_NumberLessThanOrEquals,
+}
 
 // +kubebuilder:validation:Enum={"NumberNotIn"}
 type NumberNotInAdvancedFilter_OperatorType string
 
 const NumberNotInAdvancedFilter_OperatorType_NumberNotIn = NumberNotInAdvancedFilter_OperatorType("NumberNotIn")
 
+// Mapping from string to NumberNotInAdvancedFilter_OperatorType
+var numberNotInAdvancedFilter_OperatorType_Values = map[string]NumberNotInAdvancedFilter_OperatorType{
+	"numbernotin": NumberNotInAdvancedFilter_OperatorType_NumberNotIn,
+}
+
 type NumberNotInAdvancedFilter_OperatorType_STATUS string
 
 const NumberNotInAdvancedFilter_OperatorType_STATUS_NumberNotIn = NumberNotInAdvancedFilter_OperatorType_STATUS("NumberNotIn")
+
+// Mapping from string to NumberNotInAdvancedFilter_OperatorType_STATUS
+var numberNotInAdvancedFilter_OperatorType_STATUS_Values = map[string]NumberNotInAdvancedFilter_OperatorType_STATUS{
+	"numbernotin": NumberNotInAdvancedFilter_OperatorType_STATUS_NumberNotIn,
+}
 
 // +kubebuilder:validation:Enum={"StringBeginsWith"}
 type StringBeginsWithAdvancedFilter_OperatorType string
 
 const StringBeginsWithAdvancedFilter_OperatorType_StringBeginsWith = StringBeginsWithAdvancedFilter_OperatorType("StringBeginsWith")
 
+// Mapping from string to StringBeginsWithAdvancedFilter_OperatorType
+var stringBeginsWithAdvancedFilter_OperatorType_Values = map[string]StringBeginsWithAdvancedFilter_OperatorType{
+	"stringbeginswith": StringBeginsWithAdvancedFilter_OperatorType_StringBeginsWith,
+}
+
 type StringBeginsWithAdvancedFilter_OperatorType_STATUS string
 
 const StringBeginsWithAdvancedFilter_OperatorType_STATUS_StringBeginsWith = StringBeginsWithAdvancedFilter_OperatorType_STATUS("StringBeginsWith")
+
+// Mapping from string to StringBeginsWithAdvancedFilter_OperatorType_STATUS
+var stringBeginsWithAdvancedFilter_OperatorType_STATUS_Values = map[string]StringBeginsWithAdvancedFilter_OperatorType_STATUS{
+	"stringbeginswith": StringBeginsWithAdvancedFilter_OperatorType_STATUS_StringBeginsWith,
+}
 
 // +kubebuilder:validation:Enum={"StringContains"}
 type StringContainsAdvancedFilter_OperatorType string
 
 const StringContainsAdvancedFilter_OperatorType_StringContains = StringContainsAdvancedFilter_OperatorType("StringContains")
 
+// Mapping from string to StringContainsAdvancedFilter_OperatorType
+var stringContainsAdvancedFilter_OperatorType_Values = map[string]StringContainsAdvancedFilter_OperatorType{
+	"stringcontains": StringContainsAdvancedFilter_OperatorType_StringContains,
+}
+
 type StringContainsAdvancedFilter_OperatorType_STATUS string
 
 const StringContainsAdvancedFilter_OperatorType_STATUS_StringContains = StringContainsAdvancedFilter_OperatorType_STATUS("StringContains")
+
+// Mapping from string to StringContainsAdvancedFilter_OperatorType_STATUS
+var stringContainsAdvancedFilter_OperatorType_STATUS_Values = map[string]StringContainsAdvancedFilter_OperatorType_STATUS{
+	"stringcontains": StringContainsAdvancedFilter_OperatorType_STATUS_StringContains,
+}
 
 // +kubebuilder:validation:Enum={"StringEndsWith"}
 type StringEndsWithAdvancedFilter_OperatorType string
 
 const StringEndsWithAdvancedFilter_OperatorType_StringEndsWith = StringEndsWithAdvancedFilter_OperatorType("StringEndsWith")
 
+// Mapping from string to StringEndsWithAdvancedFilter_OperatorType
+var stringEndsWithAdvancedFilter_OperatorType_Values = map[string]StringEndsWithAdvancedFilter_OperatorType{
+	"stringendswith": StringEndsWithAdvancedFilter_OperatorType_StringEndsWith,
+}
+
 type StringEndsWithAdvancedFilter_OperatorType_STATUS string
 
 const StringEndsWithAdvancedFilter_OperatorType_STATUS_StringEndsWith = StringEndsWithAdvancedFilter_OperatorType_STATUS("StringEndsWith")
+
+// Mapping from string to StringEndsWithAdvancedFilter_OperatorType_STATUS
+var stringEndsWithAdvancedFilter_OperatorType_STATUS_Values = map[string]StringEndsWithAdvancedFilter_OperatorType_STATUS{
+	"stringendswith": StringEndsWithAdvancedFilter_OperatorType_STATUS_StringEndsWith,
+}
 
 // +kubebuilder:validation:Enum={"StringIn"}
 type StringInAdvancedFilter_OperatorType string
 
 const StringInAdvancedFilter_OperatorType_StringIn = StringInAdvancedFilter_OperatorType("StringIn")
 
+// Mapping from string to StringInAdvancedFilter_OperatorType
+var stringInAdvancedFilter_OperatorType_Values = map[string]StringInAdvancedFilter_OperatorType{
+	"stringin": StringInAdvancedFilter_OperatorType_StringIn,
+}
+
 type StringInAdvancedFilter_OperatorType_STATUS string
 
 const StringInAdvancedFilter_OperatorType_STATUS_StringIn = StringInAdvancedFilter_OperatorType_STATUS("StringIn")
+
+// Mapping from string to StringInAdvancedFilter_OperatorType_STATUS
+var stringInAdvancedFilter_OperatorType_STATUS_Values = map[string]StringInAdvancedFilter_OperatorType_STATUS{
+	"stringin": StringInAdvancedFilter_OperatorType_STATUS_StringIn,
+}
 
 // +kubebuilder:validation:Enum={"StringNotIn"}
 type StringNotInAdvancedFilter_OperatorType string
 
 const StringNotInAdvancedFilter_OperatorType_StringNotIn = StringNotInAdvancedFilter_OperatorType("StringNotIn")
 
+// Mapping from string to StringNotInAdvancedFilter_OperatorType
+var stringNotInAdvancedFilter_OperatorType_Values = map[string]StringNotInAdvancedFilter_OperatorType{
+	"stringnotin": StringNotInAdvancedFilter_OperatorType_StringNotIn,
+}
+
 type StringNotInAdvancedFilter_OperatorType_STATUS string
 
 const StringNotInAdvancedFilter_OperatorType_STATUS_StringNotIn = StringNotInAdvancedFilter_OperatorType_STATUS("StringNotIn")
+
+// Mapping from string to StringNotInAdvancedFilter_OperatorType_STATUS
+var stringNotInAdvancedFilter_OperatorType_STATUS_Values = map[string]StringNotInAdvancedFilter_OperatorType_STATUS{
+	"stringnotin": StringNotInAdvancedFilter_OperatorType_STATUS_StringNotIn,
+}
 
 func init() {
 	SchemeBuilder.Register(&EventSubscription{}, &EventSubscriptionList{})

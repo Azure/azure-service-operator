@@ -675,7 +675,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_From_T
 		for allowedEndpointRecordTypeIndex, allowedEndpointRecordTypeItem := range source.AllowedEndpointRecordTypes {
 			// Shadow the loop variable to avoid aliasing
 			allowedEndpointRecordTypeItem := allowedEndpointRecordTypeItem
-			allowedEndpointRecordTypeList[allowedEndpointRecordTypeIndex] = AllowedEndpointRecordType(allowedEndpointRecordTypeItem)
+			allowedEndpointRecordTypeList[allowedEndpointRecordTypeIndex] = genruntime.ToEnum(allowedEndpointRecordTypeItem, allowedEndpointRecordType_Values)
 		}
 		trafficmanagerprofile.AllowedEndpointRecordTypes = allowedEndpointRecordTypeList
 	} else {
@@ -737,8 +737,9 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_From_T
 
 	// ProfileStatus
 	if source.ProfileStatus != nil {
-		profileStatus := ProfileProperties_ProfileStatus(*source.ProfileStatus)
-		trafficmanagerprofile.ProfileStatus = &profileStatus
+		profileStatus := *source.ProfileStatus
+		profileStatusTemp := genruntime.ToEnum(profileStatus, profileProperties_ProfileStatus_Values)
+		trafficmanagerprofile.ProfileStatus = &profileStatusTemp
 	} else {
 		trafficmanagerprofile.ProfileStatus = nil
 	}
@@ -748,16 +749,18 @@ func (trafficmanagerprofile *Trafficmanagerprofile_Spec) AssignProperties_From_T
 
 	// TrafficRoutingMethod
 	if source.TrafficRoutingMethod != nil {
-		trafficRoutingMethod := ProfileProperties_TrafficRoutingMethod(*source.TrafficRoutingMethod)
-		trafficmanagerprofile.TrafficRoutingMethod = &trafficRoutingMethod
+		trafficRoutingMethod := *source.TrafficRoutingMethod
+		trafficRoutingMethodTemp := genruntime.ToEnum(trafficRoutingMethod, profileProperties_TrafficRoutingMethod_Values)
+		trafficmanagerprofile.TrafficRoutingMethod = &trafficRoutingMethodTemp
 	} else {
 		trafficmanagerprofile.TrafficRoutingMethod = nil
 	}
 
 	// TrafficViewEnrollmentStatus
 	if source.TrafficViewEnrollmentStatus != nil {
-		trafficViewEnrollmentStatus := ProfileProperties_TrafficViewEnrollmentStatus(*source.TrafficViewEnrollmentStatus)
-		trafficmanagerprofile.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatus
+		trafficViewEnrollmentStatus := *source.TrafficViewEnrollmentStatus
+		trafficViewEnrollmentStatusTemp := genruntime.ToEnum(trafficViewEnrollmentStatus, profileProperties_TrafficViewEnrollmentStatus_Values)
+		trafficmanagerprofile.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatusTemp
 	} else {
 		trafficmanagerprofile.TrafficViewEnrollmentStatus = nil
 	}
@@ -1217,7 +1220,7 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_From
 		for allowedEndpointRecordTypeIndex, allowedEndpointRecordTypeItem := range source.AllowedEndpointRecordTypes {
 			// Shadow the loop variable to avoid aliasing
 			allowedEndpointRecordTypeItem := allowedEndpointRecordTypeItem
-			allowedEndpointRecordTypeList[allowedEndpointRecordTypeIndex] = AllowedEndpointRecordType_STATUS(allowedEndpointRecordTypeItem)
+			allowedEndpointRecordTypeList[allowedEndpointRecordTypeIndex] = genruntime.ToEnum(allowedEndpointRecordTypeItem, allowedEndpointRecordType_STATUS_Values)
 		}
 		trafficmanagerprofile.AllowedEndpointRecordTypes = allowedEndpointRecordTypeList
 	} else {
@@ -1283,8 +1286,9 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_From
 
 	// ProfileStatus
 	if source.ProfileStatus != nil {
-		profileStatus := ProfileProperties_ProfileStatus_STATUS(*source.ProfileStatus)
-		trafficmanagerprofile.ProfileStatus = &profileStatus
+		profileStatus := *source.ProfileStatus
+		profileStatusTemp := genruntime.ToEnum(profileStatus, profileProperties_ProfileStatus_STATUS_Values)
+		trafficmanagerprofile.ProfileStatus = &profileStatusTemp
 	} else {
 		trafficmanagerprofile.ProfileStatus = nil
 	}
@@ -1294,16 +1298,18 @@ func (trafficmanagerprofile *Trafficmanagerprofile_STATUS) AssignProperties_From
 
 	// TrafficRoutingMethod
 	if source.TrafficRoutingMethod != nil {
-		trafficRoutingMethod := ProfileProperties_TrafficRoutingMethod_STATUS(*source.TrafficRoutingMethod)
-		trafficmanagerprofile.TrafficRoutingMethod = &trafficRoutingMethod
+		trafficRoutingMethod := *source.TrafficRoutingMethod
+		trafficRoutingMethodTemp := genruntime.ToEnum(trafficRoutingMethod, profileProperties_TrafficRoutingMethod_STATUS_Values)
+		trafficmanagerprofile.TrafficRoutingMethod = &trafficRoutingMethodTemp
 	} else {
 		trafficmanagerprofile.TrafficRoutingMethod = nil
 	}
 
 	// TrafficViewEnrollmentStatus
 	if source.TrafficViewEnrollmentStatus != nil {
-		trafficViewEnrollmentStatus := ProfileProperties_TrafficViewEnrollmentStatus_STATUS(*source.TrafficViewEnrollmentStatus)
-		trafficmanagerprofile.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatus
+		trafficViewEnrollmentStatus := *source.TrafficViewEnrollmentStatus
+		trafficViewEnrollmentStatusTemp := genruntime.ToEnum(trafficViewEnrollmentStatus, profileProperties_TrafficViewEnrollmentStatus_STATUS_Values)
+		trafficmanagerprofile.TrafficViewEnrollmentStatus = &trafficViewEnrollmentStatusTemp
 	} else {
 		trafficmanagerprofile.TrafficViewEnrollmentStatus = nil
 	}
@@ -1442,6 +1448,14 @@ const (
 	AllowedEndpointRecordType_IPv6Address = AllowedEndpointRecordType("IPv6Address")
 )
 
+// Mapping from string to AllowedEndpointRecordType
+var allowedEndpointRecordType_Values = map[string]AllowedEndpointRecordType{
+	"any":         AllowedEndpointRecordType_Any,
+	"domainname":  AllowedEndpointRecordType_DomainName,
+	"ipv4address": AllowedEndpointRecordType_IPv4Address,
+	"ipv6address": AllowedEndpointRecordType_IPv6Address,
+}
+
 // The allowed type DNS record types for this profile.
 type AllowedEndpointRecordType_STATUS string
 
@@ -1451,6 +1465,14 @@ const (
 	AllowedEndpointRecordType_STATUS_IPv4Address = AllowedEndpointRecordType_STATUS("IPv4Address")
 	AllowedEndpointRecordType_STATUS_IPv6Address = AllowedEndpointRecordType_STATUS("IPv6Address")
 )
+
+// Mapping from string to AllowedEndpointRecordType_STATUS
+var allowedEndpointRecordType_STATUS_Values = map[string]AllowedEndpointRecordType_STATUS{
+	"any":         AllowedEndpointRecordType_STATUS_Any,
+	"domainname":  AllowedEndpointRecordType_STATUS_DomainName,
+	"ipv4address": AllowedEndpointRecordType_STATUS_IPv4Address,
+	"ipv6address": AllowedEndpointRecordType_STATUS_IPv6Address,
+}
 
 // Class containing DNS settings in a Traffic Manager profile.
 type DnsConfig struct {
@@ -1946,16 +1968,18 @@ func (config *MonitorConfig) AssignProperties_From_MonitorConfig(source *v202204
 
 	// ProfileMonitorStatus
 	if source.ProfileMonitorStatus != nil {
-		profileMonitorStatus := MonitorConfig_ProfileMonitorStatus(*source.ProfileMonitorStatus)
-		config.ProfileMonitorStatus = &profileMonitorStatus
+		profileMonitorStatus := *source.ProfileMonitorStatus
+		profileMonitorStatusTemp := genruntime.ToEnum(profileMonitorStatus, monitorConfig_ProfileMonitorStatus_Values)
+		config.ProfileMonitorStatus = &profileMonitorStatusTemp
 	} else {
 		config.ProfileMonitorStatus = nil
 	}
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := MonitorConfig_Protocol(*source.Protocol)
-		config.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, monitorConfig_Protocol_Values)
+		config.Protocol = &protocolTemp
 	} else {
 		config.Protocol = nil
 	}
@@ -2290,16 +2314,18 @@ func (config *MonitorConfig_STATUS) AssignProperties_From_MonitorConfig_STATUS(s
 
 	// ProfileMonitorStatus
 	if source.ProfileMonitorStatus != nil {
-		profileMonitorStatus := MonitorConfig_ProfileMonitorStatus_STATUS(*source.ProfileMonitorStatus)
-		config.ProfileMonitorStatus = &profileMonitorStatus
+		profileMonitorStatus := *source.ProfileMonitorStatus
+		profileMonitorStatusTemp := genruntime.ToEnum(profileMonitorStatus, monitorConfig_ProfileMonitorStatus_STATUS_Values)
+		config.ProfileMonitorStatus = &profileMonitorStatusTemp
 	} else {
 		config.ProfileMonitorStatus = nil
 	}
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := MonitorConfig_Protocol_STATUS(*source.Protocol)
-		config.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, monitorConfig_Protocol_STATUS_Values)
+		config.Protocol = &protocolTemp
 	} else {
 		config.Protocol = nil
 	}
@@ -2405,12 +2431,24 @@ const (
 	ProfileProperties_ProfileStatus_Enabled  = ProfileProperties_ProfileStatus("Enabled")
 )
 
+// Mapping from string to ProfileProperties_ProfileStatus
+var profileProperties_ProfileStatus_Values = map[string]ProfileProperties_ProfileStatus{
+	"disabled": ProfileProperties_ProfileStatus_Disabled,
+	"enabled":  ProfileProperties_ProfileStatus_Enabled,
+}
+
 type ProfileProperties_ProfileStatus_STATUS string
 
 const (
 	ProfileProperties_ProfileStatus_STATUS_Disabled = ProfileProperties_ProfileStatus_STATUS("Disabled")
 	ProfileProperties_ProfileStatus_STATUS_Enabled  = ProfileProperties_ProfileStatus_STATUS("Enabled")
 )
+
+// Mapping from string to ProfileProperties_ProfileStatus_STATUS
+var profileProperties_ProfileStatus_STATUS_Values = map[string]ProfileProperties_ProfileStatus_STATUS{
+	"disabled": ProfileProperties_ProfileStatus_STATUS_Disabled,
+	"enabled":  ProfileProperties_ProfileStatus_STATUS_Enabled,
+}
 
 // +kubebuilder:validation:Enum={"Geographic","MultiValue","Performance","Priority","Subnet","Weighted"}
 type ProfileProperties_TrafficRoutingMethod string
@@ -2424,6 +2462,16 @@ const (
 	ProfileProperties_TrafficRoutingMethod_Weighted    = ProfileProperties_TrafficRoutingMethod("Weighted")
 )
 
+// Mapping from string to ProfileProperties_TrafficRoutingMethod
+var profileProperties_TrafficRoutingMethod_Values = map[string]ProfileProperties_TrafficRoutingMethod{
+	"geographic":  ProfileProperties_TrafficRoutingMethod_Geographic,
+	"multivalue":  ProfileProperties_TrafficRoutingMethod_MultiValue,
+	"performance": ProfileProperties_TrafficRoutingMethod_Performance,
+	"priority":    ProfileProperties_TrafficRoutingMethod_Priority,
+	"subnet":      ProfileProperties_TrafficRoutingMethod_Subnet,
+	"weighted":    ProfileProperties_TrafficRoutingMethod_Weighted,
+}
+
 type ProfileProperties_TrafficRoutingMethod_STATUS string
 
 const (
@@ -2435,6 +2483,16 @@ const (
 	ProfileProperties_TrafficRoutingMethod_STATUS_Weighted    = ProfileProperties_TrafficRoutingMethod_STATUS("Weighted")
 )
 
+// Mapping from string to ProfileProperties_TrafficRoutingMethod_STATUS
+var profileProperties_TrafficRoutingMethod_STATUS_Values = map[string]ProfileProperties_TrafficRoutingMethod_STATUS{
+	"geographic":  ProfileProperties_TrafficRoutingMethod_STATUS_Geographic,
+	"multivalue":  ProfileProperties_TrafficRoutingMethod_STATUS_MultiValue,
+	"performance": ProfileProperties_TrafficRoutingMethod_STATUS_Performance,
+	"priority":    ProfileProperties_TrafficRoutingMethod_STATUS_Priority,
+	"subnet":      ProfileProperties_TrafficRoutingMethod_STATUS_Subnet,
+	"weighted":    ProfileProperties_TrafficRoutingMethod_STATUS_Weighted,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ProfileProperties_TrafficViewEnrollmentStatus string
 
@@ -2443,12 +2501,24 @@ const (
 	ProfileProperties_TrafficViewEnrollmentStatus_Enabled  = ProfileProperties_TrafficViewEnrollmentStatus("Enabled")
 )
 
+// Mapping from string to ProfileProperties_TrafficViewEnrollmentStatus
+var profileProperties_TrafficViewEnrollmentStatus_Values = map[string]ProfileProperties_TrafficViewEnrollmentStatus{
+	"disabled": ProfileProperties_TrafficViewEnrollmentStatus_Disabled,
+	"enabled":  ProfileProperties_TrafficViewEnrollmentStatus_Enabled,
+}
+
 type ProfileProperties_TrafficViewEnrollmentStatus_STATUS string
 
 const (
 	ProfileProperties_TrafficViewEnrollmentStatus_STATUS_Disabled = ProfileProperties_TrafficViewEnrollmentStatus_STATUS("Disabled")
 	ProfileProperties_TrafficViewEnrollmentStatus_STATUS_Enabled  = ProfileProperties_TrafficViewEnrollmentStatus_STATUS("Enabled")
 )
+
+// Mapping from string to ProfileProperties_TrafficViewEnrollmentStatus_STATUS
+var profileProperties_TrafficViewEnrollmentStatus_STATUS_Values = map[string]ProfileProperties_TrafficViewEnrollmentStatus_STATUS{
+	"disabled": ProfileProperties_TrafficViewEnrollmentStatus_STATUS_Disabled,
+	"enabled":  ProfileProperties_TrafficViewEnrollmentStatus_STATUS_Enabled,
+}
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type TrafficManagerProfileOperatorSpec struct {
@@ -2874,6 +2944,15 @@ const (
 	MonitorConfig_ProfileMonitorStatus_Online            = MonitorConfig_ProfileMonitorStatus("Online")
 )
 
+// Mapping from string to MonitorConfig_ProfileMonitorStatus
+var monitorConfig_ProfileMonitorStatus_Values = map[string]MonitorConfig_ProfileMonitorStatus{
+	"checkingendpoints": MonitorConfig_ProfileMonitorStatus_CheckingEndpoints,
+	"degraded":          MonitorConfig_ProfileMonitorStatus_Degraded,
+	"disabled":          MonitorConfig_ProfileMonitorStatus_Disabled,
+	"inactive":          MonitorConfig_ProfileMonitorStatus_Inactive,
+	"online":            MonitorConfig_ProfileMonitorStatus_Online,
+}
+
 type MonitorConfig_ProfileMonitorStatus_STATUS string
 
 const (
@@ -2884,6 +2963,15 @@ const (
 	MonitorConfig_ProfileMonitorStatus_STATUS_Online            = MonitorConfig_ProfileMonitorStatus_STATUS("Online")
 )
 
+// Mapping from string to MonitorConfig_ProfileMonitorStatus_STATUS
+var monitorConfig_ProfileMonitorStatus_STATUS_Values = map[string]MonitorConfig_ProfileMonitorStatus_STATUS{
+	"checkingendpoints": MonitorConfig_ProfileMonitorStatus_STATUS_CheckingEndpoints,
+	"degraded":          MonitorConfig_ProfileMonitorStatus_STATUS_Degraded,
+	"disabled":          MonitorConfig_ProfileMonitorStatus_STATUS_Disabled,
+	"inactive":          MonitorConfig_ProfileMonitorStatus_STATUS_Inactive,
+	"online":            MonitorConfig_ProfileMonitorStatus_STATUS_Online,
+}
+
 // +kubebuilder:validation:Enum={"HTTP","HTTPS","TCP"}
 type MonitorConfig_Protocol string
 
@@ -2893,6 +2981,13 @@ const (
 	MonitorConfig_Protocol_TCP   = MonitorConfig_Protocol("TCP")
 )
 
+// Mapping from string to MonitorConfig_Protocol
+var monitorConfig_Protocol_Values = map[string]MonitorConfig_Protocol{
+	"http":  MonitorConfig_Protocol_HTTP,
+	"https": MonitorConfig_Protocol_HTTPS,
+	"tcp":   MonitorConfig_Protocol_TCP,
+}
+
 type MonitorConfig_Protocol_STATUS string
 
 const (
@@ -2900,6 +2995,13 @@ const (
 	MonitorConfig_Protocol_STATUS_HTTPS = MonitorConfig_Protocol_STATUS("HTTPS")
 	MonitorConfig_Protocol_STATUS_TCP   = MonitorConfig_Protocol_STATUS("TCP")
 )
+
+// Mapping from string to MonitorConfig_Protocol_STATUS
+var monitorConfig_Protocol_STATUS_Values = map[string]MonitorConfig_Protocol_STATUS{
+	"http":  MonitorConfig_Protocol_STATUS_HTTP,
+	"https": MonitorConfig_Protocol_STATUS_HTTPS,
+	"tcp":   MonitorConfig_Protocol_STATUS_TCP,
+}
 
 type TrafficManagerProfileOperatorConfigMaps struct {
 	// DnsConfigFqdn: indicates where the DnsConfigFqdn config map should be placed. If omitted, no config map will be created.

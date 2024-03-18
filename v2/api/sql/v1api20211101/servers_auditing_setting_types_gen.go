@@ -738,8 +738,9 @@ func (setting *Servers_AuditingSetting_Spec) AssignProperties_From_Servers_Audit
 
 	// State
 	if source.State != nil {
-		state := ServerBlobAuditingPolicyProperties_State(*source.State)
-		setting.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, serverBlobAuditingPolicyProperties_State_Values)
+		setting.State = &stateTemp
 	} else {
 		setting.State = nil
 	}
@@ -1288,8 +1289,9 @@ func (setting *Servers_AuditingSetting_STATUS) AssignProperties_From_Servers_Aud
 
 	// State
 	if source.State != nil {
-		state := ServerBlobAuditingPolicyProperties_State_STATUS(*source.State)
-		setting.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, serverBlobAuditingPolicyProperties_State_STATUS_Values)
+		setting.State = &stateTemp
 	} else {
 		setting.State = nil
 	}
@@ -1398,12 +1400,24 @@ const (
 	ServerBlobAuditingPolicyProperties_State_Enabled  = ServerBlobAuditingPolicyProperties_State("Enabled")
 )
 
+// Mapping from string to ServerBlobAuditingPolicyProperties_State
+var serverBlobAuditingPolicyProperties_State_Values = map[string]ServerBlobAuditingPolicyProperties_State{
+	"disabled": ServerBlobAuditingPolicyProperties_State_Disabled,
+	"enabled":  ServerBlobAuditingPolicyProperties_State_Enabled,
+}
+
 type ServerBlobAuditingPolicyProperties_State_STATUS string
 
 const (
 	ServerBlobAuditingPolicyProperties_State_STATUS_Disabled = ServerBlobAuditingPolicyProperties_State_STATUS("Disabled")
 	ServerBlobAuditingPolicyProperties_State_STATUS_Enabled  = ServerBlobAuditingPolicyProperties_State_STATUS("Enabled")
 )
+
+// Mapping from string to ServerBlobAuditingPolicyProperties_State_STATUS
+var serverBlobAuditingPolicyProperties_State_STATUS_Values = map[string]ServerBlobAuditingPolicyProperties_State_STATUS{
+	"disabled": ServerBlobAuditingPolicyProperties_State_STATUS_Disabled,
+	"enabled":  ServerBlobAuditingPolicyProperties_State_STATUS_Enabled,
+}
 
 func init() {
 	SchemeBuilder.Register(&ServersAuditingSetting{}, &ServersAuditingSettingList{})

@@ -664,8 +664,9 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) AssignProperties_From
 
 	// PeeringState
 	if source.PeeringState != nil {
-		peeringState := VirtualNetworkPeeringPropertiesFormat_PeeringState(*source.PeeringState)
-		peering.PeeringState = &peeringState
+		peeringState := *source.PeeringState
+		peeringStateTemp := genruntime.ToEnum(peeringState, virtualNetworkPeeringPropertiesFormat_PeeringState_Values)
+		peering.PeeringState = &peeringStateTemp
 	} else {
 		peering.PeeringState = nil
 	}
@@ -1247,16 +1248,18 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) AssignProperties_Fr
 
 	// PeeringState
 	if source.PeeringState != nil {
-		peeringState := VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS(*source.PeeringState)
-		peering.PeeringState = &peeringState
+		peeringState := *source.PeeringState
+		peeringStateTemp := genruntime.ToEnum(peeringState, virtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_Values)
+		peering.PeeringState = &peeringStateTemp
 	} else {
 		peering.PeeringState = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		peering.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		peering.ProvisioningState = &provisioningStateTemp
 	} else {
 		peering.ProvisioningState = nil
 	}
@@ -1450,6 +1453,13 @@ const (
 	VirtualNetworkPeeringPropertiesFormat_PeeringState_Initiated    = VirtualNetworkPeeringPropertiesFormat_PeeringState("Initiated")
 )
 
+// Mapping from string to VirtualNetworkPeeringPropertiesFormat_PeeringState
+var virtualNetworkPeeringPropertiesFormat_PeeringState_Values = map[string]VirtualNetworkPeeringPropertiesFormat_PeeringState{
+	"connected":    VirtualNetworkPeeringPropertiesFormat_PeeringState_Connected,
+	"disconnected": VirtualNetworkPeeringPropertiesFormat_PeeringState_Disconnected,
+	"initiated":    VirtualNetworkPeeringPropertiesFormat_PeeringState_Initiated,
+}
+
 type VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS string
 
 const (
@@ -1457,6 +1467,13 @@ const (
 	VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_Disconnected = VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS("Disconnected")
 	VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_Initiated    = VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS("Initiated")
 )
+
+// Mapping from string to VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS
+var virtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_Values = map[string]VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS{
+	"connected":    VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_Connected,
+	"disconnected": VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_Disconnected,
+	"initiated":    VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS_Initiated,
+}
 
 func init() {
 	SchemeBuilder.Register(&VirtualNetworksVirtualNetworkPeering{}, &VirtualNetworksVirtualNetworkPeeringList{})

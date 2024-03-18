@@ -649,8 +649,9 @@ func (subscription *Service_Subscription_Spec) AssignProperties_From_Service_Sub
 
 	// State
 	if source.State != nil {
-		state := SubscriptionCreateParameterProperties_State(*source.State)
-		subscription.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, subscriptionCreateParameterProperties_State_Values)
+		subscription.State = &stateTemp
 	} else {
 		subscription.State = nil
 	}
@@ -1056,8 +1057,9 @@ func (subscription *Service_Subscription_STATUS) AssignProperties_From_Service_S
 
 	// State
 	if source.State != nil {
-		state := SubscriptionContractProperties_State_STATUS(*source.State)
-		subscription.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, subscriptionContractProperties_State_STATUS_Values)
+		subscription.State = &stateTemp
 	} else {
 		subscription.State = nil
 	}

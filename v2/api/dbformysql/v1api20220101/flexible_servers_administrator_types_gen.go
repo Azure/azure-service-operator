@@ -547,8 +547,9 @@ func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_From_F
 
 	// AdministratorType
 	if source.AdministratorType != nil {
-		administratorType := AdministratorProperties_AdministratorType(*source.AdministratorType)
-		administrator.AdministratorType = &administratorType
+		administratorType := *source.AdministratorType
+		administratorTypeTemp := genruntime.ToEnum(administratorType, administratorProperties_AdministratorType_Values)
+		administrator.AdministratorType = &administratorTypeTemp
 	} else {
 		administrator.AdministratorType = nil
 	}
@@ -885,8 +886,9 @@ func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_From
 
 	// AdministratorType
 	if source.AdministratorType != nil {
-		administratorType := AdministratorProperties_AdministratorType_STATUS(*source.AdministratorType)
-		administrator.AdministratorType = &administratorType
+		administratorType := *source.AdministratorType
+		administratorTypeTemp := genruntime.ToEnum(administratorType, administratorProperties_AdministratorType_STATUS_Values)
+		administrator.AdministratorType = &administratorTypeTemp
 	} else {
 		administrator.AdministratorType = nil
 	}
@@ -996,9 +998,19 @@ type AdministratorProperties_AdministratorType string
 
 const AdministratorProperties_AdministratorType_ActiveDirectory = AdministratorProperties_AdministratorType("ActiveDirectory")
 
+// Mapping from string to AdministratorProperties_AdministratorType
+var administratorProperties_AdministratorType_Values = map[string]AdministratorProperties_AdministratorType{
+	"activedirectory": AdministratorProperties_AdministratorType_ActiveDirectory,
+}
+
 type AdministratorProperties_AdministratorType_STATUS string
 
 const AdministratorProperties_AdministratorType_STATUS_ActiveDirectory = AdministratorProperties_AdministratorType_STATUS("ActiveDirectory")
+
+// Mapping from string to AdministratorProperties_AdministratorType_STATUS
+var administratorProperties_AdministratorType_STATUS_Values = map[string]AdministratorProperties_AdministratorType_STATUS{
+	"activedirectory": AdministratorProperties_AdministratorType_STATUS_ActiveDirectory,
+}
 
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
@@ -1086,8 +1098,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -1100,8 +1113,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}

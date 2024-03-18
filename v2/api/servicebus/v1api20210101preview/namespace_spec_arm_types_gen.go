@@ -90,6 +90,14 @@ const (
 	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
+// Mapping from string to Identity_Type
+var identity_Type_Values = map[string]Identity_Type{
+	"none":                         Identity_Type_None,
+	"systemassigned":               Identity_Type_SystemAssigned,
+	"systemassigned, userassigned": Identity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 Identity_Type_UserAssigned,
+}
+
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SBSku_Name string
 
@@ -99,6 +107,13 @@ const (
 	SBSku_Name_Standard = SBSku_Name("Standard")
 )
 
+// Mapping from string to SBSku_Name
+var sBSku_Name_Values = map[string]SBSku_Name{
+	"basic":    SBSku_Name_Basic,
+	"premium":  SBSku_Name_Premium,
+	"standard": SBSku_Name_Standard,
+}
+
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SBSku_Tier string
 
@@ -107,6 +122,13 @@ const (
 	SBSku_Tier_Premium  = SBSku_Tier("Premium")
 	SBSku_Tier_Standard = SBSku_Tier("Standard")
 )
+
+// Mapping from string to SBSku_Tier
+var sBSku_Tier_Values = map[string]SBSku_Tier{
+	"basic":    SBSku_Tier_Basic,
+	"premium":  SBSku_Tier_Premium,
+	"standard": SBSku_Tier_Standard,
+}
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {

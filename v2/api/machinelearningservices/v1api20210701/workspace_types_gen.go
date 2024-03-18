@@ -953,8 +953,9 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v2
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := WorkspaceProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		workspace.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, workspaceProperties_PublicNetworkAccess_Values)
+		workspace.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		workspace.PublicNetworkAccess = nil
 	}
@@ -1965,16 +1966,18 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := WorkspaceProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		workspace.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, workspaceProperties_ProvisioningState_STATUS_Values)
+		workspace.ProvisioningState = &provisioningStateTemp
 	} else {
 		workspace.ProvisioningState = nil
 	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := WorkspaceProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-		workspace.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, workspaceProperties_PublicNetworkAccess_STATUS_Values)
+		workspace.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		workspace.PublicNetworkAccess = nil
 	}
@@ -2410,8 +2413,9 @@ func (property *EncryptionProperty) AssignProperties_From_EncryptionProperty(sou
 
 	// Status
 	if source.Status != nil {
-		status := EncryptionProperty_Status(*source.Status)
-		property.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, encryptionProperty_Status_Values)
+		property.Status = &statusTemp
 	} else {
 		property.Status = nil
 	}
@@ -2593,8 +2597,9 @@ func (property *EncryptionProperty_STATUS) AssignProperties_From_EncryptionPrope
 
 	// Status
 	if source.Status != nil {
-		status := EncryptionProperty_Status_STATUS(*source.Status)
-		property.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, encryptionProperty_Status_STATUS_Values)
+		property.Status = &statusTemp
 	} else {
 		property.Status = nil
 	}
@@ -2717,8 +2722,9 @@ func (identity *Identity) AssignProperties_From_Identity(source *v20210701s.Iden
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, identity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2889,8 +2895,9 @@ func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *v
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, identity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -3470,8 +3477,9 @@ func (resource *SharedPrivateLinkResource) AssignProperties_From_SharedPrivateLi
 
 	// Status
 	if source.Status != nil {
-		status := PrivateEndpointServiceConnectionStatus(*source.Status)
-		resource.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, privateEndpointServiceConnectionStatus_Values)
+		resource.Status = &statusTemp
 	} else {
 		resource.Status = nil
 	}
@@ -3647,8 +3655,9 @@ func (resource *SharedPrivateLinkResource_STATUS) AssignProperties_From_SharedPr
 
 	// Status
 	if source.Status != nil {
-		status := PrivateEndpointServiceConnectionStatus_STATUS(*source.Status)
-		resource.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, privateEndpointServiceConnectionStatus_STATUS_Values)
+		resource.Status = &statusTemp
 	} else {
 		resource.Status = nil
 	}
@@ -4006,8 +4015,9 @@ func (data *SystemData) AssignProperties_From_SystemData(source *v20210701s.Syst
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -4020,8 +4030,9 @@ func (data *SystemData) AssignProperties_From_SystemData(source *v20210701s.Syst
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -4195,8 +4206,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -4209,8 +4221,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -4328,6 +4341,17 @@ const (
 	WorkspaceProperties_ProvisioningState_STATUS_Updating  = WorkspaceProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to WorkspaceProperties_ProvisioningState_STATUS
+var workspaceProperties_ProvisioningState_STATUS_Values = map[string]WorkspaceProperties_ProvisioningState_STATUS{
+	"canceled":  WorkspaceProperties_ProvisioningState_STATUS_Canceled,
+	"creating":  WorkspaceProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  WorkspaceProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    WorkspaceProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": WorkspaceProperties_ProvisioningState_STATUS_Succeeded,
+	"unknown":   WorkspaceProperties_ProvisioningState_STATUS_Unknown,
+	"updating":  WorkspaceProperties_ProvisioningState_STATUS_Updating,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type WorkspaceProperties_PublicNetworkAccess string
 
@@ -4336,12 +4360,24 @@ const (
 	WorkspaceProperties_PublicNetworkAccess_Enabled  = WorkspaceProperties_PublicNetworkAccess("Enabled")
 )
 
+// Mapping from string to WorkspaceProperties_PublicNetworkAccess
+var workspaceProperties_PublicNetworkAccess_Values = map[string]WorkspaceProperties_PublicNetworkAccess{
+	"disabled": WorkspaceProperties_PublicNetworkAccess_Disabled,
+	"enabled":  WorkspaceProperties_PublicNetworkAccess_Enabled,
+}
+
 type WorkspaceProperties_PublicNetworkAccess_STATUS string
 
 const (
 	WorkspaceProperties_PublicNetworkAccess_STATUS_Disabled = WorkspaceProperties_PublicNetworkAccess_STATUS("Disabled")
 	WorkspaceProperties_PublicNetworkAccess_STATUS_Enabled  = WorkspaceProperties_PublicNetworkAccess_STATUS("Enabled")
 )
+
+// Mapping from string to WorkspaceProperties_PublicNetworkAccess_STATUS
+var workspaceProperties_PublicNetworkAccess_STATUS_Values = map[string]WorkspaceProperties_PublicNetworkAccess_STATUS{
+	"disabled": WorkspaceProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  WorkspaceProperties_PublicNetworkAccess_STATUS_Enabled,
+}
 
 type CosmosDbSettings struct {
 	// CollectionsThroughput: The throughput of the collections in cosmosdb database
@@ -4492,12 +4528,24 @@ const (
 	EncryptionProperty_Status_Enabled  = EncryptionProperty_Status("Enabled")
 )
 
+// Mapping from string to EncryptionProperty_Status
+var encryptionProperty_Status_Values = map[string]EncryptionProperty_Status{
+	"disabled": EncryptionProperty_Status_Disabled,
+	"enabled":  EncryptionProperty_Status_Enabled,
+}
+
 type EncryptionProperty_Status_STATUS string
 
 const (
 	EncryptionProperty_Status_STATUS_Disabled = EncryptionProperty_Status_STATUS("Disabled")
 	EncryptionProperty_Status_STATUS_Enabled  = EncryptionProperty_Status_STATUS("Enabled")
 )
+
+// Mapping from string to EncryptionProperty_Status_STATUS
+var encryptionProperty_Status_STATUS_Values = map[string]EncryptionProperty_Status_STATUS{
+	"disabled": EncryptionProperty_Status_STATUS_Disabled,
+	"enabled":  EncryptionProperty_Status_STATUS_Enabled,
+}
 
 // Identity that will be used to access key vault for encryption at rest
 type IdentityForCmk struct {
@@ -4945,6 +4993,15 @@ const (
 	PrivateEndpointServiceConnectionStatus_Timeout      = PrivateEndpointServiceConnectionStatus("Timeout")
 )
 
+// Mapping from string to PrivateEndpointServiceConnectionStatus
+var privateEndpointServiceConnectionStatus_Values = map[string]PrivateEndpointServiceConnectionStatus{
+	"approved":     PrivateEndpointServiceConnectionStatus_Approved,
+	"disconnected": PrivateEndpointServiceConnectionStatus_Disconnected,
+	"pending":      PrivateEndpointServiceConnectionStatus_Pending,
+	"rejected":     PrivateEndpointServiceConnectionStatus_Rejected,
+	"timeout":      PrivateEndpointServiceConnectionStatus_Timeout,
+}
+
 // The private endpoint connection status.
 type PrivateEndpointServiceConnectionStatus_STATUS string
 
@@ -4955,6 +5012,15 @@ const (
 	PrivateEndpointServiceConnectionStatus_STATUS_Rejected     = PrivateEndpointServiceConnectionStatus_STATUS("Rejected")
 	PrivateEndpointServiceConnectionStatus_STATUS_Timeout      = PrivateEndpointServiceConnectionStatus_STATUS("Timeout")
 )
+
+// Mapping from string to PrivateEndpointServiceConnectionStatus_STATUS
+var privateEndpointServiceConnectionStatus_STATUS_Values = map[string]PrivateEndpointServiceConnectionStatus_STATUS{
+	"approved":     PrivateEndpointServiceConnectionStatus_STATUS_Approved,
+	"disconnected": PrivateEndpointServiceConnectionStatus_STATUS_Disconnected,
+	"pending":      PrivateEndpointServiceConnectionStatus_STATUS_Pending,
+	"rejected":     PrivateEndpointServiceConnectionStatus_STATUS_Rejected,
+	"timeout":      PrivateEndpointServiceConnectionStatus_STATUS_Timeout,
+}
 
 // User Assigned Identity
 type UserAssignedIdentity_STATUS struct {

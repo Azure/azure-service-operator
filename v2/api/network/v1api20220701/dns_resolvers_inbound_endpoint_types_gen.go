@@ -851,8 +851,9 @@ func (endpoint *DnsResolvers_InboundEndpoint_STATUS) AssignProperties_From_DnsRe
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := DnsresolverProvisioningState_STATUS(*source.ProvisioningState)
-		endpoint.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, dnsresolverProvisioningState_STATUS_Values)
+		endpoint.ProvisioningState = &provisioningStateTemp
 	} else {
 		endpoint.ProvisioningState = nil
 	}
@@ -1053,8 +1054,9 @@ func (configuration *IpConfiguration) AssignProperties_From_IpConfiguration(sour
 
 	// PrivateIpAllocationMethod
 	if source.PrivateIpAllocationMethod != nil {
-		privateIpAllocationMethod := IpConfiguration_PrivateIpAllocationMethod(*source.PrivateIpAllocationMethod)
-		configuration.PrivateIpAllocationMethod = &privateIpAllocationMethod
+		privateIpAllocationMethod := *source.PrivateIpAllocationMethod
+		privateIpAllocationMethodTemp := genruntime.ToEnum(privateIpAllocationMethod, ipConfiguration_PrivateIpAllocationMethod_Values)
+		configuration.PrivateIpAllocationMethod = &privateIpAllocationMethodTemp
 	} else {
 		configuration.PrivateIpAllocationMethod = nil
 	}
@@ -1205,8 +1207,9 @@ func (configuration *IpConfiguration_STATUS) AssignProperties_From_IpConfigurati
 
 	// PrivateIpAllocationMethod
 	if source.PrivateIpAllocationMethod != nil {
-		privateIpAllocationMethod := IpConfiguration_PrivateIpAllocationMethod_STATUS(*source.PrivateIpAllocationMethod)
-		configuration.PrivateIpAllocationMethod = &privateIpAllocationMethod
+		privateIpAllocationMethod := *source.PrivateIpAllocationMethod
+		privateIpAllocationMethodTemp := genruntime.ToEnum(privateIpAllocationMethod, ipConfiguration_PrivateIpAllocationMethod_STATUS_Values)
+		configuration.PrivateIpAllocationMethod = &privateIpAllocationMethodTemp
 	} else {
 		configuration.PrivateIpAllocationMethod = nil
 	}
@@ -1274,12 +1277,24 @@ const (
 	IpConfiguration_PrivateIpAllocationMethod_Static  = IpConfiguration_PrivateIpAllocationMethod("Static")
 )
 
+// Mapping from string to IpConfiguration_PrivateIpAllocationMethod
+var ipConfiguration_PrivateIpAllocationMethod_Values = map[string]IpConfiguration_PrivateIpAllocationMethod{
+	"dynamic": IpConfiguration_PrivateIpAllocationMethod_Dynamic,
+	"static":  IpConfiguration_PrivateIpAllocationMethod_Static,
+}
+
 type IpConfiguration_PrivateIpAllocationMethod_STATUS string
 
 const (
 	IpConfiguration_PrivateIpAllocationMethod_STATUS_Dynamic = IpConfiguration_PrivateIpAllocationMethod_STATUS("Dynamic")
 	IpConfiguration_PrivateIpAllocationMethod_STATUS_Static  = IpConfiguration_PrivateIpAllocationMethod_STATUS("Static")
 )
+
+// Mapping from string to IpConfiguration_PrivateIpAllocationMethod_STATUS
+var ipConfiguration_PrivateIpAllocationMethod_STATUS_Values = map[string]IpConfiguration_PrivateIpAllocationMethod_STATUS{
+	"dynamic": IpConfiguration_PrivateIpAllocationMethod_STATUS_Dynamic,
+	"static":  IpConfiguration_PrivateIpAllocationMethod_STATUS_Static,
+}
 
 func init() {
 	SchemeBuilder.Register(&DnsResolversInboundEndpoint{}, &DnsResolversInboundEndpointList{})

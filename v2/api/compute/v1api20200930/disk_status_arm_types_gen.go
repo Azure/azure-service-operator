@@ -182,6 +182,14 @@ const (
 	DiskSku_Name_STATUS_UltraSSD_LRS    = DiskSku_Name_STATUS("UltraSSD_LRS")
 )
 
+// Mapping from string to DiskSku_Name_STATUS
+var diskSku_Name_STATUS_Values = map[string]DiskSku_Name_STATUS{
+	"premium_lrs":     DiskSku_Name_STATUS_Premium_LRS,
+	"standardssd_lrs": DiskSku_Name_STATUS_StandardSSD_LRS,
+	"standard_lrs":    DiskSku_Name_STATUS_Standard_LRS,
+	"ultrassd_lrs":    DiskSku_Name_STATUS_UltraSSD_LRS,
+}
+
 // Encryption at rest settings for disk or snapshot
 type Encryption_STATUS_ARM struct {
 	// DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling encryption at rest.
@@ -210,6 +218,11 @@ type EncryptionSettingsCollection_STATUS_ARM struct {
 type ExtendedLocationType_STATUS string
 
 const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+
+// Mapping from string to ExtendedLocationType_STATUS
+var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
+	"edgezone": ExtendedLocationType_STATUS_EdgeZone,
+}
 
 // Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
 type PurchasePlan_STATUS_ARM struct {

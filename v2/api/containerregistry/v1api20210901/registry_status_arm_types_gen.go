@@ -143,6 +143,14 @@ const (
 	IdentityProperties_Type_STATUS_UserAssigned               = IdentityProperties_Type_STATUS("UserAssigned")
 )
 
+// Mapping from string to IdentityProperties_Type_STATUS
+var identityProperties_Type_STATUS_Values = map[string]IdentityProperties_Type_STATUS{
+	"none":                         IdentityProperties_Type_STATUS_None,
+	"systemassigned":               IdentityProperties_Type_STATUS_SystemAssigned,
+	"systemassigned, userassigned": IdentityProperties_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 IdentityProperties_Type_STATUS_UserAssigned,
+}
+
 // The network rule set for a container registry.
 type NetworkRuleSet_STATUS_ARM struct {
 	// DefaultAction: The default action of allow or deny when no other rules match.
@@ -182,6 +190,14 @@ const (
 	Sku_Name_STATUS_Standard = Sku_Name_STATUS("Standard")
 )
 
+// Mapping from string to Sku_Name_STATUS
+var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
+	"basic":    Sku_Name_STATUS_Basic,
+	"classic":  Sku_Name_STATUS_Classic,
+	"premium":  Sku_Name_STATUS_Premium,
+	"standard": Sku_Name_STATUS_Standard,
+}
+
 type Sku_Tier_STATUS string
 
 const (
@@ -190,6 +206,14 @@ const (
 	Sku_Tier_STATUS_Premium  = Sku_Tier_STATUS("Premium")
 	Sku_Tier_STATUS_Standard = Sku_Tier_STATUS("Standard")
 )
+
+// Mapping from string to Sku_Tier_STATUS
+var sku_Tier_STATUS_Values = map[string]Sku_Tier_STATUS{
+	"basic":    Sku_Tier_STATUS_Basic,
+	"classic":  Sku_Tier_STATUS_Classic,
+	"premium":  Sku_Tier_STATUS_Premium,
+	"standard": Sku_Tier_STATUS_Standard,
+}
 
 // The status of an Azure resource at the time the operation was called.
 type Status_STATUS_ARM struct {
@@ -212,6 +236,14 @@ const (
 	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
 type SystemData_LastModifiedByType_STATUS string
 
 const (
@@ -220,6 +252,14 @@ const (
 	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
+}
 
 type UserIdentityProperties_STATUS_ARM struct {
 	// ClientId: The client id of user assigned identity.

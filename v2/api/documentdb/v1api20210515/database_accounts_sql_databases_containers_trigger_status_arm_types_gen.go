@@ -59,9 +59,24 @@ const (
 	SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Update  = SqlTriggerGetProperties_Resource_TriggerOperation_STATUS("Update")
 )
 
+// Mapping from string to SqlTriggerGetProperties_Resource_TriggerOperation_STATUS
+var sqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Values = map[string]SqlTriggerGetProperties_Resource_TriggerOperation_STATUS{
+	"all":     SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_All,
+	"create":  SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Create,
+	"delete":  SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Delete,
+	"replace": SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Replace,
+	"update":  SqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Update,
+}
+
 type SqlTriggerGetProperties_Resource_TriggerType_STATUS string
 
 const (
 	SqlTriggerGetProperties_Resource_TriggerType_STATUS_Post = SqlTriggerGetProperties_Resource_TriggerType_STATUS("Post")
 	SqlTriggerGetProperties_Resource_TriggerType_STATUS_Pre  = SqlTriggerGetProperties_Resource_TriggerType_STATUS("Pre")
 )
+
+// Mapping from string to SqlTriggerGetProperties_Resource_TriggerType_STATUS
+var sqlTriggerGetProperties_Resource_TriggerType_STATUS_Values = map[string]SqlTriggerGetProperties_Resource_TriggerType_STATUS{
+	"post": SqlTriggerGetProperties_Resource_TriggerType_STATUS_Post,
+	"pre":  SqlTriggerGetProperties_Resource_TriggerType_STATUS_Pre,
+}

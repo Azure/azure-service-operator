@@ -838,8 +838,9 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ServerProperties_CreateMode(*source.CreateMode)
-		server.CreateMode = &createMode
+		createMode := *source.CreateMode
+		createModeTemp := genruntime.ToEnum(createMode, serverProperties_CreateMode_Values)
+		server.CreateMode = &createModeTemp
 	} else {
 		server.CreateMode = nil
 	}
@@ -943,8 +944,9 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 
 	// Version
 	if source.Version != nil {
-		version := ServerVersion(*source.Version)
-		server.Version = &version
+		version := *source.Version
+		versionTemp := genruntime.ToEnum(version, serverVersion_Values)
+		server.Version = &versionTemp
 	} else {
 		server.Version = nil
 	}
@@ -1495,8 +1497,9 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ServerProperties_CreateMode_STATUS(*source.CreateMode)
-		server.CreateMode = &createMode
+		createMode := *source.CreateMode
+		createModeTemp := genruntime.ToEnum(createMode, serverProperties_CreateMode_STATUS_Values)
+		server.CreateMode = &createModeTemp
 	} else {
 		server.CreateMode = nil
 	}
@@ -1572,8 +1575,9 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 
 	// State
 	if source.State != nil {
-		state := ServerProperties_State_STATUS(*source.State)
-		server.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, serverProperties_State_STATUS_Values)
+		server.State = &stateTemp
 	} else {
 		server.State = nil
 	}
@@ -1610,8 +1614,9 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 
 	// Version
 	if source.Version != nil {
-		version := ServerVersion_STATUS(*source.Version)
-		server.Version = &version
+		version := *source.Version
+		versionTemp := genruntime.ToEnum(version, serverVersion_STATUS_Values)
+		server.Version = &versionTemp
 	} else {
 		server.Version = nil
 	}
@@ -1848,8 +1853,9 @@ func (backup *Backup) AssignProperties_From_Backup(source *v20220120ps.Backup) e
 
 	// GeoRedundantBackup
 	if source.GeoRedundantBackup != nil {
-		geoRedundantBackup := Backup_GeoRedundantBackup(*source.GeoRedundantBackup)
-		backup.GeoRedundantBackup = &geoRedundantBackup
+		geoRedundantBackup := *source.GeoRedundantBackup
+		geoRedundantBackupTemp := genruntime.ToEnum(geoRedundantBackup, backup_GeoRedundantBackup_Values)
+		backup.GeoRedundantBackup = &geoRedundantBackupTemp
 	} else {
 		backup.GeoRedundantBackup = nil
 	}
@@ -1944,8 +1950,9 @@ func (backup *Backup_STATUS) AssignProperties_From_Backup_STATUS(source *v202201
 
 	// GeoRedundantBackup
 	if source.GeoRedundantBackup != nil {
-		geoRedundantBackup := Backup_GeoRedundantBackup_STATUS(*source.GeoRedundantBackup)
-		backup.GeoRedundantBackup = &geoRedundantBackup
+		geoRedundantBackup := *source.GeoRedundantBackup
+		geoRedundantBackupTemp := genruntime.ToEnum(geoRedundantBackup, backup_GeoRedundantBackup_STATUS_Values)
+		backup.GeoRedundantBackup = &geoRedundantBackupTemp
 	} else {
 		backup.GeoRedundantBackup = nil
 	}
@@ -2129,8 +2136,9 @@ func (availability *HighAvailability) AssignProperties_From_HighAvailability(sou
 
 	// Mode
 	if source.Mode != nil {
-		mode := HighAvailability_Mode(*source.Mode)
-		availability.Mode = &mode
+		mode := *source.Mode
+		modeTemp := genruntime.ToEnum(mode, highAvailability_Mode_Values)
+		availability.Mode = &modeTemp
 	} else {
 		availability.Mode = nil
 	}
@@ -2222,8 +2230,9 @@ func (availability *HighAvailability_STATUS) AssignProperties_From_HighAvailabil
 
 	// Mode
 	if source.Mode != nil {
-		mode := HighAvailability_Mode_STATUS(*source.Mode)
-		availability.Mode = &mode
+		mode := *source.Mode
+		modeTemp := genruntime.ToEnum(mode, highAvailability_Mode_STATUS_Values)
+		availability.Mode = &modeTemp
 	} else {
 		availability.Mode = nil
 	}
@@ -2233,8 +2242,9 @@ func (availability *HighAvailability_STATUS) AssignProperties_From_HighAvailabil
 
 	// State
 	if source.State != nil {
-		state := HighAvailability_State_STATUS(*source.State)
-		availability.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, highAvailability_State_STATUS_Values)
+		availability.State = &stateTemp
 	} else {
 		availability.State = nil
 	}
@@ -2693,8 +2703,9 @@ func (network *Network_STATUS) AssignProperties_From_Network_STATUS(source *v202
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := Network_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-		network.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, network_PublicNetworkAccess_STATUS_Values)
+		network.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		network.PublicNetworkAccess = nil
 	}
@@ -2743,6 +2754,14 @@ const (
 	ServerProperties_CreateMode_Update             = ServerProperties_CreateMode("Update")
 )
 
+// Mapping from string to ServerProperties_CreateMode
+var serverProperties_CreateMode_Values = map[string]ServerProperties_CreateMode{
+	"create":             ServerProperties_CreateMode_Create,
+	"default":            ServerProperties_CreateMode_Default,
+	"pointintimerestore": ServerProperties_CreateMode_PointInTimeRestore,
+	"update":             ServerProperties_CreateMode_Update,
+}
+
 type ServerProperties_CreateMode_STATUS string
 
 const (
@@ -2751,6 +2770,14 @@ const (
 	ServerProperties_CreateMode_STATUS_PointInTimeRestore = ServerProperties_CreateMode_STATUS("PointInTimeRestore")
 	ServerProperties_CreateMode_STATUS_Update             = ServerProperties_CreateMode_STATUS("Update")
 )
+
+// Mapping from string to ServerProperties_CreateMode_STATUS
+var serverProperties_CreateMode_STATUS_Values = map[string]ServerProperties_CreateMode_STATUS{
+	"create":             ServerProperties_CreateMode_STATUS_Create,
+	"default":            ServerProperties_CreateMode_STATUS_Default,
+	"pointintimerestore": ServerProperties_CreateMode_STATUS_PointInTimeRestore,
+	"update":             ServerProperties_CreateMode_STATUS_Update,
+}
 
 type ServerProperties_State_STATUS string
 
@@ -2764,6 +2791,17 @@ const (
 	ServerProperties_State_STATUS_Updating = ServerProperties_State_STATUS("Updating")
 )
 
+// Mapping from string to ServerProperties_State_STATUS
+var serverProperties_State_STATUS_Values = map[string]ServerProperties_State_STATUS{
+	"disabled": ServerProperties_State_STATUS_Disabled,
+	"dropping": ServerProperties_State_STATUS_Dropping,
+	"ready":    ServerProperties_State_STATUS_Ready,
+	"starting": ServerProperties_State_STATUS_Starting,
+	"stopped":  ServerProperties_State_STATUS_Stopped,
+	"stopping": ServerProperties_State_STATUS_Stopping,
+	"updating": ServerProperties_State_STATUS_Updating,
+}
+
 // The version of a server.
 // +kubebuilder:validation:Enum={"11","12","13","14"}
 type ServerVersion string
@@ -2775,6 +2813,14 @@ const (
 	ServerVersion_14 = ServerVersion("14")
 )
 
+// Mapping from string to ServerVersion
+var serverVersion_Values = map[string]ServerVersion{
+	"11": ServerVersion_11,
+	"12": ServerVersion_12,
+	"13": ServerVersion_13,
+	"14": ServerVersion_14,
+}
+
 // The version of a server.
 type ServerVersion_STATUS string
 
@@ -2784,6 +2830,14 @@ const (
 	ServerVersion_STATUS_13 = ServerVersion_STATUS("13")
 	ServerVersion_STATUS_14 = ServerVersion_STATUS("14")
 )
+
+// Mapping from string to ServerVersion_STATUS
+var serverVersion_STATUS_Values = map[string]ServerVersion_STATUS{
+	"11": ServerVersion_STATUS_11,
+	"12": ServerVersion_STATUS_12,
+	"13": ServerVersion_STATUS_13,
+	"14": ServerVersion_STATUS_14,
+}
 
 // Sku information related properties of a server.
 type Sku struct {
@@ -2855,8 +2909,9 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20220120ps.Sku) error {
 
 	// Tier
 	if source.Tier != nil {
-		tier := Sku_Tier(*source.Tier)
-		sku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, sku_Tier_Values)
+		sku.Tier = &tierTemp
 	} else {
 		sku.Tier = nil
 	}
@@ -2939,8 +2994,9 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20220120ps.Sku_
 
 	// Tier
 	if source.Tier != nil {
-		tier := Sku_Tier_STATUS(*source.Tier)
-		sku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, sku_Tier_STATUS_Values)
+		sku.Tier = &tierTemp
 	} else {
 		sku.Tier = nil
 	}
@@ -3195,8 +3251,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -3209,8 +3266,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -3271,12 +3329,24 @@ const (
 	Backup_GeoRedundantBackup_Enabled  = Backup_GeoRedundantBackup("Enabled")
 )
 
+// Mapping from string to Backup_GeoRedundantBackup
+var backup_GeoRedundantBackup_Values = map[string]Backup_GeoRedundantBackup{
+	"disabled": Backup_GeoRedundantBackup_Disabled,
+	"enabled":  Backup_GeoRedundantBackup_Enabled,
+}
+
 type Backup_GeoRedundantBackup_STATUS string
 
 const (
 	Backup_GeoRedundantBackup_STATUS_Disabled = Backup_GeoRedundantBackup_STATUS("Disabled")
 	Backup_GeoRedundantBackup_STATUS_Enabled  = Backup_GeoRedundantBackup_STATUS("Enabled")
 )
+
+// Mapping from string to Backup_GeoRedundantBackup_STATUS
+var backup_GeoRedundantBackup_STATUS_Values = map[string]Backup_GeoRedundantBackup_STATUS{
+	"disabled": Backup_GeoRedundantBackup_STATUS_Disabled,
+	"enabled":  Backup_GeoRedundantBackup_STATUS_Enabled,
+}
 
 type FlexibleServerOperatorConfigMaps struct {
 	// FullyQualifiedDomainName: indicates where the FullyQualifiedDomainName config map should be placed. If omitted, no
@@ -3377,6 +3447,13 @@ const (
 	HighAvailability_Mode_ZoneRedundant = HighAvailability_Mode("ZoneRedundant")
 )
 
+// Mapping from string to HighAvailability_Mode
+var highAvailability_Mode_Values = map[string]HighAvailability_Mode{
+	"disabled":      HighAvailability_Mode_Disabled,
+	"samezone":      HighAvailability_Mode_SameZone,
+	"zoneredundant": HighAvailability_Mode_ZoneRedundant,
+}
+
 type HighAvailability_Mode_STATUS string
 
 const (
@@ -3384,6 +3461,13 @@ const (
 	HighAvailability_Mode_STATUS_SameZone      = HighAvailability_Mode_STATUS("SameZone")
 	HighAvailability_Mode_STATUS_ZoneRedundant = HighAvailability_Mode_STATUS("ZoneRedundant")
 )
+
+// Mapping from string to HighAvailability_Mode_STATUS
+var highAvailability_Mode_STATUS_Values = map[string]HighAvailability_Mode_STATUS{
+	"disabled":      HighAvailability_Mode_STATUS_Disabled,
+	"samezone":      HighAvailability_Mode_STATUS_SameZone,
+	"zoneredundant": HighAvailability_Mode_STATUS_ZoneRedundant,
+}
 
 type HighAvailability_State_STATUS string
 
@@ -3396,12 +3480,28 @@ const (
 	HighAvailability_State_STATUS_ReplicatingData = HighAvailability_State_STATUS("ReplicatingData")
 )
 
+// Mapping from string to HighAvailability_State_STATUS
+var highAvailability_State_STATUS_Values = map[string]HighAvailability_State_STATUS{
+	"creatingstandby": HighAvailability_State_STATUS_CreatingStandby,
+	"failingover":     HighAvailability_State_STATUS_FailingOver,
+	"healthy":         HighAvailability_State_STATUS_Healthy,
+	"notenabled":      HighAvailability_State_STATUS_NotEnabled,
+	"removingstandby": HighAvailability_State_STATUS_RemovingStandby,
+	"replicatingdata": HighAvailability_State_STATUS_ReplicatingData,
+}
+
 type Network_PublicNetworkAccess_STATUS string
 
 const (
 	Network_PublicNetworkAccess_STATUS_Disabled = Network_PublicNetworkAccess_STATUS("Disabled")
 	Network_PublicNetworkAccess_STATUS_Enabled  = Network_PublicNetworkAccess_STATUS("Enabled")
 )
+
+// Mapping from string to Network_PublicNetworkAccess_STATUS
+var network_PublicNetworkAccess_STATUS_Values = map[string]Network_PublicNetworkAccess_STATUS{
+	"disabled": Network_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  Network_PublicNetworkAccess_STATUS_Enabled,
+}
 
 func init() {
 	SchemeBuilder.Register(&FlexibleServer{}, &FlexibleServerList{})

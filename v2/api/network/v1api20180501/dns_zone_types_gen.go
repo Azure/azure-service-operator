@@ -594,8 +594,9 @@ func (zone *DnsZone_Spec) AssignProperties_From_DnsZone_Spec(source *v20180501s.
 
 	// ZoneType
 	if source.ZoneType != nil {
-		zoneType := ZoneProperties_ZoneType(*source.ZoneType)
-		zone.ZoneType = &zoneType
+		zoneType := *source.ZoneType
+		zoneTypeTemp := genruntime.ToEnum(zoneType, zoneProperties_ZoneType_Values)
+		zone.ZoneType = &zoneTypeTemp
 	} else {
 		zone.ZoneType = nil
 	}
@@ -1051,8 +1052,9 @@ func (zone *DnsZone_STATUS) AssignProperties_From_DnsZone_STATUS(source *v201805
 
 	// ZoneType
 	if source.ZoneType != nil {
-		zoneType := ZoneProperties_ZoneType_STATUS(*source.ZoneType)
-		zone.ZoneType = &zoneType
+		zoneType := *source.ZoneType
+		zoneTypeTemp := genruntime.ToEnum(zoneType, zoneProperties_ZoneType_STATUS_Values)
+		zone.ZoneType = &zoneTypeTemp
 	} else {
 		zone.ZoneType = nil
 	}
@@ -1320,12 +1322,24 @@ const (
 	ZoneProperties_ZoneType_Public  = ZoneProperties_ZoneType("Public")
 )
 
+// Mapping from string to ZoneProperties_ZoneType
+var zoneProperties_ZoneType_Values = map[string]ZoneProperties_ZoneType{
+	"private": ZoneProperties_ZoneType_Private,
+	"public":  ZoneProperties_ZoneType_Public,
+}
+
 type ZoneProperties_ZoneType_STATUS string
 
 const (
 	ZoneProperties_ZoneType_STATUS_Private = ZoneProperties_ZoneType_STATUS("Private")
 	ZoneProperties_ZoneType_STATUS_Public  = ZoneProperties_ZoneType_STATUS("Public")
 )
+
+// Mapping from string to ZoneProperties_ZoneType_STATUS
+var zoneProperties_ZoneType_STATUS_Values = map[string]ZoneProperties_ZoneType_STATUS{
+	"private": ZoneProperties_ZoneType_STATUS_Private,
+	"public":  ZoneProperties_ZoneType_STATUS_Public,
+}
 
 func init() {
 	SchemeBuilder.Register(&DnsZone{}, &DnsZoneList{})

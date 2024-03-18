@@ -3872,8 +3872,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 
 	// OperationalState
 	if source.OperationalState != nil {
-		operationalState := ApplicationGatewayPropertiesFormat_OperationalState_STATUS(*source.OperationalState)
-		embedded.OperationalState = &operationalState
+		operationalState := *source.OperationalState
+		operationalStateTemp := genruntime.ToEnum(operationalState, applicationGatewayPropertiesFormat_OperationalState_STATUS_Values)
+		embedded.OperationalState = &operationalStateTemp
 	} else {
 		embedded.OperationalState = nil
 	}
@@ -3934,8 +3935,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ApplicationGatewayProvisioningState_STATUS(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, applicationGatewayProvisioningState_STATUS_Values)
+		embedded.ProvisioningState = &provisioningStateTemp
 	} else {
 		embedded.ProvisioningState = nil
 	}
@@ -5671,8 +5673,9 @@ func (settings *ApplicationGatewayBackendHttpSettings) AssignProperties_From_App
 
 	// CookieBasedAffinity
 	if source.CookieBasedAffinity != nil {
-		cookieBasedAffinity := ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity(*source.CookieBasedAffinity)
-		settings.CookieBasedAffinity = &cookieBasedAffinity
+		cookieBasedAffinity := *source.CookieBasedAffinity
+		cookieBasedAffinityTemp := genruntime.ToEnum(cookieBasedAffinity, applicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_Values)
+		settings.CookieBasedAffinity = &cookieBasedAffinityTemp
 	} else {
 		settings.CookieBasedAffinity = nil
 	}
@@ -5719,8 +5722,9 @@ func (settings *ApplicationGatewayBackendHttpSettings) AssignProperties_From_App
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := ApplicationGatewayProtocol(*source.Protocol)
-		settings.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, applicationGatewayProtocol_Values)
+		settings.Protocol = &protocolTemp
 	} else {
 		settings.Protocol = nil
 	}
@@ -6162,8 +6166,9 @@ func (settings *ApplicationGatewayBackendSettings) AssignProperties_From_Applica
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := ApplicationGatewayProtocol(*source.Protocol)
-		settings.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, applicationGatewayProtocol_Values)
+		settings.Protocol = &protocolTemp
 	} else {
 		settings.Protocol = nil
 	}
@@ -6401,8 +6406,9 @@ func (error *ApplicationGatewayCustomError) AssignProperties_From_ApplicationGat
 
 	// StatusCode
 	if source.StatusCode != nil {
-		statusCode := ApplicationGatewayCustomError_StatusCode(*source.StatusCode)
-		error.StatusCode = &statusCode
+		statusCode := *source.StatusCode
+		statusCodeTemp := genruntime.ToEnum(statusCode, applicationGatewayCustomError_StatusCode_Values)
+		error.StatusCode = &statusCodeTemp
 	} else {
 		error.StatusCode = nil
 	}
@@ -6503,8 +6509,9 @@ func (error *ApplicationGatewayCustomError_STATUS) AssignProperties_From_Applica
 
 	// StatusCode
 	if source.StatusCode != nil {
-		statusCode := ApplicationGatewayCustomError_StatusCode_STATUS(*source.StatusCode)
-		error.StatusCode = &statusCode
+		statusCode := *source.StatusCode
+		statusCodeTemp := genruntime.ToEnum(statusCode, applicationGatewayCustomError_StatusCode_STATUS_Values)
+		error.StatusCode = &statusCodeTemp
 	} else {
 		error.StatusCode = nil
 	}
@@ -6712,8 +6719,9 @@ func (configuration *ApplicationGatewayFrontendIPConfiguration) AssignProperties
 
 	// PrivateIPAllocationMethod
 	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod(*source.PrivateIPAllocationMethod)
-		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
+		privateIPAllocationMethod := *source.PrivateIPAllocationMethod
+		privateIPAllocationMethodTemp := genruntime.ToEnum(privateIPAllocationMethod, iPAllocationMethod_Values)
+		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethodTemp
 	} else {
 		configuration.PrivateIPAllocationMethod = nil
 	}
@@ -7626,8 +7634,9 @@ func (listener *ApplicationGatewayHttpListener) AssignProperties_From_Applicatio
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := ApplicationGatewayProtocol(*source.Protocol)
-		listener.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, applicationGatewayProtocol_Values)
+		listener.Protocol = &protocolTemp
 	} else {
 		listener.Protocol = nil
 	}
@@ -8249,8 +8258,9 @@ func (listener *ApplicationGatewayListener) AssignProperties_From_ApplicationGat
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := ApplicationGatewayProtocol(*source.Protocol)
-		listener.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, applicationGatewayProtocol_Values)
+		listener.Protocol = &protocolTemp
 	} else {
 		listener.Protocol = nil
 	}
@@ -8518,8 +8528,9 @@ func (policy *ApplicationGatewayLoadDistributionPolicy) AssignProperties_From_Ap
 
 	// LoadDistributionAlgorithm
 	if source.LoadDistributionAlgorithm != nil {
-		loadDistributionAlgorithm := ApplicationGatewayLoadDistributionAlgorithmEnum(*source.LoadDistributionAlgorithm)
-		policy.LoadDistributionAlgorithm = &loadDistributionAlgorithm
+		loadDistributionAlgorithm := *source.LoadDistributionAlgorithm
+		loadDistributionAlgorithmTemp := genruntime.ToEnum(loadDistributionAlgorithm, applicationGatewayLoadDistributionAlgorithmEnum_Values)
+		policy.LoadDistributionAlgorithm = &loadDistributionAlgorithmTemp
 	} else {
 		policy.LoadDistributionAlgorithm = nil
 	}
@@ -9232,8 +9243,9 @@ func (probe *ApplicationGatewayProbe) AssignProperties_From_ApplicationGatewayPr
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := ApplicationGatewayProtocol(*source.Protocol)
-		probe.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, applicationGatewayProtocol_Values)
+		probe.Protocol = &protocolTemp
 	} else {
 		probe.Protocol = nil
 	}
@@ -9404,6 +9416,14 @@ const (
 	ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Stopping = ApplicationGatewayPropertiesFormat_OperationalState_STATUS("Stopping")
 )
 
+// Mapping from string to ApplicationGatewayPropertiesFormat_OperationalState_STATUS
+var applicationGatewayPropertiesFormat_OperationalState_STATUS_Values = map[string]ApplicationGatewayPropertiesFormat_OperationalState_STATUS{
+	"running":  ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Running,
+	"starting": ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Starting,
+	"stopped":  ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Stopped,
+	"stopping": ApplicationGatewayPropertiesFormat_OperationalState_STATUS_Stopping,
+}
+
 // The current provisioning state.
 type ApplicationGatewayProvisioningState_STATUS string
 
@@ -9413,6 +9433,14 @@ const (
 	ApplicationGatewayProvisioningState_STATUS_Succeeded = ApplicationGatewayProvisioningState_STATUS("Succeeded")
 	ApplicationGatewayProvisioningState_STATUS_Updating  = ApplicationGatewayProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to ApplicationGatewayProvisioningState_STATUS
+var applicationGatewayProvisioningState_STATUS_Values = map[string]ApplicationGatewayProvisioningState_STATUS{
+	"deleting":  ApplicationGatewayProvisioningState_STATUS_Deleting,
+	"failed":    ApplicationGatewayProvisioningState_STATUS_Failed,
+	"succeeded": ApplicationGatewayProvisioningState_STATUS_Succeeded,
+	"updating":  ApplicationGatewayProvisioningState_STATUS_Updating,
+}
 
 // Redirect configuration of an application gateway.
 type ApplicationGatewayRedirectConfiguration struct {
@@ -9671,8 +9699,9 @@ func (configuration *ApplicationGatewayRedirectConfiguration) AssignProperties_F
 
 	// RedirectType
 	if source.RedirectType != nil {
-		redirectType := RedirectTypeEnum(*source.RedirectType)
-		configuration.RedirectType = &redirectType
+		redirectType := *source.RedirectType
+		redirectTypeTemp := genruntime.ToEnum(redirectType, redirectTypeEnum_Values)
+		configuration.RedirectType = &redirectTypeTemp
 	} else {
 		configuration.RedirectType = nil
 	}
@@ -10265,8 +10294,9 @@ func (rule *ApplicationGatewayRequestRoutingRule) AssignProperties_From_Applicat
 
 	// RuleType
 	if source.RuleType != nil {
-		ruleType := ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType(*source.RuleType)
-		rule.RuleType = &ruleType
+		ruleType := *source.RuleType
+		ruleTypeTemp := genruntime.ToEnum(ruleType, applicationGatewayRequestRoutingRulePropertiesFormat_RuleType_Values)
+		rule.RuleType = &ruleTypeTemp
 	} else {
 		rule.RuleType = nil
 	}
@@ -10892,8 +10922,9 @@ func (rule *ApplicationGatewayRoutingRule) AssignProperties_From_ApplicationGate
 
 	// RuleType
 	if source.RuleType != nil {
-		ruleType := ApplicationGatewayRoutingRulePropertiesFormat_RuleType(*source.RuleType)
-		rule.RuleType = &ruleType
+		ruleType := *source.RuleType
+		ruleTypeTemp := genruntime.ToEnum(ruleType, applicationGatewayRoutingRulePropertiesFormat_RuleType_Values)
+		rule.RuleType = &ruleTypeTemp
 	} else {
 		rule.RuleType = nil
 	}
@@ -11122,16 +11153,18 @@ func (gatewaySku *ApplicationGatewaySku) AssignProperties_From_ApplicationGatewa
 
 	// Name
 	if source.Name != nil {
-		name := ApplicationGatewaySku_Name(*source.Name)
-		gatewaySku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, applicationGatewaySku_Name_Values)
+		gatewaySku.Name = &nameTemp
 	} else {
 		gatewaySku.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := ApplicationGatewaySku_Tier(*source.Tier)
-		gatewaySku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, applicationGatewaySku_Tier_Values)
+		gatewaySku.Tier = &tierTemp
 	} else {
 		gatewaySku.Tier = nil
 	}
@@ -11257,16 +11290,18 @@ func (gatewaySku *ApplicationGatewaySku_STATUS) AssignProperties_From_Applicatio
 
 	// Name
 	if source.Name != nil {
-		name := ApplicationGatewaySku_Name_STATUS(*source.Name)
-		gatewaySku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, applicationGatewaySku_Name_STATUS_Values)
+		gatewaySku.Name = &nameTemp
 	} else {
 		gatewaySku.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := ApplicationGatewaySku_Tier_STATUS(*source.Tier)
-		gatewaySku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, applicationGatewaySku_Tier_STATUS_Values)
+		gatewaySku.Tier = &tierTemp
 	} else {
 		gatewaySku.Tier = nil
 	}
@@ -11647,7 +11682,7 @@ func (policy *ApplicationGatewaySslPolicy) AssignProperties_From_ApplicationGate
 		for cipherSuiteIndex, cipherSuiteItem := range source.CipherSuites {
 			// Shadow the loop variable to avoid aliasing
 			cipherSuiteItem := cipherSuiteItem
-			cipherSuiteList[cipherSuiteIndex] = CipherSuitesEnum(cipherSuiteItem)
+			cipherSuiteList[cipherSuiteIndex] = genruntime.ToEnum(cipherSuiteItem, cipherSuitesEnum_Values)
 		}
 		policy.CipherSuites = cipherSuiteList
 	} else {
@@ -11660,7 +11695,7 @@ func (policy *ApplicationGatewaySslPolicy) AssignProperties_From_ApplicationGate
 		for disabledSslProtocolIndex, disabledSslProtocolItem := range source.DisabledSslProtocols {
 			// Shadow the loop variable to avoid aliasing
 			disabledSslProtocolItem := disabledSslProtocolItem
-			disabledSslProtocolList[disabledSslProtocolIndex] = ProtocolsEnum(disabledSslProtocolItem)
+			disabledSslProtocolList[disabledSslProtocolIndex] = genruntime.ToEnum(disabledSslProtocolItem, protocolsEnum_Values)
 		}
 		policy.DisabledSslProtocols = disabledSslProtocolList
 	} else {
@@ -11669,24 +11704,27 @@ func (policy *ApplicationGatewaySslPolicy) AssignProperties_From_ApplicationGate
 
 	// MinProtocolVersion
 	if source.MinProtocolVersion != nil {
-		minProtocolVersion := ProtocolsEnum(*source.MinProtocolVersion)
-		policy.MinProtocolVersion = &minProtocolVersion
+		minProtocolVersion := *source.MinProtocolVersion
+		minProtocolVersionTemp := genruntime.ToEnum(minProtocolVersion, protocolsEnum_Values)
+		policy.MinProtocolVersion = &minProtocolVersionTemp
 	} else {
 		policy.MinProtocolVersion = nil
 	}
 
 	// PolicyName
 	if source.PolicyName != nil {
-		policyName := PolicyNameEnum(*source.PolicyName)
-		policy.PolicyName = &policyName
+		policyName := *source.PolicyName
+		policyNameTemp := genruntime.ToEnum(policyName, policyNameEnum_Values)
+		policy.PolicyName = &policyNameTemp
 	} else {
 		policy.PolicyName = nil
 	}
 
 	// PolicyType
 	if source.PolicyType != nil {
-		policyType := ApplicationGatewaySslPolicy_PolicyType(*source.PolicyType)
-		policy.PolicyType = &policyType
+		policyType := *source.PolicyType
+		policyTypeTemp := genruntime.ToEnum(policyType, applicationGatewaySslPolicy_PolicyType_Values)
+		policy.PolicyType = &policyTypeTemp
 	} else {
 		policy.PolicyType = nil
 	}
@@ -11893,7 +11931,7 @@ func (policy *ApplicationGatewaySslPolicy_STATUS) AssignProperties_From_Applicat
 		for cipherSuiteIndex, cipherSuiteItem := range source.CipherSuites {
 			// Shadow the loop variable to avoid aliasing
 			cipherSuiteItem := cipherSuiteItem
-			cipherSuiteList[cipherSuiteIndex] = CipherSuitesEnum_STATUS(cipherSuiteItem)
+			cipherSuiteList[cipherSuiteIndex] = genruntime.ToEnum(cipherSuiteItem, cipherSuitesEnum_STATUS_Values)
 		}
 		policy.CipherSuites = cipherSuiteList
 	} else {
@@ -11906,7 +11944,7 @@ func (policy *ApplicationGatewaySslPolicy_STATUS) AssignProperties_From_Applicat
 		for disabledSslProtocolIndex, disabledSslProtocolItem := range source.DisabledSslProtocols {
 			// Shadow the loop variable to avoid aliasing
 			disabledSslProtocolItem := disabledSslProtocolItem
-			disabledSslProtocolList[disabledSslProtocolIndex] = ProtocolsEnum_STATUS(disabledSslProtocolItem)
+			disabledSslProtocolList[disabledSslProtocolIndex] = genruntime.ToEnum(disabledSslProtocolItem, protocolsEnum_STATUS_Values)
 		}
 		policy.DisabledSslProtocols = disabledSslProtocolList
 	} else {
@@ -11915,24 +11953,27 @@ func (policy *ApplicationGatewaySslPolicy_STATUS) AssignProperties_From_Applicat
 
 	// MinProtocolVersion
 	if source.MinProtocolVersion != nil {
-		minProtocolVersion := ProtocolsEnum_STATUS(*source.MinProtocolVersion)
-		policy.MinProtocolVersion = &minProtocolVersion
+		minProtocolVersion := *source.MinProtocolVersion
+		minProtocolVersionTemp := genruntime.ToEnum(minProtocolVersion, protocolsEnum_STATUS_Values)
+		policy.MinProtocolVersion = &minProtocolVersionTemp
 	} else {
 		policy.MinProtocolVersion = nil
 	}
 
 	// PolicyName
 	if source.PolicyName != nil {
-		policyName := PolicyNameEnum_STATUS(*source.PolicyName)
-		policy.PolicyName = &policyName
+		policyName := *source.PolicyName
+		policyNameTemp := genruntime.ToEnum(policyName, policyNameEnum_STATUS_Values)
+		policy.PolicyName = &policyNameTemp
 	} else {
 		policy.PolicyName = nil
 	}
 
 	// PolicyType
 	if source.PolicyType != nil {
-		policyType := ApplicationGatewaySslPolicy_PolicyType_STATUS(*source.PolicyType)
-		policy.PolicyType = &policyType
+		policyType := *source.PolicyType
+		policyTypeTemp := genruntime.ToEnum(policyType, applicationGatewaySslPolicy_PolicyType_STATUS_Values)
+		policy.PolicyType = &policyTypeTemp
 	} else {
 		policy.PolicyType = nil
 	}
@@ -13553,8 +13594,9 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration) Assi
 
 	// FirewallMode
 	if source.FirewallMode != nil {
-		firewallMode := ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode(*source.FirewallMode)
-		configuration.FirewallMode = &firewallMode
+		firewallMode := *source.FirewallMode
+		firewallModeTemp := genruntime.ToEnum(firewallMode, applicationGatewayWebApplicationFirewallConfiguration_FirewallMode_Values)
+		configuration.FirewallMode = &firewallModeTemp
 	} else {
 		configuration.FirewallMode = nil
 	}
@@ -13967,8 +14009,9 @@ func (configuration *ApplicationGatewayWebApplicationFirewallConfiguration_STATU
 
 	// FirewallMode
 	if source.FirewallMode != nil {
-		firewallMode := ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS(*source.FirewallMode)
-		configuration.FirewallMode = &firewallMode
+		firewallMode := *source.FirewallMode
+		firewallModeTemp := genruntime.ToEnum(firewallMode, applicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_Values)
+		configuration.FirewallMode = &firewallModeTemp
 	} else {
 		configuration.FirewallMode = nil
 	}
@@ -14158,8 +14201,9 @@ func (identity *ManagedServiceIdentity) AssignProperties_From_ManagedServiceIden
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedServiceIdentity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedServiceIdentity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -14336,8 +14380,9 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_From_ManagedServ
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedServiceIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedServiceIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -14515,6 +14560,12 @@ const (
 	ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_Enabled  = ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity("Enabled")
 )
 
+// Mapping from string to ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity
+var applicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_Values = map[string]ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity{
+	"disabled": ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_Disabled,
+	"enabled":  ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity_Enabled,
+}
+
 // Application gateway client authentication configuration.
 type ApplicationGatewayClientAuthConfiguration struct {
 	// VerifyClientCertIssuerDN: Verify client certificate issuer name on the application gateway.
@@ -14588,8 +14639,9 @@ func (configuration *ApplicationGatewayClientAuthConfiguration) AssignProperties
 
 	// VerifyClientRevocation
 	if source.VerifyClientRevocation != nil {
-		verifyClientRevocation := ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation(*source.VerifyClientRevocation)
-		configuration.VerifyClientRevocation = &verifyClientRevocation
+		verifyClientRevocation := *source.VerifyClientRevocation
+		verifyClientRevocationTemp := genruntime.ToEnum(verifyClientRevocation, applicationGatewayClientAuthConfiguration_VerifyClientRevocation_Values)
+		configuration.VerifyClientRevocation = &verifyClientRevocationTemp
 	} else {
 		configuration.VerifyClientRevocation = nil
 	}
@@ -14759,12 +14811,24 @@ const (
 	ApplicationGatewayCustomError_StatusCode_HttpStatus502 = ApplicationGatewayCustomError_StatusCode("HttpStatus502")
 )
 
+// Mapping from string to ApplicationGatewayCustomError_StatusCode
+var applicationGatewayCustomError_StatusCode_Values = map[string]ApplicationGatewayCustomError_StatusCode{
+	"httpstatus403": ApplicationGatewayCustomError_StatusCode_HttpStatus403,
+	"httpstatus502": ApplicationGatewayCustomError_StatusCode_HttpStatus502,
+}
+
 type ApplicationGatewayCustomError_StatusCode_STATUS string
 
 const (
 	ApplicationGatewayCustomError_StatusCode_STATUS_HttpStatus403 = ApplicationGatewayCustomError_StatusCode_STATUS("HttpStatus403")
 	ApplicationGatewayCustomError_StatusCode_STATUS_HttpStatus502 = ApplicationGatewayCustomError_StatusCode_STATUS("HttpStatus502")
 )
+
+// Mapping from string to ApplicationGatewayCustomError_StatusCode_STATUS
+var applicationGatewayCustomError_StatusCode_STATUS_Values = map[string]ApplicationGatewayCustomError_StatusCode_STATUS{
+	"httpstatus403": ApplicationGatewayCustomError_StatusCode_STATUS_HttpStatus403,
+	"httpstatus502": ApplicationGatewayCustomError_StatusCode_STATUS_HttpStatus502,
+}
 
 // Allows to disable rules within a rule group or an entire rule group.
 type ApplicationGatewayFirewallDisabledRuleGroup struct {
@@ -15234,6 +15298,13 @@ const (
 	ApplicationGatewayLoadDistributionAlgorithmEnum_RoundRobin       = ApplicationGatewayLoadDistributionAlgorithmEnum("RoundRobin")
 )
 
+// Mapping from string to ApplicationGatewayLoadDistributionAlgorithmEnum
+var applicationGatewayLoadDistributionAlgorithmEnum_Values = map[string]ApplicationGatewayLoadDistributionAlgorithmEnum{
+	"iphash":           ApplicationGatewayLoadDistributionAlgorithmEnum_IpHash,
+	"leastconnections": ApplicationGatewayLoadDistributionAlgorithmEnum_LeastConnections,
+	"roundrobin":       ApplicationGatewayLoadDistributionAlgorithmEnum_RoundRobin,
+}
+
 // Load Distribution Target of an application gateway.
 type ApplicationGatewayLoadDistributionTarget struct {
 	// Reference: Resource ID.
@@ -15590,6 +15661,14 @@ const (
 	ApplicationGatewayProtocol_Tls   = ApplicationGatewayProtocol("Tls")
 )
 
+// Mapping from string to ApplicationGatewayProtocol
+var applicationGatewayProtocol_Values = map[string]ApplicationGatewayProtocol{
+	"http":  ApplicationGatewayProtocol_Http,
+	"https": ApplicationGatewayProtocol_Https,
+	"tcp":   ApplicationGatewayProtocol_Tcp,
+	"tls":   ApplicationGatewayProtocol_Tls,
+}
+
 // +kubebuilder:validation:Enum={"Basic","PathBasedRouting"}
 type ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType string
 
@@ -15597,6 +15676,12 @@ const (
 	ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_Basic            = ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType("Basic")
 	ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_PathBasedRouting = ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType("PathBasedRouting")
 )
+
+// Mapping from string to ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType
+var applicationGatewayRequestRoutingRulePropertiesFormat_RuleType_Values = map[string]ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType{
+	"basic":            ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_Basic,
+	"pathbasedrouting": ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType_PathBasedRouting,
+}
 
 // Rewrite rule of an application gateway.
 type ApplicationGatewayRewriteRule struct {
@@ -15808,6 +15893,12 @@ const (
 	ApplicationGatewayRoutingRulePropertiesFormat_RuleType_PathBasedRouting = ApplicationGatewayRoutingRulePropertiesFormat_RuleType("PathBasedRouting")
 )
 
+// Mapping from string to ApplicationGatewayRoutingRulePropertiesFormat_RuleType
+var applicationGatewayRoutingRulePropertiesFormat_RuleType_Values = map[string]ApplicationGatewayRoutingRulePropertiesFormat_RuleType{
+	"basic":            ApplicationGatewayRoutingRulePropertiesFormat_RuleType_Basic,
+	"pathbasedrouting": ApplicationGatewayRoutingRulePropertiesFormat_RuleType_PathBasedRouting,
+}
+
 // +kubebuilder:validation:Enum={"Standard_Large","Standard_Medium","Standard_Small","Standard_v2","WAF_Large","WAF_Medium","WAF_v2"}
 type ApplicationGatewaySku_Name string
 
@@ -15821,6 +15912,17 @@ const (
 	ApplicationGatewaySku_Name_WAF_V2          = ApplicationGatewaySku_Name("WAF_v2")
 )
 
+// Mapping from string to ApplicationGatewaySku_Name
+var applicationGatewaySku_Name_Values = map[string]ApplicationGatewaySku_Name{
+	"standard_large":  ApplicationGatewaySku_Name_Standard_Large,
+	"standard_medium": ApplicationGatewaySku_Name_Standard_Medium,
+	"standard_small":  ApplicationGatewaySku_Name_Standard_Small,
+	"standard_v2":     ApplicationGatewaySku_Name_Standard_V2,
+	"waf_large":       ApplicationGatewaySku_Name_WAF_Large,
+	"waf_medium":      ApplicationGatewaySku_Name_WAF_Medium,
+	"waf_v2":          ApplicationGatewaySku_Name_WAF_V2,
+}
+
 type ApplicationGatewaySku_Name_STATUS string
 
 const (
@@ -15833,6 +15935,17 @@ const (
 	ApplicationGatewaySku_Name_STATUS_WAF_V2          = ApplicationGatewaySku_Name_STATUS("WAF_v2")
 )
 
+// Mapping from string to ApplicationGatewaySku_Name_STATUS
+var applicationGatewaySku_Name_STATUS_Values = map[string]ApplicationGatewaySku_Name_STATUS{
+	"standard_large":  ApplicationGatewaySku_Name_STATUS_Standard_Large,
+	"standard_medium": ApplicationGatewaySku_Name_STATUS_Standard_Medium,
+	"standard_small":  ApplicationGatewaySku_Name_STATUS_Standard_Small,
+	"standard_v2":     ApplicationGatewaySku_Name_STATUS_Standard_V2,
+	"waf_large":       ApplicationGatewaySku_Name_STATUS_WAF_Large,
+	"waf_medium":      ApplicationGatewaySku_Name_STATUS_WAF_Medium,
+	"waf_v2":          ApplicationGatewaySku_Name_STATUS_WAF_V2,
+}
+
 // +kubebuilder:validation:Enum={"Standard","Standard_v2","WAF","WAF_v2"}
 type ApplicationGatewaySku_Tier string
 
@@ -15843,6 +15956,14 @@ const (
 	ApplicationGatewaySku_Tier_WAF_V2      = ApplicationGatewaySku_Tier("WAF_v2")
 )
 
+// Mapping from string to ApplicationGatewaySku_Tier
+var applicationGatewaySku_Tier_Values = map[string]ApplicationGatewaySku_Tier{
+	"standard":    ApplicationGatewaySku_Tier_Standard,
+	"standard_v2": ApplicationGatewaySku_Tier_Standard_V2,
+	"waf":         ApplicationGatewaySku_Tier_WAF,
+	"waf_v2":      ApplicationGatewaySku_Tier_WAF_V2,
+}
+
 type ApplicationGatewaySku_Tier_STATUS string
 
 const (
@@ -15851,6 +15972,14 @@ const (
 	ApplicationGatewaySku_Tier_STATUS_WAF         = ApplicationGatewaySku_Tier_STATUS("WAF")
 	ApplicationGatewaySku_Tier_STATUS_WAF_V2      = ApplicationGatewaySku_Tier_STATUS("WAF_v2")
 )
+
+// Mapping from string to ApplicationGatewaySku_Tier_STATUS
+var applicationGatewaySku_Tier_STATUS_Values = map[string]ApplicationGatewaySku_Tier_STATUS{
+	"standard":    ApplicationGatewaySku_Tier_STATUS_Standard,
+	"standard_v2": ApplicationGatewaySku_Tier_STATUS_Standard_V2,
+	"waf":         ApplicationGatewaySku_Tier_STATUS_WAF,
+	"waf_v2":      ApplicationGatewaySku_Tier_STATUS_WAF_V2,
+}
 
 // +kubebuilder:validation:Enum={"Custom","CustomV2","Predefined"}
 type ApplicationGatewaySslPolicy_PolicyType string
@@ -15861,6 +15990,13 @@ const (
 	ApplicationGatewaySslPolicy_PolicyType_Predefined = ApplicationGatewaySslPolicy_PolicyType("Predefined")
 )
 
+// Mapping from string to ApplicationGatewaySslPolicy_PolicyType
+var applicationGatewaySslPolicy_PolicyType_Values = map[string]ApplicationGatewaySslPolicy_PolicyType{
+	"custom":     ApplicationGatewaySslPolicy_PolicyType_Custom,
+	"customv2":   ApplicationGatewaySslPolicy_PolicyType_CustomV2,
+	"predefined": ApplicationGatewaySslPolicy_PolicyType_Predefined,
+}
+
 type ApplicationGatewaySslPolicy_PolicyType_STATUS string
 
 const (
@@ -15868,6 +16004,13 @@ const (
 	ApplicationGatewaySslPolicy_PolicyType_STATUS_CustomV2   = ApplicationGatewaySslPolicy_PolicyType_STATUS("CustomV2")
 	ApplicationGatewaySslPolicy_PolicyType_STATUS_Predefined = ApplicationGatewaySslPolicy_PolicyType_STATUS("Predefined")
 )
+
+// Mapping from string to ApplicationGatewaySslPolicy_PolicyType_STATUS
+var applicationGatewaySslPolicy_PolicyType_STATUS_Values = map[string]ApplicationGatewaySslPolicy_PolicyType_STATUS{
+	"custom":     ApplicationGatewaySslPolicy_PolicyType_STATUS_Custom,
+	"customv2":   ApplicationGatewaySslPolicy_PolicyType_STATUS_CustomV2,
+	"predefined": ApplicationGatewaySslPolicy_PolicyType_STATUS_Predefined,
+}
 
 // +kubebuilder:validation:Enum={"Detection","Prevention"}
 type ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode string
@@ -15877,12 +16020,24 @@ const (
 	ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_Prevention = ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode("Prevention")
 )
 
+// Mapping from string to ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode
+var applicationGatewayWebApplicationFirewallConfiguration_FirewallMode_Values = map[string]ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode{
+	"detection":  ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_Detection,
+	"prevention": ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_Prevention,
+}
+
 type ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS string
 
 const (
 	ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_Detection  = ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS("Detection")
 	ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_Prevention = ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS("Prevention")
 )
+
+// Mapping from string to ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS
+var applicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_Values = map[string]ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS{
+	"detection":  ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_Detection,
+	"prevention": ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS_Prevention,
+}
 
 // Ssl cipher suites enums.
 // +kubebuilder:validation:Enum={"TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA","TLS_DHE_DSS_WITH_AES_128_CBC_SHA","TLS_DHE_DSS_WITH_AES_128_CBC_SHA256","TLS_DHE_DSS_WITH_AES_256_CBC_SHA","TLS_DHE_DSS_WITH_AES_256_CBC_SHA256","TLS_DHE_RSA_WITH_AES_128_CBC_SHA","TLS_DHE_RSA_WITH_AES_128_GCM_SHA256","TLS_DHE_RSA_WITH_AES_256_CBC_SHA","TLS_DHE_RSA_WITH_AES_256_GCM_SHA384","TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA","TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256","TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256","TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA","TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384","TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384","TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA","TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256","TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256","TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA","TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384","TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384","TLS_RSA_WITH_3DES_EDE_CBC_SHA","TLS_RSA_WITH_AES_128_CBC_SHA","TLS_RSA_WITH_AES_128_CBC_SHA256","TLS_RSA_WITH_AES_128_GCM_SHA256","TLS_RSA_WITH_AES_256_CBC_SHA","TLS_RSA_WITH_AES_256_CBC_SHA256","TLS_RSA_WITH_AES_256_GCM_SHA384"}
@@ -15919,6 +16074,38 @@ const (
 	CipherSuitesEnum_TLS_RSA_WITH_AES_256_GCM_SHA384         = CipherSuitesEnum("TLS_RSA_WITH_AES_256_GCM_SHA384")
 )
 
+// Mapping from string to CipherSuitesEnum
+var cipherSuitesEnum_Values = map[string]CipherSuitesEnum{
+	"tls_dhe_dss_with_3des_ede_cbc_sha":       CipherSuitesEnum_TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA,
+	"tls_dhe_dss_with_aes_128_cbc_sha":        CipherSuitesEnum_TLS_DHE_DSS_WITH_AES_128_CBC_SHA,
+	"tls_dhe_dss_with_aes_128_cbc_sha256":     CipherSuitesEnum_TLS_DHE_DSS_WITH_AES_128_CBC_SHA256,
+	"tls_dhe_dss_with_aes_256_cbc_sha":        CipherSuitesEnum_TLS_DHE_DSS_WITH_AES_256_CBC_SHA,
+	"tls_dhe_dss_with_aes_256_cbc_sha256":     CipherSuitesEnum_TLS_DHE_DSS_WITH_AES_256_CBC_SHA256,
+	"tls_dhe_rsa_with_aes_128_cbc_sha":        CipherSuitesEnum_TLS_DHE_RSA_WITH_AES_128_CBC_SHA,
+	"tls_dhe_rsa_with_aes_128_gcm_sha256":     CipherSuitesEnum_TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,
+	"tls_dhe_rsa_with_aes_256_cbc_sha":        CipherSuitesEnum_TLS_DHE_RSA_WITH_AES_256_CBC_SHA,
+	"tls_dhe_rsa_with_aes_256_gcm_sha384":     CipherSuitesEnum_TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
+	"tls_ecdhe_ecdsa_with_aes_128_cbc_sha":    CipherSuitesEnum_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
+	"tls_ecdhe_ecdsa_with_aes_128_cbc_sha256": CipherSuitesEnum_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
+	"tls_ecdhe_ecdsa_with_aes_128_gcm_sha256": CipherSuitesEnum_TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+	"tls_ecdhe_ecdsa_with_aes_256_cbc_sha":    CipherSuitesEnum_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
+	"tls_ecdhe_ecdsa_with_aes_256_cbc_sha384": CipherSuitesEnum_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,
+	"tls_ecdhe_ecdsa_with_aes_256_gcm_sha384": CipherSuitesEnum_TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+	"tls_ecdhe_rsa_with_aes_128_cbc_sha":      CipherSuitesEnum_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
+	"tls_ecdhe_rsa_with_aes_128_cbc_sha256":   CipherSuitesEnum_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,
+	"tls_ecdhe_rsa_with_aes_128_gcm_sha256":   CipherSuitesEnum_TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+	"tls_ecdhe_rsa_with_aes_256_cbc_sha":      CipherSuitesEnum_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
+	"tls_ecdhe_rsa_with_aes_256_cbc_sha384":   CipherSuitesEnum_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+	"tls_ecdhe_rsa_with_aes_256_gcm_sha384":   CipherSuitesEnum_TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+	"tls_rsa_with_3des_ede_cbc_sha":           CipherSuitesEnum_TLS_RSA_WITH_3DES_EDE_CBC_SHA,
+	"tls_rsa_with_aes_128_cbc_sha":            CipherSuitesEnum_TLS_RSA_WITH_AES_128_CBC_SHA,
+	"tls_rsa_with_aes_128_cbc_sha256":         CipherSuitesEnum_TLS_RSA_WITH_AES_128_CBC_SHA256,
+	"tls_rsa_with_aes_128_gcm_sha256":         CipherSuitesEnum_TLS_RSA_WITH_AES_128_GCM_SHA256,
+	"tls_rsa_with_aes_256_cbc_sha":            CipherSuitesEnum_TLS_RSA_WITH_AES_256_CBC_SHA,
+	"tls_rsa_with_aes_256_cbc_sha256":         CipherSuitesEnum_TLS_RSA_WITH_AES_256_CBC_SHA256,
+	"tls_rsa_with_aes_256_gcm_sha384":         CipherSuitesEnum_TLS_RSA_WITH_AES_256_GCM_SHA384,
+}
+
 // Ssl cipher suites enums.
 type CipherSuitesEnum_STATUS string
 
@@ -15953,6 +16140,38 @@ const (
 	CipherSuitesEnum_STATUS_TLS_RSA_WITH_AES_256_GCM_SHA384         = CipherSuitesEnum_STATUS("TLS_RSA_WITH_AES_256_GCM_SHA384")
 )
 
+// Mapping from string to CipherSuitesEnum_STATUS
+var cipherSuitesEnum_STATUS_Values = map[string]CipherSuitesEnum_STATUS{
+	"tls_dhe_dss_with_3des_ede_cbc_sha":       CipherSuitesEnum_STATUS_TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA,
+	"tls_dhe_dss_with_aes_128_cbc_sha":        CipherSuitesEnum_STATUS_TLS_DHE_DSS_WITH_AES_128_CBC_SHA,
+	"tls_dhe_dss_with_aes_128_cbc_sha256":     CipherSuitesEnum_STATUS_TLS_DHE_DSS_WITH_AES_128_CBC_SHA256,
+	"tls_dhe_dss_with_aes_256_cbc_sha":        CipherSuitesEnum_STATUS_TLS_DHE_DSS_WITH_AES_256_CBC_SHA,
+	"tls_dhe_dss_with_aes_256_cbc_sha256":     CipherSuitesEnum_STATUS_TLS_DHE_DSS_WITH_AES_256_CBC_SHA256,
+	"tls_dhe_rsa_with_aes_128_cbc_sha":        CipherSuitesEnum_STATUS_TLS_DHE_RSA_WITH_AES_128_CBC_SHA,
+	"tls_dhe_rsa_with_aes_128_gcm_sha256":     CipherSuitesEnum_STATUS_TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,
+	"tls_dhe_rsa_with_aes_256_cbc_sha":        CipherSuitesEnum_STATUS_TLS_DHE_RSA_WITH_AES_256_CBC_SHA,
+	"tls_dhe_rsa_with_aes_256_gcm_sha384":     CipherSuitesEnum_STATUS_TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
+	"tls_ecdhe_ecdsa_with_aes_128_cbc_sha":    CipherSuitesEnum_STATUS_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
+	"tls_ecdhe_ecdsa_with_aes_128_cbc_sha256": CipherSuitesEnum_STATUS_TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
+	"tls_ecdhe_ecdsa_with_aes_128_gcm_sha256": CipherSuitesEnum_STATUS_TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+	"tls_ecdhe_ecdsa_with_aes_256_cbc_sha":    CipherSuitesEnum_STATUS_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
+	"tls_ecdhe_ecdsa_with_aes_256_cbc_sha384": CipherSuitesEnum_STATUS_TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,
+	"tls_ecdhe_ecdsa_with_aes_256_gcm_sha384": CipherSuitesEnum_STATUS_TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+	"tls_ecdhe_rsa_with_aes_128_cbc_sha":      CipherSuitesEnum_STATUS_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
+	"tls_ecdhe_rsa_with_aes_128_cbc_sha256":   CipherSuitesEnum_STATUS_TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,
+	"tls_ecdhe_rsa_with_aes_128_gcm_sha256":   CipherSuitesEnum_STATUS_TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+	"tls_ecdhe_rsa_with_aes_256_cbc_sha":      CipherSuitesEnum_STATUS_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
+	"tls_ecdhe_rsa_with_aes_256_cbc_sha384":   CipherSuitesEnum_STATUS_TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+	"tls_ecdhe_rsa_with_aes_256_gcm_sha384":   CipherSuitesEnum_STATUS_TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+	"tls_rsa_with_3des_ede_cbc_sha":           CipherSuitesEnum_STATUS_TLS_RSA_WITH_3DES_EDE_CBC_SHA,
+	"tls_rsa_with_aes_128_cbc_sha":            CipherSuitesEnum_STATUS_TLS_RSA_WITH_AES_128_CBC_SHA,
+	"tls_rsa_with_aes_128_cbc_sha256":         CipherSuitesEnum_STATUS_TLS_RSA_WITH_AES_128_CBC_SHA256,
+	"tls_rsa_with_aes_128_gcm_sha256":         CipherSuitesEnum_STATUS_TLS_RSA_WITH_AES_128_GCM_SHA256,
+	"tls_rsa_with_aes_256_cbc_sha":            CipherSuitesEnum_STATUS_TLS_RSA_WITH_AES_256_CBC_SHA,
+	"tls_rsa_with_aes_256_cbc_sha256":         CipherSuitesEnum_STATUS_TLS_RSA_WITH_AES_256_CBC_SHA256,
+	"tls_rsa_with_aes_256_gcm_sha384":         CipherSuitesEnum_STATUS_TLS_RSA_WITH_AES_256_GCM_SHA384,
+}
+
 // IP address allocation method.
 // +kubebuilder:validation:Enum={"Dynamic","Static"}
 type IPAllocationMethod string
@@ -15961,6 +16180,12 @@ const (
 	IPAllocationMethod_Dynamic = IPAllocationMethod("Dynamic")
 	IPAllocationMethod_Static  = IPAllocationMethod("Static")
 )
+
+// Mapping from string to IPAllocationMethod
+var iPAllocationMethod_Values = map[string]IPAllocationMethod{
+	"dynamic": IPAllocationMethod_Dynamic,
+	"static":  IPAllocationMethod_Static,
+}
 
 type ManagedServiceIdentity_UserAssignedIdentities_STATUS struct {
 	// ClientId: The client id of user assigned identity.
@@ -16047,6 +16272,15 @@ const (
 	PolicyNameEnum_AppGwSslPolicy20220101S = PolicyNameEnum("AppGwSslPolicy20220101S")
 )
 
+// Mapping from string to PolicyNameEnum
+var policyNameEnum_Values = map[string]PolicyNameEnum{
+	"appgwsslpolicy20150501":  PolicyNameEnum_AppGwSslPolicy20150501,
+	"appgwsslpolicy20170401":  PolicyNameEnum_AppGwSslPolicy20170401,
+	"appgwsslpolicy20170401s": PolicyNameEnum_AppGwSslPolicy20170401S,
+	"appgwsslpolicy20220101":  PolicyNameEnum_AppGwSslPolicy20220101,
+	"appgwsslpolicy20220101s": PolicyNameEnum_AppGwSslPolicy20220101S,
+}
+
 // Ssl predefined policy name enums.
 type PolicyNameEnum_STATUS string
 
@@ -16057,6 +16291,15 @@ const (
 	PolicyNameEnum_STATUS_AppGwSslPolicy20220101  = PolicyNameEnum_STATUS("AppGwSslPolicy20220101")
 	PolicyNameEnum_STATUS_AppGwSslPolicy20220101S = PolicyNameEnum_STATUS("AppGwSslPolicy20220101S")
 )
+
+// Mapping from string to PolicyNameEnum_STATUS
+var policyNameEnum_STATUS_Values = map[string]PolicyNameEnum_STATUS{
+	"appgwsslpolicy20150501":  PolicyNameEnum_STATUS_AppGwSslPolicy20150501,
+	"appgwsslpolicy20170401":  PolicyNameEnum_STATUS_AppGwSslPolicy20170401,
+	"appgwsslpolicy20170401s": PolicyNameEnum_STATUS_AppGwSslPolicy20170401S,
+	"appgwsslpolicy20220101":  PolicyNameEnum_STATUS_AppGwSslPolicy20220101,
+	"appgwsslpolicy20220101s": PolicyNameEnum_STATUS_AppGwSslPolicy20220101S,
+}
 
 // Ssl protocol enums.
 // +kubebuilder:validation:Enum={"TLSv1_0","TLSv1_1","TLSv1_2","TLSv1_3"}
@@ -16069,6 +16312,14 @@ const (
 	ProtocolsEnum_TLSv1_3 = ProtocolsEnum("TLSv1_3")
 )
 
+// Mapping from string to ProtocolsEnum
+var protocolsEnum_Values = map[string]ProtocolsEnum{
+	"tlsv1_0": ProtocolsEnum_TLSv1_0,
+	"tlsv1_1": ProtocolsEnum_TLSv1_1,
+	"tlsv1_2": ProtocolsEnum_TLSv1_2,
+	"tlsv1_3": ProtocolsEnum_TLSv1_3,
+}
+
 // Ssl protocol enums.
 type ProtocolsEnum_STATUS string
 
@@ -16078,6 +16329,14 @@ const (
 	ProtocolsEnum_STATUS_TLSv1_2 = ProtocolsEnum_STATUS("TLSv1_2")
 	ProtocolsEnum_STATUS_TLSv1_3 = ProtocolsEnum_STATUS("TLSv1_3")
 )
+
+// Mapping from string to ProtocolsEnum_STATUS
+var protocolsEnum_STATUS_Values = map[string]ProtocolsEnum_STATUS{
+	"tlsv1_0": ProtocolsEnum_STATUS_TLSv1_0,
+	"tlsv1_1": ProtocolsEnum_STATUS_TLSv1_1,
+	"tlsv1_2": ProtocolsEnum_STATUS_TLSv1_2,
+	"tlsv1_3": ProtocolsEnum_STATUS_TLSv1_3,
+}
 
 // Redirect type enum.
 // +kubebuilder:validation:Enum={"Found","Permanent","SeeOther","Temporary"}
@@ -16089,6 +16348,14 @@ const (
 	RedirectTypeEnum_SeeOther  = RedirectTypeEnum("SeeOther")
 	RedirectTypeEnum_Temporary = RedirectTypeEnum("Temporary")
 )
+
+// Mapping from string to RedirectTypeEnum
+var redirectTypeEnum_Values = map[string]RedirectTypeEnum{
+	"found":     RedirectTypeEnum_Found,
+	"permanent": RedirectTypeEnum_Permanent,
+	"seeother":  RedirectTypeEnum_SeeOther,
+	"temporary": RedirectTypeEnum_Temporary,
+}
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
@@ -16131,6 +16398,12 @@ const (
 	ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_None = ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation("None")
 	ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_OCSP = ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation("OCSP")
 )
+
+// Mapping from string to ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation
+var applicationGatewayClientAuthConfiguration_VerifyClientRevocation_Values = map[string]ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation{
+	"none": ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_None,
+	"ocsp": ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation_OCSP,
+}
 
 // Set of actions in the Rewrite Rule in Application Gateway.
 type ApplicationGatewayRewriteRuleActionSet struct {

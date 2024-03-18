@@ -875,16 +875,18 @@ func (address *PublicIPAddress_Spec) AssignProperties_From_PublicIPAddress_Spec(
 
 	// PublicIPAddressVersion
 	if source.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := IPVersion(*source.PublicIPAddressVersion)
-		address.PublicIPAddressVersion = &publicIPAddressVersion
+		publicIPAddressVersion := *source.PublicIPAddressVersion
+		publicIPAddressVersionTemp := genruntime.ToEnum(publicIPAddressVersion, iPVersion_Values)
+		address.PublicIPAddressVersion = &publicIPAddressVersionTemp
 	} else {
 		address.PublicIPAddressVersion = nil
 	}
 
 	// PublicIPAllocationMethod
 	if source.PublicIPAllocationMethod != nil {
-		publicIPAllocationMethod := IPAllocationMethod(*source.PublicIPAllocationMethod)
-		address.PublicIPAllocationMethod = &publicIPAllocationMethod
+		publicIPAllocationMethod := *source.PublicIPAllocationMethod
+		publicIPAllocationMethodTemp := genruntime.ToEnum(publicIPAllocationMethod, iPAllocationMethod_Values)
+		address.PublicIPAllocationMethod = &publicIPAllocationMethodTemp
 	} else {
 		address.PublicIPAllocationMethod = nil
 	}
@@ -1688,8 +1690,9 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 
 	// MigrationPhase
 	if source.MigrationPhase != nil {
-		migrationPhase := PublicIPAddressPropertiesFormat_MigrationPhase_STATUS(*source.MigrationPhase)
-		embedded.MigrationPhase = &migrationPhase
+		migrationPhase := *source.MigrationPhase
+		migrationPhaseTemp := genruntime.ToEnum(migrationPhase, publicIPAddressPropertiesFormat_MigrationPhase_STATUS_Values)
+		embedded.MigrationPhase = &migrationPhaseTemp
 	} else {
 		embedded.MigrationPhase = nil
 	}
@@ -1711,24 +1714,27 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		embedded.ProvisioningState = &provisioningStateTemp
 	} else {
 		embedded.ProvisioningState = nil
 	}
 
 	// PublicIPAddressVersion
 	if source.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := IPVersion_STATUS(*source.PublicIPAddressVersion)
-		embedded.PublicIPAddressVersion = &publicIPAddressVersion
+		publicIPAddressVersion := *source.PublicIPAddressVersion
+		publicIPAddressVersionTemp := genruntime.ToEnum(publicIPAddressVersion, iPVersion_STATUS_Values)
+		embedded.PublicIPAddressVersion = &publicIPAddressVersionTemp
 	} else {
 		embedded.PublicIPAddressVersion = nil
 	}
 
 	// PublicIPAllocationMethod
 	if source.PublicIPAllocationMethod != nil {
-		publicIPAllocationMethod := IPAllocationMethod_STATUS(*source.PublicIPAllocationMethod)
-		embedded.PublicIPAllocationMethod = &publicIPAllocationMethod
+		publicIPAllocationMethod := *source.PublicIPAllocationMethod
+		publicIPAllocationMethodTemp := genruntime.ToEnum(publicIPAllocationMethod, iPAllocationMethod_STATUS_Values)
+		embedded.PublicIPAllocationMethod = &publicIPAllocationMethodTemp
 	} else {
 		embedded.PublicIPAllocationMethod = nil
 	}
@@ -2066,8 +2072,9 @@ func (settings *DdosSettings) AssignProperties_From_DdosSettings(source *v202011
 
 	// ProtectionCoverage
 	if source.ProtectionCoverage != nil {
-		protectionCoverage := DdosSettings_ProtectionCoverage(*source.ProtectionCoverage)
-		settings.ProtectionCoverage = &protectionCoverage
+		protectionCoverage := *source.ProtectionCoverage
+		protectionCoverageTemp := genruntime.ToEnum(protectionCoverage, ddosSettings_ProtectionCoverage_Values)
+		settings.ProtectionCoverage = &protectionCoverageTemp
 	} else {
 		settings.ProtectionCoverage = nil
 	}
@@ -2234,8 +2241,9 @@ func (settings *DdosSettings_STATUS) AssignProperties_From_DdosSettings_STATUS(s
 
 	// ProtectionCoverage
 	if source.ProtectionCoverage != nil {
-		protectionCoverage := DdosSettings_ProtectionCoverage_STATUS(*source.ProtectionCoverage)
-		settings.ProtectionCoverage = &protectionCoverage
+		protectionCoverage := *source.ProtectionCoverage
+		protectionCoverageTemp := genruntime.ToEnum(protectionCoverage, ddosSettings_ProtectionCoverage_STATUS_Values)
+		settings.ProtectionCoverage = &protectionCoverageTemp
 	} else {
 		settings.ProtectionCoverage = nil
 	}
@@ -2297,6 +2305,12 @@ const (
 	IPAllocationMethod_Static  = IPAllocationMethod("Static")
 )
 
+// Mapping from string to IPAllocationMethod
+var iPAllocationMethod_Values = map[string]IPAllocationMethod{
+	"dynamic": IPAllocationMethod_Dynamic,
+	"static":  IPAllocationMethod_Static,
+}
+
 // IP address allocation method.
 type IPAllocationMethod_STATUS string
 
@@ -2304,6 +2318,12 @@ const (
 	IPAllocationMethod_STATUS_Dynamic = IPAllocationMethod_STATUS("Dynamic")
 	IPAllocationMethod_STATUS_Static  = IPAllocationMethod_STATUS("Static")
 )
+
+// Mapping from string to IPAllocationMethod_STATUS
+var iPAllocationMethod_STATUS_Values = map[string]IPAllocationMethod_STATUS{
+	"dynamic": IPAllocationMethod_STATUS_Dynamic,
+	"static":  IPAllocationMethod_STATUS_Static,
+}
 
 // IP configuration.
 type IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded struct {
@@ -2555,6 +2575,12 @@ const (
 	IPVersion_IPv6 = IPVersion("IPv6")
 )
 
+// Mapping from string to IPVersion
+var iPVersion_Values = map[string]IPVersion{
+	"ipv4": IPVersion_IPv4,
+	"ipv6": IPVersion_IPv6,
+}
+
 // IP address version.
 type IPVersion_STATUS string
 
@@ -2562,6 +2588,12 @@ const (
 	IPVersion_STATUS_IPv4 = IPVersion_STATUS("IPv4")
 	IPVersion_STATUS_IPv6 = IPVersion_STATUS("IPv6")
 )
+
+// Mapping from string to IPVersion_STATUS
+var iPVersion_STATUS_Values = map[string]IPVersion_STATUS{
+	"ipv4": IPVersion_STATUS_IPv4,
+	"ipv6": IPVersion_STATUS_IPv6,
+}
 
 // Nat Gateway resource.
 type NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded struct {
@@ -2962,6 +2994,15 @@ const (
 	PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_Prepare   = PublicIPAddressPropertiesFormat_MigrationPhase_STATUS("Prepare")
 )
 
+// Mapping from string to PublicIPAddressPropertiesFormat_MigrationPhase_STATUS
+var publicIPAddressPropertiesFormat_MigrationPhase_STATUS_Values = map[string]PublicIPAddressPropertiesFormat_MigrationPhase_STATUS{
+	"abort":     PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_Abort,
+	"commit":    PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_Commit,
+	"committed": PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_Committed,
+	"none":      PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_None,
+	"prepare":   PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_Prepare,
+}
+
 // SKU of a public IP address.
 type PublicIPAddressSku struct {
 	// Name: Name of a public IP address SKU.
@@ -3027,16 +3068,18 @@ func (addressSku *PublicIPAddressSku) AssignProperties_From_PublicIPAddressSku(s
 
 	// Name
 	if source.Name != nil {
-		name := PublicIPAddressSku_Name(*source.Name)
-		addressSku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, publicIPAddressSku_Name_Values)
+		addressSku.Name = &nameTemp
 	} else {
 		addressSku.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := PublicIPAddressSku_Tier(*source.Tier)
-		addressSku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, publicIPAddressSku_Tier_Values)
+		addressSku.Tier = &tierTemp
 	} else {
 		addressSku.Tier = nil
 	}
@@ -3144,16 +3187,18 @@ func (addressSku *PublicIPAddressSku_STATUS) AssignProperties_From_PublicIPAddre
 
 	// Name
 	if source.Name != nil {
-		name := PublicIPAddressSku_Name_STATUS(*source.Name)
-		addressSku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, publicIPAddressSku_Name_STATUS_Values)
+		addressSku.Name = &nameTemp
 	} else {
 		addressSku.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := PublicIPAddressSku_Tier_STATUS(*source.Tier)
-		addressSku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, publicIPAddressSku_Tier_STATUS_Values)
+		addressSku.Tier = &tierTemp
 	} else {
 		addressSku.Tier = nil
 	}
@@ -3286,12 +3331,24 @@ const (
 	DdosSettings_ProtectionCoverage_Standard = DdosSettings_ProtectionCoverage("Standard")
 )
 
+// Mapping from string to DdosSettings_ProtectionCoverage
+var ddosSettings_ProtectionCoverage_Values = map[string]DdosSettings_ProtectionCoverage{
+	"basic":    DdosSettings_ProtectionCoverage_Basic,
+	"standard": DdosSettings_ProtectionCoverage_Standard,
+}
+
 type DdosSettings_ProtectionCoverage_STATUS string
 
 const (
 	DdosSettings_ProtectionCoverage_STATUS_Basic    = DdosSettings_ProtectionCoverage_STATUS("Basic")
 	DdosSettings_ProtectionCoverage_STATUS_Standard = DdosSettings_ProtectionCoverage_STATUS("Standard")
 )
+
+// Mapping from string to DdosSettings_ProtectionCoverage_STATUS
+var ddosSettings_ProtectionCoverage_STATUS_Values = map[string]DdosSettings_ProtectionCoverage_STATUS{
+	"basic":    DdosSettings_ProtectionCoverage_STATUS_Basic,
+	"standard": DdosSettings_ProtectionCoverage_STATUS_Standard,
+}
 
 func init() {
 	SchemeBuilder.Register(&PublicIPAddress{}, &PublicIPAddressList{})

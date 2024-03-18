@@ -118,6 +118,14 @@ const (
 	ContainerGroupIdentity_Type_UserAssigned               = ContainerGroupIdentity_Type("UserAssigned")
 )
 
+// Mapping from string to ContainerGroupIdentity_Type
+var containerGroupIdentity_Type_Values = map[string]ContainerGroupIdentity_Type{
+	"none":                         ContainerGroupIdentity_Type_None,
+	"systemassigned":               ContainerGroupIdentity_Type_SystemAssigned,
+	"systemassigned, userassigned": ContainerGroupIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 ContainerGroupIdentity_Type_UserAssigned,
+}
+
 // Container group subnet information.
 type ContainerGroupSubnetId_ARM struct {
 	Id *string `json:"id,omitempty"`

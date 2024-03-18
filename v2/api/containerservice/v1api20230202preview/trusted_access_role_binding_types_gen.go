@@ -728,8 +728,9 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) AssignProperties
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := TrustedAccessRoleBindingProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		binding.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, trustedAccessRoleBindingProperties_ProvisioningState_STATUS_Values)
+		binding.ProvisioningState = &provisioningStateTemp
 	} else {
 		binding.ProvisioningState = nil
 	}

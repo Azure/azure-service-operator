@@ -796,8 +796,9 @@ func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_From
 
 	// DataType
 	if source.DataType != nil {
-		dataType := ConfigurationProperties_DataType_STATUS(*source.DataType)
-		configuration.DataType = &dataType
+		dataType := *source.DataType
+		dataTypeTemp := genruntime.ToEnum(dataType, configurationProperties_DataType_STATUS_Values)
+		configuration.DataType = &dataTypeTemp
 	} else {
 		configuration.DataType = nil
 	}
@@ -970,6 +971,14 @@ const (
 	ConfigurationProperties_DataType_STATUS_Integer     = ConfigurationProperties_DataType_STATUS("Integer")
 	ConfigurationProperties_DataType_STATUS_Numeric     = ConfigurationProperties_DataType_STATUS("Numeric")
 )
+
+// Mapping from string to ConfigurationProperties_DataType_STATUS
+var configurationProperties_DataType_STATUS_Values = map[string]ConfigurationProperties_DataType_STATUS{
+	"boolean":     ConfigurationProperties_DataType_STATUS_Boolean,
+	"enumeration": ConfigurationProperties_DataType_STATUS_Enumeration,
+	"integer":     ConfigurationProperties_DataType_STATUS_Integer,
+	"numeric":     ConfigurationProperties_DataType_STATUS_Numeric,
+}
 
 func init() {
 	SchemeBuilder.Register(&FlexibleServersConfiguration{}, &FlexibleServersConfigurationList{})

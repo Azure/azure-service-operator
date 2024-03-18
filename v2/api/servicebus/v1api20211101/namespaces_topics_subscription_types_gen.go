@@ -1432,8 +1432,9 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From
 
 	// Status
 	if source.Status != nil {
-		status := EntityStatus_STATUS(*source.Status)
-		subscription.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, entityStatus_STATUS_Values)
+		subscription.Status = &statusTemp
 	} else {
 		subscription.Status = nil
 	}

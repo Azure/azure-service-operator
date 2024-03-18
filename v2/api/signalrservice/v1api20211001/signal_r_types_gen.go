@@ -838,8 +838,9 @@ func (signalR *SignalR_Spec) AssignProperties_From_SignalR_Spec(source *v2021100
 
 	// Kind
 	if source.Kind != nil {
-		kind := ServiceKind(*source.Kind)
-		signalR.Kind = &kind
+		kind := *source.Kind
+		kindTemp := genruntime.ToEnum(kind, serviceKind_Values)
+		signalR.Kind = &kindTemp
 	} else {
 		signalR.Kind = nil
 	}
@@ -1778,8 +1779,9 @@ func (signalR *SignalR_STATUS) AssignProperties_From_SignalR_STATUS(source *v202
 
 	// Kind
 	if source.Kind != nil {
-		kind := ServiceKind_STATUS(*source.Kind)
-		signalR.Kind = &kind
+		kind := *source.Kind
+		kindTemp := genruntime.ToEnum(kind, serviceKind_STATUS_Values)
+		signalR.Kind = &kindTemp
 	} else {
 		signalR.Kind = nil
 	}
@@ -1822,8 +1824,9 @@ func (signalR *SignalR_STATUS) AssignProperties_From_SignalR_STATUS(source *v202
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		signalR.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		signalR.ProvisioningState = &provisioningStateTemp
 	} else {
 		signalR.ProvisioningState = nil
 	}
@@ -2231,8 +2234,9 @@ func (identity *ManagedIdentity) AssignProperties_From_ManagedIdentity(source *v
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedIdentityType(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedIdentityType_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2405,8 +2409,9 @@ func (identity *ManagedIdentity_STATUS) AssignProperties_From_ManagedIdentity_ST
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedIdentityType_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedIdentityType_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2554,6 +2559,19 @@ const (
 	ProvisioningState_STATUS_Unknown   = ProvisioningState_STATUS("Unknown")
 	ProvisioningState_STATUS_Updating  = ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to ProvisioningState_STATUS
+var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
+	"canceled":  ProvisioningState_STATUS_Canceled,
+	"creating":  ProvisioningState_STATUS_Creating,
+	"deleting":  ProvisioningState_STATUS_Deleting,
+	"failed":    ProvisioningState_STATUS_Failed,
+	"moving":    ProvisioningState_STATUS_Moving,
+	"running":   ProvisioningState_STATUS_Running,
+	"succeeded": ProvisioningState_STATUS_Succeeded,
+	"unknown":   ProvisioningState_STATUS_Unknown,
+	"updating":  ProvisioningState_STATUS_Updating,
+}
 
 // Resource log configuration of a Microsoft.SignalRService resource.
 type ResourceLogConfiguration struct {
@@ -2876,8 +2894,9 @@ func (resourceSku *ResourceSku) AssignProperties_From_ResourceSku(source *v20211
 
 	// Tier
 	if source.Tier != nil {
-		tier := SignalRSkuTier(*source.Tier)
-		resourceSku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, signalRSkuTier_Values)
+		resourceSku.Tier = &tierTemp
 	} else {
 		resourceSku.Tier = nil
 	}
@@ -3025,8 +3044,9 @@ func (resourceSku *ResourceSku_STATUS) AssignProperties_From_ResourceSku_STATUS(
 
 	// Tier
 	if source.Tier != nil {
-		tier := SignalRSkuTier_STATUS(*source.Tier)
-		resourceSku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, signalRSkuTier_STATUS_Values)
+		resourceSku.Tier = &tierTemp
 	} else {
 		resourceSku.Tier = nil
 	}
@@ -3599,8 +3619,9 @@ func (feature *SignalRFeature) AssignProperties_From_SignalRFeature(source *v202
 
 	// Flag
 	if source.Flag != nil {
-		flag := FeatureFlags(*source.Flag)
-		feature.Flag = &flag
+		flag := *source.Flag
+		flagTemp := genruntime.ToEnum(flag, featureFlags_Values)
+		feature.Flag = &flagTemp
 	} else {
 		feature.Flag = nil
 	}
@@ -3746,8 +3767,9 @@ func (feature *SignalRFeature_STATUS) AssignProperties_From_SignalRFeature_STATU
 
 	// Flag
 	if source.Flag != nil {
-		flag := FeatureFlags_STATUS(*source.Flag)
-		feature.Flag = &flag
+		flag := *source.Flag
+		flagTemp := genruntime.ToEnum(flag, featureFlags_STATUS_Values)
+		feature.Flag = &flagTemp
 	} else {
 		feature.Flag = nil
 	}
@@ -3888,8 +3910,9 @@ func (acLs *SignalRNetworkACLs) AssignProperties_From_SignalRNetworkACLs(source 
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		defaultAction := ACLAction(*source.DefaultAction)
-		acLs.DefaultAction = &defaultAction
+		defaultAction := *source.DefaultAction
+		defaultActionTemp := genruntime.ToEnum(defaultAction, aCLAction_Values)
+		acLs.DefaultAction = &defaultActionTemp
 	} else {
 		acLs.DefaultAction = nil
 	}
@@ -4089,8 +4112,9 @@ func (acLs *SignalRNetworkACLs_STATUS) AssignProperties_From_SignalRNetworkACLs_
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		defaultAction := ACLAction_STATUS(*source.DefaultAction)
-		acLs.DefaultAction = &defaultAction
+		defaultAction := *source.DefaultAction
+		defaultActionTemp := genruntime.ToEnum(defaultAction, aCLAction_STATUS_Values)
+		acLs.DefaultAction = &defaultActionTemp
 	} else {
 		acLs.DefaultAction = nil
 	}
@@ -4490,8 +4514,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -4504,8 +4529,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -4567,6 +4593,12 @@ const (
 	ACLAction_Deny  = ACLAction("Deny")
 )
 
+// Mapping from string to ACLAction
+var aCLAction_Values = map[string]ACLAction{
+	"allow": ACLAction_Allow,
+	"deny":  ACLAction_Deny,
+}
+
 // Azure Networking ACL Action.
 type ACLAction_STATUS string
 
@@ -4574,6 +4606,12 @@ const (
 	ACLAction_STATUS_Allow = ACLAction_STATUS("Allow")
 	ACLAction_STATUS_Deny  = ACLAction_STATUS("Deny")
 )
+
+// Mapping from string to ACLAction_STATUS
+var aCLAction_STATUS_Values = map[string]ACLAction_STATUS{
+	"allow": ACLAction_STATUS_Allow,
+	"deny":  ACLAction_STATUS_Deny,
+}
 
 // FeatureFlags is the supported features of Azure SignalR service.
 // - ServiceMode: Flag for backend server for SignalR
@@ -4598,6 +4636,14 @@ const (
 	FeatureFlags_ServiceMode            = FeatureFlags("ServiceMode")
 )
 
+// Mapping from string to FeatureFlags
+var featureFlags_Values = map[string]FeatureFlags{
+	"enableconnectivitylogs": FeatureFlags_EnableConnectivityLogs,
+	"enablelivetrace":        FeatureFlags_EnableLiveTrace,
+	"enablemessaginglogs":    FeatureFlags_EnableMessagingLogs,
+	"servicemode":            FeatureFlags_ServiceMode,
+}
+
 // FeatureFlags is the supported features of Azure SignalR service.
 // - ServiceMode: Flag for backend server for SignalR
 // service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn't have a backend
@@ -4619,6 +4665,14 @@ const (
 	FeatureFlags_STATUS_EnableMessagingLogs    = FeatureFlags_STATUS("EnableMessagingLogs")
 	FeatureFlags_STATUS_ServiceMode            = FeatureFlags_STATUS("ServiceMode")
 )
+
+// Mapping from string to FeatureFlags_STATUS
+var featureFlags_STATUS_Values = map[string]FeatureFlags_STATUS{
+	"enableconnectivitylogs": FeatureFlags_STATUS_EnableConnectivityLogs,
+	"enablelivetrace":        FeatureFlags_STATUS_EnableLiveTrace,
+	"enablemessaginglogs":    FeatureFlags_STATUS_EnableMessagingLogs,
+	"servicemode":            FeatureFlags_STATUS_ServiceMode,
+}
 
 // Network ACL
 type NetworkACL struct {
@@ -4685,7 +4739,7 @@ func (networkACL *NetworkACL) AssignProperties_From_NetworkACL(source *v20211001
 		for allowIndex, allowItem := range source.Allow {
 			// Shadow the loop variable to avoid aliasing
 			allowItem := allowItem
-			allowList[allowIndex] = SignalRRequestType(allowItem)
+			allowList[allowIndex] = genruntime.ToEnum(allowItem, signalRRequestType_Values)
 		}
 		networkACL.Allow = allowList
 	} else {
@@ -4698,7 +4752,7 @@ func (networkACL *NetworkACL) AssignProperties_From_NetworkACL(source *v20211001
 		for denyIndex, denyItem := range source.Deny {
 			// Shadow the loop variable to avoid aliasing
 			denyItem := denyItem
-			denyList[denyIndex] = SignalRRequestType(denyItem)
+			denyList[denyIndex] = genruntime.ToEnum(denyItem, signalRRequestType_Values)
 		}
 		networkACL.Deny = denyList
 	} else {
@@ -4832,7 +4886,7 @@ func (networkACL *NetworkACL_STATUS) AssignProperties_From_NetworkACL_STATUS(sou
 		for allowIndex, allowItem := range source.Allow {
 			// Shadow the loop variable to avoid aliasing
 			allowItem := allowItem
-			allowList[allowIndex] = SignalRRequestType_STATUS(allowItem)
+			allowList[allowIndex] = genruntime.ToEnum(allowItem, signalRRequestType_STATUS_Values)
 		}
 		networkACL.Allow = allowList
 	} else {
@@ -4845,7 +4899,7 @@ func (networkACL *NetworkACL_STATUS) AssignProperties_From_NetworkACL_STATUS(sou
 		for denyIndex, denyItem := range source.Deny {
 			// Shadow the loop variable to avoid aliasing
 			denyItem := denyItem
-			denyList[denyIndex] = SignalRRequestType_STATUS(denyItem)
+			denyList[denyIndex] = genruntime.ToEnum(denyItem, signalRRequestType_STATUS_Values)
 		}
 		networkACL.Deny = denyList
 	} else {
@@ -4979,7 +5033,7 @@ func (endpointACL *PrivateEndpointACL) AssignProperties_From_PrivateEndpointACL(
 		for allowIndex, allowItem := range source.Allow {
 			// Shadow the loop variable to avoid aliasing
 			allowItem := allowItem
-			allowList[allowIndex] = SignalRRequestType(allowItem)
+			allowList[allowIndex] = genruntime.ToEnum(allowItem, signalRRequestType_Values)
 		}
 		endpointACL.Allow = allowList
 	} else {
@@ -4992,7 +5046,7 @@ func (endpointACL *PrivateEndpointACL) AssignProperties_From_PrivateEndpointACL(
 		for denyIndex, denyItem := range source.Deny {
 			// Shadow the loop variable to avoid aliasing
 			denyItem := denyItem
-			denyList[denyIndex] = SignalRRequestType(denyItem)
+			denyList[denyIndex] = genruntime.ToEnum(denyItem, signalRRequestType_Values)
 		}
 		endpointACL.Deny = denyList
 	} else {
@@ -5144,7 +5198,7 @@ func (endpointACL *PrivateEndpointACL_STATUS) AssignProperties_From_PrivateEndpo
 		for allowIndex, allowItem := range source.Allow {
 			// Shadow the loop variable to avoid aliasing
 			allowItem := allowItem
-			allowList[allowIndex] = SignalRRequestType_STATUS(allowItem)
+			allowList[allowIndex] = genruntime.ToEnum(allowItem, signalRRequestType_STATUS_Values)
 		}
 		endpointACL.Allow = allowList
 	} else {
@@ -5157,7 +5211,7 @@ func (endpointACL *PrivateEndpointACL_STATUS) AssignProperties_From_PrivateEndpo
 		for denyIndex, denyItem := range source.Deny {
 			// Shadow the loop variable to avoid aliasing
 			denyItem := denyItem
-			denyList[denyIndex] = SignalRRequestType_STATUS(denyItem)
+			denyList[denyIndex] = genruntime.ToEnum(denyItem, signalRRequestType_STATUS_Values)
 		}
 		endpointACL.Deny = denyList
 	} else {
@@ -6025,6 +6079,14 @@ const (
 	SignalRRequestType_Trace            = SignalRRequestType("Trace")
 )
 
+// Mapping from string to SignalRRequestType
+var signalRRequestType_Values = map[string]SignalRRequestType{
+	"clientconnection": SignalRRequestType_ClientConnection,
+	"restapi":          SignalRRequestType_RESTAPI,
+	"serverconnection": SignalRRequestType_ServerConnection,
+	"trace":            SignalRRequestType_Trace,
+}
+
 // The incoming request type to the service
 type SignalRRequestType_STATUS string
 
@@ -6034,6 +6096,14 @@ const (
 	SignalRRequestType_STATUS_ServerConnection = SignalRRequestType_STATUS("ServerConnection")
 	SignalRRequestType_STATUS_Trace            = SignalRRequestType_STATUS("Trace")
 )
+
+// Mapping from string to SignalRRequestType_STATUS
+var signalRRequestType_STATUS_Values = map[string]SignalRRequestType_STATUS{
+	"clientconnection": SignalRRequestType_STATUS_ClientConnection,
+	"restapi":          SignalRRequestType_STATUS_RESTAPI,
+	"serverconnection": SignalRRequestType_STATUS_ServerConnection,
+	"trace":            SignalRRequestType_STATUS_Trace,
+}
 
 // Upstream auth settings. If not set, no auth is used for upstream messages.
 type UpstreamAuthSettings struct {
@@ -6121,8 +6191,9 @@ func (settings *UpstreamAuthSettings) AssignProperties_From_UpstreamAuthSettings
 
 	// Type
 	if source.Type != nil {
-		typeVar := UpstreamAuthType(*source.Type)
-		settings.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, upstreamAuthType_Values)
+		settings.Type = &typeTemp
 	} else {
 		settings.Type = nil
 	}
@@ -6255,8 +6326,9 @@ func (settings *UpstreamAuthSettings_STATUS) AssignProperties_From_UpstreamAuthS
 
 	// Type
 	if source.Type != nil {
-		typeVar := UpstreamAuthType_STATUS(*source.Type)
-		settings.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, upstreamAuthType_STATUS_Values)
+		settings.Type = &typeTemp
 	} else {
 		settings.Type = nil
 	}
@@ -6455,6 +6527,12 @@ const (
 	UpstreamAuthType_None            = UpstreamAuthType("None")
 )
 
+// Mapping from string to UpstreamAuthType
+var upstreamAuthType_Values = map[string]UpstreamAuthType{
+	"managedidentity": UpstreamAuthType_ManagedIdentity,
+	"none":            UpstreamAuthType_None,
+}
+
 // Upstream auth type enum.
 type UpstreamAuthType_STATUS string
 
@@ -6462,6 +6540,12 @@ const (
 	UpstreamAuthType_STATUS_ManagedIdentity = UpstreamAuthType_STATUS("ManagedIdentity")
 	UpstreamAuthType_STATUS_None            = UpstreamAuthType_STATUS("None")
 )
+
+// Mapping from string to UpstreamAuthType_STATUS
+var upstreamAuthType_STATUS_Values = map[string]UpstreamAuthType_STATUS{
+	"managedidentity": UpstreamAuthType_STATUS_ManagedIdentity,
+	"none":            UpstreamAuthType_STATUS_None,
+}
 
 func init() {
 	SchemeBuilder.Register(&SignalR{}, &SignalRList{})

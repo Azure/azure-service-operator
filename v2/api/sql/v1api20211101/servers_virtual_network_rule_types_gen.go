@@ -733,8 +733,9 @@ func (rule *Servers_VirtualNetworkRule_STATUS) AssignProperties_From_Servers_Vir
 
 	// State
 	if source.State != nil {
-		state := VirtualNetworkRuleProperties_State_STATUS(*source.State)
-		rule.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, virtualNetworkRuleProperties_State_STATUS_Values)
+		rule.State = &stateTemp
 	} else {
 		rule.State = nil
 	}
@@ -806,6 +807,16 @@ const (
 	VirtualNetworkRuleProperties_State_STATUS_Ready        = VirtualNetworkRuleProperties_State_STATUS("Ready")
 	VirtualNetworkRuleProperties_State_STATUS_Unknown      = VirtualNetworkRuleProperties_State_STATUS("Unknown")
 )
+
+// Mapping from string to VirtualNetworkRuleProperties_State_STATUS
+var virtualNetworkRuleProperties_State_STATUS_Values = map[string]VirtualNetworkRuleProperties_State_STATUS{
+	"deleting":     VirtualNetworkRuleProperties_State_STATUS_Deleting,
+	"failed":       VirtualNetworkRuleProperties_State_STATUS_Failed,
+	"inprogress":   VirtualNetworkRuleProperties_State_STATUS_InProgress,
+	"initializing": VirtualNetworkRuleProperties_State_STATUS_Initializing,
+	"ready":        VirtualNetworkRuleProperties_State_STATUS_Ready,
+	"unknown":      VirtualNetworkRuleProperties_State_STATUS_Unknown,
+}
 
 func init() {
 	SchemeBuilder.Register(&ServersVirtualNetworkRule{}, &ServersVirtualNetworkRuleList{})

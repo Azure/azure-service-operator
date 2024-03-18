@@ -137,6 +137,14 @@ const (
 	Identity_Type_STATUS_UserAssigned               = Identity_Type_STATUS("UserAssigned")
 )
 
+// Mapping from string to Identity_Type_STATUS
+var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
+	"none":                         Identity_Type_STATUS_None,
+	"systemassigned":               Identity_Type_STATUS_SystemAssigned,
+	"systemassigned, userassigned": Identity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 Identity_Type_STATUS_UserAssigned,
+}
+
 // Properties of the PrivateEndpointConnection.
 type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
@@ -152,6 +160,13 @@ const (
 	SBSku_Name_STATUS_Standard = SBSku_Name_STATUS("Standard")
 )
 
+// Mapping from string to SBSku_Name_STATUS
+var sBSku_Name_STATUS_Values = map[string]SBSku_Name_STATUS{
+	"basic":    SBSku_Name_STATUS_Basic,
+	"premium":  SBSku_Name_STATUS_Premium,
+	"standard": SBSku_Name_STATUS_Standard,
+}
+
 type SBSku_Tier_STATUS string
 
 const (
@@ -159,6 +174,13 @@ const (
 	SBSku_Tier_STATUS_Premium  = SBSku_Tier_STATUS("Premium")
 	SBSku_Tier_STATUS_Standard = SBSku_Tier_STATUS("Standard")
 )
+
+// Mapping from string to SBSku_Tier_STATUS
+var sBSku_Tier_STATUS_Values = map[string]SBSku_Tier_STATUS{
+	"basic":    SBSku_Tier_STATUS_Basic,
+	"premium":  SBSku_Tier_STATUS_Premium,
+	"standard": SBSku_Tier_STATUS_Standard,
+}
 
 type SystemData_CreatedByType_STATUS string
 
@@ -169,6 +191,14 @@ const (
 	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
 type SystemData_LastModifiedByType_STATUS string
 
 const (
@@ -177,6 +207,14 @@ const (
 	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
+}
 
 // Recognized Dictionary value.
 type UserAssignedIdentity_STATUS_ARM struct {

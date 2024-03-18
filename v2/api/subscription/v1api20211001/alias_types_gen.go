@@ -896,8 +896,9 @@ func (properties *PutAliasRequestProperties) AssignProperties_From_PutAliasReque
 
 	// Workload
 	if source.Workload != nil {
-		workload := Workload(*source.Workload)
-		properties.Workload = &workload
+		workload := *source.Workload
+		workloadTemp := genruntime.ToEnum(workload, workload_Values)
+		properties.Workload = &workloadTemp
 	} else {
 		properties.Workload = nil
 	}
@@ -1115,8 +1116,9 @@ func (properties *SubscriptionAliasResponseProperties_STATUS) AssignProperties_F
 
 	// AcceptOwnershipState
 	if source.AcceptOwnershipState != nil {
-		acceptOwnershipState := AcceptOwnershipState_STATUS(*source.AcceptOwnershipState)
-		properties.AcceptOwnershipState = &acceptOwnershipState
+		acceptOwnershipState := *source.AcceptOwnershipState
+		acceptOwnershipStateTemp := genruntime.ToEnum(acceptOwnershipState, acceptOwnershipState_STATUS_Values)
+		properties.AcceptOwnershipState = &acceptOwnershipStateTemp
 	} else {
 		properties.AcceptOwnershipState = nil
 	}
@@ -1138,8 +1140,9 @@ func (properties *SubscriptionAliasResponseProperties_STATUS) AssignProperties_F
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := SubscriptionAliasResponseProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		properties.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, subscriptionAliasResponseProperties_ProvisioningState_STATUS_Values)
+		properties.ProvisioningState = &provisioningStateTemp
 	} else {
 		properties.ProvisioningState = nil
 	}
@@ -1158,8 +1161,9 @@ func (properties *SubscriptionAliasResponseProperties_STATUS) AssignProperties_F
 
 	// Workload
 	if source.Workload != nil {
-		workload := Workload_STATUS(*source.Workload)
-		properties.Workload = &workload
+		workload := *source.Workload
+		workloadTemp := genruntime.ToEnum(workload, workload_STATUS_Values)
+		properties.Workload = &workloadTemp
 	} else {
 		properties.Workload = nil
 	}
@@ -1321,8 +1325,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -1335,8 +1340,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}

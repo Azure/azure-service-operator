@@ -710,8 +710,9 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) AssignProperties_F
 
 	// AlwaysServe
 	if source.AlwaysServe != nil {
-		alwaysServe := EndpointProperties_AlwaysServe(*source.AlwaysServe)
-		endpoint.AlwaysServe = &alwaysServe
+		alwaysServe := *source.AlwaysServe
+		alwaysServeTemp := genruntime.ToEnum(alwaysServe, endpointProperties_AlwaysServe_Values)
+		endpoint.AlwaysServe = &alwaysServeTemp
 	} else {
 		endpoint.AlwaysServe = nil
 	}
@@ -742,16 +743,18 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_Spec) AssignProperties_F
 
 	// EndpointMonitorStatus
 	if source.EndpointMonitorStatus != nil {
-		endpointMonitorStatus := EndpointProperties_EndpointMonitorStatus(*source.EndpointMonitorStatus)
-		endpoint.EndpointMonitorStatus = &endpointMonitorStatus
+		endpointMonitorStatus := *source.EndpointMonitorStatus
+		endpointMonitorStatusTemp := genruntime.ToEnum(endpointMonitorStatus, endpointProperties_EndpointMonitorStatus_Values)
+		endpoint.EndpointMonitorStatus = &endpointMonitorStatusTemp
 	} else {
 		endpoint.EndpointMonitorStatus = nil
 	}
 
 	// EndpointStatus
 	if source.EndpointStatus != nil {
-		endpointStatus := EndpointProperties_EndpointStatus(*source.EndpointStatus)
-		endpoint.EndpointStatus = &endpointStatus
+		endpointStatus := *source.EndpointStatus
+		endpointStatusTemp := genruntime.ToEnum(endpointStatus, endpointProperties_EndpointStatus_Values)
+		endpoint.EndpointStatus = &endpointStatusTemp
 	} else {
 		endpoint.EndpointStatus = nil
 	}
@@ -1351,8 +1354,9 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_STATUS) AssignProperties
 
 	// AlwaysServe
 	if source.AlwaysServe != nil {
-		alwaysServe := EndpointProperties_AlwaysServe_STATUS(*source.AlwaysServe)
-		endpoint.AlwaysServe = &alwaysServe
+		alwaysServe := *source.AlwaysServe
+		alwaysServeTemp := genruntime.ToEnum(alwaysServe, endpointProperties_AlwaysServe_STATUS_Values)
+		endpoint.AlwaysServe = &alwaysServeTemp
 	} else {
 		endpoint.AlwaysServe = nil
 	}
@@ -1383,16 +1387,18 @@ func (endpoint *Trafficmanagerprofiles_ExternalEndpoint_STATUS) AssignProperties
 
 	// EndpointMonitorStatus
 	if source.EndpointMonitorStatus != nil {
-		endpointMonitorStatus := EndpointProperties_EndpointMonitorStatus_STATUS(*source.EndpointMonitorStatus)
-		endpoint.EndpointMonitorStatus = &endpointMonitorStatus
+		endpointMonitorStatus := *source.EndpointMonitorStatus
+		endpointMonitorStatusTemp := genruntime.ToEnum(endpointMonitorStatus, endpointProperties_EndpointMonitorStatus_STATUS_Values)
+		endpoint.EndpointMonitorStatus = &endpointMonitorStatusTemp
 	} else {
 		endpoint.EndpointMonitorStatus = nil
 	}
 
 	// EndpointStatus
 	if source.EndpointStatus != nil {
-		endpointStatus := EndpointProperties_EndpointStatus_STATUS(*source.EndpointStatus)
-		endpoint.EndpointStatus = &endpointStatus
+		endpointStatus := *source.EndpointStatus
+		endpointStatusTemp := genruntime.ToEnum(endpointStatus, endpointProperties_EndpointStatus_STATUS_Values)
+		endpoint.EndpointStatus = &endpointStatusTemp
 	} else {
 		endpoint.EndpointStatus = nil
 	}

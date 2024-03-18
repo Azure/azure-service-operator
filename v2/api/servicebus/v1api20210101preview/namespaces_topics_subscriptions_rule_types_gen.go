@@ -562,8 +562,9 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_From_Nam
 
 	// FilterType
 	if source.FilterType != nil {
-		filterType := FilterType(*source.FilterType)
-		rule.FilterType = &filterType
+		filterType := *source.FilterType
+		filterTypeTemp := genruntime.ToEnum(filterType, filterType_Values)
+		rule.FilterType = &filterTypeTemp
 	} else {
 		rule.FilterType = nil
 	}
@@ -888,8 +889,9 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_From_N
 
 	// FilterType
 	if source.FilterType != nil {
-		filterType := FilterType_STATUS(*source.FilterType)
-		rule.FilterType = &filterType
+		filterType := *source.FilterType
+		filterTypeTemp := genruntime.ToEnum(filterType, filterType_STATUS_Values)
+		rule.FilterType = &filterTypeTemp
 	} else {
 		rule.FilterType = nil
 	}
@@ -1736,6 +1738,12 @@ const (
 	FilterType_SqlFilter         = FilterType("SqlFilter")
 )
 
+// Mapping from string to FilterType
+var filterType_Values = map[string]FilterType{
+	"correlationfilter": FilterType_CorrelationFilter,
+	"sqlfilter":         FilterType_SqlFilter,
+}
+
 // Rule filter types
 type FilterType_STATUS string
 
@@ -1743,6 +1751,12 @@ const (
 	FilterType_STATUS_CorrelationFilter = FilterType_STATUS("CorrelationFilter")
 	FilterType_STATUS_SqlFilter         = FilterType_STATUS("SqlFilter")
 )
+
+// Mapping from string to FilterType_STATUS
+var filterType_STATUS_Values = map[string]FilterType_STATUS{
+	"correlationfilter": FilterType_STATUS_CorrelationFilter,
+	"sqlfilter":         FilterType_STATUS_SqlFilter,
+}
 
 // Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
 type SqlFilter struct {

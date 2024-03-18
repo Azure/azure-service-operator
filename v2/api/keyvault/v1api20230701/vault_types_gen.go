@@ -964,8 +964,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := IdentityType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, identityType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -978,8 +979,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := IdentityType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, identityType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -1368,8 +1370,9 @@ func (properties *VaultProperties) AssignProperties_From_VaultProperties(source 
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := VaultProperties_CreateMode(*source.CreateMode)
-		properties.CreateMode = &createMode
+		createMode := *source.CreateMode
+		createModeTemp := genruntime.ToEnum(createMode, vaultProperties_CreateMode_Values)
+		properties.CreateMode = &createModeTemp
 	} else {
 		properties.CreateMode = nil
 	}
@@ -1436,8 +1439,9 @@ func (properties *VaultProperties) AssignProperties_From_VaultProperties(source 
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := VaultProperties_ProvisioningState(*source.ProvisioningState)
-		properties.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, vaultProperties_ProvisioningState_Values)
+		properties.ProvisioningState = &provisioningStateTemp
 	} else {
 		properties.ProvisioningState = nil
 	}
@@ -1992,8 +1996,9 @@ func (properties *VaultProperties_STATUS) AssignProperties_From_VaultProperties_
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := VaultProperties_CreateMode_STATUS(*source.CreateMode)
-		properties.CreateMode = &createMode
+		createMode := *source.CreateMode
+		createModeTemp := genruntime.ToEnum(createMode, vaultProperties_CreateMode_STATUS_Values)
+		properties.CreateMode = &createModeTemp
 	} else {
 		properties.CreateMode = nil
 	}
@@ -2081,8 +2086,9 @@ func (properties *VaultProperties_STATUS) AssignProperties_From_VaultProperties_
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := VaultProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		properties.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, vaultProperties_ProvisioningState_STATUS_Values)
+		properties.ProvisioningState = &provisioningStateTemp
 	} else {
 		properties.ProvisioningState = nil
 	}
@@ -2826,16 +2832,18 @@ func (ruleSet *NetworkRuleSet) AssignProperties_From_NetworkRuleSet(source *v202
 
 	// Bypass
 	if source.Bypass != nil {
-		bypass := NetworkRuleSet_Bypass(*source.Bypass)
-		ruleSet.Bypass = &bypass
+		bypass := *source.Bypass
+		bypassTemp := genruntime.ToEnum(bypass, networkRuleSet_Bypass_Values)
+		ruleSet.Bypass = &bypassTemp
 	} else {
 		ruleSet.Bypass = nil
 	}
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		defaultAction := NetworkRuleSet_DefaultAction(*source.DefaultAction)
-		ruleSet.DefaultAction = &defaultAction
+		defaultAction := *source.DefaultAction
+		defaultActionTemp := genruntime.ToEnum(defaultAction, networkRuleSet_DefaultAction_Values)
+		ruleSet.DefaultAction = &defaultActionTemp
 	} else {
 		ruleSet.DefaultAction = nil
 	}
@@ -3079,16 +3087,18 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_From_NetworkRuleSet_STATU
 
 	// Bypass
 	if source.Bypass != nil {
-		bypass := NetworkRuleSet_Bypass_STATUS(*source.Bypass)
-		ruleSet.Bypass = &bypass
+		bypass := *source.Bypass
+		bypassTemp := genruntime.ToEnum(bypass, networkRuleSet_Bypass_STATUS_Values)
+		ruleSet.Bypass = &bypassTemp
 	} else {
 		ruleSet.Bypass = nil
 	}
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		defaultAction := NetworkRuleSet_DefaultAction_STATUS(*source.DefaultAction)
-		ruleSet.DefaultAction = &defaultAction
+		defaultAction := *source.DefaultAction
+		defaultActionTemp := genruntime.ToEnum(defaultAction, networkRuleSet_DefaultAction_STATUS_Values)
+		ruleSet.DefaultAction = &defaultActionTemp
 	} else {
 		ruleSet.DefaultAction = nil
 	}
@@ -3321,8 +3331,9 @@ func (item *PrivateEndpointConnectionItem_STATUS) AssignProperties_From_PrivateE
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := PrivateEndpointConnectionProvisioningState_STATUS(*source.ProvisioningState)
-		item.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, privateEndpointConnectionProvisioningState_STATUS_Values)
+		item.ProvisioningState = &provisioningStateTemp
 	} else {
 		item.ProvisioningState = nil
 	}
@@ -3452,16 +3463,18 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20230701s.Sku) error {
 
 	// Family
 	if source.Family != nil {
-		family := Sku_Family(*source.Family)
-		sku.Family = &family
+		family := *source.Family
+		familyTemp := genruntime.ToEnum(family, sku_Family_Values)
+		sku.Family = &familyTemp
 	} else {
 		sku.Family = nil
 	}
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sku_Name_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}
@@ -3569,16 +3582,18 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20230701s.Sku_S
 
 	// Family
 	if source.Family != nil {
-		family := Sku_Family_STATUS(*source.Family)
-		sku.Family = &family
+		family := *source.Family
+		familyTemp := genruntime.ToEnum(family, sku_Family_STATUS_Values)
+		sku.Family = &familyTemp
 	} else {
 		sku.Family = nil
 	}
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name_STATUS(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sku_Name_STATUS_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}
@@ -3856,7 +3871,7 @@ func (permissions *Permissions) AssignProperties_From_Permissions(source *v20230
 		for certificateIndex, certificateItem := range source.Certificates {
 			// Shadow the loop variable to avoid aliasing
 			certificateItem := certificateItem
-			certificateList[certificateIndex] = Permissions_Certificates(certificateItem)
+			certificateList[certificateIndex] = genruntime.ToEnum(certificateItem, permissions_Certificates_Values)
 		}
 		permissions.Certificates = certificateList
 	} else {
@@ -3869,7 +3884,7 @@ func (permissions *Permissions) AssignProperties_From_Permissions(source *v20230
 		for keyIndex, keyItem := range source.Keys {
 			// Shadow the loop variable to avoid aliasing
 			keyItem := keyItem
-			keyList[keyIndex] = Permissions_Keys(keyItem)
+			keyList[keyIndex] = genruntime.ToEnum(keyItem, permissions_Keys_Values)
 		}
 		permissions.Keys = keyList
 	} else {
@@ -3882,7 +3897,7 @@ func (permissions *Permissions) AssignProperties_From_Permissions(source *v20230
 		for secretIndex, secretItem := range source.Secrets {
 			// Shadow the loop variable to avoid aliasing
 			secretItem := secretItem
-			secretList[secretIndex] = Permissions_Secrets(secretItem)
+			secretList[secretIndex] = genruntime.ToEnum(secretItem, permissions_Secrets_Values)
 		}
 		permissions.Secrets = secretList
 	} else {
@@ -3895,7 +3910,7 @@ func (permissions *Permissions) AssignProperties_From_Permissions(source *v20230
 		for storageIndex, storageItem := range source.Storage {
 			// Shadow the loop variable to avoid aliasing
 			storageItem := storageItem
-			storageList[storageIndex] = Permissions_Storage(storageItem)
+			storageList[storageIndex] = genruntime.ToEnum(storageItem, permissions_Storage_Values)
 		}
 		permissions.Storage = storageList
 	} else {
@@ -4099,7 +4114,7 @@ func (permissions *Permissions_STATUS) AssignProperties_From_Permissions_STATUS(
 		for certificateIndex, certificateItem := range source.Certificates {
 			// Shadow the loop variable to avoid aliasing
 			certificateItem := certificateItem
-			certificateList[certificateIndex] = Permissions_Certificates_STATUS(certificateItem)
+			certificateList[certificateIndex] = genruntime.ToEnum(certificateItem, permissions_Certificates_STATUS_Values)
 		}
 		permissions.Certificates = certificateList
 	} else {
@@ -4112,7 +4127,7 @@ func (permissions *Permissions_STATUS) AssignProperties_From_Permissions_STATUS(
 		for keyIndex, keyItem := range source.Keys {
 			// Shadow the loop variable to avoid aliasing
 			keyItem := keyItem
-			keyList[keyIndex] = Permissions_Keys_STATUS(keyItem)
+			keyList[keyIndex] = genruntime.ToEnum(keyItem, permissions_Keys_STATUS_Values)
 		}
 		permissions.Keys = keyList
 	} else {
@@ -4125,7 +4140,7 @@ func (permissions *Permissions_STATUS) AssignProperties_From_Permissions_STATUS(
 		for secretIndex, secretItem := range source.Secrets {
 			// Shadow the loop variable to avoid aliasing
 			secretItem := secretItem
-			secretList[secretIndex] = Permissions_Secrets_STATUS(secretItem)
+			secretList[secretIndex] = genruntime.ToEnum(secretItem, permissions_Secrets_STATUS_Values)
 		}
 		permissions.Secrets = secretList
 	} else {
@@ -4138,7 +4153,7 @@ func (permissions *Permissions_STATUS) AssignProperties_From_Permissions_STATUS(
 		for storageIndex, storageItem := range source.Storage {
 			// Shadow the loop variable to avoid aliasing
 			storageItem := storageItem
-			storageList[storageIndex] = Permissions_Storage_STATUS(storageItem)
+			storageList[storageIndex] = genruntime.ToEnum(storageItem, permissions_Storage_STATUS_Values)
 		}
 		permissions.Storage = storageList
 	} else {
@@ -4288,6 +4303,16 @@ const (
 	PrivateEndpointConnectionProvisioningState_STATUS_Updating     = PrivateEndpointConnectionProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to PrivateEndpointConnectionProvisioningState_STATUS
+var privateEndpointConnectionProvisioningState_STATUS_Values = map[string]PrivateEndpointConnectionProvisioningState_STATUS{
+	"creating":     PrivateEndpointConnectionProvisioningState_STATUS_Creating,
+	"deleting":     PrivateEndpointConnectionProvisioningState_STATUS_Deleting,
+	"disconnected": PrivateEndpointConnectionProvisioningState_STATUS_Disconnected,
+	"failed":       PrivateEndpointConnectionProvisioningState_STATUS_Failed,
+	"succeeded":    PrivateEndpointConnectionProvisioningState_STATUS_Succeeded,
+	"updating":     PrivateEndpointConnectionProvisioningState_STATUS_Updating,
+}
+
 // An object that represents the approval state of the private link connection.
 type PrivateLinkServiceConnectionState_STATUS struct {
 	// ActionsRequired: A message indicating if changes on the service provider require any updates on the consumer.
@@ -4341,8 +4366,9 @@ func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_From_Pri
 
 	// ActionsRequired
 	if source.ActionsRequired != nil {
-		actionsRequired := PrivateLinkServiceConnectionState_ActionsRequired_STATUS(*source.ActionsRequired)
-		state.ActionsRequired = &actionsRequired
+		actionsRequired := *source.ActionsRequired
+		actionsRequiredTemp := genruntime.ToEnum(actionsRequired, privateLinkServiceConnectionState_ActionsRequired_STATUS_Values)
+		state.ActionsRequired = &actionsRequiredTemp
 	} else {
 		state.ActionsRequired = nil
 	}
@@ -4352,8 +4378,9 @@ func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_From_Pri
 
 	// Status
 	if source.Status != nil {
-		status := PrivateEndpointServiceConnectionStatus_STATUS(*source.Status)
-		state.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, privateEndpointServiceConnectionStatus_STATUS_Values)
+		state.Status = &statusTemp
 	} else {
 		state.Status = nil
 	}
@@ -4634,9 +4661,22 @@ const (
 	PrivateEndpointServiceConnectionStatus_STATUS_Rejected     = PrivateEndpointServiceConnectionStatus_STATUS("Rejected")
 )
 
+// Mapping from string to PrivateEndpointServiceConnectionStatus_STATUS
+var privateEndpointServiceConnectionStatus_STATUS_Values = map[string]PrivateEndpointServiceConnectionStatus_STATUS{
+	"approved":     PrivateEndpointServiceConnectionStatus_STATUS_Approved,
+	"disconnected": PrivateEndpointServiceConnectionStatus_STATUS_Disconnected,
+	"pending":      PrivateEndpointServiceConnectionStatus_STATUS_Pending,
+	"rejected":     PrivateEndpointServiceConnectionStatus_STATUS_Rejected,
+}
+
 type PrivateLinkServiceConnectionState_ActionsRequired_STATUS string
 
 const PrivateLinkServiceConnectionState_ActionsRequired_STATUS_None = PrivateLinkServiceConnectionState_ActionsRequired_STATUS("None")
+
+// Mapping from string to PrivateLinkServiceConnectionState_ActionsRequired_STATUS
+var privateLinkServiceConnectionState_ActionsRequired_STATUS_Values = map[string]PrivateLinkServiceConnectionState_ActionsRequired_STATUS{
+	"none": PrivateLinkServiceConnectionState_ActionsRequired_STATUS_None,
+}
 
 func init() {
 	SchemeBuilder.Register(&Vault{}, &VaultList{})

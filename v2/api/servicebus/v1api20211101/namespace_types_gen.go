@@ -1548,8 +1548,9 @@ func (encryption *Encryption) AssignProperties_From_Encryption(source *v20211101
 
 	// KeySource
 	if source.KeySource != nil {
-		keySource := Encryption_KeySource(*source.KeySource)
-		encryption.KeySource = &keySource
+		keySource := *source.KeySource
+		keySourceTemp := genruntime.ToEnum(keySource, encryption_KeySource_Values)
+		encryption.KeySource = &keySourceTemp
 	} else {
 		encryption.KeySource = nil
 	}
@@ -1732,8 +1733,9 @@ func (encryption *Encryption_STATUS) AssignProperties_From_Encryption_STATUS(sou
 
 	// KeySource
 	if source.KeySource != nil {
-		keySource := Encryption_KeySource_STATUS(*source.KeySource)
-		encryption.KeySource = &keySource
+		keySource := *source.KeySource
+		keySourceTemp := genruntime.ToEnum(keySource, encryption_KeySource_STATUS_Values)
+		encryption.KeySource = &keySourceTemp
 	} else {
 		encryption.KeySource = nil
 	}
@@ -1884,8 +1886,9 @@ func (identity *Identity) AssignProperties_From_Identity(source *v20211101s.Iden
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, identity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2056,8 +2059,9 @@ func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *v
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, identity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2329,16 +2333,18 @@ func (sbSku *SBSku) AssignProperties_From_SBSku(source *v20211101s.SBSku) error 
 
 	// Name
 	if source.Name != nil {
-		name := SBSku_Name(*source.Name)
-		sbSku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sBSku_Name_Values)
+		sbSku.Name = &nameTemp
 	} else {
 		sbSku.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := SBSku_Tier(*source.Tier)
-		sbSku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, sBSku_Tier_Values)
+		sbSku.Tier = &tierTemp
 	} else {
 		sbSku.Tier = nil
 	}
@@ -2464,16 +2470,18 @@ func (sbSku *SBSku_STATUS) AssignProperties_From_SBSku_STATUS(source *v20211101s
 
 	// Name
 	if source.Name != nil {
-		name := SBSku_Name_STATUS(*source.Name)
-		sbSku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sBSku_Name_STATUS_Values)
+		sbSku.Name = &nameTemp
 	} else {
 		sbSku.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := SBSku_Tier_STATUS(*source.Tier)
-		sbSku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, sBSku_Tier_STATUS_Values)
+		sbSku.Tier = &tierTemp
 	} else {
 		sbSku.Tier = nil
 	}
@@ -2603,8 +2611,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -2617,8 +2626,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -2676,9 +2686,19 @@ type Encryption_KeySource string
 
 const Encryption_KeySource_MicrosoftKeyVault = Encryption_KeySource("Microsoft.KeyVault")
 
+// Mapping from string to Encryption_KeySource
+var encryption_KeySource_Values = map[string]Encryption_KeySource{
+	"microsoft.keyvault": Encryption_KeySource_MicrosoftKeyVault,
+}
+
 type Encryption_KeySource_STATUS string
 
 const Encryption_KeySource_STATUS_MicrosoftKeyVault = Encryption_KeySource_STATUS("Microsoft.KeyVault")
+
+// Mapping from string to Encryption_KeySource_STATUS
+var encryption_KeySource_STATUS_Values = map[string]Encryption_KeySource_STATUS{
+	"microsoft.keyvault": Encryption_KeySource_STATUS_MicrosoftKeyVault,
+}
 
 // Properties to configure keyVault Properties
 type KeyVaultProperties struct {

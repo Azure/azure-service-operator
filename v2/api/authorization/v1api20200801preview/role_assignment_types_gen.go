@@ -602,8 +602,9 @@ func (assignment *RoleAssignment_Spec) AssignProperties_From_RoleAssignment_Spec
 
 	// PrincipalType
 	if source.PrincipalType != nil {
-		principalType := RoleAssignmentProperties_PrincipalType(*source.PrincipalType)
-		assignment.PrincipalType = &principalType
+		principalType := *source.PrincipalType
+		principalTypeTemp := genruntime.ToEnum(principalType, roleAssignmentProperties_PrincipalType_Values)
+		assignment.PrincipalType = &principalTypeTemp
 	} else {
 		assignment.PrincipalType = nil
 	}
@@ -983,8 +984,9 @@ func (assignment *RoleAssignment_STATUS) AssignProperties_From_RoleAssignment_ST
 
 	// PrincipalType
 	if source.PrincipalType != nil {
-		principalType := RoleAssignmentProperties_PrincipalType_STATUS(*source.PrincipalType)
-		assignment.PrincipalType = &principalType
+		principalType := *source.PrincipalType
+		principalTypeTemp := genruntime.ToEnum(principalType, roleAssignmentProperties_PrincipalType_STATUS_Values)
+		assignment.PrincipalType = &principalTypeTemp
 	} else {
 		assignment.PrincipalType = nil
 	}
@@ -1087,6 +1089,14 @@ const (
 	RoleAssignmentProperties_PrincipalType_User             = RoleAssignmentProperties_PrincipalType("User")
 )
 
+// Mapping from string to RoleAssignmentProperties_PrincipalType
+var roleAssignmentProperties_PrincipalType_Values = map[string]RoleAssignmentProperties_PrincipalType{
+	"foreigngroup":     RoleAssignmentProperties_PrincipalType_ForeignGroup,
+	"group":            RoleAssignmentProperties_PrincipalType_Group,
+	"serviceprincipal": RoleAssignmentProperties_PrincipalType_ServicePrincipal,
+	"user":             RoleAssignmentProperties_PrincipalType_User,
+}
+
 type RoleAssignmentProperties_PrincipalType_STATUS string
 
 const (
@@ -1095,6 +1105,14 @@ const (
 	RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal = RoleAssignmentProperties_PrincipalType_STATUS("ServicePrincipal")
 	RoleAssignmentProperties_PrincipalType_STATUS_User             = RoleAssignmentProperties_PrincipalType_STATUS("User")
 )
+
+// Mapping from string to RoleAssignmentProperties_PrincipalType_STATUS
+var roleAssignmentProperties_PrincipalType_STATUS_Values = map[string]RoleAssignmentProperties_PrincipalType_STATUS{
+	"foreigngroup":     RoleAssignmentProperties_PrincipalType_STATUS_ForeignGroup,
+	"group":            RoleAssignmentProperties_PrincipalType_STATUS_Group,
+	"serviceprincipal": RoleAssignmentProperties_PrincipalType_STATUS_ServicePrincipal,
+	"user":             RoleAssignmentProperties_PrincipalType_STATUS_User,
+}
 
 func init() {
 	SchemeBuilder.Register(&RoleAssignment{}, &RoleAssignmentList{})

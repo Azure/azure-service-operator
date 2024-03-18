@@ -615,8 +615,9 @@ func (rule *LoadBalancers_InboundNatRule_Spec) AssignProperties_From_LoadBalance
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := TransportProtocol(*source.Protocol)
-		rule.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, transportProtocol_Values)
+		rule.Protocol = &protocolTemp
 	} else {
 		rule.Protocol = nil
 	}
@@ -1064,16 +1065,18 @@ func (rule *LoadBalancers_InboundNatRule_STATUS) AssignProperties_From_LoadBalan
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := TransportProtocol_STATUS(*source.Protocol)
-		rule.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, transportProtocol_STATUS_Values)
+		rule.Protocol = &protocolTemp
 	} else {
 		rule.Protocol = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		rule.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		rule.ProvisioningState = &provisioningStateTemp
 	} else {
 		rule.ProvisioningState = nil
 	}
@@ -1408,6 +1411,13 @@ const (
 	TransportProtocol_Udp = TransportProtocol("Udp")
 )
 
+// Mapping from string to TransportProtocol
+var transportProtocol_Values = map[string]TransportProtocol{
+	"all": TransportProtocol_All,
+	"tcp": TransportProtocol_Tcp,
+	"udp": TransportProtocol_Udp,
+}
+
 // The transport protocol for the endpoint.
 type TransportProtocol_STATUS string
 
@@ -1416,6 +1426,13 @@ const (
 	TransportProtocol_STATUS_Tcp = TransportProtocol_STATUS("Tcp")
 	TransportProtocol_STATUS_Udp = TransportProtocol_STATUS("Udp")
 )
+
+// Mapping from string to TransportProtocol_STATUS
+var transportProtocol_STATUS_Values = map[string]TransportProtocol_STATUS{
+	"all": TransportProtocol_STATUS_All,
+	"tcp": TransportProtocol_STATUS_Tcp,
+	"udp": TransportProtocol_STATUS_Udp,
+}
 
 func init() {
 	SchemeBuilder.Register(&LoadBalancersInboundNatRule{}, &LoadBalancersInboundNatRuleList{})

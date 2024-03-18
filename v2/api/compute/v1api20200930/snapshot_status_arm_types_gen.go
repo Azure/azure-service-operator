@@ -103,3 +103,10 @@ const (
 	SnapshotSku_Name_STATUS_Standard_LRS = SnapshotSku_Name_STATUS("Standard_LRS")
 	SnapshotSku_Name_STATUS_Standard_ZRS = SnapshotSku_Name_STATUS("Standard_ZRS")
 )
+
+// Mapping from string to SnapshotSku_Name_STATUS
+var snapshotSku_Name_STATUS_Values = map[string]SnapshotSku_Name_STATUS{
+	"premium_lrs":  SnapshotSku_Name_STATUS_Premium_LRS,
+	"standard_lrs": SnapshotSku_Name_STATUS_Standard_LRS,
+	"standard_zrs": SnapshotSku_Name_STATUS_Standard_ZRS,
+}

@@ -333,6 +333,14 @@ const (
 	VirtualMachineIdentity_Type_UserAssigned               = VirtualMachineIdentity_Type("UserAssigned")
 )
 
+// Mapping from string to VirtualMachineIdentity_Type
+var virtualMachineIdentity_Type_Values = map[string]VirtualMachineIdentity_Type{
+	"none":                         VirtualMachineIdentity_Type_None,
+	"systemassigned":               VirtualMachineIdentity_Type_SystemAssigned,
+	"systemassigned, userassigned": VirtualMachineIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 VirtualMachineIdentity_Type_UserAssigned,
+}
+
 // Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status.
 // You can easily view the output of your console log.
 // Azure also enables you to see a screenshot of the

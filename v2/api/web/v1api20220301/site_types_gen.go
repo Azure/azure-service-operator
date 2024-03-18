@@ -1057,8 +1057,9 @@ func (site *Site_Spec) AssignProperties_From_Site_Spec(source *v20220301s.Site_S
 
 	// ClientCertMode
 	if source.ClientCertMode != nil {
-		clientCertMode := Site_Properties_ClientCertMode_Spec(*source.ClientCertMode)
-		site.ClientCertMode = &clientCertMode
+		clientCertMode := *source.ClientCertMode
+		clientCertModeTemp := genruntime.ToEnum(clientCertMode, site_Properties_ClientCertMode_Spec_Values)
+		site.ClientCertMode = &clientCertModeTemp
 	} else {
 		site.ClientCertMode = nil
 	}
@@ -1200,8 +1201,9 @@ func (site *Site_Spec) AssignProperties_From_Site_Spec(source *v20220301s.Site_S
 
 	// RedundancyMode
 	if source.RedundancyMode != nil {
-		redundancyMode := Site_Properties_RedundancyMode_Spec(*source.RedundancyMode)
-		site.RedundancyMode = &redundancyMode
+		redundancyMode := *source.RedundancyMode
+		redundancyModeTemp := genruntime.ToEnum(redundancyMode, site_Properties_RedundancyMode_Spec_Values)
+		site.RedundancyMode = &redundancyModeTemp
 	} else {
 		site.RedundancyMode = nil
 	}
@@ -2562,8 +2564,9 @@ func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *v20220301s.Si
 
 	// AvailabilityState
 	if source.AvailabilityState != nil {
-		availabilityState := Site_Properties_AvailabilityState_STATUS(*source.AvailabilityState)
-		site.AvailabilityState = &availabilityState
+		availabilityState := *source.AvailabilityState
+		availabilityStateTemp := genruntime.ToEnum(availabilityState, site_Properties_AvailabilityState_STATUS_Values)
+		site.AvailabilityState = &availabilityStateTemp
 	} else {
 		site.AvailabilityState = nil
 	}
@@ -2589,8 +2592,9 @@ func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *v20220301s.Si
 
 	// ClientCertMode
 	if source.ClientCertMode != nil {
-		clientCertMode := Site_Properties_ClientCertMode_STATUS(*source.ClientCertMode)
-		site.ClientCertMode = &clientCertMode
+		clientCertMode := *source.ClientCertMode
+		clientCertModeTemp := genruntime.ToEnum(clientCertMode, site_Properties_ClientCertMode_STATUS_Values)
+		site.ClientCertMode = &clientCertModeTemp
 	} else {
 		site.ClientCertMode = nil
 	}
@@ -2765,8 +2769,9 @@ func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *v20220301s.Si
 
 	// RedundancyMode
 	if source.RedundancyMode != nil {
-		redundancyMode := Site_Properties_RedundancyMode_STATUS(*source.RedundancyMode)
-		site.RedundancyMode = &redundancyMode
+		redundancyMode := *source.RedundancyMode
+		redundancyModeTemp := genruntime.ToEnum(redundancyMode, site_Properties_RedundancyMode_STATUS_Values)
+		site.RedundancyMode = &redundancyModeTemp
 	} else {
 		site.RedundancyMode = nil
 	}
@@ -2848,8 +2853,9 @@ func (site *Site_STATUS) AssignProperties_From_Site_STATUS(source *v20220301s.Si
 
 	// UsageState
 	if source.UsageState != nil {
-		usageState := Site_Properties_UsageState_STATUS(*source.UsageState)
-		site.UsageState = &usageState
+		usageState := *source.UsageState
+		usageStateTemp := genruntime.ToEnum(usageState, site_Properties_UsageState_STATUS_Values)
+		site.UsageState = &usageStateTemp
 	} else {
 		site.UsageState = nil
 	}
@@ -4053,8 +4059,9 @@ func (state *HostNameSslState) AssignProperties_From_HostNameSslState(source *v2
 
 	// HostType
 	if source.HostType != nil {
-		hostType := HostNameSslState_HostType(*source.HostType)
-		state.HostType = &hostType
+		hostType := *source.HostType
+		hostTypeTemp := genruntime.ToEnum(hostType, hostNameSslState_HostType_Values)
+		state.HostType = &hostTypeTemp
 	} else {
 		state.HostType = nil
 	}
@@ -4064,8 +4071,9 @@ func (state *HostNameSslState) AssignProperties_From_HostNameSslState(source *v2
 
 	// SslState
 	if source.SslState != nil {
-		sslState := HostNameSslState_SslState(*source.SslState)
-		state.SslState = &sslState
+		sslState := *source.SslState
+		sslStateTemp := genruntime.ToEnum(sslState, hostNameSslState_SslState_Values)
+		state.SslState = &sslStateTemp
 	} else {
 		state.SslState = nil
 	}
@@ -4257,8 +4265,9 @@ func (state *HostNameSslState_STATUS) AssignProperties_From_HostNameSslState_STA
 
 	// HostType
 	if source.HostType != nil {
-		hostType := HostNameSslState_HostType_STATUS(*source.HostType)
-		state.HostType = &hostType
+		hostType := *source.HostType
+		hostTypeTemp := genruntime.ToEnum(hostType, hostNameSslState_HostType_STATUS_Values)
+		state.HostType = &hostTypeTemp
 	} else {
 		state.HostType = nil
 	}
@@ -4268,8 +4277,9 @@ func (state *HostNameSslState_STATUS) AssignProperties_From_HostNameSslState_STA
 
 	// SslState
 	if source.SslState != nil {
-		sslState := HostNameSslState_SslState_STATUS(*source.SslState)
-		state.SslState = &sslState
+		sslState := *source.SslState
+		sslStateTemp := genruntime.ToEnum(sslState, hostNameSslState_SslState_STATUS_Values)
+		state.SslState = &sslStateTemp
 	} else {
 		state.SslState = nil
 	}
@@ -4409,8 +4419,9 @@ func (identity *ManagedServiceIdentity) AssignProperties_From_ManagedServiceIden
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedServiceIdentity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedServiceIdentity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -4583,8 +4594,9 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_From_ManagedServ
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedServiceIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedServiceIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -4667,6 +4679,13 @@ const (
 	Site_Properties_AvailabilityState_STATUS_Normal               = Site_Properties_AvailabilityState_STATUS("Normal")
 )
 
+// Mapping from string to Site_Properties_AvailabilityState_STATUS
+var site_Properties_AvailabilityState_STATUS_Values = map[string]Site_Properties_AvailabilityState_STATUS{
+	"disasterrecoverymode": Site_Properties_AvailabilityState_STATUS_DisasterRecoveryMode,
+	"limited":              Site_Properties_AvailabilityState_STATUS_Limited,
+	"normal":               Site_Properties_AvailabilityState_STATUS_Normal,
+}
+
 // +kubebuilder:validation:Enum={"Optional","OptionalInteractiveUser","Required"}
 type Site_Properties_ClientCertMode_Spec string
 
@@ -4676,6 +4695,13 @@ const (
 	Site_Properties_ClientCertMode_Spec_Required                = Site_Properties_ClientCertMode_Spec("Required")
 )
 
+// Mapping from string to Site_Properties_ClientCertMode_Spec
+var site_Properties_ClientCertMode_Spec_Values = map[string]Site_Properties_ClientCertMode_Spec{
+	"optional":                Site_Properties_ClientCertMode_Spec_Optional,
+	"optionalinteractiveuser": Site_Properties_ClientCertMode_Spec_OptionalInteractiveUser,
+	"required":                Site_Properties_ClientCertMode_Spec_Required,
+}
+
 type Site_Properties_ClientCertMode_STATUS string
 
 const (
@@ -4683,6 +4709,13 @@ const (
 	Site_Properties_ClientCertMode_STATUS_OptionalInteractiveUser = Site_Properties_ClientCertMode_STATUS("OptionalInteractiveUser")
 	Site_Properties_ClientCertMode_STATUS_Required                = Site_Properties_ClientCertMode_STATUS("Required")
 )
+
+// Mapping from string to Site_Properties_ClientCertMode_STATUS
+var site_Properties_ClientCertMode_STATUS_Values = map[string]Site_Properties_ClientCertMode_STATUS{
+	"optional":                Site_Properties_ClientCertMode_STATUS_Optional,
+	"optionalinteractiveuser": Site_Properties_ClientCertMode_STATUS_OptionalInteractiveUser,
+	"required":                Site_Properties_ClientCertMode_STATUS_Required,
+}
 
 // +kubebuilder:validation:Enum={"ActiveActive","Failover","GeoRedundant","Manual","None"}
 type Site_Properties_RedundancyMode_Spec string
@@ -4695,6 +4728,15 @@ const (
 	Site_Properties_RedundancyMode_Spec_None         = Site_Properties_RedundancyMode_Spec("None")
 )
 
+// Mapping from string to Site_Properties_RedundancyMode_Spec
+var site_Properties_RedundancyMode_Spec_Values = map[string]Site_Properties_RedundancyMode_Spec{
+	"activeactive": Site_Properties_RedundancyMode_Spec_ActiveActive,
+	"failover":     Site_Properties_RedundancyMode_Spec_Failover,
+	"georedundant": Site_Properties_RedundancyMode_Spec_GeoRedundant,
+	"manual":       Site_Properties_RedundancyMode_Spec_Manual,
+	"none":         Site_Properties_RedundancyMode_Spec_None,
+}
+
 type Site_Properties_RedundancyMode_STATUS string
 
 const (
@@ -4705,12 +4747,27 @@ const (
 	Site_Properties_RedundancyMode_STATUS_None         = Site_Properties_RedundancyMode_STATUS("None")
 )
 
+// Mapping from string to Site_Properties_RedundancyMode_STATUS
+var site_Properties_RedundancyMode_STATUS_Values = map[string]Site_Properties_RedundancyMode_STATUS{
+	"activeactive": Site_Properties_RedundancyMode_STATUS_ActiveActive,
+	"failover":     Site_Properties_RedundancyMode_STATUS_Failover,
+	"georedundant": Site_Properties_RedundancyMode_STATUS_GeoRedundant,
+	"manual":       Site_Properties_RedundancyMode_STATUS_Manual,
+	"none":         Site_Properties_RedundancyMode_STATUS_None,
+}
+
 type Site_Properties_UsageState_STATUS string
 
 const (
 	Site_Properties_UsageState_STATUS_Exceeded = Site_Properties_UsageState_STATUS("Exceeded")
 	Site_Properties_UsageState_STATUS_Normal   = Site_Properties_UsageState_STATUS("Normal")
 )
+
+// Mapping from string to Site_Properties_UsageState_STATUS
+var site_Properties_UsageState_STATUS_Values = map[string]Site_Properties_UsageState_STATUS{
+	"exceeded": Site_Properties_UsageState_STATUS_Exceeded,
+	"normal":   Site_Properties_UsageState_STATUS_Normal,
+}
 
 // Configuration of an App Service app.
 type SiteConfig struct {
@@ -6030,8 +6087,9 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *v20220301s.Si
 
 	// FtpsState
 	if source.FtpsState != nil {
-		ftpsState := SiteConfig_FtpsState(*source.FtpsState)
-		config.FtpsState = &ftpsState
+		ftpsState := *source.FtpsState
+		ftpsStateTemp := genruntime.ToEnum(ftpsState, siteConfig_FtpsState_Values)
+		config.FtpsState = &ftpsStateTemp
 	} else {
 		config.FtpsState = nil
 	}
@@ -6136,8 +6194,9 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *v20220301s.Si
 
 	// LoadBalancing
 	if source.LoadBalancing != nil {
-		loadBalancing := SiteConfig_LoadBalancing(*source.LoadBalancing)
-		config.LoadBalancing = &loadBalancing
+		loadBalancing := *source.LoadBalancing
+		loadBalancingTemp := genruntime.ToEnum(loadBalancing, siteConfig_LoadBalancing_Values)
+		config.LoadBalancing = &loadBalancingTemp
 	} else {
 		config.LoadBalancing = nil
 	}
@@ -6155,8 +6214,9 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *v20220301s.Si
 
 	// ManagedPipelineMode
 	if source.ManagedPipelineMode != nil {
-		managedPipelineMode := SiteConfig_ManagedPipelineMode(*source.ManagedPipelineMode)
-		config.ManagedPipelineMode = &managedPipelineMode
+		managedPipelineMode := *source.ManagedPipelineMode
+		managedPipelineModeTemp := genruntime.ToEnum(managedPipelineMode, siteConfig_ManagedPipelineMode_Values)
+		config.ManagedPipelineMode = &managedPipelineModeTemp
 	} else {
 		config.ManagedPipelineMode = nil
 	}
@@ -6166,8 +6226,9 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *v20220301s.Si
 
 	// MinTlsVersion
 	if source.MinTlsVersion != nil {
-		minTlsVersion := SiteConfig_MinTlsVersion(*source.MinTlsVersion)
-		config.MinTlsVersion = &minTlsVersion
+		minTlsVersion := *source.MinTlsVersion
+		minTlsVersionTemp := genruntime.ToEnum(minTlsVersion, siteConfig_MinTlsVersion_Values)
+		config.MinTlsVersion = &minTlsVersionTemp
 	} else {
 		config.MinTlsVersion = nil
 	}
@@ -6274,16 +6335,18 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *v20220301s.Si
 
 	// ScmMinTlsVersion
 	if source.ScmMinTlsVersion != nil {
-		scmMinTlsVersion := SiteConfig_ScmMinTlsVersion(*source.ScmMinTlsVersion)
-		config.ScmMinTlsVersion = &scmMinTlsVersion
+		scmMinTlsVersion := *source.ScmMinTlsVersion
+		scmMinTlsVersionTemp := genruntime.ToEnum(scmMinTlsVersion, siteConfig_ScmMinTlsVersion_Values)
+		config.ScmMinTlsVersion = &scmMinTlsVersionTemp
 	} else {
 		config.ScmMinTlsVersion = nil
 	}
 
 	// ScmType
 	if source.ScmType != nil {
-		scmType := SiteConfig_ScmType(*source.ScmType)
-		config.ScmType = &scmType
+		scmType := *source.ScmType
+		scmTypeTemp := genruntime.ToEnum(scmType, siteConfig_ScmType_Values)
+		config.ScmType = &scmTypeTemp
 	} else {
 		config.ScmType = nil
 	}
@@ -8208,8 +8271,9 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 
 	// FtpsState
 	if source.FtpsState != nil {
-		ftpsState := SiteConfig_FtpsState_STATUS(*source.FtpsState)
-		config.FtpsState = &ftpsState
+		ftpsState := *source.FtpsState
+		ftpsStateTemp := genruntime.ToEnum(ftpsState, siteConfig_FtpsState_STATUS_Values)
+		config.FtpsState = &ftpsStateTemp
 	} else {
 		config.FtpsState = nil
 	}
@@ -8309,8 +8373,9 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 
 	// LoadBalancing
 	if source.LoadBalancing != nil {
-		loadBalancing := SiteConfig_LoadBalancing_STATUS(*source.LoadBalancing)
-		config.LoadBalancing = &loadBalancing
+		loadBalancing := *source.LoadBalancing
+		loadBalancingTemp := genruntime.ToEnum(loadBalancing, siteConfig_LoadBalancing_STATUS_Values)
+		config.LoadBalancing = &loadBalancingTemp
 	} else {
 		config.LoadBalancing = nil
 	}
@@ -8340,8 +8405,9 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 
 	// ManagedPipelineMode
 	if source.ManagedPipelineMode != nil {
-		managedPipelineMode := SiteConfig_ManagedPipelineMode_STATUS(*source.ManagedPipelineMode)
-		config.ManagedPipelineMode = &managedPipelineMode
+		managedPipelineMode := *source.ManagedPipelineMode
+		managedPipelineModeTemp := genruntime.ToEnum(managedPipelineMode, siteConfig_ManagedPipelineMode_STATUS_Values)
+		config.ManagedPipelineMode = &managedPipelineModeTemp
 	} else {
 		config.ManagedPipelineMode = nil
 	}
@@ -8351,8 +8417,9 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 
 	// MinTlsVersion
 	if source.MinTlsVersion != nil {
-		minTlsVersion := SiteConfig_MinTlsVersion_STATUS(*source.MinTlsVersion)
-		config.MinTlsVersion = &minTlsVersion
+		minTlsVersion := *source.MinTlsVersion
+		minTlsVersionTemp := genruntime.ToEnum(minTlsVersion, siteConfig_MinTlsVersion_STATUS_Values)
+		config.MinTlsVersion = &minTlsVersionTemp
 	} else {
 		config.MinTlsVersion = nil
 	}
@@ -8449,16 +8516,18 @@ func (config *SiteConfig_STATUS) AssignProperties_From_SiteConfig_STATUS(source 
 
 	// ScmMinTlsVersion
 	if source.ScmMinTlsVersion != nil {
-		scmMinTlsVersion := SiteConfig_ScmMinTlsVersion_STATUS(*source.ScmMinTlsVersion)
-		config.ScmMinTlsVersion = &scmMinTlsVersion
+		scmMinTlsVersion := *source.ScmMinTlsVersion
+		scmMinTlsVersionTemp := genruntime.ToEnum(scmMinTlsVersion, siteConfig_ScmMinTlsVersion_STATUS_Values)
+		config.ScmMinTlsVersion = &scmMinTlsVersionTemp
 	} else {
 		config.ScmMinTlsVersion = nil
 	}
 
 	// ScmType
 	if source.ScmType != nil {
-		scmType := SiteConfig_ScmType_STATUS(*source.ScmType)
-		config.ScmType = &scmType
+		scmType := *source.ScmType
+		scmTypeTemp := genruntime.ToEnum(scmType, siteConfig_ScmType_STATUS_Values)
+		config.ScmType = &scmTypeTemp
 	} else {
 		config.ScmType = nil
 	}
@@ -9838,8 +9907,9 @@ func (value *AzureStorageInfoValue) AssignProperties_From_AzureStorageInfoValue(
 
 	// Type
 	if source.Type != nil {
-		typeVar := AzureStorageInfoValue_Type(*source.Type)
-		value.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, azureStorageInfoValue_Type_Values)
+		value.Type = &typeTemp
 	} else {
 		value.Type = nil
 	}
@@ -9993,16 +10063,18 @@ func (value *AzureStorageInfoValue_STATUS) AssignProperties_From_AzureStorageInf
 
 	// State
 	if source.State != nil {
-		state := AzureStorageInfoValue_State_STATUS(*source.State)
-		value.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, azureStorageInfoValue_State_STATUS_Values)
+		value.State = &stateTemp
 	} else {
 		value.State = nil
 	}
 
 	// Type
 	if source.Type != nil {
-		typeVar := AzureStorageInfoValue_Type_STATUS(*source.Type)
-		value.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, azureStorageInfoValue_Type_STATUS_Values)
+		value.Type = &typeTemp
 	} else {
 		value.Type = nil
 	}
@@ -10138,8 +10210,9 @@ func (info *ConnStringInfo) AssignProperties_From_ConnStringInfo(source *v202203
 
 	// Type
 	if source.Type != nil {
-		typeVar := ConnStringInfo_Type(*source.Type)
-		info.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, connStringInfo_Type_Values)
+		info.Type = &typeTemp
 	} else {
 		info.Type = nil
 	}
@@ -10258,8 +10331,9 @@ func (info *ConnStringInfo_STATUS) AssignProperties_From_ConnStringInfo_STATUS(s
 
 	// Type
 	if source.Type != nil {
-		typeVar := ConnStringInfo_Type_STATUS(*source.Type)
-		info.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, connStringInfo_Type_STATUS_Values)
+		info.Type = &typeTemp
 	} else {
 		info.Type = nil
 	}
@@ -10970,12 +11044,24 @@ const (
 	HostNameSslState_HostType_Standard   = HostNameSslState_HostType("Standard")
 )
 
+// Mapping from string to HostNameSslState_HostType
+var hostNameSslState_HostType_Values = map[string]HostNameSslState_HostType{
+	"repository": HostNameSslState_HostType_Repository,
+	"standard":   HostNameSslState_HostType_Standard,
+}
+
 type HostNameSslState_HostType_STATUS string
 
 const (
 	HostNameSslState_HostType_STATUS_Repository = HostNameSslState_HostType_STATUS("Repository")
 	HostNameSslState_HostType_STATUS_Standard   = HostNameSslState_HostType_STATUS("Standard")
 )
+
+// Mapping from string to HostNameSslState_HostType_STATUS
+var hostNameSslState_HostType_STATUS_Values = map[string]HostNameSslState_HostType_STATUS{
+	"repository": HostNameSslState_HostType_STATUS_Repository,
+	"standard":   HostNameSslState_HostType_STATUS_Standard,
+}
 
 // +kubebuilder:validation:Enum={"Disabled","IpBasedEnabled","SniEnabled"}
 type HostNameSslState_SslState string
@@ -10986,6 +11072,13 @@ const (
 	HostNameSslState_SslState_SniEnabled     = HostNameSslState_SslState("SniEnabled")
 )
 
+// Mapping from string to HostNameSslState_SslState
+var hostNameSslState_SslState_Values = map[string]HostNameSslState_SslState{
+	"disabled":       HostNameSslState_SslState_Disabled,
+	"ipbasedenabled": HostNameSslState_SslState_IpBasedEnabled,
+	"snienabled":     HostNameSslState_SslState_SniEnabled,
+}
+
 type HostNameSslState_SslState_STATUS string
 
 const (
@@ -10993,6 +11086,13 @@ const (
 	HostNameSslState_SslState_STATUS_IpBasedEnabled = HostNameSslState_SslState_STATUS("IpBasedEnabled")
 	HostNameSslState_SslState_STATUS_SniEnabled     = HostNameSslState_SslState_STATUS("SniEnabled")
 )
+
+// Mapping from string to HostNameSslState_SslState_STATUS
+var hostNameSslState_SslState_STATUS_Values = map[string]HostNameSslState_SslState_STATUS{
+	"disabled":       HostNameSslState_SslState_STATUS_Disabled,
+	"ipbasedenabled": HostNameSslState_SslState_STATUS_IpBasedEnabled,
+	"snienabled":     HostNameSslState_SslState_STATUS_SniEnabled,
+}
 
 // IP security restriction on an app.
 type IpSecurityRestriction struct {
@@ -11257,8 +11357,9 @@ func (restriction *IpSecurityRestriction) AssignProperties_From_IpSecurityRestri
 
 	// Tag
 	if source.Tag != nil {
-		tag := IpSecurityRestriction_Tag(*source.Tag)
-		restriction.Tag = &tag
+		tag := *source.Tag
+		tagTemp := genruntime.ToEnum(tag, ipSecurityRestriction_Tag_Values)
+		restriction.Tag = &tagTemp
 	} else {
 		restriction.Tag = nil
 	}
@@ -11589,8 +11690,9 @@ func (restriction *IpSecurityRestriction_STATUS) AssignProperties_From_IpSecurit
 
 	// Tag
 	if source.Tag != nil {
-		tag := IpSecurityRestriction_Tag_STATUS(*source.Tag)
-		restriction.Tag = &tag
+		tag := *source.Tag
+		tagTemp := genruntime.ToEnum(tag, ipSecurityRestriction_Tag_STATUS_Values)
+		restriction.Tag = &tagTemp
 	} else {
 		restriction.Tag = nil
 	}
@@ -12266,6 +12368,13 @@ const (
 	SiteConfig_FtpsState_FtpsOnly   = SiteConfig_FtpsState("FtpsOnly")
 )
 
+// Mapping from string to SiteConfig_FtpsState
+var siteConfig_FtpsState_Values = map[string]SiteConfig_FtpsState{
+	"allallowed": SiteConfig_FtpsState_AllAllowed,
+	"disabled":   SiteConfig_FtpsState_Disabled,
+	"ftpsonly":   SiteConfig_FtpsState_FtpsOnly,
+}
+
 type SiteConfig_FtpsState_STATUS string
 
 const (
@@ -12273,6 +12382,13 @@ const (
 	SiteConfig_FtpsState_STATUS_Disabled   = SiteConfig_FtpsState_STATUS("Disabled")
 	SiteConfig_FtpsState_STATUS_FtpsOnly   = SiteConfig_FtpsState_STATUS("FtpsOnly")
 )
+
+// Mapping from string to SiteConfig_FtpsState_STATUS
+var siteConfig_FtpsState_STATUS_Values = map[string]SiteConfig_FtpsState_STATUS{
+	"allallowed": SiteConfig_FtpsState_STATUS_AllAllowed,
+	"disabled":   SiteConfig_FtpsState_STATUS_Disabled,
+	"ftpsonly":   SiteConfig_FtpsState_STATUS_FtpsOnly,
+}
 
 // +kubebuilder:validation:Enum={"LeastRequests","LeastResponseTime","PerSiteRoundRobin","RequestHash","WeightedRoundRobin","WeightedTotalTraffic"}
 type SiteConfig_LoadBalancing string
@@ -12286,6 +12402,16 @@ const (
 	SiteConfig_LoadBalancing_WeightedTotalTraffic = SiteConfig_LoadBalancing("WeightedTotalTraffic")
 )
 
+// Mapping from string to SiteConfig_LoadBalancing
+var siteConfig_LoadBalancing_Values = map[string]SiteConfig_LoadBalancing{
+	"leastrequests":        SiteConfig_LoadBalancing_LeastRequests,
+	"leastresponsetime":    SiteConfig_LoadBalancing_LeastResponseTime,
+	"persiteroundrobin":    SiteConfig_LoadBalancing_PerSiteRoundRobin,
+	"requesthash":          SiteConfig_LoadBalancing_RequestHash,
+	"weightedroundrobin":   SiteConfig_LoadBalancing_WeightedRoundRobin,
+	"weightedtotaltraffic": SiteConfig_LoadBalancing_WeightedTotalTraffic,
+}
+
 type SiteConfig_LoadBalancing_STATUS string
 
 const (
@@ -12297,6 +12423,16 @@ const (
 	SiteConfig_LoadBalancing_STATUS_WeightedTotalTraffic = SiteConfig_LoadBalancing_STATUS("WeightedTotalTraffic")
 )
 
+// Mapping from string to SiteConfig_LoadBalancing_STATUS
+var siteConfig_LoadBalancing_STATUS_Values = map[string]SiteConfig_LoadBalancing_STATUS{
+	"leastrequests":        SiteConfig_LoadBalancing_STATUS_LeastRequests,
+	"leastresponsetime":    SiteConfig_LoadBalancing_STATUS_LeastResponseTime,
+	"persiteroundrobin":    SiteConfig_LoadBalancing_STATUS_PerSiteRoundRobin,
+	"requesthash":          SiteConfig_LoadBalancing_STATUS_RequestHash,
+	"weightedroundrobin":   SiteConfig_LoadBalancing_STATUS_WeightedRoundRobin,
+	"weightedtotaltraffic": SiteConfig_LoadBalancing_STATUS_WeightedTotalTraffic,
+}
+
 // +kubebuilder:validation:Enum={"Classic","Integrated"}
 type SiteConfig_ManagedPipelineMode string
 
@@ -12305,12 +12441,24 @@ const (
 	SiteConfig_ManagedPipelineMode_Integrated = SiteConfig_ManagedPipelineMode("Integrated")
 )
 
+// Mapping from string to SiteConfig_ManagedPipelineMode
+var siteConfig_ManagedPipelineMode_Values = map[string]SiteConfig_ManagedPipelineMode{
+	"classic":    SiteConfig_ManagedPipelineMode_Classic,
+	"integrated": SiteConfig_ManagedPipelineMode_Integrated,
+}
+
 type SiteConfig_ManagedPipelineMode_STATUS string
 
 const (
 	SiteConfig_ManagedPipelineMode_STATUS_Classic    = SiteConfig_ManagedPipelineMode_STATUS("Classic")
 	SiteConfig_ManagedPipelineMode_STATUS_Integrated = SiteConfig_ManagedPipelineMode_STATUS("Integrated")
 )
+
+// Mapping from string to SiteConfig_ManagedPipelineMode_STATUS
+var siteConfig_ManagedPipelineMode_STATUS_Values = map[string]SiteConfig_ManagedPipelineMode_STATUS{
+	"classic":    SiteConfig_ManagedPipelineMode_STATUS_Classic,
+	"integrated": SiteConfig_ManagedPipelineMode_STATUS_Integrated,
+}
 
 // +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
 type SiteConfig_MinTlsVersion string
@@ -12321,6 +12469,13 @@ const (
 	SiteConfig_MinTlsVersion_12 = SiteConfig_MinTlsVersion("1.2")
 )
 
+// Mapping from string to SiteConfig_MinTlsVersion
+var siteConfig_MinTlsVersion_Values = map[string]SiteConfig_MinTlsVersion{
+	"1.0": SiteConfig_MinTlsVersion_10,
+	"1.1": SiteConfig_MinTlsVersion_11,
+	"1.2": SiteConfig_MinTlsVersion_12,
+}
+
 type SiteConfig_MinTlsVersion_STATUS string
 
 const (
@@ -12328,6 +12483,13 @@ const (
 	SiteConfig_MinTlsVersion_STATUS_11 = SiteConfig_MinTlsVersion_STATUS("1.1")
 	SiteConfig_MinTlsVersion_STATUS_12 = SiteConfig_MinTlsVersion_STATUS("1.2")
 )
+
+// Mapping from string to SiteConfig_MinTlsVersion_STATUS
+var siteConfig_MinTlsVersion_STATUS_Values = map[string]SiteConfig_MinTlsVersion_STATUS{
+	"1.0": SiteConfig_MinTlsVersion_STATUS_10,
+	"1.1": SiteConfig_MinTlsVersion_STATUS_11,
+	"1.2": SiteConfig_MinTlsVersion_STATUS_12,
+}
 
 // +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
 type SiteConfig_ScmMinTlsVersion string
@@ -12338,6 +12500,13 @@ const (
 	SiteConfig_ScmMinTlsVersion_12 = SiteConfig_ScmMinTlsVersion("1.2")
 )
 
+// Mapping from string to SiteConfig_ScmMinTlsVersion
+var siteConfig_ScmMinTlsVersion_Values = map[string]SiteConfig_ScmMinTlsVersion{
+	"1.0": SiteConfig_ScmMinTlsVersion_10,
+	"1.1": SiteConfig_ScmMinTlsVersion_11,
+	"1.2": SiteConfig_ScmMinTlsVersion_12,
+}
+
 type SiteConfig_ScmMinTlsVersion_STATUS string
 
 const (
@@ -12345,6 +12514,13 @@ const (
 	SiteConfig_ScmMinTlsVersion_STATUS_11 = SiteConfig_ScmMinTlsVersion_STATUS("1.1")
 	SiteConfig_ScmMinTlsVersion_STATUS_12 = SiteConfig_ScmMinTlsVersion_STATUS("1.2")
 )
+
+// Mapping from string to SiteConfig_ScmMinTlsVersion_STATUS
+var siteConfig_ScmMinTlsVersion_STATUS_Values = map[string]SiteConfig_ScmMinTlsVersion_STATUS{
+	"1.0": SiteConfig_ScmMinTlsVersion_STATUS_10,
+	"1.1": SiteConfig_ScmMinTlsVersion_STATUS_11,
+	"1.2": SiteConfig_ScmMinTlsVersion_STATUS_12,
+}
 
 // +kubebuilder:validation:Enum={"BitbucketGit","BitbucketHg","CodePlexGit","CodePlexHg","Dropbox","ExternalGit","ExternalHg","GitHub","LocalGit","None","OneDrive","Tfs","VSO","VSTSRM"}
 type SiteConfig_ScmType string
@@ -12366,6 +12542,24 @@ const (
 	SiteConfig_ScmType_VSTSRM       = SiteConfig_ScmType("VSTSRM")
 )
 
+// Mapping from string to SiteConfig_ScmType
+var siteConfig_ScmType_Values = map[string]SiteConfig_ScmType{
+	"bitbucketgit": SiteConfig_ScmType_BitbucketGit,
+	"bitbuckethg":  SiteConfig_ScmType_BitbucketHg,
+	"codeplexgit":  SiteConfig_ScmType_CodePlexGit,
+	"codeplexhg":   SiteConfig_ScmType_CodePlexHg,
+	"dropbox":      SiteConfig_ScmType_Dropbox,
+	"externalgit":  SiteConfig_ScmType_ExternalGit,
+	"externalhg":   SiteConfig_ScmType_ExternalHg,
+	"github":       SiteConfig_ScmType_GitHub,
+	"localgit":     SiteConfig_ScmType_LocalGit,
+	"none":         SiteConfig_ScmType_None,
+	"onedrive":     SiteConfig_ScmType_OneDrive,
+	"tfs":          SiteConfig_ScmType_Tfs,
+	"vso":          SiteConfig_ScmType_VSO,
+	"vstsrm":       SiteConfig_ScmType_VSTSRM,
+}
+
 type SiteConfig_ScmType_STATUS string
 
 const (
@@ -12384,6 +12578,24 @@ const (
 	SiteConfig_ScmType_STATUS_VSO          = SiteConfig_ScmType_STATUS("VSO")
 	SiteConfig_ScmType_STATUS_VSTSRM       = SiteConfig_ScmType_STATUS("VSTSRM")
 )
+
+// Mapping from string to SiteConfig_ScmType_STATUS
+var siteConfig_ScmType_STATUS_Values = map[string]SiteConfig_ScmType_STATUS{
+	"bitbucketgit": SiteConfig_ScmType_STATUS_BitbucketGit,
+	"bitbuckethg":  SiteConfig_ScmType_STATUS_BitbucketHg,
+	"codeplexgit":  SiteConfig_ScmType_STATUS_CodePlexGit,
+	"codeplexhg":   SiteConfig_ScmType_STATUS_CodePlexHg,
+	"dropbox":      SiteConfig_ScmType_STATUS_Dropbox,
+	"externalgit":  SiteConfig_ScmType_STATUS_ExternalGit,
+	"externalhg":   SiteConfig_ScmType_STATUS_ExternalHg,
+	"github":       SiteConfig_ScmType_STATUS_GitHub,
+	"localgit":     SiteConfig_ScmType_STATUS_LocalGit,
+	"none":         SiteConfig_ScmType_STATUS_None,
+	"onedrive":     SiteConfig_ScmType_STATUS_OneDrive,
+	"tfs":          SiteConfig_ScmType_STATUS_Tfs,
+	"vso":          SiteConfig_ScmType_STATUS_VSO,
+	"vstsrm":       SiteConfig_ScmType_STATUS_VSTSRM,
+}
 
 // Metric limits set on an app.
 type SiteLimits struct {
@@ -13304,8 +13516,9 @@ func (actions *AutoHealActions) AssignProperties_From_AutoHealActions(source *v2
 
 	// ActionType
 	if source.ActionType != nil {
-		actionType := AutoHealActions_ActionType(*source.ActionType)
-		actions.ActionType = &actionType
+		actionType := *source.ActionType
+		actionTypeTemp := genruntime.ToEnum(actionType, autoHealActions_ActionType_Values)
+		actions.ActionType = &actionTypeTemp
 	} else {
 		actions.ActionType = nil
 	}
@@ -13457,8 +13670,9 @@ func (actions *AutoHealActions_STATUS) AssignProperties_From_AutoHealActions_STA
 
 	// ActionType
 	if source.ActionType != nil {
-		actionType := AutoHealActions_ActionType_STATUS(*source.ActionType)
-		actions.ActionType = &actionType
+		actionType := *source.ActionType
+		actionTypeTemp := genruntime.ToEnum(actionType, autoHealActions_ActionType_STATUS_Values)
+		actions.ActionType = &actionTypeTemp
 	} else {
 		actions.ActionType = nil
 	}
@@ -14244,6 +14458,14 @@ const (
 	AzureStorageInfoValue_State_STATUS_Ok                 = AzureStorageInfoValue_State_STATUS("Ok")
 )
 
+// Mapping from string to AzureStorageInfoValue_State_STATUS
+var azureStorageInfoValue_State_STATUS_Values = map[string]AzureStorageInfoValue_State_STATUS{
+	"invalidcredentials": AzureStorageInfoValue_State_STATUS_InvalidCredentials,
+	"invalidshare":       AzureStorageInfoValue_State_STATUS_InvalidShare,
+	"notvalidated":       AzureStorageInfoValue_State_STATUS_NotValidated,
+	"ok":                 AzureStorageInfoValue_State_STATUS_Ok,
+}
+
 // +kubebuilder:validation:Enum={"AzureBlob","AzureFiles"}
 type AzureStorageInfoValue_Type string
 
@@ -14252,12 +14474,24 @@ const (
 	AzureStorageInfoValue_Type_AzureFiles = AzureStorageInfoValue_Type("AzureFiles")
 )
 
+// Mapping from string to AzureStorageInfoValue_Type
+var azureStorageInfoValue_Type_Values = map[string]AzureStorageInfoValue_Type{
+	"azureblob":  AzureStorageInfoValue_Type_AzureBlob,
+	"azurefiles": AzureStorageInfoValue_Type_AzureFiles,
+}
+
 type AzureStorageInfoValue_Type_STATUS string
 
 const (
 	AzureStorageInfoValue_Type_STATUS_AzureBlob  = AzureStorageInfoValue_Type_STATUS("AzureBlob")
 	AzureStorageInfoValue_Type_STATUS_AzureFiles = AzureStorageInfoValue_Type_STATUS("AzureFiles")
 )
+
+// Mapping from string to AzureStorageInfoValue_Type_STATUS
+var azureStorageInfoValue_Type_STATUS_Values = map[string]AzureStorageInfoValue_Type_STATUS{
+	"azureblob":  AzureStorageInfoValue_Type_STATUS_AzureBlob,
+	"azurefiles": AzureStorageInfoValue_Type_STATUS_AzureFiles,
+}
 
 // +kubebuilder:validation:Enum={"ApiHub","Custom","DocDb","EventHub","MySql","NotificationHub","PostgreSQL","RedisCache","SQLAzure","SQLServer","ServiceBus"}
 type ConnStringInfo_Type string
@@ -14276,6 +14510,21 @@ const (
 	ConnStringInfo_Type_ServiceBus      = ConnStringInfo_Type("ServiceBus")
 )
 
+// Mapping from string to ConnStringInfo_Type
+var connStringInfo_Type_Values = map[string]ConnStringInfo_Type{
+	"apihub":          ConnStringInfo_Type_ApiHub,
+	"custom":          ConnStringInfo_Type_Custom,
+	"docdb":           ConnStringInfo_Type_DocDb,
+	"eventhub":        ConnStringInfo_Type_EventHub,
+	"mysql":           ConnStringInfo_Type_MySql,
+	"notificationhub": ConnStringInfo_Type_NotificationHub,
+	"postgresql":      ConnStringInfo_Type_PostgreSQL,
+	"rediscache":      ConnStringInfo_Type_RedisCache,
+	"sqlazure":        ConnStringInfo_Type_SQLAzure,
+	"sqlserver":       ConnStringInfo_Type_SQLServer,
+	"servicebus":      ConnStringInfo_Type_ServiceBus,
+}
+
 type ConnStringInfo_Type_STATUS string
 
 const (
@@ -14292,6 +14541,21 @@ const (
 	ConnStringInfo_Type_STATUS_ServiceBus      = ConnStringInfo_Type_STATUS("ServiceBus")
 )
 
+// Mapping from string to ConnStringInfo_Type_STATUS
+var connStringInfo_Type_STATUS_Values = map[string]ConnStringInfo_Type_STATUS{
+	"apihub":          ConnStringInfo_Type_STATUS_ApiHub,
+	"custom":          ConnStringInfo_Type_STATUS_Custom,
+	"docdb":           ConnStringInfo_Type_STATUS_DocDb,
+	"eventhub":        ConnStringInfo_Type_STATUS_EventHub,
+	"mysql":           ConnStringInfo_Type_STATUS_MySql,
+	"notificationhub": ConnStringInfo_Type_STATUS_NotificationHub,
+	"postgresql":      ConnStringInfo_Type_STATUS_PostgreSQL,
+	"rediscache":      ConnStringInfo_Type_STATUS_RedisCache,
+	"sqlazure":        ConnStringInfo_Type_STATUS_SQLAzure,
+	"sqlserver":       ConnStringInfo_Type_STATUS_SQLServer,
+	"servicebus":      ConnStringInfo_Type_STATUS_ServiceBus,
+}
+
 // +kubebuilder:validation:Enum={"Default","ServiceTag","XffProxy"}
 type IpSecurityRestriction_Tag string
 
@@ -14301,6 +14565,13 @@ const (
 	IpSecurityRestriction_Tag_XffProxy   = IpSecurityRestriction_Tag("XffProxy")
 )
 
+// Mapping from string to IpSecurityRestriction_Tag
+var ipSecurityRestriction_Tag_Values = map[string]IpSecurityRestriction_Tag{
+	"default":    IpSecurityRestriction_Tag_Default,
+	"servicetag": IpSecurityRestriction_Tag_ServiceTag,
+	"xffproxy":   IpSecurityRestriction_Tag_XffProxy,
+}
+
 type IpSecurityRestriction_Tag_STATUS string
 
 const (
@@ -14308,6 +14579,13 @@ const (
 	IpSecurityRestriction_Tag_STATUS_ServiceTag = IpSecurityRestriction_Tag_STATUS("ServiceTag")
 	IpSecurityRestriction_Tag_STATUS_XffProxy   = IpSecurityRestriction_Tag_STATUS("XffProxy")
 )
+
+// Mapping from string to IpSecurityRestriction_Tag_STATUS
+var ipSecurityRestriction_Tag_STATUS_Values = map[string]IpSecurityRestriction_Tag_STATUS{
+	"default":    IpSecurityRestriction_Tag_STATUS_Default,
+	"servicetag": IpSecurityRestriction_Tag_STATUS_ServiceTag,
+	"xffproxy":   IpSecurityRestriction_Tag_STATUS_XffProxy,
+}
 
 // Routing rules for ramp up testing. This rule allows to redirect static traffic % to a slot or to gradually change
 // routing % based on performance.
@@ -15034,6 +15312,13 @@ const (
 	AutoHealActions_ActionType_Recycle      = AutoHealActions_ActionType("Recycle")
 )
 
+// Mapping from string to AutoHealActions_ActionType
+var autoHealActions_ActionType_Values = map[string]AutoHealActions_ActionType{
+	"customaction": AutoHealActions_ActionType_CustomAction,
+	"logevent":     AutoHealActions_ActionType_LogEvent,
+	"recycle":      AutoHealActions_ActionType_Recycle,
+}
+
 type AutoHealActions_ActionType_STATUS string
 
 const (
@@ -15041,6 +15326,13 @@ const (
 	AutoHealActions_ActionType_STATUS_LogEvent     = AutoHealActions_ActionType_STATUS("LogEvent")
 	AutoHealActions_ActionType_STATUS_Recycle      = AutoHealActions_ActionType_STATUS("Recycle")
 )
+
+// Mapping from string to AutoHealActions_ActionType_STATUS
+var autoHealActions_ActionType_STATUS_Values = map[string]AutoHealActions_ActionType_STATUS{
+	"customaction": AutoHealActions_ActionType_STATUS_CustomAction,
+	"logevent":     AutoHealActions_ActionType_STATUS_LogEvent,
+	"recycle":      AutoHealActions_ActionType_STATUS_Recycle,
+}
 
 // Custom action to be executed
 // when an auto heal rule is triggered.

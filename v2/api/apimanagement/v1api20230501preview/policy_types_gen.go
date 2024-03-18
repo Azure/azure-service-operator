@@ -458,8 +458,9 @@ func (policy *Service_Policy_Spec) AssignProperties_From_Service_Policy_Spec(sou
 
 	// Format
 	if source.Format != nil {
-		format := PolicyContractProperties_Format(*source.Format)
-		policy.Format = &format
+		format := *source.Format
+		formatTemp := genruntime.ToEnum(format, policyContractProperties_Format_Values)
+		policy.Format = &formatTemp
 	} else {
 		policy.Format = nil
 	}
@@ -657,8 +658,9 @@ func (policy *Service_Policy_STATUS) AssignProperties_From_Service_Policy_STATUS
 
 	// Format
 	if source.Format != nil {
-		format := PolicyContractProperties_Format_STATUS(*source.Format)
-		policy.Format = &format
+		format := *source.Format
+		formatTemp := genruntime.ToEnum(format, policyContractProperties_Format_STATUS_Values)
+		policy.Format = &formatTemp
 	} else {
 		policy.Format = nil
 	}
@@ -728,6 +730,14 @@ const (
 	PolicyContractProperties_Format_XmlLink    = PolicyContractProperties_Format("xml-link")
 )
 
+// Mapping from string to PolicyContractProperties_Format
+var policyContractProperties_Format_Values = map[string]PolicyContractProperties_Format{
+	"rawxml":      PolicyContractProperties_Format_Rawxml,
+	"rawxml-link": PolicyContractProperties_Format_RawxmlLink,
+	"xml":         PolicyContractProperties_Format_Xml,
+	"xml-link":    PolicyContractProperties_Format_XmlLink,
+}
+
 type PolicyContractProperties_Format_STATUS string
 
 const (
@@ -736,6 +746,14 @@ const (
 	PolicyContractProperties_Format_STATUS_Xml        = PolicyContractProperties_Format_STATUS("xml")
 	PolicyContractProperties_Format_STATUS_XmlLink    = PolicyContractProperties_Format_STATUS("xml-link")
 )
+
+// Mapping from string to PolicyContractProperties_Format_STATUS
+var policyContractProperties_Format_STATUS_Values = map[string]PolicyContractProperties_Format_STATUS{
+	"rawxml":      PolicyContractProperties_Format_STATUS_Rawxml,
+	"rawxml-link": PolicyContractProperties_Format_STATUS_RawxmlLink,
+	"xml":         PolicyContractProperties_Format_STATUS_Xml,
+	"xml-link":    PolicyContractProperties_Format_STATUS_XmlLink,
+}
 
 func init() {
 	SchemeBuilder.Register(&Policy{}, &PolicyList{})

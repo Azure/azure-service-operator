@@ -532,8 +532,9 @@ func (administrator *Servers_Administrator_Spec) AssignProperties_From_Servers_A
 
 	// AdministratorType
 	if source.AdministratorType != nil {
-		administratorType := AdministratorProperties_AdministratorType(*source.AdministratorType)
-		administrator.AdministratorType = &administratorType
+		administratorType := *source.AdministratorType
+		administratorTypeTemp := genruntime.ToEnum(administratorType, administratorProperties_AdministratorType_Values)
+		administrator.AdministratorType = &administratorTypeTemp
 	} else {
 		administrator.AdministratorType = nil
 	}
@@ -861,8 +862,9 @@ func (administrator *Servers_Administrator_STATUS) AssignProperties_From_Servers
 
 	// AdministratorType
 	if source.AdministratorType != nil {
-		administratorType := AdministratorProperties_AdministratorType_STATUS(*source.AdministratorType)
-		administrator.AdministratorType = &administratorType
+		administratorType := *source.AdministratorType
+		administratorTypeTemp := genruntime.ToEnum(administratorType, administratorProperties_AdministratorType_STATUS_Values)
+		administrator.AdministratorType = &administratorTypeTemp
 	} else {
 		administrator.AdministratorType = nil
 	}
@@ -958,9 +960,19 @@ type AdministratorProperties_AdministratorType string
 
 const AdministratorProperties_AdministratorType_ActiveDirectory = AdministratorProperties_AdministratorType("ActiveDirectory")
 
+// Mapping from string to AdministratorProperties_AdministratorType
+var administratorProperties_AdministratorType_Values = map[string]AdministratorProperties_AdministratorType{
+	"activedirectory": AdministratorProperties_AdministratorType_ActiveDirectory,
+}
+
 type AdministratorProperties_AdministratorType_STATUS string
 
 const AdministratorProperties_AdministratorType_STATUS_ActiveDirectory = AdministratorProperties_AdministratorType_STATUS("ActiveDirectory")
+
+// Mapping from string to AdministratorProperties_AdministratorType_STATUS
+var administratorProperties_AdministratorType_STATUS_Values = map[string]AdministratorProperties_AdministratorType_STATUS{
+	"activedirectory": AdministratorProperties_AdministratorType_STATUS_ActiveDirectory,
+}
 
 func init() {
 	SchemeBuilder.Register(&ServersAdministrator{}, &ServersAdministratorList{})

@@ -650,8 +650,9 @@ func (origin *Profiles_OriginGroups_Origin_Spec) AssignProperties_From_Profiles_
 
 	// EnabledState
 	if source.EnabledState != nil {
-		enabledState := AFDOriginProperties_EnabledState(*source.EnabledState)
-		origin.EnabledState = &enabledState
+		enabledState := *source.EnabledState
+		enabledStateTemp := genruntime.ToEnum(enabledState, aFDOriginProperties_EnabledState_Values)
+		origin.EnabledState = &enabledStateTemp
 	} else {
 		origin.EnabledState = nil
 	}
@@ -1234,16 +1235,18 @@ func (origin *Profiles_OriginGroups_Origin_STATUS) AssignProperties_From_Profile
 
 	// DeploymentStatus
 	if source.DeploymentStatus != nil {
-		deploymentStatus := AFDOriginProperties_DeploymentStatus_STATUS(*source.DeploymentStatus)
-		origin.DeploymentStatus = &deploymentStatus
+		deploymentStatus := *source.DeploymentStatus
+		deploymentStatusTemp := genruntime.ToEnum(deploymentStatus, aFDOriginProperties_DeploymentStatus_STATUS_Values)
+		origin.DeploymentStatus = &deploymentStatusTemp
 	} else {
 		origin.DeploymentStatus = nil
 	}
 
 	// EnabledState
 	if source.EnabledState != nil {
-		enabledState := AFDOriginProperties_EnabledState_STATUS(*source.EnabledState)
-		origin.EnabledState = &enabledState
+		enabledState := *source.EnabledState
+		enabledStateTemp := genruntime.ToEnum(enabledState, aFDOriginProperties_EnabledState_STATUS_Values)
+		origin.EnabledState = &enabledStateTemp
 	} else {
 		origin.EnabledState = nil
 	}
@@ -1282,8 +1285,9 @@ func (origin *Profiles_OriginGroups_Origin_STATUS) AssignProperties_From_Profile
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := AFDOriginProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		origin.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, aFDOriginProperties_ProvisioningState_STATUS_Values)
+		origin.ProvisioningState = &provisioningStateTemp
 	} else {
 		origin.ProvisioningState = nil
 	}
@@ -1448,6 +1452,14 @@ const (
 	AFDOriginProperties_DeploymentStatus_STATUS_Succeeded  = AFDOriginProperties_DeploymentStatus_STATUS("Succeeded")
 )
 
+// Mapping from string to AFDOriginProperties_DeploymentStatus_STATUS
+var aFDOriginProperties_DeploymentStatus_STATUS_Values = map[string]AFDOriginProperties_DeploymentStatus_STATUS{
+	"failed":     AFDOriginProperties_DeploymentStatus_STATUS_Failed,
+	"inprogress": AFDOriginProperties_DeploymentStatus_STATUS_InProgress,
+	"notstarted": AFDOriginProperties_DeploymentStatus_STATUS_NotStarted,
+	"succeeded":  AFDOriginProperties_DeploymentStatus_STATUS_Succeeded,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type AFDOriginProperties_EnabledState string
 
@@ -1456,12 +1468,24 @@ const (
 	AFDOriginProperties_EnabledState_Enabled  = AFDOriginProperties_EnabledState("Enabled")
 )
 
+// Mapping from string to AFDOriginProperties_EnabledState
+var aFDOriginProperties_EnabledState_Values = map[string]AFDOriginProperties_EnabledState{
+	"disabled": AFDOriginProperties_EnabledState_Disabled,
+	"enabled":  AFDOriginProperties_EnabledState_Enabled,
+}
+
 type AFDOriginProperties_EnabledState_STATUS string
 
 const (
 	AFDOriginProperties_EnabledState_STATUS_Disabled = AFDOriginProperties_EnabledState_STATUS("Disabled")
 	AFDOriginProperties_EnabledState_STATUS_Enabled  = AFDOriginProperties_EnabledState_STATUS("Enabled")
 )
+
+// Mapping from string to AFDOriginProperties_EnabledState_STATUS
+var aFDOriginProperties_EnabledState_STATUS_Values = map[string]AFDOriginProperties_EnabledState_STATUS{
+	"disabled": AFDOriginProperties_EnabledState_STATUS_Disabled,
+	"enabled":  AFDOriginProperties_EnabledState_STATUS_Enabled,
+}
 
 type AFDOriginProperties_ProvisioningState_STATUS string
 
@@ -1472,6 +1496,15 @@ const (
 	AFDOriginProperties_ProvisioningState_STATUS_Succeeded = AFDOriginProperties_ProvisioningState_STATUS("Succeeded")
 	AFDOriginProperties_ProvisioningState_STATUS_Updating  = AFDOriginProperties_ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to AFDOriginProperties_ProvisioningState_STATUS
+var aFDOriginProperties_ProvisioningState_STATUS_Values = map[string]AFDOriginProperties_ProvisioningState_STATUS{
+	"creating":  AFDOriginProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  AFDOriginProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    AFDOriginProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": AFDOriginProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  AFDOriginProperties_ProvisioningState_STATUS_Updating,
+}
 
 // Describes the properties of an existing Shared Private Link Resource to use when connecting to a private origin.
 type SharedPrivateLinkResourceProperties struct {
@@ -1613,8 +1646,9 @@ func (properties *SharedPrivateLinkResourceProperties) AssignProperties_From_Sha
 
 	// Status
 	if source.Status != nil {
-		status := SharedPrivateLinkResourceProperties_Status(*source.Status)
-		properties.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, sharedPrivateLinkResourceProperties_Status_Values)
+		properties.Status = &statusTemp
 	} else {
 		properties.Status = nil
 	}
@@ -1801,8 +1835,9 @@ func (properties *SharedPrivateLinkResourceProperties_STATUS) AssignProperties_F
 
 	// Status
 	if source.Status != nil {
-		status := SharedPrivateLinkResourceProperties_Status_STATUS(*source.Status)
-		properties.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, sharedPrivateLinkResourceProperties_Status_STATUS_Values)
+		properties.Status = &statusTemp
 	} else {
 		properties.Status = nil
 	}
@@ -1867,6 +1902,15 @@ const (
 	SharedPrivateLinkResourceProperties_Status_Timeout      = SharedPrivateLinkResourceProperties_Status("Timeout")
 )
 
+// Mapping from string to SharedPrivateLinkResourceProperties_Status
+var sharedPrivateLinkResourceProperties_Status_Values = map[string]SharedPrivateLinkResourceProperties_Status{
+	"approved":     SharedPrivateLinkResourceProperties_Status_Approved,
+	"disconnected": SharedPrivateLinkResourceProperties_Status_Disconnected,
+	"pending":      SharedPrivateLinkResourceProperties_Status_Pending,
+	"rejected":     SharedPrivateLinkResourceProperties_Status_Rejected,
+	"timeout":      SharedPrivateLinkResourceProperties_Status_Timeout,
+}
+
 type SharedPrivateLinkResourceProperties_Status_STATUS string
 
 const (
@@ -1876,6 +1920,15 @@ const (
 	SharedPrivateLinkResourceProperties_Status_STATUS_Rejected     = SharedPrivateLinkResourceProperties_Status_STATUS("Rejected")
 	SharedPrivateLinkResourceProperties_Status_STATUS_Timeout      = SharedPrivateLinkResourceProperties_Status_STATUS("Timeout")
 )
+
+// Mapping from string to SharedPrivateLinkResourceProperties_Status_STATUS
+var sharedPrivateLinkResourceProperties_Status_STATUS_Values = map[string]SharedPrivateLinkResourceProperties_Status_STATUS{
+	"approved":     SharedPrivateLinkResourceProperties_Status_STATUS_Approved,
+	"disconnected": SharedPrivateLinkResourceProperties_Status_STATUS_Disconnected,
+	"pending":      SharedPrivateLinkResourceProperties_Status_STATUS_Pending,
+	"rejected":     SharedPrivateLinkResourceProperties_Status_STATUS_Rejected,
+	"timeout":      SharedPrivateLinkResourceProperties_Status_STATUS_Timeout,
+}
 
 func init() {
 	SchemeBuilder.Register(&AfdOrigin{}, &AfdOriginList{})

@@ -737,8 +737,9 @@ func (group *PrivateEndpoints_PrivateDnsZoneGroup_STATUS) AssignProperties_From_
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := PrivateEndpointProvisioningState_STATUS(*source.ProvisioningState)
-		group.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, privateEndpointProvisioningState_STATUS_Values)
+		group.ProvisioningState = &provisioningStateTemp
 	} else {
 		group.ProvisioningState = nil
 	}
@@ -1066,6 +1067,14 @@ const (
 	PrivateEndpointProvisioningState_STATUS_Updating  = PrivateEndpointProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to PrivateEndpointProvisioningState_STATUS
+var privateEndpointProvisioningState_STATUS_Values = map[string]PrivateEndpointProvisioningState_STATUS{
+	"deleting":  PrivateEndpointProvisioningState_STATUS_Deleting,
+	"failed":    PrivateEndpointProvisioningState_STATUS_Failed,
+	"succeeded": PrivateEndpointProvisioningState_STATUS_Succeeded,
+	"updating":  PrivateEndpointProvisioningState_STATUS_Updating,
+}
+
 // A collective group of information about the record set information.
 type RecordSet_STATUS struct {
 	// Fqdn: Fqdn that resolves to private endpoint ip address.
@@ -1151,8 +1160,9 @@ func (recordSet *RecordSet_STATUS) AssignProperties_From_RecordSet_STATUS(source
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := PrivateEndpointProvisioningState_STATUS(*source.ProvisioningState)
-		recordSet.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, privateEndpointProvisioningState_STATUS_Values)
+		recordSet.ProvisioningState = &provisioningStateTemp
 	} else {
 		recordSet.ProvisioningState = nil
 	}

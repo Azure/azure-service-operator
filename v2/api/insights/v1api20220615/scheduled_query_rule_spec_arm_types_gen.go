@@ -45,6 +45,12 @@ const (
 	ScheduledQueryRule_Kind_Spec_LogToMetric = ScheduledQueryRule_Kind_Spec("LogToMetric")
 )
 
+// Mapping from string to ScheduledQueryRule_Kind_Spec
+var scheduledQueryRule_Kind_Spec_Values = map[string]ScheduledQueryRule_Kind_Spec{
+	"logalert":    ScheduledQueryRule_Kind_Spec_LogAlert,
+	"logtometric": ScheduledQueryRule_Kind_Spec_LogToMetric,
+}
+
 // scheduled query rule Definition
 type ScheduledQueryRuleProperties_ARM struct {
 	// Actions: Actions to invoke when the alert fires.

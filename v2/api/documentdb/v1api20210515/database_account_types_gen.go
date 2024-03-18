@@ -1063,8 +1063,9 @@ func (account *DatabaseAccount_Spec) AssignProperties_From_DatabaseAccount_Spec(
 
 	// ConnectorOffer
 	if source.ConnectorOffer != nil {
-		connectorOffer := ConnectorOffer(*source.ConnectorOffer)
-		account.ConnectorOffer = &connectorOffer
+		connectorOffer := *source.ConnectorOffer
+		connectorOfferTemp := genruntime.ToEnum(connectorOffer, connectorOffer_Values)
+		account.ConnectorOffer = &connectorOfferTemp
 	} else {
 		account.ConnectorOffer = nil
 	}
@@ -1101,8 +1102,9 @@ func (account *DatabaseAccount_Spec) AssignProperties_From_DatabaseAccount_Spec(
 
 	// DatabaseAccountOfferType
 	if source.DatabaseAccountOfferType != nil {
-		databaseAccountOfferType := DatabaseAccountOfferType(*source.DatabaseAccountOfferType)
-		account.DatabaseAccountOfferType = &databaseAccountOfferType
+		databaseAccountOfferType := *source.DatabaseAccountOfferType
+		databaseAccountOfferTypeTemp := genruntime.ToEnum(databaseAccountOfferType, databaseAccountOfferType_Values)
+		account.DatabaseAccountOfferType = &databaseAccountOfferTypeTemp
 	} else {
 		account.DatabaseAccountOfferType = nil
 	}
@@ -1201,8 +1203,9 @@ func (account *DatabaseAccount_Spec) AssignProperties_From_DatabaseAccount_Spec(
 
 	// Kind
 	if source.Kind != nil {
-		kind := DatabaseAccount_Kind_Spec(*source.Kind)
-		account.Kind = &kind
+		kind := *source.Kind
+		kindTemp := genruntime.ToEnum(kind, databaseAccount_Kind_Spec_Values)
+		account.Kind = &kindTemp
 	} else {
 		account.Kind = nil
 	}
@@ -1230,8 +1233,9 @@ func (account *DatabaseAccount_Spec) AssignProperties_From_DatabaseAccount_Spec(
 
 	// NetworkAclBypass
 	if source.NetworkAclBypass != nil {
-		networkAclBypass := NetworkAclBypass(*source.NetworkAclBypass)
-		account.NetworkAclBypass = &networkAclBypass
+		networkAclBypass := *source.NetworkAclBypass
+		networkAclBypassTemp := genruntime.ToEnum(networkAclBypass, networkAclBypass_Values)
+		account.NetworkAclBypass = &networkAclBypassTemp
 	} else {
 		account.NetworkAclBypass = nil
 	}
@@ -1261,8 +1265,9 @@ func (account *DatabaseAccount_Spec) AssignProperties_From_DatabaseAccount_Spec(
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
-		account.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, publicNetworkAccess_Values)
+		account.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		account.PublicNetworkAccess = nil
 	}
@@ -2481,8 +2486,9 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 
 	// ConnectorOffer
 	if source.ConnectorOffer != nil {
-		connectorOffer := ConnectorOffer_STATUS(*source.ConnectorOffer)
-		account.ConnectorOffer = &connectorOffer
+		connectorOffer := *source.ConnectorOffer
+		connectorOfferTemp := genruntime.ToEnum(connectorOffer, connectorOffer_STATUS_Values)
+		account.ConnectorOffer = &connectorOfferTemp
 	} else {
 		account.ConnectorOffer = nil
 	}
@@ -2519,8 +2525,9 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 
 	// DatabaseAccountOfferType
 	if source.DatabaseAccountOfferType != nil {
-		databaseAccountOfferType := DatabaseAccountOfferType_STATUS(*source.DatabaseAccountOfferType)
-		account.DatabaseAccountOfferType = &databaseAccountOfferType
+		databaseAccountOfferType := *source.DatabaseAccountOfferType
+		databaseAccountOfferTypeTemp := genruntime.ToEnum(databaseAccountOfferType, databaseAccountOfferType_STATUS_Values)
+		account.DatabaseAccountOfferType = &databaseAccountOfferTypeTemp
 	} else {
 		account.DatabaseAccountOfferType = nil
 	}
@@ -2643,8 +2650,9 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 
 	// Kind
 	if source.Kind != nil {
-		kind := DatabaseAccount_Kind_STATUS(*source.Kind)
-		account.Kind = &kind
+		kind := *source.Kind
+		kindTemp := genruntime.ToEnum(kind, databaseAccount_Kind_STATUS_Values)
+		account.Kind = &kindTemp
 	} else {
 		account.Kind = nil
 	}
@@ -2675,8 +2683,9 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 
 	// NetworkAclBypass
 	if source.NetworkAclBypass != nil {
-		networkAclBypass := NetworkAclBypass_STATUS(*source.NetworkAclBypass)
-		account.NetworkAclBypass = &networkAclBypass
+		networkAclBypass := *source.NetworkAclBypass
+		networkAclBypassTemp := genruntime.ToEnum(networkAclBypass, networkAclBypass_STATUS_Values)
+		account.NetworkAclBypass = &networkAclBypassTemp
 	} else {
 		account.NetworkAclBypass = nil
 	}
@@ -2707,8 +2716,9 @@ func (account *DatabaseAccount_STATUS) AssignProperties_From_DatabaseAccount_STA
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-		account.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, publicNetworkAccess_STATUS_Values)
+		account.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		account.PublicNetworkAccess = nil
 	}
@@ -3194,8 +3204,9 @@ func (configuration *AnalyticalStorageConfiguration) AssignProperties_From_Analy
 
 	// SchemaType
 	if source.SchemaType != nil {
-		schemaType := AnalyticalStorageSchemaType(*source.SchemaType)
-		configuration.SchemaType = &schemaType
+		schemaType := *source.SchemaType
+		schemaTypeTemp := genruntime.ToEnum(schemaType, analyticalStorageSchemaType_Values)
+		configuration.SchemaType = &schemaTypeTemp
 	} else {
 		configuration.SchemaType = nil
 	}
@@ -3278,8 +3289,9 @@ func (configuration *AnalyticalStorageConfiguration_STATUS) AssignProperties_Fro
 
 	// SchemaType
 	if source.SchemaType != nil {
-		schemaType := AnalyticalStorageSchemaType_STATUS(*source.SchemaType)
-		configuration.SchemaType = &schemaType
+		schemaType := *source.SchemaType
+		schemaTypeTemp := genruntime.ToEnum(schemaType, analyticalStorageSchemaType_STATUS_Values)
+		configuration.SchemaType = &schemaTypeTemp
 	} else {
 		configuration.SchemaType = nil
 	}
@@ -3361,8 +3373,9 @@ func (properties *ApiProperties) AssignProperties_From_ApiProperties(source *v20
 
 	// ServerVersion
 	if source.ServerVersion != nil {
-		serverVersion := ApiProperties_ServerVersion(*source.ServerVersion)
-		properties.ServerVersion = &serverVersion
+		serverVersion := *source.ServerVersion
+		serverVersionTemp := genruntime.ToEnum(serverVersion, apiProperties_ServerVersion_Values)
+		properties.ServerVersion = &serverVersionTemp
 	} else {
 		properties.ServerVersion = nil
 	}
@@ -3444,8 +3457,9 @@ func (properties *ApiProperties_STATUS) AssignProperties_From_ApiProperties_STAT
 
 	// ServerVersion
 	if source.ServerVersion != nil {
-		serverVersion := ApiProperties_ServerVersion_STATUS(*source.ServerVersion)
-		properties.ServerVersion = &serverVersion
+		serverVersion := *source.ServerVersion
+		serverVersionTemp := genruntime.ToEnum(serverVersion, apiProperties_ServerVersion_STATUS_Values)
+		properties.ServerVersion = &serverVersionTemp
 	} else {
 		properties.ServerVersion = nil
 	}
@@ -3927,10 +3941,20 @@ type ConnectorOffer string
 
 const ConnectorOffer_Small = ConnectorOffer("Small")
 
+// Mapping from string to ConnectorOffer
+var connectorOffer_Values = map[string]ConnectorOffer{
+	"small": ConnectorOffer_Small,
+}
+
 // The cassandra connector offer type for the Cosmos DB C* database account.
 type ConnectorOffer_STATUS string
 
 const ConnectorOffer_STATUS_Small = ConnectorOffer_STATUS("Small")
+
+// Mapping from string to ConnectorOffer_STATUS
+var connectorOffer_STATUS_Values = map[string]ConnectorOffer_STATUS{
+	"small": ConnectorOffer_STATUS_Small,
+}
 
 // The consistency policy for the Cosmos DB database account.
 type ConsistencyPolicy struct {
@@ -4021,8 +4045,9 @@ func (policy *ConsistencyPolicy) AssignProperties_From_ConsistencyPolicy(source 
 
 	// DefaultConsistencyLevel
 	if source.DefaultConsistencyLevel != nil {
-		defaultConsistencyLevel := ConsistencyPolicy_DefaultConsistencyLevel(*source.DefaultConsistencyLevel)
-		policy.DefaultConsistencyLevel = &defaultConsistencyLevel
+		defaultConsistencyLevel := *source.DefaultConsistencyLevel
+		defaultConsistencyLevelTemp := genruntime.ToEnum(defaultConsistencyLevel, consistencyPolicy_DefaultConsistencyLevel_Values)
+		policy.DefaultConsistencyLevel = &defaultConsistencyLevelTemp
 	} else {
 		policy.DefaultConsistencyLevel = nil
 	}
@@ -4175,8 +4200,9 @@ func (policy *ConsistencyPolicy_STATUS) AssignProperties_From_ConsistencyPolicy_
 
 	// DefaultConsistencyLevel
 	if source.DefaultConsistencyLevel != nil {
-		defaultConsistencyLevel := ConsistencyPolicy_DefaultConsistencyLevel_STATUS(*source.DefaultConsistencyLevel)
-		policy.DefaultConsistencyLevel = &defaultConsistencyLevel
+		defaultConsistencyLevel := *source.DefaultConsistencyLevel
+		defaultConsistencyLevelTemp := genruntime.ToEnum(defaultConsistencyLevel, consistencyPolicy_DefaultConsistencyLevel_STATUS_Values)
+		policy.DefaultConsistencyLevel = &defaultConsistencyLevelTemp
 	} else {
 		policy.DefaultConsistencyLevel = nil
 	}
@@ -4546,10 +4572,20 @@ type DatabaseAccountOfferType string
 
 const DatabaseAccountOfferType_Standard = DatabaseAccountOfferType("Standard")
 
+// Mapping from string to DatabaseAccountOfferType
+var databaseAccountOfferType_Values = map[string]DatabaseAccountOfferType{
+	"standard": DatabaseAccountOfferType_Standard,
+}
+
 // The offer type for the Cosmos DB database account.
 type DatabaseAccountOfferType_STATUS string
 
 const DatabaseAccountOfferType_STATUS_Standard = DatabaseAccountOfferType_STATUS("Standard")
+
+// Mapping from string to DatabaseAccountOfferType_STATUS
+var databaseAccountOfferType_STATUS_Values = map[string]DatabaseAccountOfferType_STATUS{
+	"standard": DatabaseAccountOfferType_STATUS_Standard,
+}
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type DatabaseAccountOperatorSpec struct {
@@ -5224,8 +5260,9 @@ func (identity *ManagedServiceIdentity) AssignProperties_From_ManagedServiceIden
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedServiceIdentity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedServiceIdentity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -5401,8 +5438,9 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_From_ManagedServ
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedServiceIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedServiceIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -5486,6 +5524,12 @@ const (
 	NetworkAclBypass_None          = NetworkAclBypass("None")
 )
 
+// Mapping from string to NetworkAclBypass
+var networkAclBypass_Values = map[string]NetworkAclBypass{
+	"azureservices": NetworkAclBypass_AzureServices,
+	"none":          NetworkAclBypass_None,
+}
+
 // Indicates what services are allowed to bypass firewall checks.
 type NetworkAclBypass_STATUS string
 
@@ -5493,6 +5537,12 @@ const (
 	NetworkAclBypass_STATUS_AzureServices = NetworkAclBypass_STATUS("AzureServices")
 	NetworkAclBypass_STATUS_None          = NetworkAclBypass_STATUS("None")
 )
+
+// Mapping from string to NetworkAclBypass_STATUS
+var networkAclBypass_STATUS_Values = map[string]NetworkAclBypass_STATUS{
+	"azureservices": NetworkAclBypass_STATUS_AzureServices,
+	"none":          NetworkAclBypass_STATUS_None,
+}
 
 // A private endpoint connection
 type PrivateEndpointConnection_STATUS struct {
@@ -5563,6 +5613,12 @@ const (
 	PublicNetworkAccess_Enabled  = PublicNetworkAccess("Enabled")
 )
 
+// Mapping from string to PublicNetworkAccess
+var publicNetworkAccess_Values = map[string]PublicNetworkAccess{
+	"disabled": PublicNetworkAccess_Disabled,
+	"enabled":  PublicNetworkAccess_Enabled,
+}
+
 // Whether requests from Public Network are allowed
 type PublicNetworkAccess_STATUS string
 
@@ -5570,6 +5626,12 @@ const (
 	PublicNetworkAccess_STATUS_Disabled = PublicNetworkAccess_STATUS("Disabled")
 	PublicNetworkAccess_STATUS_Enabled  = PublicNetworkAccess_STATUS("Enabled")
 )
+
+// Mapping from string to PublicNetworkAccess_STATUS
+var publicNetworkAccess_STATUS_Values = map[string]PublicNetworkAccess_STATUS{
+	"disabled": PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  PublicNetworkAccess_STATUS_Enabled,
+}
 
 // Virtual Network ACL Rule object
 type VirtualNetworkRule struct {
@@ -5804,6 +5866,12 @@ const (
 	AnalyticalStorageSchemaType_WellDefined  = AnalyticalStorageSchemaType("WellDefined")
 )
 
+// Mapping from string to AnalyticalStorageSchemaType
+var analyticalStorageSchemaType_Values = map[string]AnalyticalStorageSchemaType{
+	"fullfidelity": AnalyticalStorageSchemaType_FullFidelity,
+	"welldefined":  AnalyticalStorageSchemaType_WellDefined,
+}
+
 // Describes the types of schema for analytical storage.
 type AnalyticalStorageSchemaType_STATUS string
 
@@ -5811,6 +5879,12 @@ const (
 	AnalyticalStorageSchemaType_STATUS_FullFidelity = AnalyticalStorageSchemaType_STATUS("FullFidelity")
 	AnalyticalStorageSchemaType_STATUS_WellDefined  = AnalyticalStorageSchemaType_STATUS("WellDefined")
 )
+
+// Mapping from string to AnalyticalStorageSchemaType_STATUS
+var analyticalStorageSchemaType_STATUS_Values = map[string]AnalyticalStorageSchemaType_STATUS{
+	"fullfidelity": AnalyticalStorageSchemaType_STATUS_FullFidelity,
+	"welldefined":  AnalyticalStorageSchemaType_STATUS_WellDefined,
+}
 
 // +kubebuilder:validation:Enum={"3.2","3.6","4.0"}
 type ApiProperties_ServerVersion string
@@ -5821,6 +5895,13 @@ const (
 	ApiProperties_ServerVersion_40 = ApiProperties_ServerVersion("4.0")
 )
 
+// Mapping from string to ApiProperties_ServerVersion
+var apiProperties_ServerVersion_Values = map[string]ApiProperties_ServerVersion{
+	"3.2": ApiProperties_ServerVersion_32,
+	"3.6": ApiProperties_ServerVersion_36,
+	"4.0": ApiProperties_ServerVersion_40,
+}
+
 type ApiProperties_ServerVersion_STATUS string
 
 const (
@@ -5828,6 +5909,13 @@ const (
 	ApiProperties_ServerVersion_STATUS_36 = ApiProperties_ServerVersion_STATUS("3.6")
 	ApiProperties_ServerVersion_STATUS_40 = ApiProperties_ServerVersion_STATUS("4.0")
 )
+
+// Mapping from string to ApiProperties_ServerVersion_STATUS
+var apiProperties_ServerVersion_STATUS_Values = map[string]ApiProperties_ServerVersion_STATUS{
+	"3.2": ApiProperties_ServerVersion_STATUS_32,
+	"3.6": ApiProperties_ServerVersion_STATUS_36,
+	"4.0": ApiProperties_ServerVersion_STATUS_40,
+}
 
 // +kubebuilder:validation:Enum={"BoundedStaleness","ConsistentPrefix","Eventual","Session","Strong"}
 type ConsistencyPolicy_DefaultConsistencyLevel string
@@ -5840,6 +5928,15 @@ const (
 	ConsistencyPolicy_DefaultConsistencyLevel_Strong           = ConsistencyPolicy_DefaultConsistencyLevel("Strong")
 )
 
+// Mapping from string to ConsistencyPolicy_DefaultConsistencyLevel
+var consistencyPolicy_DefaultConsistencyLevel_Values = map[string]ConsistencyPolicy_DefaultConsistencyLevel{
+	"boundedstaleness": ConsistencyPolicy_DefaultConsistencyLevel_BoundedStaleness,
+	"consistentprefix": ConsistencyPolicy_DefaultConsistencyLevel_ConsistentPrefix,
+	"eventual":         ConsistencyPolicy_DefaultConsistencyLevel_Eventual,
+	"session":          ConsistencyPolicy_DefaultConsistencyLevel_Session,
+	"strong":           ConsistencyPolicy_DefaultConsistencyLevel_Strong,
+}
+
 type ConsistencyPolicy_DefaultConsistencyLevel_STATUS string
 
 const (
@@ -5849,6 +5946,15 @@ const (
 	ConsistencyPolicy_DefaultConsistencyLevel_STATUS_Session          = ConsistencyPolicy_DefaultConsistencyLevel_STATUS("Session")
 	ConsistencyPolicy_DefaultConsistencyLevel_STATUS_Strong           = ConsistencyPolicy_DefaultConsistencyLevel_STATUS("Strong")
 )
+
+// Mapping from string to ConsistencyPolicy_DefaultConsistencyLevel_STATUS
+var consistencyPolicy_DefaultConsistencyLevel_STATUS_Values = map[string]ConsistencyPolicy_DefaultConsistencyLevel_STATUS{
+	"boundedstaleness": ConsistencyPolicy_DefaultConsistencyLevel_STATUS_BoundedStaleness,
+	"consistentprefix": ConsistencyPolicy_DefaultConsistencyLevel_STATUS_ConsistentPrefix,
+	"eventual":         ConsistencyPolicy_DefaultConsistencyLevel_STATUS_Eventual,
+	"session":          ConsistencyPolicy_DefaultConsistencyLevel_STATUS_Session,
+	"strong":           ConsistencyPolicy_DefaultConsistencyLevel_STATUS_Strong,
+}
 
 type ContinuousModeBackupPolicy struct {
 	// +kubebuilder:validation:Required
@@ -5895,8 +6001,9 @@ func (policy *ContinuousModeBackupPolicy) AssignProperties_From_ContinuousModeBa
 
 	// Type
 	if source.Type != nil {
-		typeVar := ContinuousModeBackupPolicy_Type(*source.Type)
-		policy.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, continuousModeBackupPolicy_Type_Values)
+		policy.Type = &typeTemp
 	} else {
 		policy.Type = nil
 	}
@@ -5974,8 +6081,9 @@ func (policy *ContinuousModeBackupPolicy_STATUS) AssignProperties_From_Continuou
 
 	// Type
 	if source.Type != nil {
-		typeVar := ContinuousModeBackupPolicy_Type_STATUS(*source.Type)
-		policy.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, continuousModeBackupPolicy_Type_STATUS_Values)
+		policy.Type = &typeTemp
 	} else {
 		policy.Type = nil
 	}
@@ -6287,8 +6395,9 @@ func (policy *PeriodicModeBackupPolicy) AssignProperties_From_PeriodicModeBackup
 
 	// Type
 	if source.Type != nil {
-		typeVar := PeriodicModeBackupPolicy_Type(*source.Type)
-		policy.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, periodicModeBackupPolicy_Type_Values)
+		policy.Type = &typeTemp
 	} else {
 		policy.Type = nil
 	}
@@ -6415,8 +6524,9 @@ func (policy *PeriodicModeBackupPolicy_STATUS) AssignProperties_From_PeriodicMod
 
 	// Type
 	if source.Type != nil {
-		typeVar := PeriodicModeBackupPolicy_Type_STATUS(*source.Type)
-		policy.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, periodicModeBackupPolicy_Type_STATUS_Values)
+		policy.Type = &typeTemp
 	} else {
 		policy.Type = nil
 	}
@@ -6500,18 +6610,38 @@ type ContinuousModeBackupPolicy_Type string
 
 const ContinuousModeBackupPolicy_Type_Continuous = ContinuousModeBackupPolicy_Type("Continuous")
 
+// Mapping from string to ContinuousModeBackupPolicy_Type
+var continuousModeBackupPolicy_Type_Values = map[string]ContinuousModeBackupPolicy_Type{
+	"continuous": ContinuousModeBackupPolicy_Type_Continuous,
+}
+
 type ContinuousModeBackupPolicy_Type_STATUS string
 
 const ContinuousModeBackupPolicy_Type_STATUS_Continuous = ContinuousModeBackupPolicy_Type_STATUS("Continuous")
+
+// Mapping from string to ContinuousModeBackupPolicy_Type_STATUS
+var continuousModeBackupPolicy_Type_STATUS_Values = map[string]ContinuousModeBackupPolicy_Type_STATUS{
+	"continuous": ContinuousModeBackupPolicy_Type_STATUS_Continuous,
+}
 
 // +kubebuilder:validation:Enum={"Periodic"}
 type PeriodicModeBackupPolicy_Type string
 
 const PeriodicModeBackupPolicy_Type_Periodic = PeriodicModeBackupPolicy_Type("Periodic")
 
+// Mapping from string to PeriodicModeBackupPolicy_Type
+var periodicModeBackupPolicy_Type_Values = map[string]PeriodicModeBackupPolicy_Type{
+	"periodic": PeriodicModeBackupPolicy_Type_Periodic,
+}
+
 type PeriodicModeBackupPolicy_Type_STATUS string
 
 const PeriodicModeBackupPolicy_Type_STATUS_Periodic = PeriodicModeBackupPolicy_Type_STATUS("Periodic")
+
+// Mapping from string to PeriodicModeBackupPolicy_Type_STATUS
+var periodicModeBackupPolicy_Type_STATUS_Values = map[string]PeriodicModeBackupPolicy_Type_STATUS{
+	"periodic": PeriodicModeBackupPolicy_Type_STATUS_Periodic,
+}
 
 // Configuration values for periodic mode backup
 type PeriodicModeProperties struct {

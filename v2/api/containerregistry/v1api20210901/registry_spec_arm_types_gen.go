@@ -104,6 +104,14 @@ const (
 	IdentityProperties_Type_UserAssigned               = IdentityProperties_Type("UserAssigned")
 )
 
+// Mapping from string to IdentityProperties_Type
+var identityProperties_Type_Values = map[string]IdentityProperties_Type{
+	"none":                         IdentityProperties_Type_None,
+	"systemassigned":               IdentityProperties_Type_SystemAssigned,
+	"systemassigned, userassigned": IdentityProperties_Type_SystemAssignedUserAssigned,
+	"userassigned":                 IdentityProperties_Type_UserAssigned,
+}
+
 // The network rule set for a container registry.
 type NetworkRuleSet_ARM struct {
 	// DefaultAction: The default action of allow or deny when no other rules match.
@@ -137,6 +145,14 @@ const (
 	Sku_Name_Premium  = Sku_Name("Premium")
 	Sku_Name_Standard = Sku_Name("Standard")
 )
+
+// Mapping from string to Sku_Name
+var sku_Name_Values = map[string]Sku_Name{
+	"basic":    Sku_Name_Basic,
+	"classic":  Sku_Name_Classic,
+	"premium":  Sku_Name_Premium,
+	"standard": Sku_Name_Standard,
+}
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {

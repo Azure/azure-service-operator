@@ -107,6 +107,13 @@ const (
 	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
 )
 
+// Mapping from string to Sku_Tier_STATUS
+var sku_Tier_STATUS_Values = map[string]Sku_Tier_STATUS{
+	"basic":           Sku_Tier_STATUS_Basic,
+	"generalpurpose":  Sku_Tier_STATUS_GeneralPurpose,
+	"memoryoptimized": Sku_Tier_STATUS_MemoryOptimized,
+}
+
 // Storage Profile properties of a server
 type StorageProfile_STATUS_ARM struct {
 	// BackupRetentionDays: Backup retention days for the server.

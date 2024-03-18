@@ -827,8 +827,9 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_From_ScheduledQueryRule_Sp
 
 	// Kind
 	if source.Kind != nil {
-		kind := ScheduledQueryRule_Kind_Spec(*source.Kind)
-		rule.Kind = &kind
+		kind := *source.Kind
+		kindTemp := genruntime.ToEnum(kind, scheduledQueryRule_Kind_Spec_Values)
+		rule.Kind = &kindTemp
 	} else {
 		rule.Kind = nil
 	}
@@ -1632,8 +1633,9 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_From_ScheduledQueryRule_
 
 	// Kind
 	if source.Kind != nil {
-		kind := ScheduledQueryRule_Kind_STATUS(*source.Kind)
-		rule.Kind = &kind
+		kind := *source.Kind
+		kindTemp := genruntime.ToEnum(kind, scheduledQueryRule_Kind_STATUS_Values)
+		rule.Kind = &kindTemp
 	} else {
 		rule.Kind = nil
 	}
@@ -2400,8 +2402,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -2414,8 +2417,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -2693,8 +2697,9 @@ func (condition *Condition) AssignProperties_From_Condition(source *v20220615s.C
 
 	// Operator
 	if source.Operator != nil {
-		operator := Condition_Operator(*source.Operator)
-		condition.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, condition_Operator_Values)
+		condition.Operator = &operatorTemp
 	} else {
 		condition.Operator = nil
 	}
@@ -2720,8 +2725,9 @@ func (condition *Condition) AssignProperties_From_Condition(source *v20220615s.C
 
 	// TimeAggregation
 	if source.TimeAggregation != nil {
-		timeAggregation := Condition_TimeAggregation(*source.TimeAggregation)
-		condition.TimeAggregation = &timeAggregation
+		timeAggregation := *source.TimeAggregation
+		timeAggregationTemp := genruntime.ToEnum(timeAggregation, condition_TimeAggregation_Values)
+		condition.TimeAggregation = &timeAggregationTemp
 	} else {
 		condition.TimeAggregation = nil
 	}
@@ -3042,8 +3048,9 @@ func (condition *Condition_STATUS) AssignProperties_From_Condition_STATUS(source
 
 	// Operator
 	if source.Operator != nil {
-		operator := Condition_Operator_STATUS(*source.Operator)
-		condition.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, condition_Operator_STATUS_Values)
+		condition.Operator = &operatorTemp
 	} else {
 		condition.Operator = nil
 	}
@@ -3064,8 +3071,9 @@ func (condition *Condition_STATUS) AssignProperties_From_Condition_STATUS(source
 
 	// TimeAggregation
 	if source.TimeAggregation != nil {
-		timeAggregation := Condition_TimeAggregation_STATUS(*source.TimeAggregation)
-		condition.TimeAggregation = &timeAggregation
+		timeAggregation := *source.TimeAggregation
+		timeAggregationTemp := genruntime.ToEnum(timeAggregation, condition_TimeAggregation_STATUS_Values)
+		condition.TimeAggregation = &timeAggregationTemp
 	} else {
 		condition.TimeAggregation = nil
 	}
@@ -3351,6 +3359,15 @@ const (
 	Condition_Operator_LessThanOrEqual    = Condition_Operator("LessThanOrEqual")
 )
 
+// Mapping from string to Condition_Operator
+var condition_Operator_Values = map[string]Condition_Operator{
+	"equals":             Condition_Operator_Equals,
+	"greaterthan":        Condition_Operator_GreaterThan,
+	"greaterthanorequal": Condition_Operator_GreaterThanOrEqual,
+	"lessthan":           Condition_Operator_LessThan,
+	"lessthanorequal":    Condition_Operator_LessThanOrEqual,
+}
+
 type Condition_Operator_STATUS string
 
 const (
@@ -3360,6 +3377,15 @@ const (
 	Condition_Operator_STATUS_LessThan           = Condition_Operator_STATUS("LessThan")
 	Condition_Operator_STATUS_LessThanOrEqual    = Condition_Operator_STATUS("LessThanOrEqual")
 )
+
+// Mapping from string to Condition_Operator_STATUS
+var condition_Operator_STATUS_Values = map[string]Condition_Operator_STATUS{
+	"equals":             Condition_Operator_STATUS_Equals,
+	"greaterthan":        Condition_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": Condition_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           Condition_Operator_STATUS_LessThan,
+	"lessthanorequal":    Condition_Operator_STATUS_LessThanOrEqual,
+}
 
 // +kubebuilder:validation:Enum={"Average","Count","Maximum","Minimum","Total"}
 type Condition_TimeAggregation string
@@ -3372,6 +3398,15 @@ const (
 	Condition_TimeAggregation_Total   = Condition_TimeAggregation("Total")
 )
 
+// Mapping from string to Condition_TimeAggregation
+var condition_TimeAggregation_Values = map[string]Condition_TimeAggregation{
+	"average": Condition_TimeAggregation_Average,
+	"count":   Condition_TimeAggregation_Count,
+	"maximum": Condition_TimeAggregation_Maximum,
+	"minimum": Condition_TimeAggregation_Minimum,
+	"total":   Condition_TimeAggregation_Total,
+}
+
 type Condition_TimeAggregation_STATUS string
 
 const (
@@ -3381,6 +3416,15 @@ const (
 	Condition_TimeAggregation_STATUS_Minimum = Condition_TimeAggregation_STATUS("Minimum")
 	Condition_TimeAggregation_STATUS_Total   = Condition_TimeAggregation_STATUS("Total")
 )
+
+// Mapping from string to Condition_TimeAggregation_STATUS
+var condition_TimeAggregation_STATUS_Values = map[string]Condition_TimeAggregation_STATUS{
+	"average": Condition_TimeAggregation_STATUS_Average,
+	"count":   Condition_TimeAggregation_STATUS_Count,
+	"maximum": Condition_TimeAggregation_STATUS_Maximum,
+	"minimum": Condition_TimeAggregation_STATUS_Minimum,
+	"total":   Condition_TimeAggregation_STATUS_Total,
+}
 
 // Dimension splitting and filtering definition
 type Dimension struct {
@@ -3466,8 +3510,9 @@ func (dimension *Dimension) AssignProperties_From_Dimension(source *v20220615s.D
 
 	// Operator
 	if source.Operator != nil {
-		operator := Dimension_Operator(*source.Operator)
-		dimension.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, dimension_Operator_Values)
+		dimension.Operator = &operatorTemp
 	} else {
 		dimension.Operator = nil
 	}
@@ -3585,8 +3630,9 @@ func (dimension *Dimension_STATUS) AssignProperties_From_Dimension_STATUS(source
 
 	// Operator
 	if source.Operator != nil {
-		operator := Dimension_Operator_STATUS(*source.Operator)
-		dimension.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, dimension_Operator_STATUS_Values)
+		dimension.Operator = &operatorTemp
 	} else {
 		dimension.Operator = nil
 	}
@@ -3636,12 +3682,24 @@ const (
 	Dimension_Operator_Include = Dimension_Operator("Include")
 )
 
+// Mapping from string to Dimension_Operator
+var dimension_Operator_Values = map[string]Dimension_Operator{
+	"exclude": Dimension_Operator_Exclude,
+	"include": Dimension_Operator_Include,
+}
+
 type Dimension_Operator_STATUS string
 
 const (
 	Dimension_Operator_STATUS_Exclude = Dimension_Operator_STATUS("Exclude")
 	Dimension_Operator_STATUS_Include = Dimension_Operator_STATUS("Include")
 )
+
+// Mapping from string to Dimension_Operator_STATUS
+var dimension_Operator_STATUS_Values = map[string]Dimension_Operator_STATUS{
+	"exclude": Dimension_Operator_STATUS_Exclude,
+	"include": Dimension_Operator_STATUS_Include,
+}
 
 func init() {
 	SchemeBuilder.Register(&ScheduledQueryRule{}, &ScheduledQueryRuleList{})

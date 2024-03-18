@@ -133,6 +133,13 @@ const (
 	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
 )
 
+// Mapping from string to Sku_Tier
+var sku_Tier_Values = map[string]Sku_Tier{
+	"burstable":       Sku_Tier_Burstable,
+	"generalpurpose":  Sku_Tier_GeneralPurpose,
+	"memoryoptimized": Sku_Tier_MemoryOptimized,
+}
+
 // Storage properties of a server
 type Storage_ARM struct {
 	// StorageSizeGB: Max storage allowed for a server.

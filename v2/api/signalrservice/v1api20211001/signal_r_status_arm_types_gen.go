@@ -83,6 +83,12 @@ const (
 	ServiceKind_STATUS_SignalR       = ServiceKind_STATUS("SignalR")
 )
 
+// Mapping from string to ServiceKind_STATUS
+var serviceKind_STATUS_Values = map[string]ServiceKind_STATUS{
+	"rawwebsockets": ServiceKind_STATUS_RawWebSockets,
+	"signalr":       ServiceKind_STATUS_SignalR,
+}
+
 // A class that describes the properties of the resource
 type SignalRProperties_STATUS_ARM struct {
 	// Cors: Cross-Origin Resource Sharing (CORS) settings.
@@ -180,6 +186,13 @@ const (
 	ManagedIdentityType_STATUS_UserAssigned   = ManagedIdentityType_STATUS("UserAssigned")
 )
 
+// Mapping from string to ManagedIdentityType_STATUS
+var managedIdentityType_STATUS_Values = map[string]ManagedIdentityType_STATUS{
+	"none":           ManagedIdentityType_STATUS_None,
+	"systemassigned": ManagedIdentityType_STATUS_SystemAssigned,
+	"userassigned":   ManagedIdentityType_STATUS_UserAssigned,
+}
+
 // A private endpoint connection to an azure resource
 type PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded_ARM struct {
 	// Id: Fully qualified resource Id for the resource.
@@ -256,6 +269,14 @@ const (
 	SignalRSkuTier_STATUS_Standard = SignalRSkuTier_STATUS("Standard")
 )
 
+// Mapping from string to SignalRSkuTier_STATUS
+var signalRSkuTier_STATUS_Values = map[string]SignalRSkuTier_STATUS{
+	"basic":    SignalRSkuTier_STATUS_Basic,
+	"free":     SignalRSkuTier_STATUS_Free,
+	"premium":  SignalRSkuTier_STATUS_Premium,
+	"standard": SignalRSkuTier_STATUS_Standard,
+}
+
 // TLS settings for the resource
 type SignalRTlsSettings_STATUS_ARM struct {
 	// ClientCertEnabled: Request client certificate during TLS handshake if enabled
@@ -271,6 +292,14 @@ const (
 	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
 type SystemData_LastModifiedByType_STATUS string
 
 const (
@@ -279,6 +308,14 @@ const (
 	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
+}
 
 // Properties of user assigned identity.
 type UserAssignedIdentityProperty_STATUS_ARM struct {

@@ -76,6 +76,11 @@ type BackupPolicy_ObjectType string
 
 const BackupPolicy_ObjectType_BackupPolicy = BackupPolicy_ObjectType("BackupPolicy")
 
+// Mapping from string to BackupPolicy_ObjectType
+var backupPolicy_ObjectType_Values = map[string]BackupPolicy_ObjectType{
+	"backuppolicy": BackupPolicy_ObjectType_BackupPolicy,
+}
+
 type BasePolicyRule_ARM struct {
 	// AzureBackup: Mutually exclusive with all other properties
 	AzureBackup *AzureBackupRule_ARM `json:"azureBackupRule,omitempty"`
@@ -138,10 +143,20 @@ type AzureBackupRule_ObjectType string
 
 const AzureBackupRule_ObjectType_AzureBackupRule = AzureBackupRule_ObjectType("AzureBackupRule")
 
+// Mapping from string to AzureBackupRule_ObjectType
+var azureBackupRule_ObjectType_Values = map[string]AzureBackupRule_ObjectType{
+	"azurebackuprule": AzureBackupRule_ObjectType_AzureBackupRule,
+}
+
 // +kubebuilder:validation:Enum={"AzureRetentionRule"}
 type AzureRetentionRule_ObjectType string
 
 const AzureRetentionRule_ObjectType_AzureRetentionRule = AzureRetentionRule_ObjectType("AzureRetentionRule")
+
+// Mapping from string to AzureRetentionRule_ObjectType
+var azureRetentionRule_ObjectType_Values = map[string]AzureRetentionRule_ObjectType{
+	"azureretentionrule": AzureRetentionRule_ObjectType_AzureRetentionRule,
+}
 
 type BackupParameters_ARM struct {
 	// AzureBackupParams: Mutually exclusive with all other properties
@@ -256,6 +271,13 @@ const (
 	DataStoreInfoBase_DataStoreType_VaultStore       = DataStoreInfoBase_DataStoreType("VaultStore")
 )
 
+// Mapping from string to DataStoreInfoBase_DataStoreType
+var dataStoreInfoBase_DataStoreType_Values = map[string]DataStoreInfoBase_DataStoreType{
+	"archivestore":     DataStoreInfoBase_DataStoreType_ArchiveStore,
+	"operationalstore": DataStoreInfoBase_DataStoreType_OperationalStore,
+	"vaultstore":       DataStoreInfoBase_DataStoreType_VaultStore,
+}
+
 type DeleteOption_ARM struct {
 	// AbsoluteDeleteOption: Mutually exclusive with all other properties
 	AbsoluteDeleteOption *AbsoluteDeleteOption_ARM `json:"absoluteDeleteOption,omitempty"`
@@ -325,10 +347,20 @@ type AdhocBasedTriggerContext_ObjectType string
 
 const AdhocBasedTriggerContext_ObjectType_AdhocBasedTriggerContext = AdhocBasedTriggerContext_ObjectType("AdhocBasedTriggerContext")
 
+// Mapping from string to AdhocBasedTriggerContext_ObjectType
+var adhocBasedTriggerContext_ObjectType_Values = map[string]AdhocBasedTriggerContext_ObjectType{
+	"adhocbasedtriggercontext": AdhocBasedTriggerContext_ObjectType_AdhocBasedTriggerContext,
+}
+
 // +kubebuilder:validation:Enum={"AzureBackupParams"}
 type AzureBackupParams_ObjectType string
 
 const AzureBackupParams_ObjectType_AzureBackupParams = AzureBackupParams_ObjectType("AzureBackupParams")
+
+// Mapping from string to AzureBackupParams_ObjectType
+var azureBackupParams_ObjectType_Values = map[string]AzureBackupParams_ObjectType{
+	"azurebackupparams": AzureBackupParams_ObjectType_AzureBackupParams,
+}
 
 // Schedule for backup
 type BackupSchedule_ARM struct {
@@ -394,6 +426,11 @@ type ScheduleBasedTriggerContext_ObjectType string
 
 const ScheduleBasedTriggerContext_ObjectType_ScheduleBasedTriggerContext = ScheduleBasedTriggerContext_ObjectType("ScheduleBasedTriggerContext")
 
+// Mapping from string to ScheduleBasedTriggerContext_ObjectType
+var scheduleBasedTriggerContext_ObjectType_Values = map[string]ScheduleBasedTriggerContext_ObjectType{
+	"schedulebasedtriggercontext": ScheduleBasedTriggerContext_ObjectType_ScheduleBasedTriggerContext,
+}
+
 // Tagging criteria
 type TaggingCriteria_ARM struct {
 	// Criteria: Criteria which decides whether the tag can be applied to a triggered backup.
@@ -413,6 +450,11 @@ type TaggingCriteria_ARM struct {
 type AbsoluteDeleteOption_ObjectType string
 
 const AbsoluteDeleteOption_ObjectType_AbsoluteDeleteOption = AbsoluteDeleteOption_ObjectType("AbsoluteDeleteOption")
+
+// Mapping from string to AbsoluteDeleteOption_ObjectType
+var absoluteDeleteOption_ObjectType_Values = map[string]AbsoluteDeleteOption_ObjectType{
+	"absolutedeleteoption": AbsoluteDeleteOption_ObjectType_AbsoluteDeleteOption,
+}
 
 type BackupCriteria_ARM struct {
 	// ScheduleBasedBackupCriteria: Mutually exclusive with all other properties
@@ -473,15 +515,30 @@ type CopyOnExpiryOption_ObjectType string
 
 const CopyOnExpiryOption_ObjectType_CopyOnExpiryOption = CopyOnExpiryOption_ObjectType("CopyOnExpiryOption")
 
+// Mapping from string to CopyOnExpiryOption_ObjectType
+var copyOnExpiryOption_ObjectType_Values = map[string]CopyOnExpiryOption_ObjectType{
+	"copyonexpiryoption": CopyOnExpiryOption_ObjectType_CopyOnExpiryOption,
+}
+
 // +kubebuilder:validation:Enum={"CustomCopyOption"}
 type CustomCopyOption_ObjectType string
 
 const CustomCopyOption_ObjectType_CustomCopyOption = CustomCopyOption_ObjectType("CustomCopyOption")
 
+// Mapping from string to CustomCopyOption_ObjectType
+var customCopyOption_ObjectType_Values = map[string]CustomCopyOption_ObjectType{
+	"customcopyoption": CustomCopyOption_ObjectType_CustomCopyOption,
+}
+
 // +kubebuilder:validation:Enum={"ImmediateCopyOption"}
 type ImmediateCopyOption_ObjectType string
 
 const ImmediateCopyOption_ObjectType_ImmediateCopyOption = ImmediateCopyOption_ObjectType("ImmediateCopyOption")
+
+// Mapping from string to ImmediateCopyOption_ObjectType
+var immediateCopyOption_ObjectType_Values = map[string]ImmediateCopyOption_ObjectType{
+	"immediatecopyoption": ImmediateCopyOption_ObjectType_ImmediateCopyOption,
+}
 
 type ScheduleBasedBackupCriteria_ARM struct {
 	// AbsoluteCriteria: it contains absolute values like "AllBackup" / "FirstOfDay" / "FirstOfWeek" / "FirstOfMonth"
@@ -527,6 +584,15 @@ const (
 	ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfYear  = ScheduleBasedBackupCriteria_AbsoluteCriteria("FirstOfYear")
 )
 
+// Mapping from string to ScheduleBasedBackupCriteria_AbsoluteCriteria
+var scheduleBasedBackupCriteria_AbsoluteCriteria_Values = map[string]ScheduleBasedBackupCriteria_AbsoluteCriteria{
+	"allbackup":    ScheduleBasedBackupCriteria_AbsoluteCriteria_AllBackup,
+	"firstofday":   ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfDay,
+	"firstofmonth": ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfMonth,
+	"firstofweek":  ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfWeek,
+	"firstofyear":  ScheduleBasedBackupCriteria_AbsoluteCriteria_FirstOfYear,
+}
+
 // +kubebuilder:validation:Enum={"Friday","Monday","Saturday","Sunday","Thursday","Tuesday","Wednesday"}
 type ScheduleBasedBackupCriteria_DaysOfTheWeek string
 
@@ -539,6 +605,17 @@ const (
 	ScheduleBasedBackupCriteria_DaysOfTheWeek_Tuesday   = ScheduleBasedBackupCriteria_DaysOfTheWeek("Tuesday")
 	ScheduleBasedBackupCriteria_DaysOfTheWeek_Wednesday = ScheduleBasedBackupCriteria_DaysOfTheWeek("Wednesday")
 )
+
+// Mapping from string to ScheduleBasedBackupCriteria_DaysOfTheWeek
+var scheduleBasedBackupCriteria_DaysOfTheWeek_Values = map[string]ScheduleBasedBackupCriteria_DaysOfTheWeek{
+	"friday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_Friday,
+	"monday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_Monday,
+	"saturday":  ScheduleBasedBackupCriteria_DaysOfTheWeek_Saturday,
+	"sunday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_Sunday,
+	"thursday":  ScheduleBasedBackupCriteria_DaysOfTheWeek_Thursday,
+	"tuesday":   ScheduleBasedBackupCriteria_DaysOfTheWeek_Tuesday,
+	"wednesday": ScheduleBasedBackupCriteria_DaysOfTheWeek_Wednesday,
+}
 
 // +kubebuilder:validation:Enum={"April","August","December","February","January","July","June","March","May","November","October","September"}
 type ScheduleBasedBackupCriteria_MonthsOfYear string
@@ -558,10 +635,31 @@ const (
 	ScheduleBasedBackupCriteria_MonthsOfYear_September = ScheduleBasedBackupCriteria_MonthsOfYear("September")
 )
 
+// Mapping from string to ScheduleBasedBackupCriteria_MonthsOfYear
+var scheduleBasedBackupCriteria_MonthsOfYear_Values = map[string]ScheduleBasedBackupCriteria_MonthsOfYear{
+	"april":     ScheduleBasedBackupCriteria_MonthsOfYear_April,
+	"august":    ScheduleBasedBackupCriteria_MonthsOfYear_August,
+	"december":  ScheduleBasedBackupCriteria_MonthsOfYear_December,
+	"february":  ScheduleBasedBackupCriteria_MonthsOfYear_February,
+	"january":   ScheduleBasedBackupCriteria_MonthsOfYear_January,
+	"july":      ScheduleBasedBackupCriteria_MonthsOfYear_July,
+	"june":      ScheduleBasedBackupCriteria_MonthsOfYear_June,
+	"march":     ScheduleBasedBackupCriteria_MonthsOfYear_March,
+	"may":       ScheduleBasedBackupCriteria_MonthsOfYear_May,
+	"november":  ScheduleBasedBackupCriteria_MonthsOfYear_November,
+	"october":   ScheduleBasedBackupCriteria_MonthsOfYear_October,
+	"september": ScheduleBasedBackupCriteria_MonthsOfYear_September,
+}
+
 // +kubebuilder:validation:Enum={"ScheduleBasedBackupCriteria"}
 type ScheduleBasedBackupCriteria_ObjectType string
 
 const ScheduleBasedBackupCriteria_ObjectType_ScheduleBasedBackupCriteria = ScheduleBasedBackupCriteria_ObjectType("ScheduleBasedBackupCriteria")
+
+// Mapping from string to ScheduleBasedBackupCriteria_ObjectType
+var scheduleBasedBackupCriteria_ObjectType_Values = map[string]ScheduleBasedBackupCriteria_ObjectType{
+	"schedulebasedbackupcriteria": ScheduleBasedBackupCriteria_ObjectType_ScheduleBasedBackupCriteria,
+}
 
 // +kubebuilder:validation:Enum={"First","Fourth","Last","Second","Third"}
 type ScheduleBasedBackupCriteria_WeeksOfTheMonth string
@@ -573,3 +671,12 @@ const (
 	ScheduleBasedBackupCriteria_WeeksOfTheMonth_Second = ScheduleBasedBackupCriteria_WeeksOfTheMonth("Second")
 	ScheduleBasedBackupCriteria_WeeksOfTheMonth_Third  = ScheduleBasedBackupCriteria_WeeksOfTheMonth("Third")
 )
+
+// Mapping from string to ScheduleBasedBackupCriteria_WeeksOfTheMonth
+var scheduleBasedBackupCriteria_WeeksOfTheMonth_Values = map[string]ScheduleBasedBackupCriteria_WeeksOfTheMonth{
+	"first":  ScheduleBasedBackupCriteria_WeeksOfTheMonth_First,
+	"fourth": ScheduleBasedBackupCriteria_WeeksOfTheMonth_Fourth,
+	"last":   ScheduleBasedBackupCriteria_WeeksOfTheMonth_Last,
+	"second": ScheduleBasedBackupCriteria_WeeksOfTheMonth_Second,
+	"third":  ScheduleBasedBackupCriteria_WeeksOfTheMonth_Third,
+}

@@ -135,6 +135,12 @@ const (
 	ConflictResolutionPolicy_Mode_STATUS_LastWriterWins = ConflictResolutionPolicy_Mode_STATUS("LastWriterWins")
 )
 
+// Mapping from string to ConflictResolutionPolicy_Mode_STATUS
+var conflictResolutionPolicy_Mode_STATUS_Values = map[string]ConflictResolutionPolicy_Mode_STATUS{
+	"custom":         ConflictResolutionPolicy_Mode_STATUS_Custom,
+	"lastwriterwins": ConflictResolutionPolicy_Mode_STATUS_LastWriterWins,
+}
+
 type ContainerPartitionKey_Kind_STATUS string
 
 const (
@@ -142,6 +148,13 @@ const (
 	ContainerPartitionKey_Kind_STATUS_MultiHash = ContainerPartitionKey_Kind_STATUS("MultiHash")
 	ContainerPartitionKey_Kind_STATUS_Range     = ContainerPartitionKey_Kind_STATUS("Range")
 )
+
+// Mapping from string to ContainerPartitionKey_Kind_STATUS
+var containerPartitionKey_Kind_STATUS_Values = map[string]ContainerPartitionKey_Kind_STATUS{
+	"hash":      ContainerPartitionKey_Kind_STATUS_Hash,
+	"multihash": ContainerPartitionKey_Kind_STATUS_MultiHash,
+	"range":     ContainerPartitionKey_Kind_STATUS_Range,
+}
 
 type ExcludedPath_STATUS_ARM struct {
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
@@ -167,6 +180,13 @@ const (
 	IndexingPolicy_IndexingMode_STATUS_None       = IndexingPolicy_IndexingMode_STATUS("none")
 )
 
+// Mapping from string to IndexingPolicy_IndexingMode_STATUS
+var indexingPolicy_IndexingMode_STATUS_Values = map[string]IndexingPolicy_IndexingMode_STATUS{
+	"consistent": IndexingPolicy_IndexingMode_STATUS_Consistent,
+	"lazy":       IndexingPolicy_IndexingMode_STATUS_Lazy,
+	"none":       IndexingPolicy_IndexingMode_STATUS_None,
+}
+
 type SpatialSpec_STATUS_ARM struct {
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
 	// (/path/*)
@@ -188,6 +208,12 @@ const (
 	CompositePath_Order_STATUS_Ascending  = CompositePath_Order_STATUS("ascending")
 	CompositePath_Order_STATUS_Descending = CompositePath_Order_STATUS("descending")
 )
+
+// Mapping from string to CompositePath_Order_STATUS
+var compositePath_Order_STATUS_Values = map[string]CompositePath_Order_STATUS{
+	"ascending":  CompositePath_Order_STATUS_Ascending,
+	"descending": CompositePath_Order_STATUS_Descending,
+}
 
 // The indexes for the path.
 type Indexes_STATUS_ARM struct {
@@ -211,6 +237,14 @@ const (
 	SpatialType_STATUS_Polygon      = SpatialType_STATUS("Polygon")
 )
 
+// Mapping from string to SpatialType_STATUS
+var spatialType_STATUS_Values = map[string]SpatialType_STATUS{
+	"linestring":   SpatialType_STATUS_LineString,
+	"multipolygon": SpatialType_STATUS_MultiPolygon,
+	"point":        SpatialType_STATUS_Point,
+	"polygon":      SpatialType_STATUS_Polygon,
+}
+
 type Indexes_DataType_STATUS string
 
 const (
@@ -222,6 +256,16 @@ const (
 	Indexes_DataType_STATUS_String       = Indexes_DataType_STATUS("String")
 )
 
+// Mapping from string to Indexes_DataType_STATUS
+var indexes_DataType_STATUS_Values = map[string]Indexes_DataType_STATUS{
+	"linestring":   Indexes_DataType_STATUS_LineString,
+	"multipolygon": Indexes_DataType_STATUS_MultiPolygon,
+	"number":       Indexes_DataType_STATUS_Number,
+	"point":        Indexes_DataType_STATUS_Point,
+	"polygon":      Indexes_DataType_STATUS_Polygon,
+	"string":       Indexes_DataType_STATUS_String,
+}
+
 type Indexes_Kind_STATUS string
 
 const (
@@ -229,3 +273,10 @@ const (
 	Indexes_Kind_STATUS_Range   = Indexes_Kind_STATUS("Range")
 	Indexes_Kind_STATUS_Spatial = Indexes_Kind_STATUS("Spatial")
 )
+
+// Mapping from string to Indexes_Kind_STATUS
+var indexes_Kind_STATUS_Values = map[string]Indexes_Kind_STATUS{
+	"hash":    Indexes_Kind_STATUS_Hash,
+	"range":   Indexes_Kind_STATUS_Range,
+	"spatial": Indexes_Kind_STATUS_Spatial,
+}

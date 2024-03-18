@@ -80,6 +80,12 @@ const (
 	AFDEndpointProtocols_STATUS_Https = AFDEndpointProtocols_STATUS("Https")
 )
 
+// Mapping from string to AFDEndpointProtocols_STATUS
+var aFDEndpointProtocols_STATUS_Values = map[string]AFDEndpointProtocols_STATUS{
+	"http":  AFDEndpointProtocols_STATUS_Http,
+	"https": AFDEndpointProtocols_STATUS_Https,
+}
+
 // Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
 type AfdRouteCacheConfiguration_STATUS_ARM struct {
 	// CompressionSettings: compression settings.
@@ -109,12 +115,26 @@ const (
 	RouteProperties_DeploymentStatus_STATUS_Succeeded  = RouteProperties_DeploymentStatus_STATUS("Succeeded")
 )
 
+// Mapping from string to RouteProperties_DeploymentStatus_STATUS
+var routeProperties_DeploymentStatus_STATUS_Values = map[string]RouteProperties_DeploymentStatus_STATUS{
+	"failed":     RouteProperties_DeploymentStatus_STATUS_Failed,
+	"inprogress": RouteProperties_DeploymentStatus_STATUS_InProgress,
+	"notstarted": RouteProperties_DeploymentStatus_STATUS_NotStarted,
+	"succeeded":  RouteProperties_DeploymentStatus_STATUS_Succeeded,
+}
+
 type RouteProperties_EnabledState_STATUS string
 
 const (
 	RouteProperties_EnabledState_STATUS_Disabled = RouteProperties_EnabledState_STATUS("Disabled")
 	RouteProperties_EnabledState_STATUS_Enabled  = RouteProperties_EnabledState_STATUS("Enabled")
 )
+
+// Mapping from string to RouteProperties_EnabledState_STATUS
+var routeProperties_EnabledState_STATUS_Values = map[string]RouteProperties_EnabledState_STATUS{
+	"disabled": RouteProperties_EnabledState_STATUS_Disabled,
+	"enabled":  RouteProperties_EnabledState_STATUS_Enabled,
+}
 
 type RouteProperties_ForwardingProtocol_STATUS string
 
@@ -124,6 +144,13 @@ const (
 	RouteProperties_ForwardingProtocol_STATUS_MatchRequest = RouteProperties_ForwardingProtocol_STATUS("MatchRequest")
 )
 
+// Mapping from string to RouteProperties_ForwardingProtocol_STATUS
+var routeProperties_ForwardingProtocol_STATUS_Values = map[string]RouteProperties_ForwardingProtocol_STATUS{
+	"httponly":     RouteProperties_ForwardingProtocol_STATUS_HttpOnly,
+	"httpsonly":    RouteProperties_ForwardingProtocol_STATUS_HttpsOnly,
+	"matchrequest": RouteProperties_ForwardingProtocol_STATUS_MatchRequest,
+}
+
 type RouteProperties_HttpsRedirect_STATUS string
 
 const (
@@ -131,12 +158,24 @@ const (
 	RouteProperties_HttpsRedirect_STATUS_Enabled  = RouteProperties_HttpsRedirect_STATUS("Enabled")
 )
 
+// Mapping from string to RouteProperties_HttpsRedirect_STATUS
+var routeProperties_HttpsRedirect_STATUS_Values = map[string]RouteProperties_HttpsRedirect_STATUS{
+	"disabled": RouteProperties_HttpsRedirect_STATUS_Disabled,
+	"enabled":  RouteProperties_HttpsRedirect_STATUS_Enabled,
+}
+
 type RouteProperties_LinkToDefaultDomain_STATUS string
 
 const (
 	RouteProperties_LinkToDefaultDomain_STATUS_Disabled = RouteProperties_LinkToDefaultDomain_STATUS("Disabled")
 	RouteProperties_LinkToDefaultDomain_STATUS_Enabled  = RouteProperties_LinkToDefaultDomain_STATUS("Enabled")
 )
+
+// Mapping from string to RouteProperties_LinkToDefaultDomain_STATUS
+var routeProperties_LinkToDefaultDomain_STATUS_Values = map[string]RouteProperties_LinkToDefaultDomain_STATUS{
+	"disabled": RouteProperties_LinkToDefaultDomain_STATUS_Disabled,
+	"enabled":  RouteProperties_LinkToDefaultDomain_STATUS_Enabled,
+}
 
 type RouteProperties_ProvisioningState_STATUS string
 
@@ -148,6 +187,15 @@ const (
 	RouteProperties_ProvisioningState_STATUS_Updating  = RouteProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to RouteProperties_ProvisioningState_STATUS
+var routeProperties_ProvisioningState_STATUS_Values = map[string]RouteProperties_ProvisioningState_STATUS{
+	"creating":  RouteProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  RouteProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    RouteProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": RouteProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  RouteProperties_ProvisioningState_STATUS_Updating,
+}
+
 type AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS string
 
 const (
@@ -156,6 +204,14 @@ const (
 	AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IncludeSpecifiedQueryStrings = AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS("IncludeSpecifiedQueryStrings")
 	AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_UseQueryString               = AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS("UseQueryString")
 )
+
+// Mapping from string to AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS
+var afdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_Values = map[string]AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS{
+	"ignorequerystring":            AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreQueryString,
+	"ignorespecifiedquerystrings":  AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreSpecifiedQueryStrings,
+	"includespecifiedquerystrings": AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_IncludeSpecifiedQueryStrings,
+	"usequerystring":               AfdRouteCacheConfiguration_QueryStringCachingBehavior_STATUS_UseQueryString,
+}
 
 // settings for compression.
 type CompressionSettings_STATUS_ARM struct {

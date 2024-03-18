@@ -975,16 +975,18 @@ func (resource *SqlTriggerGetProperties_Resource_STATUS) AssignProperties_From_S
 
 	// TriggerOperation
 	if source.TriggerOperation != nil {
-		triggerOperation := SqlTriggerGetProperties_Resource_TriggerOperation_STATUS(*source.TriggerOperation)
-		resource.TriggerOperation = &triggerOperation
+		triggerOperation := *source.TriggerOperation
+		triggerOperationTemp := genruntime.ToEnum(triggerOperation, sqlTriggerGetProperties_Resource_TriggerOperation_STATUS_Values)
+		resource.TriggerOperation = &triggerOperationTemp
 	} else {
 		resource.TriggerOperation = nil
 	}
 
 	// TriggerType
 	if source.TriggerType != nil {
-		triggerType := SqlTriggerGetProperties_Resource_TriggerType_STATUS(*source.TriggerType)
-		resource.TriggerType = &triggerType
+		triggerType := *source.TriggerType
+		triggerTypeTemp := genruntime.ToEnum(triggerType, sqlTriggerGetProperties_Resource_TriggerType_STATUS_Values)
+		resource.TriggerType = &triggerTypeTemp
 	} else {
 		resource.TriggerType = nil
 	}
@@ -1155,16 +1157,18 @@ func (resource *SqlTriggerResource) AssignProperties_From_SqlTriggerResource(sou
 
 	// TriggerOperation
 	if source.TriggerOperation != nil {
-		triggerOperation := SqlTriggerResource_TriggerOperation(*source.TriggerOperation)
-		resource.TriggerOperation = &triggerOperation
+		triggerOperation := *source.TriggerOperation
+		triggerOperationTemp := genruntime.ToEnum(triggerOperation, sqlTriggerResource_TriggerOperation_Values)
+		resource.TriggerOperation = &triggerOperationTemp
 	} else {
 		resource.TriggerOperation = nil
 	}
 
 	// TriggerType
 	if source.TriggerType != nil {
-		triggerType := SqlTriggerResource_TriggerType(*source.TriggerType)
-		resource.TriggerType = &triggerType
+		triggerType := *source.TriggerType
+		triggerTypeTemp := genruntime.ToEnum(triggerType, sqlTriggerResource_TriggerType_Values)
+		resource.TriggerType = &triggerTypeTemp
 	} else {
 		resource.TriggerType = nil
 	}

@@ -179,6 +179,11 @@ type Identity_Type_STATUS string
 
 const Identity_Type_STATUS_UserAssigned = Identity_Type_STATUS("UserAssigned")
 
+// Mapping from string to Identity_Type_STATUS
+var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
+	"userassigned": Identity_Type_STATUS_UserAssigned,
+}
+
 // Maintenance window of a server.
 type MaintenanceWindow_STATUS_ARM struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
@@ -215,6 +220,13 @@ const (
 	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
 )
 
+// Mapping from string to Sku_Tier_STATUS
+var sku_Tier_STATUS_Values = map[string]Sku_Tier_STATUS{
+	"burstable":       Sku_Tier_STATUS_Burstable,
+	"generalpurpose":  Sku_Tier_STATUS_GeneralPurpose,
+	"memoryoptimized": Sku_Tier_STATUS_MemoryOptimized,
+}
+
 // Storage Profile properties of a server
 type Storage_STATUS_ARM struct {
 	// AutoGrow: Enable Storage Auto Grow or not.
@@ -239,6 +251,14 @@ const (
 	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
 type SystemData_LastModifiedByType_STATUS string
 
 const (
@@ -247,3 +267,11 @@ const (
 	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
+}

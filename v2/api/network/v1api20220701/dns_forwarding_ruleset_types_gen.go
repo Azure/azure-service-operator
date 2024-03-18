@@ -854,8 +854,9 @@ func (ruleset *DnsForwardingRuleset_STATUS) AssignProperties_From_DnsForwardingR
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := DnsresolverProvisioningState_STATUS(*source.ProvisioningState)
-		ruleset.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, dnsresolverProvisioningState_STATUS_Values)
+		ruleset.ProvisioningState = &provisioningStateTemp
 	} else {
 		ruleset.ProvisioningState = nil
 	}
