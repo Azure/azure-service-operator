@@ -8,6 +8,8 @@ package astbuilder
 import "testing"
 
 func Test_IfExprOk_WhenCalled_ReturnsExpectedCode(t *testing.T) {
+	t.Parallel()
+
 	actual := IfExprOk(
 		"monster",
 		"ok",

@@ -133,7 +133,6 @@ func IfExprOk(
 	expr dst.Expr,
 	statements ...dst.Stmt,
 ) *dst.IfStmt {
-
 	init := &dst.AssignStmt{
 		Lhs: []dst.Expr{
 			dst.NewIdent(varName),
