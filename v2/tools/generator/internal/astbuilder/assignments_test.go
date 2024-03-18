@@ -19,5 +19,5 @@ func Test_NewVariableAssignment_WhenCalled_ReturnsExpectedCode(t *testing.T) {
 		helloWorld,
 	)
 
-	AssertStmtExpected(t, actual)
+	assertDeclExpected(t, actual)
 }

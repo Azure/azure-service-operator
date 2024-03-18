@@ -36,7 +36,7 @@ func TestGolden_MakeMap_GivenKeyAndValueTypes_GeneratesExpectedCode(t *testing.T
 				val := dst.NewIdent(c.val)
 
 				call := MakeMap(key, val)
-				AssertExprExpected(t, call)
+				assertExprExpected(t, call)
 			})
 	}
 }

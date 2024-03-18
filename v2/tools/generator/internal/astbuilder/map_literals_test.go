@@ -29,5 +29,5 @@ func Test_MapLiteral_AsExpr_GeneratesExpectedDeclaration(t *testing.T) {
 		mapLiteral.Add(StringLiteral(c), IntLiteral(len(c)))
 	}
 
-	AssertExprExpected(t, mapLiteral.AsExpr())
+	assertExprExpected(t, mapLiteral.AsExpr())
 }
