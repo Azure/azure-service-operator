@@ -15,6 +15,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
+	"strings"
 )
 
 // +kubebuilder:object:root=true
@@ -1086,6 +1087,11 @@ type A_APIVersion_Spec string
 
 const A_APIVersion_Spec_20200601 = A_APIVersion_Spec("2020-06-01")
 
+// Mapping from string to A_APIVersion_Spec
+var A_APIVersion_Spec_Cache = map[string]A_APIVersion_Spec{
+	"2020-06-01": A_APIVersion_Spec_20200601,
+}
+
 type A_Spec struct {
 	// +kubebuilder:validation:Required
 	APIVersion A_APIVersion_Spec `json:"apiVersion,omitempty"`
@@ -1210,7 +1216,12 @@ func (a *A_Spec) AssignProperties_From_A_Spec(source *v20200101s.A_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
-		a.APIVersion = A_APIVersion_Spec(*source.APIVersion)
+		apiVersion := *source.APIVersion
+		if apiVersionValue, apiVersionOk := A_APIVersion_Spec_Cache[strings.ToLower(apiVersion)]; apiVersionOk {
+			a.APIVersion = apiVersionValue
+		} else {
+			a.APIVersion = A_APIVersion_Spec(*source.APIVersion)
+		}
 	} else {
 		a.APIVersion = ""
 	}
@@ -1228,7 +1239,12 @@ func (a *A_Spec) AssignProperties_From_A_Spec(source *v20200101s.A_Spec) error {
 
 	// Type
 	if source.Type != nil {
-		a.Type = A_Type_Spec(*source.Type)
+		typeVar := *source.Type
+		if typeValue, typeOk := A_Type_Spec_Cache[strings.ToLower(typeVar)]; typeOk {
+			a.Type = typeValue
+		} else {
+			a.Type = A_Type_Spec(*source.Type)
+		}
 	} else {
 		a.Type = ""
 	}
@@ -1288,15 +1304,30 @@ type A_Type_Spec string
 
 const A_Type_Spec_MicrosoftAzureA = A_Type_Spec("Microsoft.Azure/A")
 
+// Mapping from string to A_Type_Spec
+var A_Type_Spec_Cache = map[string]A_Type_Spec{
+	"microsoft.azure/a": A_Type_Spec_MicrosoftAzureA,
+}
+
 // +kubebuilder:validation:Enum={"2020-01-01"}
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-01-01")
 
+// Mapping from string to APIVersion
+var APIVersion_Cache = map[string]APIVersion{
+	"2020-01-01": APIVersion_Value,
+}
+
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type B_APIVersion_Spec string
 
 const B_APIVersion_Spec_20200601 = B_APIVersion_Spec("2020-06-01")
+
+// Mapping from string to B_APIVersion_Spec
+var B_APIVersion_Spec_Cache = map[string]B_APIVersion_Spec{
+	"2020-06-01": B_APIVersion_Spec_20200601,
+}
 
 type B_Spec struct {
 	// +kubebuilder:validation:Required
@@ -1422,7 +1453,12 @@ func (b *B_Spec) AssignProperties_From_B_Spec(source *v20200101s.B_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
-		b.APIVersion = B_APIVersion_Spec(*source.APIVersion)
+		apiVersion := *source.APIVersion
+		if apiVersionValue, apiVersionOk := B_APIVersion_Spec_Cache[strings.ToLower(apiVersion)]; apiVersionOk {
+			b.APIVersion = apiVersionValue
+		} else {
+			b.APIVersion = B_APIVersion_Spec(*source.APIVersion)
+		}
 	} else {
 		b.APIVersion = ""
 	}
@@ -1440,7 +1476,12 @@ func (b *B_Spec) AssignProperties_From_B_Spec(source *v20200101s.B_Spec) error {
 
 	// Type
 	if source.Type != nil {
-		b.Type = B_Type_Spec(*source.Type)
+		typeVar := *source.Type
+		if typeValue, typeOk := B_Type_Spec_Cache[strings.ToLower(typeVar)]; typeOk {
+			b.Type = typeValue
+		} else {
+			b.Type = B_Type_Spec(*source.Type)
+		}
 	} else {
 		b.Type = ""
 	}
@@ -1500,10 +1541,20 @@ type B_Type_Spec string
 
 const B_Type_Spec_MicrosoftAzureB = B_Type_Spec("Microsoft.Azure/B")
 
+// Mapping from string to B_Type_Spec
+var B_Type_Spec_Cache = map[string]B_Type_Spec{
+	"microsoft.azure/b": B_Type_Spec_MicrosoftAzureB,
+}
+
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type C_APIVersion_Spec string
 
 const C_APIVersion_Spec_20200601 = C_APIVersion_Spec("2020-06-01")
+
+// Mapping from string to C_APIVersion_Spec
+var C_APIVersion_Spec_Cache = map[string]C_APIVersion_Spec{
+	"2020-06-01": C_APIVersion_Spec_20200601,
+}
 
 type C_Spec struct {
 	// +kubebuilder:validation:Required
@@ -1629,7 +1680,12 @@ func (c *C_Spec) AssignProperties_From_C_Spec(source *v20200101s.C_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
-		c.APIVersion = C_APIVersion_Spec(*source.APIVersion)
+		apiVersion := *source.APIVersion
+		if apiVersionValue, apiVersionOk := C_APIVersion_Spec_Cache[strings.ToLower(apiVersion)]; apiVersionOk {
+			c.APIVersion = apiVersionValue
+		} else {
+			c.APIVersion = C_APIVersion_Spec(*source.APIVersion)
+		}
 	} else {
 		c.APIVersion = ""
 	}
@@ -1647,7 +1703,12 @@ func (c *C_Spec) AssignProperties_From_C_Spec(source *v20200101s.C_Spec) error {
 
 	// Type
 	if source.Type != nil {
-		c.Type = C_Type_Spec(*source.Type)
+		typeVar := *source.Type
+		if typeValue, typeOk := C_Type_Spec_Cache[strings.ToLower(typeVar)]; typeOk {
+			c.Type = typeValue
+		} else {
+			c.Type = C_Type_Spec(*source.Type)
+		}
 	} else {
 		c.Type = ""
 	}
@@ -1707,10 +1768,20 @@ type C_Type_Spec string
 
 const C_Type_Spec_MicrosoftAzureC = C_Type_Spec("Microsoft.Azure/C")
 
+// Mapping from string to C_Type_Spec
+var C_Type_Spec_Cache = map[string]C_Type_Spec{
+	"microsoft.azure/c": C_Type_Spec_MicrosoftAzureC,
+}
+
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type D_APIVersion_Spec string
 
 const D_APIVersion_Spec_20200601 = D_APIVersion_Spec("2020-06-01")
+
+// Mapping from string to D_APIVersion_Spec
+var D_APIVersion_Spec_Cache = map[string]D_APIVersion_Spec{
+	"2020-06-01": D_APIVersion_Spec_20200601,
+}
 
 type D_Spec struct {
 	// +kubebuilder:validation:Required
@@ -1836,7 +1907,12 @@ func (d *D_Spec) AssignProperties_From_D_Spec(source *v20200101s.D_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
-		d.APIVersion = D_APIVersion_Spec(*source.APIVersion)
+		apiVersion := *source.APIVersion
+		if apiVersionValue, apiVersionOk := D_APIVersion_Spec_Cache[strings.ToLower(apiVersion)]; apiVersionOk {
+			d.APIVersion = apiVersionValue
+		} else {
+			d.APIVersion = D_APIVersion_Spec(*source.APIVersion)
+		}
 	} else {
 		d.APIVersion = ""
 	}
@@ -1854,7 +1930,12 @@ func (d *D_Spec) AssignProperties_From_D_Spec(source *v20200101s.D_Spec) error {
 
 	// Type
 	if source.Type != nil {
-		d.Type = D_Type_Spec(*source.Type)
+		typeVar := *source.Type
+		if typeValue, typeOk := D_Type_Spec_Cache[strings.ToLower(typeVar)]; typeOk {
+			d.Type = typeValue
+		} else {
+			d.Type = D_Type_Spec(*source.Type)
+		}
 	} else {
 		d.Type = ""
 	}
@@ -1913,6 +1994,11 @@ func (d *D_Spec) SetAzureName(azureName string) { d.AzureName = azureName }
 type D_Type_Spec string
 
 const D_Type_Spec_MicrosoftAzureD = D_Type_Spec("Microsoft.Azure/D")
+
+// Mapping from string to D_Type_Spec
+var D_Type_Spec_Cache = map[string]D_Type_Spec{
+	"microsoft.azure/d": D_Type_Spec_MicrosoftAzureD,
+}
 
 func init() {
 	SchemeBuilder.Register(&A{}, &AList{}, &B{}, &BList{}, &C{}, &CList{}, &D{}, &DList{})

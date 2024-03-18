@@ -15,6 +15,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
+	"strings"
 )
 
 // +kubebuilder:object:root=true
@@ -290,10 +291,20 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-01-01")
 
+// Mapping from string to APIVersion
+var APIVersion_Cache = map[string]APIVersion{
+	"2020-01-01": APIVersion_Value,
+}
+
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type AResource_APIVersion_Spec string
 
 const AResource_APIVersion_Spec_20200601 = AResource_APIVersion_Spec("2020-06-01")
+
+// Mapping from string to AResource_APIVersion_Spec
+var AResource_APIVersion_Spec_Cache = map[string]AResource_APIVersion_Spec{
+	"2020-06-01": AResource_APIVersion_Spec_20200601,
+}
 
 type AResource_Spec struct {
 	// +kubebuilder:validation:Required
@@ -419,7 +430,12 @@ func (resource *AResource_Spec) AssignProperties_From_AResource_Spec(source *v20
 
 	// APIVersion
 	if source.APIVersion != nil {
-		resource.APIVersion = AResource_APIVersion_Spec(*source.APIVersion)
+		apiVersion := *source.APIVersion
+		if apiVersionValue, apiVersionOk := AResource_APIVersion_Spec_Cache[strings.ToLower(apiVersion)]; apiVersionOk {
+			resource.APIVersion = apiVersionValue
+		} else {
+			resource.APIVersion = AResource_APIVersion_Spec(*source.APIVersion)
+		}
 	} else {
 		resource.APIVersion = ""
 	}
@@ -438,7 +454,12 @@ func (resource *AResource_Spec) AssignProperties_From_AResource_Spec(source *v20
 
 	// Type
 	if source.Type != nil {
-		resource.Type = AResource_Type_Spec(*source.Type)
+		typeVar := *source.Type
+		if typeValue, typeOk := AResource_Type_Spec_Cache[strings.ToLower(typeVar)]; typeOk {
+			resource.Type = typeValue
+		} else {
+			resource.Type = AResource_Type_Spec(*source.Type)
+		}
 	} else {
 		resource.Type = ""
 	}
@@ -501,6 +522,11 @@ type AResource_Type_Spec string
 
 const AResource_Type_Spec_MicrosoftAzureAResource = AResource_Type_Spec("Microsoft.Azure/AResource")
 
+// Mapping from string to AResource_Type_Spec
+var AResource_Type_Spec_Cache = map[string]AResource_Type_Spec{
+	"microsoft.azure/aresource": AResource_Type_Spec_MicrosoftAzureAResource,
+}
+
 // +kubebuilder:validation:Enum={"one","three","two"}
 type AResource_Name_Spec string
 
@@ -509,6 +535,13 @@ const (
 	AResource_Name_Spec_Three = AResource_Name_Spec("three")
 	AResource_Name_Spec_Two   = AResource_Name_Spec("two")
 )
+
+// Mapping from string to AResource_Name_Spec
+var AResource_Name_Spec_Cache = map[string]AResource_Name_Spec{
+	"one":   AResource_Name_Spec_One,
+	"three": AResource_Name_Spec_Three,
+	"two":   AResource_Name_Spec_Two,
+}
 
 func init() {
 	SchemeBuilder.Register(&AResource{}, &AResourceList{})

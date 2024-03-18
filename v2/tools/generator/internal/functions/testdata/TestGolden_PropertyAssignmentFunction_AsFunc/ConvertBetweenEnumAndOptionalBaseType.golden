@@ -3,7 +3,10 @@
 // Licensed under the MIT license.
 package vcurrent
 
-import vnext "github.com/Azure/azure-service-operator/testing/verification/vnext"
+import (
+	vnext "github.com/Azure/azure-service-operator/testing/verification/vnext"
+	"strings"
+)
 
 type Person struct {
 	Sku *string `json:"sku,omitempty"`
@@ -25,7 +28,12 @@ func (person *Person) AssignProperties_To_Person(destination *vnext.Person) erro
 
 	// Sku
 	if person.Sku != nil {
-		destination.Sku = vnext.Bucket(*person.Sku)
+		sku := *person.Sku
+		if skuValue, skuOk := Bucket_Cache[strings.ToLower(sku)]; skuOk {
+			destination.Sku = skuValue
+		} else {
+			destination.Sku = Bucket(*person.Sku)
+		}
 	} else {
 		destination.Sku = ""
 	}

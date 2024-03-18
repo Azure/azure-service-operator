@@ -33,6 +33,11 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-01-01")
 
+// Mapping from string to APIVersion
+var APIVersion_Cache = map[string]APIVersion{
+	"2020-01-01": APIVersion_Value,
+}
+
 type FakeResource_Spec struct {
 	v1.ResourceSpec `json:",inline,omitempty"`
 	ForProvider     FakeResourceParameters `json:"forProvider,omitempty"`
@@ -65,6 +70,11 @@ type FakeResource_APIVersion_Spec string
 
 const FakeResource_APIVersion_Spec_20200601 = FakeResource_APIVersion_Spec("2020-06-01")
 
+// Mapping from string to FakeResource_APIVersion_Spec
+var FakeResource_APIVersion_Spec_Cache = map[string]FakeResource_APIVersion_Spec{
+	"2020-06-01": FakeResource_APIVersion_Spec_20200601,
+}
+
 // +kubebuilder:validation:Enum={"blue","green","red"}
 type FakeResource_Color_Spec string
 
@@ -74,10 +84,22 @@ const (
 	FakeResource_Color_Spec_Red   = FakeResource_Color_Spec("red")
 )
 
+// Mapping from string to FakeResource_Color_Spec
+var FakeResource_Color_Spec_Cache = map[string]FakeResource_Color_Spec{
+	"blue":  FakeResource_Color_Spec_Blue,
+	"green": FakeResource_Color_Spec_Green,
+	"red":   FakeResource_Color_Spec_Red,
+}
+
 // +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
 type FakeResource_Type_Spec string
 
 const FakeResource_Type_Spec_MicrosoftAzureFakeResource = FakeResource_Type_Spec("Microsoft.Azure/FakeResource")
+
+// Mapping from string to FakeResource_Type_Spec
+var FakeResource_Type_Spec_Cache = map[string]FakeResource_Type_Spec{
+	"microsoft.azure/fakeresource": FakeResource_Type_Spec_MicrosoftAzureFakeResource,
+}
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {

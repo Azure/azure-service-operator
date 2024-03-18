@@ -6,6 +6,7 @@ package v1api20200101
 import (
 	v20200101s "github.com/Azure/azure-service-operator/testing/test/v1api20200101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"strings"
 )
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json
@@ -19,8 +20,13 @@ func (test *Test) AssignProperties_From_Test(source *v20200101s.Test) error {
 
 	// Color
 	if source.Color != nil {
-		color := Test_Color(*source.Color)
-		test.Color = &color
+		color := *source.Color
+		if colorValue, colorOk := Test_Color_Cache[strings.ToLower(color)]; colorOk {
+			test.Color = &colorValue
+		} else {
+			colorTemp := Test_Color(*source.Color)
+			test.Color = &colorTemp
+		}
 	} else {
 		test.Color = nil
 	}
@@ -61,3 +67,10 @@ const (
 	Test_Color_Green = Test_Color("green")
 	Test_Color_Red   = Test_Color("red")
 )
+
+// Mapping from string to Test_Color
+var Test_Color_Cache = map[string]Test_Color{
+	"blue":  Test_Color_Blue,
+	"green": Test_Color_Green,
+	"red":   Test_Color_Red,
+}
