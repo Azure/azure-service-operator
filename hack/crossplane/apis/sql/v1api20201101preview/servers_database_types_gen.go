@@ -343,12 +343,24 @@ const (
 	DatabaseProperties_CatalogCollation_SQL_Latin1_General_CP1_CI_AS = DatabaseProperties_CatalogCollation("SQL_Latin1_General_CP1_CI_AS")
 )
 
+// Mapping from string to DatabaseProperties_CatalogCollation
+var DatabaseProperties_CatalogCollation_Cache = map[string]DatabaseProperties_CatalogCollation{
+	"database_default":             DatabaseProperties_CatalogCollation_DATABASE_DEFAULT,
+	"sql_latin1_general_cp1_ci_as": DatabaseProperties_CatalogCollation_SQL_Latin1_General_CP1_CI_AS,
+}
+
 type DatabaseProperties_CatalogCollation_STATUS string
 
 const (
 	DatabaseProperties_CatalogCollation_STATUS_DATABASE_DEFAULT             = DatabaseProperties_CatalogCollation_STATUS("DATABASE_DEFAULT")
 	DatabaseProperties_CatalogCollation_STATUS_SQL_Latin1_General_CP1_CI_AS = DatabaseProperties_CatalogCollation_STATUS("SQL_Latin1_General_CP1_CI_AS")
 )
+
+// Mapping from string to DatabaseProperties_CatalogCollation_STATUS
+var DatabaseProperties_CatalogCollation_STATUS_Cache = map[string]DatabaseProperties_CatalogCollation_STATUS{
+	"database_default":             DatabaseProperties_CatalogCollation_STATUS_DATABASE_DEFAULT,
+	"sql_latin1_general_cp1_ci_as": DatabaseProperties_CatalogCollation_STATUS_SQL_Latin1_General_CP1_CI_AS,
+}
 
 // +kubebuilder:validation:Enum={"Copy","Default","OnlineSecondary","PointInTimeRestore","Recovery","Restore","RestoreExternalBackup","RestoreExternalBackupSecondary","RestoreLongTermRetentionBackup","Secondary"}
 type DatabaseProperties_CreateMode string
@@ -366,6 +378,20 @@ const (
 	DatabaseProperties_CreateMode_Secondary                      = DatabaseProperties_CreateMode("Secondary")
 )
 
+// Mapping from string to DatabaseProperties_CreateMode
+var DatabaseProperties_CreateMode_Cache = map[string]DatabaseProperties_CreateMode{
+	"copy":                           DatabaseProperties_CreateMode_Copy,
+	"default":                        DatabaseProperties_CreateMode_Default,
+	"onlinesecondary":                DatabaseProperties_CreateMode_OnlineSecondary,
+	"pointintimerestore":             DatabaseProperties_CreateMode_PointInTimeRestore,
+	"recovery":                       DatabaseProperties_CreateMode_Recovery,
+	"restore":                        DatabaseProperties_CreateMode_Restore,
+	"restoreexternalbackup":          DatabaseProperties_CreateMode_RestoreExternalBackup,
+	"restoreexternalbackupsecondary": DatabaseProperties_CreateMode_RestoreExternalBackupSecondary,
+	"restorelongtermretentionbackup": DatabaseProperties_CreateMode_RestoreLongTermRetentionBackup,
+	"secondary":                      DatabaseProperties_CreateMode_Secondary,
+}
+
 type DatabaseProperties_CreateMode_STATUS string
 
 const (
@@ -381,6 +407,20 @@ const (
 	DatabaseProperties_CreateMode_STATUS_Secondary                      = DatabaseProperties_CreateMode_STATUS("Secondary")
 )
 
+// Mapping from string to DatabaseProperties_CreateMode_STATUS
+var DatabaseProperties_CreateMode_STATUS_Cache = map[string]DatabaseProperties_CreateMode_STATUS{
+	"copy":                           DatabaseProperties_CreateMode_STATUS_Copy,
+	"default":                        DatabaseProperties_CreateMode_STATUS_Default,
+	"onlinesecondary":                DatabaseProperties_CreateMode_STATUS_OnlineSecondary,
+	"pointintimerestore":             DatabaseProperties_CreateMode_STATUS_PointInTimeRestore,
+	"recovery":                       DatabaseProperties_CreateMode_STATUS_Recovery,
+	"restore":                        DatabaseProperties_CreateMode_STATUS_Restore,
+	"restoreexternalbackup":          DatabaseProperties_CreateMode_STATUS_RestoreExternalBackup,
+	"restoreexternalbackupsecondary": DatabaseProperties_CreateMode_STATUS_RestoreExternalBackupSecondary,
+	"restorelongtermretentionbackup": DatabaseProperties_CreateMode_STATUS_RestoreLongTermRetentionBackup,
+	"secondary":                      DatabaseProperties_CreateMode_STATUS_Secondary,
+}
+
 type DatabaseProperties_CurrentBackupStorageRedundancy_STATUS string
 
 const (
@@ -388,6 +428,13 @@ const (
 	DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_Local = DatabaseProperties_CurrentBackupStorageRedundancy_STATUS("Local")
 	DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_Zone  = DatabaseProperties_CurrentBackupStorageRedundancy_STATUS("Zone")
 )
+
+// Mapping from string to DatabaseProperties_CurrentBackupStorageRedundancy_STATUS
+var DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_Cache = map[string]DatabaseProperties_CurrentBackupStorageRedundancy_STATUS{
+	"geo":   DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_Geo,
+	"local": DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_Local,
+	"zone":  DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_Zone,
+}
 
 // +kubebuilder:validation:Enum={"BasePrice","LicenseIncluded"}
 type DatabaseProperties_LicenseType string
@@ -397,12 +444,24 @@ const (
 	DatabaseProperties_LicenseType_LicenseIncluded = DatabaseProperties_LicenseType("LicenseIncluded")
 )
 
+// Mapping from string to DatabaseProperties_LicenseType
+var DatabaseProperties_LicenseType_Cache = map[string]DatabaseProperties_LicenseType{
+	"baseprice":       DatabaseProperties_LicenseType_BasePrice,
+	"licenseincluded": DatabaseProperties_LicenseType_LicenseIncluded,
+}
+
 type DatabaseProperties_LicenseType_STATUS string
 
 const (
 	DatabaseProperties_LicenseType_STATUS_BasePrice       = DatabaseProperties_LicenseType_STATUS("BasePrice")
 	DatabaseProperties_LicenseType_STATUS_LicenseIncluded = DatabaseProperties_LicenseType_STATUS("LicenseIncluded")
 )
+
+// Mapping from string to DatabaseProperties_LicenseType_STATUS
+var DatabaseProperties_LicenseType_STATUS_Cache = map[string]DatabaseProperties_LicenseType_STATUS{
+	"baseprice":       DatabaseProperties_LicenseType_STATUS_BasePrice,
+	"licenseincluded": DatabaseProperties_LicenseType_STATUS_LicenseIncluded,
+}
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type DatabaseProperties_ReadScale string
@@ -412,12 +471,24 @@ const (
 	DatabaseProperties_ReadScale_Enabled  = DatabaseProperties_ReadScale("Enabled")
 )
 
+// Mapping from string to DatabaseProperties_ReadScale
+var DatabaseProperties_ReadScale_Cache = map[string]DatabaseProperties_ReadScale{
+	"disabled": DatabaseProperties_ReadScale_Disabled,
+	"enabled":  DatabaseProperties_ReadScale_Enabled,
+}
+
 type DatabaseProperties_ReadScale_STATUS string
 
 const (
 	DatabaseProperties_ReadScale_STATUS_Disabled = DatabaseProperties_ReadScale_STATUS("Disabled")
 	DatabaseProperties_ReadScale_STATUS_Enabled  = DatabaseProperties_ReadScale_STATUS("Enabled")
 )
+
+// Mapping from string to DatabaseProperties_ReadScale_STATUS
+var DatabaseProperties_ReadScale_STATUS_Cache = map[string]DatabaseProperties_ReadScale_STATUS{
+	"disabled": DatabaseProperties_ReadScale_STATUS_Disabled,
+	"enabled":  DatabaseProperties_ReadScale_STATUS_Enabled,
+}
 
 // +kubebuilder:validation:Enum={"Geo","Local","Zone"}
 type DatabaseProperties_RequestedBackupStorageRedundancy string
@@ -428,6 +499,13 @@ const (
 	DatabaseProperties_RequestedBackupStorageRedundancy_Zone  = DatabaseProperties_RequestedBackupStorageRedundancy("Zone")
 )
 
+// Mapping from string to DatabaseProperties_RequestedBackupStorageRedundancy
+var DatabaseProperties_RequestedBackupStorageRedundancy_Cache = map[string]DatabaseProperties_RequestedBackupStorageRedundancy{
+	"geo":   DatabaseProperties_RequestedBackupStorageRedundancy_Geo,
+	"local": DatabaseProperties_RequestedBackupStorageRedundancy_Local,
+	"zone":  DatabaseProperties_RequestedBackupStorageRedundancy_Zone,
+}
+
 type DatabaseProperties_RequestedBackupStorageRedundancy_STATUS string
 
 const (
@@ -435,6 +513,13 @@ const (
 	DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Local = DatabaseProperties_RequestedBackupStorageRedundancy_STATUS("Local")
 	DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Zone  = DatabaseProperties_RequestedBackupStorageRedundancy_STATUS("Zone")
 )
+
+// Mapping from string to DatabaseProperties_RequestedBackupStorageRedundancy_STATUS
+var DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Cache = map[string]DatabaseProperties_RequestedBackupStorageRedundancy_STATUS{
+	"geo":   DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Geo,
+	"local": DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Local,
+	"zone":  DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Zone,
+}
 
 // +kubebuilder:validation:Enum={"AdventureWorksLT","WideWorldImportersFull","WideWorldImportersStd"}
 type DatabaseProperties_SampleName string
@@ -445,6 +530,13 @@ const (
 	DatabaseProperties_SampleName_WideWorldImportersStd  = DatabaseProperties_SampleName("WideWorldImportersStd")
 )
 
+// Mapping from string to DatabaseProperties_SampleName
+var DatabaseProperties_SampleName_Cache = map[string]DatabaseProperties_SampleName{
+	"adventureworkslt":       DatabaseProperties_SampleName_AdventureWorksLT,
+	"wideworldimportersfull": DatabaseProperties_SampleName_WideWorldImportersFull,
+	"wideworldimportersstd":  DatabaseProperties_SampleName_WideWorldImportersStd,
+}
+
 type DatabaseProperties_SampleName_STATUS string
 
 const (
@@ -452,6 +544,13 @@ const (
 	DatabaseProperties_SampleName_STATUS_WideWorldImportersFull = DatabaseProperties_SampleName_STATUS("WideWorldImportersFull")
 	DatabaseProperties_SampleName_STATUS_WideWorldImportersStd  = DatabaseProperties_SampleName_STATUS("WideWorldImportersStd")
 )
+
+// Mapping from string to DatabaseProperties_SampleName_STATUS
+var DatabaseProperties_SampleName_STATUS_Cache = map[string]DatabaseProperties_SampleName_STATUS{
+	"adventureworkslt":       DatabaseProperties_SampleName_STATUS_AdventureWorksLT,
+	"wideworldimportersfull": DatabaseProperties_SampleName_STATUS_WideWorldImportersFull,
+	"wideworldimportersstd":  DatabaseProperties_SampleName_STATUS_WideWorldImportersStd,
+}
 
 // +kubebuilder:validation:Enum={"Geo","Named"}
 type DatabaseProperties_SecondaryType string
@@ -461,12 +560,24 @@ const (
 	DatabaseProperties_SecondaryType_Named = DatabaseProperties_SecondaryType("Named")
 )
 
+// Mapping from string to DatabaseProperties_SecondaryType
+var DatabaseProperties_SecondaryType_Cache = map[string]DatabaseProperties_SecondaryType{
+	"geo":   DatabaseProperties_SecondaryType_Geo,
+	"named": DatabaseProperties_SecondaryType_Named,
+}
+
 type DatabaseProperties_SecondaryType_STATUS string
 
 const (
 	DatabaseProperties_SecondaryType_STATUS_Geo   = DatabaseProperties_SecondaryType_STATUS("Geo")
 	DatabaseProperties_SecondaryType_STATUS_Named = DatabaseProperties_SecondaryType_STATUS("Named")
 )
+
+// Mapping from string to DatabaseProperties_SecondaryType_STATUS
+var DatabaseProperties_SecondaryType_STATUS_Cache = map[string]DatabaseProperties_SecondaryType_STATUS{
+	"geo":   DatabaseProperties_SecondaryType_STATUS_Geo,
+	"named": DatabaseProperties_SecondaryType_STATUS_Named,
+}
 
 type DatabaseProperties_Status_STATUS string
 
@@ -493,6 +604,31 @@ const (
 	DatabaseProperties_Status_STATUS_Standby                           = DatabaseProperties_Status_STATUS("Standby")
 	DatabaseProperties_Status_STATUS_Suspect                           = DatabaseProperties_Status_STATUS("Suspect")
 )
+
+// Mapping from string to DatabaseProperties_Status_STATUS
+var DatabaseProperties_Status_STATUS_Cache = map[string]DatabaseProperties_Status_STATUS{
+	"autoclosed":                        DatabaseProperties_Status_STATUS_AutoClosed,
+	"copying":                           DatabaseProperties_Status_STATUS_Copying,
+	"creating":                          DatabaseProperties_Status_STATUS_Creating,
+	"disabled":                          DatabaseProperties_Status_STATUS_Disabled,
+	"emergencymode":                     DatabaseProperties_Status_STATUS_EmergencyMode,
+	"inaccessible":                      DatabaseProperties_Status_STATUS_Inaccessible,
+	"offline":                           DatabaseProperties_Status_STATUS_Offline,
+	"offlinechangingdwperformancetiers": DatabaseProperties_Status_STATUS_OfflineChangingDwPerformanceTiers,
+	"offlinesecondary":                  DatabaseProperties_Status_STATUS_OfflineSecondary,
+	"online":                            DatabaseProperties_Status_STATUS_Online,
+	"onlinechangingdwperformancetiers":  DatabaseProperties_Status_STATUS_OnlineChangingDwPerformanceTiers,
+	"paused":                            DatabaseProperties_Status_STATUS_Paused,
+	"pausing":                           DatabaseProperties_Status_STATUS_Pausing,
+	"recovering":                        DatabaseProperties_Status_STATUS_Recovering,
+	"recoverypending":                   DatabaseProperties_Status_STATUS_RecoveryPending,
+	"restoring":                         DatabaseProperties_Status_STATUS_Restoring,
+	"resuming":                          DatabaseProperties_Status_STATUS_Resuming,
+	"scaling":                           DatabaseProperties_Status_STATUS_Scaling,
+	"shutdown":                          DatabaseProperties_Status_STATUS_Shutdown,
+	"standby":                           DatabaseProperties_Status_STATUS_Standby,
+	"suspect":                           DatabaseProperties_Status_STATUS_Suspect,
+}
 
 // An ARM Resource SKU.
 type Sku struct {

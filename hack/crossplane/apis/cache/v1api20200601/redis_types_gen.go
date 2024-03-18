@@ -39,6 +39,11 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-06-01")
 
+// Mapping from string to APIVersion
+var APIVersion_Cache = map[string]APIVersion{
+	"2020-06-01": APIVersion_Value,
+}
+
 type Redis_Spec struct {
 	v1.ResourceSpec `json:",inline,omitempty"`
 	ForProvider     RedisParameters `json:"forProvider,omitempty"`
@@ -230,6 +235,13 @@ const (
 	RedisCreateProperties_MinimumTlsVersion_12 = RedisCreateProperties_MinimumTlsVersion("1.2")
 )
 
+// Mapping from string to RedisCreateProperties_MinimumTlsVersion
+var RedisCreateProperties_MinimumTlsVersion_Cache = map[string]RedisCreateProperties_MinimumTlsVersion{
+	"1.0": RedisCreateProperties_MinimumTlsVersion_10,
+	"1.1": RedisCreateProperties_MinimumTlsVersion_11,
+	"1.2": RedisCreateProperties_MinimumTlsVersion_12,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type RedisCreateProperties_PublicNetworkAccess string
 
@@ -237,6 +249,12 @@ const (
 	RedisCreateProperties_PublicNetworkAccess_Disabled = RedisCreateProperties_PublicNetworkAccess("Disabled")
 	RedisCreateProperties_PublicNetworkAccess_Enabled  = RedisCreateProperties_PublicNetworkAccess("Enabled")
 )
+
+// Mapping from string to RedisCreateProperties_PublicNetworkAccess
+var RedisCreateProperties_PublicNetworkAccess_Cache = map[string]RedisCreateProperties_PublicNetworkAccess{
+	"disabled": RedisCreateProperties_PublicNetworkAccess_Disabled,
+	"enabled":  RedisCreateProperties_PublicNetworkAccess_Enabled,
+}
 
 type RedisCreateProperties_RedisConfiguration struct {
 	AdditionalProperties map[string]string `json:"additionalProperties,omitempty"`
@@ -304,6 +322,13 @@ const (
 	RedisProperties_MinimumTlsVersion_STATUS_12 = RedisProperties_MinimumTlsVersion_STATUS("1.2")
 )
 
+// Mapping from string to RedisProperties_MinimumTlsVersion_STATUS
+var RedisProperties_MinimumTlsVersion_STATUS_Cache = map[string]RedisProperties_MinimumTlsVersion_STATUS{
+	"1.0": RedisProperties_MinimumTlsVersion_STATUS_10,
+	"1.1": RedisProperties_MinimumTlsVersion_STATUS_11,
+	"1.2": RedisProperties_MinimumTlsVersion_STATUS_12,
+}
+
 type RedisProperties_ProvisioningState_STATUS string
 
 const (
@@ -321,12 +346,34 @@ const (
 	RedisProperties_ProvisioningState_STATUS_Updating               = RedisProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to RedisProperties_ProvisioningState_STATUS
+var RedisProperties_ProvisioningState_STATUS_Cache = map[string]RedisProperties_ProvisioningState_STATUS{
+	"creating":               RedisProperties_ProvisioningState_STATUS_Creating,
+	"deleting":               RedisProperties_ProvisioningState_STATUS_Deleting,
+	"disabled":               RedisProperties_ProvisioningState_STATUS_Disabled,
+	"failed":                 RedisProperties_ProvisioningState_STATUS_Failed,
+	"linking":                RedisProperties_ProvisioningState_STATUS_Linking,
+	"provisioning":           RedisProperties_ProvisioningState_STATUS_Provisioning,
+	"recoveringscalefailure": RedisProperties_ProvisioningState_STATUS_RecoveringScaleFailure,
+	"scaling":                RedisProperties_ProvisioningState_STATUS_Scaling,
+	"succeeded":              RedisProperties_ProvisioningState_STATUS_Succeeded,
+	"unlinking":              RedisProperties_ProvisioningState_STATUS_Unlinking,
+	"unprovisioning":         RedisProperties_ProvisioningState_STATUS_Unprovisioning,
+	"updating":               RedisProperties_ProvisioningState_STATUS_Updating,
+}
+
 type RedisProperties_PublicNetworkAccess_STATUS string
 
 const (
 	RedisProperties_PublicNetworkAccess_STATUS_Disabled = RedisProperties_PublicNetworkAccess_STATUS("Disabled")
 	RedisProperties_PublicNetworkAccess_STATUS_Enabled  = RedisProperties_PublicNetworkAccess_STATUS("Enabled")
 )
+
+// Mapping from string to RedisProperties_PublicNetworkAccess_STATUS
+var RedisProperties_PublicNetworkAccess_STATUS_Cache = map[string]RedisProperties_PublicNetworkAccess_STATUS{
+	"disabled": RedisProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  RedisProperties_PublicNetworkAccess_STATUS_Enabled,
+}
 
 type RedisProperties_RedisConfiguration_STATUS struct {
 	AdditionalProperties map[string]string `json:"additionalProperties,omitempty"`
@@ -410,6 +457,14 @@ const (
 	PrivateEndpointConnectionProvisioningState_STATUS_Succeeded = PrivateEndpointConnectionProvisioningState_STATUS("Succeeded")
 )
 
+// Mapping from string to PrivateEndpointConnectionProvisioningState_STATUS
+var PrivateEndpointConnectionProvisioningState_STATUS_Cache = map[string]PrivateEndpointConnectionProvisioningState_STATUS{
+	"creating":  PrivateEndpointConnectionProvisioningState_STATUS_Creating,
+	"deleting":  PrivateEndpointConnectionProvisioningState_STATUS_Deleting,
+	"failed":    PrivateEndpointConnectionProvisioningState_STATUS_Failed,
+	"succeeded": PrivateEndpointConnectionProvisioningState_STATUS_Succeeded,
+}
+
 // A collection of information about the state of the connection between service consumer and provider.
 type PrivateLinkServiceConnectionState_STATUS struct {
 	// ActionsRequired: A message indicating if changes on the service provider require any updates on the consumer.
@@ -430,12 +485,24 @@ const (
 	Sku_Family_P = Sku_Family("P")
 )
 
+// Mapping from string to Sku_Family
+var Sku_Family_Cache = map[string]Sku_Family{
+	"c": Sku_Family_C,
+	"p": Sku_Family_P,
+}
+
 type Sku_Family_STATUS string
 
 const (
 	Sku_Family_STATUS_C = Sku_Family_STATUS("C")
 	Sku_Family_STATUS_P = Sku_Family_STATUS("P")
 )
+
+// Mapping from string to Sku_Family_STATUS
+var Sku_Family_STATUS_Cache = map[string]Sku_Family_STATUS{
+	"c": Sku_Family_STATUS_C,
+	"p": Sku_Family_STATUS_P,
+}
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type Sku_Name string
@@ -446,6 +513,13 @@ const (
 	Sku_Name_Standard = Sku_Name("Standard")
 )
 
+// Mapping from string to Sku_Name
+var Sku_Name_Cache = map[string]Sku_Name{
+	"basic":    Sku_Name_Basic,
+	"premium":  Sku_Name_Premium,
+	"standard": Sku_Name_Standard,
+}
+
 type Sku_Name_STATUS string
 
 const (
@@ -453,6 +527,13 @@ const (
 	Sku_Name_STATUS_Premium  = Sku_Name_STATUS("Premium")
 	Sku_Name_STATUS_Standard = Sku_Name_STATUS("Standard")
 )
+
+// Mapping from string to Sku_Name_STATUS
+var Sku_Name_STATUS_Cache = map[string]Sku_Name_STATUS{
+	"basic":    Sku_Name_STATUS_Basic,
+	"premium":  Sku_Name_STATUS_Premium,
+	"standard": Sku_Name_STATUS_Standard,
+}
 
 // The private endpoint connection status.
 type PrivateEndpointServiceConnectionStatus_STATUS string
@@ -462,6 +543,13 @@ const (
 	PrivateEndpointServiceConnectionStatus_STATUS_Pending  = PrivateEndpointServiceConnectionStatus_STATUS("Pending")
 	PrivateEndpointServiceConnectionStatus_STATUS_Rejected = PrivateEndpointServiceConnectionStatus_STATUS("Rejected")
 )
+
+// Mapping from string to PrivateEndpointServiceConnectionStatus_STATUS
+var PrivateEndpointServiceConnectionStatus_STATUS_Cache = map[string]PrivateEndpointServiceConnectionStatus_STATUS{
+	"approved": PrivateEndpointServiceConnectionStatus_STATUS_Approved,
+	"pending":  PrivateEndpointServiceConnectionStatus_STATUS_Pending,
+	"rejected": PrivateEndpointServiceConnectionStatus_STATUS_Rejected,
+}
 
 func init() {
 	SchemeBuilder.Register(&Redis{}, &RedisList{})
