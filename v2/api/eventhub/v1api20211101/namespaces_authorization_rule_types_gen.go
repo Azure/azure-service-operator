@@ -49,22 +49,36 @@ var _ conversion.Convertible = &NamespacesAuthorizationRule{}
 
 // ConvertFrom populates our NamespacesAuthorizationRule from the provided hub NamespacesAuthorizationRule
 func (rule *NamespacesAuthorizationRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20211101s.NamespacesAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20211101/storage/NamespacesAuthorizationRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20211101s.NamespacesAuthorizationRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_NamespacesAuthorizationRule(source)
+	err = rule.AssignProperties_From_NamespacesAuthorizationRule(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesAuthorizationRule from our NamespacesAuthorizationRule
 func (rule *NamespacesAuthorizationRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20211101s.NamespacesAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20211101/storage/NamespacesAuthorizationRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20211101s.NamespacesAuthorizationRule
+	err := rule.AssignProperties_To_NamespacesAuthorizationRule(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_NamespacesAuthorizationRule(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-eventhub-azure-com-v1api20211101-namespacesauthorizationrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespacesauthorizationrules,verbs=create;update,versions=v1api20211101,name=default.v1api20211101.namespacesauthorizationrules.eventhub.azure.com,admissionReviewVersions=v1
@@ -89,17 +103,6 @@ func (rule *NamespacesAuthorizationRule) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the NamespacesAuthorizationRule resource
 func (rule *NamespacesAuthorizationRule) defaultImpl() { rule.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &NamespacesAuthorizationRule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (rule *NamespacesAuthorizationRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Namespaces_AuthorizationRule_STATUS); ok {
-		return rule.Spec.Initialize_From_Namespaces_AuthorizationRule_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Namespaces_AuthorizationRule_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &NamespacesAuthorizationRule{}
 
@@ -208,7 +211,7 @@ func (rule *NamespacesAuthorizationRule) ValidateUpdate(old runtime.Object) (adm
 
 // createValidations validates the creation of the resource
 func (rule *NamespacesAuthorizationRule) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){rule.validateResourceReferences, rule.validateOwnerReference}
+	return []func() (admission.Warnings, error){rule.validateResourceReferences, rule.validateOwnerReference, rule.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,6 +229,9 @@ func (rule *NamespacesAuthorizationRule) updateValidations() []func(old runtime.
 		func(old runtime.Object) (admission.Warnings, error) {
 			return rule.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return rule.validateSecretDestinations()
+		},
 	}
 }
 
@@ -241,6 +247,23 @@ func (rule *NamespacesAuthorizationRule) validateResourceReferences() (admission
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (rule *NamespacesAuthorizationRule) validateSecretDestinations() (admission.Warnings, error) {
+	if rule.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	if rule.Spec.OperatorSpec.Secrets == nil {
+		return nil, nil
+	}
+	toValidate := []*genruntime.SecretDestination{
+		rule.Spec.OperatorSpec.Secrets.PrimaryConnectionString,
+		rule.Spec.OperatorSpec.Secrets.PrimaryKey,
+		rule.Spec.OperatorSpec.Secrets.SecondaryConnectionString,
+		rule.Spec.OperatorSpec.Secrets.SecondaryKey,
+	}
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -330,6 +353,10 @@ type Namespaces_AuthorizationRule_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *NamespacesAuthorizationRuleOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -377,6 +404,8 @@ func (rule *Namespaces_AuthorizationRule_Spec) PopulateFromARM(owner genruntime.
 
 	// Set property "AzureName":
 	rule.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	rule.Owner = &genruntime.KnownResourceReference{
@@ -452,6 +481,18 @@ func (rule *Namespaces_AuthorizationRule_Spec) AssignProperties_From_Namespaces_
 	// AzureName
 	rule.AzureName = source.AzureName
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec NamespacesAuthorizationRuleOperatorSpec
+		err := operatorSpec.AssignProperties_From_NamespacesAuthorizationRuleOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NamespacesAuthorizationRuleOperatorSpec() to populate field OperatorSpec")
+		}
+		rule.OperatorSpec = &operatorSpec
+	} else {
+		rule.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -485,6 +526,18 @@ func (rule *Namespaces_AuthorizationRule_Spec) AssignProperties_To_Namespaces_Au
 	// AzureName
 	destination.AzureName = rule.AzureName
 
+	// OperatorSpec
+	if rule.OperatorSpec != nil {
+		var operatorSpec v20211101s.NamespacesAuthorizationRuleOperatorSpec
+		err := rule.OperatorSpec.AssignProperties_To_NamespacesAuthorizationRuleOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NamespacesAuthorizationRuleOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	destination.OriginalVersion = rule.OriginalVersion()
 
@@ -514,27 +567,6 @@ func (rule *Namespaces_AuthorizationRule_Spec) AssignProperties_To_Namespaces_Au
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Namespaces_AuthorizationRule_STATUS populates our Namespaces_AuthorizationRule_Spec from the provided source Namespaces_AuthorizationRule_STATUS
-func (rule *Namespaces_AuthorizationRule_Spec) Initialize_From_Namespaces_AuthorizationRule_STATUS(source *Namespaces_AuthorizationRule_STATUS) error {
-
-	// Rights
-	if source.Rights != nil {
-		rightList := make([]Namespaces_AuthorizationRule_Properties_Rights_Spec, len(source.Rights))
-		for rightIndex, rightItem := range source.Rights {
-			// Shadow the loop variable to avoid aliasing
-			rightItem := rightItem
-			right := Namespaces_AuthorizationRule_Properties_Rights_Spec(rightItem)
-			rightList[rightIndex] = right
-		}
-		rule.Rights = rightList
-	} else {
-		rule.Rights = nil
 	}
 
 	// No error
@@ -807,6 +839,164 @@ const (
 	Namespaces_AuthorizationRule_Properties_Rights_STATUS_Manage = Namespaces_AuthorizationRule_Properties_Rights_STATUS("Manage")
 	Namespaces_AuthorizationRule_Properties_Rights_STATUS_Send   = Namespaces_AuthorizationRule_Properties_Rights_STATUS("Send")
 )
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespacesAuthorizationRuleOperatorSpec struct {
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *NamespacesAuthorizationRuleOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignProperties_From_NamespacesAuthorizationRuleOperatorSpec populates our NamespacesAuthorizationRuleOperatorSpec from the provided source NamespacesAuthorizationRuleOperatorSpec
+func (operator *NamespacesAuthorizationRuleOperatorSpec) AssignProperties_From_NamespacesAuthorizationRuleOperatorSpec(source *v20211101s.NamespacesAuthorizationRuleOperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret NamespacesAuthorizationRuleOperatorSecrets
+		err := secret.AssignProperties_From_NamespacesAuthorizationRuleOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NamespacesAuthorizationRuleOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NamespacesAuthorizationRuleOperatorSpec populates the provided destination NamespacesAuthorizationRuleOperatorSpec from our NamespacesAuthorizationRuleOperatorSpec
+func (operator *NamespacesAuthorizationRuleOperatorSpec) AssignProperties_To_NamespacesAuthorizationRuleOperatorSpec(destination *v20211101s.NamespacesAuthorizationRuleOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v20211101s.NamespacesAuthorizationRuleOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_NamespacesAuthorizationRuleOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NamespacesAuthorizationRuleOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type NamespacesAuthorizationRuleOperatorSecrets struct {
+	// PrimaryConnectionString: indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret
+	// will not be retrieved from Azure.
+	PrimaryConnectionString *genruntime.SecretDestination `json:"primaryConnectionString,omitempty"`
+
+	// PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
+	// Azure.
+	PrimaryKey *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+
+	// SecondaryConnectionString: indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret
+	// will not be retrieved from Azure.
+	SecondaryConnectionString *genruntime.SecretDestination `json:"secondaryConnectionString,omitempty"`
+
+	// SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
+	SecondaryKey *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
+}
+
+// AssignProperties_From_NamespacesAuthorizationRuleOperatorSecrets populates our NamespacesAuthorizationRuleOperatorSecrets from the provided source NamespacesAuthorizationRuleOperatorSecrets
+func (secrets *NamespacesAuthorizationRuleOperatorSecrets) AssignProperties_From_NamespacesAuthorizationRuleOperatorSecrets(source *v20211101s.NamespacesAuthorizationRuleOperatorSecrets) error {
+
+	// PrimaryConnectionString
+	if source.PrimaryConnectionString != nil {
+		primaryConnectionString := source.PrimaryConnectionString.Copy()
+		secrets.PrimaryConnectionString = &primaryConnectionString
+	} else {
+		secrets.PrimaryConnectionString = nil
+	}
+
+	// PrimaryKey
+	if source.PrimaryKey != nil {
+		primaryKey := source.PrimaryKey.Copy()
+		secrets.PrimaryKey = &primaryKey
+	} else {
+		secrets.PrimaryKey = nil
+	}
+
+	// SecondaryConnectionString
+	if source.SecondaryConnectionString != nil {
+		secondaryConnectionString := source.SecondaryConnectionString.Copy()
+		secrets.SecondaryConnectionString = &secondaryConnectionString
+	} else {
+		secrets.SecondaryConnectionString = nil
+	}
+
+	// SecondaryKey
+	if source.SecondaryKey != nil {
+		secondaryKey := source.SecondaryKey.Copy()
+		secrets.SecondaryKey = &secondaryKey
+	} else {
+		secrets.SecondaryKey = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NamespacesAuthorizationRuleOperatorSecrets populates the provided destination NamespacesAuthorizationRuleOperatorSecrets from our NamespacesAuthorizationRuleOperatorSecrets
+func (secrets *NamespacesAuthorizationRuleOperatorSecrets) AssignProperties_To_NamespacesAuthorizationRuleOperatorSecrets(destination *v20211101s.NamespacesAuthorizationRuleOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PrimaryConnectionString
+	if secrets.PrimaryConnectionString != nil {
+		primaryConnectionString := secrets.PrimaryConnectionString.Copy()
+		destination.PrimaryConnectionString = &primaryConnectionString
+	} else {
+		destination.PrimaryConnectionString = nil
+	}
+
+	// PrimaryKey
+	if secrets.PrimaryKey != nil {
+		primaryKey := secrets.PrimaryKey.Copy()
+		destination.PrimaryKey = &primaryKey
+	} else {
+		destination.PrimaryKey = nil
+	}
+
+	// SecondaryConnectionString
+	if secrets.SecondaryConnectionString != nil {
+		secondaryConnectionString := secrets.SecondaryConnectionString.Copy()
+		destination.SecondaryConnectionString = &secondaryConnectionString
+	} else {
+		destination.SecondaryConnectionString = nil
+	}
+
+	// SecondaryKey
+	if secrets.SecondaryKey != nil {
+		secondaryKey := secrets.SecondaryKey.Copy()
+		destination.SecondaryKey = &secondaryKey
+	} else {
+		destination.SecondaryKey = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 func init() {
 	SchemeBuilder.Register(&NamespacesAuthorizationRule{}, &NamespacesAuthorizationRuleList{})

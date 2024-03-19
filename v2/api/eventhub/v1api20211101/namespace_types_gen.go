@@ -49,22 +49,36 @@ var _ conversion.Convertible = &Namespace{}
 
 // ConvertFrom populates our Namespace from the provided hub Namespace
 func (namespace *Namespace) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20211101s.Namespace)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20211101/storage/Namespace but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20211101s.Namespace
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return namespace.AssignProperties_From_Namespace(source)
+	err = namespace.AssignProperties_From_Namespace(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to namespace")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Namespace from our Namespace
 func (namespace *Namespace) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20211101s.Namespace)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20211101/storage/Namespace but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20211101s.Namespace
+	err := namespace.AssignProperties_To_Namespace(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from namespace")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return namespace.AssignProperties_To_Namespace(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-eventhub-azure-com-v1api20211101-namespace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespaces,verbs=create;update,versions=v1api20211101,name=default.v1api20211101.namespaces.eventhub.azure.com,admissionReviewVersions=v1
@@ -89,17 +103,6 @@ func (namespace *Namespace) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Namespace resource
 func (namespace *Namespace) defaultImpl() { namespace.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &Namespace{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (namespace *Namespace) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Namespace_STATUS); ok {
-		return namespace.Spec.Initialize_From_Namespace_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Namespace_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &Namespace{}
 
@@ -208,7 +211,7 @@ func (namespace *Namespace) ValidateUpdate(old runtime.Object) (admission.Warnin
 
 // createValidations validates the creation of the resource
 func (namespace *Namespace) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){namespace.validateResourceReferences, namespace.validateOwnerReference}
+	return []func() (admission.Warnings, error){namespace.validateResourceReferences, namespace.validateOwnerReference, namespace.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,6 +229,9 @@ func (namespace *Namespace) updateValidations() []func(old runtime.Object) (admi
 		func(old runtime.Object) (admission.Warnings, error) {
 			return namespace.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return namespace.validateSecretDestinations()
+		},
 	}
 }
 
@@ -241,6 +247,23 @@ func (namespace *Namespace) validateResourceReferences() (admission.Warnings, er
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (namespace *Namespace) validateSecretDestinations() (admission.Warnings, error) {
+	if namespace.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	if namespace.Spec.OperatorSpec.Secrets == nil {
+		return nil, nil
+	}
+	toValidate := []*genruntime.SecretDestination{
+		namespace.Spec.OperatorSpec.Secrets.PrimaryConnectionString,
+		namespace.Spec.OperatorSpec.Secrets.PrimaryKey,
+		namespace.Spec.OperatorSpec.Secrets.SecondaryConnectionString,
+		namespace.Spec.OperatorSpec.Secrets.SecondaryKey,
+	}
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -364,6 +387,10 @@ type Namespace_Spec struct {
 	// MaximumThroughputUnits: Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20
 	// throughput units. ( '0' if AutoInflateEnabled = true)
 	MaximumThroughputUnits *int `json:"maximumThroughputUnits,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *NamespaceOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -574,6 +601,8 @@ func (namespace *Namespace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	namespace.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -733,6 +762,18 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *v2
 	// MaximumThroughputUnits
 	namespace.MaximumThroughputUnits = genruntime.ClonePointerToInt(source.MaximumThroughputUnits)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec NamespaceOperatorSpec
+		err := operatorSpec.AssignProperties_From_NamespaceOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NamespaceOperatorSpec() to populate field OperatorSpec")
+		}
+		namespace.OperatorSpec = &operatorSpec
+	} else {
+		namespace.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -841,6 +882,18 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 	// MaximumThroughputUnits
 	destination.MaximumThroughputUnits = genruntime.ClonePointerToInt(namespace.MaximumThroughputUnits)
 
+	// OperatorSpec
+	if namespace.OperatorSpec != nil {
+		var operatorSpec v20211101s.NamespaceOperatorSpec
+		err := namespace.OperatorSpec.AssignProperties_To_NamespaceOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NamespaceOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	destination.OriginalVersion = namespace.OriginalVersion()
 
@@ -880,101 +933,6 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Namespace_STATUS populates our Namespace_Spec from the provided source Namespace_STATUS
-func (namespace *Namespace_Spec) Initialize_From_Namespace_STATUS(source *Namespace_STATUS) error {
-
-	// AlternateName
-	namespace.AlternateName = genruntime.ClonePointerToString(source.AlternateName)
-
-	// ClusterArmReference
-	if source.ClusterArmId != nil {
-		clusterArmReference := genruntime.CreateResourceReferenceFromARMID(*source.ClusterArmId)
-		namespace.ClusterArmReference = &clusterArmReference
-	} else {
-		namespace.ClusterArmReference = nil
-	}
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		namespace.DisableLocalAuth = &disableLocalAuth
-	} else {
-		namespace.DisableLocalAuth = nil
-	}
-
-	// Encryption
-	if source.Encryption != nil {
-		var encryption Encryption
-		err := encryption.Initialize_From_Encryption_STATUS(source.Encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Encryption_STATUS() to populate field Encryption")
-		}
-		namespace.Encryption = &encryption
-	} else {
-		namespace.Encryption = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity Identity
-		err := identity.Initialize_From_Identity_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Identity_STATUS() to populate field Identity")
-		}
-		namespace.Identity = &identity
-	} else {
-		namespace.Identity = nil
-	}
-
-	// IsAutoInflateEnabled
-	if source.IsAutoInflateEnabled != nil {
-		isAutoInflateEnabled := *source.IsAutoInflateEnabled
-		namespace.IsAutoInflateEnabled = &isAutoInflateEnabled
-	} else {
-		namespace.IsAutoInflateEnabled = nil
-	}
-
-	// KafkaEnabled
-	if source.KafkaEnabled != nil {
-		kafkaEnabled := *source.KafkaEnabled
-		namespace.KafkaEnabled = &kafkaEnabled
-	} else {
-		namespace.KafkaEnabled = nil
-	}
-
-	// Location
-	namespace.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MaximumThroughputUnits
-	namespace.MaximumThroughputUnits = genruntime.ClonePointerToInt(source.MaximumThroughputUnits)
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		namespace.Sku = &sku
-	} else {
-		namespace.Sku = nil
-	}
-
-	// Tags
-	namespace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// ZoneRedundant
-	if source.ZoneRedundant != nil {
-		zoneRedundant := *source.ZoneRedundant
-		namespace.ZoneRedundant = &zoneRedundant
-	} else {
-		namespace.ZoneRedundant = nil
 	}
 
 	// No error
@@ -1826,47 +1784,6 @@ func (encryption *Encryption) AssignProperties_To_Encryption(destination *v20211
 	return nil
 }
 
-// Initialize_From_Encryption_STATUS populates our Encryption from the provided source Encryption_STATUS
-func (encryption *Encryption) Initialize_From_Encryption_STATUS(source *Encryption_STATUS) error {
-
-	// KeySource
-	if source.KeySource != nil {
-		keySource := Encryption_KeySource(*source.KeySource)
-		encryption.KeySource = &keySource
-	} else {
-		encryption.KeySource = nil
-	}
-
-	// KeyVaultProperties
-	if source.KeyVaultProperties != nil {
-		keyVaultPropertyList := make([]KeyVaultProperties, len(source.KeyVaultProperties))
-		for keyVaultPropertyIndex, keyVaultPropertyItem := range source.KeyVaultProperties {
-			// Shadow the loop variable to avoid aliasing
-			keyVaultPropertyItem := keyVaultPropertyItem
-			var keyVaultProperty KeyVaultProperties
-			err := keyVaultProperty.Initialize_From_KeyVaultProperties_STATUS(&keyVaultPropertyItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
-			}
-			keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
-		}
-		encryption.KeyVaultProperties = keyVaultPropertyList
-	} else {
-		encryption.KeyVaultProperties = nil
-	}
-
-	// RequireInfrastructureEncryption
-	if source.RequireInfrastructureEncryption != nil {
-		requireInfrastructureEncryption := *source.RequireInfrastructureEncryption
-		encryption.RequireInfrastructureEncryption = &requireInfrastructureEncryption
-	} else {
-		encryption.RequireInfrastructureEncryption = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Properties to configure Encryption
 type Encryption_STATUS struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
@@ -2146,33 +2063,6 @@ func (identity *Identity) AssignProperties_To_Identity(destination *v20211101s.I
 	return nil
 }
 
-// Initialize_From_Identity_STATUS populates our Identity from the provided source Identity_STATUS
-func (identity *Identity) Initialize_From_Identity_STATUS(source *Identity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := Identity_Type(*source.Type)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Properties to configure Identity for Bring your Own Keys
 type Identity_STATUS struct {
 	// PrincipalId: ObjectId from the KeyVault
@@ -2311,6 +2201,59 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 		destination.UserAssignedIdentities = userAssignedIdentityMap
 	} else {
 		destination.UserAssignedIdentities = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespaceOperatorSpec struct {
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *NamespaceOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignProperties_From_NamespaceOperatorSpec populates our NamespaceOperatorSpec from the provided source NamespaceOperatorSpec
+func (operator *NamespaceOperatorSpec) AssignProperties_From_NamespaceOperatorSpec(source *v20211101s.NamespaceOperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret NamespaceOperatorSecrets
+		err := secret.AssignProperties_From_NamespaceOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NamespaceOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NamespaceOperatorSpec populates the provided destination NamespaceOperatorSpec from our NamespaceOperatorSpec
+func (operator *NamespaceOperatorSpec) AssignProperties_To_NamespaceOperatorSpec(destination *v20211101s.NamespaceOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v20211101s.NamespaceOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_NamespaceOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NamespaceOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
 	}
 
 	// Update the property bag
@@ -2527,37 +2470,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20211101s.Sku) error {
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Capacity
-	if source.Capacity != nil {
-		capacity := *source.Capacity
-		sku.Capacity = &capacity
-	} else {
-		sku.Capacity = nil
-	}
-
-	// Name
-	if source.Name != nil {
-		name := Sku_Name(*source.Name)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
-	}
-
-	// Tier
-	if source.Tier != nil {
-		tier := Sku_Tier(*source.Tier)
-		sku.Tier = &tier
-	} else {
-		sku.Tier = nil
 	}
 
 	// No error
@@ -3000,34 +2912,6 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	return nil
 }
 
-// Initialize_From_KeyVaultProperties_STATUS populates our KeyVaultProperties from the provided source KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties) Initialize_From_KeyVaultProperties_STATUS(source *KeyVaultProperties_STATUS) error {
-
-	// Identity
-	if source.Identity != nil {
-		var identity UserAssignedIdentityProperties
-		err := identity.Initialize_From_UserAssignedIdentityProperties_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_UserAssignedIdentityProperties_STATUS() to populate field Identity")
-		}
-		properties.Identity = &identity
-	} else {
-		properties.Identity = nil
-	}
-
-	// KeyName
-	properties.KeyName = genruntime.ClonePointerToString(source.KeyName)
-
-	// KeyVaultUri
-	properties.KeyVaultUri = genruntime.ClonePointerToString(source.KeyVaultUri)
-
-	// KeyVersion
-	properties.KeyVersion = genruntime.ClonePointerToString(source.KeyVersion)
-
-	// No error
-	return nil
-}
-
 // Properties to configure keyVault Properties
 type KeyVaultProperties_STATUS struct {
 	Identity *UserAssignedIdentityProperties_STATUS `json:"identity,omitempty"`
@@ -3142,6 +3026,111 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 
 	// KeyVersion
 	destination.KeyVersion = genruntime.ClonePointerToString(properties.KeyVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type NamespaceOperatorSecrets struct {
+	// PrimaryConnectionString: indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret
+	// will not be retrieved from Azure.
+	PrimaryConnectionString *genruntime.SecretDestination `json:"primaryConnectionString,omitempty"`
+
+	// PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
+	// Azure.
+	PrimaryKey *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+
+	// SecondaryConnectionString: indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret
+	// will not be retrieved from Azure.
+	SecondaryConnectionString *genruntime.SecretDestination `json:"secondaryConnectionString,omitempty"`
+
+	// SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
+	SecondaryKey *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
+}
+
+// AssignProperties_From_NamespaceOperatorSecrets populates our NamespaceOperatorSecrets from the provided source NamespaceOperatorSecrets
+func (secrets *NamespaceOperatorSecrets) AssignProperties_From_NamespaceOperatorSecrets(source *v20211101s.NamespaceOperatorSecrets) error {
+
+	// PrimaryConnectionString
+	if source.PrimaryConnectionString != nil {
+		primaryConnectionString := source.PrimaryConnectionString.Copy()
+		secrets.PrimaryConnectionString = &primaryConnectionString
+	} else {
+		secrets.PrimaryConnectionString = nil
+	}
+
+	// PrimaryKey
+	if source.PrimaryKey != nil {
+		primaryKey := source.PrimaryKey.Copy()
+		secrets.PrimaryKey = &primaryKey
+	} else {
+		secrets.PrimaryKey = nil
+	}
+
+	// SecondaryConnectionString
+	if source.SecondaryConnectionString != nil {
+		secondaryConnectionString := source.SecondaryConnectionString.Copy()
+		secrets.SecondaryConnectionString = &secondaryConnectionString
+	} else {
+		secrets.SecondaryConnectionString = nil
+	}
+
+	// SecondaryKey
+	if source.SecondaryKey != nil {
+		secondaryKey := source.SecondaryKey.Copy()
+		secrets.SecondaryKey = &secondaryKey
+	} else {
+		secrets.SecondaryKey = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NamespaceOperatorSecrets populates the provided destination NamespaceOperatorSecrets from our NamespaceOperatorSecrets
+func (secrets *NamespaceOperatorSecrets) AssignProperties_To_NamespaceOperatorSecrets(destination *v20211101s.NamespaceOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PrimaryConnectionString
+	if secrets.PrimaryConnectionString != nil {
+		primaryConnectionString := secrets.PrimaryConnectionString.Copy()
+		destination.PrimaryConnectionString = &primaryConnectionString
+	} else {
+		destination.PrimaryConnectionString = nil
+	}
+
+	// PrimaryKey
+	if secrets.PrimaryKey != nil {
+		primaryKey := secrets.PrimaryKey.Copy()
+		destination.PrimaryKey = &primaryKey
+	} else {
+		destination.PrimaryKey = nil
+	}
+
+	// SecondaryConnectionString
+	if secrets.SecondaryConnectionString != nil {
+		secondaryConnectionString := secrets.SecondaryConnectionString.Copy()
+		destination.SecondaryConnectionString = &secondaryConnectionString
+	} else {
+		destination.SecondaryConnectionString = nil
+	}
+
+	// SecondaryKey
+	if secrets.SecondaryKey != nil {
+		secondaryKey := secrets.SecondaryKey.Copy()
+		destination.SecondaryKey = &secondaryKey
+	} else {
+		destination.SecondaryKey = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3340,13 +3329,6 @@ func (properties *UserAssignedIdentityProperties) AssignProperties_To_UserAssign
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_UserAssignedIdentityProperties_STATUS populates our UserAssignedIdentityProperties from the provided source UserAssignedIdentityProperties_STATUS
-func (properties *UserAssignedIdentityProperties) Initialize_From_UserAssignedIdentityProperties_STATUS(source *UserAssignedIdentityProperties_STATUS) error {
 
 	// No error
 	return nil
