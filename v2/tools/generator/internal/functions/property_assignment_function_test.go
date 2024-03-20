@@ -22,6 +22,7 @@ type StorageConversionPropertyTestCase struct {
 	current     astmodel.TypeDefinition
 	other       astmodel.TypeDefinition
 	definitions astmodel.TypeDefinitionSet
+	cfg         *config.ObjectModelConfiguration
 }
 
 // StorageConversionPropertyTestCaseFactory creates test cases for property conversion testing.
@@ -46,6 +47,7 @@ func (factory *StorageConversionPropertyTestCaseFactory) CreatePropertyAssignmen
 	// In case of failures, troubleshoot earlier batches first, as it's very likely
 	// that fixing those problems will fix later tests as well.
 	factory.createPrimitiveTypeTestCases()
+	factory.createRenameTestCases()
 	factory.createCollectionTestCases()
 	factory.createEnumTestCases()
 	factory.createJSONTestCases()
@@ -92,6 +94,14 @@ func (factory *StorageConversionPropertyTestCaseFactory) createPrimitiveTypeTest
 	factory.createPropertyAssignmentTest("ConvertBetweenAliasAndBaseType", requiredCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge, nextAge)
 	factory.createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndBaseType", optionalCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge)
 	factory.createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndOptionalBaseType", optionalCurrentAgeProperty, optionalPrimitiveAgeProperty, currentAge)
+}
+
+// createRenameTestCases creates test cases for conversions between properties of different names
+func (factory *StorageConversionPropertyTestCaseFactory) createRenameTestCases() {
+	requiredStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType)
+	requiredStringPropertyWithRename := astmodel.NewPropertyDefinition("FullName", "name", astmodel.StringType)
+
+	factory.createPropertyAssignmentTest("ConvertBetweenRequiredPropertiesWithDifferentNames", requiredStringProperty, requiredStringPropertyWithRename)
 }
 
 // createCollectionTestCases creates test cases for conversion of collection types (aka array, map), and aliases of those types.
@@ -339,11 +349,28 @@ func (factory *StorageConversionPropertyTestCaseFactory) createPropertyAssignmen
 	defs.Add(hubDefinition)
 	defs.AddAll(otherDefinitions...)
 
+	cfg := config.NewObjectModelConfiguration()
+
+	// If the property names don't match, introduce a rename so they get hooked up
+	if currentProperty.PropertyName() != hubProperty.PropertyName() {
+		err := cfg.ModifyProperty(
+			currentDefinition.Name(),
+			currentProperty.PropertyName(),
+			func(tc *config.PropertyConfiguration) error {
+				tc.NameInNextVersion.Set(string(hubProperty.PropertyName()))
+				return nil
+			})
+		if err != nil {
+			panic(err)
+		}
+	}
+
 	factory.addCase(&StorageConversionPropertyTestCase{
 		name:        name,
 		current:     currentDefinition,
 		other:       hubDefinition,
 		definitions: defs,
+		cfg:         cfg,
 	})
 }
 
@@ -398,7 +425,11 @@ func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCa
 	currentType, ok := astmodel.AsObjectType(c.current.Type())
 	g.Expect(ok).To(BeTrue())
 
-	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, c.definitions, idFactory)
+	conversionContext := conversions.NewPropertyConversionContext(
+		conversions.AssignPropertiesMethodPrefix,
+		c.definitions,
+		idFactory,
+	).WithConfiguration(c.cfg)
 	assignFromBuilder := NewPropertyAssignmentFunctionBuilder(c.current, c.other, conversions.ConvertFrom)
 	assignFrom, err := assignFromBuilder.Build(conversionContext)
 	g.Expect(err).To(BeNil())

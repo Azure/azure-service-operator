@@ -39,7 +39,7 @@ require (
 	golang.org/x/exp v0.0.0-20240119083558-1b970713d09a
 	golang.org/x/sync v0.6.0
 	golang.org/x/time v0.5.0
-	gopkg.in/dnaeon/go-vcr.v3 v3.1.2
+	gopkg.in/dnaeon/go-vcr.v3 v3.2.0
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/api v0.29.3
 	k8s.io/apiextensions-apiserver v0.29.2
