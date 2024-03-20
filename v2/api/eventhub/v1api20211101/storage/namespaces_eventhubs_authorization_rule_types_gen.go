@@ -4,18 +4,19 @@
 package storage
 
 import (
-	"fmt"
-	v20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
+
+// +kubebuilder:rbac:groups=eventhub.azure.com,resources=namespaceseventhubsauthorizationrules,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=eventhub.azure.com,resources={namespaceseventhubsauthorizationrules/status,namespaceseventhubsauthorizationrules/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -41,28 +42,6 @@ func (rule *NamespacesEventhubsAuthorizationRule) GetConditions() conditions.Con
 // SetConditions sets the conditions on the resource status
 func (rule *NamespacesEventhubsAuthorizationRule) SetConditions(conditions conditions.Conditions) {
 	rule.Status.Conditions = conditions
-}
-
-var _ conversion.Convertible = &NamespacesEventhubsAuthorizationRule{}
-
-// ConvertFrom populates our NamespacesEventhubsAuthorizationRule from the provided hub NamespacesEventhubsAuthorizationRule
-func (rule *NamespacesEventhubsAuthorizationRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20240101s.NamespacesEventhubsAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20240101/storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
-	}
-
-	return rule.AssignProperties_From_NamespacesEventhubsAuthorizationRule(source)
-}
-
-// ConvertTo populates the provided hub NamespacesEventhubsAuthorizationRule from our NamespacesEventhubsAuthorizationRule
-func (rule *NamespacesEventhubsAuthorizationRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20240101s.NamespacesEventhubsAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20240101/storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
-	}
-
-	return rule.AssignProperties_To_NamespacesEventhubsAuthorizationRule(destination)
 }
 
 var _ genruntime.KubernetesResource = &NamespacesEventhubsAuthorizationRule{}
@@ -136,75 +115,8 @@ func (rule *NamespacesEventhubsAuthorizationRule) SetStatus(status genruntime.Co
 	return nil
 }
 
-// AssignProperties_From_NamespacesEventhubsAuthorizationRule populates our NamespacesEventhubsAuthorizationRule from the provided source NamespacesEventhubsAuthorizationRule
-func (rule *NamespacesEventhubsAuthorizationRule) AssignProperties_From_NamespacesEventhubsAuthorizationRule(source *v20240101s.NamespacesEventhubsAuthorizationRule) error {
-
-	// ObjectMeta
-	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
-
-	// Spec
-	var spec Namespaces_Eventhubs_AuthorizationRule_Spec
-	err := spec.AssignProperties_From_Namespaces_Eventhubs_AuthorizationRule_Spec(&source.Spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Eventhubs_AuthorizationRule_Spec() to populate field Spec")
-	}
-	rule.Spec = spec
-
-	// Status
-	var status Namespaces_Eventhubs_AuthorizationRule_STATUS
-	err = status.AssignProperties_From_Namespaces_Eventhubs_AuthorizationRule_STATUS(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Eventhubs_AuthorizationRule_STATUS() to populate field Status")
-	}
-	rule.Status = status
-
-	// Invoke the augmentConversionForNamespacesEventhubsAuthorizationRule interface (if implemented) to customize the conversion
-	var ruleAsAny any = rule
-	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespacesEventhubsAuthorizationRule); ok {
-		err := augmentedRule.AssignPropertiesFrom(source)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_NamespacesEventhubsAuthorizationRule populates the provided destination NamespacesEventhubsAuthorizationRule from our NamespacesEventhubsAuthorizationRule
-func (rule *NamespacesEventhubsAuthorizationRule) AssignProperties_To_NamespacesEventhubsAuthorizationRule(destination *v20240101s.NamespacesEventhubsAuthorizationRule) error {
-
-	// ObjectMeta
-	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
-
-	// Spec
-	var spec v20240101s.Namespaces_Eventhubs_AuthorizationRule_Spec
-	err := rule.Spec.AssignProperties_To_Namespaces_Eventhubs_AuthorizationRule_Spec(&spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Eventhubs_AuthorizationRule_Spec() to populate field Spec")
-	}
-	destination.Spec = spec
-
-	// Status
-	var status v20240101s.Namespaces_Eventhubs_AuthorizationRule_STATUS
-	err = rule.Status.AssignProperties_To_Namespaces_Eventhubs_AuthorizationRule_STATUS(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Eventhubs_AuthorizationRule_STATUS() to populate field Status")
-	}
-	destination.Status = status
-
-	// Invoke the augmentConversionForNamespacesEventhubsAuthorizationRule interface (if implemented) to customize the conversion
-	var ruleAsAny any = rule
-	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespacesEventhubsAuthorizationRule); ok {
-		err := augmentedRule.AssignPropertiesTo(destination)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
+// Hub marks that this NamespacesEventhubsAuthorizationRule is the hub type for conversion
+func (rule *NamespacesEventhubsAuthorizationRule) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (rule *NamespacesEventhubsAuthorizationRule) OriginalGVK() *schema.GroupVersionKind {
@@ -224,11 +136,6 @@ type NamespacesEventhubsAuthorizationRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesEventhubsAuthorizationRule `json:"items"`
-}
-
-type augmentConversionForNamespacesEventhubsAuthorizationRule interface {
-	AssignPropertiesFrom(src *v20240101s.NamespacesEventhubsAuthorizationRule) error
-	AssignPropertiesTo(dst *v20240101s.NamespacesEventhubsAuthorizationRule) error
 }
 
 // Storage version of v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Spec
@@ -252,158 +159,20 @@ var _ genruntime.ConvertibleSpec = &Namespaces_Eventhubs_AuthorizationRule_Spec{
 
 // ConvertSpecFrom populates our Namespaces_Eventhubs_AuthorizationRule_Spec from the provided source
 func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20240101s.Namespaces_Eventhubs_AuthorizationRule_Spec)
-	if ok {
-		// Populate our instance from source
-		return rule.AssignProperties_From_Namespaces_Eventhubs_AuthorizationRule_Spec(src)
+	if source == rule {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	// Convert to an intermediate form
-	src = &v20240101s.Namespaces_Eventhubs_AuthorizationRule_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = rule.AssignProperties_From_Namespaces_Eventhubs_AuthorizationRule_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
+	return source.ConvertSpecTo(rule)
 }
 
 // ConvertSpecTo populates the provided destination from our Namespaces_Eventhubs_AuthorizationRule_Spec
 func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20240101s.Namespaces_Eventhubs_AuthorizationRule_Spec)
-	if ok {
-		// Populate destination from our instance
-		return rule.AssignProperties_To_Namespaces_Eventhubs_AuthorizationRule_Spec(dst)
+	if destination == rule {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	// Convert to an intermediate form
-	dst = &v20240101s.Namespaces_Eventhubs_AuthorizationRule_Spec{}
-	err := rule.AssignProperties_To_Namespaces_Eventhubs_AuthorizationRule_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Namespaces_Eventhubs_AuthorizationRule_Spec populates our Namespaces_Eventhubs_AuthorizationRule_Spec from the provided source Namespaces_Eventhubs_AuthorizationRule_Spec
-func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) AssignProperties_From_Namespaces_Eventhubs_AuthorizationRule_Spec(source *v20240101s.Namespaces_Eventhubs_AuthorizationRule_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AzureName
-	rule.AzureName = source.AzureName
-
-	// OperatorSpec
-	if source.OperatorSpec != nil {
-		var operatorSpec NamespacesEventhubsAuthorizationRuleOperatorSpec
-		err := operatorSpec.AssignProperties_From_NamespacesEventhubsAuthorizationRuleOperatorSpec(source.OperatorSpec)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NamespacesEventhubsAuthorizationRuleOperatorSpec() to populate field OperatorSpec")
-		}
-		rule.OperatorSpec = &operatorSpec
-	} else {
-		rule.OperatorSpec = nil
-	}
-
-	// OriginalVersion
-	rule.OriginalVersion = source.OriginalVersion
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		rule.Owner = &owner
-	} else {
-		rule.Owner = nil
-	}
-
-	// Rights
-	rule.Rights = genruntime.CloneSliceOfString(source.Rights)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		rule.PropertyBag = propertyBag
-	} else {
-		rule.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForNamespaces_Eventhubs_AuthorizationRule_Spec interface (if implemented) to customize the conversion
-	var ruleAsAny any = rule
-	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_Eventhubs_AuthorizationRule_Spec); ok {
-		err := augmentedRule.AssignPropertiesFrom(source)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Namespaces_Eventhubs_AuthorizationRule_Spec populates the provided destination Namespaces_Eventhubs_AuthorizationRule_Spec from our Namespaces_Eventhubs_AuthorizationRule_Spec
-func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) AssignProperties_To_Namespaces_Eventhubs_AuthorizationRule_Spec(destination *v20240101s.Namespaces_Eventhubs_AuthorizationRule_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
-
-	// AzureName
-	destination.AzureName = rule.AzureName
-
-	// OperatorSpec
-	if rule.OperatorSpec != nil {
-		var operatorSpec v20240101s.NamespacesEventhubsAuthorizationRuleOperatorSpec
-		err := rule.OperatorSpec.AssignProperties_To_NamespacesEventhubsAuthorizationRuleOperatorSpec(&operatorSpec)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NamespacesEventhubsAuthorizationRuleOperatorSpec() to populate field OperatorSpec")
-		}
-		destination.OperatorSpec = &operatorSpec
-	} else {
-		destination.OperatorSpec = nil
-	}
-
-	// OriginalVersion
-	destination.OriginalVersion = rule.OriginalVersion
-
-	// Owner
-	if rule.Owner != nil {
-		owner := rule.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Rights
-	destination.Rights = genruntime.CloneSliceOfString(rule.Rights)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForNamespaces_Eventhubs_AuthorizationRule_Spec interface (if implemented) to customize the conversion
-	var ruleAsAny any = rule
-	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_Eventhubs_AuthorizationRule_Spec); ok {
-		err := augmentedRule.AssignPropertiesTo(destination)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
+	return destination.ConvertSpecFrom(rule)
 }
 
 // Storage version of v1api20211101.Namespaces_Eventhubs_AuthorizationRule_STATUS
@@ -422,170 +191,20 @@ var _ genruntime.ConvertibleStatus = &Namespaces_Eventhubs_AuthorizationRule_STA
 
 // ConvertStatusFrom populates our Namespaces_Eventhubs_AuthorizationRule_STATUS from the provided source
 func (rule *Namespaces_Eventhubs_AuthorizationRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20240101s.Namespaces_Eventhubs_AuthorizationRule_STATUS)
-	if ok {
-		// Populate our instance from source
-		return rule.AssignProperties_From_Namespaces_Eventhubs_AuthorizationRule_STATUS(src)
+	if source == rule {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	// Convert to an intermediate form
-	src = &v20240101s.Namespaces_Eventhubs_AuthorizationRule_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-	err = rule.AssignProperties_From_Namespaces_Eventhubs_AuthorizationRule_STATUS(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
+	return source.ConvertStatusTo(rule)
 }
 
 // ConvertStatusTo populates the provided destination from our Namespaces_Eventhubs_AuthorizationRule_STATUS
 func (rule *Namespaces_Eventhubs_AuthorizationRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20240101s.Namespaces_Eventhubs_AuthorizationRule_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return rule.AssignProperties_To_Namespaces_Eventhubs_AuthorizationRule_STATUS(dst)
+	if destination == rule {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	// Convert to an intermediate form
-	dst = &v20240101s.Namespaces_Eventhubs_AuthorizationRule_STATUS{}
-	err := rule.AssignProperties_To_Namespaces_Eventhubs_AuthorizationRule_STATUS(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Namespaces_Eventhubs_AuthorizationRule_STATUS populates our Namespaces_Eventhubs_AuthorizationRule_STATUS from the provided source Namespaces_Eventhubs_AuthorizationRule_STATUS
-func (rule *Namespaces_Eventhubs_AuthorizationRule_STATUS) AssignProperties_From_Namespaces_Eventhubs_AuthorizationRule_STATUS(source *v20240101s.Namespaces_Eventhubs_AuthorizationRule_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Conditions
-	rule.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// Id
-	rule.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Location
-	rule.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Name
-	rule.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Rights
-	rule.Rights = genruntime.CloneSliceOfString(source.Rights)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
-		}
-		rule.SystemData = &systemDatum
-	} else {
-		rule.SystemData = nil
-	}
-
-	// Type
-	rule.Type = genruntime.ClonePointerToString(source.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		rule.PropertyBag = propertyBag
-	} else {
-		rule.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForNamespaces_Eventhubs_AuthorizationRule_STATUS interface (if implemented) to customize the conversion
-	var ruleAsAny any = rule
-	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_Eventhubs_AuthorizationRule_STATUS); ok {
-		err := augmentedRule.AssignPropertiesFrom(source)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Namespaces_Eventhubs_AuthorizationRule_STATUS populates the provided destination Namespaces_Eventhubs_AuthorizationRule_STATUS from our Namespaces_Eventhubs_AuthorizationRule_STATUS
-func (rule *Namespaces_Eventhubs_AuthorizationRule_STATUS) AssignProperties_To_Namespaces_Eventhubs_AuthorizationRule_STATUS(destination *v20240101s.Namespaces_Eventhubs_AuthorizationRule_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(rule.Conditions)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(rule.Id)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(rule.Location)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(rule.Name)
-
-	// Rights
-	destination.Rights = genruntime.CloneSliceOfString(rule.Rights)
-
-	// SystemData
-	if rule.SystemData != nil {
-		var systemDatum v20240101s.SystemData_STATUS
-		err := rule.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(rule.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForNamespaces_Eventhubs_AuthorizationRule_STATUS interface (if implemented) to customize the conversion
-	var ruleAsAny any = rule
-	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_Eventhubs_AuthorizationRule_STATUS); ok {
-		err := augmentedRule.AssignPropertiesTo(destination)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-type augmentConversionForNamespaces_Eventhubs_AuthorizationRule_Spec interface {
-	AssignPropertiesFrom(src *v20240101s.Namespaces_Eventhubs_AuthorizationRule_Spec) error
-	AssignPropertiesTo(dst *v20240101s.Namespaces_Eventhubs_AuthorizationRule_Spec) error
-}
-
-type augmentConversionForNamespaces_Eventhubs_AuthorizationRule_STATUS interface {
-	AssignPropertiesFrom(src *v20240101s.Namespaces_Eventhubs_AuthorizationRule_STATUS) error
-	AssignPropertiesTo(dst *v20240101s.Namespaces_Eventhubs_AuthorizationRule_STATUS) error
+	return destination.ConvertStatusFrom(rule)
 }
 
 // Storage version of v1api20211101.NamespacesEventhubsAuthorizationRuleOperatorSpec
@@ -595,85 +214,6 @@ type NamespacesEventhubsAuthorizationRuleOperatorSpec struct {
 	Secrets     *NamespacesEventhubsAuthorizationRuleOperatorSecrets `json:"secrets,omitempty"`
 }
 
-// AssignProperties_From_NamespacesEventhubsAuthorizationRuleOperatorSpec populates our NamespacesEventhubsAuthorizationRuleOperatorSpec from the provided source NamespacesEventhubsAuthorizationRuleOperatorSpec
-func (operator *NamespacesEventhubsAuthorizationRuleOperatorSpec) AssignProperties_From_NamespacesEventhubsAuthorizationRuleOperatorSpec(source *v20240101s.NamespacesEventhubsAuthorizationRuleOperatorSpec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Secrets
-	if source.Secrets != nil {
-		var secret NamespacesEventhubsAuthorizationRuleOperatorSecrets
-		err := secret.AssignProperties_From_NamespacesEventhubsAuthorizationRuleOperatorSecrets(source.Secrets)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NamespacesEventhubsAuthorizationRuleOperatorSecrets() to populate field Secrets")
-		}
-		operator.Secrets = &secret
-	} else {
-		operator.Secrets = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		operator.PropertyBag = propertyBag
-	} else {
-		operator.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForNamespacesEventhubsAuthorizationRuleOperatorSpec interface (if implemented) to customize the conversion
-	var operatorAsAny any = operator
-	if augmentedOperator, ok := operatorAsAny.(augmentConversionForNamespacesEventhubsAuthorizationRuleOperatorSpec); ok {
-		err := augmentedOperator.AssignPropertiesFrom(source)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_NamespacesEventhubsAuthorizationRuleOperatorSpec populates the provided destination NamespacesEventhubsAuthorizationRuleOperatorSpec from our NamespacesEventhubsAuthorizationRuleOperatorSpec
-func (operator *NamespacesEventhubsAuthorizationRuleOperatorSpec) AssignProperties_To_NamespacesEventhubsAuthorizationRuleOperatorSpec(destination *v20240101s.NamespacesEventhubsAuthorizationRuleOperatorSpec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
-
-	// Secrets
-	if operator.Secrets != nil {
-		var secret v20240101s.NamespacesEventhubsAuthorizationRuleOperatorSecrets
-		err := operator.Secrets.AssignProperties_To_NamespacesEventhubsAuthorizationRuleOperatorSecrets(&secret)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NamespacesEventhubsAuthorizationRuleOperatorSecrets() to populate field Secrets")
-		}
-		destination.Secrets = &secret
-	} else {
-		destination.Secrets = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForNamespacesEventhubsAuthorizationRuleOperatorSpec interface (if implemented) to customize the conversion
-	var operatorAsAny any = operator
-	if augmentedOperator, ok := operatorAsAny.(augmentConversionForNamespacesEventhubsAuthorizationRuleOperatorSpec); ok {
-		err := augmentedOperator.AssignPropertiesTo(destination)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-type augmentConversionForNamespacesEventhubsAuthorizationRuleOperatorSpec interface {
-	AssignPropertiesFrom(src *v20240101s.NamespacesEventhubsAuthorizationRuleOperatorSpec) error
-	AssignPropertiesTo(dst *v20240101s.NamespacesEventhubsAuthorizationRuleOperatorSpec) error
-}
-
 // Storage version of v1api20211101.NamespacesEventhubsAuthorizationRuleOperatorSecrets
 type NamespacesEventhubsAuthorizationRuleOperatorSecrets struct {
 	PrimaryConnectionString   *genruntime.SecretDestination `json:"primaryConnectionString,omitempty"`
@@ -681,125 +221,6 @@ type NamespacesEventhubsAuthorizationRuleOperatorSecrets struct {
 	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecondaryConnectionString *genruntime.SecretDestination `json:"secondaryConnectionString,omitempty"`
 	SecondaryKey              *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
-}
-
-// AssignProperties_From_NamespacesEventhubsAuthorizationRuleOperatorSecrets populates our NamespacesEventhubsAuthorizationRuleOperatorSecrets from the provided source NamespacesEventhubsAuthorizationRuleOperatorSecrets
-func (secrets *NamespacesEventhubsAuthorizationRuleOperatorSecrets) AssignProperties_From_NamespacesEventhubsAuthorizationRuleOperatorSecrets(source *v20240101s.NamespacesEventhubsAuthorizationRuleOperatorSecrets) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// PrimaryConnectionString
-	if source.PrimaryConnectionString != nil {
-		primaryConnectionString := source.PrimaryConnectionString.Copy()
-		secrets.PrimaryConnectionString = &primaryConnectionString
-	} else {
-		secrets.PrimaryConnectionString = nil
-	}
-
-	// PrimaryKey
-	if source.PrimaryKey != nil {
-		primaryKey := source.PrimaryKey.Copy()
-		secrets.PrimaryKey = &primaryKey
-	} else {
-		secrets.PrimaryKey = nil
-	}
-
-	// SecondaryConnectionString
-	if source.SecondaryConnectionString != nil {
-		secondaryConnectionString := source.SecondaryConnectionString.Copy()
-		secrets.SecondaryConnectionString = &secondaryConnectionString
-	} else {
-		secrets.SecondaryConnectionString = nil
-	}
-
-	// SecondaryKey
-	if source.SecondaryKey != nil {
-		secondaryKey := source.SecondaryKey.Copy()
-		secrets.SecondaryKey = &secondaryKey
-	} else {
-		secrets.SecondaryKey = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		secrets.PropertyBag = propertyBag
-	} else {
-		secrets.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForNamespacesEventhubsAuthorizationRuleOperatorSecrets interface (if implemented) to customize the conversion
-	var secretsAsAny any = secrets
-	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForNamespacesEventhubsAuthorizationRuleOperatorSecrets); ok {
-		err := augmentedSecrets.AssignPropertiesFrom(source)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_NamespacesEventhubsAuthorizationRuleOperatorSecrets populates the provided destination NamespacesEventhubsAuthorizationRuleOperatorSecrets from our NamespacesEventhubsAuthorizationRuleOperatorSecrets
-func (secrets *NamespacesEventhubsAuthorizationRuleOperatorSecrets) AssignProperties_To_NamespacesEventhubsAuthorizationRuleOperatorSecrets(destination *v20240101s.NamespacesEventhubsAuthorizationRuleOperatorSecrets) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(secrets.PropertyBag)
-
-	// PrimaryConnectionString
-	if secrets.PrimaryConnectionString != nil {
-		primaryConnectionString := secrets.PrimaryConnectionString.Copy()
-		destination.PrimaryConnectionString = &primaryConnectionString
-	} else {
-		destination.PrimaryConnectionString = nil
-	}
-
-	// PrimaryKey
-	if secrets.PrimaryKey != nil {
-		primaryKey := secrets.PrimaryKey.Copy()
-		destination.PrimaryKey = &primaryKey
-	} else {
-		destination.PrimaryKey = nil
-	}
-
-	// SecondaryConnectionString
-	if secrets.SecondaryConnectionString != nil {
-		secondaryConnectionString := secrets.SecondaryConnectionString.Copy()
-		destination.SecondaryConnectionString = &secondaryConnectionString
-	} else {
-		destination.SecondaryConnectionString = nil
-	}
-
-	// SecondaryKey
-	if secrets.SecondaryKey != nil {
-		secondaryKey := secrets.SecondaryKey.Copy()
-		destination.SecondaryKey = &secondaryKey
-	} else {
-		destination.SecondaryKey = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForNamespacesEventhubsAuthorizationRuleOperatorSecrets interface (if implemented) to customize the conversion
-	var secretsAsAny any = secrets
-	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForNamespacesEventhubsAuthorizationRuleOperatorSecrets); ok {
-		err := augmentedSecrets.AssignPropertiesTo(destination)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-type augmentConversionForNamespacesEventhubsAuthorizationRuleOperatorSecrets interface {
-	AssignPropertiesFrom(src *v20240101s.NamespacesEventhubsAuthorizationRuleOperatorSecrets) error
-	AssignPropertiesTo(dst *v20240101s.NamespacesEventhubsAuthorizationRuleOperatorSecrets) error
 }
 
 func init() {

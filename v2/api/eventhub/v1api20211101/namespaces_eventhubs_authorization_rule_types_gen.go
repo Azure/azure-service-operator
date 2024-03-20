@@ -49,36 +49,22 @@ var _ conversion.Convertible = &NamespacesEventhubsAuthorizationRule{}
 
 // ConvertFrom populates our NamespacesEventhubsAuthorizationRule from the provided hub NamespacesEventhubsAuthorizationRule
 func (rule *NamespacesEventhubsAuthorizationRule) ConvertFrom(hub conversion.Hub) error {
-	// intermediate variable for conversion
-	var source v20211101s.NamespacesEventhubsAuthorizationRule
-
-	err := source.ConvertFrom(hub)
-	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+	source, ok := hub.(*v20211101s.NamespacesEventhubsAuthorizationRule)
+	if !ok {
+		return fmt.Errorf("expected eventhub/v1api20211101/storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
 	}
 
-	err = rule.AssignProperties_From_NamespacesEventhubsAuthorizationRule(&source)
-	if err != nil {
-		return errors.Wrap(err, "converting from source to rule")
-	}
-
-	return nil
+	return rule.AssignProperties_From_NamespacesEventhubsAuthorizationRule(source)
 }
 
 // ConvertTo populates the provided hub NamespacesEventhubsAuthorizationRule from our NamespacesEventhubsAuthorizationRule
 func (rule *NamespacesEventhubsAuthorizationRule) ConvertTo(hub conversion.Hub) error {
-	// intermediate variable for conversion
-	var destination v20211101s.NamespacesEventhubsAuthorizationRule
-	err := rule.AssignProperties_To_NamespacesEventhubsAuthorizationRule(&destination)
-	if err != nil {
-		return errors.Wrap(err, "converting to destination from rule")
-	}
-	err = destination.ConvertTo(hub)
-	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+	destination, ok := hub.(*v20211101s.NamespacesEventhubsAuthorizationRule)
+	if !ok {
+		return fmt.Errorf("expected eventhub/v1api20211101/storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
 	}
 
-	return nil
+	return rule.AssignProperties_To_NamespacesEventhubsAuthorizationRule(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-eventhub-azure-com-v1api20211101-namespaceseventhubsauthorizationrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespaceseventhubsauthorizationrules,verbs=create;update,versions=v1api20211101,name=default.v1api20211101.namespaceseventhubsauthorizationrules.eventhub.azure.com,admissionReviewVersions=v1
@@ -103,6 +89,17 @@ func (rule *NamespacesEventhubsAuthorizationRule) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the NamespacesEventhubsAuthorizationRule resource
 func (rule *NamespacesEventhubsAuthorizationRule) defaultImpl() { rule.defaultAzureName() }
+
+var _ genruntime.ImportableResource = &NamespacesEventhubsAuthorizationRule{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (rule *NamespacesEventhubsAuthorizationRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*Namespaces_Eventhubs_AuthorizationRule_STATUS); ok {
+		return rule.Spec.Initialize_From_Namespaces_Eventhubs_AuthorizationRule_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type Namespaces_Eventhubs_AuthorizationRule_STATUS but received %T instead", status)
+}
 
 var _ genruntime.KubernetesResource = &NamespacesEventhubsAuthorizationRule{}
 
@@ -567,6 +564,27 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) AssignProperties_To_Nam
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Namespaces_Eventhubs_AuthorizationRule_STATUS populates our Namespaces_Eventhubs_AuthorizationRule_Spec from the provided source Namespaces_Eventhubs_AuthorizationRule_STATUS
+func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) Initialize_From_Namespaces_Eventhubs_AuthorizationRule_STATUS(source *Namespaces_Eventhubs_AuthorizationRule_STATUS) error {
+
+	// Rights
+	if source.Rights != nil {
+		rightList := make([]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec, len(source.Rights))
+		for rightIndex, rightItem := range source.Rights {
+			// Shadow the loop variable to avoid aliasing
+			rightItem := rightItem
+			right := Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec(rightItem)
+			rightList[rightIndex] = right
+		}
+		rule.Rights = rightList
+	} else {
+		rule.Rights = nil
 	}
 
 	// No error

@@ -2029,49 +2029,6 @@ objectModelConfiguration:
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
           $armReference: true
-    2024-01-01:
-      Destination_Properties:
-        StorageAccountResourceId:
-          $armReference: true
-      Namespace:
-        $export: true
-        $supportedFrom: v2.7.0
-        $azureGeneratedSecrets:
-          - PrimaryKey
-          - SecondaryKey
-          - PrimaryConnectionString
-          - SecondaryConnectionString
-      Namespaces_AuthorizationRule:
-        $exportAs: NamespacesAuthorizationRule
-        $supportedFrom: v2.7.0
-        $azureGeneratedSecrets:
-          - PrimaryKey
-          - SecondaryKey
-          - PrimaryConnectionString
-          - SecondaryConnectionString
-      Namespaces_Eventhub:
-        $exportAs: NamespacesEventhub
-        $supportedFrom: v2.7.0
-      Namespaces_Eventhubs_AuthorizationRule:
-        $exportAs: NamespacesEventhubsAuthorizationRule
-        $supportedFrom: v2.7.0
-        $azureGeneratedSecrets:
-          - PrimaryKey
-          - SecondaryKey
-          - PrimaryConnectionString
-          - SecondaryConnectionString
-      Namespaces_Eventhubs_Consumergroup:
-        $exportAs: NamespacesEventhubsConsumerGroup
-        $supportedFrom: v2.7.0
-      Namespace_Properties_Spec:
-        ClusterArmId:
-          $armReference: true
-      UserAssignedIdentityProperties:
-        UserAssignedIdentity:
-          $armReference: true
-      CaptureIdentity:
-        UserAssignedIdentity:
-          $armReference: true
   insights:
     2018-05-01-preview:
       Webtest:

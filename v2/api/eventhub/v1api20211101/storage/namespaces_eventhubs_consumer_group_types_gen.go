@@ -4,18 +4,19 @@
 package storage
 
 import (
-	"fmt"
-	v20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
+
+// +kubebuilder:rbac:groups=eventhub.azure.com,resources=namespaceseventhubsconsumergroups,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=eventhub.azure.com,resources={namespaceseventhubsconsumergroups/status,namespaceseventhubsconsumergroups/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -41,28 +42,6 @@ func (group *NamespacesEventhubsConsumerGroup) GetConditions() conditions.Condit
 // SetConditions sets the conditions on the resource status
 func (group *NamespacesEventhubsConsumerGroup) SetConditions(conditions conditions.Conditions) {
 	group.Status.Conditions = conditions
-}
-
-var _ conversion.Convertible = &NamespacesEventhubsConsumerGroup{}
-
-// ConvertFrom populates our NamespacesEventhubsConsumerGroup from the provided hub NamespacesEventhubsConsumerGroup
-func (group *NamespacesEventhubsConsumerGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20240101s.NamespacesEventhubsConsumerGroup)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20240101/storage/NamespacesEventhubsConsumerGroup but received %T instead", hub)
-	}
-
-	return group.AssignProperties_From_NamespacesEventhubsConsumerGroup(source)
-}
-
-// ConvertTo populates the provided hub NamespacesEventhubsConsumerGroup from our NamespacesEventhubsConsumerGroup
-func (group *NamespacesEventhubsConsumerGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20240101s.NamespacesEventhubsConsumerGroup)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1api20240101/storage/NamespacesEventhubsConsumerGroup but received %T instead", hub)
-	}
-
-	return group.AssignProperties_To_NamespacesEventhubsConsumerGroup(destination)
 }
 
 var _ genruntime.KubernetesResource = &NamespacesEventhubsConsumerGroup{}
@@ -136,75 +115,8 @@ func (group *NamespacesEventhubsConsumerGroup) SetStatus(status genruntime.Conve
 	return nil
 }
 
-// AssignProperties_From_NamespacesEventhubsConsumerGroup populates our NamespacesEventhubsConsumerGroup from the provided source NamespacesEventhubsConsumerGroup
-func (group *NamespacesEventhubsConsumerGroup) AssignProperties_From_NamespacesEventhubsConsumerGroup(source *v20240101s.NamespacesEventhubsConsumerGroup) error {
-
-	// ObjectMeta
-	group.ObjectMeta = *source.ObjectMeta.DeepCopy()
-
-	// Spec
-	var spec Namespaces_Eventhubs_Consumergroup_Spec
-	err := spec.AssignProperties_From_Namespaces_Eventhubs_Consumergroup_Spec(&source.Spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Eventhubs_Consumergroup_Spec() to populate field Spec")
-	}
-	group.Spec = spec
-
-	// Status
-	var status Namespaces_Eventhubs_Consumergroup_STATUS
-	err = status.AssignProperties_From_Namespaces_Eventhubs_Consumergroup_STATUS(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Eventhubs_Consumergroup_STATUS() to populate field Status")
-	}
-	group.Status = status
-
-	// Invoke the augmentConversionForNamespacesEventhubsConsumerGroup interface (if implemented) to customize the conversion
-	var groupAsAny any = group
-	if augmentedGroup, ok := groupAsAny.(augmentConversionForNamespacesEventhubsConsumerGroup); ok {
-		err := augmentedGroup.AssignPropertiesFrom(source)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_NamespacesEventhubsConsumerGroup populates the provided destination NamespacesEventhubsConsumerGroup from our NamespacesEventhubsConsumerGroup
-func (group *NamespacesEventhubsConsumerGroup) AssignProperties_To_NamespacesEventhubsConsumerGroup(destination *v20240101s.NamespacesEventhubsConsumerGroup) error {
-
-	// ObjectMeta
-	destination.ObjectMeta = *group.ObjectMeta.DeepCopy()
-
-	// Spec
-	var spec v20240101s.Namespaces_Eventhubs_Consumergroup_Spec
-	err := group.Spec.AssignProperties_To_Namespaces_Eventhubs_Consumergroup_Spec(&spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Eventhubs_Consumergroup_Spec() to populate field Spec")
-	}
-	destination.Spec = spec
-
-	// Status
-	var status v20240101s.Namespaces_Eventhubs_Consumergroup_STATUS
-	err = group.Status.AssignProperties_To_Namespaces_Eventhubs_Consumergroup_STATUS(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Eventhubs_Consumergroup_STATUS() to populate field Status")
-	}
-	destination.Status = status
-
-	// Invoke the augmentConversionForNamespacesEventhubsConsumerGroup interface (if implemented) to customize the conversion
-	var groupAsAny any = group
-	if augmentedGroup, ok := groupAsAny.(augmentConversionForNamespacesEventhubsConsumerGroup); ok {
-		err := augmentedGroup.AssignPropertiesTo(destination)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
+// Hub marks that this NamespacesEventhubsConsumerGroup is the hub type for conversion
+func (group *NamespacesEventhubsConsumerGroup) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (group *NamespacesEventhubsConsumerGroup) OriginalGVK() *schema.GroupVersionKind {
@@ -224,11 +136,6 @@ type NamespacesEventhubsConsumerGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesEventhubsConsumerGroup `json:"items"`
-}
-
-type augmentConversionForNamespacesEventhubsConsumerGroup interface {
-	AssignPropertiesFrom(src *v20240101s.NamespacesEventhubsConsumerGroup) error
-	AssignPropertiesTo(dst *v20240101s.NamespacesEventhubsConsumerGroup) error
 }
 
 // Storage version of v1api20211101.Namespaces_Eventhubs_Consumergroup_Spec
@@ -251,134 +158,20 @@ var _ genruntime.ConvertibleSpec = &Namespaces_Eventhubs_Consumergroup_Spec{}
 
 // ConvertSpecFrom populates our Namespaces_Eventhubs_Consumergroup_Spec from the provided source
 func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20240101s.Namespaces_Eventhubs_Consumergroup_Spec)
-	if ok {
-		// Populate our instance from source
-		return consumergroup.AssignProperties_From_Namespaces_Eventhubs_Consumergroup_Spec(src)
+	if source == consumergroup {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	// Convert to an intermediate form
-	src = &v20240101s.Namespaces_Eventhubs_Consumergroup_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = consumergroup.AssignProperties_From_Namespaces_Eventhubs_Consumergroup_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
+	return source.ConvertSpecTo(consumergroup)
 }
 
 // ConvertSpecTo populates the provided destination from our Namespaces_Eventhubs_Consumergroup_Spec
 func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20240101s.Namespaces_Eventhubs_Consumergroup_Spec)
-	if ok {
-		// Populate destination from our instance
-		return consumergroup.AssignProperties_To_Namespaces_Eventhubs_Consumergroup_Spec(dst)
+	if destination == consumergroup {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	// Convert to an intermediate form
-	dst = &v20240101s.Namespaces_Eventhubs_Consumergroup_Spec{}
-	err := consumergroup.AssignProperties_To_Namespaces_Eventhubs_Consumergroup_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Namespaces_Eventhubs_Consumergroup_Spec populates our Namespaces_Eventhubs_Consumergroup_Spec from the provided source Namespaces_Eventhubs_Consumergroup_Spec
-func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) AssignProperties_From_Namespaces_Eventhubs_Consumergroup_Spec(source *v20240101s.Namespaces_Eventhubs_Consumergroup_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AzureName
-	consumergroup.AzureName = source.AzureName
-
-	// OriginalVersion
-	consumergroup.OriginalVersion = source.OriginalVersion
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		consumergroup.Owner = &owner
-	} else {
-		consumergroup.Owner = nil
-	}
-
-	// UserMetadata
-	consumergroup.UserMetadata = genruntime.ClonePointerToString(source.UserMetadata)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		consumergroup.PropertyBag = propertyBag
-	} else {
-		consumergroup.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForNamespaces_Eventhubs_Consumergroup_Spec interface (if implemented) to customize the conversion
-	var consumergroupAsAny any = consumergroup
-	if augmentedConsumergroup, ok := consumergroupAsAny.(augmentConversionForNamespaces_Eventhubs_Consumergroup_Spec); ok {
-		err := augmentedConsumergroup.AssignPropertiesFrom(source)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Namespaces_Eventhubs_Consumergroup_Spec populates the provided destination Namespaces_Eventhubs_Consumergroup_Spec from our Namespaces_Eventhubs_Consumergroup_Spec
-func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) AssignProperties_To_Namespaces_Eventhubs_Consumergroup_Spec(destination *v20240101s.Namespaces_Eventhubs_Consumergroup_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(consumergroup.PropertyBag)
-
-	// AzureName
-	destination.AzureName = consumergroup.AzureName
-
-	// OriginalVersion
-	destination.OriginalVersion = consumergroup.OriginalVersion
-
-	// Owner
-	if consumergroup.Owner != nil {
-		owner := consumergroup.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// UserMetadata
-	destination.UserMetadata = genruntime.ClonePointerToString(consumergroup.UserMetadata)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForNamespaces_Eventhubs_Consumergroup_Spec interface (if implemented) to customize the conversion
-	var consumergroupAsAny any = consumergroup
-	if augmentedConsumergroup, ok := consumergroupAsAny.(augmentConversionForNamespaces_Eventhubs_Consumergroup_Spec); ok {
-		err := augmentedConsumergroup.AssignPropertiesTo(destination)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
+	return destination.ConvertSpecFrom(consumergroup)
 }
 
 // Storage version of v1api20211101.Namespaces_Eventhubs_Consumergroup_STATUS
@@ -399,182 +192,20 @@ var _ genruntime.ConvertibleStatus = &Namespaces_Eventhubs_Consumergroup_STATUS{
 
 // ConvertStatusFrom populates our Namespaces_Eventhubs_Consumergroup_STATUS from the provided source
 func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20240101s.Namespaces_Eventhubs_Consumergroup_STATUS)
-	if ok {
-		// Populate our instance from source
-		return consumergroup.AssignProperties_From_Namespaces_Eventhubs_Consumergroup_STATUS(src)
+	if source == consumergroup {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	// Convert to an intermediate form
-	src = &v20240101s.Namespaces_Eventhubs_Consumergroup_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-	err = consumergroup.AssignProperties_From_Namespaces_Eventhubs_Consumergroup_STATUS(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
+	return source.ConvertStatusTo(consumergroup)
 }
 
 // ConvertStatusTo populates the provided destination from our Namespaces_Eventhubs_Consumergroup_STATUS
 func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20240101s.Namespaces_Eventhubs_Consumergroup_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return consumergroup.AssignProperties_To_Namespaces_Eventhubs_Consumergroup_STATUS(dst)
+	if destination == consumergroup {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	// Convert to an intermediate form
-	dst = &v20240101s.Namespaces_Eventhubs_Consumergroup_STATUS{}
-	err := consumergroup.AssignProperties_To_Namespaces_Eventhubs_Consumergroup_STATUS(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Namespaces_Eventhubs_Consumergroup_STATUS populates our Namespaces_Eventhubs_Consumergroup_STATUS from the provided source Namespaces_Eventhubs_Consumergroup_STATUS
-func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) AssignProperties_From_Namespaces_Eventhubs_Consumergroup_STATUS(source *v20240101s.Namespaces_Eventhubs_Consumergroup_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Conditions
-	consumergroup.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// CreatedAt
-	consumergroup.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// Id
-	consumergroup.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Location
-	consumergroup.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Name
-	consumergroup.Name = genruntime.ClonePointerToString(source.Name)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
-		}
-		consumergroup.SystemData = &systemDatum
-	} else {
-		consumergroup.SystemData = nil
-	}
-
-	// Type
-	consumergroup.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UpdatedAt
-	consumergroup.UpdatedAt = genruntime.ClonePointerToString(source.UpdatedAt)
-
-	// UserMetadata
-	consumergroup.UserMetadata = genruntime.ClonePointerToString(source.UserMetadata)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		consumergroup.PropertyBag = propertyBag
-	} else {
-		consumergroup.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForNamespaces_Eventhubs_Consumergroup_STATUS interface (if implemented) to customize the conversion
-	var consumergroupAsAny any = consumergroup
-	if augmentedConsumergroup, ok := consumergroupAsAny.(augmentConversionForNamespaces_Eventhubs_Consumergroup_STATUS); ok {
-		err := augmentedConsumergroup.AssignPropertiesFrom(source)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Namespaces_Eventhubs_Consumergroup_STATUS populates the provided destination Namespaces_Eventhubs_Consumergroup_STATUS from our Namespaces_Eventhubs_Consumergroup_STATUS
-func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) AssignProperties_To_Namespaces_Eventhubs_Consumergroup_STATUS(destination *v20240101s.Namespaces_Eventhubs_Consumergroup_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(consumergroup.PropertyBag)
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(consumergroup.Conditions)
-
-	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(consumergroup.CreatedAt)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(consumergroup.Id)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(consumergroup.Location)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(consumergroup.Name)
-
-	// SystemData
-	if consumergroup.SystemData != nil {
-		var systemDatum v20240101s.SystemData_STATUS
-		err := consumergroup.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(consumergroup.Type)
-
-	// UpdatedAt
-	destination.UpdatedAt = genruntime.ClonePointerToString(consumergroup.UpdatedAt)
-
-	// UserMetadata
-	destination.UserMetadata = genruntime.ClonePointerToString(consumergroup.UserMetadata)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForNamespaces_Eventhubs_Consumergroup_STATUS interface (if implemented) to customize the conversion
-	var consumergroupAsAny any = consumergroup
-	if augmentedConsumergroup, ok := consumergroupAsAny.(augmentConversionForNamespaces_Eventhubs_Consumergroup_STATUS); ok {
-		err := augmentedConsumergroup.AssignPropertiesTo(destination)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-type augmentConversionForNamespaces_Eventhubs_Consumergroup_Spec interface {
-	AssignPropertiesFrom(src *v20240101s.Namespaces_Eventhubs_Consumergroup_Spec) error
-	AssignPropertiesTo(dst *v20240101s.Namespaces_Eventhubs_Consumergroup_Spec) error
-}
-
-type augmentConversionForNamespaces_Eventhubs_Consumergroup_STATUS interface {
-	AssignPropertiesFrom(src *v20240101s.Namespaces_Eventhubs_Consumergroup_STATUS) error
-	AssignPropertiesTo(dst *v20240101s.Namespaces_Eventhubs_Consumergroup_STATUS) error
+	return destination.ConvertStatusFrom(consumergroup)
 }
 
 func init() {

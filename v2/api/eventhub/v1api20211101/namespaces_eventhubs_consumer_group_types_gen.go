@@ -49,36 +49,22 @@ var _ conversion.Convertible = &NamespacesEventhubsConsumerGroup{}
 
 // ConvertFrom populates our NamespacesEventhubsConsumerGroup from the provided hub NamespacesEventhubsConsumerGroup
 func (group *NamespacesEventhubsConsumerGroup) ConvertFrom(hub conversion.Hub) error {
-	// intermediate variable for conversion
-	var source v20211101s.NamespacesEventhubsConsumerGroup
-
-	err := source.ConvertFrom(hub)
-	if err != nil {
-		return errors.Wrap(err, "converting from hub to source")
+	source, ok := hub.(*v20211101s.NamespacesEventhubsConsumerGroup)
+	if !ok {
+		return fmt.Errorf("expected eventhub/v1api20211101/storage/NamespacesEventhubsConsumerGroup but received %T instead", hub)
 	}
 
-	err = group.AssignProperties_From_NamespacesEventhubsConsumerGroup(&source)
-	if err != nil {
-		return errors.Wrap(err, "converting from source to group")
-	}
-
-	return nil
+	return group.AssignProperties_From_NamespacesEventhubsConsumerGroup(source)
 }
 
 // ConvertTo populates the provided hub NamespacesEventhubsConsumerGroup from our NamespacesEventhubsConsumerGroup
 func (group *NamespacesEventhubsConsumerGroup) ConvertTo(hub conversion.Hub) error {
-	// intermediate variable for conversion
-	var destination v20211101s.NamespacesEventhubsConsumerGroup
-	err := group.AssignProperties_To_NamespacesEventhubsConsumerGroup(&destination)
-	if err != nil {
-		return errors.Wrap(err, "converting to destination from group")
-	}
-	err = destination.ConvertTo(hub)
-	if err != nil {
-		return errors.Wrap(err, "converting from destination to hub")
+	destination, ok := hub.(*v20211101s.NamespacesEventhubsConsumerGroup)
+	if !ok {
+		return fmt.Errorf("expected eventhub/v1api20211101/storage/NamespacesEventhubsConsumerGroup but received %T instead", hub)
 	}
 
-	return nil
+	return group.AssignProperties_To_NamespacesEventhubsConsumerGroup(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-eventhub-azure-com-v1api20211101-namespaceseventhubsconsumergroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespaceseventhubsconsumergroups,verbs=create;update,versions=v1api20211101,name=default.v1api20211101.namespaceseventhubsconsumergroups.eventhub.azure.com,admissionReviewVersions=v1
@@ -103,6 +89,17 @@ func (group *NamespacesEventhubsConsumerGroup) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the NamespacesEventhubsConsumerGroup resource
 func (group *NamespacesEventhubsConsumerGroup) defaultImpl() { group.defaultAzureName() }
+
+var _ genruntime.ImportableResource = &NamespacesEventhubsConsumerGroup{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (group *NamespacesEventhubsConsumerGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*Namespaces_Eventhubs_Consumergroup_STATUS); ok {
+		return group.Spec.Initialize_From_Namespaces_Eventhubs_Consumergroup_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type Namespaces_Eventhubs_Consumergroup_STATUS but received %T instead", status)
+}
 
 var _ genruntime.KubernetesResource = &NamespacesEventhubsConsumerGroup{}
 
@@ -502,6 +499,16 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) AssignProperties_T
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Namespaces_Eventhubs_Consumergroup_STATUS populates our Namespaces_Eventhubs_Consumergroup_Spec from the provided source Namespaces_Eventhubs_Consumergroup_STATUS
+func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) Initialize_From_Namespaces_Eventhubs_Consumergroup_STATUS(source *Namespaces_Eventhubs_Consumergroup_STATUS) error {
+
+	// UserMetadata
+	consumergroup.UserMetadata = genruntime.ClonePointerToString(source.UserMetadata)
 
 	// No error
 	return nil

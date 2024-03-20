@@ -6,7 +6,6 @@ package v1api20211101
 import (
 	"encoding/json"
 	v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
-	v20240101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20240101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +36,7 @@ func RunResourceConversionTestForNamespacesAuthorizationRule(subject NamespacesA
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20240101s.NamespacesAuthorizationRule
+	var hub v20211101s.NamespacesAuthorizationRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
