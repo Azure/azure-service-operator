@@ -86,18 +86,18 @@ func Test_EventHub_Namespace_20211101_CRUD(t *testing.T) {
 
 func Namespace_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, ns *eventhub.Namespace) {
 	old := ns.DeepCopy()
-	keysSecret := "namespacesecret"
+	nsSecret := "namespacesecret"
 	ns.Spec.OperatorSpec = &eventhub.NamespaceOperatorSpec{
 		Secrets: &eventhub.NamespaceOperatorSecrets{
-			PrimaryKey:                &genruntime.SecretDestination{Name: keysSecret, Key: "primary-key"},
-			PrimaryConnectionString:   &genruntime.SecretDestination{Name: keysSecret, Key: "primary-connection-string"},
-			SecondaryKey:              &genruntime.SecretDestination{Name: keysSecret, Key: "secondary-key"},
-			SecondaryConnectionString: &genruntime.SecretDestination{Name: keysSecret, Key: "secondary-connection-string"},
+			PrimaryKey:                &genruntime.SecretDestination{Name: nsSecret, Key: "primary-key"},
+			PrimaryConnectionString:   &genruntime.SecretDestination{Name: nsSecret, Key: "primary-connection-string"},
+			SecondaryKey:              &genruntime.SecretDestination{Name: nsSecret, Key: "secondary-key"},
+			SecondaryConnectionString: &genruntime.SecretDestination{Name: nsSecret, Key: "secondary-connection-string"},
 		},
 	}
 	tc.PatchResourceAndWait(old, ns)
 
-	tc.ExpectSecretHasKeys(keysSecret, "primary-key", "primary-connection-string", "secondary-key", "secondary-connection-string")
+	tc.ExpectSecretHasKeys(nsSecret, "primary-key", "primary-connection-string", "secondary-key", "secondary-connection-string")
 }
 
 func EventHub_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
@@ -175,18 +175,18 @@ func Namespace_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, namesp
 
 func NamespacesAuthorizationRule_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, ns *eventhub.NamespacesAuthorizationRule) {
 	old := ns.DeepCopy()
-	keysSecret := "namespaceauthrulesecret"
+	namespaceAuthRuleSecret := "namespaceauthrulesecret"
 	ns.Spec.OperatorSpec = &eventhub.NamespacesAuthorizationRuleOperatorSpec{
 		Secrets: &eventhub.NamespacesAuthorizationRuleOperatorSecrets{
-			PrimaryKey:                &genruntime.SecretDestination{Name: keysSecret, Key: "primary-key"},
-			PrimaryConnectionString:   &genruntime.SecretDestination{Name: keysSecret, Key: "primary-connection-string"},
-			SecondaryKey:              &genruntime.SecretDestination{Name: keysSecret, Key: "secondary-key"},
-			SecondaryConnectionString: &genruntime.SecretDestination{Name: keysSecret, Key: "secondary-connection-string"},
+			PrimaryKey:                &genruntime.SecretDestination{Name: namespaceAuthRuleSecret, Key: "primary-key"},
+			PrimaryConnectionString:   &genruntime.SecretDestination{Name: namespaceAuthRuleSecret, Key: "primary-connection-string"},
+			SecondaryKey:              &genruntime.SecretDestination{Name: namespaceAuthRuleSecret, Key: "secondary-key"},
+			SecondaryConnectionString: &genruntime.SecretDestination{Name: namespaceAuthRuleSecret, Key: "secondary-connection-string"},
 		},
 	}
 	tc.PatchResourceAndWait(old, ns)
 
-	tc.ExpectSecretHasKeys(keysSecret, "primary-key", "primary-connection-string", "secondary-key", "secondary-connection-string")
+	tc.ExpectSecretHasKeys(namespaceAuthRuleSecret, "primary-key", "primary-connection-string", "secondary-key", "secondary-connection-string")
 }
 
 func EventHub_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, eh client.Object) {
@@ -222,18 +222,18 @@ func EventHub_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, eh clie
 
 func EventHubAuthorizationRule_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, ns *eventhub.NamespacesEventhubsAuthorizationRule) {
 	old := ns.DeepCopy()
-	keysSecret := "eventhubauthrulesecret"
+	eventHubAuthRuleSecret := "eventhubauthrulesecret"
 	ns.Spec.OperatorSpec = &eventhub.NamespacesEventhubsAuthorizationRuleOperatorSpec{
 		Secrets: &eventhub.NamespacesEventhubsAuthorizationRuleOperatorSecrets{
-			PrimaryKey:                &genruntime.SecretDestination{Name: keysSecret, Key: "primary-key"},
-			PrimaryConnectionString:   &genruntime.SecretDestination{Name: keysSecret, Key: "primary-connection-string"},
-			SecondaryKey:              &genruntime.SecretDestination{Name: keysSecret, Key: "secondary-key"},
-			SecondaryConnectionString: &genruntime.SecretDestination{Name: keysSecret, Key: "secondary-connection-string"},
+			PrimaryKey:                &genruntime.SecretDestination{Name: eventHubAuthRuleSecret, Key: "primary-key"},
+			PrimaryConnectionString:   &genruntime.SecretDestination{Name: eventHubAuthRuleSecret, Key: "primary-connection-string"},
+			SecondaryKey:              &genruntime.SecretDestination{Name: eventHubAuthRuleSecret, Key: "secondary-key"},
+			SecondaryConnectionString: &genruntime.SecretDestination{Name: eventHubAuthRuleSecret, Key: "secondary-connection-string"},
 		},
 	}
 	tc.PatchResourceAndWait(old, ns)
 
-	tc.ExpectSecretHasKeys(keysSecret, "primary-key", "primary-connection-string", "secondary-key", "secondary-connection-string")
+	tc.ExpectSecretHasKeys(eventHubAuthRuleSecret, "primary-key", "primary-connection-string", "secondary-key", "secondary-connection-string")
 }
 
 func EventHub_ConsumerGroup_CRUD(tc *testcommon.KubePerTestContext, eh client.Object) {
