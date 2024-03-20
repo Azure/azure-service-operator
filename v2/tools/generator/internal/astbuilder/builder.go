@@ -446,39 +446,29 @@ func BinaryExpr(lhs dst.Expr, op token.Token, rhs dst.Expr) *dst.BinaryExpr {
 	}
 }
 
-// Statements creates a sequence of statements from the provided values, each of which may be a
-// single dst.Stmt or a slice of multiple []dst.Stmts
-func Statements(statements ...any) []dst.Stmt {
-	var stmts []dst.Stmt
-	for _, s := range statements {
+// Expression creates a slice of dst.Expr by combining the given expressions.
+// Pass any combination of dst.Expr and []dst.Expr as arguments; anything else will
+// result in a runtime panic.
+func Expressions(expressions ...interface{}) []dst.Expr {
+	// Calculate the final size required
+	size := 0
+	for _, s := range expressions {
 		switch s := s.(type) {
 		case nil:
 			// Skip nils
 			continue
-		case dst.Stmt:
-			// Add a single statement
-			stmts = append(stmts, s)
-		case []dst.Stmt:
-			// Add many statements
-			stmts = append(stmts, s...)
+		case dst.Expr:
+			size++
+		case []dst.Expr:
+			size += len(s)
 		default:
-			panic(fmt.Sprintf("expected dst.Stmt or []dst.Stmt, but found %T", s))
+			panic(fmt.Sprintf("expected dst.Expr or []dst.Expr, but found %T", s))
 		}
 	}
 
-	result := make([]dst.Stmt, 0, len(stmts))
-	for _, st := range stmts {
-		result = append(result, dst.Clone(st).(dst.Stmt))
-	}
-
-	return result
-}
-
-// Expression creates a sequence of expressions from the provided values, each of which may be a
-// single dst.Expr or a slice of multiple []dst.Expr
-func Expressions(statements ...interface{}) []dst.Expr {
-	var exprs []dst.Expr
-	for _, e := range statements {
+	// Flatten the expressions into a single slice
+	exprs := make([]dst.Expr, 0, size)
+	for _, e := range expressions {
 		switch s := e.(type) {
 		case nil:
 			// Skip nils
@@ -494,6 +484,7 @@ func Expressions(statements ...interface{}) []dst.Expr {
 		}
 	}
 
+	// Clone everything to avoid sharing nodes
 	result := make([]dst.Expr, 0, len(exprs))
 	for _, ex := range exprs {
 		result = append(result, dst.Clone(ex).(dst.Expr))
