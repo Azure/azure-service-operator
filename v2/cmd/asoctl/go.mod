@@ -18,10 +18,10 @@ require (
 	github.com/spf13/cobra v1.8.0
 	github.com/vbauerster/mpb/v8 v8.7.2
 	golang.org/x/exp v0.0.0-20240119083558-1b970713d09a
-	k8s.io/api v0.29.2
+	k8s.io/api v0.29.3
 	k8s.io/apiextensions-apiserver v0.29.2
 	k8s.io/apimachinery v0.29.3
-	k8s.io/client-go v0.29.2
+	k8s.io/client-go v0.29.3
 	sigs.k8s.io/controller-runtime v0.17.2
 	sigs.k8s.io/yaml v1.4.0
 )
@@ -73,7 +73,7 @@ require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20231201235250-de7065d80cb9 // indirect
-	github.com/jackc/pgx/v5 v5.5.3 // indirect
+	github.com/jackc/pgx/v5 v5.5.4 // indirect
 	github.com/jackc/puddle/v2 v2.2.1 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
