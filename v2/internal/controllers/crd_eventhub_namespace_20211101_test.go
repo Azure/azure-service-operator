@@ -86,6 +86,7 @@ func Test_EventHub_Namespace_20211101_CRUD(t *testing.T) {
 
 func Namespace_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, ns *eventhub.Namespace) {
 	old := ns.DeepCopy()
+	//nolint:gosec
 	nsSecretName := "namespacesecret"
 	ns.Spec.OperatorSpec = &eventhub.NamespaceOperatorSpec{
 		Secrets: &eventhub.NamespaceOperatorSecrets{
@@ -175,6 +176,7 @@ func Namespace_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, namesp
 
 func NamespacesAuthorizationRule_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, ns *eventhub.NamespacesAuthorizationRule) {
 	old := ns.DeepCopy()
+	//nolint:gosec
 	namespaceAuthRuleSecretName := "namespaceauthrulesecret"
 	ns.Spec.OperatorSpec = &eventhub.NamespacesAuthorizationRuleOperatorSpec{
 		Secrets: &eventhub.NamespacesAuthorizationRuleOperatorSecrets{
@@ -222,6 +224,7 @@ func EventHub_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, eh clie
 
 func EventHubAuthorizationRule_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, ns *eventhub.NamespacesEventhubsAuthorizationRule) {
 	old := ns.DeepCopy()
+	//nolint:gosec
 	eventHubAuthRuleSecretName := "eventhubauthrulesecret"
 	ns.Spec.OperatorSpec = &eventhub.NamespacesEventhubsAuthorizationRuleOperatorSpec{
 		Secrets: &eventhub.NamespacesEventhubsAuthorizationRuleOperatorSecrets{
