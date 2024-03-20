@@ -438,22 +438,6 @@ func NotEmpty(x dst.Expr) *dst.BinaryExpr {
 	}
 }
 
-// StatementBlock generates a block containing the supplied statements
-// If we're given a single statement that's already a block, we won't double wrap it
-func StatementBlock(statements ...dst.Stmt) *dst.BlockStmt {
-	stmts := Statements(statements)
-
-	if len(stmts) == 1 {
-		if block, ok := stmts[0].(*dst.BlockStmt); ok {
-			return block
-		}
-	}
-
-	return &dst.BlockStmt{
-		List: stmts,
-	}
-}
-
 func BinaryExpr(lhs dst.Expr, op token.Token, rhs dst.Expr) *dst.BinaryExpr {
 	return &dst.BinaryExpr{
 		X:  dst.Clone(lhs).(dst.Expr),
