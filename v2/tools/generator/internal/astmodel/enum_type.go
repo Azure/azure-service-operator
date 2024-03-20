@@ -8,7 +8,7 @@ package astmodel
 import (
 	"fmt"
 	"go/token"
-	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -40,9 +40,28 @@ func NewEnumType(baseType *PrimitiveType, options ...EnumValue) *EnumType {
 		panic("baseType must be provided")
 	}
 
-	sort.Slice(options, func(left int, right int) bool {
-		return options[left].Identifier < options[right].Identifier
-	})
+	slices.SortFunc(
+		options,
+		func(left EnumValue, right EnumValue) int {
+			if baseType == IntType {
+				// Compare integers as numbers if we can
+				l, lOk := strconv.Atoi(left.Identifier)
+				r, rOk := strconv.Atoi(right.Identifier)
+				if lOk == nil && rOk == nil {
+					return l - r
+				}
+
+				if lOk == nil && rOk != nil {
+					return -1 // put the int first
+				}
+
+				if lOk != nil && rOk == nil {
+					return 1 // put the int first
+				}
+			}
+
+			return strings.Compare(left.Identifier, right.Identifier)
+		})
 
 	return &EnumType{
 		baseType:       baseType,
