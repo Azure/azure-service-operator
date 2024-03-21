@@ -12,6 +12,7 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 	"golang.org/x/exp/maps"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -66,7 +67,7 @@ func (i InterfaceImplementer) AsDeclarations(
 	codeGenerationContext *CodeGenerationContext,
 	typeName InternalTypeName,
 	_ []string,
-) []dst.Decl {
+) ([]dst.Decl, error) {
 	// interfaces must be ordered by name for deterministic output
 	// (We sort them directly to skip future lookups)
 	interfaces := make([]*InterfaceImplementation, 0, len(i.interfaces))
@@ -99,14 +100,15 @@ func (i InterfaceImplementer) AsDeclarations(
 		}
 
 		if len(errs) > 0 {
-			// Something went wrong; once AsDeclarations is refactored to have an error return,
-			// we can return them, but in the meantime panic
-			err := kerrors.NewAggregate(errs)
-			panic(err)
+			return nil, errors.Wrapf(
+				kerrors.NewAggregate(errs),
+				"generating declarations for interface %s",
+				iface.name.Name(),
+			)
 		}
 	}
 
-	return result
+	return result, nil
 }
 
 func (i InterfaceImplementer) Equals(other InterfaceImplementer, overrides EqualityOverrides) bool {

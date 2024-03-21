@@ -50,6 +50,7 @@ type ObjectModelConfiguration struct {
 	ARMReference                   propertyAccess[bool]
 	ImportConfigMapMode            propertyAccess[ImportConfigMapMode]
 	IsSecret                       propertyAccess[bool]
+	PropertyNameInNextVersion      propertyAccess[string]
 	RenamePropertyTo               propertyAccess[string]
 	ResourceLifecycleOwnedByParent propertyAccess[string]
 }
@@ -105,6 +106,8 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 		result, func(c *PropertyConfiguration) *configurable[ImportConfigMapMode] { return &c.ImportConfigMapMode })
 	result.IsSecret = makePropertyAccess[bool](
 		result, func(c *PropertyConfiguration) *configurable[bool] { return &c.IsSecret })
+	result.PropertyNameInNextVersion = makePropertyAccess[string](
+		result, func(c *PropertyConfiguration) *configurable[string] { return &c.NameInNextVersion })
 	result.RenamePropertyTo = makePropertyAccess[string](
 		result, func(c *PropertyConfiguration) *configurable[string] { return &c.RenameTo })
 	result.ResourceLifecycleOwnedByParent = makePropertyAccess[string](
