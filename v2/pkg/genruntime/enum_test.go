@@ -8,6 +8,8 @@ package genruntime
 import "testing"
 
 func Test_ToEnum_WhenCalled_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+
 	type testResult string
 
 	const (

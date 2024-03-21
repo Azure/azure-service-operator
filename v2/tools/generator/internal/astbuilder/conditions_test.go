@@ -17,5 +17,5 @@ func Test_IfExprOk_WhenCalled_ReturnsExpectedCode(t *testing.T) {
 		CallQualifiedFuncAsStmt("monster", "Roar"),
 	)
 
-	AssertStmtExpected(t, actual)
+	assertStmtExpected(t, actual)
 }
