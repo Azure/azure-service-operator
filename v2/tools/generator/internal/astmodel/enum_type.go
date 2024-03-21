@@ -10,6 +10,7 @@ import (
 	"go/token"
 	"strconv"
 	"strings"
+	"unicode"
 
 	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
@@ -334,7 +335,11 @@ func (enum *EnumType) MapperVariableName(name InternalTypeName) string {
 
 	for _, suffix := range availableMapperSuffixes {
 		if !used.Contains(suffix) {
-			return fmt.Sprintf("%s_%s", name.Name(), suffix)
+			name := fmt.Sprintf("%s_%s", name.Name(), suffix)
+			// Force the name to an internal one
+			runes := []rune(name)
+			runes[0] = unicode.ToLower(runes[0])
+			return string(runes)
 		}
 	}
 
