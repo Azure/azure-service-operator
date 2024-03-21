@@ -25,8 +25,10 @@ func Statements(statements ...any) []dst.Stmt {
 			size++
 		case []dst.Stmt:
 			size += len(s)
+		case dst.Decl:
+			size++
 		default:
-			panic(fmt.Sprintf("expected dst.Stmt or []dst.Stmt, but found %T", s))
+			panic(fmt.Sprintf("expected dst.Stmt, []dst.Stmt, or dst.Decl but found %T", s))
 		}
 	}
 
@@ -43,8 +45,12 @@ func Statements(statements ...any) []dst.Stmt {
 		case []dst.Stmt:
 			// Add many statements
 			stmts = append(stmts, s...)
+		case dst.Decl:
+			// Convert declaration to statement
+			stmt := &dst.DeclStmt{Decl: s}
+			stmts = append(stmts, stmt)
 		default:
-			panic(fmt.Sprintf("expected dst.Stmt or []dst.Stmt, but found %T", s))
+			panic(fmt.Sprintf("expected dst.Stmt, []dst.Stmt, or dst.Decl but found %T", s))
 		}
 	}
 
