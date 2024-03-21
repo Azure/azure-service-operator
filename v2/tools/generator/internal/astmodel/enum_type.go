@@ -323,7 +323,7 @@ func (enum *EnumType) WriteDebugDescription(builder *strings.Builder, currentPac
 	}
 }
 
-var availableMapperSuffixes = []string{"Cache", "Mapping", "Mapper"}
+var availableMapperSuffixes = []string{"Values", "Cache", "Mapping", "Mapper"}
 
 // MapperVariableName returns the name of the variable used to map enum values to strings.
 // We check the values of the enum to ensure we don't have a name collision.
