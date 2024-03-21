@@ -39,11 +39,6 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-11-01")
 
-// Mapping from string to APIVersion
-var APIVersion_Cache = map[string]APIVersion{
-	"2021-11-01": APIVersion_Value,
-}
-
 type Server_Spec struct {
 	v1.ResourceSpec `json:",inline,omitempty"`
 	ForProvider     ServerParameters `json:"forProvider,omitempty"`
@@ -255,7 +250,7 @@ const (
 )
 
 // Mapping from string to ServerProperties_PublicNetworkAccess
-var ServerProperties_PublicNetworkAccess_Cache = map[string]ServerProperties_PublicNetworkAccess{
+var serverProperties_PublicNetworkAccess_Values = map[string]ServerProperties_PublicNetworkAccess{
 	"disabled": ServerProperties_PublicNetworkAccess_Disabled,
 	"enabled":  ServerProperties_PublicNetworkAccess_Enabled,
 }
@@ -268,7 +263,7 @@ const (
 )
 
 // Mapping from string to ServerProperties_PublicNetworkAccess_STATUS
-var ServerProperties_PublicNetworkAccess_STATUS_Cache = map[string]ServerProperties_PublicNetworkAccess_STATUS{
+var serverProperties_PublicNetworkAccess_STATUS_Values = map[string]ServerProperties_PublicNetworkAccess_STATUS{
 	"disabled": ServerProperties_PublicNetworkAccess_STATUS_Disabled,
 	"enabled":  ServerProperties_PublicNetworkAccess_STATUS_Enabled,
 }
@@ -282,7 +277,7 @@ const (
 )
 
 // Mapping from string to ServerProperties_RestrictOutboundNetworkAccess
-var ServerProperties_RestrictOutboundNetworkAccess_Cache = map[string]ServerProperties_RestrictOutboundNetworkAccess{
+var serverProperties_RestrictOutboundNetworkAccess_Values = map[string]ServerProperties_RestrictOutboundNetworkAccess{
 	"disabled": ServerProperties_RestrictOutboundNetworkAccess_Disabled,
 	"enabled":  ServerProperties_RestrictOutboundNetworkAccess_Enabled,
 }
@@ -295,7 +290,7 @@ const (
 )
 
 // Mapping from string to ServerProperties_RestrictOutboundNetworkAccess_STATUS
-var ServerProperties_RestrictOutboundNetworkAccess_STATUS_Cache = map[string]ServerProperties_RestrictOutboundNetworkAccess_STATUS{
+var serverProperties_RestrictOutboundNetworkAccess_STATUS_Values = map[string]ServerProperties_RestrictOutboundNetworkAccess_STATUS{
 	"disabled": ServerProperties_RestrictOutboundNetworkAccess_STATUS_Disabled,
 	"enabled":  ServerProperties_RestrictOutboundNetworkAccess_STATUS_Enabled,
 }
@@ -308,7 +303,7 @@ const (
 )
 
 // Mapping from string to ServerProperties_WorkspaceFeature_STATUS
-var ServerProperties_WorkspaceFeature_STATUS_Cache = map[string]ServerProperties_WorkspaceFeature_STATUS{
+var serverProperties_WorkspaceFeature_STATUS_Values = map[string]ServerProperties_WorkspaceFeature_STATUS{
 	"connected":    ServerProperties_WorkspaceFeature_STATUS_Connected,
 	"disconnected": ServerProperties_WorkspaceFeature_STATUS_Disconnected,
 }
@@ -339,7 +334,7 @@ const (
 )
 
 // Mapping from string to ResourceIdentity_Type
-var ResourceIdentity_Type_Cache = map[string]ResourceIdentity_Type{
+var resourceIdentity_Type_Values = map[string]ResourceIdentity_Type{
 	"none":                        ResourceIdentity_Type_None,
 	"systemassigned":              ResourceIdentity_Type_SystemAssigned,
 	"systemassigned,userassigned": ResourceIdentity_Type_SystemAssignedUserAssigned,
@@ -356,7 +351,7 @@ const (
 )
 
 // Mapping from string to ResourceIdentity_Type_STATUS
-var ResourceIdentity_Type_STATUS_Cache = map[string]ResourceIdentity_Type_STATUS{
+var resourceIdentity_Type_STATUS_Values = map[string]ResourceIdentity_Type_STATUS{
 	"none":                        ResourceIdentity_Type_STATUS_None,
 	"systemassigned":              ResourceIdentity_Type_STATUS_SystemAssigned,
 	"systemassigned,userassigned": ResourceIdentity_Type_STATUS_SystemAssignedUserAssigned,
@@ -369,7 +364,7 @@ type ServerExternalAdministrator_AdministratorType string
 const ServerExternalAdministrator_AdministratorType_ActiveDirectory = ServerExternalAdministrator_AdministratorType("ActiveDirectory")
 
 // Mapping from string to ServerExternalAdministrator_AdministratorType
-var ServerExternalAdministrator_AdministratorType_Cache = map[string]ServerExternalAdministrator_AdministratorType{
+var serverExternalAdministrator_AdministratorType_Values = map[string]ServerExternalAdministrator_AdministratorType{
 	"activedirectory": ServerExternalAdministrator_AdministratorType_ActiveDirectory,
 }
 
@@ -378,7 +373,7 @@ type ServerExternalAdministrator_AdministratorType_STATUS string
 const ServerExternalAdministrator_AdministratorType_STATUS_ActiveDirectory = ServerExternalAdministrator_AdministratorType_STATUS("ActiveDirectory")
 
 // Mapping from string to ServerExternalAdministrator_AdministratorType_STATUS
-var ServerExternalAdministrator_AdministratorType_STATUS_Cache = map[string]ServerExternalAdministrator_AdministratorType_STATUS{
+var serverExternalAdministrator_AdministratorType_STATUS_Values = map[string]ServerExternalAdministrator_AdministratorType_STATUS{
 	"activedirectory": ServerExternalAdministrator_AdministratorType_STATUS_ActiveDirectory,
 }
 
@@ -392,7 +387,7 @@ const (
 )
 
 // Mapping from string to ServerExternalAdministrator_PrincipalType
-var ServerExternalAdministrator_PrincipalType_Cache = map[string]ServerExternalAdministrator_PrincipalType{
+var serverExternalAdministrator_PrincipalType_Values = map[string]ServerExternalAdministrator_PrincipalType{
 	"application": ServerExternalAdministrator_PrincipalType_Application,
 	"group":       ServerExternalAdministrator_PrincipalType_Group,
 	"user":        ServerExternalAdministrator_PrincipalType_User,
@@ -407,7 +402,7 @@ const (
 )
 
 // Mapping from string to ServerExternalAdministrator_PrincipalType_STATUS
-var ServerExternalAdministrator_PrincipalType_STATUS_Cache = map[string]ServerExternalAdministrator_PrincipalType_STATUS{
+var serverExternalAdministrator_PrincipalType_STATUS_Values = map[string]ServerExternalAdministrator_PrincipalType_STATUS{
 	"application": ServerExternalAdministrator_PrincipalType_STATUS_Application,
 	"group":       ServerExternalAdministrator_PrincipalType_STATUS_Group,
 	"user":        ServerExternalAdministrator_PrincipalType_STATUS_User,
@@ -433,7 +428,7 @@ const (
 )
 
 // Mapping from string to PrivateEndpointConnectionProperties_ProvisioningState_STATUS
-var PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Cache = map[string]PrivateEndpointConnectionProperties_ProvisioningState_STATUS{
+var privateEndpointConnectionProperties_ProvisioningState_STATUS_Values = map[string]PrivateEndpointConnectionProperties_ProvisioningState_STATUS{
 	"approving": PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Approving,
 	"dropping":  PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Dropping,
 	"failed":    PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Failed,
@@ -462,7 +457,7 @@ type PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS string
 const PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_None = PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS("None")
 
 // Mapping from string to PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS
-var PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_Cache = map[string]PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS{
+var privateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_Values = map[string]PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS{
 	"none": PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_None,
 }
 
@@ -476,7 +471,7 @@ const (
 )
 
 // Mapping from string to PrivateLinkServiceConnectionStateProperty_Status_STATUS
-var PrivateLinkServiceConnectionStateProperty_Status_STATUS_Cache = map[string]PrivateLinkServiceConnectionStateProperty_Status_STATUS{
+var privateLinkServiceConnectionStateProperty_Status_STATUS_Values = map[string]PrivateLinkServiceConnectionStateProperty_Status_STATUS{
 	"approved":     PrivateLinkServiceConnectionStateProperty_Status_STATUS_Approved,
 	"disconnected": PrivateLinkServiceConnectionStateProperty_Status_STATUS_Disconnected,
 	"pending":      PrivateLinkServiceConnectionStateProperty_Status_STATUS_Pending,

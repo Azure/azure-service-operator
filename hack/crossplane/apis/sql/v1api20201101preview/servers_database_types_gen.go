@@ -344,7 +344,7 @@ const (
 )
 
 // Mapping from string to DatabaseProperties_CatalogCollation
-var DatabaseProperties_CatalogCollation_Cache = map[string]DatabaseProperties_CatalogCollation{
+var databaseProperties_CatalogCollation_Values = map[string]DatabaseProperties_CatalogCollation{
 	"database_default":             DatabaseProperties_CatalogCollation_DATABASE_DEFAULT,
 	"sql_latin1_general_cp1_ci_as": DatabaseProperties_CatalogCollation_SQL_Latin1_General_CP1_CI_AS,
 }
@@ -357,7 +357,7 @@ const (
 )
 
 // Mapping from string to DatabaseProperties_CatalogCollation_STATUS
-var DatabaseProperties_CatalogCollation_STATUS_Cache = map[string]DatabaseProperties_CatalogCollation_STATUS{
+var databaseProperties_CatalogCollation_STATUS_Values = map[string]DatabaseProperties_CatalogCollation_STATUS{
 	"database_default":             DatabaseProperties_CatalogCollation_STATUS_DATABASE_DEFAULT,
 	"sql_latin1_general_cp1_ci_as": DatabaseProperties_CatalogCollation_STATUS_SQL_Latin1_General_CP1_CI_AS,
 }
@@ -379,7 +379,7 @@ const (
 )
 
 // Mapping from string to DatabaseProperties_CreateMode
-var DatabaseProperties_CreateMode_Cache = map[string]DatabaseProperties_CreateMode{
+var databaseProperties_CreateMode_Values = map[string]DatabaseProperties_CreateMode{
 	"copy":                           DatabaseProperties_CreateMode_Copy,
 	"default":                        DatabaseProperties_CreateMode_Default,
 	"onlinesecondary":                DatabaseProperties_CreateMode_OnlineSecondary,
@@ -408,7 +408,7 @@ const (
 )
 
 // Mapping from string to DatabaseProperties_CreateMode_STATUS
-var DatabaseProperties_CreateMode_STATUS_Cache = map[string]DatabaseProperties_CreateMode_STATUS{
+var databaseProperties_CreateMode_STATUS_Values = map[string]DatabaseProperties_CreateMode_STATUS{
 	"copy":                           DatabaseProperties_CreateMode_STATUS_Copy,
 	"default":                        DatabaseProperties_CreateMode_STATUS_Default,
 	"onlinesecondary":                DatabaseProperties_CreateMode_STATUS_OnlineSecondary,
@@ -430,7 +430,7 @@ const (
 )
 
 // Mapping from string to DatabaseProperties_CurrentBackupStorageRedundancy_STATUS
-var DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_Cache = map[string]DatabaseProperties_CurrentBackupStorageRedundancy_STATUS{
+var databaseProperties_CurrentBackupStorageRedundancy_STATUS_Values = map[string]DatabaseProperties_CurrentBackupStorageRedundancy_STATUS{
 	"geo":   DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_Geo,
 	"local": DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_Local,
 	"zone":  DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_Zone,
@@ -445,7 +445,7 @@ const (
 )
 
 // Mapping from string to DatabaseProperties_LicenseType
-var DatabaseProperties_LicenseType_Cache = map[string]DatabaseProperties_LicenseType{
+var databaseProperties_LicenseType_Values = map[string]DatabaseProperties_LicenseType{
 	"baseprice":       DatabaseProperties_LicenseType_BasePrice,
 	"licenseincluded": DatabaseProperties_LicenseType_LicenseIncluded,
 }
@@ -458,7 +458,7 @@ const (
 )
 
 // Mapping from string to DatabaseProperties_LicenseType_STATUS
-var DatabaseProperties_LicenseType_STATUS_Cache = map[string]DatabaseProperties_LicenseType_STATUS{
+var databaseProperties_LicenseType_STATUS_Values = map[string]DatabaseProperties_LicenseType_STATUS{
 	"baseprice":       DatabaseProperties_LicenseType_STATUS_BasePrice,
 	"licenseincluded": DatabaseProperties_LicenseType_STATUS_LicenseIncluded,
 }
@@ -472,7 +472,7 @@ const (
 )
 
 // Mapping from string to DatabaseProperties_ReadScale
-var DatabaseProperties_ReadScale_Cache = map[string]DatabaseProperties_ReadScale{
+var databaseProperties_ReadScale_Values = map[string]DatabaseProperties_ReadScale{
 	"disabled": DatabaseProperties_ReadScale_Disabled,
 	"enabled":  DatabaseProperties_ReadScale_Enabled,
 }
@@ -485,7 +485,7 @@ const (
 )
 
 // Mapping from string to DatabaseProperties_ReadScale_STATUS
-var DatabaseProperties_ReadScale_STATUS_Cache = map[string]DatabaseProperties_ReadScale_STATUS{
+var databaseProperties_ReadScale_STATUS_Values = map[string]DatabaseProperties_ReadScale_STATUS{
 	"disabled": DatabaseProperties_ReadScale_STATUS_Disabled,
 	"enabled":  DatabaseProperties_ReadScale_STATUS_Enabled,
 }
@@ -500,7 +500,7 @@ const (
 )
 
 // Mapping from string to DatabaseProperties_RequestedBackupStorageRedundancy
-var DatabaseProperties_RequestedBackupStorageRedundancy_Cache = map[string]DatabaseProperties_RequestedBackupStorageRedundancy{
+var databaseProperties_RequestedBackupStorageRedundancy_Values = map[string]DatabaseProperties_RequestedBackupStorageRedundancy{
 	"geo":   DatabaseProperties_RequestedBackupStorageRedundancy_Geo,
 	"local": DatabaseProperties_RequestedBackupStorageRedundancy_Local,
 	"zone":  DatabaseProperties_RequestedBackupStorageRedundancy_Zone,
@@ -515,7 +515,7 @@ const (
 )
 
 // Mapping from string to DatabaseProperties_RequestedBackupStorageRedundancy_STATUS
-var DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Cache = map[string]DatabaseProperties_RequestedBackupStorageRedundancy_STATUS{
+var databaseProperties_RequestedBackupStorageRedundancy_STATUS_Values = map[string]DatabaseProperties_RequestedBackupStorageRedundancy_STATUS{
 	"geo":   DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Geo,
 	"local": DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Local,
 	"zone":  DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Zone,
@@ -531,7 +531,7 @@ const (
 )
 
 // Mapping from string to DatabaseProperties_SampleName
-var DatabaseProperties_SampleName_Cache = map[string]DatabaseProperties_SampleName{
+var databaseProperties_SampleName_Values = map[string]DatabaseProperties_SampleName{
 	"adventureworkslt":       DatabaseProperties_SampleName_AdventureWorksLT,
 	"wideworldimportersfull": DatabaseProperties_SampleName_WideWorldImportersFull,
 	"wideworldimportersstd":  DatabaseProperties_SampleName_WideWorldImportersStd,
@@ -546,7 +546,7 @@ const (
 )
 
 // Mapping from string to DatabaseProperties_SampleName_STATUS
-var DatabaseProperties_SampleName_STATUS_Cache = map[string]DatabaseProperties_SampleName_STATUS{
+var databaseProperties_SampleName_STATUS_Values = map[string]DatabaseProperties_SampleName_STATUS{
 	"adventureworkslt":       DatabaseProperties_SampleName_STATUS_AdventureWorksLT,
 	"wideworldimportersfull": DatabaseProperties_SampleName_STATUS_WideWorldImportersFull,
 	"wideworldimportersstd":  DatabaseProperties_SampleName_STATUS_WideWorldImportersStd,
@@ -561,7 +561,7 @@ const (
 )
 
 // Mapping from string to DatabaseProperties_SecondaryType
-var DatabaseProperties_SecondaryType_Cache = map[string]DatabaseProperties_SecondaryType{
+var databaseProperties_SecondaryType_Values = map[string]DatabaseProperties_SecondaryType{
 	"geo":   DatabaseProperties_SecondaryType_Geo,
 	"named": DatabaseProperties_SecondaryType_Named,
 }
@@ -574,7 +574,7 @@ const (
 )
 
 // Mapping from string to DatabaseProperties_SecondaryType_STATUS
-var DatabaseProperties_SecondaryType_STATUS_Cache = map[string]DatabaseProperties_SecondaryType_STATUS{
+var databaseProperties_SecondaryType_STATUS_Values = map[string]DatabaseProperties_SecondaryType_STATUS{
 	"geo":   DatabaseProperties_SecondaryType_STATUS_Geo,
 	"named": DatabaseProperties_SecondaryType_STATUS_Named,
 }
@@ -606,7 +606,7 @@ const (
 )
 
 // Mapping from string to DatabaseProperties_Status_STATUS
-var DatabaseProperties_Status_STATUS_Cache = map[string]DatabaseProperties_Status_STATUS{
+var databaseProperties_Status_STATUS_Values = map[string]DatabaseProperties_Status_STATUS{
 	"autoclosed":                        DatabaseProperties_Status_STATUS_AutoClosed,
 	"copying":                           DatabaseProperties_Status_STATUS_Copying,
 	"creating":                          DatabaseProperties_Status_STATUS_Creating,

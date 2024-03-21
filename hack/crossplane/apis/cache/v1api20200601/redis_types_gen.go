@@ -39,11 +39,6 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-06-01")
 
-// Mapping from string to APIVersion
-var APIVersion_Cache = map[string]APIVersion{
-	"2020-06-01": APIVersion_Value,
-}
-
 type Redis_Spec struct {
 	v1.ResourceSpec `json:",inline,omitempty"`
 	ForProvider     RedisParameters `json:"forProvider,omitempty"`
@@ -236,7 +231,7 @@ const (
 )
 
 // Mapping from string to RedisCreateProperties_MinimumTlsVersion
-var RedisCreateProperties_MinimumTlsVersion_Cache = map[string]RedisCreateProperties_MinimumTlsVersion{
+var redisCreateProperties_MinimumTlsVersion_Values = map[string]RedisCreateProperties_MinimumTlsVersion{
 	"1.0": RedisCreateProperties_MinimumTlsVersion_10,
 	"1.1": RedisCreateProperties_MinimumTlsVersion_11,
 	"1.2": RedisCreateProperties_MinimumTlsVersion_12,
@@ -251,7 +246,7 @@ const (
 )
 
 // Mapping from string to RedisCreateProperties_PublicNetworkAccess
-var RedisCreateProperties_PublicNetworkAccess_Cache = map[string]RedisCreateProperties_PublicNetworkAccess{
+var redisCreateProperties_PublicNetworkAccess_Values = map[string]RedisCreateProperties_PublicNetworkAccess{
 	"disabled": RedisCreateProperties_PublicNetworkAccess_Disabled,
 	"enabled":  RedisCreateProperties_PublicNetworkAccess_Enabled,
 }
@@ -323,7 +318,7 @@ const (
 )
 
 // Mapping from string to RedisProperties_MinimumTlsVersion_STATUS
-var RedisProperties_MinimumTlsVersion_STATUS_Cache = map[string]RedisProperties_MinimumTlsVersion_STATUS{
+var redisProperties_MinimumTlsVersion_STATUS_Values = map[string]RedisProperties_MinimumTlsVersion_STATUS{
 	"1.0": RedisProperties_MinimumTlsVersion_STATUS_10,
 	"1.1": RedisProperties_MinimumTlsVersion_STATUS_11,
 	"1.2": RedisProperties_MinimumTlsVersion_STATUS_12,
@@ -347,7 +342,7 @@ const (
 )
 
 // Mapping from string to RedisProperties_ProvisioningState_STATUS
-var RedisProperties_ProvisioningState_STATUS_Cache = map[string]RedisProperties_ProvisioningState_STATUS{
+var redisProperties_ProvisioningState_STATUS_Values = map[string]RedisProperties_ProvisioningState_STATUS{
 	"creating":               RedisProperties_ProvisioningState_STATUS_Creating,
 	"deleting":               RedisProperties_ProvisioningState_STATUS_Deleting,
 	"disabled":               RedisProperties_ProvisioningState_STATUS_Disabled,
@@ -370,7 +365,7 @@ const (
 )
 
 // Mapping from string to RedisProperties_PublicNetworkAccess_STATUS
-var RedisProperties_PublicNetworkAccess_STATUS_Cache = map[string]RedisProperties_PublicNetworkAccess_STATUS{
+var redisProperties_PublicNetworkAccess_STATUS_Values = map[string]RedisProperties_PublicNetworkAccess_STATUS{
 	"disabled": RedisProperties_PublicNetworkAccess_STATUS_Disabled,
 	"enabled":  RedisProperties_PublicNetworkAccess_STATUS_Enabled,
 }
@@ -458,7 +453,7 @@ const (
 )
 
 // Mapping from string to PrivateEndpointConnectionProvisioningState_STATUS
-var PrivateEndpointConnectionProvisioningState_STATUS_Cache = map[string]PrivateEndpointConnectionProvisioningState_STATUS{
+var privateEndpointConnectionProvisioningState_STATUS_Values = map[string]PrivateEndpointConnectionProvisioningState_STATUS{
 	"creating":  PrivateEndpointConnectionProvisioningState_STATUS_Creating,
 	"deleting":  PrivateEndpointConnectionProvisioningState_STATUS_Deleting,
 	"failed":    PrivateEndpointConnectionProvisioningState_STATUS_Failed,
@@ -486,7 +481,7 @@ const (
 )
 
 // Mapping from string to Sku_Family
-var Sku_Family_Cache = map[string]Sku_Family{
+var sku_Family_Values = map[string]Sku_Family{
 	"c": Sku_Family_C,
 	"p": Sku_Family_P,
 }
@@ -499,7 +494,7 @@ const (
 )
 
 // Mapping from string to Sku_Family_STATUS
-var Sku_Family_STATUS_Cache = map[string]Sku_Family_STATUS{
+var sku_Family_STATUS_Values = map[string]Sku_Family_STATUS{
 	"c": Sku_Family_STATUS_C,
 	"p": Sku_Family_STATUS_P,
 }
@@ -514,7 +509,7 @@ const (
 )
 
 // Mapping from string to Sku_Name
-var Sku_Name_Cache = map[string]Sku_Name{
+var sku_Name_Values = map[string]Sku_Name{
 	"basic":    Sku_Name_Basic,
 	"premium":  Sku_Name_Premium,
 	"standard": Sku_Name_Standard,
@@ -529,7 +524,7 @@ const (
 )
 
 // Mapping from string to Sku_Name_STATUS
-var Sku_Name_STATUS_Cache = map[string]Sku_Name_STATUS{
+var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
 	"basic":    Sku_Name_STATUS_Basic,
 	"premium":  Sku_Name_STATUS_Premium,
 	"standard": Sku_Name_STATUS_Standard,
@@ -545,7 +540,7 @@ const (
 )
 
 // Mapping from string to PrivateEndpointServiceConnectionStatus_STATUS
-var PrivateEndpointServiceConnectionStatus_STATUS_Cache = map[string]PrivateEndpointServiceConnectionStatus_STATUS{
+var privateEndpointServiceConnectionStatus_STATUS_Values = map[string]PrivateEndpointServiceConnectionStatus_STATUS{
 	"approved": PrivateEndpointServiceConnectionStatus_STATUS_Approved,
 	"pending":  PrivateEndpointServiceConnectionStatus_STATUS_Pending,
 	"rejected": PrivateEndpointServiceConnectionStatus_STATUS_Rejected,
