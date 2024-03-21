@@ -98,11 +98,6 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-01-01")
 
-// Mapping from string to APIVersion
-var APIVersion_Cache = map[string]APIVersion{
-	"2020-01-01": APIVersion_Value,
-}
-
 type B_Spec struct {
 	v1.ResourceSpec `json:",inline,omitempty"`
 	ForProvider     BParameters `json:"forProvider,omitempty"`
@@ -180,7 +175,7 @@ type A_APIVersion_Spec string
 const A_APIVersion_Spec_20200601 = A_APIVersion_Spec("2020-06-01")
 
 // Mapping from string to A_APIVersion_Spec
-var A_APIVersion_Spec_Cache = map[string]A_APIVersion_Spec{
+var a_APIVersion_Spec_Values = map[string]A_APIVersion_Spec{
 	"2020-06-01": A_APIVersion_Spec_20200601,
 }
 
@@ -190,7 +185,7 @@ type A_Type_Spec string
 const A_Type_Spec_MicrosoftAzureA = A_Type_Spec("Microsoft.Azure/A")
 
 // Mapping from string to A_Type_Spec
-var A_Type_Spec_Cache = map[string]A_Type_Spec{
+var a_Type_Spec_Values = map[string]A_Type_Spec{
 	"microsoft.azure/a": A_Type_Spec_MicrosoftAzureA,
 }
 
@@ -200,7 +195,7 @@ type B_APIVersion_Spec string
 const B_APIVersion_Spec_20200601 = B_APIVersion_Spec("2020-06-01")
 
 // Mapping from string to B_APIVersion_Spec
-var B_APIVersion_Spec_Cache = map[string]B_APIVersion_Spec{
+var b_APIVersion_Spec_Values = map[string]B_APIVersion_Spec{
 	"2020-06-01": B_APIVersion_Spec_20200601,
 }
 
@@ -210,7 +205,7 @@ type B_Type_Spec string
 const B_Type_Spec_MicrosoftAzureB = B_Type_Spec("Microsoft.Azure/B")
 
 // Mapping from string to B_Type_Spec
-var B_Type_Spec_Cache = map[string]B_Type_Spec{
+var b_Type_Spec_Values = map[string]B_Type_Spec{
 	"microsoft.azure/b": B_Type_Spec_MicrosoftAzureB,
 }
 
@@ -220,7 +215,7 @@ type C_APIVersion_Spec string
 const C_APIVersion_Spec_20200601 = C_APIVersion_Spec("2020-06-01")
 
 // Mapping from string to C_APIVersion_Spec
-var C_APIVersion_Spec_Cache = map[string]C_APIVersion_Spec{
+var c_APIVersion_Spec_Values = map[string]C_APIVersion_Spec{
 	"2020-06-01": C_APIVersion_Spec_20200601,
 }
 
@@ -230,7 +225,7 @@ type C_Type_Spec string
 const C_Type_Spec_MicrosoftAzureC = C_Type_Spec("Microsoft.Azure/C")
 
 // Mapping from string to C_Type_Spec
-var C_Type_Spec_Cache = map[string]C_Type_Spec{
+var c_Type_Spec_Values = map[string]C_Type_Spec{
 	"microsoft.azure/c": C_Type_Spec_MicrosoftAzureC,
 }
 
@@ -240,7 +235,7 @@ type D_APIVersion_Spec string
 const D_APIVersion_Spec_20200601 = D_APIVersion_Spec("2020-06-01")
 
 // Mapping from string to D_APIVersion_Spec
-var D_APIVersion_Spec_Cache = map[string]D_APIVersion_Spec{
+var d_APIVersion_Spec_Values = map[string]D_APIVersion_Spec{
 	"2020-06-01": D_APIVersion_Spec_20200601,
 }
 
@@ -250,7 +245,7 @@ type D_Type_Spec string
 const D_Type_Spec_MicrosoftAzureD = D_Type_Spec("Microsoft.Azure/D")
 
 // Mapping from string to D_Type_Spec
-var D_Type_Spec_Cache = map[string]D_Type_Spec{
+var d_Type_Spec_Values = map[string]D_Type_Spec{
 	"microsoft.azure/d": D_Type_Spec_MicrosoftAzureD,
 }
 

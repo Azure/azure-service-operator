@@ -90,11 +90,6 @@ type APIVersion string
 
 const APIVersion_apiVersion = APIVersion(2020-06-01)
 
-// Mapping from string to APIVersion
-var APIVersion_Cache = map[string]APIVersion{
-	2020-06-01: APIVersion_apiVersion,
-}
-
 type LionPrideProperties struct {
 	Hunts int                         `json:"hunts,omitempty"`
 	Left  Left_SubResourceEmbedded    `json:"left,omitempty"`
@@ -107,7 +102,7 @@ type LionPrideType string
 const LionPrideType_type = LionPrideType(Microsoft.Lions/lionPride)
 
 // Mapping from string to LionPrideType
-var LionPrideType_Cache = map[string]LionPrideType{
+var lionPrideType_Values = map[string]LionPrideType{
 	microsoft.lions/lionpride: LionPrideType_type,
 }
 
@@ -122,7 +117,7 @@ type LionType string
 const LionType_type = LionType(Microsoft.Lions/lion)
 
 // Mapping from string to LionType
-var LionType_Cache = map[string]LionType{
+var lionType_Values = map[string]LionType{
 	microsoft.lions/lion: LionType_type,
 }
 

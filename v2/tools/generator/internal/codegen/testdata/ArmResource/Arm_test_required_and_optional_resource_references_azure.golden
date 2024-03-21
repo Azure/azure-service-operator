@@ -15,7 +15,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
-	"strings"
 )
 
 // +kubebuilder:object:root=true
@@ -294,18 +293,13 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-01-01")
 
-// Mapping from string to APIVersion
-var APIVersion_Cache = map[string]APIVersion{
-	"2020-01-01": APIVersion_Value,
-}
-
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type FakeResource_APIVersion_Spec string
 
 const FakeResource_APIVersion_Spec_20200601 = FakeResource_APIVersion_Spec("2020-06-01")
 
 // Mapping from string to FakeResource_APIVersion_Spec
-var FakeResource_APIVersion_Spec_Cache = map[string]FakeResource_APIVersion_Spec{
+var fakeResource_APIVersion_Spec_Values = map[string]FakeResource_APIVersion_Spec{
 	"2020-06-01": FakeResource_APIVersion_Spec_20200601,
 }
 
@@ -458,11 +452,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 	// APIVersion
 	if source.APIVersion != nil {
 		apiVersion := *source.APIVersion
-		if apiVersionValue, apiVersionOk := FakeResource_APIVersion_Spec_Cache[strings.ToLower(apiVersion)]; apiVersionOk {
-			resource.APIVersion = apiVersionValue
-		} else {
-			resource.APIVersion = FakeResource_APIVersion_Spec(*source.APIVersion)
-		}
+		resource.APIVersion = genruntime.ToEnum(apiVersion, fakeResource_APIVersion_Spec_Values)
 	} else {
 		resource.APIVersion = ""
 	}
@@ -493,11 +483,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		if typeValue, typeOk := FakeResource_Type_Spec_Cache[strings.ToLower(typeVar)]; typeOk {
-			resource.Type = typeValue
-		} else {
-			resource.Type = FakeResource_Type_Spec(*source.Type)
-		}
+		resource.Type = genruntime.ToEnum(typeVar, fakeResource_Type_Spec_Values)
 	} else {
 		resource.Type = ""
 	}
@@ -570,7 +556,7 @@ type FakeResource_Type_Spec string
 const FakeResource_Type_Spec_MicrosoftAzureFakeResource = FakeResource_Type_Spec("Microsoft.Azure/FakeResource")
 
 // Mapping from string to FakeResource_Type_Spec
-var FakeResource_Type_Spec_Cache = map[string]FakeResource_Type_Spec{
+var fakeResource_Type_Spec_Values = map[string]FakeResource_Type_Spec{
 	"microsoft.azure/fakeresource": FakeResource_Type_Spec_MicrosoftAzureFakeResource,
 }
 

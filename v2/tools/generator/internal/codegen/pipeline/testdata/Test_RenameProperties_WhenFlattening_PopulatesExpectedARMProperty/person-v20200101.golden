@@ -136,11 +136,6 @@
  
  const APIVersion_apiVersion = APIVersion(2020-06-01)
  
- // Mapping from string to APIVersion
- var APIVersion_Cache = map[string]APIVersion{
- 	2020-06-01: APIVersion_apiVersion,
- }
- 
  type Person_Spec struct {
  	// +kubebuilder:validation:Required
  	APIVersion *APIVersion `json:"apiVersion,omitempty"`

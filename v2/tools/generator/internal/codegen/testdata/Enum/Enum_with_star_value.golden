@@ -6,7 +6,6 @@ package v1api20200101
 import (
 	v20200101s "github.com/Azure/azure-service-operator/testing/test/v1api20200101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"strings"
 )
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json
@@ -20,12 +19,8 @@ func (test *Test) AssignProperties_From_Test(source *v20200101s.Test) error {
 	// MyEnum
 	if source.MyEnum != nil {
 		myEnum := *source.MyEnum
-		if myEnumValue, myEnumOk := Test_MyEnum_Cache[strings.ToLower(myEnum)]; myEnumOk {
-			test.MyEnum = &myEnumValue
-		} else {
-			myEnumTemp := Test_MyEnum(*source.MyEnum)
-			test.MyEnum = &myEnumTemp
-		}
+		myEnumTemp := genruntime.ToEnum(myEnum, test_MyEnum_Values)
+		test.MyEnum = &myEnumTemp
 	} else {
 		test.MyEnum = nil
 	}
@@ -68,7 +63,7 @@ const (
 )
 
 // Mapping from string to Test_MyEnum
-var Test_MyEnum_Cache = map[string]Test_MyEnum{
+var test_MyEnum_Values = map[string]Test_MyEnum{
 	"a": Test_MyEnum_A,
 	"b": Test_MyEnum_B,
 	"*": Test_MyEnum_Star,
