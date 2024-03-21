@@ -16,30 +16,30 @@ import (
 	"github.com/sebdah/goldie/v2"
 )
 
-// AssertExprExpected asserts the given expression generates the expected code, comparing it to a golden file
-func AssertExprExpected(t *testing.T, expr dst.Expr) {
+// assertExprExpected asserts the given expression generates the expected code, comparing it to a golden file
+func assertExprExpected(t *testing.T, expr dst.Expr) {
 	t.Helper()
 
 	stmt := &dst.ExprStmt{
 		X: expr,
 	}
 
-	AssertStmtExpected(t, stmt)
+	assertStmtExpected(t, stmt)
 }
 
-// AssertDeclExpected asserts the given declaration generates the expected code, comparing it to a golden file
-func AssertDeclExpected(t *testing.T, decl dst.Decl) {
+// assertDeclExpected asserts the given declaration generates the expected code, comparing it to a golden file
+func assertDeclExpected(t *testing.T, decl dst.Decl) {
 	t.Helper()
 
 	stmt := &dst.DeclStmt{
 		Decl: decl,
 	}
 
-	AssertStmtExpected(t, stmt)
+	assertStmtExpected(t, stmt)
 }
 
-// AssertStmtExpected asserts the given statement generates the expected code, comparing it to a golden file
-func AssertStmtExpected(t *testing.T, stmt dst.Stmt) {
+// assertStmtExpected asserts the given statement generates the expected code, comparing it to a golden file
+func assertStmtExpected(t *testing.T, stmt dst.Stmt) {
 	t.Helper()
 	g := NewGomegaWithT(t)
 	gold := goldie.New(t)
