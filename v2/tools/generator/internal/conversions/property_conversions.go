@@ -753,39 +753,23 @@ func assignToEnumeration(
 			actualReader = reader
 		default:
 			// Something else, so we cache the original
-			local := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "", "Cache")
+			local := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "", "Value", "Cache")
 			cacheOriginal = astbuilder.ShortDeclaration(local, reader)
 			actualReader = dst.NewIdent(local)
 		}
 
 		mapperId := dstEnum.MapperVariableName(dstName)
-		stringsPkg := generationContext.MustGetImportedPackageName(astmodel.StringsReference)
+		genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
-		// <mapperVar>[strings.ToLower( <reader> )]
-		lookup := &dst.IndexExpr{
-			X: dst.NewIdent(mapperId),
-			Index: astbuilder.CallQualifiedFunc(
-				stringsPkg,
-				"ToLower",
-				actualReader),
-		}
+		// genruntime.ToEnum(<actualReader>, <mapperId>)
+		convert := writer(
+			astbuilder.CallQualifiedFunc(
+				genruntimePkg,
+				"ToEnum",
+				actualReader,
+				dst.NewIdent(mapperId)))
 
-		enumValueId := knownLocals.CreateLocal(destinationEndpoint.name, "", "Value", "Mapped")
-		enumOkId := knownLocals.CreateLocal(destinationEndpoint.name, "Ok")
-
-		// if <cacheVar>, <okVar> := <lookup>; <okVar> {
-		ifStmt := astbuilder.IfExprOk(
-			enumValueId,
-			enumOkId,
-			lookup,
-			writer(dst.NewIdent(enumValueId))...,
-		)
-
-		// Add else clause to cast, in case it's not an expected value
-		cast := writer(astbuilder.CallFunc(dstName.Name(), reader))
-
-		ifStmt.Else = astbuilder.StatementBlock(cast...)
-		return astbuilder.Statements(cacheOriginal, ifStmt), nil
+		return astbuilder.Statements(cacheOriginal, convert), nil
 	}, nil
 }
 
