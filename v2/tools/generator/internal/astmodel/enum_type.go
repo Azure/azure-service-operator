@@ -164,8 +164,8 @@ func (enum *EnumType) createMappingDeclaration(
 	name InternalTypeName,
 	codeGenerationContext *CodeGenerationContext,
 ) dst.Decl {
-	if enum.baseType != StringType {
-		// We only need to do this for string based enums
+	if !enum.NeedsMappingConversion(name) {
+		// We don't need a mapping conversion map for this enum
 		return nil
 	}
 
@@ -344,4 +344,12 @@ func (enum *EnumType) MapperVariableName(name InternalTypeName) string {
 	}
 
 	panic("No available suffix for enum mapper variable name")
+}
+
+// NeedsMappingConversion returns true if the enum needs a mapping conversion.
+// A mapping conversion is needed if the base type is a string and the enum is
+// *not* APIVersion (that enum isn't actually used on Spec or Status types).
+func (enum *EnumType) NeedsMappingConversion(name InternalTypeName) bool {
+	return enum.baseType == StringType &&
+		name.Name() != "APIVersion"
 }

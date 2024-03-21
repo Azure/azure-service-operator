@@ -758,18 +758,49 @@ func assignToEnumeration(
 			actualReader = dst.NewIdent(local)
 		}
 
-		mapperId := dstEnum.MapperVariableName(dstName)
-		genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
+		if dstEnum.NeedsMappingConversion(dstName) {
+			// We need to use the values mapping to convert the value in a case insensitive way
 
-		// genruntime.ToEnum(<actualReader>, <mapperId>)
-		convert := writer(
-			astbuilder.CallQualifiedFunc(
+			mapperId := dstEnum.MapperVariableName(dstName)
+			genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
+
+			// genruntime.ToEnum(<actualReader>, <mapperId>)
+			toEnum := astbuilder.CallQualifiedFunc(
 				genruntimePkg,
 				"ToEnum",
 				actualReader,
-				dst.NewIdent(mapperId)))
+				dst.NewIdent(mapperId))
 
-		return astbuilder.Statements(cacheOriginal, convert), nil
+			convert, err := conversion(
+				toEnum,
+				writer,
+				knownLocals,
+				generationContext)
+			if err != nil {
+				return nil, errors.Wrapf(
+					err,
+					"unable to convert %s to %s",
+					sourceEndpoint.Name(),
+					destinationEndpoint.Name())
+			}
+
+			return astbuilder.Statements(cacheOriginal, convert), nil
+		}
+
+		// Otherwise we just do a direct cast
+		castingWriter := func(expr dst.Expr) []dst.Stmt {
+			cast := &dst.CallExpr{
+				Fun:  dstName.AsType(generationContext),
+				Args: []dst.Expr{expr},
+			}
+			return writer(cast)
+		}
+
+		return conversion(
+			reader,
+			castingWriter,
+			knownLocals,
+			generationContext)
 	}, nil
 }
 
