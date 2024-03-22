@@ -1992,15 +1992,30 @@ objectModelConfiguration:
       Namespace:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
+          - PrimaryConnectionString
+          - SecondaryConnectionString
       Namespaces_AuthorizationRule:
         $exportAs: NamespacesAuthorizationRule
         $supportedFrom: v2.0.0-alpha.2
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
+          - PrimaryConnectionString
+          - SecondaryConnectionString
       Namespaces_Eventhub:
         $exportAs: NamespacesEventhub
         $supportedFrom: v2.0.0-alpha.3
       Namespaces_Eventhubs_AuthorizationRule:
         $exportAs: NamespacesEventhubsAuthorizationRule
         $supportedFrom: v2.0.0-alpha.3
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
+          - PrimaryConnectionString
+          - SecondaryConnectionString
       Namespaces_Eventhubs_Consumergroup:
         $exportAs: NamespacesEventhubsConsumerGroup
         $supportedFrom: v2.0.0-alpha.1
@@ -2014,7 +2029,6 @@ objectModelConfiguration:
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
           $armReference: true
-      
   insights:
     2018-05-01-preview:
       Webtest:

@@ -1,0 +1,2337 @@
+---
+version: 2
+interactions:
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 93
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-rg-qyjaak","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "93"
+            Content-Type:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+            Test-Request-Hash:
+                - a255ace0b71a44f1d1e6b48b46ee01727e42d66790e7a9718cd6e40ad68ebaf0
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak?api-version=2020-06-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak","name":"asotest-rg-qyjaak","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Msedge-Ref:
+                - 'Ref A: 182D2A05D63045B4A7AAC369E5E5D770 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:13:41Z'
+        status: 201 Created
+        code: 201
+        duration: 3.789428666s
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 276
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak","name":"asotest-rg-qyjaak","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Msedge-Ref:
+                - 'Ref A: 0CF22FCB390C4C61BC55949BE58DBF3B Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:13:48Z'
+        status: 200 OK
+        code: 200
+        duration: 63.62325ms
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 170
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-namespace-vulxms","properties":{"isAutoInflateEnabled":true,"maximumThroughputUnits":1},"sku":{"name":"Standard","tier":"Standard"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "170"
+            Content-Type:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+            Test-Request-Hash:
+                - c94790ae2a1c4c60b26130173586fccaa81f1a1f297642871b1a8c1fc54f47fd
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms?api-version=2021-11-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 752
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms","name":"asotest-namespace-vulxms","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-vulxms","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-vulxms.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Creating","status":"Creating","createdAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "752"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 3bd28271-1161-4bf1-860f-c9bfe6d5ca66
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G12|2024-03-19T21:13:54
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "49"
+            X-Msedge-Ref:
+                - 'Ref A: 337983EAF21B492EA2552D4B3D7057A3 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:13:50Z'
+        status: 201 Created
+        code: 201
+        duration: 3.604117583s
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 784
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms","name":"asotest-namespace-vulxms","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"privateEndpointConnections":[],"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-vulxms","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-vulxms.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Creating","status":"Creating","createdAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "784"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 25e10d5c-1969-4bc8-881a-605a6eac764f
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G7|2024-03-19T21:14:01
+            X-Msedge-Ref:
+                - 'Ref A: 5EB690BF1CFA44CB84FF0E85BFBEAD55 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:14:00Z'
+        status: 200 OK
+        code: 200
+        duration: 1.291455541s
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 784
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms","name":"asotest-namespace-vulxms","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"privateEndpointConnections":[],"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-vulxms","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-vulxms.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Creating","status":"Creating","createdAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "784"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 813b0249-75e1-4e72-9a8f-e21569d0654e
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G8|2024-03-19T21:14:07
+            X-Msedge-Ref:
+                - 'Ref A: DD89CC7167684D179F101565F9D77E73 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:14:06Z'
+        status: 200 OK
+        code: 200
+        duration: 1.244776916s
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "2"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 783
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms","name":"asotest-namespace-vulxms","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"privateEndpointConnections":[],"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-vulxms","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-vulxms.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "783"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 7bdb8b20-4cfc-4ad6-a388-453a70f622d2
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G10|2024-03-19T21:14:18
+            X-Msedge-Ref:
+                - 'Ref A: B6593122037F457685C74EE2451EC63A Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:14:17Z'
+        status: 200 OK
+        code: 200
+        duration: 1.403149167s
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "3"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 783
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms","name":"asotest-namespace-vulxms","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"privateEndpointConnections":[],"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-vulxms","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-vulxms.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "783"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 2ce8c496-98cc-4dfb-a3c8-2fb7df96695f
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G7|2024-03-19T21:14:21
+            X-Msedge-Ref:
+                - 'Ref A: 4AF3C15F87E8415C8AFF6A5D1C1C7093 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:14:20Z'
+        status: 200 OK
+        code: 200
+        duration: 1.234804375s
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 170
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-namespace-vulxms","properties":{"isAutoInflateEnabled":true,"maximumThroughputUnits":2},"sku":{"name":"Standard","tier":"Standard"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "170"
+            Content-Type:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+            Test-Request-Hash:
+                - 5d2d02256e051b41527bdf031de86cc5d21eab5398a01b835d4d3258aa10937f
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms?api-version=2021-11-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 752
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms","name":"asotest-namespace-vulxms","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-vulxms","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-vulxms.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Updating","status":"Updating","createdAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "752"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 1fd7844f-9a9b-44bd-887c-2628d6ce2a7e
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G6|2024-03-19T21:14:27
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "49"
+            X-Msedge-Ref:
+                - 'Ref A: 2D335F1135F042FB9096A18E317591CA Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:14:25Z'
+        status: 200 OK
+        code: 200
+        duration: 2.865317833s
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "4"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 784
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms","name":"asotest-namespace-vulxms","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"privateEndpointConnections":[],"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-vulxms","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-vulxms.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Updating","status":"Updating","createdAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "784"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - f308d442-b058-4ef5-b933-608c98600e5b
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G12|2024-03-19T21:14:33
+            X-Msedge-Ref:
+                - 'Ref A: AB486DFDCDDE43F5924F01420EF66091 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:14:31Z'
+        status: 200 OK
+        code: 200
+        duration: 1.605605958s
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "5"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 783
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms","name":"asotest-namespace-vulxms","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"privateEndpointConnections":[],"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-vulxms","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-vulxms.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "783"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - b35870f5-0c80-4a61-bcac-71ce0bd9c8d1
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G11|2024-03-19T21:14:41
+            X-Msedge-Ref:
+                - 'Ref A: 95DBC48729A041A3944F7C47EDF81186 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:14:37Z'
+        status: 200 OK
+        code: 200
+        duration: 4.254659s
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "6"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 783
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms","name":"asotest-namespace-vulxms","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"privateEndpointConnections":[],"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-vulxms","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-vulxms.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "783"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 586b6bfe-8081-489e-88fa-720742375ac5
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G10|2024-03-19T21:14:46
+            X-Msedge-Ref:
+                - 'Ref A: E5D81A4CB9E943AAAE495296230A6E9D Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:14:45Z'
+        status: 200 OK
+        code: 200
+        duration: 1.379428791s
+    - id: 11
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 170
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"location":"westus2","name":"asotest-namespace-vulxms","properties":{"isAutoInflateEnabled":true,"maximumThroughputUnits":2},"sku":{"name":"Standard","tier":"Standard"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "170"
+            Content-Type:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+            Test-Request-Hash:
+                - 5d2d02256e051b41527bdf031de86cc5d21eab5398a01b835d4d3258aa10937f
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms?api-version=2021-11-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 751
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms","name":"asotest-namespace-vulxms","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-vulxms","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-vulxms.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "751"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 80e0cefd-3ff9-4c77-80ef-b23d21661e66
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G14|2024-03-19T21:14:51
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "49"
+            X-Msedge-Ref:
+                - 'Ref A: 3DDA4F3BA3D042FD9C06AB9ED5F55856 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:14:50Z'
+        status: 200 OK
+        code: 200
+        duration: 1.897641542s
+    - id: 12
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "7"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 783
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms","name":"asotest-namespace-vulxms","type":"Microsoft.EventHub/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"privateEndpointConnections":[],"zoneRedundant":false,"metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-vulxms","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-vulxms.servicebus.windows.net:443/","isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z"},"sku":{"name":"Standard","tier":"Standard","capacity":1}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "783"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - e9c420d5-303b-4d6d-856f-7c4b92a78fde
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G1|2024-03-19T21:14:55
+            X-Msedge-Ref:
+                - 'Ref A: 9416DB43BC1444A5A1E6D450912637EB Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:14:54Z'
+        status: 200 OK
+        code: 200
+        duration: 1.244844417s
+    - id: 13
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/authorizationRules/RootManageSharedAccessKey/listKeys?api-version=2021-11-01
+        method: POST
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 559
+        uncompressed: false
+        body: '{"primaryConnectionString":"Endpoint=sb://asotest-namespace-vulxms.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}","secondaryConnectionString":"Endpoint=sb://asotest-namespace-vulxms.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}","primaryKey":"{KEY}","secondaryKey":"{KEY}","keyName":"RootManageSharedAccessKey"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "559"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 9a316e12-ea3a-4c98-b0f4-1df46d9920fd
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G4|2024-03-19T21:14:57
+            X-Msedge-Ref:
+                - 'Ref A: 2D914E575E184755852ED979D3D926F7 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:14:56Z'
+        status: 200 OK
+        code: 200
+        duration: 1.606002167s
+    - id: 14
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 95
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"asotest-eventhub-rujomk","properties":{"messageRetentionInDays":7,"partitionCount":1}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "95"
+            Content-Type:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+            Test-Request-Hash:
+                - 6f573d87d1e9f28a3cf6b7f2221f9079f3dc957e159b7b5e9cd36c042dd02001
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk?api-version=2021-11-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 472
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk","name":"asotest-eventhub-rujomk","type":"Microsoft.EventHub/namespaces/eventhubs","location":"westus2","properties":{"messageRetentionInDays":7,"partitionCount":1,"status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","partitionIds":["0"]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "472"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - ea93543b-2ba4-42ff-b8b3-8f347cccf004
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G9|2024-03-19T21:15:03
+            X-Msedge-Ref:
+                - 'Ref A: 4AC91E08330745B394FD56A486D9AEFE Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:01Z'
+        status: 200 OK
+        code: 200
+        duration: 2.466788417s
+    - id: 15
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 470
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk","name":"asotest-eventhub-rujomk","type":"Microsoft.EventHub/namespaces/eventhubs","location":"westus2","properties":{"messageRetentionInDays":7,"partitionCount":1,"status":"Active","createdAt":"2024-03-19T21:15:02.963","updatedAt":"2024-03-19T21:15:03.13","partitionIds":["0"]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "470"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 34584fbf-4d0f-401a-b5d4-e967ae8532b7
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G12|2024-03-19T21:15:07
+            X-Msedge-Ref:
+                - 'Ref A: D3EDEA1FD1F740589933ABAEDEAFABA0 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:06Z'
+        status: 200 OK
+        code: 200
+        duration: 1.258770834s
+    - id: 16
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 76
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"asotest-eventhub-oereyc","properties":{"rights":["Listen","Send"]}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "76"
+            Content-Type:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+            Test-Request-Hash:
+                - 5817fb882e68e30bb160398424b8ca4bedec63e0d14f2b0493fcab29acd271cd
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/authorizationRules/asotest-eventhub-oereyc?api-version=2021-11-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 355
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/authorizationRules/asotest-eventhub-oereyc","name":"asotest-eventhub-oereyc","type":"Microsoft.EventHub/Namespaces/AuthorizationRules","location":"westus2","properties":{"rights":["Listen","Send"]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "355"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - fa2b1cec-ed09-4a6d-b9e2-9179ebb87b6c
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G11|2024-03-19T21:15:07
+            X-Msedge-Ref:
+                - 'Ref A: FCDA59203D004BE99883AF90989DF6DA Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:01Z'
+        status: 200 OK
+        code: 200
+        duration: 6.645820916s
+    - id: 17
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 76
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"asotest-eventhub-weicol","properties":{"rights":["Listen","Send"]}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "76"
+            Content-Type:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+            Test-Request-Hash:
+                - b1186fdd68fa2cc2873517088fd711f7c187f8c153b1d228a6a09ee9d3106f2a
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk/authorizationRules/asotest-eventhub-weicol?api-version=2021-11-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 378
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk/authorizationRules/asotest-eventhub-weicol","name":"asotest-eventhub-weicol","type":"Microsoft.EventHub/namespaces/eventhubs/authorizationrules","properties":{"rights":["Listen","Send"]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "378"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 0549b876-8e4a-4f01-a793-6f6e11c43c1f
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G12|2024-03-19T21:15:12
+            X-Msedge-Ref:
+                - 'Ref A: 834799F6FC534960BCCB92D21A1B2EF9 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:11Z'
+        status: 200 OK
+        code: 200
+        duration: 1.684514333s
+    - id: 18
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 92
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"asotest-eventhub-eymons","properties":{"userMetadata":"This is some fun metadata"}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "92"
+            Content-Type:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+            Test-Request-Hash:
+                - 9d34ceca8961642bf3020a82bde5dcb7f965c0619a1c9c7338eb08c4cf01eb7f
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk/consumergroups/asotest-eventhub-eymons?api-version=2021-11-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 493
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk/consumergroups/asotest-eventhub-eymons","name":"asotest-eventhub-eymons","type":"Microsoft.EventHub/namespaces/eventhubs/consumergroups","location":"westus2","properties":{"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","userMetadata":"This is some fun metadata"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "493"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - acb0674d-b253-4a7a-8acd-36587eab3c33
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G8|2024-03-19T21:15:13
+            X-Msedge-Ref:
+                - 'Ref A: C3382FAFF5A14DABB09D3D81074A7134 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:11Z'
+        status: 200 OK
+        code: 200
+        duration: 2.489833125s
+    - id: 19
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/authorizationRules/asotest-eventhub-oereyc?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 355
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/authorizationrules/asotest-eventhub-oereyc","name":"asotest-eventhub-oereyc","type":"Microsoft.EventHub/Namespaces/AuthorizationRules","location":"westus2","properties":{"rights":["Listen","Send"]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "355"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 5fc79b86-63f3-40e2-9daf-cf353e74967b
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G7|2024-03-19T21:15:15
+            X-Msedge-Ref:
+                - 'Ref A: 7A21F618EB504F079754AB5D661039C0 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:14Z'
+        status: 200 OK
+        code: 200
+        duration: 747.790125ms
+    - id: 20
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk/authorizationRules/asotest-eventhub-weicol?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 399
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk/authorizationrules/asotest-eventhub-weicol","name":"asotest-eventhub-weicol","type":"Microsoft.EventHub/namespaces/eventhubs/authorizationrules","location":"westus2","properties":{"rights":["Listen","Send"]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "399"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - ed1053c9-6c58-4b77-aede-f852cace4e5b
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G4|2024-03-19T21:15:15
+            X-Msedge-Ref:
+                - 'Ref A: 48BBA5F3E0FB446AAC2C9E6FD6AC7952 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:14Z'
+        status: 200 OK
+        code: 200
+        duration: 738.774375ms
+    - id: 21
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk/consumergroups/asotest-eventhub-eymons?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 485
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk/consumergroups/asotest-eventhub-eymons","name":"asotest-eventhub-eymons","type":"Microsoft.EventHub/namespaces/eventhubs/consumergroups","location":"westus2","properties":{"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","userMetadata":"This is some fun metadata"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "485"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - dae59f33-9c36-4516-9799-cf0b8e8b3a78
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G4|2024-03-19T21:15:16
+            X-Msedge-Ref:
+                - 'Ref A: 74BBE5842A474E608931F5743A9F485A Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:16Z'
+        status: 200 OK
+        code: 200
+        duration: 403.774ms
+    - id: 22
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk/consumergroups/asotest-eventhub-eymons?api-version=2021-11-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 00000001-0000-0000-0002-000000012092
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G6|2024-03-19T21:15:21
+            X-Msedge-Ref:
+                - 'Ref A: 9A24DF9FB041407A98AB6B1E95A2AFD8 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:20Z'
+        status: 200 OK
+        code: 200
+        duration: 1.340401833s
+    - id: 23
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 76
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"asotest-eventhub-oereyc","properties":{"rights":["Listen","Send"]}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "76"
+            Content-Type:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+            Test-Request-Hash:
+                - 5817fb882e68e30bb160398424b8ca4bedec63e0d14f2b0493fcab29acd271cd
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/authorizationRules/asotest-eventhub-oereyc?api-version=2021-11-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 355
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/authorizationRules/asotest-eventhub-oereyc","name":"asotest-eventhub-oereyc","type":"Microsoft.EventHub/Namespaces/AuthorizationRules","location":"westus2","properties":{"rights":["Listen","Send"]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "355"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - bf5775c3-5287-4639-a061-7921eaf79190
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G12|2024-03-19T21:15:21
+            X-Msedge-Ref:
+                - 'Ref A: 873DD81F2FC34FD68D7EF245E242302D Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:20Z'
+        status: 200 OK
+        code: 200
+        duration: 1.575107625s
+    - id: 24
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 76
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"asotest-eventhub-weicol","properties":{"rights":["Listen","Send"]}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "76"
+            Content-Type:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+            Test-Request-Hash:
+                - b1186fdd68fa2cc2873517088fd711f7c187f8c153b1d228a6a09ee9d3106f2a
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk/authorizationRules/asotest-eventhub-weicol?api-version=2021-11-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 378
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk/authorizationRules/asotest-eventhub-weicol","name":"asotest-eventhub-weicol","type":"Microsoft.EventHub/namespaces/eventhubs/authorizationrules","properties":{"rights":["Listen","Send"]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "378"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 1eeaac78-56d9-4213-917f-ddd2388a1234
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G8|2024-03-19T21:15:21
+            X-Msedge-Ref:
+                - 'Ref A: 17B76CB6677848FB88C7434410F4D325 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:20Z'
+        status: 200 OK
+        code: 200
+        duration: 1.754137125s
+    - id: 25
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/authorizationRules/asotest-eventhub-oereyc?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 355
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/authorizationrules/asotest-eventhub-oereyc","name":"asotest-eventhub-oereyc","type":"Microsoft.EventHub/Namespaces/AuthorizationRules","location":"westus2","properties":{"rights":["Listen","Send"]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "355"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - d4147bcf-048f-441c-8d40-3e8cd157dee4
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G9|2024-03-19T21:15:24
+            X-Msedge-Ref:
+                - 'Ref A: E2CFC771E09E4746BE01DF33787138C4 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:23Z'
+        status: 200 OK
+        code: 200
+        duration: 764.264333ms
+    - id: 26
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk/authorizationRules/asotest-eventhub-weicol?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 399
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk/authorizationrules/asotest-eventhub-weicol","name":"asotest-eventhub-weicol","type":"Microsoft.EventHub/namespaces/eventhubs/authorizationrules","location":"westus2","properties":{"rights":["Listen","Send"]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "399"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - efaa6277-5dae-4e3d-8779-3798a1531f43
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G10|2024-03-19T21:15:25
+            X-Msedge-Ref:
+                - 'Ref A: D5CF5067A4114780A0EBCF11BA122136 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:23Z'
+        status: 200 OK
+        code: 200
+        duration: 1.747234458s
+    - id: 27
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/authorizationRules/asotest-eventhub-oereyc/listKeys?api-version=2021-11-01
+        method: POST
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 553
+        uncompressed: false
+        body: '{"primaryConnectionString":"Endpoint=sb://asotest-namespace-vulxms.servicebus.windows.net/;SharedAccessKeyName=asotest-eventhub-oereyc;SharedAccessKey={KEY}","secondaryConnectionString":"Endpoint=sb://asotest-namespace-vulxms.servicebus.windows.net/;SharedAccessKeyName=asotest-eventhub-oereyc;SharedAccessKey={KEY}","primaryKey":"{KEY}","secondaryKey":"{KEY}","keyName":"asotest-eventhub-oereyc"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "553"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - b55c114c-57df-4bb9-8bd3-bf8f74205893
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G9|2024-03-19T21:15:26
+            X-Msedge-Ref:
+                - 'Ref A: A59B4A1050F245D5A13BD0025C7DAF9F Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:25Z'
+        status: 200 OK
+        code: 200
+        duration: 1.584758083s
+    - id: 28
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk/authorizationRules/asotest-eventhub-weicol/listKeys?api-version=2021-11-01
+        method: POST
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 623
+        uncompressed: false
+        body: '{"primaryConnectionString":"Endpoint=sb://asotest-namespace-vulxms.servicebus.windows.net/;SharedAccessKeyName=asotest-eventhub-weicol;SharedAccessKey={KEY};EntityPath=asotest-eventhub-rujomk","secondaryConnectionString":"Endpoint=sb://asotest-namespace-vulxms.servicebus.windows.net/;SharedAccessKeyName=asotest-eventhub-weicol;SharedAccessKey={KEY};EntityPath=asotest-eventhub-rujomk","primaryKey":"{KEY}","secondaryKey":"{KEY}","keyName":"asotest-eventhub-weicol"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "623"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - e7308105-de17-4dea-bea4-4ede9396ae36
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G8|2024-03-19T21:15:28
+            X-Msedge-Ref:
+                - 'Ref A: 53CB1980EBEF4A93A2CEE7A7F7F9ED67 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:27Z'
+        status: 200 OK
+        code: 200
+        duration: 1.370338375s
+    - id: 29
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk/authorizationRules/asotest-eventhub-weicol?api-version=2021-11-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 00000001-0000-0000-0002-000000002336
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G0|2024-03-19T21:15:31
+            X-Msedge-Ref:
+                - 'Ref A: F90EA2D214E749328E2D01300389761E Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:30Z'
+        status: 200 OK
+        code: 200
+        duration: 1.737900458s
+    - id: 30
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 95
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"asotest-eventhub-rujomk","properties":{"messageRetentionInDays":3,"partitionCount":1}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "95"
+            Content-Type:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+            Test-Request-Hash:
+                - 387619d084b72f7a3640ccd4d80518339126123dd24a6b1c57cee1ab5bcc02a6
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk?api-version=2021-11-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 463
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk","name":"asotest-eventhub-rujomk","type":"Microsoft.EventHub/namespaces/eventhubs","location":"westus2","properties":{"messageRetentionInDays":3,"partitionCount":1,"status":"Active","createdAt":"0001-01-01T00:00:00","updatedAt":"2001-02-03T04:05:06Z","partitionIds":[]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "463"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - bc3b52d3-6463-4c5e-b97c-5a5cf0c533df
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G8|2024-03-19T21:15:35
+            X-Msedge-Ref:
+                - 'Ref A: 8D2CBD171909417ABBE76C0251E5C49B Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:35Z'
+        status: 200 OK
+        code: 200
+        duration: 514.645417ms
+    - id: 31
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 469
+        uncompressed: false
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk","name":"asotest-eventhub-rujomk","type":"Microsoft.EventHub/namespaces/eventhubs","location":"westus2","properties":{"messageRetentionInDays":3,"partitionCount":1,"status":"Active","createdAt":"2024-03-19T21:15:02.963","updatedAt":"2024-03-19T21:15:35.8","partitionIds":["0"]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "469"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - fee3bb0c-ee93-4013-9b3d-dd706b3d31d3
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G7|2024-03-19T21:15:37
+            X-Msedge-Ref:
+                - 'Ref A: E95851C1422C42CFA76966F47328012F Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:36Z'
+        status: 200 OK
+        code: 200
+        duration: 1.273004166s
+    - id: 32
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/authorizationRules/asotest-eventhub-oereyc?api-version=2021-11-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 00000001-0000-0000-0002-000000012092
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G6|2024-03-19T21:15:37
+            X-Msedge-Ref:
+                - 'Ref A: 3D69C9738FF3426593BD752E567121B1 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:30Z'
+        status: 200 OK
+        code: 200
+        duration: 10.032029833s
+    - id: 33
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms/eventhubs/asotest-eventhub-rujomk?api-version=2021-11-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 00000001-0000-0000-0002-000000002336
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G0|2024-03-19T21:15:44
+            X-Msedge-Ref:
+                - 'Ref A: BB2F65EF235A408DAA7D2FF49C264C66 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:40Z'
+        status: 200 OK
+        code: 200
+        duration: 6.729333333s
+    - id: 34
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms?api-version=2021-11-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Azure-Asyncoperation:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventHub/locations/westus2/namespaceOperationResults/b05d2d02-d375-4f20-8d92-08147feb624e?isAsyncHeader=true&resourceName=asotest-namespace-vulxms&resourceType=namespace&api-version=2021-11-01&operationType=Deleted&t=638464797571031375&c=MIIHADCCBeigAwIBAgITHgPrWOVrMb7qufvgEAAAA-tY5TANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwMjAxMDQxMjQzWhcNMjUwMTI2MDQxMjQzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOil3F8MsZdl8FeicToFLcoRyDn0Zv76EQTwG1IZtUh-z6uwzGIgy23k7GrXNU1gKVyGJp8lO3encPC02rUQkI0lvN-NUJCoJAEnGZPYOLmA9NylSyr1Ik_Qaz1_UueFRAiyVJlo0Lz27ayfzTTSUd82wyh18q-LWdG49N7fSD_fM1rsfxbY7-Eo4Z5CjxDW3OWmAYKpS0tm17o2hEKrmjeNZJQsSqQxUL-1Be4vND7XzGhGI595ogShOZHOzCBueWR2-8fa5VrwlHqtU1AgvjFk3lYmZejl898JrGFMYH-QSC1iWyRweQ_m3289K-aPeRSWqRihXIG9oHEqouTO1xkCAwEAAaOCA-0wggPpMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBTew4tn2tBCof44yM20soU6sfep6zAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGBANOAsl8fyImo8IXVQ_ybox-BzCeFiAddg9Ojd61exGTea02-HjvZzuL6GZ2k21c7rEjKSBHqk50RLm2yXrMcUGc1UO7MRchaKQm1WR7osgDiXAU0rDc9-H-i8I245Y_PbyKIBewiK7UQiCjda4b__7Amrw7q4oILOsxshnN_D1NBm2nSjm-dFiDeJ9jpG9X1jDJSBtOFUQ7Ala8ShJvWPMpbCR3gFHOGS9f13ebv6qXblaf7sHxE6T0OpuEZPL10Iu5yh42IOLo8wvp1euqb61U3JWoOmBXEB3mJ0owRfBHEjuAARDUzNVgq28F6FYqgACE3nKhqDKYDEQstlJK0&s=kg2ka5BYMdcxeLuYEAABnPVl1yUcubgC9DsnVomV_M40SN7ZqZ58QsuR1g2BCx2r9yTY7hj8MzZQ75tN7wlVPMPpkv4Hi9LxNo0zX0Q5P6AspNMg5WdwukqWhrBTHOudyuPz0HvwGD-ZgRSRBnOjADkEZpJ4cuVS4kdu9rFyLgZKmAsMBGxvRClmcZ1WCIz940n5QPckfXMJTMOlmo_D0sKYMG1A7ryjbbrBdfT2wHjHjF-7cBJ1d7vA1Ev_9NRHAOy5ZLE8gMT0bjaFdPY0G4HeE9lf0ImJNQX1w54Q6Sgg9CiM3z0reA_iGJTWpP1lBSVBNPV_K6W5iLurFMTH7w&h=VTReocG126dZNkSPQriw3xRX8ODKMa7_u1Bmyz6cqUE
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventHub/locations/westus2/namespaceOperationResults/b05d2d02-d375-4f20-8d92-08147feb624e?isAsyncHeader=false&resourceName=asotest-namespace-vulxms&resourceType=namespace&api-version=2021-11-01&operationType=Deleted&t=638464797571031375&c=MIIHADCCBeigAwIBAgITHgPrWOVrMb7qufvgEAAAA-tY5TANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwMjAxMDQxMjQzWhcNMjUwMTI2MDQxMjQzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOil3F8MsZdl8FeicToFLcoRyDn0Zv76EQTwG1IZtUh-z6uwzGIgy23k7GrXNU1gKVyGJp8lO3encPC02rUQkI0lvN-NUJCoJAEnGZPYOLmA9NylSyr1Ik_Qaz1_UueFRAiyVJlo0Lz27ayfzTTSUd82wyh18q-LWdG49N7fSD_fM1rsfxbY7-Eo4Z5CjxDW3OWmAYKpS0tm17o2hEKrmjeNZJQsSqQxUL-1Be4vND7XzGhGI595ogShOZHOzCBueWR2-8fa5VrwlHqtU1AgvjFk3lYmZejl898JrGFMYH-QSC1iWyRweQ_m3289K-aPeRSWqRihXIG9oHEqouTO1xkCAwEAAaOCA-0wggPpMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBTew4tn2tBCof44yM20soU6sfep6zAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGBANOAsl8fyImo8IXVQ_ybox-BzCeFiAddg9Ojd61exGTea02-HjvZzuL6GZ2k21c7rEjKSBHqk50RLm2yXrMcUGc1UO7MRchaKQm1WR7osgDiXAU0rDc9-H-i8I245Y_PbyKIBewiK7UQiCjda4b__7Amrw7q4oILOsxshnN_D1NBm2nSjm-dFiDeJ9jpG9X1jDJSBtOFUQ7Ala8ShJvWPMpbCR3gFHOGS9f13ebv6qXblaf7sHxE6T0OpuEZPL10Iu5yh42IOLo8wvp1euqb61U3JWoOmBXEB3mJ0owRfBHEjuAARDUzNVgq28F6FYqgACE3nKhqDKYDEQstlJK0&s=kg2ka5BYMdcxeLuYEAABnPVl1yUcubgC9DsnVomV_M40SN7ZqZ58QsuR1g2BCx2r9yTY7hj8MzZQ75tN7wlVPMPpkv4Hi9LxNo0zX0Q5P6AspNMg5WdwukqWhrBTHOudyuPz0HvwGD-ZgRSRBnOjADkEZpJ4cuVS4kdu9rFyLgZKmAsMBGxvRClmcZ1WCIz940n5QPckfXMJTMOlmo_D0sKYMG1A7ryjbbrBdfT2wHjHjF-7cBJ1d7vA1Ev_9NRHAOy5ZLE8gMT0bjaFdPY0G4HeE9lf0ImJNQX1w54Q6Sgg9CiM3z0reA_iGJTWpP1lBSVBNPV_K6W5iLurFMTH7w&h=VTReocG126dZNkSPQriw3xRX8ODKMa7_u1Bmyz6cqUE
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 00000001-0000-0000-0002-000000012092
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G6|2024-03-19T21:15:56
+            X-Msedge-Ref:
+                - 'Ref A: 82D9859F1D864D4496F933872780B4A1 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:55Z'
+        status: 202 Accepted
+        code: 202
+        duration: 1.664956125s
+    - id: 35
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventHub/locations/westus2/namespaceOperationResults/b05d2d02-d375-4f20-8d92-08147feb624e?isAsyncHeader=true&resourceName=asotest-namespace-vulxms&resourceType=namespace&api-version=2021-11-01&operationType=Deleted&t=638464797571031375&c=MIIHADCCBeigAwIBAgITHgPrWOVrMb7qufvgEAAAA-tY5TANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwMjAxMDQxMjQzWhcNMjUwMTI2MDQxMjQzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOil3F8MsZdl8FeicToFLcoRyDn0Zv76EQTwG1IZtUh-z6uwzGIgy23k7GrXNU1gKVyGJp8lO3encPC02rUQkI0lvN-NUJCoJAEnGZPYOLmA9NylSyr1Ik_Qaz1_UueFRAiyVJlo0Lz27ayfzTTSUd82wyh18q-LWdG49N7fSD_fM1rsfxbY7-Eo4Z5CjxDW3OWmAYKpS0tm17o2hEKrmjeNZJQsSqQxUL-1Be4vND7XzGhGI595ogShOZHOzCBueWR2-8fa5VrwlHqtU1AgvjFk3lYmZejl898JrGFMYH-QSC1iWyRweQ_m3289K-aPeRSWqRihXIG9oHEqouTO1xkCAwEAAaOCA-0wggPpMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBTew4tn2tBCof44yM20soU6sfep6zAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGBANOAsl8fyImo8IXVQ_ybox-BzCeFiAddg9Ojd61exGTea02-HjvZzuL6GZ2k21c7rEjKSBHqk50RLm2yXrMcUGc1UO7MRchaKQm1WR7osgDiXAU0rDc9-H-i8I245Y_PbyKIBewiK7UQiCjda4b__7Amrw7q4oILOsxshnN_D1NBm2nSjm-dFiDeJ9jpG9X1jDJSBtOFUQ7Ala8ShJvWPMpbCR3gFHOGS9f13ebv6qXblaf7sHxE6T0OpuEZPL10Iu5yh42IOLo8wvp1euqb61U3JWoOmBXEB3mJ0owRfBHEjuAARDUzNVgq28F6FYqgACE3nKhqDKYDEQstlJK0&s=kg2ka5BYMdcxeLuYEAABnPVl1yUcubgC9DsnVomV_M40SN7ZqZ58QsuR1g2BCx2r9yTY7hj8MzZQ75tN7wlVPMPpkv4Hi9LxNo0zX0Q5P6AspNMg5WdwukqWhrBTHOudyuPz0HvwGD-ZgRSRBnOjADkEZpJ4cuVS4kdu9rFyLgZKmAsMBGxvRClmcZ1WCIz940n5QPckfXMJTMOlmo_D0sKYMG1A7ryjbbrBdfT2wHjHjF-7cBJ1d7vA1Ev_9NRHAOy5ZLE8gMT0bjaFdPY0G4HeE9lf0ImJNQX1w54Q6Sgg9CiM3z0reA_iGJTWpP1lBSVBNPV_K6W5iLurFMTH7w&h=VTReocG126dZNkSPQriw3xRX8ODKMa7_u1Bmyz6cqUE
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 68
+        uncompressed: false
+        body: '{"name":"b05d2d02-d375-4f20-8d92-08147feb624e","status":"Succeeded"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "68"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 6928b9b5-c62b-47b3-a2b3-b71887125d65
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G13|2024-03-19T21:16:00
+            X-Msedge-Ref:
+                - 'Ref A: 3A421379399F4E90AFFB958B02216468 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:15:59Z'
+        status: 200 OK
+        code: 200
+        duration: 1.239422333s
+    - id: 36
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "8"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak/providers/Microsoft.EventHub/namespaces/asotest-namespace-vulxms?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 97
+        uncompressed: false
+        body: '{"error":{"code":"NamespaceNotFound","message":"Namespace ''asotest-namespace-vulxms'' not found"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "97"
+            Content-Type:
+                - application/json
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 2e24187d-b35a-4efd-bc16-17d82f9cb517
+            X-Ms-Messaging-Routing-Id:
+                - WESTUS2|WESTUS2|G8|2024-03-19T21:16:06
+            X-Msedge-Ref:
+                - 'Ref A: 3D3B51E3EAEF4C1AB1B0B0C6FBCE2E79 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:16:05Z'
+        status: 404 Not Found
+        code: 404
+        duration: 1.326955292s
+    - id: 37
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qyjaak?api-version=2020-06-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRWUpBQUstV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638464797727280416&c=MIIHADCCBeigAwIBAgITHgPrWOVrMb7qufvgEAAAA-tY5TANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwMjAxMDQxMjQzWhcNMjUwMTI2MDQxMjQzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOil3F8MsZdl8FeicToFLcoRyDn0Zv76EQTwG1IZtUh-z6uwzGIgy23k7GrXNU1gKVyGJp8lO3encPC02rUQkI0lvN-NUJCoJAEnGZPYOLmA9NylSyr1Ik_Qaz1_UueFRAiyVJlo0Lz27ayfzTTSUd82wyh18q-LWdG49N7fSD_fM1rsfxbY7-Eo4Z5CjxDW3OWmAYKpS0tm17o2hEKrmjeNZJQsSqQxUL-1Be4vND7XzGhGI595ogShOZHOzCBueWR2-8fa5VrwlHqtU1AgvjFk3lYmZejl898JrGFMYH-QSC1iWyRweQ_m3289K-aPeRSWqRihXIG9oHEqouTO1xkCAwEAAaOCA-0wggPpMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBTew4tn2tBCof44yM20soU6sfep6zAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGBANOAsl8fyImo8IXVQ_ybox-BzCeFiAddg9Ojd61exGTea02-HjvZzuL6GZ2k21c7rEjKSBHqk50RLm2yXrMcUGc1UO7MRchaKQm1WR7osgDiXAU0rDc9-H-i8I245Y_PbyKIBewiK7UQiCjda4b__7Amrw7q4oILOsxshnN_D1NBm2nSjm-dFiDeJ9jpG9X1jDJSBtOFUQ7Ala8ShJvWPMpbCR3gFHOGS9f13ebv6qXblaf7sHxE6T0OpuEZPL10Iu5yh42IOLo8wvp1euqb61U3JWoOmBXEB3mJ0owRfBHEjuAARDUzNVgq28F6FYqgACE3nKhqDKYDEQstlJK0&s=aQSVVNNmWNjJFy607bT1L-gJ7533HqL7qkViTf0_uXDYOWgTSxLPZUXoLKiCtMPif2yPsxEwmFL-qdC2bOj1z-BrIFvlfgl2WtJaMXdUAAB-6QmfIeb5E2CHv5DD8WPSEdjGxj6S0Qe6qAQh2oClG86PJliCTjDsWBP5Sx60qDzFtDQX5LWofU5ekCIOY_MnYikvACgnIHVayq_u4fRo3tb02oxhj09_pPsdF7JGfRf1YuDZxyxz4xUhZSHOWMobWR6rsGjx-YkLTRFL9yqsL6Wntgt67hqrJJ7fGclt6Di7DMBMdSDQ6N4HmsDNaHcuiOxlzVxxK_9iB5vXgDW-BA&h=jrAKi7Y4XV-B_WTvsPtJazc_Drx7fRAgb1ON9DlTF38
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Msedge-Ref:
+                - 'Ref A: E465D1CE608C401E8D094ACAA82A4766 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:16:08Z'
+        status: 202 Accepted
+        code: 202
+        duration: 4.690505375s
+    - id: 38
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "0"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRWUpBQUstV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638464797727280416&c=MIIHADCCBeigAwIBAgITHgPrWOVrMb7qufvgEAAAA-tY5TANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwMjAxMDQxMjQzWhcNMjUwMTI2MDQxMjQzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOil3F8MsZdl8FeicToFLcoRyDn0Zv76EQTwG1IZtUh-z6uwzGIgy23k7GrXNU1gKVyGJp8lO3encPC02rUQkI0lvN-NUJCoJAEnGZPYOLmA9NylSyr1Ik_Qaz1_UueFRAiyVJlo0Lz27ayfzTTSUd82wyh18q-LWdG49N7fSD_fM1rsfxbY7-Eo4Z5CjxDW3OWmAYKpS0tm17o2hEKrmjeNZJQsSqQxUL-1Be4vND7XzGhGI595ogShOZHOzCBueWR2-8fa5VrwlHqtU1AgvjFk3lYmZejl898JrGFMYH-QSC1iWyRweQ_m3289K-aPeRSWqRihXIG9oHEqouTO1xkCAwEAAaOCA-0wggPpMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBTew4tn2tBCof44yM20soU6sfep6zAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGBANOAsl8fyImo8IXVQ_ybox-BzCeFiAddg9Ojd61exGTea02-HjvZzuL6GZ2k21c7rEjKSBHqk50RLm2yXrMcUGc1UO7MRchaKQm1WR7osgDiXAU0rDc9-H-i8I245Y_PbyKIBewiK7UQiCjda4b__7Amrw7q4oILOsxshnN_D1NBm2nSjm-dFiDeJ9jpG9X1jDJSBtOFUQ7Ala8ShJvWPMpbCR3gFHOGS9f13ebv6qXblaf7sHxE6T0OpuEZPL10Iu5yh42IOLo8wvp1euqb61U3JWoOmBXEB3mJ0owRfBHEjuAARDUzNVgq28F6FYqgACE3nKhqDKYDEQstlJK0&s=aQSVVNNmWNjJFy607bT1L-gJ7533HqL7qkViTf0_uXDYOWgTSxLPZUXoLKiCtMPif2yPsxEwmFL-qdC2bOj1z-BrIFvlfgl2WtJaMXdUAAB-6QmfIeb5E2CHv5DD8WPSEdjGxj6S0Qe6qAQh2oClG86PJliCTjDsWBP5Sx60qDzFtDQX5LWofU5ekCIOY_MnYikvACgnIHVayq_u4fRo3tb02oxhj09_pPsdF7JGfRf1YuDZxyxz4xUhZSHOWMobWR6rsGjx-YkLTRFL9yqsL6Wntgt67hqrJJ7fGclt6Di7DMBMdSDQ6N4HmsDNaHcuiOxlzVxxK_9iB5vXgDW-BA&h=jrAKi7Y4XV-B_WTvsPtJazc_Drx7fRAgb1ON9DlTF38
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRWUpBQUstV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638464797934405413&c=MIIHADCCBeigAwIBAgITHgPrWOVrMb7qufvgEAAAA-tY5TANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwMjAxMDQxMjQzWhcNMjUwMTI2MDQxMjQzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOil3F8MsZdl8FeicToFLcoRyDn0Zv76EQTwG1IZtUh-z6uwzGIgy23k7GrXNU1gKVyGJp8lO3encPC02rUQkI0lvN-NUJCoJAEnGZPYOLmA9NylSyr1Ik_Qaz1_UueFRAiyVJlo0Lz27ayfzTTSUd82wyh18q-LWdG49N7fSD_fM1rsfxbY7-Eo4Z5CjxDW3OWmAYKpS0tm17o2hEKrmjeNZJQsSqQxUL-1Be4vND7XzGhGI595ogShOZHOzCBueWR2-8fa5VrwlHqtU1AgvjFk3lYmZejl898JrGFMYH-QSC1iWyRweQ_m3289K-aPeRSWqRihXIG9oHEqouTO1xkCAwEAAaOCA-0wggPpMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBTew4tn2tBCof44yM20soU6sfep6zAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGBANOAsl8fyImo8IXVQ_ybox-BzCeFiAddg9Ojd61exGTea02-HjvZzuL6GZ2k21c7rEjKSBHqk50RLm2yXrMcUGc1UO7MRchaKQm1WR7osgDiXAU0rDc9-H-i8I245Y_PbyKIBewiK7UQiCjda4b__7Amrw7q4oILOsxshnN_D1NBm2nSjm-dFiDeJ9jpG9X1jDJSBtOFUQ7Ala8ShJvWPMpbCR3gFHOGS9f13ebv6qXblaf7sHxE6T0OpuEZPL10Iu5yh42IOLo8wvp1euqb61U3JWoOmBXEB3mJ0owRfBHEjuAARDUzNVgq28F6FYqgACE3nKhqDKYDEQstlJK0&s=r2Sd65J_zuGpyGhhI9EHmZcQyOEHWhwpxRI7Oto1r3FX6GpUqGmqAxXHDlwb_wcsP8TyHaMBJ_Wr9YNEAPdyFAEWA8icLG2dSkVpuKIm9Tp9AVwkeybqkOuD058wKD0Rf3FLtocquEo_SJGBUZRqZnWIBEzJ5300IO4I3P_BACSxF_Mwgmp6I20Jj5Qmk1SOPhAWb5WqmiuMX3M2_phze4qlppbv2ZRf7Z17vGbP35t8MUaFHmXM2qtt-D9i5Ljzn4AtcBV-qYaQ5Vzk0T0CJvUxXiQAHQbH6kRGnjiEkEFc_z0VGcvNVfa13-GzFzfdu0BwKqCSVOaD9EB830HpRg&h=QnBUYOlNEZvZMBJQuId66VTJjgTv3Q9lYzoeshi9Thg
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Msedge-Ref:
+                - 'Ref A: 630121C469DE4184B7874B8654D8625F Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:16:32Z'
+        status: 202 Accepted
+        code: 202
+        duration: 961.035834ms
+    - id: 39
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "1"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRWUpBQUstV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638464797727280416&c=MIIHADCCBeigAwIBAgITHgPrWOVrMb7qufvgEAAAA-tY5TANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwMjAxMDQxMjQzWhcNMjUwMTI2MDQxMjQzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOil3F8MsZdl8FeicToFLcoRyDn0Zv76EQTwG1IZtUh-z6uwzGIgy23k7GrXNU1gKVyGJp8lO3encPC02rUQkI0lvN-NUJCoJAEnGZPYOLmA9NylSyr1Ik_Qaz1_UueFRAiyVJlo0Lz27ayfzTTSUd82wyh18q-LWdG49N7fSD_fM1rsfxbY7-Eo4Z5CjxDW3OWmAYKpS0tm17o2hEKrmjeNZJQsSqQxUL-1Be4vND7XzGhGI595ogShOZHOzCBueWR2-8fa5VrwlHqtU1AgvjFk3lYmZejl898JrGFMYH-QSC1iWyRweQ_m3289K-aPeRSWqRihXIG9oHEqouTO1xkCAwEAAaOCA-0wggPpMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBTew4tn2tBCof44yM20soU6sfep6zAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGBANOAsl8fyImo8IXVQ_ybox-BzCeFiAddg9Ojd61exGTea02-HjvZzuL6GZ2k21c7rEjKSBHqk50RLm2yXrMcUGc1UO7MRchaKQm1WR7osgDiXAU0rDc9-H-i8I245Y_PbyKIBewiK7UQiCjda4b__7Amrw7q4oILOsxshnN_D1NBm2nSjm-dFiDeJ9jpG9X1jDJSBtOFUQ7Ala8ShJvWPMpbCR3gFHOGS9f13ebv6qXblaf7sHxE6T0OpuEZPL10Iu5yh42IOLo8wvp1euqb61U3JWoOmBXEB3mJ0owRfBHEjuAARDUzNVgq28F6FYqgACE3nKhqDKYDEQstlJK0&s=aQSVVNNmWNjJFy607bT1L-gJ7533HqL7qkViTf0_uXDYOWgTSxLPZUXoLKiCtMPif2yPsxEwmFL-qdC2bOj1z-BrIFvlfgl2WtJaMXdUAAB-6QmfIeb5E2CHv5DD8WPSEdjGxj6S0Qe6qAQh2oClG86PJliCTjDsWBP5Sx60qDzFtDQX5LWofU5ekCIOY_MnYikvACgnIHVayq_u4fRo3tb02oxhj09_pPsdF7JGfRf1YuDZxyxz4xUhZSHOWMobWR6rsGjx-YkLTRFL9yqsL6Wntgt67hqrJJ7fGclt6Di7DMBMdSDQ6N4HmsDNaHcuiOxlzVxxK_9iB5vXgDW-BA&h=jrAKi7Y4XV-B_WTvsPtJazc_Drx7fRAgb1ON9DlTF38
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRWUpBQUstV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638464798103737895&c=MIIHADCCBeigAwIBAgITHgPrWOVrMb7qufvgEAAAA-tY5TANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwMjAxMDQxMjQzWhcNMjUwMTI2MDQxMjQzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOil3F8MsZdl8FeicToFLcoRyDn0Zv76EQTwG1IZtUh-z6uwzGIgy23k7GrXNU1gKVyGJp8lO3encPC02rUQkI0lvN-NUJCoJAEnGZPYOLmA9NylSyr1Ik_Qaz1_UueFRAiyVJlo0Lz27ayfzTTSUd82wyh18q-LWdG49N7fSD_fM1rsfxbY7-Eo4Z5CjxDW3OWmAYKpS0tm17o2hEKrmjeNZJQsSqQxUL-1Be4vND7XzGhGI595ogShOZHOzCBueWR2-8fa5VrwlHqtU1AgvjFk3lYmZejl898JrGFMYH-QSC1iWyRweQ_m3289K-aPeRSWqRihXIG9oHEqouTO1xkCAwEAAaOCA-0wggPpMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBTew4tn2tBCof44yM20soU6sfep6zAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGBANOAsl8fyImo8IXVQ_ybox-BzCeFiAddg9Ojd61exGTea02-HjvZzuL6GZ2k21c7rEjKSBHqk50RLm2yXrMcUGc1UO7MRchaKQm1WR7osgDiXAU0rDc9-H-i8I245Y_PbyKIBewiK7UQiCjda4b__7Amrw7q4oILOsxshnN_D1NBm2nSjm-dFiDeJ9jpG9X1jDJSBtOFUQ7Ala8ShJvWPMpbCR3gFHOGS9f13ebv6qXblaf7sHxE6T0OpuEZPL10Iu5yh42IOLo8wvp1euqb61U3JWoOmBXEB3mJ0owRfBHEjuAARDUzNVgq28F6FYqgACE3nKhqDKYDEQstlJK0&s=nmXXussG0LswdORmsPr2f3-NLS2bObIvgK-tkhcQW4v5UIpTsj5zuImf9cUtA5xZx9PyokZ8mLXJUdqzUR-gw6w6yMRi68MpH7w_ddkCbM51HtT0V3Rvs6aj21c5HYm06oQa-GUODEe7T3zjw3Ap32X54ObWB_g6oCP_WGujpPAQPQPcOpHSZOz9fWhO2rt8xHaQWyo1_axQ6_91gmX2HzgF9HmqribB3lsIlFVC4eJ5ROB0dTWTs5zgBhQPM7sbtT7CRmtSBL-XkuIXvQgzdl2_QvG55LjPQ43YzjedQb7bdpygMO_7weNOeLc2Tp2qfjCtbVSiCUWCb366pYjEcg&h=AeGiXlLqImAkm3b9CqzgNOSK0d6yefPx5VN0QO7Czr8
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Msedge-Ref:
+                - 'Ref A: C32BD1EAEBDE430C85D23665CE1D7A2C Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:16:49Z'
+        status: 202 Accepted
+        code: 202
+        duration: 893.86275ms
+    - id: 40
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "2"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRWUpBQUstV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638464797727280416&c=MIIHADCCBeigAwIBAgITHgPrWOVrMb7qufvgEAAAA-tY5TANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwMjAxMDQxMjQzWhcNMjUwMTI2MDQxMjQzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOil3F8MsZdl8FeicToFLcoRyDn0Zv76EQTwG1IZtUh-z6uwzGIgy23k7GrXNU1gKVyGJp8lO3encPC02rUQkI0lvN-NUJCoJAEnGZPYOLmA9NylSyr1Ik_Qaz1_UueFRAiyVJlo0Lz27ayfzTTSUd82wyh18q-LWdG49N7fSD_fM1rsfxbY7-Eo4Z5CjxDW3OWmAYKpS0tm17o2hEKrmjeNZJQsSqQxUL-1Be4vND7XzGhGI595ogShOZHOzCBueWR2-8fa5VrwlHqtU1AgvjFk3lYmZejl898JrGFMYH-QSC1iWyRweQ_m3289K-aPeRSWqRihXIG9oHEqouTO1xkCAwEAAaOCA-0wggPpMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBTew4tn2tBCof44yM20soU6sfep6zAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGBANOAsl8fyImo8IXVQ_ybox-BzCeFiAddg9Ojd61exGTea02-HjvZzuL6GZ2k21c7rEjKSBHqk50RLm2yXrMcUGc1UO7MRchaKQm1WR7osgDiXAU0rDc9-H-i8I245Y_PbyKIBewiK7UQiCjda4b__7Amrw7q4oILOsxshnN_D1NBm2nSjm-dFiDeJ9jpG9X1jDJSBtOFUQ7Ala8ShJvWPMpbCR3gFHOGS9f13ebv6qXblaf7sHxE6T0OpuEZPL10Iu5yh42IOLo8wvp1euqb61U3JWoOmBXEB3mJ0owRfBHEjuAARDUzNVgq28F6FYqgACE3nKhqDKYDEQstlJK0&s=aQSVVNNmWNjJFy607bT1L-gJ7533HqL7qkViTf0_uXDYOWgTSxLPZUXoLKiCtMPif2yPsxEwmFL-qdC2bOj1z-BrIFvlfgl2WtJaMXdUAAB-6QmfIeb5E2CHv5DD8WPSEdjGxj6S0Qe6qAQh2oClG86PJliCTjDsWBP5Sx60qDzFtDQX5LWofU5ekCIOY_MnYikvACgnIHVayq_u4fRo3tb02oxhj09_pPsdF7JGfRf1YuDZxyxz4xUhZSHOWMobWR6rsGjx-YkLTRFL9yqsL6Wntgt67hqrJJ7fGclt6Di7DMBMdSDQ6N4HmsDNaHcuiOxlzVxxK_9iB5vXgDW-BA&h=jrAKi7Y4XV-B_WTvsPtJazc_Drx7fRAgb1ON9DlTF38
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRWUpBQUstV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638464798272128659&c=MIIHADCCBeigAwIBAgITHgPrWOVrMb7qufvgEAAAA-tY5TANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwMjAxMDQxMjQzWhcNMjUwMTI2MDQxMjQzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOil3F8MsZdl8FeicToFLcoRyDn0Zv76EQTwG1IZtUh-z6uwzGIgy23k7GrXNU1gKVyGJp8lO3encPC02rUQkI0lvN-NUJCoJAEnGZPYOLmA9NylSyr1Ik_Qaz1_UueFRAiyVJlo0Lz27ayfzTTSUd82wyh18q-LWdG49N7fSD_fM1rsfxbY7-Eo4Z5CjxDW3OWmAYKpS0tm17o2hEKrmjeNZJQsSqQxUL-1Be4vND7XzGhGI595ogShOZHOzCBueWR2-8fa5VrwlHqtU1AgvjFk3lYmZejl898JrGFMYH-QSC1iWyRweQ_m3289K-aPeRSWqRihXIG9oHEqouTO1xkCAwEAAaOCA-0wggPpMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBTew4tn2tBCof44yM20soU6sfep6zAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGBANOAsl8fyImo8IXVQ_ybox-BzCeFiAddg9Ojd61exGTea02-HjvZzuL6GZ2k21c7rEjKSBHqk50RLm2yXrMcUGc1UO7MRchaKQm1WR7osgDiXAU0rDc9-H-i8I245Y_PbyKIBewiK7UQiCjda4b__7Amrw7q4oILOsxshnN_D1NBm2nSjm-dFiDeJ9jpG9X1jDJSBtOFUQ7Ala8ShJvWPMpbCR3gFHOGS9f13ebv6qXblaf7sHxE6T0OpuEZPL10Iu5yh42IOLo8wvp1euqb61U3JWoOmBXEB3mJ0owRfBHEjuAARDUzNVgq28F6FYqgACE3nKhqDKYDEQstlJK0&s=W0vpz8lYDFo0hioQE9f2v7nEZXIjKi8w6XXgQewnuo8-UufRlxKANozQWg_Gi_n6cokXYGlmvQDuhdlew0ZfY5jQHcvomNsyekcRqAIDnc4l8ZYxZoXm2PAnDO8_H_J5YzAq39DPFSck8niedJNclEi0d-zkwXGRxKQG7G8GwLnwLyt9yTWhmOvK8L1dWp4u3Qy3hYB3Wyp-xO149lbusb4Rk5yI0hZaEVAiQP1IvFTCwsNI8S--EE21EdJjxf5G7dAQWwimZQDOSLA2DXb4zCJHQva8b3V7WjSPV5ESoAHNSQfKUC1v0ZRdLcEzInjZkNfrrpS2htdxJJt-jmnhMg&h=Zn5JduAiIgPAihW5ezbMZZqffJ88ecE5UcpZ6FkdJ6A
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Msedge-Ref:
+                - 'Ref A: ED57FABCDBEF4D98B36FCCAC39E484D2 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:17:06Z'
+        status: 202 Accepted
+        code: 202
+        duration: 1.015150709s
+    - id: 41
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: management.azure.com
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Test-Request-Attempt:
+                - "3"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRWUpBQUstV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638464797727280416&c=MIIHADCCBeigAwIBAgITHgPrWOVrMb7qufvgEAAAA-tY5TANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDYwHhcNMjQwMjAxMDQxMjQzWhcNMjUwMTI2MDQxMjQzWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOil3F8MsZdl8FeicToFLcoRyDn0Zv76EQTwG1IZtUh-z6uwzGIgy23k7GrXNU1gKVyGJp8lO3encPC02rUQkI0lvN-NUJCoJAEnGZPYOLmA9NylSyr1Ik_Qaz1_UueFRAiyVJlo0Lz27ayfzTTSUd82wyh18q-LWdG49N7fSD_fM1rsfxbY7-Eo4Z5CjxDW3OWmAYKpS0tm17o2hEKrmjeNZJQsSqQxUL-1Be4vND7XzGhGI595ogShOZHOzCBueWR2-8fa5VrwlHqtU1AgvjFk3lYmZejl898JrGFMYH-QSC1iWyRweQ_m3289K-aPeRSWqRihXIG9oHEqouTO1xkCAwEAAaOCA-0wggPpMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHLBggrBgEFBQcBAQSCAb0wggG5MGMGCCsGAQUFBzAChldodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MFMGCCsGAQUFBzAChkdodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAyLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDA2LmNydDBTBggrBgEFBQcwAoZHaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMi5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwNi5jcnQwUwYIKwYBBQUHMAKGR2h0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDIuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3J0MB0GA1UdDgQWBBTew4tn2tBCof44yM20soU6sfep6zAOBgNVHQ8BAf8EBAMCBaAwggEmBgNVHR8EggEdMIIBGTCCARWgggERoIIBDYY_aHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JshjFodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDYuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTxRmjG8cPwKy19i2rhsvm-NfzRQTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBAGBANOAsl8fyImo8IXVQ_ybox-BzCeFiAddg9Ojd61exGTea02-HjvZzuL6GZ2k21c7rEjKSBHqk50RLm2yXrMcUGc1UO7MRchaKQm1WR7osgDiXAU0rDc9-H-i8I245Y_PbyKIBewiK7UQiCjda4b__7Amrw7q4oILOsxshnN_D1NBm2nSjm-dFiDeJ9jpG9X1jDJSBtOFUQ7Ala8ShJvWPMpbCR3gFHOGS9f13ebv6qXblaf7sHxE6T0OpuEZPL10Iu5yh42IOLo8wvp1euqb61U3JWoOmBXEB3mJ0owRfBHEjuAARDUzNVgq28F6FYqgACE3nKhqDKYDEQstlJK0&s=aQSVVNNmWNjJFy607bT1L-gJ7533HqL7qkViTf0_uXDYOWgTSxLPZUXoLKiCtMPif2yPsxEwmFL-qdC2bOj1z-BrIFvlfgl2WtJaMXdUAAB-6QmfIeb5E2CHv5DD8WPSEdjGxj6S0Qe6qAQh2oClG86PJliCTjDsWBP5Sx60qDzFtDQX5LWofU5ekCIOY_MnYikvACgnIHVayq_u4fRo3tb02oxhj09_pPsdF7JGfRf1YuDZxyxz4xUhZSHOWMobWR6rsGjx-YkLTRFL9yqsL6Wntgt67hqrJJ7fGclt6Di7DMBMdSDQ6N4HmsDNaHcuiOxlzVxxK_9iB5vXgDW-BA&h=jrAKi7Y4XV-B_WTvsPtJazc_Drx7fRAgb1ON9DlTF38
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Msedge-Ref:
+                - 'Ref A: 26EB3568140B408BBA3F005367283FF1 Ref B: SYD03EDGE1319 Ref C: 2024-03-19T21:17:23Z'
+        status: 200 OK
+        code: 200
+        duration: 928.237291ms

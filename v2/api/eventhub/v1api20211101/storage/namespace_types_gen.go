@@ -161,6 +161,7 @@ type Namespace_Spec struct {
 	KafkaEnabled           *bool                         `json:"kafkaEnabled,omitempty"`
 	Location               *string                       `json:"location,omitempty"`
 	MaximumThroughputUnits *int                          `json:"maximumThroughputUnits,omitempty"`
+	OperatorSpec           *NamespaceOperatorSpec        `json:"operatorSpec,omitempty"`
 	OriginalVersion        string                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -279,6 +280,13 @@ type Identity_STATUS struct {
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
+// Storage version of v1api20211101.NamespaceOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespaceOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
+	Secrets     *NamespaceOperatorSecrets `json:"secrets,omitempty"`
+}
+
 // Storage version of v1api20211101.PrivateEndpointConnection_STATUS
 // Properties of the PrivateEndpointConnection.
 type PrivateEndpointConnection_STATUS struct {
@@ -334,6 +342,15 @@ type KeyVaultProperties_STATUS struct {
 	KeyVaultUri *string                                `json:"keyVaultUri,omitempty"`
 	KeyVersion  *string                                `json:"keyVersion,omitempty"`
 	PropertyBag genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20211101.NamespaceOperatorSecrets
+type NamespaceOperatorSecrets struct {
+	PrimaryConnectionString   *genruntime.SecretDestination `json:"primaryConnectionString,omitempty"`
+	PrimaryKey                *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecondaryConnectionString *genruntime.SecretDestination `json:"secondaryConnectionString,omitempty"`
+	SecondaryKey              *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
 }
 
 // Storage version of v1api20211101.UserAssignedIdentity_STATUS

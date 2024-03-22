@@ -142,8 +142,9 @@ type NamespacesEventhubsAuthorizationRuleList struct {
 type Namespaces_Eventhubs_AuthorizationRule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string `json:"azureName,omitempty"`
-	OriginalVersion string `json:"originalVersion,omitempty"`
+	AzureName       string                                            `json:"azureName,omitempty"`
+	OperatorSpec    *NamespacesEventhubsAuthorizationRuleOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                                            `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -204,6 +205,22 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_STATUS) ConvertStatusTo(desti
 	}
 
 	return destination.ConvertStatusFrom(rule)
+}
+
+// Storage version of v1api20211101.NamespacesEventhubsAuthorizationRuleOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespacesEventhubsAuthorizationRuleOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag                               `json:"$propertyBag,omitempty"`
+	Secrets     *NamespacesEventhubsAuthorizationRuleOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// Storage version of v1api20211101.NamespacesEventhubsAuthorizationRuleOperatorSecrets
+type NamespacesEventhubsAuthorizationRuleOperatorSecrets struct {
+	PrimaryConnectionString   *genruntime.SecretDestination `json:"primaryConnectionString,omitempty"`
+	PrimaryKey                *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecondaryConnectionString *genruntime.SecretDestination `json:"secondaryConnectionString,omitempty"`
+	SecondaryKey              *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
 }
 
 func init() {
