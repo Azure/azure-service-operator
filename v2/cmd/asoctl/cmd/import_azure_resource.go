@@ -47,6 +47,25 @@ func newImportAzureResourceCommand() *cobra.Command {
 
 	cmd.MarkFlagsMutuallyExclusive("output", "output-folder")
 
+	cmd.Flags().StringVarP(
+		&options.namespace,
+		"namespace",
+		"n",
+		"",
+		"Write the imported resources to the specified namespace")
+	cmd.Flags().StringSliceVarP(
+		&options.labels,
+		"label",
+		"l",
+		nil,
+		"Add the specified labels to the imported resources. Multiple comma-separated labels can be specified (--label example.com/mylabel=foo,example.com/mylabel2=bar) or the --label (-l) argument can be used multiple times (-l example.com/mylabel=foo -l example.com/mylabel2=bar)")
+	cmd.Flags().StringSliceVarP(
+		&options.annotations,
+		"annotation",
+		"a",
+		nil,
+		"Add the specified annotations to the imported resources. Multiple comma-separated annotations can be specified (--annotation example.com/myannotation=foo,example.com/myannotation2=bar) or the --annotation (-a) argument can be used multiple times (-a example.com/myannotation=foo -a example.com/myannotation2=bar)")
+
 	return cmd
 }
 
@@ -98,6 +117,25 @@ func importAzureResource(ctx context.Context, armIDs []string, options importAzu
 		return nil
 	}
 
+	// Apply additional configuration to imported resources.
+	if options.namespace != "" {
+		result.SetNamespace(options.namespace)
+	}
+
+	if len(options.labels) > 0 {
+		err = result.AddLabels(options.labels)
+		if err != nil {
+			return errors.Wrap(err, "failed to add labels")
+		}
+	}
+
+	if len(options.annotations) > 0 {
+		err = result.AddAnnotations(options.annotations)
+		if err != nil {
+			return errors.Wrap(err, "failed to add annotations")
+		}
+	}
+
 	if file, ok := options.writeToFile(); ok {
 		log.Info(
 			"Writing to a single file",
@@ -130,6 +168,9 @@ func importAzureResource(ctx context.Context, armIDs []string, options importAzu
 type importAzureResourceOptions struct {
 	outputPath   *string
 	outputFolder *string
+	namespace    string
+	annotations  []string
+	labels       []string
 }
 
 func (option *importAzureResourceOptions) writeToFile() (string, bool) {
