@@ -95,6 +95,7 @@ func AsSimpleDeclarations(
 
 	AddValidationComments(&docComments, declContext.Validations)
 
+	theTypeExpr := theType.AsTypeExpr(codeGenerationContext)
 	result := &dst.GenDecl{
 		Decs: dst.GenDeclDecorations{
 			NodeDecs: dst.NodeDecs{
@@ -106,7 +107,7 @@ func AsSimpleDeclarations(
 		Specs: []dst.Spec{
 			&dst.TypeSpec{
 				Name: dst.NewIdent(declContext.Name.Name()),
-				Type: theType.AsTypeExpr(codeGenerationContext),
+				Type: theTypeExpr,
 			},
 		},
 	}

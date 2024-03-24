@@ -54,14 +54,18 @@ func (fake *FakeFunction) AsFunc(
 	receiver astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
 	receiverName := fake.idFactory.CreateReceiver(receiver.Name())
+	receiverType := astmodel.NewOptionalType(receiver)
+	receiverTypeExpr := receiverType.AsTypeExpr(codeGenerationContext)
+
 	details := astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  astmodel.NewOptionalType(receiver).AsTypeExpr(codeGenerationContext),
+		ReceiverType:  receiverTypeExpr,
 		Name:          fake.name,
 	}
 
 	if fake.TypeReturned != nil {
-		details.AddReturn(fake.TypeReturned.AsTypeExpr(codeGenerationContext))
+		typeReturnedExpr := fake.TypeReturned.AsTypeExpr(codeGenerationContext)
+		details.AddReturn(typeReturnedExpr)
 	}
 
 	return details.DefineFunc(), nil

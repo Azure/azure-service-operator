@@ -62,6 +62,7 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 ) (*dst.FuncDecl, error) {
 	receiverIdent := fn.idFactory.CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
+	receiverTypeExpr := receiverType.AsTypeExpr(codeGenerationContext)
 
 	statusLocal := "st"
 	statusParameter := "status"
@@ -113,7 +114,7 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 
 	builder := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  receiverType.AsTypeExpr(codeGenerationContext),
+		ReceiverType:  receiverTypeExpr,
 		Name:          "SetStatus",
 		Body: astbuilder.Statements(
 			simplePath,
@@ -124,8 +125,11 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 			returnNil),
 	}
 
-	builder.AddParameter(statusParameter, astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(codeGenerationContext))
-	builder.AddReturn(astmodel.ErrorType.AsTypeExpr(codeGenerationContext))
+	convertibleStatusInterfaceTypeExpr := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(codeGenerationContext)
+	builder.AddParameter(statusParameter, convertibleStatusInterfaceTypeExpr)
+
+	errorTypeExpr := astmodel.ErrorType.AsTypeExpr(codeGenerationContext)
+	builder.AddReturn(errorTypeExpr)
 
 	builder.AddComments("sets the status of this resource")
 

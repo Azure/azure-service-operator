@@ -27,17 +27,19 @@ func createGetSpecFunction(
 ) (*dst.FuncDecl, error) {
 	receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
+	receiverTypeExpr := receiverType.AsTypeExpr(genContext)
 
 	ret := astbuilder.Returns(astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")))
 
 	fn := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  receiverType.AsTypeExpr(genContext),
+		ReceiverType:  receiverTypeExpr,
 		Name:          "GetSpec",
 		Body:          astbuilder.Statements(ret),
 	}
 
-	fn.AddReturn(astmodel.ConvertibleSpecInterfaceType.AsTypeExpr(genContext))
+	convertibleSpecInterfaceExpr := astmodel.ConvertibleSpecInterfaceType.AsTypeExpr(genContext)
+	fn.AddReturn(convertibleSpecInterfaceExpr)
 	fn.AddComments("returns the specification of this resource")
 
 	return fn.DefineFunc(), nil

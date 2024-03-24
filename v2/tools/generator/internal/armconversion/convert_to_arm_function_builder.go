@@ -33,6 +33,7 @@ func newConvertToARMFunctionBuilder(
 	receiver astmodel.InternalTypeName,
 	methodName string,
 ) *convertToARMBuilder {
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 	result := &convertToARMBuilder{
 		conversionBuilder: conversionBuilder{
 			methodName:            methodName,
@@ -41,7 +42,7 @@ func newConvertToARMFunctionBuilder(
 			destinationType:       c.armType,
 			destinationTypeName:   c.armTypeName,
 			receiverIdent:         c.idFactory.CreateReceiver(receiver.Name()),
-			receiverTypeExpr:      receiver.AsTypeExpr(codeGenerationContext),
+			receiverTypeExpr:      receiverExpr,
 			idFactory:             c.idFactory,
 			typeKind:              c.typeKind,
 			codeGenerationContext: codeGenerationContext,
@@ -95,7 +96,8 @@ func (builder *convertToARMBuilder) functionDeclaration() (*dst.FuncDecl, error)
 		Body:          body,
 	}
 
-	fn.AddParameter(resolvedParameterString, astmodel.ConvertToARMResolvedDetailsType.AsTypeExpr(builder.codeGenerationContext))
+	convertToARMResolvedDetailsExpr := astmodel.ConvertToARMResolvedDetailsType.AsTypeExpr(builder.codeGenerationContext)
+	fn.AddParameter(resolvedParameterString, convertToARMResolvedDetailsExpr)
 	fn.AddReturns("interface{}", "error")
 	fn.AddComments("converts from a Kubernetes CRD object to an ARM object")
 
@@ -516,7 +518,8 @@ func (builder *convertToARMBuilder) buildToPropInitializer(
 	// build (x || y || …)
 	cond := astbuilder.JoinOr(conditions...)
 
-	literal := astbuilder.NewCompositeLiteralBuilder(toPropTypeName.AsTypeExpr(builder.codeGenerationContext))
+	toPropTypeExpr := toPropTypeName.AsTypeExpr(builder.codeGenerationContext)
+	literal := astbuilder.NewCompositeLiteralBuilder(toPropTypeExpr)
 
 	// build if (conditions…) { target.prop = &TargetType{} }
 	return &dst.IfStmt{
@@ -629,13 +632,13 @@ func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(
 	locals := params.Locals.Clone()
 
 	itemIdent := locals.CreateLocal("ident")
-	keyTypeAst := destinationType.KeyType().AsTypeExpr(conversionBuilder.CodeGenerationContext)
-	valueTypeAst := destinationType.ValueType().AsTypeExpr(conversionBuilder.CodeGenerationContext)
+	keyTypeExpr := destinationType.KeyType().AsTypeExpr(conversionBuilder.CodeGenerationContext)
+	valueTypeExpr := destinationType.ValueType().AsTypeExpr(conversionBuilder.CodeGenerationContext)
 
 	makeMapStatement := astbuilder.AssignmentStatement(
 		params.Destination,
 		token.ASSIGN,
-		astbuilder.MakeMapWithCapacity(keyTypeAst, valueTypeAst,
+		astbuilder.MakeMapWithCapacity(keyTypeExpr, valueTypeExpr,
 			astbuilder.CallFunc("len", params.Source)))
 
 	key := "key"
@@ -663,7 +666,7 @@ func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(
 				refProperty.PropertyName())
 	}
 
-	valueBuilder := astbuilder.NewCompositeLiteralBuilder(valueTypeAst).WithoutNewLines()
+	valueBuilder := astbuilder.NewCompositeLiteralBuilder(valueTypeExpr).WithoutNewLines()
 
 	conversion = append(
 		conversion,

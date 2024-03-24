@@ -207,7 +207,8 @@ func (file *FileDefinition) AsAst() (result *dst.File, err error) {
 	for _, defn := range file.definitions {
 		if resource, ok := defn.Type().(*ResourceType); ok {
 			for _, t := range resource.SchemeTypes(defn.Name()) {
-				literal := astbuilder.NewCompositeLiteralBuilder(t.AsTypeExpr(codeGenContext))
+				tExpr := t.AsTypeExpr(codeGenContext)
+				literal := astbuilder.NewCompositeLiteralBuilder(tExpr)
 				exprs = append(exprs, astbuilder.AddrOf(literal.Build()))
 			}
 		}

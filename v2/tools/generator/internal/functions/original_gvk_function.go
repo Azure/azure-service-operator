@@ -75,6 +75,7 @@ func (o *OriginalGVKFunction) AsFunc(
 	groupVersionPackageGlobal := dst.NewIdent("GroupVersion")
 
 	receiverName := o.idFactory.CreateReceiver(receiver.Name())
+	receiverTypeExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	spec := astbuilder.Selector(dst.NewIdent(receiverName), "Spec")
 
@@ -92,7 +93,7 @@ func (o *OriginalGVKFunction) AsFunc(
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  astbuilder.PointerTo(receiver.AsTypeExpr(codeGenerationContext)),
+		ReceiverType:  astbuilder.PointerTo(receiverTypeExpr),
 		Name:          o.Name(),
 		Body:          astbuilder.Statements(astbuilder.Returns(astbuilder.AddrOf(initGVK))),
 	}

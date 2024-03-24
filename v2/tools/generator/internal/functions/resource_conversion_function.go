@@ -103,11 +103,12 @@ func (fn *ResourceConversionFunction) AsFunc(
 	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
 
 	// We always use a pointer receiver, so we can modify it
-	receiverType := astmodel.NewOptionalType(receiver).AsTypeExpr(codeGenerationContext)
+	receiverType := astmodel.NewOptionalType(receiver)
+	receiverTypeExpr := receiverType.AsTypeExpr(codeGenerationContext)
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  receiverType,
+		ReceiverType:  receiverTypeExpr,
 		Name:          fn.Name(),
 	}
 
@@ -158,10 +159,11 @@ func (fn *ResourceConversionFunction) directConversion(
 	localIdent := dst.NewIdent(localId)
 	hubIdent := dst.NewIdent("hub")
 
+	hubExpr := fn.hub.AsTypeExpr(generationContext)
 	assignLocal := astbuilder.TypeAssert(
 		localIdent,
 		hubIdent,
-		astbuilder.PointerTo(fn.hub.AsTypeExpr(generationContext)))
+		astbuilder.PointerTo(hubExpr))
 
 	checkAssert := astbuilder.ReturnIfNotOk(
 		astbuilder.FormatError(
@@ -204,9 +206,10 @@ func (fn *ResourceConversionFunction) indirectConversionFromHub(
 	errIdent := dst.NewIdent("err")
 
 	intermediateType := fn.propertyFunction.ParameterType()
+	intermediateTypeExpr := intermediateType.AsTypeExpr(generationContext)
 
 	declareLocal := astbuilder.LocalVariableDeclaration(
-		localId, intermediateType.AsTypeExpr(generationContext), "// intermediate variable for conversion")
+		localId, intermediateTypeExpr, "// intermediate variable for conversion")
 	declareLocal.Decorations().Before = dst.NewLine
 
 	populateLocalFromHub := astbuilder.ShortDeclaration(
@@ -264,9 +267,10 @@ func (fn *ResourceConversionFunction) indirectConversionToHub(
 	errIdent := dst.NewIdent("err")
 
 	intermediateType := fn.propertyFunction.ParameterType()
+	intermediateTypeExpr := intermediateType.AsTypeExpr(generationContext)
 
 	declareLocal := astbuilder.LocalVariableDeclaration(
-		localId, intermediateType.AsTypeExpr(generationContext), "// intermediate variable for conversion")
+		localId, intermediateTypeExpr, "// intermediate variable for conversion")
 	declareLocal.Decorations().Before = dst.NewLine
 
 	populateLocalFromReceiver := astbuilder.ShortDeclaration(

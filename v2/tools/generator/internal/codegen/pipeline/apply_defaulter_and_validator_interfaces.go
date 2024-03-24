@@ -183,12 +183,12 @@ func validateSecretDestinations(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Body: validateOperatorSpecSliceBody(
 			codeGenerationContext,
 			k.Resource(),
@@ -221,12 +221,12 @@ func validateConfigMapDestinations(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Body: validateOperatorSpecSliceBody(
 			codeGenerationContext,
 			k.Resource(),
@@ -294,9 +294,8 @@ func validateOperatorSpecSliceBody(
 	//     account.Spec.OperatorSpec.Secrets.SecondaryReadonlyMasterKey,
 	//     ...
 	// }
-	sliceBuilder := astbuilder.NewSliceLiteralBuilder(
-		validateType.AsTypeExpr(codeGenerationContext),
-		true)
+	validateTypeExpr := validateType.AsTypeExpr(codeGenerationContext)
+	sliceBuilder := astbuilder.NewSliceLiteralBuilder(validateTypeExpr, true)
 	for _, prop := range operatorSpecPropertyObj.Properties().AsSlice() {
 		propSelector := astbuilder.Selector(specPropertySelector, prop.PropertyName().String())
 		sliceBuilder.AddElement(propSelector)

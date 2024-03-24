@@ -34,7 +34,7 @@ func locatableResourceLocationFunc(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
-	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	locationSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec", "Location")
 	returnIfLocationNil := astbuilder.ReturnIfNil(locationSelector, astbuilder.StringLiteral(""))
@@ -47,11 +47,14 @@ func locatableResourceLocationFunc(
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Body:          body,
 	}
 
 	fn.AddComments("returns the location of the resource")
-	fn.AddReturn(astmodel.StringType.AsTypeExpr(codeGenerationContext))
+
+	stringTypeExpr := astmodel.StringType.AsTypeExpr(codeGenerationContext)
+	fn.AddReturn(stringTypeExpr)
+
 	return fn.DefineFunc(), nil
 }

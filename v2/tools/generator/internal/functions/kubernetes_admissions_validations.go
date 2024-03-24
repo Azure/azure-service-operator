@@ -57,12 +57,12 @@ func validateResourceReferences(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Body:          validateResourceReferencesBody(codeGenerationContext, receiverIdent),
 	}
 
@@ -113,14 +113,14 @@ func validateOwnerReferences(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	admissionPkg := codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Body:          validateOwnerReferencesBody(codeGenerationContext, receiverIdent),
 	}
 
@@ -156,14 +156,14 @@ func validateWriteOncePropertiesFunction(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := resourceFn.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	runtimePackage := codeGenerationContext.MustGetImportedPackageName(astmodel.APIMachineryRuntimeReference)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Body:          validateWriteOncePropertiesFunctionBody(receiver, codeGenerationContext, receiverIdent),
 	}
 
@@ -188,7 +188,8 @@ func validateWriteOncePropertiesFunctionBody(receiver astmodel.TypeName, codeGen
 
 	obj := dst.NewIdent("oldObj")
 
-	cast := astbuilder.TypeAssert(obj, dst.NewIdent("old"), astbuilder.PointerTo(receiver.AsTypeExpr(codeGenerationContext)))
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	cast := astbuilder.TypeAssert(obj, dst.NewIdent("old"), astbuilder.PointerTo(receiverExpr))
 	checkAssert := astbuilder.ReturnIfNotOk(astbuilder.Nil(), astbuilder.Nil())
 
 	returnStmt := astbuilder.Returns(
@@ -212,12 +213,12 @@ func validateOptionalConfigMapReferences(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Body:          validateOptionalConfigMapReferencesBody(codeGenerationContext, receiverIdent),
 	}
 

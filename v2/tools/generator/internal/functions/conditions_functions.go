@@ -26,21 +26,22 @@ func GetConditionsFunction(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	status := astbuilder.Selector(dst.NewIdent(receiverIdent), "Status")
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Body: []dst.Stmt{
 			astbuilder.Returns(astbuilder.Selector(status, astmodel.ConditionsProperty)),
 		},
 	}
 
 	fn.AddComments("returns the conditions of the resource")
-	fn.AddReturn(astmodel.ConditionsType.AsTypeExpr(codeGenerationContext))
+	conditionsTypeExpr := astmodel.ConditionsType.AsTypeExpr(codeGenerationContext)
+	fn.AddReturn(conditionsTypeExpr)
 
 	return fn.DefineFunc(), nil
 }
@@ -59,21 +60,22 @@ func SetConditionsFunction(
 	conditionsParameterName := k.IdFactory().CreateIdentifier(astmodel.ConditionsProperty, astmodel.NotExported)
 
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 	status := astbuilder.Selector(dst.NewIdent(receiverIdent), "Status")
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Body: []dst.Stmt{
 			astbuilder.QualifiedAssignment(status, "Conditions", token.ASSIGN, dst.NewIdent(conditionsParameterName)),
 		},
 	}
 
+	conditionsTypeExpr := astmodel.ConditionsType.AsTypeExpr(codeGenerationContext)
 	fn.AddParameter(
 		conditionsParameterName,
-		astmodel.ConditionsType.AsTypeExpr(codeGenerationContext))
+		conditionsTypeExpr)
 	fn.AddComments("sets the conditions on the resource status")
 
 	return fn.DefineFunc(), nil

@@ -520,9 +520,10 @@ func pullFromBagItem(
 			astbuilder.StringLiteral(sourceEndpoint.Name()))
 
 		// var <local> <sourceBagItemType>
+		sourceBagItemExpr := sourceBagItem.AsTypeExpr(generationContext)
 		declare := astbuilder.NewVariableWithType(
 			local,
-			sourceBagItem.AsTypeExpr(generationContext))
+			sourceBagItemExpr)
 
 		// We're wrapping the conversion in a nested block, so any locals are independent
 		knownLocals = knownLocals.Clone()
@@ -790,7 +791,7 @@ func assignToEnumeration(
 		// Otherwise we just do a direct cast
 		castingWriter := func(expr dst.Expr) []dst.Stmt {
 			cast := &dst.CallExpr{
-				Fun:  dstName.AsTypeExpr(generationContext),
+				Fun:  dstNameExpr,
 				Args: []dst.Expr{expr},
 			}
 			return writer(cast)
@@ -893,8 +894,9 @@ func assignAliasedPrimitiveFromAliasedPrimitive(
 		knownLocals *astmodel.KnownLocalsSet,
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
+		destinationNameExpr := destinationName.AsTypeExpr(generationContext)
 		return writer(&dst.CallExpr{
-			Fun:  destinationName.AsTypeExpr(generationContext),
+			Fun:  destinationNameExpr,
 			Args: []dst.Expr{reader},
 		}), nil
 	}, nil
@@ -946,8 +948,9 @@ func assignFromAliasedType(
 		knownLocals *astmodel.KnownLocalsSet,
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
+		sourceTypeExpr := sourceType.AsTypeExpr(generationContext)
 		actualReader := &dst.CallExpr{
-			Fun:  sourceType.AsTypeExpr(generationContext),
+			Fun:  sourceTypeExpr,
 			Args: []dst.Expr{reader},
 		}
 
@@ -1004,8 +1007,9 @@ func assignToAliasedType(
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
 		actualWriter := func(expr dst.Expr) []dst.Stmt {
+			destinationNameExpr := destinationName.AsTypeExpr(generationContext)
 			castToAlias := &dst.CallExpr{
-				Fun:  destinationName.AsTypeExpr(generationContext),
+				Fun:  destinationNameExpr,
 				Args: []dst.Expr{expr},
 			}
 
@@ -1289,9 +1293,10 @@ func assignArrayFromArray(
 		itemId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Item")
 		indexId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Index")
 
+		destinationArrayExpr := destinationArray.AsTypeExpr(generationContext)
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
-			astbuilder.MakeSlice(destinationArray.AsTypeExpr(generationContext), astbuilder.CallFunc("len", actualReader)))
+			astbuilder.MakeSlice(destinationArrayExpr, astbuilder.CallFunc("len", actualReader)))
 
 		writeToElement := func(expr dst.Expr) []dst.Stmt {
 			return []dst.Stmt{
@@ -1432,11 +1437,13 @@ func assignMapFromMap(
 		itemId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Value")
 		keyId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Key")
 
+		keyTypeExpr := destinationMap.KeyType().AsTypeExpr(generationContext)
+		valueTypeExpr := destinationMap.ValueType().AsTypeExpr(generationContext)
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
 			astbuilder.MakeMapWithCapacity(
-				destinationMap.KeyType().AsTypeExpr(generationContext),
-				destinationMap.ValueType().AsTypeExpr(generationContext),
+				keyTypeExpr,
+				valueTypeExpr,
 				astbuilder.CallFunc("len", actualReader)))
 
 		assignToItem := func(expr dst.Expr) []dst.Stmt {
@@ -1560,15 +1567,17 @@ func assignUserAssignedIdentityMapFromArray(
 	) ([]dst.Stmt, error) {
 		// <source>List := make([]<type>, 0, len(<source>)
 		tempId := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "List")
+		destinationArrayExpr := destinationArray.AsTypeExpr(generationContext)
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
-			astbuilder.MakeEmptySlice(destinationArray.AsTypeExpr(generationContext), astbuilder.CallFunc("len", reader)))
+			astbuilder.MakeEmptySlice(destinationArrayExpr, astbuilder.CallFunc("len", reader)))
 
 		loopLocals := knownLocals.Clone()
 		keyID := loopLocals.CreateLocal(sourceEndpoint.Name(), "Key")
 
 		intermediateDestination := loopLocals.CreateLocal(destinationEndpoint.Name(), "Ref")
-		uaiBuilder := astbuilder.NewCompositeLiteralBuilder(destinationElement.AsTypeExpr(generationContext))
+		destinationTypeExpr := destinationElement.AsTypeExpr(generationContext)
+		uaiBuilder := astbuilder.NewCompositeLiteralBuilder(destinationTypeExpr)
 		uaiBuilder.AddField("Reference", dst.NewIdent(intermediateDestination))
 
 		writeToElement := func(expr dst.Expr) []dst.Stmt {

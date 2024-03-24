@@ -27,17 +27,19 @@ func createGetStatusFunction(
 ) (*dst.FuncDecl, error) {
 	receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
+	receiverTypeExpr := receiverType.AsTypeExpr(genContext)
 
 	fn := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  receiverType.AsTypeExpr(genContext),
+		ReceiverType:  receiverTypeExpr,
 		Name:          "GetStatus",
 		Body: astbuilder.Statements(
 			astbuilder.Returns(
 				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Status")))),
 	}
 
-	fn.AddReturn(astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(genContext))
+	convertibleStatusInterfaceExpr := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(genContext)
+	fn.AddReturn(convertibleStatusInterfaceExpr)
 	fn.AddComments("returns the status of this resource")
 
 	return fn.DefineFunc(), nil

@@ -87,7 +87,7 @@ func (d *KubernetesExporterBuilder) exportKubernetesResources(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	configMapsReference := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeConfigMapsReference)
 
@@ -198,7 +198,7 @@ func (d *KubernetesExporterBuilder) exportKubernetesResources(
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Body: astbuilder.Statements(
 			collectorCreationStmt,
 			collectStmts,
@@ -207,12 +207,21 @@ func (d *KubernetesExporterBuilder) exportKubernetesResources(
 			sliceToClientObjectSlice),
 	}
 
-	fn.AddParameter("_", astmodel.ContextType.AsTypeExpr(codeGenerationContext))
-	fn.AddParameter("_", astmodel.GenRuntimeMetaObjectType.AsTypeExpr(codeGenerationContext))
-	fn.AddParameter("_", astmodel.NewOptionalType(astmodel.GenericClientType).AsTypeExpr(codeGenerationContext))
-	fn.AddParameter("_", astmodel.LogrType.AsTypeExpr(codeGenerationContext))
+	contextTypeExpr := astmodel.ContextType.AsTypeExpr(codeGenerationContext)
+	fn.AddParameter("_", contextTypeExpr)
 
-	fn.AddReturn(&dst.ArrayType{Elt: astmodel.ControllerRuntimeObjectType.AsTypeExpr(codeGenerationContext)})
+	metaObjectTypeExpr := astmodel.GenRuntimeMetaObjectType.AsTypeExpr(codeGenerationContext)
+	fn.AddParameter("_", metaObjectTypeExpr)
+
+	clientTypeExpr := astmodel.NewOptionalType(astmodel.GenericClientType).AsTypeExpr(codeGenerationContext)
+	fn.AddParameter("_", clientTypeExpr)
+
+	logrTypeExpr := astmodel.LogrType.AsTypeExpr(codeGenerationContext)
+	fn.AddParameter("_", logrTypeExpr)
+
+	objectArrayType := astmodel.NewArrayType(astmodel.ControllerRuntimeObjectType).
+		AsTypeExpr(codeGenerationContext)
+	fn.AddReturn(objectArrayType)
 	fn.AddReturn(dst.NewIdent("error"))
 
 	fn.AddComments("defines a resource which can create other resources in Kubernetes.")

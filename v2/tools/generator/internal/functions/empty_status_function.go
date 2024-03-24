@@ -34,6 +34,7 @@ func createNewEmptyStatusFunction(
 	return func(f *ObjectFunction, genContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, _ string) (*dst.FuncDecl, error) {
 		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 		receiverType := astmodel.NewOptionalType(receiver)
+		receiverTypeExpr := receiverType.AsTypeExpr(genContext)
 
 		// When Storage variants are created from resources, any existing functions are copied across - which means
 		// the statusType we've been passed in above may be from the wrong package. We always want to use the status
@@ -44,14 +45,15 @@ func createNewEmptyStatusFunction(
 
 		fn := &astbuilder.FuncDetails{
 			ReceiverIdent: receiverIdent,
-			ReceiverType:  receiverType.AsTypeExpr(genContext),
+			ReceiverType:  receiverTypeExpr,
 			Name:          "NewEmptyStatus",
 			Body: astbuilder.Statements(
 				astbuilder.Returns(
 					astbuilder.AddrOf(literal))),
 		}
 
-		fn.AddReturn(astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(genContext))
+		convertibleStatusInterfaceExpr := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(genContext)
+		fn.AddReturn(convertibleStatusInterfaceExpr)
 		fn.AddComments("returns a new empty (blank) status")
 
 		return fn.DefineFunc(), nil

@@ -112,7 +112,7 @@ func (d *DefaulterBuilder) localDefault(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	defaults := make([]dst.Stmt, 0, len(d.defaults))
 	for _, def := range d.defaults {
@@ -124,7 +124,7 @@ func (d *DefaulterBuilder) localDefault(
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Body:          defaults,
 	}
 

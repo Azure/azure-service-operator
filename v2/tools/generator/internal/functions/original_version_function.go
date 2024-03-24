@@ -56,13 +56,14 @@ func (o *OriginalVersionFunction) AsFunc(
 	groupVersionPackageGlobal := dst.NewIdent("GroupVersion")
 
 	receiverName := o.idFactory.CreateReceiver(receiver.Name())
+	receiverTypeExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	returnVersion := astbuilder.Returns(
 		astbuilder.Selector(groupVersionPackageGlobal, "Version"))
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  astbuilder.PointerTo(receiver.AsTypeExpr(codeGenerationContext)),
+		ReceiverType:  astbuilder.PointerTo(receiverTypeExpr),
 		Name:          o.Name(),
 		Body:          astbuilder.Statements(returnVersion),
 	}

@@ -112,6 +112,7 @@ func (i *InterfaceType) AsTypeExpr(codeGenerationContext *CodeGenerationContext)
 }
 
 func (i *InterfaceType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error) {
+	iExpr := i.AsTypeExpr(codeGenerationContext)
 	declaration := &dst.GenDecl{
 		Decs: dst.GenDeclDecorations{
 			NodeDecs: dst.NodeDecs{
@@ -123,7 +124,7 @@ func (i *InterfaceType) AsDeclarations(codeGenerationContext *CodeGenerationCont
 		Specs: []dst.Spec{
 			&dst.TypeSpec{
 				Name: dst.NewIdent(declContext.Name.Name()),
-				Type: i.AsTypeExpr(codeGenerationContext),
+				Type: iExpr,
 			},
 		},
 	}
