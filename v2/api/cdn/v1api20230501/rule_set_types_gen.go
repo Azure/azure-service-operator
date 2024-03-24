@@ -646,8 +646,9 @@ func (ruleSet *Profiles_RuleSet_STATUS) AssignProperties_From_Profiles_RuleSet_S
 
 	// DeploymentStatus
 	if source.DeploymentStatus != nil {
-		deploymentStatus := RuleSetProperties_DeploymentStatus_STATUS(*source.DeploymentStatus)
-		ruleSet.DeploymentStatus = &deploymentStatus
+		deploymentStatus := *source.DeploymentStatus
+		deploymentStatusTemp := genruntime.ToEnum(deploymentStatus, ruleSetProperties_DeploymentStatus_STATUS_Values)
+		ruleSet.DeploymentStatus = &deploymentStatusTemp
 	} else {
 		ruleSet.DeploymentStatus = nil
 	}
@@ -663,8 +664,9 @@ func (ruleSet *Profiles_RuleSet_STATUS) AssignProperties_From_Profiles_RuleSet_S
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := RuleSetProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		ruleSet.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, ruleSetProperties_ProvisioningState_STATUS_Values)
+		ruleSet.ProvisioningState = &provisioningStateTemp
 	} else {
 		ruleSet.ProvisioningState = nil
 	}

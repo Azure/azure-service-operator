@@ -129,6 +129,13 @@ const (
 	ManagedIdentity_Type_SystemAssignedUserAssigned = ManagedIdentity_Type("SystemAssigned,UserAssigned")
 )
 
+// Mapping from string to ManagedIdentity_Type
+var managedIdentity_Type_Values = map[string]ManagedIdentity_Type{
+	"none":                        ManagedIdentity_Type_None,
+	"systemassigned":              ManagedIdentity_Type_SystemAssigned,
+	"systemassigned,userassigned": ManagedIdentity_Type_SystemAssignedUserAssigned,
+}
+
 // Managed Virtual Network Settings
 type ManagedVirtualNetworkSettings_ARM struct {
 	// AllowedAadTenantIdsForLinking: Allowed Aad Tenant Ids For Linking

@@ -67,6 +67,11 @@ type ExtendedLocationType string
 
 const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
+// Mapping from string to ExtendedLocationType
+var extendedLocationType_Values = map[string]ExtendedLocationType{
+	"edgezone": ExtendedLocationType_EdgeZone,
+}
+
 // Describes a storage profile.
 type ImageStorageProfile_ARM struct {
 	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.

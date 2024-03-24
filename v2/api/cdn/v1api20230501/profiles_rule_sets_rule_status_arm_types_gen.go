@@ -378,12 +378,26 @@ const (
 	RuleProperties_DeploymentStatus_STATUS_Succeeded  = RuleProperties_DeploymentStatus_STATUS("Succeeded")
 )
 
+// Mapping from string to RuleProperties_DeploymentStatus_STATUS
+var ruleProperties_DeploymentStatus_STATUS_Values = map[string]RuleProperties_DeploymentStatus_STATUS{
+	"failed":     RuleProperties_DeploymentStatus_STATUS_Failed,
+	"inprogress": RuleProperties_DeploymentStatus_STATUS_InProgress,
+	"notstarted": RuleProperties_DeploymentStatus_STATUS_NotStarted,
+	"succeeded":  RuleProperties_DeploymentStatus_STATUS_Succeeded,
+}
+
 type RuleProperties_MatchProcessingBehavior_STATUS string
 
 const (
 	RuleProperties_MatchProcessingBehavior_STATUS_Continue = RuleProperties_MatchProcessingBehavior_STATUS("Continue")
 	RuleProperties_MatchProcessingBehavior_STATUS_Stop     = RuleProperties_MatchProcessingBehavior_STATUS("Stop")
 )
+
+// Mapping from string to RuleProperties_MatchProcessingBehavior_STATUS
+var ruleProperties_MatchProcessingBehavior_STATUS_Values = map[string]RuleProperties_MatchProcessingBehavior_STATUS{
+	"continue": RuleProperties_MatchProcessingBehavior_STATUS_Continue,
+	"stop":     RuleProperties_MatchProcessingBehavior_STATUS_Stop,
+}
 
 type RuleProperties_ProvisioningState_STATUS string
 
@@ -394,6 +408,15 @@ const (
 	RuleProperties_ProvisioningState_STATUS_Succeeded = RuleProperties_ProvisioningState_STATUS("Succeeded")
 	RuleProperties_ProvisioningState_STATUS_Updating  = RuleProperties_ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to RuleProperties_ProvisioningState_STATUS
+var ruleProperties_ProvisioningState_STATUS_Values = map[string]RuleProperties_ProvisioningState_STATUS{
+	"creating":  RuleProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  RuleProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    RuleProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": RuleProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  RuleProperties_ProvisioningState_STATUS_Updating,
+}
 
 type DeliveryRuleCacheExpirationAction_STATUS_ARM struct {
 	// Name: The name of the action for the delivery rule.
@@ -681,97 +704,217 @@ type DeliveryRuleCacheExpirationAction_Name_STATUS string
 
 const DeliveryRuleCacheExpirationAction_Name_STATUS_CacheExpiration = DeliveryRuleCacheExpirationAction_Name_STATUS("CacheExpiration")
 
+// Mapping from string to DeliveryRuleCacheExpirationAction_Name_STATUS
+var deliveryRuleCacheExpirationAction_Name_STATUS_Values = map[string]DeliveryRuleCacheExpirationAction_Name_STATUS{
+	"cacheexpiration": DeliveryRuleCacheExpirationAction_Name_STATUS_CacheExpiration,
+}
+
 type DeliveryRuleCacheKeyQueryStringAction_Name_STATUS string
 
 const DeliveryRuleCacheKeyQueryStringAction_Name_STATUS_CacheKeyQueryString = DeliveryRuleCacheKeyQueryStringAction_Name_STATUS("CacheKeyQueryString")
+
+// Mapping from string to DeliveryRuleCacheKeyQueryStringAction_Name_STATUS
+var deliveryRuleCacheKeyQueryStringAction_Name_STATUS_Values = map[string]DeliveryRuleCacheKeyQueryStringAction_Name_STATUS{
+	"cachekeyquerystring": DeliveryRuleCacheKeyQueryStringAction_Name_STATUS_CacheKeyQueryString,
+}
 
 type DeliveryRuleClientPortCondition_Name_STATUS string
 
 const DeliveryRuleClientPortCondition_Name_STATUS_ClientPort = DeliveryRuleClientPortCondition_Name_STATUS("ClientPort")
 
+// Mapping from string to DeliveryRuleClientPortCondition_Name_STATUS
+var deliveryRuleClientPortCondition_Name_STATUS_Values = map[string]DeliveryRuleClientPortCondition_Name_STATUS{
+	"clientport": DeliveryRuleClientPortCondition_Name_STATUS_ClientPort,
+}
+
 type DeliveryRuleCookiesCondition_Name_STATUS string
 
 const DeliveryRuleCookiesCondition_Name_STATUS_Cookies = DeliveryRuleCookiesCondition_Name_STATUS("Cookies")
+
+// Mapping from string to DeliveryRuleCookiesCondition_Name_STATUS
+var deliveryRuleCookiesCondition_Name_STATUS_Values = map[string]DeliveryRuleCookiesCondition_Name_STATUS{
+	"cookies": DeliveryRuleCookiesCondition_Name_STATUS_Cookies,
+}
 
 type DeliveryRuleHostNameCondition_Name_STATUS string
 
 const DeliveryRuleHostNameCondition_Name_STATUS_HostName = DeliveryRuleHostNameCondition_Name_STATUS("HostName")
 
+// Mapping from string to DeliveryRuleHostNameCondition_Name_STATUS
+var deliveryRuleHostNameCondition_Name_STATUS_Values = map[string]DeliveryRuleHostNameCondition_Name_STATUS{
+	"hostname": DeliveryRuleHostNameCondition_Name_STATUS_HostName,
+}
+
 type DeliveryRuleHttpVersionCondition_Name_STATUS string
 
 const DeliveryRuleHttpVersionCondition_Name_STATUS_HttpVersion = DeliveryRuleHttpVersionCondition_Name_STATUS("HttpVersion")
+
+// Mapping from string to DeliveryRuleHttpVersionCondition_Name_STATUS
+var deliveryRuleHttpVersionCondition_Name_STATUS_Values = map[string]DeliveryRuleHttpVersionCondition_Name_STATUS{
+	"httpversion": DeliveryRuleHttpVersionCondition_Name_STATUS_HttpVersion,
+}
 
 type DeliveryRuleIsDeviceCondition_Name_STATUS string
 
 const DeliveryRuleIsDeviceCondition_Name_STATUS_IsDevice = DeliveryRuleIsDeviceCondition_Name_STATUS("IsDevice")
 
+// Mapping from string to DeliveryRuleIsDeviceCondition_Name_STATUS
+var deliveryRuleIsDeviceCondition_Name_STATUS_Values = map[string]DeliveryRuleIsDeviceCondition_Name_STATUS{
+	"isdevice": DeliveryRuleIsDeviceCondition_Name_STATUS_IsDevice,
+}
+
 type DeliveryRulePostArgsCondition_Name_STATUS string
 
 const DeliveryRulePostArgsCondition_Name_STATUS_PostArgs = DeliveryRulePostArgsCondition_Name_STATUS("PostArgs")
+
+// Mapping from string to DeliveryRulePostArgsCondition_Name_STATUS
+var deliveryRulePostArgsCondition_Name_STATUS_Values = map[string]DeliveryRulePostArgsCondition_Name_STATUS{
+	"postargs": DeliveryRulePostArgsCondition_Name_STATUS_PostArgs,
+}
 
 type DeliveryRuleQueryStringCondition_Name_STATUS string
 
 const DeliveryRuleQueryStringCondition_Name_STATUS_QueryString = DeliveryRuleQueryStringCondition_Name_STATUS("QueryString")
 
+// Mapping from string to DeliveryRuleQueryStringCondition_Name_STATUS
+var deliveryRuleQueryStringCondition_Name_STATUS_Values = map[string]DeliveryRuleQueryStringCondition_Name_STATUS{
+	"querystring": DeliveryRuleQueryStringCondition_Name_STATUS_QueryString,
+}
+
 type DeliveryRuleRemoteAddressCondition_Name_STATUS string
 
 const DeliveryRuleRemoteAddressCondition_Name_STATUS_RemoteAddress = DeliveryRuleRemoteAddressCondition_Name_STATUS("RemoteAddress")
+
+// Mapping from string to DeliveryRuleRemoteAddressCondition_Name_STATUS
+var deliveryRuleRemoteAddressCondition_Name_STATUS_Values = map[string]DeliveryRuleRemoteAddressCondition_Name_STATUS{
+	"remoteaddress": DeliveryRuleRemoteAddressCondition_Name_STATUS_RemoteAddress,
+}
 
 type DeliveryRuleRequestBodyCondition_Name_STATUS string
 
 const DeliveryRuleRequestBodyCondition_Name_STATUS_RequestBody = DeliveryRuleRequestBodyCondition_Name_STATUS("RequestBody")
 
+// Mapping from string to DeliveryRuleRequestBodyCondition_Name_STATUS
+var deliveryRuleRequestBodyCondition_Name_STATUS_Values = map[string]DeliveryRuleRequestBodyCondition_Name_STATUS{
+	"requestbody": DeliveryRuleRequestBodyCondition_Name_STATUS_RequestBody,
+}
+
 type DeliveryRuleRequestHeaderAction_Name_STATUS string
 
 const DeliveryRuleRequestHeaderAction_Name_STATUS_ModifyRequestHeader = DeliveryRuleRequestHeaderAction_Name_STATUS("ModifyRequestHeader")
+
+// Mapping from string to DeliveryRuleRequestHeaderAction_Name_STATUS
+var deliveryRuleRequestHeaderAction_Name_STATUS_Values = map[string]DeliveryRuleRequestHeaderAction_Name_STATUS{
+	"modifyrequestheader": DeliveryRuleRequestHeaderAction_Name_STATUS_ModifyRequestHeader,
+}
 
 type DeliveryRuleRequestHeaderCondition_Name_STATUS string
 
 const DeliveryRuleRequestHeaderCondition_Name_STATUS_RequestHeader = DeliveryRuleRequestHeaderCondition_Name_STATUS("RequestHeader")
 
+// Mapping from string to DeliveryRuleRequestHeaderCondition_Name_STATUS
+var deliveryRuleRequestHeaderCondition_Name_STATUS_Values = map[string]DeliveryRuleRequestHeaderCondition_Name_STATUS{
+	"requestheader": DeliveryRuleRequestHeaderCondition_Name_STATUS_RequestHeader,
+}
+
 type DeliveryRuleRequestMethodCondition_Name_STATUS string
 
 const DeliveryRuleRequestMethodCondition_Name_STATUS_RequestMethod = DeliveryRuleRequestMethodCondition_Name_STATUS("RequestMethod")
+
+// Mapping from string to DeliveryRuleRequestMethodCondition_Name_STATUS
+var deliveryRuleRequestMethodCondition_Name_STATUS_Values = map[string]DeliveryRuleRequestMethodCondition_Name_STATUS{
+	"requestmethod": DeliveryRuleRequestMethodCondition_Name_STATUS_RequestMethod,
+}
 
 type DeliveryRuleRequestSchemeCondition_Name_STATUS string
 
 const DeliveryRuleRequestSchemeCondition_Name_STATUS_RequestScheme = DeliveryRuleRequestSchemeCondition_Name_STATUS("RequestScheme")
 
+// Mapping from string to DeliveryRuleRequestSchemeCondition_Name_STATUS
+var deliveryRuleRequestSchemeCondition_Name_STATUS_Values = map[string]DeliveryRuleRequestSchemeCondition_Name_STATUS{
+	"requestscheme": DeliveryRuleRequestSchemeCondition_Name_STATUS_RequestScheme,
+}
+
 type DeliveryRuleRequestUriCondition_Name_STATUS string
 
 const DeliveryRuleRequestUriCondition_Name_STATUS_RequestUri = DeliveryRuleRequestUriCondition_Name_STATUS("RequestUri")
+
+// Mapping from string to DeliveryRuleRequestUriCondition_Name_STATUS
+var deliveryRuleRequestUriCondition_Name_STATUS_Values = map[string]DeliveryRuleRequestUriCondition_Name_STATUS{
+	"requesturi": DeliveryRuleRequestUriCondition_Name_STATUS_RequestUri,
+}
 
 type DeliveryRuleResponseHeaderAction_Name_STATUS string
 
 const DeliveryRuleResponseHeaderAction_Name_STATUS_ModifyResponseHeader = DeliveryRuleResponseHeaderAction_Name_STATUS("ModifyResponseHeader")
 
+// Mapping from string to DeliveryRuleResponseHeaderAction_Name_STATUS
+var deliveryRuleResponseHeaderAction_Name_STATUS_Values = map[string]DeliveryRuleResponseHeaderAction_Name_STATUS{
+	"modifyresponseheader": DeliveryRuleResponseHeaderAction_Name_STATUS_ModifyResponseHeader,
+}
+
 type DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS string
 
 const DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS_RouteConfigurationOverride = DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS("RouteConfigurationOverride")
+
+// Mapping from string to DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS
+var deliveryRuleRouteConfigurationOverrideAction_Name_STATUS_Values = map[string]DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS{
+	"routeconfigurationoverride": DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS_RouteConfigurationOverride,
+}
 
 type DeliveryRuleServerPortCondition_Name_STATUS string
 
 const DeliveryRuleServerPortCondition_Name_STATUS_ServerPort = DeliveryRuleServerPortCondition_Name_STATUS("ServerPort")
 
+// Mapping from string to DeliveryRuleServerPortCondition_Name_STATUS
+var deliveryRuleServerPortCondition_Name_STATUS_Values = map[string]DeliveryRuleServerPortCondition_Name_STATUS{
+	"serverport": DeliveryRuleServerPortCondition_Name_STATUS_ServerPort,
+}
+
 type DeliveryRuleSocketAddrCondition_Name_STATUS string
 
 const DeliveryRuleSocketAddrCondition_Name_STATUS_SocketAddr = DeliveryRuleSocketAddrCondition_Name_STATUS("SocketAddr")
+
+// Mapping from string to DeliveryRuleSocketAddrCondition_Name_STATUS
+var deliveryRuleSocketAddrCondition_Name_STATUS_Values = map[string]DeliveryRuleSocketAddrCondition_Name_STATUS{
+	"socketaddr": DeliveryRuleSocketAddrCondition_Name_STATUS_SocketAddr,
+}
 
 type DeliveryRuleSslProtocolCondition_Name_STATUS string
 
 const DeliveryRuleSslProtocolCondition_Name_STATUS_SslProtocol = DeliveryRuleSslProtocolCondition_Name_STATUS("SslProtocol")
 
+// Mapping from string to DeliveryRuleSslProtocolCondition_Name_STATUS
+var deliveryRuleSslProtocolCondition_Name_STATUS_Values = map[string]DeliveryRuleSslProtocolCondition_Name_STATUS{
+	"sslprotocol": DeliveryRuleSslProtocolCondition_Name_STATUS_SslProtocol,
+}
+
 type DeliveryRuleUrlFileExtensionCondition_Name_STATUS string
 
 const DeliveryRuleUrlFileExtensionCondition_Name_STATUS_UrlFileExtension = DeliveryRuleUrlFileExtensionCondition_Name_STATUS("UrlFileExtension")
+
+// Mapping from string to DeliveryRuleUrlFileExtensionCondition_Name_STATUS
+var deliveryRuleUrlFileExtensionCondition_Name_STATUS_Values = map[string]DeliveryRuleUrlFileExtensionCondition_Name_STATUS{
+	"urlfileextension": DeliveryRuleUrlFileExtensionCondition_Name_STATUS_UrlFileExtension,
+}
 
 type DeliveryRuleUrlFileNameCondition_Name_STATUS string
 
 const DeliveryRuleUrlFileNameCondition_Name_STATUS_UrlFileName = DeliveryRuleUrlFileNameCondition_Name_STATUS("UrlFileName")
 
+// Mapping from string to DeliveryRuleUrlFileNameCondition_Name_STATUS
+var deliveryRuleUrlFileNameCondition_Name_STATUS_Values = map[string]DeliveryRuleUrlFileNameCondition_Name_STATUS{
+	"urlfilename": DeliveryRuleUrlFileNameCondition_Name_STATUS_UrlFileName,
+}
+
 type DeliveryRuleUrlPathCondition_Name_STATUS string
 
 const DeliveryRuleUrlPathCondition_Name_STATUS_UrlPath = DeliveryRuleUrlPathCondition_Name_STATUS("UrlPath")
+
+// Mapping from string to DeliveryRuleUrlPathCondition_Name_STATUS
+var deliveryRuleUrlPathCondition_Name_STATUS_Values = map[string]DeliveryRuleUrlPathCondition_Name_STATUS{
+	"urlpath": DeliveryRuleUrlPathCondition_Name_STATUS_UrlPath,
+}
 
 // Defines the parameters for the request header action.
 type HeaderActionParameters_STATUS_ARM struct {
@@ -837,6 +980,11 @@ type IsDeviceMatchConditionParameters_STATUS_ARM struct {
 type OriginGroupOverrideAction_Name_STATUS string
 
 const OriginGroupOverrideAction_Name_STATUS_OriginGroupOverride = OriginGroupOverrideAction_Name_STATUS("OriginGroupOverride")
+
+// Mapping from string to OriginGroupOverrideAction_Name_STATUS
+var originGroupOverrideAction_Name_STATUS_Values = map[string]OriginGroupOverrideAction_Name_STATUS{
+	"origingroupoverride": OriginGroupOverrideAction_Name_STATUS_OriginGroupOverride,
+}
 
 // Defines the parameters for the origin group override action.
 type OriginGroupOverrideActionParameters_STATUS_ARM struct {
@@ -1092,6 +1240,11 @@ type UrlRedirectAction_Name_STATUS string
 
 const UrlRedirectAction_Name_STATUS_UrlRedirect = UrlRedirectAction_Name_STATUS("UrlRedirect")
 
+// Mapping from string to UrlRedirectAction_Name_STATUS
+var urlRedirectAction_Name_STATUS_Values = map[string]UrlRedirectAction_Name_STATUS{
+	"urlredirect": UrlRedirectAction_Name_STATUS_UrlRedirect,
+}
+
 // Defines the parameters for the url redirect action.
 type UrlRedirectActionParameters_STATUS_ARM struct {
 	// CustomFragment: Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include
@@ -1122,6 +1275,11 @@ type UrlRewriteAction_Name_STATUS string
 
 const UrlRewriteAction_Name_STATUS_UrlRewrite = UrlRewriteAction_Name_STATUS("UrlRewrite")
 
+// Mapping from string to UrlRewriteAction_Name_STATUS
+var urlRewriteAction_Name_STATUS_Values = map[string]UrlRewriteAction_Name_STATUS{
+	"urlrewrite": UrlRewriteAction_Name_STATUS_UrlRewrite,
+}
+
 // Defines the parameters for the url rewrite action.
 type UrlRewriteActionParameters_STATUS_ARM struct {
 	// Destination: Define the relative URL to which the above requests will be rewritten by.
@@ -1139,6 +1297,11 @@ type UrlRewriteActionParameters_STATUS_ARM struct {
 type UrlSigningAction_Name_STATUS string
 
 const UrlSigningAction_Name_STATUS_UrlSigning = UrlSigningAction_Name_STATUS("UrlSigning")
+
+// Mapping from string to UrlSigningAction_Name_STATUS
+var urlSigningAction_Name_STATUS_Values = map[string]UrlSigningAction_Name_STATUS{
+	"urlsigning": UrlSigningAction_Name_STATUS_UrlSigning,
+}
 
 // Defines the parameters for the Url Signing action.
 type UrlSigningActionParameters_STATUS_ARM struct {
@@ -1180,13 +1343,30 @@ const (
 	CacheExpirationActionParameters_CacheBehavior_STATUS_SetIfMissing = CacheExpirationActionParameters_CacheBehavior_STATUS("SetIfMissing")
 )
 
+// Mapping from string to CacheExpirationActionParameters_CacheBehavior_STATUS
+var cacheExpirationActionParameters_CacheBehavior_STATUS_Values = map[string]CacheExpirationActionParameters_CacheBehavior_STATUS{
+	"bypasscache":  CacheExpirationActionParameters_CacheBehavior_STATUS_BypassCache,
+	"override":     CacheExpirationActionParameters_CacheBehavior_STATUS_Override,
+	"setifmissing": CacheExpirationActionParameters_CacheBehavior_STATUS_SetIfMissing,
+}
+
 type CacheExpirationActionParameters_CacheType_STATUS string
 
 const CacheExpirationActionParameters_CacheType_STATUS_All = CacheExpirationActionParameters_CacheType_STATUS("All")
 
+// Mapping from string to CacheExpirationActionParameters_CacheType_STATUS
+var cacheExpirationActionParameters_CacheType_STATUS_Values = map[string]CacheExpirationActionParameters_CacheType_STATUS{
+	"all": CacheExpirationActionParameters_CacheType_STATUS_All,
+}
+
 type CacheExpirationActionParameters_TypeName_STATUS string
 
 const CacheExpirationActionParameters_TypeName_STATUS_DeliveryRuleCacheExpirationActionParameters = CacheExpirationActionParameters_TypeName_STATUS("DeliveryRuleCacheExpirationActionParameters")
+
+// Mapping from string to CacheExpirationActionParameters_TypeName_STATUS
+var cacheExpirationActionParameters_TypeName_STATUS_Values = map[string]CacheExpirationActionParameters_TypeName_STATUS{
+	"deliveryrulecacheexpirationactionparameters": CacheExpirationActionParameters_TypeName_STATUS_DeliveryRuleCacheExpirationActionParameters,
+}
 
 type CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS string
 
@@ -1197,9 +1377,22 @@ const (
 	CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_IncludeAll = CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS("IncludeAll")
 )
 
+// Mapping from string to CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS
+var cacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_Values = map[string]CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS{
+	"exclude":    CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_Exclude,
+	"excludeall": CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_ExcludeAll,
+	"include":    CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_Include,
+	"includeall": CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_IncludeAll,
+}
+
 type CacheKeyQueryStringActionParameters_TypeName_STATUS string
 
 const CacheKeyQueryStringActionParameters_TypeName_STATUS_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters = CacheKeyQueryStringActionParameters_TypeName_STATUS("DeliveryRuleCacheKeyQueryStringBehaviorActionParameters")
+
+// Mapping from string to CacheKeyQueryStringActionParameters_TypeName_STATUS
+var cacheKeyQueryStringActionParameters_TypeName_STATUS_Values = map[string]CacheKeyQueryStringActionParameters_TypeName_STATUS{
+	"deliveryrulecachekeyquerystringbehavioractionparameters": CacheKeyQueryStringActionParameters_TypeName_STATUS_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters,
+}
 
 type ClientPortMatchConditionParameters_Operator_STATUS string
 
@@ -1216,9 +1409,28 @@ const (
 	ClientPortMatchConditionParameters_Operator_STATUS_RegEx              = ClientPortMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to ClientPortMatchConditionParameters_Operator_STATUS
+var clientPortMatchConditionParameters_Operator_STATUS_Values = map[string]ClientPortMatchConditionParameters_Operator_STATUS{
+	"any":                ClientPortMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         ClientPortMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           ClientPortMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           ClientPortMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              ClientPortMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        ClientPortMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": ClientPortMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           ClientPortMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    ClientPortMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              ClientPortMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 type ClientPortMatchConditionParameters_TypeName_STATUS string
 
 const ClientPortMatchConditionParameters_TypeName_STATUS_DeliveryRuleClientPortConditionParameters = ClientPortMatchConditionParameters_TypeName_STATUS("DeliveryRuleClientPortConditionParameters")
+
+// Mapping from string to ClientPortMatchConditionParameters_TypeName_STATUS
+var clientPortMatchConditionParameters_TypeName_STATUS_Values = map[string]ClientPortMatchConditionParameters_TypeName_STATUS{
+	"deliveryruleclientportconditionparameters": ClientPortMatchConditionParameters_TypeName_STATUS_DeliveryRuleClientPortConditionParameters,
+}
 
 type CookiesMatchConditionParameters_Operator_STATUS string
 
@@ -1235,9 +1447,28 @@ const (
 	CookiesMatchConditionParameters_Operator_STATUS_RegEx              = CookiesMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to CookiesMatchConditionParameters_Operator_STATUS
+var cookiesMatchConditionParameters_Operator_STATUS_Values = map[string]CookiesMatchConditionParameters_Operator_STATUS{
+	"any":                CookiesMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         CookiesMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           CookiesMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           CookiesMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              CookiesMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        CookiesMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": CookiesMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           CookiesMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    CookiesMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              CookiesMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 type CookiesMatchConditionParameters_TypeName_STATUS string
 
 const CookiesMatchConditionParameters_TypeName_STATUS_DeliveryRuleCookiesConditionParameters = CookiesMatchConditionParameters_TypeName_STATUS("DeliveryRuleCookiesConditionParameters")
+
+// Mapping from string to CookiesMatchConditionParameters_TypeName_STATUS
+var cookiesMatchConditionParameters_TypeName_STATUS_Values = map[string]CookiesMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulecookiesconditionparameters": CookiesMatchConditionParameters_TypeName_STATUS_DeliveryRuleCookiesConditionParameters,
+}
 
 type HeaderActionParameters_HeaderAction_STATUS string
 
@@ -1247,9 +1478,21 @@ const (
 	HeaderActionParameters_HeaderAction_STATUS_Overwrite = HeaderActionParameters_HeaderAction_STATUS("Overwrite")
 )
 
+// Mapping from string to HeaderActionParameters_HeaderAction_STATUS
+var headerActionParameters_HeaderAction_STATUS_Values = map[string]HeaderActionParameters_HeaderAction_STATUS{
+	"append":    HeaderActionParameters_HeaderAction_STATUS_Append,
+	"delete":    HeaderActionParameters_HeaderAction_STATUS_Delete,
+	"overwrite": HeaderActionParameters_HeaderAction_STATUS_Overwrite,
+}
+
 type HeaderActionParameters_TypeName_STATUS string
 
 const HeaderActionParameters_TypeName_STATUS_DeliveryRuleHeaderActionParameters = HeaderActionParameters_TypeName_STATUS("DeliveryRuleHeaderActionParameters")
+
+// Mapping from string to HeaderActionParameters_TypeName_STATUS
+var headerActionParameters_TypeName_STATUS_Values = map[string]HeaderActionParameters_TypeName_STATUS{
+	"deliveryruleheaderactionparameters": HeaderActionParameters_TypeName_STATUS_DeliveryRuleHeaderActionParameters,
+}
 
 type HostNameMatchConditionParameters_Operator_STATUS string
 
@@ -1266,17 +1509,46 @@ const (
 	HostNameMatchConditionParameters_Operator_STATUS_RegEx              = HostNameMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to HostNameMatchConditionParameters_Operator_STATUS
+var hostNameMatchConditionParameters_Operator_STATUS_Values = map[string]HostNameMatchConditionParameters_Operator_STATUS{
+	"any":                HostNameMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         HostNameMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           HostNameMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           HostNameMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              HostNameMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        HostNameMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": HostNameMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           HostNameMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    HostNameMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              HostNameMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 type HostNameMatchConditionParameters_TypeName_STATUS string
 
 const HostNameMatchConditionParameters_TypeName_STATUS_DeliveryRuleHostNameConditionParameters = HostNameMatchConditionParameters_TypeName_STATUS("DeliveryRuleHostNameConditionParameters")
+
+// Mapping from string to HostNameMatchConditionParameters_TypeName_STATUS
+var hostNameMatchConditionParameters_TypeName_STATUS_Values = map[string]HostNameMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulehostnameconditionparameters": HostNameMatchConditionParameters_TypeName_STATUS_DeliveryRuleHostNameConditionParameters,
+}
 
 type HttpVersionMatchConditionParameters_Operator_STATUS string
 
 const HttpVersionMatchConditionParameters_Operator_STATUS_Equal = HttpVersionMatchConditionParameters_Operator_STATUS("Equal")
 
+// Mapping from string to HttpVersionMatchConditionParameters_Operator_STATUS
+var httpVersionMatchConditionParameters_Operator_STATUS_Values = map[string]HttpVersionMatchConditionParameters_Operator_STATUS{
+	"equal": HttpVersionMatchConditionParameters_Operator_STATUS_Equal,
+}
+
 type HttpVersionMatchConditionParameters_TypeName_STATUS string
 
 const HttpVersionMatchConditionParameters_TypeName_STATUS_DeliveryRuleHttpVersionConditionParameters = HttpVersionMatchConditionParameters_TypeName_STATUS("DeliveryRuleHttpVersionConditionParameters")
+
+// Mapping from string to HttpVersionMatchConditionParameters_TypeName_STATUS
+var httpVersionMatchConditionParameters_TypeName_STATUS_Values = map[string]HttpVersionMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulehttpversionconditionparameters": HttpVersionMatchConditionParameters_TypeName_STATUS_DeliveryRuleHttpVersionConditionParameters,
+}
 
 type IsDeviceMatchConditionParameters_MatchValues_STATUS string
 
@@ -1285,13 +1557,29 @@ const (
 	IsDeviceMatchConditionParameters_MatchValues_STATUS_Mobile  = IsDeviceMatchConditionParameters_MatchValues_STATUS("Mobile")
 )
 
+// Mapping from string to IsDeviceMatchConditionParameters_MatchValues_STATUS
+var isDeviceMatchConditionParameters_MatchValues_STATUS_Values = map[string]IsDeviceMatchConditionParameters_MatchValues_STATUS{
+	"desktop": IsDeviceMatchConditionParameters_MatchValues_STATUS_Desktop,
+	"mobile":  IsDeviceMatchConditionParameters_MatchValues_STATUS_Mobile,
+}
+
 type IsDeviceMatchConditionParameters_Operator_STATUS string
 
 const IsDeviceMatchConditionParameters_Operator_STATUS_Equal = IsDeviceMatchConditionParameters_Operator_STATUS("Equal")
 
+// Mapping from string to IsDeviceMatchConditionParameters_Operator_STATUS
+var isDeviceMatchConditionParameters_Operator_STATUS_Values = map[string]IsDeviceMatchConditionParameters_Operator_STATUS{
+	"equal": IsDeviceMatchConditionParameters_Operator_STATUS_Equal,
+}
+
 type IsDeviceMatchConditionParameters_TypeName_STATUS string
 
 const IsDeviceMatchConditionParameters_TypeName_STATUS_DeliveryRuleIsDeviceConditionParameters = IsDeviceMatchConditionParameters_TypeName_STATUS("DeliveryRuleIsDeviceConditionParameters")
+
+// Mapping from string to IsDeviceMatchConditionParameters_TypeName_STATUS
+var isDeviceMatchConditionParameters_TypeName_STATUS_Values = map[string]IsDeviceMatchConditionParameters_TypeName_STATUS{
+	"deliveryruleisdeviceconditionparameters": IsDeviceMatchConditionParameters_TypeName_STATUS_DeliveryRuleIsDeviceConditionParameters,
+}
 
 // Defines the parameters for the origin group override configuration.
 type OriginGroupOverride_STATUS_ARM struct {
@@ -1305,6 +1593,11 @@ type OriginGroupOverride_STATUS_ARM struct {
 type OriginGroupOverrideActionParameters_TypeName_STATUS string
 
 const OriginGroupOverrideActionParameters_TypeName_STATUS_DeliveryRuleOriginGroupOverrideActionParameters = OriginGroupOverrideActionParameters_TypeName_STATUS("DeliveryRuleOriginGroupOverrideActionParameters")
+
+// Mapping from string to OriginGroupOverrideActionParameters_TypeName_STATUS
+var originGroupOverrideActionParameters_TypeName_STATUS_Values = map[string]OriginGroupOverrideActionParameters_TypeName_STATUS{
+	"deliveryruleorigingroupoverrideactionparameters": OriginGroupOverrideActionParameters_TypeName_STATUS_DeliveryRuleOriginGroupOverrideActionParameters,
+}
 
 type PostArgsMatchConditionParameters_Operator_STATUS string
 
@@ -1321,9 +1614,28 @@ const (
 	PostArgsMatchConditionParameters_Operator_STATUS_RegEx              = PostArgsMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to PostArgsMatchConditionParameters_Operator_STATUS
+var postArgsMatchConditionParameters_Operator_STATUS_Values = map[string]PostArgsMatchConditionParameters_Operator_STATUS{
+	"any":                PostArgsMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         PostArgsMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           PostArgsMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           PostArgsMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              PostArgsMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        PostArgsMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": PostArgsMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           PostArgsMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    PostArgsMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              PostArgsMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 type PostArgsMatchConditionParameters_TypeName_STATUS string
 
 const PostArgsMatchConditionParameters_TypeName_STATUS_DeliveryRulePostArgsConditionParameters = PostArgsMatchConditionParameters_TypeName_STATUS("DeliveryRulePostArgsConditionParameters")
+
+// Mapping from string to PostArgsMatchConditionParameters_TypeName_STATUS
+var postArgsMatchConditionParameters_TypeName_STATUS_Values = map[string]PostArgsMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulepostargsconditionparameters": PostArgsMatchConditionParameters_TypeName_STATUS_DeliveryRulePostArgsConditionParameters,
+}
 
 type QueryStringMatchConditionParameters_Operator_STATUS string
 
@@ -1340,9 +1652,28 @@ const (
 	QueryStringMatchConditionParameters_Operator_STATUS_RegEx              = QueryStringMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to QueryStringMatchConditionParameters_Operator_STATUS
+var queryStringMatchConditionParameters_Operator_STATUS_Values = map[string]QueryStringMatchConditionParameters_Operator_STATUS{
+	"any":                QueryStringMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         QueryStringMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           QueryStringMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           QueryStringMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              QueryStringMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        QueryStringMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": QueryStringMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           QueryStringMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    QueryStringMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              QueryStringMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 type QueryStringMatchConditionParameters_TypeName_STATUS string
 
 const QueryStringMatchConditionParameters_TypeName_STATUS_DeliveryRuleQueryStringConditionParameters = QueryStringMatchConditionParameters_TypeName_STATUS("DeliveryRuleQueryStringConditionParameters")
+
+// Mapping from string to QueryStringMatchConditionParameters_TypeName_STATUS
+var queryStringMatchConditionParameters_TypeName_STATUS_Values = map[string]QueryStringMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulequerystringconditionparameters": QueryStringMatchConditionParameters_TypeName_STATUS_DeliveryRuleQueryStringConditionParameters,
+}
 
 type RemoteAddressMatchConditionParameters_Operator_STATUS string
 
@@ -1352,9 +1683,21 @@ const (
 	RemoteAddressMatchConditionParameters_Operator_STATUS_IPMatch  = RemoteAddressMatchConditionParameters_Operator_STATUS("IPMatch")
 )
 
+// Mapping from string to RemoteAddressMatchConditionParameters_Operator_STATUS
+var remoteAddressMatchConditionParameters_Operator_STATUS_Values = map[string]RemoteAddressMatchConditionParameters_Operator_STATUS{
+	"any":      RemoteAddressMatchConditionParameters_Operator_STATUS_Any,
+	"geomatch": RemoteAddressMatchConditionParameters_Operator_STATUS_GeoMatch,
+	"ipmatch":  RemoteAddressMatchConditionParameters_Operator_STATUS_IPMatch,
+}
+
 type RemoteAddressMatchConditionParameters_TypeName_STATUS string
 
 const RemoteAddressMatchConditionParameters_TypeName_STATUS_DeliveryRuleRemoteAddressConditionParameters = RemoteAddressMatchConditionParameters_TypeName_STATUS("DeliveryRuleRemoteAddressConditionParameters")
+
+// Mapping from string to RemoteAddressMatchConditionParameters_TypeName_STATUS
+var remoteAddressMatchConditionParameters_TypeName_STATUS_Values = map[string]RemoteAddressMatchConditionParameters_TypeName_STATUS{
+	"deliveryruleremoteaddressconditionparameters": RemoteAddressMatchConditionParameters_TypeName_STATUS_DeliveryRuleRemoteAddressConditionParameters,
+}
 
 type RequestBodyMatchConditionParameters_Operator_STATUS string
 
@@ -1371,9 +1714,28 @@ const (
 	RequestBodyMatchConditionParameters_Operator_STATUS_RegEx              = RequestBodyMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to RequestBodyMatchConditionParameters_Operator_STATUS
+var requestBodyMatchConditionParameters_Operator_STATUS_Values = map[string]RequestBodyMatchConditionParameters_Operator_STATUS{
+	"any":                RequestBodyMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         RequestBodyMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           RequestBodyMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           RequestBodyMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              RequestBodyMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        RequestBodyMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": RequestBodyMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           RequestBodyMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    RequestBodyMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              RequestBodyMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 type RequestBodyMatchConditionParameters_TypeName_STATUS string
 
 const RequestBodyMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestBodyConditionParameters = RequestBodyMatchConditionParameters_TypeName_STATUS("DeliveryRuleRequestBodyConditionParameters")
+
+// Mapping from string to RequestBodyMatchConditionParameters_TypeName_STATUS
+var requestBodyMatchConditionParameters_TypeName_STATUS_Values = map[string]RequestBodyMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulerequestbodyconditionparameters": RequestBodyMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestBodyConditionParameters,
+}
 
 type RequestHeaderMatchConditionParameters_Operator_STATUS string
 
@@ -1390,9 +1752,28 @@ const (
 	RequestHeaderMatchConditionParameters_Operator_STATUS_RegEx              = RequestHeaderMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to RequestHeaderMatchConditionParameters_Operator_STATUS
+var requestHeaderMatchConditionParameters_Operator_STATUS_Values = map[string]RequestHeaderMatchConditionParameters_Operator_STATUS{
+	"any":                RequestHeaderMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         RequestHeaderMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           RequestHeaderMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           RequestHeaderMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              RequestHeaderMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        RequestHeaderMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": RequestHeaderMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           RequestHeaderMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    RequestHeaderMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              RequestHeaderMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 type RequestHeaderMatchConditionParameters_TypeName_STATUS string
 
 const RequestHeaderMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestHeaderConditionParameters = RequestHeaderMatchConditionParameters_TypeName_STATUS("DeliveryRuleRequestHeaderConditionParameters")
+
+// Mapping from string to RequestHeaderMatchConditionParameters_TypeName_STATUS
+var requestHeaderMatchConditionParameters_TypeName_STATUS_Values = map[string]RequestHeaderMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulerequestheaderconditionparameters": RequestHeaderMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestHeaderConditionParameters,
+}
 
 type RequestMethodMatchConditionParameters_MatchValues_STATUS string
 
@@ -1406,13 +1787,34 @@ const (
 	RequestMethodMatchConditionParameters_MatchValues_STATUS_TRACE   = RequestMethodMatchConditionParameters_MatchValues_STATUS("TRACE")
 )
 
+// Mapping from string to RequestMethodMatchConditionParameters_MatchValues_STATUS
+var requestMethodMatchConditionParameters_MatchValues_STATUS_Values = map[string]RequestMethodMatchConditionParameters_MatchValues_STATUS{
+	"delete":  RequestMethodMatchConditionParameters_MatchValues_STATUS_DELETE,
+	"get":     RequestMethodMatchConditionParameters_MatchValues_STATUS_GET,
+	"head":    RequestMethodMatchConditionParameters_MatchValues_STATUS_HEAD,
+	"options": RequestMethodMatchConditionParameters_MatchValues_STATUS_OPTIONS,
+	"post":    RequestMethodMatchConditionParameters_MatchValues_STATUS_POST,
+	"put":     RequestMethodMatchConditionParameters_MatchValues_STATUS_PUT,
+	"trace":   RequestMethodMatchConditionParameters_MatchValues_STATUS_TRACE,
+}
+
 type RequestMethodMatchConditionParameters_Operator_STATUS string
 
 const RequestMethodMatchConditionParameters_Operator_STATUS_Equal = RequestMethodMatchConditionParameters_Operator_STATUS("Equal")
 
+// Mapping from string to RequestMethodMatchConditionParameters_Operator_STATUS
+var requestMethodMatchConditionParameters_Operator_STATUS_Values = map[string]RequestMethodMatchConditionParameters_Operator_STATUS{
+	"equal": RequestMethodMatchConditionParameters_Operator_STATUS_Equal,
+}
+
 type RequestMethodMatchConditionParameters_TypeName_STATUS string
 
 const RequestMethodMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestMethodConditionParameters = RequestMethodMatchConditionParameters_TypeName_STATUS("DeliveryRuleRequestMethodConditionParameters")
+
+// Mapping from string to RequestMethodMatchConditionParameters_TypeName_STATUS
+var requestMethodMatchConditionParameters_TypeName_STATUS_Values = map[string]RequestMethodMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulerequestmethodconditionparameters": RequestMethodMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestMethodConditionParameters,
+}
 
 type RequestSchemeMatchConditionParameters_MatchValues_STATUS string
 
@@ -1421,13 +1823,29 @@ const (
 	RequestSchemeMatchConditionParameters_MatchValues_STATUS_HTTPS = RequestSchemeMatchConditionParameters_MatchValues_STATUS("HTTPS")
 )
 
+// Mapping from string to RequestSchemeMatchConditionParameters_MatchValues_STATUS
+var requestSchemeMatchConditionParameters_MatchValues_STATUS_Values = map[string]RequestSchemeMatchConditionParameters_MatchValues_STATUS{
+	"http":  RequestSchemeMatchConditionParameters_MatchValues_STATUS_HTTP,
+	"https": RequestSchemeMatchConditionParameters_MatchValues_STATUS_HTTPS,
+}
+
 type RequestSchemeMatchConditionParameters_Operator_STATUS string
 
 const RequestSchemeMatchConditionParameters_Operator_STATUS_Equal = RequestSchemeMatchConditionParameters_Operator_STATUS("Equal")
 
+// Mapping from string to RequestSchemeMatchConditionParameters_Operator_STATUS
+var requestSchemeMatchConditionParameters_Operator_STATUS_Values = map[string]RequestSchemeMatchConditionParameters_Operator_STATUS{
+	"equal": RequestSchemeMatchConditionParameters_Operator_STATUS_Equal,
+}
+
 type RequestSchemeMatchConditionParameters_TypeName_STATUS string
 
 const RequestSchemeMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestSchemeConditionParameters = RequestSchemeMatchConditionParameters_TypeName_STATUS("DeliveryRuleRequestSchemeConditionParameters")
+
+// Mapping from string to RequestSchemeMatchConditionParameters_TypeName_STATUS
+var requestSchemeMatchConditionParameters_TypeName_STATUS_Values = map[string]RequestSchemeMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulerequestschemeconditionparameters": RequestSchemeMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestSchemeConditionParameters,
+}
 
 type RequestUriMatchConditionParameters_Operator_STATUS string
 
@@ -1444,13 +1862,37 @@ const (
 	RequestUriMatchConditionParameters_Operator_STATUS_RegEx              = RequestUriMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to RequestUriMatchConditionParameters_Operator_STATUS
+var requestUriMatchConditionParameters_Operator_STATUS_Values = map[string]RequestUriMatchConditionParameters_Operator_STATUS{
+	"any":                RequestUriMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         RequestUriMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           RequestUriMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           RequestUriMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              RequestUriMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        RequestUriMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": RequestUriMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           RequestUriMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    RequestUriMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              RequestUriMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 type RequestUriMatchConditionParameters_TypeName_STATUS string
 
 const RequestUriMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestUriConditionParameters = RequestUriMatchConditionParameters_TypeName_STATUS("DeliveryRuleRequestUriConditionParameters")
 
+// Mapping from string to RequestUriMatchConditionParameters_TypeName_STATUS
+var requestUriMatchConditionParameters_TypeName_STATUS_Values = map[string]RequestUriMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulerequesturiconditionparameters": RequestUriMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestUriConditionParameters,
+}
+
 type RouteConfigurationOverrideActionParameters_TypeName_STATUS string
 
 const RouteConfigurationOverrideActionParameters_TypeName_STATUS_DeliveryRuleRouteConfigurationOverrideActionParameters = RouteConfigurationOverrideActionParameters_TypeName_STATUS("DeliveryRuleRouteConfigurationOverrideActionParameters")
+
+// Mapping from string to RouteConfigurationOverrideActionParameters_TypeName_STATUS
+var routeConfigurationOverrideActionParameters_TypeName_STATUS_Values = map[string]RouteConfigurationOverrideActionParameters_TypeName_STATUS{
+	"deliveryrulerouteconfigurationoverrideactionparameters": RouteConfigurationOverrideActionParameters_TypeName_STATUS_DeliveryRuleRouteConfigurationOverrideActionParameters,
+}
 
 type ServerPortMatchConditionParameters_Operator_STATUS string
 
@@ -1467,9 +1909,28 @@ const (
 	ServerPortMatchConditionParameters_Operator_STATUS_RegEx              = ServerPortMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to ServerPortMatchConditionParameters_Operator_STATUS
+var serverPortMatchConditionParameters_Operator_STATUS_Values = map[string]ServerPortMatchConditionParameters_Operator_STATUS{
+	"any":                ServerPortMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         ServerPortMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           ServerPortMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           ServerPortMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              ServerPortMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        ServerPortMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": ServerPortMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           ServerPortMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    ServerPortMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              ServerPortMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 type ServerPortMatchConditionParameters_TypeName_STATUS string
 
 const ServerPortMatchConditionParameters_TypeName_STATUS_DeliveryRuleServerPortConditionParameters = ServerPortMatchConditionParameters_TypeName_STATUS("DeliveryRuleServerPortConditionParameters")
+
+// Mapping from string to ServerPortMatchConditionParameters_TypeName_STATUS
+var serverPortMatchConditionParameters_TypeName_STATUS_Values = map[string]ServerPortMatchConditionParameters_TypeName_STATUS{
+	"deliveryruleserverportconditionparameters": ServerPortMatchConditionParameters_TypeName_STATUS_DeliveryRuleServerPortConditionParameters,
+}
 
 type SocketAddrMatchConditionParameters_Operator_STATUS string
 
@@ -1478,9 +1939,20 @@ const (
 	SocketAddrMatchConditionParameters_Operator_STATUS_IPMatch = SocketAddrMatchConditionParameters_Operator_STATUS("IPMatch")
 )
 
+// Mapping from string to SocketAddrMatchConditionParameters_Operator_STATUS
+var socketAddrMatchConditionParameters_Operator_STATUS_Values = map[string]SocketAddrMatchConditionParameters_Operator_STATUS{
+	"any":     SocketAddrMatchConditionParameters_Operator_STATUS_Any,
+	"ipmatch": SocketAddrMatchConditionParameters_Operator_STATUS_IPMatch,
+}
+
 type SocketAddrMatchConditionParameters_TypeName_STATUS string
 
 const SocketAddrMatchConditionParameters_TypeName_STATUS_DeliveryRuleSocketAddrConditionParameters = SocketAddrMatchConditionParameters_TypeName_STATUS("DeliveryRuleSocketAddrConditionParameters")
+
+// Mapping from string to SocketAddrMatchConditionParameters_TypeName_STATUS
+var socketAddrMatchConditionParameters_TypeName_STATUS_Values = map[string]SocketAddrMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulesocketaddrconditionparameters": SocketAddrMatchConditionParameters_TypeName_STATUS_DeliveryRuleSocketAddrConditionParameters,
+}
 
 // The protocol of an established TLS connection.
 type SslProtocol_STATUS string
@@ -1491,13 +1963,30 @@ const (
 	SslProtocol_STATUS_TLSv12 = SslProtocol_STATUS("TLSv1.2")
 )
 
+// Mapping from string to SslProtocol_STATUS
+var sslProtocol_STATUS_Values = map[string]SslProtocol_STATUS{
+	"tlsv1":   SslProtocol_STATUS_TLSv1,
+	"tlsv1.1": SslProtocol_STATUS_TLSv11,
+	"tlsv1.2": SslProtocol_STATUS_TLSv12,
+}
+
 type SslProtocolMatchConditionParameters_Operator_STATUS string
 
 const SslProtocolMatchConditionParameters_Operator_STATUS_Equal = SslProtocolMatchConditionParameters_Operator_STATUS("Equal")
 
+// Mapping from string to SslProtocolMatchConditionParameters_Operator_STATUS
+var sslProtocolMatchConditionParameters_Operator_STATUS_Values = map[string]SslProtocolMatchConditionParameters_Operator_STATUS{
+	"equal": SslProtocolMatchConditionParameters_Operator_STATUS_Equal,
+}
+
 type SslProtocolMatchConditionParameters_TypeName_STATUS string
 
 const SslProtocolMatchConditionParameters_TypeName_STATUS_DeliveryRuleSslProtocolConditionParameters = SslProtocolMatchConditionParameters_TypeName_STATUS("DeliveryRuleSslProtocolConditionParameters")
+
+// Mapping from string to SslProtocolMatchConditionParameters_TypeName_STATUS
+var sslProtocolMatchConditionParameters_TypeName_STATUS_Values = map[string]SslProtocolMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulesslprotocolconditionparameters": SslProtocolMatchConditionParameters_TypeName_STATUS_DeliveryRuleSslProtocolConditionParameters,
+}
 
 // Describes what transforms are applied before matching
 type Transform_STATUS string
@@ -1510,6 +1999,16 @@ const (
 	Transform_STATUS_UrlDecode   = Transform_STATUS("UrlDecode")
 	Transform_STATUS_UrlEncode   = Transform_STATUS("UrlEncode")
 )
+
+// Mapping from string to Transform_STATUS
+var transform_STATUS_Values = map[string]Transform_STATUS{
+	"lowercase":   Transform_STATUS_Lowercase,
+	"removenulls": Transform_STATUS_RemoveNulls,
+	"trim":        Transform_STATUS_Trim,
+	"uppercase":   Transform_STATUS_Uppercase,
+	"urldecode":   Transform_STATUS_UrlDecode,
+	"urlencode":   Transform_STATUS_UrlEncode,
+}
 
 type UrlFileExtensionMatchConditionParameters_Operator_STATUS string
 
@@ -1526,9 +2025,28 @@ const (
 	UrlFileExtensionMatchConditionParameters_Operator_STATUS_RegEx              = UrlFileExtensionMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to UrlFileExtensionMatchConditionParameters_Operator_STATUS
+var urlFileExtensionMatchConditionParameters_Operator_STATUS_Values = map[string]UrlFileExtensionMatchConditionParameters_Operator_STATUS{
+	"any":                UrlFileExtensionMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         UrlFileExtensionMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           UrlFileExtensionMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           UrlFileExtensionMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              UrlFileExtensionMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        UrlFileExtensionMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": UrlFileExtensionMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           UrlFileExtensionMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    UrlFileExtensionMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              UrlFileExtensionMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 type UrlFileExtensionMatchConditionParameters_TypeName_STATUS string
 
 const UrlFileExtensionMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlFileExtensionMatchConditionParameters = UrlFileExtensionMatchConditionParameters_TypeName_STATUS("DeliveryRuleUrlFileExtensionMatchConditionParameters")
+
+// Mapping from string to UrlFileExtensionMatchConditionParameters_TypeName_STATUS
+var urlFileExtensionMatchConditionParameters_TypeName_STATUS_Values = map[string]UrlFileExtensionMatchConditionParameters_TypeName_STATUS{
+	"deliveryruleurlfileextensionmatchconditionparameters": UrlFileExtensionMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlFileExtensionMatchConditionParameters,
+}
 
 type UrlFileNameMatchConditionParameters_Operator_STATUS string
 
@@ -1545,9 +2063,28 @@ const (
 	UrlFileNameMatchConditionParameters_Operator_STATUS_RegEx              = UrlFileNameMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to UrlFileNameMatchConditionParameters_Operator_STATUS
+var urlFileNameMatchConditionParameters_Operator_STATUS_Values = map[string]UrlFileNameMatchConditionParameters_Operator_STATUS{
+	"any":                UrlFileNameMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         UrlFileNameMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           UrlFileNameMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           UrlFileNameMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              UrlFileNameMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        UrlFileNameMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": UrlFileNameMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           UrlFileNameMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    UrlFileNameMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              UrlFileNameMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 type UrlFileNameMatchConditionParameters_TypeName_STATUS string
 
 const UrlFileNameMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlFilenameConditionParameters = UrlFileNameMatchConditionParameters_TypeName_STATUS("DeliveryRuleUrlFilenameConditionParameters")
+
+// Mapping from string to UrlFileNameMatchConditionParameters_TypeName_STATUS
+var urlFileNameMatchConditionParameters_TypeName_STATUS_Values = map[string]UrlFileNameMatchConditionParameters_TypeName_STATUS{
+	"deliveryruleurlfilenameconditionparameters": UrlFileNameMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlFilenameConditionParameters,
+}
 
 type UrlPathMatchConditionParameters_Operator_STATUS string
 
@@ -1565,9 +2102,29 @@ const (
 	UrlPathMatchConditionParameters_Operator_STATUS_Wildcard           = UrlPathMatchConditionParameters_Operator_STATUS("Wildcard")
 )
 
+// Mapping from string to UrlPathMatchConditionParameters_Operator_STATUS
+var urlPathMatchConditionParameters_Operator_STATUS_Values = map[string]UrlPathMatchConditionParameters_Operator_STATUS{
+	"any":                UrlPathMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         UrlPathMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           UrlPathMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           UrlPathMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              UrlPathMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        UrlPathMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": UrlPathMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           UrlPathMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    UrlPathMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              UrlPathMatchConditionParameters_Operator_STATUS_RegEx,
+	"wildcard":           UrlPathMatchConditionParameters_Operator_STATUS_Wildcard,
+}
+
 type UrlPathMatchConditionParameters_TypeName_STATUS string
 
 const UrlPathMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlPathMatchConditionParameters = UrlPathMatchConditionParameters_TypeName_STATUS("DeliveryRuleUrlPathMatchConditionParameters")
+
+// Mapping from string to UrlPathMatchConditionParameters_TypeName_STATUS
+var urlPathMatchConditionParameters_TypeName_STATUS_Values = map[string]UrlPathMatchConditionParameters_TypeName_STATUS{
+	"deliveryruleurlpathmatchconditionparameters": UrlPathMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlPathMatchConditionParameters,
+}
 
 type UrlRedirectActionParameters_DestinationProtocol_STATUS string
 
@@ -1576,6 +2133,13 @@ const (
 	UrlRedirectActionParameters_DestinationProtocol_STATUS_Https        = UrlRedirectActionParameters_DestinationProtocol_STATUS("Https")
 	UrlRedirectActionParameters_DestinationProtocol_STATUS_MatchRequest = UrlRedirectActionParameters_DestinationProtocol_STATUS("MatchRequest")
 )
+
+// Mapping from string to UrlRedirectActionParameters_DestinationProtocol_STATUS
+var urlRedirectActionParameters_DestinationProtocol_STATUS_Values = map[string]UrlRedirectActionParameters_DestinationProtocol_STATUS{
+	"http":         UrlRedirectActionParameters_DestinationProtocol_STATUS_Http,
+	"https":        UrlRedirectActionParameters_DestinationProtocol_STATUS_Https,
+	"matchrequest": UrlRedirectActionParameters_DestinationProtocol_STATUS_MatchRequest,
+}
 
 type UrlRedirectActionParameters_RedirectType_STATUS string
 
@@ -1586,21 +2150,49 @@ const (
 	UrlRedirectActionParameters_RedirectType_STATUS_TemporaryRedirect = UrlRedirectActionParameters_RedirectType_STATUS("TemporaryRedirect")
 )
 
+// Mapping from string to UrlRedirectActionParameters_RedirectType_STATUS
+var urlRedirectActionParameters_RedirectType_STATUS_Values = map[string]UrlRedirectActionParameters_RedirectType_STATUS{
+	"found":             UrlRedirectActionParameters_RedirectType_STATUS_Found,
+	"moved":             UrlRedirectActionParameters_RedirectType_STATUS_Moved,
+	"permanentredirect": UrlRedirectActionParameters_RedirectType_STATUS_PermanentRedirect,
+	"temporaryredirect": UrlRedirectActionParameters_RedirectType_STATUS_TemporaryRedirect,
+}
+
 type UrlRedirectActionParameters_TypeName_STATUS string
 
 const UrlRedirectActionParameters_TypeName_STATUS_DeliveryRuleUrlRedirectActionParameters = UrlRedirectActionParameters_TypeName_STATUS("DeliveryRuleUrlRedirectActionParameters")
+
+// Mapping from string to UrlRedirectActionParameters_TypeName_STATUS
+var urlRedirectActionParameters_TypeName_STATUS_Values = map[string]UrlRedirectActionParameters_TypeName_STATUS{
+	"deliveryruleurlredirectactionparameters": UrlRedirectActionParameters_TypeName_STATUS_DeliveryRuleUrlRedirectActionParameters,
+}
 
 type UrlRewriteActionParameters_TypeName_STATUS string
 
 const UrlRewriteActionParameters_TypeName_STATUS_DeliveryRuleUrlRewriteActionParameters = UrlRewriteActionParameters_TypeName_STATUS("DeliveryRuleUrlRewriteActionParameters")
 
+// Mapping from string to UrlRewriteActionParameters_TypeName_STATUS
+var urlRewriteActionParameters_TypeName_STATUS_Values = map[string]UrlRewriteActionParameters_TypeName_STATUS{
+	"deliveryruleurlrewriteactionparameters": UrlRewriteActionParameters_TypeName_STATUS_DeliveryRuleUrlRewriteActionParameters,
+}
+
 type UrlSigningActionParameters_Algorithm_STATUS string
 
 const UrlSigningActionParameters_Algorithm_STATUS_SHA256 = UrlSigningActionParameters_Algorithm_STATUS("SHA256")
 
+// Mapping from string to UrlSigningActionParameters_Algorithm_STATUS
+var urlSigningActionParameters_Algorithm_STATUS_Values = map[string]UrlSigningActionParameters_Algorithm_STATUS{
+	"sha256": UrlSigningActionParameters_Algorithm_STATUS_SHA256,
+}
+
 type UrlSigningActionParameters_TypeName_STATUS string
 
 const UrlSigningActionParameters_TypeName_STATUS_DeliveryRuleUrlSigningActionParameters = UrlSigningActionParameters_TypeName_STATUS("DeliveryRuleUrlSigningActionParameters")
+
+// Mapping from string to UrlSigningActionParameters_TypeName_STATUS
+var urlSigningActionParameters_TypeName_STATUS_Values = map[string]UrlSigningActionParameters_TypeName_STATUS{
+	"deliveryruleurlsigningactionparameters": UrlSigningActionParameters_TypeName_STATUS_DeliveryRuleUrlSigningActionParameters,
+}
 
 // Defines how to identify a parameter for a specific purpose e.g. expires
 type UrlSigningParamIdentifier_STATUS_ARM struct {
@@ -1619,12 +2211,25 @@ const (
 	CacheConfiguration_CacheBehavior_STATUS_OverrideIfOriginMissing = CacheConfiguration_CacheBehavior_STATUS("OverrideIfOriginMissing")
 )
 
+// Mapping from string to CacheConfiguration_CacheBehavior_STATUS
+var cacheConfiguration_CacheBehavior_STATUS_Values = map[string]CacheConfiguration_CacheBehavior_STATUS{
+	"honororigin":             CacheConfiguration_CacheBehavior_STATUS_HonorOrigin,
+	"overridealways":          CacheConfiguration_CacheBehavior_STATUS_OverrideAlways,
+	"overrideiforiginmissing": CacheConfiguration_CacheBehavior_STATUS_OverrideIfOriginMissing,
+}
+
 type CacheConfiguration_IsCompressionEnabled_STATUS string
 
 const (
 	CacheConfiguration_IsCompressionEnabled_STATUS_Disabled = CacheConfiguration_IsCompressionEnabled_STATUS("Disabled")
 	CacheConfiguration_IsCompressionEnabled_STATUS_Enabled  = CacheConfiguration_IsCompressionEnabled_STATUS("Enabled")
 )
+
+// Mapping from string to CacheConfiguration_IsCompressionEnabled_STATUS
+var cacheConfiguration_IsCompressionEnabled_STATUS_Values = map[string]CacheConfiguration_IsCompressionEnabled_STATUS{
+	"disabled": CacheConfiguration_IsCompressionEnabled_STATUS_Disabled,
+	"enabled":  CacheConfiguration_IsCompressionEnabled_STATUS_Enabled,
+}
 
 type CacheConfiguration_QueryStringCachingBehavior_STATUS string
 
@@ -1635,6 +2240,14 @@ const (
 	CacheConfiguration_QueryStringCachingBehavior_STATUS_UseQueryString               = CacheConfiguration_QueryStringCachingBehavior_STATUS("UseQueryString")
 )
 
+// Mapping from string to CacheConfiguration_QueryStringCachingBehavior_STATUS
+var cacheConfiguration_QueryStringCachingBehavior_STATUS_Values = map[string]CacheConfiguration_QueryStringCachingBehavior_STATUS{
+	"ignorequerystring":            CacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreQueryString,
+	"ignorespecifiedquerystrings":  CacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreSpecifiedQueryStrings,
+	"includespecifiedquerystrings": CacheConfiguration_QueryStringCachingBehavior_STATUS_IncludeSpecifiedQueryStrings,
+	"usequerystring":               CacheConfiguration_QueryStringCachingBehavior_STATUS_UseQueryString,
+}
+
 type OriginGroupOverride_ForwardingProtocol_STATUS string
 
 const (
@@ -1643,6 +2256,13 @@ const (
 	OriginGroupOverride_ForwardingProtocol_STATUS_MatchRequest = OriginGroupOverride_ForwardingProtocol_STATUS("MatchRequest")
 )
 
+// Mapping from string to OriginGroupOverride_ForwardingProtocol_STATUS
+var originGroupOverride_ForwardingProtocol_STATUS_Values = map[string]OriginGroupOverride_ForwardingProtocol_STATUS{
+	"httponly":     OriginGroupOverride_ForwardingProtocol_STATUS_HttpOnly,
+	"httpsonly":    OriginGroupOverride_ForwardingProtocol_STATUS_HttpsOnly,
+	"matchrequest": OriginGroupOverride_ForwardingProtocol_STATUS_MatchRequest,
+}
+
 type UrlSigningParamIdentifier_ParamIndicator_STATUS string
 
 const (
@@ -1650,3 +2270,10 @@ const (
 	UrlSigningParamIdentifier_ParamIndicator_STATUS_KeyId     = UrlSigningParamIdentifier_ParamIndicator_STATUS("KeyId")
 	UrlSigningParamIdentifier_ParamIndicator_STATUS_Signature = UrlSigningParamIdentifier_ParamIndicator_STATUS("Signature")
 )
+
+// Mapping from string to UrlSigningParamIdentifier_ParamIndicator_STATUS
+var urlSigningParamIdentifier_ParamIndicator_STATUS_Values = map[string]UrlSigningParamIdentifier_ParamIndicator_STATUS{
+	"expires":   UrlSigningParamIdentifier_ParamIndicator_STATUS_Expires,
+	"keyid":     UrlSigningParamIdentifier_ParamIndicator_STATUS_KeyId,
+	"signature": UrlSigningParamIdentifier_ParamIndicator_STATUS_Signature,
+}

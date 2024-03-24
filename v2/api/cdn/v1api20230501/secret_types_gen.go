@@ -729,8 +729,9 @@ func (secret *Profiles_Secret_STATUS) AssignProperties_From_Profiles_Secret_STAT
 
 	// DeploymentStatus
 	if source.DeploymentStatus != nil {
-		deploymentStatus := SecretProperties_DeploymentStatus_STATUS(*source.DeploymentStatus)
-		secret.DeploymentStatus = &deploymentStatus
+		deploymentStatus := *source.DeploymentStatus
+		deploymentStatusTemp := genruntime.ToEnum(deploymentStatus, secretProperties_DeploymentStatus_STATUS_Values)
+		secret.DeploymentStatus = &deploymentStatusTemp
 	} else {
 		secret.DeploymentStatus = nil
 	}
@@ -758,8 +759,9 @@ func (secret *Profiles_Secret_STATUS) AssignProperties_From_Profiles_Secret_STAT
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := SecretProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		secret.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, secretProperties_ProvisioningState_STATUS_Values)
+		secret.ProvisioningState = &provisioningStateTemp
 	} else {
 		secret.ProvisioningState = nil
 	}
@@ -1409,8 +1411,9 @@ func (parameters *AzureFirstPartyManagedCertificateParameters) AssignProperties_
 
 	// Type
 	if source.Type != nil {
-		typeVar := AzureFirstPartyManagedCertificateParameters_Type(*source.Type)
-		parameters.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, azureFirstPartyManagedCertificateParameters_Type_Values)
+		parameters.Type = &typeTemp
 	} else {
 		parameters.Type = nil
 	}
@@ -1579,8 +1582,9 @@ func (parameters *AzureFirstPartyManagedCertificateParameters_STATUS) AssignProp
 
 	// Type
 	if source.Type != nil {
-		typeVar := AzureFirstPartyManagedCertificateParameters_Type_STATUS(*source.Type)
-		parameters.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, azureFirstPartyManagedCertificateParameters_Type_STATUS_Values)
+		parameters.Type = &typeTemp
 	} else {
 		parameters.Type = nil
 	}
@@ -1772,8 +1776,9 @@ func (parameters *CustomerCertificateParameters) AssignProperties_From_CustomerC
 
 	// Type
 	if source.Type != nil {
-		typeVar := CustomerCertificateParameters_Type(*source.Type)
-		parameters.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, customerCertificateParameters_Type_Values)
+		parameters.Type = &typeTemp
 	} else {
 		parameters.Type = nil
 	}
@@ -2017,8 +2022,9 @@ func (parameters *CustomerCertificateParameters_STATUS) AssignProperties_From_Cu
 
 	// Type
 	if source.Type != nil {
-		typeVar := CustomerCertificateParameters_Type_STATUS(*source.Type)
-		parameters.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, customerCertificateParameters_Type_STATUS_Values)
+		parameters.Type = &typeTemp
 	} else {
 		parameters.Type = nil
 	}
@@ -2142,8 +2148,9 @@ func (parameters *ManagedCertificateParameters) AssignProperties_From_ManagedCer
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedCertificateParameters_Type(*source.Type)
-		parameters.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedCertificateParameters_Type_Values)
+		parameters.Type = &typeTemp
 	} else {
 		parameters.Type = nil
 	}
@@ -2244,8 +2251,9 @@ func (parameters *ManagedCertificateParameters_STATUS) AssignProperties_From_Man
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedCertificateParameters_Type_STATUS(*source.Type)
-		parameters.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedCertificateParameters_Type_STATUS_Values)
+		parameters.Type = &typeTemp
 	} else {
 		parameters.Type = nil
 	}
@@ -2405,8 +2413,9 @@ func (parameters *UrlSigningKeyParameters) AssignProperties_From_UrlSigningKeyPa
 
 	// Type
 	if source.Type != nil {
-		typeVar := UrlSigningKeyParameters_Type(*source.Type)
-		parameters.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, urlSigningKeyParameters_Type_Values)
+		parameters.Type = &typeTemp
 	} else {
 		parameters.Type = nil
 	}
@@ -2571,8 +2580,9 @@ func (parameters *UrlSigningKeyParameters_STATUS) AssignProperties_From_UrlSigni
 
 	// Type
 	if source.Type != nil {
-		typeVar := UrlSigningKeyParameters_Type_STATUS(*source.Type)
-		parameters.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, urlSigningKeyParameters_Type_STATUS_Values)
+		parameters.Type = &typeTemp
 	} else {
 		parameters.Type = nil
 	}

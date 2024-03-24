@@ -83,6 +83,15 @@ const (
 	StorageAccount_Kind_STATUS_StorageV2        = StorageAccount_Kind_STATUS("StorageV2")
 )
 
+// Mapping from string to StorageAccount_Kind_STATUS
+var storageAccount_Kind_STATUS_Values = map[string]StorageAccount_Kind_STATUS{
+	"blobstorage":      StorageAccount_Kind_STATUS_BlobStorage,
+	"blockblobstorage": StorageAccount_Kind_STATUS_BlockBlobStorage,
+	"filestorage":      StorageAccount_Kind_STATUS_FileStorage,
+	"storage":          StorageAccount_Kind_STATUS_Storage,
+	"storagev2":        StorageAccount_Kind_STATUS_StorageV2,
+}
+
 // Properties of the storage account.
 type StorageAccountProperties_STATUS_ARM struct {
 	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium'
@@ -310,6 +319,11 @@ type ExtendedLocationType_STATUS string
 
 const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
 
+// Mapping from string to ExtendedLocationType_STATUS
+var extendedLocationType_STATUS_Values = map[string]ExtendedLocationType_STATUS{
+	"edgezone": ExtendedLocationType_STATUS_EdgeZone,
+}
+
 // Statistics related to replication for storage account's Blob, Table, Queue and File services. It is only available when
 // geo-redundant replication is enabled for the storage account.
 type GeoReplicationStats_STATUS_ARM struct {
@@ -336,6 +350,14 @@ const (
 	Identity_Type_STATUS_SystemAssignedUserAssigned = Identity_Type_STATUS("SystemAssigned,UserAssigned")
 	Identity_Type_STATUS_UserAssigned               = Identity_Type_STATUS("UserAssigned")
 )
+
+// Mapping from string to Identity_Type_STATUS
+var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
+	"none":                        Identity_Type_STATUS_None,
+	"systemassigned":              Identity_Type_STATUS_SystemAssigned,
+	"systemassigned,userassigned": Identity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                Identity_Type_STATUS_UserAssigned,
+}
 
 // This property enables and defines account-level immutability. Enabling the feature auto-enables Blob Versioning.
 type ImmutableStorageAccount_STATUS_ARM struct {
@@ -425,6 +447,18 @@ const (
 	SkuName_STATUS_Standard_ZRS    = SkuName_STATUS("Standard_ZRS")
 )
 
+// Mapping from string to SkuName_STATUS
+var skuName_STATUS_Values = map[string]SkuName_STATUS{
+	"premium_lrs":     SkuName_STATUS_Premium_LRS,
+	"premium_zrs":     SkuName_STATUS_Premium_ZRS,
+	"standard_grs":    SkuName_STATUS_Standard_GRS,
+	"standard_gzrs":   SkuName_STATUS_Standard_GZRS,
+	"standard_lrs":    SkuName_STATUS_Standard_LRS,
+	"standard_ragrs":  SkuName_STATUS_Standard_RAGRS,
+	"standard_ragzrs": SkuName_STATUS_Standard_RAGZRS,
+	"standard_zrs":    SkuName_STATUS_Standard_ZRS,
+}
+
 // This defines the sku conversion status object for asynchronous sku conversions.
 type StorageAccountSkuConversionStatus_STATUS_ARM struct {
 	// EndTime: This property represents the sku conversion end time.
@@ -447,6 +481,12 @@ const (
 	Tier_STATUS_Premium  = Tier_STATUS("Premium")
 	Tier_STATUS_Standard = Tier_STATUS("Standard")
 )
+
+// Mapping from string to Tier_STATUS
+var tier_STATUS_Values = map[string]Tier_STATUS{
+	"premium":  Tier_STATUS_Premium,
+	"standard": Tier_STATUS_Standard,
+}
 
 // UserAssignedIdentity for the resource.
 type UserAssignedIdentity_STATUS_ARM struct {

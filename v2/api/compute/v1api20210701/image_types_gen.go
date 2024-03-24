@@ -588,8 +588,9 @@ func (image *Image_Spec) AssignProperties_From_Image_Spec(source *v20210701s.Ima
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
-		hyperVGeneration := HyperVGenerationType(*source.HyperVGeneration)
-		image.HyperVGeneration = &hyperVGeneration
+		hyperVGeneration := *source.HyperVGeneration
+		hyperVGenerationTemp := genruntime.ToEnum(hyperVGeneration, hyperVGenerationType_Values)
+		image.HyperVGeneration = &hyperVGenerationTemp
 	} else {
 		image.HyperVGeneration = nil
 	}
@@ -943,8 +944,9 @@ func (image *Image_STATUS) AssignProperties_From_Image_STATUS(source *v20210701s
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
-		hyperVGeneration := HyperVGenerationType_STATUS(*source.HyperVGeneration)
-		image.HyperVGeneration = &hyperVGeneration
+		hyperVGeneration := *source.HyperVGeneration
+		hyperVGenerationTemp := genruntime.ToEnum(hyperVGeneration, hyperVGenerationType_STATUS_Values)
+		image.HyperVGeneration = &hyperVGenerationTemp
 	} else {
 		image.HyperVGeneration = nil
 	}
@@ -1144,8 +1146,9 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType(*source.Type)
-		location.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, extendedLocationType_Values)
+		location.Type = &typeTemp
 	} else {
 		location.Type = nil
 	}
@@ -1228,8 +1231,9 @@ func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType_STATUS(*source.Type)
-		location.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, extendedLocationType_STATUS_Values)
+		location.Type = &typeTemp
 	} else {
 		location.Type = nil
 	}
@@ -1274,6 +1278,12 @@ const (
 	HyperVGenerationType_V2 = HyperVGenerationType("V2")
 )
 
+// Mapping from string to HyperVGenerationType
+var hyperVGenerationType_Values = map[string]HyperVGenerationType{
+	"v1": HyperVGenerationType_V1,
+	"v2": HyperVGenerationType_V2,
+}
+
 // Specifies the HyperVGeneration Type
 type HyperVGenerationType_STATUS string
 
@@ -1281,6 +1291,12 @@ const (
 	HyperVGenerationType_STATUS_V1 = HyperVGenerationType_STATUS("V1")
 	HyperVGenerationType_STATUS_V2 = HyperVGenerationType_STATUS("V2")
 )
+
+// Mapping from string to HyperVGenerationType_STATUS
+var hyperVGenerationType_STATUS_Values = map[string]HyperVGenerationType_STATUS{
+	"v1": HyperVGenerationType_STATUS_V1,
+	"v2": HyperVGenerationType_STATUS_V2,
+}
 
 // Describes a storage profile.
 type ImageStorageProfile struct {
@@ -1974,8 +1990,9 @@ func (disk *ImageDataDisk) AssignProperties_From_ImageDataDisk(source *v20210701
 
 	// Caching
 	if source.Caching != nil {
-		caching := ImageDataDisk_Caching(*source.Caching)
-		disk.Caching = &caching
+		caching := *source.Caching
+		cachingTemp := genruntime.ToEnum(caching, imageDataDisk_Caching_Values)
+		disk.Caching = &cachingTemp
 	} else {
 		disk.Caching = nil
 	}
@@ -2024,8 +2041,9 @@ func (disk *ImageDataDisk) AssignProperties_From_ImageDataDisk(source *v20210701
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType(*source.StorageAccountType)
-		disk.StorageAccountType = &storageAccountType
+		storageAccountType := *source.StorageAccountType
+		storageAccountTypeTemp := genruntime.ToEnum(storageAccountType, storageAccountType_Values)
+		disk.StorageAccountType = &storageAccountTypeTemp
 	} else {
 		disk.StorageAccountType = nil
 	}
@@ -2236,8 +2254,9 @@ func (disk *ImageDataDisk_STATUS) AssignProperties_From_ImageDataDisk_STATUS(sou
 
 	// Caching
 	if source.Caching != nil {
-		caching := ImageDataDisk_Caching_STATUS(*source.Caching)
-		disk.Caching = &caching
+		caching := *source.Caching
+		cachingTemp := genruntime.ToEnum(caching, imageDataDisk_Caching_STATUS_Values)
+		disk.Caching = &cachingTemp
 	} else {
 		disk.Caching = nil
 	}
@@ -2286,8 +2305,9 @@ func (disk *ImageDataDisk_STATUS) AssignProperties_From_ImageDataDisk_STATUS(sou
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType_STATUS(*source.StorageAccountType)
-		disk.StorageAccountType = &storageAccountType
+		storageAccountType := *source.StorageAccountType
+		storageAccountTypeTemp := genruntime.ToEnum(storageAccountType, storageAccountType_STATUS_Values)
+		disk.StorageAccountType = &storageAccountTypeTemp
 	} else {
 		disk.StorageAccountType = nil
 	}
@@ -2587,8 +2607,9 @@ func (disk *ImageOSDisk) AssignProperties_From_ImageOSDisk(source *v20210701s.Im
 
 	// Caching
 	if source.Caching != nil {
-		caching := ImageOSDisk_Caching(*source.Caching)
-		disk.Caching = &caching
+		caching := *source.Caching
+		cachingTemp := genruntime.ToEnum(caching, imageOSDisk_Caching_Values)
+		disk.Caching = &cachingTemp
 	} else {
 		disk.Caching = nil
 	}
@@ -2622,16 +2643,18 @@ func (disk *ImageOSDisk) AssignProperties_From_ImageOSDisk(source *v20210701s.Im
 
 	// OsState
 	if source.OsState != nil {
-		osState := ImageOSDisk_OsState(*source.OsState)
-		disk.OsState = &osState
+		osState := *source.OsState
+		osStateTemp := genruntime.ToEnum(osState, imageOSDisk_OsState_Values)
+		disk.OsState = &osStateTemp
 	} else {
 		disk.OsState = nil
 	}
 
 	// OsType
 	if source.OsType != nil {
-		osType := ImageOSDisk_OsType(*source.OsType)
-		disk.OsType = &osType
+		osType := *source.OsType
+		osTypeTemp := genruntime.ToEnum(osType, imageOSDisk_OsType_Values)
+		disk.OsType = &osTypeTemp
 	} else {
 		disk.OsType = nil
 	}
@@ -2650,8 +2673,9 @@ func (disk *ImageOSDisk) AssignProperties_From_ImageOSDisk(source *v20210701s.Im
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType(*source.StorageAccountType)
-		disk.StorageAccountType = &storageAccountType
+		storageAccountType := *source.StorageAccountType
+		storageAccountTypeTemp := genruntime.ToEnum(storageAccountType, storageAccountType_Values)
+		disk.StorageAccountType = &storageAccountTypeTemp
 	} else {
 		disk.StorageAccountType = nil
 	}
@@ -2887,8 +2911,9 @@ func (disk *ImageOSDisk_STATUS) AssignProperties_From_ImageOSDisk_STATUS(source 
 
 	// Caching
 	if source.Caching != nil {
-		caching := ImageOSDisk_Caching_STATUS(*source.Caching)
-		disk.Caching = &caching
+		caching := *source.Caching
+		cachingTemp := genruntime.ToEnum(caching, imageOSDisk_Caching_STATUS_Values)
+		disk.Caching = &cachingTemp
 	} else {
 		disk.Caching = nil
 	}
@@ -2922,16 +2947,18 @@ func (disk *ImageOSDisk_STATUS) AssignProperties_From_ImageOSDisk_STATUS(source 
 
 	// OsState
 	if source.OsState != nil {
-		osState := ImageOSDisk_OsState_STATUS(*source.OsState)
-		disk.OsState = &osState
+		osState := *source.OsState
+		osStateTemp := genruntime.ToEnum(osState, imageOSDisk_OsState_STATUS_Values)
+		disk.OsState = &osStateTemp
 	} else {
 		disk.OsState = nil
 	}
 
 	// OsType
 	if source.OsType != nil {
-		osType := ImageOSDisk_OsType_STATUS(*source.OsType)
-		disk.OsType = &osType
+		osType := *source.OsType
+		osTypeTemp := genruntime.ToEnum(osType, imageOSDisk_OsType_STATUS_Values)
+		disk.OsType = &osTypeTemp
 	} else {
 		disk.OsType = nil
 	}
@@ -2950,8 +2977,9 @@ func (disk *ImageOSDisk_STATUS) AssignProperties_From_ImageOSDisk_STATUS(source 
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType_STATUS(*source.StorageAccountType)
-		disk.StorageAccountType = &storageAccountType
+		storageAccountType := *source.StorageAccountType
+		storageAccountTypeTemp := genruntime.ToEnum(storageAccountType, storageAccountType_STATUS_Values)
+		disk.StorageAccountType = &storageAccountTypeTemp
 	} else {
 		disk.StorageAccountType = nil
 	}
@@ -3059,6 +3087,13 @@ const (
 	ImageDataDisk_Caching_ReadWrite = ImageDataDisk_Caching("ReadWrite")
 )
 
+// Mapping from string to ImageDataDisk_Caching
+var imageDataDisk_Caching_Values = map[string]ImageDataDisk_Caching{
+	"none":      ImageDataDisk_Caching_None,
+	"readonly":  ImageDataDisk_Caching_ReadOnly,
+	"readwrite": ImageDataDisk_Caching_ReadWrite,
+}
+
 type ImageDataDisk_Caching_STATUS string
 
 const (
@@ -3066,6 +3101,13 @@ const (
 	ImageDataDisk_Caching_STATUS_ReadOnly  = ImageDataDisk_Caching_STATUS("ReadOnly")
 	ImageDataDisk_Caching_STATUS_ReadWrite = ImageDataDisk_Caching_STATUS("ReadWrite")
 )
+
+// Mapping from string to ImageDataDisk_Caching_STATUS
+var imageDataDisk_Caching_STATUS_Values = map[string]ImageDataDisk_Caching_STATUS{
+	"none":      ImageDataDisk_Caching_STATUS_None,
+	"readonly":  ImageDataDisk_Caching_STATUS_ReadOnly,
+	"readwrite": ImageDataDisk_Caching_STATUS_ReadWrite,
+}
 
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
 type ImageOSDisk_Caching string
@@ -3076,6 +3118,13 @@ const (
 	ImageOSDisk_Caching_ReadWrite = ImageOSDisk_Caching("ReadWrite")
 )
 
+// Mapping from string to ImageOSDisk_Caching
+var imageOSDisk_Caching_Values = map[string]ImageOSDisk_Caching{
+	"none":      ImageOSDisk_Caching_None,
+	"readonly":  ImageOSDisk_Caching_ReadOnly,
+	"readwrite": ImageOSDisk_Caching_ReadWrite,
+}
+
 type ImageOSDisk_Caching_STATUS string
 
 const (
@@ -3083,6 +3132,13 @@ const (
 	ImageOSDisk_Caching_STATUS_ReadOnly  = ImageOSDisk_Caching_STATUS("ReadOnly")
 	ImageOSDisk_Caching_STATUS_ReadWrite = ImageOSDisk_Caching_STATUS("ReadWrite")
 )
+
+// Mapping from string to ImageOSDisk_Caching_STATUS
+var imageOSDisk_Caching_STATUS_Values = map[string]ImageOSDisk_Caching_STATUS{
+	"none":      ImageOSDisk_Caching_STATUS_None,
+	"readonly":  ImageOSDisk_Caching_STATUS_ReadOnly,
+	"readwrite": ImageOSDisk_Caching_STATUS_ReadWrite,
+}
 
 // +kubebuilder:validation:Enum={"Generalized","Specialized"}
 type ImageOSDisk_OsState string
@@ -3092,12 +3148,24 @@ const (
 	ImageOSDisk_OsState_Specialized = ImageOSDisk_OsState("Specialized")
 )
 
+// Mapping from string to ImageOSDisk_OsState
+var imageOSDisk_OsState_Values = map[string]ImageOSDisk_OsState{
+	"generalized": ImageOSDisk_OsState_Generalized,
+	"specialized": ImageOSDisk_OsState_Specialized,
+}
+
 type ImageOSDisk_OsState_STATUS string
 
 const (
 	ImageOSDisk_OsState_STATUS_Generalized = ImageOSDisk_OsState_STATUS("Generalized")
 	ImageOSDisk_OsState_STATUS_Specialized = ImageOSDisk_OsState_STATUS("Specialized")
 )
+
+// Mapping from string to ImageOSDisk_OsState_STATUS
+var imageOSDisk_OsState_STATUS_Values = map[string]ImageOSDisk_OsState_STATUS{
+	"generalized": ImageOSDisk_OsState_STATUS_Generalized,
+	"specialized": ImageOSDisk_OsState_STATUS_Specialized,
+}
 
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type ImageOSDisk_OsType string
@@ -3107,12 +3175,24 @@ const (
 	ImageOSDisk_OsType_Windows = ImageOSDisk_OsType("Windows")
 )
 
+// Mapping from string to ImageOSDisk_OsType
+var imageOSDisk_OsType_Values = map[string]ImageOSDisk_OsType{
+	"linux":   ImageOSDisk_OsType_Linux,
+	"windows": ImageOSDisk_OsType_Windows,
+}
+
 type ImageOSDisk_OsType_STATUS string
 
 const (
 	ImageOSDisk_OsType_STATUS_Linux   = ImageOSDisk_OsType_STATUS("Linux")
 	ImageOSDisk_OsType_STATUS_Windows = ImageOSDisk_OsType_STATUS("Windows")
 )
+
+// Mapping from string to ImageOSDisk_OsType_STATUS
+var imageOSDisk_OsType_STATUS_Values = map[string]ImageOSDisk_OsType_STATUS{
+	"linux":   ImageOSDisk_OsType_STATUS_Linux,
+	"windows": ImageOSDisk_OsType_STATUS_Windows,
+}
 
 // Specifies the storage account type for the managed disk. Managed OS disk storage account type can only be set when you
 // create the scale set. NOTE: UltraSSD_LRS can only be used with data disks. It cannot be used with OS Disk. Standard_LRS
@@ -3133,6 +3213,16 @@ const (
 	StorageAccountType_UltraSSD_LRS    = StorageAccountType("UltraSSD_LRS")
 )
 
+// Mapping from string to StorageAccountType
+var storageAccountType_Values = map[string]StorageAccountType{
+	"premium_lrs":     StorageAccountType_Premium_LRS,
+	"premium_zrs":     StorageAccountType_Premium_ZRS,
+	"standardssd_lrs": StorageAccountType_StandardSSD_LRS,
+	"standardssd_zrs": StorageAccountType_StandardSSD_ZRS,
+	"standard_lrs":    StorageAccountType_Standard_LRS,
+	"ultrassd_lrs":    StorageAccountType_UltraSSD_LRS,
+}
+
 // Specifies the storage account type for the managed disk. Managed OS disk storage account type can only be set when you
 // create the scale set. NOTE: UltraSSD_LRS can only be used with data disks. It cannot be used with OS Disk. Standard_LRS
 // uses Standard HDD. StandardSSD_LRS uses Standard SSD. Premium_LRS uses Premium SSD. UltraSSD_LRS uses Ultra disk.
@@ -3150,6 +3240,16 @@ const (
 	StorageAccountType_STATUS_Standard_LRS    = StorageAccountType_STATUS("Standard_LRS")
 	StorageAccountType_STATUS_UltraSSD_LRS    = StorageAccountType_STATUS("UltraSSD_LRS")
 )
+
+// Mapping from string to StorageAccountType_STATUS
+var storageAccountType_STATUS_Values = map[string]StorageAccountType_STATUS{
+	"premium_lrs":     StorageAccountType_STATUS_Premium_LRS,
+	"premium_zrs":     StorageAccountType_STATUS_Premium_ZRS,
+	"standardssd_lrs": StorageAccountType_STATUS_StandardSSD_LRS,
+	"standardssd_zrs": StorageAccountType_STATUS_StandardSSD_ZRS,
+	"standard_lrs":    StorageAccountType_STATUS_Standard_LRS,
+	"ultrassd_lrs":    StorageAccountType_STATUS_UltraSSD_LRS,
+}
 
 func init() {
 	SchemeBuilder.Register(&Image{}, &ImageList{})

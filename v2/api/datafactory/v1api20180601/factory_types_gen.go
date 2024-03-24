@@ -713,8 +713,9 @@ func (factory *Factory_Spec) AssignProperties_From_Factory_Spec(source *v2018060
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := FactoryProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		factory.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, factoryProperties_PublicNetworkAccess_Values)
+		factory.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		factory.PublicNetworkAccess = nil
 	}
@@ -1336,8 +1337,9 @@ func (factory *Factory_STATUS) AssignProperties_From_Factory_STATUS(source *v201
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := FactoryProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-		factory.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, factoryProperties_PublicNetworkAccess_STATUS_Values)
+		factory.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		factory.PublicNetworkAccess = nil
 	}
@@ -1902,8 +1904,9 @@ func (identity *FactoryIdentity) AssignProperties_From_FactoryIdentity(source *v
 
 	// Type
 	if source.Type != nil {
-		typeVar := FactoryIdentity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, factoryIdentity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2069,8 +2072,9 @@ func (identity *FactoryIdentity_STATUS) AssignProperties_From_FactoryIdentity_ST
 
 	// Type
 	if source.Type != nil {
-		typeVar := FactoryIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, factoryIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2143,12 +2147,24 @@ const (
 	FactoryProperties_PublicNetworkAccess_Enabled  = FactoryProperties_PublicNetworkAccess("Enabled")
 )
 
+// Mapping from string to FactoryProperties_PublicNetworkAccess
+var factoryProperties_PublicNetworkAccess_Values = map[string]FactoryProperties_PublicNetworkAccess{
+	"disabled": FactoryProperties_PublicNetworkAccess_Disabled,
+	"enabled":  FactoryProperties_PublicNetworkAccess_Enabled,
+}
+
 type FactoryProperties_PublicNetworkAccess_STATUS string
 
 const (
 	FactoryProperties_PublicNetworkAccess_STATUS_Disabled = FactoryProperties_PublicNetworkAccess_STATUS("Disabled")
 	FactoryProperties_PublicNetworkAccess_STATUS_Enabled  = FactoryProperties_PublicNetworkAccess_STATUS("Enabled")
 )
+
+// Mapping from string to FactoryProperties_PublicNetworkAccess_STATUS
+var factoryProperties_PublicNetworkAccess_STATUS_Values = map[string]FactoryProperties_PublicNetworkAccess_STATUS{
+	"disabled": FactoryProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  FactoryProperties_PublicNetworkAccess_STATUS_Enabled,
+}
 
 type FactoryRepoConfiguration struct {
 	// FactoryGitHub: Mutually exclusive with all other properties
@@ -2519,8 +2535,9 @@ func (specification *GlobalParameterSpecification) AssignProperties_From_GlobalP
 
 	// Type
 	if source.Type != nil {
-		typeVar := GlobalParameterSpecification_Type(*source.Type)
-		specification.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, globalParameterSpecification_Type_Values)
+		specification.Type = &typeTemp
 	} else {
 		specification.Type = nil
 	}
@@ -2653,8 +2670,9 @@ func (specification *GlobalParameterSpecification_STATUS) AssignProperties_From_
 
 	// Type
 	if source.Type != nil {
-		typeVar := GlobalParameterSpecification_Type_STATUS(*source.Type)
-		specification.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, globalParameterSpecification_Type_STATUS_Values)
+		specification.Type = &typeTemp
 	} else {
 		specification.Type = nil
 	}
@@ -3256,8 +3274,9 @@ func (configuration *FactoryGitHubConfiguration) AssignProperties_From_FactoryGi
 
 	// Type
 	if source.Type != nil {
-		typeVar := FactoryGitHubConfiguration_Type(*source.Type)
-		configuration.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, factoryGitHubConfiguration_Type_Values)
+		configuration.Type = &typeTemp
 	} else {
 		configuration.Type = nil
 	}
@@ -3545,8 +3564,9 @@ func (configuration *FactoryGitHubConfiguration_STATUS) AssignProperties_From_Fa
 
 	// Type
 	if source.Type != nil {
-		typeVar := FactoryGitHubConfiguration_Type_STATUS(*source.Type)
-		configuration.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, factoryGitHubConfiguration_Type_STATUS_Values)
+		configuration.Type = &typeTemp
 	} else {
 		configuration.Type = nil
 	}
@@ -3820,8 +3840,9 @@ func (configuration *FactoryVSTSConfiguration) AssignProperties_From_FactoryVSTS
 
 	// Type
 	if source.Type != nil {
-		typeVar := FactoryVSTSConfiguration_Type(*source.Type)
-		configuration.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, factoryVSTSConfiguration_Type_Values)
+		configuration.Type = &typeTemp
 	} else {
 		configuration.Type = nil
 	}
@@ -4059,8 +4080,9 @@ func (configuration *FactoryVSTSConfiguration_STATUS) AssignProperties_From_Fact
 
 	// Type
 	if source.Type != nil {
-		typeVar := FactoryVSTSConfiguration_Type_STATUS(*source.Type)
-		configuration.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, factoryVSTSConfiguration_Type_STATUS_Values)
+		configuration.Type = &typeTemp
 	} else {
 		configuration.Type = nil
 	}
@@ -4134,6 +4156,16 @@ const (
 	GlobalParameterSpecification_Type_String = GlobalParameterSpecification_Type("String")
 )
 
+// Mapping from string to GlobalParameterSpecification_Type
+var globalParameterSpecification_Type_Values = map[string]GlobalParameterSpecification_Type{
+	"array":  GlobalParameterSpecification_Type_Array,
+	"bool":   GlobalParameterSpecification_Type_Bool,
+	"float":  GlobalParameterSpecification_Type_Float,
+	"int":    GlobalParameterSpecification_Type_Int,
+	"object": GlobalParameterSpecification_Type_Object,
+	"string": GlobalParameterSpecification_Type_String,
+}
+
 type GlobalParameterSpecification_Type_STATUS string
 
 const (
@@ -4144,6 +4176,16 @@ const (
 	GlobalParameterSpecification_Type_STATUS_Object = GlobalParameterSpecification_Type_STATUS("Object")
 	GlobalParameterSpecification_Type_STATUS_String = GlobalParameterSpecification_Type_STATUS("String")
 )
+
+// Mapping from string to GlobalParameterSpecification_Type_STATUS
+var globalParameterSpecification_Type_STATUS_Values = map[string]GlobalParameterSpecification_Type_STATUS{
+	"array":  GlobalParameterSpecification_Type_STATUS_Array,
+	"bool":   GlobalParameterSpecification_Type_STATUS_Bool,
+	"float":  GlobalParameterSpecification_Type_STATUS_Float,
+	"int":    GlobalParameterSpecification_Type_STATUS_Int,
+	"object": GlobalParameterSpecification_Type_STATUS_Object,
+	"string": GlobalParameterSpecification_Type_STATUS_String,
+}
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
@@ -4184,18 +4226,38 @@ type FactoryGitHubConfiguration_Type string
 
 const FactoryGitHubConfiguration_Type_FactoryGitHubConfiguration = FactoryGitHubConfiguration_Type("FactoryGitHubConfiguration")
 
+// Mapping from string to FactoryGitHubConfiguration_Type
+var factoryGitHubConfiguration_Type_Values = map[string]FactoryGitHubConfiguration_Type{
+	"factorygithubconfiguration": FactoryGitHubConfiguration_Type_FactoryGitHubConfiguration,
+}
+
 type FactoryGitHubConfiguration_Type_STATUS string
 
 const FactoryGitHubConfiguration_Type_STATUS_FactoryGitHubConfiguration = FactoryGitHubConfiguration_Type_STATUS("FactoryGitHubConfiguration")
+
+// Mapping from string to FactoryGitHubConfiguration_Type_STATUS
+var factoryGitHubConfiguration_Type_STATUS_Values = map[string]FactoryGitHubConfiguration_Type_STATUS{
+	"factorygithubconfiguration": FactoryGitHubConfiguration_Type_STATUS_FactoryGitHubConfiguration,
+}
 
 // +kubebuilder:validation:Enum={"FactoryVSTSConfiguration"}
 type FactoryVSTSConfiguration_Type string
 
 const FactoryVSTSConfiguration_Type_FactoryVSTSConfiguration = FactoryVSTSConfiguration_Type("FactoryVSTSConfiguration")
 
+// Mapping from string to FactoryVSTSConfiguration_Type
+var factoryVSTSConfiguration_Type_Values = map[string]FactoryVSTSConfiguration_Type{
+	"factoryvstsconfiguration": FactoryVSTSConfiguration_Type_FactoryVSTSConfiguration,
+}
+
 type FactoryVSTSConfiguration_Type_STATUS string
 
 const FactoryVSTSConfiguration_Type_STATUS_FactoryVSTSConfiguration = FactoryVSTSConfiguration_Type_STATUS("FactoryVSTSConfiguration")
+
+// Mapping from string to FactoryVSTSConfiguration_Type_STATUS
+var factoryVSTSConfiguration_Type_STATUS_Values = map[string]FactoryVSTSConfiguration_Type_STATUS{
+	"factoryvstsconfiguration": FactoryVSTSConfiguration_Type_STATUS_FactoryVSTSConfiguration,
+}
 
 // Client secret information for factory's bring your own app repository configuration.
 type GitHubClientSecret struct {

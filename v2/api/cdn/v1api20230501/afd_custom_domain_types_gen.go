@@ -1023,16 +1023,18 @@ func (domain *Profiles_CustomDomain_STATUS) AssignProperties_From_Profiles_Custo
 
 	// DeploymentStatus
 	if source.DeploymentStatus != nil {
-		deploymentStatus := AFDDomainProperties_DeploymentStatus_STATUS(*source.DeploymentStatus)
-		domain.DeploymentStatus = &deploymentStatus
+		deploymentStatus := *source.DeploymentStatus
+		deploymentStatusTemp := genruntime.ToEnum(deploymentStatus, aFDDomainProperties_DeploymentStatus_STATUS_Values)
+		domain.DeploymentStatus = &deploymentStatusTemp
 	} else {
 		domain.DeploymentStatus = nil
 	}
 
 	// DomainValidationState
 	if source.DomainValidationState != nil {
-		domainValidationState := AFDDomainProperties_DomainValidationState_STATUS(*source.DomainValidationState)
-		domain.DomainValidationState = &domainValidationState
+		domainValidationState := *source.DomainValidationState
+		domainValidationStateTemp := genruntime.ToEnum(domainValidationState, aFDDomainProperties_DomainValidationState_STATUS_Values)
+		domain.DomainValidationState = &domainValidationStateTemp
 	} else {
 		domain.DomainValidationState = nil
 	}
@@ -1066,8 +1068,9 @@ func (domain *Profiles_CustomDomain_STATUS) AssignProperties_From_Profiles_Custo
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := AFDDomainProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		domain.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, aFDDomainProperties_ProvisioningState_STATUS_Values)
+		domain.ProvisioningState = &provisioningStateTemp
 	} else {
 		domain.ProvisioningState = nil
 	}
@@ -1326,16 +1329,18 @@ func (parameters *AFDDomainHttpsParameters) AssignProperties_From_AFDDomainHttps
 
 	// CertificateType
 	if source.CertificateType != nil {
-		certificateType := AFDDomainHttpsParameters_CertificateType(*source.CertificateType)
-		parameters.CertificateType = &certificateType
+		certificateType := *source.CertificateType
+		certificateTypeTemp := genruntime.ToEnum(certificateType, aFDDomainHttpsParameters_CertificateType_Values)
+		parameters.CertificateType = &certificateTypeTemp
 	} else {
 		parameters.CertificateType = nil
 	}
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := AFDDomainHttpsParameters_MinimumTlsVersion(*source.MinimumTlsVersion)
-		parameters.MinimumTlsVersion = &minimumTlsVersion
+		minimumTlsVersion := *source.MinimumTlsVersion
+		minimumTlsVersionTemp := genruntime.ToEnum(minimumTlsVersion, aFDDomainHttpsParameters_MinimumTlsVersion_Values)
+		parameters.MinimumTlsVersion = &minimumTlsVersionTemp
 	} else {
 		parameters.MinimumTlsVersion = nil
 	}
@@ -1493,16 +1498,18 @@ func (parameters *AFDDomainHttpsParameters_STATUS) AssignProperties_From_AFDDoma
 
 	// CertificateType
 	if source.CertificateType != nil {
-		certificateType := AFDDomainHttpsParameters_CertificateType_STATUS(*source.CertificateType)
-		parameters.CertificateType = &certificateType
+		certificateType := *source.CertificateType
+		certificateTypeTemp := genruntime.ToEnum(certificateType, aFDDomainHttpsParameters_CertificateType_STATUS_Values)
+		parameters.CertificateType = &certificateTypeTemp
 	} else {
 		parameters.CertificateType = nil
 	}
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := AFDDomainHttpsParameters_MinimumTlsVersion_STATUS(*source.MinimumTlsVersion)
-		parameters.MinimumTlsVersion = &minimumTlsVersion
+		minimumTlsVersion := *source.MinimumTlsVersion
+		minimumTlsVersionTemp := genruntime.ToEnum(minimumTlsVersion, aFDDomainHttpsParameters_MinimumTlsVersion_STATUS_Values)
+		parameters.MinimumTlsVersion = &minimumTlsVersionTemp
 	} else {
 		parameters.MinimumTlsVersion = nil
 	}
@@ -1576,6 +1583,14 @@ const (
 	AFDDomainProperties_DeploymentStatus_STATUS_Succeeded  = AFDDomainProperties_DeploymentStatus_STATUS("Succeeded")
 )
 
+// Mapping from string to AFDDomainProperties_DeploymentStatus_STATUS
+var aFDDomainProperties_DeploymentStatus_STATUS_Values = map[string]AFDDomainProperties_DeploymentStatus_STATUS{
+	"failed":     AFDDomainProperties_DeploymentStatus_STATUS_Failed,
+	"inprogress": AFDDomainProperties_DeploymentStatus_STATUS_InProgress,
+	"notstarted": AFDDomainProperties_DeploymentStatus_STATUS_NotStarted,
+	"succeeded":  AFDDomainProperties_DeploymentStatus_STATUS_Succeeded,
+}
+
 type AFDDomainProperties_DomainValidationState_STATUS string
 
 const (
@@ -1590,6 +1605,19 @@ const (
 	AFDDomainProperties_DomainValidationState_STATUS_Unknown                   = AFDDomainProperties_DomainValidationState_STATUS("Unknown")
 )
 
+// Mapping from string to AFDDomainProperties_DomainValidationState_STATUS
+var aFDDomainProperties_DomainValidationState_STATUS_Values = map[string]AFDDomainProperties_DomainValidationState_STATUS{
+	"approved":                  AFDDomainProperties_DomainValidationState_STATUS_Approved,
+	"internalerror":             AFDDomainProperties_DomainValidationState_STATUS_InternalError,
+	"pending":                   AFDDomainProperties_DomainValidationState_STATUS_Pending,
+	"pendingrevalidation":       AFDDomainProperties_DomainValidationState_STATUS_PendingRevalidation,
+	"refreshingvalidationtoken": AFDDomainProperties_DomainValidationState_STATUS_RefreshingValidationToken,
+	"rejected":                  AFDDomainProperties_DomainValidationState_STATUS_Rejected,
+	"submitting":                AFDDomainProperties_DomainValidationState_STATUS_Submitting,
+	"timedout":                  AFDDomainProperties_DomainValidationState_STATUS_TimedOut,
+	"unknown":                   AFDDomainProperties_DomainValidationState_STATUS_Unknown,
+}
+
 type AFDDomainProperties_ProvisioningState_STATUS string
 
 const (
@@ -1599,6 +1627,15 @@ const (
 	AFDDomainProperties_ProvisioningState_STATUS_Succeeded = AFDDomainProperties_ProvisioningState_STATUS("Succeeded")
 	AFDDomainProperties_ProvisioningState_STATUS_Updating  = AFDDomainProperties_ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to AFDDomainProperties_ProvisioningState_STATUS
+var aFDDomainProperties_ProvisioningState_STATUS_Values = map[string]AFDDomainProperties_ProvisioningState_STATUS{
+	"creating":  AFDDomainProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  AFDDomainProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    AFDDomainProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": AFDDomainProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  AFDDomainProperties_ProvisioningState_STATUS_Updating,
+}
 
 // The JSON object that contains the properties to validate a domain.
 type DomainValidationProperties_STATUS struct {
@@ -1918,8 +1955,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := IdentityType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, identityType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -1932,8 +1970,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := IdentityType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, identityType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -1995,6 +2034,13 @@ const (
 	AFDDomainHttpsParameters_CertificateType_ManagedCertificate                = AFDDomainHttpsParameters_CertificateType("ManagedCertificate")
 )
 
+// Mapping from string to AFDDomainHttpsParameters_CertificateType
+var aFDDomainHttpsParameters_CertificateType_Values = map[string]AFDDomainHttpsParameters_CertificateType{
+	"azurefirstpartymanagedcertificate": AFDDomainHttpsParameters_CertificateType_AzureFirstPartyManagedCertificate,
+	"customercertificate":               AFDDomainHttpsParameters_CertificateType_CustomerCertificate,
+	"managedcertificate":                AFDDomainHttpsParameters_CertificateType_ManagedCertificate,
+}
+
 type AFDDomainHttpsParameters_CertificateType_STATUS string
 
 const (
@@ -2002,6 +2048,13 @@ const (
 	AFDDomainHttpsParameters_CertificateType_STATUS_CustomerCertificate               = AFDDomainHttpsParameters_CertificateType_STATUS("CustomerCertificate")
 	AFDDomainHttpsParameters_CertificateType_STATUS_ManagedCertificate                = AFDDomainHttpsParameters_CertificateType_STATUS("ManagedCertificate")
 )
+
+// Mapping from string to AFDDomainHttpsParameters_CertificateType_STATUS
+var aFDDomainHttpsParameters_CertificateType_STATUS_Values = map[string]AFDDomainHttpsParameters_CertificateType_STATUS{
+	"azurefirstpartymanagedcertificate": AFDDomainHttpsParameters_CertificateType_STATUS_AzureFirstPartyManagedCertificate,
+	"customercertificate":               AFDDomainHttpsParameters_CertificateType_STATUS_CustomerCertificate,
+	"managedcertificate":                AFDDomainHttpsParameters_CertificateType_STATUS_ManagedCertificate,
+}
 
 // +kubebuilder:validation:Enum={"TLS10","TLS12"}
 type AFDDomainHttpsParameters_MinimumTlsVersion string
@@ -2011,12 +2064,24 @@ const (
 	AFDDomainHttpsParameters_MinimumTlsVersion_TLS12 = AFDDomainHttpsParameters_MinimumTlsVersion("TLS12")
 )
 
+// Mapping from string to AFDDomainHttpsParameters_MinimumTlsVersion
+var aFDDomainHttpsParameters_MinimumTlsVersion_Values = map[string]AFDDomainHttpsParameters_MinimumTlsVersion{
+	"tls10": AFDDomainHttpsParameters_MinimumTlsVersion_TLS10,
+	"tls12": AFDDomainHttpsParameters_MinimumTlsVersion_TLS12,
+}
+
 type AFDDomainHttpsParameters_MinimumTlsVersion_STATUS string
 
 const (
 	AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_TLS10 = AFDDomainHttpsParameters_MinimumTlsVersion_STATUS("TLS10")
 	AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_TLS12 = AFDDomainHttpsParameters_MinimumTlsVersion_STATUS("TLS12")
 )
+
+// Mapping from string to AFDDomainHttpsParameters_MinimumTlsVersion_STATUS
+var aFDDomainHttpsParameters_MinimumTlsVersion_STATUS_Values = map[string]AFDDomainHttpsParameters_MinimumTlsVersion_STATUS{
+	"tls10": AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_TLS10,
+	"tls12": AFDDomainHttpsParameters_MinimumTlsVersion_STATUS_TLS12,
+}
 
 func init() {
 	SchemeBuilder.Register(&AfdCustomDomain{}, &AfdCustomDomainList{})

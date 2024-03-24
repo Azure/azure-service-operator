@@ -137,6 +137,14 @@ const (
 	ResourceIdentity_Type_STATUS_UserAssigned               = ResourceIdentity_Type_STATUS("UserAssigned")
 )
 
+// Mapping from string to ResourceIdentity_Type_STATUS
+var resourceIdentity_Type_STATUS_Values = map[string]ResourceIdentity_Type_STATUS{
+	"none":                         ResourceIdentity_Type_STATUS_None,
+	"systemassigned":               ResourceIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned, userassigned": ResourceIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 ResourceIdentity_Type_STATUS_UserAssigned,
+}
+
 type SystemData_CreatedByType_STATUS string
 
 const (
@@ -146,6 +154,14 @@ const (
 	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
 type SystemData_LastModifiedByType_STATUS string
 
 const (
@@ -154,6 +170,14 @@ const (
 	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
+}
 
 // A resource identity that is managed by the user of the service.
 type UserIdentity_STATUS_ARM struct {

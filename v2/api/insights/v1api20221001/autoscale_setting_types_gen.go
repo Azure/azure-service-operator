@@ -1456,8 +1456,9 @@ func (notification *AutoscaleNotification) AssignProperties_From_AutoscaleNotifi
 
 	// Operation
 	if source.Operation != nil {
-		operation := AutoscaleNotification_Operation(*source.Operation)
-		notification.Operation = &operation
+		operation := *source.Operation
+		operationTemp := genruntime.ToEnum(operation, autoscaleNotification_Operation_Values)
+		notification.Operation = &operationTemp
 	} else {
 		notification.Operation = nil
 	}
@@ -1657,8 +1658,9 @@ func (notification *AutoscaleNotification_STATUS) AssignProperties_From_Autoscal
 
 	// Operation
 	if source.Operation != nil {
-		operation := AutoscaleNotification_Operation_STATUS(*source.Operation)
-		notification.Operation = &operation
+		operation := *source.Operation
+		operationTemp := genruntime.ToEnum(operation, autoscaleNotification_Operation_STATUS_Values)
+		notification.Operation = &operationTemp
 	} else {
 		notification.Operation = nil
 	}
@@ -2379,8 +2381,9 @@ func (policy *PredictiveAutoscalePolicy) AssignProperties_From_PredictiveAutosca
 
 	// ScaleMode
 	if source.ScaleMode != nil {
-		scaleMode := PredictiveAutoscalePolicy_ScaleMode(*source.ScaleMode)
-		policy.ScaleMode = &scaleMode
+		scaleMode := *source.ScaleMode
+		scaleModeTemp := genruntime.ToEnum(scaleMode, predictiveAutoscalePolicy_ScaleMode_Values)
+		policy.ScaleMode = &scaleModeTemp
 	} else {
 		policy.ScaleMode = nil
 	}
@@ -2482,8 +2485,9 @@ func (policy *PredictiveAutoscalePolicy_STATUS) AssignProperties_From_Predictive
 
 	// ScaleMode
 	if source.ScaleMode != nil {
-		scaleMode := PredictiveAutoscalePolicy_ScaleMode_STATUS(*source.ScaleMode)
-		policy.ScaleMode = &scaleMode
+		scaleMode := *source.ScaleMode
+		scaleModeTemp := genruntime.ToEnum(scaleMode, predictiveAutoscalePolicy_ScaleMode_STATUS_Values)
+		policy.ScaleMode = &scaleModeTemp
 	} else {
 		policy.ScaleMode = nil
 	}
@@ -2605,8 +2609,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -2619,8 +2624,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -2678,9 +2684,19 @@ type AutoscaleNotification_Operation string
 
 const AutoscaleNotification_Operation_Scale = AutoscaleNotification_Operation("Scale")
 
+// Mapping from string to AutoscaleNotification_Operation
+var autoscaleNotification_Operation_Values = map[string]AutoscaleNotification_Operation{
+	"scale": AutoscaleNotification_Operation_Scale,
+}
+
 type AutoscaleNotification_Operation_STATUS string
 
 const AutoscaleNotification_Operation_STATUS_Scale = AutoscaleNotification_Operation_STATUS("Scale")
+
+// Mapping from string to AutoscaleNotification_Operation_STATUS
+var autoscaleNotification_Operation_STATUS_Values = map[string]AutoscaleNotification_Operation_STATUS{
+	"scale": AutoscaleNotification_Operation_STATUS_Scale,
+}
 
 // Email notification of an autoscale event.
 type EmailNotification struct {
@@ -2959,6 +2975,13 @@ const (
 	PredictiveAutoscalePolicy_ScaleMode_ForecastOnly = PredictiveAutoscalePolicy_ScaleMode("ForecastOnly")
 )
 
+// Mapping from string to PredictiveAutoscalePolicy_ScaleMode
+var predictiveAutoscalePolicy_ScaleMode_Values = map[string]PredictiveAutoscalePolicy_ScaleMode{
+	"disabled":     PredictiveAutoscalePolicy_ScaleMode_Disabled,
+	"enabled":      PredictiveAutoscalePolicy_ScaleMode_Enabled,
+	"forecastonly": PredictiveAutoscalePolicy_ScaleMode_ForecastOnly,
+}
+
 type PredictiveAutoscalePolicy_ScaleMode_STATUS string
 
 const (
@@ -2966,6 +2989,13 @@ const (
 	PredictiveAutoscalePolicy_ScaleMode_STATUS_Enabled      = PredictiveAutoscalePolicy_ScaleMode_STATUS("Enabled")
 	PredictiveAutoscalePolicy_ScaleMode_STATUS_ForecastOnly = PredictiveAutoscalePolicy_ScaleMode_STATUS("ForecastOnly")
 )
+
+// Mapping from string to PredictiveAutoscalePolicy_ScaleMode_STATUS
+var predictiveAutoscalePolicy_ScaleMode_STATUS_Values = map[string]PredictiveAutoscalePolicy_ScaleMode_STATUS{
+	"disabled":     PredictiveAutoscalePolicy_ScaleMode_STATUS_Disabled,
+	"enabled":      PredictiveAutoscalePolicy_ScaleMode_STATUS_Enabled,
+	"forecastonly": PredictiveAutoscalePolicy_ScaleMode_STATUS_ForecastOnly,
+}
 
 // The repeating times at which this profile begins. This element is not used if the FixedDate element is used.
 type Recurrence struct {
@@ -3045,8 +3075,9 @@ func (recurrence *Recurrence) AssignProperties_From_Recurrence(source *v20221001
 
 	// Frequency
 	if source.Frequency != nil {
-		frequency := Recurrence_Frequency(*source.Frequency)
-		recurrence.Frequency = &frequency
+		frequency := *source.Frequency
+		frequencyTemp := genruntime.ToEnum(frequency, recurrence_Frequency_Values)
+		recurrence.Frequency = &frequencyTemp
 	} else {
 		recurrence.Frequency = nil
 	}
@@ -3183,8 +3214,9 @@ func (recurrence *Recurrence_STATUS) AssignProperties_From_Recurrence_STATUS(sou
 
 	// Frequency
 	if source.Frequency != nil {
-		frequency := Recurrence_Frequency_STATUS(*source.Frequency)
-		recurrence.Frequency = &frequency
+		frequency := *source.Frequency
+		frequencyTemp := genruntime.ToEnum(frequency, recurrence_Frequency_STATUS_Values)
+		recurrence.Frequency = &frequencyTemp
 	} else {
 		recurrence.Frequency = nil
 	}
@@ -4510,16 +4542,18 @@ func (trigger *MetricTrigger) AssignProperties_From_MetricTrigger(source *v20221
 
 	// Operator
 	if source.Operator != nil {
-		operator := MetricTrigger_Operator(*source.Operator)
-		trigger.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, metricTrigger_Operator_Values)
+		trigger.Operator = &operatorTemp
 	} else {
 		trigger.Operator = nil
 	}
 
 	// Statistic
 	if source.Statistic != nil {
-		statistic := MetricTrigger_Statistic(*source.Statistic)
-		trigger.Statistic = &statistic
+		statistic := *source.Statistic
+		statisticTemp := genruntime.ToEnum(statistic, metricTrigger_Statistic_Values)
+		trigger.Statistic = &statisticTemp
 	} else {
 		trigger.Statistic = nil
 	}
@@ -4534,8 +4568,9 @@ func (trigger *MetricTrigger) AssignProperties_From_MetricTrigger(source *v20221
 
 	// TimeAggregation
 	if source.TimeAggregation != nil {
-		timeAggregation := MetricTrigger_TimeAggregation(*source.TimeAggregation)
-		trigger.TimeAggregation = &timeAggregation
+		timeAggregation := *source.TimeAggregation
+		timeAggregationTemp := genruntime.ToEnum(timeAggregation, metricTrigger_TimeAggregation_Values)
+		trigger.TimeAggregation = &timeAggregationTemp
 	} else {
 		trigger.TimeAggregation = nil
 	}
@@ -4915,16 +4950,18 @@ func (trigger *MetricTrigger_STATUS) AssignProperties_From_MetricTrigger_STATUS(
 
 	// Operator
 	if source.Operator != nil {
-		operator := MetricTrigger_Operator_STATUS(*source.Operator)
-		trigger.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, metricTrigger_Operator_STATUS_Values)
+		trigger.Operator = &operatorTemp
 	} else {
 		trigger.Operator = nil
 	}
 
 	// Statistic
 	if source.Statistic != nil {
-		statistic := MetricTrigger_Statistic_STATUS(*source.Statistic)
-		trigger.Statistic = &statistic
+		statistic := *source.Statistic
+		statisticTemp := genruntime.ToEnum(statistic, metricTrigger_Statistic_STATUS_Values)
+		trigger.Statistic = &statisticTemp
 	} else {
 		trigger.Statistic = nil
 	}
@@ -4939,8 +4976,9 @@ func (trigger *MetricTrigger_STATUS) AssignProperties_From_MetricTrigger_STATUS(
 
 	// TimeAggregation
 	if source.TimeAggregation != nil {
-		timeAggregation := MetricTrigger_TimeAggregation_STATUS(*source.TimeAggregation)
-		trigger.TimeAggregation = &timeAggregation
+		timeAggregation := *source.TimeAggregation
+		timeAggregationTemp := genruntime.ToEnum(timeAggregation, metricTrigger_TimeAggregation_STATUS_Values)
+		trigger.TimeAggregation = &timeAggregationTemp
 	} else {
 		trigger.TimeAggregation = nil
 	}
@@ -5061,6 +5099,18 @@ const (
 	Recurrence_Frequency_Year   = Recurrence_Frequency("Year")
 )
 
+// Mapping from string to Recurrence_Frequency
+var recurrence_Frequency_Values = map[string]Recurrence_Frequency{
+	"day":    Recurrence_Frequency_Day,
+	"hour":   Recurrence_Frequency_Hour,
+	"minute": Recurrence_Frequency_Minute,
+	"month":  Recurrence_Frequency_Month,
+	"none":   Recurrence_Frequency_None,
+	"second": Recurrence_Frequency_Second,
+	"week":   Recurrence_Frequency_Week,
+	"year":   Recurrence_Frequency_Year,
+}
+
 // +kubebuilder:validation:Enum={"Day","Hour","Minute","Month","None","Second","Week","Year"}
 type Recurrence_Frequency_STATUS string
 
@@ -5074,6 +5124,18 @@ const (
 	Recurrence_Frequency_STATUS_Week   = Recurrence_Frequency_STATUS("Week")
 	Recurrence_Frequency_STATUS_Year   = Recurrence_Frequency_STATUS("Year")
 )
+
+// Mapping from string to Recurrence_Frequency_STATUS
+var recurrence_Frequency_STATUS_Values = map[string]Recurrence_Frequency_STATUS{
+	"day":    Recurrence_Frequency_STATUS_Day,
+	"hour":   Recurrence_Frequency_STATUS_Hour,
+	"minute": Recurrence_Frequency_STATUS_Minute,
+	"month":  Recurrence_Frequency_STATUS_Month,
+	"none":   Recurrence_Frequency_STATUS_None,
+	"second": Recurrence_Frequency_STATUS_Second,
+	"week":   Recurrence_Frequency_STATUS_Week,
+	"year":   Recurrence_Frequency_STATUS_Year,
+}
 
 // The scheduling constraints for when the profile begins.
 type RecurrentSchedule struct {
@@ -5583,16 +5645,18 @@ func (action *ScaleAction) AssignProperties_From_ScaleAction(source *v20221001s.
 
 	// Direction
 	if source.Direction != nil {
-		direction := ScaleAction_Direction(*source.Direction)
-		action.Direction = &direction
+		direction := *source.Direction
+		directionTemp := genruntime.ToEnum(direction, scaleAction_Direction_Values)
+		action.Direction = &directionTemp
 	} else {
 		action.Direction = nil
 	}
 
 	// Type
 	if source.Type != nil {
-		typeVar := ScaleAction_Type(*source.Type)
-		action.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, scaleAction_Type_Values)
+		action.Type = &typeTemp
 	} else {
 		action.Type = nil
 	}
@@ -5741,16 +5805,18 @@ func (action *ScaleAction_STATUS) AssignProperties_From_ScaleAction_STATUS(sourc
 
 	// Direction
 	if source.Direction != nil {
-		direction := ScaleAction_Direction_STATUS(*source.Direction)
-		action.Direction = &direction
+		direction := *source.Direction
+		directionTemp := genruntime.ToEnum(direction, scaleAction_Direction_STATUS_Values)
+		action.Direction = &directionTemp
 	} else {
 		action.Direction = nil
 	}
 
 	// Type
 	if source.Type != nil {
-		typeVar := ScaleAction_Type_STATUS(*source.Type)
-		action.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, scaleAction_Type_STATUS_Values)
+		action.Type = &typeTemp
 	} else {
 		action.Type = nil
 	}
@@ -5812,6 +5878,16 @@ const (
 	MetricTrigger_Operator_NotEquals          = MetricTrigger_Operator("NotEquals")
 )
 
+// Mapping from string to MetricTrigger_Operator
+var metricTrigger_Operator_Values = map[string]MetricTrigger_Operator{
+	"equals":             MetricTrigger_Operator_Equals,
+	"greaterthan":        MetricTrigger_Operator_GreaterThan,
+	"greaterthanorequal": MetricTrigger_Operator_GreaterThanOrEqual,
+	"lessthan":           MetricTrigger_Operator_LessThan,
+	"lessthanorequal":    MetricTrigger_Operator_LessThanOrEqual,
+	"notequals":          MetricTrigger_Operator_NotEquals,
+}
+
 // +kubebuilder:validation:Enum={"Equals","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","NotEquals"}
 type MetricTrigger_Operator_STATUS string
 
@@ -5824,6 +5900,16 @@ const (
 	MetricTrigger_Operator_STATUS_NotEquals          = MetricTrigger_Operator_STATUS("NotEquals")
 )
 
+// Mapping from string to MetricTrigger_Operator_STATUS
+var metricTrigger_Operator_STATUS_Values = map[string]MetricTrigger_Operator_STATUS{
+	"equals":             MetricTrigger_Operator_STATUS_Equals,
+	"greaterthan":        MetricTrigger_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": MetricTrigger_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           MetricTrigger_Operator_STATUS_LessThan,
+	"lessthanorequal":    MetricTrigger_Operator_STATUS_LessThanOrEqual,
+	"notequals":          MetricTrigger_Operator_STATUS_NotEquals,
+}
+
 // +kubebuilder:validation:Enum={"Average","Count","Max","Min","Sum"}
 type MetricTrigger_Statistic string
 
@@ -5835,6 +5921,15 @@ const (
 	MetricTrigger_Statistic_Sum     = MetricTrigger_Statistic("Sum")
 )
 
+// Mapping from string to MetricTrigger_Statistic
+var metricTrigger_Statistic_Values = map[string]MetricTrigger_Statistic{
+	"average": MetricTrigger_Statistic_Average,
+	"count":   MetricTrigger_Statistic_Count,
+	"max":     MetricTrigger_Statistic_Max,
+	"min":     MetricTrigger_Statistic_Min,
+	"sum":     MetricTrigger_Statistic_Sum,
+}
+
 // +kubebuilder:validation:Enum={"Average","Count","Max","Min","Sum"}
 type MetricTrigger_Statistic_STATUS string
 
@@ -5845,6 +5940,15 @@ const (
 	MetricTrigger_Statistic_STATUS_Min     = MetricTrigger_Statistic_STATUS("Min")
 	MetricTrigger_Statistic_STATUS_Sum     = MetricTrigger_Statistic_STATUS("Sum")
 )
+
+// Mapping from string to MetricTrigger_Statistic_STATUS
+var metricTrigger_Statistic_STATUS_Values = map[string]MetricTrigger_Statistic_STATUS{
+	"average": MetricTrigger_Statistic_STATUS_Average,
+	"count":   MetricTrigger_Statistic_STATUS_Count,
+	"max":     MetricTrigger_Statistic_STATUS_Max,
+	"min":     MetricTrigger_Statistic_STATUS_Min,
+	"sum":     MetricTrigger_Statistic_STATUS_Sum,
+}
 
 // +kubebuilder:validation:Enum={"Average","Count","Last","Maximum","Minimum","Total"}
 type MetricTrigger_TimeAggregation string
@@ -5858,6 +5962,16 @@ const (
 	MetricTrigger_TimeAggregation_Total   = MetricTrigger_TimeAggregation("Total")
 )
 
+// Mapping from string to MetricTrigger_TimeAggregation
+var metricTrigger_TimeAggregation_Values = map[string]MetricTrigger_TimeAggregation{
+	"average": MetricTrigger_TimeAggregation_Average,
+	"count":   MetricTrigger_TimeAggregation_Count,
+	"last":    MetricTrigger_TimeAggregation_Last,
+	"maximum": MetricTrigger_TimeAggregation_Maximum,
+	"minimum": MetricTrigger_TimeAggregation_Minimum,
+	"total":   MetricTrigger_TimeAggregation_Total,
+}
+
 // +kubebuilder:validation:Enum={"Average","Count","Last","Maximum","Minimum","Total"}
 type MetricTrigger_TimeAggregation_STATUS string
 
@@ -5870,6 +5984,16 @@ const (
 	MetricTrigger_TimeAggregation_STATUS_Total   = MetricTrigger_TimeAggregation_STATUS("Total")
 )
 
+// Mapping from string to MetricTrigger_TimeAggregation_STATUS
+var metricTrigger_TimeAggregation_STATUS_Values = map[string]MetricTrigger_TimeAggregation_STATUS{
+	"average": MetricTrigger_TimeAggregation_STATUS_Average,
+	"count":   MetricTrigger_TimeAggregation_STATUS_Count,
+	"last":    MetricTrigger_TimeAggregation_STATUS_Last,
+	"maximum": MetricTrigger_TimeAggregation_STATUS_Maximum,
+	"minimum": MetricTrigger_TimeAggregation_STATUS_Minimum,
+	"total":   MetricTrigger_TimeAggregation_STATUS_Total,
+}
+
 // +kubebuilder:validation:Enum={"Decrease","Increase","None"}
 type ScaleAction_Direction string
 
@@ -5879,6 +6003,13 @@ const (
 	ScaleAction_Direction_None     = ScaleAction_Direction("None")
 )
 
+// Mapping from string to ScaleAction_Direction
+var scaleAction_Direction_Values = map[string]ScaleAction_Direction{
+	"decrease": ScaleAction_Direction_Decrease,
+	"increase": ScaleAction_Direction_Increase,
+	"none":     ScaleAction_Direction_None,
+}
+
 // +kubebuilder:validation:Enum={"Decrease","Increase","None"}
 type ScaleAction_Direction_STATUS string
 
@@ -5887,6 +6018,13 @@ const (
 	ScaleAction_Direction_STATUS_Increase = ScaleAction_Direction_STATUS("Increase")
 	ScaleAction_Direction_STATUS_None     = ScaleAction_Direction_STATUS("None")
 )
+
+// Mapping from string to ScaleAction_Direction_STATUS
+var scaleAction_Direction_STATUS_Values = map[string]ScaleAction_Direction_STATUS{
+	"decrease": ScaleAction_Direction_STATUS_Decrease,
+	"increase": ScaleAction_Direction_STATUS_Increase,
+	"none":     ScaleAction_Direction_STATUS_None,
+}
 
 // +kubebuilder:validation:Enum={"ChangeCount","ExactCount","PercentChangeCount","ServiceAllowedNextValue"}
 type ScaleAction_Type string
@@ -5898,6 +6036,14 @@ const (
 	ScaleAction_Type_ServiceAllowedNextValue = ScaleAction_Type("ServiceAllowedNextValue")
 )
 
+// Mapping from string to ScaleAction_Type
+var scaleAction_Type_Values = map[string]ScaleAction_Type{
+	"changecount":             ScaleAction_Type_ChangeCount,
+	"exactcount":              ScaleAction_Type_ExactCount,
+	"percentchangecount":      ScaleAction_Type_PercentChangeCount,
+	"serviceallowednextvalue": ScaleAction_Type_ServiceAllowedNextValue,
+}
+
 // +kubebuilder:validation:Enum={"ChangeCount","ExactCount","PercentChangeCount","ServiceAllowedNextValue"}
 type ScaleAction_Type_STATUS string
 
@@ -5907,6 +6053,14 @@ const (
 	ScaleAction_Type_STATUS_PercentChangeCount      = ScaleAction_Type_STATUS("PercentChangeCount")
 	ScaleAction_Type_STATUS_ServiceAllowedNextValue = ScaleAction_Type_STATUS("ServiceAllowedNextValue")
 )
+
+// Mapping from string to ScaleAction_Type_STATUS
+var scaleAction_Type_STATUS_Values = map[string]ScaleAction_Type_STATUS{
+	"changecount":             ScaleAction_Type_STATUS_ChangeCount,
+	"exactcount":              ScaleAction_Type_STATUS_ExactCount,
+	"percentchangecount":      ScaleAction_Type_STATUS_PercentChangeCount,
+	"serviceallowednextvalue": ScaleAction_Type_STATUS_ServiceAllowedNextValue,
+}
 
 // Specifies an auto scale rule metric dimension.
 type ScaleRuleMetricDimension struct {
@@ -5993,8 +6147,9 @@ func (dimension *ScaleRuleMetricDimension) AssignProperties_From_ScaleRuleMetric
 
 	// Operator
 	if source.Operator != nil {
-		operator := ScaleRuleMetricDimension_Operator(*source.Operator)
-		dimension.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, scaleRuleMetricDimension_Operator_Values)
+		dimension.Operator = &operatorTemp
 	} else {
 		dimension.Operator = nil
 	}
@@ -6116,8 +6271,9 @@ func (dimension *ScaleRuleMetricDimension_STATUS) AssignProperties_From_ScaleRul
 
 	// Operator
 	if source.Operator != nil {
-		operator := ScaleRuleMetricDimension_Operator_STATUS(*source.Operator)
-		dimension.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, scaleRuleMetricDimension_Operator_STATUS_Values)
+		dimension.Operator = &operatorTemp
 	} else {
 		dimension.Operator = nil
 	}
@@ -6167,6 +6323,12 @@ const (
 	ScaleRuleMetricDimension_Operator_NotEquals = ScaleRuleMetricDimension_Operator("NotEquals")
 )
 
+// Mapping from string to ScaleRuleMetricDimension_Operator
+var scaleRuleMetricDimension_Operator_Values = map[string]ScaleRuleMetricDimension_Operator{
+	"equals":    ScaleRuleMetricDimension_Operator_Equals,
+	"notequals": ScaleRuleMetricDimension_Operator_NotEquals,
+}
+
 // +kubebuilder:validation:Enum={"Equals","NotEquals"}
 type ScaleRuleMetricDimension_Operator_STATUS string
 
@@ -6174,6 +6336,12 @@ const (
 	ScaleRuleMetricDimension_Operator_STATUS_Equals    = ScaleRuleMetricDimension_Operator_STATUS("Equals")
 	ScaleRuleMetricDimension_Operator_STATUS_NotEquals = ScaleRuleMetricDimension_Operator_STATUS("NotEquals")
 )
+
+// Mapping from string to ScaleRuleMetricDimension_Operator_STATUS
+var scaleRuleMetricDimension_Operator_STATUS_Values = map[string]ScaleRuleMetricDimension_Operator_STATUS{
+	"equals":    ScaleRuleMetricDimension_Operator_STATUS_Equals,
+	"notequals": ScaleRuleMetricDimension_Operator_STATUS_NotEquals,
+}
 
 func init() {
 	SchemeBuilder.Register(&AutoscaleSetting{}, &AutoscaleSettingList{})

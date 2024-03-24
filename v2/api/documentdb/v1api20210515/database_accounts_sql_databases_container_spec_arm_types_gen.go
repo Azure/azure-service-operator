@@ -139,6 +139,12 @@ const (
 	ConflictResolutionPolicy_Mode_LastWriterWins = ConflictResolutionPolicy_Mode("LastWriterWins")
 )
 
+// Mapping from string to ConflictResolutionPolicy_Mode
+var conflictResolutionPolicy_Mode_Values = map[string]ConflictResolutionPolicy_Mode{
+	"custom":         ConflictResolutionPolicy_Mode_Custom,
+	"lastwriterwins": ConflictResolutionPolicy_Mode_LastWriterWins,
+}
+
 // +kubebuilder:validation:Enum={"Hash","MultiHash","Range"}
 type ContainerPartitionKey_Kind string
 
@@ -147,6 +153,13 @@ const (
 	ContainerPartitionKey_Kind_MultiHash = ContainerPartitionKey_Kind("MultiHash")
 	ContainerPartitionKey_Kind_Range     = ContainerPartitionKey_Kind("Range")
 )
+
+// Mapping from string to ContainerPartitionKey_Kind
+var containerPartitionKey_Kind_Values = map[string]ContainerPartitionKey_Kind{
+	"hash":      ContainerPartitionKey_Kind_Hash,
+	"multihash": ContainerPartitionKey_Kind_MultiHash,
+	"range":     ContainerPartitionKey_Kind_Range,
+}
 
 type ExcludedPath_ARM struct {
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
@@ -173,6 +186,13 @@ const (
 	IndexingPolicy_IndexingMode_None       = IndexingPolicy_IndexingMode("none")
 )
 
+// Mapping from string to IndexingPolicy_IndexingMode
+var indexingPolicy_IndexingMode_Values = map[string]IndexingPolicy_IndexingMode{
+	"consistent": IndexingPolicy_IndexingMode_Consistent,
+	"lazy":       IndexingPolicy_IndexingMode_Lazy,
+	"none":       IndexingPolicy_IndexingMode_None,
+}
+
 type SpatialSpec_ARM struct {
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
 	// (/path/*)
@@ -195,6 +215,12 @@ const (
 	CompositePath_Order_Ascending  = CompositePath_Order("ascending")
 	CompositePath_Order_Descending = CompositePath_Order("descending")
 )
+
+// Mapping from string to CompositePath_Order
+var compositePath_Order_Values = map[string]CompositePath_Order{
+	"ascending":  CompositePath_Order_Ascending,
+	"descending": CompositePath_Order_Descending,
+}
 
 // The indexes for the path.
 type Indexes_ARM struct {
@@ -219,6 +245,14 @@ const (
 	SpatialType_Polygon      = SpatialType("Polygon")
 )
 
+// Mapping from string to SpatialType
+var spatialType_Values = map[string]SpatialType{
+	"linestring":   SpatialType_LineString,
+	"multipolygon": SpatialType_MultiPolygon,
+	"point":        SpatialType_Point,
+	"polygon":      SpatialType_Polygon,
+}
+
 // +kubebuilder:validation:Enum={"LineString","MultiPolygon","Number","Point","Polygon","String"}
 type Indexes_DataType string
 
@@ -231,6 +265,16 @@ const (
 	Indexes_DataType_String       = Indexes_DataType("String")
 )
 
+// Mapping from string to Indexes_DataType
+var indexes_DataType_Values = map[string]Indexes_DataType{
+	"linestring":   Indexes_DataType_LineString,
+	"multipolygon": Indexes_DataType_MultiPolygon,
+	"number":       Indexes_DataType_Number,
+	"point":        Indexes_DataType_Point,
+	"polygon":      Indexes_DataType_Polygon,
+	"string":       Indexes_DataType_String,
+}
+
 // +kubebuilder:validation:Enum={"Hash","Range","Spatial"}
 type Indexes_Kind string
 
@@ -239,3 +283,10 @@ const (
 	Indexes_Kind_Range   = Indexes_Kind("Range")
 	Indexes_Kind_Spatial = Indexes_Kind("Spatial")
 )
+
+// Mapping from string to Indexes_Kind
+var indexes_Kind_Values = map[string]Indexes_Kind{
+	"hash":    Indexes_Kind_Hash,
+	"range":   Indexes_Kind_Range,
+	"spatial": Indexes_Kind_Spatial,
+}

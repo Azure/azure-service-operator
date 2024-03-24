@@ -139,6 +139,14 @@ const (
 	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
+// Mapping from string to Identity_Type
+var identity_Type_Values = map[string]Identity_Type{
+	"none":                        Identity_Type_None,
+	"systemassigned":              Identity_Type_SystemAssigned,
+	"systemassigned,userassigned": Identity_Type_SystemAssignedUserAssigned,
+	"userassigned":                Identity_Type_UserAssigned,
+}
+
 type ServiceManagedResourcesSettings_ARM struct {
 	// CosmosDb: The settings for the service managed cosmosdb account.
 	CosmosDb *CosmosDbSettings_ARM `json:"cosmosDb,omitempty"`
@@ -162,6 +170,14 @@ const (
 	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
 )
 
+// Mapping from string to SystemData_CreatedByType
+var systemData_CreatedByType_Values = map[string]SystemData_CreatedByType{
+	"application":     SystemData_CreatedByType_Application,
+	"key":             SystemData_CreatedByType_Key,
+	"managedidentity": SystemData_CreatedByType_ManagedIdentity,
+	"user":            SystemData_CreatedByType_User,
+}
+
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
 type SystemData_LastModifiedByType string
 
@@ -171,6 +187,14 @@ const (
 	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
 	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
 )
+
+// Mapping from string to SystemData_LastModifiedByType
+var systemData_LastModifiedByType_Values = map[string]SystemData_LastModifiedByType{
+	"application":     SystemData_LastModifiedByType_Application,
+	"key":             SystemData_LastModifiedByType_Key,
+	"managedidentity": SystemData_LastModifiedByType_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_User,
+}
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {

@@ -87,6 +87,13 @@ const (
 	AcceptOwnershipState_STATUS_Pending   = AcceptOwnershipState_STATUS("Pending")
 )
 
+// Mapping from string to AcceptOwnershipState_STATUS
+var acceptOwnershipState_STATUS_Values = map[string]AcceptOwnershipState_STATUS{
+	"completed": AcceptOwnershipState_STATUS_Completed,
+	"expired":   AcceptOwnershipState_STATUS_Expired,
+	"pending":   AcceptOwnershipState_STATUS_Pending,
+}
+
 type SubscriptionAliasResponseProperties_ProvisioningState_STATUS string
 
 const (
@@ -94,6 +101,13 @@ const (
 	SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Failed    = SubscriptionAliasResponseProperties_ProvisioningState_STATUS("Failed")
 	SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Succeeded = SubscriptionAliasResponseProperties_ProvisioningState_STATUS("Succeeded")
 )
+
+// Mapping from string to SubscriptionAliasResponseProperties_ProvisioningState_STATUS
+var subscriptionAliasResponseProperties_ProvisioningState_STATUS_Values = map[string]SubscriptionAliasResponseProperties_ProvisioningState_STATUS{
+	"accepted":  SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Accepted,
+	"failed":    SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Succeeded,
+}
 
 type SystemData_CreatedByType_STATUS string
 
@@ -104,6 +118,14 @@ const (
 	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
 type SystemData_LastModifiedByType_STATUS string
 
 const (
@@ -113,6 +135,14 @@ const (
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
+}
+
 // The workload type of the subscription. It can be either Production or DevTest.
 type Workload_STATUS string
 
@@ -120,3 +150,9 @@ const (
 	Workload_STATUS_DevTest    = Workload_STATUS("DevTest")
 	Workload_STATUS_Production = Workload_STATUS("Production")
 )
+
+// Mapping from string to Workload_STATUS
+var workload_STATUS_Values = map[string]Workload_STATUS{
+	"devtest":    Workload_STATUS_DevTest,
+	"production": Workload_STATUS_Production,
+}

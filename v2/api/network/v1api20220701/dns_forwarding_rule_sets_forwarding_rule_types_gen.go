@@ -533,8 +533,9 @@ func (rule *DnsForwardingRulesets_ForwardingRule_Spec) AssignProperties_From_Dns
 
 	// ForwardingRuleState
 	if source.ForwardingRuleState != nil {
-		forwardingRuleState := ForwardingRuleProperties_ForwardingRuleState(*source.ForwardingRuleState)
-		rule.ForwardingRuleState = &forwardingRuleState
+		forwardingRuleState := *source.ForwardingRuleState
+		forwardingRuleStateTemp := genruntime.ToEnum(forwardingRuleState, forwardingRuleProperties_ForwardingRuleState_Values)
+		rule.ForwardingRuleState = &forwardingRuleStateTemp
 	} else {
 		rule.ForwardingRuleState = nil
 	}
@@ -890,8 +891,9 @@ func (rule *DnsForwardingRulesets_ForwardingRule_STATUS) AssignProperties_From_D
 
 	// ForwardingRuleState
 	if source.ForwardingRuleState != nil {
-		forwardingRuleState := ForwardingRuleProperties_ForwardingRuleState_STATUS(*source.ForwardingRuleState)
-		rule.ForwardingRuleState = &forwardingRuleState
+		forwardingRuleState := *source.ForwardingRuleState
+		forwardingRuleStateTemp := genruntime.ToEnum(forwardingRuleState, forwardingRuleProperties_ForwardingRuleState_STATUS_Values)
+		rule.ForwardingRuleState = &forwardingRuleStateTemp
 	} else {
 		rule.ForwardingRuleState = nil
 	}
@@ -907,8 +909,9 @@ func (rule *DnsForwardingRulesets_ForwardingRule_STATUS) AssignProperties_From_D
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := DnsresolverProvisioningState_STATUS(*source.ProvisioningState)
-		rule.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, dnsresolverProvisioningState_STATUS_Values)
+		rule.ProvisioningState = &provisioningStateTemp
 	} else {
 		rule.ProvisioningState = nil
 	}
@@ -1045,6 +1048,16 @@ const (
 	DnsresolverProvisioningState_STATUS_Updating  = DnsresolverProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to DnsresolverProvisioningState_STATUS
+var dnsresolverProvisioningState_STATUS_Values = map[string]DnsresolverProvisioningState_STATUS{
+	"canceled":  DnsresolverProvisioningState_STATUS_Canceled,
+	"creating":  DnsresolverProvisioningState_STATUS_Creating,
+	"deleting":  DnsresolverProvisioningState_STATUS_Deleting,
+	"failed":    DnsresolverProvisioningState_STATUS_Failed,
+	"succeeded": DnsresolverProvisioningState_STATUS_Succeeded,
+	"updating":  DnsresolverProvisioningState_STATUS_Updating,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ForwardingRuleProperties_ForwardingRuleState string
 
@@ -1053,12 +1066,24 @@ const (
 	ForwardingRuleProperties_ForwardingRuleState_Enabled  = ForwardingRuleProperties_ForwardingRuleState("Enabled")
 )
 
+// Mapping from string to ForwardingRuleProperties_ForwardingRuleState
+var forwardingRuleProperties_ForwardingRuleState_Values = map[string]ForwardingRuleProperties_ForwardingRuleState{
+	"disabled": ForwardingRuleProperties_ForwardingRuleState_Disabled,
+	"enabled":  ForwardingRuleProperties_ForwardingRuleState_Enabled,
+}
+
 type ForwardingRuleProperties_ForwardingRuleState_STATUS string
 
 const (
 	ForwardingRuleProperties_ForwardingRuleState_STATUS_Disabled = ForwardingRuleProperties_ForwardingRuleState_STATUS("Disabled")
 	ForwardingRuleProperties_ForwardingRuleState_STATUS_Enabled  = ForwardingRuleProperties_ForwardingRuleState_STATUS("Enabled")
 )
+
+// Mapping from string to ForwardingRuleProperties_ForwardingRuleState_STATUS
+var forwardingRuleProperties_ForwardingRuleState_STATUS_Values = map[string]ForwardingRuleProperties_ForwardingRuleState_STATUS{
+	"disabled": ForwardingRuleProperties_ForwardingRuleState_STATUS_Disabled,
+	"enabled":  ForwardingRuleProperties_ForwardingRuleState_STATUS_Enabled,
+}
 
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
@@ -1146,8 +1171,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -1160,8 +1186,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}

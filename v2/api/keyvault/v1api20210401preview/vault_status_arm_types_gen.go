@@ -140,6 +140,14 @@ const (
 	IdentityType_STATUS_User            = IdentityType_STATUS("User")
 )
 
+// Mapping from string to IdentityType_STATUS
+var identityType_STATUS_Values = map[string]IdentityType_STATUS{
+	"application":     IdentityType_STATUS_Application,
+	"key":             IdentityType_STATUS_Key,
+	"managedidentity": IdentityType_STATUS_ManagedIdentity,
+	"user":            IdentityType_STATUS_User,
+}
+
 // A set of rules governing the network accessibility of a vault.
 type NetworkRuleSet_STATUS_ARM struct {
 	// Bypass: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the
@@ -187,12 +195,26 @@ const (
 	VaultProperties_CreateMode_STATUS_Recover         = VaultProperties_CreateMode_STATUS("recover")
 )
 
+// Mapping from string to VaultProperties_CreateMode_STATUS
+var vaultProperties_CreateMode_STATUS_Values = map[string]VaultProperties_CreateMode_STATUS{
+	"createorrecover": VaultProperties_CreateMode_STATUS_CreateOrRecover,
+	"default":         VaultProperties_CreateMode_STATUS_Default,
+	"purgethencreate": VaultProperties_CreateMode_STATUS_PurgeThenCreate,
+	"recover":         VaultProperties_CreateMode_STATUS_Recover,
+}
+
 type VaultProperties_ProvisioningState_STATUS string
 
 const (
 	VaultProperties_ProvisioningState_STATUS_RegisteringDns = VaultProperties_ProvisioningState_STATUS("RegisteringDns")
 	VaultProperties_ProvisioningState_STATUS_Succeeded      = VaultProperties_ProvisioningState_STATUS("Succeeded")
 )
+
+// Mapping from string to VaultProperties_ProvisioningState_STATUS
+var vaultProperties_ProvisioningState_STATUS_Values = map[string]VaultProperties_ProvisioningState_STATUS{
+	"registeringdns": VaultProperties_ProvisioningState_STATUS_RegisteringDns,
+	"succeeded":      VaultProperties_ProvisioningState_STATUS_Succeeded,
+}
 
 // A rule governing the accessibility of a vault from a specific ip address or ip range.
 type IPRule_STATUS_ARM struct {
@@ -208,12 +230,24 @@ const (
 	NetworkRuleSet_Bypass_STATUS_None          = NetworkRuleSet_Bypass_STATUS("None")
 )
 
+// Mapping from string to NetworkRuleSet_Bypass_STATUS
+var networkRuleSet_Bypass_STATUS_Values = map[string]NetworkRuleSet_Bypass_STATUS{
+	"azureservices": NetworkRuleSet_Bypass_STATUS_AzureServices,
+	"none":          NetworkRuleSet_Bypass_STATUS_None,
+}
+
 type NetworkRuleSet_DefaultAction_STATUS string
 
 const (
 	NetworkRuleSet_DefaultAction_STATUS_Allow = NetworkRuleSet_DefaultAction_STATUS("Allow")
 	NetworkRuleSet_DefaultAction_STATUS_Deny  = NetworkRuleSet_DefaultAction_STATUS("Deny")
 )
+
+// Mapping from string to NetworkRuleSet_DefaultAction_STATUS
+var networkRuleSet_DefaultAction_STATUS_Values = map[string]NetworkRuleSet_DefaultAction_STATUS{
+	"allow": NetworkRuleSet_DefaultAction_STATUS_Allow,
+	"deny":  NetworkRuleSet_DefaultAction_STATUS_Deny,
+}
 
 // Permissions the identity has for keys, secrets, certificates and storage.
 type Permissions_STATUS_ARM struct {
@@ -246,12 +280,23 @@ type Sku_Family_STATUS string
 
 const Sku_Family_STATUS_A = Sku_Family_STATUS("A")
 
+// Mapping from string to Sku_Family_STATUS
+var sku_Family_STATUS_Values = map[string]Sku_Family_STATUS{
+	"a": Sku_Family_STATUS_A,
+}
+
 type Sku_Name_STATUS string
 
 const (
 	Sku_Name_STATUS_Premium  = Sku_Name_STATUS("premium")
 	Sku_Name_STATUS_Standard = Sku_Name_STATUS("standard")
 )
+
+// Mapping from string to Sku_Name_STATUS
+var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
+	"premium":  Sku_Name_STATUS_Premium,
+	"standard": Sku_Name_STATUS_Standard,
+}
 
 // A rule governing the accessibility of a vault from a specific virtual network.
 type VirtualNetworkRule_STATUS_ARM struct {
@@ -285,6 +330,26 @@ const (
 	Permissions_Certificates_STATUS_Update         = Permissions_Certificates_STATUS("update")
 )
 
+// Mapping from string to Permissions_Certificates_STATUS
+var permissions_Certificates_STATUS_Values = map[string]Permissions_Certificates_STATUS{
+	"backup":         Permissions_Certificates_STATUS_Backup,
+	"create":         Permissions_Certificates_STATUS_Create,
+	"delete":         Permissions_Certificates_STATUS_Delete,
+	"deleteissuers":  Permissions_Certificates_STATUS_Deleteissuers,
+	"get":            Permissions_Certificates_STATUS_Get,
+	"getissuers":     Permissions_Certificates_STATUS_Getissuers,
+	"import":         Permissions_Certificates_STATUS_Import,
+	"list":           Permissions_Certificates_STATUS_List,
+	"listissuers":    Permissions_Certificates_STATUS_Listissuers,
+	"managecontacts": Permissions_Certificates_STATUS_Managecontacts,
+	"manageissuers":  Permissions_Certificates_STATUS_Manageissuers,
+	"purge":          Permissions_Certificates_STATUS_Purge,
+	"recover":        Permissions_Certificates_STATUS_Recover,
+	"restore":        Permissions_Certificates_STATUS_Restore,
+	"setissuers":     Permissions_Certificates_STATUS_Setissuers,
+	"update":         Permissions_Certificates_STATUS_Update,
+}
+
 type Permissions_Keys_STATUS string
 
 const (
@@ -307,6 +372,27 @@ const (
 	Permissions_Keys_STATUS_WrapKey   = Permissions_Keys_STATUS("wrapKey")
 )
 
+// Mapping from string to Permissions_Keys_STATUS
+var permissions_Keys_STATUS_Values = map[string]Permissions_Keys_STATUS{
+	"backup":    Permissions_Keys_STATUS_Backup,
+	"create":    Permissions_Keys_STATUS_Create,
+	"decrypt":   Permissions_Keys_STATUS_Decrypt,
+	"delete":    Permissions_Keys_STATUS_Delete,
+	"encrypt":   Permissions_Keys_STATUS_Encrypt,
+	"get":       Permissions_Keys_STATUS_Get,
+	"import":    Permissions_Keys_STATUS_Import,
+	"list":      Permissions_Keys_STATUS_List,
+	"purge":     Permissions_Keys_STATUS_Purge,
+	"recover":   Permissions_Keys_STATUS_Recover,
+	"release":   Permissions_Keys_STATUS_Release,
+	"restore":   Permissions_Keys_STATUS_Restore,
+	"sign":      Permissions_Keys_STATUS_Sign,
+	"unwrapkey": Permissions_Keys_STATUS_UnwrapKey,
+	"update":    Permissions_Keys_STATUS_Update,
+	"verify":    Permissions_Keys_STATUS_Verify,
+	"wrapkey":   Permissions_Keys_STATUS_WrapKey,
+}
+
 type Permissions_Secrets_STATUS string
 
 const (
@@ -319,6 +405,18 @@ const (
 	Permissions_Secrets_STATUS_Restore = Permissions_Secrets_STATUS("restore")
 	Permissions_Secrets_STATUS_Set     = Permissions_Secrets_STATUS("set")
 )
+
+// Mapping from string to Permissions_Secrets_STATUS
+var permissions_Secrets_STATUS_Values = map[string]Permissions_Secrets_STATUS{
+	"backup":  Permissions_Secrets_STATUS_Backup,
+	"delete":  Permissions_Secrets_STATUS_Delete,
+	"get":     Permissions_Secrets_STATUS_Get,
+	"list":    Permissions_Secrets_STATUS_List,
+	"purge":   Permissions_Secrets_STATUS_Purge,
+	"recover": Permissions_Secrets_STATUS_Recover,
+	"restore": Permissions_Secrets_STATUS_Restore,
+	"set":     Permissions_Secrets_STATUS_Set,
+}
 
 type Permissions_Storage_STATUS string
 
@@ -338,6 +436,24 @@ const (
 	Permissions_Storage_STATUS_Setsas        = Permissions_Storage_STATUS("setsas")
 	Permissions_Storage_STATUS_Update        = Permissions_Storage_STATUS("update")
 )
+
+// Mapping from string to Permissions_Storage_STATUS
+var permissions_Storage_STATUS_Values = map[string]Permissions_Storage_STATUS{
+	"backup":        Permissions_Storage_STATUS_Backup,
+	"delete":        Permissions_Storage_STATUS_Delete,
+	"deletesas":     Permissions_Storage_STATUS_Deletesas,
+	"get":           Permissions_Storage_STATUS_Get,
+	"getsas":        Permissions_Storage_STATUS_Getsas,
+	"list":          Permissions_Storage_STATUS_List,
+	"listsas":       Permissions_Storage_STATUS_Listsas,
+	"purge":         Permissions_Storage_STATUS_Purge,
+	"recover":       Permissions_Storage_STATUS_Recover,
+	"regeneratekey": Permissions_Storage_STATUS_Regeneratekey,
+	"restore":       Permissions_Storage_STATUS_Restore,
+	"set":           Permissions_Storage_STATUS_Set,
+	"setsas":        Permissions_Storage_STATUS_Setsas,
+	"update":        Permissions_Storage_STATUS_Update,
+}
 
 // Private endpoint object properties.
 type PrivateEndpoint_STATUS_ARM struct {

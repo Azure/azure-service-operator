@@ -507,8 +507,9 @@ func (server *Redis_LinkedServer_Spec) AssignProperties_From_Redis_LinkedServer_
 
 	// ServerRole
 	if source.ServerRole != nil {
-		serverRole := RedisLinkedServerCreateProperties_ServerRole(*source.ServerRole)
-		server.ServerRole = &serverRole
+		serverRole := *source.ServerRole
+		serverRoleTemp := genruntime.ToEnum(serverRole, redisLinkedServerCreateProperties_ServerRole_Values)
+		server.ServerRole = &serverRoleTemp
 	} else {
 		server.ServerRole = nil
 	}
@@ -806,8 +807,9 @@ func (server *Redis_LinkedServer_STATUS) AssignProperties_From_Redis_LinkedServe
 
 	// ServerRole
 	if source.ServerRole != nil {
-		serverRole := RedisLinkedServerProperties_ServerRole_STATUS(*source.ServerRole)
-		server.ServerRole = &serverRole
+		serverRole := *source.ServerRole
+		serverRoleTemp := genruntime.ToEnum(serverRole, redisLinkedServerProperties_ServerRole_STATUS_Values)
+		server.ServerRole = &serverRoleTemp
 	} else {
 		server.ServerRole = nil
 	}
@@ -878,12 +880,24 @@ const (
 	RedisLinkedServerCreateProperties_ServerRole_Secondary = RedisLinkedServerCreateProperties_ServerRole("Secondary")
 )
 
+// Mapping from string to RedisLinkedServerCreateProperties_ServerRole
+var redisLinkedServerCreateProperties_ServerRole_Values = map[string]RedisLinkedServerCreateProperties_ServerRole{
+	"primary":   RedisLinkedServerCreateProperties_ServerRole_Primary,
+	"secondary": RedisLinkedServerCreateProperties_ServerRole_Secondary,
+}
+
 type RedisLinkedServerProperties_ServerRole_STATUS string
 
 const (
 	RedisLinkedServerProperties_ServerRole_STATUS_Primary   = RedisLinkedServerProperties_ServerRole_STATUS("Primary")
 	RedisLinkedServerProperties_ServerRole_STATUS_Secondary = RedisLinkedServerProperties_ServerRole_STATUS("Secondary")
 )
+
+// Mapping from string to RedisLinkedServerProperties_ServerRole_STATUS
+var redisLinkedServerProperties_ServerRole_STATUS_Values = map[string]RedisLinkedServerProperties_ServerRole_STATUS{
+	"primary":   RedisLinkedServerProperties_ServerRole_STATUS_Primary,
+	"secondary": RedisLinkedServerProperties_ServerRole_STATUS_Secondary,
+}
 
 func init() {
 	SchemeBuilder.Register(&RedisLinkedServer{}, &RedisLinkedServerList{})

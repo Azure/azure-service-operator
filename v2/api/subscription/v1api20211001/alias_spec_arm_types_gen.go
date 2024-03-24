@@ -71,3 +71,9 @@ const (
 	Workload_DevTest    = Workload("DevTest")
 	Workload_Production = Workload("Production")
 )
+
+// Mapping from string to Workload
+var workload_Values = map[string]Workload{
+	"devtest":    Workload_DevTest,
+	"production": Workload_Production,
+}

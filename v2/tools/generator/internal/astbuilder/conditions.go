@@ -120,3 +120,33 @@ func IfType(expr dst.Expr, typeExpr dst.Expr, local string, statements ...dst.St
 		Body: StatementBlock(statements...),
 	}
 }
+
+// IfExprOk evaluates an expression returning two values and executes the provided statements if
+// the second value is true
+// varName is the name of the variable to assign the first value to;
+// okName is the name of the variable to assign the second value to;
+// expr is the expression to evaluate;
+// statements form the body of the if statement
+func IfExprOk(
+	varName string,
+	okName string,
+	expr dst.Expr,
+	statements ...dst.Stmt,
+) *dst.IfStmt {
+	init := &dst.AssignStmt{
+		Lhs: []dst.Expr{
+			dst.NewIdent(varName),
+			dst.NewIdent(okName),
+		},
+		Tok: token.DEFINE,
+		Rhs: []dst.Expr{
+			expr,
+		},
+	}
+
+	return &dst.IfStmt{
+		Init: init,
+		Cond: dst.NewIdent(okName),
+		Body: StatementBlock(statements...),
+	}
+}

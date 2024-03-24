@@ -110,6 +110,14 @@ const (
 	IdentityType_STATUS_User            = IdentityType_STATUS("user")
 )
 
+// Mapping from string to IdentityType_STATUS
+var identityType_STATUS_Values = map[string]IdentityType_STATUS{
+	"application":     IdentityType_STATUS_Application,
+	"key":             IdentityType_STATUS_Key,
+	"managedidentity": IdentityType_STATUS_ManagedIdentity,
+	"user":            IdentityType_STATUS_User,
+}
+
 type Sku_Name_STATUS string
 
 const (
@@ -127,3 +135,20 @@ const (
 	Sku_Name_STATUS_Standard_Microsoft                 = Sku_Name_STATUS("Standard_Microsoft")
 	Sku_Name_STATUS_Standard_Verizon                   = Sku_Name_STATUS("Standard_Verizon")
 )
+
+// Mapping from string to Sku_Name_STATUS
+var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
+	"custom_verizon":                     Sku_Name_STATUS_Custom_Verizon,
+	"premium_azurefrontdoor":             Sku_Name_STATUS_Premium_AzureFrontDoor,
+	"premium_verizon":                    Sku_Name_STATUS_Premium_Verizon,
+	"standardplus_955bandwidth_chinacdn": Sku_Name_STATUS_StandardPlus_955BandWidth_ChinaCdn,
+	"standardplus_avgbandwidth_chinacdn": Sku_Name_STATUS_StandardPlus_AvgBandWidth_ChinaCdn,
+	"standardplus_chinacdn":              Sku_Name_STATUS_StandardPlus_ChinaCdn,
+	"standard_955bandwidth_chinacdn":     Sku_Name_STATUS_Standard_955BandWidth_ChinaCdn,
+	"standard_akamai":                    Sku_Name_STATUS_Standard_Akamai,
+	"standard_avgbandwidth_chinacdn":     Sku_Name_STATUS_Standard_AvgBandWidth_ChinaCdn,
+	"standard_azurefrontdoor":            Sku_Name_STATUS_Standard_AzureFrontDoor,
+	"standard_chinacdn":                  Sku_Name_STATUS_Standard_ChinaCdn,
+	"standard_microsoft":                 Sku_Name_STATUS_Standard_Microsoft,
+	"standard_verizon":                   Sku_Name_STATUS_Standard_Verizon,
+}

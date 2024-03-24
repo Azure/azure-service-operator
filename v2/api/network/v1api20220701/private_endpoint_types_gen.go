@@ -1434,8 +1434,9 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ApplicationGatewayProvisioningState_STATUS(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, applicationGatewayProvisioningState_STATUS_Values)
+		embedded.ProvisioningState = &provisioningStateTemp
 	} else {
 		embedded.ProvisioningState = nil
 	}
@@ -1941,8 +1942,9 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType(*source.Type)
-		location.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, extendedLocationType_Values)
+		location.Type = &typeTemp
 	} else {
 		location.Type = nil
 	}
@@ -2043,8 +2045,9 @@ func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType_STATUS(*source.Type)
-		location.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, extendedLocationType_STATUS_Values)
+		location.Type = &typeTemp
 	} else {
 		location.Type = nil
 	}
@@ -2843,8 +2846,9 @@ func (connection *PrivateLinkServiceConnection_STATUS) AssignProperties_From_Pri
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ApplicationGatewayProvisioningState_STATUS(*source.ProvisioningState)
-		connection.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, applicationGatewayProvisioningState_STATUS_Values)
+		connection.ProvisioningState = &provisioningStateTemp
 	} else {
 		connection.ProvisioningState = nil
 	}

@@ -911,8 +911,9 @@ func (group *ContainerGroup_Spec) AssignProperties_From_ContainerGroup_Spec(sour
 
 	// OsType
 	if source.OsType != nil {
-		osType := ContainerGroup_Properties_OsType_Spec(*source.OsType)
-		group.OsType = &osType
+		osType := *source.OsType
+		osTypeTemp := genruntime.ToEnum(osType, containerGroup_Properties_OsType_Spec_Values)
+		group.OsType = &osTypeTemp
 	} else {
 		group.OsType = nil
 	}
@@ -927,16 +928,18 @@ func (group *ContainerGroup_Spec) AssignProperties_From_ContainerGroup_Spec(sour
 
 	// RestartPolicy
 	if source.RestartPolicy != nil {
-		restartPolicy := ContainerGroup_Properties_RestartPolicy_Spec(*source.RestartPolicy)
-		group.RestartPolicy = &restartPolicy
+		restartPolicy := *source.RestartPolicy
+		restartPolicyTemp := genruntime.ToEnum(restartPolicy, containerGroup_Properties_RestartPolicy_Spec_Values)
+		group.RestartPolicy = &restartPolicyTemp
 	} else {
 		group.RestartPolicy = nil
 	}
 
 	// Sku
 	if source.Sku != nil {
-		sku := ContainerGroupSku(*source.Sku)
-		group.Sku = &sku
+		sku := *source.Sku
+		skuTemp := genruntime.ToEnum(sku, containerGroupSku_Values)
+		group.Sku = &skuTemp
 	} else {
 		group.Sku = nil
 	}
@@ -1902,8 +1905,9 @@ func (group *ContainerGroup_STATUS) AssignProperties_From_ContainerGroup_STATUS(
 
 	// OsType
 	if source.OsType != nil {
-		osType := ContainerGroup_Properties_OsType_STATUS(*source.OsType)
-		group.OsType = &osType
+		osType := *source.OsType
+		osTypeTemp := genruntime.ToEnum(osType, containerGroup_Properties_OsType_STATUS_Values)
+		group.OsType = &osTypeTemp
 	} else {
 		group.OsType = nil
 	}
@@ -1913,16 +1917,18 @@ func (group *ContainerGroup_STATUS) AssignProperties_From_ContainerGroup_STATUS(
 
 	// RestartPolicy
 	if source.RestartPolicy != nil {
-		restartPolicy := ContainerGroup_Properties_RestartPolicy_STATUS(*source.RestartPolicy)
-		group.RestartPolicy = &restartPolicy
+		restartPolicy := *source.RestartPolicy
+		restartPolicyTemp := genruntime.ToEnum(restartPolicy, containerGroup_Properties_RestartPolicy_STATUS_Values)
+		group.RestartPolicy = &restartPolicyTemp
 	} else {
 		group.RestartPolicy = nil
 	}
 
 	// Sku
 	if source.Sku != nil {
-		sku := ContainerGroupSku_STATUS(*source.Sku)
-		group.Sku = &sku
+		sku := *source.Sku
+		skuTemp := genruntime.ToEnum(sku, containerGroupSku_STATUS_Values)
+		group.Sku = &skuTemp
 	} else {
 		group.Sku = nil
 	}
@@ -3292,12 +3298,24 @@ const (
 	ContainerGroup_Properties_OsType_Spec_Windows = ContainerGroup_Properties_OsType_Spec("Windows")
 )
 
+// Mapping from string to ContainerGroup_Properties_OsType_Spec
+var containerGroup_Properties_OsType_Spec_Values = map[string]ContainerGroup_Properties_OsType_Spec{
+	"linux":   ContainerGroup_Properties_OsType_Spec_Linux,
+	"windows": ContainerGroup_Properties_OsType_Spec_Windows,
+}
+
 type ContainerGroup_Properties_OsType_STATUS string
 
 const (
 	ContainerGroup_Properties_OsType_STATUS_Linux   = ContainerGroup_Properties_OsType_STATUS("Linux")
 	ContainerGroup_Properties_OsType_STATUS_Windows = ContainerGroup_Properties_OsType_STATUS("Windows")
 )
+
+// Mapping from string to ContainerGroup_Properties_OsType_STATUS
+var containerGroup_Properties_OsType_STATUS_Values = map[string]ContainerGroup_Properties_OsType_STATUS{
+	"linux":   ContainerGroup_Properties_OsType_STATUS_Linux,
+	"windows": ContainerGroup_Properties_OsType_STATUS_Windows,
+}
 
 // +kubebuilder:validation:Enum={"Always","Never","OnFailure"}
 type ContainerGroup_Properties_RestartPolicy_Spec string
@@ -3308,6 +3326,13 @@ const (
 	ContainerGroup_Properties_RestartPolicy_Spec_OnFailure = ContainerGroup_Properties_RestartPolicy_Spec("OnFailure")
 )
 
+// Mapping from string to ContainerGroup_Properties_RestartPolicy_Spec
+var containerGroup_Properties_RestartPolicy_Spec_Values = map[string]ContainerGroup_Properties_RestartPolicy_Spec{
+	"always":    ContainerGroup_Properties_RestartPolicy_Spec_Always,
+	"never":     ContainerGroup_Properties_RestartPolicy_Spec_Never,
+	"onfailure": ContainerGroup_Properties_RestartPolicy_Spec_OnFailure,
+}
+
 type ContainerGroup_Properties_RestartPolicy_STATUS string
 
 const (
@@ -3315,6 +3340,13 @@ const (
 	ContainerGroup_Properties_RestartPolicy_STATUS_Never     = ContainerGroup_Properties_RestartPolicy_STATUS("Never")
 	ContainerGroup_Properties_RestartPolicy_STATUS_OnFailure = ContainerGroup_Properties_RestartPolicy_STATUS("OnFailure")
 )
+
+// Mapping from string to ContainerGroup_Properties_RestartPolicy_STATUS
+var containerGroup_Properties_RestartPolicy_STATUS_Values = map[string]ContainerGroup_Properties_RestartPolicy_STATUS{
+	"always":    ContainerGroup_Properties_RestartPolicy_STATUS_Always,
+	"never":     ContainerGroup_Properties_RestartPolicy_STATUS_Never,
+	"onfailure": ContainerGroup_Properties_RestartPolicy_STATUS_OnFailure,
+}
 
 // Container group diagnostic information.
 type ContainerGroupDiagnostics struct {
@@ -3586,8 +3618,9 @@ func (identity *ContainerGroupIdentity) AssignProperties_From_ContainerGroupIden
 
 	// Type
 	if source.Type != nil {
-		typeVar := ContainerGroupIdentity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, containerGroupIdentity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -3762,8 +3795,9 @@ func (identity *ContainerGroupIdentity_STATUS) AssignProperties_From_ContainerGr
 
 	// Type
 	if source.Type != nil {
-		typeVar := ContainerGroupIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, containerGroupIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -3847,6 +3881,12 @@ const (
 	ContainerGroupSku_Standard  = ContainerGroupSku("Standard")
 )
 
+// Mapping from string to ContainerGroupSku
+var containerGroupSku_Values = map[string]ContainerGroupSku{
+	"dedicated": ContainerGroupSku_Dedicated,
+	"standard":  ContainerGroupSku_Standard,
+}
+
 // The container group SKU.
 type ContainerGroupSku_STATUS string
 
@@ -3854,6 +3894,12 @@ const (
 	ContainerGroupSku_STATUS_Dedicated = ContainerGroupSku_STATUS("Dedicated")
 	ContainerGroupSku_STATUS_Standard  = ContainerGroupSku_STATUS("Standard")
 )
+
+// Mapping from string to ContainerGroupSku_STATUS
+var containerGroupSku_STATUS_Values = map[string]ContainerGroupSku_STATUS{
+	"dedicated": ContainerGroupSku_STATUS_Dedicated,
+	"standard":  ContainerGroupSku_STATUS_Standard,
+}
 
 // Container group subnet information.
 type ContainerGroupSubnetId struct {
@@ -5447,8 +5493,9 @@ func (address *IpAddress) AssignProperties_From_IpAddress(source *v20211001s.IpA
 
 	// AutoGeneratedDomainNameLabelScope
 	if source.AutoGeneratedDomainNameLabelScope != nil {
-		autoGeneratedDomainNameLabelScope := IpAddress_AutoGeneratedDomainNameLabelScope(*source.AutoGeneratedDomainNameLabelScope)
-		address.AutoGeneratedDomainNameLabelScope = &autoGeneratedDomainNameLabelScope
+		autoGeneratedDomainNameLabelScope := *source.AutoGeneratedDomainNameLabelScope
+		autoGeneratedDomainNameLabelScopeTemp := genruntime.ToEnum(autoGeneratedDomainNameLabelScope, ipAddress_AutoGeneratedDomainNameLabelScope_Values)
+		address.AutoGeneratedDomainNameLabelScope = &autoGeneratedDomainNameLabelScopeTemp
 	} else {
 		address.AutoGeneratedDomainNameLabelScope = nil
 	}
@@ -5479,8 +5526,9 @@ func (address *IpAddress) AssignProperties_From_IpAddress(source *v20211001s.IpA
 
 	// Type
 	if source.Type != nil {
-		typeVar := IpAddress_Type(*source.Type)
-		address.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, ipAddress_Type_Values)
+		address.Type = &typeTemp
 	} else {
 		address.Type = nil
 	}
@@ -5682,8 +5730,9 @@ func (address *IpAddress_STATUS) AssignProperties_From_IpAddress_STATUS(source *
 
 	// AutoGeneratedDomainNameLabelScope
 	if source.AutoGeneratedDomainNameLabelScope != nil {
-		autoGeneratedDomainNameLabelScope := IpAddress_AutoGeneratedDomainNameLabelScope_STATUS(*source.AutoGeneratedDomainNameLabelScope)
-		address.AutoGeneratedDomainNameLabelScope = &autoGeneratedDomainNameLabelScope
+		autoGeneratedDomainNameLabelScope := *source.AutoGeneratedDomainNameLabelScope
+		autoGeneratedDomainNameLabelScopeTemp := genruntime.ToEnum(autoGeneratedDomainNameLabelScope, ipAddress_AutoGeneratedDomainNameLabelScope_STATUS_Values)
+		address.AutoGeneratedDomainNameLabelScope = &autoGeneratedDomainNameLabelScopeTemp
 	} else {
 		address.AutoGeneratedDomainNameLabelScope = nil
 	}
@@ -5717,8 +5766,9 @@ func (address *IpAddress_STATUS) AssignProperties_From_IpAddress_STATUS(source *
 
 	// Type
 	if source.Type != nil {
-		typeVar := IpAddress_Type_STATUS(*source.Type)
-		address.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, ipAddress_Type_STATUS_Values)
+		address.Type = &typeTemp
 	} else {
 		address.Type = nil
 	}
@@ -6622,8 +6672,9 @@ func (port *ContainerPort) AssignProperties_From_ContainerPort(source *v20211001
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := ContainerPort_Protocol(*source.Protocol)
-		port.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, containerPort_Protocol_Values)
+		port.Protocol = &protocolTemp
 	} else {
 		port.Protocol = nil
 	}
@@ -6724,8 +6775,9 @@ func (port *ContainerPort_STATUS) AssignProperties_From_ContainerPort_STATUS(sou
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := ContainerPort_Protocol_STATUS(*source.Protocol)
-		port.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, containerPort_Protocol_STATUS_Values)
+		port.Protocol = &protocolTemp
 	} else {
 		port.Protocol = nil
 	}
@@ -8207,6 +8259,15 @@ const (
 	IpAddress_AutoGeneratedDomainNameLabelScope_Unsecure           = IpAddress_AutoGeneratedDomainNameLabelScope("Unsecure")
 )
 
+// Mapping from string to IpAddress_AutoGeneratedDomainNameLabelScope
+var ipAddress_AutoGeneratedDomainNameLabelScope_Values = map[string]IpAddress_AutoGeneratedDomainNameLabelScope{
+	"noreuse":            IpAddress_AutoGeneratedDomainNameLabelScope_Noreuse,
+	"resourcegroupreuse": IpAddress_AutoGeneratedDomainNameLabelScope_ResourceGroupReuse,
+	"subscriptionreuse":  IpAddress_AutoGeneratedDomainNameLabelScope_SubscriptionReuse,
+	"tenantreuse":        IpAddress_AutoGeneratedDomainNameLabelScope_TenantReuse,
+	"unsecure":           IpAddress_AutoGeneratedDomainNameLabelScope_Unsecure,
+}
+
 type IpAddress_AutoGeneratedDomainNameLabelScope_STATUS string
 
 const (
@@ -8217,6 +8278,15 @@ const (
 	IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_Unsecure           = IpAddress_AutoGeneratedDomainNameLabelScope_STATUS("Unsecure")
 )
 
+// Mapping from string to IpAddress_AutoGeneratedDomainNameLabelScope_STATUS
+var ipAddress_AutoGeneratedDomainNameLabelScope_STATUS_Values = map[string]IpAddress_AutoGeneratedDomainNameLabelScope_STATUS{
+	"noreuse":            IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_Noreuse,
+	"resourcegroupreuse": IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_ResourceGroupReuse,
+	"subscriptionreuse":  IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_SubscriptionReuse,
+	"tenantreuse":        IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_TenantReuse,
+	"unsecure":           IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_Unsecure,
+}
+
 // +kubebuilder:validation:Enum={"Private","Public"}
 type IpAddress_Type string
 
@@ -8225,12 +8295,24 @@ const (
 	IpAddress_Type_Public  = IpAddress_Type("Public")
 )
 
+// Mapping from string to IpAddress_Type
+var ipAddress_Type_Values = map[string]IpAddress_Type{
+	"private": IpAddress_Type_Private,
+	"public":  IpAddress_Type_Public,
+}
+
 type IpAddress_Type_STATUS string
 
 const (
 	IpAddress_Type_STATUS_Private = IpAddress_Type_STATUS("Private")
 	IpAddress_Type_STATUS_Public  = IpAddress_Type_STATUS("Public")
 )
+
+// Mapping from string to IpAddress_Type_STATUS
+var ipAddress_Type_STATUS_Values = map[string]IpAddress_Type_STATUS{
+	"private": IpAddress_Type_STATUS_Private,
+	"public":  IpAddress_Type_STATUS_Public,
+}
 
 // Container group log analytics information.
 type LogAnalytics struct {
@@ -8348,8 +8430,9 @@ func (analytics *LogAnalytics) AssignProperties_From_LogAnalytics(source *v20211
 
 	// LogType
 	if source.LogType != nil {
-		logType := LogAnalytics_LogType(*source.LogType)
-		analytics.LogType = &logType
+		logType := *source.LogType
+		logTypeTemp := genruntime.ToEnum(logType, logAnalytics_LogType_Values)
+		analytics.LogType = &logTypeTemp
 	} else {
 		analytics.LogType = nil
 	}
@@ -8502,8 +8585,9 @@ func (analytics *LogAnalytics_STATUS) AssignProperties_From_LogAnalytics_STATUS(
 
 	// LogType
 	if source.LogType != nil {
-		logType := LogAnalytics_LogType_STATUS(*source.LogType)
-		analytics.LogType = &logType
+		logType := *source.LogType
+		logTypeTemp := genruntime.ToEnum(logType, logAnalytics_LogType_STATUS_Values)
+		analytics.LogType = &logTypeTemp
 	} else {
 		analytics.LogType = nil
 	}
@@ -8617,8 +8701,9 @@ func (port *Port) AssignProperties_From_Port(source *v20211001s.Port) error {
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := Port_Protocol(*source.Protocol)
-		port.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, port_Protocol_Values)
+		port.Protocol = &protocolTemp
 	} else {
 		port.Protocol = nil
 	}
@@ -8719,8 +8804,9 @@ func (port *Port_STATUS) AssignProperties_From_Port_STATUS(source *v20211001s.Po
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := Port_Protocol_STATUS(*source.Protocol)
-		port.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, port_Protocol_STATUS_Values)
+		port.Protocol = &protocolTemp
 	} else {
 		port.Protocol = nil
 	}
@@ -9682,8 +9768,9 @@ func (httpGet *ContainerHttpGet) AssignProperties_From_ContainerHttpGet(source *
 
 	// Scheme
 	if source.Scheme != nil {
-		scheme := ContainerHttpGet_Scheme(*source.Scheme)
-		httpGet.Scheme = &scheme
+		scheme := *source.Scheme
+		schemeTemp := genruntime.ToEnum(scheme, containerHttpGet_Scheme_Values)
+		httpGet.Scheme = &schemeTemp
 	} else {
 		httpGet.Scheme = nil
 	}
@@ -9869,8 +9956,9 @@ func (httpGet *ContainerHttpGet_STATUS) AssignProperties_From_ContainerHttpGet_S
 
 	// Scheme
 	if source.Scheme != nil {
-		scheme := ContainerHttpGet_Scheme_STATUS(*source.Scheme)
-		httpGet.Scheme = &scheme
+		scheme := *source.Scheme
+		schemeTemp := genruntime.ToEnum(scheme, containerHttpGet_Scheme_STATUS_Values)
+		httpGet.Scheme = &schemeTemp
 	} else {
 		httpGet.Scheme = nil
 	}
@@ -9935,12 +10023,24 @@ const (
 	ContainerPort_Protocol_UDP = ContainerPort_Protocol("UDP")
 )
 
+// Mapping from string to ContainerPort_Protocol
+var containerPort_Protocol_Values = map[string]ContainerPort_Protocol{
+	"tcp": ContainerPort_Protocol_TCP,
+	"udp": ContainerPort_Protocol_UDP,
+}
+
 type ContainerPort_Protocol_STATUS string
 
 const (
 	ContainerPort_Protocol_STATUS_TCP = ContainerPort_Protocol_STATUS("TCP")
 	ContainerPort_Protocol_STATUS_UDP = ContainerPort_Protocol_STATUS("UDP")
 )
+
+// Mapping from string to ContainerPort_Protocol_STATUS
+var containerPort_Protocol_STATUS_Values = map[string]ContainerPort_Protocol_STATUS{
+	"tcp": ContainerPort_Protocol_STATUS_TCP,
+	"udp": ContainerPort_Protocol_STATUS_UDP,
+}
 
 // The container instance state.
 type ContainerState_STATUS struct {
@@ -10069,12 +10169,24 @@ const (
 	LogAnalytics_LogType_ContainerInstanceLogs = LogAnalytics_LogType("ContainerInstanceLogs")
 )
 
+// Mapping from string to LogAnalytics_LogType
+var logAnalytics_LogType_Values = map[string]LogAnalytics_LogType{
+	"containerinsights":     LogAnalytics_LogType_ContainerInsights,
+	"containerinstancelogs": LogAnalytics_LogType_ContainerInstanceLogs,
+}
+
 type LogAnalytics_LogType_STATUS string
 
 const (
 	LogAnalytics_LogType_STATUS_ContainerInsights     = LogAnalytics_LogType_STATUS("ContainerInsights")
 	LogAnalytics_LogType_STATUS_ContainerInstanceLogs = LogAnalytics_LogType_STATUS("ContainerInstanceLogs")
 )
+
+// Mapping from string to LogAnalytics_LogType_STATUS
+var logAnalytics_LogType_STATUS_Values = map[string]LogAnalytics_LogType_STATUS{
+	"containerinsights":     LogAnalytics_LogType_STATUS_ContainerInsights,
+	"containerinstancelogs": LogAnalytics_LogType_STATUS_ContainerInstanceLogs,
+}
 
 // +kubebuilder:validation:Enum={"TCP","UDP"}
 type Port_Protocol string
@@ -10084,12 +10196,24 @@ const (
 	Port_Protocol_UDP = Port_Protocol("UDP")
 )
 
+// Mapping from string to Port_Protocol
+var port_Protocol_Values = map[string]Port_Protocol{
+	"tcp": Port_Protocol_TCP,
+	"udp": Port_Protocol_UDP,
+}
+
 type Port_Protocol_STATUS string
 
 const (
 	Port_Protocol_STATUS_TCP = Port_Protocol_STATUS("TCP")
 	Port_Protocol_STATUS_UDP = Port_Protocol_STATUS("UDP")
 )
+
+// Mapping from string to Port_Protocol_STATUS
+var port_Protocol_STATUS_Values = map[string]Port_Protocol_STATUS{
+	"tcp": Port_Protocol_STATUS_TCP,
+	"udp": Port_Protocol_STATUS_UDP,
+}
 
 // The resource limits.
 type ResourceLimits struct {
@@ -10761,12 +10885,24 @@ const (
 	ContainerHttpGet_Scheme_Https = ContainerHttpGet_Scheme("https")
 )
 
+// Mapping from string to ContainerHttpGet_Scheme
+var containerHttpGet_Scheme_Values = map[string]ContainerHttpGet_Scheme{
+	"http":  ContainerHttpGet_Scheme_Http,
+	"https": ContainerHttpGet_Scheme_Https,
+}
+
 type ContainerHttpGet_Scheme_STATUS string
 
 const (
 	ContainerHttpGet_Scheme_STATUS_Http  = ContainerHttpGet_Scheme_STATUS("http")
 	ContainerHttpGet_Scheme_STATUS_Https = ContainerHttpGet_Scheme_STATUS("https")
 )
+
+// Mapping from string to ContainerHttpGet_Scheme_STATUS
+var containerHttpGet_Scheme_STATUS_Values = map[string]ContainerHttpGet_Scheme_STATUS{
+	"http":  ContainerHttpGet_Scheme_STATUS_Http,
+	"https": ContainerHttpGet_Scheme_STATUS_Https,
+}
 
 // The GPU resource.
 type GpuResource struct {
@@ -10838,8 +10974,9 @@ func (resource *GpuResource) AssignProperties_From_GpuResource(source *v20211001
 
 	// Sku
 	if source.Sku != nil {
-		sku := GpuResource_Sku(*source.Sku)
-		resource.Sku = &sku
+		sku := *source.Sku
+		skuTemp := genruntime.ToEnum(sku, gpuResource_Sku_Values)
+		resource.Sku = &skuTemp
 	} else {
 		resource.Sku = nil
 	}
@@ -10940,8 +11077,9 @@ func (resource *GpuResource_STATUS) AssignProperties_From_GpuResource_STATUS(sou
 
 	// Sku
 	if source.Sku != nil {
-		sku := GpuResource_Sku_STATUS(*source.Sku)
-		resource.Sku = &sku
+		sku := *source.Sku
+		skuTemp := genruntime.ToEnum(sku, gpuResource_Sku_STATUS_Values)
+		resource.Sku = &skuTemp
 	} else {
 		resource.Sku = nil
 	}
@@ -11168,6 +11306,13 @@ const (
 	GpuResource_Sku_V100 = GpuResource_Sku("V100")
 )
 
+// Mapping from string to GpuResource_Sku
+var gpuResource_Sku_Values = map[string]GpuResource_Sku{
+	"k80":  GpuResource_Sku_K80,
+	"p100": GpuResource_Sku_P100,
+	"v100": GpuResource_Sku_V100,
+}
+
 type GpuResource_Sku_STATUS string
 
 const (
@@ -11175,6 +11320,13 @@ const (
 	GpuResource_Sku_STATUS_P100 = GpuResource_Sku_STATUS("P100")
 	GpuResource_Sku_STATUS_V100 = GpuResource_Sku_STATUS("V100")
 )
+
+// Mapping from string to GpuResource_Sku_STATUS
+var gpuResource_Sku_STATUS_Values = map[string]GpuResource_Sku_STATUS{
+	"k80":  GpuResource_Sku_STATUS_K80,
+	"p100": GpuResource_Sku_STATUS_P100,
+	"v100": GpuResource_Sku_STATUS_V100,
+}
 
 func init() {
 	SchemeBuilder.Register(&ContainerGroup{}, &ContainerGroupList{})

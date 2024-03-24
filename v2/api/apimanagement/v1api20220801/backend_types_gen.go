@@ -675,8 +675,9 @@ func (backend *Service_Backend_Spec) AssignProperties_From_Service_Backend_Spec(
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := BackendContractProperties_Protocol(*source.Protocol)
-		backend.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, backendContractProperties_Protocol_Values)
+		backend.Protocol = &protocolTemp
 	} else {
 		backend.Protocol = nil
 	}
@@ -1227,8 +1228,9 @@ func (backend *Service_Backend_STATUS) AssignProperties_From_Service_Backend_STA
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := BackendContractProperties_Protocol_STATUS(*source.Protocol)
-		backend.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, backendContractProperties_Protocol_STATUS_Values)
+		backend.Protocol = &protocolTemp
 	} else {
 		backend.Protocol = nil
 	}
@@ -1377,12 +1379,24 @@ const (
 	BackendContractProperties_Protocol_Soap = BackendContractProperties_Protocol("soap")
 )
 
+// Mapping from string to BackendContractProperties_Protocol
+var backendContractProperties_Protocol_Values = map[string]BackendContractProperties_Protocol{
+	"http": BackendContractProperties_Protocol_Http,
+	"soap": BackendContractProperties_Protocol_Soap,
+}
+
 type BackendContractProperties_Protocol_STATUS string
 
 const (
 	BackendContractProperties_Protocol_STATUS_Http = BackendContractProperties_Protocol_STATUS("http")
 	BackendContractProperties_Protocol_STATUS_Soap = BackendContractProperties_Protocol_STATUS("soap")
 )
+
+// Mapping from string to BackendContractProperties_Protocol_STATUS
+var backendContractProperties_Protocol_STATUS_Values = map[string]BackendContractProperties_Protocol_STATUS{
+	"http": BackendContractProperties_Protocol_STATUS_Http,
+	"soap": BackendContractProperties_Protocol_STATUS_Soap,
+}
 
 // Details of the Credentials used to connect to Backend.
 type BackendCredentialsContract struct {

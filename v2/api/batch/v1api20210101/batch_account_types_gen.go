@@ -678,16 +678,18 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 
 	// PoolAllocationMode
 	if source.PoolAllocationMode != nil {
-		poolAllocationMode := PoolAllocationMode(*source.PoolAllocationMode)
-		account.PoolAllocationMode = &poolAllocationMode
+		poolAllocationMode := *source.PoolAllocationMode
+		poolAllocationModeTemp := genruntime.ToEnum(poolAllocationMode, poolAllocationMode_Values)
+		account.PoolAllocationMode = &poolAllocationModeTemp
 	} else {
 		account.PoolAllocationMode = nil
 	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := PublicNetworkAccessType(*source.PublicNetworkAccess)
-		account.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, publicNetworkAccessType_Values)
+		account.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		account.PublicNetworkAccess = nil
 	}
@@ -1320,8 +1322,9 @@ func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(so
 
 	// PoolAllocationMode
 	if source.PoolAllocationMode != nil {
-		poolAllocationMode := PoolAllocationMode_STATUS(*source.PoolAllocationMode)
-		account.PoolAllocationMode = &poolAllocationMode
+		poolAllocationMode := *source.PoolAllocationMode
+		poolAllocationModeTemp := genruntime.ToEnum(poolAllocationMode, poolAllocationMode_STATUS_Values)
+		account.PoolAllocationMode = &poolAllocationModeTemp
 	} else {
 		account.PoolAllocationMode = nil
 	}
@@ -1349,16 +1352,18 @@ func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(so
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := BatchAccountProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		account.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, batchAccountProperties_ProvisioningState_STATUS_Values)
+		account.ProvisioningState = &provisioningStateTemp
 	} else {
 		account.ProvisioningState = nil
 	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := PublicNetworkAccessType_STATUS(*source.PublicNetworkAccess)
-		account.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, publicNetworkAccessType_STATUS_Values)
+		account.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		account.PublicNetworkAccess = nil
 	}
@@ -1782,8 +1787,9 @@ func (identity *BatchAccountIdentity) AssignProperties_From_BatchAccountIdentity
 
 	// Type
 	if source.Type != nil {
-		typeVar := BatchAccountIdentity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, batchAccountIdentity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -1958,8 +1964,9 @@ func (identity *BatchAccountIdentity_STATUS) AssignProperties_From_BatchAccountI
 
 	// Type
 	if source.Type != nil {
-		typeVar := BatchAccountIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, batchAccountIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2045,6 +2052,16 @@ const (
 	BatchAccountProperties_ProvisioningState_STATUS_Succeeded = BatchAccountProperties_ProvisioningState_STATUS("Succeeded")
 )
 
+// Mapping from string to BatchAccountProperties_ProvisioningState_STATUS
+var batchAccountProperties_ProvisioningState_STATUS_Values = map[string]BatchAccountProperties_ProvisioningState_STATUS{
+	"cancelled": BatchAccountProperties_ProvisioningState_STATUS_Cancelled,
+	"creating":  BatchAccountProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  BatchAccountProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    BatchAccountProperties_ProvisioningState_STATUS_Failed,
+	"invalid":   BatchAccountProperties_ProvisioningState_STATUS_Invalid,
+	"succeeded": BatchAccountProperties_ProvisioningState_STATUS_Succeeded,
+}
+
 // Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft
 // managed key. For additional control, a customer-managed key can be used instead.
 type EncryptionProperties struct {
@@ -2120,8 +2137,9 @@ func (properties *EncryptionProperties) AssignProperties_From_EncryptionProperti
 
 	// KeySource
 	if source.KeySource != nil {
-		keySource := EncryptionProperties_KeySource(*source.KeySource)
-		properties.KeySource = &keySource
+		keySource := *source.KeySource
+		keySourceTemp := genruntime.ToEnum(keySource, encryptionProperties_KeySource_Values)
+		properties.KeySource = &keySourceTemp
 	} else {
 		properties.KeySource = nil
 	}
@@ -2255,8 +2273,9 @@ func (properties *EncryptionProperties_STATUS) AssignProperties_From_EncryptionP
 
 	// KeySource
 	if source.KeySource != nil {
-		keySource := EncryptionProperties_KeySource_STATUS(*source.KeySource)
-		properties.KeySource = &keySource
+		keySource := *source.KeySource
+		keySourceTemp := genruntime.ToEnum(keySource, encryptionProperties_KeySource_STATUS_Values)
+		properties.KeySource = &keySourceTemp
 	} else {
 		properties.KeySource = nil
 	}
@@ -2521,6 +2540,12 @@ const (
 	PoolAllocationMode_UserSubscription = PoolAllocationMode("UserSubscription")
 )
 
+// Mapping from string to PoolAllocationMode
+var poolAllocationMode_Values = map[string]PoolAllocationMode{
+	"batchservice":     PoolAllocationMode_BatchService,
+	"usersubscription": PoolAllocationMode_UserSubscription,
+}
+
 // The allocation mode for creating pools in the Batch account.
 type PoolAllocationMode_STATUS string
 
@@ -2528,6 +2553,12 @@ const (
 	PoolAllocationMode_STATUS_BatchService     = PoolAllocationMode_STATUS("BatchService")
 	PoolAllocationMode_STATUS_UserSubscription = PoolAllocationMode_STATUS("UserSubscription")
 )
+
+// Mapping from string to PoolAllocationMode_STATUS
+var poolAllocationMode_STATUS_Values = map[string]PoolAllocationMode_STATUS{
+	"batchservice":     PoolAllocationMode_STATUS_BatchService,
+	"usersubscription": PoolAllocationMode_STATUS_UserSubscription,
+}
 
 // Contains information about a private link resource.
 type PrivateEndpointConnection_STATUS struct {
@@ -2597,6 +2628,12 @@ const (
 	PublicNetworkAccessType_Enabled  = PublicNetworkAccessType("Enabled")
 )
 
+// Mapping from string to PublicNetworkAccessType
+var publicNetworkAccessType_Values = map[string]PublicNetworkAccessType{
+	"disabled": PublicNetworkAccessType_Disabled,
+	"enabled":  PublicNetworkAccessType_Enabled,
+}
+
 // The network access type for operating on the resources in the Batch account.
 type PublicNetworkAccessType_STATUS string
 
@@ -2604,6 +2641,12 @@ const (
 	PublicNetworkAccessType_STATUS_Disabled = PublicNetworkAccessType_STATUS("Disabled")
 	PublicNetworkAccessType_STATUS_Enabled  = PublicNetworkAccessType_STATUS("Enabled")
 )
+
+// Mapping from string to PublicNetworkAccessType_STATUS
+var publicNetworkAccessType_STATUS_Values = map[string]PublicNetworkAccessType_STATUS{
+	"disabled": PublicNetworkAccessType_STATUS_Disabled,
+	"enabled":  PublicNetworkAccessType_STATUS_Enabled,
+}
 
 // A VM Family and its associated core quota for the Batch account.
 type VirtualMachineFamilyCoreQuota_STATUS struct {
@@ -2760,12 +2803,24 @@ const (
 	EncryptionProperties_KeySource_MicrosoftKeyVault = EncryptionProperties_KeySource("Microsoft.KeyVault")
 )
 
+// Mapping from string to EncryptionProperties_KeySource
+var encryptionProperties_KeySource_Values = map[string]EncryptionProperties_KeySource{
+	"microsoft.batch":    EncryptionProperties_KeySource_MicrosoftBatch,
+	"microsoft.keyvault": EncryptionProperties_KeySource_MicrosoftKeyVault,
+}
+
 type EncryptionProperties_KeySource_STATUS string
 
 const (
 	EncryptionProperties_KeySource_STATUS_MicrosoftBatch    = EncryptionProperties_KeySource_STATUS("Microsoft.Batch")
 	EncryptionProperties_KeySource_STATUS_MicrosoftKeyVault = EncryptionProperties_KeySource_STATUS("Microsoft.KeyVault")
 )
+
+// Mapping from string to EncryptionProperties_KeySource_STATUS
+var encryptionProperties_KeySource_STATUS_Values = map[string]EncryptionProperties_KeySource_STATUS{
+	"microsoft.batch":    EncryptionProperties_KeySource_STATUS_MicrosoftBatch,
+	"microsoft.keyvault": EncryptionProperties_KeySource_STATUS_MicrosoftKeyVault,
+}
 
 // KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.
 type KeyVaultProperties struct {

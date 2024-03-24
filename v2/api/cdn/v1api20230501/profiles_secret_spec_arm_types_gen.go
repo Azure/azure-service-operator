@@ -143,17 +143,37 @@ type AzureFirstPartyManagedCertificateParameters_Type string
 
 const AzureFirstPartyManagedCertificateParameters_Type_AzureFirstPartyManagedCertificate = AzureFirstPartyManagedCertificateParameters_Type("AzureFirstPartyManagedCertificate")
 
+// Mapping from string to AzureFirstPartyManagedCertificateParameters_Type
+var azureFirstPartyManagedCertificateParameters_Type_Values = map[string]AzureFirstPartyManagedCertificateParameters_Type{
+	"azurefirstpartymanagedcertificate": AzureFirstPartyManagedCertificateParameters_Type_AzureFirstPartyManagedCertificate,
+}
+
 // +kubebuilder:validation:Enum={"CustomerCertificate"}
 type CustomerCertificateParameters_Type string
 
 const CustomerCertificateParameters_Type_CustomerCertificate = CustomerCertificateParameters_Type("CustomerCertificate")
+
+// Mapping from string to CustomerCertificateParameters_Type
+var customerCertificateParameters_Type_Values = map[string]CustomerCertificateParameters_Type{
+	"customercertificate": CustomerCertificateParameters_Type_CustomerCertificate,
+}
 
 // +kubebuilder:validation:Enum={"ManagedCertificate"}
 type ManagedCertificateParameters_Type string
 
 const ManagedCertificateParameters_Type_ManagedCertificate = ManagedCertificateParameters_Type("ManagedCertificate")
 
+// Mapping from string to ManagedCertificateParameters_Type
+var managedCertificateParameters_Type_Values = map[string]ManagedCertificateParameters_Type{
+	"managedcertificate": ManagedCertificateParameters_Type_ManagedCertificate,
+}
+
 // +kubebuilder:validation:Enum={"UrlSigningKey"}
 type UrlSigningKeyParameters_Type string
 
 const UrlSigningKeyParameters_Type_UrlSigningKey = UrlSigningKeyParameters_Type("UrlSigningKey")
+
+// Mapping from string to UrlSigningKeyParameters_Type
+var urlSigningKeyParameters_Type_Values = map[string]UrlSigningKeyParameters_Type{
+	"urlsigningkey": UrlSigningKeyParameters_Type_UrlSigningKey,
+}

@@ -79,3 +79,14 @@ const (
 	Sku_Name_STATUS_Enterprise_E20        = Sku_Name_STATUS("Enterprise_E20")
 	Sku_Name_STATUS_Enterprise_E50        = Sku_Name_STATUS("Enterprise_E50")
 )
+
+// Mapping from string to Sku_Name_STATUS
+var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
+	"enterpriseflash_f1500": Sku_Name_STATUS_EnterpriseFlash_F1500,
+	"enterpriseflash_f300":  Sku_Name_STATUS_EnterpriseFlash_F300,
+	"enterpriseflash_f700":  Sku_Name_STATUS_EnterpriseFlash_F700,
+	"enterprise_e10":        Sku_Name_STATUS_Enterprise_E10,
+	"enterprise_e100":       Sku_Name_STATUS_Enterprise_E100,
+	"enterprise_e20":        Sku_Name_STATUS_Enterprise_E20,
+	"enterprise_e50":        Sku_Name_STATUS_Enterprise_E50,
+}

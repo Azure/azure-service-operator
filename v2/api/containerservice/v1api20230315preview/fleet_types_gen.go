@@ -873,8 +873,9 @@ func (fleet *Fleet_STATUS) AssignProperties_From_Fleet_STATUS(source *v20230315p
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := FleetProvisioningState_STATUS(*source.ProvisioningState)
-		fleet.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, fleetProvisioningState_STATUS_Values)
+		fleet.ProvisioningState = &provisioningStateTemp
 	} else {
 		fleet.ProvisioningState = nil
 	}
@@ -1226,6 +1227,16 @@ const (
 	FleetProvisioningState_STATUS_Updating  = FleetProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to FleetProvisioningState_STATUS
+var fleetProvisioningState_STATUS_Values = map[string]FleetProvisioningState_STATUS{
+	"canceled":  FleetProvisioningState_STATUS_Canceled,
+	"creating":  FleetProvisioningState_STATUS_Creating,
+	"deleting":  FleetProvisioningState_STATUS_Deleting,
+	"failed":    FleetProvisioningState_STATUS_Failed,
+	"succeeded": FleetProvisioningState_STATUS_Succeeded,
+	"updating":  FleetProvisioningState_STATUS_Updating,
+}
+
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
@@ -1312,8 +1323,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -1326,8 +1338,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}

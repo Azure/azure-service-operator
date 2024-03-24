@@ -1028,8 +1028,9 @@ func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *v201806
 
 	// MinimalTlsVersion
 	if source.MinimalTlsVersion != nil {
-		minimalTlsVersion := MinimalTlsVersion_STATUS(*source.MinimalTlsVersion)
-		server.MinimalTlsVersion = &minimalTlsVersion
+		minimalTlsVersion := *source.MinimalTlsVersion
+		minimalTlsVersionTemp := genruntime.ToEnum(minimalTlsVersion, minimalTlsVersion_STATUS_Values)
+		server.MinimalTlsVersion = &minimalTlsVersionTemp
 	} else {
 		server.MinimalTlsVersion = nil
 	}
@@ -1057,8 +1058,9 @@ func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *v201806
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-		server.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, publicNetworkAccess_STATUS_Values)
+		server.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		server.PublicNetworkAccess = nil
 	}
@@ -1083,8 +1085,9 @@ func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *v201806
 
 	// SslEnforcement
 	if source.SslEnforcement != nil {
-		sslEnforcement := SslEnforcement_STATUS(*source.SslEnforcement)
-		server.SslEnforcement = &sslEnforcement
+		sslEnforcement := *source.SslEnforcement
+		sslEnforcementTemp := genruntime.ToEnum(sslEnforcement, sslEnforcement_STATUS_Values)
+		server.SslEnforcement = &sslEnforcementTemp
 	} else {
 		server.SslEnforcement = nil
 	}
@@ -1109,16 +1112,18 @@ func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *v201806
 
 	// UserVisibleState
 	if source.UserVisibleState != nil {
-		userVisibleState := ServerProperties_UserVisibleState_STATUS(*source.UserVisibleState)
-		server.UserVisibleState = &userVisibleState
+		userVisibleState := *source.UserVisibleState
+		userVisibleStateTemp := genruntime.ToEnum(userVisibleState, serverProperties_UserVisibleState_STATUS_Values)
+		server.UserVisibleState = &userVisibleStateTemp
 	} else {
 		server.UserVisibleState = nil
 	}
 
 	// Version
 	if source.Version != nil {
-		version := ServerVersion_STATUS(*source.Version)
-		server.Version = &version
+		version := *source.Version
+		versionTemp := genruntime.ToEnum(version, serverVersion_STATUS_Values)
+		server.Version = &versionTemp
 	} else {
 		server.Version = nil
 	}
@@ -1271,6 +1276,14 @@ const (
 	MinimalTlsVersion_STATUS_TLSEnforcementDisabled = MinimalTlsVersion_STATUS("TLSEnforcementDisabled")
 )
 
+// Mapping from string to MinimalTlsVersion_STATUS
+var minimalTlsVersion_STATUS_Values = map[string]MinimalTlsVersion_STATUS{
+	"tls1_0":                 MinimalTlsVersion_STATUS_TLS1_0,
+	"tls1_1":                 MinimalTlsVersion_STATUS_TLS1_1,
+	"tls1_2":                 MinimalTlsVersion_STATUS_TLS1_2,
+	"tlsenforcementdisabled": MinimalTlsVersion_STATUS_TLSEnforcementDisabled,
+}
+
 // Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled'
 // or 'Disabled'
 type PublicNetworkAccess_STATUS string
@@ -1279,6 +1292,12 @@ const (
 	PublicNetworkAccess_STATUS_Disabled = PublicNetworkAccess_STATUS("Disabled")
 	PublicNetworkAccess_STATUS_Enabled  = PublicNetworkAccess_STATUS("Enabled")
 )
+
+// Mapping from string to PublicNetworkAccess_STATUS
+var publicNetworkAccess_STATUS_Values = map[string]PublicNetworkAccess_STATUS{
+	"disabled": PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  PublicNetworkAccess_STATUS_Enabled,
+}
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ServerOperatorSpec struct {
@@ -1437,6 +1456,13 @@ const (
 	ServerProperties_UserVisibleState_STATUS_Dropping = ServerProperties_UserVisibleState_STATUS("Dropping")
 	ServerProperties_UserVisibleState_STATUS_Ready    = ServerProperties_UserVisibleState_STATUS("Ready")
 )
+
+// Mapping from string to ServerProperties_UserVisibleState_STATUS
+var serverProperties_UserVisibleState_STATUS_Values = map[string]ServerProperties_UserVisibleState_STATUS{
+	"disabled": ServerProperties_UserVisibleState_STATUS_Disabled,
+	"dropping": ServerProperties_UserVisibleState_STATUS_Dropping,
+	"ready":    ServerProperties_UserVisibleState_STATUS_Ready,
+}
 
 type ServerPropertiesForCreate struct {
 	// Default: Mutually exclusive with all other properties
@@ -1690,6 +1716,12 @@ const (
 	ServerVersion_STATUS_103 = ServerVersion_STATUS("10.3")
 )
 
+// Mapping from string to ServerVersion_STATUS
+var serverVersion_STATUS_Values = map[string]ServerVersion_STATUS{
+	"10.2": ServerVersion_STATUS_102,
+	"10.3": ServerVersion_STATUS_103,
+}
+
 // Billing information related properties of a server.
 type Sku struct {
 	// +kubebuilder:validation:Minimum=0
@@ -1819,8 +1851,9 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20180601s.Sku) error {
 
 	// Tier
 	if source.Tier != nil {
-		tier := Sku_Tier(*source.Tier)
-		sku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, sku_Tier_Values)
+		sku.Tier = &tierTemp
 	} else {
 		sku.Tier = nil
 	}
@@ -1985,8 +2018,9 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20180601s.Sku_S
 
 	// Tier
 	if source.Tier != nil {
-		tier := Sku_Tier_STATUS(*source.Tier)
-		sku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, sku_Tier_STATUS_Values)
+		sku.Tier = &tierTemp
 	} else {
 		sku.Tier = nil
 	}
@@ -2038,6 +2072,12 @@ const (
 	SslEnforcement_STATUS_Disabled = SslEnforcement_STATUS("Disabled")
 	SslEnforcement_STATUS_Enabled  = SslEnforcement_STATUS("Enabled")
 )
+
+// Mapping from string to SslEnforcement_STATUS
+var sslEnforcement_STATUS_Values = map[string]SslEnforcement_STATUS{
+	"disabled": SslEnforcement_STATUS_Disabled,
+	"enabled":  SslEnforcement_STATUS_Enabled,
+}
 
 // Storage Profile properties of a server
 type StorageProfile_STATUS struct {
@@ -2104,16 +2144,18 @@ func (profile *StorageProfile_STATUS) AssignProperties_From_StorageProfile_STATU
 
 	// GeoRedundantBackup
 	if source.GeoRedundantBackup != nil {
-		geoRedundantBackup := StorageProfile_GeoRedundantBackup_STATUS(*source.GeoRedundantBackup)
-		profile.GeoRedundantBackup = &geoRedundantBackup
+		geoRedundantBackup := *source.GeoRedundantBackup
+		geoRedundantBackupTemp := genruntime.ToEnum(geoRedundantBackup, storageProfile_GeoRedundantBackup_STATUS_Values)
+		profile.GeoRedundantBackup = &geoRedundantBackupTemp
 	} else {
 		profile.GeoRedundantBackup = nil
 	}
 
 	// StorageAutogrow
 	if source.StorageAutogrow != nil {
-		storageAutogrow := StorageProfile_StorageAutogrow_STATUS(*source.StorageAutogrow)
-		profile.StorageAutogrow = &storageAutogrow
+		storageAutogrow := *source.StorageAutogrow
+		storageAutogrowTemp := genruntime.ToEnum(storageAutogrow, storageProfile_StorageAutogrow_STATUS_Values)
+		profile.StorageAutogrow = &storageAutogrowTemp
 	} else {
 		profile.StorageAutogrow = nil
 	}
@@ -2295,8 +2337,9 @@ func (properties *ServerPrivateEndpointConnectionProperties_STATUS) AssignProper
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		properties.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, serverPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Values)
+		properties.ProvisioningState = &provisioningStateTemp
 	} else {
 		properties.ProvisioningState = nil
 	}
@@ -2528,32 +2571,36 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_From_ServerProp
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ServerPropertiesForDefaultCreate_CreateMode(*source.CreateMode)
-		create.CreateMode = &createMode
+		createMode := *source.CreateMode
+		createModeTemp := genruntime.ToEnum(createMode, serverPropertiesForDefaultCreate_CreateMode_Values)
+		create.CreateMode = &createModeTemp
 	} else {
 		create.CreateMode = nil
 	}
 
 	// MinimalTlsVersion
 	if source.MinimalTlsVersion != nil {
-		minimalTlsVersion := MinimalTlsVersion(*source.MinimalTlsVersion)
-		create.MinimalTlsVersion = &minimalTlsVersion
+		minimalTlsVersion := *source.MinimalTlsVersion
+		minimalTlsVersionTemp := genruntime.ToEnum(minimalTlsVersion, minimalTlsVersion_Values)
+		create.MinimalTlsVersion = &minimalTlsVersionTemp
 	} else {
 		create.MinimalTlsVersion = nil
 	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
-		create.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, publicNetworkAccess_Values)
+		create.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		create.PublicNetworkAccess = nil
 	}
 
 	// SslEnforcement
 	if source.SslEnforcement != nil {
-		sslEnforcement := SslEnforcement(*source.SslEnforcement)
-		create.SslEnforcement = &sslEnforcement
+		sslEnforcement := *source.SslEnforcement
+		sslEnforcementTemp := genruntime.ToEnum(sslEnforcement, sslEnforcement_Values)
+		create.SslEnforcement = &sslEnforcementTemp
 	} else {
 		create.SslEnforcement = nil
 	}
@@ -2572,8 +2619,9 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_From_ServerProp
 
 	// Version
 	if source.Version != nil {
-		version := ServerVersion(*source.Version)
-		create.Version = &version
+		version := *source.Version
+		versionTemp := genruntime.ToEnum(version, serverVersion_Values)
+		create.Version = &versionTemp
 	} else {
 		create.Version = nil
 	}
@@ -2808,24 +2856,27 @@ func (restore *ServerPropertiesForGeoRestore) AssignProperties_From_ServerProper
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ServerPropertiesForGeoRestore_CreateMode(*source.CreateMode)
-		restore.CreateMode = &createMode
+		createMode := *source.CreateMode
+		createModeTemp := genruntime.ToEnum(createMode, serverPropertiesForGeoRestore_CreateMode_Values)
+		restore.CreateMode = &createModeTemp
 	} else {
 		restore.CreateMode = nil
 	}
 
 	// MinimalTlsVersion
 	if source.MinimalTlsVersion != nil {
-		minimalTlsVersion := MinimalTlsVersion(*source.MinimalTlsVersion)
-		restore.MinimalTlsVersion = &minimalTlsVersion
+		minimalTlsVersion := *source.MinimalTlsVersion
+		minimalTlsVersionTemp := genruntime.ToEnum(minimalTlsVersion, minimalTlsVersion_Values)
+		restore.MinimalTlsVersion = &minimalTlsVersionTemp
 	} else {
 		restore.MinimalTlsVersion = nil
 	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
-		restore.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, publicNetworkAccess_Values)
+		restore.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		restore.PublicNetworkAccess = nil
 	}
@@ -2835,8 +2886,9 @@ func (restore *ServerPropertiesForGeoRestore) AssignProperties_From_ServerProper
 
 	// SslEnforcement
 	if source.SslEnforcement != nil {
-		sslEnforcement := SslEnforcement(*source.SslEnforcement)
-		restore.SslEnforcement = &sslEnforcement
+		sslEnforcement := *source.SslEnforcement
+		sslEnforcementTemp := genruntime.ToEnum(sslEnforcement, sslEnforcement_Values)
+		restore.SslEnforcement = &sslEnforcementTemp
 	} else {
 		restore.SslEnforcement = nil
 	}
@@ -2855,8 +2907,9 @@ func (restore *ServerPropertiesForGeoRestore) AssignProperties_From_ServerProper
 
 	// Version
 	if source.Version != nil {
-		version := ServerVersion(*source.Version)
-		restore.Version = &version
+		version := *source.Version
+		versionTemp := genruntime.ToEnum(version, serverVersion_Values)
+		restore.Version = &versionTemp
 	} else {
 		restore.Version = nil
 	}
@@ -3083,24 +3136,27 @@ func (replica *ServerPropertiesForReplica) AssignProperties_From_ServerPropertie
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ServerPropertiesForReplica_CreateMode(*source.CreateMode)
-		replica.CreateMode = &createMode
+		createMode := *source.CreateMode
+		createModeTemp := genruntime.ToEnum(createMode, serverPropertiesForReplica_CreateMode_Values)
+		replica.CreateMode = &createModeTemp
 	} else {
 		replica.CreateMode = nil
 	}
 
 	// MinimalTlsVersion
 	if source.MinimalTlsVersion != nil {
-		minimalTlsVersion := MinimalTlsVersion(*source.MinimalTlsVersion)
-		replica.MinimalTlsVersion = &minimalTlsVersion
+		minimalTlsVersion := *source.MinimalTlsVersion
+		minimalTlsVersionTemp := genruntime.ToEnum(minimalTlsVersion, minimalTlsVersion_Values)
+		replica.MinimalTlsVersion = &minimalTlsVersionTemp
 	} else {
 		replica.MinimalTlsVersion = nil
 	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
-		replica.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, publicNetworkAccess_Values)
+		replica.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		replica.PublicNetworkAccess = nil
 	}
@@ -3110,8 +3166,9 @@ func (replica *ServerPropertiesForReplica) AssignProperties_From_ServerPropertie
 
 	// SslEnforcement
 	if source.SslEnforcement != nil {
-		sslEnforcement := SslEnforcement(*source.SslEnforcement)
-		replica.SslEnforcement = &sslEnforcement
+		sslEnforcement := *source.SslEnforcement
+		sslEnforcementTemp := genruntime.ToEnum(sslEnforcement, sslEnforcement_Values)
+		replica.SslEnforcement = &sslEnforcementTemp
 	} else {
 		replica.SslEnforcement = nil
 	}
@@ -3130,8 +3187,9 @@ func (replica *ServerPropertiesForReplica) AssignProperties_From_ServerPropertie
 
 	// Version
 	if source.Version != nil {
-		version := ServerVersion(*source.Version)
-		replica.Version = &version
+		version := *source.Version
+		versionTemp := genruntime.ToEnum(version, serverVersion_Values)
+		replica.Version = &versionTemp
 	} else {
 		replica.Version = nil
 	}
@@ -3374,24 +3432,27 @@ func (restore *ServerPropertiesForRestore) AssignProperties_From_ServerPropertie
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ServerPropertiesForRestore_CreateMode(*source.CreateMode)
-		restore.CreateMode = &createMode
+		createMode := *source.CreateMode
+		createModeTemp := genruntime.ToEnum(createMode, serverPropertiesForRestore_CreateMode_Values)
+		restore.CreateMode = &createModeTemp
 	} else {
 		restore.CreateMode = nil
 	}
 
 	// MinimalTlsVersion
 	if source.MinimalTlsVersion != nil {
-		minimalTlsVersion := MinimalTlsVersion(*source.MinimalTlsVersion)
-		restore.MinimalTlsVersion = &minimalTlsVersion
+		minimalTlsVersion := *source.MinimalTlsVersion
+		minimalTlsVersionTemp := genruntime.ToEnum(minimalTlsVersion, minimalTlsVersion_Values)
+		restore.MinimalTlsVersion = &minimalTlsVersionTemp
 	} else {
 		restore.MinimalTlsVersion = nil
 	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
-		restore.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, publicNetworkAccess_Values)
+		restore.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		restore.PublicNetworkAccess = nil
 	}
@@ -3404,8 +3465,9 @@ func (restore *ServerPropertiesForRestore) AssignProperties_From_ServerPropertie
 
 	// SslEnforcement
 	if source.SslEnforcement != nil {
-		sslEnforcement := SslEnforcement(*source.SslEnforcement)
-		restore.SslEnforcement = &sslEnforcement
+		sslEnforcement := *source.SslEnforcement
+		sslEnforcementTemp := genruntime.ToEnum(sslEnforcement, sslEnforcement_Values)
+		restore.SslEnforcement = &sslEnforcementTemp
 	} else {
 		restore.SslEnforcement = nil
 	}
@@ -3424,8 +3486,9 @@ func (restore *ServerPropertiesForRestore) AssignProperties_From_ServerPropertie
 
 	// Version
 	if source.Version != nil {
-		version := ServerVersion(*source.Version)
-		restore.Version = &version
+		version := *source.Version
+		versionTemp := genruntime.ToEnum(version, serverVersion_Values)
+		restore.Version = &versionTemp
 	} else {
 		restore.Version = nil
 	}
@@ -3515,12 +3578,24 @@ const (
 	StorageProfile_GeoRedundantBackup_STATUS_Enabled  = StorageProfile_GeoRedundantBackup_STATUS("Enabled")
 )
 
+// Mapping from string to StorageProfile_GeoRedundantBackup_STATUS
+var storageProfile_GeoRedundantBackup_STATUS_Values = map[string]StorageProfile_GeoRedundantBackup_STATUS{
+	"disabled": StorageProfile_GeoRedundantBackup_STATUS_Disabled,
+	"enabled":  StorageProfile_GeoRedundantBackup_STATUS_Enabled,
+}
+
 type StorageProfile_StorageAutogrow_STATUS string
 
 const (
 	StorageProfile_StorageAutogrow_STATUS_Disabled = StorageProfile_StorageAutogrow_STATUS("Disabled")
 	StorageProfile_StorageAutogrow_STATUS_Enabled  = StorageProfile_StorageAutogrow_STATUS("Enabled")
 )
+
+// Mapping from string to StorageProfile_StorageAutogrow_STATUS
+var storageProfile_StorageAutogrow_STATUS_Values = map[string]StorageProfile_StorageAutogrow_STATUS{
+	"disabled": StorageProfile_StorageAutogrow_STATUS_Disabled,
+	"enabled":  StorageProfile_StorageAutogrow_STATUS_Enabled,
+}
 
 type PrivateEndpointProperty_STATUS struct {
 	// Id: Resource id of the private endpoint.
@@ -3590,6 +3665,15 @@ const (
 	ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Rejecting = ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS("Rejecting")
 )
 
+// Mapping from string to ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS
+var serverPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Values = map[string]ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS{
+	"approving": ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Approving,
+	"dropping":  ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Dropping,
+	"failed":    ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Failed,
+	"ready":     ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Ready,
+	"rejecting": ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Rejecting,
+}
+
 type ServerPrivateLinkServiceConnectionStateProperty_STATUS struct {
 	// ActionsRequired: The actions required for private link service connection.
 	ActionsRequired *ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS `json:"actionsRequired,omitempty"`
@@ -3642,8 +3726,9 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) AssignPr
 
 	// ActionsRequired
 	if source.ActionsRequired != nil {
-		actionsRequired := ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS(*source.ActionsRequired)
-		property.ActionsRequired = &actionsRequired
+		actionsRequired := *source.ActionsRequired
+		actionsRequiredTemp := genruntime.ToEnum(actionsRequired, serverPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_Values)
+		property.ActionsRequired = &actionsRequiredTemp
 	} else {
 		property.ActionsRequired = nil
 	}
@@ -3653,8 +3738,9 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) AssignPr
 
 	// Status
 	if source.Status != nil {
-		status := ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS(*source.Status)
-		property.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, serverPrivateLinkServiceConnectionStateProperty_Status_STATUS_Values)
+		property.Status = &statusTemp
 	} else {
 		property.Status = nil
 	}
@@ -3796,16 +3882,18 @@ func (profile *StorageProfile) AssignProperties_From_StorageProfile(source *v201
 
 	// GeoRedundantBackup
 	if source.GeoRedundantBackup != nil {
-		geoRedundantBackup := StorageProfile_GeoRedundantBackup(*source.GeoRedundantBackup)
-		profile.GeoRedundantBackup = &geoRedundantBackup
+		geoRedundantBackup := *source.GeoRedundantBackup
+		geoRedundantBackupTemp := genruntime.ToEnum(geoRedundantBackup, storageProfile_GeoRedundantBackup_Values)
+		profile.GeoRedundantBackup = &geoRedundantBackupTemp
 	} else {
 		profile.GeoRedundantBackup = nil
 	}
 
 	// StorageAutogrow
 	if source.StorageAutogrow != nil {
-		storageAutogrow := StorageProfile_StorageAutogrow(*source.StorageAutogrow)
-		profile.StorageAutogrow = &storageAutogrow
+		storageAutogrow := *source.StorageAutogrow
+		storageAutogrowTemp := genruntime.ToEnum(storageAutogrow, storageProfile_StorageAutogrow_Values)
+		profile.StorageAutogrow = &storageAutogrowTemp
 	} else {
 		profile.StorageAutogrow = nil
 	}
@@ -3859,6 +3947,11 @@ type ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS stri
 
 const ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_None = ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS("None")
 
+// Mapping from string to ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS
+var serverPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_Values = map[string]ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS{
+	"none": ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_None,
+}
+
 type ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS string
 
 const (
@@ -3867,6 +3960,14 @@ const (
 	ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_Pending      = ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS("Pending")
 	ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_Rejected     = ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS("Rejected")
 )
+
+// Mapping from string to ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS
+var serverPrivateLinkServiceConnectionStateProperty_Status_STATUS_Values = map[string]ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS{
+	"approved":     ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_Approved,
+	"disconnected": ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_Disconnected,
+	"pending":      ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_Pending,
+	"rejected":     ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS_Rejected,
+}
 
 func init() {
 	SchemeBuilder.Register(&Server{}, &ServerList{})

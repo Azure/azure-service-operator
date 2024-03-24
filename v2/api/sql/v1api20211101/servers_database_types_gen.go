@@ -979,8 +979,9 @@ func (database *Servers_Database_Spec) AssignProperties_From_Servers_Database_Sp
 
 	// CatalogCollation
 	if source.CatalogCollation != nil {
-		catalogCollation := DatabaseProperties_CatalogCollation(*source.CatalogCollation)
-		database.CatalogCollation = &catalogCollation
+		catalogCollation := *source.CatalogCollation
+		catalogCollationTemp := genruntime.ToEnum(catalogCollation, databaseProperties_CatalogCollation_Values)
+		database.CatalogCollation = &catalogCollationTemp
 	} else {
 		database.CatalogCollation = nil
 	}
@@ -990,8 +991,9 @@ func (database *Servers_Database_Spec) AssignProperties_From_Servers_Database_Sp
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := DatabaseProperties_CreateMode(*source.CreateMode)
-		database.CreateMode = &createMode
+		createMode := *source.CreateMode
+		createModeTemp := genruntime.ToEnum(createMode, databaseProperties_CreateMode_Values)
+		database.CreateMode = &createModeTemp
 	} else {
 		database.CreateMode = nil
 	}
@@ -1037,8 +1039,9 @@ func (database *Servers_Database_Spec) AssignProperties_From_Servers_Database_Sp
 
 	// LicenseType
 	if source.LicenseType != nil {
-		licenseType := DatabaseProperties_LicenseType(*source.LicenseType)
-		database.LicenseType = &licenseType
+		licenseType := *source.LicenseType
+		licenseTypeTemp := genruntime.ToEnum(licenseType, databaseProperties_LicenseType_Values)
+		database.LicenseType = &licenseTypeTemp
 	} else {
 		database.LicenseType = nil
 	}
@@ -1078,8 +1081,9 @@ func (database *Servers_Database_Spec) AssignProperties_From_Servers_Database_Sp
 
 	// ReadScale
 	if source.ReadScale != nil {
-		readScale := DatabaseProperties_ReadScale(*source.ReadScale)
-		database.ReadScale = &readScale
+		readScale := *source.ReadScale
+		readScaleTemp := genruntime.ToEnum(readScale, databaseProperties_ReadScale_Values)
+		database.ReadScale = &readScaleTemp
 	} else {
 		database.ReadScale = nil
 	}
@@ -1102,8 +1106,9 @@ func (database *Servers_Database_Spec) AssignProperties_From_Servers_Database_Sp
 
 	// RequestedBackupStorageRedundancy
 	if source.RequestedBackupStorageRedundancy != nil {
-		requestedBackupStorageRedundancy := DatabaseProperties_RequestedBackupStorageRedundancy(*source.RequestedBackupStorageRedundancy)
-		database.RequestedBackupStorageRedundancy = &requestedBackupStorageRedundancy
+		requestedBackupStorageRedundancy := *source.RequestedBackupStorageRedundancy
+		requestedBackupStorageRedundancyTemp := genruntime.ToEnum(requestedBackupStorageRedundancy, databaseProperties_RequestedBackupStorageRedundancy_Values)
+		database.RequestedBackupStorageRedundancy = &requestedBackupStorageRedundancyTemp
 	} else {
 		database.RequestedBackupStorageRedundancy = nil
 	}
@@ -1121,16 +1126,18 @@ func (database *Servers_Database_Spec) AssignProperties_From_Servers_Database_Sp
 
 	// SampleName
 	if source.SampleName != nil {
-		sampleName := DatabaseProperties_SampleName(*source.SampleName)
-		database.SampleName = &sampleName
+		sampleName := *source.SampleName
+		sampleNameTemp := genruntime.ToEnum(sampleName, databaseProperties_SampleName_Values)
+		database.SampleName = &sampleNameTemp
 	} else {
 		database.SampleName = nil
 	}
 
 	// SecondaryType
 	if source.SecondaryType != nil {
-		secondaryType := DatabaseProperties_SecondaryType(*source.SecondaryType)
-		database.SecondaryType = &secondaryType
+		secondaryType := *source.SecondaryType
+		secondaryTypeTemp := genruntime.ToEnum(secondaryType, databaseProperties_SecondaryType_Values)
+		database.SecondaryType = &secondaryTypeTemp
 	} else {
 		database.SecondaryType = nil
 	}
@@ -2318,8 +2325,9 @@ func (database *Servers_Database_STATUS) AssignProperties_From_Servers_Database_
 
 	// CatalogCollation
 	if source.CatalogCollation != nil {
-		catalogCollation := DatabaseProperties_CatalogCollation_STATUS(*source.CatalogCollation)
-		database.CatalogCollation = &catalogCollation
+		catalogCollation := *source.CatalogCollation
+		catalogCollationTemp := genruntime.ToEnum(catalogCollation, databaseProperties_CatalogCollation_STATUS_Values)
+		database.CatalogCollation = &catalogCollationTemp
 	} else {
 		database.CatalogCollation = nil
 	}
@@ -2332,8 +2340,9 @@ func (database *Servers_Database_STATUS) AssignProperties_From_Servers_Database_
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := DatabaseProperties_CreateMode_STATUS(*source.CreateMode)
-		database.CreateMode = &createMode
+		createMode := *source.CreateMode
+		createModeTemp := genruntime.ToEnum(createMode, databaseProperties_CreateMode_STATUS_Values)
+		database.CreateMode = &createModeTemp
 	} else {
 		database.CreateMode = nil
 	}
@@ -2343,8 +2352,9 @@ func (database *Servers_Database_STATUS) AssignProperties_From_Servers_Database_
 
 	// CurrentBackupStorageRedundancy
 	if source.CurrentBackupStorageRedundancy != nil {
-		currentBackupStorageRedundancy := DatabaseProperties_CurrentBackupStorageRedundancy_STATUS(*source.CurrentBackupStorageRedundancy)
-		database.CurrentBackupStorageRedundancy = &currentBackupStorageRedundancy
+		currentBackupStorageRedundancy := *source.CurrentBackupStorageRedundancy
+		currentBackupStorageRedundancyTemp := genruntime.ToEnum(currentBackupStorageRedundancy, databaseProperties_CurrentBackupStorageRedundancy_STATUS_Values)
+		database.CurrentBackupStorageRedundancy = &currentBackupStorageRedundancyTemp
 	} else {
 		database.CurrentBackupStorageRedundancy = nil
 	}
@@ -2421,8 +2431,9 @@ func (database *Servers_Database_STATUS) AssignProperties_From_Servers_Database_
 
 	// LicenseType
 	if source.LicenseType != nil {
-		licenseType := DatabaseProperties_LicenseType_STATUS(*source.LicenseType)
-		database.LicenseType = &licenseType
+		licenseType := *source.LicenseType
+		licenseTypeTemp := genruntime.ToEnum(licenseType, databaseProperties_LicenseType_STATUS_Values)
+		database.LicenseType = &licenseTypeTemp
 	} else {
 		database.LicenseType = nil
 	}
@@ -2461,8 +2472,9 @@ func (database *Servers_Database_STATUS) AssignProperties_From_Servers_Database_
 
 	// ReadScale
 	if source.ReadScale != nil {
-		readScale := DatabaseProperties_ReadScale_STATUS(*source.ReadScale)
-		database.ReadScale = &readScale
+		readScale := *source.ReadScale
+		readScaleTemp := genruntime.ToEnum(readScale, databaseProperties_ReadScale_STATUS_Values)
+		database.ReadScale = &readScaleTemp
 	} else {
 		database.ReadScale = nil
 	}
@@ -2475,8 +2487,9 @@ func (database *Servers_Database_STATUS) AssignProperties_From_Servers_Database_
 
 	// RequestedBackupStorageRedundancy
 	if source.RequestedBackupStorageRedundancy != nil {
-		requestedBackupStorageRedundancy := DatabaseProperties_RequestedBackupStorageRedundancy_STATUS(*source.RequestedBackupStorageRedundancy)
-		database.RequestedBackupStorageRedundancy = &requestedBackupStorageRedundancy
+		requestedBackupStorageRedundancy := *source.RequestedBackupStorageRedundancy
+		requestedBackupStorageRedundancyTemp := genruntime.ToEnum(requestedBackupStorageRedundancy, databaseProperties_RequestedBackupStorageRedundancy_STATUS_Values)
+		database.RequestedBackupStorageRedundancy = &requestedBackupStorageRedundancyTemp
 	} else {
 		database.RequestedBackupStorageRedundancy = nil
 	}
@@ -2495,16 +2508,18 @@ func (database *Servers_Database_STATUS) AssignProperties_From_Servers_Database_
 
 	// SampleName
 	if source.SampleName != nil {
-		sampleName := DatabaseProperties_SampleName_STATUS(*source.SampleName)
-		database.SampleName = &sampleName
+		sampleName := *source.SampleName
+		sampleNameTemp := genruntime.ToEnum(sampleName, databaseProperties_SampleName_STATUS_Values)
+		database.SampleName = &sampleNameTemp
 	} else {
 		database.SampleName = nil
 	}
 
 	// SecondaryType
 	if source.SecondaryType != nil {
-		secondaryType := DatabaseProperties_SecondaryType_STATUS(*source.SecondaryType)
-		database.SecondaryType = &secondaryType
+		secondaryType := *source.SecondaryType
+		secondaryTypeTemp := genruntime.ToEnum(secondaryType, databaseProperties_SecondaryType_STATUS_Values)
+		database.SecondaryType = &secondaryTypeTemp
 	} else {
 		database.SecondaryType = nil
 	}
@@ -2532,8 +2547,9 @@ func (database *Servers_Database_STATUS) AssignProperties_From_Servers_Database_
 
 	// Status
 	if source.Status != nil {
-		status := DatabaseProperties_Status_STATUS(*source.Status)
-		database.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, databaseProperties_Status_STATUS_Values)
+		database.Status = &statusTemp
 	} else {
 		database.Status = nil
 	}
@@ -2877,8 +2893,9 @@ func (identity *DatabaseIdentity) AssignProperties_From_DatabaseIdentity(source 
 
 	// Type
 	if source.Type != nil {
-		typeVar := DatabaseIdentity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, databaseIdentity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -3037,8 +3054,9 @@ func (identity *DatabaseIdentity_STATUS) AssignProperties_From_DatabaseIdentity_
 
 	// Type
 	if source.Type != nil {
-		typeVar := DatabaseIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, databaseIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -3118,12 +3136,24 @@ const (
 	DatabaseProperties_CatalogCollation_SQL_Latin1_General_CP1_CI_AS = DatabaseProperties_CatalogCollation("SQL_Latin1_General_CP1_CI_AS")
 )
 
+// Mapping from string to DatabaseProperties_CatalogCollation
+var databaseProperties_CatalogCollation_Values = map[string]DatabaseProperties_CatalogCollation{
+	"database_default":             DatabaseProperties_CatalogCollation_DATABASE_DEFAULT,
+	"sql_latin1_general_cp1_ci_as": DatabaseProperties_CatalogCollation_SQL_Latin1_General_CP1_CI_AS,
+}
+
 type DatabaseProperties_CatalogCollation_STATUS string
 
 const (
 	DatabaseProperties_CatalogCollation_STATUS_DATABASE_DEFAULT             = DatabaseProperties_CatalogCollation_STATUS("DATABASE_DEFAULT")
 	DatabaseProperties_CatalogCollation_STATUS_SQL_Latin1_General_CP1_CI_AS = DatabaseProperties_CatalogCollation_STATUS("SQL_Latin1_General_CP1_CI_AS")
 )
+
+// Mapping from string to DatabaseProperties_CatalogCollation_STATUS
+var databaseProperties_CatalogCollation_STATUS_Values = map[string]DatabaseProperties_CatalogCollation_STATUS{
+	"database_default":             DatabaseProperties_CatalogCollation_STATUS_DATABASE_DEFAULT,
+	"sql_latin1_general_cp1_ci_as": DatabaseProperties_CatalogCollation_STATUS_SQL_Latin1_General_CP1_CI_AS,
+}
 
 // +kubebuilder:validation:Enum={"Copy","Default","OnlineSecondary","PointInTimeRestore","Recovery","Restore","RestoreExternalBackup","RestoreExternalBackupSecondary","RestoreLongTermRetentionBackup","Secondary"}
 type DatabaseProperties_CreateMode string
@@ -3141,6 +3171,20 @@ const (
 	DatabaseProperties_CreateMode_Secondary                      = DatabaseProperties_CreateMode("Secondary")
 )
 
+// Mapping from string to DatabaseProperties_CreateMode
+var databaseProperties_CreateMode_Values = map[string]DatabaseProperties_CreateMode{
+	"copy":                           DatabaseProperties_CreateMode_Copy,
+	"default":                        DatabaseProperties_CreateMode_Default,
+	"onlinesecondary":                DatabaseProperties_CreateMode_OnlineSecondary,
+	"pointintimerestore":             DatabaseProperties_CreateMode_PointInTimeRestore,
+	"recovery":                       DatabaseProperties_CreateMode_Recovery,
+	"restore":                        DatabaseProperties_CreateMode_Restore,
+	"restoreexternalbackup":          DatabaseProperties_CreateMode_RestoreExternalBackup,
+	"restoreexternalbackupsecondary": DatabaseProperties_CreateMode_RestoreExternalBackupSecondary,
+	"restorelongtermretentionbackup": DatabaseProperties_CreateMode_RestoreLongTermRetentionBackup,
+	"secondary":                      DatabaseProperties_CreateMode_Secondary,
+}
+
 type DatabaseProperties_CreateMode_STATUS string
 
 const (
@@ -3156,6 +3200,20 @@ const (
 	DatabaseProperties_CreateMode_STATUS_Secondary                      = DatabaseProperties_CreateMode_STATUS("Secondary")
 )
 
+// Mapping from string to DatabaseProperties_CreateMode_STATUS
+var databaseProperties_CreateMode_STATUS_Values = map[string]DatabaseProperties_CreateMode_STATUS{
+	"copy":                           DatabaseProperties_CreateMode_STATUS_Copy,
+	"default":                        DatabaseProperties_CreateMode_STATUS_Default,
+	"onlinesecondary":                DatabaseProperties_CreateMode_STATUS_OnlineSecondary,
+	"pointintimerestore":             DatabaseProperties_CreateMode_STATUS_PointInTimeRestore,
+	"recovery":                       DatabaseProperties_CreateMode_STATUS_Recovery,
+	"restore":                        DatabaseProperties_CreateMode_STATUS_Restore,
+	"restoreexternalbackup":          DatabaseProperties_CreateMode_STATUS_RestoreExternalBackup,
+	"restoreexternalbackupsecondary": DatabaseProperties_CreateMode_STATUS_RestoreExternalBackupSecondary,
+	"restorelongtermretentionbackup": DatabaseProperties_CreateMode_STATUS_RestoreLongTermRetentionBackup,
+	"secondary":                      DatabaseProperties_CreateMode_STATUS_Secondary,
+}
+
 type DatabaseProperties_CurrentBackupStorageRedundancy_STATUS string
 
 const (
@@ -3165,6 +3223,14 @@ const (
 	DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_Zone    = DatabaseProperties_CurrentBackupStorageRedundancy_STATUS("Zone")
 )
 
+// Mapping from string to DatabaseProperties_CurrentBackupStorageRedundancy_STATUS
+var databaseProperties_CurrentBackupStorageRedundancy_STATUS_Values = map[string]DatabaseProperties_CurrentBackupStorageRedundancy_STATUS{
+	"geo":     DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_Geo,
+	"geozone": DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_GeoZone,
+	"local":   DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_Local,
+	"zone":    DatabaseProperties_CurrentBackupStorageRedundancy_STATUS_Zone,
+}
+
 // +kubebuilder:validation:Enum={"BasePrice","LicenseIncluded"}
 type DatabaseProperties_LicenseType string
 
@@ -3173,12 +3239,24 @@ const (
 	DatabaseProperties_LicenseType_LicenseIncluded = DatabaseProperties_LicenseType("LicenseIncluded")
 )
 
+// Mapping from string to DatabaseProperties_LicenseType
+var databaseProperties_LicenseType_Values = map[string]DatabaseProperties_LicenseType{
+	"baseprice":       DatabaseProperties_LicenseType_BasePrice,
+	"licenseincluded": DatabaseProperties_LicenseType_LicenseIncluded,
+}
+
 type DatabaseProperties_LicenseType_STATUS string
 
 const (
 	DatabaseProperties_LicenseType_STATUS_BasePrice       = DatabaseProperties_LicenseType_STATUS("BasePrice")
 	DatabaseProperties_LicenseType_STATUS_LicenseIncluded = DatabaseProperties_LicenseType_STATUS("LicenseIncluded")
 )
+
+// Mapping from string to DatabaseProperties_LicenseType_STATUS
+var databaseProperties_LicenseType_STATUS_Values = map[string]DatabaseProperties_LicenseType_STATUS{
+	"baseprice":       DatabaseProperties_LicenseType_STATUS_BasePrice,
+	"licenseincluded": DatabaseProperties_LicenseType_STATUS_LicenseIncluded,
+}
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type DatabaseProperties_ReadScale string
@@ -3188,12 +3266,24 @@ const (
 	DatabaseProperties_ReadScale_Enabled  = DatabaseProperties_ReadScale("Enabled")
 )
 
+// Mapping from string to DatabaseProperties_ReadScale
+var databaseProperties_ReadScale_Values = map[string]DatabaseProperties_ReadScale{
+	"disabled": DatabaseProperties_ReadScale_Disabled,
+	"enabled":  DatabaseProperties_ReadScale_Enabled,
+}
+
 type DatabaseProperties_ReadScale_STATUS string
 
 const (
 	DatabaseProperties_ReadScale_STATUS_Disabled = DatabaseProperties_ReadScale_STATUS("Disabled")
 	DatabaseProperties_ReadScale_STATUS_Enabled  = DatabaseProperties_ReadScale_STATUS("Enabled")
 )
+
+// Mapping from string to DatabaseProperties_ReadScale_STATUS
+var databaseProperties_ReadScale_STATUS_Values = map[string]DatabaseProperties_ReadScale_STATUS{
+	"disabled": DatabaseProperties_ReadScale_STATUS_Disabled,
+	"enabled":  DatabaseProperties_ReadScale_STATUS_Enabled,
+}
 
 // +kubebuilder:validation:Enum={"Geo","GeoZone","Local","Zone"}
 type DatabaseProperties_RequestedBackupStorageRedundancy string
@@ -3205,6 +3295,14 @@ const (
 	DatabaseProperties_RequestedBackupStorageRedundancy_Zone    = DatabaseProperties_RequestedBackupStorageRedundancy("Zone")
 )
 
+// Mapping from string to DatabaseProperties_RequestedBackupStorageRedundancy
+var databaseProperties_RequestedBackupStorageRedundancy_Values = map[string]DatabaseProperties_RequestedBackupStorageRedundancy{
+	"geo":     DatabaseProperties_RequestedBackupStorageRedundancy_Geo,
+	"geozone": DatabaseProperties_RequestedBackupStorageRedundancy_GeoZone,
+	"local":   DatabaseProperties_RequestedBackupStorageRedundancy_Local,
+	"zone":    DatabaseProperties_RequestedBackupStorageRedundancy_Zone,
+}
+
 type DatabaseProperties_RequestedBackupStorageRedundancy_STATUS string
 
 const (
@@ -3213,6 +3311,14 @@ const (
 	DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Local   = DatabaseProperties_RequestedBackupStorageRedundancy_STATUS("Local")
 	DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Zone    = DatabaseProperties_RequestedBackupStorageRedundancy_STATUS("Zone")
 )
+
+// Mapping from string to DatabaseProperties_RequestedBackupStorageRedundancy_STATUS
+var databaseProperties_RequestedBackupStorageRedundancy_STATUS_Values = map[string]DatabaseProperties_RequestedBackupStorageRedundancy_STATUS{
+	"geo":     DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Geo,
+	"geozone": DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_GeoZone,
+	"local":   DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Local,
+	"zone":    DatabaseProperties_RequestedBackupStorageRedundancy_STATUS_Zone,
+}
 
 // +kubebuilder:validation:Enum={"AdventureWorksLT","WideWorldImportersFull","WideWorldImportersStd"}
 type DatabaseProperties_SampleName string
@@ -3223,6 +3329,13 @@ const (
 	DatabaseProperties_SampleName_WideWorldImportersStd  = DatabaseProperties_SampleName("WideWorldImportersStd")
 )
 
+// Mapping from string to DatabaseProperties_SampleName
+var databaseProperties_SampleName_Values = map[string]DatabaseProperties_SampleName{
+	"adventureworkslt":       DatabaseProperties_SampleName_AdventureWorksLT,
+	"wideworldimportersfull": DatabaseProperties_SampleName_WideWorldImportersFull,
+	"wideworldimportersstd":  DatabaseProperties_SampleName_WideWorldImportersStd,
+}
+
 type DatabaseProperties_SampleName_STATUS string
 
 const (
@@ -3230,6 +3343,13 @@ const (
 	DatabaseProperties_SampleName_STATUS_WideWorldImportersFull = DatabaseProperties_SampleName_STATUS("WideWorldImportersFull")
 	DatabaseProperties_SampleName_STATUS_WideWorldImportersStd  = DatabaseProperties_SampleName_STATUS("WideWorldImportersStd")
 )
+
+// Mapping from string to DatabaseProperties_SampleName_STATUS
+var databaseProperties_SampleName_STATUS_Values = map[string]DatabaseProperties_SampleName_STATUS{
+	"adventureworkslt":       DatabaseProperties_SampleName_STATUS_AdventureWorksLT,
+	"wideworldimportersfull": DatabaseProperties_SampleName_STATUS_WideWorldImportersFull,
+	"wideworldimportersstd":  DatabaseProperties_SampleName_STATUS_WideWorldImportersStd,
+}
 
 // +kubebuilder:validation:Enum={"Geo","Named"}
 type DatabaseProperties_SecondaryType string
@@ -3239,12 +3359,24 @@ const (
 	DatabaseProperties_SecondaryType_Named = DatabaseProperties_SecondaryType("Named")
 )
 
+// Mapping from string to DatabaseProperties_SecondaryType
+var databaseProperties_SecondaryType_Values = map[string]DatabaseProperties_SecondaryType{
+	"geo":   DatabaseProperties_SecondaryType_Geo,
+	"named": DatabaseProperties_SecondaryType_Named,
+}
+
 type DatabaseProperties_SecondaryType_STATUS string
 
 const (
 	DatabaseProperties_SecondaryType_STATUS_Geo   = DatabaseProperties_SecondaryType_STATUS("Geo")
 	DatabaseProperties_SecondaryType_STATUS_Named = DatabaseProperties_SecondaryType_STATUS("Named")
 )
+
+// Mapping from string to DatabaseProperties_SecondaryType_STATUS
+var databaseProperties_SecondaryType_STATUS_Values = map[string]DatabaseProperties_SecondaryType_STATUS{
+	"geo":   DatabaseProperties_SecondaryType_STATUS_Geo,
+	"named": DatabaseProperties_SecondaryType_STATUS_Named,
+}
 
 type DatabaseProperties_Status_STATUS string
 
@@ -3274,6 +3406,34 @@ const (
 	DatabaseProperties_Status_STATUS_Stopping                          = DatabaseProperties_Status_STATUS("Stopping")
 	DatabaseProperties_Status_STATUS_Suspect                           = DatabaseProperties_Status_STATUS("Suspect")
 )
+
+// Mapping from string to DatabaseProperties_Status_STATUS
+var databaseProperties_Status_STATUS_Values = map[string]DatabaseProperties_Status_STATUS{
+	"autoclosed":                        DatabaseProperties_Status_STATUS_AutoClosed,
+	"copying":                           DatabaseProperties_Status_STATUS_Copying,
+	"creating":                          DatabaseProperties_Status_STATUS_Creating,
+	"disabled":                          DatabaseProperties_Status_STATUS_Disabled,
+	"emergencymode":                     DatabaseProperties_Status_STATUS_EmergencyMode,
+	"inaccessible":                      DatabaseProperties_Status_STATUS_Inaccessible,
+	"offline":                           DatabaseProperties_Status_STATUS_Offline,
+	"offlinechangingdwperformancetiers": DatabaseProperties_Status_STATUS_OfflineChangingDwPerformanceTiers,
+	"offlinesecondary":                  DatabaseProperties_Status_STATUS_OfflineSecondary,
+	"online":                            DatabaseProperties_Status_STATUS_Online,
+	"onlinechangingdwperformancetiers":  DatabaseProperties_Status_STATUS_OnlineChangingDwPerformanceTiers,
+	"paused":                            DatabaseProperties_Status_STATUS_Paused,
+	"pausing":                           DatabaseProperties_Status_STATUS_Pausing,
+	"recovering":                        DatabaseProperties_Status_STATUS_Recovering,
+	"recoverypending":                   DatabaseProperties_Status_STATUS_RecoveryPending,
+	"restoring":                         DatabaseProperties_Status_STATUS_Restoring,
+	"resuming":                          DatabaseProperties_Status_STATUS_Resuming,
+	"scaling":                           DatabaseProperties_Status_STATUS_Scaling,
+	"shutdown":                          DatabaseProperties_Status_STATUS_Shutdown,
+	"standby":                           DatabaseProperties_Status_STATUS_Standby,
+	"starting":                          DatabaseProperties_Status_STATUS_Starting,
+	"stopped":                           DatabaseProperties_Status_STATUS_Stopped,
+	"stopping":                          DatabaseProperties_Status_STATUS_Stopping,
+	"suspect":                           DatabaseProperties_Status_STATUS_Suspect,
+}
 
 // An ARM Resource SKU.
 type Sku struct {

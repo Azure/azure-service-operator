@@ -458,8 +458,9 @@ func (policy *Service_Products_Policy_Spec) AssignProperties_From_Service_Produc
 
 	// Format
 	if source.Format != nil {
-		format := PolicyContractProperties_Format(*source.Format)
-		policy.Format = &format
+		format := *source.Format
+		formatTemp := genruntime.ToEnum(format, policyContractProperties_Format_Values)
+		policy.Format = &formatTemp
 	} else {
 		policy.Format = nil
 	}
@@ -657,8 +658,9 @@ func (policy *Service_Products_Policy_STATUS) AssignProperties_From_Service_Prod
 
 	// Format
 	if source.Format != nil {
-		format := PolicyContractProperties_Format_STATUS(*source.Format)
-		policy.Format = &format
+		format := *source.Format
+		formatTemp := genruntime.ToEnum(format, policyContractProperties_Format_STATUS_Values)
+		policy.Format = &formatTemp
 	} else {
 		policy.Format = nil
 	}

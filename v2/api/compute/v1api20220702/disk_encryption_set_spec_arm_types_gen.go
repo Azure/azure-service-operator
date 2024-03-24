@@ -72,6 +72,14 @@ const (
 	EncryptionSetIdentity_Type_UserAssigned               = EncryptionSetIdentity_Type("UserAssigned")
 )
 
+// Mapping from string to EncryptionSetIdentity_Type
+var encryptionSetIdentity_Type_Values = map[string]EncryptionSetIdentity_Type{
+	"none":                         EncryptionSetIdentity_Type_None,
+	"systemassigned":               EncryptionSetIdentity_Type_SystemAssigned,
+	"systemassigned, userassigned": EncryptionSetIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 EncryptionSetIdentity_Type_UserAssigned,
+}
+
 // Key Vault Key Url to be used for server side encryption of Managed Disks and Snapshots
 type KeyForDiskEncryptionSet_ARM struct {
 	// KeyUrl: Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of

@@ -244,6 +244,14 @@ const (
 	VirtualMachineScaleSetIdentity_Type_UserAssigned               = VirtualMachineScaleSetIdentity_Type("UserAssigned")
 )
 
+// Mapping from string to VirtualMachineScaleSetIdentity_Type
+var virtualMachineScaleSetIdentity_Type_Values = map[string]VirtualMachineScaleSetIdentity_Type{
+	"none":                         VirtualMachineScaleSetIdentity_Type_None,
+	"systemassigned":               VirtualMachineScaleSetIdentity_Type_SystemAssigned,
+	"systemassigned, userassigned": VirtualMachineScaleSetIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 VirtualMachineScaleSetIdentity_Type_UserAssigned,
+}
+
 // Describes a virtual machine scale set virtual machine profile.
 type VirtualMachineScaleSetVMProfile_ARM struct {
 	// ApplicationProfile: Specifies the gallery applications that should be made available to the VM/VMSS

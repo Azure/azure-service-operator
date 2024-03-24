@@ -722,8 +722,9 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *v2
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := SBNamespaceProperties_MinimumTlsVersion(*source.MinimumTlsVersion)
-		namespace.MinimumTlsVersion = &minimumTlsVersion
+		minimumTlsVersion := *source.MinimumTlsVersion
+		minimumTlsVersionTemp := genruntime.ToEnum(minimumTlsVersion, sBNamespaceProperties_MinimumTlsVersion_Values)
+		namespace.MinimumTlsVersion = &minimumTlsVersionTemp
 	} else {
 		namespace.MinimumTlsVersion = nil
 	}
@@ -753,8 +754,9 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *v2
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := SBNamespaceProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		namespace.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, sBNamespaceProperties_PublicNetworkAccess_Values)
+		namespace.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		namespace.PublicNetworkAccess = nil
 	}
@@ -1313,8 +1315,9 @@ func (namespace *Namespace_STATUS) AssignProperties_From_Namespace_STATUS(source
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := SBNamespaceProperties_MinimumTlsVersion_STATUS(*source.MinimumTlsVersion)
-		namespace.MinimumTlsVersion = &minimumTlsVersion
+		minimumTlsVersion := *source.MinimumTlsVersion
+		minimumTlsVersionTemp := genruntime.ToEnum(minimumTlsVersion, sBNamespaceProperties_MinimumTlsVersion_STATUS_Values)
+		namespace.MinimumTlsVersion = &minimumTlsVersionTemp
 	} else {
 		namespace.MinimumTlsVersion = nil
 	}
@@ -1348,8 +1351,9 @@ func (namespace *Namespace_STATUS) AssignProperties_From_Namespace_STATUS(source
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := SBNamespaceProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-		namespace.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, sBNamespaceProperties_PublicNetworkAccess_STATUS_Values)
+		namespace.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		namespace.PublicNetworkAccess = nil
 	}
@@ -1648,8 +1652,9 @@ func (encryption *Encryption) AssignProperties_From_Encryption(source *v20221001
 
 	// KeySource
 	if source.KeySource != nil {
-		keySource := Encryption_KeySource(*source.KeySource)
-		encryption.KeySource = &keySource
+		keySource := *source.KeySource
+		keySourceTemp := genruntime.ToEnum(keySource, encryption_KeySource_Values)
+		encryption.KeySource = &keySourceTemp
 	} else {
 		encryption.KeySource = nil
 	}
@@ -1791,8 +1796,9 @@ func (encryption *Encryption_STATUS) AssignProperties_From_Encryption_STATUS(sou
 
 	// KeySource
 	if source.KeySource != nil {
-		keySource := Encryption_KeySource_STATUS(*source.KeySource)
-		encryption.KeySource = &keySource
+		keySource := *source.KeySource
+		keySourceTemp := genruntime.ToEnum(keySource, encryption_KeySource_STATUS_Values)
+		encryption.KeySource = &keySourceTemp
 	} else {
 		encryption.KeySource = nil
 	}
@@ -1943,8 +1949,9 @@ func (identity *Identity) AssignProperties_From_Identity(source *v20221001ps.Ide
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, identity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2088,8 +2095,9 @@ func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *v
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, identity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2286,6 +2294,13 @@ const (
 	SBNamespaceProperties_MinimumTlsVersion_12 = SBNamespaceProperties_MinimumTlsVersion("1.2")
 )
 
+// Mapping from string to SBNamespaceProperties_MinimumTlsVersion
+var sBNamespaceProperties_MinimumTlsVersion_Values = map[string]SBNamespaceProperties_MinimumTlsVersion{
+	"1.0": SBNamespaceProperties_MinimumTlsVersion_10,
+	"1.1": SBNamespaceProperties_MinimumTlsVersion_11,
+	"1.2": SBNamespaceProperties_MinimumTlsVersion_12,
+}
+
 type SBNamespaceProperties_MinimumTlsVersion_STATUS string
 
 const (
@@ -2293,6 +2308,13 @@ const (
 	SBNamespaceProperties_MinimumTlsVersion_STATUS_11 = SBNamespaceProperties_MinimumTlsVersion_STATUS("1.1")
 	SBNamespaceProperties_MinimumTlsVersion_STATUS_12 = SBNamespaceProperties_MinimumTlsVersion_STATUS("1.2")
 )
+
+// Mapping from string to SBNamespaceProperties_MinimumTlsVersion_STATUS
+var sBNamespaceProperties_MinimumTlsVersion_STATUS_Values = map[string]SBNamespaceProperties_MinimumTlsVersion_STATUS{
+	"1.0": SBNamespaceProperties_MinimumTlsVersion_STATUS_10,
+	"1.1": SBNamespaceProperties_MinimumTlsVersion_STATUS_11,
+	"1.2": SBNamespaceProperties_MinimumTlsVersion_STATUS_12,
+}
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled","SecuredByPerimeter"}
 type SBNamespaceProperties_PublicNetworkAccess string
@@ -2303,6 +2325,13 @@ const (
 	SBNamespaceProperties_PublicNetworkAccess_SecuredByPerimeter = SBNamespaceProperties_PublicNetworkAccess("SecuredByPerimeter")
 )
 
+// Mapping from string to SBNamespaceProperties_PublicNetworkAccess
+var sBNamespaceProperties_PublicNetworkAccess_Values = map[string]SBNamespaceProperties_PublicNetworkAccess{
+	"disabled":           SBNamespaceProperties_PublicNetworkAccess_Disabled,
+	"enabled":            SBNamespaceProperties_PublicNetworkAccess_Enabled,
+	"securedbyperimeter": SBNamespaceProperties_PublicNetworkAccess_SecuredByPerimeter,
+}
+
 type SBNamespaceProperties_PublicNetworkAccess_STATUS string
 
 const (
@@ -2310,6 +2339,13 @@ const (
 	SBNamespaceProperties_PublicNetworkAccess_STATUS_Enabled            = SBNamespaceProperties_PublicNetworkAccess_STATUS("Enabled")
 	SBNamespaceProperties_PublicNetworkAccess_STATUS_SecuredByPerimeter = SBNamespaceProperties_PublicNetworkAccess_STATUS("SecuredByPerimeter")
 )
+
+// Mapping from string to SBNamespaceProperties_PublicNetworkAccess_STATUS
+var sBNamespaceProperties_PublicNetworkAccess_STATUS_Values = map[string]SBNamespaceProperties_PublicNetworkAccess_STATUS{
+	"disabled":           SBNamespaceProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":            SBNamespaceProperties_PublicNetworkAccess_STATUS_Enabled,
+	"securedbyperimeter": SBNamespaceProperties_PublicNetworkAccess_STATUS_SecuredByPerimeter,
+}
 
 // SKU of the namespace.
 type SBSku struct {
@@ -2398,16 +2434,18 @@ func (sbSku *SBSku) AssignProperties_From_SBSku(source *v20221001ps.SBSku) error
 
 	// Name
 	if source.Name != nil {
-		name := SBSku_Name(*source.Name)
-		sbSku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sBSku_Name_Values)
+		sbSku.Name = &nameTemp
 	} else {
 		sbSku.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := SBSku_Tier(*source.Tier)
-		sbSku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, sBSku_Tier_Values)
+		sbSku.Tier = &tierTemp
 	} else {
 		sbSku.Tier = nil
 	}
@@ -2510,16 +2548,18 @@ func (sbSku *SBSku_STATUS) AssignProperties_From_SBSku_STATUS(source *v20221001p
 
 	// Name
 	if source.Name != nil {
-		name := SBSku_Name_STATUS(*source.Name)
-		sbSku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sBSku_Name_STATUS_Values)
+		sbSku.Name = &nameTemp
 	} else {
 		sbSku.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := SBSku_Tier_STATUS(*source.Tier)
-		sbSku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, sBSku_Tier_STATUS_Values)
+		sbSku.Tier = &tierTemp
 	} else {
 		sbSku.Tier = nil
 	}
@@ -2649,8 +2689,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -2663,8 +2704,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -2722,9 +2764,19 @@ type Encryption_KeySource string
 
 const Encryption_KeySource_MicrosoftKeyVault = Encryption_KeySource("Microsoft.KeyVault")
 
+// Mapping from string to Encryption_KeySource
+var encryption_KeySource_Values = map[string]Encryption_KeySource{
+	"microsoft.keyvault": Encryption_KeySource_MicrosoftKeyVault,
+}
+
 type Encryption_KeySource_STATUS string
 
 const Encryption_KeySource_STATUS_MicrosoftKeyVault = Encryption_KeySource_STATUS("Microsoft.KeyVault")
+
+// Mapping from string to Encryption_KeySource_STATUS
+var encryption_KeySource_STATUS_Values = map[string]Encryption_KeySource_STATUS{
+	"microsoft.keyvault": Encryption_KeySource_STATUS_MicrosoftKeyVault,
+}
 
 // Properties to configure keyVault Properties
 type KeyVaultProperties struct {

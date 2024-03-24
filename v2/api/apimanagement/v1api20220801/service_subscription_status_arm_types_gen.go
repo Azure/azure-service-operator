@@ -77,3 +77,13 @@ const (
 	SubscriptionContractProperties_State_STATUS_Submitted = SubscriptionContractProperties_State_STATUS("submitted")
 	SubscriptionContractProperties_State_STATUS_Suspended = SubscriptionContractProperties_State_STATUS("suspended")
 )
+
+// Mapping from string to SubscriptionContractProperties_State_STATUS
+var subscriptionContractProperties_State_STATUS_Values = map[string]SubscriptionContractProperties_State_STATUS{
+	"active":    SubscriptionContractProperties_State_STATUS_Active,
+	"cancelled": SubscriptionContractProperties_State_STATUS_Cancelled,
+	"expired":   SubscriptionContractProperties_State_STATUS_Expired,
+	"rejected":  SubscriptionContractProperties_State_STATUS_Rejected,
+	"submitted": SubscriptionContractProperties_State_STATUS_Submitted,
+	"suspended": SubscriptionContractProperties_State_STATUS_Suspended,
+}

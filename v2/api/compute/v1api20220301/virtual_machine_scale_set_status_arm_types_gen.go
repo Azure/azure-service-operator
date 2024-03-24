@@ -251,6 +251,14 @@ const (
 	VirtualMachineScaleSetIdentity_Type_STATUS_UserAssigned               = VirtualMachineScaleSetIdentity_Type_STATUS("UserAssigned")
 )
 
+// Mapping from string to VirtualMachineScaleSetIdentity_Type_STATUS
+var virtualMachineScaleSetIdentity_Type_STATUS_Values = map[string]VirtualMachineScaleSetIdentity_Type_STATUS{
+	"none":                         VirtualMachineScaleSetIdentity_Type_STATUS_None,
+	"systemassigned":               VirtualMachineScaleSetIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned, userassigned": VirtualMachineScaleSetIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 VirtualMachineScaleSetIdentity_Type_STATUS_UserAssigned,
+}
+
 type VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM struct {
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`

@@ -103,6 +103,13 @@ const (
 	FactoryIdentity_Type_STATUS_UserAssigned               = FactoryIdentity_Type_STATUS("UserAssigned")
 )
 
+// Mapping from string to FactoryIdentity_Type_STATUS
+var factoryIdentity_Type_STATUS_Values = map[string]FactoryIdentity_Type_STATUS{
+	"systemassigned":              FactoryIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned,userassigned": FactoryIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                FactoryIdentity_Type_STATUS_UserAssigned,
+}
+
 type FactoryRepoConfiguration_STATUS_ARM struct {
 	// FactoryGitHub: Mutually exclusive with all other properties
 	FactoryGitHub *FactoryGitHubConfiguration_STATUS_ARM `json:"factoryGitHubConfiguration,omitempty"`

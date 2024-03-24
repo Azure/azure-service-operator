@@ -130,6 +130,14 @@ const (
 	ContainerGroupIdentity_Type_STATUS_UserAssigned               = ContainerGroupIdentity_Type_STATUS("UserAssigned")
 )
 
+// Mapping from string to ContainerGroupIdentity_Type_STATUS
+var containerGroupIdentity_Type_STATUS_Values = map[string]ContainerGroupIdentity_Type_STATUS{
+	"none":                         ContainerGroupIdentity_Type_STATUS_None,
+	"systemassigned":               ContainerGroupIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned, userassigned": ContainerGroupIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 ContainerGroupIdentity_Type_STATUS_UserAssigned,
+}
+
 // Container group subnet information.
 type ContainerGroupSubnetId_STATUS_ARM struct {
 	// Id: Resource ID of virtual network and subnet.

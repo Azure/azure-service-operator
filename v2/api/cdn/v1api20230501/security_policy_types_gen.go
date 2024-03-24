@@ -731,8 +731,9 @@ func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_From_Profiles_Sec
 
 	// DeploymentStatus
 	if source.DeploymentStatus != nil {
-		deploymentStatus := SecurityPolicyProperties_DeploymentStatus_STATUS(*source.DeploymentStatus)
-		policy.DeploymentStatus = &deploymentStatus
+		deploymentStatus := *source.DeploymentStatus
+		deploymentStatusTemp := genruntime.ToEnum(deploymentStatus, securityPolicyProperties_DeploymentStatus_STATUS_Values)
+		policy.DeploymentStatus = &deploymentStatusTemp
 	} else {
 		policy.DeploymentStatus = nil
 	}
@@ -760,8 +761,9 @@ func (policy *Profiles_SecurityPolicy_STATUS) AssignProperties_From_Profiles_Sec
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := SecurityPolicyProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		policy.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, securityPolicyProperties_ProvisioningState_STATUS_Values)
+		policy.ProvisioningState = &provisioningStateTemp
 	} else {
 		policy.ProvisioningState = nil
 	}
@@ -1166,8 +1168,9 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperti
 
 	// Type
 	if source.Type != nil {
-		typeVar := SecurityPolicyWebApplicationFirewallParameters_Type(*source.Type)
-		parameters.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, securityPolicyWebApplicationFirewallParameters_Type_Values)
+		parameters.Type = &typeTemp
 	} else {
 		parameters.Type = nil
 	}
@@ -1363,8 +1366,9 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters_STATUS) AssignP
 
 	// Type
 	if source.Type != nil {
-		typeVar := SecurityPolicyWebApplicationFirewallParameters_Type_STATUS(*source.Type)
-		parameters.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, securityPolicyWebApplicationFirewallParameters_Type_STATUS_Values)
+		parameters.Type = &typeTemp
 	} else {
 		parameters.Type = nil
 	}

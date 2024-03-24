@@ -1683,8 +1683,9 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_From_LoadBalancer_STATUS(s
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		balancer.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		balancer.ProvisioningState = &provisioningStateTemp
 	} else {
 		balancer.ProvisioningState = nil
 	}
@@ -2328,8 +2329,9 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		embedded.ProvisioningState = &provisioningStateTemp
 	} else {
 		embedded.ProvisioningState = nil
 	}
@@ -2531,8 +2533,9 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType(*source.Type)
-		location.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, extendedLocationType_Values)
+		location.Type = &typeTemp
 	} else {
 		location.Type = nil
 	}
@@ -2633,8 +2636,9 @@ func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType_STATUS(*source.Type)
-		location.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, extendedLocationType_STATUS_Values)
+		location.Type = &typeTemp
 	} else {
 		location.Type = nil
 	}
@@ -2873,16 +2877,18 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Assign
 
 	// PrivateIPAddressVersion
 	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := IPVersion(*source.PrivateIPAddressVersion)
-		embedded.PrivateIPAddressVersion = &privateIPAddressVersion
+		privateIPAddressVersion := *source.PrivateIPAddressVersion
+		privateIPAddressVersionTemp := genruntime.ToEnum(privateIPAddressVersion, iPVersion_Values)
+		embedded.PrivateIPAddressVersion = &privateIPAddressVersionTemp
 	} else {
 		embedded.PrivateIPAddressVersion = nil
 	}
 
 	// PrivateIPAllocationMethod
 	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod(*source.PrivateIPAllocationMethod)
-		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
+		privateIPAllocationMethod := *source.PrivateIPAllocationMethod
+		privateIPAllocationMethodTemp := genruntime.ToEnum(privateIPAllocationMethod, iPAllocationMethod_Values)
+		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethodTemp
 	} else {
 		embedded.PrivateIPAllocationMethod = nil
 	}
@@ -3393,24 +3399,27 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 
 	// PrivateIPAddressVersion
 	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := IPVersion_STATUS(*source.PrivateIPAddressVersion)
-		embedded.PrivateIPAddressVersion = &privateIPAddressVersion
+		privateIPAddressVersion := *source.PrivateIPAddressVersion
+		privateIPAddressVersionTemp := genruntime.ToEnum(privateIPAddressVersion, iPVersion_STATUS_Values)
+		embedded.PrivateIPAddressVersion = &privateIPAddressVersionTemp
 	} else {
 		embedded.PrivateIPAddressVersion = nil
 	}
 
 	// PrivateIPAllocationMethod
 	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod_STATUS(*source.PrivateIPAllocationMethod)
-		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
+		privateIPAllocationMethod := *source.PrivateIPAllocationMethod
+		privateIPAllocationMethodTemp := genruntime.ToEnum(privateIPAllocationMethod, iPAllocationMethod_STATUS_Values)
+		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethodTemp
 	} else {
 		embedded.PrivateIPAllocationMethod = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		embedded.ProvisioningState = &provisioningStateTemp
 	} else {
 		embedded.ProvisioningState = nil
 	}
@@ -3880,8 +3889,9 @@ func (pool *InboundNatPool) AssignProperties_From_InboundNatPool(source *v202011
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := TransportProtocol(*source.Protocol)
-		pool.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, transportProtocol_Values)
+		pool.Protocol = &protocolTemp
 	} else {
 		pool.Protocol = nil
 	}
@@ -4246,16 +4256,18 @@ func (pool *InboundNatPool_STATUS) AssignProperties_From_InboundNatPool_STATUS(s
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := TransportProtocol_STATUS(*source.Protocol)
-		pool.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, transportProtocol_STATUS_Values)
+		pool.Protocol = &protocolTemp
 	} else {
 		pool.Protocol = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		pool.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		pool.ProvisioningState = &provisioningStateTemp
 	} else {
 		pool.ProvisioningState = nil
 	}
@@ -4579,8 +4591,9 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) AssignPropertie
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := TransportProtocol(*source.Protocol)
-		embedded.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, transportProtocol_Values)
+		embedded.Protocol = &protocolTemp
 	} else {
 		embedded.Protocol = nil
 	}
@@ -4953,16 +4966,18 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) AssignPr
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := TransportProtocol_STATUS(*source.Protocol)
-		embedded.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, transportProtocol_STATUS_Values)
+		embedded.Protocol = &protocolTemp
 	} else {
 		embedded.Protocol = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		embedded.ProvisioningState = &provisioningStateTemp
 	} else {
 		embedded.ProvisioningState = nil
 	}
@@ -5132,16 +5147,18 @@ func (balancerSku *LoadBalancerSku) AssignProperties_From_LoadBalancerSku(source
 
 	// Name
 	if source.Name != nil {
-		name := LoadBalancerSku_Name(*source.Name)
-		balancerSku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, loadBalancerSku_Name_Values)
+		balancerSku.Name = &nameTemp
 	} else {
 		balancerSku.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := LoadBalancerSku_Tier(*source.Tier)
-		balancerSku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, loadBalancerSku_Tier_Values)
+		balancerSku.Tier = &tierTemp
 	} else {
 		balancerSku.Tier = nil
 	}
@@ -5249,16 +5266,18 @@ func (balancerSku *LoadBalancerSku_STATUS) AssignProperties_From_LoadBalancerSku
 
 	// Name
 	if source.Name != nil {
-		name := LoadBalancerSku_Name_STATUS(*source.Name)
-		balancerSku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, loadBalancerSku_Name_STATUS_Values)
+		balancerSku.Name = &nameTemp
 	} else {
 		balancerSku.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := LoadBalancerSku_Tier_STATUS(*source.Tier)
-		balancerSku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, loadBalancerSku_Tier_STATUS_Values)
+		balancerSku.Tier = &tierTemp
 	} else {
 		balancerSku.Tier = nil
 	}
@@ -5635,8 +5654,9 @@ func (rule *LoadBalancingRule) AssignProperties_From_LoadBalancingRule(source *v
 
 	// LoadDistribution
 	if source.LoadDistribution != nil {
-		loadDistribution := LoadBalancingRulePropertiesFormat_LoadDistribution(*source.LoadDistribution)
-		rule.LoadDistribution = &loadDistribution
+		loadDistribution := *source.LoadDistribution
+		loadDistributionTemp := genruntime.ToEnum(loadDistribution, loadBalancingRulePropertiesFormat_LoadDistribution_Values)
+		rule.LoadDistribution = &loadDistributionTemp
 	} else {
 		rule.LoadDistribution = nil
 	}
@@ -5658,8 +5678,9 @@ func (rule *LoadBalancingRule) AssignProperties_From_LoadBalancingRule(source *v
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := TransportProtocol(*source.Protocol)
-		rule.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, transportProtocol_Values)
+		rule.Protocol = &protocolTemp
 	} else {
 		rule.Protocol = nil
 	}
@@ -6160,8 +6181,9 @@ func (rule *LoadBalancingRule_STATUS) AssignProperties_From_LoadBalancingRule_ST
 
 	// LoadDistribution
 	if source.LoadDistribution != nil {
-		loadDistribution := LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS(*source.LoadDistribution)
-		rule.LoadDistribution = &loadDistribution
+		loadDistribution := *source.LoadDistribution
+		loadDistributionTemp := genruntime.ToEnum(loadDistribution, loadBalancingRulePropertiesFormat_LoadDistribution_STATUS_Values)
+		rule.LoadDistribution = &loadDistributionTemp
 	} else {
 		rule.LoadDistribution = nil
 	}
@@ -6183,16 +6205,18 @@ func (rule *LoadBalancingRule_STATUS) AssignProperties_From_LoadBalancingRule_ST
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := TransportProtocol_STATUS(*source.Protocol)
-		rule.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, transportProtocol_STATUS_Values)
+		rule.Protocol = &protocolTemp
 	} else {
 		rule.Protocol = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		rule.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		rule.ProvisioningState = &provisioningStateTemp
 	} else {
 		rule.ProvisioningState = nil
 	}
@@ -6550,8 +6574,9 @@ func (rule *OutboundRule) AssignProperties_From_OutboundRule(source *v20201101s.
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := OutboundRulePropertiesFormat_Protocol(*source.Protocol)
-		rule.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, outboundRulePropertiesFormat_Protocol_Values)
+		rule.Protocol = &protocolTemp
 	} else {
 		rule.Protocol = nil
 	}
@@ -6904,16 +6929,18 @@ func (rule *OutboundRule_STATUS) AssignProperties_From_OutboundRule_STATUS(sourc
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := OutboundRulePropertiesFormat_Protocol_STATUS(*source.Protocol)
-		rule.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, outboundRulePropertiesFormat_Protocol_STATUS_Values)
+		rule.Protocol = &protocolTemp
 	} else {
 		rule.Protocol = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		rule.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		rule.ProvisioningState = &provisioningStateTemp
 	} else {
 		rule.ProvisioningState = nil
 	}
@@ -7174,8 +7201,9 @@ func (probe *Probe) AssignProperties_From_Probe(source *v20201101s.Probe) error 
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := ProbePropertiesFormat_Protocol(*source.Protocol)
-		probe.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, probePropertiesFormat_Protocol_Values)
+		probe.Protocol = &protocolTemp
 	} else {
 		probe.Protocol = nil
 	}
@@ -7450,16 +7478,18 @@ func (probe *Probe_STATUS) AssignProperties_From_Probe_STATUS(source *v20201101s
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := ProbePropertiesFormat_Protocol_STATUS(*source.Protocol)
-		probe.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, probePropertiesFormat_Protocol_STATUS_Values)
+		probe.Protocol = &protocolTemp
 	} else {
 		probe.Protocol = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		probe.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		probe.ProvisioningState = &provisioningStateTemp
 	} else {
 		probe.ProvisioningState = nil
 	}
@@ -7557,6 +7587,14 @@ const (
 	ProvisioningState_STATUS_Succeeded = ProvisioningState_STATUS("Succeeded")
 	ProvisioningState_STATUS_Updating  = ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to ProvisioningState_STATUS
+var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
+	"deleting":  ProvisioningState_STATUS_Deleting,
+	"failed":    ProvisioningState_STATUS_Failed,
+	"succeeded": ProvisioningState_STATUS_Succeeded,
+	"updating":  ProvisioningState_STATUS_Updating,
+}
 
 // Load balancer backend addresses.
 type LoadBalancerBackendAddress struct {
@@ -8108,6 +8146,13 @@ const (
 	LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIPProtocol = LoadBalancingRulePropertiesFormat_LoadDistribution("SourceIPProtocol")
 )
 
+// Mapping from string to LoadBalancingRulePropertiesFormat_LoadDistribution
+var loadBalancingRulePropertiesFormat_LoadDistribution_Values = map[string]LoadBalancingRulePropertiesFormat_LoadDistribution{
+	"default":          LoadBalancingRulePropertiesFormat_LoadDistribution_Default,
+	"sourceip":         LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIP,
+	"sourceipprotocol": LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIPProtocol,
+}
+
 type LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS string
 
 const (
@@ -8115,6 +8160,13 @@ const (
 	LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_SourceIP         = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("SourceIP")
 	LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_SourceIPProtocol = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("SourceIPProtocol")
 )
+
+// Mapping from string to LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS
+var loadBalancingRulePropertiesFormat_LoadDistribution_STATUS_Values = map[string]LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS{
+	"default":          LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_Default,
+	"sourceip":         LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_SourceIP,
+	"sourceipprotocol": LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_SourceIPProtocol,
+}
 
 // IPConfiguration in a network interface.
 type NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded struct {
@@ -8184,6 +8236,13 @@ const (
 	OutboundRulePropertiesFormat_Protocol_Udp = OutboundRulePropertiesFormat_Protocol("Udp")
 )
 
+// Mapping from string to OutboundRulePropertiesFormat_Protocol
+var outboundRulePropertiesFormat_Protocol_Values = map[string]OutboundRulePropertiesFormat_Protocol{
+	"all": OutboundRulePropertiesFormat_Protocol_All,
+	"tcp": OutboundRulePropertiesFormat_Protocol_Tcp,
+	"udp": OutboundRulePropertiesFormat_Protocol_Udp,
+}
+
 type OutboundRulePropertiesFormat_Protocol_STATUS string
 
 const (
@@ -8191,6 +8250,13 @@ const (
 	OutboundRulePropertiesFormat_Protocol_STATUS_Tcp = OutboundRulePropertiesFormat_Protocol_STATUS("Tcp")
 	OutboundRulePropertiesFormat_Protocol_STATUS_Udp = OutboundRulePropertiesFormat_Protocol_STATUS("Udp")
 )
+
+// Mapping from string to OutboundRulePropertiesFormat_Protocol_STATUS
+var outboundRulePropertiesFormat_Protocol_STATUS_Values = map[string]OutboundRulePropertiesFormat_Protocol_STATUS{
+	"all": OutboundRulePropertiesFormat_Protocol_STATUS_All,
+	"tcp": OutboundRulePropertiesFormat_Protocol_STATUS_Tcp,
+	"udp": OutboundRulePropertiesFormat_Protocol_STATUS_Udp,
+}
 
 // +kubebuilder:validation:Enum={"Http","Https","Tcp"}
 type ProbePropertiesFormat_Protocol string
@@ -8201,6 +8267,13 @@ const (
 	ProbePropertiesFormat_Protocol_Tcp   = ProbePropertiesFormat_Protocol("Tcp")
 )
 
+// Mapping from string to ProbePropertiesFormat_Protocol
+var probePropertiesFormat_Protocol_Values = map[string]ProbePropertiesFormat_Protocol{
+	"http":  ProbePropertiesFormat_Protocol_Http,
+	"https": ProbePropertiesFormat_Protocol_Https,
+	"tcp":   ProbePropertiesFormat_Protocol_Tcp,
+}
+
 type ProbePropertiesFormat_Protocol_STATUS string
 
 const (
@@ -8208,6 +8281,13 @@ const (
 	ProbePropertiesFormat_Protocol_STATUS_Https = ProbePropertiesFormat_Protocol_STATUS("Https")
 	ProbePropertiesFormat_Protocol_STATUS_Tcp   = ProbePropertiesFormat_Protocol_STATUS("Tcp")
 )
+
+// Mapping from string to ProbePropertiesFormat_Protocol_STATUS
+var probePropertiesFormat_Protocol_STATUS_Values = map[string]ProbePropertiesFormat_Protocol_STATUS{
+	"http":  ProbePropertiesFormat_Protocol_STATUS_Http,
+	"https": ProbePropertiesFormat_Protocol_STATUS_Https,
+	"tcp":   ProbePropertiesFormat_Protocol_STATUS_Tcp,
+}
 
 // Public IP address resource.
 type PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded struct {

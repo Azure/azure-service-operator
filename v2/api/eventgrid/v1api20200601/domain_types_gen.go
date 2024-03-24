@@ -582,8 +582,9 @@ func (domain *Domain_Spec) AssignProperties_From_Domain_Spec(source *v20200601s.
 
 	// InputSchema
 	if source.InputSchema != nil {
-		inputSchema := DomainProperties_InputSchema(*source.InputSchema)
-		domain.InputSchema = &inputSchema
+		inputSchema := *source.InputSchema
+		inputSchemaTemp := genruntime.ToEnum(inputSchema, domainProperties_InputSchema_Values)
+		domain.InputSchema = &inputSchemaTemp
 	} else {
 		domain.InputSchema = nil
 	}
@@ -613,8 +614,9 @@ func (domain *Domain_Spec) AssignProperties_From_Domain_Spec(source *v20200601s.
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := DomainProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		domain.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, domainProperties_PublicNetworkAccess_Values)
+		domain.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		domain.PublicNetworkAccess = nil
 	}
@@ -1056,8 +1058,9 @@ func (domain *Domain_STATUS) AssignProperties_From_Domain_STATUS(source *v202006
 
 	// InputSchema
 	if source.InputSchema != nil {
-		inputSchema := DomainProperties_InputSchema_STATUS(*source.InputSchema)
-		domain.InputSchema = &inputSchema
+		inputSchema := *source.InputSchema
+		inputSchemaTemp := genruntime.ToEnum(inputSchema, domainProperties_InputSchema_STATUS_Values)
+		domain.InputSchema = &inputSchemaTemp
 	} else {
 		domain.InputSchema = nil
 	}
@@ -1103,16 +1106,18 @@ func (domain *Domain_STATUS) AssignProperties_From_Domain_STATUS(source *v202006
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := DomainProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		domain.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, domainProperties_ProvisioningState_STATUS_Values)
+		domain.ProvisioningState = &provisioningStateTemp
 	} else {
 		domain.ProvisioningState = nil
 	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := DomainProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-		domain.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, domainProperties_PublicNetworkAccess_STATUS_Values)
+		domain.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		domain.PublicNetworkAccess = nil
 	}
@@ -1272,6 +1277,13 @@ const (
 	DomainProperties_InputSchema_EventGridSchema      = DomainProperties_InputSchema("EventGridSchema")
 )
 
+// Mapping from string to DomainProperties_InputSchema
+var domainProperties_InputSchema_Values = map[string]DomainProperties_InputSchema{
+	"cloudeventschemav1_0": DomainProperties_InputSchema_CloudEventSchemaV1_0,
+	"customeventschema":    DomainProperties_InputSchema_CustomEventSchema,
+	"eventgridschema":      DomainProperties_InputSchema_EventGridSchema,
+}
+
 type DomainProperties_InputSchema_STATUS string
 
 const (
@@ -1279,6 +1291,13 @@ const (
 	DomainProperties_InputSchema_STATUS_CustomEventSchema    = DomainProperties_InputSchema_STATUS("CustomEventSchema")
 	DomainProperties_InputSchema_STATUS_EventGridSchema      = DomainProperties_InputSchema_STATUS("EventGridSchema")
 )
+
+// Mapping from string to DomainProperties_InputSchema_STATUS
+var domainProperties_InputSchema_STATUS_Values = map[string]DomainProperties_InputSchema_STATUS{
+	"cloudeventschemav1_0": DomainProperties_InputSchema_STATUS_CloudEventSchemaV1_0,
+	"customeventschema":    DomainProperties_InputSchema_STATUS_CustomEventSchema,
+	"eventgridschema":      DomainProperties_InputSchema_STATUS_EventGridSchema,
+}
 
 type DomainProperties_ProvisioningState_STATUS string
 
@@ -1291,6 +1310,16 @@ const (
 	DomainProperties_ProvisioningState_STATUS_Updating  = DomainProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to DomainProperties_ProvisioningState_STATUS
+var domainProperties_ProvisioningState_STATUS_Values = map[string]DomainProperties_ProvisioningState_STATUS{
+	"canceled":  DomainProperties_ProvisioningState_STATUS_Canceled,
+	"creating":  DomainProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  DomainProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    DomainProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": DomainProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  DomainProperties_ProvisioningState_STATUS_Updating,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type DomainProperties_PublicNetworkAccess string
 
@@ -1299,12 +1328,24 @@ const (
 	DomainProperties_PublicNetworkAccess_Enabled  = DomainProperties_PublicNetworkAccess("Enabled")
 )
 
+// Mapping from string to DomainProperties_PublicNetworkAccess
+var domainProperties_PublicNetworkAccess_Values = map[string]DomainProperties_PublicNetworkAccess{
+	"disabled": DomainProperties_PublicNetworkAccess_Disabled,
+	"enabled":  DomainProperties_PublicNetworkAccess_Enabled,
+}
+
 type DomainProperties_PublicNetworkAccess_STATUS string
 
 const (
 	DomainProperties_PublicNetworkAccess_STATUS_Disabled = DomainProperties_PublicNetworkAccess_STATUS("Disabled")
 	DomainProperties_PublicNetworkAccess_STATUS_Enabled  = DomainProperties_PublicNetworkAccess_STATUS("Enabled")
 )
+
+// Mapping from string to DomainProperties_PublicNetworkAccess_STATUS
+var domainProperties_PublicNetworkAccess_STATUS_Values = map[string]DomainProperties_PublicNetworkAccess_STATUS{
+	"disabled": DomainProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  DomainProperties_PublicNetworkAccess_STATUS_Enabled,
+}
 
 type InboundIpRule struct {
 	// Action: Action to perform based on the match or no match of the IpMask.
@@ -1370,8 +1411,9 @@ func (rule *InboundIpRule) AssignProperties_From_InboundIpRule(source *v20200601
 
 	// Action
 	if source.Action != nil {
-		action := InboundIpRule_Action(*source.Action)
-		rule.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, inboundIpRule_Action_Values)
+		rule.Action = &actionTemp
 	} else {
 		rule.Action = nil
 	}
@@ -1471,8 +1513,9 @@ func (rule *InboundIpRule_STATUS) AssignProperties_From_InboundIpRule_STATUS(sou
 
 	// Action
 	if source.Action != nil {
-		action := InboundIpRule_Action_STATUS(*source.Action)
-		rule.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, inboundIpRule_Action_STATUS_Values)
+		rule.Action = &actionTemp
 	} else {
 		rule.Action = nil
 	}
@@ -1855,8 +1898,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -1869,8 +1913,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -1928,9 +1973,19 @@ type InboundIpRule_Action string
 
 const InboundIpRule_Action_Allow = InboundIpRule_Action("Allow")
 
+// Mapping from string to InboundIpRule_Action
+var inboundIpRule_Action_Values = map[string]InboundIpRule_Action{
+	"allow": InboundIpRule_Action_Allow,
+}
+
 type InboundIpRule_Action_STATUS string
 
 const InboundIpRule_Action_STATUS_Allow = InboundIpRule_Action_STATUS("Allow")
+
+// Mapping from string to InboundIpRule_Action_STATUS
+var inboundIpRule_Action_STATUS_Values = map[string]InboundIpRule_Action_STATUS{
+	"allow": InboundIpRule_Action_STATUS_Allow,
+}
 
 type JsonInputSchemaMapping struct {
 	// DataVersion: The mapping information for the DataVersion property of the Event Grid Event.
@@ -2186,8 +2241,9 @@ func (mapping *JsonInputSchemaMapping) AssignProperties_From_JsonInputSchemaMapp
 
 	// InputSchemaMappingType
 	if source.InputSchemaMappingType != nil {
-		inputSchemaMappingType := JsonInputSchemaMapping_InputSchemaMappingType(*source.InputSchemaMappingType)
-		mapping.InputSchemaMappingType = &inputSchemaMappingType
+		inputSchemaMappingType := *source.InputSchemaMappingType
+		inputSchemaMappingTypeTemp := genruntime.ToEnum(inputSchemaMappingType, jsonInputSchemaMapping_InputSchemaMappingType_Values)
+		mapping.InputSchemaMappingType = &inputSchemaMappingTypeTemp
 	} else {
 		mapping.InputSchemaMappingType = nil
 	}
@@ -2584,8 +2640,9 @@ func (mapping *JsonInputSchemaMapping_STATUS) AssignProperties_From_JsonInputSch
 
 	// InputSchemaMappingType
 	if source.InputSchemaMappingType != nil {
-		inputSchemaMappingType := JsonInputSchemaMapping_InputSchemaMappingType_STATUS(*source.InputSchemaMappingType)
-		mapping.InputSchemaMappingType = &inputSchemaMappingType
+		inputSchemaMappingType := *source.InputSchemaMappingType
+		inputSchemaMappingTypeTemp := genruntime.ToEnum(inputSchemaMappingType, jsonInputSchemaMapping_InputSchemaMappingType_STATUS_Values)
+		mapping.InputSchemaMappingType = &inputSchemaMappingTypeTemp
 	} else {
 		mapping.InputSchemaMappingType = nil
 	}
@@ -3062,9 +3119,19 @@ type JsonInputSchemaMapping_InputSchemaMappingType string
 
 const JsonInputSchemaMapping_InputSchemaMappingType_Json = JsonInputSchemaMapping_InputSchemaMappingType("Json")
 
+// Mapping from string to JsonInputSchemaMapping_InputSchemaMappingType
+var jsonInputSchemaMapping_InputSchemaMappingType_Values = map[string]JsonInputSchemaMapping_InputSchemaMappingType{
+	"json": JsonInputSchemaMapping_InputSchemaMappingType_Json,
+}
+
 type JsonInputSchemaMapping_InputSchemaMappingType_STATUS string
 
 const JsonInputSchemaMapping_InputSchemaMappingType_STATUS_Json = JsonInputSchemaMapping_InputSchemaMappingType_STATUS("Json")
+
+// Mapping from string to JsonInputSchemaMapping_InputSchemaMappingType_STATUS
+var jsonInputSchemaMapping_InputSchemaMappingType_STATUS_Values = map[string]JsonInputSchemaMapping_InputSchemaMappingType_STATUS{
+	"json": JsonInputSchemaMapping_InputSchemaMappingType_STATUS_Json,
+}
 
 func init() {
 	SchemeBuilder.Register(&Domain{}, &DomainList{})

@@ -559,24 +559,27 @@ func (database *RedisEnterprise_Database_Spec) AssignProperties_From_RedisEnterp
 
 	// ClientProtocol
 	if source.ClientProtocol != nil {
-		clientProtocol := DatabaseProperties_ClientProtocol(*source.ClientProtocol)
-		database.ClientProtocol = &clientProtocol
+		clientProtocol := *source.ClientProtocol
+		clientProtocolTemp := genruntime.ToEnum(clientProtocol, databaseProperties_ClientProtocol_Values)
+		database.ClientProtocol = &clientProtocolTemp
 	} else {
 		database.ClientProtocol = nil
 	}
 
 	// ClusteringPolicy
 	if source.ClusteringPolicy != nil {
-		clusteringPolicy := DatabaseProperties_ClusteringPolicy(*source.ClusteringPolicy)
-		database.ClusteringPolicy = &clusteringPolicy
+		clusteringPolicy := *source.ClusteringPolicy
+		clusteringPolicyTemp := genruntime.ToEnum(clusteringPolicy, databaseProperties_ClusteringPolicy_Values)
+		database.ClusteringPolicy = &clusteringPolicyTemp
 	} else {
 		database.ClusteringPolicy = nil
 	}
 
 	// EvictionPolicy
 	if source.EvictionPolicy != nil {
-		evictionPolicy := DatabaseProperties_EvictionPolicy(*source.EvictionPolicy)
-		database.EvictionPolicy = &evictionPolicy
+		evictionPolicy := *source.EvictionPolicy
+		evictionPolicyTemp := genruntime.ToEnum(evictionPolicy, databaseProperties_EvictionPolicy_Values)
+		database.EvictionPolicy = &evictionPolicyTemp
 	} else {
 		database.EvictionPolicy = nil
 	}
@@ -937,16 +940,18 @@ func (database *RedisEnterprise_Database_STATUS) AssignProperties_From_RedisEnte
 
 	// ClientProtocol
 	if source.ClientProtocol != nil {
-		clientProtocol := DatabaseProperties_ClientProtocol_STATUS(*source.ClientProtocol)
-		database.ClientProtocol = &clientProtocol
+		clientProtocol := *source.ClientProtocol
+		clientProtocolTemp := genruntime.ToEnum(clientProtocol, databaseProperties_ClientProtocol_STATUS_Values)
+		database.ClientProtocol = &clientProtocolTemp
 	} else {
 		database.ClientProtocol = nil
 	}
 
 	// ClusteringPolicy
 	if source.ClusteringPolicy != nil {
-		clusteringPolicy := DatabaseProperties_ClusteringPolicy_STATUS(*source.ClusteringPolicy)
-		database.ClusteringPolicy = &clusteringPolicy
+		clusteringPolicy := *source.ClusteringPolicy
+		clusteringPolicyTemp := genruntime.ToEnum(clusteringPolicy, databaseProperties_ClusteringPolicy_STATUS_Values)
+		database.ClusteringPolicy = &clusteringPolicyTemp
 	} else {
 		database.ClusteringPolicy = nil
 	}
@@ -956,8 +961,9 @@ func (database *RedisEnterprise_Database_STATUS) AssignProperties_From_RedisEnte
 
 	// EvictionPolicy
 	if source.EvictionPolicy != nil {
-		evictionPolicy := DatabaseProperties_EvictionPolicy_STATUS(*source.EvictionPolicy)
-		database.EvictionPolicy = &evictionPolicy
+		evictionPolicy := *source.EvictionPolicy
+		evictionPolicyTemp := genruntime.ToEnum(evictionPolicy, databaseProperties_EvictionPolicy_STATUS_Values)
+		database.EvictionPolicy = &evictionPolicyTemp
 	} else {
 		database.EvictionPolicy = nil
 	}
@@ -1003,16 +1009,18 @@ func (database *RedisEnterprise_Database_STATUS) AssignProperties_From_RedisEnte
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		database.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		database.ProvisioningState = &provisioningStateTemp
 	} else {
 		database.ProvisioningState = nil
 	}
 
 	// ResourceState
 	if source.ResourceState != nil {
-		resourceState := ResourceState_STATUS(*source.ResourceState)
-		database.ResourceState = &resourceState
+		resourceState := *source.ResourceState
+		resourceStateTemp := genruntime.ToEnum(resourceState, resourceState_STATUS_Values)
+		database.ResourceState = &resourceStateTemp
 	} else {
 		database.ResourceState = nil
 	}
@@ -1133,12 +1141,24 @@ const (
 	DatabaseProperties_ClientProtocol_Plaintext = DatabaseProperties_ClientProtocol("Plaintext")
 )
 
+// Mapping from string to DatabaseProperties_ClientProtocol
+var databaseProperties_ClientProtocol_Values = map[string]DatabaseProperties_ClientProtocol{
+	"encrypted": DatabaseProperties_ClientProtocol_Encrypted,
+	"plaintext": DatabaseProperties_ClientProtocol_Plaintext,
+}
+
 type DatabaseProperties_ClientProtocol_STATUS string
 
 const (
 	DatabaseProperties_ClientProtocol_STATUS_Encrypted = DatabaseProperties_ClientProtocol_STATUS("Encrypted")
 	DatabaseProperties_ClientProtocol_STATUS_Plaintext = DatabaseProperties_ClientProtocol_STATUS("Plaintext")
 )
+
+// Mapping from string to DatabaseProperties_ClientProtocol_STATUS
+var databaseProperties_ClientProtocol_STATUS_Values = map[string]DatabaseProperties_ClientProtocol_STATUS{
+	"encrypted": DatabaseProperties_ClientProtocol_STATUS_Encrypted,
+	"plaintext": DatabaseProperties_ClientProtocol_STATUS_Plaintext,
+}
 
 // +kubebuilder:validation:Enum={"EnterpriseCluster","OSSCluster"}
 type DatabaseProperties_ClusteringPolicy string
@@ -1148,12 +1168,24 @@ const (
 	DatabaseProperties_ClusteringPolicy_OSSCluster        = DatabaseProperties_ClusteringPolicy("OSSCluster")
 )
 
+// Mapping from string to DatabaseProperties_ClusteringPolicy
+var databaseProperties_ClusteringPolicy_Values = map[string]DatabaseProperties_ClusteringPolicy{
+	"enterprisecluster": DatabaseProperties_ClusteringPolicy_EnterpriseCluster,
+	"osscluster":        DatabaseProperties_ClusteringPolicy_OSSCluster,
+}
+
 type DatabaseProperties_ClusteringPolicy_STATUS string
 
 const (
 	DatabaseProperties_ClusteringPolicy_STATUS_EnterpriseCluster = DatabaseProperties_ClusteringPolicy_STATUS("EnterpriseCluster")
 	DatabaseProperties_ClusteringPolicy_STATUS_OSSCluster        = DatabaseProperties_ClusteringPolicy_STATUS("OSSCluster")
 )
+
+// Mapping from string to DatabaseProperties_ClusteringPolicy_STATUS
+var databaseProperties_ClusteringPolicy_STATUS_Values = map[string]DatabaseProperties_ClusteringPolicy_STATUS{
+	"enterprisecluster": DatabaseProperties_ClusteringPolicy_STATUS_EnterpriseCluster,
+	"osscluster":        DatabaseProperties_ClusteringPolicy_STATUS_OSSCluster,
+}
 
 // +kubebuilder:validation:Enum={"AllKeysLFU","AllKeysLRU","AllKeysRandom","NoEviction","VolatileLFU","VolatileLRU","VolatileRandom","VolatileTTL"}
 type DatabaseProperties_EvictionPolicy string
@@ -1169,6 +1201,18 @@ const (
 	DatabaseProperties_EvictionPolicy_VolatileTTL    = DatabaseProperties_EvictionPolicy("VolatileTTL")
 )
 
+// Mapping from string to DatabaseProperties_EvictionPolicy
+var databaseProperties_EvictionPolicy_Values = map[string]DatabaseProperties_EvictionPolicy{
+	"allkeyslfu":     DatabaseProperties_EvictionPolicy_AllKeysLFU,
+	"allkeyslru":     DatabaseProperties_EvictionPolicy_AllKeysLRU,
+	"allkeysrandom":  DatabaseProperties_EvictionPolicy_AllKeysRandom,
+	"noeviction":     DatabaseProperties_EvictionPolicy_NoEviction,
+	"volatilelfu":    DatabaseProperties_EvictionPolicy_VolatileLFU,
+	"volatilelru":    DatabaseProperties_EvictionPolicy_VolatileLRU,
+	"volatilerandom": DatabaseProperties_EvictionPolicy_VolatileRandom,
+	"volatilettl":    DatabaseProperties_EvictionPolicy_VolatileTTL,
+}
+
 type DatabaseProperties_EvictionPolicy_STATUS string
 
 const (
@@ -1181,6 +1225,18 @@ const (
 	DatabaseProperties_EvictionPolicy_STATUS_VolatileRandom = DatabaseProperties_EvictionPolicy_STATUS("VolatileRandom")
 	DatabaseProperties_EvictionPolicy_STATUS_VolatileTTL    = DatabaseProperties_EvictionPolicy_STATUS("VolatileTTL")
 )
+
+// Mapping from string to DatabaseProperties_EvictionPolicy_STATUS
+var databaseProperties_EvictionPolicy_STATUS_Values = map[string]DatabaseProperties_EvictionPolicy_STATUS{
+	"allkeyslfu":     DatabaseProperties_EvictionPolicy_STATUS_AllKeysLFU,
+	"allkeyslru":     DatabaseProperties_EvictionPolicy_STATUS_AllKeysLRU,
+	"allkeysrandom":  DatabaseProperties_EvictionPolicy_STATUS_AllKeysRandom,
+	"noeviction":     DatabaseProperties_EvictionPolicy_STATUS_NoEviction,
+	"volatilelfu":    DatabaseProperties_EvictionPolicy_STATUS_VolatileLFU,
+	"volatilelru":    DatabaseProperties_EvictionPolicy_STATUS_VolatileLRU,
+	"volatilerandom": DatabaseProperties_EvictionPolicy_STATUS_VolatileRandom,
+	"volatilettl":    DatabaseProperties_EvictionPolicy_STATUS_VolatileTTL,
+}
 
 // Specifies configuration of a redis module
 type Module struct {
@@ -1470,8 +1526,9 @@ func (persistence *Persistence) AssignProperties_From_Persistence(source *v20210
 
 	// AofFrequency
 	if source.AofFrequency != nil {
-		aofFrequency := Persistence_AofFrequency(*source.AofFrequency)
-		persistence.AofFrequency = &aofFrequency
+		aofFrequency := *source.AofFrequency
+		aofFrequencyTemp := genruntime.ToEnum(aofFrequency, persistence_AofFrequency_Values)
+		persistence.AofFrequency = &aofFrequencyTemp
 	} else {
 		persistence.AofFrequency = nil
 	}
@@ -1486,8 +1543,9 @@ func (persistence *Persistence) AssignProperties_From_Persistence(source *v20210
 
 	// RdbFrequency
 	if source.RdbFrequency != nil {
-		rdbFrequency := Persistence_RdbFrequency(*source.RdbFrequency)
-		persistence.RdbFrequency = &rdbFrequency
+		rdbFrequency := *source.RdbFrequency
+		rdbFrequencyTemp := genruntime.ToEnum(rdbFrequency, persistence_RdbFrequency_Values)
+		persistence.RdbFrequency = &rdbFrequencyTemp
 	} else {
 		persistence.RdbFrequency = nil
 	}
@@ -1614,8 +1672,9 @@ func (persistence *Persistence_STATUS) AssignProperties_From_Persistence_STATUS(
 
 	// AofFrequency
 	if source.AofFrequency != nil {
-		aofFrequency := Persistence_AofFrequency_STATUS(*source.AofFrequency)
-		persistence.AofFrequency = &aofFrequency
+		aofFrequency := *source.AofFrequency
+		aofFrequencyTemp := genruntime.ToEnum(aofFrequency, persistence_AofFrequency_STATUS_Values)
+		persistence.AofFrequency = &aofFrequencyTemp
 	} else {
 		persistence.AofFrequency = nil
 	}
@@ -1630,8 +1689,9 @@ func (persistence *Persistence_STATUS) AssignProperties_From_Persistence_STATUS(
 
 	// RdbFrequency
 	if source.RdbFrequency != nil {
-		rdbFrequency := Persistence_RdbFrequency_STATUS(*source.RdbFrequency)
-		persistence.RdbFrequency = &rdbFrequency
+		rdbFrequency := *source.RdbFrequency
+		rdbFrequencyTemp := genruntime.ToEnum(rdbFrequency, persistence_RdbFrequency_STATUS_Values)
+		persistence.RdbFrequency = &rdbFrequencyTemp
 	} else {
 		persistence.RdbFrequency = nil
 	}
@@ -1696,12 +1756,24 @@ const (
 	Persistence_AofFrequency_Always = Persistence_AofFrequency("always")
 )
 
+// Mapping from string to Persistence_AofFrequency
+var persistence_AofFrequency_Values = map[string]Persistence_AofFrequency{
+	"1s":     Persistence_AofFrequency_1S,
+	"always": Persistence_AofFrequency_Always,
+}
+
 type Persistence_AofFrequency_STATUS string
 
 const (
 	Persistence_AofFrequency_STATUS_1S     = Persistence_AofFrequency_STATUS("1s")
 	Persistence_AofFrequency_STATUS_Always = Persistence_AofFrequency_STATUS("always")
 )
+
+// Mapping from string to Persistence_AofFrequency_STATUS
+var persistence_AofFrequency_STATUS_Values = map[string]Persistence_AofFrequency_STATUS{
+	"1s":     Persistence_AofFrequency_STATUS_1S,
+	"always": Persistence_AofFrequency_STATUS_Always,
+}
 
 // +kubebuilder:validation:Enum={"12h","1h","6h"}
 type Persistence_RdbFrequency string
@@ -1712,6 +1784,13 @@ const (
 	Persistence_RdbFrequency_6H  = Persistence_RdbFrequency("6h")
 )
 
+// Mapping from string to Persistence_RdbFrequency
+var persistence_RdbFrequency_Values = map[string]Persistence_RdbFrequency{
+	"12h": Persistence_RdbFrequency_12H,
+	"1h":  Persistence_RdbFrequency_1H,
+	"6h":  Persistence_RdbFrequency_6H,
+}
+
 type Persistence_RdbFrequency_STATUS string
 
 const (
@@ -1719,6 +1798,13 @@ const (
 	Persistence_RdbFrequency_STATUS_1H  = Persistence_RdbFrequency_STATUS("1h")
 	Persistence_RdbFrequency_STATUS_6H  = Persistence_RdbFrequency_STATUS("6h")
 )
+
+// Mapping from string to Persistence_RdbFrequency_STATUS
+var persistence_RdbFrequency_STATUS_Values = map[string]Persistence_RdbFrequency_STATUS{
+	"12h": Persistence_RdbFrequency_STATUS_12H,
+	"1h":  Persistence_RdbFrequency_STATUS_1H,
+	"6h":  Persistence_RdbFrequency_STATUS_6H,
+}
 
 func init() {
 	SchemeBuilder.Register(&RedisEnterpriseDatabase{}, &RedisEnterpriseDatabaseList{})

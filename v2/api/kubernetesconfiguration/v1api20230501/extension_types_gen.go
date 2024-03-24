@@ -1426,8 +1426,9 @@ func (extension *Extension_STATUS) AssignProperties_From_Extension_STATUS(source
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningStateDefinition_STATUS(*source.ProvisioningState)
-		extension.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningStateDefinition_STATUS_Values)
+		extension.ProvisioningState = &provisioningStateTemp
 	} else {
 		extension.ProvisioningState = nil
 	}
@@ -1889,8 +1890,9 @@ func (identity *Extension_Properties_AksAssignedIdentity_Spec) AssignProperties_
 
 	// Type
 	if source.Type != nil {
-		typeVar := Extension_Properties_AksAssignedIdentity_Type_Spec(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, extension_Properties_AksAssignedIdentity_Type_Spec_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -1996,8 +1998,9 @@ func (identity *Extension_Properties_AksAssignedIdentity_STATUS) AssignPropertie
 
 	// Type
 	if source.Type != nil {
-		typeVar := Extension_Properties_AksAssignedIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, extension_Properties_AksAssignedIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2113,8 +2116,9 @@ func (status *ExtensionStatus_STATUS) AssignProperties_From_ExtensionStatus_STAT
 
 	// Level
 	if source.Level != nil {
-		level := ExtensionStatus_Level_STATUS(*source.Level)
-		status.Level = &level
+		level := *source.Level
+		levelTemp := genruntime.ToEnum(level, extensionStatus_Level_STATUS_Values)
+		status.Level = &levelTemp
 	} else {
 		status.Level = nil
 	}
@@ -2215,8 +2219,9 @@ func (identity *Identity) AssignProperties_From_Identity(source *v20230501s.Iden
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, identity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2323,8 +2328,9 @@ func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *v
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, identity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2678,6 +2684,16 @@ const (
 	ProvisioningStateDefinition_STATUS_Succeeded = ProvisioningStateDefinition_STATUS("Succeeded")
 	ProvisioningStateDefinition_STATUS_Updating  = ProvisioningStateDefinition_STATUS("Updating")
 )
+
+// Mapping from string to ProvisioningStateDefinition_STATUS
+var provisioningStateDefinition_STATUS_Values = map[string]ProvisioningStateDefinition_STATUS{
+	"canceled":  ProvisioningStateDefinition_STATUS_Canceled,
+	"creating":  ProvisioningStateDefinition_STATUS_Creating,
+	"deleting":  ProvisioningStateDefinition_STATUS_Deleting,
+	"failed":    ProvisioningStateDefinition_STATUS_Failed,
+	"succeeded": ProvisioningStateDefinition_STATUS_Succeeded,
+	"updating":  ProvisioningStateDefinition_STATUS_Updating,
+}
 
 // Scope of the extension. It can be either Cluster or Namespace; but not both.
 type Scope struct {
@@ -3110,8 +3126,9 @@ func (data *SystemData) AssignProperties_From_SystemData(source *v20230501s.Syst
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -3124,8 +3141,9 @@ func (data *SystemData) AssignProperties_From_SystemData(source *v20230501s.Syst
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -3299,8 +3317,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -3313,8 +3332,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -3608,12 +3628,24 @@ const (
 	Extension_Properties_AksAssignedIdentity_Type_Spec_UserAssigned   = Extension_Properties_AksAssignedIdentity_Type_Spec("UserAssigned")
 )
 
+// Mapping from string to Extension_Properties_AksAssignedIdentity_Type_Spec
+var extension_Properties_AksAssignedIdentity_Type_Spec_Values = map[string]Extension_Properties_AksAssignedIdentity_Type_Spec{
+	"systemassigned": Extension_Properties_AksAssignedIdentity_Type_Spec_SystemAssigned,
+	"userassigned":   Extension_Properties_AksAssignedIdentity_Type_Spec_UserAssigned,
+}
+
 type Extension_Properties_AksAssignedIdentity_Type_STATUS string
 
 const (
 	Extension_Properties_AksAssignedIdentity_Type_STATUS_SystemAssigned = Extension_Properties_AksAssignedIdentity_Type_STATUS("SystemAssigned")
 	Extension_Properties_AksAssignedIdentity_Type_STATUS_UserAssigned   = Extension_Properties_AksAssignedIdentity_Type_STATUS("UserAssigned")
 )
+
+// Mapping from string to Extension_Properties_AksAssignedIdentity_Type_STATUS
+var extension_Properties_AksAssignedIdentity_Type_STATUS_Values = map[string]Extension_Properties_AksAssignedIdentity_Type_STATUS{
+	"systemassigned": Extension_Properties_AksAssignedIdentity_Type_STATUS_SystemAssigned,
+	"userassigned":   Extension_Properties_AksAssignedIdentity_Type_STATUS_UserAssigned,
+}
 
 type ExtensionStatus_Level_STATUS string
 
@@ -3622,6 +3654,13 @@ const (
 	ExtensionStatus_Level_STATUS_Information = ExtensionStatus_Level_STATUS("Information")
 	ExtensionStatus_Level_STATUS_Warning     = ExtensionStatus_Level_STATUS("Warning")
 )
+
+// Mapping from string to ExtensionStatus_Level_STATUS
+var extensionStatus_Level_STATUS_Values = map[string]ExtensionStatus_Level_STATUS{
+	"error":       ExtensionStatus_Level_STATUS_Error,
+	"information": ExtensionStatus_Level_STATUS_Information,
+	"warning":     ExtensionStatus_Level_STATUS_Warning,
+}
 
 // Specifies that the scope of the extension is Cluster
 type ScopeCluster struct {

@@ -1165,8 +1165,9 @@ func (policy *FrontDoorWebApplicationFirewallPolicy_STATUS) AssignProperties_Fro
 
 	// ResourceState
 	if source.ResourceState != nil {
-		resourceState := WebApplicationFirewallPolicyProperties_ResourceState_STATUS(*source.ResourceState)
-		policy.ResourceState = &resourceState
+		resourceState := *source.ResourceState
+		resourceStateTemp := genruntime.ToEnum(resourceState, webApplicationFirewallPolicyProperties_ResourceState_STATUS_Values)
+		policy.ResourceState = &resourceStateTemp
 	} else {
 		policy.ResourceState = nil
 	}
@@ -2034,16 +2035,18 @@ func (settings *PolicySettings) AssignProperties_From_PolicySettings(source *v20
 
 	// EnabledState
 	if source.EnabledState != nil {
-		enabledState := PolicySettings_EnabledState(*source.EnabledState)
-		settings.EnabledState = &enabledState
+		enabledState := *source.EnabledState
+		enabledStateTemp := genruntime.ToEnum(enabledState, policySettings_EnabledState_Values)
+		settings.EnabledState = &enabledStateTemp
 	} else {
 		settings.EnabledState = nil
 	}
 
 	// Mode
 	if source.Mode != nil {
-		mode := PolicySettings_Mode(*source.Mode)
-		settings.Mode = &mode
+		mode := *source.Mode
+		modeTemp := genruntime.ToEnum(mode, policySettings_Mode_Values)
+		settings.Mode = &modeTemp
 	} else {
 		settings.Mode = nil
 	}
@@ -2053,8 +2056,9 @@ func (settings *PolicySettings) AssignProperties_From_PolicySettings(source *v20
 
 	// RequestBodyCheck
 	if source.RequestBodyCheck != nil {
-		requestBodyCheck := PolicySettings_RequestBodyCheck(*source.RequestBodyCheck)
-		settings.RequestBodyCheck = &requestBodyCheck
+		requestBodyCheck := *source.RequestBodyCheck
+		requestBodyCheckTemp := genruntime.ToEnum(requestBodyCheck, policySettings_RequestBodyCheck_Values)
+		settings.RequestBodyCheck = &requestBodyCheckTemp
 	} else {
 		settings.RequestBodyCheck = nil
 	}
@@ -2249,16 +2253,18 @@ func (settings *PolicySettings_STATUS) AssignProperties_From_PolicySettings_STAT
 
 	// EnabledState
 	if source.EnabledState != nil {
-		enabledState := PolicySettings_EnabledState_STATUS(*source.EnabledState)
-		settings.EnabledState = &enabledState
+		enabledState := *source.EnabledState
+		enabledStateTemp := genruntime.ToEnum(enabledState, policySettings_EnabledState_STATUS_Values)
+		settings.EnabledState = &enabledStateTemp
 	} else {
 		settings.EnabledState = nil
 	}
 
 	// Mode
 	if source.Mode != nil {
-		mode := PolicySettings_Mode_STATUS(*source.Mode)
-		settings.Mode = &mode
+		mode := *source.Mode
+		modeTemp := genruntime.ToEnum(mode, policySettings_Mode_STATUS_Values)
+		settings.Mode = &modeTemp
 	} else {
 		settings.Mode = nil
 	}
@@ -2268,8 +2274,9 @@ func (settings *PolicySettings_STATUS) AssignProperties_From_PolicySettings_STAT
 
 	// RequestBodyCheck
 	if source.RequestBodyCheck != nil {
-		requestBodyCheck := PolicySettings_RequestBodyCheck_STATUS(*source.RequestBodyCheck)
-		settings.RequestBodyCheck = &requestBodyCheck
+		requestBodyCheck := *source.RequestBodyCheck
+		requestBodyCheckTemp := genruntime.ToEnum(requestBodyCheck, policySettings_RequestBodyCheck_STATUS_Values)
+		settings.RequestBodyCheck = &requestBodyCheckTemp
 	} else {
 		settings.RequestBodyCheck = nil
 	}
@@ -2495,8 +2502,9 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20220501s.Sku) error {
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sku_Name_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}
@@ -2579,8 +2587,9 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20220501s.Sku_S
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name_STATUS(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sku_Name_STATUS_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}
@@ -2783,16 +2792,18 @@ func (rule *CustomRule) AssignProperties_From_CustomRule(source *v20220501s.Cust
 
 	// Action
 	if source.Action != nil {
-		action := ActionType(*source.Action)
-		rule.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, actionType_Values)
+		rule.Action = &actionTemp
 	} else {
 		rule.Action = nil
 	}
 
 	// EnabledState
 	if source.EnabledState != nil {
-		enabledState := CustomRule_EnabledState(*source.EnabledState)
-		rule.EnabledState = &enabledState
+		enabledState := *source.EnabledState
+		enabledStateTemp := genruntime.ToEnum(enabledState, customRule_EnabledState_Values)
+		rule.EnabledState = &enabledStateTemp
 	} else {
 		rule.EnabledState = nil
 	}
@@ -2844,8 +2855,9 @@ func (rule *CustomRule) AssignProperties_From_CustomRule(source *v20220501s.Cust
 
 	// RuleType
 	if source.RuleType != nil {
-		ruleType := CustomRule_RuleType(*source.RuleType)
-		rule.RuleType = &ruleType
+		ruleType := *source.RuleType
+		ruleTypeTemp := genruntime.ToEnum(ruleType, customRule_RuleType_Values)
+		rule.RuleType = &ruleTypeTemp
 	} else {
 		rule.RuleType = nil
 	}
@@ -3117,16 +3129,18 @@ func (rule *CustomRule_STATUS) AssignProperties_From_CustomRule_STATUS(source *v
 
 	// Action
 	if source.Action != nil {
-		action := ActionType_STATUS(*source.Action)
-		rule.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, actionType_STATUS_Values)
+		rule.Action = &actionTemp
 	} else {
 		rule.Action = nil
 	}
 
 	// EnabledState
 	if source.EnabledState != nil {
-		enabledState := CustomRule_EnabledState_STATUS(*source.EnabledState)
-		rule.EnabledState = &enabledState
+		enabledState := *source.EnabledState
+		enabledStateTemp := genruntime.ToEnum(enabledState, customRule_EnabledState_STATUS_Values)
+		rule.EnabledState = &enabledStateTemp
 	} else {
 		rule.EnabledState = nil
 	}
@@ -3163,8 +3177,9 @@ func (rule *CustomRule_STATUS) AssignProperties_From_CustomRule_STATUS(source *v
 
 	// RuleType
 	if source.RuleType != nil {
-		ruleType := CustomRule_RuleType_STATUS(*source.RuleType)
-		rule.RuleType = &ruleType
+		ruleType := *source.RuleType
+		ruleTypeTemp := genruntime.ToEnum(ruleType, customRule_RuleType_STATUS_Values)
+		rule.RuleType = &ruleTypeTemp
 	} else {
 		rule.RuleType = nil
 	}
@@ -3405,8 +3420,9 @@ func (ruleSet *ManagedRuleSet) AssignProperties_From_ManagedRuleSet(source *v202
 
 	// RuleSetAction
 	if source.RuleSetAction != nil {
-		ruleSetAction := ManagedRuleSetActionType(*source.RuleSetAction)
-		ruleSet.RuleSetAction = &ruleSetAction
+		ruleSetAction := *source.RuleSetAction
+		ruleSetActionTemp := genruntime.ToEnum(ruleSetAction, managedRuleSetActionType_Values)
+		ruleSet.RuleSetAction = &ruleSetActionTemp
 	} else {
 		ruleSet.RuleSetAction = nil
 	}
@@ -3659,8 +3675,9 @@ func (ruleSet *ManagedRuleSet_STATUS) AssignProperties_From_ManagedRuleSet_STATU
 
 	// RuleSetAction
 	if source.RuleSetAction != nil {
-		ruleSetAction := ManagedRuleSetActionType_STATUS(*source.RuleSetAction)
-		ruleSet.RuleSetAction = &ruleSetAction
+		ruleSetAction := *source.RuleSetAction
+		ruleSetActionTemp := genruntime.ToEnum(ruleSetAction, managedRuleSetActionType_STATUS_Values)
+		ruleSet.RuleSetAction = &ruleSetActionTemp
 	} else {
 		ruleSet.RuleSetAction = nil
 	}
@@ -3825,8 +3842,9 @@ func (exclusion *ManagedRuleExclusion) AssignProperties_From_ManagedRuleExclusio
 
 	// MatchVariable
 	if source.MatchVariable != nil {
-		matchVariable := ManagedRuleExclusion_MatchVariable(*source.MatchVariable)
-		exclusion.MatchVariable = &matchVariable
+		matchVariable := *source.MatchVariable
+		matchVariableTemp := genruntime.ToEnum(matchVariable, managedRuleExclusion_MatchVariable_Values)
+		exclusion.MatchVariable = &matchVariableTemp
 	} else {
 		exclusion.MatchVariable = nil
 	}
@@ -3836,8 +3854,9 @@ func (exclusion *ManagedRuleExclusion) AssignProperties_From_ManagedRuleExclusio
 
 	// SelectorMatchOperator
 	if source.SelectorMatchOperator != nil {
-		selectorMatchOperator := ManagedRuleExclusion_SelectorMatchOperator(*source.SelectorMatchOperator)
-		exclusion.SelectorMatchOperator = &selectorMatchOperator
+		selectorMatchOperator := *source.SelectorMatchOperator
+		selectorMatchOperatorTemp := genruntime.ToEnum(selectorMatchOperator, managedRuleExclusion_SelectorMatchOperator_Values)
+		exclusion.SelectorMatchOperator = &selectorMatchOperatorTemp
 	} else {
 		exclusion.SelectorMatchOperator = nil
 	}
@@ -3961,8 +3980,9 @@ func (exclusion *ManagedRuleExclusion_STATUS) AssignProperties_From_ManagedRuleE
 
 	// MatchVariable
 	if source.MatchVariable != nil {
-		matchVariable := ManagedRuleExclusion_MatchVariable_STATUS(*source.MatchVariable)
-		exclusion.MatchVariable = &matchVariable
+		matchVariable := *source.MatchVariable
+		matchVariableTemp := genruntime.ToEnum(matchVariable, managedRuleExclusion_MatchVariable_STATUS_Values)
+		exclusion.MatchVariable = &matchVariableTemp
 	} else {
 		exclusion.MatchVariable = nil
 	}
@@ -3972,8 +3992,9 @@ func (exclusion *ManagedRuleExclusion_STATUS) AssignProperties_From_ManagedRuleE
 
 	// SelectorMatchOperator
 	if source.SelectorMatchOperator != nil {
-		selectorMatchOperator := ManagedRuleExclusion_SelectorMatchOperator_STATUS(*source.SelectorMatchOperator)
-		exclusion.SelectorMatchOperator = &selectorMatchOperator
+		selectorMatchOperator := *source.SelectorMatchOperator
+		selectorMatchOperatorTemp := genruntime.ToEnum(selectorMatchOperator, managedRuleExclusion_SelectorMatchOperator_STATUS_Values)
+		exclusion.SelectorMatchOperator = &selectorMatchOperatorTemp
 	} else {
 		exclusion.SelectorMatchOperator = nil
 	}
@@ -4539,8 +4560,9 @@ func (condition *MatchCondition) AssignProperties_From_MatchCondition(source *v2
 
 	// MatchVariable
 	if source.MatchVariable != nil {
-		matchVariable := MatchCondition_MatchVariable(*source.MatchVariable)
-		condition.MatchVariable = &matchVariable
+		matchVariable := *source.MatchVariable
+		matchVariableTemp := genruntime.ToEnum(matchVariable, matchCondition_MatchVariable_Values)
+		condition.MatchVariable = &matchVariableTemp
 	} else {
 		condition.MatchVariable = nil
 	}
@@ -4555,8 +4577,9 @@ func (condition *MatchCondition) AssignProperties_From_MatchCondition(source *v2
 
 	// Operator
 	if source.Operator != nil {
-		operator := MatchCondition_Operator(*source.Operator)
-		condition.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, matchCondition_Operator_Values)
+		condition.Operator = &operatorTemp
 	} else {
 		condition.Operator = nil
 	}
@@ -4570,7 +4593,7 @@ func (condition *MatchCondition) AssignProperties_From_MatchCondition(source *v2
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = TransformType(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transformType_Values)
 		}
 		condition.Transforms = transformList
 	} else {
@@ -4773,8 +4796,9 @@ func (condition *MatchCondition_STATUS) AssignProperties_From_MatchCondition_STA
 
 	// MatchVariable
 	if source.MatchVariable != nil {
-		matchVariable := MatchCondition_MatchVariable_STATUS(*source.MatchVariable)
-		condition.MatchVariable = &matchVariable
+		matchVariable := *source.MatchVariable
+		matchVariableTemp := genruntime.ToEnum(matchVariable, matchCondition_MatchVariable_STATUS_Values)
+		condition.MatchVariable = &matchVariableTemp
 	} else {
 		condition.MatchVariable = nil
 	}
@@ -4789,8 +4813,9 @@ func (condition *MatchCondition_STATUS) AssignProperties_From_MatchCondition_STA
 
 	// Operator
 	if source.Operator != nil {
-		operator := MatchCondition_Operator_STATUS(*source.Operator)
-		condition.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, matchCondition_Operator_STATUS_Values)
+		condition.Operator = &operatorTemp
 	} else {
 		condition.Operator = nil
 	}
@@ -4804,7 +4829,7 @@ func (condition *MatchCondition_STATUS) AssignProperties_From_MatchCondition_STA
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = TransformType_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transformType_STATUS_Values)
 		}
 		condition.Transforms = transformList
 	} else {
@@ -4977,16 +5002,18 @@ func (override *ManagedRuleOverride) AssignProperties_From_ManagedRuleOverride(s
 
 	// Action
 	if source.Action != nil {
-		action := ActionType(*source.Action)
-		override.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, actionType_Values)
+		override.Action = &actionTemp
 	} else {
 		override.Action = nil
 	}
 
 	// EnabledState
 	if source.EnabledState != nil {
-		enabledState := ManagedRuleEnabledState(*source.EnabledState)
-		override.EnabledState = &enabledState
+		enabledState := *source.EnabledState
+		enabledStateTemp := genruntime.ToEnum(enabledState, managedRuleEnabledState_Values)
+		override.EnabledState = &enabledStateTemp
 	} else {
 		override.EnabledState = nil
 	}
@@ -5179,16 +5206,18 @@ func (override *ManagedRuleOverride_STATUS) AssignProperties_From_ManagedRuleOve
 
 	// Action
 	if source.Action != nil {
-		action := ActionType_STATUS(*source.Action)
-		override.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, actionType_STATUS_Values)
+		override.Action = &actionTemp
 	} else {
 		override.Action = nil
 	}
 
 	// EnabledState
 	if source.EnabledState != nil {
-		enabledState := ManagedRuleEnabledState_STATUS(*source.EnabledState)
-		override.EnabledState = &enabledState
+		enabledState := *source.EnabledState
+		enabledStateTemp := genruntime.ToEnum(enabledState, managedRuleEnabledState_STATUS_Values)
+		override.EnabledState = &enabledStateTemp
 	} else {
 		override.EnabledState = nil
 	}

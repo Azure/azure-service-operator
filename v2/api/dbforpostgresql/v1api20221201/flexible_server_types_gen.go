@@ -944,8 +944,9 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ServerProperties_CreateMode(*source.CreateMode)
-		server.CreateMode = &createMode
+		createMode := *source.CreateMode
+		createModeTemp := genruntime.ToEnum(createMode, serverProperties_CreateMode_Values)
+		server.CreateMode = &createModeTemp
 	} else {
 		server.CreateMode = nil
 	}
@@ -1038,8 +1039,9 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 
 	// ReplicationRole
 	if source.ReplicationRole != nil {
-		replicationRole := ReplicationRole(*source.ReplicationRole)
-		server.ReplicationRole = &replicationRole
+		replicationRole := *source.ReplicationRole
+		replicationRoleTemp := genruntime.ToEnum(replicationRole, replicationRole_Values)
+		server.ReplicationRole = &replicationRoleTemp
 	} else {
 		server.ReplicationRole = nil
 	}
@@ -1081,8 +1083,9 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 
 	// Version
 	if source.Version != nil {
-		version := ServerVersion(*source.Version)
-		server.Version = &version
+		version := *source.Version
+		versionTemp := genruntime.ToEnum(version, serverVersion_Values)
+		server.Version = &versionTemp
 	} else {
 		server.Version = nil
 	}
@@ -1924,8 +1927,9 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ServerProperties_CreateMode_STATUS(*source.CreateMode)
-		server.CreateMode = &createMode
+		createMode := *source.CreateMode
+		createModeTemp := genruntime.ToEnum(createMode, serverProperties_CreateMode_STATUS_Values)
+		server.CreateMode = &createModeTemp
 	} else {
 		server.CreateMode = nil
 	}
@@ -2013,8 +2017,9 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 
 	// ReplicationRole
 	if source.ReplicationRole != nil {
-		replicationRole := ReplicationRole_STATUS(*source.ReplicationRole)
-		server.ReplicationRole = &replicationRole
+		replicationRole := *source.ReplicationRole
+		replicationRoleTemp := genruntime.ToEnum(replicationRole, replicationRole_STATUS_Values)
+		server.ReplicationRole = &replicationRoleTemp
 	} else {
 		server.ReplicationRole = nil
 	}
@@ -2036,8 +2041,9 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 
 	// State
 	if source.State != nil {
-		state := ServerProperties_State_STATUS(*source.State)
-		server.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, serverProperties_State_STATUS_Values)
+		server.State = &stateTemp
 	} else {
 		server.State = nil
 	}
@@ -2074,8 +2080,9 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 
 	// Version
 	if source.Version != nil {
-		version := ServerVersion_STATUS(*source.Version)
-		server.Version = &version
+		version := *source.Version
+		versionTemp := genruntime.ToEnum(version, serverVersion_STATUS_Values)
+		server.Version = &versionTemp
 	} else {
 		server.Version = nil
 	}
@@ -2371,16 +2378,18 @@ func (config *AuthConfig) AssignProperties_From_AuthConfig(source *v20221201s.Au
 
 	// ActiveDirectoryAuth
 	if source.ActiveDirectoryAuth != nil {
-		activeDirectoryAuth := AuthConfig_ActiveDirectoryAuth(*source.ActiveDirectoryAuth)
-		config.ActiveDirectoryAuth = &activeDirectoryAuth
+		activeDirectoryAuth := *source.ActiveDirectoryAuth
+		activeDirectoryAuthTemp := genruntime.ToEnum(activeDirectoryAuth, authConfig_ActiveDirectoryAuth_Values)
+		config.ActiveDirectoryAuth = &activeDirectoryAuthTemp
 	} else {
 		config.ActiveDirectoryAuth = nil
 	}
 
 	// PasswordAuth
 	if source.PasswordAuth != nil {
-		passwordAuth := AuthConfig_PasswordAuth(*source.PasswordAuth)
-		config.PasswordAuth = &passwordAuth
+		passwordAuth := *source.PasswordAuth
+		passwordAuthTemp := genruntime.ToEnum(passwordAuth, authConfig_PasswordAuth_Values)
+		config.PasswordAuth = &passwordAuthTemp
 	} else {
 		config.PasswordAuth = nil
 	}
@@ -2506,16 +2515,18 @@ func (config *AuthConfig_STATUS) AssignProperties_From_AuthConfig_STATUS(source 
 
 	// ActiveDirectoryAuth
 	if source.ActiveDirectoryAuth != nil {
-		activeDirectoryAuth := AuthConfig_ActiveDirectoryAuth_STATUS(*source.ActiveDirectoryAuth)
-		config.ActiveDirectoryAuth = &activeDirectoryAuth
+		activeDirectoryAuth := *source.ActiveDirectoryAuth
+		activeDirectoryAuthTemp := genruntime.ToEnum(activeDirectoryAuth, authConfig_ActiveDirectoryAuth_STATUS_Values)
+		config.ActiveDirectoryAuth = &activeDirectoryAuthTemp
 	} else {
 		config.ActiveDirectoryAuth = nil
 	}
 
 	// PasswordAuth
 	if source.PasswordAuth != nil {
-		passwordAuth := AuthConfig_PasswordAuth_STATUS(*source.PasswordAuth)
-		config.PasswordAuth = &passwordAuth
+		passwordAuth := *source.PasswordAuth
+		passwordAuthTemp := genruntime.ToEnum(passwordAuth, authConfig_PasswordAuth_STATUS_Values)
+		config.PasswordAuth = &passwordAuthTemp
 	} else {
 		config.PasswordAuth = nil
 	}
@@ -2630,8 +2641,9 @@ func (backup *Backup) AssignProperties_From_Backup(source *v20221201s.Backup) er
 
 	// GeoRedundantBackup
 	if source.GeoRedundantBackup != nil {
-		geoRedundantBackup := Backup_GeoRedundantBackup(*source.GeoRedundantBackup)
-		backup.GeoRedundantBackup = &geoRedundantBackup
+		geoRedundantBackup := *source.GeoRedundantBackup
+		geoRedundantBackupTemp := genruntime.ToEnum(geoRedundantBackup, backup_GeoRedundantBackup_Values)
+		backup.GeoRedundantBackup = &geoRedundantBackupTemp
 	} else {
 		backup.GeoRedundantBackup = nil
 	}
@@ -2744,8 +2756,9 @@ func (backup *Backup_STATUS) AssignProperties_From_Backup_STATUS(source *v202212
 
 	// GeoRedundantBackup
 	if source.GeoRedundantBackup != nil {
-		geoRedundantBackup := Backup_GeoRedundantBackup_STATUS(*source.GeoRedundantBackup)
-		backup.GeoRedundantBackup = &geoRedundantBackup
+		geoRedundantBackup := *source.GeoRedundantBackup
+		geoRedundantBackupTemp := genruntime.ToEnum(geoRedundantBackup, backup_GeoRedundantBackup_STATUS_Values)
+		backup.GeoRedundantBackup = &geoRedundantBackupTemp
 	} else {
 		backup.GeoRedundantBackup = nil
 	}
@@ -2876,8 +2889,9 @@ func (encryption *DataEncryption) AssignProperties_From_DataEncryption(source *v
 
 	// Type
 	if source.Type != nil {
-		typeVar := DataEncryption_Type(*source.Type)
-		encryption.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, dataEncryption_Type_Values)
+		encryption.Type = &typeTemp
 	} else {
 		encryption.Type = nil
 	}
@@ -3007,8 +3021,9 @@ func (encryption *DataEncryption_STATUS) AssignProperties_From_DataEncryption_ST
 
 	// Type
 	if source.Type != nil {
-		typeVar := DataEncryption_Type_STATUS(*source.Type)
-		encryption.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, dataEncryption_Type_STATUS_Values)
+		encryption.Type = &typeTemp
 	} else {
 		encryption.Type = nil
 	}
@@ -3192,8 +3207,9 @@ func (availability *HighAvailability) AssignProperties_From_HighAvailability(sou
 
 	// Mode
 	if source.Mode != nil {
-		mode := HighAvailability_Mode(*source.Mode)
-		availability.Mode = &mode
+		mode := *source.Mode
+		modeTemp := genruntime.ToEnum(mode, highAvailability_Mode_Values)
+		availability.Mode = &modeTemp
 	} else {
 		availability.Mode = nil
 	}
@@ -3303,8 +3319,9 @@ func (availability *HighAvailability_STATUS) AssignProperties_From_HighAvailabil
 
 	// Mode
 	if source.Mode != nil {
-		mode := HighAvailability_Mode_STATUS(*source.Mode)
-		availability.Mode = &mode
+		mode := *source.Mode
+		modeTemp := genruntime.ToEnum(mode, highAvailability_Mode_STATUS_Values)
+		availability.Mode = &modeTemp
 	} else {
 		availability.Mode = nil
 	}
@@ -3314,8 +3331,9 @@ func (availability *HighAvailability_STATUS) AssignProperties_From_HighAvailabil
 
 	// State
 	if source.State != nil {
-		state := HighAvailability_State_STATUS(*source.State)
-		availability.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, highAvailability_State_STATUS_Values)
+		availability.State = &stateTemp
 	} else {
 		availability.State = nil
 	}
@@ -3824,8 +3842,9 @@ func (network *Network_STATUS) AssignProperties_From_Network_STATUS(source *v202
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := Network_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-		network.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, network_PublicNetworkAccess_STATUS_Values)
+		network.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		network.PublicNetworkAccess = nil
 	}
@@ -3875,6 +3894,14 @@ const (
 	ReplicationRole_Primary         = ReplicationRole("Primary")
 )
 
+// Mapping from string to ReplicationRole
+var replicationRole_Values = map[string]ReplicationRole{
+	"asyncreplica":    ReplicationRole_AsyncReplica,
+	"geoasyncreplica": ReplicationRole_GeoAsyncReplica,
+	"none":            ReplicationRole_None,
+	"primary":         ReplicationRole_Primary,
+}
+
 // Used to indicate role of the server in replication set.
 type ReplicationRole_STATUS string
 
@@ -3884,6 +3911,14 @@ const (
 	ReplicationRole_STATUS_None            = ReplicationRole_STATUS("None")
 	ReplicationRole_STATUS_Primary         = ReplicationRole_STATUS("Primary")
 )
+
+// Mapping from string to ReplicationRole_STATUS
+var replicationRole_STATUS_Values = map[string]ReplicationRole_STATUS{
+	"asyncreplica":    ReplicationRole_STATUS_AsyncReplica,
+	"geoasyncreplica": ReplicationRole_STATUS_GeoAsyncReplica,
+	"none":            ReplicationRole_STATUS_None,
+	"primary":         ReplicationRole_STATUS_Primary,
+}
 
 // +kubebuilder:validation:Enum={"Create","Default","GeoRestore","PointInTimeRestore","Replica","Update"}
 type ServerProperties_CreateMode string
@@ -3897,6 +3932,16 @@ const (
 	ServerProperties_CreateMode_Update             = ServerProperties_CreateMode("Update")
 )
 
+// Mapping from string to ServerProperties_CreateMode
+var serverProperties_CreateMode_Values = map[string]ServerProperties_CreateMode{
+	"create":             ServerProperties_CreateMode_Create,
+	"default":            ServerProperties_CreateMode_Default,
+	"georestore":         ServerProperties_CreateMode_GeoRestore,
+	"pointintimerestore": ServerProperties_CreateMode_PointInTimeRestore,
+	"replica":            ServerProperties_CreateMode_Replica,
+	"update":             ServerProperties_CreateMode_Update,
+}
+
 type ServerProperties_CreateMode_STATUS string
 
 const (
@@ -3907,6 +3952,16 @@ const (
 	ServerProperties_CreateMode_STATUS_Replica            = ServerProperties_CreateMode_STATUS("Replica")
 	ServerProperties_CreateMode_STATUS_Update             = ServerProperties_CreateMode_STATUS("Update")
 )
+
+// Mapping from string to ServerProperties_CreateMode_STATUS
+var serverProperties_CreateMode_STATUS_Values = map[string]ServerProperties_CreateMode_STATUS{
+	"create":             ServerProperties_CreateMode_STATUS_Create,
+	"default":            ServerProperties_CreateMode_STATUS_Default,
+	"georestore":         ServerProperties_CreateMode_STATUS_GeoRestore,
+	"pointintimerestore": ServerProperties_CreateMode_STATUS_PointInTimeRestore,
+	"replica":            ServerProperties_CreateMode_STATUS_Replica,
+	"update":             ServerProperties_CreateMode_STATUS_Update,
+}
 
 type ServerProperties_State_STATUS string
 
@@ -3920,6 +3975,17 @@ const (
 	ServerProperties_State_STATUS_Updating = ServerProperties_State_STATUS("Updating")
 )
 
+// Mapping from string to ServerProperties_State_STATUS
+var serverProperties_State_STATUS_Values = map[string]ServerProperties_State_STATUS{
+	"disabled": ServerProperties_State_STATUS_Disabled,
+	"dropping": ServerProperties_State_STATUS_Dropping,
+	"ready":    ServerProperties_State_STATUS_Ready,
+	"starting": ServerProperties_State_STATUS_Starting,
+	"stopped":  ServerProperties_State_STATUS_Stopped,
+	"stopping": ServerProperties_State_STATUS_Stopping,
+	"updating": ServerProperties_State_STATUS_Updating,
+}
+
 // The version of a server.
 // +kubebuilder:validation:Enum={"11","12","13","14"}
 type ServerVersion string
@@ -3931,6 +3997,14 @@ const (
 	ServerVersion_14 = ServerVersion("14")
 )
 
+// Mapping from string to ServerVersion
+var serverVersion_Values = map[string]ServerVersion{
+	"11": ServerVersion_11,
+	"12": ServerVersion_12,
+	"13": ServerVersion_13,
+	"14": ServerVersion_14,
+}
+
 // The version of a server.
 type ServerVersion_STATUS string
 
@@ -3940,6 +4014,14 @@ const (
 	ServerVersion_STATUS_13 = ServerVersion_STATUS("13")
 	ServerVersion_STATUS_14 = ServerVersion_STATUS("14")
 )
+
+// Mapping from string to ServerVersion_STATUS
+var serverVersion_STATUS_Values = map[string]ServerVersion_STATUS{
+	"11": ServerVersion_STATUS_11,
+	"12": ServerVersion_STATUS_12,
+	"13": ServerVersion_STATUS_13,
+	"14": ServerVersion_STATUS_14,
+}
 
 // Sku information related properties of a server.
 type Sku struct {
@@ -4011,8 +4093,9 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20221201s.Sku) error {
 
 	// Tier
 	if source.Tier != nil {
-		tier := Sku_Tier(*source.Tier)
-		sku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, sku_Tier_Values)
+		sku.Tier = &tierTemp
 	} else {
 		sku.Tier = nil
 	}
@@ -4113,8 +4196,9 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20221201s.Sku_S
 
 	// Tier
 	if source.Tier != nil {
-		tier := Sku_Tier_STATUS(*source.Tier)
-		sku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, sku_Tier_STATUS_Values)
+		sku.Tier = &tierTemp
 	} else {
 		sku.Tier = nil
 	}
@@ -4379,8 +4463,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -4393,8 +4478,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -4514,8 +4600,9 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 
 	// Type
 	if source.Type != nil {
-		typeVar := UserAssignedIdentity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, userAssignedIdentity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -4674,8 +4761,9 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedI
 
 	// Type
 	if source.Type != nil {
-		typeVar := UserAssignedIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, userAssignedIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -4755,12 +4843,24 @@ const (
 	AuthConfig_ActiveDirectoryAuth_Enabled  = AuthConfig_ActiveDirectoryAuth("Enabled")
 )
 
+// Mapping from string to AuthConfig_ActiveDirectoryAuth
+var authConfig_ActiveDirectoryAuth_Values = map[string]AuthConfig_ActiveDirectoryAuth{
+	"disabled": AuthConfig_ActiveDirectoryAuth_Disabled,
+	"enabled":  AuthConfig_ActiveDirectoryAuth_Enabled,
+}
+
 type AuthConfig_ActiveDirectoryAuth_STATUS string
 
 const (
 	AuthConfig_ActiveDirectoryAuth_STATUS_Disabled = AuthConfig_ActiveDirectoryAuth_STATUS("Disabled")
 	AuthConfig_ActiveDirectoryAuth_STATUS_Enabled  = AuthConfig_ActiveDirectoryAuth_STATUS("Enabled")
 )
+
+// Mapping from string to AuthConfig_ActiveDirectoryAuth_STATUS
+var authConfig_ActiveDirectoryAuth_STATUS_Values = map[string]AuthConfig_ActiveDirectoryAuth_STATUS{
+	"disabled": AuthConfig_ActiveDirectoryAuth_STATUS_Disabled,
+	"enabled":  AuthConfig_ActiveDirectoryAuth_STATUS_Enabled,
+}
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type AuthConfig_PasswordAuth string
@@ -4770,12 +4870,24 @@ const (
 	AuthConfig_PasswordAuth_Enabled  = AuthConfig_PasswordAuth("Enabled")
 )
 
+// Mapping from string to AuthConfig_PasswordAuth
+var authConfig_PasswordAuth_Values = map[string]AuthConfig_PasswordAuth{
+	"disabled": AuthConfig_PasswordAuth_Disabled,
+	"enabled":  AuthConfig_PasswordAuth_Enabled,
+}
+
 type AuthConfig_PasswordAuth_STATUS string
 
 const (
 	AuthConfig_PasswordAuth_STATUS_Disabled = AuthConfig_PasswordAuth_STATUS("Disabled")
 	AuthConfig_PasswordAuth_STATUS_Enabled  = AuthConfig_PasswordAuth_STATUS("Enabled")
 )
+
+// Mapping from string to AuthConfig_PasswordAuth_STATUS
+var authConfig_PasswordAuth_STATUS_Values = map[string]AuthConfig_PasswordAuth_STATUS{
+	"disabled": AuthConfig_PasswordAuth_STATUS_Disabled,
+	"enabled":  AuthConfig_PasswordAuth_STATUS_Enabled,
+}
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type Backup_GeoRedundantBackup string
@@ -4785,12 +4897,24 @@ const (
 	Backup_GeoRedundantBackup_Enabled  = Backup_GeoRedundantBackup("Enabled")
 )
 
+// Mapping from string to Backup_GeoRedundantBackup
+var backup_GeoRedundantBackup_Values = map[string]Backup_GeoRedundantBackup{
+	"disabled": Backup_GeoRedundantBackup_Disabled,
+	"enabled":  Backup_GeoRedundantBackup_Enabled,
+}
+
 type Backup_GeoRedundantBackup_STATUS string
 
 const (
 	Backup_GeoRedundantBackup_STATUS_Disabled = Backup_GeoRedundantBackup_STATUS("Disabled")
 	Backup_GeoRedundantBackup_STATUS_Enabled  = Backup_GeoRedundantBackup_STATUS("Enabled")
 )
+
+// Mapping from string to Backup_GeoRedundantBackup_STATUS
+var backup_GeoRedundantBackup_STATUS_Values = map[string]Backup_GeoRedundantBackup_STATUS{
+	"disabled": Backup_GeoRedundantBackup_STATUS_Disabled,
+	"enabled":  Backup_GeoRedundantBackup_STATUS_Enabled,
+}
 
 // +kubebuilder:validation:Enum={"AzureKeyVault","SystemManaged"}
 type DataEncryption_Type string
@@ -4800,12 +4924,24 @@ const (
 	DataEncryption_Type_SystemManaged = DataEncryption_Type("SystemManaged")
 )
 
+// Mapping from string to DataEncryption_Type
+var dataEncryption_Type_Values = map[string]DataEncryption_Type{
+	"azurekeyvault": DataEncryption_Type_AzureKeyVault,
+	"systemmanaged": DataEncryption_Type_SystemManaged,
+}
+
 type DataEncryption_Type_STATUS string
 
 const (
 	DataEncryption_Type_STATUS_AzureKeyVault = DataEncryption_Type_STATUS("AzureKeyVault")
 	DataEncryption_Type_STATUS_SystemManaged = DataEncryption_Type_STATUS("SystemManaged")
 )
+
+// Mapping from string to DataEncryption_Type_STATUS
+var dataEncryption_Type_STATUS_Values = map[string]DataEncryption_Type_STATUS{
+	"azurekeyvault": DataEncryption_Type_STATUS_AzureKeyVault,
+	"systemmanaged": DataEncryption_Type_STATUS_SystemManaged,
+}
 
 type FlexibleServerOperatorConfigMaps struct {
 	// FullyQualifiedDomainName: indicates where the FullyQualifiedDomainName config map should be placed. If omitted, no
@@ -4906,6 +5042,13 @@ const (
 	HighAvailability_Mode_ZoneRedundant = HighAvailability_Mode("ZoneRedundant")
 )
 
+// Mapping from string to HighAvailability_Mode
+var highAvailability_Mode_Values = map[string]HighAvailability_Mode{
+	"disabled":      HighAvailability_Mode_Disabled,
+	"samezone":      HighAvailability_Mode_SameZone,
+	"zoneredundant": HighAvailability_Mode_ZoneRedundant,
+}
+
 type HighAvailability_Mode_STATUS string
 
 const (
@@ -4913,6 +5056,13 @@ const (
 	HighAvailability_Mode_STATUS_SameZone      = HighAvailability_Mode_STATUS("SameZone")
 	HighAvailability_Mode_STATUS_ZoneRedundant = HighAvailability_Mode_STATUS("ZoneRedundant")
 )
+
+// Mapping from string to HighAvailability_Mode_STATUS
+var highAvailability_Mode_STATUS_Values = map[string]HighAvailability_Mode_STATUS{
+	"disabled":      HighAvailability_Mode_STATUS_Disabled,
+	"samezone":      HighAvailability_Mode_STATUS_SameZone,
+	"zoneredundant": HighAvailability_Mode_STATUS_ZoneRedundant,
+}
 
 type HighAvailability_State_STATUS string
 
@@ -4925,12 +5075,28 @@ const (
 	HighAvailability_State_STATUS_ReplicatingData = HighAvailability_State_STATUS("ReplicatingData")
 )
 
+// Mapping from string to HighAvailability_State_STATUS
+var highAvailability_State_STATUS_Values = map[string]HighAvailability_State_STATUS{
+	"creatingstandby": HighAvailability_State_STATUS_CreatingStandby,
+	"failingover":     HighAvailability_State_STATUS_FailingOver,
+	"healthy":         HighAvailability_State_STATUS_Healthy,
+	"notenabled":      HighAvailability_State_STATUS_NotEnabled,
+	"removingstandby": HighAvailability_State_STATUS_RemovingStandby,
+	"replicatingdata": HighAvailability_State_STATUS_ReplicatingData,
+}
+
 type Network_PublicNetworkAccess_STATUS string
 
 const (
 	Network_PublicNetworkAccess_STATUS_Disabled = Network_PublicNetworkAccess_STATUS("Disabled")
 	Network_PublicNetworkAccess_STATUS_Enabled  = Network_PublicNetworkAccess_STATUS("Enabled")
 )
+
+// Mapping from string to Network_PublicNetworkAccess_STATUS
+var network_PublicNetworkAccess_STATUS_Values = map[string]Network_PublicNetworkAccess_STATUS{
+	"disabled": Network_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  Network_PublicNetworkAccess_STATUS_Enabled,
+}
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {

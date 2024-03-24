@@ -446,8 +446,9 @@ func (setting *Servers_Databases_AdvancedThreatProtectionSetting_Spec) AssignPro
 
 	// State
 	if source.State != nil {
-		state := AdvancedThreatProtectionProperties_State(*source.State)
-		setting.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, advancedThreatProtectionProperties_State_Values)
+		setting.State = &stateTemp
 	} else {
 		setting.State = nil
 	}
@@ -669,8 +670,9 @@ func (setting *Servers_Databases_AdvancedThreatProtectionSetting_STATUS) AssignP
 
 	// State
 	if source.State != nil {
-		state := AdvancedThreatProtectionProperties_State_STATUS(*source.State)
-		setting.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, advancedThreatProtectionProperties_State_STATUS_Values)
+		setting.State = &stateTemp
 	} else {
 		setting.State = nil
 	}

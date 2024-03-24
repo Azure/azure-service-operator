@@ -100,6 +100,11 @@ type LionPrideType string
 
 const LionPrideType_type = LionPrideType(Microsoft.Lions/lionPride)
 
+// Mapping from string to LionPrideType
+var lionPrideType_Values = map[string]LionPrideType{
+	microsoft.lions/lionpride: LionPrideType_type,
+}
+
 type LionProperties struct {
 	RoarVolumeDecibels int `json:"roarVolumeDecibels,omitempty"`
 }
@@ -108,6 +113,11 @@ type LionProperties struct {
 type LionType string
 
 const LionType_type = LionType(Microsoft.Lions/lion)
+
+// Mapping from string to LionType
+var lionType_Values = map[string]LionType{
+	microsoft.lions/lion: LionType_type,
+}
 
 type LionRef struct {
 	Id armid `json:"id,omitempty"`

@@ -3420,40 +3420,45 @@ func (profile *ContainerServiceNetworkProfile) AssignProperties_From_ContainerSe
 
 	// LoadBalancerSku
 	if source.LoadBalancerSku != nil {
-		loadBalancerSku := ContainerServiceNetworkProfile_LoadBalancerSku(*source.LoadBalancerSku)
-		profile.LoadBalancerSku = &loadBalancerSku
+		loadBalancerSku := *source.LoadBalancerSku
+		loadBalancerSkuTemp := genruntime.ToEnum(loadBalancerSku, containerServiceNetworkProfile_LoadBalancerSku_Values)
+		profile.LoadBalancerSku = &loadBalancerSkuTemp
 	} else {
 		profile.LoadBalancerSku = nil
 	}
 
 	// NetworkMode
 	if source.NetworkMode != nil {
-		networkMode := ContainerServiceNetworkProfile_NetworkMode(*source.NetworkMode)
-		profile.NetworkMode = &networkMode
+		networkMode := *source.NetworkMode
+		networkModeTemp := genruntime.ToEnum(networkMode, containerServiceNetworkProfile_NetworkMode_Values)
+		profile.NetworkMode = &networkModeTemp
 	} else {
 		profile.NetworkMode = nil
 	}
 
 	// NetworkPlugin
 	if source.NetworkPlugin != nil {
-		networkPlugin := ContainerServiceNetworkProfile_NetworkPlugin(*source.NetworkPlugin)
-		profile.NetworkPlugin = &networkPlugin
+		networkPlugin := *source.NetworkPlugin
+		networkPluginTemp := genruntime.ToEnum(networkPlugin, containerServiceNetworkProfile_NetworkPlugin_Values)
+		profile.NetworkPlugin = &networkPluginTemp
 	} else {
 		profile.NetworkPlugin = nil
 	}
 
 	// NetworkPolicy
 	if source.NetworkPolicy != nil {
-		networkPolicy := ContainerServiceNetworkProfile_NetworkPolicy(*source.NetworkPolicy)
-		profile.NetworkPolicy = &networkPolicy
+		networkPolicy := *source.NetworkPolicy
+		networkPolicyTemp := genruntime.ToEnum(networkPolicy, containerServiceNetworkProfile_NetworkPolicy_Values)
+		profile.NetworkPolicy = &networkPolicyTemp
 	} else {
 		profile.NetworkPolicy = nil
 	}
 
 	// OutboundType
 	if source.OutboundType != nil {
-		outboundType := ContainerServiceNetworkProfile_OutboundType(*source.OutboundType)
-		profile.OutboundType = &outboundType
+		outboundType := *source.OutboundType
+		outboundTypeTemp := genruntime.ToEnum(outboundType, containerServiceNetworkProfile_OutboundType_Values)
+		profile.OutboundType = &outboundTypeTemp
 	} else {
 		profile.OutboundType = nil
 	}
@@ -3723,40 +3728,45 @@ func (profile *ContainerServiceNetworkProfile_STATUS) AssignProperties_From_Cont
 
 	// LoadBalancerSku
 	if source.LoadBalancerSku != nil {
-		loadBalancerSku := ContainerServiceNetworkProfile_LoadBalancerSku_STATUS(*source.LoadBalancerSku)
-		profile.LoadBalancerSku = &loadBalancerSku
+		loadBalancerSku := *source.LoadBalancerSku
+		loadBalancerSkuTemp := genruntime.ToEnum(loadBalancerSku, containerServiceNetworkProfile_LoadBalancerSku_STATUS_Values)
+		profile.LoadBalancerSku = &loadBalancerSkuTemp
 	} else {
 		profile.LoadBalancerSku = nil
 	}
 
 	// NetworkMode
 	if source.NetworkMode != nil {
-		networkMode := ContainerServiceNetworkProfile_NetworkMode_STATUS(*source.NetworkMode)
-		profile.NetworkMode = &networkMode
+		networkMode := *source.NetworkMode
+		networkModeTemp := genruntime.ToEnum(networkMode, containerServiceNetworkProfile_NetworkMode_STATUS_Values)
+		profile.NetworkMode = &networkModeTemp
 	} else {
 		profile.NetworkMode = nil
 	}
 
 	// NetworkPlugin
 	if source.NetworkPlugin != nil {
-		networkPlugin := ContainerServiceNetworkProfile_NetworkPlugin_STATUS(*source.NetworkPlugin)
-		profile.NetworkPlugin = &networkPlugin
+		networkPlugin := *source.NetworkPlugin
+		networkPluginTemp := genruntime.ToEnum(networkPlugin, containerServiceNetworkProfile_NetworkPlugin_STATUS_Values)
+		profile.NetworkPlugin = &networkPluginTemp
 	} else {
 		profile.NetworkPlugin = nil
 	}
 
 	// NetworkPolicy
 	if source.NetworkPolicy != nil {
-		networkPolicy := ContainerServiceNetworkProfile_NetworkPolicy_STATUS(*source.NetworkPolicy)
-		profile.NetworkPolicy = &networkPolicy
+		networkPolicy := *source.NetworkPolicy
+		networkPolicyTemp := genruntime.ToEnum(networkPolicy, containerServiceNetworkProfile_NetworkPolicy_STATUS_Values)
+		profile.NetworkPolicy = &networkPolicyTemp
 	} else {
 		profile.NetworkPolicy = nil
 	}
 
 	// OutboundType
 	if source.OutboundType != nil {
-		outboundType := ContainerServiceNetworkProfile_OutboundType_STATUS(*source.OutboundType)
-		profile.OutboundType = &outboundType
+		outboundType := *source.OutboundType
+		outboundTypeTemp := genruntime.ToEnum(outboundType, containerServiceNetworkProfile_OutboundType_STATUS_Values)
+		profile.OutboundType = &outboundTypeTemp
 	} else {
 		profile.OutboundType = nil
 	}
@@ -3919,8 +3929,9 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType(*source.Type)
-		location.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, extendedLocationType_Values)
+		location.Type = &typeTemp
 	} else {
 		location.Type = nil
 	}
@@ -4003,8 +4014,9 @@ func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType_STATUS(*source.Type)
-		location.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, extendedLocationType_STATUS_Values)
+		location.Type = &typeTemp
 	} else {
 		location.Type = nil
 	}
@@ -5320,8 +5332,9 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// GpuInstanceProfile
 	if source.GpuInstanceProfile != nil {
-		gpuInstanceProfile := GPUInstanceProfile(*source.GpuInstanceProfile)
-		profile.GpuInstanceProfile = &gpuInstanceProfile
+		gpuInstanceProfile := *source.GpuInstanceProfile
+		gpuInstanceProfileTemp := genruntime.ToEnum(gpuInstanceProfile, gPUInstanceProfile_Values)
+		profile.GpuInstanceProfile = &gpuInstanceProfileTemp
 	} else {
 		profile.GpuInstanceProfile = nil
 	}
@@ -5340,8 +5353,9 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// KubeletDiskType
 	if source.KubeletDiskType != nil {
-		kubeletDiskType := KubeletDiskType(*source.KubeletDiskType)
-		profile.KubeletDiskType = &kubeletDiskType
+		kubeletDiskType := *source.KubeletDiskType
+		kubeletDiskTypeTemp := genruntime.ToEnum(kubeletDiskType, kubeletDiskType_Values)
+		profile.KubeletDiskType = &kubeletDiskTypeTemp
 	} else {
 		profile.KubeletDiskType = nil
 	}
@@ -5369,8 +5383,9 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// Mode
 	if source.Mode != nil {
-		mode := AgentPoolMode(*source.Mode)
-		profile.Mode = &mode
+		mode := *source.Mode
+		modeTemp := genruntime.ToEnum(mode, agentPoolMode_Values)
+		profile.Mode = &modeTemp
 	} else {
 		profile.Mode = nil
 	}
@@ -5410,24 +5425,27 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// OsDiskType
 	if source.OsDiskType != nil {
-		osDiskType := OSDiskType(*source.OsDiskType)
-		profile.OsDiskType = &osDiskType
+		osDiskType := *source.OsDiskType
+		osDiskTypeTemp := genruntime.ToEnum(osDiskType, oSDiskType_Values)
+		profile.OsDiskType = &osDiskTypeTemp
 	} else {
 		profile.OsDiskType = nil
 	}
 
 	// OsSKU
 	if source.OsSKU != nil {
-		osSKU := OSSKU(*source.OsSKU)
-		profile.OsSKU = &osSKU
+		osSKU := *source.OsSKU
+		osSKUTemp := genruntime.ToEnum(osSKU, oSSKU_Values)
+		profile.OsSKU = &osSKUTemp
 	} else {
 		profile.OsSKU = nil
 	}
 
 	// OsType
 	if source.OsType != nil {
-		osType := OSType(*source.OsType)
-		profile.OsType = &osType
+		osType := *source.OsType
+		osTypeTemp := genruntime.ToEnum(osType, oSType_Values)
+		profile.OsType = &osTypeTemp
 	} else {
 		profile.OsType = nil
 	}
@@ -5445,16 +5463,18 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// ScaleSetEvictionPolicy
 	if source.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := ScaleSetEvictionPolicy(*source.ScaleSetEvictionPolicy)
-		profile.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
+		scaleSetEvictionPolicy := *source.ScaleSetEvictionPolicy
+		scaleSetEvictionPolicyTemp := genruntime.ToEnum(scaleSetEvictionPolicy, scaleSetEvictionPolicy_Values)
+		profile.ScaleSetEvictionPolicy = &scaleSetEvictionPolicyTemp
 	} else {
 		profile.ScaleSetEvictionPolicy = nil
 	}
 
 	// ScaleSetPriority
 	if source.ScaleSetPriority != nil {
-		scaleSetPriority := ScaleSetPriority(*source.ScaleSetPriority)
-		profile.ScaleSetPriority = &scaleSetPriority
+		scaleSetPriority := *source.ScaleSetPriority
+		scaleSetPriorityTemp := genruntime.ToEnum(scaleSetPriority, scaleSetPriority_Values)
+		profile.ScaleSetPriority = &scaleSetPriorityTemp
 	} else {
 		profile.ScaleSetPriority = nil
 	}
@@ -5472,8 +5492,9 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// Type
 	if source.Type != nil {
-		typeVar := AgentPoolType(*source.Type)
-		profile.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, agentPoolType_Values)
+		profile.Type = &typeTemp
 	} else {
 		profile.Type = nil
 	}
@@ -6202,8 +6223,9 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_From_Mana
 
 	// GpuInstanceProfile
 	if source.GpuInstanceProfile != nil {
-		gpuInstanceProfile := GPUInstanceProfile_STATUS(*source.GpuInstanceProfile)
-		profile.GpuInstanceProfile = &gpuInstanceProfile
+		gpuInstanceProfile := *source.GpuInstanceProfile
+		gpuInstanceProfileTemp := genruntime.ToEnum(gpuInstanceProfile, gPUInstanceProfile_STATUS_Values)
+		profile.GpuInstanceProfile = &gpuInstanceProfileTemp
 	} else {
 		profile.GpuInstanceProfile = nil
 	}
@@ -6222,8 +6244,9 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_From_Mana
 
 	// KubeletDiskType
 	if source.KubeletDiskType != nil {
-		kubeletDiskType := KubeletDiskType_STATUS(*source.KubeletDiskType)
-		profile.KubeletDiskType = &kubeletDiskType
+		kubeletDiskType := *source.KubeletDiskType
+		kubeletDiskTypeTemp := genruntime.ToEnum(kubeletDiskType, kubeletDiskType_STATUS_Values)
+		profile.KubeletDiskType = &kubeletDiskTypeTemp
 	} else {
 		profile.KubeletDiskType = nil
 	}
@@ -6251,8 +6274,9 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_From_Mana
 
 	// Mode
 	if source.Mode != nil {
-		mode := AgentPoolMode_STATUS(*source.Mode)
-		profile.Mode = &mode
+		mode := *source.Mode
+		modeTemp := genruntime.ToEnum(mode, agentPoolMode_STATUS_Values)
+		profile.Mode = &modeTemp
 	} else {
 		profile.Mode = nil
 	}
@@ -6280,24 +6304,27 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_From_Mana
 
 	// OsDiskType
 	if source.OsDiskType != nil {
-		osDiskType := OSDiskType_STATUS(*source.OsDiskType)
-		profile.OsDiskType = &osDiskType
+		osDiskType := *source.OsDiskType
+		osDiskTypeTemp := genruntime.ToEnum(osDiskType, oSDiskType_STATUS_Values)
+		profile.OsDiskType = &osDiskTypeTemp
 	} else {
 		profile.OsDiskType = nil
 	}
 
 	// OsSKU
 	if source.OsSKU != nil {
-		osSKU := OSSKU_STATUS(*source.OsSKU)
-		profile.OsSKU = &osSKU
+		osSKU := *source.OsSKU
+		osSKUTemp := genruntime.ToEnum(osSKU, oSSKU_STATUS_Values)
+		profile.OsSKU = &osSKUTemp
 	} else {
 		profile.OsSKU = nil
 	}
 
 	// OsType
 	if source.OsType != nil {
-		osType := OSType_STATUS(*source.OsType)
-		profile.OsType = &osType
+		osType := *source.OsType
+		osTypeTemp := genruntime.ToEnum(osType, oSType_STATUS_Values)
+		profile.OsType = &osTypeTemp
 	} else {
 		profile.OsType = nil
 	}
@@ -6325,16 +6352,18 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_From_Mana
 
 	// ScaleSetEvictionPolicy
 	if source.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := ScaleSetEvictionPolicy_STATUS(*source.ScaleSetEvictionPolicy)
-		profile.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
+		scaleSetEvictionPolicy := *source.ScaleSetEvictionPolicy
+		scaleSetEvictionPolicyTemp := genruntime.ToEnum(scaleSetEvictionPolicy, scaleSetEvictionPolicy_STATUS_Values)
+		profile.ScaleSetEvictionPolicy = &scaleSetEvictionPolicyTemp
 	} else {
 		profile.ScaleSetEvictionPolicy = nil
 	}
 
 	// ScaleSetPriority
 	if source.ScaleSetPriority != nil {
-		scaleSetPriority := ScaleSetPriority_STATUS(*source.ScaleSetPriority)
-		profile.ScaleSetPriority = &scaleSetPriority
+		scaleSetPriority := *source.ScaleSetPriority
+		scaleSetPriorityTemp := genruntime.ToEnum(scaleSetPriority, scaleSetPriority_STATUS_Values)
+		profile.ScaleSetPriority = &scaleSetPriorityTemp
 	} else {
 		profile.ScaleSetPriority = nil
 	}
@@ -6352,8 +6381,9 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_From_Mana
 
 	// Type
 	if source.Type != nil {
-		typeVar := AgentPoolType_STATUS(*source.Type)
-		profile.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, agentPoolType_STATUS_Values)
+		profile.Type = &typeTemp
 	} else {
 		profile.Type = nil
 	}
@@ -6957,8 +6987,9 @@ func (profile *ManagedClusterAutoUpgradeProfile) AssignProperties_From_ManagedCl
 
 	// UpgradeChannel
 	if source.UpgradeChannel != nil {
-		upgradeChannel := ManagedClusterAutoUpgradeProfile_UpgradeChannel(*source.UpgradeChannel)
-		profile.UpgradeChannel = &upgradeChannel
+		upgradeChannel := *source.UpgradeChannel
+		upgradeChannelTemp := genruntime.ToEnum(upgradeChannel, managedClusterAutoUpgradeProfile_UpgradeChannel_Values)
+		profile.UpgradeChannel = &upgradeChannelTemp
 	} else {
 		profile.UpgradeChannel = nil
 	}
@@ -7027,8 +7058,9 @@ func (profile *ManagedClusterAutoUpgradeProfile_STATUS) AssignProperties_From_Ma
 
 	// UpgradeChannel
 	if source.UpgradeChannel != nil {
-		upgradeChannel := ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS(*source.UpgradeChannel)
-		profile.UpgradeChannel = &upgradeChannel
+		upgradeChannel := *source.UpgradeChannel
+		upgradeChannelTemp := genruntime.ToEnum(upgradeChannel, managedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_Values)
+		profile.UpgradeChannel = &upgradeChannelTemp
 	} else {
 		profile.UpgradeChannel = nil
 	}
@@ -7367,8 +7399,9 @@ func (identity *ManagedClusterIdentity) AssignProperties_From_ManagedClusterIden
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedClusterIdentity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedClusterIdentity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -7514,8 +7547,9 @@ func (identity *ManagedClusterIdentity_STATUS) AssignProperties_From_ManagedClus
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedClusterIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedClusterIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -8376,8 +8410,9 @@ func (profile *ManagedClusterProperties_AutoScalerProfile) AssignProperties_From
 
 	// Expander
 	if source.Expander != nil {
-		expander := ManagedClusterProperties_AutoScalerProfile_Expander(*source.Expander)
-		profile.Expander = &expander
+		expander := *source.Expander
+		expanderTemp := genruntime.ToEnum(expander, managedClusterProperties_AutoScalerProfile_Expander_Values)
+		profile.Expander = &expanderTemp
 	} else {
 		profile.Expander = nil
 	}
@@ -8694,8 +8729,9 @@ func (profile *ManagedClusterProperties_AutoScalerProfile_STATUS) AssignProperti
 
 	// Expander
 	if source.Expander != nil {
-		expander := ManagedClusterProperties_AutoScalerProfile_Expander_STATUS(*source.Expander)
-		profile.Expander = &expander
+		expander := *source.Expander
+		expanderTemp := genruntime.ToEnum(expander, managedClusterProperties_AutoScalerProfile_Expander_STATUS_Values)
+		profile.Expander = &expanderTemp
 	} else {
 		profile.Expander = nil
 	}
@@ -9052,16 +9088,18 @@ func (clusterSKU *ManagedClusterSKU) AssignProperties_From_ManagedClusterSKU(sou
 
 	// Name
 	if source.Name != nil {
-		name := ManagedClusterSKU_Name(*source.Name)
-		clusterSKU.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, managedClusterSKU_Name_Values)
+		clusterSKU.Name = &nameTemp
 	} else {
 		clusterSKU.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := ManagedClusterSKU_Tier(*source.Tier)
-		clusterSKU.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, managedClusterSKU_Tier_Values)
+		clusterSKU.Tier = &tierTemp
 	} else {
 		clusterSKU.Tier = nil
 	}
@@ -9147,16 +9185,18 @@ func (clusterSKU *ManagedClusterSKU_STATUS) AssignProperties_From_ManagedCluster
 
 	// Name
 	if source.Name != nil {
-		name := ManagedClusterSKU_Name_STATUS(*source.Name)
-		clusterSKU.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, managedClusterSKU_Name_STATUS_Values)
+		clusterSKU.Name = &nameTemp
 	} else {
 		clusterSKU.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := ManagedClusterSKU_Tier_STATUS(*source.Tier)
-		clusterSKU.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, managedClusterSKU_Tier_STATUS_Values)
+		clusterSKU.Tier = &tierTemp
 	} else {
 		clusterSKU.Tier = nil
 	}
@@ -9324,8 +9364,9 @@ func (profile *ManagedClusterWindowsProfile) AssignProperties_From_ManagedCluste
 
 	// LicenseType
 	if source.LicenseType != nil {
-		licenseType := ManagedClusterWindowsProfile_LicenseType(*source.LicenseType)
-		profile.LicenseType = &licenseType
+		licenseType := *source.LicenseType
+		licenseTypeTemp := genruntime.ToEnum(licenseType, managedClusterWindowsProfile_LicenseType_Values)
+		profile.LicenseType = &licenseTypeTemp
 	} else {
 		profile.LicenseType = nil
 	}
@@ -9465,8 +9506,9 @@ func (profile *ManagedClusterWindowsProfile_STATUS) AssignProperties_From_Manage
 
 	// LicenseType
 	if source.LicenseType != nil {
-		licenseType := ManagedClusterWindowsProfile_LicenseType_STATUS(*source.LicenseType)
-		profile.LicenseType = &licenseType
+		licenseType := *source.LicenseType
+		licenseTypeTemp := genruntime.ToEnum(licenseType, managedClusterWindowsProfile_LicenseType_STATUS_Values)
+		profile.LicenseType = &licenseTypeTemp
 	} else {
 		profile.LicenseType = nil
 	}
@@ -9548,8 +9590,9 @@ func (state *PowerState_STATUS) AssignProperties_From_PowerState_STATUS(source *
 
 	// Code
 	if source.Code != nil {
-		code := PowerState_Code_STATUS(*source.Code)
-		state.Code = &code
+		code := *source.Code
+		codeTemp := genruntime.ToEnum(code, powerState_Code_STATUS_Values)
+		state.Code = &codeTemp
 	} else {
 		state.Code = nil
 	}
@@ -10104,12 +10147,24 @@ const (
 	ContainerServiceNetworkProfile_LoadBalancerSku_Standard = ContainerServiceNetworkProfile_LoadBalancerSku("standard")
 )
 
+// Mapping from string to ContainerServiceNetworkProfile_LoadBalancerSku
+var containerServiceNetworkProfile_LoadBalancerSku_Values = map[string]ContainerServiceNetworkProfile_LoadBalancerSku{
+	"basic":    ContainerServiceNetworkProfile_LoadBalancerSku_Basic,
+	"standard": ContainerServiceNetworkProfile_LoadBalancerSku_Standard,
+}
+
 type ContainerServiceNetworkProfile_LoadBalancerSku_STATUS string
 
 const (
 	ContainerServiceNetworkProfile_LoadBalancerSku_STATUS_Basic    = ContainerServiceNetworkProfile_LoadBalancerSku_STATUS("basic")
 	ContainerServiceNetworkProfile_LoadBalancerSku_STATUS_Standard = ContainerServiceNetworkProfile_LoadBalancerSku_STATUS("standard")
 )
+
+// Mapping from string to ContainerServiceNetworkProfile_LoadBalancerSku_STATUS
+var containerServiceNetworkProfile_LoadBalancerSku_STATUS_Values = map[string]ContainerServiceNetworkProfile_LoadBalancerSku_STATUS{
+	"basic":    ContainerServiceNetworkProfile_LoadBalancerSku_STATUS_Basic,
+	"standard": ContainerServiceNetworkProfile_LoadBalancerSku_STATUS_Standard,
+}
 
 // +kubebuilder:validation:Enum={"bridge","transparent"}
 type ContainerServiceNetworkProfile_NetworkMode string
@@ -10119,12 +10174,24 @@ const (
 	ContainerServiceNetworkProfile_NetworkMode_Transparent = ContainerServiceNetworkProfile_NetworkMode("transparent")
 )
 
+// Mapping from string to ContainerServiceNetworkProfile_NetworkMode
+var containerServiceNetworkProfile_NetworkMode_Values = map[string]ContainerServiceNetworkProfile_NetworkMode{
+	"bridge":      ContainerServiceNetworkProfile_NetworkMode_Bridge,
+	"transparent": ContainerServiceNetworkProfile_NetworkMode_Transparent,
+}
+
 type ContainerServiceNetworkProfile_NetworkMode_STATUS string
 
 const (
 	ContainerServiceNetworkProfile_NetworkMode_STATUS_Bridge      = ContainerServiceNetworkProfile_NetworkMode_STATUS("bridge")
 	ContainerServiceNetworkProfile_NetworkMode_STATUS_Transparent = ContainerServiceNetworkProfile_NetworkMode_STATUS("transparent")
 )
+
+// Mapping from string to ContainerServiceNetworkProfile_NetworkMode_STATUS
+var containerServiceNetworkProfile_NetworkMode_STATUS_Values = map[string]ContainerServiceNetworkProfile_NetworkMode_STATUS{
+	"bridge":      ContainerServiceNetworkProfile_NetworkMode_STATUS_Bridge,
+	"transparent": ContainerServiceNetworkProfile_NetworkMode_STATUS_Transparent,
+}
 
 // +kubebuilder:validation:Enum={"azure","kubenet"}
 type ContainerServiceNetworkProfile_NetworkPlugin string
@@ -10134,12 +10201,24 @@ const (
 	ContainerServiceNetworkProfile_NetworkPlugin_Kubenet = ContainerServiceNetworkProfile_NetworkPlugin("kubenet")
 )
 
+// Mapping from string to ContainerServiceNetworkProfile_NetworkPlugin
+var containerServiceNetworkProfile_NetworkPlugin_Values = map[string]ContainerServiceNetworkProfile_NetworkPlugin{
+	"azure":   ContainerServiceNetworkProfile_NetworkPlugin_Azure,
+	"kubenet": ContainerServiceNetworkProfile_NetworkPlugin_Kubenet,
+}
+
 type ContainerServiceNetworkProfile_NetworkPlugin_STATUS string
 
 const (
 	ContainerServiceNetworkProfile_NetworkPlugin_STATUS_Azure   = ContainerServiceNetworkProfile_NetworkPlugin_STATUS("azure")
 	ContainerServiceNetworkProfile_NetworkPlugin_STATUS_Kubenet = ContainerServiceNetworkProfile_NetworkPlugin_STATUS("kubenet")
 )
+
+// Mapping from string to ContainerServiceNetworkProfile_NetworkPlugin_STATUS
+var containerServiceNetworkProfile_NetworkPlugin_STATUS_Values = map[string]ContainerServiceNetworkProfile_NetworkPlugin_STATUS{
+	"azure":   ContainerServiceNetworkProfile_NetworkPlugin_STATUS_Azure,
+	"kubenet": ContainerServiceNetworkProfile_NetworkPlugin_STATUS_Kubenet,
+}
 
 // +kubebuilder:validation:Enum={"azure","calico"}
 type ContainerServiceNetworkProfile_NetworkPolicy string
@@ -10149,12 +10228,24 @@ const (
 	ContainerServiceNetworkProfile_NetworkPolicy_Calico = ContainerServiceNetworkProfile_NetworkPolicy("calico")
 )
 
+// Mapping from string to ContainerServiceNetworkProfile_NetworkPolicy
+var containerServiceNetworkProfile_NetworkPolicy_Values = map[string]ContainerServiceNetworkProfile_NetworkPolicy{
+	"azure":  ContainerServiceNetworkProfile_NetworkPolicy_Azure,
+	"calico": ContainerServiceNetworkProfile_NetworkPolicy_Calico,
+}
+
 type ContainerServiceNetworkProfile_NetworkPolicy_STATUS string
 
 const (
 	ContainerServiceNetworkProfile_NetworkPolicy_STATUS_Azure  = ContainerServiceNetworkProfile_NetworkPolicy_STATUS("azure")
 	ContainerServiceNetworkProfile_NetworkPolicy_STATUS_Calico = ContainerServiceNetworkProfile_NetworkPolicy_STATUS("calico")
 )
+
+// Mapping from string to ContainerServiceNetworkProfile_NetworkPolicy_STATUS
+var containerServiceNetworkProfile_NetworkPolicy_STATUS_Values = map[string]ContainerServiceNetworkProfile_NetworkPolicy_STATUS{
+	"azure":  ContainerServiceNetworkProfile_NetworkPolicy_STATUS_Azure,
+	"calico": ContainerServiceNetworkProfile_NetworkPolicy_STATUS_Calico,
+}
 
 // +kubebuilder:validation:Enum={"loadBalancer","userDefinedRouting"}
 type ContainerServiceNetworkProfile_OutboundType string
@@ -10164,12 +10255,24 @@ const (
 	ContainerServiceNetworkProfile_OutboundType_UserDefinedRouting = ContainerServiceNetworkProfile_OutboundType("userDefinedRouting")
 )
 
+// Mapping from string to ContainerServiceNetworkProfile_OutboundType
+var containerServiceNetworkProfile_OutboundType_Values = map[string]ContainerServiceNetworkProfile_OutboundType{
+	"loadbalancer":       ContainerServiceNetworkProfile_OutboundType_LoadBalancer,
+	"userdefinedrouting": ContainerServiceNetworkProfile_OutboundType_UserDefinedRouting,
+}
+
 type ContainerServiceNetworkProfile_OutboundType_STATUS string
 
 const (
 	ContainerServiceNetworkProfile_OutboundType_STATUS_LoadBalancer       = ContainerServiceNetworkProfile_OutboundType_STATUS("loadBalancer")
 	ContainerServiceNetworkProfile_OutboundType_STATUS_UserDefinedRouting = ContainerServiceNetworkProfile_OutboundType_STATUS("userDefinedRouting")
 )
+
+// Mapping from string to ContainerServiceNetworkProfile_OutboundType_STATUS
+var containerServiceNetworkProfile_OutboundType_STATUS_Values = map[string]ContainerServiceNetworkProfile_OutboundType_STATUS{
+	"loadbalancer":       ContainerServiceNetworkProfile_OutboundType_STATUS_LoadBalancer,
+	"userdefinedrouting": ContainerServiceNetworkProfile_OutboundType_STATUS_UserDefinedRouting,
+}
 
 // SSH configuration for Linux-based VMs running on Azure.
 type ContainerServiceSshConfiguration struct {
@@ -10387,6 +10490,15 @@ const (
 	ManagedClusterAutoUpgradeProfile_UpgradeChannel_Stable    = ManagedClusterAutoUpgradeProfile_UpgradeChannel("stable")
 )
 
+// Mapping from string to ManagedClusterAutoUpgradeProfile_UpgradeChannel
+var managedClusterAutoUpgradeProfile_UpgradeChannel_Values = map[string]ManagedClusterAutoUpgradeProfile_UpgradeChannel{
+	"node-image": ManagedClusterAutoUpgradeProfile_UpgradeChannel_NodeImage,
+	"none":       ManagedClusterAutoUpgradeProfile_UpgradeChannel_None,
+	"patch":      ManagedClusterAutoUpgradeProfile_UpgradeChannel_Patch,
+	"rapid":      ManagedClusterAutoUpgradeProfile_UpgradeChannel_Rapid,
+	"stable":     ManagedClusterAutoUpgradeProfile_UpgradeChannel_Stable,
+}
+
 type ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS string
 
 const (
@@ -10396,6 +10508,15 @@ const (
 	ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_Rapid     = ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS("rapid")
 	ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_Stable    = ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS("stable")
 )
+
+// Mapping from string to ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS
+var managedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_Values = map[string]ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS{
+	"node-image": ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_NodeImage,
+	"none":       ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_None,
+	"patch":      ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_Patch,
+	"rapid":      ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_Rapid,
+	"stable":     ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS_Stable,
+}
 
 type ManagedClusterIdentity_UserAssignedIdentities_STATUS struct {
 	// ClientId: The client id of user assigned identity.
@@ -11385,8 +11506,9 @@ func (identity *ManagedClusterPodIdentity_STATUS) AssignProperties_From_ManagedC
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ManagedClusterPodIdentity_ProvisioningState_STATUS(*source.ProvisioningState)
-		identity.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, managedClusterPodIdentity_ProvisioningState_STATUS_Values)
+		identity.ProvisioningState = &provisioningStateTemp
 	} else {
 		identity.ProvisioningState = nil
 	}
@@ -11678,6 +11800,14 @@ const (
 	ManagedClusterProperties_AutoScalerProfile_Expander_Random     = ManagedClusterProperties_AutoScalerProfile_Expander("random")
 )
 
+// Mapping from string to ManagedClusterProperties_AutoScalerProfile_Expander
+var managedClusterProperties_AutoScalerProfile_Expander_Values = map[string]ManagedClusterProperties_AutoScalerProfile_Expander{
+	"least-waste": ManagedClusterProperties_AutoScalerProfile_Expander_LeastWaste,
+	"most-pods":   ManagedClusterProperties_AutoScalerProfile_Expander_MostPods,
+	"priority":    ManagedClusterProperties_AutoScalerProfile_Expander_Priority,
+	"random":      ManagedClusterProperties_AutoScalerProfile_Expander_Random,
+}
+
 type ManagedClusterProperties_AutoScalerProfile_Expander_STATUS string
 
 const (
@@ -11687,6 +11817,14 @@ const (
 	ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_Random     = ManagedClusterProperties_AutoScalerProfile_Expander_STATUS("random")
 )
 
+// Mapping from string to ManagedClusterProperties_AutoScalerProfile_Expander_STATUS
+var managedClusterProperties_AutoScalerProfile_Expander_STATUS_Values = map[string]ManagedClusterProperties_AutoScalerProfile_Expander_STATUS{
+	"least-waste": ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_LeastWaste,
+	"most-pods":   ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_MostPods,
+	"priority":    ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_Priority,
+	"random":      ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_Random,
+}
+
 // +kubebuilder:validation:Enum={"None","Windows_Server"}
 type ManagedClusterWindowsProfile_LicenseType string
 
@@ -11695,6 +11833,12 @@ const (
 	ManagedClusterWindowsProfile_LicenseType_Windows_Server = ManagedClusterWindowsProfile_LicenseType("Windows_Server")
 )
 
+// Mapping from string to ManagedClusterWindowsProfile_LicenseType
+var managedClusterWindowsProfile_LicenseType_Values = map[string]ManagedClusterWindowsProfile_LicenseType{
+	"none":           ManagedClusterWindowsProfile_LicenseType_None,
+	"windows_server": ManagedClusterWindowsProfile_LicenseType_Windows_Server,
+}
+
 type ManagedClusterWindowsProfile_LicenseType_STATUS string
 
 const (
@@ -11702,12 +11846,24 @@ const (
 	ManagedClusterWindowsProfile_LicenseType_STATUS_Windows_Server = ManagedClusterWindowsProfile_LicenseType_STATUS("Windows_Server")
 )
 
+// Mapping from string to ManagedClusterWindowsProfile_LicenseType_STATUS
+var managedClusterWindowsProfile_LicenseType_STATUS_Values = map[string]ManagedClusterWindowsProfile_LicenseType_STATUS{
+	"none":           ManagedClusterWindowsProfile_LicenseType_STATUS_None,
+	"windows_server": ManagedClusterWindowsProfile_LicenseType_STATUS_Windows_Server,
+}
+
 type PowerState_Code_STATUS string
 
 const (
 	PowerState_Code_STATUS_Running = PowerState_Code_STATUS("Running")
 	PowerState_Code_STATUS_Stopped = PowerState_Code_STATUS("Stopped")
 )
+
+// Mapping from string to PowerState_Code_STATUS
+var powerState_Code_STATUS_Values = map[string]PowerState_Code_STATUS{
+	"running": PowerState_Code_STATUS_Running,
+	"stopped": PowerState_Code_STATUS_Stopped,
+}
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
@@ -12517,6 +12673,14 @@ const (
 	ManagedClusterPodIdentity_ProvisioningState_STATUS_Failed   = ManagedClusterPodIdentity_ProvisioningState_STATUS("Failed")
 	ManagedClusterPodIdentity_ProvisioningState_STATUS_Updating = ManagedClusterPodIdentity_ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to ManagedClusterPodIdentity_ProvisioningState_STATUS
+var managedClusterPodIdentity_ProvisioningState_STATUS_Values = map[string]ManagedClusterPodIdentity_ProvisioningState_STATUS{
+	"assigned": ManagedClusterPodIdentity_ProvisioningState_STATUS_Assigned,
+	"deleting": ManagedClusterPodIdentity_ProvisioningState_STATUS_Deleting,
+	"failed":   ManagedClusterPodIdentity_ProvisioningState_STATUS_Failed,
+	"updating": ManagedClusterPodIdentity_ProvisioningState_STATUS_Updating,
+}
 
 // A reference to an Azure resource.
 type ResourceReference struct {

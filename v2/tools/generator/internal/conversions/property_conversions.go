@@ -726,13 +726,69 @@ func assignToEnumeration(
 		return nil, nil
 	}
 
+	conversionContext.AddPackageReference(astmodel.StringsReference)
+
 	return func(
 		reader dst.Expr,
 		writer func(dst.Expr) []dst.Stmt,
 		knownLocals *astmodel.KnownLocalsSet,
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
-		convertingWriter := func(expr dst.Expr) []dst.Stmt {
+		// If the enum is NOT based on a string, we can just do a direct cast and keep things simple
+		if dstEnum.BaseType() != astmodel.StringType {
+			return writer(astbuilder.CallFunc(dstName.Name(), reader)), nil
+		}
+
+		var cacheOriginal dst.Stmt
+		var actualReader dst.Expr
+
+		// If the value we're reading is a local or a field, it's cheap to read and we can skip
+		// using a local (which makes the generated code easier to read). In other cases, we want
+		// to cache the value in a local to avoid repeating any expensive conversion.
+
+		switch reader.(type) {
+		case *dst.Ident, *dst.SelectorExpr:
+			// reading a local variable or a field
+			cacheOriginal = nil
+			actualReader = reader
+		default:
+			// Something else, so we cache the original
+			local := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "", "Value", "Cache")
+			cacheOriginal = astbuilder.ShortDeclaration(local, reader)
+			actualReader = dst.NewIdent(local)
+		}
+
+		if dstEnum.NeedsMappingConversion(dstName) {
+			// We need to use the values mapping to convert the value in a case insensitive way
+
+			mapperId := dstEnum.MapperVariableName(dstName)
+			genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
+
+			// genruntime.ToEnum(<actualReader>, <mapperId>)
+			toEnum := astbuilder.CallQualifiedFunc(
+				genruntimePkg,
+				"ToEnum",
+				actualReader,
+				dst.NewIdent(mapperId))
+
+			convert, err := conversion(
+				toEnum,
+				writer,
+				knownLocals,
+				generationContext)
+			if err != nil {
+				return nil, errors.Wrapf(
+					err,
+					"unable to convert %s to %s",
+					sourceEndpoint.Name(),
+					destinationEndpoint.Name())
+			}
+
+			return astbuilder.Statements(cacheOriginal, convert), nil
+		}
+
+		// Otherwise we just do a direct cast
+		castingWriter := func(expr dst.Expr) []dst.Stmt {
 			cast := &dst.CallExpr{
 				Fun:  dstName.AsType(generationContext),
 				Args: []dst.Expr{expr},
@@ -742,7 +798,7 @@ func assignToEnumeration(
 
 		return conversion(
 			reader,
-			convertingWriter,
+			castingWriter,
 			knownLocals,
 			generationContext)
 	}, nil

@@ -3735,8 +3735,9 @@ func (receiver *EmailReceiver_STATUS) AssignProperties_From_EmailReceiver_STATUS
 
 	// Status
 	if source.Status != nil {
-		status := ReceiverStatus_STATUS(*source.Status)
-		receiver.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, receiverStatus_STATUS_Values)
+		receiver.Status = &statusTemp
 	} else {
 		receiver.Status = nil
 	}
@@ -4975,8 +4976,9 @@ func (receiver *SmsReceiver_STATUS) AssignProperties_From_SmsReceiver_STATUS(sou
 
 	// Status
 	if source.Status != nil {
-		status := ReceiverStatus_STATUS(*source.Status)
-		receiver.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, receiverStatus_STATUS_Values)
+		receiver.Status = &statusTemp
 	} else {
 		receiver.Status = nil
 	}
@@ -5679,6 +5681,13 @@ const (
 	ReceiverStatus_STATUS_Enabled      = ReceiverStatus_STATUS("Enabled")
 	ReceiverStatus_STATUS_NotSpecified = ReceiverStatus_STATUS("NotSpecified")
 )
+
+// Mapping from string to ReceiverStatus_STATUS
+var receiverStatus_STATUS_Values = map[string]ReceiverStatus_STATUS{
+	"disabled":     ReceiverStatus_STATUS_Disabled,
+	"enabled":      ReceiverStatus_STATUS_Enabled,
+	"notspecified": ReceiverStatus_STATUS_NotSpecified,
+}
 
 func init() {
 	SchemeBuilder.Register(&ActionGroup{}, &ActionGroupList{})
