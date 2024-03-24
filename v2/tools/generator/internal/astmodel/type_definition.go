@@ -106,7 +106,7 @@ func AsSimpleDeclarations(
 		Specs: []dst.Spec{
 			&dst.TypeSpec{
 				Name: dst.NewIdent(declContext.Name.Name()),
-				Type: theType.AsType(codeGenerationContext),
+				Type: theType.AsTypeExpr(codeGenerationContext),
 			},
 		},
 	}

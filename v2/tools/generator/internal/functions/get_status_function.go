@@ -30,14 +30,14 @@ func createGetStatusFunction(
 
 	fn := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  receiverType.AsType(genContext),
+		ReceiverType:  receiverType.AsTypeExpr(genContext),
 		Name:          "GetStatus",
 		Body: astbuilder.Statements(
 			astbuilder.Returns(
 				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Status")))),
 	}
 
-	fn.AddReturn(astmodel.ConvertibleStatusInterfaceType.AsType(genContext))
+	fn.AddReturn(astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(genContext))
 	fn.AddComments("returns the status of this resource")
 
 	return fn.DefineFunc(), nil

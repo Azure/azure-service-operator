@@ -103,7 +103,7 @@ func (fn *ResourceConversionFunction) AsFunc(
 	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
 
 	// We always use a pointer receiver, so we can modify it
-	receiverType := astmodel.NewOptionalType(receiver).AsType(codeGenerationContext)
+	receiverType := astmodel.NewOptionalType(receiver).AsTypeExpr(codeGenerationContext)
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
@@ -161,7 +161,7 @@ func (fn *ResourceConversionFunction) directConversion(
 	assignLocal := astbuilder.TypeAssert(
 		localIdent,
 		hubIdent,
-		astbuilder.PointerTo(fn.hub.AsType(generationContext)))
+		astbuilder.PointerTo(fn.hub.AsTypeExpr(generationContext)))
 
 	checkAssert := astbuilder.ReturnIfNotOk(
 		astbuilder.FormatError(
@@ -206,7 +206,7 @@ func (fn *ResourceConversionFunction) indirectConversionFromHub(
 	intermediateType := fn.propertyFunction.ParameterType()
 
 	declareLocal := astbuilder.LocalVariableDeclaration(
-		localId, intermediateType.AsType(generationContext), "// intermediate variable for conversion")
+		localId, intermediateType.AsTypeExpr(generationContext), "// intermediate variable for conversion")
 	declareLocal.Decorations().Before = dst.NewLine
 
 	populateLocalFromHub := astbuilder.ShortDeclaration(
@@ -266,7 +266,7 @@ func (fn *ResourceConversionFunction) indirectConversionToHub(
 	intermediateType := fn.propertyFunction.ParameterType()
 
 	declareLocal := astbuilder.LocalVariableDeclaration(
-		localId, intermediateType.AsType(generationContext), "// intermediate variable for conversion")
+		localId, intermediateType.AsTypeExpr(generationContext), "// intermediate variable for conversion")
 	declareLocal.Decorations().Before = dst.NewLine
 
 	populateLocalFromReceiver := astbuilder.ShortDeclaration(

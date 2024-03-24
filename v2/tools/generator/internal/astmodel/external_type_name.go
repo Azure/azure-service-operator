@@ -48,7 +48,7 @@ func (tn ExternalTypeName) AsDeclarations(codeGenerationContext *CodeGenerationC
 }
 
 // AsType implements Type for TypeName
-func (tn ExternalTypeName) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
+func (tn ExternalTypeName) AsTypeExpr(codeGenerationContext *CodeGenerationContext) dst.Expr {
 	// Need to ensure we include a selector for our external reference
 	packageName := codeGenerationContext.MustGetImportedPackageName(tn.packageReference)
 	return astbuilder.Selector(dst.NewIdent(packageName), tn.Name())

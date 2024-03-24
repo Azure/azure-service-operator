@@ -113,7 +113,7 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 
 	builder := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  receiverType.AsType(codeGenerationContext),
+		ReceiverType:  receiverType.AsTypeExpr(codeGenerationContext),
 		Name:          "SetStatus",
 		Body: astbuilder.Statements(
 			simplePath,
@@ -124,8 +124,8 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 			returnNil),
 	}
 
-	builder.AddParameter(statusParameter, astmodel.ConvertibleStatusInterfaceType.AsType(codeGenerationContext))
-	builder.AddReturn(astmodel.ErrorType.AsType(codeGenerationContext))
+	builder.AddParameter(statusParameter, astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(codeGenerationContext))
+	builder.AddReturn(astmodel.ErrorType.AsTypeExpr(codeGenerationContext))
 
 	builder.AddComments("sets the status of this resource")
 

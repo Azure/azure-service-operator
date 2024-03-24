@@ -68,10 +68,10 @@ func (m *MapType) AsDeclarations(codeGenerationContext *CodeGenerationContext, d
 }
 
 // AsType implements Type for MapType to create the abstract syntax tree for a map
-func (m *MapType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
+func (m *MapType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) dst.Expr {
 	return &dst.MapType{
-		Key:   m.key.AsType(codeGenerationContext),
-		Value: m.value.AsType(codeGenerationContext),
+		Key:   m.key.AsTypeExpr(codeGenerationContext),
+		Value: m.value.AsTypeExpr(codeGenerationContext),
 	}
 }
 

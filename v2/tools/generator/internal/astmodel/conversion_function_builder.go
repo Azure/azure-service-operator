@@ -296,7 +296,7 @@ func IdentityConvertComplexArrayProperty(
 			results,
 			astbuilder.LocalVariableDeclaration(
 				innerDestinationIdent,
-				destinationType.AsType(builder.CodeGenerationContext),
+				destinationType.AsTypeExpr(builder.CodeGenerationContext),
 				""))
 	}
 
@@ -336,7 +336,7 @@ func IdentityConvertComplexArrayProperty(
 	// If we must forcibly construct empty collections, check if the destination is nil and if so, construct an empty collection
 	// This only applies for top-level collections (we don't forcibly construct nested collections)
 	if depth == 0 && builder.ShouldInitializeCollectionToEmpty(params.SourceProperty) {
-		emptySlice := astbuilder.SliceLiteral(destinationType.Element().AsType(builder.CodeGenerationContext))
+		emptySlice := astbuilder.SliceLiteral(destinationType.Element().AsTypeExpr(builder.CodeGenerationContext))
 		assignEmpty := astbuilder.SimpleAssignment(params.GetDestination(), emptySlice)
 		astbuilder.AddComments(
 			&assignEmpty.Decs.Start,
@@ -407,8 +407,8 @@ func IdentityConvertComplexMapProperty(
 		return astbuilder.InsertMap(lhs, dst.NewIdent(keyIdent), rhs)
 	}
 
-	keyTypeAst := destinationType.KeyType().AsType(builder.CodeGenerationContext)
-	valueTypeAst := destinationType.ValueType().AsType(builder.CodeGenerationContext)
+	keyTypeAst := destinationType.KeyType().AsTypeExpr(builder.CodeGenerationContext)
+	valueTypeAst := destinationType.ValueType().AsTypeExpr(builder.CodeGenerationContext)
 
 	makeMapStatement := astbuilder.AssignmentStatement(
 		destination,
@@ -581,7 +581,7 @@ func AssignToOptional(
 	}
 
 	return astbuilder.Statements(
-		astbuilder.LocalVariableDeclaration(tmpLocal, dstType.AsType(builder.CodeGenerationContext), ""),
+		astbuilder.LocalVariableDeclaration(tmpLocal, dstType.AsTypeExpr(builder.CodeGenerationContext), ""),
 		conversion,
 		params.AssignmentHandlerOrDefault()(
 			params.GetDestination(),
@@ -644,7 +644,7 @@ func AssignFromOptional(
 	}
 
 	var result []dst.Stmt
-	result = append(result, astbuilder.LocalVariableDeclaration(tmpLocal, params.DestinationType.AsType(builder.CodeGenerationContext), ""))
+	result = append(result, astbuilder.LocalVariableDeclaration(tmpLocal, params.DestinationType.AsTypeExpr(builder.CodeGenerationContext), ""))
 	result = append(result, conversion...)
 	result = append(result, params.AssignmentHandlerOrDefault()(params.GetDestination(), dst.NewIdent(tmpLocal)))
 

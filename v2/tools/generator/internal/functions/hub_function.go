@@ -34,7 +34,7 @@ func createHubFunctionBody(
 	receiverName := fn.IdFactory().CreateReceiver(receiver.Name())
 
 	// We always use a pointer receiver
-	receiverType := astmodel.NewOptionalType(receiver).AsType(genContext)
+	receiverType := astmodel.NewOptionalType(receiver).AsTypeExpr(genContext)
 
 	details := astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,

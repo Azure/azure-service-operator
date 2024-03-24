@@ -50,13 +50,13 @@ func createBodyReturningValue(
 		fn := &astbuilder.FuncDetails{
 			Name:          methodName,
 			ReceiverIdent: receiverIdent,
-			ReceiverType:  receiverType.AsType(codeGenerationContext),
+			ReceiverType:  receiverType.AsTypeExpr(codeGenerationContext),
 			Params:        nil,
 			Body:          astbuilder.Statements(astbuilder.Returns(result)),
 		}
 
 		fn.AddComments(comment)
-		fn.AddReturn(returnType.AsType(codeGenerationContext))
+		fn.AddReturn(returnType.AsTypeExpr(codeGenerationContext))
 
 		return fn.DefineFunc(), nil
 	}

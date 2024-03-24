@@ -45,7 +45,7 @@ func newConvertFromARMFunctionBuilder(
 			destinationType:       getReceiverObjectType(codeGenerationContext, receiver),
 			destinationTypeName:   c.kubeTypeName,
 			receiverIdent:         c.idFactory.CreateReceiver(receiver.Name()),
-			receiverTypeExpr:      receiver.AsType(codeGenerationContext),
+			receiverTypeExpr:      receiver.AsTypeExpr(codeGenerationContext),
 			idFactory:             c.idFactory,
 			typeKind:              c.typeKind,
 			codeGenerationContext: codeGenerationContext,
@@ -100,7 +100,7 @@ func (builder *convertFromARMBuilder) functionDeclaration() (*dst.FuncDecl, erro
 	fn.AddComments("populates a Kubernetes CRD object from an Azure ARM object")
 	fn.AddParameter(
 		builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
-		astmodel.ArbitraryOwnerReference.AsType(builder.codeGenerationContext))
+		astmodel.ArbitraryOwnerReference.AsTypeExpr(builder.codeGenerationContext))
 
 	fn.AddParameter(builder.inputIdent, dst.NewIdent("interface{}"))
 	fn.AddReturns("error")
@@ -275,7 +275,7 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 
 	var convertedOwner dst.Expr
 	if ownerNameType == astmodel.KnownResourceReferenceType {
-		compositeLit := astbuilder.NewCompositeLiteralBuilder(astmodel.KnownResourceReferenceType.AsType(builder.codeGenerationContext))
+		compositeLit := astbuilder.NewCompositeLiteralBuilder(astmodel.KnownResourceReferenceType.AsTypeExpr(builder.codeGenerationContext))
 		compositeLit.AddField("Name", astbuilder.Selector(dst.NewIdent(ownerParameter), "Name"))
 		compositeLit.AddField("ARMID", astbuilder.Selector(dst.NewIdent(ownerParameter), "ARMID"))
 		convertedOwner = astbuilder.AddrOf(compositeLit.Build())

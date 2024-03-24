@@ -32,12 +32,12 @@ func createGetSpecFunction(
 
 	fn := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  receiverType.AsType(genContext),
+		ReceiverType:  receiverType.AsTypeExpr(genContext),
 		Name:          "GetSpec",
 		Body:          astbuilder.Statements(ret),
 	}
 
-	fn.AddReturn(astmodel.ConvertibleSpecInterfaceType.AsType(genContext))
+	fn.AddReturn(astmodel.ConvertibleSpecInterfaceType.AsTypeExpr(genContext))
 	fn.AddComments("returns the specification of this resource")
 
 	return fn.DefineFunc(), nil

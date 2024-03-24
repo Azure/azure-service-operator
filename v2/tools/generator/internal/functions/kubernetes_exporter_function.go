@@ -87,7 +87,7 @@ func (d *KubernetesExporterBuilder) exportKubernetesResources(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsType(codeGenerationContext)
+	receiverType := receiver.AsTypeExpr(codeGenerationContext)
 
 	configMapsReference := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeConfigMapsReference)
 
@@ -207,12 +207,12 @@ func (d *KubernetesExporterBuilder) exportKubernetesResources(
 			sliceToClientObjectSlice),
 	}
 
-	fn.AddParameter("_", astmodel.ContextType.AsType(codeGenerationContext))
-	fn.AddParameter("_", astmodel.GenRuntimeMetaObjectType.AsType(codeGenerationContext))
-	fn.AddParameter("_", astmodel.NewOptionalType(astmodel.GenericClientType).AsType(codeGenerationContext))
-	fn.AddParameter("_", astmodel.LogrType.AsType(codeGenerationContext))
+	fn.AddParameter("_", astmodel.ContextType.AsTypeExpr(codeGenerationContext))
+	fn.AddParameter("_", astmodel.GenRuntimeMetaObjectType.AsTypeExpr(codeGenerationContext))
+	fn.AddParameter("_", astmodel.NewOptionalType(astmodel.GenericClientType).AsTypeExpr(codeGenerationContext))
+	fn.AddParameter("_", astmodel.LogrType.AsTypeExpr(codeGenerationContext))
 
-	fn.AddReturn(&dst.ArrayType{Elt: astmodel.ControllerRuntimeObjectType.AsType(codeGenerationContext)})
+	fn.AddReturn(&dst.ArrayType{Elt: astmodel.ControllerRuntimeObjectType.AsTypeExpr(codeGenerationContext)})
 	fn.AddReturn(dst.NewIdent("error"))
 
 	fn.AddComments("defines a resource which can create other resources in Kubernetes.")

@@ -109,7 +109,7 @@ var allOfFailureMsg = "AllOfType should have been replaced by generation time by
 
 // AsType always panics; AllOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (allOf *AllOfType) AsType(_ *CodeGenerationContext) dst.Expr {
+func (allOf *AllOfType) AsTypeExpr(_ *CodeGenerationContext) dst.Expr {
 	panic(errors.New(allOfFailureMsg))
 }
 

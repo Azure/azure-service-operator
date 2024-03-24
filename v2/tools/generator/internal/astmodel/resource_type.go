@@ -343,7 +343,7 @@ func (resource *ResourceType) TestCases() []TestCase {
 }
 
 // AsType always panics because a resource has no direct AST representation
-func (resource *ResourceType) AsType(_ *CodeGenerationContext) dst.Expr {
+func (resource *ResourceType) AsTypeExpr(_ *CodeGenerationContext) dst.Expr {
 	panic("a resource cannot be used directly as a type")
 }
 
@@ -730,7 +730,7 @@ func (resource *ResourceType) resourceListTypeDecls(
 	fields := []*dst.Field{
 		typeMetaField,
 		objectMetaField,
-		defineField("Items", items.AsType(codeGenerationContext), "`json:\"items\"`"),
+		defineField("Items", items.AsTypeExpr(codeGenerationContext), "`json:\"items\"`"),
 	}
 
 	resourceTypeSpec := &dst.TypeSpec{

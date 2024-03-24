@@ -431,7 +431,7 @@ func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGeneratio
 	}
 
 	// Some types opt out of codegen by returning nil
-	typeDeclaration := propType.AsType(codeGenerationContext)
+	typeDeclaration := propType.AsTypeExpr(codeGenerationContext)
 	if typeDeclaration == nil {
 		return nil
 	}
@@ -450,7 +450,7 @@ func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGeneratio
 			},
 		},
 		Names: names,
-		Type:  propType.AsType(codeGenerationContext),
+		Type:  propType.AsTypeExpr(codeGenerationContext),
 		Tag:   astbuilder.TextLiteralf("`%s`", tags),
 	}
 

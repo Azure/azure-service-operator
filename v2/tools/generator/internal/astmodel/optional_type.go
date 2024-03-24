@@ -125,13 +125,13 @@ func (optional *OptionalType) AsDeclarations(codeGenerationContext *CodeGenerati
 }
 
 // AsType renders the Go abstract syntax tree for an optional type
-func (optional *OptionalType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
+func (optional *OptionalType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) dst.Expr {
 	// Special case interface{} as it shouldn't be a pointer
 	if optional.element == AnyType {
-		return optional.element.AsType(codeGenerationContext)
+		return optional.element.AsTypeExpr(codeGenerationContext)
 	}
 
-	return astbuilder.PointerTo(optional.element.AsType(codeGenerationContext))
+	return astbuilder.PointerTo(optional.element.AsTypeExpr(codeGenerationContext))
 }
 
 // AsZero renders an expression for the "zero" value of the type

@@ -522,7 +522,7 @@ func pullFromBagItem(
 		// var <local> <sourceBagItemType>
 		declare := astbuilder.NewVariableWithType(
 			local,
-			sourceBagItem.AsType(generationContext))
+			sourceBagItem.AsTypeExpr(generationContext))
 
 		// We're wrapping the conversion in a nested block, so any locals are independent
 		knownLocals = knownLocals.Clone()
@@ -790,7 +790,7 @@ func assignToEnumeration(
 		// Otherwise we just do a direct cast
 		castingWriter := func(expr dst.Expr) []dst.Stmt {
 			cast := &dst.CallExpr{
-				Fun:  dstName.AsType(generationContext),
+				Fun:  dstName.AsTypeExpr(generationContext),
 				Args: []dst.Expr{expr},
 			}
 			return writer(cast)
@@ -894,7 +894,7 @@ func assignAliasedPrimitiveFromAliasedPrimitive(
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
 		return writer(&dst.CallExpr{
-			Fun:  destinationName.AsType(generationContext),
+			Fun:  destinationName.AsTypeExpr(generationContext),
 			Args: []dst.Expr{reader},
 		}), nil
 	}, nil
@@ -947,7 +947,7 @@ func assignFromAliasedType(
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
 		actualReader := &dst.CallExpr{
-			Fun:  sourceType.AsType(generationContext),
+			Fun:  sourceType.AsTypeExpr(generationContext),
 			Args: []dst.Expr{reader},
 		}
 
@@ -1005,7 +1005,7 @@ func assignToAliasedType(
 	) ([]dst.Stmt, error) {
 		actualWriter := func(expr dst.Expr) []dst.Stmt {
 			castToAlias := &dst.CallExpr{
-				Fun:  destinationName.AsType(generationContext),
+				Fun:  destinationName.AsTypeExpr(generationContext),
 				Args: []dst.Expr{expr},
 			}
 
@@ -1291,7 +1291,7 @@ func assignArrayFromArray(
 
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
-			astbuilder.MakeSlice(destinationArray.AsType(generationContext), astbuilder.CallFunc("len", actualReader)))
+			astbuilder.MakeSlice(destinationArray.AsTypeExpr(generationContext), astbuilder.CallFunc("len", actualReader)))
 
 		writeToElement := func(expr dst.Expr) []dst.Stmt {
 			return []dst.Stmt{
@@ -1435,8 +1435,8 @@ func assignMapFromMap(
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
 			astbuilder.MakeMapWithCapacity(
-				destinationMap.KeyType().AsType(generationContext),
-				destinationMap.ValueType().AsType(generationContext),
+				destinationMap.KeyType().AsTypeExpr(generationContext),
+				destinationMap.ValueType().AsTypeExpr(generationContext),
 				astbuilder.CallFunc("len", actualReader)))
 
 		assignToItem := func(expr dst.Expr) []dst.Stmt {
@@ -1562,13 +1562,13 @@ func assignUserAssignedIdentityMapFromArray(
 		tempId := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "List")
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
-			astbuilder.MakeEmptySlice(destinationArray.AsType(generationContext), astbuilder.CallFunc("len", reader)))
+			astbuilder.MakeEmptySlice(destinationArray.AsTypeExpr(generationContext), astbuilder.CallFunc("len", reader)))
 
 		loopLocals := knownLocals.Clone()
 		keyID := loopLocals.CreateLocal(sourceEndpoint.Name(), "Key")
 
 		intermediateDestination := loopLocals.CreateLocal(destinationEndpoint.Name(), "Ref")
-		uaiBuilder := astbuilder.NewCompositeLiteralBuilder(destinationElement.AsType(generationContext))
+		uaiBuilder := astbuilder.NewCompositeLiteralBuilder(destinationElement.AsTypeExpr(generationContext))
 		uaiBuilder.AddField("Reference", dst.NewIdent(intermediateDestination))
 
 		writeToElement := func(expr dst.Expr) []dst.Stmt {

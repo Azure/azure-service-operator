@@ -61,8 +61,8 @@ func (b *PropertyBagMemberType) References() astmodel.TypeNameSet {
 }
 
 // AsType renders as our contained type
-func (b *PropertyBagMemberType) AsType(ctx *astmodel.CodeGenerationContext) dst.Expr {
-	return b.element.AsType(ctx)
+func (b *PropertyBagMemberType) AsTypeExpr(ctx *astmodel.CodeGenerationContext) dst.Expr {
+	return b.element.AsTypeExpr(ctx)
 }
 
 // AsDeclarations panics because this is a metatype that will never be rendered

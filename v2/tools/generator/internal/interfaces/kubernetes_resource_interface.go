@@ -229,7 +229,7 @@ func getEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFuncti
 		methodName string,
 	) (*dst.FuncDecl, error) {
 		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
-		receiverType := receiver.AsType(codeGenerationContext)
+		receiverType := receiver.AsTypeExpr(codeGenerationContext)
 
 		fn := &astbuilder.FuncDetails{
 			Name:          methodName,
@@ -256,7 +256,7 @@ func setEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFuncti
 		methodName string,
 	) (*dst.FuncDecl, error) {
 		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
-		receiverType := receiver.AsType(codeGenerationContext)
+		receiverType := receiver.AsTypeExpr(codeGenerationContext)
 
 		azureNameProp := astbuilder.Selector(dst.NewIdent(receiverIdent), astmodel.AzureNameProperty)
 
@@ -295,7 +295,7 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 		methodName string,
 	) (*dst.FuncDecl, error) {
 		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
-		receiverType := receiver.AsType(codeGenerationContext)
+		receiverType := receiver.AsTypeExpr(codeGenerationContext)
 
 		fn := &astbuilder.FuncDetails{
 			Name:          methodName,
@@ -337,10 +337,10 @@ func getOwnerFunction(
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiver.AsType(codeGenerationContext)),
+		ReceiverType:  astbuilder.PointerTo(receiver.AsTypeExpr(codeGenerationContext)),
 		Params:        nil,
 	}
-	fn.AddReturn(astbuilder.Dereference(astmodel.ResourceReferenceType.AsType(codeGenerationContext)))
+	fn.AddReturn(astbuilder.Dereference(astmodel.ResourceReferenceType.AsTypeExpr(codeGenerationContext)))
 
 	groupLocal := "group"
 	kindLocal := "kind"
@@ -408,7 +408,7 @@ func getResourceScopeFunction(
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  receiverType.AsType(codeGenerationContext),
+		ReceiverType:  receiverType.AsTypeExpr(codeGenerationContext),
 		Params:        nil,
 		Body: astbuilder.Statements(
 			astbuilder.Returns(
@@ -416,7 +416,7 @@ func getResourceScopeFunction(
 	}
 
 	fn.AddComments("returns the scope of the resource")
-	fn.AddReturn(astmodel.ResourceScopeType.AsType(codeGenerationContext))
+	fn.AddReturn(astmodel.ResourceScopeType.AsTypeExpr(codeGenerationContext))
 
 	return fn.DefineFunc(), nil
 }
@@ -459,7 +459,7 @@ func getSupportedOperationsFunction(
 		idents = append(idents, astbuilder.Selector(dst.NewIdent(genruntimePackage), genruntimeOpName))
 	}
 
-	sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.ResourceOperationType.AsType(codeGenerationContext), true)
+	sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.ResourceOperationType.AsTypeExpr(codeGenerationContext), true)
 	for _, id := range idents {
 		sliceBuilder.AddElement(id)
 	}
@@ -467,7 +467,7 @@ func getSupportedOperationsFunction(
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  receiverType.AsType(codeGenerationContext),
+		ReceiverType:  receiverType.AsTypeExpr(codeGenerationContext),
 		Params:        nil,
 		Body: astbuilder.Statements(
 			astbuilder.Returns(sliceBuilder.Build()),
@@ -475,7 +475,7 @@ func getSupportedOperationsFunction(
 	}
 
 	fn.AddComments("returns the operations supported by the resource")
-	fn.AddReturn(astmodel.ResourceOperationTypeArray.AsType(codeGenerationContext))
+	fn.AddReturn(astmodel.ResourceOperationTypeArray.AsTypeExpr(codeGenerationContext))
 
 	return fn.DefineFunc(), nil
 }
@@ -523,7 +523,7 @@ func setStringAzureNameFunction(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsType(codeGenerationContext)
+	receiverType := receiver.AsTypeExpr(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
@@ -551,7 +551,7 @@ func getStringAzureNameFunction(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsType(codeGenerationContext)
+	receiverType := receiver.AsTypeExpr(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,

@@ -56,12 +56,12 @@ func (fake *FakeFunction) AsFunc(
 	receiverName := fake.idFactory.CreateReceiver(receiver.Name())
 	details := astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  astmodel.NewOptionalType(receiver).AsType(codeGenerationContext),
+		ReceiverType:  astmodel.NewOptionalType(receiver).AsTypeExpr(codeGenerationContext),
 		Name:          fake.name,
 	}
 
 	if fake.TypeReturned != nil {
-		details.AddReturn(fake.TypeReturned.AsType(codeGenerationContext))
+		details.AddReturn(fake.TypeReturned.AsTypeExpr(codeGenerationContext))
 	}
 
 	return details.DefineFunc(), nil

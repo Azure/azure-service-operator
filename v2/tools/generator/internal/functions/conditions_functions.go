@@ -26,7 +26,7 @@ func GetConditionsFunction(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsType(codeGenerationContext)
+	receiverType := receiver.AsTypeExpr(codeGenerationContext)
 
 	status := astbuilder.Selector(dst.NewIdent(receiverIdent), "Status")
 
@@ -40,7 +40,7 @@ func GetConditionsFunction(
 	}
 
 	fn.AddComments("returns the conditions of the resource")
-	fn.AddReturn(astmodel.ConditionsType.AsType(codeGenerationContext))
+	fn.AddReturn(astmodel.ConditionsType.AsTypeExpr(codeGenerationContext))
 
 	return fn.DefineFunc(), nil
 }
@@ -59,7 +59,7 @@ func SetConditionsFunction(
 	conditionsParameterName := k.IdFactory().CreateIdentifier(astmodel.ConditionsProperty, astmodel.NotExported)
 
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsType(codeGenerationContext)
+	receiverType := receiver.AsTypeExpr(codeGenerationContext)
 	status := astbuilder.Selector(dst.NewIdent(receiverIdent), "Status")
 
 	fn := &astbuilder.FuncDetails{
@@ -73,7 +73,7 @@ func SetConditionsFunction(
 
 	fn.AddParameter(
 		conditionsParameterName,
-		astmodel.ConditionsType.AsType(codeGenerationContext))
+		astmodel.ConditionsType.AsTypeExpr(codeGenerationContext))
 	fn.AddComments("sets the conditions on the resource status")
 
 	return fn.DefineFunc(), nil

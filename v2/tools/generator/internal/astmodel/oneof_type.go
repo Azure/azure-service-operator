@@ -153,7 +153,7 @@ var oneOFailureMsg = "OneOfType should have been replaced by generation time by 
 
 // AsType always panics; OneOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (oneOf *OneOfType) AsType(_ *CodeGenerationContext) dst.Expr {
+func (oneOf *OneOfType) AsTypeExpr(_ *CodeGenerationContext) dst.Expr {
 	panic(errors.New(oneOFailureMsg))
 }
 

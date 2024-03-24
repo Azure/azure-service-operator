@@ -44,14 +44,14 @@ func createNewEmptyStatusFunction(
 
 		fn := &astbuilder.FuncDetails{
 			ReceiverIdent: receiverIdent,
-			ReceiverType:  receiverType.AsType(genContext),
+			ReceiverType:  receiverType.AsTypeExpr(genContext),
 			Name:          "NewEmptyStatus",
 			Body: astbuilder.Statements(
 				astbuilder.Returns(
 					astbuilder.AddrOf(literal))),
 		}
 
-		fn.AddReturn(astmodel.ConvertibleStatusInterfaceType.AsType(genContext))
+		fn.AddReturn(astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(genContext))
 		fn.AddComments("returns a new empty (blank) status")
 
 		return fn.DefineFunc(), nil

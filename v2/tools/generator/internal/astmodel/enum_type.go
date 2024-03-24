@@ -115,7 +115,7 @@ func (enum *EnumType) createBaseDeclaration(
 ) dst.Decl {
 	typeSpecification := &dst.TypeSpec{
 		Name: dst.NewIdent(name.Name()),
-		Type: enum.baseType.AsType(codeGenerationContext),
+		Type: enum.baseType.AsTypeExpr(codeGenerationContext),
 	}
 
 	declaration := &dst.GenDecl{
@@ -204,7 +204,7 @@ func (enum *EnumType) createValueDeclaration(name TypeName, value EnumValue) dst
 }
 
 // AsType implements Type for EnumType
-func (enum *EnumType) AsType(_ *CodeGenerationContext) dst.Expr {
+func (enum *EnumType) AsTypeExpr(_ *CodeGenerationContext) dst.Expr {
 	// this should "never" happen as we name all enums; panic if it does
 	panic(errors.New("Emitting unnamed enum, something’s awry"))
 }

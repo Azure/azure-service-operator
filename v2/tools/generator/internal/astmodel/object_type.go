@@ -79,7 +79,7 @@ func (objectType *ObjectType) AsDeclarations(
 		Specs: []dst.Spec{
 			&dst.TypeSpec{
 				Name: dst.NewIdent(declContext.Name.Name()),
-				Type: objectType.AsType(codeGenerationContext),
+				Type: objectType.AsTypeExpr(codeGenerationContext),
 			},
 		},
 	}
@@ -241,7 +241,7 @@ func (objectType *ObjectType) HasFunctionWithName(name string) bool {
 }
 
 // AsType implements Type for ObjectType
-func (objectType *ObjectType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
+func (objectType *ObjectType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) dst.Expr {
 	embedded := objectType.EmbeddedProperties()
 	fields := make([]*dst.Field, 0, len(embedded))
 	for _, f := range embedded {
