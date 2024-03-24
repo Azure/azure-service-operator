@@ -84,7 +84,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 	fn := &astbuilder.FuncDetails{
 		Name:          f.Name(),
 		ReceiverIdent: receiverName,
-		ReceiverType:  receiver.AsType(codeGenerationContext),
+		ReceiverType:  receiver.AsTypeExpr(codeGenerationContext),
 		Body:          statements,
 	}
 

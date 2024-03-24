@@ -48,7 +48,7 @@ func NewInitializeSpecFunction(
 	) (*dst.FuncDecl, error) {
 		fmtPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.FmtReference)
 
-		receiverType := receiver.AsType(codeGenerationContext)
+		receiverType := receiver.AsTypeExpr(codeGenerationContext)
 		receiverName := idFactory.CreateReceiver(receiver.Name())
 
 		knownLocals := astmodel.NewKnownLocalsSet(idFactory)
@@ -69,7 +69,7 @@ func NewInitializeSpecFunction(
 		// }
 		initialize := astbuilder.IfType(
 			dst.NewIdent(statusParam),
-			astbuilder.Dereference(statusType.AsType(codeGenerationContext)),
+			astbuilder.Dereference(statusType.AsTypeExpr(codeGenerationContext)),
 			statusLocal,
 			returnConversion)
 
@@ -91,7 +91,7 @@ func NewInitializeSpecFunction(
 		}
 
 		funcDetails.AddComments("initializes the spec for this resource from the given status")
-		funcDetails.AddParameter(statusParam, astmodel.ConvertibleStatusInterfaceType.AsType(codeGenerationContext))
+		funcDetails.AddParameter(statusParam, astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(codeGenerationContext))
 		funcDetails.AddReturns("error")
 
 		return funcDetails.DefineFunc(), nil

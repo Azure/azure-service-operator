@@ -52,7 +52,7 @@ func TestOneOfAsTypePanics(t *testing.T) {
 
 	x := OneOfType{}
 	g.Expect(func() {
-		x.AsType(&CodeGenerationContext{})
+		x.AsTypeExpr(&CodeGenerationContext{})
 	}).To(PanicWith(MatchError(expectedOneOfPanic)))
 }
 

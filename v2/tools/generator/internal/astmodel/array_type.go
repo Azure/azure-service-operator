@@ -50,9 +50,9 @@ func (array *ArrayType) AsDeclarations(codeGenerationContext *CodeGenerationCont
 }
 
 // AsType renders the Go abstract syntax tree for an array type
-func (array *ArrayType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
+func (array *ArrayType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) dst.Expr {
 	return &dst.ArrayType{
-		Elt: array.element.AsType(codeGenerationContext),
+		Elt: array.element.AsTypeExpr(codeGenerationContext),
 	}
 }
 

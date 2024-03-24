@@ -41,7 +41,7 @@ func newConvertToARMFunctionBuilder(
 			destinationType:       c.armType,
 			destinationTypeName:   c.armTypeName,
 			receiverIdent:         c.idFactory.CreateReceiver(receiver.Name()),
-			receiverTypeExpr:      receiver.AsType(codeGenerationContext),
+			receiverTypeExpr:      receiver.AsTypeExpr(codeGenerationContext),
 			idFactory:             c.idFactory,
 			typeKind:              c.typeKind,
 			codeGenerationContext: codeGenerationContext,
@@ -95,7 +95,7 @@ func (builder *convertToARMBuilder) functionDeclaration() (*dst.FuncDecl, error)
 		Body:          body,
 	}
 
-	fn.AddParameter(resolvedParameterString, astmodel.ConvertToARMResolvedDetailsType.AsType(builder.codeGenerationContext))
+	fn.AddParameter(resolvedParameterString, astmodel.ConvertToARMResolvedDetailsType.AsTypeExpr(builder.codeGenerationContext))
 	fn.AddReturns("interface{}", "error")
 	fn.AddComments("converts from a Kubernetes CRD object to an ARM object")
 
@@ -516,7 +516,7 @@ func (builder *convertToARMBuilder) buildToPropInitializer(
 	// build (x || y || …)
 	cond := astbuilder.JoinOr(conditions...)
 
-	literal := astbuilder.NewCompositeLiteralBuilder(toPropTypeName.AsType(builder.codeGenerationContext))
+	literal := astbuilder.NewCompositeLiteralBuilder(toPropTypeName.AsTypeExpr(builder.codeGenerationContext))
 
 	// build if (conditions…) { target.prop = &TargetType{} }
 	return &dst.IfStmt{
@@ -629,8 +629,8 @@ func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(
 	locals := params.Locals.Clone()
 
 	itemIdent := locals.CreateLocal("ident")
-	keyTypeAst := destinationType.KeyType().AsType(conversionBuilder.CodeGenerationContext)
-	valueTypeAst := destinationType.ValueType().AsType(conversionBuilder.CodeGenerationContext)
+	keyTypeAst := destinationType.KeyType().AsTypeExpr(conversionBuilder.CodeGenerationContext)
+	valueTypeAst := destinationType.ValueType().AsTypeExpr(conversionBuilder.CodeGenerationContext)
 
 	makeMapStatement := astbuilder.AssignmentStatement(
 		params.Destination,

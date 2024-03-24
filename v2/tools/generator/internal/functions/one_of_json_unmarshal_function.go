@@ -113,7 +113,7 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 	fn := &astbuilder.FuncDetails{
 		Name:          f.Name(),
 		ReceiverIdent: receiverName,
-		ReceiverType:  astbuilder.PointerTo(receiver.AsType(codeGenerationContext)),
+		ReceiverType:  astbuilder.PointerTo(receiver.AsTypeExpr(codeGenerationContext)),
 		Body:          statements,
 	}
 	fn.AddParameter(paramName, &dst.ArrayType{Elt: dst.NewIdent("byte")})

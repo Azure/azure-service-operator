@@ -183,7 +183,7 @@ func validateSecretDestinations(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsType(codeGenerationContext)
+	receiverType := receiver.AsTypeExpr(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
@@ -221,7 +221,7 @@ func validateConfigMapDestinations(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsType(codeGenerationContext)
+	receiverType := receiver.AsTypeExpr(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
@@ -295,7 +295,7 @@ func validateOperatorSpecSliceBody(
 	//     ...
 	// }
 	sliceBuilder := astbuilder.NewSliceLiteralBuilder(
-		validateType.AsType(codeGenerationContext),
+		validateType.AsTypeExpr(codeGenerationContext),
 		true)
 	for _, prop := range operatorSpecPropertyObj.Properties().AsSlice() {
 		propSelector := astbuilder.Selector(specPropertySelector, prop.PropertyName().String())

@@ -157,7 +157,7 @@ func (v *ValidatorBuilder) validateCreate(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
-	receiverType := receiver.AsType(codeGenerationContext)
+	receiverType := receiver.AsTypeExpr(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
@@ -186,7 +186,7 @@ func (v *ValidatorBuilder) validateUpdate(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
-	receiverType := receiver.AsType(codeGenerationContext)
+	receiverType := receiver.AsTypeExpr(codeGenerationContext)
 
 	retType := getValidationFuncType(ValidationKindUpdate, codeGenerationContext)
 
@@ -217,7 +217,7 @@ func (v *ValidatorBuilder) validateDelete(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
-	receiverType := receiver.AsType(codeGenerationContext)
+	receiverType := receiver.AsTypeExpr(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
@@ -256,7 +256,7 @@ func (v *ValidatorBuilder) validateBody(
 	validationFunctionName string,
 	funcParamIdent string,
 ) []dst.Stmt {
-	overrideInterfaceType := astmodel.GenRuntimeValidatorInterfaceName.AsType(codeGenerationContext)
+	overrideInterfaceType := astmodel.GenRuntimeValidatorInterfaceName.AsTypeExpr(codeGenerationContext)
 
 	validationsIdent := "validations"
 	tempVarIdent := "temp"
@@ -346,7 +346,7 @@ func (v *ValidatorBuilder) makeLocalValidationFuncDetails(
 	methodName string,
 ) (*astbuilder.FuncDetails, error) {
 	receiverIdent := v.idFactory.CreateReceiver(receiver.Name())
-	receiverType := receiver.AsType(codeGenerationContext)
+	receiverType := receiver.AsTypeExpr(codeGenerationContext)
 
 	body, err := v.localValidationFuncBody(kind, codeGenerationContext, receiver)
 	if err != nil {

@@ -71,7 +71,7 @@ func (o *OriginalGVKFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
-	gvkType := astmodel.GroupVersionKindType.AsType(codeGenerationContext)
+	gvkType := astmodel.GroupVersionKindType.AsTypeExpr(codeGenerationContext)
 	groupVersionPackageGlobal := dst.NewIdent("GroupVersion")
 
 	receiverName := o.idFactory.CreateReceiver(receiver.Name())
@@ -92,7 +92,7 @@ func (o *OriginalGVKFunction) AsFunc(
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  astbuilder.PointerTo(receiver.AsType(codeGenerationContext)),
+		ReceiverType:  astbuilder.PointerTo(receiver.AsTypeExpr(codeGenerationContext)),
 		Name:          o.Name(),
 		Body:          astbuilder.Statements(astbuilder.Returns(astbuilder.AddrOf(initGVK))),
 	}

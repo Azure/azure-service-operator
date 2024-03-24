@@ -96,12 +96,12 @@ func (ext *GetExtendedResourcesFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
-	krType := astmodel.NewArrayType(astmodel.KubernetesResourceType).AsType(codeGenerationContext)
+	krType := astmodel.NewArrayType(astmodel.KubernetesResourceType).AsTypeExpr(codeGenerationContext)
 	krLiteral := astbuilder.NewCompositeLiteralBuilder(krType).Build()
 
 	// Iterate through the resourceType versions and add them to the KubernetesResource literal slice
 	for _, resource := range ext.resources {
-		expr := astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(resource.AsType(codeGenerationContext)).Build())
+		expr := astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(resource.AsTypeExpr(codeGenerationContext)).Build())
 		expr.Decs.Before = dst.NewLine
 		krLiteral.Elts = append(krLiteral.Elts, expr)
 	}
@@ -110,7 +110,7 @@ func (ext *GetExtendedResourcesFunction) AsFunc(
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  astbuilder.PointerTo(receiver.AsType(codeGenerationContext)),
+		ReceiverType:  astbuilder.PointerTo(receiver.AsTypeExpr(codeGenerationContext)),
 		Name:          ExtendedResourcesFunctionName,
 		Body:          astbuilder.Statements(astbuilder.Returns(krLiteral)),
 	}

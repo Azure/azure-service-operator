@@ -293,7 +293,7 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 	// var hub OtherType
 	declareOther := astbuilder.LocalVariableDeclaration(
 		hubId,
-		tc.toFn.Hub().AsType(codegenContext),
+		tc.toFn.Hub().AsTypeExpr(codegenContext),
 		"// Convert to our hub version")
 	declareOther.Decorations().Before = dst.EmptyLine
 
@@ -313,7 +313,7 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 	// var result OurType
 	declareResult := astbuilder.LocalVariableDeclaration(
 		actualId,
-		subject.AsType(codegenContext),
+		subject.AsTypeExpr(codegenContext),
 		"// Convert from our hub version")
 	declareResult.Decorations().Before = dst.EmptyLine
 
@@ -390,7 +390,7 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 			ret),
 	}
 
-	fn.AddParameter("subject", tc.subject.AsType(codegenContext))
+	fn.AddParameter("subject", tc.subject.AsTypeExpr(codegenContext))
 	fn.AddComments(fmt.Sprintf(
 		"tests if a specific instance of %s round trips to the hub storage version and back losslessly",
 		tc.subject.Name()))

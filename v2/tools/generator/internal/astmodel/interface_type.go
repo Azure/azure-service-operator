@@ -79,7 +79,7 @@ func (i *InterfaceType) References() TypeNameSet {
 }
 
 // AsType renders the Go abstract syntax tree for the interface type
-func (i *InterfaceType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
+func (i *InterfaceType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) dst.Expr {
 	fields := make([]*dst.Field, 0, i.functions.Len())
 
 	functions := i.functions.Values()
@@ -100,7 +100,7 @@ func (i *InterfaceType) AsType(codeGenerationContext *CodeGenerationContext) dst
 	}
 
 	if len(errs) > 0 {
-		// Temporarily panic until we modify the signature for AsType resolving #2970
+		// Temporarily panic until we modify the signature for AsTypeExpr resolving #2970
 		panic(kerrors.NewAggregate(errs))
 	}
 
@@ -123,7 +123,7 @@ func (i *InterfaceType) AsDeclarations(codeGenerationContext *CodeGenerationCont
 		Specs: []dst.Spec{
 			&dst.TypeSpec{
 				Name: dst.NewIdent(declContext.Name.Name()),
-				Type: i.AsType(codeGenerationContext),
+				Type: i.AsTypeExpr(codeGenerationContext),
 			},
 		},
 	}

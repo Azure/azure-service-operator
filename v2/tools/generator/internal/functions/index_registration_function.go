@@ -89,7 +89,7 @@ func (f *IndexRegistrationFunction) AsFunc(
 	cast := astbuilder.TypeAssert(
 		dst.NewIdent(objName),
 		dst.NewIdent(rawObjName),
-		astbuilder.PointerTo(f.resourceTypeName.AsType(codeGenerationContext)))
+		astbuilder.PointerTo(f.resourceTypeName.AsTypeExpr(codeGenerationContext)))
 
 	// if !ok { return nil }
 	checkAssert := astbuilder.ReturnIfNotOk(astbuilder.Nil())
@@ -114,7 +114,7 @@ func (f *IndexRegistrationFunction) AsFunc(
 			stmts),
 	}
 
-	fn.AddParameter(rawObjName, astmodel.ControllerRuntimeObjectType.AsType(codeGenerationContext))
+	fn.AddParameter(rawObjName, astmodel.ControllerRuntimeObjectType.AsTypeExpr(codeGenerationContext))
 
 	fn.AddReturn(&dst.ArrayType{Elt: dst.NewIdent("string")})
 

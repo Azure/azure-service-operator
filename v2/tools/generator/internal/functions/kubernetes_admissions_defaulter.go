@@ -112,7 +112,7 @@ func (d *DefaulterBuilder) localDefault(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsType(codeGenerationContext)
+	receiverType := receiver.AsTypeExpr(codeGenerationContext)
 
 	defaults := make([]dst.Stmt, 0, len(d.defaults))
 	for _, def := range d.defaults {
@@ -139,11 +139,11 @@ func (d *DefaulterBuilder) defaultFunction(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsType(codeGenerationContext)
+	receiverType := receiver.AsTypeExpr(codeGenerationContext)
 	tempVarIdent := "temp"
 	runtimeDefaulterIdent := "runtimeDefaulter"
 
-	overrideInterfaceType := astmodel.GenRuntimeDefaulterInterfaceName.AsType(codeGenerationContext)
+	overrideInterfaceType := astmodel.GenRuntimeDefaulterInterfaceName.AsTypeExpr(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,

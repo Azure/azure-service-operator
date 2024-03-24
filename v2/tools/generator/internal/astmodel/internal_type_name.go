@@ -63,7 +63,7 @@ func (tn InternalTypeName) AsDeclarations(codeGenerationContext *CodeGenerationC
 }
 
 // AsType implements Type for TypeName
-func (tn InternalTypeName) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
+func (tn InternalTypeName) AsTypeExpr(codeGenerationContext *CodeGenerationContext) dst.Expr {
 	// If our name is in the current package, we don't need to qualify it
 	if codeGenerationContext.currentPackage.Equals(tn.packageReference) {
 		return dst.NewIdent(tn.name)

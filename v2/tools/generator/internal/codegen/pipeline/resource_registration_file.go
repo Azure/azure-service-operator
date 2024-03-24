@@ -224,7 +224,7 @@ func createGetKnownTypesFunc(
 			batch = batch[:0]
 		}
 
-		batch = append(batch, astbuilder.CallFunc("new", typeName.AsType(codeGenerationContext)))
+		batch = append(batch, astbuilder.CallFunc("new", typeName.AsTypeExpr(codeGenerationContext)))
 		lastPkg = typeName.PackageReference()
 	}
 
@@ -280,15 +280,15 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 	resultIdent := dst.NewIdent("result")
 	resultVar := astbuilder.LocalVariableDeclaration(
 		resultIdent.String(),
-		astmodel.NewArrayType(astmodel.NewOptionalType(astmodel.StorageTypeRegistrationType)).AsType(codeGenerationContext),
+		astmodel.NewArrayType(astmodel.NewOptionalType(astmodel.StorageTypeRegistrationType)).AsTypeExpr(codeGenerationContext),
 		"")
 
 	sort.Slice(r.storageVersionResources, orderByImportedTypeName(codeGenerationContext, r.storageVersionResources))
 
 	resourceAppendStatements := make([]dst.Stmt, 0, len(r.storageVersionResources))
 	for _, typeName := range r.storageVersionResources {
-		newStorageTypeBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.StorageTypeRegistrationType.AsType(codeGenerationContext))
-		newStorageTypeBuilder.AddField("Obj", astbuilder.CallFunc("new", typeName.AsType(codeGenerationContext)))
+		newStorageTypeBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.StorageTypeRegistrationType.AsTypeExpr(codeGenerationContext))
+		newStorageTypeBuilder.AddField("Obj", astbuilder.CallFunc("new", typeName.AsTypeExpr(codeGenerationContext)))
 
 		// Register index functions (if needed):
 		// Indexes: []registration.Index{
@@ -298,11 +298,11 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 		//		}
 		//	}
 		if indexFuncs, ok := r.indexFunctions[typeName]; ok {
-			sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.IndexRegistrationType.AsType(codeGenerationContext), true)
+			sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.IndexRegistrationType.AsTypeExpr(codeGenerationContext), true)
 			sort.Slice(indexFuncs, orderByFunctionName(indexFuncs))
 			if len(indexFuncs) > 0 {
 				for _, indexFunc := range indexFuncs {
-					newIndexFunctionBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.IndexRegistrationType.AsType(codeGenerationContext))
+					newIndexFunctionBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.IndexRegistrationType.AsTypeExpr(codeGenerationContext))
 					newIndexFunctionBuilder.AddField("Key", astbuilder.StringLiteral(indexFunc.IndexKey()))
 					newIndexFunctionBuilder.AddField("Func", dst.NewIdent(indexFunc.Name()))
 					sliceBuilder.AddElement(newIndexFunctionBuilder.Build())
@@ -346,7 +346,7 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 	f.AddReturn(
 		astmodel.NewArrayType(
 			astmodel.NewOptionalType(astmodel.StorageTypeRegistrationType)).
-			AsType(codeGenerationContext))
+			AsTypeExpr(codeGenerationContext))
 	f.AddComments(funcComment)
 
 	return f.DefineFunc()
@@ -360,14 +360,14 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel
 	resultIdent := dst.NewIdent("result")
 	resultVar := astbuilder.LocalVariableDeclaration(
 		resultIdent.String(),
-		astmodel.NewArrayType(astmodel.ResourceExtensionType).AsType(context),
+		astmodel.NewArrayType(astmodel.ResourceExtensionType).AsTypeExpr(context),
 		"")
 
 	resourceAppendStatements := make([]dst.Stmt, 0, len(r.resourceExtensions))
 	for _, typeName := range r.resourceExtensions {
 		appendStmt := astbuilder.AppendItemToSlice(
 			resultIdent,
-			astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(typeName.AsType(context)).Build()),
+			astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(typeName.AsTypeExpr(context)).Build()),
 		)
 		resourceAppendStatements = append(resourceAppendStatements, appendStmt)
 	}
@@ -381,7 +381,7 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel
 		Body: body,
 	}
 
-	f.AddReturn(astmodel.NewArrayType(astmodel.ResourceExtensionType).AsType(context))
+	f.AddReturn(astmodel.NewArrayType(astmodel.ResourceExtensionType).AsTypeExpr(context))
 	f.AddComments(funcComment)
 
 	return f.DefineFunc()
@@ -515,7 +515,7 @@ func (r *ResourceRegistrationFile) makeWatchesExpr(
 		return nil
 	}
 
-	sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext), true)
+	sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.WatchRegistrationType.AsTypeExpr(codeGenerationContext), true)
 	if secretWatchesExpr != nil {
 		sliceBuilder.AddElement(secretWatchesExpr)
 	}
@@ -547,11 +547,11 @@ func (r *ResourceRegistrationFile) makeSimpleWatchesExpr(
 		return nil
 	}
 
-	newWatchBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext))
+	newWatchBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.WatchRegistrationType.AsTypeExpr(codeGenerationContext))
 	sort.Strings(keys)
 
 	objectType := astbuilder.AddrOf(&dst.CompositeLit{
-		Type: fieldType.AsType(codeGenerationContext),
+		Type: fieldType.AsTypeExpr(codeGenerationContext),
 	})
 	newWatchBuilder.AddField("Type", objectType)
 
@@ -560,7 +560,7 @@ func (r *ResourceRegistrationFile) makeSimpleWatchesExpr(
 		keyParams = append(keyParams, astbuilder.StringLiteral(key))
 	}
 
-	listTypeName := typeName.WithName(typeName.Name() + "List").AsType(codeGenerationContext)
+	listTypeName := typeName.WithName(typeName.Name() + "List").AsTypeExpr(codeGenerationContext)
 
 	eventHandler := astbuilder.CallFunc(
 		watchHelperFuncName,

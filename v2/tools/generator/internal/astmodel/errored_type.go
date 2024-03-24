@@ -162,16 +162,16 @@ func (e *ErroredType) AsDeclarations(
 	return e.inner.AsDeclarations(codeGenerationContext, declContext)
 }
 
-func (e *ErroredType) AsType(cgc *CodeGenerationContext) dst.Expr {
+func (e *ErroredType) AsTypeExpr(cgc *CodeGenerationContext) dst.Expr {
 	if err := e.checkForWarningsAndErrors(); err != nil {
-		// Temporary hack until we change AsType to return an error
+		// Temporary hack until we change AsTypeExpr to return an error
 		panic(err)
 	}
 	if e.inner == nil {
 		return nil
 	}
 
-	return e.inner.AsType(cgc)
+	return e.inner.AsTypeExpr(cgc)
 }
 
 // AsZero renders an expression for the "zero" value of the type

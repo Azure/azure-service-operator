@@ -22,9 +22,10 @@ type Type interface {
 	// Person.
 	References() TypeNameSet
 
-	// AsType renders as a Go abstract syntax tree for a type
-	// (yes this says dst.Expr but that is what the Go 'dst' package uses for types)
-	AsType(codeGenerationContext *CodeGenerationContext) dst.Expr
+	// AsTypeExpr renders as the Go abstract syntax tree to reference this type
+	// (Yes, this returns dst.Expr but that is what the Go 'dst' package uses
+	// for type references).
+	AsTypeExpr(codeGenerationContext *CodeGenerationContext) dst.Expr
 
 	// AsDeclarations renders as a Go abstract syntax tree for a declaration
 	AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error)

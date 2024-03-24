@@ -141,7 +141,7 @@ func (fn *PivotConversionFunction) AsFunc(
 	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
 
 	// We always use a pointer receiver, so we can modify it
-	receiverType := astmodel.NewOptionalType(receiver).AsType(codeGenerationContext)
+	receiverType := astmodel.NewOptionalType(receiver).AsTypeExpr(codeGenerationContext)
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
@@ -150,7 +150,7 @@ func (fn *PivotConversionFunction) AsFunc(
 	}
 
 	parameterName := fn.direction.SelectString("source", "destination")
-	funcDetails.AddParameter(parameterName, fn.parameterType.AsType(codeGenerationContext))
+	funcDetails.AddParameter(parameterName, fn.parameterType.AsTypeExpr(codeGenerationContext))
 
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(fn.declarationDocComment(receiver, parameterName))

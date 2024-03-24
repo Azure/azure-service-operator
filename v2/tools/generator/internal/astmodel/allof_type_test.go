@@ -99,7 +99,7 @@ func TestAllOfAsTypePanics(t *testing.T) {
 
 	x := AllOfType{}
 	g.Expect(func() {
-		x.AsType(&CodeGenerationContext{})
+		x.AsTypeExpr(&CodeGenerationContext{})
 	}).To(PanicWith(MatchError(expectedAllOfPanic)))
 }
 

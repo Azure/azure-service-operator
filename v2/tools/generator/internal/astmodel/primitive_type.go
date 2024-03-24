@@ -48,7 +48,7 @@ var ErrorType = &PrimitiveType{"error", "nil"}
 var _ Type = (*PrimitiveType)(nil)
 
 // AsType implements Type for PrimitiveType returning an abstract syntax tree
-func (prim *PrimitiveType) AsType(_ *CodeGenerationContext) dst.Expr {
+func (prim *PrimitiveType) AsTypeExpr(_ *CodeGenerationContext) dst.Expr {
 	return dst.NewIdent(prim.name)
 }
 
