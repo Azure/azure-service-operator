@@ -254,9 +254,10 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 	astbuilder.AddComment(&assignCopied.Decorations().Start, "// Copy subject to make sure assignment doesn't modify it")
 
 	// var other OtherType
+	parameterTypeExpr := p.toFn.ParameterType().AsTypeExpr(codegenContext)
 	declareOther := astbuilder.LocalVariableDeclaration(
 		otherId,
-		p.toFn.ParameterType().AsTypeExpr(codegenContext),
+		parameterTypeExpr,
 		"// Use AssignPropertiesTo() for the first stage of conversion")
 	declareOther.Decorations().Before = dst.EmptyLine
 
@@ -274,9 +275,10 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 		astbuilder.CallQualifiedFunc("err", "Error"))
 
 	// var result OurType
+	subjectExpr := subject.AsTypeExpr(codegenContext)
 	declareResult := astbuilder.LocalVariableDeclaration(
 		actualId,
-		subject.AsTypeExpr(codegenContext),
+		subjectExpr,
 		"// Use AssignPropertiesFrom() to convert back to our original type")
 	declareResult.Decorations().Before = dst.EmptyLine
 
@@ -354,7 +356,8 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 			ret),
 	}
 
-	fn.AddParameter("subject", p.subject.AsTypeExpr(codegenContext))
+	subjectExpr = p.subject.AsTypeExpr(codegenContext)
+	fn.AddParameter("subject", subjectExpr)
 	fn.AddComments(fmt.Sprintf(
 		"tests if a specific instance of %s can be assigned to %s and back losslessly",
 		p.subject.Name(),

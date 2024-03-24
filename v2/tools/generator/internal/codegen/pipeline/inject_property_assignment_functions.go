@@ -193,7 +193,8 @@ func createAssignPropertiesOverrideStub(
 		funcDetails := &astbuilder.FuncDetails{
 			Name: methodName,
 		}
-		funcDetails.AddParameter(paramName, paramType.AsTypeExpr(codeGenerationContext))
+		paramTypeExpr := paramType.AsTypeExpr(codeGenerationContext)
+		funcDetails.AddParameter(paramName, paramTypeExpr)
 		funcDetails.AddReturn(dst.NewIdent("error"))
 
 		return funcDetails.DefineFuncHeader(), nil

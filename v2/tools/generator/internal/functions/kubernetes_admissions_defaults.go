@@ -31,7 +31,7 @@ func defaultAzureNameFunction(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
-	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	azureNameProp := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec", astmodel.AzureNameProperty)
 	nameProp := astbuilder.Selector(dst.NewIdent(receiverIdent), "Name")
@@ -39,7 +39,7 @@ func defaultAzureNameFunction(
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Body: astbuilder.Statements(
 			astbuilder.IfEqual(
 				azureNameProp,

@@ -67,9 +67,10 @@ func NewInitializeSpecFunction(
 		// if s, ok := fromStatus.(<type of status>); ok {
 		//   return receiver.Spec.InitializeFromStatus(s)
 		// }
+		statusTypeExpr := statusType.AsTypeExpr(codeGenerationContext)
 		initialize := astbuilder.IfType(
 			dst.NewIdent(statusParam),
-			astbuilder.Dereference(statusType.AsTypeExpr(codeGenerationContext)),
+			astbuilder.Dereference(statusTypeExpr),
 			statusLocal,
 			returnConversion)
 
@@ -91,7 +92,8 @@ func NewInitializeSpecFunction(
 		}
 
 		funcDetails.AddComments("initializes the spec for this resource from the given status")
-		funcDetails.AddParameter(statusParam, astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(codeGenerationContext))
+		convertibleStatusInterfaceExpr := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(codeGenerationContext)
+		funcDetails.AddParameter(statusParam, convertibleStatusInterfaceExpr)
 		funcDetails.AddReturns("error")
 
 		return funcDetails.DefineFunc(), nil

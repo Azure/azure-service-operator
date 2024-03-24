@@ -113,9 +113,10 @@ func (enum *EnumType) createBaseDeclaration(
 	description []string,
 	validations []KubeBuilderValidation,
 ) dst.Decl {
+	baseTypeExpr := enum.baseType.AsTypeExpr(codeGenerationContext)
 	typeSpecification := &dst.TypeSpec{
 		Name: dst.NewIdent(name.Name()),
-		Type: enum.baseType.AsTypeExpr(codeGenerationContext),
+		Type: baseTypeExpr,
 	}
 
 	declaration := &dst.GenDecl{

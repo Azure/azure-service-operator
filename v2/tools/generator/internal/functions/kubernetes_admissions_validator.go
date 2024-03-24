@@ -157,12 +157,12 @@ func (v *ValidatorBuilder) validateCreate(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
-	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Body: v.validateBody(
 			codeGenerationContext,
 			receiverIdent,
@@ -186,7 +186,7 @@ func (v *ValidatorBuilder) validateUpdate(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
-	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	retType := getValidationFuncType(ValidationKindUpdate, codeGenerationContext)
 
@@ -194,7 +194,7 @@ func (v *ValidatorBuilder) validateUpdate(
 		Name:          methodName,
 		Params:        retType.Params.List,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Returns:       retType.Results.List,
 		Body: v.validateBody(
 			codeGenerationContext,
@@ -217,12 +217,12 @@ func (v *ValidatorBuilder) validateDelete(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
-	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Body: v.validateBody(
 			codeGenerationContext,
 			receiverIdent,
@@ -346,7 +346,7 @@ func (v *ValidatorBuilder) makeLocalValidationFuncDetails(
 	methodName string,
 ) (*astbuilder.FuncDetails, error) {
 	receiverIdent := v.idFactory.CreateReceiver(receiver.Name())
-	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	body, err := v.localValidationFuncBody(kind, codeGenerationContext, receiver)
 	if err != nil {
@@ -356,7 +356,7 @@ func (v *ValidatorBuilder) makeLocalValidationFuncDetails(
 	return &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Returns: []*dst.Field{
 			{
 				Type: &dst.ArrayType{

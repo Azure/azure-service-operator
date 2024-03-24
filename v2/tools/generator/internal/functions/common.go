@@ -47,16 +47,18 @@ func createBodyReturningValue(
 			receiverType = receiver
 		}
 
+		receiverExpr := receiverType.AsTypeExpr(codeGenerationContext)
 		fn := &astbuilder.FuncDetails{
 			Name:          methodName,
 			ReceiverIdent: receiverIdent,
-			ReceiverType:  receiverType.AsTypeExpr(codeGenerationContext),
+			ReceiverType:  receiverExpr,
 			Params:        nil,
 			Body:          astbuilder.Statements(astbuilder.Returns(result)),
 		}
 
 		fn.AddComments(comment)
-		fn.AddReturn(returnType.AsTypeExpr(codeGenerationContext))
+		returnTypeExpr := returnType.AsTypeExpr(codeGenerationContext)
+		fn.AddReturn(returnTypeExpr)
 
 		return fn.DefineFunc(), nil
 	}

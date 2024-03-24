@@ -34,17 +34,20 @@ func newEmptyARMValueBody(instanceType astmodel.TypeName) ObjectFunctionHandler 
 		methodName string,
 	) (*dst.FuncDecl, error) {
 		receiverName := fn.IdFactory().CreateReceiver(receiver.Name())
-		receiverType := astbuilder.PointerTo(receiver.AsTypeExpr(genContext))
+		receiverType := receiver.AsTypeExpr(genContext)
+		receiverTypeExpr := astbuilder.PointerTo(receiverType)
+
 		instance := astbuilder.NewCompositeLiteralBuilder(dst.NewIdent(instanceType.Name()))
 		returnInstance := astbuilder.Returns(astbuilder.AddrOf(instance.Build()))
 		details := &astbuilder.FuncDetails{
 			Name:          "NewEmptyARMValue",
 			ReceiverIdent: receiverName,
-			ReceiverType:  receiverType,
+			ReceiverType:  receiverTypeExpr,
 			Body:          astbuilder.Statements(returnInstance),
 		}
 
-		details.AddReturn(astmodel.ARMResourceStatusType.AsTypeExpr(genContext))
+		armResourceStatusTypeExpr := astmodel.ARMResourceStatusType.AsTypeExpr(genContext)
+		details.AddReturn(armResourceStatusTypeExpr)
 		details.AddComments("returns an empty ARM value suitable for deserializing into")
 
 		return details.DefineFunc(), nil

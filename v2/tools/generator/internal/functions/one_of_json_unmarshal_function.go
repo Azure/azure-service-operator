@@ -61,6 +61,7 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 ) (*dst.FuncDecl, error) {
 	jsonPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.JsonReference)
 	receiverName := f.idFactory.CreateReceiver(receiver.Name())
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	allDefinitions := codeGenerationContext.GetAllReachableDefinitions()
 	discrimJSONName, valuesMapping, err := astmodel.DetermineDiscriminantAndValues(f.oneOfObject, allDefinitions)
@@ -113,7 +114,7 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 	fn := &astbuilder.FuncDetails{
 		Name:          f.Name(),
 		ReceiverIdent: receiverName,
-		ReceiverType:  astbuilder.PointerTo(receiver.AsTypeExpr(codeGenerationContext)),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Body:          statements,
 	}
 	fn.AddParameter(paramName, &dst.ArrayType{Elt: dst.NewIdent("byte")})

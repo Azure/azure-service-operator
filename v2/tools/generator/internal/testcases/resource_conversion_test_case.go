@@ -291,9 +291,10 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 	astbuilder.AddComment(&assignCopied.Decorations().Start, "// Copy subject to make sure conversion doesn't modify it")
 
 	// var hub OtherType
+	hubExpr := tc.toFn.Hub().AsTypeExpr(codegenContext)
 	declareOther := astbuilder.LocalVariableDeclaration(
 		hubId,
-		tc.toFn.Hub().AsTypeExpr(codegenContext),
+		hubExpr,
 		"// Convert to our hub version")
 	declareOther.Decorations().Before = dst.EmptyLine
 
@@ -311,9 +312,10 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 		astbuilder.CallQualifiedFunc("err", "Error"))
 
 	// var result OurType
+	subjectExpr := subject.AsTypeExpr(codegenContext)
 	declareResult := astbuilder.LocalVariableDeclaration(
 		actualId,
-		subject.AsTypeExpr(codegenContext),
+		subjectExpr,
 		"// Convert from our hub version")
 	declareResult.Decorations().Before = dst.EmptyLine
 
@@ -390,7 +392,8 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 			ret),
 	}
 
-	fn.AddParameter("subject", tc.subject.AsTypeExpr(codegenContext))
+	subjectExpr = tc.subject.AsTypeExpr(codegenContext)
+	fn.AddParameter("subject", subjectExpr)
 	fn.AddComments(fmt.Sprintf(
 		"tests if a specific instance of %s round trips to the hub storage version and back losslessly",
 		tc.subject.Name()))

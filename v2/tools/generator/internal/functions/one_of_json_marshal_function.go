@@ -59,6 +59,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 	jsonPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.JsonReference)
 
 	receiverName := f.idFactory.CreateReceiver(receiver.Name())
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 
 	props := f.oneOfObject.Properties().AsSlice()
 	statements := make([]dst.Stmt, 0, len(props))
@@ -84,7 +85,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 	fn := &astbuilder.FuncDetails{
 		Name:          f.Name(),
 		ReceiverIdent: receiverName,
-		ReceiverType:  receiver.AsTypeExpr(codeGenerationContext),
+		ReceiverType:  receiverExpr,
 		Body:          statements,
 	}
 

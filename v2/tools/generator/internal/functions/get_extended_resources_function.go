@@ -101,16 +101,18 @@ func (ext *GetExtendedResourcesFunction) AsFunc(
 
 	// Iterate through the resourceType versions and add them to the KubernetesResource literal slice
 	for _, resource := range ext.resources {
-		expr := astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(resource.AsTypeExpr(codeGenerationContext)).Build())
+		resourceExpr := resource.AsTypeExpr(codeGenerationContext)
+		expr := astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(resourceExpr).Build())
 		expr.Decs.Before = dst.NewLine
 		krLiteral.Elts = append(krLiteral.Elts, expr)
 	}
 
 	receiverName := ext.idFactory.CreateReceiver(receiver.Name())
-
+	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  astbuilder.PointerTo(receiver.AsTypeExpr(codeGenerationContext)),
+		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Name:          ExtendedResourcesFunctionName,
 		Body:          astbuilder.Statements(astbuilder.Returns(krLiteral)),
 	}

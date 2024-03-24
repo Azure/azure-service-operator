@@ -727,10 +727,11 @@ func (resource *ResourceType) resourceListTypeDecls(
 	// We need an array of items
 	items := NewArrayType(resourceTypeName)
 
+	itemTypeExpr := items.AsTypeExpr(codeGenerationContext)
 	fields := []*dst.Field{
 		typeMetaField,
 		objectMetaField,
-		defineField("Items", items.AsTypeExpr(codeGenerationContext), "`json:\"items\"`"),
+		defineField("Items", itemTypeExpr, "`json:\"items\"`"),
 	}
 
 	resourceTypeSpec := &dst.TypeSpec{

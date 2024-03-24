@@ -136,7 +136,8 @@ func (fn *PropertyAssignmentFunction) AsFunc(
 		fmt.Sprintf("populates the provided destination %s from our %s", fn.ParameterType().Name(), receiver.Name()))
 
 	// We always use a pointer receiver, so we can modify it
-	receiverType := astmodel.NewOptionalType(receiver).AsTypeExpr(codeGenerationContext)
+	receiverType := astmodel.NewOptionalType(receiver)
+	receiverTypeExpr := receiverType.AsTypeExpr(codeGenerationContext)
 
 	body, err := fn.generateBody(fn.receiverName, fn.parameterName, codeGenerationContext)
 	if err != nil {
@@ -145,14 +146,14 @@ func (fn *PropertyAssignmentFunction) AsFunc(
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: fn.receiverName,
-		ReceiverType:  receiverType,
+		ReceiverType:  receiverTypeExpr,
 		Name:          fn.Name(),
 		Body:          body,
 	}
 
-	funcDetails.AddParameter(
-		fn.parameterName,
-		astbuilder.PointerTo(fn.ParameterType().AsTypeExpr(codeGenerationContext)))
+	parameterTypeExpr := astmodel.NewOptionalType(fn.ParameterType()).
+		AsTypeExpr(codeGenerationContext)
+	funcDetails.AddParameter(fn.parameterName, parameterTypeExpr)
 
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(description)
@@ -304,7 +305,7 @@ func (fn *PropertyAssignmentFunction) handleAugmentationInterface(
 		return nil
 	}
 
-	overrideInterface := fn.augmentationInterface.AsTypeExpr(generationContext)
+	augmentationInterfaceExpr := fn.augmentationInterface.AsTypeExpr(generationContext)
 	receiverAsAnyIdent := knownLocals.CreateLocal(receiver + "AsAny")
 
 	sourceAsAny := astbuilder.NewVariableAssignmentWithType(receiverAsAnyIdent, dst.NewIdent("any"), dst.NewIdent(receiver))
@@ -325,7 +326,7 @@ func (fn *PropertyAssignmentFunction) handleAugmentationInterface(
 
 	ifStmt := astbuilder.IfType(
 		dst.NewIdent(receiverAsAnyIdent),
-		overrideInterface,
+		augmentationInterfaceExpr,
 		augmentedReceiverIdent,
 		callAssignOverride,
 		returnIfNotNil)

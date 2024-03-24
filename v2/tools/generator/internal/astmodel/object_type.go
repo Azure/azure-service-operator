@@ -68,6 +68,7 @@ func (objectType *ObjectType) AsDeclarations(
 	codeGenerationContext *CodeGenerationContext,
 	declContext DeclarationContext,
 ) ([]dst.Decl, error) {
+	objectTypeExpr := objectType.AsTypeExpr(codeGenerationContext)
 	declaration := &dst.GenDecl{
 		Decs: dst.GenDeclDecorations{
 			NodeDecs: dst.NodeDecs{
@@ -79,7 +80,7 @@ func (objectType *ObjectType) AsDeclarations(
 		Specs: []dst.Spec{
 			&dst.TypeSpec{
 				Name: dst.NewIdent(declContext.Name.Name()),
-				Type: objectType.AsTypeExpr(codeGenerationContext),
+				Type: objectTypeExpr,
 			},
 		},
 	}

@@ -31,6 +31,7 @@ func newConvertFromARMFunctionBuilder(
 	receiver astmodel.InternalTypeName,
 	methodName string,
 ) *convertFromARMBuilder {
+	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
 	result := &convertFromARMBuilder{
 		// Note: If we have a property with these names we will have a compilation issue in the generated
 		// code. Right now that doesn't seem to be the case anywhere but if it does happen we may need
@@ -45,7 +46,7 @@ func newConvertFromARMFunctionBuilder(
 			destinationType:       getReceiverObjectType(codeGenerationContext, receiver),
 			destinationTypeName:   c.kubeTypeName,
 			receiverIdent:         c.idFactory.CreateReceiver(receiver.Name()),
-			receiverTypeExpr:      receiver.AsTypeExpr(codeGenerationContext),
+			receiverTypeExpr:      receiverExpr,
 			idFactory:             c.idFactory,
 			typeKind:              c.typeKind,
 			codeGenerationContext: codeGenerationContext,
@@ -98,9 +99,10 @@ func (builder *convertFromARMBuilder) functionDeclaration() (*dst.FuncDecl, erro
 	}
 
 	fn.AddComments("populates a Kubernetes CRD object from an Azure ARM object")
+	ownerReferenceExpr := astmodel.ArbitraryOwnerReference.AsTypeExpr(builder.codeGenerationContext)
 	fn.AddParameter(
 		builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
-		astmodel.ArbitraryOwnerReference.AsTypeExpr(builder.codeGenerationContext))
+		ownerReferenceExpr)
 
 	fn.AddParameter(builder.inputIdent, dst.NewIdent("interface{}"))
 	fn.AddReturns("error")
@@ -275,7 +277,8 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 
 	var convertedOwner dst.Expr
 	if ownerNameType == astmodel.KnownResourceReferenceType {
-		compositeLit := astbuilder.NewCompositeLiteralBuilder(astmodel.KnownResourceReferenceType.AsTypeExpr(builder.codeGenerationContext))
+		knownResourceReferenceExpr := astmodel.KnownResourceReferenceType.AsTypeExpr(builder.codeGenerationContext)
+		compositeLit := astbuilder.NewCompositeLiteralBuilder(knownResourceReferenceExpr)
 		compositeLit.AddField("Name", astbuilder.Selector(dst.NewIdent(ownerParameter), "Name"))
 		compositeLit.AddField("ARMID", astbuilder.Selector(dst.NewIdent(ownerParameter), "ARMID"))
 		convertedOwner = astbuilder.AddrOf(compositeLit.Build())
