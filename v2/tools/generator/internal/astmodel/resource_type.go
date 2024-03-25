@@ -343,7 +343,7 @@ func (resource *ResourceType) TestCases() []TestCase {
 }
 
 // AsType always panics because a resource has no direct AST representation
-func (resource *ResourceType) AsTypeExpr(_ *CodeGenerationContext) dst.Expr {
+func (resource *ResourceType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
 	panic("a resource cannot be used directly as a type")
 }
 

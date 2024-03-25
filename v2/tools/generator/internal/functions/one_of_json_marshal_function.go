@@ -7,6 +7,7 @@ package functions
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 
 	"github.com/dave/dst"
 
@@ -59,7 +60,10 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 	jsonPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.JsonReference)
 
 	receiverName := f.idFactory.CreateReceiver(receiver.Name())
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+	}
 
 	props := f.oneOfObject.Properties().AsSlice()
 	statements := make([]dst.Stmt, 0, len(props))

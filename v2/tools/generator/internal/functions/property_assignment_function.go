@@ -137,7 +137,10 @@ func (fn *PropertyAssignmentFunction) AsFunc(
 
 	// We always use a pointer receiver, so we can modify it
 	receiverType := astmodel.NewOptionalType(receiver)
-	receiverTypeExpr := receiverType.AsTypeExpr(codeGenerationContext)
+	receiverTypeExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	body, err := fn.generateBody(fn.receiverName, fn.parameterName, codeGenerationContext)
 	if err != nil {
@@ -151,8 +154,12 @@ func (fn *PropertyAssignmentFunction) AsFunc(
 		Body:          body,
 	}
 
-	parameterTypeExpr := astmodel.NewOptionalType(fn.ParameterType()).
+	parameterTypeExpr, err := astmodel.NewOptionalType(fn.ParameterType()).
 		AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating parameter type expression")
+	}
+	
 	funcDetails.AddParameter(fn.parameterName, parameterTypeExpr)
 
 	funcDetails.AddReturns("error")

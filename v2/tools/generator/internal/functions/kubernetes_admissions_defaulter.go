@@ -7,6 +7,7 @@ package functions
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"strings"
 
 	"github.com/dave/dst"
@@ -112,7 +113,10 @@ func (d *DefaulterBuilder) localDefault(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	defaults := make([]dst.Stmt, 0, len(d.defaults))
 	for _, def := range d.defaults {
@@ -139,11 +143,18 @@ func (d *DefaulterBuilder) defaultFunction(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsTypeExpr(codeGenerationContext)
+	receiverType, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
+
 	tempVarIdent := "temp"
 	runtimeDefaulterIdent := "runtimeDefaulter"
 
-	overrideInterfaceType := astmodel.GenRuntimeDefaulterInterfaceName.AsTypeExpr(codeGenerationContext)
+	overrideInterfaceType, err := astmodel.GenRuntimeDefaulterInterfaceName.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating runtime defaulter interface type expression for method %s", methodName)
+	}
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,

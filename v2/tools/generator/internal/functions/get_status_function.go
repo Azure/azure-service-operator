@@ -7,6 +7,7 @@ package functions
 
 import (
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -27,7 +28,10 @@ func createGetStatusFunction(
 ) (*dst.FuncDecl, error) {
 	receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
-	receiverTypeExpr := receiverType.AsTypeExpr(genContext)
+	receiverTypeExpr, err := receiverType.AsTypeExpr(genContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	fn := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverIdent,
@@ -38,7 +42,11 @@ func createGetStatusFunction(
 				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Status")))),
 	}
 
-	convertibleStatusInterfaceExpr := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(genContext)
+	convertibleStatusInterfaceExpr, err := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(genContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating type expression for ConvertibleStatusInterface")
+	}
+
 	fn.AddReturn(convertibleStatusInterfaceExpr)
 	fn.AddComments("returns the status of this resource")
 

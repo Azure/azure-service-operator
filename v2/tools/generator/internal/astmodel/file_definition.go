@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"github.com/pkg/errors"
 	"go/token"
 	"sort"
 	"strings"
@@ -207,7 +208,11 @@ func (file *FileDefinition) AsAst() (result *dst.File, err error) {
 	for _, defn := range file.definitions {
 		if resource, ok := defn.Type().(*ResourceType); ok {
 			for _, t := range resource.SchemeTypes(defn.Name()) {
-				tExpr := t.AsTypeExpr(codeGenContext)
+				tExpr, err := t.AsTypeExpr(codeGenContext)
+				if err != nil {
+					return nil, errors.Wrapf(err, "creating type expression for %s", t.Name())
+				}
+
 				literal := astbuilder.NewCompositeLiteralBuilder(tExpr)
 				exprs = append(exprs, astbuilder.AddrOf(literal.Build()))
 			}

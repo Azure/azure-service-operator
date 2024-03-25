@@ -183,7 +183,10 @@ func validateSecretDestinations(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating receiver expression")
+	}
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
@@ -221,7 +224,10 @@ func validateConfigMapDestinations(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating receiver expression")
+	}
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,

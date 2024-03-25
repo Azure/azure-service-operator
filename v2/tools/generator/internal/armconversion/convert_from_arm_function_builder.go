@@ -99,7 +99,11 @@ func (builder *convertFromARMBuilder) functionDeclaration() (*dst.FuncDecl, erro
 	}
 
 	fn.AddComments("populates a Kubernetes CRD object from an Azure ARM object")
-	ownerReferenceExpr := astmodel.ArbitraryOwnerReference.AsTypeExpr(builder.codeGenerationContext)
+	ownerReferenceExpr, err := astmodel.ArbitraryOwnerReference.AsTypeExpr(builder.codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating owner reference type expression")
+	}
+
 	fn.AddParameter(
 		builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
 		ownerReferenceExpr)
@@ -277,7 +281,12 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 
 	var convertedOwner dst.Expr
 	if ownerNameType == astmodel.KnownResourceReferenceType {
-		knownResourceReferenceExpr := astmodel.KnownResourceReferenceType.AsTypeExpr(builder.codeGenerationContext)
+		knownResourceReferenceExpr, err := astmodel.KnownResourceReferenceType.AsTypeExpr(builder.codeGenerationContext)
+		if err != nil {
+			return notHandled,
+				errors.Wrapf(err, "creating known resource reference type expression for %s", ownerProp)
+		}
+		
 		compositeLit := astbuilder.NewCompositeLiteralBuilder(knownResourceReferenceExpr)
 		compositeLit.AddField("Name", astbuilder.Selector(dst.NewIdent(ownerParameter), "Name"))
 		compositeLit.AddField("ARMID", astbuilder.Selector(dst.NewIdent(ownerParameter), "ARMID"))

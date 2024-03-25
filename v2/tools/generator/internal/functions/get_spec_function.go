@@ -7,6 +7,7 @@ package functions
 
 import (
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -27,7 +28,10 @@ func createGetSpecFunction(
 ) (*dst.FuncDecl, error) {
 	receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
-	receiverTypeExpr := receiverType.AsTypeExpr(genContext)
+	receiverTypeExpr, err := receiverType.AsTypeExpr(genContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	ret := astbuilder.Returns(astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")))
 
@@ -38,7 +42,11 @@ func createGetSpecFunction(
 		Body:          astbuilder.Statements(ret),
 	}
 
-	convertibleSpecInterfaceExpr := astmodel.ConvertibleSpecInterfaceType.AsTypeExpr(genContext)
+	convertibleSpecInterfaceExpr, err := astmodel.ConvertibleSpecInterfaceType.AsTypeExpr(genContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating type expression for ConvertibleSpecInterface")
+	}
+	
 	fn.AddReturn(convertibleSpecInterfaceExpr)
 	fn.AddComments("returns the specification of this resource")
 

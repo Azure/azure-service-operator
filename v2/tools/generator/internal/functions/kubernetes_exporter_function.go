@@ -87,7 +87,10 @@ func (d *KubernetesExporterBuilder) exportKubernetesResources(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	configMapsReference := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeConfigMapsReference)
 
@@ -207,20 +210,40 @@ func (d *KubernetesExporterBuilder) exportKubernetesResources(
 			sliceToClientObjectSlice),
 	}
 
-	contextTypeExpr := astmodel.ContextType.AsTypeExpr(codeGenerationContext)
+	contextTypeExpr, err := astmodel.ContextType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating context type expression")
+	}
+
 	fn.AddParameter("_", contextTypeExpr)
 
-	metaObjectTypeExpr := astmodel.GenRuntimeMetaObjectType.AsTypeExpr(codeGenerationContext)
+	metaObjectTypeExpr, err := astmodel.GenRuntimeMetaObjectType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating meta object type expression")
+	}
+
 	fn.AddParameter("_", metaObjectTypeExpr)
 
-	clientTypeExpr := astmodel.NewOptionalType(astmodel.GenericClientType).AsTypeExpr(codeGenerationContext)
+	clientTypeExpr, err := astmodel.NewOptionalType(astmodel.GenericClientType).AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating client type expression")
+	}
+
 	fn.AddParameter("_", clientTypeExpr)
 
-	logrTypeExpr := astmodel.LogrType.AsTypeExpr(codeGenerationContext)
+	logrTypeExpr, err := astmodel.LogrType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating logr type expression")
+	}
+
 	fn.AddParameter("_", logrTypeExpr)
 
-	objectArrayType := astmodel.NewArrayType(astmodel.ControllerRuntimeObjectType).
+	objectArrayType, err := astmodel.NewArrayType(astmodel.ControllerRuntimeObjectType).
 		AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating object array type expression")
+	}
+
 	fn.AddReturn(objectArrayType)
 	fn.AddReturn(dst.NewIdent("error"))
 

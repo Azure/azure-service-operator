@@ -7,6 +7,7 @@ package functions
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 
 	"github.com/dave/dst"
 
@@ -62,7 +63,10 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 ) (*dst.FuncDecl, error) {
 	receiverIdent := fn.idFactory.CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
-	receiverTypeExpr := receiverType.AsTypeExpr(codeGenerationContext)
+	receiverTypeExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	statusLocal := "st"
 	statusParameter := "status"
@@ -125,10 +129,18 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 			returnNil),
 	}
 
-	convertibleStatusInterfaceTypeExpr := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(codeGenerationContext)
+	convertibleStatusInterfaceTypeExpr, err := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating convertible status interface type expression")
+	}
+
 	builder.AddParameter(statusParameter, convertibleStatusInterfaceTypeExpr)
 
-	errorTypeExpr := astmodel.ErrorType.AsTypeExpr(codeGenerationContext)
+	errorTypeExpr, err := astmodel.ErrorType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating error type expression")
+	}
+
 	builder.AddReturn(errorTypeExpr)
 
 	builder.AddComments("sets the status of this resource")

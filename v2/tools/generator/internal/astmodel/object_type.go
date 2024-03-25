@@ -68,7 +68,11 @@ func (objectType *ObjectType) AsDeclarations(
 	codeGenerationContext *CodeGenerationContext,
 	declContext DeclarationContext,
 ) ([]dst.Decl, error) {
-	objectTypeExpr := objectType.AsTypeExpr(codeGenerationContext)
+	objectTypeExpr, err := objectType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating object type expression for %s", declContext.Name)
+	}
+
 	declaration := &dst.GenDecl{
 		Decs: dst.GenDeclDecorations{
 			NodeDecs: dst.NodeDecs{
@@ -242,7 +246,7 @@ func (objectType *ObjectType) HasFunctionWithName(name string) bool {
 }
 
 // AsType implements Type for ObjectType
-func (objectType *ObjectType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) dst.Expr {
+func (objectType *ObjectType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
 	embedded := objectType.EmbeddedProperties()
 	fields := make([]*dst.Field, 0, len(embedded))
 	for _, f := range embedded {
@@ -263,7 +267,7 @@ func (objectType *ObjectType) AsTypeExpr(codeGenerationContext *CodeGenerationCo
 		Fields: &dst.FieldList{
 			List: fields,
 		},
-	}
+	}, nil
 }
 
 // AsZero renders an expression for the "zero" value of the type

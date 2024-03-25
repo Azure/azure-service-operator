@@ -6,6 +6,7 @@
 package functions
 
 import (
+	"github.com/pkg/errors"
 	"go/token"
 
 	"github.com/dave/dst"
@@ -57,7 +58,10 @@ func validateResourceReferences(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
@@ -113,7 +117,10 @@ func validateOwnerReferences(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating receiver type expression for %s", receiver)
+	}
 
 	admissionPkg := codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission)
 
@@ -156,7 +163,10 @@ func validateWriteOncePropertiesFunction(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := resourceFn.IdFactory().CreateReceiver(receiver.Name())
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating receiver type expression for %s", receiver)
+	}
 
 	runtimePackage := codeGenerationContext.MustGetImportedPackageName(astmodel.APIMachineryRuntimeReference)
 
@@ -213,7 +223,10 @@ func validateOptionalConfigMapReferences(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,

@@ -7,6 +7,7 @@ package functions
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 
 	"github.com/dave/dst"
 
@@ -35,7 +36,10 @@ func createHubFunctionBody(
 
 	// We always use a pointer receiver
 	receiverType := astmodel.NewOptionalType(receiver)
-	receiverTypeExpr := receiverType.AsTypeExpr(genContext)
+	receiverTypeExpr, err := receiverType.AsTypeExpr(genContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	details := astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,

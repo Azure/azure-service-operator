@@ -48,7 +48,11 @@ func NewInitializeSpecFunction(
 	) (*dst.FuncDecl, error) {
 		fmtPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.FmtReference)
 
-		receiverType := receiver.AsTypeExpr(codeGenerationContext)
+		receiverType, err := receiver.AsTypeExpr(codeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+		}
+
 		receiverName := idFactory.CreateReceiver(receiver.Name())
 
 		knownLocals := astmodel.NewKnownLocalsSet(idFactory)
@@ -67,7 +71,11 @@ func NewInitializeSpecFunction(
 		// if s, ok := fromStatus.(<type of status>); ok {
 		//   return receiver.Spec.InitializeFromStatus(s)
 		// }
-		statusTypeExpr := statusType.AsTypeExpr(codeGenerationContext)
+		statusTypeExpr, err := statusType.AsTypeExpr(codeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating type expression for status %s", statusType)
+		}
+
 		initialize := astbuilder.IfType(
 			dst.NewIdent(statusParam),
 			astbuilder.Dereference(statusTypeExpr),
@@ -92,7 +100,11 @@ func NewInitializeSpecFunction(
 		}
 
 		funcDetails.AddComments("initializes the spec for this resource from the given status")
-		convertibleStatusInterfaceExpr := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(codeGenerationContext)
+		convertibleStatusInterfaceExpr, err := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(codeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating type expression for %s", astmodel.ConvertibleStatusInterfaceType)
+		}
+
 		funcDetails.AddParameter(statusParam, convertibleStatusInterfaceExpr)
 		funcDetails.AddReturns("error")
 

@@ -292,7 +292,11 @@ func IdentityConvertComplexArrayProperty(
 		// TODO: The suffix here should maybe be configurable on the function builder?
 		innerDestinationIdent := locals.CreateLocal(params.NameHint, "Temp")
 		destination = dst.NewIdent(innerDestinationIdent)
-		destinationTypeExpr := destinationType.AsTypeExpr(builder.CodeGenerationContext)
+		destinationTypeExpr, err := destinationType.AsTypeExpr(builder.CodeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrap(err, "creating destination type expression")
+		}
+
 		results = append(
 			results,
 			astbuilder.LocalVariableDeclaration(
@@ -337,7 +341,11 @@ func IdentityConvertComplexArrayProperty(
 	// If we must forcibly construct empty collections, check if the destination is nil and if so, construct an empty collection
 	// This only applies for top-level collections (we don't forcibly construct nested collections)
 	if depth == 0 && builder.ShouldInitializeCollectionToEmpty(params.SourceProperty) {
-		destinationTypeExpr := destinationType.Element().AsTypeExpr(builder.CodeGenerationContext)
+		destinationTypeExpr, err := destinationType.Element().AsTypeExpr(builder.CodeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrap(err, "creating destination type expression")
+		}
+
 		emptySlice := astbuilder.SliceLiteral(destinationTypeExpr)
 		assignEmpty := astbuilder.SimpleAssignment(params.GetDestination(), emptySlice)
 		astbuilder.AddComments(
@@ -409,8 +417,15 @@ func IdentityConvertComplexMapProperty(
 		return astbuilder.InsertMap(lhs, dst.NewIdent(keyIdent), rhs)
 	}
 
-	keyTypeExpr := destinationType.KeyType().AsTypeExpr(builder.CodeGenerationContext)
-	valueTypeExpr := destinationType.ValueType().AsTypeExpr(builder.CodeGenerationContext)
+	keyTypeExpr, kerr := destinationType.KeyType().AsTypeExpr(builder.CodeGenerationContext)
+	if kerr != nil {
+		return nil, errors.Wrap(kerr, "creating key type expression")
+	}
+
+	valueTypeExpr, verr := destinationType.ValueType().AsTypeExpr(builder.CodeGenerationContext)
+	if verr != nil {
+		return nil, errors.Wrap(verr, "creating value type expression")
+	}
 
 	makeMapStatement := astbuilder.AssignmentStatement(
 		destination,
@@ -582,7 +597,11 @@ func AssignToOptional(
 		return nil, nil // unable to build inner conversion
 	}
 
-	destinationTypeExpr := dstType.AsTypeExpr(builder.CodeGenerationContext)
+	destinationTypeExpr, err := dstType.AsTypeExpr(builder.CodeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating destination type expression")
+	}
+
 	return astbuilder.Statements(
 		astbuilder.LocalVariableDeclaration(tmpLocal, destinationTypeExpr, ""),
 		conversion,
@@ -647,7 +666,11 @@ func AssignFromOptional(
 	}
 
 	var result []dst.Stmt
-	destinationTypeExpr := params.DestinationType.AsTypeExpr(builder.CodeGenerationContext)
+	destinationTypeExpr, err := params.DestinationType.AsTypeExpr(builder.CodeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating destination type expression")
+	}
+
 	result = append(result, astbuilder.LocalVariableDeclaration(tmpLocal, destinationTypeExpr, ""))
 	result = append(result, conversion...)
 	result = append(result, params.AssignmentHandlerOrDefault()(params.GetDestination(), dst.NewIdent(tmpLocal)))

@@ -157,7 +157,10 @@ func (v *ValidatorBuilder) validateCreate(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
@@ -186,7 +189,10 @@ func (v *ValidatorBuilder) validateUpdate(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	retType := getValidationFuncType(ValidationKindUpdate, codeGenerationContext)
 
@@ -217,7 +223,10 @@ func (v *ValidatorBuilder) validateDelete(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
@@ -346,7 +355,10 @@ func (v *ValidatorBuilder) makeLocalValidationFuncDetails(
 	methodName string,
 ) (*astbuilder.FuncDetails, error) {
 	receiverIdent := v.idFactory.CreateReceiver(receiver.Name())
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	body, err := v.localValidationFuncBody(kind, codeGenerationContext, receiver)
 	if err != nil {

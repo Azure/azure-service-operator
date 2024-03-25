@@ -63,10 +63,10 @@ func (tn InternalTypeName) AsDeclarations(codeGenerationContext *CodeGenerationC
 }
 
 // AsType implements Type for TypeName
-func (tn InternalTypeName) AsTypeExpr(codeGenerationContext *CodeGenerationContext) dst.Expr {
+func (tn InternalTypeName) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
 	// If our name is in the current package, we don't need to qualify it
 	if codeGenerationContext.currentPackage.Equals(tn.packageReference) {
-		return dst.NewIdent(tn.name)
+		return dst.NewIdent(tn.name), nil
 	}
 
 	// Need to ensure we include a selector for that reference
@@ -79,7 +79,7 @@ func (tn InternalTypeName) AsTypeExpr(codeGenerationContext *CodeGenerationConte
 			codeGenerationContext.currentPackage))
 	}
 
-	return astbuilder.Selector(dst.NewIdent(packageName), tn.Name())
+	return astbuilder.Selector(dst.NewIdent(packageName), tn.Name()), nil
 }
 
 // AsZero renders an expression for the "zero" value of the type.

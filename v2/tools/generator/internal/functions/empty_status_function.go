@@ -7,6 +7,7 @@ package functions
 
 import (
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -34,7 +35,10 @@ func createNewEmptyStatusFunction(
 	return func(f *ObjectFunction, genContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, _ string) (*dst.FuncDecl, error) {
 		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 		receiverType := astmodel.NewOptionalType(receiver)
-		receiverTypeExpr := receiverType.AsTypeExpr(genContext)
+		receiverTypeExpr, err := receiverType.AsTypeExpr(genContext)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating receiver expression for %s", receiverType)
+		}
 
 		// When Storage variants are created from resources, any existing functions are copied across - which means
 		// the statusType we've been passed in above may be from the wrong package. We always want to use the status
@@ -52,7 +56,11 @@ func createNewEmptyStatusFunction(
 					astbuilder.AddrOf(literal))),
 		}
 
-		convertibleStatusInterfaceExpr := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(genContext)
+		convertibleStatusInterfaceExpr, err := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(genContext)
+		if err != nil {
+			return nil, errors.Wrap(err, "unable to create ConvertibleStatusInterfaceType expression")
+		}
+
 		fn.AddReturn(convertibleStatusInterfaceExpr)
 		fn.AddComments("returns a new empty (blank) status")
 

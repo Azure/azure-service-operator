@@ -25,7 +25,7 @@ type Type interface {
 	// AsTypeExpr renders as the Go abstract syntax tree to reference this type
 	// (Yes, this returns dst.Expr but that is what the Go 'dst' package uses
 	// for type references).
-	AsTypeExpr(codeGenerationContext *CodeGenerationContext) dst.Expr
+	AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error)
 
 	// AsDeclarations renders as a Go abstract syntax tree for a declaration
 	AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error)

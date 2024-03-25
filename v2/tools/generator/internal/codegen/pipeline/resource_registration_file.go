@@ -224,7 +224,11 @@ func createGetKnownTypesFunc(
 			batch = batch[:0]
 		}
 
-		typeNameExpr := typeName.AsTypeExpr(codeGenerationContext)
+		typeNameExpr, err := typeName.AsTypeExpr(codeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating type expression for %s", typeName.Name())
+		}
+
 		batch = append(batch, astbuilder.CallFunc("new", typeNameExpr))
 		lastPkg = typeName.PackageReference()
 	}

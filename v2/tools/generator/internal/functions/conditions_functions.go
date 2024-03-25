@@ -6,6 +6,7 @@
 package functions
 
 import (
+	"github.com/pkg/errors"
 	"go/token"
 
 	"github.com/dave/dst"
@@ -26,7 +27,10 @@ func GetConditionsFunction(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+	}
 
 	status := astbuilder.Selector(dst.NewIdent(receiverIdent), "Status")
 
@@ -40,7 +44,11 @@ func GetConditionsFunction(
 	}
 
 	fn.AddComments("returns the conditions of the resource")
-	conditionsTypeExpr := astmodel.ConditionsType.AsTypeExpr(codeGenerationContext)
+	conditionsTypeExpr, err := astmodel.ConditionsType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", astmodel.ConditionsType)
+	}
+	
 	fn.AddReturn(conditionsTypeExpr)
 
 	return fn.DefineFunc(), nil
@@ -60,7 +68,11 @@ func SetConditionsFunction(
 	conditionsParameterName := k.IdFactory().CreateIdentifier(astmodel.ConditionsProperty, astmodel.NotExported)
 
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+	}
+
 	status := astbuilder.Selector(dst.NewIdent(receiverIdent), "Status")
 
 	fn := &astbuilder.FuncDetails{
@@ -72,7 +84,11 @@ func SetConditionsFunction(
 		},
 	}
 
-	conditionsTypeExpr := astmodel.ConditionsType.AsTypeExpr(codeGenerationContext)
+	conditionsTypeExpr, err := astmodel.ConditionsType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to render type expression for %s", astmodel.ConditionsType)
+	}
+
 	fn.AddParameter(
 		conditionsParameterName,
 		conditionsTypeExpr)

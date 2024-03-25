@@ -176,7 +176,7 @@ func (v *ValidatedType) AsDeclarations(
 }
 
 // AsType panics because validated types should always be named
-func (v *ValidatedType) AsTypeExpr(_ *CodeGenerationContext) dst.Expr {
+func (v *ValidatedType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
 	panic("Should never happen: validated types must either be named (handled by 'name types for CRDs' pipeline stage) or be directly under properties (handled by PropertyDefinition.AsField)")
 }
 
