@@ -520,7 +520,15 @@ func pullFromBagItem(
 			astbuilder.StringLiteral(sourceEndpoint.Name()))
 
 		// var <local> <sourceBagItemType>
-		sourceBagItemExpr := sourceBagItem.AsTypeExpr(generationContext)
+		sourceBagItemExpr, err := sourceBagItem.AsTypeExpr(generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err,
+				"converting %s to %s reading property bag",
+				sourceEndpoint.Name(),
+				destinationEndpoint.Name())
+		}
+
 		declare := astbuilder.NewVariableWithType(
 			local,
 			sourceBagItemExpr)
@@ -759,6 +767,15 @@ func assignToEnumeration(
 			actualReader = dst.NewIdent(local)
 		}
 
+		dstNameExpr, err := dstName.AsTypeExpr(generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err,
+				"unable to convert %s to %s",
+				sourceEndpoint.Name(),
+				destinationEndpoint.Name())
+		}
+
 		if dstEnum.NeedsMappingConversion(dstName) {
 			// We need to use the values mapping to convert the value in a case insensitive way
 
@@ -894,7 +911,11 @@ func assignAliasedPrimitiveFromAliasedPrimitive(
 		knownLocals *astmodel.KnownLocalsSet,
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
-		destinationNameExpr := destinationName.AsTypeExpr(generationContext)
+		destinationNameExpr, err := destinationName.AsTypeExpr(generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating destination expression")
+		}
+
 		return writer(&dst.CallExpr{
 			Fun:  destinationNameExpr,
 			Args: []dst.Expr{reader},
@@ -948,7 +969,11 @@ func assignFromAliasedType(
 		knownLocals *astmodel.KnownLocalsSet,
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
-		sourceTypeExpr := sourceType.AsTypeExpr(generationContext)
+		sourceTypeExpr, err := sourceType.AsTypeExpr(generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating source expression")
+		}
+
 		actualReader := &dst.CallExpr{
 			Fun:  sourceTypeExpr,
 			Args: []dst.Expr{reader},
@@ -1006,8 +1031,12 @@ func assignToAliasedType(
 		knownLocals *astmodel.KnownLocalsSet,
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
+		destinationNameExpr, err := destinationName.AsTypeExpr(generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating destination expression")
+		}
+
 		actualWriter := func(expr dst.Expr) []dst.Stmt {
-			destinationNameExpr := destinationName.AsTypeExpr(generationContext)
 			castToAlias := &dst.CallExpr{
 				Fun:  destinationNameExpr,
 				Args: []dst.Expr{expr},
@@ -1293,7 +1322,15 @@ func assignArrayFromArray(
 		itemId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Item")
 		indexId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Index")
 
-		destinationArrayExpr := destinationArray.AsTypeExpr(generationContext)
+		destinationArrayExpr, err := destinationArray.AsTypeExpr(generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err,
+				"converting %s to %s",
+				sourceEndpoint.Name(),
+				destinationEndpoint.Name())
+		}
+
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
 			astbuilder.MakeSlice(destinationArrayExpr, astbuilder.CallFunc("len", actualReader)))
@@ -1437,8 +1474,22 @@ func assignMapFromMap(
 		itemId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Value")
 		keyId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Key")
 
-		keyTypeExpr := destinationMap.KeyType().AsTypeExpr(generationContext)
-		valueTypeExpr := destinationMap.ValueType().AsTypeExpr(generationContext)
+		keyTypeExpr, kerr := destinationMap.KeyType().AsTypeExpr(generationContext)
+		if kerr != nil {
+			return nil, errors.Wrapf(
+				kerr,
+				"creating map key type expression for %s",
+				astmodel.DebugDescription(destinationMap.KeyType()))
+		}
+
+		valueTypeExpr, verr := destinationMap.ValueType().AsTypeExpr(generationContext)
+		if verr != nil {
+			return nil, errors.Wrapf(
+				verr,
+				"creating map value type expression for %s",
+				astmodel.DebugDescription(destinationMap.ValueType()))
+		}
+
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
 			astbuilder.MakeMapWithCapacity(
@@ -1567,7 +1618,15 @@ func assignUserAssignedIdentityMapFromArray(
 	) ([]dst.Stmt, error) {
 		// <source>List := make([]<type>, 0, len(<source>)
 		tempId := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "List")
-		destinationArrayExpr := destinationArray.AsTypeExpr(generationContext)
+		destinationArrayExpr, err := destinationArray.AsTypeExpr(generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err,
+				"creating UserAssignedIdentities conversion from %s to %s",
+				astmodel.DebugDescription(astmodel.StringType),
+				astmodel.DebugDescription(astmodel.ResourceReferenceType))
+		}
+
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
 			astbuilder.MakeEmptySlice(destinationArrayExpr, astbuilder.CallFunc("len", reader)))
@@ -1576,7 +1635,15 @@ func assignUserAssignedIdentityMapFromArray(
 		keyID := loopLocals.CreateLocal(sourceEndpoint.Name(), "Key")
 
 		intermediateDestination := loopLocals.CreateLocal(destinationEndpoint.Name(), "Ref")
-		destinationTypeExpr := destinationElement.AsTypeExpr(generationContext)
+		destinationTypeExpr, err := destinationElement.AsTypeExpr(generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err,
+				"creating UserAssignedIdentities conversion from %s to %s",
+				astmodel.DebugDescription(astmodel.StringType),
+				astmodel.DebugDescription(astmodel.ResourceReferenceType))
+		}
+
 		uaiBuilder := astbuilder.NewCompositeLiteralBuilder(destinationTypeExpr)
 		uaiBuilder.AddField("Reference", dst.NewIdent(intermediateDestination))
 

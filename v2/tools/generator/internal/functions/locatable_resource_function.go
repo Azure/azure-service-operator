@@ -7,6 +7,7 @@ package functions
 
 import (
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -34,7 +35,10 @@ func locatableResourceLocationFunc(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	locationSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec", "Location")
 	returnIfLocationNil := astbuilder.ReturnIfNil(locationSelector, astbuilder.StringLiteral(""))
@@ -53,7 +57,11 @@ func locatableResourceLocationFunc(
 
 	fn.AddComments("returns the location of the resource")
 
-	stringTypeExpr := astmodel.StringType.AsTypeExpr(codeGenerationContext)
+	stringTypeExpr, err := astmodel.StringType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating string type expression")
+	}
+
 	fn.AddReturn(stringTypeExpr)
 
 	return fn.DefineFunc(), nil

@@ -7,6 +7,7 @@ package functions
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 
 	"github.com/dave/dst"
 
@@ -142,7 +143,10 @@ func (fn *PivotConversionFunction) AsFunc(
 
 	// We always use a pointer receiver, so we can modify it
 	receiverType := astmodel.NewOptionalType(receiver)
-	receiverTypeExpr := receiverType.AsTypeExpr(codeGenerationContext)
+	receiverTypeExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
@@ -151,7 +155,11 @@ func (fn *PivotConversionFunction) AsFunc(
 	}
 
 	parameterName := fn.direction.SelectString("source", "destination")
-	parameterTypeExpr := fn.parameterType.AsTypeExpr(codeGenerationContext)
+	parameterTypeExpr, err := fn.parameterType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating parameter type expression")
+	}
+
 	funcDetails.AddParameter(parameterName, parameterTypeExpr)
 
 	funcDetails.AddReturns("error")

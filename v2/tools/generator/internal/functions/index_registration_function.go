@@ -86,7 +86,11 @@ func (f *IndexRegistrationFunction) AsFunc(
 	objName := "obj"
 
 	// obj, ok := rawObj.(*<type>)
-	resourceTypeNameExpr := f.resourceTypeName.AsTypeExpr(codeGenerationContext)
+	resourceTypeNameExpr, err := f.resourceTypeName.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", f.resourceTypeName)
+	}
+	
 	cast := astbuilder.TypeAssert(
 		dst.NewIdent(objName),
 		dst.NewIdent(rawObjName),
@@ -115,7 +119,11 @@ func (f *IndexRegistrationFunction) AsFunc(
 			stmts),
 	}
 
-	controllerRuntimeObjectExpr := astmodel.ControllerRuntimeObjectType.AsTypeExpr(codeGenerationContext)
+	controllerRuntimeObjectExpr, err := astmodel.ControllerRuntimeObjectType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating type expression for index registration function")
+	}
+
 	fn.AddParameter(rawObjName, controllerRuntimeObjectExpr)
 
 	fn.AddReturn(&dst.ArrayType{Elt: dst.NewIdent("string")})

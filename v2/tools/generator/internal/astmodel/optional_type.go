@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"strings"
 
 	"github.com/dave/dst"
@@ -125,14 +126,18 @@ func (optional *OptionalType) AsDeclarations(codeGenerationContext *CodeGenerati
 }
 
 // AsType renders the Go abstract syntax tree for an optional type
-func (optional *OptionalType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) dst.Expr {
+func (optional *OptionalType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
 	// Special case interface{} as it shouldn't be a pointer
-	elementExpr := optional.element.AsTypeExpr(codeGenerationContext)
-	if optional.element == AnyType {
-		return elementExpr
+	elementExpr, err := optional.element.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating element for optional type")
 	}
 
-	return astbuilder.PointerTo(elementExpr)
+	if optional.element == AnyType {
+		return elementExpr, nil
+	}
+
+	return astbuilder.PointerTo(elementExpr), nil
 }
 
 // AsZero renders an expression for the "zero" value of the type

@@ -79,7 +79,7 @@ func (i *InterfaceType) References() TypeNameSet {
 }
 
 // AsType renders the Go abstract syntax tree for the interface type
-func (i *InterfaceType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) dst.Expr {
+func (i *InterfaceType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
 	fields := make([]*dst.Field, 0, i.functions.Len())
 
 	functions := i.functions.Values()
@@ -108,11 +108,18 @@ func (i *InterfaceType) AsTypeExpr(codeGenerationContext *CodeGenerationContext)
 		Methods: &dst.FieldList{
 			List: fields,
 		},
-	}
+	}, nil
 }
 
-func (i *InterfaceType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error) {
-	iExpr := i.AsTypeExpr(codeGenerationContext)
+func (i *InterfaceType) AsDeclarations(
+	codeGenerationContext *CodeGenerationContext,
+	declContext DeclarationContext,
+) ([]dst.Decl, error) {
+	iExpr, err := i.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for interface %s", declContext.Name)
+	}
+
 	declaration := &dst.GenDecl{
 		Decs: dst.GenDeclDecorations{
 			NodeDecs: dst.NodeDecs{

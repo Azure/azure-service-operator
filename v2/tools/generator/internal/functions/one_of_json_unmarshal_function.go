@@ -61,7 +61,10 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 ) (*dst.FuncDecl, error) {
 	jsonPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.JsonReference)
 	receiverName := f.idFactory.CreateReceiver(receiver.Name())
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+	}
 
 	allDefinitions := codeGenerationContext.GetAllReachableDefinitions()
 	discrimJSONName, valuesMapping, err := astmodel.DetermineDiscriminantAndValues(f.oneOfObject, allDefinitions)

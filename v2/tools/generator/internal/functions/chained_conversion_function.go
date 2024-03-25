@@ -7,6 +7,7 @@ package functions
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 
 	"github.com/dave/dst"
 
@@ -128,7 +129,10 @@ func (fn *ChainedConversionFunction) AsFunc(
 	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
 
 	// We always use a pointer receiver, so we can modify it
-	receiverExpr := astmodel.NewOptionalType(receiver).AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := astmodel.NewOptionalType(receiver).AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating receiver type expression for %s", receiver)
+	}
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
@@ -137,7 +141,11 @@ func (fn *ChainedConversionFunction) AsFunc(
 	}
 
 	parameterName := fn.direction.SelectString("source", "destination")
-	parameterTypeExpr := fn.parameterType.AsTypeExpr(codeGenerationContext)
+	parameterTypeExpr, err := fn.parameterType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating parameter type expression for %s", parameterName)
+	}
+	
 	funcDetails.AddParameter(parameterName, parameterTypeExpr)
 
 	funcDetails.AddReturns("error")
@@ -179,7 +187,11 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 	local := dst.NewIdent(fn.localVariableId())
 	errIdent := dst.NewIdent("err")
 
-	intermediateType := fn.propertyAssignmentParameterType.AsTypeExpr(generationContext)
+	intermediateType, err := fn.propertyAssignmentParameterType.AsTypeExpr(generationContext)
+	if err != nil {
+		// TODO: Modify bodyForConvert to return an error
+		panic(err)
+	}
 
 	// <local>, ok := <parameter>.(<intermediateType>)
 	typeAssert := astbuilder.TypeAssert(local, parameter, astbuilder.Dereference(intermediateType))

@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"strings"
 
 	"github.com/dave/dst"
@@ -68,13 +69,21 @@ func (m *MapType) AsDeclarations(codeGenerationContext *CodeGenerationContext, d
 }
 
 // AsType implements Type for MapType to create the abstract syntax tree for a map
-func (m *MapType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) dst.Expr {
-	keyExpr := m.key.AsTypeExpr(codeGenerationContext)
-	valueExpr := m.value.AsTypeExpr(codeGenerationContext)
+func (m *MapType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
+	keyExpr, kerr := m.key.AsTypeExpr(codeGenerationContext)
+	if kerr != nil {
+		return nil, errors.Wrap(kerr, "creating map key type")
+	}
+
+	valueExpr, verr := m.value.AsTypeExpr(codeGenerationContext)
+	if verr != nil {
+		return nil, errors.Wrap(verr, "creating map value type")
+	}
+
 	return &dst.MapType{
 		Key:   keyExpr,
 		Value: valueExpr,
-	}
+	}, nil
 }
 
 // AsZero renders an expression for the "zero" value of a map by calling make()
