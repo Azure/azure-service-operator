@@ -682,16 +682,20 @@ func (resource *ResourceType) AsDeclarations(
 		},
 	}
 
-	resourceListDeclaration := resource.resourceListTypeDecls(codeGenerationContext, declContext.Name, declContext.Description)
+	resourceListDeclaration, err := resource.resourceListTypeDecls(
+		codeGenerationContext, declContext.Name, declContext.Description)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating resource list type for %s", declContext.Name)
+	}
 
 	interfaceDeclarations, err := resource.InterfaceImplementer.AsDeclarations(codeGenerationContext, declContext.Name, nil)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to generate interface declarations for %s", declContext.Name)
+		return nil, errors.Wrapf(err, "generating interface declarations for %s", declContext.Name)
 	}
 
 	methodDeclarations, err := resource.generateMethodDecls(codeGenerationContext, declContext.Name)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to generate method declarations for %s", declContext.Name)
+		return nil, errors.Wrapf(err, "generating method declarations for %s", declContext.Name)
 	}
 
 	return astbuilder.Declarations(
@@ -732,7 +736,7 @@ func (resource *ResourceType) resourceListTypeDecls(
 	codeGenerationContext *CodeGenerationContext,
 	resourceTypeName InternalTypeName,
 	description []string,
-) []dst.Decl {
+) ([]dst.Decl, error) {
 	typeName := resource.makeResourceListTypeName(resourceTypeName)
 
 	packageName := codeGenerationContext.MustGetImportedPackageName(MetaV1Reference)
@@ -743,7 +747,11 @@ func (resource *ResourceType) resourceListTypeDecls(
 	// We need an array of items
 	items := NewArrayType(resourceTypeName)
 
-	itemTypeExpr := items.AsTypeExpr(codeGenerationContext)
+	itemTypeExpr, err := items.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", items)
+	}
+
 	fields := []*dst.Field{
 		typeMetaField,
 		objectMetaField,
@@ -763,13 +771,13 @@ func (resource *ResourceType) resourceListTypeDecls(
 
 	astbuilder.AddUnwrappedComments(&comments, description)
 
-	return []dst.Decl{
-		&dst.GenDecl{
-			Tok:   token.TYPE,
-			Specs: []dst.Spec{resourceTypeSpec},
-			Decs:  dst.GenDeclDecorations{NodeDecs: dst.NodeDecs{Start: comments}},
-		},
+	decl := &dst.GenDecl{
+		Tok:   token.TYPE,
+		Specs: []dst.Spec{resourceTypeSpec},
+		Decs:  dst.GenDeclDecorations{NodeDecs: dst.NodeDecs{Start: comments}},
 	}
+
+	return astbuilder.Declarations(decl), nil
 }
 
 // SchemeTypes returns the types represented by this resource which must be registered
