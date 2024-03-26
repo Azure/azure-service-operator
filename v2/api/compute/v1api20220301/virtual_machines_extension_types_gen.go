@@ -2064,8 +2064,9 @@ func (status *InstanceViewStatus) AssignProperties_From_InstanceViewStatus(sourc
 
 	// Level
 	if source.Level != nil {
-		level := InstanceViewStatus_Level(*source.Level)
-		status.Level = &level
+		level := *source.Level
+		levelTemp := genruntime.ToEnum(level, instanceViewStatus_Level_Values)
+		status.Level = &levelTemp
 	} else {
 		status.Level = nil
 	}
@@ -2151,6 +2152,13 @@ const (
 	InstanceViewStatus_Level_Info    = InstanceViewStatus_Level("Info")
 	InstanceViewStatus_Level_Warning = InstanceViewStatus_Level("Warning")
 )
+
+// Mapping from string to InstanceViewStatus_Level
+var instanceViewStatus_Level_Values = map[string]InstanceViewStatus_Level{
+	"error":   InstanceViewStatus_Level_Error,
+	"info":    InstanceViewStatus_Level_Info,
+	"warning": InstanceViewStatus_Level_Warning,
+}
 
 func init() {
 	SchemeBuilder.Register(&VirtualMachinesExtension{}, &VirtualMachinesExtensionList{})

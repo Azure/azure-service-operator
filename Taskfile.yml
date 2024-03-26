@@ -885,7 +885,7 @@ tasks:
     desc: Waits for the operator and associated CRDs to be ready
     run: always
     cmds:
-      - "{{.SCRIPTS_ROOT}}/wait-for-operator-ready.sh {{.ARGS}}"
+      - "{{.SCRIPTS_ROOT}}/wait-for-operator-ready.sh -n '{{default .ASO_NAMESPACE .NAMESPACE}}' {{.ARGS}}"
 
   controller:kind-create-with-service-principal:
     desc: Creates a local kind cluster with ASO using service principal auth.
@@ -939,6 +939,9 @@ tasks:
   controller:kind-create-multitenant-cluster-helm:
     desc: Creates a local kind cluster Helm and ASO in multitenant configuration.
     dir: "{{.CONTROLLER_ROOT}}"
+    vars:
+      # This below is added to test if ASO works fine in namespaces other than 'azureserviceoperator-system"
+      NAMESPACE: "custom-namespace"
     cmds:
       - task: controller:kind-create
       - task: controller:install-cert-manager
@@ -950,8 +953,10 @@ tasks:
       - "helm upgrade --install --set multitenant.enable=true --set azureOperatorMode=webhooks \
            --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
            --set crdPattern=* \
-           aso2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
+           aso2 -n {{.NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
       - task: controller:wait-for-operator-ready
+        vars:
+          NAMESPACE: "{{.NAMESPACE}}"
       # Install tenant chart
       - "helm upgrade --install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \ 
            --set azureTenantID=$AZURE_TENANT_ID \

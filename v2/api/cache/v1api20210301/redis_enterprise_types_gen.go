@@ -538,8 +538,9 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_From_RedisEnterprise_Sp
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := ClusterProperties_MinimumTlsVersion(*source.MinimumTlsVersion)
-		enterprise.MinimumTlsVersion = &minimumTlsVersion
+		minimumTlsVersion := *source.MinimumTlsVersion
+		minimumTlsVersionTemp := genruntime.ToEnum(minimumTlsVersion, clusterProperties_MinimumTlsVersion_Values)
+		enterprise.MinimumTlsVersion = &minimumTlsVersionTemp
 	} else {
 		enterprise.MinimumTlsVersion = nil
 	}
@@ -881,8 +882,9 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_From_RedisEnterprise_
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := ClusterProperties_MinimumTlsVersion_STATUS(*source.MinimumTlsVersion)
-		enterprise.MinimumTlsVersion = &minimumTlsVersion
+		minimumTlsVersion := *source.MinimumTlsVersion
+		minimumTlsVersionTemp := genruntime.ToEnum(minimumTlsVersion, clusterProperties_MinimumTlsVersion_STATUS_Values)
+		enterprise.MinimumTlsVersion = &minimumTlsVersionTemp
 	} else {
 		enterprise.MinimumTlsVersion = nil
 	}
@@ -910,8 +912,9 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_From_RedisEnterprise_
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		enterprise.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		enterprise.ProvisioningState = &provisioningStateTemp
 	} else {
 		enterprise.ProvisioningState = nil
 	}
@@ -921,8 +924,9 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_From_RedisEnterprise_
 
 	// ResourceState
 	if source.ResourceState != nil {
-		resourceState := ResourceState_STATUS(*source.ResourceState)
-		enterprise.ResourceState = &resourceState
+		resourceState := *source.ResourceState
+		resourceStateTemp := genruntime.ToEnum(resourceState, resourceState_STATUS_Values)
+		enterprise.ResourceState = &resourceStateTemp
 	} else {
 		enterprise.ResourceState = nil
 	}
@@ -1058,6 +1062,13 @@ const (
 	ClusterProperties_MinimumTlsVersion_12 = ClusterProperties_MinimumTlsVersion("1.2")
 )
 
+// Mapping from string to ClusterProperties_MinimumTlsVersion
+var clusterProperties_MinimumTlsVersion_Values = map[string]ClusterProperties_MinimumTlsVersion{
+	"1.0": ClusterProperties_MinimumTlsVersion_10,
+	"1.1": ClusterProperties_MinimumTlsVersion_11,
+	"1.2": ClusterProperties_MinimumTlsVersion_12,
+}
+
 type ClusterProperties_MinimumTlsVersion_STATUS string
 
 const (
@@ -1065,6 +1076,13 @@ const (
 	ClusterProperties_MinimumTlsVersion_STATUS_11 = ClusterProperties_MinimumTlsVersion_STATUS("1.1")
 	ClusterProperties_MinimumTlsVersion_STATUS_12 = ClusterProperties_MinimumTlsVersion_STATUS("1.2")
 )
+
+// Mapping from string to ClusterProperties_MinimumTlsVersion_STATUS
+var clusterProperties_MinimumTlsVersion_STATUS_Values = map[string]ClusterProperties_MinimumTlsVersion_STATUS{
+	"1.0": ClusterProperties_MinimumTlsVersion_STATUS_10,
+	"1.1": ClusterProperties_MinimumTlsVersion_STATUS_11,
+	"1.2": ClusterProperties_MinimumTlsVersion_STATUS_12,
+}
 
 // The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS struct {
@@ -1138,6 +1156,16 @@ const (
 	ProvisioningState_STATUS_Updating  = ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to ProvisioningState_STATUS
+var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
+	"canceled":  ProvisioningState_STATUS_Canceled,
+	"creating":  ProvisioningState_STATUS_Creating,
+	"deleting":  ProvisioningState_STATUS_Deleting,
+	"failed":    ProvisioningState_STATUS_Failed,
+	"succeeded": ProvisioningState_STATUS_Succeeded,
+	"updating":  ProvisioningState_STATUS_Updating,
+}
+
 // Current resource status
 type ResourceState_STATUS string
 
@@ -1155,6 +1183,22 @@ const (
 	ResourceState_STATUS_UpdateFailed  = ResourceState_STATUS("UpdateFailed")
 	ResourceState_STATUS_Updating      = ResourceState_STATUS("Updating")
 )
+
+// Mapping from string to ResourceState_STATUS
+var resourceState_STATUS_Values = map[string]ResourceState_STATUS{
+	"createfailed":  ResourceState_STATUS_CreateFailed,
+	"creating":      ResourceState_STATUS_Creating,
+	"deletefailed":  ResourceState_STATUS_DeleteFailed,
+	"deleting":      ResourceState_STATUS_Deleting,
+	"disablefailed": ResourceState_STATUS_DisableFailed,
+	"disabled":      ResourceState_STATUS_Disabled,
+	"disabling":     ResourceState_STATUS_Disabling,
+	"enablefailed":  ResourceState_STATUS_EnableFailed,
+	"enabling":      ResourceState_STATUS_Enabling,
+	"running":       ResourceState_STATUS_Running,
+	"updatefailed":  ResourceState_STATUS_UpdateFailed,
+	"updating":      ResourceState_STATUS_Updating,
+}
 
 // SKU parameters supplied to the create RedisEnterprise operation.
 type Sku struct {
@@ -1226,8 +1270,9 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20210301s.Sku) error {
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sku_Name_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}
@@ -1311,8 +1356,9 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20210301s.Sku_S
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name_STATUS(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sku_Name_STATUS_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}

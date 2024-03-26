@@ -559,8 +559,9 @@ func (group *Profiles_OriginGroup_Spec) AssignProperties_From_Profiles_OriginGro
 
 	// SessionAffinityState
 	if source.SessionAffinityState != nil {
-		sessionAffinityState := AFDOriginGroupProperties_SessionAffinityState(*source.SessionAffinityState)
-		group.SessionAffinityState = &sessionAffinityState
+		sessionAffinityState := *source.SessionAffinityState
+		sessionAffinityStateTemp := genruntime.ToEnum(sessionAffinityState, aFDOriginGroupProperties_SessionAffinityState_Values)
+		group.SessionAffinityState = &sessionAffinityStateTemp
 	} else {
 		group.SessionAffinityState = nil
 	}
@@ -920,8 +921,9 @@ func (group *Profiles_OriginGroup_STATUS) AssignProperties_From_Profiles_OriginG
 
 	// DeploymentStatus
 	if source.DeploymentStatus != nil {
-		deploymentStatus := AFDOriginGroupProperties_DeploymentStatus_STATUS(*source.DeploymentStatus)
-		group.DeploymentStatus = &deploymentStatus
+		deploymentStatus := *source.DeploymentStatus
+		deploymentStatusTemp := genruntime.ToEnum(deploymentStatus, aFDOriginGroupProperties_DeploymentStatus_STATUS_Values)
+		group.DeploymentStatus = &deploymentStatusTemp
 	} else {
 		group.DeploymentStatus = nil
 	}
@@ -961,16 +963,18 @@ func (group *Profiles_OriginGroup_STATUS) AssignProperties_From_Profiles_OriginG
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := AFDOriginGroupProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		group.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, aFDOriginGroupProperties_ProvisioningState_STATUS_Values)
+		group.ProvisioningState = &provisioningStateTemp
 	} else {
 		group.ProvisioningState = nil
 	}
 
 	// SessionAffinityState
 	if source.SessionAffinityState != nil {
-		sessionAffinityState := AFDOriginGroupProperties_SessionAffinityState_STATUS(*source.SessionAffinityState)
-		group.SessionAffinityState = &sessionAffinityState
+		sessionAffinityState := *source.SessionAffinityState
+		sessionAffinityStateTemp := genruntime.ToEnum(sessionAffinityState, aFDOriginGroupProperties_SessionAffinityState_STATUS_Values)
+		group.SessionAffinityState = &sessionAffinityStateTemp
 	} else {
 		group.SessionAffinityState = nil
 	}
@@ -1100,6 +1104,14 @@ const (
 	AFDOriginGroupProperties_DeploymentStatus_STATUS_Succeeded  = AFDOriginGroupProperties_DeploymentStatus_STATUS("Succeeded")
 )
 
+// Mapping from string to AFDOriginGroupProperties_DeploymentStatus_STATUS
+var aFDOriginGroupProperties_DeploymentStatus_STATUS_Values = map[string]AFDOriginGroupProperties_DeploymentStatus_STATUS{
+	"failed":     AFDOriginGroupProperties_DeploymentStatus_STATUS_Failed,
+	"inprogress": AFDOriginGroupProperties_DeploymentStatus_STATUS_InProgress,
+	"notstarted": AFDOriginGroupProperties_DeploymentStatus_STATUS_NotStarted,
+	"succeeded":  AFDOriginGroupProperties_DeploymentStatus_STATUS_Succeeded,
+}
+
 type AFDOriginGroupProperties_ProvisioningState_STATUS string
 
 const (
@@ -1110,6 +1122,15 @@ const (
 	AFDOriginGroupProperties_ProvisioningState_STATUS_Updating  = AFDOriginGroupProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to AFDOriginGroupProperties_ProvisioningState_STATUS
+var aFDOriginGroupProperties_ProvisioningState_STATUS_Values = map[string]AFDOriginGroupProperties_ProvisioningState_STATUS{
+	"creating":  AFDOriginGroupProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  AFDOriginGroupProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    AFDOriginGroupProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": AFDOriginGroupProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  AFDOriginGroupProperties_ProvisioningState_STATUS_Updating,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type AFDOriginGroupProperties_SessionAffinityState string
 
@@ -1118,12 +1139,24 @@ const (
 	AFDOriginGroupProperties_SessionAffinityState_Enabled  = AFDOriginGroupProperties_SessionAffinityState("Enabled")
 )
 
+// Mapping from string to AFDOriginGroupProperties_SessionAffinityState
+var aFDOriginGroupProperties_SessionAffinityState_Values = map[string]AFDOriginGroupProperties_SessionAffinityState{
+	"disabled": AFDOriginGroupProperties_SessionAffinityState_Disabled,
+	"enabled":  AFDOriginGroupProperties_SessionAffinityState_Enabled,
+}
+
 type AFDOriginGroupProperties_SessionAffinityState_STATUS string
 
 const (
 	AFDOriginGroupProperties_SessionAffinityState_STATUS_Disabled = AFDOriginGroupProperties_SessionAffinityState_STATUS("Disabled")
 	AFDOriginGroupProperties_SessionAffinityState_STATUS_Enabled  = AFDOriginGroupProperties_SessionAffinityState_STATUS("Enabled")
 )
+
+// Mapping from string to AFDOriginGroupProperties_SessionAffinityState_STATUS
+var aFDOriginGroupProperties_SessionAffinityState_STATUS_Values = map[string]AFDOriginGroupProperties_SessionAffinityState_STATUS{
+	"disabled": AFDOriginGroupProperties_SessionAffinityState_STATUS_Disabled,
+	"enabled":  AFDOriginGroupProperties_SessionAffinityState_STATUS_Enabled,
+}
 
 // The JSON object that contains the properties to send health probes to origin.
 type HealthProbeParameters struct {
@@ -1233,16 +1266,18 @@ func (parameters *HealthProbeParameters) AssignProperties_From_HealthProbeParame
 
 	// ProbeProtocol
 	if source.ProbeProtocol != nil {
-		probeProtocol := HealthProbeParameters_ProbeProtocol(*source.ProbeProtocol)
-		parameters.ProbeProtocol = &probeProtocol
+		probeProtocol := *source.ProbeProtocol
+		probeProtocolTemp := genruntime.ToEnum(probeProtocol, healthProbeParameters_ProbeProtocol_Values)
+		parameters.ProbeProtocol = &probeProtocolTemp
 	} else {
 		parameters.ProbeProtocol = nil
 	}
 
 	// ProbeRequestType
 	if source.ProbeRequestType != nil {
-		probeRequestType := HealthProbeParameters_ProbeRequestType(*source.ProbeRequestType)
-		parameters.ProbeRequestType = &probeRequestType
+		probeRequestType := *source.ProbeRequestType
+		probeRequestTypeTemp := genruntime.ToEnum(probeRequestType, healthProbeParameters_ProbeRequestType_Values)
+		parameters.ProbeRequestType = &probeRequestTypeTemp
 	} else {
 		parameters.ProbeRequestType = nil
 	}
@@ -1396,16 +1431,18 @@ func (parameters *HealthProbeParameters_STATUS) AssignProperties_From_HealthProb
 
 	// ProbeProtocol
 	if source.ProbeProtocol != nil {
-		probeProtocol := HealthProbeParameters_ProbeProtocol_STATUS(*source.ProbeProtocol)
-		parameters.ProbeProtocol = &probeProtocol
+		probeProtocol := *source.ProbeProtocol
+		probeProtocolTemp := genruntime.ToEnum(probeProtocol, healthProbeParameters_ProbeProtocol_STATUS_Values)
+		parameters.ProbeProtocol = &probeProtocolTemp
 	} else {
 		parameters.ProbeProtocol = nil
 	}
 
 	// ProbeRequestType
 	if source.ProbeRequestType != nil {
-		probeRequestType := HealthProbeParameters_ProbeRequestType_STATUS(*source.ProbeRequestType)
-		parameters.ProbeRequestType = &probeRequestType
+		probeRequestType := *source.ProbeRequestType
+		probeRequestTypeTemp := genruntime.ToEnum(probeRequestType, healthProbeParameters_ProbeRequestType_STATUS_Values)
+		parameters.ProbeRequestType = &probeRequestTypeTemp
 	} else {
 		parameters.ProbeRequestType = nil
 	}
@@ -1682,6 +1719,13 @@ const (
 	HealthProbeParameters_ProbeProtocol_NotSet = HealthProbeParameters_ProbeProtocol("NotSet")
 )
 
+// Mapping from string to HealthProbeParameters_ProbeProtocol
+var healthProbeParameters_ProbeProtocol_Values = map[string]HealthProbeParameters_ProbeProtocol{
+	"http":   HealthProbeParameters_ProbeProtocol_Http,
+	"https":  HealthProbeParameters_ProbeProtocol_Https,
+	"notset": HealthProbeParameters_ProbeProtocol_NotSet,
+}
+
 type HealthProbeParameters_ProbeProtocol_STATUS string
 
 const (
@@ -1689,6 +1733,13 @@ const (
 	HealthProbeParameters_ProbeProtocol_STATUS_Https  = HealthProbeParameters_ProbeProtocol_STATUS("Https")
 	HealthProbeParameters_ProbeProtocol_STATUS_NotSet = HealthProbeParameters_ProbeProtocol_STATUS("NotSet")
 )
+
+// Mapping from string to HealthProbeParameters_ProbeProtocol_STATUS
+var healthProbeParameters_ProbeProtocol_STATUS_Values = map[string]HealthProbeParameters_ProbeProtocol_STATUS{
+	"http":   HealthProbeParameters_ProbeProtocol_STATUS_Http,
+	"https":  HealthProbeParameters_ProbeProtocol_STATUS_Https,
+	"notset": HealthProbeParameters_ProbeProtocol_STATUS_NotSet,
+}
 
 // +kubebuilder:validation:Enum={"GET","HEAD","NotSet"}
 type HealthProbeParameters_ProbeRequestType string
@@ -1699,6 +1750,13 @@ const (
 	HealthProbeParameters_ProbeRequestType_NotSet = HealthProbeParameters_ProbeRequestType("NotSet")
 )
 
+// Mapping from string to HealthProbeParameters_ProbeRequestType
+var healthProbeParameters_ProbeRequestType_Values = map[string]HealthProbeParameters_ProbeRequestType{
+	"get":    HealthProbeParameters_ProbeRequestType_GET,
+	"head":   HealthProbeParameters_ProbeRequestType_HEAD,
+	"notset": HealthProbeParameters_ProbeRequestType_NotSet,
+}
+
 type HealthProbeParameters_ProbeRequestType_STATUS string
 
 const (
@@ -1706,6 +1764,13 @@ const (
 	HealthProbeParameters_ProbeRequestType_STATUS_HEAD   = HealthProbeParameters_ProbeRequestType_STATUS("HEAD")
 	HealthProbeParameters_ProbeRequestType_STATUS_NotSet = HealthProbeParameters_ProbeRequestType_STATUS("NotSet")
 )
+
+// Mapping from string to HealthProbeParameters_ProbeRequestType_STATUS
+var healthProbeParameters_ProbeRequestType_STATUS_Values = map[string]HealthProbeParameters_ProbeRequestType_STATUS{
+	"get":    HealthProbeParameters_ProbeRequestType_STATUS_GET,
+	"head":   HealthProbeParameters_ProbeRequestType_STATUS_HEAD,
+	"notset": HealthProbeParameters_ProbeRequestType_STATUS_NotSet,
+}
 
 func init() {
 	SchemeBuilder.Register(&AfdOriginGroup{}, &AfdOriginGroupList{})

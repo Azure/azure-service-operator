@@ -50,6 +50,13 @@ const (
 	DatabaseAccount_Kind_Spec_Parse            = DatabaseAccount_Kind_Spec("Parse")
 )
 
+// Mapping from string to DatabaseAccount_Kind_Spec
+var databaseAccount_Kind_Spec_Values = map[string]DatabaseAccount_Kind_Spec{
+	"globaldocumentdb": DatabaseAccount_Kind_Spec_GlobalDocumentDB,
+	"mongodb":          DatabaseAccount_Kind_Spec_MongoDB,
+	"parse":            DatabaseAccount_Kind_Spec_Parse,
+}
+
 // Properties to create and update Azure Cosmos DB database accounts.
 type DatabaseAccountCreateUpdateProperties_ARM struct {
 	// AnalyticalStorageConfiguration: Analytical storage specific properties.
@@ -259,6 +266,14 @@ const (
 	ManagedServiceIdentity_Type_SystemAssignedUserAssigned = ManagedServiceIdentity_Type("SystemAssigned,UserAssigned")
 	ManagedServiceIdentity_Type_UserAssigned               = ManagedServiceIdentity_Type("UserAssigned")
 )
+
+// Mapping from string to ManagedServiceIdentity_Type
+var managedServiceIdentity_Type_Values = map[string]ManagedServiceIdentity_Type{
+	"none":                        ManagedServiceIdentity_Type_None,
+	"systemassigned":              ManagedServiceIdentity_Type_SystemAssigned,
+	"systemassigned,userassigned": ManagedServiceIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                ManagedServiceIdentity_Type_UserAssigned,
+}
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {

@@ -1425,8 +1425,9 @@ func (queue *Namespaces_Queue_STATUS) AssignProperties_From_Namespaces_Queue_STA
 
 	// Status
 	if source.Status != nil {
-		status := EntityStatus_STATUS(*source.Status)
-		queue.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, entityStatus_STATUS_Values)
+		queue.Status = &statusTemp
 	} else {
 		queue.Status = nil
 	}
@@ -1620,6 +1621,19 @@ const (
 	EntityStatus_STATUS_SendDisabled    = EntityStatus_STATUS("SendDisabled")
 	EntityStatus_STATUS_Unknown         = EntityStatus_STATUS("Unknown")
 )
+
+// Mapping from string to EntityStatus_STATUS
+var entityStatus_STATUS_Values = map[string]EntityStatus_STATUS{
+	"active":          EntityStatus_STATUS_Active,
+	"creating":        EntityStatus_STATUS_Creating,
+	"deleting":        EntityStatus_STATUS_Deleting,
+	"disabled":        EntityStatus_STATUS_Disabled,
+	"receivedisabled": EntityStatus_STATUS_ReceiveDisabled,
+	"renaming":        EntityStatus_STATUS_Renaming,
+	"restoring":       EntityStatus_STATUS_Restoring,
+	"senddisabled":    EntityStatus_STATUS_SendDisabled,
+	"unknown":         EntityStatus_STATUS_Unknown,
+}
 
 // Message Count Details.
 type MessageCountDetails_STATUS struct {

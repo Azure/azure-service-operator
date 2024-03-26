@@ -836,8 +836,9 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		embedded.ProvisioningState = &provisioningStateTemp
 	} else {
 		embedded.ProvisioningState = nil
 	}

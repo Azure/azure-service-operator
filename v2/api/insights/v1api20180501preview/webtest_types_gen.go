@@ -746,8 +746,9 @@ func (webtest *Webtest_Spec) AssignProperties_From_Webtest_Spec(source *v2018050
 
 	// Kind
 	if source.Kind != nil {
-		kind := WebTestProperties_Kind(*source.Kind)
-		webtest.Kind = &kind
+		kind := *source.Kind
+		kindTemp := genruntime.ToEnum(kind, webTestProperties_Kind_Values)
+		webtest.Kind = &kindTemp
 	} else {
 		webtest.Kind = nil
 	}
@@ -1409,8 +1410,9 @@ func (webtest *Webtest_STATUS) AssignProperties_From_Webtest_STATUS(source *v201
 
 	// Kind
 	if source.Kind != nil {
-		kind := WebTestProperties_Kind_STATUS(*source.Kind)
-		webtest.Kind = &kind
+		kind := *source.Kind
+		kindTemp := genruntime.ToEnum(kind, webTestProperties_Kind_STATUS_Values)
+		webtest.Kind = &kindTemp
 	} else {
 		webtest.Kind = nil
 	}
@@ -1917,6 +1919,14 @@ const (
 	WebTestProperties_Kind_Standard  = WebTestProperties_Kind("standard")
 )
 
+// Mapping from string to WebTestProperties_Kind
+var webTestProperties_Kind_Values = map[string]WebTestProperties_Kind{
+	"basic":     WebTestProperties_Kind_Basic,
+	"multistep": WebTestProperties_Kind_Multistep,
+	"ping":      WebTestProperties_Kind_Ping,
+	"standard":  WebTestProperties_Kind_Standard,
+}
+
 type WebTestProperties_Kind_STATUS string
 
 const (
@@ -1925,6 +1935,14 @@ const (
 	WebTestProperties_Kind_STATUS_Ping      = WebTestProperties_Kind_STATUS("ping")
 	WebTestProperties_Kind_STATUS_Standard  = WebTestProperties_Kind_STATUS("standard")
 )
+
+// Mapping from string to WebTestProperties_Kind_STATUS
+var webTestProperties_Kind_STATUS_Values = map[string]WebTestProperties_Kind_STATUS{
+	"basic":     WebTestProperties_Kind_STATUS_Basic,
+	"multistep": WebTestProperties_Kind_STATUS_Multistep,
+	"ping":      WebTestProperties_Kind_STATUS_Ping,
+	"standard":  WebTestProperties_Kind_STATUS_Standard,
+}
 
 type WebTestProperties_Request struct {
 	// FollowRedirects: Follow redirects for this web test.

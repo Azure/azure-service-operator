@@ -703,8 +703,9 @@ func (setting *Servers_Databases_AuditingSetting_Spec) AssignProperties_From_Ser
 
 	// State
 	if source.State != nil {
-		state := DatabaseBlobAuditingPolicyProperties_State(*source.State)
-		setting.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, databaseBlobAuditingPolicyProperties_State_Values)
+		setting.State = &stateTemp
 	} else {
 		setting.State = nil
 	}
@@ -1219,8 +1220,9 @@ func (setting *Servers_Databases_AuditingSetting_STATUS) AssignProperties_From_S
 
 	// State
 	if source.State != nil {
-		state := DatabaseBlobAuditingPolicyProperties_State_STATUS(*source.State)
-		setting.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, databaseBlobAuditingPolicyProperties_State_STATUS_Values)
+		setting.State = &stateTemp
 	} else {
 		setting.State = nil
 	}
@@ -1324,12 +1326,24 @@ const (
 	DatabaseBlobAuditingPolicyProperties_State_Enabled  = DatabaseBlobAuditingPolicyProperties_State("Enabled")
 )
 
+// Mapping from string to DatabaseBlobAuditingPolicyProperties_State
+var databaseBlobAuditingPolicyProperties_State_Values = map[string]DatabaseBlobAuditingPolicyProperties_State{
+	"disabled": DatabaseBlobAuditingPolicyProperties_State_Disabled,
+	"enabled":  DatabaseBlobAuditingPolicyProperties_State_Enabled,
+}
+
 type DatabaseBlobAuditingPolicyProperties_State_STATUS string
 
 const (
 	DatabaseBlobAuditingPolicyProperties_State_STATUS_Disabled = DatabaseBlobAuditingPolicyProperties_State_STATUS("Disabled")
 	DatabaseBlobAuditingPolicyProperties_State_STATUS_Enabled  = DatabaseBlobAuditingPolicyProperties_State_STATUS("Enabled")
 )
+
+// Mapping from string to DatabaseBlobAuditingPolicyProperties_State_STATUS
+var databaseBlobAuditingPolicyProperties_State_STATUS_Values = map[string]DatabaseBlobAuditingPolicyProperties_State_STATUS{
+	"disabled": DatabaseBlobAuditingPolicyProperties_State_STATUS_Disabled,
+	"enabled":  DatabaseBlobAuditingPolicyProperties_State_STATUS_Enabled,
+}
 
 func init() {
 	SchemeBuilder.Register(&ServersDatabasesAuditingSetting{}, &ServersDatabasesAuditingSettingList{})

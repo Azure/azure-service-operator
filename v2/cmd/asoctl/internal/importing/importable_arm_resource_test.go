@@ -53,6 +53,18 @@ func Test_ARMResourceImporter_GroupKindFromARMID(t *testing.T) {
 			expectedGroup: "containerservice.azure.com",
 			expectedKind:  "ManagedCluster",
 		},
+		{
+			name:          "Redis cache",
+			armId:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Cache/redis/my-cache",
+			expectedGroup: "cache.azure.com",
+			expectedKind:  "Redis",
+		},
+		{
+			name:          "Redis cache different case",
+			armId:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Cache/REDIS/my-cache",
+			expectedGroup: "cache.azure.com",
+			expectedKind:  "Redis",
+		},
 		//{
 		//	"VMSS Instance",
 		//	"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Compute/virtualMachineScaleSets/aso-scaleset/virtualMachines/0",
@@ -112,6 +124,20 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 			expectedGroup:   "containerservice.azure.com",
 			expectedKind:    "ManagedCluster",
 			expectedVersion: "v1api20231001",
+		},
+		{
+			name:            "Redis cache",
+			armId:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Cache/redis/my-cache",
+			expectedGroup:   "cache.azure.com",
+			expectedKind:    "Redis",
+			expectedVersion: "v1api20230401",
+		},
+		{
+			name:            "Redis cache different case",
+			armId:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Cache/REDIS/my-cache",
+			expectedGroup:   "cache.azure.com",
+			expectedKind:    "Redis",
+			expectedVersion: "v1api20230401",
 		},
 	}
 

@@ -959,8 +959,9 @@ func (serviceApi *Service_Api_Spec) AssignProperties_From_Service_Api_Spec(sourc
 
 	// ApiType
 	if source.ApiType != nil {
-		apiType := ApiCreateOrUpdateProperties_ApiType(*source.ApiType)
-		serviceApi.ApiType = &apiType
+		apiType := *source.ApiType
+		apiTypeTemp := genruntime.ToEnum(apiType, apiCreateOrUpdateProperties_ApiType_Values)
+		serviceApi.ApiType = &apiTypeTemp
 	} else {
 		serviceApi.ApiType = nil
 	}
@@ -1033,8 +1034,9 @@ func (serviceApi *Service_Api_Spec) AssignProperties_From_Service_Api_Spec(sourc
 
 	// Format
 	if source.Format != nil {
-		format := ApiCreateOrUpdateProperties_Format(*source.Format)
-		serviceApi.Format = &format
+		format := *source.Format
+		formatTemp := genruntime.ToEnum(format, apiCreateOrUpdateProperties_Format_Values)
+		serviceApi.Format = &formatTemp
 	} else {
 		serviceApi.Format = nil
 	}
@@ -1081,7 +1083,7 @@ func (serviceApi *Service_Api_Spec) AssignProperties_From_Service_Api_Spec(sourc
 		for protocolIndex, protocolItem := range source.Protocols {
 			// Shadow the loop variable to avoid aliasing
 			protocolItem := protocolItem
-			protocolList[protocolIndex] = ApiCreateOrUpdateProperties_Protocols(protocolItem)
+			protocolList[protocolIndex] = genruntime.ToEnum(protocolItem, apiCreateOrUpdateProperties_Protocols_Values)
 		}
 		serviceApi.Protocols = protocolList
 	} else {
@@ -1129,16 +1131,18 @@ func (serviceApi *Service_Api_Spec) AssignProperties_From_Service_Api_Spec(sourc
 
 	// TranslateRequiredQueryParameters
 	if source.TranslateRequiredQueryParameters != nil {
-		translateRequiredQueryParameter := ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters(*source.TranslateRequiredQueryParameters)
-		serviceApi.TranslateRequiredQueryParameters = &translateRequiredQueryParameter
+		translateRequiredQueryParameter := *source.TranslateRequiredQueryParameters
+		translateRequiredQueryParameterTemp := genruntime.ToEnum(translateRequiredQueryParameter, apiCreateOrUpdateProperties_TranslateRequiredQueryParameters_Values)
+		serviceApi.TranslateRequiredQueryParameters = &translateRequiredQueryParameterTemp
 	} else {
 		serviceApi.TranslateRequiredQueryParameters = nil
 	}
 
 	// Type
 	if source.Type != nil {
-		typeVar := ApiCreateOrUpdateProperties_Type(*source.Type)
-		serviceApi.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, apiCreateOrUpdateProperties_Type_Values)
+		serviceApi.Type = &typeTemp
 	} else {
 		serviceApi.Type = nil
 	}
@@ -1909,8 +1913,9 @@ func (serviceApi *Service_Api_STATUS) AssignProperties_From_Service_Api_STATUS(s
 
 	// PropertiesType
 	if source.PropertiesType != nil {
-		propertiesType := ApiContractProperties_Type_STATUS(*source.PropertiesType)
-		serviceApi.PropertiesType = &propertiesType
+		propertiesType := *source.PropertiesType
+		propertiesTypeTemp := genruntime.ToEnum(propertiesType, apiContractProperties_Type_STATUS_Values)
+		serviceApi.PropertiesType = &propertiesTypeTemp
 	} else {
 		serviceApi.PropertiesType = nil
 	}
@@ -1921,7 +1926,7 @@ func (serviceApi *Service_Api_STATUS) AssignProperties_From_Service_Api_STATUS(s
 		for protocolIndex, protocolItem := range source.Protocols {
 			// Shadow the loop variable to avoid aliasing
 			protocolItem := protocolItem
-			protocolList[protocolIndex] = ApiContractProperties_Protocols_STATUS(protocolItem)
+			protocolList[protocolIndex] = genruntime.ToEnum(protocolItem, apiContractProperties_Protocols_STATUS_Values)
 		}
 		serviceApi.Protocols = protocolList
 	} else {
@@ -2350,6 +2355,14 @@ const (
 	ApiContractProperties_Protocols_STATUS_Wss   = ApiContractProperties_Protocols_STATUS("wss")
 )
 
+// Mapping from string to ApiContractProperties_Protocols_STATUS
+var apiContractProperties_Protocols_STATUS_Values = map[string]ApiContractProperties_Protocols_STATUS{
+	"http":  ApiContractProperties_Protocols_STATUS_Http,
+	"https": ApiContractProperties_Protocols_STATUS_Https,
+	"ws":    ApiContractProperties_Protocols_STATUS_Ws,
+	"wss":   ApiContractProperties_Protocols_STATUS_Wss,
+}
+
 type ApiContractProperties_Type_STATUS string
 
 const (
@@ -2360,6 +2373,16 @@ const (
 	ApiContractProperties_Type_STATUS_Soap      = ApiContractProperties_Type_STATUS("soap")
 	ApiContractProperties_Type_STATUS_Websocket = ApiContractProperties_Type_STATUS("websocket")
 )
+
+// Mapping from string to ApiContractProperties_Type_STATUS
+var apiContractProperties_Type_STATUS_Values = map[string]ApiContractProperties_Type_STATUS{
+	"graphql":   ApiContractProperties_Type_STATUS_Graphql,
+	"grpc":      ApiContractProperties_Type_STATUS_Grpc,
+	"http":      ApiContractProperties_Type_STATUS_Http,
+	"odata":     ApiContractProperties_Type_STATUS_Odata,
+	"soap":      ApiContractProperties_Type_STATUS_Soap,
+	"websocket": ApiContractProperties_Type_STATUS_Websocket,
+}
 
 // +kubebuilder:validation:Enum={"graphql","grpc","http","odata","soap","websocket"}
 type ApiCreateOrUpdateProperties_ApiType string
@@ -2372,6 +2395,16 @@ const (
 	ApiCreateOrUpdateProperties_ApiType_Soap      = ApiCreateOrUpdateProperties_ApiType("soap")
 	ApiCreateOrUpdateProperties_ApiType_Websocket = ApiCreateOrUpdateProperties_ApiType("websocket")
 )
+
+// Mapping from string to ApiCreateOrUpdateProperties_ApiType
+var apiCreateOrUpdateProperties_ApiType_Values = map[string]ApiCreateOrUpdateProperties_ApiType{
+	"graphql":   ApiCreateOrUpdateProperties_ApiType_Graphql,
+	"grpc":      ApiCreateOrUpdateProperties_ApiType_Grpc,
+	"http":      ApiCreateOrUpdateProperties_ApiType_Http,
+	"odata":     ApiCreateOrUpdateProperties_ApiType_Odata,
+	"soap":      ApiCreateOrUpdateProperties_ApiType_Soap,
+	"websocket": ApiCreateOrUpdateProperties_ApiType_Websocket,
+}
 
 // +kubebuilder:validation:Enum={"graphql-link","grpc","grpc-link","odata","odata-link","openapi","openapi+json","openapi+json-link","openapi-link","swagger-json","swagger-link-json","wadl-link-json","wadl-xml","wsdl","wsdl-link"}
 type ApiCreateOrUpdateProperties_Format string
@@ -2394,6 +2427,25 @@ const (
 	ApiCreateOrUpdateProperties_Format_WsdlLink        = ApiCreateOrUpdateProperties_Format("wsdl-link")
 )
 
+// Mapping from string to ApiCreateOrUpdateProperties_Format
+var apiCreateOrUpdateProperties_Format_Values = map[string]ApiCreateOrUpdateProperties_Format{
+	"graphql-link":      ApiCreateOrUpdateProperties_Format_GraphqlLink,
+	"grpc":              ApiCreateOrUpdateProperties_Format_Grpc,
+	"grpc-link":         ApiCreateOrUpdateProperties_Format_GrpcLink,
+	"odata":             ApiCreateOrUpdateProperties_Format_Odata,
+	"odata-link":        ApiCreateOrUpdateProperties_Format_OdataLink,
+	"openapi":           ApiCreateOrUpdateProperties_Format_Openapi,
+	"openapi+json":      ApiCreateOrUpdateProperties_Format_OpenapiJson,
+	"openapi+json-link": ApiCreateOrUpdateProperties_Format_OpenapiJsonLink,
+	"openapi-link":      ApiCreateOrUpdateProperties_Format_OpenapiLink,
+	"swagger-json":      ApiCreateOrUpdateProperties_Format_SwaggerJson,
+	"swagger-link-json": ApiCreateOrUpdateProperties_Format_SwaggerLinkJson,
+	"wadl-link-json":    ApiCreateOrUpdateProperties_Format_WadlLinkJson,
+	"wadl-xml":          ApiCreateOrUpdateProperties_Format_WadlXml,
+	"wsdl":              ApiCreateOrUpdateProperties_Format_Wsdl,
+	"wsdl-link":         ApiCreateOrUpdateProperties_Format_WsdlLink,
+}
+
 // +kubebuilder:validation:Enum={"http","https","ws","wss"}
 type ApiCreateOrUpdateProperties_Protocols string
 
@@ -2404,6 +2456,14 @@ const (
 	ApiCreateOrUpdateProperties_Protocols_Wss   = ApiCreateOrUpdateProperties_Protocols("wss")
 )
 
+// Mapping from string to ApiCreateOrUpdateProperties_Protocols
+var apiCreateOrUpdateProperties_Protocols_Values = map[string]ApiCreateOrUpdateProperties_Protocols{
+	"http":  ApiCreateOrUpdateProperties_Protocols_Http,
+	"https": ApiCreateOrUpdateProperties_Protocols_Https,
+	"ws":    ApiCreateOrUpdateProperties_Protocols_Ws,
+	"wss":   ApiCreateOrUpdateProperties_Protocols_Wss,
+}
+
 // +kubebuilder:validation:Enum={"query","template"}
 type ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters string
 
@@ -2411,6 +2471,12 @@ const (
 	ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_Query    = ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters("query")
 	ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_Template = ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters("template")
 )
+
+// Mapping from string to ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters
+var apiCreateOrUpdateProperties_TranslateRequiredQueryParameters_Values = map[string]ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters{
+	"query":    ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_Query,
+	"template": ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_Template,
+}
 
 // +kubebuilder:validation:Enum={"graphql","grpc","http","odata","soap","websocket"}
 type ApiCreateOrUpdateProperties_Type string
@@ -2423,6 +2489,16 @@ const (
 	ApiCreateOrUpdateProperties_Type_Soap      = ApiCreateOrUpdateProperties_Type("soap")
 	ApiCreateOrUpdateProperties_Type_Websocket = ApiCreateOrUpdateProperties_Type("websocket")
 )
+
+// Mapping from string to ApiCreateOrUpdateProperties_Type
+var apiCreateOrUpdateProperties_Type_Values = map[string]ApiCreateOrUpdateProperties_Type{
+	"graphql":   ApiCreateOrUpdateProperties_Type_Graphql,
+	"grpc":      ApiCreateOrUpdateProperties_Type_Grpc,
+	"http":      ApiCreateOrUpdateProperties_Type_Http,
+	"odata":     ApiCreateOrUpdateProperties_Type_Odata,
+	"soap":      ApiCreateOrUpdateProperties_Type_Soap,
+	"websocket": ApiCreateOrUpdateProperties_Type_Websocket,
+}
 
 type ApiCreateOrUpdateProperties_WsdlSelector struct {
 	// WsdlEndpointName: Name of endpoint(port) to import from WSDL
@@ -2832,8 +2908,9 @@ func (details *ApiVersionSetContractDetails) AssignProperties_From_ApiVersionSet
 
 	// VersioningScheme
 	if source.VersioningScheme != nil {
-		versioningScheme := ApiVersionSetContractDetails_VersioningScheme(*source.VersioningScheme)
-		details.VersioningScheme = &versioningScheme
+		versioningScheme := *source.VersioningScheme
+		versioningSchemeTemp := genruntime.ToEnum(versioningScheme, apiVersionSetContractDetails_VersioningScheme_Values)
+		details.VersioningScheme = &versioningSchemeTemp
 	} else {
 		details.VersioningScheme = nil
 	}
@@ -2981,8 +3058,9 @@ func (details *ApiVersionSetContractDetails_STATUS) AssignProperties_From_ApiVer
 
 	// VersioningScheme
 	if source.VersioningScheme != nil {
-		versioningScheme := ApiVersionSetContractDetails_VersioningScheme_STATUS(*source.VersioningScheme)
-		details.VersioningScheme = &versioningScheme
+		versioningScheme := *source.VersioningScheme
+		versioningSchemeTemp := genruntime.ToEnum(versioningScheme, apiVersionSetContractDetails_VersioningScheme_STATUS_Values)
+		details.VersioningScheme = &versioningSchemeTemp
 	} else {
 		details.VersioningScheme = nil
 	}
@@ -3691,6 +3769,13 @@ const (
 	ApiVersionSetContractDetails_VersioningScheme_Segment = ApiVersionSetContractDetails_VersioningScheme("Segment")
 )
 
+// Mapping from string to ApiVersionSetContractDetails_VersioningScheme
+var apiVersionSetContractDetails_VersioningScheme_Values = map[string]ApiVersionSetContractDetails_VersioningScheme{
+	"header":  ApiVersionSetContractDetails_VersioningScheme_Header,
+	"query":   ApiVersionSetContractDetails_VersioningScheme_Query,
+	"segment": ApiVersionSetContractDetails_VersioningScheme_Segment,
+}
+
 type ApiVersionSetContractDetails_VersioningScheme_STATUS string
 
 const (
@@ -3698,6 +3783,13 @@ const (
 	ApiVersionSetContractDetails_VersioningScheme_STATUS_Query   = ApiVersionSetContractDetails_VersioningScheme_STATUS("Query")
 	ApiVersionSetContractDetails_VersioningScheme_STATUS_Segment = ApiVersionSetContractDetails_VersioningScheme_STATUS("Segment")
 )
+
+// Mapping from string to ApiVersionSetContractDetails_VersioningScheme_STATUS
+var apiVersionSetContractDetails_VersioningScheme_STATUS_Values = map[string]ApiVersionSetContractDetails_VersioningScheme_STATUS{
+	"header":  ApiVersionSetContractDetails_VersioningScheme_STATUS_Header,
+	"query":   ApiVersionSetContractDetails_VersioningScheme_STATUS_Query,
+	"segment": ApiVersionSetContractDetails_VersioningScheme_STATUS_Segment,
+}
 
 // API OAuth2 Authentication settings details.
 type OAuth2AuthenticationSettingsContract struct {
@@ -3935,7 +4027,7 @@ func (contract *OpenIdAuthenticationSettingsContract) AssignProperties_From_Open
 		for bearerTokenSendingMethodIndex, bearerTokenSendingMethodItem := range source.BearerTokenSendingMethods {
 			// Shadow the loop variable to avoid aliasing
 			bearerTokenSendingMethodItem := bearerTokenSendingMethodItem
-			bearerTokenSendingMethodList[bearerTokenSendingMethodIndex] = BearerTokenSendingMethodsContract(bearerTokenSendingMethodItem)
+			bearerTokenSendingMethodList[bearerTokenSendingMethodIndex] = genruntime.ToEnum(bearerTokenSendingMethodItem, bearerTokenSendingMethodsContract_Values)
 		}
 		contract.BearerTokenSendingMethods = bearerTokenSendingMethodList
 	} else {
@@ -4028,7 +4120,7 @@ func (contract *OpenIdAuthenticationSettingsContract_STATUS) AssignProperties_Fr
 		for bearerTokenSendingMethodIndex, bearerTokenSendingMethodItem := range source.BearerTokenSendingMethods {
 			// Shadow the loop variable to avoid aliasing
 			bearerTokenSendingMethodItem := bearerTokenSendingMethodItem
-			bearerTokenSendingMethodList[bearerTokenSendingMethodIndex] = BearerTokenSendingMethodsContract_STATUS(bearerTokenSendingMethodItem)
+			bearerTokenSendingMethodList[bearerTokenSendingMethodIndex] = genruntime.ToEnum(bearerTokenSendingMethodItem, bearerTokenSendingMethodsContract_STATUS_Values)
 		}
 		contract.BearerTokenSendingMethods = bearerTokenSendingMethodList
 	} else {
@@ -4083,6 +4175,12 @@ const (
 	BearerTokenSendingMethodsContract_Query               = BearerTokenSendingMethodsContract("query")
 )
 
+// Mapping from string to BearerTokenSendingMethodsContract
+var bearerTokenSendingMethodsContract_Values = map[string]BearerTokenSendingMethodsContract{
+	"authorizationheader": BearerTokenSendingMethodsContract_AuthorizationHeader,
+	"query":               BearerTokenSendingMethodsContract_Query,
+}
+
 // Form of an authorization grant, which the client uses to request the access token.
 type BearerTokenSendingMethodsContract_STATUS string
 
@@ -4090,6 +4188,12 @@ const (
 	BearerTokenSendingMethodsContract_STATUS_AuthorizationHeader = BearerTokenSendingMethodsContract_STATUS("authorizationHeader")
 	BearerTokenSendingMethodsContract_STATUS_Query               = BearerTokenSendingMethodsContract_STATUS("query")
 )
+
+// Mapping from string to BearerTokenSendingMethodsContract_STATUS
+var bearerTokenSendingMethodsContract_STATUS_Values = map[string]BearerTokenSendingMethodsContract_STATUS{
+	"authorizationheader": BearerTokenSendingMethodsContract_STATUS_AuthorizationHeader,
+	"query":               BearerTokenSendingMethodsContract_STATUS_Query,
+}
 
 func init() {
 	SchemeBuilder.Register(&Api{}, &ApiList{})

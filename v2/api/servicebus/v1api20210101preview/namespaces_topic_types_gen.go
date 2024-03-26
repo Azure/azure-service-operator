@@ -1150,8 +1150,9 @@ func (topic *Namespaces_Topic_STATUS) AssignProperties_From_Namespaces_Topic_STA
 
 	// Status
 	if source.Status != nil {
-		status := EntityStatus_STATUS(*source.Status)
-		topic.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, entityStatus_STATUS_Values)
+		topic.Status = &statusTemp
 	} else {
 		topic.Status = nil
 	}

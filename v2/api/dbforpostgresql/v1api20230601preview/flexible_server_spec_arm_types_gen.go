@@ -204,6 +204,13 @@ const (
 	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
 )
 
+// Mapping from string to Sku_Tier
+var sku_Tier_Values = map[string]Sku_Tier{
+	"burstable":       Sku_Tier_Burstable,
+	"generalpurpose":  Sku_Tier_GeneralPurpose,
+	"memoryoptimized": Sku_Tier_MemoryOptimized,
+}
+
 // Storage properties of a server
 type Storage_ARM struct {
 	// AutoGrow: Flag to enable / disable Storage Auto grow for flexible server.
@@ -233,6 +240,12 @@ const (
 	UserAssignedIdentity_Type_None         = UserAssignedIdentity_Type("None")
 	UserAssignedIdentity_Type_UserAssigned = UserAssignedIdentity_Type("UserAssigned")
 )
+
+// Mapping from string to UserAssignedIdentity_Type
+var userAssignedIdentity_Type_Values = map[string]UserAssignedIdentity_Type{
+	"none":         UserAssignedIdentity_Type_None,
+	"userassigned": UserAssignedIdentity_Type_UserAssigned,
+}
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {

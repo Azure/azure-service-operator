@@ -17,6 +17,8 @@ import (
 	"golang.org/x/exp/slices"
 	"sigs.k8s.io/yaml"
 
+	"github.com/Azure/azure-service-operator/v2/internal/annotations"
+	"github.com/Azure/azure-service-operator/v2/internal/labels"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -36,6 +38,57 @@ func (r *ResourceImportResult) SaveToWriter(destination io.Writer) error {
 
 func (r *ResourceImportResult) SaveToSingleFile(filepath string) error {
 	return r.saveTo(r.resources, filepath)
+}
+
+// AddAnnotations adds the given annotations to all the resources
+func (r *ResourceImportResult) AddAnnotations(toAdd []string) error {
+	// pre-parse the annotations
+	parsed, err := annotations.ParseAll(toAdd)
+	if err != nil {
+		return err
+	}
+
+	for _, resource := range r.resources {
+		anntns := resource.GetAnnotations()
+		if anntns == nil {
+			anntns = make(map[string]string, len(toAdd))
+		}
+		for _, annotation := range parsed {
+			anntns[annotation.Key] = annotation.Value
+		}
+		resource.SetAnnotations(anntns)
+	}
+
+	return nil
+}
+
+// AddLabels adds the given labels to all the resources
+func (r *ResourceImportResult) AddLabels(toAdd []string) error {
+	// pre-parse the labels
+	parsed, err := labels.ParseAll(toAdd)
+	if err != nil {
+		return err
+	}
+
+	for _, resource := range r.resources {
+		lbls := resource.GetLabels()
+		if lbls == nil {
+			lbls = make(map[string]string, len(toAdd))
+		}
+		for _, label := range parsed {
+			lbls[label.Key] = label.Value
+		}
+		resource.SetLabels(lbls)
+	}
+
+	return nil
+}
+
+// SetNamespace sets the namespace for all the resources
+func (r *ResourceImportResult) SetNamespace(namespace string) {
+	for _, resource := range r.resources {
+		resource.SetNamespace(namespace)
+	}
 }
 
 func (r *ResourceImportResult) SaveToIndividualFilesInFolder(folder string) error {
@@ -140,7 +193,7 @@ func (*ResourceImportResult) writeTo(resources []genruntime.MetaObject, destinat
 			return errors.Wrap(err, "unable to save to writer")
 		}
 
-		data = redactStatus(data)
+		data = redact(data)
 
 		_, err = buf.Write(data)
 		if err != nil {
@@ -156,12 +209,11 @@ func (*ResourceImportResult) writeTo(resources []genruntime.MetaObject, destinat
 	return nil
 }
 
-// redactStatus removes any empty `status { }` blocks from the yaml.
-// If we start redacting other things, we should rename this method
-// and possibly consider using a more general purpose technique,
-// such as a yaml parser.
-func redactStatus(data []byte) []byte {
+// redact removes any selected information that shouldn't be included,
+// starting with empty `status { }` blocks from the yaml.
+func redact(data []byte) []byte {
 	content := string(data)
 	content = strings.Replace(content, "status: {}", "", -1)
+	content = strings.TrimSuffix(content, "\n")
 	return []byte(content)
 }

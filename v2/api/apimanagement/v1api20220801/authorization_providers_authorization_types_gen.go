@@ -488,8 +488,9 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) AssignPr
 
 	// AuthorizationType
 	if source.AuthorizationType != nil {
-		authorizationType := AuthorizationContractProperties_AuthorizationType(*source.AuthorizationType)
-		authorization.AuthorizationType = &authorizationType
+		authorizationType := *source.AuthorizationType
+		authorizationTypeTemp := genruntime.ToEnum(authorizationType, authorizationContractProperties_AuthorizationType_Values)
+		authorization.AuthorizationType = &authorizationTypeTemp
 	} else {
 		authorization.AuthorizationType = nil
 	}
@@ -499,8 +500,9 @@ func (authorization *Service_AuthorizationProviders_Authorization_Spec) AssignPr
 
 	// Oauth2GrantType
 	if source.Oauth2GrantType != nil {
-		oauth2GrantType := AuthorizationContractProperties_Oauth2GrantType(*source.Oauth2GrantType)
-		authorization.Oauth2GrantType = &oauth2GrantType
+		oauth2GrantType := *source.Oauth2GrantType
+		oauth2GrantTypeTemp := genruntime.ToEnum(oauth2GrantType, authorizationContractProperties_Oauth2GrantType_Values)
+		authorization.Oauth2GrantType = &oauth2GrantTypeTemp
 	} else {
 		authorization.Oauth2GrantType = nil
 	}
@@ -787,8 +789,9 @@ func (authorization *Service_AuthorizationProviders_Authorization_STATUS) Assign
 
 	// AuthorizationType
 	if source.AuthorizationType != nil {
-		authorizationType := AuthorizationContractProperties_AuthorizationType_STATUS(*source.AuthorizationType)
-		authorization.AuthorizationType = &authorizationType
+		authorizationType := *source.AuthorizationType
+		authorizationTypeTemp := genruntime.ToEnum(authorizationType, authorizationContractProperties_AuthorizationType_STATUS_Values)
+		authorization.AuthorizationType = &authorizationTypeTemp
 	} else {
 		authorization.AuthorizationType = nil
 	}
@@ -816,8 +819,9 @@ func (authorization *Service_AuthorizationProviders_Authorization_STATUS) Assign
 
 	// Oauth2GrantType
 	if source.Oauth2GrantType != nil {
-		oauth2GrantType := AuthorizationContractProperties_Oauth2GrantType_STATUS(*source.Oauth2GrantType)
-		authorization.Oauth2GrantType = &oauth2GrantType
+		oauth2GrantType := *source.Oauth2GrantType
+		oauth2GrantTypeTemp := genruntime.ToEnum(oauth2GrantType, authorizationContractProperties_Oauth2GrantType_STATUS_Values)
+		authorization.Oauth2GrantType = &oauth2GrantTypeTemp
 	} else {
 		authorization.Oauth2GrantType = nil
 	}
@@ -902,9 +906,19 @@ type AuthorizationContractProperties_AuthorizationType string
 
 const AuthorizationContractProperties_AuthorizationType_OAuth2 = AuthorizationContractProperties_AuthorizationType("OAuth2")
 
+// Mapping from string to AuthorizationContractProperties_AuthorizationType
+var authorizationContractProperties_AuthorizationType_Values = map[string]AuthorizationContractProperties_AuthorizationType{
+	"oauth2": AuthorizationContractProperties_AuthorizationType_OAuth2,
+}
+
 type AuthorizationContractProperties_AuthorizationType_STATUS string
 
 const AuthorizationContractProperties_AuthorizationType_STATUS_OAuth2 = AuthorizationContractProperties_AuthorizationType_STATUS("OAuth2")
+
+// Mapping from string to AuthorizationContractProperties_AuthorizationType_STATUS
+var authorizationContractProperties_AuthorizationType_STATUS_Values = map[string]AuthorizationContractProperties_AuthorizationType_STATUS{
+	"oauth2": AuthorizationContractProperties_AuthorizationType_STATUS_OAuth2,
+}
 
 // +kubebuilder:validation:Enum={"AuthorizationCode","ClientCredentials"}
 type AuthorizationContractProperties_Oauth2GrantType string
@@ -914,12 +928,24 @@ const (
 	AuthorizationContractProperties_Oauth2GrantType_ClientCredentials = AuthorizationContractProperties_Oauth2GrantType("ClientCredentials")
 )
 
+// Mapping from string to AuthorizationContractProperties_Oauth2GrantType
+var authorizationContractProperties_Oauth2GrantType_Values = map[string]AuthorizationContractProperties_Oauth2GrantType{
+	"authorizationcode": AuthorizationContractProperties_Oauth2GrantType_AuthorizationCode,
+	"clientcredentials": AuthorizationContractProperties_Oauth2GrantType_ClientCredentials,
+}
+
 type AuthorizationContractProperties_Oauth2GrantType_STATUS string
 
 const (
 	AuthorizationContractProperties_Oauth2GrantType_STATUS_AuthorizationCode = AuthorizationContractProperties_Oauth2GrantType_STATUS("AuthorizationCode")
 	AuthorizationContractProperties_Oauth2GrantType_STATUS_ClientCredentials = AuthorizationContractProperties_Oauth2GrantType_STATUS("ClientCredentials")
 )
+
+// Mapping from string to AuthorizationContractProperties_Oauth2GrantType_STATUS
+var authorizationContractProperties_Oauth2GrantType_STATUS_Values = map[string]AuthorizationContractProperties_Oauth2GrantType_STATUS{
+	"authorizationcode": AuthorizationContractProperties_Oauth2GrantType_STATUS_AuthorizationCode,
+	"clientcredentials": AuthorizationContractProperties_Oauth2GrantType_STATUS_ClientCredentials,
+}
 
 // Authorization error details.
 type AuthorizationError_STATUS struct {

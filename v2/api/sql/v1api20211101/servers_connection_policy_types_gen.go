@@ -437,8 +437,9 @@ func (policy *Servers_ConnectionPolicy_Spec) AssignProperties_From_Servers_Conne
 
 	// ConnectionType
 	if source.ConnectionType != nil {
-		connectionType := ServerConnectionPolicyProperties_ConnectionType(*source.ConnectionType)
-		policy.ConnectionType = &connectionType
+		connectionType := *source.ConnectionType
+		connectionTypeTemp := genruntime.ToEnum(connectionType, serverConnectionPolicyProperties_ConnectionType_Values)
+		policy.ConnectionType = &connectionTypeTemp
 	} else {
 		policy.ConnectionType = nil
 	}
@@ -650,8 +651,9 @@ func (policy *Servers_ConnectionPolicy_STATUS) AssignProperties_From_Servers_Con
 
 	// ConnectionType
 	if source.ConnectionType != nil {
-		connectionType := ServerConnectionPolicyProperties_ConnectionType_STATUS(*source.ConnectionType)
-		policy.ConnectionType = &connectionType
+		connectionType := *source.ConnectionType
+		connectionTypeTemp := genruntime.ToEnum(connectionType, serverConnectionPolicyProperties_ConnectionType_STATUS_Values)
+		policy.ConnectionType = &connectionTypeTemp
 	} else {
 		policy.ConnectionType = nil
 	}
@@ -726,6 +728,13 @@ const (
 	ServerConnectionPolicyProperties_ConnectionType_Redirect = ServerConnectionPolicyProperties_ConnectionType("Redirect")
 )
 
+// Mapping from string to ServerConnectionPolicyProperties_ConnectionType
+var serverConnectionPolicyProperties_ConnectionType_Values = map[string]ServerConnectionPolicyProperties_ConnectionType{
+	"default":  ServerConnectionPolicyProperties_ConnectionType_Default,
+	"proxy":    ServerConnectionPolicyProperties_ConnectionType_Proxy,
+	"redirect": ServerConnectionPolicyProperties_ConnectionType_Redirect,
+}
+
 type ServerConnectionPolicyProperties_ConnectionType_STATUS string
 
 const (
@@ -733,6 +742,13 @@ const (
 	ServerConnectionPolicyProperties_ConnectionType_STATUS_Proxy    = ServerConnectionPolicyProperties_ConnectionType_STATUS("Proxy")
 	ServerConnectionPolicyProperties_ConnectionType_STATUS_Redirect = ServerConnectionPolicyProperties_ConnectionType_STATUS("Redirect")
 )
+
+// Mapping from string to ServerConnectionPolicyProperties_ConnectionType_STATUS
+var serverConnectionPolicyProperties_ConnectionType_STATUS_Values = map[string]ServerConnectionPolicyProperties_ConnectionType_STATUS{
+	"default":  ServerConnectionPolicyProperties_ConnectionType_STATUS_Default,
+	"proxy":    ServerConnectionPolicyProperties_ConnectionType_STATUS_Proxy,
+	"redirect": ServerConnectionPolicyProperties_ConnectionType_STATUS_Redirect,
+}
 
 func init() {
 	SchemeBuilder.Register(&ServersConnectionPolicy{}, &ServersConnectionPolicyList{})

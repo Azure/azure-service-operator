@@ -175,6 +175,14 @@ const (
 	ArmIdentity_Type_STATUS_UserAssigned               = ArmIdentity_Type_STATUS("UserAssigned")
 )
 
+// Mapping from string to ArmIdentity_Type_STATUS
+var armIdentity_Type_STATUS_Values = map[string]ArmIdentity_Type_STATUS{
+	"none":                         ArmIdentity_Type_STATUS_None,
+	"systemassigned":               ArmIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned, userassigned": ArmIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 ArmIdentity_Type_STATUS_UserAssigned,
+}
+
 type ArmUserIdentity_STATUS_ARM struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -232,12 +240,24 @@ const (
 	IotHubProperties_Features_STATUS_None             = IotHubProperties_Features_STATUS("None")
 )
 
+// Mapping from string to IotHubProperties_Features_STATUS
+var iotHubProperties_Features_STATUS_Values = map[string]IotHubProperties_Features_STATUS{
+	"devicemanagement": IotHubProperties_Features_STATUS_DeviceManagement,
+	"none":             IotHubProperties_Features_STATUS_None,
+}
+
 type IotHubProperties_PublicNetworkAccess_STATUS string
 
 const (
 	IotHubProperties_PublicNetworkAccess_STATUS_Disabled = IotHubProperties_PublicNetworkAccess_STATUS("Disabled")
 	IotHubProperties_PublicNetworkAccess_STATUS_Enabled  = IotHubProperties_PublicNetworkAccess_STATUS("Enabled")
 )
+
+// Mapping from string to IotHubProperties_PublicNetworkAccess_STATUS
+var iotHubProperties_PublicNetworkAccess_STATUS_Values = map[string]IotHubProperties_PublicNetworkAccess_STATUS{
+	"disabled": IotHubProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  IotHubProperties_PublicNetworkAccess_STATUS_Enabled,
+}
 
 type IotHubSkuInfo_Name_STATUS string
 
@@ -251,6 +271,17 @@ const (
 	IotHubSkuInfo_Name_STATUS_S3 = IotHubSkuInfo_Name_STATUS("S3")
 )
 
+// Mapping from string to IotHubSkuInfo_Name_STATUS
+var iotHubSkuInfo_Name_STATUS_Values = map[string]IotHubSkuInfo_Name_STATUS{
+	"b1": IotHubSkuInfo_Name_STATUS_B1,
+	"b2": IotHubSkuInfo_Name_STATUS_B2,
+	"b3": IotHubSkuInfo_Name_STATUS_B3,
+	"f1": IotHubSkuInfo_Name_STATUS_F1,
+	"s1": IotHubSkuInfo_Name_STATUS_S1,
+	"s2": IotHubSkuInfo_Name_STATUS_S2,
+	"s3": IotHubSkuInfo_Name_STATUS_S3,
+}
+
 type IotHubSkuInfo_Tier_STATUS string
 
 const (
@@ -258,6 +289,13 @@ const (
 	IotHubSkuInfo_Tier_STATUS_Free     = IotHubSkuInfo_Tier_STATUS("Free")
 	IotHubSkuInfo_Tier_STATUS_Standard = IotHubSkuInfo_Tier_STATUS("Standard")
 )
+
+// Mapping from string to IotHubSkuInfo_Tier_STATUS
+var iotHubSkuInfo_Tier_STATUS_Values = map[string]IotHubSkuInfo_Tier_STATUS{
+	"basic":    IotHubSkuInfo_Tier_STATUS_Basic,
+	"free":     IotHubSkuInfo_Tier_STATUS_Free,
+	"standard": IotHubSkuInfo_Tier_STATUS_Standard,
+}
 
 // The IP filter rules for the IoT hub.
 type IpFilterRule_STATUS_ARM struct {
@@ -360,6 +398,14 @@ const (
 	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
 type SystemData_LastModifiedByType_STATUS string
 
 const (
@@ -368,6 +414,14 @@ const (
 	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
+}
 
 // The properties of an enrichment that your IoT hub applies to messages delivered to endpoints.
 type EnrichmentProperties_STATUS_ARM struct {
@@ -425,12 +479,24 @@ const (
 	IotHubLocationDescription_Role_STATUS_Secondary = IotHubLocationDescription_Role_STATUS("secondary")
 )
 
+// Mapping from string to IotHubLocationDescription_Role_STATUS
+var iotHubLocationDescription_Role_STATUS_Values = map[string]IotHubLocationDescription_Role_STATUS{
+	"primary":   IotHubLocationDescription_Role_STATUS_Primary,
+	"secondary": IotHubLocationDescription_Role_STATUS_Secondary,
+}
+
 type IpFilterRule_Action_STATUS string
 
 const (
 	IpFilterRule_Action_STATUS_Accept = IpFilterRule_Action_STATUS("Accept")
 	IpFilterRule_Action_STATUS_Reject = IpFilterRule_Action_STATUS("Reject")
 )
+
+// Mapping from string to IpFilterRule_Action_STATUS
+var ipFilterRule_Action_STATUS_Values = map[string]IpFilterRule_Action_STATUS{
+	"accept": IpFilterRule_Action_STATUS_Accept,
+	"reject": IpFilterRule_Action_STATUS_Reject,
+}
 
 // The properties of the Managed identity.
 type ManagedIdentity_STATUS_ARM struct {
@@ -456,6 +522,12 @@ const (
 	NetworkRuleSetProperties_DefaultAction_STATUS_Allow = NetworkRuleSetProperties_DefaultAction_STATUS("Allow")
 	NetworkRuleSetProperties_DefaultAction_STATUS_Deny  = NetworkRuleSetProperties_DefaultAction_STATUS("Deny")
 )
+
+// Mapping from string to NetworkRuleSetProperties_DefaultAction_STATUS
+var networkRuleSetProperties_DefaultAction_STATUS_Values = map[string]NetworkRuleSetProperties_DefaultAction_STATUS{
+	"allow": NetworkRuleSetProperties_DefaultAction_STATUS_Allow,
+	"deny":  NetworkRuleSetProperties_DefaultAction_STATUS_Deny,
+}
 
 // The properties of a routing rule that your IoT hub uses to route messages to endpoints.
 type RouteProperties_STATUS_ARM struct {
@@ -518,6 +590,25 @@ const (
 	SharedAccessSignatureAuthorizationRule_Rights_STATUS_ServiceConnectDeviceConnect                          = SharedAccessSignatureAuthorizationRule_Rights_STATUS("ServiceConnect, DeviceConnect")
 )
 
+// Mapping from string to SharedAccessSignatureAuthorizationRule_Rights_STATUS
+var sharedAccessSignatureAuthorizationRule_Rights_STATUS_Values = map[string]SharedAccessSignatureAuthorizationRule_Rights_STATUS{
+	"deviceconnect":                                              SharedAccessSignatureAuthorizationRule_Rights_STATUS_DeviceConnect,
+	"registryread":                                               SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryRead,
+	"registryread, deviceconnect":                                SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadDeviceConnect,
+	"registryread, registrywrite":                                SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWrite,
+	"registryread, registrywrite, deviceconnect":                 SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteDeviceConnect,
+	"registryread, registrywrite, serviceconnect":                SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteServiceConnect,
+	"registryread, registrywrite, serviceconnect, deviceconnect": SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadRegistryWriteServiceConnectDeviceConnect,
+	"registryread, serviceconnect":                               SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadServiceConnect,
+	"registryread, serviceconnect, deviceconnect":                SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryReadServiceConnectDeviceConnect,
+	"registrywrite":                                              SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWrite,
+	"registrywrite, deviceconnect":                               SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteDeviceConnect,
+	"registrywrite, serviceconnect":                              SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteServiceConnect,
+	"registrywrite, serviceconnect, deviceconnect":               SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteServiceConnectDeviceConnect,
+	"serviceconnect":                                             SharedAccessSignatureAuthorizationRule_Rights_STATUS_ServiceConnect,
+	"serviceconnect, deviceconnect":                              SharedAccessSignatureAuthorizationRule_Rights_STATUS_ServiceConnectDeviceConnect,
+}
+
 type StorageEndpointProperties_AuthenticationType_STATUS string
 
 const (
@@ -525,13 +616,29 @@ const (
 	StorageEndpointProperties_AuthenticationType_STATUS_KeyBased      = StorageEndpointProperties_AuthenticationType_STATUS("keyBased")
 )
 
+// Mapping from string to StorageEndpointProperties_AuthenticationType_STATUS
+var storageEndpointProperties_AuthenticationType_STATUS_Values = map[string]StorageEndpointProperties_AuthenticationType_STATUS{
+	"identitybased": StorageEndpointProperties_AuthenticationType_STATUS_IdentityBased,
+	"keybased":      StorageEndpointProperties_AuthenticationType_STATUS_KeyBased,
+}
+
 type FallbackRouteProperties_Source_STATUS string
 
 const FallbackRouteProperties_Source_STATUS_DeviceMessages = FallbackRouteProperties_Source_STATUS("DeviceMessages")
 
+// Mapping from string to FallbackRouteProperties_Source_STATUS
+var fallbackRouteProperties_Source_STATUS_Values = map[string]FallbackRouteProperties_Source_STATUS{
+	"devicemessages": FallbackRouteProperties_Source_STATUS_DeviceMessages,
+}
+
 type NetworkRuleSetIpRule_Action_STATUS string
 
 const NetworkRuleSetIpRule_Action_STATUS_Allow = NetworkRuleSetIpRule_Action_STATUS("Allow")
+
+// Mapping from string to NetworkRuleSetIpRule_Action_STATUS
+var networkRuleSetIpRule_Action_STATUS_Values = map[string]NetworkRuleSetIpRule_Action_STATUS{
+	"allow": NetworkRuleSetIpRule_Action_STATUS_Allow,
+}
 
 type RouteProperties_Source_STATUS string
 
@@ -543,6 +650,16 @@ const (
 	RouteProperties_Source_STATUS_Invalid                     = RouteProperties_Source_STATUS("Invalid")
 	RouteProperties_Source_STATUS_TwinChangeEvents            = RouteProperties_Source_STATUS("TwinChangeEvents")
 )
+
+// Mapping from string to RouteProperties_Source_STATUS
+var routeProperties_Source_STATUS_Values = map[string]RouteProperties_Source_STATUS{
+	"deviceconnectionstateevents": RouteProperties_Source_STATUS_DeviceConnectionStateEvents,
+	"devicejoblifecycleevents":    RouteProperties_Source_STATUS_DeviceJobLifecycleEvents,
+	"devicelifecycleevents":       RouteProperties_Source_STATUS_DeviceLifecycleEvents,
+	"devicemessages":              RouteProperties_Source_STATUS_DeviceMessages,
+	"invalid":                     RouteProperties_Source_STATUS_Invalid,
+	"twinchangeevents":            RouteProperties_Source_STATUS_TwinChangeEvents,
+}
 
 // The properties related to an event hub endpoint.
 type RoutingEventHubProperties_STATUS_ARM struct {
@@ -683,12 +800,24 @@ const (
 	RoutingEventHubProperties_AuthenticationType_STATUS_KeyBased      = RoutingEventHubProperties_AuthenticationType_STATUS("keyBased")
 )
 
+// Mapping from string to RoutingEventHubProperties_AuthenticationType_STATUS
+var routingEventHubProperties_AuthenticationType_STATUS_Values = map[string]RoutingEventHubProperties_AuthenticationType_STATUS{
+	"identitybased": RoutingEventHubProperties_AuthenticationType_STATUS_IdentityBased,
+	"keybased":      RoutingEventHubProperties_AuthenticationType_STATUS_KeyBased,
+}
+
 type RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS string
 
 const (
 	RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_IdentityBased = RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS("identityBased")
 	RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_KeyBased      = RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS("keyBased")
 )
+
+// Mapping from string to RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS
+var routingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_Values = map[string]RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS{
+	"identitybased": RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_IdentityBased,
+	"keybased":      RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_KeyBased,
+}
 
 type RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS string
 
@@ -697,12 +826,24 @@ const (
 	RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_KeyBased      = RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS("keyBased")
 )
 
+// Mapping from string to RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS
+var routingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_Values = map[string]RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS{
+	"identitybased": RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_IdentityBased,
+	"keybased":      RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_KeyBased,
+}
+
 type RoutingStorageContainerProperties_AuthenticationType_STATUS string
 
 const (
 	RoutingStorageContainerProperties_AuthenticationType_STATUS_IdentityBased = RoutingStorageContainerProperties_AuthenticationType_STATUS("identityBased")
 	RoutingStorageContainerProperties_AuthenticationType_STATUS_KeyBased      = RoutingStorageContainerProperties_AuthenticationType_STATUS("keyBased")
 )
+
+// Mapping from string to RoutingStorageContainerProperties_AuthenticationType_STATUS
+var routingStorageContainerProperties_AuthenticationType_STATUS_Values = map[string]RoutingStorageContainerProperties_AuthenticationType_STATUS{
+	"identitybased": RoutingStorageContainerProperties_AuthenticationType_STATUS_IdentityBased,
+	"keybased":      RoutingStorageContainerProperties_AuthenticationType_STATUS_KeyBased,
+}
 
 type RoutingStorageContainerProperties_Encoding_STATUS string
 
@@ -711,3 +852,10 @@ const (
 	RoutingStorageContainerProperties_Encoding_STATUS_AvroDeflate = RoutingStorageContainerProperties_Encoding_STATUS("AvroDeflate")
 	RoutingStorageContainerProperties_Encoding_STATUS_JSON        = RoutingStorageContainerProperties_Encoding_STATUS("JSON")
 )
+
+// Mapping from string to RoutingStorageContainerProperties_Encoding_STATUS
+var routingStorageContainerProperties_Encoding_STATUS_Values = map[string]RoutingStorageContainerProperties_Encoding_STATUS{
+	"avro":        RoutingStorageContainerProperties_Encoding_STATUS_Avro,
+	"avrodeflate": RoutingStorageContainerProperties_Encoding_STATUS_AvroDeflate,
+	"json":        RoutingStorageContainerProperties_Encoding_STATUS_JSON,
+}

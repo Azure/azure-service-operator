@@ -68,6 +68,15 @@ const (
 	SqlTriggerResource_TriggerOperation_Update  = SqlTriggerResource_TriggerOperation("Update")
 )
 
+// Mapping from string to SqlTriggerResource_TriggerOperation
+var sqlTriggerResource_TriggerOperation_Values = map[string]SqlTriggerResource_TriggerOperation{
+	"all":     SqlTriggerResource_TriggerOperation_All,
+	"create":  SqlTriggerResource_TriggerOperation_Create,
+	"delete":  SqlTriggerResource_TriggerOperation_Delete,
+	"replace": SqlTriggerResource_TriggerOperation_Replace,
+	"update":  SqlTriggerResource_TriggerOperation_Update,
+}
+
 // +kubebuilder:validation:Enum={"Post","Pre"}
 type SqlTriggerResource_TriggerType string
 
@@ -75,3 +84,9 @@ const (
 	SqlTriggerResource_TriggerType_Post = SqlTriggerResource_TriggerType("Post")
 	SqlTriggerResource_TriggerType_Pre  = SqlTriggerResource_TriggerType("Pre")
 )
+
+// Mapping from string to SqlTriggerResource_TriggerType
+var sqlTriggerResource_TriggerType_Values = map[string]SqlTriggerResource_TriggerType{
+	"post": SqlTriggerResource_TriggerType_Post,
+	"pre":  SqlTriggerResource_TriggerType_Pre,
+}

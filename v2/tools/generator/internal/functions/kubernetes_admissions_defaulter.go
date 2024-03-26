@@ -149,7 +149,7 @@ func (d *DefaulterBuilder) defaultFunction(
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverType),
-		Body: []dst.Stmt{
+		Body: astbuilder.Statements(
 			astbuilder.CallQualifiedFuncAsStmt(receiverIdent, "defaultImpl"), // TODO: This part should maybe be conditional if there are no defaults to define?
 			astbuilder.AssignToInterface(tempVarIdent, dst.NewIdent(receiverIdent)),
 			astbuilder.IfType(
@@ -157,7 +157,7 @@ func (d *DefaulterBuilder) defaultFunction(
 				overrideInterfaceType,
 				runtimeDefaulterIdent,
 				astbuilder.CallQualifiedFuncAsStmt(runtimeDefaulterIdent, "CustomDefault")),
-		},
+		),
 	}
 
 	fn.AddComments(fmt.Sprintf("applies defaults to the %s resource", receiver.Name()))

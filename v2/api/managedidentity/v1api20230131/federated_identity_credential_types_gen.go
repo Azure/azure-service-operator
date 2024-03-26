@@ -976,8 +976,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -990,8 +991,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}

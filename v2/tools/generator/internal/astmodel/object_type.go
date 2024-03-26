@@ -87,15 +87,21 @@ func (objectType *ObjectType) AsDeclarations(
 	astbuilder.AddUnwrappedComments(&declaration.Decs.Start, declContext.Description)
 	AddValidationComments(&declaration.Decs.Start, declContext.Validations)
 
-	result := []dst.Decl{declaration}
-	result = append(result, objectType.InterfaceImplementer.AsDeclarations(codeGenerationContext, declContext.Name, nil)...)
+	interfaceDeclarations, err := objectType.InterfaceImplementer.AsDeclarations(codeGenerationContext, declContext.Name, nil)
+	if err != nil {
+		return nil, errors.Wrapf(err, "generating interface declarations for %s", declContext.Name)
+	}
 
-	decls, err := objectType.generateMethodDecls(codeGenerationContext, declContext.Name)
+	methodDeclarations, err := objectType.generateMethodDecls(codeGenerationContext, declContext.Name)
 	if err != nil {
 		return nil, errors.Wrapf(err, "generating method declarations for %s", declContext.Name)
 	}
 
-	result = append(result, decls...)
+	result := astbuilder.Declarations(
+		declaration,
+		interfaceDeclarations,
+		methodDeclarations)
+
 	return result, nil
 }
 

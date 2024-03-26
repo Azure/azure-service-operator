@@ -798,8 +798,9 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v2
 
 	// Application_Type
 	if source.Application_Type != nil {
-		applicationType := ApplicationInsightsComponentProperties_Application_Type(*source.Application_Type)
-		component.Application_Type = &applicationType
+		applicationType := *source.Application_Type
+		applicationTypeTemp := genruntime.ToEnum(applicationType, applicationInsightsComponentProperties_Application_Type_Values)
+		component.Application_Type = &applicationTypeTemp
 	} else {
 		component.Application_Type = nil
 	}
@@ -828,8 +829,9 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v2
 
 	// Flow_Type
 	if source.Flow_Type != nil {
-		flowType := ApplicationInsightsComponentProperties_Flow_Type(*source.Flow_Type)
-		component.Flow_Type = &flowType
+		flowType := *source.Flow_Type
+		flowTypeTemp := genruntime.ToEnum(flowType, applicationInsightsComponentProperties_Flow_Type_Values)
+		component.Flow_Type = &flowTypeTemp
 	} else {
 		component.Flow_Type = nil
 	}
@@ -855,8 +857,9 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v2
 
 	// IngestionMode
 	if source.IngestionMode != nil {
-		ingestionMode := ApplicationInsightsComponentProperties_IngestionMode(*source.IngestionMode)
-		component.IngestionMode = &ingestionMode
+		ingestionMode := *source.IngestionMode
+		ingestionModeTemp := genruntime.ToEnum(ingestionMode, applicationInsightsComponentProperties_IngestionMode_Values)
+		component.IngestionMode = &ingestionModeTemp
 	} else {
 		component.IngestionMode = nil
 	}
@@ -889,24 +892,27 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v2
 
 	// PublicNetworkAccessForIngestion
 	if source.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := PublicNetworkAccessType(*source.PublicNetworkAccessForIngestion)
-		component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
+		publicNetworkAccessForIngestion := *source.PublicNetworkAccessForIngestion
+		publicNetworkAccessForIngestionTemp := genruntime.ToEnum(publicNetworkAccessForIngestion, publicNetworkAccessType_Values)
+		component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestionTemp
 	} else {
 		component.PublicNetworkAccessForIngestion = nil
 	}
 
 	// PublicNetworkAccessForQuery
 	if source.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := PublicNetworkAccessType(*source.PublicNetworkAccessForQuery)
-		component.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
+		publicNetworkAccessForQuery := *source.PublicNetworkAccessForQuery
+		publicNetworkAccessForQueryTemp := genruntime.ToEnum(publicNetworkAccessForQuery, publicNetworkAccessType_Values)
+		component.PublicNetworkAccessForQuery = &publicNetworkAccessForQueryTemp
 	} else {
 		component.PublicNetworkAccessForQuery = nil
 	}
 
 	// Request_Source
 	if source.Request_Source != nil {
-		requestSource := ApplicationInsightsComponentProperties_Request_Source(*source.Request_Source)
-		component.Request_Source = &requestSource
+		requestSource := *source.Request_Source
+		requestSourceTemp := genruntime.ToEnum(requestSource, applicationInsightsComponentProperties_Request_Source_Values)
+		component.Request_Source = &requestSourceTemp
 	} else {
 		component.Request_Source = nil
 	}
@@ -1687,8 +1693,9 @@ func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source
 
 	// Application_Type
 	if source.Application_Type != nil {
-		applicationType := ApplicationInsightsComponentProperties_Application_Type_STATUS(*source.Application_Type)
-		component.Application_Type = &applicationType
+		applicationType := *source.Application_Type
+		applicationTypeTemp := genruntime.ToEnum(applicationType, applicationInsightsComponentProperties_Application_Type_STATUS_Values)
+		component.Application_Type = &applicationTypeTemp
 	} else {
 		component.Application_Type = nil
 	}
@@ -1723,8 +1730,9 @@ func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source
 
 	// Flow_Type
 	if source.Flow_Type != nil {
-		flowType := ApplicationInsightsComponentProperties_Flow_Type_STATUS(*source.Flow_Type)
-		component.Flow_Type = &flowType
+		flowType := *source.Flow_Type
+		flowTypeTemp := genruntime.ToEnum(flowType, applicationInsightsComponentProperties_Flow_Type_STATUS_Values)
+		component.Flow_Type = &flowTypeTemp
 	} else {
 		component.Flow_Type = nil
 	}
@@ -1756,8 +1764,9 @@ func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source
 
 	// IngestionMode
 	if source.IngestionMode != nil {
-		ingestionMode := ApplicationInsightsComponentProperties_IngestionMode_STATUS(*source.IngestionMode)
-		component.IngestionMode = &ingestionMode
+		ingestionMode := *source.IngestionMode
+		ingestionModeTemp := genruntime.ToEnum(ingestionMode, applicationInsightsComponentProperties_IngestionMode_STATUS_Values)
+		component.IngestionMode = &ingestionModeTemp
 	} else {
 		component.IngestionMode = nil
 	}
@@ -1803,24 +1812,27 @@ func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source
 
 	// PublicNetworkAccessForIngestion
 	if source.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := PublicNetworkAccessType_STATUS(*source.PublicNetworkAccessForIngestion)
-		component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
+		publicNetworkAccessForIngestion := *source.PublicNetworkAccessForIngestion
+		publicNetworkAccessForIngestionTemp := genruntime.ToEnum(publicNetworkAccessForIngestion, publicNetworkAccessType_STATUS_Values)
+		component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestionTemp
 	} else {
 		component.PublicNetworkAccessForIngestion = nil
 	}
 
 	// PublicNetworkAccessForQuery
 	if source.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := PublicNetworkAccessType_STATUS(*source.PublicNetworkAccessForQuery)
-		component.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
+		publicNetworkAccessForQuery := *source.PublicNetworkAccessForQuery
+		publicNetworkAccessForQueryTemp := genruntime.ToEnum(publicNetworkAccessForQuery, publicNetworkAccessType_STATUS_Values)
+		component.PublicNetworkAccessForQuery = &publicNetworkAccessForQueryTemp
 	} else {
 		component.PublicNetworkAccessForQuery = nil
 	}
 
 	// Request_Source
 	if source.Request_Source != nil {
-		requestSource := ApplicationInsightsComponentProperties_Request_Source_STATUS(*source.Request_Source)
-		component.Request_Source = &requestSource
+		requestSource := *source.Request_Source
+		requestSourceTemp := genruntime.ToEnum(requestSource, applicationInsightsComponentProperties_Request_Source_STATUS_Values)
+		component.Request_Source = &requestSourceTemp
 	} else {
 		component.Request_Source = nil
 	}
@@ -2045,6 +2057,12 @@ const (
 	ApplicationInsightsComponentProperties_Application_Type_Web   = ApplicationInsightsComponentProperties_Application_Type("web")
 )
 
+// Mapping from string to ApplicationInsightsComponentProperties_Application_Type
+var applicationInsightsComponentProperties_Application_Type_Values = map[string]ApplicationInsightsComponentProperties_Application_Type{
+	"other": ApplicationInsightsComponentProperties_Application_Type_Other,
+	"web":   ApplicationInsightsComponentProperties_Application_Type_Web,
+}
+
 type ApplicationInsightsComponentProperties_Application_Type_STATUS string
 
 const (
@@ -2052,14 +2070,30 @@ const (
 	ApplicationInsightsComponentProperties_Application_Type_STATUS_Web   = ApplicationInsightsComponentProperties_Application_Type_STATUS("web")
 )
 
+// Mapping from string to ApplicationInsightsComponentProperties_Application_Type_STATUS
+var applicationInsightsComponentProperties_Application_Type_STATUS_Values = map[string]ApplicationInsightsComponentProperties_Application_Type_STATUS{
+	"other": ApplicationInsightsComponentProperties_Application_Type_STATUS_Other,
+	"web":   ApplicationInsightsComponentProperties_Application_Type_STATUS_Web,
+}
+
 // +kubebuilder:validation:Enum={"Bluefield"}
 type ApplicationInsightsComponentProperties_Flow_Type string
 
 const ApplicationInsightsComponentProperties_Flow_Type_Bluefield = ApplicationInsightsComponentProperties_Flow_Type("Bluefield")
 
+// Mapping from string to ApplicationInsightsComponentProperties_Flow_Type
+var applicationInsightsComponentProperties_Flow_Type_Values = map[string]ApplicationInsightsComponentProperties_Flow_Type{
+	"bluefield": ApplicationInsightsComponentProperties_Flow_Type_Bluefield,
+}
+
 type ApplicationInsightsComponentProperties_Flow_Type_STATUS string
 
 const ApplicationInsightsComponentProperties_Flow_Type_STATUS_Bluefield = ApplicationInsightsComponentProperties_Flow_Type_STATUS("Bluefield")
+
+// Mapping from string to ApplicationInsightsComponentProperties_Flow_Type_STATUS
+var applicationInsightsComponentProperties_Flow_Type_STATUS_Values = map[string]ApplicationInsightsComponentProperties_Flow_Type_STATUS{
+	"bluefield": ApplicationInsightsComponentProperties_Flow_Type_STATUS_Bluefield,
+}
 
 // +kubebuilder:validation:Enum={"ApplicationInsights","ApplicationInsightsWithDiagnosticSettings","LogAnalytics"}
 type ApplicationInsightsComponentProperties_IngestionMode string
@@ -2070,6 +2104,13 @@ const (
 	ApplicationInsightsComponentProperties_IngestionMode_LogAnalytics                              = ApplicationInsightsComponentProperties_IngestionMode("LogAnalytics")
 )
 
+// Mapping from string to ApplicationInsightsComponentProperties_IngestionMode
+var applicationInsightsComponentProperties_IngestionMode_Values = map[string]ApplicationInsightsComponentProperties_IngestionMode{
+	"applicationinsights":                       ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsights,
+	"applicationinsightswithdiagnosticsettings": ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsightsWithDiagnosticSettings,
+	"loganalytics":                              ApplicationInsightsComponentProperties_IngestionMode_LogAnalytics,
+}
+
 type ApplicationInsightsComponentProperties_IngestionMode_STATUS string
 
 const (
@@ -2078,14 +2119,31 @@ const (
 	ApplicationInsightsComponentProperties_IngestionMode_STATUS_LogAnalytics                              = ApplicationInsightsComponentProperties_IngestionMode_STATUS("LogAnalytics")
 )
 
+// Mapping from string to ApplicationInsightsComponentProperties_IngestionMode_STATUS
+var applicationInsightsComponentProperties_IngestionMode_STATUS_Values = map[string]ApplicationInsightsComponentProperties_IngestionMode_STATUS{
+	"applicationinsights":                       ApplicationInsightsComponentProperties_IngestionMode_STATUS_ApplicationInsights,
+	"applicationinsightswithdiagnosticsettings": ApplicationInsightsComponentProperties_IngestionMode_STATUS_ApplicationInsightsWithDiagnosticSettings,
+	"loganalytics":                              ApplicationInsightsComponentProperties_IngestionMode_STATUS_LogAnalytics,
+}
+
 // +kubebuilder:validation:Enum={"rest"}
 type ApplicationInsightsComponentProperties_Request_Source string
 
 const ApplicationInsightsComponentProperties_Request_Source_Rest = ApplicationInsightsComponentProperties_Request_Source("rest")
 
+// Mapping from string to ApplicationInsightsComponentProperties_Request_Source
+var applicationInsightsComponentProperties_Request_Source_Values = map[string]ApplicationInsightsComponentProperties_Request_Source{
+	"rest": ApplicationInsightsComponentProperties_Request_Source_Rest,
+}
+
 type ApplicationInsightsComponentProperties_Request_Source_STATUS string
 
 const ApplicationInsightsComponentProperties_Request_Source_STATUS_Rest = ApplicationInsightsComponentProperties_Request_Source_STATUS("rest")
+
+// Mapping from string to ApplicationInsightsComponentProperties_Request_Source_STATUS
+var applicationInsightsComponentProperties_Request_Source_STATUS_Values = map[string]ApplicationInsightsComponentProperties_Request_Source_STATUS{
+	"rest": ApplicationInsightsComponentProperties_Request_Source_STATUS_Rest,
+}
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ComponentOperatorSpec struct {
@@ -2223,6 +2281,12 @@ const (
 	PublicNetworkAccessType_Enabled  = PublicNetworkAccessType("Enabled")
 )
 
+// Mapping from string to PublicNetworkAccessType
+var publicNetworkAccessType_Values = map[string]PublicNetworkAccessType{
+	"disabled": PublicNetworkAccessType_Disabled,
+	"enabled":  PublicNetworkAccessType_Enabled,
+}
+
 // The network access type for operating on the Application Insights Component. By default it is Enabled
 type PublicNetworkAccessType_STATUS string
 
@@ -2230,6 +2294,12 @@ const (
 	PublicNetworkAccessType_STATUS_Disabled = PublicNetworkAccessType_STATUS("Disabled")
 	PublicNetworkAccessType_STATUS_Enabled  = PublicNetworkAccessType_STATUS("Enabled")
 )
+
+// Mapping from string to PublicNetworkAccessType_STATUS
+var publicNetworkAccessType_STATUS_Values = map[string]PublicNetworkAccessType_STATUS{
+	"disabled": PublicNetworkAccessType_STATUS_Disabled,
+	"enabled":  PublicNetworkAccessType_STATUS_Enabled,
+}
 
 type ComponentOperatorConfigMaps struct {
 	// ConnectionString: indicates where the ConnectionString config map should be placed. If omitted, no config map will be

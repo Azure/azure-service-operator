@@ -636,8 +636,9 @@ func (pool *Servers_ElasticPool_Spec) AssignProperties_From_Servers_ElasticPool_
 
 	// LicenseType
 	if source.LicenseType != nil {
-		licenseType := ElasticPoolProperties_LicenseType(*source.LicenseType)
-		pool.LicenseType = &licenseType
+		licenseType := *source.LicenseType
+		licenseTypeTemp := genruntime.ToEnum(licenseType, elasticPoolProperties_LicenseType_Values)
+		pool.LicenseType = &licenseTypeTemp
 	} else {
 		pool.LicenseType = nil
 	}
@@ -1164,8 +1165,9 @@ func (pool *Servers_ElasticPool_STATUS) AssignProperties_From_Servers_ElasticPoo
 
 	// LicenseType
 	if source.LicenseType != nil {
-		licenseType := ElasticPoolProperties_LicenseType_STATUS(*source.LicenseType)
-		pool.LicenseType = &licenseType
+		licenseType := *source.LicenseType
+		licenseTypeTemp := genruntime.ToEnum(licenseType, elasticPoolProperties_LicenseType_STATUS_Values)
+		pool.LicenseType = &licenseTypeTemp
 	} else {
 		pool.LicenseType = nil
 	}
@@ -1216,8 +1218,9 @@ func (pool *Servers_ElasticPool_STATUS) AssignProperties_From_Servers_ElasticPoo
 
 	// State
 	if source.State != nil {
-		state := ElasticPoolProperties_State_STATUS(*source.State)
-		pool.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, elasticPoolProperties_State_STATUS_Values)
+		pool.State = &stateTemp
 	} else {
 		pool.State = nil
 	}
@@ -1585,12 +1588,24 @@ const (
 	ElasticPoolProperties_LicenseType_LicenseIncluded = ElasticPoolProperties_LicenseType("LicenseIncluded")
 )
 
+// Mapping from string to ElasticPoolProperties_LicenseType
+var elasticPoolProperties_LicenseType_Values = map[string]ElasticPoolProperties_LicenseType{
+	"baseprice":       ElasticPoolProperties_LicenseType_BasePrice,
+	"licenseincluded": ElasticPoolProperties_LicenseType_LicenseIncluded,
+}
+
 type ElasticPoolProperties_LicenseType_STATUS string
 
 const (
 	ElasticPoolProperties_LicenseType_STATUS_BasePrice       = ElasticPoolProperties_LicenseType_STATUS("BasePrice")
 	ElasticPoolProperties_LicenseType_STATUS_LicenseIncluded = ElasticPoolProperties_LicenseType_STATUS("LicenseIncluded")
 )
+
+// Mapping from string to ElasticPoolProperties_LicenseType_STATUS
+var elasticPoolProperties_LicenseType_STATUS_Values = map[string]ElasticPoolProperties_LicenseType_STATUS{
+	"baseprice":       ElasticPoolProperties_LicenseType_STATUS_BasePrice,
+	"licenseincluded": ElasticPoolProperties_LicenseType_STATUS_LicenseIncluded,
+}
 
 type ElasticPoolProperties_State_STATUS string
 
@@ -1599,6 +1614,13 @@ const (
 	ElasticPoolProperties_State_STATUS_Disabled = ElasticPoolProperties_State_STATUS("Disabled")
 	ElasticPoolProperties_State_STATUS_Ready    = ElasticPoolProperties_State_STATUS("Ready")
 )
+
+// Mapping from string to ElasticPoolProperties_State_STATUS
+var elasticPoolProperties_State_STATUS_Values = map[string]ElasticPoolProperties_State_STATUS{
+	"creating": ElasticPoolProperties_State_STATUS_Creating,
+	"disabled": ElasticPoolProperties_State_STATUS_Disabled,
+	"ready":    ElasticPoolProperties_State_STATUS_Ready,
+}
 
 func init() {
 	SchemeBuilder.Register(&ServersElasticPool{}, &ServersElasticPoolList{})

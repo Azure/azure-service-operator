@@ -499,7 +499,8 @@ func (configuration *FlexibleServers_Configuration_Spec) AssignProperties_From_F
 
 	// Source
 	if source.Source != nil {
-		sourceTemp := ConfigurationProperties_Source(*source.Source)
+		sourceValue := *source.Source
+		sourceTemp := genruntime.ToEnum(sourceValue, configurationProperties_Source_Values)
 		configuration.Source = &sourceTemp
 	} else {
 		configuration.Source = nil
@@ -865,24 +866,27 @@ func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_From
 
 	// IsConfigPendingRestart
 	if source.IsConfigPendingRestart != nil {
-		isConfigPendingRestart := ConfigurationProperties_IsConfigPendingRestart_STATUS(*source.IsConfigPendingRestart)
-		configuration.IsConfigPendingRestart = &isConfigPendingRestart
+		isConfigPendingRestart := *source.IsConfigPendingRestart
+		isConfigPendingRestartTemp := genruntime.ToEnum(isConfigPendingRestart, configurationProperties_IsConfigPendingRestart_STATUS_Values)
+		configuration.IsConfigPendingRestart = &isConfigPendingRestartTemp
 	} else {
 		configuration.IsConfigPendingRestart = nil
 	}
 
 	// IsDynamicConfig
 	if source.IsDynamicConfig != nil {
-		isDynamicConfig := ConfigurationProperties_IsDynamicConfig_STATUS(*source.IsDynamicConfig)
-		configuration.IsDynamicConfig = &isDynamicConfig
+		isDynamicConfig := *source.IsDynamicConfig
+		isDynamicConfigTemp := genruntime.ToEnum(isDynamicConfig, configurationProperties_IsDynamicConfig_STATUS_Values)
+		configuration.IsDynamicConfig = &isDynamicConfigTemp
 	} else {
 		configuration.IsDynamicConfig = nil
 	}
 
 	// IsReadOnly
 	if source.IsReadOnly != nil {
-		isReadOnly := ConfigurationProperties_IsReadOnly_STATUS(*source.IsReadOnly)
-		configuration.IsReadOnly = &isReadOnly
+		isReadOnly := *source.IsReadOnly
+		isReadOnlyTemp := genruntime.ToEnum(isReadOnly, configurationProperties_IsReadOnly_STATUS_Values)
+		configuration.IsReadOnly = &isReadOnlyTemp
 	} else {
 		configuration.IsReadOnly = nil
 	}
@@ -892,7 +896,8 @@ func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_From
 
 	// Source
 	if source.Source != nil {
-		sourceTemp := ConfigurationProperties_Source_STATUS(*source.Source)
+		sourceValue := *source.Source
+		sourceTemp := genruntime.ToEnum(sourceValue, configurationProperties_Source_STATUS_Values)
 		configuration.Source = &sourceTemp
 	} else {
 		configuration.Source = nil
@@ -1020,6 +1025,12 @@ const (
 	ConfigurationProperties_IsConfigPendingRestart_STATUS_True  = ConfigurationProperties_IsConfigPendingRestart_STATUS("True")
 )
 
+// Mapping from string to ConfigurationProperties_IsConfigPendingRestart_STATUS
+var configurationProperties_IsConfigPendingRestart_STATUS_Values = map[string]ConfigurationProperties_IsConfigPendingRestart_STATUS{
+	"false": ConfigurationProperties_IsConfigPendingRestart_STATUS_False,
+	"true":  ConfigurationProperties_IsConfigPendingRestart_STATUS_True,
+}
+
 type ConfigurationProperties_IsDynamicConfig_STATUS string
 
 const (
@@ -1027,12 +1038,24 @@ const (
 	ConfigurationProperties_IsDynamicConfig_STATUS_True  = ConfigurationProperties_IsDynamicConfig_STATUS("True")
 )
 
+// Mapping from string to ConfigurationProperties_IsDynamicConfig_STATUS
+var configurationProperties_IsDynamicConfig_STATUS_Values = map[string]ConfigurationProperties_IsDynamicConfig_STATUS{
+	"false": ConfigurationProperties_IsDynamicConfig_STATUS_False,
+	"true":  ConfigurationProperties_IsDynamicConfig_STATUS_True,
+}
+
 type ConfigurationProperties_IsReadOnly_STATUS string
 
 const (
 	ConfigurationProperties_IsReadOnly_STATUS_False = ConfigurationProperties_IsReadOnly_STATUS("False")
 	ConfigurationProperties_IsReadOnly_STATUS_True  = ConfigurationProperties_IsReadOnly_STATUS("True")
 )
+
+// Mapping from string to ConfigurationProperties_IsReadOnly_STATUS
+var configurationProperties_IsReadOnly_STATUS_Values = map[string]ConfigurationProperties_IsReadOnly_STATUS{
+	"false": ConfigurationProperties_IsReadOnly_STATUS_False,
+	"true":  ConfigurationProperties_IsReadOnly_STATUS_True,
+}
 
 // +kubebuilder:validation:Enum={"system-default","user-override"}
 type ConfigurationProperties_Source string
@@ -1042,12 +1065,24 @@ const (
 	ConfigurationProperties_Source_UserOverride  = ConfigurationProperties_Source("user-override")
 )
 
+// Mapping from string to ConfigurationProperties_Source
+var configurationProperties_Source_Values = map[string]ConfigurationProperties_Source{
+	"system-default": ConfigurationProperties_Source_SystemDefault,
+	"user-override":  ConfigurationProperties_Source_UserOverride,
+}
+
 type ConfigurationProperties_Source_STATUS string
 
 const (
 	ConfigurationProperties_Source_STATUS_SystemDefault = ConfigurationProperties_Source_STATUS("system-default")
 	ConfigurationProperties_Source_STATUS_UserOverride  = ConfigurationProperties_Source_STATUS("user-override")
 )
+
+// Mapping from string to ConfigurationProperties_Source_STATUS
+var configurationProperties_Source_STATUS_Values = map[string]ConfigurationProperties_Source_STATUS{
+	"system-default": ConfigurationProperties_Source_STATUS_SystemDefault,
+	"user-override":  ConfigurationProperties_Source_STATUS_UserOverride,
+}
 
 func init() {
 	SchemeBuilder.Register(&FlexibleServersConfiguration{}, &FlexibleServersConfigurationList{})

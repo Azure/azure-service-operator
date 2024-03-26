@@ -851,8 +851,9 @@ func (updateRun *Fleets_UpdateRun_STATUS) AssignProperties_From_Fleets_UpdateRun
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := UpdateRunProvisioningState_STATUS(*source.ProvisioningState)
-		updateRun.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, updateRunProvisioningState_STATUS_Values)
+		updateRun.ProvisioningState = &provisioningStateTemp
 	} else {
 		updateRun.ProvisioningState = nil
 	}
@@ -1198,6 +1199,13 @@ const (
 	UpdateRunProvisioningState_STATUS_Failed    = UpdateRunProvisioningState_STATUS("Failed")
 	UpdateRunProvisioningState_STATUS_Succeeded = UpdateRunProvisioningState_STATUS("Succeeded")
 )
+
+// Mapping from string to UpdateRunProvisioningState_STATUS
+var updateRunProvisioningState_STATUS_Values = map[string]UpdateRunProvisioningState_STATUS{
+	"canceled":  UpdateRunProvisioningState_STATUS_Canceled,
+	"failed":    UpdateRunProvisioningState_STATUS_Failed,
+	"succeeded": UpdateRunProvisioningState_STATUS_Succeeded,
+}
 
 // The status of a UpdateRun.
 type UpdateRunStatus_STATUS struct {
@@ -1643,8 +1651,9 @@ func (upgrade *ManagedClusterUpgradeSpec) AssignProperties_From_ManagedClusterUp
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedClusterUpgradeType(*source.Type)
-		upgrade.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedClusterUpgradeType_Values)
+		upgrade.Type = &typeTemp
 	} else {
 		upgrade.Type = nil
 	}
@@ -1747,8 +1756,9 @@ func (upgrade *ManagedClusterUpgradeSpec_STATUS) AssignProperties_From_ManagedCl
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedClusterUpgradeType_STATUS(*source.Type)
-		upgrade.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedClusterUpgradeType_STATUS_Values)
+		upgrade.Type = &typeTemp
 	} else {
 		upgrade.Type = nil
 	}
@@ -2383,8 +2393,9 @@ func (status *UpdateStatus_STATUS) AssignProperties_From_UpdateStatus_STATUS(sou
 
 	// State
 	if source.State != nil {
-		state := UpdateState_STATUS(*source.State)
-		status.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, updateState_STATUS_Values)
+		status.State = &stateTemp
 	} else {
 		status.State = nil
 	}
@@ -2631,6 +2642,12 @@ const (
 	ManagedClusterUpgradeType_NodeImageOnly = ManagedClusterUpgradeType("NodeImageOnly")
 )
 
+// Mapping from string to ManagedClusterUpgradeType
+var managedClusterUpgradeType_Values = map[string]ManagedClusterUpgradeType{
+	"full":          ManagedClusterUpgradeType_Full,
+	"nodeimageonly": ManagedClusterUpgradeType_NodeImageOnly,
+}
+
 // The type of upgrade to perform when targeting ManagedClusters.
 type ManagedClusterUpgradeType_STATUS string
 
@@ -2638,6 +2655,12 @@ const (
 	ManagedClusterUpgradeType_STATUS_Full          = ManagedClusterUpgradeType_STATUS("Full")
 	ManagedClusterUpgradeType_STATUS_NodeImageOnly = ManagedClusterUpgradeType_STATUS("NodeImageOnly")
 )
+
+// Mapping from string to ManagedClusterUpgradeType_STATUS
+var managedClusterUpgradeType_STATUS_Values = map[string]ManagedClusterUpgradeType_STATUS{
+	"full":          ManagedClusterUpgradeType_STATUS_Full,
+	"nodeimageonly": ManagedClusterUpgradeType_STATUS_NodeImageOnly,
+}
 
 // A group to be updated.
 type UpdateGroup struct {
@@ -2960,6 +2983,16 @@ const (
 	UpdateState_STATUS_Stopped    = UpdateState_STATUS("Stopped")
 	UpdateState_STATUS_Stopping   = UpdateState_STATUS("Stopping")
 )
+
+// Mapping from string to UpdateState_STATUS
+var updateState_STATUS_Values = map[string]UpdateState_STATUS{
+	"completed":  UpdateState_STATUS_Completed,
+	"failed":     UpdateState_STATUS_Failed,
+	"notstarted": UpdateState_STATUS_NotStarted,
+	"running":    UpdateState_STATUS_Running,
+	"stopped":    UpdateState_STATUS_Stopped,
+	"stopping":   UpdateState_STATUS_Stopping,
+}
 
 // The status of the wait duration.
 type WaitStatus_STATUS struct {

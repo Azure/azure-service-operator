@@ -107,6 +107,14 @@ const (
 	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
+// Mapping from string to Identity_Type
+var identity_Type_Values = map[string]Identity_Type{
+	"none":                         Identity_Type_None,
+	"systemassigned":               Identity_Type_SystemAssigned,
+	"systemassigned, userassigned": Identity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 Identity_Type_UserAssigned,
+}
+
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type Sku_Name string
 
@@ -116,6 +124,13 @@ const (
 	Sku_Name_Standard = Sku_Name("Standard")
 )
 
+// Mapping from string to Sku_Name
+var sku_Name_Values = map[string]Sku_Name{
+	"basic":    Sku_Name_Basic,
+	"premium":  Sku_Name_Premium,
+	"standard": Sku_Name_Standard,
+}
+
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type Sku_Tier string
 
@@ -124,6 +139,13 @@ const (
 	Sku_Tier_Premium  = Sku_Tier("Premium")
 	Sku_Tier_Standard = Sku_Tier("Standard")
 )
+
+// Mapping from string to Sku_Tier
+var sku_Tier_Values = map[string]Sku_Tier{
+	"basic":    Sku_Tier_Basic,
+	"premium":  Sku_Tier_Premium,
+	"standard": Sku_Tier_Standard,
+}
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {

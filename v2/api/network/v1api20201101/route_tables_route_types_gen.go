@@ -521,8 +521,9 @@ func (route *RouteTables_Route_Spec) AssignProperties_From_RouteTables_Route_Spe
 
 	// NextHopType
 	if source.NextHopType != nil {
-		nextHopType := RouteNextHopType(*source.NextHopType)
-		route.NextHopType = &nextHopType
+		nextHopType := *source.NextHopType
+		nextHopTypeTemp := genruntime.ToEnum(nextHopType, routeNextHopType_Values)
+		route.NextHopType = &nextHopTypeTemp
 	} else {
 		route.NextHopType = nil
 	}
@@ -831,16 +832,18 @@ func (route *RouteTables_Route_STATUS) AssignProperties_From_RouteTables_Route_S
 
 	// NextHopType
 	if source.NextHopType != nil {
-		nextHopType := RouteNextHopType_STATUS(*source.NextHopType)
-		route.NextHopType = &nextHopType
+		nextHopType := *source.NextHopType
+		nextHopTypeTemp := genruntime.ToEnum(nextHopType, routeNextHopType_STATUS_Values)
+		route.NextHopType = &nextHopTypeTemp
 	} else {
 		route.NextHopType = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		route.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		route.ProvisioningState = &provisioningStateTemp
 	} else {
 		route.ProvisioningState = nil
 	}
@@ -925,6 +928,15 @@ const (
 	RouteNextHopType_VnetLocal             = RouteNextHopType("VnetLocal")
 )
 
+// Mapping from string to RouteNextHopType
+var routeNextHopType_Values = map[string]RouteNextHopType{
+	"internet":              RouteNextHopType_Internet,
+	"none":                  RouteNextHopType_None,
+	"virtualappliance":      RouteNextHopType_VirtualAppliance,
+	"virtualnetworkgateway": RouteNextHopType_VirtualNetworkGateway,
+	"vnetlocal":             RouteNextHopType_VnetLocal,
+}
+
 // The type of Azure hop the packet should be sent to.
 type RouteNextHopType_STATUS string
 
@@ -935,6 +947,15 @@ const (
 	RouteNextHopType_STATUS_VirtualNetworkGateway = RouteNextHopType_STATUS("VirtualNetworkGateway")
 	RouteNextHopType_STATUS_VnetLocal             = RouteNextHopType_STATUS("VnetLocal")
 )
+
+// Mapping from string to RouteNextHopType_STATUS
+var routeNextHopType_STATUS_Values = map[string]RouteNextHopType_STATUS{
+	"internet":              RouteNextHopType_STATUS_Internet,
+	"none":                  RouteNextHopType_STATUS_None,
+	"virtualappliance":      RouteNextHopType_STATUS_VirtualAppliance,
+	"virtualnetworkgateway": RouteNextHopType_STATUS_VirtualNetworkGateway,
+	"vnetlocal":             RouteNextHopType_STATUS_VnetLocal,
+}
 
 func init() {
 	SchemeBuilder.Register(&RouteTablesRoute{}, &RouteTablesRouteList{})

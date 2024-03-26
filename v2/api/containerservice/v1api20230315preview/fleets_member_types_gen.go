@@ -768,8 +768,9 @@ func (member *Fleets_Member_STATUS) AssignProperties_From_Fleets_Member_STATUS(s
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := FleetMemberProvisioningState_STATUS(*source.ProvisioningState)
-		member.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, fleetMemberProvisioningState_STATUS_Values)
+		member.ProvisioningState = &provisioningStateTemp
 	} else {
 		member.ProvisioningState = nil
 	}
@@ -861,6 +862,16 @@ const (
 	FleetMemberProvisioningState_STATUS_Succeeded = FleetMemberProvisioningState_STATUS("Succeeded")
 	FleetMemberProvisioningState_STATUS_Updating  = FleetMemberProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to FleetMemberProvisioningState_STATUS
+var fleetMemberProvisioningState_STATUS_Values = map[string]FleetMemberProvisioningState_STATUS{
+	"canceled":  FleetMemberProvisioningState_STATUS_Canceled,
+	"failed":    FleetMemberProvisioningState_STATUS_Failed,
+	"joining":   FleetMemberProvisioningState_STATUS_Joining,
+	"leaving":   FleetMemberProvisioningState_STATUS_Leaving,
+	"succeeded": FleetMemberProvisioningState_STATUS_Succeeded,
+	"updating":  FleetMemberProvisioningState_STATUS_Updating,
+}
 
 func init() {
 	SchemeBuilder.Register(&FleetsMember{}, &FleetsMemberList{})

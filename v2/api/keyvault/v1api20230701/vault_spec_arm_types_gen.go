@@ -152,6 +152,14 @@ const (
 	VaultProperties_CreateMode_Recover         = VaultProperties_CreateMode("recover")
 )
 
+// Mapping from string to VaultProperties_CreateMode
+var vaultProperties_CreateMode_Values = map[string]VaultProperties_CreateMode{
+	"createorrecover": VaultProperties_CreateMode_CreateOrRecover,
+	"default":         VaultProperties_CreateMode_Default,
+	"purgethencreate": VaultProperties_CreateMode_PurgeThenCreate,
+	"recover":         VaultProperties_CreateMode_Recover,
+}
+
 // +kubebuilder:validation:Enum={"RegisteringDns","Succeeded"}
 type VaultProperties_ProvisioningState string
 
@@ -159,6 +167,12 @@ const (
 	VaultProperties_ProvisioningState_RegisteringDns = VaultProperties_ProvisioningState("RegisteringDns")
 	VaultProperties_ProvisioningState_Succeeded      = VaultProperties_ProvisioningState("Succeeded")
 )
+
+// Mapping from string to VaultProperties_ProvisioningState
+var vaultProperties_ProvisioningState_Values = map[string]VaultProperties_ProvisioningState{
+	"registeringdns": VaultProperties_ProvisioningState_RegisteringDns,
+	"succeeded":      VaultProperties_ProvisioningState_Succeeded,
+}
 
 // A rule governing the accessibility of a vault from a specific ip address or ip range.
 type IPRule_ARM struct {
@@ -175,6 +189,12 @@ const (
 	NetworkRuleSet_Bypass_None          = NetworkRuleSet_Bypass("None")
 )
 
+// Mapping from string to NetworkRuleSet_Bypass
+var networkRuleSet_Bypass_Values = map[string]NetworkRuleSet_Bypass{
+	"azureservices": NetworkRuleSet_Bypass_AzureServices,
+	"none":          NetworkRuleSet_Bypass_None,
+}
+
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type NetworkRuleSet_DefaultAction string
 
@@ -182,6 +202,12 @@ const (
 	NetworkRuleSet_DefaultAction_Allow = NetworkRuleSet_DefaultAction("Allow")
 	NetworkRuleSet_DefaultAction_Deny  = NetworkRuleSet_DefaultAction("Deny")
 )
+
+// Mapping from string to NetworkRuleSet_DefaultAction
+var networkRuleSet_DefaultAction_Values = map[string]NetworkRuleSet_DefaultAction{
+	"allow": NetworkRuleSet_DefaultAction_Allow,
+	"deny":  NetworkRuleSet_DefaultAction_Deny,
+}
 
 // Permissions the identity has for keys, secrets, certificates and storage.
 type Permissions_ARM struct {
@@ -203,6 +229,11 @@ type Sku_Family string
 
 const Sku_Family_A = Sku_Family("A")
 
+// Mapping from string to Sku_Family
+var sku_Family_Values = map[string]Sku_Family{
+	"a": Sku_Family_A,
+}
+
 // +kubebuilder:validation:Enum={"premium","standard"}
 type Sku_Name string
 
@@ -210,6 +241,12 @@ const (
 	Sku_Name_Premium  = Sku_Name("premium")
 	Sku_Name_Standard = Sku_Name("standard")
 )
+
+// Mapping from string to Sku_Name
+var sku_Name_Values = map[string]Sku_Name{
+	"premium":  Sku_Name_Premium,
+	"standard": Sku_Name_Standard,
+}
 
 // A rule governing the accessibility of a vault from a specific virtual network.
 type VirtualNetworkRule_ARM struct {
@@ -243,6 +280,27 @@ const (
 	Permissions_Certificates_Update         = Permissions_Certificates("update")
 )
 
+// Mapping from string to Permissions_Certificates
+var permissions_Certificates_Values = map[string]Permissions_Certificates{
+	"all":            Permissions_Certificates_All,
+	"backup":         Permissions_Certificates_Backup,
+	"create":         Permissions_Certificates_Create,
+	"delete":         Permissions_Certificates_Delete,
+	"deleteissuers":  Permissions_Certificates_Deleteissuers,
+	"get":            Permissions_Certificates_Get,
+	"getissuers":     Permissions_Certificates_Getissuers,
+	"import":         Permissions_Certificates_Import,
+	"list":           Permissions_Certificates_List,
+	"listissuers":    Permissions_Certificates_Listissuers,
+	"managecontacts": Permissions_Certificates_Managecontacts,
+	"manageissuers":  Permissions_Certificates_Manageissuers,
+	"purge":          Permissions_Certificates_Purge,
+	"recover":        Permissions_Certificates_Recover,
+	"restore":        Permissions_Certificates_Restore,
+	"setissuers":     Permissions_Certificates_Setissuers,
+	"update":         Permissions_Certificates_Update,
+}
+
 // +kubebuilder:validation:Enum={"all","backup","create","decrypt","delete","encrypt","get","getrotationpolicy","import","list","purge","recover","release","restore","rotate","setrotationpolicy","sign","unwrapKey","update","verify","wrapKey"}
 type Permissions_Keys string
 
@@ -270,6 +328,31 @@ const (
 	Permissions_Keys_WrapKey           = Permissions_Keys("wrapKey")
 )
 
+// Mapping from string to Permissions_Keys
+var permissions_Keys_Values = map[string]Permissions_Keys{
+	"all":               Permissions_Keys_All,
+	"backup":            Permissions_Keys_Backup,
+	"create":            Permissions_Keys_Create,
+	"decrypt":           Permissions_Keys_Decrypt,
+	"delete":            Permissions_Keys_Delete,
+	"encrypt":           Permissions_Keys_Encrypt,
+	"get":               Permissions_Keys_Get,
+	"getrotationpolicy": Permissions_Keys_Getrotationpolicy,
+	"import":            Permissions_Keys_Import,
+	"list":              Permissions_Keys_List,
+	"purge":             Permissions_Keys_Purge,
+	"recover":           Permissions_Keys_Recover,
+	"release":           Permissions_Keys_Release,
+	"restore":           Permissions_Keys_Restore,
+	"rotate":            Permissions_Keys_Rotate,
+	"setrotationpolicy": Permissions_Keys_Setrotationpolicy,
+	"sign":              Permissions_Keys_Sign,
+	"unwrapkey":         Permissions_Keys_UnwrapKey,
+	"update":            Permissions_Keys_Update,
+	"verify":            Permissions_Keys_Verify,
+	"wrapkey":           Permissions_Keys_WrapKey,
+}
+
 // +kubebuilder:validation:Enum={"all","backup","delete","get","list","purge","recover","restore","set"}
 type Permissions_Secrets string
 
@@ -284,6 +367,19 @@ const (
 	Permissions_Secrets_Restore = Permissions_Secrets("restore")
 	Permissions_Secrets_Set     = Permissions_Secrets("set")
 )
+
+// Mapping from string to Permissions_Secrets
+var permissions_Secrets_Values = map[string]Permissions_Secrets{
+	"all":     Permissions_Secrets_All,
+	"backup":  Permissions_Secrets_Backup,
+	"delete":  Permissions_Secrets_Delete,
+	"get":     Permissions_Secrets_Get,
+	"list":    Permissions_Secrets_List,
+	"purge":   Permissions_Secrets_Purge,
+	"recover": Permissions_Secrets_Recover,
+	"restore": Permissions_Secrets_Restore,
+	"set":     Permissions_Secrets_Set,
+}
 
 // +kubebuilder:validation:Enum={"all","backup","delete","deletesas","get","getsas","list","listsas","purge","recover","regeneratekey","restore","set","setsas","update"}
 type Permissions_Storage string
@@ -305,3 +401,22 @@ const (
 	Permissions_Storage_Setsas        = Permissions_Storage("setsas")
 	Permissions_Storage_Update        = Permissions_Storage("update")
 )
+
+// Mapping from string to Permissions_Storage
+var permissions_Storage_Values = map[string]Permissions_Storage{
+	"all":           Permissions_Storage_All,
+	"backup":        Permissions_Storage_Backup,
+	"delete":        Permissions_Storage_Delete,
+	"deletesas":     Permissions_Storage_Deletesas,
+	"get":           Permissions_Storage_Get,
+	"getsas":        Permissions_Storage_Getsas,
+	"list":          Permissions_Storage_List,
+	"listsas":       Permissions_Storage_Listsas,
+	"purge":         Permissions_Storage_Purge,
+	"recover":       Permissions_Storage_Recover,
+	"regeneratekey": Permissions_Storage_Regeneratekey,
+	"restore":       Permissions_Storage_Restore,
+	"set":           Permissions_Storage_Set,
+	"setsas":        Permissions_Storage_Setsas,
+	"update":        Permissions_Storage_Update,
+}

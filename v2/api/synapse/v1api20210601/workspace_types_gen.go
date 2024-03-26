@@ -900,8 +900,9 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v2
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := WorkspaceProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		workspace.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, workspaceProperties_PublicNetworkAccess_Values)
+		workspace.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		workspace.PublicNetworkAccess = nil
 	}
@@ -1848,8 +1849,9 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := WorkspaceProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-		workspace.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, workspaceProperties_PublicNetworkAccess_STATUS_Values)
+		workspace.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		workspace.PublicNetworkAccess = nil
 	}
@@ -2911,8 +2913,9 @@ func (identity *ManagedIdentity) AssignProperties_From_ManagedIdentity(source *v
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedIdentity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedIdentity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -3083,8 +3086,9 @@ func (identity *ManagedIdentity_STATUS) AssignProperties_From_ManagedIdentity_ST
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -3796,12 +3800,24 @@ const (
 	WorkspaceProperties_PublicNetworkAccess_Enabled  = WorkspaceProperties_PublicNetworkAccess("Enabled")
 )
 
+// Mapping from string to WorkspaceProperties_PublicNetworkAccess
+var workspaceProperties_PublicNetworkAccess_Values = map[string]WorkspaceProperties_PublicNetworkAccess{
+	"disabled": WorkspaceProperties_PublicNetworkAccess_Disabled,
+	"enabled":  WorkspaceProperties_PublicNetworkAccess_Enabled,
+}
+
 type WorkspaceProperties_PublicNetworkAccess_STATUS string
 
 const (
 	WorkspaceProperties_PublicNetworkAccess_STATUS_Disabled = WorkspaceProperties_PublicNetworkAccess_STATUS("Disabled")
 	WorkspaceProperties_PublicNetworkAccess_STATUS_Enabled  = WorkspaceProperties_PublicNetworkAccess_STATUS("Enabled")
 )
+
+// Mapping from string to WorkspaceProperties_PublicNetworkAccess_STATUS
+var workspaceProperties_PublicNetworkAccess_STATUS_Values = map[string]WorkspaceProperties_PublicNetworkAccess_STATUS{
+	"disabled": WorkspaceProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  WorkspaceProperties_PublicNetworkAccess_STATUS_Enabled,
+}
 
 // Git integration settings
 type WorkspaceRepositoryConfiguration struct {

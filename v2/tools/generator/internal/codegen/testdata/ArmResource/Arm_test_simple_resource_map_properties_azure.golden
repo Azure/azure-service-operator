@@ -307,10 +307,22 @@ const (
 	Color_Red   = Color("red")
 )
 
+// Mapping from string to Color
+var color_Values = map[string]Color{
+	"blue":  Color_Blue,
+	"green": Color_Green,
+	"red":   Color_Red,
+}
+
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type FakeResource_APIVersion_Spec string
 
 const FakeResource_APIVersion_Spec_20200601 = FakeResource_APIVersion_Spec("2020-06-01")
+
+// Mapping from string to FakeResource_APIVersion_Spec
+var fakeResource_APIVersion_Spec_Values = map[string]FakeResource_APIVersion_Spec{
+	"2020-06-01": FakeResource_APIVersion_Spec_20200601,
+}
 
 type FakeResource_Spec struct {
 	// +kubebuilder:validation:Required
@@ -661,7 +673,8 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 
 	// APIVersion
 	if source.APIVersion != nil {
-		resource.APIVersion = FakeResource_APIVersion_Spec(*source.APIVersion)
+		apiVersion := *source.APIVersion
+		resource.APIVersion = genruntime.ToEnum(apiVersion, fakeResource_APIVersion_Spec_Values)
 	} else {
 		resource.APIVersion = ""
 	}
@@ -721,7 +734,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 		for mapOfEnumKey, mapOfEnumValue := range source.MapOfEnums {
 			// Shadow the loop variable to avoid aliasing
 			mapOfEnumValue := mapOfEnumValue
-			mapOfEnumMap[mapOfEnumKey] = Color(mapOfEnumValue)
+			mapOfEnumMap[mapOfEnumKey] = genruntime.ToEnum(mapOfEnumValue, color_Values)
 		}
 		resource.MapOfEnums = mapOfEnumMap
 	} else {
@@ -830,7 +843,8 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 
 	// Type
 	if source.Type != nil {
-		resource.Type = FakeResource_Type_Spec(*source.Type)
+		typeVar := *source.Type
+		resource.Type = genruntime.ToEnum(typeVar, fakeResource_Type_Spec_Values)
 	} else {
 		resource.Type = ""
 	}
@@ -1040,6 +1054,11 @@ func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.Azu
 type FakeResource_Type_Spec string
 
 const FakeResource_Type_Spec_MicrosoftAzureFakeResource = FakeResource_Type_Spec("Microsoft.Azure/FakeResource")
+
+// Mapping from string to FakeResource_Type_Spec
+var fakeResource_Type_Spec_Values = map[string]FakeResource_Type_Spec{
+	"microsoft.azure/fakeresource": FakeResource_Type_Spec_MicrosoftAzureFakeResource,
+}
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo_ARM struct {

@@ -533,6 +533,11 @@ type AKS_ComputeType_STATUS string
 
 const AKS_ComputeType_STATUS_AKS = AKS_ComputeType_STATUS("AKS")
 
+// Mapping from string to AKS_ComputeType_STATUS
+var aKS_ComputeType_STATUS_Values = map[string]AKS_ComputeType_STATUS{
+	"aks": AKS_ComputeType_STATUS_AKS,
+}
+
 type AKS_Properties_STATUS_ARM struct {
 	// AgentCount: Number of agents
 	AgentCount *int `json:"agentCount,omitempty"`
@@ -574,9 +579,25 @@ const (
 	AKS_ProvisioningState_STATUS_Updating  = AKS_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to AKS_ProvisioningState_STATUS
+var aKS_ProvisioningState_STATUS_Values = map[string]AKS_ProvisioningState_STATUS{
+	"canceled":  AKS_ProvisioningState_STATUS_Canceled,
+	"creating":  AKS_ProvisioningState_STATUS_Creating,
+	"deleting":  AKS_ProvisioningState_STATUS_Deleting,
+	"failed":    AKS_ProvisioningState_STATUS_Failed,
+	"succeeded": AKS_ProvisioningState_STATUS_Succeeded,
+	"unknown":   AKS_ProvisioningState_STATUS_Unknown,
+	"updating":  AKS_ProvisioningState_STATUS_Updating,
+}
+
 type AmlCompute_ComputeType_STATUS string
 
 const AmlCompute_ComputeType_STATUS_AmlCompute = AmlCompute_ComputeType_STATUS("AmlCompute")
+
+// Mapping from string to AmlCompute_ComputeType_STATUS
+var amlCompute_ComputeType_STATUS_Values = map[string]AmlCompute_ComputeType_STATUS{
+	"amlcompute": AmlCompute_ComputeType_STATUS_AmlCompute,
+}
 
 type AmlCompute_ProvisioningState_STATUS string
 
@@ -589,6 +610,17 @@ const (
 	AmlCompute_ProvisioningState_STATUS_Unknown   = AmlCompute_ProvisioningState_STATUS("Unknown")
 	AmlCompute_ProvisioningState_STATUS_Updating  = AmlCompute_ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to AmlCompute_ProvisioningState_STATUS
+var amlCompute_ProvisioningState_STATUS_Values = map[string]AmlCompute_ProvisioningState_STATUS{
+	"canceled":  AmlCompute_ProvisioningState_STATUS_Canceled,
+	"creating":  AmlCompute_ProvisioningState_STATUS_Creating,
+	"deleting":  AmlCompute_ProvisioningState_STATUS_Deleting,
+	"failed":    AmlCompute_ProvisioningState_STATUS_Failed,
+	"succeeded": AmlCompute_ProvisioningState_STATUS_Succeeded,
+	"unknown":   AmlCompute_ProvisioningState_STATUS_Unknown,
+	"updating":  AmlCompute_ProvisioningState_STATUS_Updating,
+}
 
 // AML Compute properties
 type AmlComputeProperties_STATUS_ARM struct {
@@ -656,6 +688,11 @@ type ComputeInstance_ComputeType_STATUS string
 
 const ComputeInstance_ComputeType_STATUS_ComputeInstance = ComputeInstance_ComputeType_STATUS("ComputeInstance")
 
+// Mapping from string to ComputeInstance_ComputeType_STATUS
+var computeInstance_ComputeType_STATUS_Values = map[string]ComputeInstance_ComputeType_STATUS{
+	"computeinstance": ComputeInstance_ComputeType_STATUS_ComputeInstance,
+}
+
 type ComputeInstance_ProvisioningState_STATUS string
 
 const (
@@ -667,6 +704,17 @@ const (
 	ComputeInstance_ProvisioningState_STATUS_Unknown   = ComputeInstance_ProvisioningState_STATUS("Unknown")
 	ComputeInstance_ProvisioningState_STATUS_Updating  = ComputeInstance_ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to ComputeInstance_ProvisioningState_STATUS
+var computeInstance_ProvisioningState_STATUS_Values = map[string]ComputeInstance_ProvisioningState_STATUS{
+	"canceled":  ComputeInstance_ProvisioningState_STATUS_Canceled,
+	"creating":  ComputeInstance_ProvisioningState_STATUS_Creating,
+	"deleting":  ComputeInstance_ProvisioningState_STATUS_Deleting,
+	"failed":    ComputeInstance_ProvisioningState_STATUS_Failed,
+	"succeeded": ComputeInstance_ProvisioningState_STATUS_Succeeded,
+	"unknown":   ComputeInstance_ProvisioningState_STATUS_Unknown,
+	"updating":  ComputeInstance_ProvisioningState_STATUS_Updating,
+}
 
 // Compute Instance properties
 type ComputeInstanceProperties_STATUS_ARM struct {
@@ -716,6 +764,11 @@ type Databricks_ComputeType_STATUS string
 
 const Databricks_ComputeType_STATUS_Databricks = Databricks_ComputeType_STATUS("Databricks")
 
+// Mapping from string to Databricks_ComputeType_STATUS
+var databricks_ComputeType_STATUS_Values = map[string]Databricks_ComputeType_STATUS{
+	"databricks": Databricks_ComputeType_STATUS_Databricks,
+}
+
 type Databricks_ProvisioningState_STATUS string
 
 const (
@@ -727,6 +780,17 @@ const (
 	Databricks_ProvisioningState_STATUS_Unknown   = Databricks_ProvisioningState_STATUS("Unknown")
 	Databricks_ProvisioningState_STATUS_Updating  = Databricks_ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to Databricks_ProvisioningState_STATUS
+var databricks_ProvisioningState_STATUS_Values = map[string]Databricks_ProvisioningState_STATUS{
+	"canceled":  Databricks_ProvisioningState_STATUS_Canceled,
+	"creating":  Databricks_ProvisioningState_STATUS_Creating,
+	"deleting":  Databricks_ProvisioningState_STATUS_Deleting,
+	"failed":    Databricks_ProvisioningState_STATUS_Failed,
+	"succeeded": Databricks_ProvisioningState_STATUS_Succeeded,
+	"unknown":   Databricks_ProvisioningState_STATUS_Unknown,
+	"updating":  Databricks_ProvisioningState_STATUS_Updating,
+}
 
 // Properties of Databricks
 type DatabricksProperties_STATUS_ARM struct {
@@ -741,6 +805,11 @@ type DataFactory_ComputeType_STATUS string
 
 const DataFactory_ComputeType_STATUS_DataFactory = DataFactory_ComputeType_STATUS("DataFactory")
 
+// Mapping from string to DataFactory_ComputeType_STATUS
+var dataFactory_ComputeType_STATUS_Values = map[string]DataFactory_ComputeType_STATUS{
+	"datafactory": DataFactory_ComputeType_STATUS_DataFactory,
+}
+
 type DataFactory_ProvisioningState_STATUS string
 
 const (
@@ -753,9 +822,25 @@ const (
 	DataFactory_ProvisioningState_STATUS_Updating  = DataFactory_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to DataFactory_ProvisioningState_STATUS
+var dataFactory_ProvisioningState_STATUS_Values = map[string]DataFactory_ProvisioningState_STATUS{
+	"canceled":  DataFactory_ProvisioningState_STATUS_Canceled,
+	"creating":  DataFactory_ProvisioningState_STATUS_Creating,
+	"deleting":  DataFactory_ProvisioningState_STATUS_Deleting,
+	"failed":    DataFactory_ProvisioningState_STATUS_Failed,
+	"succeeded": DataFactory_ProvisioningState_STATUS_Succeeded,
+	"unknown":   DataFactory_ProvisioningState_STATUS_Unknown,
+	"updating":  DataFactory_ProvisioningState_STATUS_Updating,
+}
+
 type DataLakeAnalytics_ComputeType_STATUS string
 
 const DataLakeAnalytics_ComputeType_STATUS_DataLakeAnalytics = DataLakeAnalytics_ComputeType_STATUS("DataLakeAnalytics")
+
+// Mapping from string to DataLakeAnalytics_ComputeType_STATUS
+var dataLakeAnalytics_ComputeType_STATUS_Values = map[string]DataLakeAnalytics_ComputeType_STATUS{
+	"datalakeanalytics": DataLakeAnalytics_ComputeType_STATUS_DataLakeAnalytics,
+}
 
 type DataLakeAnalytics_Properties_STATUS_ARM struct {
 	// DataLakeStoreAccountName: DataLake Store Account Name
@@ -774,6 +859,17 @@ const (
 	DataLakeAnalytics_ProvisioningState_STATUS_Updating  = DataLakeAnalytics_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to DataLakeAnalytics_ProvisioningState_STATUS
+var dataLakeAnalytics_ProvisioningState_STATUS_Values = map[string]DataLakeAnalytics_ProvisioningState_STATUS{
+	"canceled":  DataLakeAnalytics_ProvisioningState_STATUS_Canceled,
+	"creating":  DataLakeAnalytics_ProvisioningState_STATUS_Creating,
+	"deleting":  DataLakeAnalytics_ProvisioningState_STATUS_Deleting,
+	"failed":    DataLakeAnalytics_ProvisioningState_STATUS_Failed,
+	"succeeded": DataLakeAnalytics_ProvisioningState_STATUS_Succeeded,
+	"unknown":   DataLakeAnalytics_ProvisioningState_STATUS_Unknown,
+	"updating":  DataLakeAnalytics_ProvisioningState_STATUS_Updating,
+}
+
 // Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also
 // follows the OData error response format.).
 type ErrorResponse_STATUS_ARM struct {
@@ -784,6 +880,11 @@ type ErrorResponse_STATUS_ARM struct {
 type HDInsight_ComputeType_STATUS string
 
 const HDInsight_ComputeType_STATUS_HDInsight = HDInsight_ComputeType_STATUS("HDInsight")
+
+// Mapping from string to HDInsight_ComputeType_STATUS
+var hDInsight_ComputeType_STATUS_Values = map[string]HDInsight_ComputeType_STATUS{
+	"hdinsight": HDInsight_ComputeType_STATUS_HDInsight,
+}
 
 type HDInsight_ProvisioningState_STATUS string
 
@@ -796,6 +897,17 @@ const (
 	HDInsight_ProvisioningState_STATUS_Unknown   = HDInsight_ProvisioningState_STATUS("Unknown")
 	HDInsight_ProvisioningState_STATUS_Updating  = HDInsight_ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to HDInsight_ProvisioningState_STATUS
+var hDInsight_ProvisioningState_STATUS_Values = map[string]HDInsight_ProvisioningState_STATUS{
+	"canceled":  HDInsight_ProvisioningState_STATUS_Canceled,
+	"creating":  HDInsight_ProvisioningState_STATUS_Creating,
+	"deleting":  HDInsight_ProvisioningState_STATUS_Deleting,
+	"failed":    HDInsight_ProvisioningState_STATUS_Failed,
+	"succeeded": HDInsight_ProvisioningState_STATUS_Succeeded,
+	"unknown":   HDInsight_ProvisioningState_STATUS_Unknown,
+	"updating":  HDInsight_ProvisioningState_STATUS_Updating,
+}
 
 // HDInsight compute properties
 type HDInsightProperties_STATUS_ARM struct {
@@ -813,6 +925,11 @@ type Kubernetes_ComputeType_STATUS string
 
 const Kubernetes_ComputeType_STATUS_Kubernetes = Kubernetes_ComputeType_STATUS("Kubernetes")
 
+// Mapping from string to Kubernetes_ComputeType_STATUS
+var kubernetes_ComputeType_STATUS_Values = map[string]Kubernetes_ComputeType_STATUS{
+	"kubernetes": Kubernetes_ComputeType_STATUS_Kubernetes,
+}
+
 type Kubernetes_ProvisioningState_STATUS string
 
 const (
@@ -824,6 +941,17 @@ const (
 	Kubernetes_ProvisioningState_STATUS_Unknown   = Kubernetes_ProvisioningState_STATUS("Unknown")
 	Kubernetes_ProvisioningState_STATUS_Updating  = Kubernetes_ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to Kubernetes_ProvisioningState_STATUS
+var kubernetes_ProvisioningState_STATUS_Values = map[string]Kubernetes_ProvisioningState_STATUS{
+	"canceled":  Kubernetes_ProvisioningState_STATUS_Canceled,
+	"creating":  Kubernetes_ProvisioningState_STATUS_Creating,
+	"deleting":  Kubernetes_ProvisioningState_STATUS_Deleting,
+	"failed":    Kubernetes_ProvisioningState_STATUS_Failed,
+	"succeeded": Kubernetes_ProvisioningState_STATUS_Succeeded,
+	"unknown":   Kubernetes_ProvisioningState_STATUS_Unknown,
+	"updating":  Kubernetes_ProvisioningState_STATUS_Updating,
+}
 
 // Kubernetes properties
 type KubernetesProperties_STATUS_ARM struct {
@@ -849,6 +977,11 @@ type KubernetesProperties_STATUS_ARM struct {
 type SynapseSpark_ComputeType_STATUS string
 
 const SynapseSpark_ComputeType_STATUS_SynapseSpark = SynapseSpark_ComputeType_STATUS("SynapseSpark")
+
+// Mapping from string to SynapseSpark_ComputeType_STATUS
+var synapseSpark_ComputeType_STATUS_Values = map[string]SynapseSpark_ComputeType_STATUS{
+	"synapsespark": SynapseSpark_ComputeType_STATUS_SynapseSpark,
+}
 
 type SynapseSpark_Properties_STATUS_ARM struct {
 	// AutoPauseProperties: Auto pause properties.
@@ -894,9 +1027,25 @@ const (
 	SynapseSpark_ProvisioningState_STATUS_Updating  = SynapseSpark_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to SynapseSpark_ProvisioningState_STATUS
+var synapseSpark_ProvisioningState_STATUS_Values = map[string]SynapseSpark_ProvisioningState_STATUS{
+	"canceled":  SynapseSpark_ProvisioningState_STATUS_Canceled,
+	"creating":  SynapseSpark_ProvisioningState_STATUS_Creating,
+	"deleting":  SynapseSpark_ProvisioningState_STATUS_Deleting,
+	"failed":    SynapseSpark_ProvisioningState_STATUS_Failed,
+	"succeeded": SynapseSpark_ProvisioningState_STATUS_Succeeded,
+	"unknown":   SynapseSpark_ProvisioningState_STATUS_Unknown,
+	"updating":  SynapseSpark_ProvisioningState_STATUS_Updating,
+}
+
 type VirtualMachine_ComputeType_STATUS string
 
 const VirtualMachine_ComputeType_STATUS_VirtualMachine = VirtualMachine_ComputeType_STATUS("VirtualMachine")
+
+// Mapping from string to VirtualMachine_ComputeType_STATUS
+var virtualMachine_ComputeType_STATUS_Values = map[string]VirtualMachine_ComputeType_STATUS{
+	"virtualmachine": VirtualMachine_ComputeType_STATUS_VirtualMachine,
+}
 
 type VirtualMachine_Properties_STATUS_ARM struct {
 	// Address: Public IP address of the virtual machine.
@@ -927,6 +1076,17 @@ const (
 	VirtualMachine_ProvisioningState_STATUS_Updating  = VirtualMachine_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to VirtualMachine_ProvisioningState_STATUS
+var virtualMachine_ProvisioningState_STATUS_Values = map[string]VirtualMachine_ProvisioningState_STATUS{
+	"canceled":  VirtualMachine_ProvisioningState_STATUS_Canceled,
+	"creating":  VirtualMachine_ProvisioningState_STATUS_Creating,
+	"deleting":  VirtualMachine_ProvisioningState_STATUS_Deleting,
+	"failed":    VirtualMachine_ProvisioningState_STATUS_Failed,
+	"succeeded": VirtualMachine_ProvisioningState_STATUS_Succeeded,
+	"unknown":   VirtualMachine_ProvisioningState_STATUS_Unknown,
+	"updating":  VirtualMachine_ProvisioningState_STATUS_Updating,
+}
+
 type AKS_Properties_ClusterPurpose_STATUS string
 
 const (
@@ -935,12 +1095,25 @@ const (
 	AKS_Properties_ClusterPurpose_STATUS_FastProd  = AKS_Properties_ClusterPurpose_STATUS("FastProd")
 )
 
+// Mapping from string to AKS_Properties_ClusterPurpose_STATUS
+var aKS_Properties_ClusterPurpose_STATUS_Values = map[string]AKS_Properties_ClusterPurpose_STATUS{
+	"denseprod": AKS_Properties_ClusterPurpose_STATUS_DenseProd,
+	"devtest":   AKS_Properties_ClusterPurpose_STATUS_DevTest,
+	"fastprod":  AKS_Properties_ClusterPurpose_STATUS_FastProd,
+}
+
 type AKS_Properties_LoadBalancerType_STATUS string
 
 const (
 	AKS_Properties_LoadBalancerType_STATUS_InternalLoadBalancer = AKS_Properties_LoadBalancerType_STATUS("InternalLoadBalancer")
 	AKS_Properties_LoadBalancerType_STATUS_PublicIp             = AKS_Properties_LoadBalancerType_STATUS("PublicIp")
 )
+
+// Mapping from string to AKS_Properties_LoadBalancerType_STATUS
+var aKS_Properties_LoadBalancerType_STATUS_Values = map[string]AKS_Properties_LoadBalancerType_STATUS{
+	"internalloadbalancer": AKS_Properties_LoadBalancerType_STATUS_InternalLoadBalancer,
+	"publicip":             AKS_Properties_LoadBalancerType_STATUS_PublicIp,
+}
 
 // Advance configuration for AKS networking
 type AksNetworkingConfiguration_STATUS_ARM struct {
@@ -967,12 +1140,24 @@ const (
 	AmlComputeProperties_AllocationState_STATUS_Steady   = AmlComputeProperties_AllocationState_STATUS("Steady")
 )
 
+// Mapping from string to AmlComputeProperties_AllocationState_STATUS
+var amlComputeProperties_AllocationState_STATUS_Values = map[string]AmlComputeProperties_AllocationState_STATUS{
+	"resizing": AmlComputeProperties_AllocationState_STATUS_Resizing,
+	"steady":   AmlComputeProperties_AllocationState_STATUS_Steady,
+}
+
 type AmlComputeProperties_OsType_STATUS string
 
 const (
 	AmlComputeProperties_OsType_STATUS_Linux   = AmlComputeProperties_OsType_STATUS("Linux")
 	AmlComputeProperties_OsType_STATUS_Windows = AmlComputeProperties_OsType_STATUS("Windows")
 )
+
+// Mapping from string to AmlComputeProperties_OsType_STATUS
+var amlComputeProperties_OsType_STATUS_Values = map[string]AmlComputeProperties_OsType_STATUS{
+	"linux":   AmlComputeProperties_OsType_STATUS_Linux,
+	"windows": AmlComputeProperties_OsType_STATUS_Windows,
+}
 
 type AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS string
 
@@ -982,12 +1167,25 @@ const (
 	AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_NotSpecified = AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS("NotSpecified")
 )
 
+// Mapping from string to AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS
+var amlComputeProperties_RemoteLoginPortPublicAccess_STATUS_Values = map[string]AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS{
+	"disabled":     AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_Disabled,
+	"enabled":      AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_Enabled,
+	"notspecified": AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_NotSpecified,
+}
+
 type AmlComputeProperties_VmPriority_STATUS string
 
 const (
 	AmlComputeProperties_VmPriority_STATUS_Dedicated   = AmlComputeProperties_VmPriority_STATUS("Dedicated")
 	AmlComputeProperties_VmPriority_STATUS_LowPriority = AmlComputeProperties_VmPriority_STATUS("LowPriority")
 )
+
+// Mapping from string to AmlComputeProperties_VmPriority_STATUS
+var amlComputeProperties_VmPriority_STATUS_Values = map[string]AmlComputeProperties_VmPriority_STATUS{
+	"dedicated":   AmlComputeProperties_VmPriority_STATUS_Dedicated,
+	"lowpriority": AmlComputeProperties_VmPriority_STATUS_LowPriority,
+}
 
 // Auto pause properties
 type AutoPauseProperties_STATUS_ARM struct {
@@ -1052,9 +1250,20 @@ const (
 	ComputeInstanceProperties_ApplicationSharingPolicy_STATUS_Shared   = ComputeInstanceProperties_ApplicationSharingPolicy_STATUS("Shared")
 )
 
+// Mapping from string to ComputeInstanceProperties_ApplicationSharingPolicy_STATUS
+var computeInstanceProperties_ApplicationSharingPolicy_STATUS_Values = map[string]ComputeInstanceProperties_ApplicationSharingPolicy_STATUS{
+	"personal": ComputeInstanceProperties_ApplicationSharingPolicy_STATUS_Personal,
+	"shared":   ComputeInstanceProperties_ApplicationSharingPolicy_STATUS_Shared,
+}
+
 type ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS string
 
 const ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS_Personal = ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS("personal")
+
+// Mapping from string to ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS
+var computeInstanceProperties_ComputeInstanceAuthorizationType_STATUS_Values = map[string]ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS{
+	"personal": ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS_Personal,
+}
 
 // Specifies policy and settings for SSH access.
 type ComputeInstanceSshSettings_STATUS_ARM struct {
@@ -1094,6 +1303,25 @@ const (
 	ComputeInstanceState_STATUS_UserSettingUp   = ComputeInstanceState_STATUS("UserSettingUp")
 	ComputeInstanceState_STATUS_UserSetupFailed = ComputeInstanceState_STATUS("UserSetupFailed")
 )
+
+// Mapping from string to ComputeInstanceState_STATUS
+var computeInstanceState_STATUS_Values = map[string]ComputeInstanceState_STATUS{
+	"createfailed":    ComputeInstanceState_STATUS_CreateFailed,
+	"creating":        ComputeInstanceState_STATUS_Creating,
+	"deleting":        ComputeInstanceState_STATUS_Deleting,
+	"jobrunning":      ComputeInstanceState_STATUS_JobRunning,
+	"restarting":      ComputeInstanceState_STATUS_Restarting,
+	"running":         ComputeInstanceState_STATUS_Running,
+	"settingup":       ComputeInstanceState_STATUS_SettingUp,
+	"setupfailed":     ComputeInstanceState_STATUS_SetupFailed,
+	"starting":        ComputeInstanceState_STATUS_Starting,
+	"stopped":         ComputeInstanceState_STATUS_Stopped,
+	"stopping":        ComputeInstanceState_STATUS_Stopping,
+	"unknown":         ComputeInstanceState_STATUS_Unknown,
+	"unusable":        ComputeInstanceState_STATUS_Unusable,
+	"usersettingup":   ComputeInstanceState_STATUS_UserSettingUp,
+	"usersetupfailed": ComputeInstanceState_STATUS_UserSetupFailed,
+}
 
 // The error detail.
 type ErrorDetail_STATUS_ARM struct {
@@ -1250,6 +1478,16 @@ const (
 	ComputeInstanceLastOperation_OperationName_STATUS_Stop    = ComputeInstanceLastOperation_OperationName_STATUS("Stop")
 )
 
+// Mapping from string to ComputeInstanceLastOperation_OperationName_STATUS
+var computeInstanceLastOperation_OperationName_STATUS_Values = map[string]ComputeInstanceLastOperation_OperationName_STATUS{
+	"create":  ComputeInstanceLastOperation_OperationName_STATUS_Create,
+	"delete":  ComputeInstanceLastOperation_OperationName_STATUS_Delete,
+	"reimage": ComputeInstanceLastOperation_OperationName_STATUS_Reimage,
+	"restart": ComputeInstanceLastOperation_OperationName_STATUS_Restart,
+	"start":   ComputeInstanceLastOperation_OperationName_STATUS_Start,
+	"stop":    ComputeInstanceLastOperation_OperationName_STATUS_Stop,
+}
+
 type ComputeInstanceLastOperation_OperationStatus_STATUS string
 
 const (
@@ -1263,12 +1501,30 @@ const (
 	ComputeInstanceLastOperation_OperationStatus_STATUS_Succeeded     = ComputeInstanceLastOperation_OperationStatus_STATUS("Succeeded")
 )
 
+// Mapping from string to ComputeInstanceLastOperation_OperationStatus_STATUS
+var computeInstanceLastOperation_OperationStatus_STATUS_Values = map[string]ComputeInstanceLastOperation_OperationStatus_STATUS{
+	"createfailed":  ComputeInstanceLastOperation_OperationStatus_STATUS_CreateFailed,
+	"deletefailed":  ComputeInstanceLastOperation_OperationStatus_STATUS_DeleteFailed,
+	"inprogress":    ComputeInstanceLastOperation_OperationStatus_STATUS_InProgress,
+	"reimagefailed": ComputeInstanceLastOperation_OperationStatus_STATUS_ReimageFailed,
+	"restartfailed": ComputeInstanceLastOperation_OperationStatus_STATUS_RestartFailed,
+	"startfailed":   ComputeInstanceLastOperation_OperationStatus_STATUS_StartFailed,
+	"stopfailed":    ComputeInstanceLastOperation_OperationStatus_STATUS_StopFailed,
+	"succeeded":     ComputeInstanceLastOperation_OperationStatus_STATUS_Succeeded,
+}
+
 type ComputeInstanceSshSettings_SshPublicAccess_STATUS string
 
 const (
 	ComputeInstanceSshSettings_SshPublicAccess_STATUS_Disabled = ComputeInstanceSshSettings_SshPublicAccess_STATUS("Disabled")
 	ComputeInstanceSshSettings_SshPublicAccess_STATUS_Enabled  = ComputeInstanceSshSettings_SshPublicAccess_STATUS("Enabled")
 )
+
+// Mapping from string to ComputeInstanceSshSettings_SshPublicAccess_STATUS
+var computeInstanceSshSettings_SshPublicAccess_STATUS_Values = map[string]ComputeInstanceSshSettings_SshPublicAccess_STATUS{
+	"disabled": ComputeInstanceSshSettings_SshPublicAccess_STATUS_Disabled,
+	"enabled":  ComputeInstanceSshSettings_SshPublicAccess_STATUS_Enabled,
+}
 
 // The resource management error additional info.
 type ErrorAdditionalInfo_STATUS_ARM struct {
@@ -1317,6 +1573,13 @@ const (
 	SslConfiguration_Status_STATUS_Disabled = SslConfiguration_Status_STATUS("Disabled")
 	SslConfiguration_Status_STATUS_Enabled  = SslConfiguration_Status_STATUS("Enabled")
 )
+
+// Mapping from string to SslConfiguration_Status_STATUS
+var sslConfiguration_Status_STATUS_Values = map[string]SslConfiguration_Status_STATUS{
+	"auto":     SslConfiguration_Status_STATUS_Auto,
+	"disabled": SslConfiguration_Status_STATUS_Disabled,
+	"enabled":  SslConfiguration_Status_STATUS_Enabled,
+}
 
 // Script reference
 type ScriptReference_STATUS_ARM struct {

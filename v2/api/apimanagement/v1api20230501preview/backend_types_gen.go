@@ -771,8 +771,9 @@ func (backend *Service_Backend_Spec) AssignProperties_From_Service_Backend_Spec(
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := BackendContractProperties_Protocol(*source.Protocol)
-		backend.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, backendContractProperties_Protocol_Values)
+		backend.Protocol = &protocolTemp
 	} else {
 		backend.Protocol = nil
 	}
@@ -819,8 +820,9 @@ func (backend *Service_Backend_Spec) AssignProperties_From_Service_Backend_Spec(
 
 	// Type
 	if source.Type != nil {
-		typeVar := BackendContractProperties_Type(*source.Type)
-		backend.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, backendContractProperties_Type_Values)
+		backend.Type = &typeTemp
 	} else {
 		backend.Type = nil
 	}
@@ -1338,16 +1340,18 @@ func (backend *Service_Backend_STATUS) AssignProperties_From_Service_Backend_STA
 
 	// PropertiesType
 	if source.PropertiesType != nil {
-		propertiesType := BackendContractProperties_Type_STATUS(*source.PropertiesType)
-		backend.PropertiesType = &propertiesType
+		propertiesType := *source.PropertiesType
+		propertiesTypeTemp := genruntime.ToEnum(propertiesType, backendContractProperties_Type_STATUS_Values)
+		backend.PropertiesType = &propertiesTypeTemp
 	} else {
 		backend.PropertiesType = nil
 	}
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := BackendContractProperties_Protocol_STATUS(*source.Protocol)
-		backend.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, backendContractProperties_Protocol_STATUS_Values)
+		backend.Protocol = &protocolTemp
 	} else {
 		backend.Protocol = nil
 	}
@@ -1733,12 +1737,24 @@ const (
 	BackendContractProperties_Protocol_Soap = BackendContractProperties_Protocol("soap")
 )
 
+// Mapping from string to BackendContractProperties_Protocol
+var backendContractProperties_Protocol_Values = map[string]BackendContractProperties_Protocol{
+	"http": BackendContractProperties_Protocol_Http,
+	"soap": BackendContractProperties_Protocol_Soap,
+}
+
 type BackendContractProperties_Protocol_STATUS string
 
 const (
 	BackendContractProperties_Protocol_STATUS_Http = BackendContractProperties_Protocol_STATUS("http")
 	BackendContractProperties_Protocol_STATUS_Soap = BackendContractProperties_Protocol_STATUS("soap")
 )
+
+// Mapping from string to BackendContractProperties_Protocol_STATUS
+var backendContractProperties_Protocol_STATUS_Values = map[string]BackendContractProperties_Protocol_STATUS{
+	"http": BackendContractProperties_Protocol_STATUS_Http,
+	"soap": BackendContractProperties_Protocol_STATUS_Soap,
+}
 
 // +kubebuilder:validation:Enum={"Pool","Single"}
 type BackendContractProperties_Type string
@@ -1748,12 +1764,24 @@ const (
 	BackendContractProperties_Type_Single = BackendContractProperties_Type("Single")
 )
 
+// Mapping from string to BackendContractProperties_Type
+var backendContractProperties_Type_Values = map[string]BackendContractProperties_Type{
+	"pool":   BackendContractProperties_Type_Pool,
+	"single": BackendContractProperties_Type_Single,
+}
+
 type BackendContractProperties_Type_STATUS string
 
 const (
 	BackendContractProperties_Type_STATUS_Pool   = BackendContractProperties_Type_STATUS("Pool")
 	BackendContractProperties_Type_STATUS_Single = BackendContractProperties_Type_STATUS("Single")
 )
+
+// Mapping from string to BackendContractProperties_Type_STATUS
+var backendContractProperties_Type_STATUS_Values = map[string]BackendContractProperties_Type_STATUS{
+	"pool":   BackendContractProperties_Type_STATUS_Pool,
+	"single": BackendContractProperties_Type_STATUS_Single,
+}
 
 // Details of the Credentials used to connect to Backend.
 type BackendCredentialsContract struct {

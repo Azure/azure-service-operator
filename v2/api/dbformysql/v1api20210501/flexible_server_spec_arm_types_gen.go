@@ -139,6 +139,11 @@ type Identity_Type string
 
 const Identity_Type_UserAssigned = Identity_Type("UserAssigned")
 
+// Mapping from string to Identity_Type
+var identity_Type_Values = map[string]Identity_Type{
+	"userassigned": Identity_Type_UserAssigned,
+}
+
 // Maintenance window of a server.
 type MaintenanceWindow_ARM struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
@@ -168,6 +173,13 @@ const (
 	Sku_Tier_GeneralPurpose  = Sku_Tier("GeneralPurpose")
 	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
 )
+
+// Mapping from string to Sku_Tier
+var sku_Tier_Values = map[string]Sku_Tier{
+	"burstable":       Sku_Tier_Burstable,
+	"generalpurpose":  Sku_Tier_GeneralPurpose,
+	"memoryoptimized": Sku_Tier_MemoryOptimized,
+}
 
 // Storage Profile properties of a server
 type Storage_ARM struct {

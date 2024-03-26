@@ -989,16 +989,18 @@ func (profile *Profile_STATUS) AssignProperties_From_Profile_STATUS(source *v202
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProfileProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		profile.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, profileProperties_ProvisioningState_STATUS_Values)
+		profile.ProvisioningState = &provisioningStateTemp
 	} else {
 		profile.ProvisioningState = nil
 	}
 
 	// ResourceState
 	if source.ResourceState != nil {
-		resourceState := ProfileProperties_ResourceState_STATUS(*source.ResourceState)
-		profile.ResourceState = &resourceState
+		resourceState := *source.ResourceState
+		resourceStateTemp := genruntime.ToEnum(resourceState, profileProperties_ResourceState_STATUS_Values)
+		profile.ResourceState = &resourceStateTemp
 	} else {
 		profile.ResourceState = nil
 	}
@@ -1200,8 +1202,9 @@ func (identity *ManagedServiceIdentity) AssignProperties_From_ManagedServiceIden
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedServiceIdentityType(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedServiceIdentityType_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -1372,8 +1375,9 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_From_ManagedServ
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedServiceIdentityType_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managedServiceIdentityType_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -1458,6 +1462,15 @@ const (
 	ProfileProperties_ProvisioningState_STATUS_Updating  = ProfileProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to ProfileProperties_ProvisioningState_STATUS
+var profileProperties_ProvisioningState_STATUS_Values = map[string]ProfileProperties_ProvisioningState_STATUS{
+	"creating":  ProfileProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  ProfileProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    ProfileProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": ProfileProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  ProfileProperties_ProvisioningState_STATUS_Updating,
+}
+
 type ProfileProperties_ResourceState_STATUS string
 
 const (
@@ -1471,6 +1484,19 @@ const (
 	ProfileProperties_ResourceState_STATUS_Migrating              = ProfileProperties_ResourceState_STATUS("Migrating")
 	ProfileProperties_ResourceState_STATUS_PendingMigrationCommit = ProfileProperties_ResourceState_STATUS("PendingMigrationCommit")
 )
+
+// Mapping from string to ProfileProperties_ResourceState_STATUS
+var profileProperties_ResourceState_STATUS_Values = map[string]ProfileProperties_ResourceState_STATUS{
+	"abortingmigration":      ProfileProperties_ResourceState_STATUS_AbortingMigration,
+	"active":                 ProfileProperties_ResourceState_STATUS_Active,
+	"committingmigration":    ProfileProperties_ResourceState_STATUS_CommittingMigration,
+	"creating":               ProfileProperties_ResourceState_STATUS_Creating,
+	"deleting":               ProfileProperties_ResourceState_STATUS_Deleting,
+	"disabled":               ProfileProperties_ResourceState_STATUS_Disabled,
+	"migrated":               ProfileProperties_ResourceState_STATUS_Migrated,
+	"migrating":              ProfileProperties_ResourceState_STATUS_Migrating,
+	"pendingmigrationcommit": ProfileProperties_ResourceState_STATUS_PendingMigrationCommit,
+}
 
 // Standard_Verizon = The SKU name for a Standard Verizon CDN profile.
 // Premium_Verizon = The SKU name for a Premium Verizon
@@ -1545,8 +1571,9 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20230501s.Sku) error {
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sku_Name_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}
@@ -1652,8 +1679,9 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20230501s.Sku_S
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name_STATUS(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sku_Name_STATUS_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}

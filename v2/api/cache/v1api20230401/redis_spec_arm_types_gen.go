@@ -104,6 +104,14 @@ const (
 	ManagedServiceIdentityType_UserAssigned               = ManagedServiceIdentityType("UserAssigned")
 )
 
+// Mapping from string to ManagedServiceIdentityType
+var managedServiceIdentityType_Values = map[string]ManagedServiceIdentityType{
+	"none":                         ManagedServiceIdentityType_None,
+	"systemassigned":               ManagedServiceIdentityType_SystemAssigned,
+	"systemassigned, userassigned": ManagedServiceIdentityType_SystemAssignedUserAssigned,
+	"userassigned":                 ManagedServiceIdentityType_UserAssigned,
+}
+
 type RedisCreateProperties_RedisConfiguration_ARM struct {
 	// AofBackupEnabled: Specifies whether the aof backup is enabled
 	AofBackupEnabled *string `json:"aof-backup-enabled,omitempty"`

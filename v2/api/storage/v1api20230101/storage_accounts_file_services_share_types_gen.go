@@ -554,8 +554,9 @@ func (share *StorageAccounts_FileServices_Share_Spec) AssignProperties_From_Stor
 
 	// AccessTier
 	if source.AccessTier != nil {
-		accessTier := FileShareProperties_AccessTier(*source.AccessTier)
-		share.AccessTier = &accessTier
+		accessTier := *source.AccessTier
+		accessTierTemp := genruntime.ToEnum(accessTier, fileShareProperties_AccessTier_Values)
+		share.AccessTier = &accessTierTemp
 	} else {
 		share.AccessTier = nil
 	}
@@ -565,8 +566,9 @@ func (share *StorageAccounts_FileServices_Share_Spec) AssignProperties_From_Stor
 
 	// EnabledProtocols
 	if source.EnabledProtocols != nil {
-		enabledProtocol := FileShareProperties_EnabledProtocols(*source.EnabledProtocols)
-		share.EnabledProtocols = &enabledProtocol
+		enabledProtocol := *source.EnabledProtocols
+		enabledProtocolTemp := genruntime.ToEnum(enabledProtocol, fileShareProperties_EnabledProtocols_Values)
+		share.EnabledProtocols = &enabledProtocolTemp
 	} else {
 		share.EnabledProtocols = nil
 	}
@@ -584,8 +586,9 @@ func (share *StorageAccounts_FileServices_Share_Spec) AssignProperties_From_Stor
 
 	// RootSquash
 	if source.RootSquash != nil {
-		rootSquash := FileShareProperties_RootSquash(*source.RootSquash)
-		share.RootSquash = &rootSquash
+		rootSquash := *source.RootSquash
+		rootSquashTemp := genruntime.ToEnum(rootSquash, fileShareProperties_RootSquash_Values)
+		share.RootSquash = &rootSquashTemp
 	} else {
 		share.RootSquash = nil
 	}
@@ -1116,8 +1119,9 @@ func (share *StorageAccounts_FileServices_Share_STATUS) AssignProperties_From_St
 
 	// AccessTier
 	if source.AccessTier != nil {
-		accessTier := FileShareProperties_AccessTier_STATUS(*source.AccessTier)
-		share.AccessTier = &accessTier
+		accessTier := *source.AccessTier
+		accessTierTemp := genruntime.ToEnum(accessTier, fileShareProperties_AccessTier_STATUS_Values)
+		share.AccessTier = &accessTierTemp
 	} else {
 		share.AccessTier = nil
 	}
@@ -1144,8 +1148,9 @@ func (share *StorageAccounts_FileServices_Share_STATUS) AssignProperties_From_St
 
 	// EnabledProtocols
 	if source.EnabledProtocols != nil {
-		enabledProtocol := FileShareProperties_EnabledProtocols_STATUS(*source.EnabledProtocols)
-		share.EnabledProtocols = &enabledProtocol
+		enabledProtocol := *source.EnabledProtocols
+		enabledProtocolTemp := genruntime.ToEnum(enabledProtocol, fileShareProperties_EnabledProtocols_STATUS_Values)
+		share.EnabledProtocols = &enabledProtocolTemp
 	} else {
 		share.EnabledProtocols = nil
 	}
@@ -1161,24 +1166,27 @@ func (share *StorageAccounts_FileServices_Share_STATUS) AssignProperties_From_St
 
 	// LeaseDuration
 	if source.LeaseDuration != nil {
-		leaseDuration := FileShareProperties_LeaseDuration_STATUS(*source.LeaseDuration)
-		share.LeaseDuration = &leaseDuration
+		leaseDuration := *source.LeaseDuration
+		leaseDurationTemp := genruntime.ToEnum(leaseDuration, fileShareProperties_LeaseDuration_STATUS_Values)
+		share.LeaseDuration = &leaseDurationTemp
 	} else {
 		share.LeaseDuration = nil
 	}
 
 	// LeaseState
 	if source.LeaseState != nil {
-		leaseState := FileShareProperties_LeaseState_STATUS(*source.LeaseState)
-		share.LeaseState = &leaseState
+		leaseState := *source.LeaseState
+		leaseStateTemp := genruntime.ToEnum(leaseState, fileShareProperties_LeaseState_STATUS_Values)
+		share.LeaseState = &leaseStateTemp
 	} else {
 		share.LeaseState = nil
 	}
 
 	// LeaseStatus
 	if source.LeaseStatus != nil {
-		leaseStatus := FileShareProperties_LeaseStatus_STATUS(*source.LeaseStatus)
-		share.LeaseStatus = &leaseStatus
+		leaseStatus := *source.LeaseStatus
+		leaseStatusTemp := genruntime.ToEnum(leaseStatus, fileShareProperties_LeaseStatus_STATUS_Values)
+		share.LeaseStatus = &leaseStatusTemp
 	} else {
 		share.LeaseStatus = nil
 	}
@@ -1194,8 +1202,9 @@ func (share *StorageAccounts_FileServices_Share_STATUS) AssignProperties_From_St
 
 	// RootSquash
 	if source.RootSquash != nil {
-		rootSquash := FileShareProperties_RootSquash_STATUS(*source.RootSquash)
-		share.RootSquash = &rootSquash
+		rootSquash := *source.RootSquash
+		rootSquashTemp := genruntime.ToEnum(rootSquash, fileShareProperties_RootSquash_STATUS_Values)
+		share.RootSquash = &rootSquashTemp
 	} else {
 		share.RootSquash = nil
 	}
@@ -1382,6 +1391,14 @@ const (
 	FileShareProperties_AccessTier_TransactionOptimized = FileShareProperties_AccessTier("TransactionOptimized")
 )
 
+// Mapping from string to FileShareProperties_AccessTier
+var fileShareProperties_AccessTier_Values = map[string]FileShareProperties_AccessTier{
+	"cool":                 FileShareProperties_AccessTier_Cool,
+	"hot":                  FileShareProperties_AccessTier_Hot,
+	"premium":              FileShareProperties_AccessTier_Premium,
+	"transactionoptimized": FileShareProperties_AccessTier_TransactionOptimized,
+}
+
 type FileShareProperties_AccessTier_STATUS string
 
 const (
@@ -1391,6 +1408,14 @@ const (
 	FileShareProperties_AccessTier_STATUS_TransactionOptimized = FileShareProperties_AccessTier_STATUS("TransactionOptimized")
 )
 
+// Mapping from string to FileShareProperties_AccessTier_STATUS
+var fileShareProperties_AccessTier_STATUS_Values = map[string]FileShareProperties_AccessTier_STATUS{
+	"cool":                 FileShareProperties_AccessTier_STATUS_Cool,
+	"hot":                  FileShareProperties_AccessTier_STATUS_Hot,
+	"premium":              FileShareProperties_AccessTier_STATUS_Premium,
+	"transactionoptimized": FileShareProperties_AccessTier_STATUS_TransactionOptimized,
+}
+
 // +kubebuilder:validation:Enum={"NFS","SMB"}
 type FileShareProperties_EnabledProtocols string
 
@@ -1399,6 +1424,12 @@ const (
 	FileShareProperties_EnabledProtocols_SMB = FileShareProperties_EnabledProtocols("SMB")
 )
 
+// Mapping from string to FileShareProperties_EnabledProtocols
+var fileShareProperties_EnabledProtocols_Values = map[string]FileShareProperties_EnabledProtocols{
+	"nfs": FileShareProperties_EnabledProtocols_NFS,
+	"smb": FileShareProperties_EnabledProtocols_SMB,
+}
+
 type FileShareProperties_EnabledProtocols_STATUS string
 
 const (
@@ -1406,12 +1437,24 @@ const (
 	FileShareProperties_EnabledProtocols_STATUS_SMB = FileShareProperties_EnabledProtocols_STATUS("SMB")
 )
 
+// Mapping from string to FileShareProperties_EnabledProtocols_STATUS
+var fileShareProperties_EnabledProtocols_STATUS_Values = map[string]FileShareProperties_EnabledProtocols_STATUS{
+	"nfs": FileShareProperties_EnabledProtocols_STATUS_NFS,
+	"smb": FileShareProperties_EnabledProtocols_STATUS_SMB,
+}
+
 type FileShareProperties_LeaseDuration_STATUS string
 
 const (
 	FileShareProperties_LeaseDuration_STATUS_Fixed    = FileShareProperties_LeaseDuration_STATUS("Fixed")
 	FileShareProperties_LeaseDuration_STATUS_Infinite = FileShareProperties_LeaseDuration_STATUS("Infinite")
 )
+
+// Mapping from string to FileShareProperties_LeaseDuration_STATUS
+var fileShareProperties_LeaseDuration_STATUS_Values = map[string]FileShareProperties_LeaseDuration_STATUS{
+	"fixed":    FileShareProperties_LeaseDuration_STATUS_Fixed,
+	"infinite": FileShareProperties_LeaseDuration_STATUS_Infinite,
+}
 
 type FileShareProperties_LeaseState_STATUS string
 
@@ -1423,12 +1466,27 @@ const (
 	FileShareProperties_LeaseState_STATUS_Leased    = FileShareProperties_LeaseState_STATUS("Leased")
 )
 
+// Mapping from string to FileShareProperties_LeaseState_STATUS
+var fileShareProperties_LeaseState_STATUS_Values = map[string]FileShareProperties_LeaseState_STATUS{
+	"available": FileShareProperties_LeaseState_STATUS_Available,
+	"breaking":  FileShareProperties_LeaseState_STATUS_Breaking,
+	"broken":    FileShareProperties_LeaseState_STATUS_Broken,
+	"expired":   FileShareProperties_LeaseState_STATUS_Expired,
+	"leased":    FileShareProperties_LeaseState_STATUS_Leased,
+}
+
 type FileShareProperties_LeaseStatus_STATUS string
 
 const (
 	FileShareProperties_LeaseStatus_STATUS_Locked   = FileShareProperties_LeaseStatus_STATUS("Locked")
 	FileShareProperties_LeaseStatus_STATUS_Unlocked = FileShareProperties_LeaseStatus_STATUS("Unlocked")
 )
+
+// Mapping from string to FileShareProperties_LeaseStatus_STATUS
+var fileShareProperties_LeaseStatus_STATUS_Values = map[string]FileShareProperties_LeaseStatus_STATUS{
+	"locked":   FileShareProperties_LeaseStatus_STATUS_Locked,
+	"unlocked": FileShareProperties_LeaseStatus_STATUS_Unlocked,
+}
 
 // +kubebuilder:validation:Enum={"AllSquash","NoRootSquash","RootSquash"}
 type FileShareProperties_RootSquash string
@@ -1439,6 +1497,13 @@ const (
 	FileShareProperties_RootSquash_RootSquash   = FileShareProperties_RootSquash("RootSquash")
 )
 
+// Mapping from string to FileShareProperties_RootSquash
+var fileShareProperties_RootSquash_Values = map[string]FileShareProperties_RootSquash{
+	"allsquash":    FileShareProperties_RootSquash_AllSquash,
+	"norootsquash": FileShareProperties_RootSquash_NoRootSquash,
+	"rootsquash":   FileShareProperties_RootSquash_RootSquash,
+}
+
 type FileShareProperties_RootSquash_STATUS string
 
 const (
@@ -1446,6 +1511,13 @@ const (
 	FileShareProperties_RootSquash_STATUS_NoRootSquash = FileShareProperties_RootSquash_STATUS("NoRootSquash")
 	FileShareProperties_RootSquash_STATUS_RootSquash   = FileShareProperties_RootSquash_STATUS("RootSquash")
 )
+
+// Mapping from string to FileShareProperties_RootSquash_STATUS
+var fileShareProperties_RootSquash_STATUS_Values = map[string]FileShareProperties_RootSquash_STATUS{
+	"allsquash":    FileShareProperties_RootSquash_STATUS_AllSquash,
+	"norootsquash": FileShareProperties_RootSquash_STATUS_NoRootSquash,
+	"rootsquash":   FileShareProperties_RootSquash_STATUS_RootSquash,
+}
 
 type SignedIdentifier struct {
 	// AccessPolicy: Access policy

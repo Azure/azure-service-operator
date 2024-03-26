@@ -172,6 +172,14 @@ const (
 	ApiManagementServiceIdentity_Type_UserAssigned               = ApiManagementServiceIdentity_Type("UserAssigned")
 )
 
+// Mapping from string to ApiManagementServiceIdentity_Type
+var apiManagementServiceIdentity_Type_Values = map[string]ApiManagementServiceIdentity_Type{
+	"none":                         ApiManagementServiceIdentity_Type_None,
+	"systemassigned":               ApiManagementServiceIdentity_Type_SystemAssigned,
+	"systemassigned, userassigned": ApiManagementServiceIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 ApiManagementServiceIdentity_Type_UserAssigned,
+}
+
 // +kubebuilder:validation:Enum={"Basic","Consumption","Developer","Isolated","Premium","Standard"}
 type ApiManagementServiceSkuProperties_Name string
 
@@ -183,6 +191,16 @@ const (
 	ApiManagementServiceSkuProperties_Name_Premium     = ApiManagementServiceSkuProperties_Name("Premium")
 	ApiManagementServiceSkuProperties_Name_Standard    = ApiManagementServiceSkuProperties_Name("Standard")
 )
+
+// Mapping from string to ApiManagementServiceSkuProperties_Name
+var apiManagementServiceSkuProperties_Name_Values = map[string]ApiManagementServiceSkuProperties_Name{
+	"basic":       ApiManagementServiceSkuProperties_Name_Basic,
+	"consumption": ApiManagementServiceSkuProperties_Name_Consumption,
+	"developer":   ApiManagementServiceSkuProperties_Name_Developer,
+	"isolated":    ApiManagementServiceSkuProperties_Name_Isolated,
+	"premium":     ApiManagementServiceSkuProperties_Name_Premium,
+	"standard":    ApiManagementServiceSkuProperties_Name_Standard,
+}
 
 // Control Plane Apis version constraint for the API Management service.
 type ApiVersionConstraint_ARM struct {

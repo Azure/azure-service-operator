@@ -104,6 +104,11 @@ func (c *PropertyConversionContext) WithPackageReferenceSet(set *astmodel.Packag
 	return result
 }
 
+// HasDirection returns true if this context has the specified direction.
+func (c *PropertyConversionContext) HasDirection(dir Direction) bool {
+	return c.direction == dir
+}
+
 // ResolveType resolves a type that might be a type name into both the name and the actual
 // type it references, returning true iff it was a TypeName that could be resolved
 func (c *PropertyConversionContext) ResolveType(t astmodel.Type) (astmodel.InternalTypeName, astmodel.Type, bool) {
@@ -125,15 +130,29 @@ func (c *PropertyConversionContext) PropertyBagName() string {
 	return c.propertyBagName
 }
 
-// TypeRename looks up a type-rename for the specified type, returning the new name and nil if found, or empty string
-// and an error if not. If no configuration is available, acts as though there is no configuration for this rename,
-// returning "" and a NotConfiguredError
+// TypeRename looks up a type-rename for the specified type, returning the new name and true if found, or empty string
+// and false if not. If no configuration is available, acts as though there is no configuration for this rename,
+// returning "" and false.
 func (c *PropertyConversionContext) TypeRename(name astmodel.InternalTypeName) (string, bool) {
 	if c.configuration == nil {
 		return "", false
 	}
 
 	return c.configuration.TypeNameInNextVersion.Lookup(name)
+}
+
+// PropertyRename looks up a property-rename for the specified type, returning the new name and true if found, or empty
+// string and false if not. If no configuration is available, acts as though there is no configuration for this rename,
+// returning "" and false.
+func (c *PropertyConversionContext) PropertyRename(
+	container astmodel.InternalTypeName,
+	property astmodel.PropertyName,
+) (string, bool) {
+	if c.configuration == nil {
+		return "", false
+	}
+
+	return c.configuration.PropertyNameInNextVersion.Lookup(container, property)
 }
 
 // FindNextType returns the next type in the storage conversion graph, if any.

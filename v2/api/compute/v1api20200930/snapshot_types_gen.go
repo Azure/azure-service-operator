@@ -769,8 +769,9 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *v2020
 
 	// DiskState
 	if source.DiskState != nil {
-		diskState := DiskState(*source.DiskState)
-		snapshot.DiskState = &diskState
+		diskState := *source.DiskState
+		diskStateTemp := genruntime.ToEnum(diskState, diskState_Values)
+		snapshot.DiskState = &diskStateTemp
 	} else {
 		snapshot.DiskState = nil
 	}
@@ -813,8 +814,9 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *v2020
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
-		hyperVGeneration := SnapshotProperties_HyperVGeneration(*source.HyperVGeneration)
-		snapshot.HyperVGeneration = &hyperVGeneration
+		hyperVGeneration := *source.HyperVGeneration
+		hyperVGenerationTemp := genruntime.ToEnum(hyperVGeneration, snapshotProperties_HyperVGeneration_Values)
+		snapshot.HyperVGeneration = &hyperVGenerationTemp
 	} else {
 		snapshot.HyperVGeneration = nil
 	}
@@ -832,16 +834,18 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *v2020
 
 	// NetworkAccessPolicy
 	if source.NetworkAccessPolicy != nil {
-		networkAccessPolicy := NetworkAccessPolicy(*source.NetworkAccessPolicy)
-		snapshot.NetworkAccessPolicy = &networkAccessPolicy
+		networkAccessPolicy := *source.NetworkAccessPolicy
+		networkAccessPolicyTemp := genruntime.ToEnum(networkAccessPolicy, networkAccessPolicy_Values)
+		snapshot.NetworkAccessPolicy = &networkAccessPolicyTemp
 	} else {
 		snapshot.NetworkAccessPolicy = nil
 	}
 
 	// OsType
 	if source.OsType != nil {
-		osType := SnapshotProperties_OsType(*source.OsType)
-		snapshot.OsType = &osType
+		osType := *source.OsType
+		osTypeTemp := genruntime.ToEnum(osType, snapshotProperties_OsType_Values)
+		snapshot.OsType = &osTypeTemp
 	} else {
 		snapshot.OsType = nil
 	}
@@ -1582,8 +1586,9 @@ func (snapshot *Snapshot_STATUS) AssignProperties_From_Snapshot_STATUS(source *v
 
 	// DiskState
 	if source.DiskState != nil {
-		diskState := DiskState_STATUS(*source.DiskState)
-		snapshot.DiskState = &diskState
+		diskState := *source.DiskState
+		diskStateTemp := genruntime.ToEnum(diskState, diskState_STATUS_Values)
+		snapshot.DiskState = &diskStateTemp
 	} else {
 		snapshot.DiskState = nil
 	}
@@ -1626,8 +1631,9 @@ func (snapshot *Snapshot_STATUS) AssignProperties_From_Snapshot_STATUS(source *v
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
-		hyperVGeneration := SnapshotProperties_HyperVGeneration_STATUS(*source.HyperVGeneration)
-		snapshot.HyperVGeneration = &hyperVGeneration
+		hyperVGeneration := *source.HyperVGeneration
+		hyperVGenerationTemp := genruntime.ToEnum(hyperVGeneration, snapshotProperties_HyperVGeneration_STATUS_Values)
+		snapshot.HyperVGeneration = &hyperVGenerationTemp
 	} else {
 		snapshot.HyperVGeneration = nil
 	}
@@ -1654,16 +1660,18 @@ func (snapshot *Snapshot_STATUS) AssignProperties_From_Snapshot_STATUS(source *v
 
 	// NetworkAccessPolicy
 	if source.NetworkAccessPolicy != nil {
-		networkAccessPolicy := NetworkAccessPolicy_STATUS(*source.NetworkAccessPolicy)
-		snapshot.NetworkAccessPolicy = &networkAccessPolicy
+		networkAccessPolicy := *source.NetworkAccessPolicy
+		networkAccessPolicyTemp := genruntime.ToEnum(networkAccessPolicy, networkAccessPolicy_STATUS_Values)
+		snapshot.NetworkAccessPolicy = &networkAccessPolicyTemp
 	} else {
 		snapshot.NetworkAccessPolicy = nil
 	}
 
 	// OsType
 	if source.OsType != nil {
-		osType := SnapshotProperties_OsType_STATUS(*source.OsType)
-		snapshot.OsType = &osType
+		osType := *source.OsType
+		osTypeTemp := genruntime.ToEnum(osType, snapshotProperties_OsType_STATUS_Values)
+		snapshot.OsType = &osTypeTemp
 	} else {
 		snapshot.OsType = nil
 	}
@@ -1891,6 +1899,16 @@ const (
 	DiskState_Unattached    = DiskState("Unattached")
 )
 
+// Mapping from string to DiskState
+var diskState_Values = map[string]DiskState{
+	"activesas":     DiskState_ActiveSAS,
+	"activeupload":  DiskState_ActiveUpload,
+	"attached":      DiskState_Attached,
+	"readytoupload": DiskState_ReadyToUpload,
+	"reserved":      DiskState_Reserved,
+	"unattached":    DiskState_Unattached,
+}
+
 // +kubebuilder:validation:Enum={"V1","V2"}
 type SnapshotProperties_HyperVGeneration string
 
@@ -1899,12 +1917,24 @@ const (
 	SnapshotProperties_HyperVGeneration_V2 = SnapshotProperties_HyperVGeneration("V2")
 )
 
+// Mapping from string to SnapshotProperties_HyperVGeneration
+var snapshotProperties_HyperVGeneration_Values = map[string]SnapshotProperties_HyperVGeneration{
+	"v1": SnapshotProperties_HyperVGeneration_V1,
+	"v2": SnapshotProperties_HyperVGeneration_V2,
+}
+
 type SnapshotProperties_HyperVGeneration_STATUS string
 
 const (
 	SnapshotProperties_HyperVGeneration_STATUS_V1 = SnapshotProperties_HyperVGeneration_STATUS("V1")
 	SnapshotProperties_HyperVGeneration_STATUS_V2 = SnapshotProperties_HyperVGeneration_STATUS("V2")
 )
+
+// Mapping from string to SnapshotProperties_HyperVGeneration_STATUS
+var snapshotProperties_HyperVGeneration_STATUS_Values = map[string]SnapshotProperties_HyperVGeneration_STATUS{
+	"v1": SnapshotProperties_HyperVGeneration_STATUS_V1,
+	"v2": SnapshotProperties_HyperVGeneration_STATUS_V2,
+}
 
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type SnapshotProperties_OsType string
@@ -1914,12 +1944,24 @@ const (
 	SnapshotProperties_OsType_Windows = SnapshotProperties_OsType("Windows")
 )
 
+// Mapping from string to SnapshotProperties_OsType
+var snapshotProperties_OsType_Values = map[string]SnapshotProperties_OsType{
+	"linux":   SnapshotProperties_OsType_Linux,
+	"windows": SnapshotProperties_OsType_Windows,
+}
+
 type SnapshotProperties_OsType_STATUS string
 
 const (
 	SnapshotProperties_OsType_STATUS_Linux   = SnapshotProperties_OsType_STATUS("Linux")
 	SnapshotProperties_OsType_STATUS_Windows = SnapshotProperties_OsType_STATUS("Windows")
 )
+
+// Mapping from string to SnapshotProperties_OsType_STATUS
+var snapshotProperties_OsType_STATUS_Values = map[string]SnapshotProperties_OsType_STATUS{
+	"linux":   SnapshotProperties_OsType_STATUS_Linux,
+	"windows": SnapshotProperties_OsType_STATUS_Windows,
+}
 
 // The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental
 // snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
@@ -1972,8 +2014,9 @@ func (snapshotSku *SnapshotSku) AssignProperties_From_SnapshotSku(source *v20200
 
 	// Name
 	if source.Name != nil {
-		name := SnapshotSku_Name(*source.Name)
-		snapshotSku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, snapshotSku_Name_Values)
+		snapshotSku.Name = &nameTemp
 	} else {
 		snapshotSku.Name = nil
 	}
@@ -2066,8 +2109,9 @@ func (snapshotSku *SnapshotSku_STATUS) AssignProperties_From_SnapshotSku_STATUS(
 
 	// Name
 	if source.Name != nil {
-		name := SnapshotSku_Name_STATUS(*source.Name)
-		snapshotSku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, snapshotSku_Name_STATUS_Values)
+		snapshotSku.Name = &nameTemp
 	} else {
 		snapshotSku.Name = nil
 	}

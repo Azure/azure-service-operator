@@ -105,6 +105,14 @@ const (
 	EncryptionSetIdentity_Type_STATUS_UserAssigned               = EncryptionSetIdentity_Type_STATUS("UserAssigned")
 )
 
+// Mapping from string to EncryptionSetIdentity_Type_STATUS
+var encryptionSetIdentity_Type_STATUS_Values = map[string]EncryptionSetIdentity_Type_STATUS{
+	"none":                         EncryptionSetIdentity_Type_STATUS_None,
+	"systemassigned":               EncryptionSetIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned, userassigned": EncryptionSetIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 EncryptionSetIdentity_Type_STATUS_UserAssigned,
+}
+
 type EncryptionSetIdentity_UserAssignedIdentities_STATUS_ARM struct {
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`

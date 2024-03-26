@@ -67,3 +67,13 @@ const (
 	SubscriptionCreateParameterProperties_State_Submitted = SubscriptionCreateParameterProperties_State("submitted")
 	SubscriptionCreateParameterProperties_State_Suspended = SubscriptionCreateParameterProperties_State("suspended")
 )
+
+// Mapping from string to SubscriptionCreateParameterProperties_State
+var subscriptionCreateParameterProperties_State_Values = map[string]SubscriptionCreateParameterProperties_State{
+	"active":    SubscriptionCreateParameterProperties_State_Active,
+	"cancelled": SubscriptionCreateParameterProperties_State_Cancelled,
+	"expired":   SubscriptionCreateParameterProperties_State_Expired,
+	"rejected":  SubscriptionCreateParameterProperties_State_Rejected,
+	"submitted": SubscriptionCreateParameterProperties_State_Submitted,
+	"suspended": SubscriptionCreateParameterProperties_State_Suspended,
+}

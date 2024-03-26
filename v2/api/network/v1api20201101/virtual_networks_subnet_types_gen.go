@@ -793,16 +793,18 @@ func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_From_VirtualNetworks
 
 	// PrivateEndpointNetworkPolicies
 	if source.PrivateEndpointNetworkPolicies != nil {
-		privateEndpointNetworkPolicy := SubnetPropertiesFormat_PrivateEndpointNetworkPolicies(*source.PrivateEndpointNetworkPolicies)
-		subnet.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicy
+		privateEndpointNetworkPolicy := *source.PrivateEndpointNetworkPolicies
+		privateEndpointNetworkPolicyTemp := genruntime.ToEnum(privateEndpointNetworkPolicy, subnetPropertiesFormat_PrivateEndpointNetworkPolicies_Values)
+		subnet.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicyTemp
 	} else {
 		subnet.PrivateEndpointNetworkPolicies = nil
 	}
 
 	// PrivateLinkServiceNetworkPolicies
 	if source.PrivateLinkServiceNetworkPolicies != nil {
-		privateLinkServiceNetworkPolicy := SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies(*source.PrivateLinkServiceNetworkPolicies)
-		subnet.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicy
+		privateLinkServiceNetworkPolicy := *source.PrivateLinkServiceNetworkPolicies
+		privateLinkServiceNetworkPolicyTemp := genruntime.ToEnum(privateLinkServiceNetworkPolicy, subnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Values)
+		subnet.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicyTemp
 	} else {
 		subnet.PrivateLinkServiceNetworkPolicies = nil
 	}
@@ -1733,8 +1735,9 @@ func (subnet *VirtualNetworks_Subnet_STATUS) AssignProperties_From_VirtualNetwor
 
 	// PrivateEndpointNetworkPolicies
 	if source.PrivateEndpointNetworkPolicies != nil {
-		privateEndpointNetworkPolicy := SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS(*source.PrivateEndpointNetworkPolicies)
-		subnet.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicy
+		privateEndpointNetworkPolicy := *source.PrivateEndpointNetworkPolicies
+		privateEndpointNetworkPolicyTemp := genruntime.ToEnum(privateEndpointNetworkPolicy, subnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS_Values)
+		subnet.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicyTemp
 	} else {
 		subnet.PrivateEndpointNetworkPolicies = nil
 	}
@@ -1759,16 +1762,18 @@ func (subnet *VirtualNetworks_Subnet_STATUS) AssignProperties_From_VirtualNetwor
 
 	// PrivateLinkServiceNetworkPolicies
 	if source.PrivateLinkServiceNetworkPolicies != nil {
-		privateLinkServiceNetworkPolicy := SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS(*source.PrivateLinkServiceNetworkPolicies)
-		subnet.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicy
+		privateLinkServiceNetworkPolicy := *source.PrivateLinkServiceNetworkPolicies
+		privateLinkServiceNetworkPolicyTemp := genruntime.ToEnum(privateLinkServiceNetworkPolicy, subnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS_Values)
+		subnet.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicyTemp
 	} else {
 		subnet.PrivateLinkServiceNetworkPolicies = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		subnet.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		subnet.ProvisioningState = &provisioningStateTemp
 	} else {
 		subnet.ProvisioningState = nil
 	}
@@ -2528,8 +2533,9 @@ func (delegation *Delegation_STATUS) AssignProperties_From_Delegation_STATUS(sou
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		delegation.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		delegation.ProvisioningState = &provisioningStateTemp
 	} else {
 		delegation.ProvisioningState = nil
 	}
@@ -3516,8 +3522,9 @@ func (format *ServiceEndpointPropertiesFormat_STATUS) AssignProperties_From_Serv
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		format.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		format.ProvisioningState = &provisioningStateTemp
 	} else {
 		format.ProvisioningState = nil
 	}
@@ -3567,12 +3574,24 @@ const (
 	SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Enabled  = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies("Enabled")
 )
 
+// Mapping from string to SubnetPropertiesFormat_PrivateEndpointNetworkPolicies
+var subnetPropertiesFormat_PrivateEndpointNetworkPolicies_Values = map[string]SubnetPropertiesFormat_PrivateEndpointNetworkPolicies{
+	"disabled": SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Disabled,
+	"enabled":  SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Enabled,
+}
+
 type SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS string
 
 const (
 	SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS_Disabled = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS("Disabled")
 	SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS_Enabled  = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS("Enabled")
 )
+
+// Mapping from string to SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS
+var subnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS_Values = map[string]SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS{
+	"disabled": SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS_Disabled,
+	"enabled":  SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS_Enabled,
+}
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies string
@@ -3582,12 +3601,24 @@ const (
 	SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Enabled  = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies("Enabled")
 )
 
+// Mapping from string to SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies
+var subnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Values = map[string]SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies{
+	"disabled": SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Disabled,
+	"enabled":  SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Enabled,
+}
+
 type SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS string
 
 const (
 	SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS_Disabled = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS("Disabled")
 	SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS_Enabled  = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS("Enabled")
 )
+
+// Mapping from string to SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS
+var subnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS_Values = map[string]SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS{
+	"disabled": SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS_Disabled,
+	"enabled":  SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS_Enabled,
+}
 
 func init() {
 	SchemeBuilder.Register(&VirtualNetworksSubnet{}, &VirtualNetworksSubnetList{})

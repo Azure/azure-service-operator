@@ -40,6 +40,14 @@ const (
 	RuleSetProperties_DeploymentStatus_STATUS_Succeeded  = RuleSetProperties_DeploymentStatus_STATUS("Succeeded")
 )
 
+// Mapping from string to RuleSetProperties_DeploymentStatus_STATUS
+var ruleSetProperties_DeploymentStatus_STATUS_Values = map[string]RuleSetProperties_DeploymentStatus_STATUS{
+	"failed":     RuleSetProperties_DeploymentStatus_STATUS_Failed,
+	"inprogress": RuleSetProperties_DeploymentStatus_STATUS_InProgress,
+	"notstarted": RuleSetProperties_DeploymentStatus_STATUS_NotStarted,
+	"succeeded":  RuleSetProperties_DeploymentStatus_STATUS_Succeeded,
+}
+
 type RuleSetProperties_ProvisioningState_STATUS string
 
 const (
@@ -49,3 +57,12 @@ const (
 	RuleSetProperties_ProvisioningState_STATUS_Succeeded = RuleSetProperties_ProvisioningState_STATUS("Succeeded")
 	RuleSetProperties_ProvisioningState_STATUS_Updating  = RuleSetProperties_ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to RuleSetProperties_ProvisioningState_STATUS
+var ruleSetProperties_ProvisioningState_STATUS_Values = map[string]RuleSetProperties_ProvisioningState_STATUS{
+	"creating":  RuleSetProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  RuleSetProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    RuleSetProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": RuleSetProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  RuleSetProperties_ProvisioningState_STATUS_Updating,
+}

@@ -1406,8 +1406,9 @@ func (network *VirtualNetwork_STATUS) AssignProperties_From_VirtualNetwork_STATU
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		network.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		network.ProvisioningState = &provisioningStateTemp
 	} else {
 		network.ProvisioningState = nil
 	}

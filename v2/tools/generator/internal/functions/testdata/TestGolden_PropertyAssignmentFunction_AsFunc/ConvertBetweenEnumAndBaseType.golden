@@ -3,7 +3,10 @@
 // Licensed under the MIT license.
 package vcurrent
 
-import vnext "github.com/Azure/azure-service-operator/testing/verification/vnext"
+import (
+	vnext "github.com/Azure/azure-service-operator/testing/verification/vnext"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+)
 
 type Person struct {
 	Sku string `json:"sku,omitempty"`
@@ -23,7 +26,7 @@ func (person *Person) AssignProperties_From_Person(source *vnext.Person) error {
 func (person *Person) AssignProperties_To_Person(destination *vnext.Person) error {
 
 	// Sku
-	destination.Sku = vnext.Bucket(person.Sku)
+	destination.Sku = genruntime.ToEnum(person.Sku, bucket_Values)
 
 	// No error
 	return nil

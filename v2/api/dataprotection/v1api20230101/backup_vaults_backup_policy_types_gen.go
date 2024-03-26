@@ -1025,8 +1025,9 @@ func (policy *BackupPolicy) AssignProperties_From_BackupPolicy(source *v20230101
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := BackupPolicy_ObjectType(*source.ObjectType)
-		policy.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, backupPolicy_ObjectType_Values)
+		policy.ObjectType = &objectTypeTemp
 	} else {
 		policy.ObjectType = nil
 	}
@@ -1151,8 +1152,9 @@ func (policy *BackupPolicy_STATUS) AssignProperties_From_BackupPolicy_STATUS(sou
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := BackupPolicy_ObjectType_STATUS(*source.ObjectType)
-		policy.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, backupPolicy_ObjectType_STATUS_Values)
+		policy.ObjectType = &objectTypeTemp
 	} else {
 		policy.ObjectType = nil
 	}
@@ -1650,8 +1652,9 @@ func (rule *AzureBackupRule) AssignProperties_From_AzureBackupRule(source *v2023
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AzureBackupRule_ObjectType(*source.ObjectType)
-		rule.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, azureBackupRule_ObjectType_Values)
+		rule.ObjectType = &objectTypeTemp
 	} else {
 		rule.ObjectType = nil
 	}
@@ -1837,8 +1840,9 @@ func (rule *AzureBackupRule_STATUS) AssignProperties_From_AzureBackupRule_STATUS
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AzureBackupRule_ObjectType_STATUS(*source.ObjectType)
-		rule.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, azureBackupRule_ObjectType_STATUS_Values)
+		rule.ObjectType = &objectTypeTemp
 	} else {
 		rule.ObjectType = nil
 	}
@@ -2047,8 +2051,9 @@ func (rule *AzureRetentionRule) AssignProperties_From_AzureRetentionRule(source 
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AzureRetentionRule_ObjectType(*source.ObjectType)
-		rule.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, azureRetentionRule_ObjectType_Values)
+		rule.ObjectType = &objectTypeTemp
 	} else {
 		rule.ObjectType = nil
 	}
@@ -2194,8 +2199,9 @@ func (rule *AzureRetentionRule_STATUS) AssignProperties_From_AzureRetentionRule_
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AzureRetentionRule_ObjectType_STATUS(*source.ObjectType)
-		rule.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, azureRetentionRule_ObjectType_STATUS_Values)
+		rule.ObjectType = &objectTypeTemp
 	} else {
 		rule.ObjectType = nil
 	}
@@ -2505,8 +2511,9 @@ func (base *DataStoreInfoBase) AssignProperties_From_DataStoreInfoBase(source *v
 
 	// DataStoreType
 	if source.DataStoreType != nil {
-		dataStoreType := DataStoreInfoBase_DataStoreType(*source.DataStoreType)
-		base.DataStoreType = &dataStoreType
+		dataStoreType := *source.DataStoreType
+		dataStoreTypeTemp := genruntime.ToEnum(dataStoreType, dataStoreInfoBase_DataStoreType_Values)
+		base.DataStoreType = &dataStoreTypeTemp
 	} else {
 		base.DataStoreType = nil
 	}
@@ -2589,8 +2596,9 @@ func (base *DataStoreInfoBase_STATUS) AssignProperties_From_DataStoreInfoBase_ST
 
 	// DataStoreType
 	if source.DataStoreType != nil {
-		dataStoreType := DataStoreInfoBase_DataStoreType_STATUS(*source.DataStoreType)
-		base.DataStoreType = &dataStoreType
+		dataStoreType := *source.DataStoreType
+		dataStoreTypeTemp := genruntime.ToEnum(dataStoreType, dataStoreInfoBase_DataStoreType_STATUS_Values)
+		base.DataStoreType = &dataStoreTypeTemp
 	} else {
 		base.DataStoreType = nil
 	}
@@ -3339,8 +3347,9 @@ func (context *AdhocBasedTriggerContext) AssignProperties_From_AdhocBasedTrigger
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AdhocBasedTriggerContext_ObjectType(*source.ObjectType)
-		context.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, adhocBasedTriggerContext_ObjectType_Values)
+		context.ObjectType = &objectTypeTemp
 	} else {
 		context.ObjectType = nil
 	}
@@ -3442,8 +3451,9 @@ func (context *AdhocBasedTriggerContext_STATUS) AssignProperties_From_AdhocBased
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AdhocBasedTriggerContext_ObjectType_STATUS(*source.ObjectType)
-		context.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, adhocBasedTriggerContext_ObjectType_STATUS_Values)
+		context.ObjectType = &objectTypeTemp
 	} else {
 		context.ObjectType = nil
 	}
@@ -3565,8 +3575,9 @@ func (params *AzureBackupParams) AssignProperties_From_AzureBackupParams(source 
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AzureBackupParams_ObjectType(*source.ObjectType)
-		params.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, azureBackupParams_ObjectType_Values)
+		params.ObjectType = &objectTypeTemp
 	} else {
 		params.ObjectType = nil
 	}
@@ -3645,8 +3656,9 @@ func (params *AzureBackupParams_STATUS) AssignProperties_From_AzureBackupParams_
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AzureBackupParams_ObjectType_STATUS(*source.ObjectType)
-		params.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, azureBackupParams_ObjectType_STATUS_Values)
+		params.ObjectType = &objectTypeTemp
 	} else {
 		params.ObjectType = nil
 	}
@@ -3957,8 +3969,9 @@ func (context *ScheduleBasedTriggerContext) AssignProperties_From_ScheduleBasedT
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := ScheduleBasedTriggerContext_ObjectType(*source.ObjectType)
-		context.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, scheduleBasedTriggerContext_ObjectType_Values)
+		context.ObjectType = &objectTypeTemp
 	} else {
 		context.ObjectType = nil
 	}
@@ -4109,8 +4122,9 @@ func (context *ScheduleBasedTriggerContext_STATUS) AssignProperties_From_Schedul
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := ScheduleBasedTriggerContext_ObjectType_STATUS(*source.ObjectType)
-		context.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, scheduleBasedTriggerContext_ObjectType_STATUS_Values)
+		context.ObjectType = &objectTypeTemp
 	} else {
 		context.ObjectType = nil
 	}
@@ -4539,8 +4553,9 @@ func (option *AbsoluteDeleteOption) AssignProperties_From_AbsoluteDeleteOption(s
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AbsoluteDeleteOption_ObjectType(*source.ObjectType)
-		option.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, absoluteDeleteOption_ObjectType_Values)
+		option.ObjectType = &objectTypeTemp
 	} else {
 		option.ObjectType = nil
 	}
@@ -4619,8 +4634,9 @@ func (option *AbsoluteDeleteOption_STATUS) AssignProperties_From_AbsoluteDeleteO
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AbsoluteDeleteOption_ObjectType_STATUS(*source.ObjectType)
-		option.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, absoluteDeleteOption_ObjectType_STATUS_Values)
+		option.ObjectType = &objectTypeTemp
 	} else {
 		option.ObjectType = nil
 	}
@@ -5971,8 +5987,9 @@ func (option *CopyOnExpiryOption) AssignProperties_From_CopyOnExpiryOption(sourc
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := CopyOnExpiryOption_ObjectType(*source.ObjectType)
-		option.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, copyOnExpiryOption_ObjectType_Values)
+		option.ObjectType = &objectTypeTemp
 	} else {
 		option.ObjectType = nil
 	}
@@ -6036,8 +6053,9 @@ func (option *CopyOnExpiryOption_STATUS) AssignProperties_From_CopyOnExpiryOptio
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := CopyOnExpiryOption_ObjectType_STATUS(*source.ObjectType)
-		option.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, copyOnExpiryOption_ObjectType_STATUS_Values)
+		option.ObjectType = &objectTypeTemp
 	} else {
 		option.ObjectType = nil
 	}
@@ -6134,8 +6152,9 @@ func (option *CustomCopyOption) AssignProperties_From_CustomCopyOption(source *v
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := CustomCopyOption_ObjectType(*source.ObjectType)
-		option.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, customCopyOption_ObjectType_Values)
+		option.ObjectType = &objectTypeTemp
 	} else {
 		option.ObjectType = nil
 	}
@@ -6214,8 +6233,9 @@ func (option *CustomCopyOption_STATUS) AssignProperties_From_CustomCopyOption_ST
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := CustomCopyOption_ObjectType_STATUS(*source.ObjectType)
-		option.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, customCopyOption_ObjectType_STATUS_Values)
+		option.ObjectType = &objectTypeTemp
 	} else {
 		option.ObjectType = nil
 	}
@@ -6297,8 +6317,9 @@ func (option *ImmediateCopyOption) AssignProperties_From_ImmediateCopyOption(sou
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := ImmediateCopyOption_ObjectType(*source.ObjectType)
-		option.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, immediateCopyOption_ObjectType_Values)
+		option.ObjectType = &objectTypeTemp
 	} else {
 		option.ObjectType = nil
 	}
@@ -6362,8 +6383,9 @@ func (option *ImmediateCopyOption_STATUS) AssignProperties_From_ImmediateCopyOpt
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := ImmediateCopyOption_ObjectType_STATUS(*source.ObjectType)
-		option.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, immediateCopyOption_ObjectType_STATUS_Values)
+		option.ObjectType = &objectTypeTemp
 	} else {
 		option.ObjectType = nil
 	}
@@ -6698,7 +6720,7 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_From_ScheduleBased
 		for absoluteCriterionIndex, absoluteCriterionItem := range source.AbsoluteCriteria {
 			// Shadow the loop variable to avoid aliasing
 			absoluteCriterionItem := absoluteCriterionItem
-			absoluteCriterionList[absoluteCriterionIndex] = ScheduleBasedBackupCriteria_AbsoluteCriteria(absoluteCriterionItem)
+			absoluteCriterionList[absoluteCriterionIndex] = genruntime.ToEnum(absoluteCriterionItem, scheduleBasedBackupCriteria_AbsoluteCriteria_Values)
 		}
 		criteria.AbsoluteCriteria = absoluteCriterionList
 	} else {
@@ -6729,7 +6751,7 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_From_ScheduleBased
 		for daysOfTheWeekIndex, daysOfTheWeekItem := range source.DaysOfTheWeek {
 			// Shadow the loop variable to avoid aliasing
 			daysOfTheWeekItem := daysOfTheWeekItem
-			daysOfTheWeekList[daysOfTheWeekIndex] = ScheduleBasedBackupCriteria_DaysOfTheWeek(daysOfTheWeekItem)
+			daysOfTheWeekList[daysOfTheWeekIndex] = genruntime.ToEnum(daysOfTheWeekItem, scheduleBasedBackupCriteria_DaysOfTheWeek_Values)
 		}
 		criteria.DaysOfTheWeek = daysOfTheWeekList
 	} else {
@@ -6742,7 +6764,7 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_From_ScheduleBased
 		for monthsOfYearIndex, monthsOfYearItem := range source.MonthsOfYear {
 			// Shadow the loop variable to avoid aliasing
 			monthsOfYearItem := monthsOfYearItem
-			monthsOfYearList[monthsOfYearIndex] = ScheduleBasedBackupCriteria_MonthsOfYear(monthsOfYearItem)
+			monthsOfYearList[monthsOfYearIndex] = genruntime.ToEnum(monthsOfYearItem, scheduleBasedBackupCriteria_MonthsOfYear_Values)
 		}
 		criteria.MonthsOfYear = monthsOfYearList
 	} else {
@@ -6751,8 +6773,9 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_From_ScheduleBased
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := ScheduleBasedBackupCriteria_ObjectType(*source.ObjectType)
-		criteria.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, scheduleBasedBackupCriteria_ObjectType_Values)
+		criteria.ObjectType = &objectTypeTemp
 	} else {
 		criteria.ObjectType = nil
 	}
@@ -6766,7 +6789,7 @@ func (criteria *ScheduleBasedBackupCriteria) AssignProperties_From_ScheduleBased
 		for weeksOfTheMonthIndex, weeksOfTheMonthItem := range source.WeeksOfTheMonth {
 			// Shadow the loop variable to avoid aliasing
 			weeksOfTheMonthItem := weeksOfTheMonthItem
-			weeksOfTheMonthList[weeksOfTheMonthIndex] = ScheduleBasedBackupCriteria_WeeksOfTheMonth(weeksOfTheMonthItem)
+			weeksOfTheMonthList[weeksOfTheMonthIndex] = genruntime.ToEnum(weeksOfTheMonthItem, scheduleBasedBackupCriteria_WeeksOfTheMonth_Values)
 		}
 		criteria.WeeksOfTheMonth = weeksOfTheMonthList
 	} else {
@@ -6963,7 +6986,7 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_From_Schedu
 		for absoluteCriterionIndex, absoluteCriterionItem := range source.AbsoluteCriteria {
 			// Shadow the loop variable to avoid aliasing
 			absoluteCriterionItem := absoluteCriterionItem
-			absoluteCriterionList[absoluteCriterionIndex] = ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS(absoluteCriterionItem)
+			absoluteCriterionList[absoluteCriterionIndex] = genruntime.ToEnum(absoluteCriterionItem, scheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_Values)
 		}
 		criteria.AbsoluteCriteria = absoluteCriterionList
 	} else {
@@ -6994,7 +7017,7 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_From_Schedu
 		for daysOfTheWeekIndex, daysOfTheWeekItem := range source.DaysOfTheWeek {
 			// Shadow the loop variable to avoid aliasing
 			daysOfTheWeekItem := daysOfTheWeekItem
-			daysOfTheWeekList[daysOfTheWeekIndex] = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS(daysOfTheWeekItem)
+			daysOfTheWeekList[daysOfTheWeekIndex] = genruntime.ToEnum(daysOfTheWeekItem, scheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Values)
 		}
 		criteria.DaysOfTheWeek = daysOfTheWeekList
 	} else {
@@ -7007,7 +7030,7 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_From_Schedu
 		for monthsOfYearIndex, monthsOfYearItem := range source.MonthsOfYear {
 			// Shadow the loop variable to avoid aliasing
 			monthsOfYearItem := monthsOfYearItem
-			monthsOfYearList[monthsOfYearIndex] = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS(monthsOfYearItem)
+			monthsOfYearList[monthsOfYearIndex] = genruntime.ToEnum(monthsOfYearItem, scheduleBasedBackupCriteria_MonthsOfYear_STATUS_Values)
 		}
 		criteria.MonthsOfYear = monthsOfYearList
 	} else {
@@ -7016,8 +7039,9 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_From_Schedu
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := ScheduleBasedBackupCriteria_ObjectType_STATUS(*source.ObjectType)
-		criteria.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, scheduleBasedBackupCriteria_ObjectType_STATUS_Values)
+		criteria.ObjectType = &objectTypeTemp
 	} else {
 		criteria.ObjectType = nil
 	}
@@ -7031,7 +7055,7 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) AssignProperties_From_Schedu
 		for weeksOfTheMonthIndex, weeksOfTheMonthItem := range source.WeeksOfTheMonth {
 			// Shadow the loop variable to avoid aliasing
 			weeksOfTheMonthItem := weeksOfTheMonthItem
-			weeksOfTheMonthList[weeksOfTheMonthIndex] = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS(weeksOfTheMonthItem)
+			weeksOfTheMonthList[weeksOfTheMonthIndex] = genruntime.ToEnum(weeksOfTheMonthItem, scheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Values)
 		}
 		criteria.WeeksOfTheMonth = weeksOfTheMonthList
 	} else {

@@ -466,7 +466,7 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) AssignProperties_From_N
 		for rightIndex, rightItem := range source.Rights {
 			// Shadow the loop variable to avoid aliasing
 			rightItem := rightItem
-			rightList[rightIndex] = Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec(rightItem)
+			rightList[rightIndex] = genruntime.ToEnum(rightItem, namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_Values)
 		}
 		rule.Rights = rightList
 	} else {
@@ -709,7 +709,7 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_STATUS) AssignProperties_From
 		for rightIndex, rightItem := range source.Rights {
 			// Shadow the loop variable to avoid aliasing
 			rightItem := rightItem
-			rightList[rightIndex] = Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS(rightItem)
+			rightList[rightIndex] = genruntime.ToEnum(rightItem, namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_Values)
 		}
 		rule.Rights = rightList
 	} else {
@@ -800,6 +800,13 @@ const (
 	Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_Send   = Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec("Send")
 )
 
+// Mapping from string to Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec
+var namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_Values = map[string]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec{
+	"listen": Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_Listen,
+	"manage": Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_Manage,
+	"send":   Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec_Send,
+}
+
 type Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS string
 
 const (
@@ -807,6 +814,13 @@ const (
 	Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_Manage = Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS("Manage")
 	Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_Send   = Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS("Send")
 )
+
+// Mapping from string to Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS
+var namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_Values = map[string]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS{
+	"listen": Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_Listen,
+	"manage": Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_Manage,
+	"send":   Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS_Send,
+}
 
 func init() {
 	SchemeBuilder.Register(&NamespacesEventhubsAuthorizationRule{}, &NamespacesEventhubsAuthorizationRuleList{})

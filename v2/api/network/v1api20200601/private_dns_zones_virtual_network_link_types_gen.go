@@ -881,8 +881,9 @@ func (link *PrivateDnsZones_VirtualNetworkLink_STATUS) AssignProperties_From_Pri
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := VirtualNetworkLinkProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		link.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, virtualNetworkLinkProperties_ProvisioningState_STATUS_Values)
+		link.ProvisioningState = &provisioningStateTemp
 	} else {
 		link.ProvisioningState = nil
 	}
@@ -915,8 +916,9 @@ func (link *PrivateDnsZones_VirtualNetworkLink_STATUS) AssignProperties_From_Pri
 
 	// VirtualNetworkLinkState
 	if source.VirtualNetworkLinkState != nil {
-		virtualNetworkLinkState := VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS(*source.VirtualNetworkLinkState)
-		link.VirtualNetworkLinkState = &virtualNetworkLinkState
+		virtualNetworkLinkState := *source.VirtualNetworkLinkState
+		virtualNetworkLinkStateTemp := genruntime.ToEnum(virtualNetworkLinkState, virtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS_Values)
+		link.VirtualNetworkLinkState = &virtualNetworkLinkStateTemp
 	} else {
 		link.VirtualNetworkLinkState = nil
 	}
@@ -1167,12 +1169,28 @@ const (
 	VirtualNetworkLinkProperties_ProvisioningState_STATUS_Updating  = VirtualNetworkLinkProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to VirtualNetworkLinkProperties_ProvisioningState_STATUS
+var virtualNetworkLinkProperties_ProvisioningState_STATUS_Values = map[string]VirtualNetworkLinkProperties_ProvisioningState_STATUS{
+	"canceled":  VirtualNetworkLinkProperties_ProvisioningState_STATUS_Canceled,
+	"creating":  VirtualNetworkLinkProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  VirtualNetworkLinkProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    VirtualNetworkLinkProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": VirtualNetworkLinkProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  VirtualNetworkLinkProperties_ProvisioningState_STATUS_Updating,
+}
+
 type VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS string
 
 const (
 	VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS_Completed  = VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS("Completed")
 	VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS_InProgress = VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS("InProgress")
 )
+
+// Mapping from string to VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS
+var virtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS_Values = map[string]VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS{
+	"completed":  VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS_Completed,
+	"inprogress": VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS_InProgress,
+}
 
 func init() {
 	SchemeBuilder.Register(&PrivateDnsZonesVirtualNetworkLink{}, &PrivateDnsZonesVirtualNetworkLinkList{})

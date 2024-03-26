@@ -170,3 +170,9 @@ const (
 	DatabaseIdentity_Type_None         = DatabaseIdentity_Type("None")
 	DatabaseIdentity_Type_UserAssigned = DatabaseIdentity_Type("UserAssigned")
 )
+
+// Mapping from string to DatabaseIdentity_Type
+var databaseIdentity_Type_Values = map[string]DatabaseIdentity_Type{
+	"none":         DatabaseIdentity_Type_None,
+	"userassigned": DatabaseIdentity_Type_UserAssigned,
+}

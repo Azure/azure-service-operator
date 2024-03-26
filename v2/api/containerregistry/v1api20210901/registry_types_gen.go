@@ -735,8 +735,9 @@ func (registry *Registry_Spec) AssignProperties_From_Registry_Spec(source *v2021
 
 	// NetworkRuleBypassOptions
 	if source.NetworkRuleBypassOptions != nil {
-		networkRuleBypassOption := RegistryProperties_NetworkRuleBypassOptions(*source.NetworkRuleBypassOptions)
-		registry.NetworkRuleBypassOptions = &networkRuleBypassOption
+		networkRuleBypassOption := *source.NetworkRuleBypassOptions
+		networkRuleBypassOptionTemp := genruntime.ToEnum(networkRuleBypassOption, registryProperties_NetworkRuleBypassOptions_Values)
+		registry.NetworkRuleBypassOptions = &networkRuleBypassOptionTemp
 	} else {
 		registry.NetworkRuleBypassOptions = nil
 	}
@@ -775,8 +776,9 @@ func (registry *Registry_Spec) AssignProperties_From_Registry_Spec(source *v2021
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := RegistryProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		registry.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, registryProperties_PublicNetworkAccess_Values)
+		registry.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		registry.PublicNetworkAccess = nil
 	}
@@ -798,8 +800,9 @@ func (registry *Registry_Spec) AssignProperties_From_Registry_Spec(source *v2021
 
 	// ZoneRedundancy
 	if source.ZoneRedundancy != nil {
-		zoneRedundancy := RegistryProperties_ZoneRedundancy(*source.ZoneRedundancy)
-		registry.ZoneRedundancy = &zoneRedundancy
+		zoneRedundancy := *source.ZoneRedundancy
+		zoneRedundancyTemp := genruntime.ToEnum(zoneRedundancy, registryProperties_ZoneRedundancy_Values)
+		registry.ZoneRedundancy = &zoneRedundancyTemp
 	} else {
 		registry.ZoneRedundancy = nil
 	}
@@ -1487,8 +1490,9 @@ func (registry *Registry_STATUS) AssignProperties_From_Registry_STATUS(source *v
 
 	// NetworkRuleBypassOptions
 	if source.NetworkRuleBypassOptions != nil {
-		networkRuleBypassOption := RegistryProperties_NetworkRuleBypassOptions_STATUS(*source.NetworkRuleBypassOptions)
-		registry.NetworkRuleBypassOptions = &networkRuleBypassOption
+		networkRuleBypassOption := *source.NetworkRuleBypassOptions
+		networkRuleBypassOptionTemp := genruntime.ToEnum(networkRuleBypassOption, registryProperties_NetworkRuleBypassOptions_STATUS_Values)
+		registry.NetworkRuleBypassOptions = &networkRuleBypassOptionTemp
 	} else {
 		registry.NetworkRuleBypassOptions = nil
 	}
@@ -1537,16 +1541,18 @@ func (registry *Registry_STATUS) AssignProperties_From_Registry_STATUS(source *v
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := RegistryProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		registry.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, registryProperties_ProvisioningState_STATUS_Values)
+		registry.ProvisioningState = &provisioningStateTemp
 	} else {
 		registry.ProvisioningState = nil
 	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := RegistryProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-		registry.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, registryProperties_PublicNetworkAccess_STATUS_Values)
+		registry.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		registry.PublicNetworkAccess = nil
 	}
@@ -1595,8 +1601,9 @@ func (registry *Registry_STATUS) AssignProperties_From_Registry_STATUS(source *v
 
 	// ZoneRedundancy
 	if source.ZoneRedundancy != nil {
-		zoneRedundancy := RegistryProperties_ZoneRedundancy_STATUS(*source.ZoneRedundancy)
-		registry.ZoneRedundancy = &zoneRedundancy
+		zoneRedundancy := *source.ZoneRedundancy
+		zoneRedundancyTemp := genruntime.ToEnum(zoneRedundancy, registryProperties_ZoneRedundancy_STATUS_Values)
+		registry.ZoneRedundancy = &zoneRedundancyTemp
 	} else {
 		registry.ZoneRedundancy = nil
 	}
@@ -1883,8 +1890,9 @@ func (property *EncryptionProperty) AssignProperties_From_EncryptionProperty(sou
 
 	// Status
 	if source.Status != nil {
-		status := EncryptionProperty_Status(*source.Status)
-		property.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, encryptionProperty_Status_Values)
+		property.Status = &statusTemp
 	} else {
 		property.Status = nil
 	}
@@ -2016,8 +2024,9 @@ func (property *EncryptionProperty_STATUS) AssignProperties_From_EncryptionPrope
 
 	// Status
 	if source.Status != nil {
-		status := EncryptionProperty_Status_STATUS(*source.Status)
-		property.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, encryptionProperty_Status_STATUS_Values)
+		property.Status = &statusTemp
 	} else {
 		property.Status = nil
 	}
@@ -2167,8 +2176,9 @@ func (properties *IdentityProperties) AssignProperties_From_IdentityProperties(s
 
 	// Type
 	if source.Type != nil {
-		typeVar := IdentityProperties_Type(*source.Type)
-		properties.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, identityProperties_Type_Values)
+		properties.Type = &typeTemp
 	} else {
 		properties.Type = nil
 	}
@@ -2354,8 +2364,9 @@ func (properties *IdentityProperties_STATUS) AssignProperties_From_IdentityPrope
 
 	// Type
 	if source.Type != nil {
-		typeVar := IdentityProperties_Type_STATUS(*source.Type)
-		properties.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, identityProperties_Type_STATUS_Values)
+		properties.Type = &typeTemp
 	} else {
 		properties.Type = nil
 	}
@@ -2503,8 +2514,9 @@ func (ruleSet *NetworkRuleSet) AssignProperties_From_NetworkRuleSet(source *v202
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		defaultAction := NetworkRuleSet_DefaultAction(*source.DefaultAction)
-		ruleSet.DefaultAction = &defaultAction
+		defaultAction := *source.DefaultAction
+		defaultActionTemp := genruntime.ToEnum(defaultAction, networkRuleSet_DefaultAction_Values)
+		ruleSet.DefaultAction = &defaultActionTemp
 	} else {
 		ruleSet.DefaultAction = nil
 	}
@@ -2654,8 +2666,9 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_From_NetworkRuleSet_STATU
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		defaultAction := NetworkRuleSet_DefaultAction_STATUS(*source.DefaultAction)
-		ruleSet.DefaultAction = &defaultAction
+		defaultAction := *source.DefaultAction
+		defaultActionTemp := genruntime.ToEnum(defaultAction, networkRuleSet_DefaultAction_STATUS_Values)
+		ruleSet.DefaultAction = &defaultActionTemp
 	} else {
 		ruleSet.DefaultAction = nil
 	}
@@ -3287,12 +3300,24 @@ const (
 	RegistryProperties_NetworkRuleBypassOptions_None          = RegistryProperties_NetworkRuleBypassOptions("None")
 )
 
+// Mapping from string to RegistryProperties_NetworkRuleBypassOptions
+var registryProperties_NetworkRuleBypassOptions_Values = map[string]RegistryProperties_NetworkRuleBypassOptions{
+	"azureservices": RegistryProperties_NetworkRuleBypassOptions_AzureServices,
+	"none":          RegistryProperties_NetworkRuleBypassOptions_None,
+}
+
 type RegistryProperties_NetworkRuleBypassOptions_STATUS string
 
 const (
 	RegistryProperties_NetworkRuleBypassOptions_STATUS_AzureServices = RegistryProperties_NetworkRuleBypassOptions_STATUS("AzureServices")
 	RegistryProperties_NetworkRuleBypassOptions_STATUS_None          = RegistryProperties_NetworkRuleBypassOptions_STATUS("None")
 )
+
+// Mapping from string to RegistryProperties_NetworkRuleBypassOptions_STATUS
+var registryProperties_NetworkRuleBypassOptions_STATUS_Values = map[string]RegistryProperties_NetworkRuleBypassOptions_STATUS{
+	"azureservices": RegistryProperties_NetworkRuleBypassOptions_STATUS_AzureServices,
+	"none":          RegistryProperties_NetworkRuleBypassOptions_STATUS_None,
+}
 
 type RegistryProperties_ProvisioningState_STATUS string
 
@@ -3305,6 +3330,16 @@ const (
 	RegistryProperties_ProvisioningState_STATUS_Updating  = RegistryProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to RegistryProperties_ProvisioningState_STATUS
+var registryProperties_ProvisioningState_STATUS_Values = map[string]RegistryProperties_ProvisioningState_STATUS{
+	"canceled":  RegistryProperties_ProvisioningState_STATUS_Canceled,
+	"creating":  RegistryProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  RegistryProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    RegistryProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": RegistryProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  RegistryProperties_ProvisioningState_STATUS_Updating,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type RegistryProperties_PublicNetworkAccess string
 
@@ -3313,12 +3348,24 @@ const (
 	RegistryProperties_PublicNetworkAccess_Enabled  = RegistryProperties_PublicNetworkAccess("Enabled")
 )
 
+// Mapping from string to RegistryProperties_PublicNetworkAccess
+var registryProperties_PublicNetworkAccess_Values = map[string]RegistryProperties_PublicNetworkAccess{
+	"disabled": RegistryProperties_PublicNetworkAccess_Disabled,
+	"enabled":  RegistryProperties_PublicNetworkAccess_Enabled,
+}
+
 type RegistryProperties_PublicNetworkAccess_STATUS string
 
 const (
 	RegistryProperties_PublicNetworkAccess_STATUS_Disabled = RegistryProperties_PublicNetworkAccess_STATUS("Disabled")
 	RegistryProperties_PublicNetworkAccess_STATUS_Enabled  = RegistryProperties_PublicNetworkAccess_STATUS("Enabled")
 )
+
+// Mapping from string to RegistryProperties_PublicNetworkAccess_STATUS
+var registryProperties_PublicNetworkAccess_STATUS_Values = map[string]RegistryProperties_PublicNetworkAccess_STATUS{
+	"disabled": RegistryProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  RegistryProperties_PublicNetworkAccess_STATUS_Enabled,
+}
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type RegistryProperties_ZoneRedundancy string
@@ -3328,12 +3375,24 @@ const (
 	RegistryProperties_ZoneRedundancy_Enabled  = RegistryProperties_ZoneRedundancy("Enabled")
 )
 
+// Mapping from string to RegistryProperties_ZoneRedundancy
+var registryProperties_ZoneRedundancy_Values = map[string]RegistryProperties_ZoneRedundancy{
+	"disabled": RegistryProperties_ZoneRedundancy_Disabled,
+	"enabled":  RegistryProperties_ZoneRedundancy_Enabled,
+}
+
 type RegistryProperties_ZoneRedundancy_STATUS string
 
 const (
 	RegistryProperties_ZoneRedundancy_STATUS_Disabled = RegistryProperties_ZoneRedundancy_STATUS("Disabled")
 	RegistryProperties_ZoneRedundancy_STATUS_Enabled  = RegistryProperties_ZoneRedundancy_STATUS("Enabled")
 )
+
+// Mapping from string to RegistryProperties_ZoneRedundancy_STATUS
+var registryProperties_ZoneRedundancy_STATUS_Values = map[string]RegistryProperties_ZoneRedundancy_STATUS{
+	"disabled": RegistryProperties_ZoneRedundancy_STATUS_Disabled,
+	"enabled":  RegistryProperties_ZoneRedundancy_STATUS_Enabled,
+}
 
 // The SKU of a container registry.
 type Sku struct {
@@ -3386,8 +3445,9 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20210901s.Sku) error {
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sku_Name_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}
@@ -3479,16 +3539,18 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20210901s.Sku_S
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name_STATUS(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sku_Name_STATUS_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := Sku_Tier_STATUS(*source.Tier)
-		sku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, sku_Tier_STATUS_Values)
+		sku.Tier = &tierTemp
 	} else {
 		sku.Tier = nil
 	}
@@ -3704,8 +3766,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -3718,8 +3781,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -3780,12 +3844,24 @@ const (
 	EncryptionProperty_Status_Enabled  = EncryptionProperty_Status("enabled")
 )
 
+// Mapping from string to EncryptionProperty_Status
+var encryptionProperty_Status_Values = map[string]EncryptionProperty_Status{
+	"disabled": EncryptionProperty_Status_Disabled,
+	"enabled":  EncryptionProperty_Status_Enabled,
+}
+
 type EncryptionProperty_Status_STATUS string
 
 const (
 	EncryptionProperty_Status_STATUS_Disabled = EncryptionProperty_Status_STATUS("disabled")
 	EncryptionProperty_Status_STATUS_Enabled  = EncryptionProperty_Status_STATUS("enabled")
 )
+
+// Mapping from string to EncryptionProperty_Status_STATUS
+var encryptionProperty_Status_STATUS_Values = map[string]EncryptionProperty_Status_STATUS{
+	"disabled": EncryptionProperty_Status_STATUS_Disabled,
+	"enabled":  EncryptionProperty_Status_STATUS_Enabled,
+}
 
 // The export policy for a container registry.
 type ExportPolicy struct {
@@ -3837,8 +3913,9 @@ func (policy *ExportPolicy) AssignProperties_From_ExportPolicy(source *v20210901
 
 	// Status
 	if source.Status != nil {
-		status := ExportPolicy_Status(*source.Status)
-		policy.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, exportPolicy_Status_Values)
+		policy.Status = &statusTemp
 	} else {
 		policy.Status = nil
 	}
@@ -3921,8 +3998,9 @@ func (policy *ExportPolicy_STATUS) AssignProperties_From_ExportPolicy_STATUS(sou
 
 	// Status
 	if source.Status != nil {
-		status := ExportPolicy_Status_STATUS(*source.Status)
-		policy.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, exportPolicy_Status_STATUS_Values)
+		policy.Status = &statusTemp
 	} else {
 		policy.Status = nil
 	}
@@ -4021,8 +4099,9 @@ func (rule *IPRule) AssignProperties_From_IPRule(source *v20210901s.IPRule) erro
 
 	// Action
 	if source.Action != nil {
-		action := IPRule_Action(*source.Action)
-		rule.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, iPRule_Action_Values)
+		rule.Action = &actionTemp
 	} else {
 		rule.Action = nil
 	}
@@ -4123,8 +4202,9 @@ func (rule *IPRule_STATUS) AssignProperties_From_IPRule_STATUS(source *v20210901
 
 	// Action
 	if source.Action != nil {
-		action := IPRule_Action_STATUS(*source.Action)
-		rule.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, iPRule_Action_STATUS_Values)
+		rule.Action = &actionTemp
 	} else {
 		rule.Action = nil
 	}
@@ -4407,12 +4487,24 @@ const (
 	NetworkRuleSet_DefaultAction_Deny  = NetworkRuleSet_DefaultAction("Deny")
 )
 
+// Mapping from string to NetworkRuleSet_DefaultAction
+var networkRuleSet_DefaultAction_Values = map[string]NetworkRuleSet_DefaultAction{
+	"allow": NetworkRuleSet_DefaultAction_Allow,
+	"deny":  NetworkRuleSet_DefaultAction_Deny,
+}
+
 type NetworkRuleSet_DefaultAction_STATUS string
 
 const (
 	NetworkRuleSet_DefaultAction_STATUS_Allow = NetworkRuleSet_DefaultAction_STATUS("Allow")
 	NetworkRuleSet_DefaultAction_STATUS_Deny  = NetworkRuleSet_DefaultAction_STATUS("Deny")
 )
+
+// Mapping from string to NetworkRuleSet_DefaultAction_STATUS
+var networkRuleSet_DefaultAction_STATUS_Values = map[string]NetworkRuleSet_DefaultAction_STATUS{
+	"allow": NetworkRuleSet_DefaultAction_STATUS_Allow,
+	"deny":  NetworkRuleSet_DefaultAction_STATUS_Deny,
+}
 
 // The quarantine policy for a container registry.
 type QuarantinePolicy struct {
@@ -4464,8 +4556,9 @@ func (policy *QuarantinePolicy) AssignProperties_From_QuarantinePolicy(source *v
 
 	// Status
 	if source.Status != nil {
-		status := QuarantinePolicy_Status(*source.Status)
-		policy.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, quarantinePolicy_Status_Values)
+		policy.Status = &statusTemp
 	} else {
 		policy.Status = nil
 	}
@@ -4548,8 +4641,9 @@ func (policy *QuarantinePolicy_STATUS) AssignProperties_From_QuarantinePolicy_ST
 
 	// Status
 	if source.Status != nil {
-		status := QuarantinePolicy_Status_STATUS(*source.Status)
-		policy.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, quarantinePolicy_Status_STATUS_Values)
+		policy.Status = &statusTemp
 	} else {
 		policy.Status = nil
 	}
@@ -4650,8 +4744,9 @@ func (policy *RetentionPolicy) AssignProperties_From_RetentionPolicy(source *v20
 
 	// Status
 	if source.Status != nil {
-		status := RetentionPolicy_Status(*source.Status)
-		policy.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, retentionPolicy_Status_Values)
+		policy.Status = &statusTemp
 	} else {
 		policy.Status = nil
 	}
@@ -4764,8 +4859,9 @@ func (policy *RetentionPolicy_STATUS) AssignProperties_From_RetentionPolicy_STAT
 
 	// Status
 	if source.Status != nil {
-		status := RetentionPolicy_Status_STATUS(*source.Status)
-		policy.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, retentionPolicy_Status_STATUS_Values)
+		policy.Status = &statusTemp
 	} else {
 		policy.Status = nil
 	}
@@ -4869,16 +4965,18 @@ func (policy *TrustPolicy) AssignProperties_From_TrustPolicy(source *v20210901s.
 
 	// Status
 	if source.Status != nil {
-		status := TrustPolicy_Status(*source.Status)
-		policy.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, trustPolicy_Status_Values)
+		policy.Status = &statusTemp
 	} else {
 		policy.Status = nil
 	}
 
 	// Type
 	if source.Type != nil {
-		typeVar := TrustPolicy_Type(*source.Type)
-		policy.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, trustPolicy_Type_Values)
+		policy.Type = &typeTemp
 	} else {
 		policy.Type = nil
 	}
@@ -4986,16 +5084,18 @@ func (policy *TrustPolicy_STATUS) AssignProperties_From_TrustPolicy_STATUS(sourc
 
 	// Status
 	if source.Status != nil {
-		status := TrustPolicy_Status_STATUS(*source.Status)
-		policy.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, trustPolicy_Status_STATUS_Values)
+		policy.Status = &statusTemp
 	} else {
 		policy.Status = nil
 	}
 
 	// Type
 	if source.Type != nil {
-		typeVar := TrustPolicy_Type_STATUS(*source.Type)
-		policy.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, trustPolicy_Type_STATUS_Values)
+		policy.Type = &typeTemp
 	} else {
 		policy.Type = nil
 	}
@@ -5151,6 +5251,12 @@ const (
 	ExportPolicy_Status_Enabled  = ExportPolicy_Status("enabled")
 )
 
+// Mapping from string to ExportPolicy_Status
+var exportPolicy_Status_Values = map[string]ExportPolicy_Status{
+	"disabled": ExportPolicy_Status_Disabled,
+	"enabled":  ExportPolicy_Status_Enabled,
+}
+
 type ExportPolicy_Status_STATUS string
 
 const (
@@ -5158,14 +5264,30 @@ const (
 	ExportPolicy_Status_STATUS_Enabled  = ExportPolicy_Status_STATUS("enabled")
 )
 
+// Mapping from string to ExportPolicy_Status_STATUS
+var exportPolicy_Status_STATUS_Values = map[string]ExportPolicy_Status_STATUS{
+	"disabled": ExportPolicy_Status_STATUS_Disabled,
+	"enabled":  ExportPolicy_Status_STATUS_Enabled,
+}
+
 // +kubebuilder:validation:Enum={"Allow"}
 type IPRule_Action string
 
 const IPRule_Action_Allow = IPRule_Action("Allow")
 
+// Mapping from string to IPRule_Action
+var iPRule_Action_Values = map[string]IPRule_Action{
+	"allow": IPRule_Action_Allow,
+}
+
 type IPRule_Action_STATUS string
 
 const IPRule_Action_STATUS_Allow = IPRule_Action_STATUS("Allow")
+
+// Mapping from string to IPRule_Action_STATUS
+var iPRule_Action_STATUS_Values = map[string]IPRule_Action_STATUS{
+	"allow": IPRule_Action_STATUS_Allow,
+}
 
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type QuarantinePolicy_Status string
@@ -5175,12 +5297,24 @@ const (
 	QuarantinePolicy_Status_Enabled  = QuarantinePolicy_Status("enabled")
 )
 
+// Mapping from string to QuarantinePolicy_Status
+var quarantinePolicy_Status_Values = map[string]QuarantinePolicy_Status{
+	"disabled": QuarantinePolicy_Status_Disabled,
+	"enabled":  QuarantinePolicy_Status_Enabled,
+}
+
 type QuarantinePolicy_Status_STATUS string
 
 const (
 	QuarantinePolicy_Status_STATUS_Disabled = QuarantinePolicy_Status_STATUS("disabled")
 	QuarantinePolicy_Status_STATUS_Enabled  = QuarantinePolicy_Status_STATUS("enabled")
 )
+
+// Mapping from string to QuarantinePolicy_Status_STATUS
+var quarantinePolicy_Status_STATUS_Values = map[string]QuarantinePolicy_Status_STATUS{
+	"disabled": QuarantinePolicy_Status_STATUS_Disabled,
+	"enabled":  QuarantinePolicy_Status_STATUS_Enabled,
+}
 
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type RetentionPolicy_Status string
@@ -5190,12 +5324,24 @@ const (
 	RetentionPolicy_Status_Enabled  = RetentionPolicy_Status("enabled")
 )
 
+// Mapping from string to RetentionPolicy_Status
+var retentionPolicy_Status_Values = map[string]RetentionPolicy_Status{
+	"disabled": RetentionPolicy_Status_Disabled,
+	"enabled":  RetentionPolicy_Status_Enabled,
+}
+
 type RetentionPolicy_Status_STATUS string
 
 const (
 	RetentionPolicy_Status_STATUS_Disabled = RetentionPolicy_Status_STATUS("disabled")
 	RetentionPolicy_Status_STATUS_Enabled  = RetentionPolicy_Status_STATUS("enabled")
 )
+
+// Mapping from string to RetentionPolicy_Status_STATUS
+var retentionPolicy_Status_STATUS_Values = map[string]RetentionPolicy_Status_STATUS{
+	"disabled": RetentionPolicy_Status_STATUS_Disabled,
+	"enabled":  RetentionPolicy_Status_STATUS_Enabled,
+}
 
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type TrustPolicy_Status string
@@ -5205,6 +5351,12 @@ const (
 	TrustPolicy_Status_Enabled  = TrustPolicy_Status("enabled")
 )
 
+// Mapping from string to TrustPolicy_Status
+var trustPolicy_Status_Values = map[string]TrustPolicy_Status{
+	"disabled": TrustPolicy_Status_Disabled,
+	"enabled":  TrustPolicy_Status_Enabled,
+}
+
 type TrustPolicy_Status_STATUS string
 
 const (
@@ -5212,14 +5364,30 @@ const (
 	TrustPolicy_Status_STATUS_Enabled  = TrustPolicy_Status_STATUS("enabled")
 )
 
+// Mapping from string to TrustPolicy_Status_STATUS
+var trustPolicy_Status_STATUS_Values = map[string]TrustPolicy_Status_STATUS{
+	"disabled": TrustPolicy_Status_STATUS_Disabled,
+	"enabled":  TrustPolicy_Status_STATUS_Enabled,
+}
+
 // +kubebuilder:validation:Enum={"Notary"}
 type TrustPolicy_Type string
 
 const TrustPolicy_Type_Notary = TrustPolicy_Type("Notary")
 
+// Mapping from string to TrustPolicy_Type
+var trustPolicy_Type_Values = map[string]TrustPolicy_Type{
+	"notary": TrustPolicy_Type_Notary,
+}
+
 type TrustPolicy_Type_STATUS string
 
 const TrustPolicy_Type_STATUS_Notary = TrustPolicy_Type_STATUS("Notary")
+
+// Mapping from string to TrustPolicy_Type_STATUS
+var trustPolicy_Type_STATUS_Values = map[string]TrustPolicy_Type_STATUS{
+	"notary": TrustPolicy_Type_STATUS_Notary,
+}
 
 func init() {
 	SchemeBuilder.Register(&Registry{}, &RegistryList{})

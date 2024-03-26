@@ -934,8 +934,9 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *v20200930s.Disk_S
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
-		hyperVGeneration := DiskProperties_HyperVGeneration(*source.HyperVGeneration)
-		disk.HyperVGeneration = &hyperVGeneration
+		hyperVGeneration := *source.HyperVGeneration
+		hyperVGenerationTemp := genruntime.ToEnum(hyperVGeneration, diskProperties_HyperVGeneration_Values)
+		disk.HyperVGeneration = &hyperVGenerationTemp
 	} else {
 		disk.HyperVGeneration = nil
 	}
@@ -948,16 +949,18 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *v20200930s.Disk_S
 
 	// NetworkAccessPolicy
 	if source.NetworkAccessPolicy != nil {
-		networkAccessPolicy := NetworkAccessPolicy(*source.NetworkAccessPolicy)
-		disk.NetworkAccessPolicy = &networkAccessPolicy
+		networkAccessPolicy := *source.NetworkAccessPolicy
+		networkAccessPolicyTemp := genruntime.ToEnum(networkAccessPolicy, networkAccessPolicy_Values)
+		disk.NetworkAccessPolicy = &networkAccessPolicyTemp
 	} else {
 		disk.NetworkAccessPolicy = nil
 	}
 
 	// OsType
 	if source.OsType != nil {
-		osType := DiskProperties_OsType(*source.OsType)
-		disk.OsType = &osType
+		osType := *source.OsType
+		osTypeTemp := genruntime.ToEnum(osType, diskProperties_OsType_Values)
+		disk.OsType = &osTypeTemp
 	} else {
 		disk.OsType = nil
 	}
@@ -1862,8 +1865,9 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *v20200930s.Di
 
 	// DiskState
 	if source.DiskState != nil {
-		diskState := DiskState_STATUS(*source.DiskState)
-		disk.DiskState = &diskState
+		diskState := *source.DiskState
+		diskStateTemp := genruntime.ToEnum(diskState, diskState_STATUS_Values)
+		disk.DiskState = &diskStateTemp
 	} else {
 		disk.DiskState = nil
 	}
@@ -1906,8 +1910,9 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *v20200930s.Di
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
-		hyperVGeneration := DiskProperties_HyperVGeneration_STATUS(*source.HyperVGeneration)
-		disk.HyperVGeneration = &hyperVGeneration
+		hyperVGeneration := *source.HyperVGeneration
+		hyperVGenerationTemp := genruntime.ToEnum(hyperVGeneration, diskProperties_HyperVGeneration_STATUS_Values)
+		disk.HyperVGeneration = &hyperVGenerationTemp
 	} else {
 		disk.HyperVGeneration = nil
 	}
@@ -1932,16 +1937,18 @@ func (disk *Disk_STATUS) AssignProperties_From_Disk_STATUS(source *v20200930s.Di
 
 	// NetworkAccessPolicy
 	if source.NetworkAccessPolicy != nil {
-		networkAccessPolicy := NetworkAccessPolicy_STATUS(*source.NetworkAccessPolicy)
-		disk.NetworkAccessPolicy = &networkAccessPolicy
+		networkAccessPolicy := *source.NetworkAccessPolicy
+		networkAccessPolicyTemp := genruntime.ToEnum(networkAccessPolicy, networkAccessPolicy_STATUS_Values)
+		disk.NetworkAccessPolicy = &networkAccessPolicyTemp
 	} else {
 		disk.NetworkAccessPolicy = nil
 	}
 
 	// OsType
 	if source.OsType != nil {
-		osType := DiskProperties_OsType_STATUS(*source.OsType)
-		disk.OsType = &osType
+		osType := *source.OsType
+		osTypeTemp := genruntime.ToEnum(osType, diskProperties_OsType_STATUS_Values)
+		disk.OsType = &osTypeTemp
 	} else {
 		disk.OsType = nil
 	}
@@ -2400,8 +2407,9 @@ func (data *CreationData) AssignProperties_From_CreationData(source *v20200930s.
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := CreationData_CreateOption(*source.CreateOption)
-		data.CreateOption = &createOption
+		createOption := *source.CreateOption
+		createOptionTemp := genruntime.ToEnum(createOption, creationData_CreateOption_Values)
+		data.CreateOption = &createOptionTemp
 	} else {
 		data.CreateOption = nil
 	}
@@ -2702,8 +2710,9 @@ func (data *CreationData_STATUS) AssignProperties_From_CreationData_STATUS(sourc
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := CreationData_CreateOption_STATUS(*source.CreateOption)
-		data.CreateOption = &createOption
+		createOption := *source.CreateOption
+		createOptionTemp := genruntime.ToEnum(createOption, creationData_CreateOption_STATUS_Values)
+		data.CreateOption = &createOptionTemp
 	} else {
 		data.CreateOption = nil
 	}
@@ -2828,12 +2837,24 @@ const (
 	DiskProperties_HyperVGeneration_V2 = DiskProperties_HyperVGeneration("V2")
 )
 
+// Mapping from string to DiskProperties_HyperVGeneration
+var diskProperties_HyperVGeneration_Values = map[string]DiskProperties_HyperVGeneration{
+	"v1": DiskProperties_HyperVGeneration_V1,
+	"v2": DiskProperties_HyperVGeneration_V2,
+}
+
 type DiskProperties_HyperVGeneration_STATUS string
 
 const (
 	DiskProperties_HyperVGeneration_STATUS_V1 = DiskProperties_HyperVGeneration_STATUS("V1")
 	DiskProperties_HyperVGeneration_STATUS_V2 = DiskProperties_HyperVGeneration_STATUS("V2")
 )
+
+// Mapping from string to DiskProperties_HyperVGeneration_STATUS
+var diskProperties_HyperVGeneration_STATUS_Values = map[string]DiskProperties_HyperVGeneration_STATUS{
+	"v1": DiskProperties_HyperVGeneration_STATUS_V1,
+	"v2": DiskProperties_HyperVGeneration_STATUS_V2,
+}
 
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type DiskProperties_OsType string
@@ -2843,12 +2864,24 @@ const (
 	DiskProperties_OsType_Windows = DiskProperties_OsType("Windows")
 )
 
+// Mapping from string to DiskProperties_OsType
+var diskProperties_OsType_Values = map[string]DiskProperties_OsType{
+	"linux":   DiskProperties_OsType_Linux,
+	"windows": DiskProperties_OsType_Windows,
+}
+
 type DiskProperties_OsType_STATUS string
 
 const (
 	DiskProperties_OsType_STATUS_Linux   = DiskProperties_OsType_STATUS("Linux")
 	DiskProperties_OsType_STATUS_Windows = DiskProperties_OsType_STATUS("Windows")
 )
+
+// Mapping from string to DiskProperties_OsType_STATUS
+var diskProperties_OsType_STATUS_Values = map[string]DiskProperties_OsType_STATUS{
+	"linux":   DiskProperties_OsType_STATUS_Linux,
+	"windows": DiskProperties_OsType_STATUS_Windows,
+}
 
 // The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
 type DiskSku struct {
@@ -2900,8 +2933,9 @@ func (diskSku *DiskSku) AssignProperties_From_DiskSku(source *v20200930s.DiskSku
 
 	// Name
 	if source.Name != nil {
-		name := DiskSku_Name(*source.Name)
-		diskSku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, diskSku_Name_Values)
+		diskSku.Name = &nameTemp
 	} else {
 		diskSku.Name = nil
 	}
@@ -2993,8 +3027,9 @@ func (diskSku *DiskSku_STATUS) AssignProperties_From_DiskSku_STATUS(source *v202
 
 	// Name
 	if source.Name != nil {
-		name := DiskSku_Name_STATUS(*source.Name)
-		diskSku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, diskSku_Name_STATUS_Values)
+		diskSku.Name = &nameTemp
 	} else {
 		diskSku.Name = nil
 	}
@@ -3044,6 +3079,16 @@ const (
 	DiskState_STATUS_Reserved      = DiskState_STATUS("Reserved")
 	DiskState_STATUS_Unattached    = DiskState_STATUS("Unattached")
 )
+
+// Mapping from string to DiskState_STATUS
+var diskState_STATUS_Values = map[string]DiskState_STATUS{
+	"activesas":     DiskState_STATUS_ActiveSAS,
+	"activeupload":  DiskState_STATUS_ActiveUpload,
+	"attached":      DiskState_STATUS_Attached,
+	"readytoupload": DiskState_STATUS_ReadyToUpload,
+	"reserved":      DiskState_STATUS_Reserved,
+	"unattached":    DiskState_STATUS_Unattached,
+}
 
 // Encryption at rest settings for disk or snapshot
 type Encryption struct {
@@ -3118,8 +3163,9 @@ func (encryption *Encryption) AssignProperties_From_Encryption(source *v20200930
 
 	// Type
 	if source.Type != nil {
-		typeVar := EncryptionType(*source.Type)
-		encryption.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, encryptionType_Values)
+		encryption.Type = &typeTemp
 	} else {
 		encryption.Type = nil
 	}
@@ -3230,8 +3276,9 @@ func (encryption *Encryption_STATUS) AssignProperties_From_Encryption_STATUS(sou
 
 	// Type
 	if source.Type != nil {
-		typeVar := EncryptionType_STATUS(*source.Type)
-		encryption.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, encryptionType_STATUS_Values)
+		encryption.Type = &typeTemp
 	} else {
 		encryption.Type = nil
 	}
@@ -3674,8 +3721,9 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType(*source.Type)
-		location.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, extendedLocationType_Values)
+		location.Type = &typeTemp
 	} else {
 		location.Type = nil
 	}
@@ -3776,8 +3824,9 @@ func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType_STATUS(*source.Type)
-		location.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, extendedLocationType_STATUS_Values)
+		location.Type = &typeTemp
 	} else {
 		location.Type = nil
 	}
@@ -3823,6 +3872,13 @@ const (
 	NetworkAccessPolicy_DenyAll      = NetworkAccessPolicy("DenyAll")
 )
 
+// Mapping from string to NetworkAccessPolicy
+var networkAccessPolicy_Values = map[string]NetworkAccessPolicy{
+	"allowall":     NetworkAccessPolicy_AllowAll,
+	"allowprivate": NetworkAccessPolicy_AllowPrivate,
+	"denyall":      NetworkAccessPolicy_DenyAll,
+}
+
 // Policy for accessing the disk via network.
 type NetworkAccessPolicy_STATUS string
 
@@ -3831,6 +3887,13 @@ const (
 	NetworkAccessPolicy_STATUS_AllowPrivate = NetworkAccessPolicy_STATUS("AllowPrivate")
 	NetworkAccessPolicy_STATUS_DenyAll      = NetworkAccessPolicy_STATUS("DenyAll")
 )
+
+// Mapping from string to NetworkAccessPolicy_STATUS
+var networkAccessPolicy_STATUS_Values = map[string]NetworkAccessPolicy_STATUS{
+	"allowall":     NetworkAccessPolicy_STATUS_AllowAll,
+	"allowprivate": NetworkAccessPolicy_STATUS_AllowPrivate,
+	"denyall":      NetworkAccessPolicy_STATUS_DenyAll,
+}
 
 // Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
 type PurchasePlan struct {
@@ -4168,6 +4231,17 @@ const (
 	CreationData_CreateOption_Upload    = CreationData_CreateOption("Upload")
 )
 
+// Mapping from string to CreationData_CreateOption
+var creationData_CreateOption_Values = map[string]CreationData_CreateOption{
+	"attach":    CreationData_CreateOption_Attach,
+	"copy":      CreationData_CreateOption_Copy,
+	"empty":     CreationData_CreateOption_Empty,
+	"fromimage": CreationData_CreateOption_FromImage,
+	"import":    CreationData_CreateOption_Import,
+	"restore":   CreationData_CreateOption_Restore,
+	"upload":    CreationData_CreateOption_Upload,
+}
+
 type CreationData_CreateOption_STATUS string
 
 const (
@@ -4179,6 +4253,17 @@ const (
 	CreationData_CreateOption_STATUS_Restore   = CreationData_CreateOption_STATUS("Restore")
 	CreationData_CreateOption_STATUS_Upload    = CreationData_CreateOption_STATUS("Upload")
 )
+
+// Mapping from string to CreationData_CreateOption_STATUS
+var creationData_CreateOption_STATUS_Values = map[string]CreationData_CreateOption_STATUS{
+	"attach":    CreationData_CreateOption_STATUS_Attach,
+	"copy":      CreationData_CreateOption_STATUS_Copy,
+	"empty":     CreationData_CreateOption_STATUS_Empty,
+	"fromimage": CreationData_CreateOption_STATUS_FromImage,
+	"import":    CreationData_CreateOption_STATUS_Import,
+	"restore":   CreationData_CreateOption_STATUS_Restore,
+	"upload":    CreationData_CreateOption_STATUS_Upload,
+}
 
 // Encryption settings for one disk volume.
 type EncryptionSettingsElement struct {
@@ -4492,6 +4577,13 @@ const (
 	EncryptionType_EncryptionAtRestWithPlatformKey             = EncryptionType("EncryptionAtRestWithPlatformKey")
 )
 
+// Mapping from string to EncryptionType
+var encryptionType_Values = map[string]EncryptionType{
+	"encryptionatrestwithcustomerkey":             EncryptionType_EncryptionAtRestWithCustomerKey,
+	"encryptionatrestwithplatformandcustomerkeys": EncryptionType_EncryptionAtRestWithPlatformAndCustomerKeys,
+	"encryptionatrestwithplatformkey":             EncryptionType_EncryptionAtRestWithPlatformKey,
+}
+
 // The type of key used to encrypt the data of the disk.
 type EncryptionType_STATUS string
 
@@ -4500,6 +4592,13 @@ const (
 	EncryptionType_STATUS_EncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType_STATUS("EncryptionAtRestWithPlatformAndCustomerKeys")
 	EncryptionType_STATUS_EncryptionAtRestWithPlatformKey             = EncryptionType_STATUS("EncryptionAtRestWithPlatformKey")
 )
+
+// Mapping from string to EncryptionType_STATUS
+var encryptionType_STATUS_Values = map[string]EncryptionType_STATUS{
+	"encryptionatrestwithcustomerkey":             EncryptionType_STATUS_EncryptionAtRestWithCustomerKey,
+	"encryptionatrestwithplatformandcustomerkeys": EncryptionType_STATUS_EncryptionAtRestWithPlatformAndCustomerKeys,
+	"encryptionatrestwithplatformkey":             EncryptionType_STATUS_EncryptionAtRestWithPlatformKey,
+}
 
 // The source image used for creating the disk.
 type ImageDiskReference struct {

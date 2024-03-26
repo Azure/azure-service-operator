@@ -560,8 +560,9 @@ func (policy *Servers_Databases_SecurityAlertPolicy_Spec) AssignProperties_From_
 
 	// State
 	if source.State != nil {
-		state := DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State(*source.State)
-		policy.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, databaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_Values)
+		policy.State = &stateTemp
 	} else {
 		policy.State = nil
 	}
@@ -919,8 +920,9 @@ func (policy *Servers_Databases_SecurityAlertPolicy_STATUS) AssignProperties_Fro
 
 	// State
 	if source.State != nil {
-		state := DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS(*source.State)
-		policy.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, databaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_Values)
+		policy.State = &stateTemp
 	} else {
 		policy.State = nil
 	}
@@ -1026,12 +1028,24 @@ const (
 	DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_Enabled  = DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State("Enabled")
 )
 
+// Mapping from string to DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State
+var databaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_Values = map[string]DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State{
+	"disabled": DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_Disabled,
+	"enabled":  DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_Enabled,
+}
+
 type DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS string
 
 const (
 	DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_Disabled = DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS("Disabled")
 	DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_Enabled  = DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS("Enabled")
 )
+
+// Mapping from string to DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS
+var databaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_Values = map[string]DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS{
+	"disabled": DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_Disabled,
+	"enabled":  DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS_Enabled,
+}
 
 func init() {
 	SchemeBuilder.Register(&ServersDatabasesSecurityAlertPolicy{}, &ServersDatabasesSecurityAlertPolicyList{})

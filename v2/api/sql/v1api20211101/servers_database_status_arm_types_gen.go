@@ -245,6 +245,12 @@ const (
 	DatabaseIdentity_Type_STATUS_UserAssigned = DatabaseIdentity_Type_STATUS("UserAssigned")
 )
 
+// Mapping from string to DatabaseIdentity_Type_STATUS
+var databaseIdentity_Type_STATUS_Values = map[string]DatabaseIdentity_Type_STATUS{
+	"none":         DatabaseIdentity_Type_STATUS_None,
+	"userassigned": DatabaseIdentity_Type_STATUS_UserAssigned,
+}
+
 // Azure Active Directory identity configuration for a resource.
 type DatabaseUserIdentity_STATUS_ARM struct {
 	// ClientId: The Azure Active Directory client id.

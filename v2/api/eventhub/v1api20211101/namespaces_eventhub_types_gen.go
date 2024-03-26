@@ -897,8 +897,9 @@ func (eventhub *Namespaces_Eventhub_STATUS) AssignProperties_From_Namespaces_Eve
 
 	// Status
 	if source.Status != nil {
-		status := Namespaces_Eventhub_Properties_Status_STATUS(*source.Status)
-		eventhub.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, namespaces_Eventhub_Properties_Status_STATUS_Values)
+		eventhub.Status = &statusTemp
 	} else {
 		eventhub.Status = nil
 	}
@@ -1160,8 +1161,9 @@ func (description *CaptureDescription) AssignProperties_From_CaptureDescription(
 
 	// Encoding
 	if source.Encoding != nil {
-		encoding := CaptureDescription_Encoding(*source.Encoding)
-		description.Encoding = &encoding
+		encoding := *source.Encoding
+		encodingTemp := genruntime.ToEnum(encoding, captureDescription_Encoding_Values)
+		description.Encoding = &encodingTemp
 	} else {
 		description.Encoding = nil
 	}
@@ -1399,8 +1401,9 @@ func (description *CaptureDescription_STATUS) AssignProperties_From_CaptureDescr
 
 	// Encoding
 	if source.Encoding != nil {
-		encoding := CaptureDescription_Encoding_STATUS(*source.Encoding)
-		description.Encoding = &encoding
+		encoding := *source.Encoding
+		encodingTemp := genruntime.ToEnum(encoding, captureDescription_Encoding_STATUS_Values)
+		description.Encoding = &encodingTemp
 	} else {
 		description.Encoding = nil
 	}
@@ -1495,6 +1498,19 @@ const (
 	Namespaces_Eventhub_Properties_Status_STATUS_Unknown         = Namespaces_Eventhub_Properties_Status_STATUS("Unknown")
 )
 
+// Mapping from string to Namespaces_Eventhub_Properties_Status_STATUS
+var namespaces_Eventhub_Properties_Status_STATUS_Values = map[string]Namespaces_Eventhub_Properties_Status_STATUS{
+	"active":          Namespaces_Eventhub_Properties_Status_STATUS_Active,
+	"creating":        Namespaces_Eventhub_Properties_Status_STATUS_Creating,
+	"deleting":        Namespaces_Eventhub_Properties_Status_STATUS_Deleting,
+	"disabled":        Namespaces_Eventhub_Properties_Status_STATUS_Disabled,
+	"receivedisabled": Namespaces_Eventhub_Properties_Status_STATUS_ReceiveDisabled,
+	"renaming":        Namespaces_Eventhub_Properties_Status_STATUS_Renaming,
+	"restoring":       Namespaces_Eventhub_Properties_Status_STATUS_Restoring,
+	"senddisabled":    Namespaces_Eventhub_Properties_Status_STATUS_SendDisabled,
+	"unknown":         Namespaces_Eventhub_Properties_Status_STATUS_Unknown,
+}
+
 // +kubebuilder:validation:Enum={"Avro","AvroDeflate"}
 type CaptureDescription_Encoding string
 
@@ -1503,12 +1519,24 @@ const (
 	CaptureDescription_Encoding_AvroDeflate = CaptureDescription_Encoding("AvroDeflate")
 )
 
+// Mapping from string to CaptureDescription_Encoding
+var captureDescription_Encoding_Values = map[string]CaptureDescription_Encoding{
+	"avro":        CaptureDescription_Encoding_Avro,
+	"avrodeflate": CaptureDescription_Encoding_AvroDeflate,
+}
+
 type CaptureDescription_Encoding_STATUS string
 
 const (
 	CaptureDescription_Encoding_STATUS_Avro        = CaptureDescription_Encoding_STATUS("Avro")
 	CaptureDescription_Encoding_STATUS_AvroDeflate = CaptureDescription_Encoding_STATUS("AvroDeflate")
 )
+
+// Mapping from string to CaptureDescription_Encoding_STATUS
+var captureDescription_Encoding_STATUS_Values = map[string]CaptureDescription_Encoding_STATUS{
+	"avro":        CaptureDescription_Encoding_STATUS_Avro,
+	"avrodeflate": CaptureDescription_Encoding_STATUS_AvroDeflate,
+}
 
 // Capture storage details for capture description
 type Destination struct {

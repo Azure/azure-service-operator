@@ -1067,8 +1067,9 @@ func (rule *ManagementPolicyRule) AssignProperties_From_ManagementPolicyRule(sou
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagementPolicyRule_Type(*source.Type)
-		rule.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managementPolicyRule_Type_Values)
+		rule.Type = &typeTemp
 	} else {
 		rule.Type = nil
 	}
@@ -1215,8 +1216,9 @@ func (rule *ManagementPolicyRule_STATUS) AssignProperties_From_ManagementPolicyR
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagementPolicyRule_Type_STATUS(*source.Type)
-		rule.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, managementPolicyRule_Type_STATUS_Values)
+		rule.Type = &typeTemp
 	} else {
 		rule.Type = nil
 	}
@@ -1547,9 +1549,19 @@ type ManagementPolicyRule_Type string
 
 const ManagementPolicyRule_Type_Lifecycle = ManagementPolicyRule_Type("Lifecycle")
 
+// Mapping from string to ManagementPolicyRule_Type
+var managementPolicyRule_Type_Values = map[string]ManagementPolicyRule_Type{
+	"lifecycle": ManagementPolicyRule_Type_Lifecycle,
+}
+
 type ManagementPolicyRule_Type_STATUS string
 
 const ManagementPolicyRule_Type_STATUS_Lifecycle = ManagementPolicyRule_Type_STATUS("Lifecycle")
+
+// Mapping from string to ManagementPolicyRule_Type_STATUS
+var managementPolicyRule_Type_STATUS_Values = map[string]ManagementPolicyRule_Type_STATUS{
+	"lifecycle": ManagementPolicyRule_Type_STATUS_Lifecycle,
+}
 
 // Actions are applied to the filtered blobs when the execution condition is met.
 type ManagementPolicyAction struct {

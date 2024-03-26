@@ -572,8 +572,9 @@ func (versionSet *Service_ApiVersionSet_Spec) AssignProperties_From_Service_ApiV
 
 	// VersioningScheme
 	if source.VersioningScheme != nil {
-		versioningScheme := ApiVersionSetContractProperties_VersioningScheme(*source.VersioningScheme)
-		versionSet.VersioningScheme = &versioningScheme
+		versioningScheme := *source.VersioningScheme
+		versioningSchemeTemp := genruntime.ToEnum(versioningScheme, apiVersionSetContractProperties_VersioningScheme_Values)
+		versionSet.VersioningScheme = &versioningSchemeTemp
 	} else {
 		versionSet.VersioningScheme = nil
 	}
@@ -849,8 +850,9 @@ func (versionSet *Service_ApiVersionSet_STATUS) AssignProperties_From_Service_Ap
 
 	// VersioningScheme
 	if source.VersioningScheme != nil {
-		versioningScheme := ApiVersionSetContractProperties_VersioningScheme_STATUS(*source.VersioningScheme)
-		versionSet.VersioningScheme = &versioningScheme
+		versioningScheme := *source.VersioningScheme
+		versioningSchemeTemp := genruntime.ToEnum(versioningScheme, apiVersionSetContractProperties_VersioningScheme_STATUS_Values)
+		versionSet.VersioningScheme = &versioningSchemeTemp
 	} else {
 		versionSet.VersioningScheme = nil
 	}
@@ -916,6 +918,13 @@ const (
 	ApiVersionSetContractProperties_VersioningScheme_Segment = ApiVersionSetContractProperties_VersioningScheme("Segment")
 )
 
+// Mapping from string to ApiVersionSetContractProperties_VersioningScheme
+var apiVersionSetContractProperties_VersioningScheme_Values = map[string]ApiVersionSetContractProperties_VersioningScheme{
+	"header":  ApiVersionSetContractProperties_VersioningScheme_Header,
+	"query":   ApiVersionSetContractProperties_VersioningScheme_Query,
+	"segment": ApiVersionSetContractProperties_VersioningScheme_Segment,
+}
+
 type ApiVersionSetContractProperties_VersioningScheme_STATUS string
 
 const (
@@ -923,6 +932,13 @@ const (
 	ApiVersionSetContractProperties_VersioningScheme_STATUS_Query   = ApiVersionSetContractProperties_VersioningScheme_STATUS("Query")
 	ApiVersionSetContractProperties_VersioningScheme_STATUS_Segment = ApiVersionSetContractProperties_VersioningScheme_STATUS("Segment")
 )
+
+// Mapping from string to ApiVersionSetContractProperties_VersioningScheme_STATUS
+var apiVersionSetContractProperties_VersioningScheme_STATUS_Values = map[string]ApiVersionSetContractProperties_VersioningScheme_STATUS{
+	"header":  ApiVersionSetContractProperties_VersioningScheme_STATUS_Header,
+	"query":   ApiVersionSetContractProperties_VersioningScheme_STATUS_Query,
+	"segment": ApiVersionSetContractProperties_VersioningScheme_STATUS_Segment,
+}
 
 func init() {
 	SchemeBuilder.Register(&ApiVersionSet{}, &ApiVersionSetList{})

@@ -97,23 +97,37 @@ func SimpleAssignmentWithErr(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.A
 // assertions on interface types).
 //
 //	var <lhsVar> interface{} = <rhs>
-func AssignToInterface(lhsVar string, rhs dst.Expr) dst.Stmt {
+func AssignToInterface(lhsVar string, rhs dst.Expr) dst.Decl {
 	return NewVariableAssignmentWithType(lhsVar, dst.NewIdent("any"), rhs)
 }
 
-// NewVariableAssignmentWithType creates a new statement with a variable is declared:
+// NewVariableAssignmentWithType creates a new statement where a variable is declared with an explicit type.
 // var <varName> <varType> = <varValue>
-func NewVariableAssignmentWithType(varName string, varType dst.Expr, value dst.Expr) dst.Stmt {
-	return &dst.DeclStmt{
-		Decl: &dst.GenDecl{
-			Tok: token.VAR,
-			Specs: []dst.Spec{
-				&dst.ValueSpec{
-					Names: []*dst.Ident{dst.NewIdent(varName)},
-					Type:  varType,
-					Values: []dst.Expr{
-						dst.Clone(value).(dst.Expr),
-					},
+func NewVariableAssignmentWithType(varName string, varType dst.Expr, value dst.Expr) dst.Decl {
+	return &dst.GenDecl{
+		Tok: token.VAR,
+		Specs: []dst.Spec{
+			&dst.ValueSpec{
+				Names: []*dst.Ident{dst.NewIdent(varName)},
+				Type:  varType,
+				Values: []dst.Expr{
+					dst.Clone(value).(dst.Expr),
+				},
+			},
+		},
+	}
+}
+
+// NewVariableAssignmentWithType creates a new statement where a variable is declared with an implicit type.
+// var <varName> <varType> = <varValue>
+func NewVariableAssignment(varName string, value dst.Expr) dst.Decl {
+	return &dst.GenDecl{
+		Tok: token.VAR,
+		Specs: []dst.Spec{
+			&dst.ValueSpec{
+				Names: []*dst.Ident{dst.NewIdent(varName)},
+				Values: []dst.Expr{
+					dst.Clone(value).(dst.Expr),
 				},
 			},
 		},

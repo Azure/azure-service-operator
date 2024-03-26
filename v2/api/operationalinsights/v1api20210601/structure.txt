@@ -37,12 +37,12 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601
 │   │   ├── Sku: *Object (2 properties)
 │   │   │   ├── CapacityReservationLevel: *Enum (8 values)
 │   │   │   │   ├── 100
-│   │   │   │   ├── 1000
 │   │   │   │   ├── 200
-│   │   │   │   ├── 2000
 │   │   │   │   ├── 300
 │   │   │   │   ├── 400
 │   │   │   │   ├── 500
+│   │   │   │   ├── 1000
+│   │   │   │   ├── 2000
 │   │   │   │   └── 5000
 │   │   │   └── Name: *Enum (8 values)
 │   │   │       ├── "CapacityReservation"
@@ -93,12 +93,12 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601
 │       ├── Sku: *Object (3 properties)
 │       │   ├── CapacityReservationLevel: *Enum (8 values)
 │       │   │   ├── 100
-│       │   │   ├── 1000
 │       │   │   ├── 200
-│       │   │   ├── 2000
 │       │   │   ├── 300
 │       │   │   ├── 400
 │       │   │   ├── 500
+│       │   │   ├── 1000
+│       │   │   ├── 2000
 │       │   │   └── 5000
 │       │   ├── LastSkuUpdate: *string
 │       │   └── Name: *Enum (8 values)
@@ -159,12 +159,12 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601
 │   │   ├── Sku: *Object (3 properties)
 │   │   │   ├── CapacityReservationLevel: *Enum (8 values)
 │   │   │   │   ├── 100
-│   │   │   │   ├── 1000
 │   │   │   │   ├── 200
-│   │   │   │   ├── 2000
 │   │   │   │   ├── 300
 │   │   │   │   ├── 400
 │   │   │   │   ├── 500
+│   │   │   │   ├── 1000
+│   │   │   │   ├── 2000
 │   │   │   │   └── 5000
 │   │   │   ├── LastSkuUpdate: *string
 │   │   │   └── Name: *Enum (8 values)
@@ -218,12 +218,12 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601
     │   ├── Sku: *Object (2 properties)
     │   │   ├── CapacityReservationLevel: *Enum (8 values)
     │   │   │   ├── 100
-    │   │   │   ├── 1000
     │   │   │   ├── 200
-    │   │   │   ├── 2000
     │   │   │   ├── 300
     │   │   │   ├── 400
     │   │   │   ├── 500
+    │   │   │   ├── 1000
+    │   │   │   ├── 2000
     │   │   │   └── 5000
     │   │   └── Name: *Enum (8 values)
     │   │       ├── "CapacityReservation"

@@ -847,8 +847,9 @@ func (entry *ScheduleEntry) AssignProperties_From_ScheduleEntry(source *v2023040
 
 	// DayOfWeek
 	if source.DayOfWeek != nil {
-		dayOfWeek := ScheduleEntry_DayOfWeek(*source.DayOfWeek)
-		entry.DayOfWeek = &dayOfWeek
+		dayOfWeek := *source.DayOfWeek
+		dayOfWeekTemp := genruntime.ToEnum(dayOfWeek, scheduleEntry_DayOfWeek_Values)
+		entry.DayOfWeek = &dayOfWeekTemp
 	} else {
 		entry.DayOfWeek = nil
 	}
@@ -967,8 +968,9 @@ func (entry *ScheduleEntry_STATUS) AssignProperties_From_ScheduleEntry_STATUS(so
 
 	// DayOfWeek
 	if source.DayOfWeek != nil {
-		dayOfWeek := ScheduleEntry_DayOfWeek_STATUS(*source.DayOfWeek)
-		entry.DayOfWeek = &dayOfWeek
+		dayOfWeek := *source.DayOfWeek
+		dayOfWeekTemp := genruntime.ToEnum(dayOfWeek, scheduleEntry_DayOfWeek_STATUS_Values)
+		entry.DayOfWeek = &dayOfWeekTemp
 	} else {
 		entry.DayOfWeek = nil
 	}
@@ -1028,6 +1030,19 @@ const (
 	ScheduleEntry_DayOfWeek_Weekend   = ScheduleEntry_DayOfWeek("Weekend")
 )
 
+// Mapping from string to ScheduleEntry_DayOfWeek
+var scheduleEntry_DayOfWeek_Values = map[string]ScheduleEntry_DayOfWeek{
+	"everyday":  ScheduleEntry_DayOfWeek_Everyday,
+	"friday":    ScheduleEntry_DayOfWeek_Friday,
+	"monday":    ScheduleEntry_DayOfWeek_Monday,
+	"saturday":  ScheduleEntry_DayOfWeek_Saturday,
+	"sunday":    ScheduleEntry_DayOfWeek_Sunday,
+	"thursday":  ScheduleEntry_DayOfWeek_Thursday,
+	"tuesday":   ScheduleEntry_DayOfWeek_Tuesday,
+	"wednesday": ScheduleEntry_DayOfWeek_Wednesday,
+	"weekend":   ScheduleEntry_DayOfWeek_Weekend,
+}
+
 type ScheduleEntry_DayOfWeek_STATUS string
 
 const (
@@ -1041,6 +1056,19 @@ const (
 	ScheduleEntry_DayOfWeek_STATUS_Wednesday = ScheduleEntry_DayOfWeek_STATUS("Wednesday")
 	ScheduleEntry_DayOfWeek_STATUS_Weekend   = ScheduleEntry_DayOfWeek_STATUS("Weekend")
 )
+
+// Mapping from string to ScheduleEntry_DayOfWeek_STATUS
+var scheduleEntry_DayOfWeek_STATUS_Values = map[string]ScheduleEntry_DayOfWeek_STATUS{
+	"everyday":  ScheduleEntry_DayOfWeek_STATUS_Everyday,
+	"friday":    ScheduleEntry_DayOfWeek_STATUS_Friday,
+	"monday":    ScheduleEntry_DayOfWeek_STATUS_Monday,
+	"saturday":  ScheduleEntry_DayOfWeek_STATUS_Saturday,
+	"sunday":    ScheduleEntry_DayOfWeek_STATUS_Sunday,
+	"thursday":  ScheduleEntry_DayOfWeek_STATUS_Thursday,
+	"tuesday":   ScheduleEntry_DayOfWeek_STATUS_Tuesday,
+	"wednesday": ScheduleEntry_DayOfWeek_STATUS_Wednesday,
+	"weekend":   ScheduleEntry_DayOfWeek_STATUS_Weekend,
+}
 
 func init() {
 	SchemeBuilder.Register(&RedisPatchSchedule{}, &RedisPatchScheduleList{})
