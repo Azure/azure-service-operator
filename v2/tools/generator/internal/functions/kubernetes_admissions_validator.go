@@ -162,17 +162,22 @@ func (v *ValidatorBuilder) validateCreate(
 		return nil, errors.Wrap(err, "creating receiver type expression")
 	}
 
+	body, err := v.validateBody(
+		codeGenerationContext,
+		receiverIdent,
+		"createValidations",
+		"CreateValidations",
+		"ValidateCreate",
+		"")
+	if err != nil {
+		return nil, errors.Wrap(err, "creating validation body")
+	}
+
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverExpr),
-		Body: v.validateBody(
-			codeGenerationContext,
-			receiverIdent,
-			"createValidations",
-			"CreateValidations",
-			"ValidateCreate",
-			""),
+		Body:          body,
 	}
 
 	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
@@ -196,19 +201,24 @@ func (v *ValidatorBuilder) validateUpdate(
 
 	retType := getValidationFuncType(ValidationKindUpdate, codeGenerationContext)
 
+	body, err := v.validateBody(
+		codeGenerationContext,
+		receiverIdent,
+		"updateValidations",
+		"UpdateValidations",
+		"ValidateUpdate",
+		"old")
+	if err != nil {
+		return nil, errors.Wrap(err, "creating validation body")
+	}
+
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		Params:        retType.Params.List,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Returns:       retType.Results.List,
-		Body: v.validateBody(
-			codeGenerationContext,
-			receiverIdent,
-			"updateValidations",
-			"UpdateValidations",
-			"ValidateUpdate",
-			"old"),
+		Body:          body,
 	}
 
 	fn.AddComments("validates an update of the resource")
@@ -228,17 +238,22 @@ func (v *ValidatorBuilder) validateDelete(
 		return nil, errors.Wrap(err, "creating receiver type expression")
 	}
 
+	body, err := v.validateBody(
+		codeGenerationContext,
+		receiverIdent,
+		"deleteValidations",
+		"DeleteValidations",
+		"ValidateDelete",
+		"")
+	if err != nil {
+		return nil, errors.Wrap(err, "creating validation body")
+	}
+
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverExpr),
-		Body: v.validateBody(
-			codeGenerationContext,
-			receiverIdent,
-			"deleteValidations",
-			"DeleteValidations",
-			"ValidateDelete",
-			""),
+		Body:          body,
 	}
 
 	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
@@ -264,8 +279,11 @@ func (v *ValidatorBuilder) validateBody(
 	overrideFunctionName string,
 	validationFunctionName string,
 	funcParamIdent string,
-) []dst.Stmt {
-	overrideInterfaceType := astmodel.GenRuntimeValidatorInterfaceName.AsTypeExpr(codeGenerationContext)
+) ([]dst.Stmt, error) {
+	overrideInterfaceType, err := astmodel.GenRuntimeValidatorInterfaceName.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", astmodel.GenRuntimeValidatorInterfaceName)
+	}
 
 	validationsIdent := "validations"
 	tempVarIdent := "temp"
@@ -297,7 +315,7 @@ func (v *ValidatorBuilder) validateBody(
 		astbuilder.Returns(astbuilder.CallQualifiedFunc(astmodel.GenRuntimeReference.PackageName(), validationFunctionName, args...)),
 	)
 
-	return body
+	return body, nil
 }
 
 func (v *ValidatorBuilder) localCreateValidations(
@@ -382,7 +400,7 @@ func (v *ValidatorBuilder) makeLocalValidationFuncDetails(
 
 // localValidationFuncBody returns the body of the local (code generated) validation functions:
 //
-//	return []func() error{
+//	return []func() error {
 //		<receiver>.<validationFunc1>,
 //		<receiver>.<validationFunc2>,
 //		...
