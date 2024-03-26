@@ -249,12 +249,29 @@ func (objectType *ObjectType) HasFunctionWithName(name string) bool {
 func (objectType *ObjectType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
 	embedded := objectType.EmbeddedProperties()
 	fields := make([]*dst.Field, 0, len(embedded))
+	var errs []error
 	for _, f := range embedded {
-		fields = append(fields, f.AsField(codeGenerationContext))
+		field, err := f.AsField(codeGenerationContext)
+		if err != nil {
+			errs = append(errs, errors.Wrapf(err, "creating field for embedded property %s", f.PropertyName()))
+			continue
+		}
+
+		fields = append(fields, field)
 	}
 
 	for _, f := range objectType.properties.AsSlice() {
-		fields = append(fields, f.AsField(codeGenerationContext))
+		field, err := f.AsField(codeGenerationContext)
+		if err != nil {
+			errs = append(errs, errors.Wrapf(err, "creating field for property %s", f.PropertyName()))
+			continue
+		}
+
+		fields = append(fields, field)
+	}
+
+	if len(errs) > 0 {
+		return nil, errors.Wrapf(kerrors.NewAggregate(errs), "creating fields for object type")
 	}
 
 	if len(fields) > 0 {

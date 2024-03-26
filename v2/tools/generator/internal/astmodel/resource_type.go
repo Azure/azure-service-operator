@@ -593,19 +593,35 @@ func (resource *ResourceType) AsDeclarations(
 
 		then the Spec/Status properties
 	*/
+
 	var fields []*dst.Field
+	var errs []error
 	for _, property := range resource.EmbeddedProperties() {
-		f := property.AsField(codeGenerationContext)
+		f, err := property.AsField(codeGenerationContext)
+		if err != nil {
+			errs = append(errs, errors.Wrapf(err, "creating embedded field for %s", property.PropertyName()))
+			continue
+		}
+
 		if f != nil {
 			fields = append(fields, f)
 		}
 	}
 
 	for _, property := range resource.Properties().AsSlice() {
-		f := property.AsField(codeGenerationContext)
+		f, err := property.AsField(codeGenerationContext)
+		if err != nil {
+			errs = append(errs, errors.Wrapf(err, "creating field for %s", property.PropertyName()))
+			continue
+		}
+
 		if f != nil {
 			fields = append(fields, f)
 		}
+	}
+
+	if len(errs) > 0 {
+		return nil, errors.Wrapf(kerrors.NewAggregate(errs), "failed to generate fields for %s", declContext.Name)
 	}
 
 	if len(fields) > 0 {
