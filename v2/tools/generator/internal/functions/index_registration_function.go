@@ -90,7 +90,7 @@ func (f *IndexRegistrationFunction) AsFunc(
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating type expression for %s", f.resourceTypeName)
 	}
-	
+
 	cast := astbuilder.TypeAssert(
 		dst.NewIdent(objName),
 		dst.NewIdent(rawObjName),
@@ -104,7 +104,6 @@ func (f *IndexRegistrationFunction) AsFunc(
 	if f.isIndexSingleValue() {
 		stmts = f.singleValue(specSelector)
 	} else {
-		var err error
 		stmts, err = f.multipleValues(specSelector)
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to generate multiple value index registration function for %s", f.resourceTypeName)
