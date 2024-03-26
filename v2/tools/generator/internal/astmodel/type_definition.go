@@ -87,7 +87,7 @@ func AsSimpleDeclarations(
 	codeGenerationContext *CodeGenerationContext,
 	declContext DeclarationContext,
 	theType Type,
-) []dst.Decl {
+) ([]dst.Decl, error) {
 	var docComments dst.Decorations
 	if len(declContext.Description) > 0 {
 		astbuilder.AddWrappedComments(&docComments, declContext.Description)
@@ -95,7 +95,11 @@ func AsSimpleDeclarations(
 
 	AddValidationComments(&docComments, declContext.Validations)
 
-	theTypeExpr := theType.AsTypeExpr(codeGenerationContext)
+	theTypeExpr, err := theType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating simple declaration")
+	}
+
 	result := &dst.GenDecl{
 		Decs: dst.GenDeclDecorations{
 			NodeDecs: dst.NodeDecs{
@@ -112,7 +116,7 @@ func AsSimpleDeclarations(
 		},
 	}
 
-	return []dst.Decl{result}
+	return astbuilder.Declarations(result), nil
 }
 
 // RequiredPackageReferences returns a list of packages required by this type

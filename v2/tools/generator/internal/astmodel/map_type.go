@@ -65,7 +65,7 @@ func NewStringMapType(value Type) *MapType {
 var _ Type = (*MapType)(nil)
 
 func (m *MapType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error) {
-	return AsSimpleDeclarations(codeGenerationContext, declContext, m), nil
+	return AsSimpleDeclarations(codeGenerationContext, declContext, m)
 }
 
 // AsType implements Type for MapType to create the abstract syntax tree for a map

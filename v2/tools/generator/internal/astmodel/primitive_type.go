@@ -56,7 +56,7 @@ func (prim *PrimitiveType) AsDeclarations(
 	codeGenerationContext *CodeGenerationContext,
 	declContext DeclarationContext,
 ) ([]dst.Decl, error) {
-	return AsSimpleDeclarations(codeGenerationContext, declContext, prim), nil
+	return AsSimpleDeclarations(codeGenerationContext, declContext, prim)
 }
 
 // RequiredPackageReferences returns a list of package required by this
