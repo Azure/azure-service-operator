@@ -188,17 +188,22 @@ func validateSecretDestinations(
 		return nil, errors.Wrapf(err, "creating receiver expression")
 	}
 
+	body, err := validateOperatorSpecSliceBody(
+		codeGenerationContext,
+		k.Resource(),
+		receiverIdent,
+		astmodel.OperatorSpecSecretsProperty,
+		astmodel.NewOptionalType(astmodel.SecretDestinationType),
+		"ValidateSecretDestinations")
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating body of method %s", methodName)
+	}
+
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverExpr),
-		Body: validateOperatorSpecSliceBody(
-			codeGenerationContext,
-			k.Resource(),
-			receiverIdent,
-			astmodel.OperatorSpecSecretsProperty,
-			astmodel.NewOptionalType(astmodel.SecretDestinationType),
-			"ValidateSecretDestinations"),
+		Body:          body,
 	}
 
 	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
@@ -229,17 +234,22 @@ func validateConfigMapDestinations(
 		return nil, errors.Wrapf(err, "creating receiver expression")
 	}
 
+	body, err := validateOperatorSpecSliceBody(
+		codeGenerationContext,
+		k.Resource(),
+		receiverIdent,
+		astmodel.OperatorSpecConfigMapsProperty,
+		astmodel.NewOptionalType(astmodel.ConfigMapDestinationType),
+		"ValidateConfigMapDestinations")
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating body of method %s", methodName)
+	}
+
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverExpr),
-		Body: validateOperatorSpecSliceBody(
-			codeGenerationContext,
-			k.Resource(),
-			receiverIdent,
-			astmodel.OperatorSpecConfigMapsProperty,
-			astmodel.NewOptionalType(astmodel.ConfigMapDestinationType),
-			"ValidateConfigMapDestinations"),
+		Body:          body,
 	}
 
 	runtimeAdmission := codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission)
@@ -273,13 +283,14 @@ func validateOperatorSpecSliceBody(
 	operatorSpecProperty string,
 	validateType astmodel.Type,
 	validateFunctionName string,
-) []dst.Stmt {
+) ([]dst.Stmt, error) {
 	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
 	operatorSpecPropertyObj, err := getOperatorSpecSubType(codeGenerationContext, resource, operatorSpecProperty)
 	if err != nil {
-		panic(err)
+		return nil, errors.Wrapf(err, "getting operator spec sub type for %s", operatorSpecProperty)
 	}
+
 	var body []dst.Stmt
 
 	specSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")
@@ -300,7 +311,11 @@ func validateOperatorSpecSliceBody(
 	//     account.Spec.OperatorSpec.Secrets.SecondaryReadonlyMasterKey,
 	//     ...
 	// }
-	validateTypeExpr := validateType.AsTypeExpr(codeGenerationContext)
+	validateTypeExpr, err := validateType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", validateType)
+	}
+
 	sliceBuilder := astbuilder.NewSliceLiteralBuilder(validateTypeExpr, true)
 	for _, prop := range operatorSpecPropertyObj.Properties().AsSlice() {
 		propSelector := astbuilder.Selector(specPropertySelector, prop.PropertyName().String())
@@ -318,7 +333,7 @@ func validateOperatorSpecSliceBody(
 				validateFunctionName,
 				dst.NewIdent(toValidateVar))))
 
-	return body
+	return body, nil
 }
 
 func getOperatorSpecType(defs astmodel.ReadonlyTypeDefinitions, resource *astmodel.ResourceType) (*astmodel.ObjectType, error) {
