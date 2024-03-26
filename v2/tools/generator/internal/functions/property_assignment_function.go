@@ -159,7 +159,7 @@ func (fn *PropertyAssignmentFunction) AsFunc(
 	if err != nil {
 		return nil, errors.Wrap(err, "creating parameter type expression")
 	}
-	
+
 	funcDetails.AddParameter(fn.parameterName, parameterTypeExpr)
 
 	funcDetails.AddReturns("error")
@@ -196,7 +196,10 @@ func (fn *PropertyAssignmentFunction) generateBody(
 	}
 
 	bagEpilogue := fn.propertyBagEpilogue(destination)
-	handleOverrideInterface := fn.handleAugmentationInterface(receiver, parameter, knownLocals, generationContext)
+	handleOverrideInterface, err := fn.handleAugmentationInterface(receiver, parameter, knownLocals, generationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "generating augmentation interface handling for %s", fn.Name())
+	}
 
 	return astbuilder.Statements(
 		bagPrologue,
@@ -307,12 +310,16 @@ func (fn *PropertyAssignmentFunction) handleAugmentationInterface(
 	parameter string,
 	knownLocals *astmodel.KnownLocalsSet,
 	generationContext *astmodel.CodeGenerationContext,
-) []dst.Stmt {
+) ([]dst.Stmt, error) {
 	if fn.augmentationInterface == nil {
-		return nil
+		return nil, nil
 	}
 
-	augmentationInterfaceExpr := fn.augmentationInterface.AsTypeExpr(generationContext)
+	augmentationInterfaceExpr, err := fn.augmentationInterface.AsTypeExpr(generationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating augmentation interface type expression")
+	}
+
 	receiverAsAnyIdent := knownLocals.CreateLocal(receiver + "AsAny")
 
 	sourceAsAny := astbuilder.NewVariableAssignmentWithType(receiverAsAnyIdent, dst.NewIdent("any"), dst.NewIdent(receiver))
@@ -342,7 +349,7 @@ func (fn *PropertyAssignmentFunction) handleAugmentationInterface(
 
 	return astbuilder.Statements(
 		sourceAsAny,
-		ifStmt)
+		ifStmt), nil
 }
 
 // generateAssignments generates a sequence of statements to copy information between the two types
