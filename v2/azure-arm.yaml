@@ -1706,15 +1706,15 @@ objectModelConfiguration:
     2023-11-01: 
       BackupVault: 
         $export: true 
-        $supportedFrom: v2.2.0 
+        $supportedFrom: v2.7.0 
         $generatedConfigs:
           PrincipalId: $.Status.Identity.PrincipalId
       BackupVaults_BackupPolicy: 
         $exportAs: BackupVaultsBackupPolicy 
-        $supportedFrom: v2.2.0 
+        $supportedFrom: v2.7.0 
       BackupVaults_BackupInstance: 
         $exportAs: BackupVaultsBackupInstance 
-        $supportedFrom: v2.5.0 
+        $supportedFrom: v2.7.0 
       DatasourceSet:
         ResourceID:
           $armReference: true

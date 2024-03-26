@@ -4,12 +4,10 @@ metadata:
   name: aso-sample-extsa
   namespace: default
 spec:
-  # This resource can be owner by any resource. In this example we've chosen a resource group for simplicity
   owner:
     name: asodpsamplekubestorage
     group: storage.azure.com
     kind: StorageAccount
-  # This is the Principal ID of the AAD identity to which the role will be assigned
   principalIdFromConfig:
     name: ext-configmap
     key: principalId

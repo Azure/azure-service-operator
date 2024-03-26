@@ -4,7 +4,6 @@ metadata:
   name: aso-sample-vaultsnapshotrg
   namespace: default
 spec:
-  # This resource can be owner by any resource. In this example we've chosen a resource group for simplicity
   owner:
     name: aso-snapshot-rg
     group: resources.azure.com
