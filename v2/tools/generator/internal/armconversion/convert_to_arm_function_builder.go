@@ -32,8 +32,12 @@ func newConvertToARMFunctionBuilder(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.InternalTypeName,
 	methodName string,
-) *convertToARMBuilder {
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+) (*convertToARMBuilder, error) {
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+	}
+
 	result := &convertToARMBuilder{
 		conversionBuilder: conversionBuilder{
 			methodName:            methodName,
@@ -80,7 +84,7 @@ func newConvertToARMFunctionBuilder(
 		result.propertiesByNameHandler,
 	}
 
-	return result
+	return result, nil
 }
 
 func (builder *convertToARMBuilder) functionDeclaration() (*dst.FuncDecl, error) {
