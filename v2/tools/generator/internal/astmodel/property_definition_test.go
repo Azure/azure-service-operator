@@ -515,8 +515,8 @@ func Test_PropertyDefinitionAsAst_GivenValidField_ReturnsNonNilResult(t *testing
 		MakeRequired().
 		WithDescription(propertyDescription)
 
-	node := original.AsField(nil)
-
+	node, err := original.AsField(nil)
+	g.Expect(err).To(BeNil())
 	g.Expect(node).NotTo(BeNil())
 }
 

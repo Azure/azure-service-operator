@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"sort"
 	"strings"
 
@@ -173,9 +174,11 @@ func (property *PropertyDefinition) Description() string {
 }
 
 // WithType clones the property and returns it with a new type
-func (property *PropertyDefinition) WithType(newType Type) *PropertyDefinition {
+func (property *PropertyDefinition) WithType(
+	newType Type,
+) *PropertyDefinition {
 	if newType == nil {
-		panic("nil type provided to WithType")
+		panic(errors.New("nil type provided to WithType"))
 	}
 
 	if TypeEquals(property.propertyType, newType) {
@@ -283,7 +286,7 @@ func (property *PropertyDefinition) MakeRequired() *PropertyDefinition {
 	}
 
 	if !isTypeOptional(property.PropertyType()) {
-		panic(fmt.Sprintf(
+		panic(errors.Errorf(
 			"property %s with non-optional type %T cannot be marked kubebuilder:validation:Required.",
 			property.PropertyName(),
 			property.PropertyType()))
@@ -406,9 +409,11 @@ func (property *PropertyDefinition) renderedTags() string {
 }
 
 // AsField generates a Go AST field node representing this property definition
-func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGenerationContext) *dst.Field {
+func (property *PropertyDefinition) AsField(
+	codeGenerationContext *CodeGenerationContext,
+) (*dst.Field, error) {
 	if property.flatten {
-		panic(fmt.Sprintf("property %s marked for flattening was not flattened", property.propertyName))
+		return nil, errors.Errorf("property %s marked for flattening was not flattened", property.propertyName)
 	}
 
 	tags := property.renderedTags()
@@ -431,10 +436,14 @@ func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGeneratio
 	}
 
 	// Some types opt out of codegen by returning nil
-	propTypeExpr := propType.AsTypeExpr(codeGenerationContext)
+	propTypeExpr, err := propType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to generate field for property %s", property.propertyName)
+	}
+
 	typeExpr := propTypeExpr
 	if typeExpr == nil {
-		return nil
+		return nil, nil
 	}
 
 	before := dst.NewLine
@@ -461,7 +470,7 @@ func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGeneratio
 		astbuilder.AddWrappedComment(&result.Decs.Start, fmt.Sprintf("%s: %s", property.propertyName, property.description))
 	}
 
-	return result
+	return result, nil
 }
 
 func (property *PropertyDefinition) tagsEqual(f *PropertyDefinition) bool {
