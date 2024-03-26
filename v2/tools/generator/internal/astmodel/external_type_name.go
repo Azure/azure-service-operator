@@ -44,7 +44,7 @@ func (tn ExternalTypeName) PackageReference() PackageReference {
 }
 
 func (tn ExternalTypeName) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error) {
-	return AsSimpleDeclarations(codeGenerationContext, declContext, tn), nil
+	return AsSimpleDeclarations(codeGenerationContext, declContext, tn)
 }
 
 // AsType implements Type for TypeName

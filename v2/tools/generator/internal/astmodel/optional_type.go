@@ -122,7 +122,7 @@ func (optional *OptionalType) WithElement(t Type) Type {
 }
 
 func (optional *OptionalType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error) {
-	return AsSimpleDeclarations(codeGenerationContext, declContext, optional), nil
+	return AsSimpleDeclarations(codeGenerationContext, declContext, optional)
 }
 
 // AsType renders the Go abstract syntax tree for an optional type
