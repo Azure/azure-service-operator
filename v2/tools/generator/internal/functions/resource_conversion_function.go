@@ -59,7 +59,7 @@ var _ astmodel.Function = &ResourceConversionFunction{}
 
 // NewResourceConversionFunction creates a conversion function that populates our hub type from the current instance
 // hub is the TypeName of our hub type
-// propertyFuntion is the function we use to copy properties across
+// propertyFunction is the function we use to copy properties across
 func NewResourceConversionFunction(
 	hub astmodel.InternalTypeName,
 	propertyFunction *PropertyAssignmentFunction,

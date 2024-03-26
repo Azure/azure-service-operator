@@ -90,7 +90,7 @@ func (f *IndexRegistrationFunction) AsFunc(
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating type expression for %s", f.resourceTypeName)
 	}
-	
+
 	cast := astbuilder.TypeAssert(
 		dst.NewIdent(objName),
 		dst.NewIdent(rawObjName),
