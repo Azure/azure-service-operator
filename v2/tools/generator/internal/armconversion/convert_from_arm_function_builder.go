@@ -30,8 +30,12 @@ func newConvertFromARMFunctionBuilder(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.InternalTypeName,
 	methodName string,
-) *convertFromARMBuilder {
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+) (*convertFromARMBuilder, error) {
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+	}
+
 	result := &convertFromARMBuilder{
 		// Note: If we have a property with these names we will have a compilation issue in the generated
 		// code. Right now that doesn't seem to be the case anywhere but if it does happen we may need
@@ -82,7 +86,7 @@ func newConvertFromARMFunctionBuilder(
 		result.propertiesByNameHandler,
 	}
 
-	return result
+	return result, nil
 }
 
 func (builder *convertFromARMBuilder) functionDeclaration() (*dst.FuncDecl, error) {
@@ -286,7 +290,7 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 			return notHandled,
 				errors.Wrapf(err, "creating known resource reference type expression for %s", ownerProp)
 		}
-		
+
 		compositeLit := astbuilder.NewCompositeLiteralBuilder(knownResourceReferenceExpr)
 		compositeLit.AddField("Name", astbuilder.Selector(dst.NewIdent(ownerParameter), "Name"))
 		compositeLit.AddField("ARMID", astbuilder.Selector(dst.NewIdent(ownerParameter), "ARMID"))

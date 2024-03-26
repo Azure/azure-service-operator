@@ -92,11 +92,17 @@ func (c *PopulateFromARMFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
-	builder := newConvertFromARMFunctionBuilder(
+	builder, err := newConvertFromARMFunctionBuilder(
 		&c.ARMConversionFunction,
 		codeGenerationContext,
 		receiver,
 		c.Name())
+	if err != nil {
+		return nil, errors.Wrapf(
+			err,
+			"error creating ConvertFromARM function for %s",
+			receiver.Name())
+	}
 
 	decl, err := builder.functionDeclaration()
 	if err != nil {
