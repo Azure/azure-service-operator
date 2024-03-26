@@ -170,11 +170,16 @@ func validateWriteOncePropertiesFunction(
 
 	runtimePackage := codeGenerationContext.MustGetImportedPackageName(astmodel.APIMachineryRuntimeReference)
 
+	body, err := validateWriteOncePropertiesFunctionBody(receiver, codeGenerationContext, receiverIdent)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating function body for %s", methodName)
+	}
+
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverExpr),
-		Body:          validateWriteOncePropertiesFunctionBody(receiver, codeGenerationContext, receiverIdent),
+		Body:          body,
 	}
 
 	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
@@ -193,12 +198,20 @@ func validateWriteOncePropertiesFunction(
 //	}
 //
 // return genruntime.ValidateWriteOnceProperties(oldObj, <receiverIndent>)
-func validateWriteOncePropertiesFunctionBody(receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
+func validateWriteOncePropertiesFunctionBody(
+	receiver astmodel.TypeName,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiverIdent string,
+) ([]dst.Stmt, error) {
 	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
 	obj := dst.NewIdent("oldObj")
 
-	receiverExpr := receiver.AsTypeExpr(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating receiver type expression for %s", receiver)
+	}
+
 	cast := astbuilder.TypeAssert(obj, dst.NewIdent("old"), astbuilder.PointerTo(receiverExpr))
 	checkAssert := astbuilder.ReturnIfNotOk(astbuilder.Nil(), astbuilder.Nil())
 
@@ -213,7 +226,7 @@ func validateWriteOncePropertiesFunctionBody(receiver astmodel.TypeName, codeGen
 	return astbuilder.Statements(
 		cast,
 		checkAssert,
-		returnStmt)
+		returnStmt), nil
 }
 
 func validateOptionalConfigMapReferences(
