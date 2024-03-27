@@ -79,8 +79,8 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 		}
 
 		// call sync api only when protection status is ProtectionError and error code is usererror
-		protectionStatusErrorCode := ""
 		if protectionStatus == "ProtectionError" {
+			var protectionStatusErrorCode string
 			protectionStatusErrorCode = strings.ToLower(*backupInstance.Status.Properties.ProtectionStatus.ErrorDetails.Code)
 			log.V(Debug).Info(fmt.Sprintf("########################## Protection Error code is  %q ##########################", protectionStatusErrorCode))
 
