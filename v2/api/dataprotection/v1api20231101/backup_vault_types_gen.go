@@ -1219,8 +1219,9 @@ func (vault *BackupVault_STATUS) AssignProperties_From_BackupVault_STATUS(source
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := BackupVault_ProvisioningState_STATUS(*source.ProvisioningState)
-		vault.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, backupVault_ProvisioningState_STATUS_Values)
+		vault.ProvisioningState = &provisioningStateTemp
 	} else {
 		vault.ProvisioningState = nil
 	}
@@ -1242,16 +1243,18 @@ func (vault *BackupVault_STATUS) AssignProperties_From_BackupVault_STATUS(source
 
 	// ResourceMoveState
 	if source.ResourceMoveState != nil {
-		resourceMoveState := BackupVault_ResourceMoveState_STATUS(*source.ResourceMoveState)
-		vault.ResourceMoveState = &resourceMoveState
+		resourceMoveState := *source.ResourceMoveState
+		resourceMoveStateTemp := genruntime.ToEnum(resourceMoveState, backupVault_ResourceMoveState_STATUS_Values)
+		vault.ResourceMoveState = &resourceMoveStateTemp
 	} else {
 		vault.ResourceMoveState = nil
 	}
 
 	// SecureScore
 	if source.SecureScore != nil {
-		secureScore := BackupVault_SecureScore_STATUS(*source.SecureScore)
-		vault.SecureScore = &secureScore
+		secureScore := *source.SecureScore
+		secureScoreTemp := genruntime.ToEnum(secureScore, backupVault_SecureScore_STATUS_Values)
+		vault.SecureScore = &secureScoreTemp
 	} else {
 		vault.SecureScore = nil
 	}
@@ -2175,8 +2178,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -2189,8 +2193,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -3271,16 +3276,18 @@ func (setting *StorageSetting) AssignProperties_From_StorageSetting(source *v202
 
 	// DatastoreType
 	if source.DatastoreType != nil {
-		datastoreType := StorageSetting_DatastoreType(*source.DatastoreType)
-		setting.DatastoreType = &datastoreType
+		datastoreType := *source.DatastoreType
+		datastoreTypeTemp := genruntime.ToEnum(datastoreType, storageSetting_DatastoreType_Values)
+		setting.DatastoreType = &datastoreTypeTemp
 	} else {
 		setting.DatastoreType = nil
 	}
 
 	// Type
 	if source.Type != nil {
-		typeVar := StorageSetting_Type(*source.Type)
-		setting.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, storageSetting_Type_Values)
+		setting.Type = &typeTemp
 	} else {
 		setting.Type = nil
 	}
@@ -3388,16 +3395,18 @@ func (setting *StorageSetting_STATUS) AssignProperties_From_StorageSetting_STATU
 
 	// DatastoreType
 	if source.DatastoreType != nil {
-		datastoreType := StorageSetting_DatastoreType_STATUS(*source.DatastoreType)
-		setting.DatastoreType = &datastoreType
+		datastoreType := *source.DatastoreType
+		datastoreTypeTemp := genruntime.ToEnum(datastoreType, storageSetting_DatastoreType_STATUS_Values)
+		setting.DatastoreType = &datastoreTypeTemp
 	} else {
 		setting.DatastoreType = nil
 	}
 
 	// Type
 	if source.Type != nil {
-		typeVar := StorageSetting_Type_STATUS(*source.Type)
-		setting.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, storageSetting_Type_STATUS_Values)
+		setting.Type = &typeTemp
 	} else {
 		setting.Type = nil
 	}
@@ -3595,8 +3604,9 @@ func (settings *AzureMonitorAlertSettings) AssignProperties_From_AzureMonitorAle
 
 	// AlertsForAllJobFailures
 	if source.AlertsForAllJobFailures != nil {
-		alertsForAllJobFailure := AzureMonitorAlertSettings_AlertsForAllJobFailures(*source.AlertsForAllJobFailures)
-		settings.AlertsForAllJobFailures = &alertsForAllJobFailure
+		alertsForAllJobFailure := *source.AlertsForAllJobFailures
+		alertsForAllJobFailureTemp := genruntime.ToEnum(alertsForAllJobFailure, azureMonitorAlertSettings_AlertsForAllJobFailures_Values)
+		settings.AlertsForAllJobFailures = &alertsForAllJobFailureTemp
 	} else {
 		settings.AlertsForAllJobFailures = nil
 	}
@@ -3678,8 +3688,9 @@ func (settings *AzureMonitorAlertSettings_STATUS) AssignProperties_From_AzureMon
 
 	// AlertsForAllJobFailures
 	if source.AlertsForAllJobFailures != nil {
-		alertsForAllJobFailure := AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS(*source.AlertsForAllJobFailures)
-		settings.AlertsForAllJobFailures = &alertsForAllJobFailure
+		alertsForAllJobFailure := *source.AlertsForAllJobFailures
+		alertsForAllJobFailureTemp := genruntime.ToEnum(alertsForAllJobFailure, azureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Values)
+		settings.AlertsForAllJobFailures = &alertsForAllJobFailureTemp
 	} else {
 		settings.AlertsForAllJobFailures = nil
 	}
@@ -3761,8 +3772,9 @@ func (settings *CrossRegionRestoreSettings) AssignProperties_From_CrossRegionRes
 
 	// State
 	if source.State != nil {
-		state := CrossRegionRestoreSettings_State(*source.State)
-		settings.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, crossRegionRestoreSettings_State_Values)
+		settings.State = &stateTemp
 	} else {
 		settings.State = nil
 	}
@@ -3844,8 +3856,9 @@ func (settings *CrossRegionRestoreSettings_STATUS) AssignProperties_From_CrossRe
 
 	// State
 	if source.State != nil {
-		state := CrossRegionRestoreSettings_State_STATUS(*source.State)
-		settings.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, crossRegionRestoreSettings_State_STATUS_Values)
+		settings.State = &stateTemp
 	} else {
 		settings.State = nil
 	}
@@ -3928,8 +3941,9 @@ func (settings *CrossSubscriptionRestoreSettings) AssignProperties_From_CrossSub
 
 	// State
 	if source.State != nil {
-		state := CrossSubscriptionRestoreSettings_State(*source.State)
-		settings.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, crossSubscriptionRestoreSettings_State_Values)
+		settings.State = &stateTemp
 	} else {
 		settings.State = nil
 	}
@@ -4012,8 +4026,9 @@ func (settings *CrossSubscriptionRestoreSettings_STATUS) AssignProperties_From_C
 
 	// State
 	if source.State != nil {
-		state := CrossSubscriptionRestoreSettings_State_STATUS(*source.State)
-		settings.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, crossSubscriptionRestoreSettings_State_STATUS_Values)
+		settings.State = &stateTemp
 	} else {
 		settings.State = nil
 	}
@@ -4096,8 +4111,9 @@ func (settings *ImmutabilitySettings) AssignProperties_From_ImmutabilitySettings
 
 	// State
 	if source.State != nil {
-		state := ImmutabilitySettings_State(*source.State)
-		settings.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, immutabilitySettings_State_Values)
+		settings.State = &stateTemp
 	} else {
 		settings.State = nil
 	}
@@ -4180,8 +4196,9 @@ func (settings *ImmutabilitySettings_STATUS) AssignProperties_From_ImmutabilityS
 
 	// State
 	if source.State != nil {
-		state := ImmutabilitySettings_State_STATUS(*source.State)
-		settings.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, immutabilitySettings_State_STATUS_Values)
+		settings.State = &stateTemp
 	} else {
 		settings.State = nil
 	}
@@ -4287,8 +4304,9 @@ func (settings *SoftDeleteSettings) AssignProperties_From_SoftDeleteSettings(sou
 
 	// State
 	if source.State != nil {
-		state := SoftDeleteSettings_State(*source.State)
-		settings.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, softDeleteSettings_State_Values)
+		settings.State = &stateTemp
 	} else {
 		settings.State = nil
 	}
@@ -4404,8 +4422,9 @@ func (settings *SoftDeleteSettings_STATUS) AssignProperties_From_SoftDeleteSetti
 
 	// State
 	if source.State != nil {
-		state := SoftDeleteSettings_State_STATUS(*source.State)
-		settings.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, softDeleteSettings_State_STATUS_Values)
+		settings.State = &stateTemp
 	} else {
 		settings.State = nil
 	}

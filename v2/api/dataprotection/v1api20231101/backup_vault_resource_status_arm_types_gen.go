@@ -113,6 +113,15 @@ const (
 	BackupVault_ProvisioningState_STATUS_Updating     = BackupVault_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to BackupVault_ProvisioningState_STATUS
+var backupVault_ProvisioningState_STATUS_Values = map[string]BackupVault_ProvisioningState_STATUS{
+	"failed":       BackupVault_ProvisioningState_STATUS_Failed,
+	"provisioning": BackupVault_ProvisioningState_STATUS_Provisioning,
+	"succeeded":    BackupVault_ProvisioningState_STATUS_Succeeded,
+	"unknown":      BackupVault_ProvisioningState_STATUS_Unknown,
+	"updating":     BackupVault_ProvisioningState_STATUS_Updating,
+}
+
 type BackupVault_ResourceMoveState_STATUS string
 
 const (
@@ -128,6 +137,20 @@ const (
 	BackupVault_ResourceMoveState_STATUS_Unknown         = BackupVault_ResourceMoveState_STATUS("Unknown")
 )
 
+// Mapping from string to BackupVault_ResourceMoveState_STATUS
+var backupVault_ResourceMoveState_STATUS_Values = map[string]BackupVault_ResourceMoveState_STATUS{
+	"commitfailed":    BackupVault_ResourceMoveState_STATUS_CommitFailed,
+	"committimedout":  BackupVault_ResourceMoveState_STATUS_CommitTimedout,
+	"criticalfailure": BackupVault_ResourceMoveState_STATUS_CriticalFailure,
+	"failed":          BackupVault_ResourceMoveState_STATUS_Failed,
+	"inprogress":      BackupVault_ResourceMoveState_STATUS_InProgress,
+	"movesucceeded":   BackupVault_ResourceMoveState_STATUS_MoveSucceeded,
+	"partialsuccess":  BackupVault_ResourceMoveState_STATUS_PartialSuccess,
+	"preparefailed":   BackupVault_ResourceMoveState_STATUS_PrepareFailed,
+	"preparetimedout": BackupVault_ResourceMoveState_STATUS_PrepareTimedout,
+	"unknown":         BackupVault_ResourceMoveState_STATUS_Unknown,
+}
+
 type BackupVault_SecureScore_STATUS string
 
 const (
@@ -137,6 +160,15 @@ const (
 	BackupVault_SecureScore_STATUS_None         = BackupVault_SecureScore_STATUS("None")
 	BackupVault_SecureScore_STATUS_NotSupported = BackupVault_SecureScore_STATUS("NotSupported")
 )
+
+// Mapping from string to BackupVault_SecureScore_STATUS
+var backupVault_SecureScore_STATUS_Values = map[string]BackupVault_SecureScore_STATUS{
+	"adequate":     BackupVault_SecureScore_STATUS_Adequate,
+	"maximum":      BackupVault_SecureScore_STATUS_Maximum,
+	"minimum":      BackupVault_SecureScore_STATUS_Minimum,
+	"none":         BackupVault_SecureScore_STATUS_None,
+	"notsupported": BackupVault_SecureScore_STATUS_NotSupported,
+}
 
 // Class containing feature settings of vault
 type FeatureSettings_STATUS_ARM struct {
@@ -197,6 +229,14 @@ const (
 	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
 type SystemData_LastModifiedByType_STATUS string
 
 const (
@@ -205,6 +245,14 @@ const (
 	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
+}
 
 // User assigned identity properties
 type UserAssignedIdentity_STATUS_ARM struct {
@@ -254,6 +302,13 @@ const (
 	StorageSetting_DatastoreType_STATUS_VaultStore       = StorageSetting_DatastoreType_STATUS("VaultStore")
 )
 
+// Mapping from string to StorageSetting_DatastoreType_STATUS
+var storageSetting_DatastoreType_STATUS_Values = map[string]StorageSetting_DatastoreType_STATUS{
+	"archivestore":     StorageSetting_DatastoreType_STATUS_ArchiveStore,
+	"operationalstore": StorageSetting_DatastoreType_STATUS_OperationalStore,
+	"vaultstore":       StorageSetting_DatastoreType_STATUS_VaultStore,
+}
+
 type StorageSetting_Type_STATUS string
 
 const (
@@ -262,6 +317,13 @@ const (
 	StorageSetting_Type_STATUS_ZoneRedundant    = StorageSetting_Type_STATUS("ZoneRedundant")
 )
 
+// Mapping from string to StorageSetting_Type_STATUS
+var storageSetting_Type_STATUS_Values = map[string]StorageSetting_Type_STATUS{
+	"georedundant":     StorageSetting_Type_STATUS_GeoRedundant,
+	"locallyredundant": StorageSetting_Type_STATUS_LocallyRedundant,
+	"zoneredundant":    StorageSetting_Type_STATUS_ZoneRedundant,
+}
+
 type AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS string
 
 const (
@@ -269,12 +331,24 @@ const (
 	AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Enabled  = AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS("Enabled")
 )
 
+// Mapping from string to AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS
+var azureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Values = map[string]AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS{
+	"disabled": AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Disabled,
+	"enabled":  AzureMonitorAlertSettings_AlertsForAllJobFailures_STATUS_Enabled,
+}
+
 type CrossRegionRestoreSettings_State_STATUS string
 
 const (
 	CrossRegionRestoreSettings_State_STATUS_Disabled = CrossRegionRestoreSettings_State_STATUS("Disabled")
 	CrossRegionRestoreSettings_State_STATUS_Enabled  = CrossRegionRestoreSettings_State_STATUS("Enabled")
 )
+
+// Mapping from string to CrossRegionRestoreSettings_State_STATUS
+var crossRegionRestoreSettings_State_STATUS_Values = map[string]CrossRegionRestoreSettings_State_STATUS{
+	"disabled": CrossRegionRestoreSettings_State_STATUS_Disabled,
+	"enabled":  CrossRegionRestoreSettings_State_STATUS_Enabled,
+}
 
 type CrossSubscriptionRestoreSettings_State_STATUS string
 
@@ -284,6 +358,13 @@ const (
 	CrossSubscriptionRestoreSettings_State_STATUS_PermanentlyDisabled = CrossSubscriptionRestoreSettings_State_STATUS("PermanentlyDisabled")
 )
 
+// Mapping from string to CrossSubscriptionRestoreSettings_State_STATUS
+var crossSubscriptionRestoreSettings_State_STATUS_Values = map[string]CrossSubscriptionRestoreSettings_State_STATUS{
+	"disabled":            CrossSubscriptionRestoreSettings_State_STATUS_Disabled,
+	"enabled":             CrossSubscriptionRestoreSettings_State_STATUS_Enabled,
+	"permanentlydisabled": CrossSubscriptionRestoreSettings_State_STATUS_PermanentlyDisabled,
+}
+
 type ImmutabilitySettings_State_STATUS string
 
 const (
@@ -292,6 +373,13 @@ const (
 	ImmutabilitySettings_State_STATUS_Unlocked = ImmutabilitySettings_State_STATUS("Unlocked")
 )
 
+// Mapping from string to ImmutabilitySettings_State_STATUS
+var immutabilitySettings_State_STATUS_Values = map[string]ImmutabilitySettings_State_STATUS{
+	"disabled": ImmutabilitySettings_State_STATUS_Disabled,
+	"locked":   ImmutabilitySettings_State_STATUS_Locked,
+	"unlocked": ImmutabilitySettings_State_STATUS_Unlocked,
+}
+
 type SoftDeleteSettings_State_STATUS string
 
 const (
@@ -299,3 +387,10 @@ const (
 	SoftDeleteSettings_State_STATUS_Off      = SoftDeleteSettings_State_STATUS("Off")
 	SoftDeleteSettings_State_STATUS_On       = SoftDeleteSettings_State_STATUS("On")
 )
+
+// Mapping from string to SoftDeleteSettings_State_STATUS
+var softDeleteSettings_State_STATUS_Values = map[string]SoftDeleteSettings_State_STATUS{
+	"alwayson": SoftDeleteSettings_State_STATUS_AlwaysOn,
+	"off":      SoftDeleteSettings_State_STATUS_Off,
+	"on":       SoftDeleteSettings_State_STATUS_On,
+}

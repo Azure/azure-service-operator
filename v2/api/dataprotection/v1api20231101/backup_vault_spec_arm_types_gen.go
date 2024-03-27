@@ -138,6 +138,13 @@ const (
 	StorageSetting_DatastoreType_VaultStore       = StorageSetting_DatastoreType("VaultStore")
 )
 
+// Mapping from string to StorageSetting_DatastoreType
+var storageSetting_DatastoreType_Values = map[string]StorageSetting_DatastoreType{
+	"archivestore":     StorageSetting_DatastoreType_ArchiveStore,
+	"operationalstore": StorageSetting_DatastoreType_OperationalStore,
+	"vaultstore":       StorageSetting_DatastoreType_VaultStore,
+}
+
 // +kubebuilder:validation:Enum={"GeoRedundant","LocallyRedundant","ZoneRedundant"}
 type StorageSetting_Type string
 
@@ -147,6 +154,13 @@ const (
 	StorageSetting_Type_ZoneRedundant    = StorageSetting_Type("ZoneRedundant")
 )
 
+// Mapping from string to StorageSetting_Type
+var storageSetting_Type_Values = map[string]StorageSetting_Type{
+	"georedundant":     StorageSetting_Type_GeoRedundant,
+	"locallyredundant": StorageSetting_Type_LocallyRedundant,
+	"zoneredundant":    StorageSetting_Type_ZoneRedundant,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type AzureMonitorAlertSettings_AlertsForAllJobFailures string
 
@@ -155,6 +169,12 @@ const (
 	AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled  = AzureMonitorAlertSettings_AlertsForAllJobFailures("Enabled")
 )
 
+// Mapping from string to AzureMonitorAlertSettings_AlertsForAllJobFailures
+var azureMonitorAlertSettings_AlertsForAllJobFailures_Values = map[string]AzureMonitorAlertSettings_AlertsForAllJobFailures{
+	"disabled": AzureMonitorAlertSettings_AlertsForAllJobFailures_Disabled,
+	"enabled":  AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type CrossRegionRestoreSettings_State string
 
@@ -162,6 +182,12 @@ const (
 	CrossRegionRestoreSettings_State_Disabled = CrossRegionRestoreSettings_State("Disabled")
 	CrossRegionRestoreSettings_State_Enabled  = CrossRegionRestoreSettings_State("Enabled")
 )
+
+// Mapping from string to CrossRegionRestoreSettings_State
+var crossRegionRestoreSettings_State_Values = map[string]CrossRegionRestoreSettings_State{
+	"disabled": CrossRegionRestoreSettings_State_Disabled,
+	"enabled":  CrossRegionRestoreSettings_State_Enabled,
+}
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled","PermanentlyDisabled"}
 type CrossSubscriptionRestoreSettings_State string
@@ -172,6 +198,13 @@ const (
 	CrossSubscriptionRestoreSettings_State_PermanentlyDisabled = CrossSubscriptionRestoreSettings_State("PermanentlyDisabled")
 )
 
+// Mapping from string to CrossSubscriptionRestoreSettings_State
+var crossSubscriptionRestoreSettings_State_Values = map[string]CrossSubscriptionRestoreSettings_State{
+	"disabled":            CrossSubscriptionRestoreSettings_State_Disabled,
+	"enabled":             CrossSubscriptionRestoreSettings_State_Enabled,
+	"permanentlydisabled": CrossSubscriptionRestoreSettings_State_PermanentlyDisabled,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Locked","Unlocked"}
 type ImmutabilitySettings_State string
 
@@ -181,6 +214,13 @@ const (
 	ImmutabilitySettings_State_Unlocked = ImmutabilitySettings_State("Unlocked")
 )
 
+// Mapping from string to ImmutabilitySettings_State
+var immutabilitySettings_State_Values = map[string]ImmutabilitySettings_State{
+	"disabled": ImmutabilitySettings_State_Disabled,
+	"locked":   ImmutabilitySettings_State_Locked,
+	"unlocked": ImmutabilitySettings_State_Unlocked,
+}
+
 // +kubebuilder:validation:Enum={"AlwaysOn","Off","On"}
 type SoftDeleteSettings_State string
 
@@ -189,3 +229,10 @@ const (
 	SoftDeleteSettings_State_Off      = SoftDeleteSettings_State("Off")
 	SoftDeleteSettings_State_On       = SoftDeleteSettings_State("On")
 )
+
+// Mapping from string to SoftDeleteSettings_State
+var softDeleteSettings_State_Values = map[string]SoftDeleteSettings_State{
+	"alwayson": SoftDeleteSettings_State_AlwaysOn,
+	"off":      SoftDeleteSettings_State_Off,
+	"on":       SoftDeleteSettings_State_On,
+}

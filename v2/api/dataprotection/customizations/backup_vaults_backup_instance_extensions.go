@@ -18,7 +18,6 @@ import (
 
 	armdataprotection "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dataprotection/armdataprotection/v3"
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
-
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
@@ -90,7 +89,7 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 				rg := id.ResourceGroupName
 				vaultName := id.Parent.Name
 
-				log.V(Debug).Info("########################## Starting NewBackupInstancesClient for Backup Instance ##########################")
+				log.V(Debug).Info("########################## Starting NewBackupInstancesClient  ##########################")
 				clientFactory, err := armdataprotection.NewClientFactory(subscription, armClient.Creds(), armClient.ClientOptions())
 				if err != nil {
 					return extensions.PostReconcileCheckResultFailure("failed to create armdataprotection client"), err
@@ -98,15 +97,42 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 
 				var parameters armdataprotection.SyncBackupInstanceRequest
 				parameters.SyncType = to.Ptr(armdataprotection.SyncTypeDefault)
-				log.V(Debug).Info("########################## Starting BeginSyncBackupInstance for Backup Instance ##########################")
-				poller, err := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, nil)
-				if err != nil {
-					return extensions.PostReconcileCheckResultFailure("failed BeginSyncBackupInstance to get the result"), err
+
+				// get the resume token from the resource
+				pollerID, pollerResumeToken, hasToken := GetPollerResumeToken(backupInstance)
+
+				log.V(Debug).Info(fmt.Sprintf("########################## pollerID is  %q ##########################", pollerID))
+				log.V(Debug).Info(fmt.Sprintf("########################## pollerResumeToken is  %q ##########################", pollerResumeToken))
+
+				// if resume token is empty then call the begin sync api and set the resume token
+				if !hasToken {
+					log.V(Debug).Info("########################## Starting BeginSyncBackupInstance  ##########################")
+					poller, err := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, nil)
+					if err != nil {
+						return extensions.PostReconcileCheckResultFailure("failed BeginSyncBackupInstance to get the result"), err
+					}
+
+					resumeToken, err := poller.ResumeToken()
+					if err != nil {
+						return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), err
+					}
+
+					SetPollerResumeToken(backupInstance, "BeginSyncBackupInstance.PollerID", resumeToken)
 				}
 
-				_, err = poller.PollUntilDone(ctx, nil)
-				if err != nil {
-					return extensions.PostReconcileCheckResultFailure("failed BeginSyncBackupInstance to poll the result"), err
+				// BeginSyncBackupInstance is in-progress - poller id and resume token is available to poll
+				if pollerID != "BeginSyncBackupInstance.PollerID" {
+					return extensions.PostReconcileCheckResultFailure(fmt.Sprintf("cannot Poll with pollerID=%s", pollerID)), nil
+				}
+
+				log.V(Debug).Info("########################## Polling for BeginSyncBackupInstance ##########################")
+				var options *armdataprotection.BackupInstancesClientBeginSyncBackupInstanceOptions
+				options.ResumeToken = pollerResumeToken
+				poller, err := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, options)
+
+				if poller.Done() {
+					log.V(Debug).Info("########################## ClearPollerResumeToken for BeginSyncBackupInstance ##########################")
+					ClearPollerResumeToken(backupInstance)
 				}
 			}
 		}

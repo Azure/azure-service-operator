@@ -111,12 +111,34 @@ const (
 	BackupInstance_CurrentProtectionState_STATUS_UpdatingProtection          = BackupInstance_CurrentProtectionState_STATUS("UpdatingProtection")
 )
 
+// Mapping from string to BackupInstance_CurrentProtectionState_STATUS
+var backupInstance_CurrentProtectionState_STATUS_Values = map[string]BackupInstance_CurrentProtectionState_STATUS{
+	"backupschedulessuspended":    BackupInstance_CurrentProtectionState_STATUS_BackupSchedulesSuspended,
+	"configuringprotection":       BackupInstance_CurrentProtectionState_STATUS_ConfiguringProtection,
+	"configuringprotectionfailed": BackupInstance_CurrentProtectionState_STATUS_ConfiguringProtectionFailed,
+	"invalid":                     BackupInstance_CurrentProtectionState_STATUS_Invalid,
+	"notprotected":                BackupInstance_CurrentProtectionState_STATUS_NotProtected,
+	"protectionconfigured":        BackupInstance_CurrentProtectionState_STATUS_ProtectionConfigured,
+	"protectionerror":             BackupInstance_CurrentProtectionState_STATUS_ProtectionError,
+	"protectionstopped":           BackupInstance_CurrentProtectionState_STATUS_ProtectionStopped,
+	"retentionschedulessuspended": BackupInstance_CurrentProtectionState_STATUS_RetentionSchedulesSuspended,
+	"softdeleted":                 BackupInstance_CurrentProtectionState_STATUS_SoftDeleted,
+	"softdeleting":                BackupInstance_CurrentProtectionState_STATUS_SoftDeleting,
+	"updatingprotection":          BackupInstance_CurrentProtectionState_STATUS_UpdatingProtection,
+}
+
 type BackupInstance_ValidationType_STATUS string
 
 const (
 	BackupInstance_ValidationType_STATUS_DeepValidation    = BackupInstance_ValidationType_STATUS("DeepValidation")
 	BackupInstance_ValidationType_STATUS_ShallowValidation = BackupInstance_ValidationType_STATUS("ShallowValidation")
 )
+
+// Mapping from string to BackupInstance_ValidationType_STATUS
+var backupInstance_ValidationType_STATUS_Values = map[string]BackupInstance_ValidationType_STATUS{
+	"deepvalidation":    BackupInstance_ValidationType_STATUS_DeepValidation,
+	"shallowvalidation": BackupInstance_ValidationType_STATUS_ShallowValidation,
+}
 
 // Datasource to be backed up
 type Datasource_STATUS_ARM struct {
@@ -290,6 +312,16 @@ const (
 	ProtectionStatusDetails_Status_STATUS_SoftDeleting                = ProtectionStatusDetails_Status_STATUS("SoftDeleting")
 )
 
+// Mapping from string to ProtectionStatusDetails_Status_STATUS
+var protectionStatusDetails_Status_STATUS_Values = map[string]ProtectionStatusDetails_Status_STATUS{
+	"configuringprotection":       ProtectionStatusDetails_Status_STATUS_ConfiguringProtection,
+	"configuringprotectionfailed": ProtectionStatusDetails_Status_STATUS_ConfiguringProtectionFailed,
+	"protectionconfigured":        ProtectionStatusDetails_Status_STATUS_ProtectionConfigured,
+	"protectionstopped":           ProtectionStatusDetails_Status_STATUS_ProtectionStopped,
+	"softdeleted":                 ProtectionStatusDetails_Status_STATUS_SoftDeleted,
+	"softdeleting":                ProtectionStatusDetails_Status_STATUS_SoftDeleting,
+}
+
 type SecretStoreBasedAuthCredentials_STATUS_ARM struct {
 	// ObjectType: Type of the specific object - used for deserializing
 	ObjectType SecretStoreBasedAuthCredentials_ObjectType_STATUS `json:"objectType,omitempty"`
@@ -409,6 +441,11 @@ type SecretStoreBasedAuthCredentials_ObjectType_STATUS string
 
 const SecretStoreBasedAuthCredentials_ObjectType_STATUS_SecretStoreBasedAuthCredentials = SecretStoreBasedAuthCredentials_ObjectType_STATUS("SecretStoreBasedAuthCredentials")
 
+// Mapping from string to SecretStoreBasedAuthCredentials_ObjectType_STATUS
+var secretStoreBasedAuthCredentials_ObjectType_STATUS_Values = map[string]SecretStoreBasedAuthCredentials_ObjectType_STATUS{
+	"secretstorebasedauthcredentials": SecretStoreBasedAuthCredentials_ObjectType_STATUS_SecretStoreBasedAuthCredentials,
+}
+
 // Class representing a secret store resource.
 type SecretStoreResource_STATUS_ARM struct {
 	// SecretStoreType: Gets or sets the type of secret store
@@ -443,6 +480,11 @@ type BlobBackupDatasourceParameters_STATUS_ARM struct {
 type DefaultResourceProperties_ObjectType_STATUS string
 
 const DefaultResourceProperties_ObjectType_STATUS_DefaultResourceProperties = DefaultResourceProperties_ObjectType_STATUS("DefaultResourceProperties")
+
+// Mapping from string to DefaultResourceProperties_ObjectType_STATUS
+var defaultResourceProperties_ObjectType_STATUS_Values = map[string]DefaultResourceProperties_ObjectType_STATUS{
+	"defaultresourceproperties": DefaultResourceProperties_ObjectType_STATUS_DefaultResourceProperties,
+}
 
 type KubernetesClusterBackupDatasourceParameters_STATUS_ARM struct {
 	// BackupHookReferences: Gets or sets the backup hook references. This property sets the hook reference to be executed
@@ -488,6 +530,12 @@ const (
 	SecretStoreResource_SecretStoreType_STATUS_Invalid       = SecretStoreResource_SecretStoreType_STATUS("Invalid")
 )
 
+// Mapping from string to SecretStoreResource_SecretStoreType_STATUS
+var secretStoreResource_SecretStoreType_STATUS_Values = map[string]SecretStoreResource_SecretStoreType_STATUS{
+	"azurekeyvault": SecretStoreResource_SecretStoreType_STATUS_AzureKeyVault,
+	"invalid":       SecretStoreResource_SecretStoreType_STATUS_Invalid,
+}
+
 type AzureOperationalStoreParameters_DataStoreType_STATUS string
 
 const (
@@ -496,17 +544,39 @@ const (
 	AzureOperationalStoreParameters_DataStoreType_STATUS_VaultStore       = AzureOperationalStoreParameters_DataStoreType_STATUS("VaultStore")
 )
 
+// Mapping from string to AzureOperationalStoreParameters_DataStoreType_STATUS
+var azureOperationalStoreParameters_DataStoreType_STATUS_Values = map[string]AzureOperationalStoreParameters_DataStoreType_STATUS{
+	"archivestore":     AzureOperationalStoreParameters_DataStoreType_STATUS_ArchiveStore,
+	"operationalstore": AzureOperationalStoreParameters_DataStoreType_STATUS_OperationalStore,
+	"vaultstore":       AzureOperationalStoreParameters_DataStoreType_STATUS_VaultStore,
+}
+
 type AzureOperationalStoreParameters_ObjectType_STATUS string
 
 const AzureOperationalStoreParameters_ObjectType_STATUS_AzureOperationalStoreParameters = AzureOperationalStoreParameters_ObjectType_STATUS("AzureOperationalStoreParameters")
+
+// Mapping from string to AzureOperationalStoreParameters_ObjectType_STATUS
+var azureOperationalStoreParameters_ObjectType_STATUS_Values = map[string]AzureOperationalStoreParameters_ObjectType_STATUS{
+	"azureoperationalstoreparameters": AzureOperationalStoreParameters_ObjectType_STATUS_AzureOperationalStoreParameters,
+}
 
 type BlobBackupDatasourceParameters_ObjectType_STATUS string
 
 const BlobBackupDatasourceParameters_ObjectType_STATUS_BlobBackupDatasourceParameters = BlobBackupDatasourceParameters_ObjectType_STATUS("BlobBackupDatasourceParameters")
 
+// Mapping from string to BlobBackupDatasourceParameters_ObjectType_STATUS
+var blobBackupDatasourceParameters_ObjectType_STATUS_Values = map[string]BlobBackupDatasourceParameters_ObjectType_STATUS{
+	"blobbackupdatasourceparameters": BlobBackupDatasourceParameters_ObjectType_STATUS_BlobBackupDatasourceParameters,
+}
+
 type KubernetesClusterBackupDatasourceParameters_ObjectType_STATUS string
 
 const KubernetesClusterBackupDatasourceParameters_ObjectType_STATUS_KubernetesClusterBackupDatasourceParameters = KubernetesClusterBackupDatasourceParameters_ObjectType_STATUS("KubernetesClusterBackupDatasourceParameters")
+
+// Mapping from string to KubernetesClusterBackupDatasourceParameters_ObjectType_STATUS
+var kubernetesClusterBackupDatasourceParameters_ObjectType_STATUS_Values = map[string]KubernetesClusterBackupDatasourceParameters_ObjectType_STATUS{
+	"kubernetesclusterbackupdatasourceparameters": KubernetesClusterBackupDatasourceParameters_ObjectType_STATUS_KubernetesClusterBackupDatasourceParameters,
+}
 
 // Class to refer resources which contains namespace and name
 type NamespacedNameResource_STATUS_ARM struct {

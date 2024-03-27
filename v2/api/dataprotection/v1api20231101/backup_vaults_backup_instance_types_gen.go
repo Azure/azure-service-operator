@@ -1090,8 +1090,9 @@ func (instance *BackupInstance) AssignProperties_From_BackupInstance(source *v20
 
 	// ValidationType
 	if source.ValidationType != nil {
-		validationType := BackupInstance_ValidationType(*source.ValidationType)
-		instance.ValidationType = &validationType
+		validationType := *source.ValidationType
+		validationTypeTemp := genruntime.ToEnum(validationType, backupInstance_ValidationType_Values)
+		instance.ValidationType = &validationTypeTemp
 	} else {
 		instance.ValidationType = nil
 	}
@@ -1440,8 +1441,9 @@ func (instance *BackupInstance_STATUS) AssignProperties_From_BackupInstance_STAT
 
 	// CurrentProtectionState
 	if source.CurrentProtectionState != nil {
-		currentProtectionState := BackupInstance_CurrentProtectionState_STATUS(*source.CurrentProtectionState)
-		instance.CurrentProtectionState = &currentProtectionState
+		currentProtectionState := *source.CurrentProtectionState
+		currentProtectionStateTemp := genruntime.ToEnum(currentProtectionState, backupInstance_CurrentProtectionState_STATUS_Values)
+		instance.CurrentProtectionState = &currentProtectionStateTemp
 	} else {
 		instance.CurrentProtectionState = nil
 	}
@@ -1541,8 +1543,9 @@ func (instance *BackupInstance_STATUS) AssignProperties_From_BackupInstance_STAT
 
 	// ValidationType
 	if source.ValidationType != nil {
-		validationType := BackupInstance_ValidationType_STATUS(*source.ValidationType)
-		instance.ValidationType = &validationType
+		validationType := *source.ValidationType
+		validationTypeTemp := genruntime.ToEnum(validationType, backupInstance_ValidationType_STATUS_Values)
+		instance.ValidationType = &validationTypeTemp
 	} else {
 		instance.ValidationType = nil
 	}
@@ -3394,8 +3397,9 @@ func (details *ProtectionStatusDetails_STATUS) AssignProperties_From_ProtectionS
 
 	// Status
 	if source.Status != nil {
-		status := ProtectionStatusDetails_Status_STATUS(*source.Status)
-		details.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, protectionStatusDetails_Status_STATUS_Values)
+		details.Status = &statusTemp
 	} else {
 		details.Status = nil
 	}
@@ -4433,8 +4437,9 @@ func (credentials *SecretStoreBasedAuthCredentials) AssignProperties_From_Secret
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := SecretStoreBasedAuthCredentials_ObjectType(*source.ObjectType)
-		credentials.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, secretStoreBasedAuthCredentials_ObjectType_Values)
+		credentials.ObjectType = &objectTypeTemp
 	} else {
 		credentials.ObjectType = nil
 	}
@@ -4563,8 +4568,9 @@ func (credentials *SecretStoreBasedAuthCredentials_STATUS) AssignProperties_From
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := SecretStoreBasedAuthCredentials_ObjectType_STATUS(*source.ObjectType)
-		credentials.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, secretStoreBasedAuthCredentials_ObjectType_STATUS_Values)
+		credentials.ObjectType = &objectTypeTemp
 	} else {
 		credentials.ObjectType = nil
 	}
@@ -5370,8 +5376,9 @@ func (properties *DefaultResourceProperties) AssignProperties_From_DefaultResour
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := DefaultResourceProperties_ObjectType(*source.ObjectType)
-		properties.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, defaultResourceProperties_ObjectType_Values)
+		properties.ObjectType = &objectTypeTemp
 	} else {
 		properties.ObjectType = nil
 	}
@@ -5450,8 +5457,9 @@ func (properties *DefaultResourceProperties_STATUS) AssignProperties_From_Defaul
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := DefaultResourceProperties_ObjectType_STATUS(*source.ObjectType)
-		properties.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, defaultResourceProperties_ObjectType_STATUS_Values)
+		properties.ObjectType = &objectTypeTemp
 	} else {
 		properties.ObjectType = nil
 	}
@@ -5640,8 +5648,9 @@ func (resource *SecretStoreResource) AssignProperties_From_SecretStoreResource(s
 
 	// SecretStoreType
 	if source.SecretStoreType != nil {
-		secretStoreType := SecretStoreResource_SecretStoreType(*source.SecretStoreType)
-		resource.SecretStoreType = &secretStoreType
+		secretStoreType := *source.SecretStoreType
+		secretStoreTypeTemp := genruntime.ToEnum(secretStoreType, secretStoreResource_SecretStoreType_Values)
+		resource.SecretStoreType = &secretStoreTypeTemp
 	} else {
 		resource.SecretStoreType = nil
 	}
@@ -5760,8 +5769,9 @@ func (resource *SecretStoreResource_STATUS) AssignProperties_From_SecretStoreRes
 
 	// SecretStoreType
 	if source.SecretStoreType != nil {
-		secretStoreType := SecretStoreResource_SecretStoreType_STATUS(*source.SecretStoreType)
-		resource.SecretStoreType = &secretStoreType
+		secretStoreType := *source.SecretStoreType
+		secretStoreTypeTemp := genruntime.ToEnum(secretStoreType, secretStoreResource_SecretStoreType_STATUS_Values)
+		resource.SecretStoreType = &secretStoreTypeTemp
 	} else {
 		resource.SecretStoreType = nil
 	}
@@ -5883,16 +5893,18 @@ func (parameters *AzureOperationalStoreParameters) AssignProperties_From_AzureOp
 
 	// DataStoreType
 	if source.DataStoreType != nil {
-		dataStoreType := AzureOperationalStoreParameters_DataStoreType(*source.DataStoreType)
-		parameters.DataStoreType = &dataStoreType
+		dataStoreType := *source.DataStoreType
+		dataStoreTypeTemp := genruntime.ToEnum(dataStoreType, azureOperationalStoreParameters_DataStoreType_Values)
+		parameters.DataStoreType = &dataStoreTypeTemp
 	} else {
 		parameters.DataStoreType = nil
 	}
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AzureOperationalStoreParameters_ObjectType(*source.ObjectType)
-		parameters.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, azureOperationalStoreParameters_ObjectType_Values)
+		parameters.ObjectType = &objectTypeTemp
 	} else {
 		parameters.ObjectType = nil
 	}
@@ -6029,16 +6041,18 @@ func (parameters *AzureOperationalStoreParameters_STATUS) AssignProperties_From_
 
 	// DataStoreType
 	if source.DataStoreType != nil {
-		dataStoreType := AzureOperationalStoreParameters_DataStoreType_STATUS(*source.DataStoreType)
-		parameters.DataStoreType = &dataStoreType
+		dataStoreType := *source.DataStoreType
+		dataStoreTypeTemp := genruntime.ToEnum(dataStoreType, azureOperationalStoreParameters_DataStoreType_STATUS_Values)
+		parameters.DataStoreType = &dataStoreTypeTemp
 	} else {
 		parameters.DataStoreType = nil
 	}
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := AzureOperationalStoreParameters_ObjectType_STATUS(*source.ObjectType)
-		parameters.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, azureOperationalStoreParameters_ObjectType_STATUS_Values)
+		parameters.ObjectType = &objectTypeTemp
 	} else {
 		parameters.ObjectType = nil
 	}
@@ -6148,8 +6162,9 @@ func (parameters *BlobBackupDatasourceParameters) AssignProperties_From_BlobBack
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := BlobBackupDatasourceParameters_ObjectType(*source.ObjectType)
-		parameters.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, blobBackupDatasourceParameters_ObjectType_Values)
+		parameters.ObjectType = &objectTypeTemp
 	} else {
 		parameters.ObjectType = nil
 	}
@@ -6245,8 +6260,9 @@ func (parameters *BlobBackupDatasourceParameters_STATUS) AssignProperties_From_B
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := BlobBackupDatasourceParameters_ObjectType_STATUS(*source.ObjectType)
-		parameters.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, blobBackupDatasourceParameters_ObjectType_STATUS_Values)
+		parameters.ObjectType = &objectTypeTemp
 	} else {
 		parameters.ObjectType = nil
 	}
@@ -6496,8 +6512,9 @@ func (parameters *KubernetesClusterBackupDatasourceParameters) AssignProperties_
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := KubernetesClusterBackupDatasourceParameters_ObjectType(*source.ObjectType)
-		parameters.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, kubernetesClusterBackupDatasourceParameters_ObjectType_Values)
+		parameters.ObjectType = &objectTypeTemp
 	} else {
 		parameters.ObjectType = nil
 	}
@@ -6802,8 +6819,9 @@ func (parameters *KubernetesClusterBackupDatasourceParameters_STATUS) AssignProp
 
 	// ObjectType
 	if source.ObjectType != nil {
-		objectType := KubernetesClusterBackupDatasourceParameters_ObjectType_STATUS(*source.ObjectType)
-		parameters.ObjectType = &objectType
+		objectType := *source.ObjectType
+		objectTypeTemp := genruntime.ToEnum(objectType, kubernetesClusterBackupDatasourceParameters_ObjectType_STATUS_Values)
+		parameters.ObjectType = &objectTypeTemp
 	} else {
 		parameters.ObjectType = nil
 	}

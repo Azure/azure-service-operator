@@ -65,6 +65,11 @@ type BackupPolicy_ObjectType_STATUS string
 
 const BackupPolicy_ObjectType_STATUS_BackupPolicy = BackupPolicy_ObjectType_STATUS("BackupPolicy")
 
+// Mapping from string to BackupPolicy_ObjectType_STATUS
+var backupPolicy_ObjectType_STATUS_Values = map[string]BackupPolicy_ObjectType_STATUS{
+	"backuppolicy": BackupPolicy_ObjectType_STATUS_BackupPolicy,
+}
+
 type BasePolicyRule_STATUS_ARM struct {
 	// AzureBackup: Mutually exclusive with all other properties
 	AzureBackup *AzureBackupRule_STATUS_ARM `json:"azureBackupRule,omitempty"`
@@ -126,9 +131,19 @@ type AzureBackupRule_ObjectType_STATUS string
 
 const AzureBackupRule_ObjectType_STATUS_AzureBackupRule = AzureBackupRule_ObjectType_STATUS("AzureBackupRule")
 
+// Mapping from string to AzureBackupRule_ObjectType_STATUS
+var azureBackupRule_ObjectType_STATUS_Values = map[string]AzureBackupRule_ObjectType_STATUS{
+	"azurebackuprule": AzureBackupRule_ObjectType_STATUS_AzureBackupRule,
+}
+
 type AzureRetentionRule_ObjectType_STATUS string
 
 const AzureRetentionRule_ObjectType_STATUS_AzureRetentionRule = AzureRetentionRule_ObjectType_STATUS("AzureRetentionRule")
+
+// Mapping from string to AzureRetentionRule_ObjectType_STATUS
+var azureRetentionRule_ObjectType_STATUS_Values = map[string]AzureRetentionRule_ObjectType_STATUS{
+	"azureretentionrule": AzureRetentionRule_ObjectType_STATUS_AzureRetentionRule,
+}
 
 type BackupParameters_STATUS_ARM struct {
 	// AzureBackupParams: Mutually exclusive with all other properties
@@ -242,6 +257,13 @@ const (
 	DataStoreInfoBase_DataStoreType_STATUS_VaultStore       = DataStoreInfoBase_DataStoreType_STATUS("VaultStore")
 )
 
+// Mapping from string to DataStoreInfoBase_DataStoreType_STATUS
+var dataStoreInfoBase_DataStoreType_STATUS_Values = map[string]DataStoreInfoBase_DataStoreType_STATUS{
+	"archivestore":     DataStoreInfoBase_DataStoreType_STATUS_ArchiveStore,
+	"operationalstore": DataStoreInfoBase_DataStoreType_STATUS_OperationalStore,
+	"vaultstore":       DataStoreInfoBase_DataStoreType_STATUS_VaultStore,
+}
+
 type DeleteOption_STATUS_ARM struct {
 	// AbsoluteDeleteOption: Mutually exclusive with all other properties
 	AbsoluteDeleteOption *AbsoluteDeleteOption_STATUS_ARM `json:"absoluteDeleteOption,omitempty"`
@@ -310,9 +332,19 @@ type AdhocBasedTriggerContext_ObjectType_STATUS string
 
 const AdhocBasedTriggerContext_ObjectType_STATUS_AdhocBasedTriggerContext = AdhocBasedTriggerContext_ObjectType_STATUS("AdhocBasedTriggerContext")
 
+// Mapping from string to AdhocBasedTriggerContext_ObjectType_STATUS
+var adhocBasedTriggerContext_ObjectType_STATUS_Values = map[string]AdhocBasedTriggerContext_ObjectType_STATUS{
+	"adhocbasedtriggercontext": AdhocBasedTriggerContext_ObjectType_STATUS_AdhocBasedTriggerContext,
+}
+
 type AzureBackupParams_ObjectType_STATUS string
 
 const AzureBackupParams_ObjectType_STATUS_AzureBackupParams = AzureBackupParams_ObjectType_STATUS("AzureBackupParams")
+
+// Mapping from string to AzureBackupParams_ObjectType_STATUS
+var azureBackupParams_ObjectType_STATUS_Values = map[string]AzureBackupParams_ObjectType_STATUS{
+	"azurebackupparams": AzureBackupParams_ObjectType_STATUS_AzureBackupParams,
+}
 
 // Schedule for backup
 type BackupSchedule_STATUS_ARM struct {
@@ -377,6 +409,11 @@ type ScheduleBasedTriggerContext_ObjectType_STATUS string
 
 const ScheduleBasedTriggerContext_ObjectType_STATUS_ScheduleBasedTriggerContext = ScheduleBasedTriggerContext_ObjectType_STATUS("ScheduleBasedTriggerContext")
 
+// Mapping from string to ScheduleBasedTriggerContext_ObjectType_STATUS
+var scheduleBasedTriggerContext_ObjectType_STATUS_Values = map[string]ScheduleBasedTriggerContext_ObjectType_STATUS{
+	"schedulebasedtriggercontext": ScheduleBasedTriggerContext_ObjectType_STATUS_ScheduleBasedTriggerContext,
+}
+
 // Tagging criteria
 type TaggingCriteria_STATUS_ARM struct {
 	// Criteria: Criteria which decides whether the tag can be applied to a triggered backup.
@@ -395,6 +432,11 @@ type TaggingCriteria_STATUS_ARM struct {
 type AbsoluteDeleteOption_ObjectType_STATUS string
 
 const AbsoluteDeleteOption_ObjectType_STATUS_AbsoluteDeleteOption = AbsoluteDeleteOption_ObjectType_STATUS("AbsoluteDeleteOption")
+
+// Mapping from string to AbsoluteDeleteOption_ObjectType_STATUS
+var absoluteDeleteOption_ObjectType_STATUS_Values = map[string]AbsoluteDeleteOption_ObjectType_STATUS{
+	"absolutedeleteoption": AbsoluteDeleteOption_ObjectType_STATUS_AbsoluteDeleteOption,
+}
 
 type BackupCriteria_STATUS_ARM struct {
 	// ScheduleBasedBackupCriteria: Mutually exclusive with all other properties
@@ -460,13 +502,28 @@ type CopyOnExpiryOption_ObjectType_STATUS string
 
 const CopyOnExpiryOption_ObjectType_STATUS_CopyOnExpiryOption = CopyOnExpiryOption_ObjectType_STATUS("CopyOnExpiryOption")
 
+// Mapping from string to CopyOnExpiryOption_ObjectType_STATUS
+var copyOnExpiryOption_ObjectType_STATUS_Values = map[string]CopyOnExpiryOption_ObjectType_STATUS{
+	"copyonexpiryoption": CopyOnExpiryOption_ObjectType_STATUS_CopyOnExpiryOption,
+}
+
 type CustomCopyOption_ObjectType_STATUS string
 
 const CustomCopyOption_ObjectType_STATUS_CustomCopyOption = CustomCopyOption_ObjectType_STATUS("CustomCopyOption")
 
+// Mapping from string to CustomCopyOption_ObjectType_STATUS
+var customCopyOption_ObjectType_STATUS_Values = map[string]CustomCopyOption_ObjectType_STATUS{
+	"customcopyoption": CustomCopyOption_ObjectType_STATUS_CustomCopyOption,
+}
+
 type ImmediateCopyOption_ObjectType_STATUS string
 
 const ImmediateCopyOption_ObjectType_STATUS_ImmediateCopyOption = ImmediateCopyOption_ObjectType_STATUS("ImmediateCopyOption")
+
+// Mapping from string to ImmediateCopyOption_ObjectType_STATUS
+var immediateCopyOption_ObjectType_STATUS_Values = map[string]ImmediateCopyOption_ObjectType_STATUS{
+	"immediatecopyoption": ImmediateCopyOption_ObjectType_STATUS_ImmediateCopyOption,
+}
 
 type ScheduleBasedBackupCriteria_STATUS_ARM struct {
 	// AbsoluteCriteria: it contains absolute values like "AllBackup" / "FirstOfDay" / "FirstOfWeek" / "FirstOfMonth"
@@ -511,6 +568,15 @@ const (
 	ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfYear  = ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS("FirstOfYear")
 )
 
+// Mapping from string to ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS
+var scheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_Values = map[string]ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS{
+	"allbackup":    ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_AllBackup,
+	"firstofday":   ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfDay,
+	"firstofmonth": ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfMonth,
+	"firstofweek":  ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfWeek,
+	"firstofyear":  ScheduleBasedBackupCriteria_AbsoluteCriteria_STATUS_FirstOfYear,
+}
+
 type ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS string
 
 const (
@@ -522,6 +588,17 @@ const (
 	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Tuesday   = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS("Tuesday")
 	ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Wednesday = ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS("Wednesday")
 )
+
+// Mapping from string to ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS
+var scheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Values = map[string]ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS{
+	"friday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Friday,
+	"monday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Monday,
+	"saturday":  ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Saturday,
+	"sunday":    ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Sunday,
+	"thursday":  ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Thursday,
+	"tuesday":   ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Tuesday,
+	"wednesday": ScheduleBasedBackupCriteria_DaysOfTheWeek_STATUS_Wednesday,
+}
 
 type ScheduleBasedBackupCriteria_MonthsOfYear_STATUS string
 
@@ -540,9 +617,30 @@ const (
 	ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_September = ScheduleBasedBackupCriteria_MonthsOfYear_STATUS("September")
 )
 
+// Mapping from string to ScheduleBasedBackupCriteria_MonthsOfYear_STATUS
+var scheduleBasedBackupCriteria_MonthsOfYear_STATUS_Values = map[string]ScheduleBasedBackupCriteria_MonthsOfYear_STATUS{
+	"april":     ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_April,
+	"august":    ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_August,
+	"december":  ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_December,
+	"february":  ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_February,
+	"january":   ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_January,
+	"july":      ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_July,
+	"june":      ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_June,
+	"march":     ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_March,
+	"may":       ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_May,
+	"november":  ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_November,
+	"october":   ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_October,
+	"september": ScheduleBasedBackupCriteria_MonthsOfYear_STATUS_September,
+}
+
 type ScheduleBasedBackupCriteria_ObjectType_STATUS string
 
 const ScheduleBasedBackupCriteria_ObjectType_STATUS_ScheduleBasedBackupCriteria = ScheduleBasedBackupCriteria_ObjectType_STATUS("ScheduleBasedBackupCriteria")
+
+// Mapping from string to ScheduleBasedBackupCriteria_ObjectType_STATUS
+var scheduleBasedBackupCriteria_ObjectType_STATUS_Values = map[string]ScheduleBasedBackupCriteria_ObjectType_STATUS{
+	"schedulebasedbackupcriteria": ScheduleBasedBackupCriteria_ObjectType_STATUS_ScheduleBasedBackupCriteria,
+}
 
 type ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS string
 
@@ -553,3 +651,12 @@ const (
 	ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Second = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS("Second")
 	ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Third  = ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS("Third")
 )
+
+// Mapping from string to ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS
+var scheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Values = map[string]ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS{
+	"first":  ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_First,
+	"fourth": ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Fourth,
+	"last":   ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Last,
+	"second": ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Second,
+	"third":  ScheduleBasedBackupCriteria_WeeksOfTheMonth_STATUS_Third,
+}

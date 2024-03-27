@@ -3766,6 +3766,12 @@ const (
 	Extension_Properties_AksAssignedIdentity_Type_STATUS_UserAssigned   = Extension_Properties_AksAssignedIdentity_Type_STATUS("UserAssigned")
 )
 
+// Mapping from string to Extension_Properties_AksAssignedIdentity_Type_STATUS
+var extension_Properties_AksAssignedIdentity_Type_STATUS_Values = map[string]Extension_Properties_AksAssignedIdentity_Type_STATUS{
+	"systemassigned": Extension_Properties_AksAssignedIdentity_Type_STATUS_SystemAssigned,
+	"userassigned":   Extension_Properties_AksAssignedIdentity_Type_STATUS_UserAssigned,
+}
+
 type ExtensionOperatorConfigMaps struct {
 	// PrincipalId: indicates where the PrincipalId config map should be placed. If omitted, no config map will be created.
 	PrincipalId *genruntime.ConfigMapDestination `json:"principalId,omitempty"`
@@ -3808,12 +3814,6 @@ func (maps *ExtensionOperatorConfigMaps) AssignProperties_To_ExtensionOperatorCo
 
 	// No error
 	return nil
-}
-
-// Mapping from string to Extension_Properties_AksAssignedIdentity_Type_STATUS
-var extension_Properties_AksAssignedIdentity_Type_STATUS_Values = map[string]Extension_Properties_AksAssignedIdentity_Type_STATUS{
-	"systemassigned": Extension_Properties_AksAssignedIdentity_Type_STATUS_SystemAssigned,
-	"userassigned":   Extension_Properties_AksAssignedIdentity_Type_STATUS_UserAssigned,
 }
 
 type ExtensionStatus_Level_STATUS string
