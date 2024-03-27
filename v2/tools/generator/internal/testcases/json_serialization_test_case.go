@@ -65,7 +65,7 @@ func (o *JSONSerializationTestCase) References() astmodel.TypeNameSet {
 func (o *JSONSerializationTestCase) AsFuncs(
 	_ astmodel.TypeName,
 	genContext *astmodel.CodeGenerationContext,
-) []dst.Decl {
+) ([]dst.Decl, error) {
 	properties := o.container.Properties().Copy()
 
 	// Special handling for large objects with more than 50 properties - we skip testing primitive properties
@@ -117,7 +117,7 @@ func (o *JSONSerializationTestCase) AsFuncs(
 		result = append(result, o.createGeneratorsFactoryMethod(o.idOfRelatedGeneratorsFactoryMethod(), relatedGenerators, genContext))
 	}
 
-	return result
+	return result, nil
 }
 
 // RequiredImports returns a set of the package imports required by this test case

@@ -115,12 +115,16 @@ func (p *PropertyAssignmentTestCase) RequiredImports() *astmodel.PackageImportSe
 // subject is the name of the type under test
 // codeGenerationContext contains reference material to use when generating
 func (p *PropertyAssignmentTestCase) AsFuncs(
-	receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext,
-) []dst.Decl {
+	receiver astmodel.TypeName,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+) ([]dst.Decl, error) {
+	testRunner := p.createTestRunner(codeGenerationContext)
+	testMethod := p.createTestMethod(receiver, codeGenerationContext)
+
 	return []dst.Decl{
-		p.createTestRunner(codeGenerationContext),
-		p.createTestMethod(receiver, codeGenerationContext),
-	}
+		testRunner,
+		testMethod,
+	}, nil
 }
 
 // Equals determines if this TestCase is equal to another one
