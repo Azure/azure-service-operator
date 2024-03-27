@@ -54,7 +54,7 @@ func (c *ARMConversionFunction) RequiredPackageReferences() *astmodel.PackageRef
 	result := astmodel.NewPackageReferenceSet(
 		astmodel.GenRuntimeReference,
 		astmodel.GitHubErrorsReference,
-		astmodel.MakeExternalPackageReference("fmt"))
+		astmodel.FmtReference)
 	result.Merge(c.armType.RequiredPackageReferences())
 	return result
 }
