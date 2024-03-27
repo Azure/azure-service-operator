@@ -25,13 +25,16 @@ type FileDefinition struct {
 	// definitions to include in this file
 	definitions []TypeDefinition
 
-	// other packages whose references may be needed for code generation
+	// other generated packages whose references may be needed for code generation
 	generatedPackages map[InternalPackageReference]*PackageDefinition
 }
 
 var _ GoSourceFile = &FileDefinition{}
 
-// NewFileDefinition creates a file definition containing specified definitions
+// NewFileDefinition creates a file definition containing specified definitions.
+// packageRef is the package to which this file belongs.
+// definitions are the type definitions to include in this specific file.
+// generatedPackages is a map of all other packages being generated (to allow for cross-package references).
 func NewFileDefinition(
 	packageRef InternalPackageReference,
 	definitions []TypeDefinition,

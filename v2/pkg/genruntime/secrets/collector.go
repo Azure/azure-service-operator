@@ -6,7 +6,8 @@
 package secrets
 
 import (
-	"sort"
+	"cmp"
+	"slices"
 
 	"github.com/pkg/errors"
 	"golang.org/x/exp/maps"
@@ -115,11 +116,12 @@ func (c *Collector) Values() ([]*v1.Secret, error) {
 	result := maps.Values(c.secrets)
 
 	// Force a deterministic ordering
-	sort.Slice(result, func(i, j int) bool {
-		left := result[i]
-		right := result[j]
+	slices.SortFunc(result, func(left, right *v1.Secret) int {
+		if c := cmp.Compare(left.Namespace, right.Namespace); c != 0 {
+			return c
+		}
 
-		return left.Namespace < right.Namespace || (left.Namespace == right.Namespace && left.Name < right.Name)
+		return cmp.Compare(left.Name, right.Name)
 	})
 
 	return result, nil

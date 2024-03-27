@@ -41,24 +41,54 @@ const (
 	TypeKindStatus
 )
 
+// sourceTypeIdent returns a dst.Expr that refers to the source type.
 func (builder conversionBuilder) sourceTypeIdent() dst.Expr {
 	// If the source type is in this package, return it without qualification
 	sourceTypePkg := builder.sourceTypeName.InternalPackageReference()
 	if sourceTypePkg.Equals(builder.codeGenerationContext.CurrentPackage()) {
 		return dst.NewIdent(builder.sourceTypeName.Name())
 	}
+
 	sourceTypeImport := builder.codeGenerationContext.MustGetImportedPackageName(sourceTypePkg)
 	return astbuilder.QualifiedTypeName(sourceTypeImport, builder.sourceTypeName.Name())
 }
 
+// destinationTypeIdent returns a dst.Expr that refers to the destination type.
 func (builder conversionBuilder) destinationTypeIdent() dst.Expr {
 	// If the destination type is in this package, return it without qualification
 	destinationTypePkg := builder.destinationTypeName.InternalPackageReference()
 	if destinationTypePkg.Equals(builder.codeGenerationContext.CurrentPackage()) {
 		return dst.NewIdent(builder.destinationTypeName.Name())
 	}
+
 	destinationTypeImport := builder.codeGenerationContext.MustGetImportedPackageName(destinationTypePkg)
 	return astbuilder.QualifiedTypeName(destinationTypeImport, builder.destinationTypeName.Name())
+}
+
+// sourceTypeString returns a string that refers to the source type.
+func (builder conversionBuilder) sourceTypeString() string {
+	// If the source type is in this package, return it without qualification
+	sourceTypePkg := builder.sourceTypeName.InternalPackageReference()
+	if sourceTypePkg.Equals(builder.codeGenerationContext.CurrentPackage()) {
+		return builder.sourceTypeName.Name()
+	}
+
+	sourceTypeImport := builder.codeGenerationContext.MustGetImportedPackageName(sourceTypePkg)
+	return fmt.Sprintf("%s.%s", sourceTypeImport, builder.sourceTypeName.Name())
+}
+
+// destinationTypeString returns a string that refers to the destination type.
+//
+//nolint:unused
+func (builder conversionBuilder) destinationTypeString() string {
+	// If the destination type is in this package, return it without qualification
+	destinationTypePkg := builder.destinationTypeName.InternalPackageReference()
+	if destinationTypePkg.Equals(builder.codeGenerationContext.CurrentPackage()) {
+		return builder.destinationTypeName.Name()
+	}
+
+	destinationTypeImport := builder.codeGenerationContext.MustGetImportedPackageName(destinationTypePkg)
+	return fmt.Sprintf("%s.%s", destinationTypeImport, builder.destinationTypeName.Name())
 }
 
 func (builder conversionBuilder) propertyConversionHandler(

@@ -39,7 +39,10 @@ func ApplyARMConversionInterface(idFactory astmodel.IdentifierFactory, config *c
 
 // GetARMTypeDefinition gets the ARM type definition for a given Kubernetes type name.
 // If no matching definition can be found an error is returned.
-func GetARMTypeDefinition(defs astmodel.TypeDefinitionSet, name astmodel.InternalTypeName) (astmodel.TypeDefinition, error) {
+func GetARMTypeDefinition(
+	defs astmodel.TypeDefinitionSet,
+	name astmodel.InternalTypeName,
+) (astmodel.TypeDefinition, error) {
 	armDefinition, ok := defs[astmodel.CreateARMTypeName(name)]
 	if !ok {
 		return astmodel.TypeDefinition{}, errors.Errorf("couldn't find ARM definition matching kube name %q", name)

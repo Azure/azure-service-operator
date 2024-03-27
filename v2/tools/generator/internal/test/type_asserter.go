@@ -134,53 +134,12 @@ func (a *typeAsserter) addReferences(defs ...astmodel.TypeDefinition) {
 	a.reference.AddAll(defs...)
 }
 
-// renderDefsAsCode renders the passed definitions as Go code.
+// renderDefs renders the passed definitions as Go code.
 // It returns the generated code as a string.
 // pkg is the package we're generating.
 // defs is the set of type definitions to render.
 // packages is a map of all other packages being generated (to allow for cross-package references).
-func (a *typeAsserter) renderDefsAsCode(
-	pkg astmodel.InternalPackageReference,
-	defs []astmodel.TypeDefinition,
-	packages map[astmodel.InternalPackageReference]*astmodel.PackageDefinition,
-) (string, error) {
-	buf := &bytes.Buffer{}
-	file := createFileDefinition(pkg, defs, packages)
-	fileWriter := astmodel.NewGoSourceFileWriter(file)
-	err := fileWriter.SaveToWriter(buf)
-	if err != nil {
-		return "", errors.Wrap(err, "could not generate code file")
-	}
-
-	return buf.String(), nil
-}
-
-// renderDefsAsTests renders the passed definitions as Go tests.
-// It returns the generated tests as a string.
-// pkg is the package we're generating.
-// defs is the set of type definitions to render.
-// packages is a map of all other packages being generated (to allow for cross-package references).
-func (a *typeAsserter) renderDefsAsTests(
-	pkg astmodel.InternalPackageReference,
-	defs []astmodel.TypeDefinition,
-	packages map[astmodel.InternalPackageReference]*astmodel.PackageDefinition,
-) (string, error) {
-	buf := &bytes.Buffer{}
-	file := createTestFileDefinition(pkg, defs, packages)
-	fileWriter := astmodel.NewGoSourceFileWriter(file)
-	err := fileWriter.SaveToWriter(buf)
-	if err != nil {
-		return "", errors.Wrap(err, "could not generate test file")
-	}
-
-	return buf.String(), nil
-}
-
-// renderDefsAsCode renders the passed definitions as Go code.
-// It returns the generated code as a string.
-// pkg is the package we're generating.
-// defs is the set of type definitions to render.
-// packages is a map of all other packages being generated (to allow for cross-package references).
+// renderer is the function to use to create the file definition.
 func (a *typeAsserter) renderDefs(
 	pkg astmodel.InternalPackageReference,
 	defs []astmodel.TypeDefinition,
