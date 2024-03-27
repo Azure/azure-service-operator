@@ -419,7 +419,7 @@ func TestCreateARMTypeConversionsWhenSimplifying_CreatesExpectedConversions(t *t
 				ApplyARMConversionInterface(idFactory, omc))
 			g.Expect(err).ToNot(HaveOccurred())
 
-			test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
+			test.AssertPackagesGenerateExpectedCode(t, state.Definitions(), test.CreateFolderForTest())
 		})
 	}
 }

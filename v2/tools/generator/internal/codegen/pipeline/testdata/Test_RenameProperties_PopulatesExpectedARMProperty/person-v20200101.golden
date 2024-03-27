@@ -26,70 +26,10 @@
  	Items           []Person `json:"items"`
  }
  
- type Person_Spec_ARM struct {
- 	APIVersion *APIVersion_ARM `json:"apiVersion,omitempty"`
- 
- 	// FamilyName: Shared name of the family
- 	FamilyName string `json:"familyName,omitempty"`
- 
- 	// FullName: As would be used to address mail
- 	FullName string `json:"fullName,omitempty"`
- 
- 	// KnownAs: How the person is generally known
- 	KnownAs string `json:"knownAs,omitempty"`
- 
- 	// Name: The name of the resource
- 	Name string `json:"name,omitempty"`
- }
- 
- var _ genruntime.ARMResourceSpec = &Person_Spec_ARM{}
- 
- // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
- func (person Person_Spec_ARM) GetAPIVersion() string {
- 	return "2020-06-01"
- }
- 
- // GetName returns the Name of the resource
- func (person *Person_Spec_ARM) GetName() string {
- 	return person.Name
- }
- 
- // GetType returns the ARM Type of the resource. This is always ""
- func (person *Person_Spec_ARM) GetType() string {
- 	return ""
- }
- 
- type Person_STATUS_ARM struct {
- 	// FamilyName: Shared name of the family
- 	FamilyName string `json:"familyName,omitempty"`
- 
- 	// FullName: As would be used to address mail
- 	FullName string `json:"fullName,omitempty"`
- 
- 	// KnownAs: How the person is generally known
- 	KnownAs string `json:"knownAs,omitempty"`
- 
- 	// Name: The name of the resource
- 	Name string `json:"name,omitempty"`
- 
- 	// Status: Current status
- 	Status string `json:"status,omitempty"`
- }
- 
  // +kubebuilder:validation:Enum={"2020-06-01"}
  type APIVersion string
  
  const APIVersion_apiVersion = APIVersion("2020-06-01")
- 
- // +kubebuilder:validation:Enum={"2020-06-01"}
- type APIVersion_ARM string
- 
- const APIVersion_ARM_apiVersion = APIVersion_ARM("2020-06-01")
- 
- // Mapping from string to APIVersion_ARM
- var aPIVersion_ARM_Values = map[string]APIVersion_ARM{
- 	"2020-06-01": APIVersion_ARM_apiVersion,
- }
  
  type Person_Spec struct {
  	// +kubebuilder:validation:Required
@@ -125,7 +65,7 @@
  	if person.APIVersion != nil {
  		var temp string
  		temp = string(*person.APIVersion)
- 		apiVersion := APIVersion_ARM(temp)
+ 		apiVersion := arm.APIVersion(temp)
  		result.APIVersion = &apiVersion
  	}
  
@@ -136,8 +76,7 @@
  	result.FullName = person.FullName
  
  	// Set property "KnownAs":
--	result.KnownAs = person.KnownAs
-+	result.KnownAs = person.Alias
+ 	result.KnownAs = person.Alias
  
  	// Set property "Name":
  	result.Name = resolved.Name
@@ -151,9 +90,9 @@
  
  // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
  func (person *Person_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
- 	typedInput, ok := armInput.(Person_Spec_ARM)
+ 	typedInput, ok := armInput.(arm.Person_Spec)
  	if !ok {
- 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Person_Spec_ARM, got %T", armInput)
+ 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Person_Spec, got %T", armInput)
  	}
  
  	// Set property "APIVersion":
@@ -164,9 +103,9 @@
  		person.APIVersion = &apiVersion
  	}
  
-+	// Set property "Alias":
-+	person.Alias = typedInput.KnownAs
-+
+ 	// Set property "Alias":
+ 	person.Alias = typedInput.KnownAs
+ 
  	// Set property "AzureName":
  	person.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
  
@@ -176,9 +115,6 @@
  	// Set property "FullName":
  	person.FullName = typedInput.FullName
  
--	// Set property "KnownAs":
--	person.KnownAs = typedInput.KnownAs
--
  	// No error
  	return nil
  }
@@ -211,7 +147,7 @@
  func (person *Person_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
  	typedInput, ok := armInput.(arm.Person_STATUS)
  	if !ok {
- 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Person_STATUS_ARM, got %T", armInput)
+ 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Person_STATUS, got %T", armInput)
  	}
  
  	// Set property "FamilyName":
