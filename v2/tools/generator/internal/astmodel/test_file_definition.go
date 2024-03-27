@@ -6,8 +6,9 @@
 package astmodel
 
 import (
-	"github.com/pkg/errors"
 	"go/token"
+
+	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/dave/dst"
@@ -65,9 +66,10 @@ func (file *TestFileDefinition) AsAst() (*dst.File, error) {
 	}
 
 	if len(errs) > 0 {
-		return nil, errors.Wrapf(
+		return nil, errors.Wrap(
 			kerrors.NewAggregate(errs),
-			"failed to generate test cases for %s")
+			"failed to generate test cases",
+		)
 	}
 
 	var decls []dst.Decl
