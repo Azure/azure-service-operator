@@ -125,7 +125,7 @@ func (tc *ResourceConversionTestCase) AsFuncs(
 ) ([]dst.Decl, error) {
 	testRunner := tc.createTestRunner(codeGenerationContext)
 	testMethod := tc.createTestMethod(receiver, codeGenerationContext)
-	
+
 	return []dst.Decl{
 		testRunner,
 		testMethod,
