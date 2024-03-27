@@ -42,13 +42,6 @@ var nonRetryableStates = set.Make(
 	"RetentionSchedulesSuspended",
 )
 
-var retryableStates = set.Make(
-	"ProtectionError",
-	"UpdatingProtection",
-	"ConfiguringProtection",
-	"SoftDeleting",
-)
-
 func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 	ctx context.Context,
 	obj genruntime.MetaObject,
@@ -65,10 +58,15 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 			errors.Errorf("cannot run on unknown resource type %T, expected *dataprotection.BackupVaultsBackupInstance", obj)
 	}
 
+	// Type assert that we are the hub type. This will fail to compile if
+	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = backupInstance
 
-	if owner != nil && backupInstance != nil && backupInstance.Status.Id != nil &&
-		backupInstance.Status.Properties != nil && backupInstance.Status.Properties.ProtectionStatus != nil &&
+	if owner != nil &&
+		backupInstance != nil &&
+		backupInstance.Status.Id != nil &&
+		backupInstance.Status.Properties != nil &&
+		backupInstance.Status.Properties.ProtectionStatus != nil &&
 		backupInstance.Status.Properties.ProtectionStatus.Status != nil {
 
 		protectionStatus := *backupInstance.Status.Properties.ProtectionStatus.Status
@@ -81,8 +79,8 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 		}
 
 		// call sync api only when protection status is ProtectionError and error code is usererror
+		protectionStatusErrorCode := ""
 		if protectionStatus == "ProtectionError" {
-			protectionStatusErrorCode := ""
 			protectionStatusErrorCode = strings.ToLower(*backupInstance.Status.Properties.ProtectionStatus.ErrorDetails.Code)
 			log.V(Debug).Info(fmt.Sprintf("########################## Protection Error code is  %q ##########################", protectionStatusErrorCode))
 
@@ -95,7 +93,7 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 				log.V(Debug).Info("########################## Starting NewBackupInstancesClient for Backup Instance ##########################")
 				clientFactory, err := armdataprotection.NewClientFactory(subscription, armClient.Creds(), armClient.ClientOptions())
 				if err != nil {
-					log.Error(err, "failed to create armdataprotection client")
+					return extensions.PostReconcileCheckResultFailure("failed to create armdataprotection client"), err
 				}
 
 				var parameters armdataprotection.SyncBackupInstanceRequest
@@ -103,12 +101,12 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 				log.V(Debug).Info("########################## Starting BeginSyncBackupInstance for Backup Instance ##########################")
 				poller, err := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, nil)
 				if err != nil {
-					log.Error(err, "failed BeginSyncBackupInstance to get the result")
+					return extensions.PostReconcileCheckResultFailure("failed BeginSyncBackupInstance to get the result"), err
 				}
 
 				_, err = poller.PollUntilDone(ctx, nil)
 				if err != nil {
-					log.Error(err, "failed BeginSyncBackupInstance to poll the result")
+					return extensions.PostReconcileCheckResultFailure("failed BeginSyncBackupInstance to poll the result"), err
 				}
 			}
 		}

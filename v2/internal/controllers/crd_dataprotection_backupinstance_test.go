@@ -6,17 +6,19 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
+	"testing"
+
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"testing"
 
 	akscluster "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
 
 	"fmt"
+
 	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
 	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
 	kubernetesconfiguration "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
@@ -223,22 +225,22 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 				ObjectType:   to.Ptr("BackupInstance"),
 				FriendlyName: to.Ptr(biName),
 				DataSourceInfo: &dataprotection.Datasource{
-					ObjectType:        			to.Ptr("Datasource"),
-					DatasourceType:    			to.Ptr(cluster.GetType()),
-					ResourceUriReference:       tc.MakeReferenceFromResource(cluster),
-					ResourceName:      			to.Ptr(cluster.AzureName()),
-					ResourceLocation:  			cluster.Spec.Location,
-					ResourceType:      			to.Ptr(cluster.GetType()),
-					ResourceReference: 			tc.MakeReferenceFromResource(cluster),
+					ObjectType:           to.Ptr("Datasource"),
+					DatasourceType:       to.Ptr(cluster.GetType()),
+					ResourceUriReference: tc.MakeReferenceFromResource(cluster),
+					ResourceName:         to.Ptr(cluster.AzureName()),
+					ResourceLocation:     cluster.Spec.Location,
+					ResourceType:         to.Ptr(cluster.GetType()),
+					ResourceReference:    tc.MakeReferenceFromResource(cluster),
 				},
 				DataSourceSetInfo: &dataprotection.DatasourceSet{
-					ObjectType:        			to.Ptr("DatasourceSet"),
-					DatasourceType:    			to.Ptr(cluster.GetType()),
-					ResourceUriReference:       tc.MakeReferenceFromResource(cluster),
-					ResourceName:      			to.Ptr(cluster.AzureName()),
-					ResourceType:      			to.Ptr(cluster.GetType()),
-					ResourceLocation:  			cluster.Spec.Location,
-					ResourceReference: 			tc.MakeReferenceFromResource(cluster),
+					ObjectType:           to.Ptr("DatasourceSet"),
+					DatasourceType:       to.Ptr(cluster.GetType()),
+					ResourceUriReference: tc.MakeReferenceFromResource(cluster),
+					ResourceName:         to.Ptr(cluster.AzureName()),
+					ResourceType:         to.Ptr(cluster.GetType()),
+					ResourceLocation:     cluster.Spec.Location,
+					ResourceReference:    tc.MakeReferenceFromResource(cluster),
 				},
 				PolicyInfo: &dataprotection.PolicyInfo{
 					PolicyReference: tc.MakeReferenceFromResource(backupPolicy),
@@ -246,9 +248,9 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 						DataStoreParametersList: []dataprotection.DataStoreParameters{
 							{
 								AzureOperationalStoreParameters: &dataprotection.AzureOperationalStoreParameters{
-									DataStoreType:   to.Ptr(dataprotection.AzureOperationalStoreParameters_DataStoreType_OperationalStore),
+									DataStoreType:          to.Ptr(dataprotection.AzureOperationalStoreParameters_DataStoreType_OperationalStore),
 									ResourceGroupReference: tc.MakeReferenceFromResource(rg),
-									ObjectType:      to.Ptr(dataprotection.AzureOperationalStoreParameters_ObjectType_AzureOperationalStoreParameters),
+									ObjectType:             to.Ptr(dataprotection.AzureOperationalStoreParameters_ObjectType_AzureOperationalStoreParameters),
 								},
 							},
 						},
@@ -267,8 +269,20 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourcesAndWait(cluster, acct, blobService, blobContainer, backupVault, backupPolicy, extension,
-		trustedAccessRoleBinding, extenstionRoleAssignment, clusterRoleAssignment, clusterMSIRoleAssignment, snapshotRGRoleAssignment, backupInstance)
+	tc.CreateResourcesAndWait(
+		cluster,
+		acct,
+		blobService,
+		blobContainer,
+		backupVault,
+		backupPolicy,
+		extension,
+		trustedAccessRoleBinding,
+		extenstionRoleAssignment,
+		clusterRoleAssignment,
+		clusterMSIRoleAssignment,
+		snapshotRGRoleAssignment,
+		backupInstance)
 
 	objectKey := client.ObjectKeyFromObject(backupInstance)
 
