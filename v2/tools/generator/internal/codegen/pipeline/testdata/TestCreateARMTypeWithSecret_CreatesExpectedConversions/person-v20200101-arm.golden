@@ -5,35 +5,35 @@ package arm
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Person_Spec_BOOMBABOOMBA struct {
+type Person_Spec struct {
 	// Name: The name of the resource
-	Name       string                         `json:"name,omitempty"`
-	Properties *PersonProperties_BOOMBABOOMBA `json:"properties,omitempty"`
+	Name       string            `json:"name,omitempty"`
+	Properties *PersonProperties `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Person_Spec_BOOMBABOOMBA{}
+var _ genruntime.ARMResourceSpec = &Person_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always v2020
-func (boombaboomba Person_Spec_BOOMBABOOMBA) GetAPIVersion() string {
+func (person Person_Spec) GetAPIVersion() string {
 	return string(APIVersion_v2020)
 }
 
 // GetName returns the Name of the resource
-func (boombaboomba *Person_Spec_BOOMBABOOMBA) GetName() string {
-	return boombaboomba.Name
+func (person *Person_Spec) GetName() string {
+	return person.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always ""
-func (boombaboomba *Person_Spec_BOOMBABOOMBA) GetType() string {
+func (person *Person_Spec) GetType() string {
 	return ""
 }
 
-type Person_STATUS_BOOMBABOOMBA struct {
+type Person_STATUS struct {
 	// Status: Current status
 	Status string `json:"status,omitempty"`
 }
 
-type PersonProperties_BOOMBABOOMBA struct {
+type PersonProperties struct {
 	// FamilyName: Shared name of the family
 	FamilyName string `json:"familyName,omitempty"`
 
