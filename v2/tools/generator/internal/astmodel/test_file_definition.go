@@ -6,7 +6,9 @@
 package astmodel
 
 import (
+	"github.com/pkg/errors"
 	"go/token"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/dave/dst"
 )
@@ -44,6 +46,7 @@ func (file *TestFileDefinition) AsAst() (*dst.File, error) {
 
 	// Emit all test cases:
 	var testcases []dst.Decl
+	var errs []error
 	for _, s := range file.definitions {
 		container, ok := AsTestCaseContainer(s.Type())
 		if !ok {
@@ -51,8 +54,20 @@ func (file *TestFileDefinition) AsAst() (*dst.File, error) {
 		}
 
 		for _, testcase := range container.TestCases() {
-			testcases = append(testcases, testcase.AsFuncs(s.name, codeGenContext)...)
+			decls, err := testcase.AsFuncs(s.name, codeGenContext)
+			if err != nil {
+				errs = append(errs, err)
+				continue
+			}
+
+			testcases = append(testcases, decls...)
 		}
+	}
+
+	if len(errs) > 0 {
+		return nil, errors.Wrapf(
+			kerrors.NewAggregate(errs),
+			"failed to generate test cases for %s")
 	}
 
 	var decls []dst.Decl
