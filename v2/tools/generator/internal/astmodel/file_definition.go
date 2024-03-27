@@ -154,6 +154,7 @@ func (file *FileDefinition) generateImports() *PackageImportSet {
 	// TODO: Make this configurable
 	requiredImports.ApplyName(MetaV1Reference, "metav1")
 	requiredImports.ApplyName(APIMachineryErrorsReference, "kerrors")
+	requiredImports.ApplyName(MakeSubPackageReference(ARMPackageName, file.packageReference), "arm")
 
 	return requiredImports
 }
