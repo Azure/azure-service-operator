@@ -33,7 +33,10 @@ func (f FakeTestCase) RequiredImports() *PackageImportSet {
 	panic("implement me")
 }
 
-func (f FakeTestCase) AsFuncs(subject TypeName, codeGenerationContext *CodeGenerationContext) []dst.Decl {
+func (f FakeTestCase) AsFuncs(
+	subject TypeName,
+	codeGenerationContext *CodeGenerationContext,
+) ([]dst.Decl, error) {
 	panic("implement me")
 }
 

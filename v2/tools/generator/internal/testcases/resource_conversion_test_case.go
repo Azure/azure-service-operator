@@ -119,11 +119,17 @@ func (tc *ResourceConversionTestCase) RequiredImports() *astmodel.PackageImportS
 // AsFuncs renders the current test case and any supporting methods as Go abstract syntax trees
 // subject is the name of the type under test
 // codeGenerationContext contains reference material to use when generating
-func (tc *ResourceConversionTestCase) AsFuncs(receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext) []dst.Decl {
+func (tc *ResourceConversionTestCase) AsFuncs(
+	receiver astmodel.TypeName,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+) ([]dst.Decl, error) {
+	testRunner := tc.createTestRunner(codeGenerationContext)
+	testMethod := tc.createTestMethod(receiver, codeGenerationContext)
+
 	return []dst.Decl{
-		tc.createTestRunner(codeGenerationContext),
-		tc.createTestMethod(receiver, codeGenerationContext),
-	}
+		testRunner,
+		testMethod,
+	}, nil
 }
 
 // Equals determines if this TestCase is equal to another one

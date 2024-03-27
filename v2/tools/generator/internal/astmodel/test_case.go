@@ -21,7 +21,7 @@ type TestCase interface {
 	// AsFuncs renders the current test case and any supporting methods as Go abstract syntax trees
 	// subject is the name of the type under test
 	// codeGenerationContext contains reference material to use when generating
-	AsFuncs(subject TypeName, codeGenerationContext *CodeGenerationContext) []dst.Decl
+	AsFuncs(subject TypeName, codeGenerationContext *CodeGenerationContext) ([]dst.Decl, error)
 
 	// Equals determines if this TestCase is equal to another one
 	Equals(f TestCase, overrides EqualityOverrides) bool
