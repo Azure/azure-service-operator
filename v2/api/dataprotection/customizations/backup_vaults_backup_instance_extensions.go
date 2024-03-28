@@ -66,10 +66,10 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 	ctx context.Context,
 	obj genruntime.MetaObject,
 	owner genruntime.MetaObject,
-	_ *resolver.Resolver,
+	resolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
-	_ extensions.PostReconcileCheckFunc,
+	next extensions.PostReconcileCheckFunc,
 ) (extensions.PostReconcileCheckResult, error) {
 	log.V(Debug).Info("########################## Starting Post-reconcilation for Backup Instance ##########################")
 	backupInstance, ok := obj.(*dataprotection.BackupVaultsBackupInstance)
@@ -142,6 +142,8 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 				}
 				if poller.Done() {
 					ClearPollerResumeToken(obj, log)
+				} else {
+					return next(ctx, obj, owner, resolver, armClient, log)
 				}
 			}
 		}
