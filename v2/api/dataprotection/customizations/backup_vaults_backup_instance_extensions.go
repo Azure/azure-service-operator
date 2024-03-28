@@ -120,7 +120,7 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 				parameters.SyncType = to.Ptr(armdataprotection.SyncTypeDefault)
 
 				// get the resume token from the resource
-				pollerResumeToken, _ := GetPollerResumeToken(backupInstance, log)
+				pollerResumeToken, _ := GetPollerResumeToken(obj, log)
 
 				// BeginSyncBackupInstance is in-progress - poller resume token is available
 
@@ -136,10 +136,13 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 				if err != nil {
 					return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), err
 				} else {
-					SetPollerResumeToken(backupInstance, resumeToken, log)
+					log.V(Debug).Info(fmt.Sprintf("########################## Setting ResumeToken:  %q ##########################", resumeToken))
+					SetPollerResumeToken(obj, resumeToken, log)
+					pollerResumeToken, _ := GetPollerResumeToken(obj, log)
+					log.V(Debug).Info(fmt.Sprintf("########################## Getting ResumeToken:  %q ##########################", pollerResumeToken))
 				}
 				if poller.Done() {
-					ClearPollerResumeToken(backupInstance, log)
+					ClearPollerResumeToken(obj, log)
 				}
 			}
 		}

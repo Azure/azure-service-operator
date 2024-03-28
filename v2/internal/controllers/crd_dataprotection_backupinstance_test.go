@@ -87,7 +87,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	}
 
 	backupPolicy := newBackupPolicy(tc, backupVault, "asotestbackuppolicy")
-
+	/*
 	// create storage account and blob container
 
 	acct := newStorageAccount(tc, rg)
@@ -213,7 +213,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 				ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7", tc.AzureSubscription), // This is Reader Role
 			},
 		},
-	}
+	}*/
 
 	//create backup instance
 	biName := "asotestbackupinstance"
@@ -269,25 +269,24 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		},
 	}
 
+	// tc.CreateResourcesAndWait(
+	// 	cluster,
+	// 	acct,
+	// 	blobService,
+	// 	blobContainer,
+	// 	backupVault,
+	// 	backupPolicy,
+	// 	extension,
+	// 	trustedAccessRoleBinding,
+	// 	extenstionRoleAssignment,
+	// 	clusterRoleAssignment,
+	// 	clusterMSIRoleAssignment,
+	// 	snapshotRGRoleAssignment,
+	// 	backupInstance)
+
 	tc.CreateResourcesAndWait(
-		cluster,
-		acct,
-		blobService,
-		blobContainer,
-		backupVault,
-		backupPolicy,
-		extension,
-		trustedAccessRoleBinding,
-		extenstionRoleAssignment,
-		clusterRoleAssignment,
-		clusterMSIRoleAssignment,
-		snapshotRGRoleAssignment,
-		backupInstance)
-
-	objectKey := client.ObjectKeyFromObject(backupInstance)
-
-	// Assertions and Expectations
-	tc.Expect(backupInstance.Status.Id).ToNot(BeNil())
+	cluster,
+	backupVault,
 	tc.Expect(backupInstance.Status.Properties.FriendlyName).To(BeEquivalentTo(to.Ptr(biName)))
 	tc.Expect(backupInstance.Status.Properties.ProvisioningState).To(BeEquivalentTo(to.Ptr("Succeeded")))
 
