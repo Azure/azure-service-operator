@@ -48,7 +48,7 @@ func GetPollerResumeToken(obj genruntime.MetaObject, log logr.Logger) (string, b
 	log.V(Debug).Info("########################## GetPollerResumeToken for BeginSyncBackupInstance ##########################")
 	token, hasResumeToken := obj.GetAnnotations()[BackupInstancePollerResumeTokenAnnotation]
 	log.V(Debug).Info(fmt.Sprintf("########################## pollerResumeToken is  %q ##########################", token))
-	return token, hasResumeToken && hasResumeID
+	return token, hasResumeToken
 }
 
 func SetPollerResumeToken(obj genruntime.MetaObject, token string, log logr.Logger) {
