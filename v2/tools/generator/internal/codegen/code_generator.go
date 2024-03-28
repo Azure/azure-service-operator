@@ -145,7 +145,7 @@ func createAllPipelineStages(
 
 		// Strip out redundant type aliases
 		pipeline.RemoveTypeAliases(),
-		pipeline.CollapseCrossGroupReferences(),
+		pipeline.CollapseCrossGroupReferences(idFactory),
 		pipeline.StripUnreferencedTypeDefinitions(),
 		pipeline.AssertTypesCollectionValid(),
 
