@@ -202,7 +202,7 @@ func TestEventHubCapture_StorageAccountAndBlob_Controllers(t *testing.T) {
 	saName := GenerateAlphaNumTestResourceName("ehsa")
 	bcName := GenerateTestResourceNameWithRandom("ehblob", 10)
 	eventHubName := GenerateTestResourceNameWithRandom("eh-capture", 10)
-	containerAccessLevel := s.PublicAccessContainer
+	containerAccessLevel := s.PublicAccessNone
 
 	// Create Eventhub namespace
 	eventhubNamespaceInstance := &azurev1alpha1.EventhubNamespace{

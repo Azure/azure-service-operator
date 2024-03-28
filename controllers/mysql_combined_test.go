@@ -27,6 +27,8 @@ import (
 )
 
 func TestMySQLHappyPath(t *testing.T) {
+	t.Skip("MySQL Single Server is now deprecated")
+
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
@@ -204,6 +206,8 @@ func RunMySQLUserHappyPath(ctx context.Context, t *testing.T, mySQLServerName st
 }
 
 func TestMySQLUserSuppliedPassword(t *testing.T) {
+	t.Skip("MySQL Single Server is now deprecated")
+
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
@@ -275,6 +279,8 @@ func TestMySQLUserSuppliedPassword(t *testing.T) {
 }
 
 func TestMySQLServerSecretRollover(t *testing.T) {
+	t.Skip("MySQL Single Server is now deprecated")
+
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
