@@ -138,8 +138,7 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 				} else {
 					log.V(Debug).Info(fmt.Sprintf("########################## Setting ResumeToken:  %q ##########################", resumeToken))
 					SetPollerResumeToken(obj, resumeToken, log)
-					pollerResumeToken, _ := GetPollerResumeToken(obj, log)
-					log.V(Debug).Info(fmt.Sprintf("########################## Getting ResumeToken:  %q ##########################", pollerResumeToken))
+					GetPollerResumeToken(obj, log)
 				}
 				if poller.Done() {
 					ClearPollerResumeToken(obj, log)
