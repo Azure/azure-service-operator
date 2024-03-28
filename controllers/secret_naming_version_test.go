@@ -185,7 +185,7 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
 	sqlServerName := GenerateTestResourceNameWithRandom("sqlserver1", 10)
-	rgLocation := "westus3"
+	rgLocation := "eastus"
 
 	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
 	sqlServerInstance := v1beta1.NewAzureSQLServer(sqlServerNamespacedName, rgName, rgLocation)
@@ -462,7 +462,7 @@ func TestAzureSqlServerKVSecretAndUser_SecretNamedCorrectly(t *testing.T) {
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
 	sqlServerName := GenerateTestResourceNameWithRandom("kvsqlserv", 10)
-	rgLocation := "westus3"
+	rgLocation := "eastus"
 
 	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
 	sqlServerInstance := v1beta1.NewAzureSQLServer(sqlServerNamespacedName, rgName, rgLocation)
