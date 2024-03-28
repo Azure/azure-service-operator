@@ -12904,6 +12904,13 @@ func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_From_ManagedClust
 		maps.OIDCIssuerProfile = nil
 	}
 
+	// PrincipalId
+	if source.PrincipalId != nil {
+		propertyBag.Add("PrincipalId", *source.PrincipalId)
+	} else {
+		propertyBag.Remove("PrincipalId")
+	}
+
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		maps.PropertyBag = propertyBag
@@ -12935,6 +12942,19 @@ func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_To_ManagedCluster
 		destination.OIDCIssuerProfile = &oidcIssuerProfile
 	} else {
 		destination.OIDCIssuerProfile = nil
+	}
+
+	// PrincipalId
+	if propertyBag.Contains("PrincipalId") {
+		var principalId genruntime.ConfigMapDestination
+		err := propertyBag.Pull("PrincipalId", &principalId)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'PrincipalId' from propertyBag")
+		}
+
+		destination.PrincipalId = &principalId
+	} else {
+		destination.PrincipalId = nil
 	}
 
 	// Update the property bag

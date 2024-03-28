@@ -1,0 +1,16 @@
+apiVersion: authorization.azure.com/v1api20220401
+kind: RoleAssignment
+metadata:
+  name: aso-sample-clustersnapshotrg
+  namespace: default
+spec:
+  owner:
+    name: aso-snapshot-rg
+    group: resources.azure.com
+    kind: ResourceGroup
+  principalIdFromConfig:
+    name: cluster-configmap
+    key: principalId
+  roleDefinitionReference:
+    # This ARM ID represents "Contributor"
+    armId: /subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c

@@ -69,6 +69,9 @@ var exclusions = []string{
 
 	// Excluding cdn secret as it requires KV secrets
 	"secret",
+
+	// [Issue #3091] Exclude backupvaultsbackupinstance as it requires role assignments to be created after backup instance is created to make it land into protection configured state.
+	"backupvaultsbackupinstance",
 }
 
 type SamplesTester struct {

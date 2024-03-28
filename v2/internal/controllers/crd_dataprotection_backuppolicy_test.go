@@ -13,7 +13,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	// The dataprotection package contains types and functions related to dataprotection resources.
-	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
+	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
 	// The testcommon package includes common testing utilities.
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	// The to package includes utilities for converting values to pointers.
@@ -110,7 +110,7 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 	// Delete the backuppolicy
 	tc.DeleteResourceAndWait(backupPolicy)
 
-	// Ensure that the resource group was really deleted in Azure
+	// Ensure that the resource was really deleted in Azure
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,

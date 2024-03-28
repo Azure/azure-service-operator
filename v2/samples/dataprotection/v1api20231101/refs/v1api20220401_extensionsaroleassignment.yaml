@@ -1,0 +1,16 @@
+apiVersion: authorization.azure.com/v1api20220401
+kind: RoleAssignment
+metadata:
+  name: aso-sample-extsa
+  namespace: default
+spec:
+  owner:
+    name: asodpsamplekubestorage
+    group: storage.azure.com
+    kind: StorageAccount
+  principalIdFromConfig:
+    name: ext-configmap
+    key: principalId
+  roleDefinitionReference:
+    # This ARM ID represents "StorageBlobDataContributorRole"
+    armId: /subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe
