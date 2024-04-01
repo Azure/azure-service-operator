@@ -101,6 +101,13 @@ const (
 	Sku_Name_Standard_AzureFrontDoor = Sku_Name("Standard_AzureFrontDoor")
 )
 
+// Mapping from string to Sku_Name
+var sku_Name_Values = map[string]Sku_Name{
+	"classic_azurefrontdoor":  Sku_Name_Classic_AzureFrontDoor,
+	"premium_azurefrontdoor":  Sku_Name_Premium_AzureFrontDoor,
+	"standard_azurefrontdoor": Sku_Name_Standard_AzureFrontDoor,
+}
+
 // Defines contents of a web application rule
 type CustomRule_ARM struct {
 	// Action: Describes what action to be applied when rule matches.
@@ -154,6 +161,12 @@ const (
 	PolicySettings_EnabledState_Enabled  = PolicySettings_EnabledState("Enabled")
 )
 
+// Mapping from string to PolicySettings_EnabledState
+var policySettings_EnabledState_Values = map[string]PolicySettings_EnabledState{
+	"disabled": PolicySettings_EnabledState_Disabled,
+	"enabled":  PolicySettings_EnabledState_Enabled,
+}
+
 // +kubebuilder:validation:Enum={"Detection","Prevention"}
 type PolicySettings_Mode string
 
@@ -162,6 +175,12 @@ const (
 	PolicySettings_Mode_Prevention = PolicySettings_Mode("Prevention")
 )
 
+// Mapping from string to PolicySettings_Mode
+var policySettings_Mode_Values = map[string]PolicySettings_Mode{
+	"detection":  PolicySettings_Mode_Detection,
+	"prevention": PolicySettings_Mode_Prevention,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type PolicySettings_RequestBodyCheck string
 
@@ -169,6 +188,12 @@ const (
 	PolicySettings_RequestBodyCheck_Disabled = PolicySettings_RequestBodyCheck("Disabled")
 	PolicySettings_RequestBodyCheck_Enabled  = PolicySettings_RequestBodyCheck("Enabled")
 )
+
+// Mapping from string to PolicySettings_RequestBodyCheck
+var policySettings_RequestBodyCheck_Values = map[string]PolicySettings_RequestBodyCheck{
+	"disabled": PolicySettings_RequestBodyCheck_Disabled,
+	"enabled":  PolicySettings_RequestBodyCheck_Enabled,
+}
 
 // Defines the action to take on rule match.
 // +kubebuilder:validation:Enum={"Allow","AnomalyScoring","Block","Log","Redirect"}
@@ -182,6 +207,15 @@ const (
 	ActionType_Redirect       = ActionType("Redirect")
 )
 
+// Mapping from string to ActionType
+var actionType_Values = map[string]ActionType{
+	"allow":          ActionType_Allow,
+	"anomalyscoring": ActionType_AnomalyScoring,
+	"block":          ActionType_Block,
+	"log":            ActionType_Log,
+	"redirect":       ActionType_Redirect,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type CustomRule_EnabledState string
 
@@ -190,6 +224,12 @@ const (
 	CustomRule_EnabledState_Enabled  = CustomRule_EnabledState("Enabled")
 )
 
+// Mapping from string to CustomRule_EnabledState
+var customRule_EnabledState_Values = map[string]CustomRule_EnabledState{
+	"disabled": CustomRule_EnabledState_Disabled,
+	"enabled":  CustomRule_EnabledState_Enabled,
+}
+
 // +kubebuilder:validation:Enum={"MatchRule","RateLimitRule"}
 type CustomRule_RuleType string
 
@@ -197,6 +237,12 @@ const (
 	CustomRule_RuleType_MatchRule     = CustomRule_RuleType("MatchRule")
 	CustomRule_RuleType_RateLimitRule = CustomRule_RuleType("RateLimitRule")
 )
+
+// Mapping from string to CustomRule_RuleType
+var customRule_RuleType_Values = map[string]CustomRule_RuleType{
+	"matchrule":     CustomRule_RuleType_MatchRule,
+	"ratelimitrule": CustomRule_RuleType_RateLimitRule,
+}
 
 // Exclude variables from managed rule evaluation.
 type ManagedRuleExclusion_ARM struct {
@@ -233,6 +279,13 @@ const (
 	ManagedRuleSetActionType_Redirect = ManagedRuleSetActionType("Redirect")
 )
 
+// Mapping from string to ManagedRuleSetActionType
+var managedRuleSetActionType_Values = map[string]ManagedRuleSetActionType{
+	"block":    ManagedRuleSetActionType_Block,
+	"log":      ManagedRuleSetActionType_Log,
+	"redirect": ManagedRuleSetActionType_Redirect,
+}
+
 // Define a match condition.
 type MatchCondition_ARM struct {
 	// MatchValue: List of possible match values.
@@ -266,6 +319,15 @@ const (
 	ManagedRuleExclusion_MatchVariable_RequestHeaderNames      = ManagedRuleExclusion_MatchVariable("RequestHeaderNames")
 )
 
+// Mapping from string to ManagedRuleExclusion_MatchVariable
+var managedRuleExclusion_MatchVariable_Values = map[string]ManagedRuleExclusion_MatchVariable{
+	"querystringargnames":     ManagedRuleExclusion_MatchVariable_QueryStringArgNames,
+	"requestbodyjsonargnames": ManagedRuleExclusion_MatchVariable_RequestBodyJsonArgNames,
+	"requestbodypostargnames": ManagedRuleExclusion_MatchVariable_RequestBodyPostArgNames,
+	"requestcookienames":      ManagedRuleExclusion_MatchVariable_RequestCookieNames,
+	"requestheadernames":      ManagedRuleExclusion_MatchVariable_RequestHeaderNames,
+}
+
 // +kubebuilder:validation:Enum={"Contains","EndsWith","Equals","EqualsAny","StartsWith"}
 type ManagedRuleExclusion_SelectorMatchOperator string
 
@@ -276,6 +338,15 @@ const (
 	ManagedRuleExclusion_SelectorMatchOperator_EqualsAny  = ManagedRuleExclusion_SelectorMatchOperator("EqualsAny")
 	ManagedRuleExclusion_SelectorMatchOperator_StartsWith = ManagedRuleExclusion_SelectorMatchOperator("StartsWith")
 )
+
+// Mapping from string to ManagedRuleExclusion_SelectorMatchOperator
+var managedRuleExclusion_SelectorMatchOperator_Values = map[string]ManagedRuleExclusion_SelectorMatchOperator{
+	"contains":   ManagedRuleExclusion_SelectorMatchOperator_Contains,
+	"endswith":   ManagedRuleExclusion_SelectorMatchOperator_EndsWith,
+	"equals":     ManagedRuleExclusion_SelectorMatchOperator_Equals,
+	"equalsany":  ManagedRuleExclusion_SelectorMatchOperator_EqualsAny,
+	"startswith": ManagedRuleExclusion_SelectorMatchOperator_StartsWith,
+}
 
 // Defines a managed rule group override setting.
 type ManagedRuleOverride_ARM struct {
@@ -307,6 +378,19 @@ const (
 	MatchCondition_MatchVariable_SocketAddr    = MatchCondition_MatchVariable("SocketAddr")
 )
 
+// Mapping from string to MatchCondition_MatchVariable
+var matchCondition_MatchVariable_Values = map[string]MatchCondition_MatchVariable{
+	"cookies":       MatchCondition_MatchVariable_Cookies,
+	"postargs":      MatchCondition_MatchVariable_PostArgs,
+	"querystring":   MatchCondition_MatchVariable_QueryString,
+	"remoteaddr":    MatchCondition_MatchVariable_RemoteAddr,
+	"requestbody":   MatchCondition_MatchVariable_RequestBody,
+	"requestheader": MatchCondition_MatchVariable_RequestHeader,
+	"requestmethod": MatchCondition_MatchVariable_RequestMethod,
+	"requesturi":    MatchCondition_MatchVariable_RequestUri,
+	"socketaddr":    MatchCondition_MatchVariable_SocketAddr,
+}
+
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GeoMatch","GreaterThan","GreaterThanOrEqual","IPMatch","LessThan","LessThanOrEqual","RegEx"}
 type MatchCondition_Operator string
 
@@ -325,6 +409,22 @@ const (
 	MatchCondition_Operator_RegEx              = MatchCondition_Operator("RegEx")
 )
 
+// Mapping from string to MatchCondition_Operator
+var matchCondition_Operator_Values = map[string]MatchCondition_Operator{
+	"any":                MatchCondition_Operator_Any,
+	"beginswith":         MatchCondition_Operator_BeginsWith,
+	"contains":           MatchCondition_Operator_Contains,
+	"endswith":           MatchCondition_Operator_EndsWith,
+	"equal":              MatchCondition_Operator_Equal,
+	"geomatch":           MatchCondition_Operator_GeoMatch,
+	"greaterthan":        MatchCondition_Operator_GreaterThan,
+	"greaterthanorequal": MatchCondition_Operator_GreaterThanOrEqual,
+	"ipmatch":            MatchCondition_Operator_IPMatch,
+	"lessthan":           MatchCondition_Operator_LessThan,
+	"lessthanorequal":    MatchCondition_Operator_LessThanOrEqual,
+	"regex":              MatchCondition_Operator_RegEx,
+}
+
 // Describes what transforms applied before matching.
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type TransformType string
@@ -338,6 +438,16 @@ const (
 	TransformType_UrlEncode   = TransformType("UrlEncode")
 )
 
+// Mapping from string to TransformType
+var transformType_Values = map[string]TransformType{
+	"lowercase":   TransformType_Lowercase,
+	"removenulls": TransformType_RemoveNulls,
+	"trim":        TransformType_Trim,
+	"uppercase":   TransformType_Uppercase,
+	"urldecode":   TransformType_UrlDecode,
+	"urlencode":   TransformType_UrlEncode,
+}
+
 // Describes if the managed rule is in enabled or disabled state.
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ManagedRuleEnabledState string
@@ -346,3 +456,9 @@ const (
 	ManagedRuleEnabledState_Disabled = ManagedRuleEnabledState("Disabled")
 	ManagedRuleEnabledState_Enabled  = ManagedRuleEnabledState("Enabled")
 )
+
+// Mapping from string to ManagedRuleEnabledState
+var managedRuleEnabledState_Values = map[string]ManagedRuleEnabledState{
+	"disabled": ManagedRuleEnabledState_Disabled,
+	"enabled":  ManagedRuleEnabledState_Enabled,
+}

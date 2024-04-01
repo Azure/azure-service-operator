@@ -607,8 +607,9 @@ func (product *Service_Product_Spec) AssignProperties_From_Service_Product_Spec(
 
 	// State
 	if source.State != nil {
-		state := ProductContractProperties_State(*source.State)
-		product.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, productContractProperties_State_Values)
+		product.State = &stateTemp
 	} else {
 		product.State = nil
 	}
@@ -994,8 +995,9 @@ func (product *Service_Product_STATUS) AssignProperties_From_Service_Product_STA
 
 	// State
 	if source.State != nil {
-		state := ProductContractProperties_State_STATUS(*source.State)
-		product.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, productContractProperties_State_STATUS_Values)
+		product.State = &stateTemp
 	} else {
 		product.State = nil
 	}
@@ -1093,12 +1095,24 @@ const (
 	ProductContractProperties_State_Published    = ProductContractProperties_State("published")
 )
 
+// Mapping from string to ProductContractProperties_State
+var productContractProperties_State_Values = map[string]ProductContractProperties_State{
+	"notpublished": ProductContractProperties_State_NotPublished,
+	"published":    ProductContractProperties_State_Published,
+}
+
 type ProductContractProperties_State_STATUS string
 
 const (
 	ProductContractProperties_State_STATUS_NotPublished = ProductContractProperties_State_STATUS("notPublished")
 	ProductContractProperties_State_STATUS_Published    = ProductContractProperties_State_STATUS("published")
 )
+
+// Mapping from string to ProductContractProperties_State_STATUS
+var productContractProperties_State_STATUS_Values = map[string]ProductContractProperties_State_STATUS{
+	"notpublished": ProductContractProperties_State_STATUS_NotPublished,
+	"published":    ProductContractProperties_State_STATUS_Published,
+}
 
 func init() {
 	SchemeBuilder.Register(&Product{}, &ProductList{})

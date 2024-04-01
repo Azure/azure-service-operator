@@ -818,8 +818,9 @@ func (endpoint *DnsResolvers_OutboundEndpoint_STATUS) AssignProperties_From_DnsR
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := DnsresolverProvisioningState_STATUS(*source.ProvisioningState)
-		endpoint.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, dnsresolverProvisioningState_STATUS_Values)
+		endpoint.ProvisioningState = &provisioningStateTemp
 	} else {
 		endpoint.ProvisioningState = nil
 	}

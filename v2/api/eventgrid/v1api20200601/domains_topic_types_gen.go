@@ -630,8 +630,9 @@ func (topic *Domains_Topic_STATUS) AssignProperties_From_Domains_Topic_STATUS(so
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := DomainTopicProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		topic.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, domainTopicProperties_ProvisioningState_STATUS_Values)
+		topic.ProvisioningState = &provisioningStateTemp
 	} else {
 		topic.ProvisioningState = nil
 	}
@@ -713,6 +714,16 @@ const (
 	DomainTopicProperties_ProvisioningState_STATUS_Succeeded = DomainTopicProperties_ProvisioningState_STATUS("Succeeded")
 	DomainTopicProperties_ProvisioningState_STATUS_Updating  = DomainTopicProperties_ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to DomainTopicProperties_ProvisioningState_STATUS
+var domainTopicProperties_ProvisioningState_STATUS_Values = map[string]DomainTopicProperties_ProvisioningState_STATUS{
+	"canceled":  DomainTopicProperties_ProvisioningState_STATUS_Canceled,
+	"creating":  DomainTopicProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  DomainTopicProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    DomainTopicProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": DomainTopicProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  DomainTopicProperties_ProvisioningState_STATUS_Updating,
+}
 
 func init() {
 	SchemeBuilder.Register(&DomainsTopic{}, &DomainsTopicList{})

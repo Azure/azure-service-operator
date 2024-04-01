@@ -704,8 +704,9 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_From_Netwo
 
 	// Access
 	if source.Access != nil {
-		access := SecurityRuleAccess(*source.Access)
-		rule.Access = &access
+		access := *source.Access
+		accessTemp := genruntime.ToEnum(access, securityRuleAccess_Values)
+		rule.Access = &accessTemp
 	} else {
 		rule.Access = nil
 	}
@@ -748,8 +749,9 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_From_Netwo
 
 	// Direction
 	if source.Direction != nil {
-		direction := SecurityRuleDirection(*source.Direction)
-		rule.Direction = &direction
+		direction := *source.Direction
+		directionTemp := genruntime.ToEnum(direction, securityRuleDirection_Values)
+		rule.Direction = &directionTemp
 	} else {
 		rule.Direction = nil
 	}
@@ -767,8 +769,9 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) AssignProperties_From_Netwo
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := SecurityRulePropertiesFormat_Protocol(*source.Protocol)
-		rule.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, securityRulePropertiesFormat_Protocol_Values)
+		rule.Protocol = &protocolTemp
 	} else {
 		rule.Protocol = nil
 	}
@@ -1352,8 +1355,9 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) AssignProperties_From_Net
 
 	// Access
 	if source.Access != nil {
-		access := SecurityRuleAccess_STATUS(*source.Access)
-		rule.Access = &access
+		access := *source.Access
+		accessTemp := genruntime.ToEnum(access, securityRuleAccess_STATUS_Values)
+		rule.Access = &accessTemp
 	} else {
 		rule.Access = nil
 	}
@@ -1396,8 +1400,9 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) AssignProperties_From_Net
 
 	// Direction
 	if source.Direction != nil {
-		direction := SecurityRuleDirection_STATUS(*source.Direction)
-		rule.Direction = &direction
+		direction := *source.Direction
+		directionTemp := genruntime.ToEnum(direction, securityRuleDirection_STATUS_Values)
+		rule.Direction = &directionTemp
 	} else {
 		rule.Direction = nil
 	}
@@ -1416,16 +1421,18 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) AssignProperties_From_Net
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := SecurityRulePropertiesFormat_Protocol_STATUS(*source.Protocol)
-		rule.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, securityRulePropertiesFormat_Protocol_STATUS_Values)
+		rule.Protocol = &protocolTemp
 	} else {
 		rule.Protocol = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		rule.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		rule.ProvisioningState = &provisioningStateTemp
 	} else {
 		rule.ProvisioningState = nil
 	}
@@ -1763,6 +1770,12 @@ const (
 	SecurityRuleAccess_Deny  = SecurityRuleAccess("Deny")
 )
 
+// Mapping from string to SecurityRuleAccess
+var securityRuleAccess_Values = map[string]SecurityRuleAccess{
+	"allow": SecurityRuleAccess_Allow,
+	"deny":  SecurityRuleAccess_Deny,
+}
+
 // Whether network traffic is allowed or denied.
 type SecurityRuleAccess_STATUS string
 
@@ -1770,6 +1783,12 @@ const (
 	SecurityRuleAccess_STATUS_Allow = SecurityRuleAccess_STATUS("Allow")
 	SecurityRuleAccess_STATUS_Deny  = SecurityRuleAccess_STATUS("Deny")
 )
+
+// Mapping from string to SecurityRuleAccess_STATUS
+var securityRuleAccess_STATUS_Values = map[string]SecurityRuleAccess_STATUS{
+	"allow": SecurityRuleAccess_STATUS_Allow,
+	"deny":  SecurityRuleAccess_STATUS_Deny,
+}
 
 // The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
 // +kubebuilder:validation:Enum={"Inbound","Outbound"}
@@ -1780,6 +1799,12 @@ const (
 	SecurityRuleDirection_Outbound = SecurityRuleDirection("Outbound")
 )
 
+// Mapping from string to SecurityRuleDirection
+var securityRuleDirection_Values = map[string]SecurityRuleDirection{
+	"inbound":  SecurityRuleDirection_Inbound,
+	"outbound": SecurityRuleDirection_Outbound,
+}
+
 // The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
 type SecurityRuleDirection_STATUS string
 
@@ -1787,6 +1812,12 @@ const (
 	SecurityRuleDirection_STATUS_Inbound  = SecurityRuleDirection_STATUS("Inbound")
 	SecurityRuleDirection_STATUS_Outbound = SecurityRuleDirection_STATUS("Outbound")
 )
+
+// Mapping from string to SecurityRuleDirection_STATUS
+var securityRuleDirection_STATUS_Values = map[string]SecurityRuleDirection_STATUS{
+	"inbound":  SecurityRuleDirection_STATUS_Inbound,
+	"outbound": SecurityRuleDirection_STATUS_Outbound,
+}
 
 // +kubebuilder:validation:Enum={"Ah","Esp","Icmp","*","Tcp","Udp"}
 type SecurityRulePropertiesFormat_Protocol string
@@ -1800,6 +1831,16 @@ const (
 	SecurityRulePropertiesFormat_Protocol_Udp  = SecurityRulePropertiesFormat_Protocol("Udp")
 )
 
+// Mapping from string to SecurityRulePropertiesFormat_Protocol
+var securityRulePropertiesFormat_Protocol_Values = map[string]SecurityRulePropertiesFormat_Protocol{
+	"ah":   SecurityRulePropertiesFormat_Protocol_Ah,
+	"esp":  SecurityRulePropertiesFormat_Protocol_Esp,
+	"icmp": SecurityRulePropertiesFormat_Protocol_Icmp,
+	"*":    SecurityRulePropertiesFormat_Protocol_Star,
+	"tcp":  SecurityRulePropertiesFormat_Protocol_Tcp,
+	"udp":  SecurityRulePropertiesFormat_Protocol_Udp,
+}
+
 type SecurityRulePropertiesFormat_Protocol_STATUS string
 
 const (
@@ -1810,6 +1851,16 @@ const (
 	SecurityRulePropertiesFormat_Protocol_STATUS_Tcp  = SecurityRulePropertiesFormat_Protocol_STATUS("Tcp")
 	SecurityRulePropertiesFormat_Protocol_STATUS_Udp  = SecurityRulePropertiesFormat_Protocol_STATUS("Udp")
 )
+
+// Mapping from string to SecurityRulePropertiesFormat_Protocol_STATUS
+var securityRulePropertiesFormat_Protocol_STATUS_Values = map[string]SecurityRulePropertiesFormat_Protocol_STATUS{
+	"ah":   SecurityRulePropertiesFormat_Protocol_STATUS_Ah,
+	"esp":  SecurityRulePropertiesFormat_Protocol_STATUS_Esp,
+	"icmp": SecurityRulePropertiesFormat_Protocol_STATUS_Icmp,
+	"*":    SecurityRulePropertiesFormat_Protocol_STATUS_Star,
+	"tcp":  SecurityRulePropertiesFormat_Protocol_STATUS_Tcp,
+	"udp":  SecurityRulePropertiesFormat_Protocol_STATUS_Udp,
+}
 
 func init() {
 	SchemeBuilder.Register(&NetworkSecurityGroupsSecurityRule{}, &NetworkSecurityGroupsSecurityRuleList{})

@@ -157,6 +157,14 @@ const (
 	DiskSku_Name_UltraSSD_LRS    = DiskSku_Name("UltraSSD_LRS")
 )
 
+// Mapping from string to DiskSku_Name
+var diskSku_Name_Values = map[string]DiskSku_Name{
+	"premium_lrs":     DiskSku_Name_Premium_LRS,
+	"standardssd_lrs": DiskSku_Name_StandardSSD_LRS,
+	"standard_lrs":    DiskSku_Name_Standard_LRS,
+	"ultrassd_lrs":    DiskSku_Name_UltraSSD_LRS,
+}
+
 // Encryption at rest settings for disk or snapshot
 type Encryption_ARM struct {
 	DiskEncryptionSetId *string `json:"diskEncryptionSetId,omitempty"`
@@ -185,6 +193,11 @@ type EncryptionSettingsCollection_ARM struct {
 type ExtendedLocationType string
 
 const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
+
+// Mapping from string to ExtendedLocationType
+var extendedLocationType_Values = map[string]ExtendedLocationType{
+	"edgezone": ExtendedLocationType_EdgeZone,
+}
 
 // Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
 type PurchasePlan_ARM struct {

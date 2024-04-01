@@ -867,8 +867,9 @@ func (gateway *VirtualNetworkGateway_Spec) AssignProperties_From_VirtualNetworkG
 
 	// GatewayType
 	if source.GatewayType != nil {
-		gatewayType := VirtualNetworkGatewayPropertiesFormat_GatewayType(*source.GatewayType)
-		gateway.GatewayType = &gatewayType
+		gatewayType := *source.GatewayType
+		gatewayTypeTemp := genruntime.ToEnum(gatewayType, virtualNetworkGatewayPropertiesFormat_GatewayType_Values)
+		gateway.GatewayType = &gatewayTypeTemp
 	} else {
 		gateway.GatewayType = nil
 	}
@@ -939,16 +940,18 @@ func (gateway *VirtualNetworkGateway_Spec) AssignProperties_From_VirtualNetworkG
 
 	// VpnGatewayGeneration
 	if source.VpnGatewayGeneration != nil {
-		vpnGatewayGeneration := VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration(*source.VpnGatewayGeneration)
-		gateway.VpnGatewayGeneration = &vpnGatewayGeneration
+		vpnGatewayGeneration := *source.VpnGatewayGeneration
+		vpnGatewayGenerationTemp := genruntime.ToEnum(vpnGatewayGeneration, virtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Values)
+		gateway.VpnGatewayGeneration = &vpnGatewayGenerationTemp
 	} else {
 		gateway.VpnGatewayGeneration = nil
 	}
 
 	// VpnType
 	if source.VpnType != nil {
-		vpnType := VirtualNetworkGatewayPropertiesFormat_VpnType(*source.VpnType)
-		gateway.VpnType = &vpnType
+		vpnType := *source.VpnType
+		vpnTypeTemp := genruntime.ToEnum(vpnType, virtualNetworkGatewayPropertiesFormat_VpnType_Values)
+		gateway.VpnType = &vpnTypeTemp
 	} else {
 		gateway.VpnType = nil
 	}
@@ -1799,8 +1802,9 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_From_VirtualNetwor
 
 	// GatewayType
 	if source.GatewayType != nil {
-		gatewayType := VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS(*source.GatewayType)
-		gateway.GatewayType = &gatewayType
+		gatewayType := *source.GatewayType
+		gatewayTypeTemp := genruntime.ToEnum(gatewayType, virtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_Values)
+		gateway.GatewayType = &gatewayTypeTemp
 	} else {
 		gateway.GatewayType = nil
 	}
@@ -1837,8 +1841,9 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_From_VirtualNetwor
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		gateway.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		gateway.ProvisioningState = &provisioningStateTemp
 	} else {
 		gateway.ProvisioningState = nil
 	}
@@ -1881,16 +1886,18 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_From_VirtualNetwor
 
 	// VpnGatewayGeneration
 	if source.VpnGatewayGeneration != nil {
-		vpnGatewayGeneration := VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS(*source.VpnGatewayGeneration)
-		gateway.VpnGatewayGeneration = &vpnGatewayGeneration
+		vpnGatewayGeneration := *source.VpnGatewayGeneration
+		vpnGatewayGenerationTemp := genruntime.ToEnum(vpnGatewayGeneration, virtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_Values)
+		gateway.VpnGatewayGeneration = &vpnGatewayGenerationTemp
 	} else {
 		gateway.VpnGatewayGeneration = nil
 	}
 
 	// VpnType
 	if source.VpnType != nil {
-		vpnType := VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS(*source.VpnType)
-		gateway.VpnType = &vpnType
+		vpnType := *source.VpnType
+		vpnTypeTemp := genruntime.ToEnum(vpnType, virtualNetworkGatewayPropertiesFormat_VpnType_STATUS_Values)
+		gateway.VpnType = &vpnTypeTemp
 	} else {
 		gateway.VpnType = nil
 	}
@@ -2596,8 +2603,9 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) AssignProperties_From
 
 	// PrivateIPAllocationMethod
 	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod(*source.PrivateIPAllocationMethod)
-		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
+		privateIPAllocationMethod := *source.PrivateIPAllocationMethod
+		privateIPAllocationMethodTemp := genruntime.ToEnum(privateIPAllocationMethod, iPAllocationMethod_Values)
+		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethodTemp
 	} else {
 		configuration.PrivateIPAllocationMethod = nil
 	}
@@ -2858,16 +2866,18 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperti
 
 	// PrivateIPAllocationMethod
 	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod_STATUS(*source.PrivateIPAllocationMethod)
-		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
+		privateIPAllocationMethod := *source.PrivateIPAllocationMethod
+		privateIPAllocationMethodTemp := genruntime.ToEnum(privateIPAllocationMethod, iPAllocationMethod_STATUS_Values)
+		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethodTemp
 	} else {
 		configuration.PrivateIPAllocationMethod = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		configuration.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		configuration.ProvisioningState = &provisioningStateTemp
 	} else {
 		configuration.ProvisioningState = nil
 	}
@@ -2977,6 +2987,13 @@ const (
 	VirtualNetworkGatewayPropertiesFormat_GatewayType_Vpn          = VirtualNetworkGatewayPropertiesFormat_GatewayType("Vpn")
 )
 
+// Mapping from string to VirtualNetworkGatewayPropertiesFormat_GatewayType
+var virtualNetworkGatewayPropertiesFormat_GatewayType_Values = map[string]VirtualNetworkGatewayPropertiesFormat_GatewayType{
+	"expressroute": VirtualNetworkGatewayPropertiesFormat_GatewayType_ExpressRoute,
+	"localgateway": VirtualNetworkGatewayPropertiesFormat_GatewayType_LocalGateway,
+	"vpn":          VirtualNetworkGatewayPropertiesFormat_GatewayType_Vpn,
+}
+
 type VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS string
 
 const (
@@ -2984,6 +3001,13 @@ const (
 	VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_LocalGateway = VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS("LocalGateway")
 	VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_Vpn          = VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS("Vpn")
 )
+
+// Mapping from string to VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS
+var virtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_Values = map[string]VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS{
+	"expressroute": VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_ExpressRoute,
+	"localgateway": VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_LocalGateway,
+	"vpn":          VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_Vpn,
+}
 
 // +kubebuilder:validation:Enum={"Generation1","Generation2","None"}
 type VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration string
@@ -2994,6 +3018,13 @@ const (
 	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_None        = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration("None")
 )
 
+// Mapping from string to VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration
+var virtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Values = map[string]VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration{
+	"generation1": VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Generation1,
+	"generation2": VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Generation2,
+	"none":        VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_None,
+}
+
 type VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS string
 
 const (
@@ -3001,6 +3032,13 @@ const (
 	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_Generation2 = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS("Generation2")
 	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_None        = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS("None")
 )
+
+// Mapping from string to VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS
+var virtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_Values = map[string]VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS{
+	"generation1": VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_Generation1,
+	"generation2": VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_Generation2,
+	"none":        VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_None,
+}
 
 // +kubebuilder:validation:Enum={"PolicyBased","RouteBased"}
 type VirtualNetworkGatewayPropertiesFormat_VpnType string
@@ -3010,12 +3048,24 @@ const (
 	VirtualNetworkGatewayPropertiesFormat_VpnType_RouteBased  = VirtualNetworkGatewayPropertiesFormat_VpnType("RouteBased")
 )
 
+// Mapping from string to VirtualNetworkGatewayPropertiesFormat_VpnType
+var virtualNetworkGatewayPropertiesFormat_VpnType_Values = map[string]VirtualNetworkGatewayPropertiesFormat_VpnType{
+	"policybased": VirtualNetworkGatewayPropertiesFormat_VpnType_PolicyBased,
+	"routebased":  VirtualNetworkGatewayPropertiesFormat_VpnType_RouteBased,
+}
+
 type VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS string
 
 const (
 	VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_PolicyBased = VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS("PolicyBased")
 	VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_RouteBased  = VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS("RouteBased")
 )
+
+// Mapping from string to VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS
+var virtualNetworkGatewayPropertiesFormat_VpnType_STATUS_Values = map[string]VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS{
+	"policybased": VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_PolicyBased,
+	"routebased":  VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_RouteBased,
+}
 
 // VirtualNetworkGatewaySku details.
 type VirtualNetworkGatewaySku struct {
@@ -3082,16 +3132,18 @@ func (gatewaySku *VirtualNetworkGatewaySku) AssignProperties_From_VirtualNetwork
 
 	// Name
 	if source.Name != nil {
-		name := VirtualNetworkGatewaySku_Name(*source.Name)
-		gatewaySku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, virtualNetworkGatewaySku_Name_Values)
+		gatewaySku.Name = &nameTemp
 	} else {
 		gatewaySku.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := VirtualNetworkGatewaySku_Tier(*source.Tier)
-		gatewaySku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, virtualNetworkGatewaySku_Tier_Values)
+		gatewaySku.Tier = &tierTemp
 	} else {
 		gatewaySku.Tier = nil
 	}
@@ -3211,16 +3263,18 @@ func (gatewaySku *VirtualNetworkGatewaySku_STATUS) AssignProperties_From_Virtual
 
 	// Name
 	if source.Name != nil {
-		name := VirtualNetworkGatewaySku_Name_STATUS(*source.Name)
-		gatewaySku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, virtualNetworkGatewaySku_Name_STATUS_Values)
+		gatewaySku.Name = &nameTemp
 	} else {
 		gatewaySku.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := VirtualNetworkGatewaySku_Tier_STATUS(*source.Tier)
-		gatewaySku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, virtualNetworkGatewaySku_Tier_STATUS_Values)
+		gatewaySku.Tier = &tierTemp
 	} else {
 		gatewaySku.Tier = nil
 	}
@@ -3552,7 +3606,7 @@ func (configuration *VpnClientConfiguration) AssignProperties_From_VpnClientConf
 		for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range source.VpnAuthenticationTypes {
 			// Shadow the loop variable to avoid aliasing
 			vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
-			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = VpnClientConfiguration_VpnAuthenticationTypes(vpnAuthenticationTypeItem)
+			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = genruntime.ToEnum(vpnAuthenticationTypeItem, vpnClientConfiguration_VpnAuthenticationTypes_Values)
 		}
 		configuration.VpnAuthenticationTypes = vpnAuthenticationTypeList
 	} else {
@@ -3595,7 +3649,7 @@ func (configuration *VpnClientConfiguration) AssignProperties_From_VpnClientConf
 		for vpnClientProtocolIndex, vpnClientProtocolItem := range source.VpnClientProtocols {
 			// Shadow the loop variable to avoid aliasing
 			vpnClientProtocolItem := vpnClientProtocolItem
-			vpnClientProtocolList[vpnClientProtocolIndex] = VpnClientConfiguration_VpnClientProtocols(vpnClientProtocolItem)
+			vpnClientProtocolList[vpnClientProtocolIndex] = genruntime.ToEnum(vpnClientProtocolItem, vpnClientConfiguration_VpnClientProtocols_Values)
 		}
 		configuration.VpnClientProtocols = vpnClientProtocolList
 	} else {
@@ -4110,7 +4164,7 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_From_VpnCli
 		for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range source.VpnAuthenticationTypes {
 			// Shadow the loop variable to avoid aliasing
 			vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
-			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = VpnClientConfiguration_VpnAuthenticationTypes_STATUS(vpnAuthenticationTypeItem)
+			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = genruntime.ToEnum(vpnAuthenticationTypeItem, vpnClientConfiguration_VpnAuthenticationTypes_STATUS_Values)
 		}
 		configuration.VpnAuthenticationTypes = vpnAuthenticationTypeList
 	} else {
@@ -4153,7 +4207,7 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_From_VpnCli
 		for vpnClientProtocolIndex, vpnClientProtocolItem := range source.VpnClientProtocols {
 			// Shadow the loop variable to avoid aliasing
 			vpnClientProtocolItem := vpnClientProtocolItem
-			vpnClientProtocolList[vpnClientProtocolIndex] = VpnClientConfiguration_VpnClientProtocols_STATUS(vpnClientProtocolItem)
+			vpnClientProtocolList[vpnClientProtocolIndex] = genruntime.ToEnum(vpnClientProtocolItem, vpnClientConfiguration_VpnClientProtocols_STATUS_Values)
 		}
 		configuration.VpnClientProtocols = vpnClientProtocolList
 	} else {
@@ -4713,48 +4767,54 @@ func (policy *IpsecPolicy) AssignProperties_From_IpsecPolicy(source *v20201101s.
 
 	// DhGroup
 	if source.DhGroup != nil {
-		dhGroup := DhGroup(*source.DhGroup)
-		policy.DhGroup = &dhGroup
+		dhGroup := *source.DhGroup
+		dhGroupTemp := genruntime.ToEnum(dhGroup, dhGroup_Values)
+		policy.DhGroup = &dhGroupTemp
 	} else {
 		policy.DhGroup = nil
 	}
 
 	// IkeEncryption
 	if source.IkeEncryption != nil {
-		ikeEncryption := IkeEncryption(*source.IkeEncryption)
-		policy.IkeEncryption = &ikeEncryption
+		ikeEncryption := *source.IkeEncryption
+		ikeEncryptionTemp := genruntime.ToEnum(ikeEncryption, ikeEncryption_Values)
+		policy.IkeEncryption = &ikeEncryptionTemp
 	} else {
 		policy.IkeEncryption = nil
 	}
 
 	// IkeIntegrity
 	if source.IkeIntegrity != nil {
-		ikeIntegrity := IkeIntegrity(*source.IkeIntegrity)
-		policy.IkeIntegrity = &ikeIntegrity
+		ikeIntegrity := *source.IkeIntegrity
+		ikeIntegrityTemp := genruntime.ToEnum(ikeIntegrity, ikeIntegrity_Values)
+		policy.IkeIntegrity = &ikeIntegrityTemp
 	} else {
 		policy.IkeIntegrity = nil
 	}
 
 	// IpsecEncryption
 	if source.IpsecEncryption != nil {
-		ipsecEncryption := IpsecEncryption(*source.IpsecEncryption)
-		policy.IpsecEncryption = &ipsecEncryption
+		ipsecEncryption := *source.IpsecEncryption
+		ipsecEncryptionTemp := genruntime.ToEnum(ipsecEncryption, ipsecEncryption_Values)
+		policy.IpsecEncryption = &ipsecEncryptionTemp
 	} else {
 		policy.IpsecEncryption = nil
 	}
 
 	// IpsecIntegrity
 	if source.IpsecIntegrity != nil {
-		ipsecIntegrity := IpsecIntegrity(*source.IpsecIntegrity)
-		policy.IpsecIntegrity = &ipsecIntegrity
+		ipsecIntegrity := *source.IpsecIntegrity
+		ipsecIntegrityTemp := genruntime.ToEnum(ipsecIntegrity, ipsecIntegrity_Values)
+		policy.IpsecIntegrity = &ipsecIntegrityTemp
 	} else {
 		policy.IpsecIntegrity = nil
 	}
 
 	// PfsGroup
 	if source.PfsGroup != nil {
-		pfsGroup := PfsGroup(*source.PfsGroup)
-		policy.PfsGroup = &pfsGroup
+		pfsGroup := *source.PfsGroup
+		pfsGroupTemp := genruntime.ToEnum(pfsGroup, pfsGroup_Values)
+		policy.PfsGroup = &pfsGroupTemp
 	} else {
 		policy.PfsGroup = nil
 	}
@@ -5000,48 +5060,54 @@ func (policy *IpsecPolicy_STATUS) AssignProperties_From_IpsecPolicy_STATUS(sourc
 
 	// DhGroup
 	if source.DhGroup != nil {
-		dhGroup := DhGroup_STATUS(*source.DhGroup)
-		policy.DhGroup = &dhGroup
+		dhGroup := *source.DhGroup
+		dhGroupTemp := genruntime.ToEnum(dhGroup, dhGroup_STATUS_Values)
+		policy.DhGroup = &dhGroupTemp
 	} else {
 		policy.DhGroup = nil
 	}
 
 	// IkeEncryption
 	if source.IkeEncryption != nil {
-		ikeEncryption := IkeEncryption_STATUS(*source.IkeEncryption)
-		policy.IkeEncryption = &ikeEncryption
+		ikeEncryption := *source.IkeEncryption
+		ikeEncryptionTemp := genruntime.ToEnum(ikeEncryption, ikeEncryption_STATUS_Values)
+		policy.IkeEncryption = &ikeEncryptionTemp
 	} else {
 		policy.IkeEncryption = nil
 	}
 
 	// IkeIntegrity
 	if source.IkeIntegrity != nil {
-		ikeIntegrity := IkeIntegrity_STATUS(*source.IkeIntegrity)
-		policy.IkeIntegrity = &ikeIntegrity
+		ikeIntegrity := *source.IkeIntegrity
+		ikeIntegrityTemp := genruntime.ToEnum(ikeIntegrity, ikeIntegrity_STATUS_Values)
+		policy.IkeIntegrity = &ikeIntegrityTemp
 	} else {
 		policy.IkeIntegrity = nil
 	}
 
 	// IpsecEncryption
 	if source.IpsecEncryption != nil {
-		ipsecEncryption := IpsecEncryption_STATUS(*source.IpsecEncryption)
-		policy.IpsecEncryption = &ipsecEncryption
+		ipsecEncryption := *source.IpsecEncryption
+		ipsecEncryptionTemp := genruntime.ToEnum(ipsecEncryption, ipsecEncryption_STATUS_Values)
+		policy.IpsecEncryption = &ipsecEncryptionTemp
 	} else {
 		policy.IpsecEncryption = nil
 	}
 
 	// IpsecIntegrity
 	if source.IpsecIntegrity != nil {
-		ipsecIntegrity := IpsecIntegrity_STATUS(*source.IpsecIntegrity)
-		policy.IpsecIntegrity = &ipsecIntegrity
+		ipsecIntegrity := *source.IpsecIntegrity
+		ipsecIntegrityTemp := genruntime.ToEnum(ipsecIntegrity, ipsecIntegrity_STATUS_Values)
+		policy.IpsecIntegrity = &ipsecIntegrityTemp
 	} else {
 		policy.IpsecIntegrity = nil
 	}
 
 	// PfsGroup
 	if source.PfsGroup != nil {
-		pfsGroup := PfsGroup_STATUS(*source.PfsGroup)
-		policy.PfsGroup = &pfsGroup
+		pfsGroup := *source.PfsGroup
+		pfsGroupTemp := genruntime.ToEnum(pfsGroup, pfsGroup_STATUS_Values)
+		policy.PfsGroup = &pfsGroupTemp
 	} else {
 		policy.PfsGroup = nil
 	}
@@ -5371,6 +5437,27 @@ const (
 	VirtualNetworkGatewaySku_Name_VpnGw5AZ         = VirtualNetworkGatewaySku_Name("VpnGw5AZ")
 )
 
+// Mapping from string to VirtualNetworkGatewaySku_Name
+var virtualNetworkGatewaySku_Name_Values = map[string]VirtualNetworkGatewaySku_Name{
+	"basic":            VirtualNetworkGatewaySku_Name_Basic,
+	"ergw1az":          VirtualNetworkGatewaySku_Name_ErGw1AZ,
+	"ergw2az":          VirtualNetworkGatewaySku_Name_ErGw2AZ,
+	"ergw3az":          VirtualNetworkGatewaySku_Name_ErGw3AZ,
+	"highperformance":  VirtualNetworkGatewaySku_Name_HighPerformance,
+	"standard":         VirtualNetworkGatewaySku_Name_Standard,
+	"ultraperformance": VirtualNetworkGatewaySku_Name_UltraPerformance,
+	"vpngw1":           VirtualNetworkGatewaySku_Name_VpnGw1,
+	"vpngw1az":         VirtualNetworkGatewaySku_Name_VpnGw1AZ,
+	"vpngw2":           VirtualNetworkGatewaySku_Name_VpnGw2,
+	"vpngw2az":         VirtualNetworkGatewaySku_Name_VpnGw2AZ,
+	"vpngw3":           VirtualNetworkGatewaySku_Name_VpnGw3,
+	"vpngw3az":         VirtualNetworkGatewaySku_Name_VpnGw3AZ,
+	"vpngw4":           VirtualNetworkGatewaySku_Name_VpnGw4,
+	"vpngw4az":         VirtualNetworkGatewaySku_Name_VpnGw4AZ,
+	"vpngw5":           VirtualNetworkGatewaySku_Name_VpnGw5,
+	"vpngw5az":         VirtualNetworkGatewaySku_Name_VpnGw5AZ,
+}
+
 type VirtualNetworkGatewaySku_Name_STATUS string
 
 const (
@@ -5392,6 +5479,27 @@ const (
 	VirtualNetworkGatewaySku_Name_STATUS_VpnGw5           = VirtualNetworkGatewaySku_Name_STATUS("VpnGw5")
 	VirtualNetworkGatewaySku_Name_STATUS_VpnGw5AZ         = VirtualNetworkGatewaySku_Name_STATUS("VpnGw5AZ")
 )
+
+// Mapping from string to VirtualNetworkGatewaySku_Name_STATUS
+var virtualNetworkGatewaySku_Name_STATUS_Values = map[string]VirtualNetworkGatewaySku_Name_STATUS{
+	"basic":            VirtualNetworkGatewaySku_Name_STATUS_Basic,
+	"ergw1az":          VirtualNetworkGatewaySku_Name_STATUS_ErGw1AZ,
+	"ergw2az":          VirtualNetworkGatewaySku_Name_STATUS_ErGw2AZ,
+	"ergw3az":          VirtualNetworkGatewaySku_Name_STATUS_ErGw3AZ,
+	"highperformance":  VirtualNetworkGatewaySku_Name_STATUS_HighPerformance,
+	"standard":         VirtualNetworkGatewaySku_Name_STATUS_Standard,
+	"ultraperformance": VirtualNetworkGatewaySku_Name_STATUS_UltraPerformance,
+	"vpngw1":           VirtualNetworkGatewaySku_Name_STATUS_VpnGw1,
+	"vpngw1az":         VirtualNetworkGatewaySku_Name_STATUS_VpnGw1AZ,
+	"vpngw2":           VirtualNetworkGatewaySku_Name_STATUS_VpnGw2,
+	"vpngw2az":         VirtualNetworkGatewaySku_Name_STATUS_VpnGw2AZ,
+	"vpngw3":           VirtualNetworkGatewaySku_Name_STATUS_VpnGw3,
+	"vpngw3az":         VirtualNetworkGatewaySku_Name_STATUS_VpnGw3AZ,
+	"vpngw4":           VirtualNetworkGatewaySku_Name_STATUS_VpnGw4,
+	"vpngw4az":         VirtualNetworkGatewaySku_Name_STATUS_VpnGw4AZ,
+	"vpngw5":           VirtualNetworkGatewaySku_Name_STATUS_VpnGw5,
+	"vpngw5az":         VirtualNetworkGatewaySku_Name_STATUS_VpnGw5AZ,
+}
 
 // +kubebuilder:validation:Enum={"Basic","ErGw1AZ","ErGw2AZ","ErGw3AZ","HighPerformance","Standard","UltraPerformance","VpnGw1","VpnGw1AZ","VpnGw2","VpnGw2AZ","VpnGw3","VpnGw3AZ","VpnGw4","VpnGw4AZ","VpnGw5","VpnGw5AZ"}
 type VirtualNetworkGatewaySku_Tier string
@@ -5416,6 +5524,27 @@ const (
 	VirtualNetworkGatewaySku_Tier_VpnGw5AZ         = VirtualNetworkGatewaySku_Tier("VpnGw5AZ")
 )
 
+// Mapping from string to VirtualNetworkGatewaySku_Tier
+var virtualNetworkGatewaySku_Tier_Values = map[string]VirtualNetworkGatewaySku_Tier{
+	"basic":            VirtualNetworkGatewaySku_Tier_Basic,
+	"ergw1az":          VirtualNetworkGatewaySku_Tier_ErGw1AZ,
+	"ergw2az":          VirtualNetworkGatewaySku_Tier_ErGw2AZ,
+	"ergw3az":          VirtualNetworkGatewaySku_Tier_ErGw3AZ,
+	"highperformance":  VirtualNetworkGatewaySku_Tier_HighPerformance,
+	"standard":         VirtualNetworkGatewaySku_Tier_Standard,
+	"ultraperformance": VirtualNetworkGatewaySku_Tier_UltraPerformance,
+	"vpngw1":           VirtualNetworkGatewaySku_Tier_VpnGw1,
+	"vpngw1az":         VirtualNetworkGatewaySku_Tier_VpnGw1AZ,
+	"vpngw2":           VirtualNetworkGatewaySku_Tier_VpnGw2,
+	"vpngw2az":         VirtualNetworkGatewaySku_Tier_VpnGw2AZ,
+	"vpngw3":           VirtualNetworkGatewaySku_Tier_VpnGw3,
+	"vpngw3az":         VirtualNetworkGatewaySku_Tier_VpnGw3AZ,
+	"vpngw4":           VirtualNetworkGatewaySku_Tier_VpnGw4,
+	"vpngw4az":         VirtualNetworkGatewaySku_Tier_VpnGw4AZ,
+	"vpngw5":           VirtualNetworkGatewaySku_Tier_VpnGw5,
+	"vpngw5az":         VirtualNetworkGatewaySku_Tier_VpnGw5AZ,
+}
+
 type VirtualNetworkGatewaySku_Tier_STATUS string
 
 const (
@@ -5438,6 +5567,27 @@ const (
 	VirtualNetworkGatewaySku_Tier_STATUS_VpnGw5AZ         = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw5AZ")
 )
 
+// Mapping from string to VirtualNetworkGatewaySku_Tier_STATUS
+var virtualNetworkGatewaySku_Tier_STATUS_Values = map[string]VirtualNetworkGatewaySku_Tier_STATUS{
+	"basic":            VirtualNetworkGatewaySku_Tier_STATUS_Basic,
+	"ergw1az":          VirtualNetworkGatewaySku_Tier_STATUS_ErGw1AZ,
+	"ergw2az":          VirtualNetworkGatewaySku_Tier_STATUS_ErGw2AZ,
+	"ergw3az":          VirtualNetworkGatewaySku_Tier_STATUS_ErGw3AZ,
+	"highperformance":  VirtualNetworkGatewaySku_Tier_STATUS_HighPerformance,
+	"standard":         VirtualNetworkGatewaySku_Tier_STATUS_Standard,
+	"ultraperformance": VirtualNetworkGatewaySku_Tier_STATUS_UltraPerformance,
+	"vpngw1":           VirtualNetworkGatewaySku_Tier_STATUS_VpnGw1,
+	"vpngw1az":         VirtualNetworkGatewaySku_Tier_STATUS_VpnGw1AZ,
+	"vpngw2":           VirtualNetworkGatewaySku_Tier_STATUS_VpnGw2,
+	"vpngw2az":         VirtualNetworkGatewaySku_Tier_STATUS_VpnGw2AZ,
+	"vpngw3":           VirtualNetworkGatewaySku_Tier_STATUS_VpnGw3,
+	"vpngw3az":         VirtualNetworkGatewaySku_Tier_STATUS_VpnGw3AZ,
+	"vpngw4":           VirtualNetworkGatewaySku_Tier_STATUS_VpnGw4,
+	"vpngw4az":         VirtualNetworkGatewaySku_Tier_STATUS_VpnGw4AZ,
+	"vpngw5":           VirtualNetworkGatewaySku_Tier_STATUS_VpnGw5,
+	"vpngw5az":         VirtualNetworkGatewaySku_Tier_STATUS_VpnGw5AZ,
+}
+
 // +kubebuilder:validation:Enum={"AAD","Certificate","Radius"}
 type VpnClientConfiguration_VpnAuthenticationTypes string
 
@@ -5447,6 +5597,13 @@ const (
 	VpnClientConfiguration_VpnAuthenticationTypes_Radius      = VpnClientConfiguration_VpnAuthenticationTypes("Radius")
 )
 
+// Mapping from string to VpnClientConfiguration_VpnAuthenticationTypes
+var vpnClientConfiguration_VpnAuthenticationTypes_Values = map[string]VpnClientConfiguration_VpnAuthenticationTypes{
+	"aad":         VpnClientConfiguration_VpnAuthenticationTypes_AAD,
+	"certificate": VpnClientConfiguration_VpnAuthenticationTypes_Certificate,
+	"radius":      VpnClientConfiguration_VpnAuthenticationTypes_Radius,
+}
+
 type VpnClientConfiguration_VpnAuthenticationTypes_STATUS string
 
 const (
@@ -5454,6 +5611,13 @@ const (
 	VpnClientConfiguration_VpnAuthenticationTypes_STATUS_Certificate = VpnClientConfiguration_VpnAuthenticationTypes_STATUS("Certificate")
 	VpnClientConfiguration_VpnAuthenticationTypes_STATUS_Radius      = VpnClientConfiguration_VpnAuthenticationTypes_STATUS("Radius")
 )
+
+// Mapping from string to VpnClientConfiguration_VpnAuthenticationTypes_STATUS
+var vpnClientConfiguration_VpnAuthenticationTypes_STATUS_Values = map[string]VpnClientConfiguration_VpnAuthenticationTypes_STATUS{
+	"aad":         VpnClientConfiguration_VpnAuthenticationTypes_STATUS_AAD,
+	"certificate": VpnClientConfiguration_VpnAuthenticationTypes_STATUS_Certificate,
+	"radius":      VpnClientConfiguration_VpnAuthenticationTypes_STATUS_Radius,
+}
 
 // +kubebuilder:validation:Enum={"IkeV2","OpenVPN","SSTP"}
 type VpnClientConfiguration_VpnClientProtocols string
@@ -5464,6 +5628,13 @@ const (
 	VpnClientConfiguration_VpnClientProtocols_SSTP    = VpnClientConfiguration_VpnClientProtocols("SSTP")
 )
 
+// Mapping from string to VpnClientConfiguration_VpnClientProtocols
+var vpnClientConfiguration_VpnClientProtocols_Values = map[string]VpnClientConfiguration_VpnClientProtocols{
+	"ikev2":   VpnClientConfiguration_VpnClientProtocols_IkeV2,
+	"openvpn": VpnClientConfiguration_VpnClientProtocols_OpenVPN,
+	"sstp":    VpnClientConfiguration_VpnClientProtocols_SSTP,
+}
+
 type VpnClientConfiguration_VpnClientProtocols_STATUS string
 
 const (
@@ -5471,6 +5642,13 @@ const (
 	VpnClientConfiguration_VpnClientProtocols_STATUS_OpenVPN = VpnClientConfiguration_VpnClientProtocols_STATUS("OpenVPN")
 	VpnClientConfiguration_VpnClientProtocols_STATUS_SSTP    = VpnClientConfiguration_VpnClientProtocols_STATUS("SSTP")
 )
+
+// Mapping from string to VpnClientConfiguration_VpnClientProtocols_STATUS
+var vpnClientConfiguration_VpnClientProtocols_STATUS_Values = map[string]VpnClientConfiguration_VpnClientProtocols_STATUS{
+	"ikev2":   VpnClientConfiguration_VpnClientProtocols_STATUS_IkeV2,
+	"openvpn": VpnClientConfiguration_VpnClientProtocols_STATUS_OpenVPN,
+	"sstp":    VpnClientConfiguration_VpnClientProtocols_STATUS_SSTP,
+}
 
 // VPN client revoked certificate of virtual network gateway.
 type VpnClientRevokedCertificate struct {
@@ -5672,8 +5850,9 @@ func (certificate *VpnClientRevokedCertificate_STATUS) AssignProperties_From_Vpn
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		certificate.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		certificate.ProvisioningState = &provisioningStateTemp
 	} else {
 		certificate.ProvisioningState = nil
 	}
@@ -5922,8 +6101,9 @@ func (certificate *VpnClientRootCertificate_STATUS) AssignProperties_From_VpnCli
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		certificate.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		certificate.ProvisioningState = &provisioningStateTemp
 	} else {
 		certificate.ProvisioningState = nil
 	}
@@ -5986,6 +6166,18 @@ const (
 	DhGroup_None        = DhGroup("None")
 )
 
+// Mapping from string to DhGroup
+var dhGroup_Values = map[string]DhGroup{
+	"dhgroup1":    DhGroup_DHGroup1,
+	"dhgroup14":   DhGroup_DHGroup14,
+	"dhgroup2":    DhGroup_DHGroup2,
+	"dhgroup2048": DhGroup_DHGroup2048,
+	"dhgroup24":   DhGroup_DHGroup24,
+	"ecp256":      DhGroup_ECP256,
+	"ecp384":      DhGroup_ECP384,
+	"none":        DhGroup_None,
+}
+
 // The DH Groups used in IKE Phase 1 for initial SA.
 type DhGroup_STATUS string
 
@@ -5999,6 +6191,18 @@ const (
 	DhGroup_STATUS_ECP384      = DhGroup_STATUS("ECP384")
 	DhGroup_STATUS_None        = DhGroup_STATUS("None")
 )
+
+// Mapping from string to DhGroup_STATUS
+var dhGroup_STATUS_Values = map[string]DhGroup_STATUS{
+	"dhgroup1":    DhGroup_STATUS_DHGroup1,
+	"dhgroup14":   DhGroup_STATUS_DHGroup14,
+	"dhgroup2":    DhGroup_STATUS_DHGroup2,
+	"dhgroup2048": DhGroup_STATUS_DHGroup2048,
+	"dhgroup24":   DhGroup_STATUS_DHGroup24,
+	"ecp256":      DhGroup_STATUS_ECP256,
+	"ecp384":      DhGroup_STATUS_ECP384,
+	"none":        DhGroup_STATUS_None,
+}
 
 // The IKE encryption algorithm (IKE phase 2).
 // +kubebuilder:validation:Enum={"AES128","AES192","AES256","DES","DES3","GCMAES128","GCMAES256"}
@@ -6014,6 +6218,17 @@ const (
 	IkeEncryption_GCMAES256 = IkeEncryption("GCMAES256")
 )
 
+// Mapping from string to IkeEncryption
+var ikeEncryption_Values = map[string]IkeEncryption{
+	"aes128":    IkeEncryption_AES128,
+	"aes192":    IkeEncryption_AES192,
+	"aes256":    IkeEncryption_AES256,
+	"des":       IkeEncryption_DES,
+	"des3":      IkeEncryption_DES3,
+	"gcmaes128": IkeEncryption_GCMAES128,
+	"gcmaes256": IkeEncryption_GCMAES256,
+}
+
 // The IKE encryption algorithm (IKE phase 2).
 type IkeEncryption_STATUS string
 
@@ -6026,6 +6241,17 @@ const (
 	IkeEncryption_STATUS_GCMAES128 = IkeEncryption_STATUS("GCMAES128")
 	IkeEncryption_STATUS_GCMAES256 = IkeEncryption_STATUS("GCMAES256")
 )
+
+// Mapping from string to IkeEncryption_STATUS
+var ikeEncryption_STATUS_Values = map[string]IkeEncryption_STATUS{
+	"aes128":    IkeEncryption_STATUS_AES128,
+	"aes192":    IkeEncryption_STATUS_AES192,
+	"aes256":    IkeEncryption_STATUS_AES256,
+	"des":       IkeEncryption_STATUS_DES,
+	"des3":      IkeEncryption_STATUS_DES3,
+	"gcmaes128": IkeEncryption_STATUS_GCMAES128,
+	"gcmaes256": IkeEncryption_STATUS_GCMAES256,
+}
 
 // The IKE integrity algorithm (IKE phase 2).
 // +kubebuilder:validation:Enum={"GCMAES128","GCMAES256","MD5","SHA1","SHA256","SHA384"}
@@ -6040,6 +6266,16 @@ const (
 	IkeIntegrity_SHA384    = IkeIntegrity("SHA384")
 )
 
+// Mapping from string to IkeIntegrity
+var ikeIntegrity_Values = map[string]IkeIntegrity{
+	"gcmaes128": IkeIntegrity_GCMAES128,
+	"gcmaes256": IkeIntegrity_GCMAES256,
+	"md5":       IkeIntegrity_MD5,
+	"sha1":      IkeIntegrity_SHA1,
+	"sha256":    IkeIntegrity_SHA256,
+	"sha384":    IkeIntegrity_SHA384,
+}
+
 // The IKE integrity algorithm (IKE phase 2).
 type IkeIntegrity_STATUS string
 
@@ -6051,6 +6287,16 @@ const (
 	IkeIntegrity_STATUS_SHA256    = IkeIntegrity_STATUS("SHA256")
 	IkeIntegrity_STATUS_SHA384    = IkeIntegrity_STATUS("SHA384")
 )
+
+// Mapping from string to IkeIntegrity_STATUS
+var ikeIntegrity_STATUS_Values = map[string]IkeIntegrity_STATUS{
+	"gcmaes128": IkeIntegrity_STATUS_GCMAES128,
+	"gcmaes256": IkeIntegrity_STATUS_GCMAES256,
+	"md5":       IkeIntegrity_STATUS_MD5,
+	"sha1":      IkeIntegrity_STATUS_SHA1,
+	"sha256":    IkeIntegrity_STATUS_SHA256,
+	"sha384":    IkeIntegrity_STATUS_SHA384,
+}
 
 // The IPSec encryption algorithm (IKE phase 1).
 // +kubebuilder:validation:Enum={"AES128","AES192","AES256","DES","DES3","GCMAES128","GCMAES192","GCMAES256","None"}
@@ -6068,6 +6314,19 @@ const (
 	IpsecEncryption_None      = IpsecEncryption("None")
 )
 
+// Mapping from string to IpsecEncryption
+var ipsecEncryption_Values = map[string]IpsecEncryption{
+	"aes128":    IpsecEncryption_AES128,
+	"aes192":    IpsecEncryption_AES192,
+	"aes256":    IpsecEncryption_AES256,
+	"des":       IpsecEncryption_DES,
+	"des3":      IpsecEncryption_DES3,
+	"gcmaes128": IpsecEncryption_GCMAES128,
+	"gcmaes192": IpsecEncryption_GCMAES192,
+	"gcmaes256": IpsecEncryption_GCMAES256,
+	"none":      IpsecEncryption_None,
+}
+
 // The IPSec encryption algorithm (IKE phase 1).
 type IpsecEncryption_STATUS string
 
@@ -6083,6 +6342,19 @@ const (
 	IpsecEncryption_STATUS_None      = IpsecEncryption_STATUS("None")
 )
 
+// Mapping from string to IpsecEncryption_STATUS
+var ipsecEncryption_STATUS_Values = map[string]IpsecEncryption_STATUS{
+	"aes128":    IpsecEncryption_STATUS_AES128,
+	"aes192":    IpsecEncryption_STATUS_AES192,
+	"aes256":    IpsecEncryption_STATUS_AES256,
+	"des":       IpsecEncryption_STATUS_DES,
+	"des3":      IpsecEncryption_STATUS_DES3,
+	"gcmaes128": IpsecEncryption_STATUS_GCMAES128,
+	"gcmaes192": IpsecEncryption_STATUS_GCMAES192,
+	"gcmaes256": IpsecEncryption_STATUS_GCMAES256,
+	"none":      IpsecEncryption_STATUS_None,
+}
+
 // The IPSec integrity algorithm (IKE phase 1).
 // +kubebuilder:validation:Enum={"GCMAES128","GCMAES192","GCMAES256","MD5","SHA1","SHA256"}
 type IpsecIntegrity string
@@ -6096,6 +6368,16 @@ const (
 	IpsecIntegrity_SHA256    = IpsecIntegrity("SHA256")
 )
 
+// Mapping from string to IpsecIntegrity
+var ipsecIntegrity_Values = map[string]IpsecIntegrity{
+	"gcmaes128": IpsecIntegrity_GCMAES128,
+	"gcmaes192": IpsecIntegrity_GCMAES192,
+	"gcmaes256": IpsecIntegrity_GCMAES256,
+	"md5":       IpsecIntegrity_MD5,
+	"sha1":      IpsecIntegrity_SHA1,
+	"sha256":    IpsecIntegrity_SHA256,
+}
+
 // The IPSec integrity algorithm (IKE phase 1).
 type IpsecIntegrity_STATUS string
 
@@ -6107,6 +6389,16 @@ const (
 	IpsecIntegrity_STATUS_SHA1      = IpsecIntegrity_STATUS("SHA1")
 	IpsecIntegrity_STATUS_SHA256    = IpsecIntegrity_STATUS("SHA256")
 )
+
+// Mapping from string to IpsecIntegrity_STATUS
+var ipsecIntegrity_STATUS_Values = map[string]IpsecIntegrity_STATUS{
+	"gcmaes128": IpsecIntegrity_STATUS_GCMAES128,
+	"gcmaes192": IpsecIntegrity_STATUS_GCMAES192,
+	"gcmaes256": IpsecIntegrity_STATUS_GCMAES256,
+	"md5":       IpsecIntegrity_STATUS_MD5,
+	"sha1":      IpsecIntegrity_STATUS_SHA1,
+	"sha256":    IpsecIntegrity_STATUS_SHA256,
+}
 
 // The Pfs Groups used in IKE Phase 2 for new child SA.
 // +kubebuilder:validation:Enum={"ECP256","ECP384","None","PFS1","PFS14","PFS2","PFS2048","PFS24","PFSMM"}
@@ -6124,6 +6416,19 @@ const (
 	PfsGroup_PFSMM   = PfsGroup("PFSMM")
 )
 
+// Mapping from string to PfsGroup
+var pfsGroup_Values = map[string]PfsGroup{
+	"ecp256":  PfsGroup_ECP256,
+	"ecp384":  PfsGroup_ECP384,
+	"none":    PfsGroup_None,
+	"pfs1":    PfsGroup_PFS1,
+	"pfs14":   PfsGroup_PFS14,
+	"pfs2":    PfsGroup_PFS2,
+	"pfs2048": PfsGroup_PFS2048,
+	"pfs24":   PfsGroup_PFS24,
+	"pfsmm":   PfsGroup_PFSMM,
+}
+
 // The Pfs Groups used in IKE Phase 2 for new child SA.
 type PfsGroup_STATUS string
 
@@ -6138,6 +6443,19 @@ const (
 	PfsGroup_STATUS_PFS24   = PfsGroup_STATUS("PFS24")
 	PfsGroup_STATUS_PFSMM   = PfsGroup_STATUS("PFSMM")
 )
+
+// Mapping from string to PfsGroup_STATUS
+var pfsGroup_STATUS_Values = map[string]PfsGroup_STATUS{
+	"ecp256":  PfsGroup_STATUS_ECP256,
+	"ecp384":  PfsGroup_STATUS_ECP384,
+	"none":    PfsGroup_STATUS_None,
+	"pfs1":    PfsGroup_STATUS_PFS1,
+	"pfs14":   PfsGroup_STATUS_PFS14,
+	"pfs2":    PfsGroup_STATUS_PFS2,
+	"pfs2048": PfsGroup_STATUS_PFS2048,
+	"pfs24":   PfsGroup_STATUS_PFS24,
+	"pfsmm":   PfsGroup_STATUS_PFSMM,
+}
 
 func init() {
 	SchemeBuilder.Register(&VirtualNetworkGateway{}, &VirtualNetworkGatewayList{})

@@ -997,8 +997,9 @@ func (service *Service_Spec) AssignProperties_From_Service_Spec(source *v2022080
 
 	// NatGatewayState
 	if source.NatGatewayState != nil {
-		natGatewayState := ApiManagementServiceProperties_NatGatewayState(*source.NatGatewayState)
-		service.NatGatewayState = &natGatewayState
+		natGatewayState := *source.NatGatewayState
+		natGatewayStateTemp := genruntime.ToEnum(natGatewayState, apiManagementServiceProperties_NatGatewayState_Values)
+		service.NatGatewayState = &natGatewayStateTemp
 	} else {
 		service.NatGatewayState = nil
 	}
@@ -1029,8 +1030,9 @@ func (service *Service_Spec) AssignProperties_From_Service_Spec(source *v2022080
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := ApiManagementServiceProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		service.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, apiManagementServiceProperties_PublicNetworkAccess_Values)
+		service.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		service.PublicNetworkAccess = nil
 	}
@@ -1088,8 +1090,9 @@ func (service *Service_Spec) AssignProperties_From_Service_Spec(source *v2022080
 
 	// VirtualNetworkType
 	if source.VirtualNetworkType != nil {
-		virtualNetworkType := ApiManagementServiceProperties_VirtualNetworkType(*source.VirtualNetworkType)
-		service.VirtualNetworkType = &virtualNetworkType
+		virtualNetworkType := *source.VirtualNetworkType
+		virtualNetworkTypeTemp := genruntime.ToEnum(virtualNetworkType, apiManagementServiceProperties_VirtualNetworkType_Values)
+		service.VirtualNetworkType = &virtualNetworkTypeTemp
 	} else {
 		service.VirtualNetworkType = nil
 	}
@@ -2269,8 +2272,9 @@ func (service *Service_STATUS) AssignProperties_From_Service_STATUS(source *v202
 
 	// NatGatewayState
 	if source.NatGatewayState != nil {
-		natGatewayState := ApiManagementServiceProperties_NatGatewayState_STATUS(*source.NatGatewayState)
-		service.NatGatewayState = &natGatewayState
+		natGatewayState := *source.NatGatewayState
+		natGatewayStateTemp := genruntime.ToEnum(natGatewayState, apiManagementServiceProperties_NatGatewayState_STATUS_Values)
+		service.NatGatewayState = &natGatewayStateTemp
 	} else {
 		service.NatGatewayState = nil
 	}
@@ -2283,8 +2287,9 @@ func (service *Service_STATUS) AssignProperties_From_Service_STATUS(source *v202
 
 	// PlatformVersion
 	if source.PlatformVersion != nil {
-		platformVersion := ApiManagementServiceProperties_PlatformVersion_STATUS(*source.PlatformVersion)
-		service.PlatformVersion = &platformVersion
+		platformVersion := *source.PlatformVersion
+		platformVersionTemp := genruntime.ToEnum(platformVersion, apiManagementServiceProperties_PlatformVersion_STATUS_Values)
+		service.PlatformVersion = &platformVersionTemp
 	} else {
 		service.PlatformVersion = nil
 	}
@@ -2324,8 +2329,9 @@ func (service *Service_STATUS) AssignProperties_From_Service_STATUS(source *v202
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := ApiManagementServiceProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-		service.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, apiManagementServiceProperties_PublicNetworkAccess_STATUS_Values)
+		service.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		service.PublicNetworkAccess = nil
 	}
@@ -2394,8 +2400,9 @@ func (service *Service_STATUS) AssignProperties_From_Service_STATUS(source *v202
 
 	// VirtualNetworkType
 	if source.VirtualNetworkType != nil {
-		virtualNetworkType := ApiManagementServiceProperties_VirtualNetworkType_STATUS(*source.VirtualNetworkType)
-		service.VirtualNetworkType = &virtualNetworkType
+		virtualNetworkType := *source.VirtualNetworkType
+		virtualNetworkTypeTemp := genruntime.ToEnum(virtualNetworkType, apiManagementServiceProperties_VirtualNetworkType_STATUS_Values)
+		service.VirtualNetworkType = &virtualNetworkTypeTemp
 	} else {
 		service.VirtualNetworkType = nil
 	}
@@ -2857,8 +2864,9 @@ func (location *AdditionalLocation) AssignProperties_From_AdditionalLocation(sou
 
 	// NatGatewayState
 	if source.NatGatewayState != nil {
-		natGatewayState := AdditionalLocation_NatGatewayState(*source.NatGatewayState)
-		location.NatGatewayState = &natGatewayState
+		natGatewayState := *source.NatGatewayState
+		natGatewayStateTemp := genruntime.ToEnum(natGatewayState, additionalLocation_NatGatewayState_Values)
+		location.NatGatewayState = &natGatewayStateTemp
 	} else {
 		location.NatGatewayState = nil
 	}
@@ -3193,8 +3201,9 @@ func (location *AdditionalLocation_STATUS) AssignProperties_From_AdditionalLocat
 
 	// NatGatewayState
 	if source.NatGatewayState != nil {
-		natGatewayState := AdditionalLocation_NatGatewayState_STATUS(*source.NatGatewayState)
-		location.NatGatewayState = &natGatewayState
+		natGatewayState := *source.NatGatewayState
+		natGatewayStateTemp := genruntime.ToEnum(natGatewayState, additionalLocation_NatGatewayState_STATUS_Values)
+		location.NatGatewayState = &natGatewayStateTemp
 	} else {
 		location.NatGatewayState = nil
 	}
@@ -3204,8 +3213,9 @@ func (location *AdditionalLocation_STATUS) AssignProperties_From_AdditionalLocat
 
 	// PlatformVersion
 	if source.PlatformVersion != nil {
-		platformVersion := AdditionalLocation_PlatformVersion_STATUS(*source.PlatformVersion)
-		location.PlatformVersion = &platformVersion
+		platformVersion := *source.PlatformVersion
+		platformVersionTemp := genruntime.ToEnum(platformVersion, additionalLocation_PlatformVersion_STATUS_Values)
+		location.PlatformVersion = &platformVersionTemp
 	} else {
 		location.PlatformVersion = nil
 	}
@@ -3406,8 +3416,9 @@ func (identity *ApiManagementServiceIdentity) AssignProperties_From_ApiManagemen
 
 	// Type
 	if source.Type != nil {
-		typeVar := ApiManagementServiceIdentity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, apiManagementServiceIdentity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -3582,8 +3593,9 @@ func (identity *ApiManagementServiceIdentity_STATUS) AssignProperties_From_ApiMa
 
 	// Type
 	if source.Type != nil {
-		typeVar := ApiManagementServiceIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, apiManagementServiceIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -3666,12 +3678,24 @@ const (
 	ApiManagementServiceProperties_NatGatewayState_Enabled  = ApiManagementServiceProperties_NatGatewayState("Enabled")
 )
 
+// Mapping from string to ApiManagementServiceProperties_NatGatewayState
+var apiManagementServiceProperties_NatGatewayState_Values = map[string]ApiManagementServiceProperties_NatGatewayState{
+	"disabled": ApiManagementServiceProperties_NatGatewayState_Disabled,
+	"enabled":  ApiManagementServiceProperties_NatGatewayState_Enabled,
+}
+
 type ApiManagementServiceProperties_NatGatewayState_STATUS string
 
 const (
 	ApiManagementServiceProperties_NatGatewayState_STATUS_Disabled = ApiManagementServiceProperties_NatGatewayState_STATUS("Disabled")
 	ApiManagementServiceProperties_NatGatewayState_STATUS_Enabled  = ApiManagementServiceProperties_NatGatewayState_STATUS("Enabled")
 )
+
+// Mapping from string to ApiManagementServiceProperties_NatGatewayState_STATUS
+var apiManagementServiceProperties_NatGatewayState_STATUS_Values = map[string]ApiManagementServiceProperties_NatGatewayState_STATUS{
+	"disabled": ApiManagementServiceProperties_NatGatewayState_STATUS_Disabled,
+	"enabled":  ApiManagementServiceProperties_NatGatewayState_STATUS_Enabled,
+}
 
 type ApiManagementServiceProperties_PlatformVersion_STATUS string
 
@@ -3682,6 +3706,14 @@ const (
 	ApiManagementServiceProperties_PlatformVersion_STATUS_Undetermined = ApiManagementServiceProperties_PlatformVersion_STATUS("undetermined")
 )
 
+// Mapping from string to ApiManagementServiceProperties_PlatformVersion_STATUS
+var apiManagementServiceProperties_PlatformVersion_STATUS_Values = map[string]ApiManagementServiceProperties_PlatformVersion_STATUS{
+	"mtv1":         ApiManagementServiceProperties_PlatformVersion_STATUS_Mtv1,
+	"stv1":         ApiManagementServiceProperties_PlatformVersion_STATUS_Stv1,
+	"stv2":         ApiManagementServiceProperties_PlatformVersion_STATUS_Stv2,
+	"undetermined": ApiManagementServiceProperties_PlatformVersion_STATUS_Undetermined,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ApiManagementServiceProperties_PublicNetworkAccess string
 
@@ -3690,12 +3722,24 @@ const (
 	ApiManagementServiceProperties_PublicNetworkAccess_Enabled  = ApiManagementServiceProperties_PublicNetworkAccess("Enabled")
 )
 
+// Mapping from string to ApiManagementServiceProperties_PublicNetworkAccess
+var apiManagementServiceProperties_PublicNetworkAccess_Values = map[string]ApiManagementServiceProperties_PublicNetworkAccess{
+	"disabled": ApiManagementServiceProperties_PublicNetworkAccess_Disabled,
+	"enabled":  ApiManagementServiceProperties_PublicNetworkAccess_Enabled,
+}
+
 type ApiManagementServiceProperties_PublicNetworkAccess_STATUS string
 
 const (
 	ApiManagementServiceProperties_PublicNetworkAccess_STATUS_Disabled = ApiManagementServiceProperties_PublicNetworkAccess_STATUS("Disabled")
 	ApiManagementServiceProperties_PublicNetworkAccess_STATUS_Enabled  = ApiManagementServiceProperties_PublicNetworkAccess_STATUS("Enabled")
 )
+
+// Mapping from string to ApiManagementServiceProperties_PublicNetworkAccess_STATUS
+var apiManagementServiceProperties_PublicNetworkAccess_STATUS_Values = map[string]ApiManagementServiceProperties_PublicNetworkAccess_STATUS{
+	"disabled": ApiManagementServiceProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  ApiManagementServiceProperties_PublicNetworkAccess_STATUS_Enabled,
+}
 
 // +kubebuilder:validation:Enum={"External","Internal","None"}
 type ApiManagementServiceProperties_VirtualNetworkType string
@@ -3706,6 +3750,13 @@ const (
 	ApiManagementServiceProperties_VirtualNetworkType_None     = ApiManagementServiceProperties_VirtualNetworkType("None")
 )
 
+// Mapping from string to ApiManagementServiceProperties_VirtualNetworkType
+var apiManagementServiceProperties_VirtualNetworkType_Values = map[string]ApiManagementServiceProperties_VirtualNetworkType{
+	"external": ApiManagementServiceProperties_VirtualNetworkType_External,
+	"internal": ApiManagementServiceProperties_VirtualNetworkType_Internal,
+	"none":     ApiManagementServiceProperties_VirtualNetworkType_None,
+}
+
 type ApiManagementServiceProperties_VirtualNetworkType_STATUS string
 
 const (
@@ -3713,6 +3764,13 @@ const (
 	ApiManagementServiceProperties_VirtualNetworkType_STATUS_Internal = ApiManagementServiceProperties_VirtualNetworkType_STATUS("Internal")
 	ApiManagementServiceProperties_VirtualNetworkType_STATUS_None     = ApiManagementServiceProperties_VirtualNetworkType_STATUS("None")
 )
+
+// Mapping from string to ApiManagementServiceProperties_VirtualNetworkType_STATUS
+var apiManagementServiceProperties_VirtualNetworkType_STATUS_Values = map[string]ApiManagementServiceProperties_VirtualNetworkType_STATUS{
+	"external": ApiManagementServiceProperties_VirtualNetworkType_STATUS_External,
+	"internal": ApiManagementServiceProperties_VirtualNetworkType_STATUS_Internal,
+	"none":     ApiManagementServiceProperties_VirtualNetworkType_STATUS_None,
+}
 
 // API Management service resource SKU properties.
 type ApiManagementServiceSkuProperties struct {
@@ -3784,8 +3842,9 @@ func (properties *ApiManagementServiceSkuProperties) AssignProperties_From_ApiMa
 
 	// Name
 	if source.Name != nil {
-		name := ApiManagementServiceSkuProperties_Name(*source.Name)
-		properties.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, apiManagementServiceSkuProperties_Name_Values)
+		properties.Name = &nameTemp
 	} else {
 		properties.Name = nil
 	}
@@ -3886,8 +3945,9 @@ func (properties *ApiManagementServiceSkuProperties_STATUS) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		name := ApiManagementServiceSkuProperties_Name_STATUS(*source.Name)
-		properties.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, apiManagementServiceSkuProperties_Name_STATUS_Values)
+		properties.Name = &nameTemp
 	} else {
 		properties.Name = nil
 	}
@@ -4195,8 +4255,9 @@ func (configuration *CertificateConfiguration) AssignProperties_From_Certificate
 
 	// StoreName
 	if source.StoreName != nil {
-		storeName := CertificateConfiguration_StoreName(*source.StoreName)
-		configuration.StoreName = &storeName
+		storeName := *source.StoreName
+		storeNameTemp := genruntime.ToEnum(storeName, certificateConfiguration_StoreName_Values)
+		configuration.StoreName = &storeNameTemp
 	} else {
 		configuration.StoreName = nil
 	}
@@ -4356,8 +4417,9 @@ func (configuration *CertificateConfiguration_STATUS) AssignProperties_From_Cert
 
 	// StoreName
 	if source.StoreName != nil {
-		storeName := CertificateConfiguration_StoreName_STATUS(*source.StoreName)
-		configuration.StoreName = &storeName
+		storeName := *source.StoreName
+		storeNameTemp := genruntime.ToEnum(storeName, certificateConfiguration_StoreName_STATUS_Values)
+		configuration.StoreName = &storeNameTemp
 	} else {
 		configuration.StoreName = nil
 	}
@@ -4656,16 +4718,18 @@ func (configuration *HostnameConfiguration) AssignProperties_From_HostnameConfig
 
 	// CertificateSource
 	if source.CertificateSource != nil {
-		certificateSource := HostnameConfiguration_CertificateSource(*source.CertificateSource)
-		configuration.CertificateSource = &certificateSource
+		certificateSource := *source.CertificateSource
+		certificateSourceTemp := genruntime.ToEnum(certificateSource, hostnameConfiguration_CertificateSource_Values)
+		configuration.CertificateSource = &certificateSourceTemp
 	} else {
 		configuration.CertificateSource = nil
 	}
 
 	// CertificateStatus
 	if source.CertificateStatus != nil {
-		certificateStatus := HostnameConfiguration_CertificateStatus(*source.CertificateStatus)
-		configuration.CertificateStatus = &certificateStatus
+		certificateStatus := *source.CertificateStatus
+		certificateStatusTemp := genruntime.ToEnum(certificateStatus, hostnameConfiguration_CertificateStatus_Values)
+		configuration.CertificateStatus = &certificateStatusTemp
 	} else {
 		configuration.CertificateStatus = nil
 	}
@@ -4708,8 +4772,9 @@ func (configuration *HostnameConfiguration) AssignProperties_From_HostnameConfig
 
 	// Type
 	if source.Type != nil {
-		typeVar := HostnameConfiguration_Type(*source.Type)
-		configuration.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, hostnameConfiguration_Type_Values)
+		configuration.Type = &typeTemp
 	} else {
 		configuration.Type = nil
 	}
@@ -5024,16 +5089,18 @@ func (configuration *HostnameConfiguration_STATUS) AssignProperties_From_Hostnam
 
 	// CertificateSource
 	if source.CertificateSource != nil {
-		certificateSource := HostnameConfiguration_CertificateSource_STATUS(*source.CertificateSource)
-		configuration.CertificateSource = &certificateSource
+		certificateSource := *source.CertificateSource
+		certificateSourceTemp := genruntime.ToEnum(certificateSource, hostnameConfiguration_CertificateSource_STATUS_Values)
+		configuration.CertificateSource = &certificateSourceTemp
 	} else {
 		configuration.CertificateSource = nil
 	}
 
 	// CertificateStatus
 	if source.CertificateStatus != nil {
-		certificateStatus := HostnameConfiguration_CertificateStatus_STATUS(*source.CertificateStatus)
-		configuration.CertificateStatus = &certificateStatus
+		certificateStatus := *source.CertificateStatus
+		certificateStatusTemp := genruntime.ToEnum(certificateStatus, hostnameConfiguration_CertificateStatus_STATUS_Values)
+		configuration.CertificateStatus = &certificateStatusTemp
 	} else {
 		configuration.CertificateStatus = nil
 	}
@@ -5068,8 +5135,9 @@ func (configuration *HostnameConfiguration_STATUS) AssignProperties_From_Hostnam
 
 	// Type
 	if source.Type != nil {
-		typeVar := HostnameConfiguration_Type_STATUS(*source.Type)
-		configuration.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, hostnameConfiguration_Type_STATUS_Values)
+		configuration.Type = &typeTemp
 	} else {
 		configuration.Type = nil
 	}
@@ -5451,8 +5519,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -5465,8 +5534,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -5715,12 +5785,24 @@ const (
 	AdditionalLocation_NatGatewayState_Enabled  = AdditionalLocation_NatGatewayState("Enabled")
 )
 
+// Mapping from string to AdditionalLocation_NatGatewayState
+var additionalLocation_NatGatewayState_Values = map[string]AdditionalLocation_NatGatewayState{
+	"disabled": AdditionalLocation_NatGatewayState_Disabled,
+	"enabled":  AdditionalLocation_NatGatewayState_Enabled,
+}
+
 type AdditionalLocation_NatGatewayState_STATUS string
 
 const (
 	AdditionalLocation_NatGatewayState_STATUS_Disabled = AdditionalLocation_NatGatewayState_STATUS("Disabled")
 	AdditionalLocation_NatGatewayState_STATUS_Enabled  = AdditionalLocation_NatGatewayState_STATUS("Enabled")
 )
+
+// Mapping from string to AdditionalLocation_NatGatewayState_STATUS
+var additionalLocation_NatGatewayState_STATUS_Values = map[string]AdditionalLocation_NatGatewayState_STATUS{
+	"disabled": AdditionalLocation_NatGatewayState_STATUS_Disabled,
+	"enabled":  AdditionalLocation_NatGatewayState_STATUS_Enabled,
+}
 
 type AdditionalLocation_PlatformVersion_STATUS string
 
@@ -5730,6 +5812,14 @@ const (
 	AdditionalLocation_PlatformVersion_STATUS_Stv2         = AdditionalLocation_PlatformVersion_STATUS("stv2")
 	AdditionalLocation_PlatformVersion_STATUS_Undetermined = AdditionalLocation_PlatformVersion_STATUS("undetermined")
 )
+
+// Mapping from string to AdditionalLocation_PlatformVersion_STATUS
+var additionalLocation_PlatformVersion_STATUS_Values = map[string]AdditionalLocation_PlatformVersion_STATUS{
+	"mtv1":         AdditionalLocation_PlatformVersion_STATUS_Mtv1,
+	"stv1":         AdditionalLocation_PlatformVersion_STATUS_Stv1,
+	"stv2":         AdditionalLocation_PlatformVersion_STATUS_Stv2,
+	"undetermined": AdditionalLocation_PlatformVersion_STATUS_Undetermined,
+}
 
 // A wrapper for an ARM resource id
 type ArmIdWrapper_STATUS struct {
@@ -5797,12 +5887,24 @@ const (
 	CertificateConfiguration_StoreName_Root                 = CertificateConfiguration_StoreName("Root")
 )
 
+// Mapping from string to CertificateConfiguration_StoreName
+var certificateConfiguration_StoreName_Values = map[string]CertificateConfiguration_StoreName{
+	"certificateauthority": CertificateConfiguration_StoreName_CertificateAuthority,
+	"root":                 CertificateConfiguration_StoreName_Root,
+}
+
 type CertificateConfiguration_StoreName_STATUS string
 
 const (
 	CertificateConfiguration_StoreName_STATUS_CertificateAuthority = CertificateConfiguration_StoreName_STATUS("CertificateAuthority")
 	CertificateConfiguration_StoreName_STATUS_Root                 = CertificateConfiguration_StoreName_STATUS("Root")
 )
+
+// Mapping from string to CertificateConfiguration_StoreName_STATUS
+var certificateConfiguration_StoreName_STATUS_Values = map[string]CertificateConfiguration_StoreName_STATUS{
+	"certificateauthority": CertificateConfiguration_StoreName_STATUS_CertificateAuthority,
+	"root":                 CertificateConfiguration_StoreName_STATUS_Root,
+}
 
 // SSL certificate information.
 type CertificateInformation struct {
@@ -6125,6 +6227,14 @@ const (
 	HostnameConfiguration_CertificateSource_Managed  = HostnameConfiguration_CertificateSource("Managed")
 )
 
+// Mapping from string to HostnameConfiguration_CertificateSource
+var hostnameConfiguration_CertificateSource_Values = map[string]HostnameConfiguration_CertificateSource{
+	"builtin":  HostnameConfiguration_CertificateSource_BuiltIn,
+	"custom":   HostnameConfiguration_CertificateSource_Custom,
+	"keyvault": HostnameConfiguration_CertificateSource_KeyVault,
+	"managed":  HostnameConfiguration_CertificateSource_Managed,
+}
+
 type HostnameConfiguration_CertificateSource_STATUS string
 
 const (
@@ -6133,6 +6243,14 @@ const (
 	HostnameConfiguration_CertificateSource_STATUS_KeyVault = HostnameConfiguration_CertificateSource_STATUS("KeyVault")
 	HostnameConfiguration_CertificateSource_STATUS_Managed  = HostnameConfiguration_CertificateSource_STATUS("Managed")
 )
+
+// Mapping from string to HostnameConfiguration_CertificateSource_STATUS
+var hostnameConfiguration_CertificateSource_STATUS_Values = map[string]HostnameConfiguration_CertificateSource_STATUS{
+	"builtin":  HostnameConfiguration_CertificateSource_STATUS_BuiltIn,
+	"custom":   HostnameConfiguration_CertificateSource_STATUS_Custom,
+	"keyvault": HostnameConfiguration_CertificateSource_STATUS_KeyVault,
+	"managed":  HostnameConfiguration_CertificateSource_STATUS_Managed,
+}
 
 // +kubebuilder:validation:Enum={"Completed","Failed","InProgress"}
 type HostnameConfiguration_CertificateStatus string
@@ -6143,6 +6261,13 @@ const (
 	HostnameConfiguration_CertificateStatus_InProgress = HostnameConfiguration_CertificateStatus("InProgress")
 )
 
+// Mapping from string to HostnameConfiguration_CertificateStatus
+var hostnameConfiguration_CertificateStatus_Values = map[string]HostnameConfiguration_CertificateStatus{
+	"completed":  HostnameConfiguration_CertificateStatus_Completed,
+	"failed":     HostnameConfiguration_CertificateStatus_Failed,
+	"inprogress": HostnameConfiguration_CertificateStatus_InProgress,
+}
+
 type HostnameConfiguration_CertificateStatus_STATUS string
 
 const (
@@ -6150,6 +6275,13 @@ const (
 	HostnameConfiguration_CertificateStatus_STATUS_Failed     = HostnameConfiguration_CertificateStatus_STATUS("Failed")
 	HostnameConfiguration_CertificateStatus_STATUS_InProgress = HostnameConfiguration_CertificateStatus_STATUS("InProgress")
 )
+
+// Mapping from string to HostnameConfiguration_CertificateStatus_STATUS
+var hostnameConfiguration_CertificateStatus_STATUS_Values = map[string]HostnameConfiguration_CertificateStatus_STATUS{
+	"completed":  HostnameConfiguration_CertificateStatus_STATUS_Completed,
+	"failed":     HostnameConfiguration_CertificateStatus_STATUS_Failed,
+	"inprogress": HostnameConfiguration_CertificateStatus_STATUS_InProgress,
+}
 
 // +kubebuilder:validation:Enum={"DeveloperPortal","Management","Portal","Proxy","Scm"}
 type HostnameConfiguration_Type string
@@ -6162,6 +6294,15 @@ const (
 	HostnameConfiguration_Type_Scm             = HostnameConfiguration_Type("Scm")
 )
 
+// Mapping from string to HostnameConfiguration_Type
+var hostnameConfiguration_Type_Values = map[string]HostnameConfiguration_Type{
+	"developerportal": HostnameConfiguration_Type_DeveloperPortal,
+	"management":      HostnameConfiguration_Type_Management,
+	"portal":          HostnameConfiguration_Type_Portal,
+	"proxy":           HostnameConfiguration_Type_Proxy,
+	"scm":             HostnameConfiguration_Type_Scm,
+}
+
 type HostnameConfiguration_Type_STATUS string
 
 const (
@@ -6171,6 +6312,15 @@ const (
 	HostnameConfiguration_Type_STATUS_Proxy           = HostnameConfiguration_Type_STATUS("Proxy")
 	HostnameConfiguration_Type_STATUS_Scm             = HostnameConfiguration_Type_STATUS("Scm")
 )
+
+// Mapping from string to HostnameConfiguration_Type_STATUS
+var hostnameConfiguration_Type_STATUS_Values = map[string]HostnameConfiguration_Type_STATUS{
+	"developerportal": HostnameConfiguration_Type_STATUS_DeveloperPortal,
+	"management":      HostnameConfiguration_Type_STATUS_Management,
+	"portal":          HostnameConfiguration_Type_STATUS_Portal,
+	"proxy":           HostnameConfiguration_Type_STATUS_Proxy,
+	"scm":             HostnameConfiguration_Type_STATUS_Scm,
+}
 
 // A collection of information about the state of the connection between service consumer and provider.
 type PrivateLinkServiceConnectionState_STATUS struct {
@@ -6231,8 +6381,9 @@ func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_From_Pri
 
 	// Status
 	if source.Status != nil {
-		status := PrivateEndpointServiceConnectionStatus_STATUS(*source.Status)
-		state.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, privateEndpointServiceConnectionStatus_STATUS_Values)
+		state.Status = &statusTemp
 	} else {
 		state.Status = nil
 	}
@@ -6386,6 +6537,13 @@ const (
 	PrivateEndpointServiceConnectionStatus_STATUS_Pending  = PrivateEndpointServiceConnectionStatus_STATUS("Pending")
 	PrivateEndpointServiceConnectionStatus_STATUS_Rejected = PrivateEndpointServiceConnectionStatus_STATUS("Rejected")
 )
+
+// Mapping from string to PrivateEndpointServiceConnectionStatus_STATUS
+var privateEndpointServiceConnectionStatus_STATUS_Values = map[string]PrivateEndpointServiceConnectionStatus_STATUS{
+	"approved": PrivateEndpointServiceConnectionStatus_STATUS_Approved,
+	"pending":  PrivateEndpointServiceConnectionStatus_STATUS_Pending,
+	"rejected": PrivateEndpointServiceConnectionStatus_STATUS_Rejected,
+}
 
 func init() {
 	SchemeBuilder.Register(&Service{}, &ServiceList{})

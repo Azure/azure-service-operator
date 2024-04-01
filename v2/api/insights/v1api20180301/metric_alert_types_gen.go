@@ -2186,8 +2186,9 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria) AssignPropert
 
 	// OdataType
 	if source.OdataType != nil {
-		odataType := MetricAlertMultipleResourceMultipleMetricCriteria_OdataType(*source.OdataType)
-		criteria.OdataType = &odataType
+		odataType := *source.OdataType
+		odataTypeTemp := genruntime.ToEnum(odataType, metricAlertMultipleResourceMultipleMetricCriteria_OdataType_Values)
+		criteria.OdataType = &odataTypeTemp
 	} else {
 		criteria.OdataType = nil
 	}
@@ -2382,8 +2383,9 @@ func (criteria *MetricAlertMultipleResourceMultipleMetricCriteria_STATUS) Assign
 
 	// OdataType
 	if source.OdataType != nil {
-		odataType := MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS(*source.OdataType)
-		criteria.OdataType = &odataType
+		odataType := *source.OdataType
+		odataTypeTemp := genruntime.ToEnum(odataType, metricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS_Values)
+		criteria.OdataType = &odataTypeTemp
 	} else {
 		criteria.OdataType = nil
 	}
@@ -2564,8 +2566,9 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria) AssignPropertie
 
 	// OdataType
 	if source.OdataType != nil {
-		odataType := MetricAlertSingleResourceMultipleMetricCriteria_OdataType(*source.OdataType)
-		criteria.OdataType = &odataType
+		odataType := *source.OdataType
+		odataTypeTemp := genruntime.ToEnum(odataType, metricAlertSingleResourceMultipleMetricCriteria_OdataType_Values)
+		criteria.OdataType = &odataTypeTemp
 	} else {
 		criteria.OdataType = nil
 	}
@@ -2760,8 +2763,9 @@ func (criteria *MetricAlertSingleResourceMultipleMetricCriteria_STATUS) AssignPr
 
 	// OdataType
 	if source.OdataType != nil {
-		odataType := MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS(*source.OdataType)
-		criteria.OdataType = &odataType
+		odataType := *source.OdataType
+		odataTypeTemp := genruntime.ToEnum(odataType, metricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS_Values)
+		criteria.OdataType = &odataTypeTemp
 	} else {
 		criteria.OdataType = nil
 	}
@@ -2966,8 +2970,9 @@ func (criteria *WebtestLocationAvailabilityCriteria) AssignProperties_From_Webte
 
 	// OdataType
 	if source.OdataType != nil {
-		odataType := WebtestLocationAvailabilityCriteria_OdataType(*source.OdataType)
-		criteria.OdataType = &odataType
+		odataType := *source.OdataType
+		odataTypeTemp := genruntime.ToEnum(odataType, webtestLocationAvailabilityCriteria_OdataType_Values)
+		criteria.OdataType = &odataTypeTemp
 	} else {
 		criteria.OdataType = nil
 	}
@@ -3174,8 +3179,9 @@ func (criteria *WebtestLocationAvailabilityCriteria_STATUS) AssignProperties_Fro
 
 	// OdataType
 	if source.OdataType != nil {
-		odataType := WebtestLocationAvailabilityCriteria_OdataType_STATUS(*source.OdataType)
-		criteria.OdataType = &odataType
+		odataType := *source.OdataType
+		odataTypeTemp := genruntime.ToEnum(odataType, webtestLocationAvailabilityCriteria_OdataType_STATUS_Values)
+		criteria.OdataType = &odataTypeTemp
 	} else {
 		criteria.OdataType = nil
 	}
@@ -3243,18 +3249,38 @@ type MetricAlertMultipleResourceMultipleMetricCriteria_OdataType string
 
 const MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_MicrosoftAzureMonitorMultipleResourceMultipleMetricCriteria = MetricAlertMultipleResourceMultipleMetricCriteria_OdataType("Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria")
 
+// Mapping from string to MetricAlertMultipleResourceMultipleMetricCriteria_OdataType
+var metricAlertMultipleResourceMultipleMetricCriteria_OdataType_Values = map[string]MetricAlertMultipleResourceMultipleMetricCriteria_OdataType{
+	"microsoft.azure.monitor.multipleresourcemultiplemetriccriteria": MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_MicrosoftAzureMonitorMultipleResourceMultipleMetricCriteria,
+}
+
 type MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS string
 
 const MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS_MicrosoftAzureMonitorMultipleResourceMultipleMetricCriteria = MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS("Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria")
+
+// Mapping from string to MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS
+var metricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS_Values = map[string]MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS{
+	"microsoft.azure.monitor.multipleresourcemultiplemetriccriteria": MetricAlertMultipleResourceMultipleMetricCriteria_OdataType_STATUS_MicrosoftAzureMonitorMultipleResourceMultipleMetricCriteria,
+}
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"}
 type MetricAlertSingleResourceMultipleMetricCriteria_OdataType string
 
 const MetricAlertSingleResourceMultipleMetricCriteria_OdataType_MicrosoftAzureMonitorSingleResourceMultipleMetricCriteria = MetricAlertSingleResourceMultipleMetricCriteria_OdataType("Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria")
 
+// Mapping from string to MetricAlertSingleResourceMultipleMetricCriteria_OdataType
+var metricAlertSingleResourceMultipleMetricCriteria_OdataType_Values = map[string]MetricAlertSingleResourceMultipleMetricCriteria_OdataType{
+	"microsoft.azure.monitor.singleresourcemultiplemetriccriteria": MetricAlertSingleResourceMultipleMetricCriteria_OdataType_MicrosoftAzureMonitorSingleResourceMultipleMetricCriteria,
+}
+
 type MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS string
 
 const MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS_MicrosoftAzureMonitorSingleResourceMultipleMetricCriteria = MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS("Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria")
+
+// Mapping from string to MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS
+var metricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS_Values = map[string]MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS{
+	"microsoft.azure.monitor.singleresourcemultiplemetriccriteria": MetricAlertSingleResourceMultipleMetricCriteria_OdataType_STATUS_MicrosoftAzureMonitorSingleResourceMultipleMetricCriteria,
+}
 
 type MetricCriteria struct {
 	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
@@ -3466,8 +3492,9 @@ func (criteria *MetricCriteria) AssignProperties_From_MetricCriteria(source *v20
 
 	// CriterionType
 	if source.CriterionType != nil {
-		criterionType := MetricCriteria_CriterionType(*source.CriterionType)
-		criteria.CriterionType = &criterionType
+		criterionType := *source.CriterionType
+		criterionTypeTemp := genruntime.ToEnum(criterionType, metricCriteria_CriterionType_Values)
+		criteria.CriterionType = &criterionTypeTemp
 	} else {
 		criteria.CriterionType = nil
 	}
@@ -3501,8 +3528,9 @@ func (criteria *MetricCriteria) AssignProperties_From_MetricCriteria(source *v20
 
 	// Operator
 	if source.Operator != nil {
-		operator := MetricCriteria_Operator(*source.Operator)
-		criteria.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, metricCriteria_Operator_Values)
+		criteria.Operator = &operatorTemp
 	} else {
 		criteria.Operator = nil
 	}
@@ -3525,8 +3553,9 @@ func (criteria *MetricCriteria) AssignProperties_From_MetricCriteria(source *v20
 
 	// TimeAggregation
 	if source.TimeAggregation != nil {
-		timeAggregation := MetricCriteria_TimeAggregation(*source.TimeAggregation)
-		criteria.TimeAggregation = &timeAggregation
+		timeAggregation := *source.TimeAggregation
+		timeAggregationTemp := genruntime.ToEnum(timeAggregation, metricCriteria_TimeAggregation_Values)
+		criteria.TimeAggregation = &timeAggregationTemp
 	} else {
 		criteria.TimeAggregation = nil
 	}
@@ -3849,8 +3878,9 @@ func (criteria *MetricCriteria_STATUS) AssignProperties_From_MetricCriteria_STAT
 
 	// CriterionType
 	if source.CriterionType != nil {
-		criterionType := MetricCriteria_CriterionType_STATUS(*source.CriterionType)
-		criteria.CriterionType = &criterionType
+		criterionType := *source.CriterionType
+		criterionTypeTemp := genruntime.ToEnum(criterionType, metricCriteria_CriterionType_STATUS_Values)
+		criteria.CriterionType = &criterionTypeTemp
 	} else {
 		criteria.CriterionType = nil
 	}
@@ -3884,8 +3914,9 @@ func (criteria *MetricCriteria_STATUS) AssignProperties_From_MetricCriteria_STAT
 
 	// Operator
 	if source.Operator != nil {
-		operator := MetricCriteria_Operator_STATUS(*source.Operator)
-		criteria.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, metricCriteria_Operator_STATUS_Values)
+		criteria.Operator = &operatorTemp
 	} else {
 		criteria.Operator = nil
 	}
@@ -3908,8 +3939,9 @@ func (criteria *MetricCriteria_STATUS) AssignProperties_From_MetricCriteria_STAT
 
 	// TimeAggregation
 	if source.TimeAggregation != nil {
-		timeAggregation := MetricCriteria_TimeAggregation_STATUS(*source.TimeAggregation)
-		criteria.TimeAggregation = &timeAggregation
+		timeAggregation := *source.TimeAggregation
+		timeAggregationTemp := genruntime.ToEnum(timeAggregation, metricCriteria_TimeAggregation_STATUS_Values)
+		criteria.TimeAggregation = &timeAggregationTemp
 	} else {
 		criteria.TimeAggregation = nil
 	}
@@ -4317,9 +4349,19 @@ type WebtestLocationAvailabilityCriteria_OdataType string
 
 const WebtestLocationAvailabilityCriteria_OdataType_MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria = WebtestLocationAvailabilityCriteria_OdataType("Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria")
 
+// Mapping from string to WebtestLocationAvailabilityCriteria_OdataType
+var webtestLocationAvailabilityCriteria_OdataType_Values = map[string]WebtestLocationAvailabilityCriteria_OdataType{
+	"microsoft.azure.monitor.webtestlocationavailabilitycriteria": WebtestLocationAvailabilityCriteria_OdataType_MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria,
+}
+
 type WebtestLocationAvailabilityCriteria_OdataType_STATUS string
 
 const WebtestLocationAvailabilityCriteria_OdataType_STATUS_MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria = WebtestLocationAvailabilityCriteria_OdataType_STATUS("Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria")
+
+// Mapping from string to WebtestLocationAvailabilityCriteria_OdataType_STATUS
+var webtestLocationAvailabilityCriteria_OdataType_STATUS_Values = map[string]WebtestLocationAvailabilityCriteria_OdataType_STATUS{
+	"microsoft.azure.monitor.webtestlocationavailabilitycriteria": WebtestLocationAvailabilityCriteria_OdataType_STATUS_MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria,
+}
 
 type DynamicMetricCriteria struct {
 	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
@@ -4574,16 +4616,18 @@ func (criteria *DynamicMetricCriteria) AssignProperties_From_DynamicMetricCriter
 
 	// AlertSensitivity
 	if source.AlertSensitivity != nil {
-		alertSensitivity := DynamicMetricCriteria_AlertSensitivity(*source.AlertSensitivity)
-		criteria.AlertSensitivity = &alertSensitivity
+		alertSensitivity := *source.AlertSensitivity
+		alertSensitivityTemp := genruntime.ToEnum(alertSensitivity, dynamicMetricCriteria_AlertSensitivity_Values)
+		criteria.AlertSensitivity = &alertSensitivityTemp
 	} else {
 		criteria.AlertSensitivity = nil
 	}
 
 	// CriterionType
 	if source.CriterionType != nil {
-		criterionType := DynamicMetricCriteria_CriterionType(*source.CriterionType)
-		criteria.CriterionType = &criterionType
+		criterionType := *source.CriterionType
+		criterionTypeTemp := genruntime.ToEnum(criterionType, dynamicMetricCriteria_CriterionType_Values)
+		criteria.CriterionType = &criterionTypeTemp
 	} else {
 		criteria.CriterionType = nil
 	}
@@ -4632,8 +4676,9 @@ func (criteria *DynamicMetricCriteria) AssignProperties_From_DynamicMetricCriter
 
 	// Operator
 	if source.Operator != nil {
-		operator := DynamicMetricCriteria_Operator(*source.Operator)
-		criteria.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, dynamicMetricCriteria_Operator_Values)
+		criteria.Operator = &operatorTemp
 	} else {
 		criteria.Operator = nil
 	}
@@ -4648,8 +4693,9 @@ func (criteria *DynamicMetricCriteria) AssignProperties_From_DynamicMetricCriter
 
 	// TimeAggregation
 	if source.TimeAggregation != nil {
-		timeAggregation := DynamicMetricCriteria_TimeAggregation(*source.TimeAggregation)
-		criteria.TimeAggregation = &timeAggregation
+		timeAggregation := *source.TimeAggregation
+		timeAggregationTemp := genruntime.ToEnum(timeAggregation, dynamicMetricCriteria_TimeAggregation_Values)
+		criteria.TimeAggregation = &timeAggregationTemp
 	} else {
 		criteria.TimeAggregation = nil
 	}
@@ -5028,16 +5074,18 @@ func (criteria *DynamicMetricCriteria_STATUS) AssignProperties_From_DynamicMetri
 
 	// AlertSensitivity
 	if source.AlertSensitivity != nil {
-		alertSensitivity := DynamicMetricCriteria_AlertSensitivity_STATUS(*source.AlertSensitivity)
-		criteria.AlertSensitivity = &alertSensitivity
+		alertSensitivity := *source.AlertSensitivity
+		alertSensitivityTemp := genruntime.ToEnum(alertSensitivity, dynamicMetricCriteria_AlertSensitivity_STATUS_Values)
+		criteria.AlertSensitivity = &alertSensitivityTemp
 	} else {
 		criteria.AlertSensitivity = nil
 	}
 
 	// CriterionType
 	if source.CriterionType != nil {
-		criterionType := DynamicMetricCriteria_CriterionType_STATUS(*source.CriterionType)
-		criteria.CriterionType = &criterionType
+		criterionType := *source.CriterionType
+		criterionTypeTemp := genruntime.ToEnum(criterionType, dynamicMetricCriteria_CriterionType_STATUS_Values)
+		criteria.CriterionType = &criterionTypeTemp
 	} else {
 		criteria.CriterionType = nil
 	}
@@ -5086,8 +5134,9 @@ func (criteria *DynamicMetricCriteria_STATUS) AssignProperties_From_DynamicMetri
 
 	// Operator
 	if source.Operator != nil {
-		operator := DynamicMetricCriteria_Operator_STATUS(*source.Operator)
-		criteria.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, dynamicMetricCriteria_Operator_STATUS_Values)
+		criteria.Operator = &operatorTemp
 	} else {
 		criteria.Operator = nil
 	}
@@ -5102,8 +5151,9 @@ func (criteria *DynamicMetricCriteria_STATUS) AssignProperties_From_DynamicMetri
 
 	// TimeAggregation
 	if source.TimeAggregation != nil {
-		timeAggregation := DynamicMetricCriteria_TimeAggregation_STATUS(*source.TimeAggregation)
-		criteria.TimeAggregation = &timeAggregation
+		timeAggregation := *source.TimeAggregation
+		timeAggregationTemp := genruntime.ToEnum(timeAggregation, dynamicMetricCriteria_TimeAggregation_STATUS_Values)
+		criteria.TimeAggregation = &timeAggregationTemp
 	} else {
 		criteria.TimeAggregation = nil
 	}
@@ -5228,9 +5278,19 @@ type MetricCriteria_CriterionType string
 
 const MetricCriteria_CriterionType_StaticThresholdCriterion = MetricCriteria_CriterionType("StaticThresholdCriterion")
 
+// Mapping from string to MetricCriteria_CriterionType
+var metricCriteria_CriterionType_Values = map[string]MetricCriteria_CriterionType{
+	"staticthresholdcriterion": MetricCriteria_CriterionType_StaticThresholdCriterion,
+}
+
 type MetricCriteria_CriterionType_STATUS string
 
 const MetricCriteria_CriterionType_STATUS_StaticThresholdCriterion = MetricCriteria_CriterionType_STATUS("StaticThresholdCriterion")
+
+// Mapping from string to MetricCriteria_CriterionType_STATUS
+var metricCriteria_CriterionType_STATUS_Values = map[string]MetricCriteria_CriterionType_STATUS{
+	"staticthresholdcriterion": MetricCriteria_CriterionType_STATUS_StaticThresholdCriterion,
+}
 
 // +kubebuilder:validation:Enum={"Equals","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual"}
 type MetricCriteria_Operator string
@@ -5243,6 +5303,15 @@ const (
 	MetricCriteria_Operator_LessThanOrEqual    = MetricCriteria_Operator("LessThanOrEqual")
 )
 
+// Mapping from string to MetricCriteria_Operator
+var metricCriteria_Operator_Values = map[string]MetricCriteria_Operator{
+	"equals":             MetricCriteria_Operator_Equals,
+	"greaterthan":        MetricCriteria_Operator_GreaterThan,
+	"greaterthanorequal": MetricCriteria_Operator_GreaterThanOrEqual,
+	"lessthan":           MetricCriteria_Operator_LessThan,
+	"lessthanorequal":    MetricCriteria_Operator_LessThanOrEqual,
+}
+
 type MetricCriteria_Operator_STATUS string
 
 const (
@@ -5252,6 +5321,15 @@ const (
 	MetricCriteria_Operator_STATUS_LessThan           = MetricCriteria_Operator_STATUS("LessThan")
 	MetricCriteria_Operator_STATUS_LessThanOrEqual    = MetricCriteria_Operator_STATUS("LessThanOrEqual")
 )
+
+// Mapping from string to MetricCriteria_Operator_STATUS
+var metricCriteria_Operator_STATUS_Values = map[string]MetricCriteria_Operator_STATUS{
+	"equals":             MetricCriteria_Operator_STATUS_Equals,
+	"greaterthan":        MetricCriteria_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": MetricCriteria_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           MetricCriteria_Operator_STATUS_LessThan,
+	"lessthanorequal":    MetricCriteria_Operator_STATUS_LessThanOrEqual,
+}
 
 // +kubebuilder:validation:Enum={"Average","Count","Maximum","Minimum","Total"}
 type MetricCriteria_TimeAggregation string
@@ -5264,6 +5342,15 @@ const (
 	MetricCriteria_TimeAggregation_Total   = MetricCriteria_TimeAggregation("Total")
 )
 
+// Mapping from string to MetricCriteria_TimeAggregation
+var metricCriteria_TimeAggregation_Values = map[string]MetricCriteria_TimeAggregation{
+	"average": MetricCriteria_TimeAggregation_Average,
+	"count":   MetricCriteria_TimeAggregation_Count,
+	"maximum": MetricCriteria_TimeAggregation_Maximum,
+	"minimum": MetricCriteria_TimeAggregation_Minimum,
+	"total":   MetricCriteria_TimeAggregation_Total,
+}
+
 type MetricCriteria_TimeAggregation_STATUS string
 
 const (
@@ -5273,6 +5360,15 @@ const (
 	MetricCriteria_TimeAggregation_STATUS_Minimum = MetricCriteria_TimeAggregation_STATUS("Minimum")
 	MetricCriteria_TimeAggregation_STATUS_Total   = MetricCriteria_TimeAggregation_STATUS("Total")
 )
+
+// Mapping from string to MetricCriteria_TimeAggregation_STATUS
+var metricCriteria_TimeAggregation_STATUS_Values = map[string]MetricCriteria_TimeAggregation_STATUS{
+	"average": MetricCriteria_TimeAggregation_STATUS_Average,
+	"count":   MetricCriteria_TimeAggregation_STATUS_Count,
+	"maximum": MetricCriteria_TimeAggregation_STATUS_Maximum,
+	"minimum": MetricCriteria_TimeAggregation_STATUS_Minimum,
+	"total":   MetricCriteria_TimeAggregation_STATUS_Total,
+}
 
 // Specifies a metric dimension.
 type MetricDimension struct {
@@ -5504,6 +5600,13 @@ const (
 	DynamicMetricCriteria_AlertSensitivity_Medium = DynamicMetricCriteria_AlertSensitivity("Medium")
 )
 
+// Mapping from string to DynamicMetricCriteria_AlertSensitivity
+var dynamicMetricCriteria_AlertSensitivity_Values = map[string]DynamicMetricCriteria_AlertSensitivity{
+	"high":   DynamicMetricCriteria_AlertSensitivity_High,
+	"low":    DynamicMetricCriteria_AlertSensitivity_Low,
+	"medium": DynamicMetricCriteria_AlertSensitivity_Medium,
+}
+
 type DynamicMetricCriteria_AlertSensitivity_STATUS string
 
 const (
@@ -5512,14 +5615,31 @@ const (
 	DynamicMetricCriteria_AlertSensitivity_STATUS_Medium = DynamicMetricCriteria_AlertSensitivity_STATUS("Medium")
 )
 
+// Mapping from string to DynamicMetricCriteria_AlertSensitivity_STATUS
+var dynamicMetricCriteria_AlertSensitivity_STATUS_Values = map[string]DynamicMetricCriteria_AlertSensitivity_STATUS{
+	"high":   DynamicMetricCriteria_AlertSensitivity_STATUS_High,
+	"low":    DynamicMetricCriteria_AlertSensitivity_STATUS_Low,
+	"medium": DynamicMetricCriteria_AlertSensitivity_STATUS_Medium,
+}
+
 // +kubebuilder:validation:Enum={"DynamicThresholdCriterion"}
 type DynamicMetricCriteria_CriterionType string
 
 const DynamicMetricCriteria_CriterionType_DynamicThresholdCriterion = DynamicMetricCriteria_CriterionType("DynamicThresholdCriterion")
 
+// Mapping from string to DynamicMetricCriteria_CriterionType
+var dynamicMetricCriteria_CriterionType_Values = map[string]DynamicMetricCriteria_CriterionType{
+	"dynamicthresholdcriterion": DynamicMetricCriteria_CriterionType_DynamicThresholdCriterion,
+}
+
 type DynamicMetricCriteria_CriterionType_STATUS string
 
 const DynamicMetricCriteria_CriterionType_STATUS_DynamicThresholdCriterion = DynamicMetricCriteria_CriterionType_STATUS("DynamicThresholdCriterion")
+
+// Mapping from string to DynamicMetricCriteria_CriterionType_STATUS
+var dynamicMetricCriteria_CriterionType_STATUS_Values = map[string]DynamicMetricCriteria_CriterionType_STATUS{
+	"dynamicthresholdcriterion": DynamicMetricCriteria_CriterionType_STATUS_DynamicThresholdCriterion,
+}
 
 // +kubebuilder:validation:Enum={"GreaterOrLessThan","GreaterThan","LessThan"}
 type DynamicMetricCriteria_Operator string
@@ -5530,6 +5650,13 @@ const (
 	DynamicMetricCriteria_Operator_LessThan          = DynamicMetricCriteria_Operator("LessThan")
 )
 
+// Mapping from string to DynamicMetricCriteria_Operator
+var dynamicMetricCriteria_Operator_Values = map[string]DynamicMetricCriteria_Operator{
+	"greaterorlessthan": DynamicMetricCriteria_Operator_GreaterOrLessThan,
+	"greaterthan":       DynamicMetricCriteria_Operator_GreaterThan,
+	"lessthan":          DynamicMetricCriteria_Operator_LessThan,
+}
+
 type DynamicMetricCriteria_Operator_STATUS string
 
 const (
@@ -5537,6 +5664,13 @@ const (
 	DynamicMetricCriteria_Operator_STATUS_GreaterThan       = DynamicMetricCriteria_Operator_STATUS("GreaterThan")
 	DynamicMetricCriteria_Operator_STATUS_LessThan          = DynamicMetricCriteria_Operator_STATUS("LessThan")
 )
+
+// Mapping from string to DynamicMetricCriteria_Operator_STATUS
+var dynamicMetricCriteria_Operator_STATUS_Values = map[string]DynamicMetricCriteria_Operator_STATUS{
+	"greaterorlessthan": DynamicMetricCriteria_Operator_STATUS_GreaterOrLessThan,
+	"greaterthan":       DynamicMetricCriteria_Operator_STATUS_GreaterThan,
+	"lessthan":          DynamicMetricCriteria_Operator_STATUS_LessThan,
+}
 
 // +kubebuilder:validation:Enum={"Average","Count","Maximum","Minimum","Total"}
 type DynamicMetricCriteria_TimeAggregation string
@@ -5549,6 +5683,15 @@ const (
 	DynamicMetricCriteria_TimeAggregation_Total   = DynamicMetricCriteria_TimeAggregation("Total")
 )
 
+// Mapping from string to DynamicMetricCriteria_TimeAggregation
+var dynamicMetricCriteria_TimeAggregation_Values = map[string]DynamicMetricCriteria_TimeAggregation{
+	"average": DynamicMetricCriteria_TimeAggregation_Average,
+	"count":   DynamicMetricCriteria_TimeAggregation_Count,
+	"maximum": DynamicMetricCriteria_TimeAggregation_Maximum,
+	"minimum": DynamicMetricCriteria_TimeAggregation_Minimum,
+	"total":   DynamicMetricCriteria_TimeAggregation_Total,
+}
+
 type DynamicMetricCriteria_TimeAggregation_STATUS string
 
 const (
@@ -5558,6 +5701,15 @@ const (
 	DynamicMetricCriteria_TimeAggregation_STATUS_Minimum = DynamicMetricCriteria_TimeAggregation_STATUS("Minimum")
 	DynamicMetricCriteria_TimeAggregation_STATUS_Total   = DynamicMetricCriteria_TimeAggregation_STATUS("Total")
 )
+
+// Mapping from string to DynamicMetricCriteria_TimeAggregation_STATUS
+var dynamicMetricCriteria_TimeAggregation_STATUS_Values = map[string]DynamicMetricCriteria_TimeAggregation_STATUS{
+	"average": DynamicMetricCriteria_TimeAggregation_STATUS_Average,
+	"count":   DynamicMetricCriteria_TimeAggregation_STATUS_Count,
+	"maximum": DynamicMetricCriteria_TimeAggregation_STATUS_Maximum,
+	"minimum": DynamicMetricCriteria_TimeAggregation_STATUS_Minimum,
+	"total":   DynamicMetricCriteria_TimeAggregation_STATUS_Total,
+}
 
 // The minimum number of violations required within the selected lookback time window required to raise an alert.
 type DynamicThresholdFailingPeriods struct {

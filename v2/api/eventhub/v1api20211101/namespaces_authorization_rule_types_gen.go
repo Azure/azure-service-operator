@@ -504,7 +504,7 @@ func (rule *Namespaces_AuthorizationRule_Spec) AssignProperties_From_Namespaces_
 		for rightIndex, rightItem := range source.Rights {
 			// Shadow the loop variable to avoid aliasing
 			rightItem := rightItem
-			rightList[rightIndex] = Namespaces_AuthorizationRule_Properties_Rights_Spec(rightItem)
+			rightList[rightIndex] = genruntime.ToEnum(rightItem, namespaces_AuthorizationRule_Properties_Rights_Spec_Values)
 		}
 		rule.Rights = rightList
 	} else {
@@ -759,7 +759,7 @@ func (rule *Namespaces_AuthorizationRule_STATUS) AssignProperties_From_Namespace
 		for rightIndex, rightItem := range source.Rights {
 			// Shadow the loop variable to avoid aliasing
 			rightItem := rightItem
-			rightList[rightIndex] = Namespaces_AuthorizationRule_Properties_Rights_STATUS(rightItem)
+			rightList[rightIndex] = genruntime.ToEnum(rightItem, namespaces_AuthorizationRule_Properties_Rights_STATUS_Values)
 		}
 		rule.Rights = rightList
 	} else {
@@ -850,6 +850,13 @@ const (
 	Namespaces_AuthorizationRule_Properties_Rights_Spec_Send   = Namespaces_AuthorizationRule_Properties_Rights_Spec("Send")
 )
 
+// Mapping from string to Namespaces_AuthorizationRule_Properties_Rights_Spec
+var namespaces_AuthorizationRule_Properties_Rights_Spec_Values = map[string]Namespaces_AuthorizationRule_Properties_Rights_Spec{
+	"listen": Namespaces_AuthorizationRule_Properties_Rights_Spec_Listen,
+	"manage": Namespaces_AuthorizationRule_Properties_Rights_Spec_Manage,
+	"send":   Namespaces_AuthorizationRule_Properties_Rights_Spec_Send,
+}
+
 type Namespaces_AuthorizationRule_Properties_Rights_STATUS string
 
 const (
@@ -857,6 +864,13 @@ const (
 	Namespaces_AuthorizationRule_Properties_Rights_STATUS_Manage = Namespaces_AuthorizationRule_Properties_Rights_STATUS("Manage")
 	Namespaces_AuthorizationRule_Properties_Rights_STATUS_Send   = Namespaces_AuthorizationRule_Properties_Rights_STATUS("Send")
 )
+
+// Mapping from string to Namespaces_AuthorizationRule_Properties_Rights_STATUS
+var namespaces_AuthorizationRule_Properties_Rights_STATUS_Values = map[string]Namespaces_AuthorizationRule_Properties_Rights_STATUS{
+	"listen": Namespaces_AuthorizationRule_Properties_Rights_STATUS_Listen,
+	"manage": Namespaces_AuthorizationRule_Properties_Rights_STATUS_Manage,
+	"send":   Namespaces_AuthorizationRule_Properties_Rights_STATUS_Send,
+}
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type NamespacesAuthorizationRuleOperatorSpec struct {

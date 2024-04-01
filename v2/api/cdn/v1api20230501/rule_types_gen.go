@@ -540,8 +540,9 @@ func (rule *Profiles_RuleSets_Rule_Spec) AssignProperties_From_Profiles_RuleSets
 
 	// MatchProcessingBehavior
 	if source.MatchProcessingBehavior != nil {
-		matchProcessingBehavior := RuleProperties_MatchProcessingBehavior(*source.MatchProcessingBehavior)
-		rule.MatchProcessingBehavior = &matchProcessingBehavior
+		matchProcessingBehavior := *source.MatchProcessingBehavior
+		matchProcessingBehaviorTemp := genruntime.ToEnum(matchProcessingBehavior, ruleProperties_MatchProcessingBehavior_Values)
+		rule.MatchProcessingBehavior = &matchProcessingBehaviorTemp
 	} else {
 		rule.MatchProcessingBehavior = nil
 	}
@@ -953,8 +954,9 @@ func (rule *Profiles_RuleSets_Rule_STATUS) AssignProperties_From_Profiles_RuleSe
 
 	// DeploymentStatus
 	if source.DeploymentStatus != nil {
-		deploymentStatus := RuleProperties_DeploymentStatus_STATUS(*source.DeploymentStatus)
-		rule.DeploymentStatus = &deploymentStatus
+		deploymentStatus := *source.DeploymentStatus
+		deploymentStatusTemp := genruntime.ToEnum(deploymentStatus, ruleProperties_DeploymentStatus_STATUS_Values)
+		rule.DeploymentStatus = &deploymentStatusTemp
 	} else {
 		rule.DeploymentStatus = nil
 	}
@@ -964,8 +966,9 @@ func (rule *Profiles_RuleSets_Rule_STATUS) AssignProperties_From_Profiles_RuleSe
 
 	// MatchProcessingBehavior
 	if source.MatchProcessingBehavior != nil {
-		matchProcessingBehavior := RuleProperties_MatchProcessingBehavior_STATUS(*source.MatchProcessingBehavior)
-		rule.MatchProcessingBehavior = &matchProcessingBehavior
+		matchProcessingBehavior := *source.MatchProcessingBehavior
+		matchProcessingBehaviorTemp := genruntime.ToEnum(matchProcessingBehavior, ruleProperties_MatchProcessingBehavior_STATUS_Values)
+		rule.MatchProcessingBehavior = &matchProcessingBehaviorTemp
 	} else {
 		rule.MatchProcessingBehavior = nil
 	}
@@ -978,8 +981,9 @@ func (rule *Profiles_RuleSets_Rule_STATUS) AssignProperties_From_Profiles_RuleSe
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := RuleProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		rule.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, ruleProperties_ProvisioningState_STATUS_Values)
+		rule.ProvisioningState = &provisioningStateTemp
 	} else {
 		rule.ProvisioningState = nil
 	}
@@ -4153,8 +4157,9 @@ func (action *DeliveryRuleCacheExpirationAction) AssignProperties_From_DeliveryR
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCacheExpirationAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleCacheExpirationAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -4283,8 +4288,9 @@ func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_From_De
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCacheExpirationAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleCacheExpirationAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -4412,8 +4418,9 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_From_Deliv
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCacheKeyQueryStringAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleCacheKeyQueryStringAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -4542,8 +4549,9 @@ func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCacheKeyQueryStringAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleCacheKeyQueryStringAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -4671,8 +4679,9 @@ func (condition *DeliveryRuleClientPortCondition) AssignProperties_From_Delivery
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleClientPortCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleClientPortCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -4801,8 +4810,9 @@ func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_From_D
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleClientPortCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleClientPortCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -4930,8 +4940,9 @@ func (condition *DeliveryRuleCookiesCondition) AssignProperties_From_DeliveryRul
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCookiesCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleCookiesCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -5060,8 +5071,9 @@ func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_From_Deli
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCookiesCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleCookiesCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -5189,8 +5201,9 @@ func (condition *DeliveryRuleHostNameCondition) AssignProperties_From_DeliveryRu
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleHostNameCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleHostNameCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -5319,8 +5332,9 @@ func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_From_Del
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleHostNameCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleHostNameCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -5448,8 +5462,9 @@ func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_From_Deliver
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleHttpVersionCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleHttpVersionCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -5578,8 +5593,9 @@ func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_From_
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleHttpVersionCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleHttpVersionCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -5707,8 +5723,9 @@ func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_From_DeliveryRu
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleIsDeviceCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleIsDeviceCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -5837,8 +5854,9 @@ func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_From_Del
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleIsDeviceCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleIsDeviceCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -5966,8 +5984,9 @@ func (condition *DeliveryRulePostArgsCondition) AssignProperties_From_DeliveryRu
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRulePostArgsCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRulePostArgsCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -6096,8 +6115,9 @@ func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_From_Del
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRulePostArgsCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRulePostArgsCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -6225,8 +6245,9 @@ func (condition *DeliveryRuleQueryStringCondition) AssignProperties_From_Deliver
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleQueryStringCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleQueryStringCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -6355,8 +6376,9 @@ func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_From_
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleQueryStringCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleQueryStringCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -6484,8 +6506,9 @@ func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_From_Deliv
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRemoteAddressCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRemoteAddressCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -6614,8 +6637,9 @@ func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRemoteAddressCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRemoteAddressCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -6743,8 +6767,9 @@ func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_From_Deliver
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestBodyCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestBodyCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -6873,8 +6898,9 @@ func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_From_
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestBodyCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestBodyCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -7002,8 +7028,9 @@ func (action *DeliveryRuleRequestHeaderAction) AssignProperties_From_DeliveryRul
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestHeaderAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestHeaderAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -7132,8 +7159,9 @@ func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_From_Deli
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestHeaderAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestHeaderAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -7261,8 +7289,9 @@ func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_From_Deliv
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestHeaderCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestHeaderCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -7391,8 +7420,9 @@ func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestHeaderCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestHeaderCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -7520,8 +7550,9 @@ func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_From_Deliv
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestMethodCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestMethodCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -7650,8 +7681,9 @@ func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestMethodCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestMethodCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -7779,8 +7811,9 @@ func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_From_Deliv
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestSchemeCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestSchemeCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -7909,8 +7942,9 @@ func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestSchemeCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestSchemeCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -8038,8 +8072,9 @@ func (condition *DeliveryRuleRequestUriCondition) AssignProperties_From_Delivery
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestUriCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestUriCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -8168,8 +8203,9 @@ func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_From_D
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestUriCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestUriCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -8297,8 +8333,9 @@ func (action *DeliveryRuleResponseHeaderAction) AssignProperties_From_DeliveryRu
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleResponseHeaderAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleResponseHeaderAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -8427,8 +8464,9 @@ func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_From_Del
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleResponseHeaderAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleResponseHeaderAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -8556,8 +8594,9 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRouteConfigurationOverrideAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRouteConfigurationOverrideAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -8686,8 +8725,9 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignPropert
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRouteConfigurationOverrideAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -8815,8 +8855,9 @@ func (condition *DeliveryRuleServerPortCondition) AssignProperties_From_Delivery
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleServerPortCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleServerPortCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -8945,8 +8986,9 @@ func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_From_D
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleServerPortCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleServerPortCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -9074,8 +9116,9 @@ func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_From_Delivery
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleSocketAddrCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleSocketAddrCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -9204,8 +9247,9 @@ func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_From_D
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleSocketAddrCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleSocketAddrCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -9333,8 +9377,9 @@ func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_From_Deliver
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleSslProtocolCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleSslProtocolCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -9463,8 +9508,9 @@ func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_From_
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleSslProtocolCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleSslProtocolCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -9592,8 +9638,9 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_From_De
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlFileExtensionCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleUrlFileExtensionCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -9722,8 +9769,9 @@ func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlFileExtensionCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleUrlFileExtensionCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -9851,8 +9899,9 @@ func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_From_Deliver
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlFileNameCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleUrlFileNameCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -9981,8 +10030,9 @@ func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_From_
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlFileNameCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleUrlFileNameCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -10110,8 +10160,9 @@ func (condition *DeliveryRuleUrlPathCondition) AssignProperties_From_DeliveryRul
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlPathCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleUrlPathCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -10240,8 +10291,9 @@ func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_From_Deli
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlPathCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleUrlPathCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -10369,8 +10421,9 @@ func (action *OriginGroupOverrideAction) AssignProperties_From_OriginGroupOverri
 
 	// Name
 	if source.Name != nil {
-		name := OriginGroupOverrideAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, originGroupOverrideAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -10499,8 +10552,9 @@ func (action *OriginGroupOverrideAction_STATUS) AssignProperties_From_OriginGrou
 
 	// Name
 	if source.Name != nil {
-		name := OriginGroupOverrideAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, originGroupOverrideAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -10628,8 +10682,9 @@ func (action *UrlRedirectAction) AssignProperties_From_UrlRedirectAction(source 
 
 	// Name
 	if source.Name != nil {
-		name := UrlRedirectAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, urlRedirectAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -10758,8 +10813,9 @@ func (action *UrlRedirectAction_STATUS) AssignProperties_From_UrlRedirectAction_
 
 	// Name
 	if source.Name != nil {
-		name := UrlRedirectAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, urlRedirectAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -10887,8 +10943,9 @@ func (action *UrlRewriteAction) AssignProperties_From_UrlRewriteAction(source *v
 
 	// Name
 	if source.Name != nil {
-		name := UrlRewriteAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, urlRewriteAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -11017,8 +11074,9 @@ func (action *UrlRewriteAction_STATUS) AssignProperties_From_UrlRewriteAction_ST
 
 	// Name
 	if source.Name != nil {
-		name := UrlRewriteAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, urlRewriteAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -11146,8 +11204,9 @@ func (action *UrlSigningAction) AssignProperties_From_UrlSigningAction(source *v
 
 	// Name
 	if source.Name != nil {
-		name := UrlSigningAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, urlSigningAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -11276,8 +11335,9 @@ func (action *UrlSigningAction_STATUS) AssignProperties_From_UrlSigningAction_ST
 
 	// Name
 	if source.Name != nil {
-		name := UrlSigningAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, urlSigningAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -11431,8 +11491,9 @@ func (parameters *CacheExpirationActionParameters) AssignProperties_From_CacheEx
 
 	// CacheBehavior
 	if source.CacheBehavior != nil {
-		cacheBehavior := CacheExpirationActionParameters_CacheBehavior(*source.CacheBehavior)
-		parameters.CacheBehavior = &cacheBehavior
+		cacheBehavior := *source.CacheBehavior
+		cacheBehaviorTemp := genruntime.ToEnum(cacheBehavior, cacheExpirationActionParameters_CacheBehavior_Values)
+		parameters.CacheBehavior = &cacheBehaviorTemp
 	} else {
 		parameters.CacheBehavior = nil
 	}
@@ -11442,16 +11503,18 @@ func (parameters *CacheExpirationActionParameters) AssignProperties_From_CacheEx
 
 	// CacheType
 	if source.CacheType != nil {
-		cacheType := CacheExpirationActionParameters_CacheType(*source.CacheType)
-		parameters.CacheType = &cacheType
+		cacheType := *source.CacheType
+		cacheTypeTemp := genruntime.ToEnum(cacheType, cacheExpirationActionParameters_CacheType_Values)
+		parameters.CacheType = &cacheTypeTemp
 	} else {
 		parameters.CacheType = nil
 	}
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CacheExpirationActionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, cacheExpirationActionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -11597,8 +11660,9 @@ func (parameters *CacheExpirationActionParameters_STATUS) AssignProperties_From_
 
 	// CacheBehavior
 	if source.CacheBehavior != nil {
-		cacheBehavior := CacheExpirationActionParameters_CacheBehavior_STATUS(*source.CacheBehavior)
-		parameters.CacheBehavior = &cacheBehavior
+		cacheBehavior := *source.CacheBehavior
+		cacheBehaviorTemp := genruntime.ToEnum(cacheBehavior, cacheExpirationActionParameters_CacheBehavior_STATUS_Values)
+		parameters.CacheBehavior = &cacheBehaviorTemp
 	} else {
 		parameters.CacheBehavior = nil
 	}
@@ -11608,16 +11672,18 @@ func (parameters *CacheExpirationActionParameters_STATUS) AssignProperties_From_
 
 	// CacheType
 	if source.CacheType != nil {
-		cacheType := CacheExpirationActionParameters_CacheType_STATUS(*source.CacheType)
-		parameters.CacheType = &cacheType
+		cacheType := *source.CacheType
+		cacheTypeTemp := genruntime.ToEnum(cacheType, cacheExpirationActionParameters_CacheType_STATUS_Values)
+		parameters.CacheType = &cacheTypeTemp
 	} else {
 		parameters.CacheType = nil
 	}
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CacheExpirationActionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, cacheExpirationActionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -11753,16 +11819,18 @@ func (parameters *CacheKeyQueryStringActionParameters) AssignProperties_From_Cac
 
 	// QueryStringBehavior
 	if source.QueryStringBehavior != nil {
-		queryStringBehavior := CacheKeyQueryStringActionParameters_QueryStringBehavior(*source.QueryStringBehavior)
-		parameters.QueryStringBehavior = &queryStringBehavior
+		queryStringBehavior := *source.QueryStringBehavior
+		queryStringBehaviorTemp := genruntime.ToEnum(queryStringBehavior, cacheKeyQueryStringActionParameters_QueryStringBehavior_Values)
+		parameters.QueryStringBehavior = &queryStringBehaviorTemp
 	} else {
 		parameters.QueryStringBehavior = nil
 	}
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CacheKeyQueryStringActionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, cacheKeyQueryStringActionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -11886,16 +11954,18 @@ func (parameters *CacheKeyQueryStringActionParameters_STATUS) AssignProperties_F
 
 	// QueryStringBehavior
 	if source.QueryStringBehavior != nil {
-		queryStringBehavior := CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS(*source.QueryStringBehavior)
-		parameters.QueryStringBehavior = &queryStringBehavior
+		queryStringBehavior := *source.QueryStringBehavior
+		queryStringBehaviorTemp := genruntime.ToEnum(queryStringBehavior, cacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_Values)
+		parameters.QueryStringBehavior = &queryStringBehaviorTemp
 	} else {
 		parameters.QueryStringBehavior = nil
 	}
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CacheKeyQueryStringActionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, cacheKeyQueryStringActionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -12057,8 +12127,9 @@ func (parameters *ClientPortMatchConditionParameters) AssignProperties_From_Clie
 
 	// Operator
 	if source.Operator != nil {
-		operator := ClientPortMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, clientPortMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -12069,7 +12140,7 @@ func (parameters *ClientPortMatchConditionParameters) AssignProperties_From_Clie
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -12078,8 +12149,9 @@ func (parameters *ClientPortMatchConditionParameters) AssignProperties_From_Clie
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := ClientPortMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, clientPortMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -12270,8 +12342,9 @@ func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_Fr
 
 	// Operator
 	if source.Operator != nil {
-		operator := ClientPortMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, clientPortMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -12282,7 +12355,7 @@ func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_Fr
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -12291,8 +12364,9 @@ func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_Fr
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := ClientPortMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, clientPortMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -12490,8 +12564,9 @@ func (parameters *CookiesMatchConditionParameters) AssignProperties_From_Cookies
 
 	// Operator
 	if source.Operator != nil {
-		operator := CookiesMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, cookiesMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -12505,7 +12580,7 @@ func (parameters *CookiesMatchConditionParameters) AssignProperties_From_Cookies
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -12514,8 +12589,9 @@ func (parameters *CookiesMatchConditionParameters) AssignProperties_From_Cookies
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CookiesMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, cookiesMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -12721,8 +12797,9 @@ func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_From_
 
 	// Operator
 	if source.Operator != nil {
-		operator := CookiesMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, cookiesMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -12736,7 +12813,7 @@ func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_From_
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -12745,8 +12822,9 @@ func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_From_
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CookiesMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, cookiesMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -12911,8 +12989,9 @@ func (parameters *HeaderActionParameters) AssignProperties_From_HeaderActionPara
 
 	// HeaderAction
 	if source.HeaderAction != nil {
-		headerAction := HeaderActionParameters_HeaderAction(*source.HeaderAction)
-		parameters.HeaderAction = &headerAction
+		headerAction := *source.HeaderAction
+		headerActionTemp := genruntime.ToEnum(headerAction, headerActionParameters_HeaderAction_Values)
+		parameters.HeaderAction = &headerActionTemp
 	} else {
 		parameters.HeaderAction = nil
 	}
@@ -12922,8 +13001,9 @@ func (parameters *HeaderActionParameters) AssignProperties_From_HeaderActionPara
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HeaderActionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, headerActionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -13062,8 +13142,9 @@ func (parameters *HeaderActionParameters_STATUS) AssignProperties_From_HeaderAct
 
 	// HeaderAction
 	if source.HeaderAction != nil {
-		headerAction := HeaderActionParameters_HeaderAction_STATUS(*source.HeaderAction)
-		parameters.HeaderAction = &headerAction
+		headerAction := *source.HeaderAction
+		headerActionTemp := genruntime.ToEnum(headerAction, headerActionParameters_HeaderAction_STATUS_Values)
+		parameters.HeaderAction = &headerActionTemp
 	} else {
 		parameters.HeaderAction = nil
 	}
@@ -13073,8 +13154,9 @@ func (parameters *HeaderActionParameters_STATUS) AssignProperties_From_HeaderAct
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HeaderActionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, headerActionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -13242,8 +13324,9 @@ func (parameters *HostNameMatchConditionParameters) AssignProperties_From_HostNa
 
 	// Operator
 	if source.Operator != nil {
-		operator := HostNameMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, hostNameMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -13254,7 +13337,7 @@ func (parameters *HostNameMatchConditionParameters) AssignProperties_From_HostNa
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -13263,8 +13346,9 @@ func (parameters *HostNameMatchConditionParameters) AssignProperties_From_HostNa
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HostNameMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, hostNameMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -13455,8 +13539,9 @@ func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_From
 
 	// Operator
 	if source.Operator != nil {
-		operator := HostNameMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, hostNameMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -13467,7 +13552,7 @@ func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_From
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -13476,8 +13561,9 @@ func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_From
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HostNameMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, hostNameMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -13660,8 +13746,9 @@ func (parameters *HttpVersionMatchConditionParameters) AssignProperties_From_Htt
 
 	// Operator
 	if source.Operator != nil {
-		operator := HttpVersionMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, httpVersionMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -13672,7 +13759,7 @@ func (parameters *HttpVersionMatchConditionParameters) AssignProperties_From_Htt
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -13681,8 +13768,9 @@ func (parameters *HttpVersionMatchConditionParameters) AssignProperties_From_Htt
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HttpVersionMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, httpVersionMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -13873,8 +13961,9 @@ func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_F
 
 	// Operator
 	if source.Operator != nil {
-		operator := HttpVersionMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, httpVersionMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -13885,7 +13974,7 @@ func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_F
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -13894,8 +13983,9 @@ func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_F
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HttpVersionMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, httpVersionMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -14071,7 +14161,7 @@ func (parameters *IsDeviceMatchConditionParameters) AssignProperties_From_IsDevi
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = IsDeviceMatchConditionParameters_MatchValues(matchValueItem)
+			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, isDeviceMatchConditionParameters_MatchValues_Values)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -14088,8 +14178,9 @@ func (parameters *IsDeviceMatchConditionParameters) AssignProperties_From_IsDevi
 
 	// Operator
 	if source.Operator != nil {
-		operator := IsDeviceMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, isDeviceMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -14100,7 +14191,7 @@ func (parameters *IsDeviceMatchConditionParameters) AssignProperties_From_IsDevi
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -14109,8 +14200,9 @@ func (parameters *IsDeviceMatchConditionParameters) AssignProperties_From_IsDevi
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := IsDeviceMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, isDeviceMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -14315,7 +14407,7 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_From
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = IsDeviceMatchConditionParameters_MatchValues_STATUS(matchValueItem)
+			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, isDeviceMatchConditionParameters_MatchValues_STATUS_Values)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -14332,8 +14424,9 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_From
 
 	// Operator
 	if source.Operator != nil {
-		operator := IsDeviceMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, isDeviceMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -14344,7 +14437,7 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_From
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -14353,8 +14446,9 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_From
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := IsDeviceMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, isDeviceMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -14516,8 +14610,9 @@ func (parameters *OriginGroupOverrideActionParameters) AssignProperties_From_Ori
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := OriginGroupOverrideActionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, originGroupOverrideActionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -14648,8 +14743,9 @@ func (parameters *OriginGroupOverrideActionParameters_STATUS) AssignProperties_F
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := OriginGroupOverrideActionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, originGroupOverrideActionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -14827,8 +14923,9 @@ func (parameters *PostArgsMatchConditionParameters) AssignProperties_From_PostAr
 
 	// Operator
 	if source.Operator != nil {
-		operator := PostArgsMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, postArgsMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -14842,7 +14939,7 @@ func (parameters *PostArgsMatchConditionParameters) AssignProperties_From_PostAr
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -14851,8 +14948,9 @@ func (parameters *PostArgsMatchConditionParameters) AssignProperties_From_PostAr
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := PostArgsMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, postArgsMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -15058,8 +15156,9 @@ func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_From
 
 	// Operator
 	if source.Operator != nil {
-		operator := PostArgsMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, postArgsMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -15073,7 +15172,7 @@ func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_From
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -15082,8 +15181,9 @@ func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_From
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := PostArgsMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, postArgsMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -15269,8 +15369,9 @@ func (parameters *QueryStringMatchConditionParameters) AssignProperties_From_Que
 
 	// Operator
 	if source.Operator != nil {
-		operator := QueryStringMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, queryStringMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -15281,7 +15382,7 @@ func (parameters *QueryStringMatchConditionParameters) AssignProperties_From_Que
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -15290,8 +15391,9 @@ func (parameters *QueryStringMatchConditionParameters) AssignProperties_From_Que
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := QueryStringMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, queryStringMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -15482,8 +15584,9 @@ func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_F
 
 	// Operator
 	if source.Operator != nil {
-		operator := QueryStringMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, queryStringMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -15494,7 +15597,7 @@ func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_F
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -15503,8 +15606,9 @@ func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_F
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := QueryStringMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, queryStringMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -15688,8 +15792,9 @@ func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_From_R
 
 	// Operator
 	if source.Operator != nil {
-		operator := RemoteAddressMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, remoteAddressMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -15700,7 +15805,7 @@ func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_From_R
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -15709,8 +15814,9 @@ func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_From_R
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RemoteAddressMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, remoteAddressMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -15902,8 +16008,9 @@ func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties
 
 	// Operator
 	if source.Operator != nil {
-		operator := RemoteAddressMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, remoteAddressMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -15914,7 +16021,7 @@ func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -15923,8 +16030,9 @@ func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RemoteAddressMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, remoteAddressMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -16107,8 +16215,9 @@ func (parameters *RequestBodyMatchConditionParameters) AssignProperties_From_Req
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestBodyMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestBodyMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -16119,7 +16228,7 @@ func (parameters *RequestBodyMatchConditionParameters) AssignProperties_From_Req
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -16128,8 +16237,9 @@ func (parameters *RequestBodyMatchConditionParameters) AssignProperties_From_Req
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestBodyMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestBodyMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -16320,8 +16430,9 @@ func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_F
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestBodyMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestBodyMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -16332,7 +16443,7 @@ func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_F
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -16341,8 +16452,9 @@ func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_F
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestBodyMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestBodyMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -16540,8 +16652,9 @@ func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_From_R
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestHeaderMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestHeaderMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -16555,7 +16668,7 @@ func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_From_R
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -16564,8 +16677,9 @@ func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_From_R
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestHeaderMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestHeaderMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -16771,8 +16885,9 @@ func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestHeaderMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestHeaderMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -16786,7 +16901,7 @@ func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -16795,8 +16910,9 @@ func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestHeaderMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestHeaderMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -16975,7 +17091,7 @@ func (parameters *RequestMethodMatchConditionParameters) AssignProperties_From_R
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = RequestMethodMatchConditionParameters_MatchValues(matchValueItem)
+			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, requestMethodMatchConditionParameters_MatchValues_Values)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -16992,8 +17108,9 @@ func (parameters *RequestMethodMatchConditionParameters) AssignProperties_From_R
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestMethodMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestMethodMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -17004,7 +17121,7 @@ func (parameters *RequestMethodMatchConditionParameters) AssignProperties_From_R
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -17013,8 +17130,9 @@ func (parameters *RequestMethodMatchConditionParameters) AssignProperties_From_R
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestMethodMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestMethodMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -17219,7 +17337,7 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = RequestMethodMatchConditionParameters_MatchValues_STATUS(matchValueItem)
+			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, requestMethodMatchConditionParameters_MatchValues_STATUS_Values)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -17236,8 +17354,9 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestMethodMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestMethodMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -17248,7 +17367,7 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -17257,8 +17376,9 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestMethodMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestMethodMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -17444,7 +17564,7 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_From_R
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = RequestSchemeMatchConditionParameters_MatchValues(matchValueItem)
+			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, requestSchemeMatchConditionParameters_MatchValues_Values)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -17461,8 +17581,9 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_From_R
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestSchemeMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestSchemeMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -17473,7 +17594,7 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_From_R
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -17482,8 +17603,9 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_From_R
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestSchemeMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestSchemeMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -17688,7 +17810,7 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = RequestSchemeMatchConditionParameters_MatchValues_STATUS(matchValueItem)
+			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, requestSchemeMatchConditionParameters_MatchValues_STATUS_Values)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -17705,8 +17827,9 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestSchemeMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestSchemeMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -17717,7 +17840,7 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -17726,8 +17849,9 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestSchemeMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestSchemeMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -17920,8 +18044,9 @@ func (parameters *RequestUriMatchConditionParameters) AssignProperties_From_Requ
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestUriMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestUriMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -17932,7 +18057,7 @@ func (parameters *RequestUriMatchConditionParameters) AssignProperties_From_Requ
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -17941,8 +18066,9 @@ func (parameters *RequestUriMatchConditionParameters) AssignProperties_From_Requ
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestUriMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestUriMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -18133,8 +18259,9 @@ func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_Fr
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestUriMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestUriMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -18145,7 +18272,7 @@ func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_Fr
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -18154,8 +18281,9 @@ func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_Fr
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestUriMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestUriMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -18344,8 +18472,9 @@ func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_F
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RouteConfigurationOverrideActionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, routeConfigurationOverrideActionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -18528,8 +18657,9 @@ func (parameters *RouteConfigurationOverrideActionParameters_STATUS) AssignPrope
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RouteConfigurationOverrideActionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, routeConfigurationOverrideActionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -18704,8 +18834,9 @@ func (parameters *ServerPortMatchConditionParameters) AssignProperties_From_Serv
 
 	// Operator
 	if source.Operator != nil {
-		operator := ServerPortMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, serverPortMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -18716,7 +18847,7 @@ func (parameters *ServerPortMatchConditionParameters) AssignProperties_From_Serv
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -18725,8 +18856,9 @@ func (parameters *ServerPortMatchConditionParameters) AssignProperties_From_Serv
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := ServerPortMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, serverPortMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -18917,8 +19049,9 @@ func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_Fr
 
 	// Operator
 	if source.Operator != nil {
-		operator := ServerPortMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, serverPortMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -18929,7 +19062,7 @@ func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_Fr
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -18938,8 +19071,9 @@ func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_Fr
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := ServerPortMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, serverPortMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -19122,8 +19256,9 @@ func (parameters *SocketAddrMatchConditionParameters) AssignProperties_From_Sock
 
 	// Operator
 	if source.Operator != nil {
-		operator := SocketAddrMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, socketAddrMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -19134,7 +19269,7 @@ func (parameters *SocketAddrMatchConditionParameters) AssignProperties_From_Sock
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -19143,8 +19278,9 @@ func (parameters *SocketAddrMatchConditionParameters) AssignProperties_From_Sock
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := SocketAddrMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, socketAddrMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -19335,8 +19471,9 @@ func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_Fr
 
 	// Operator
 	if source.Operator != nil {
-		operator := SocketAddrMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, socketAddrMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -19347,7 +19484,7 @@ func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_Fr
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -19356,8 +19493,9 @@ func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_Fr
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := SocketAddrMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, socketAddrMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -19533,7 +19671,7 @@ func (parameters *SslProtocolMatchConditionParameters) AssignProperties_From_Ssl
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = SslProtocol(matchValueItem)
+			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, sslProtocol_Values)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -19550,8 +19688,9 @@ func (parameters *SslProtocolMatchConditionParameters) AssignProperties_From_Ssl
 
 	// Operator
 	if source.Operator != nil {
-		operator := SslProtocolMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, sslProtocolMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -19562,7 +19701,7 @@ func (parameters *SslProtocolMatchConditionParameters) AssignProperties_From_Ssl
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -19571,8 +19710,9 @@ func (parameters *SslProtocolMatchConditionParameters) AssignProperties_From_Ssl
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := SslProtocolMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, sslProtocolMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -19777,7 +19917,7 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_F
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = SslProtocol_STATUS(matchValueItem)
+			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, sslProtocol_STATUS_Values)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -19794,8 +19934,9 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_F
 
 	// Operator
 	if source.Operator != nil {
-		operator := SslProtocolMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, sslProtocolMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -19806,7 +19947,7 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_F
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -19815,8 +19956,9 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_F
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := SslProtocolMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, sslProtocolMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -20009,8 +20151,9 @@ func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_Fro
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlFileExtensionMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, urlFileExtensionMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -20021,7 +20164,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_Fro
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -20030,8 +20173,9 @@ func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_Fro
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlFileExtensionMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlFileExtensionMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -20222,8 +20366,9 @@ func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignPropert
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlFileExtensionMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, urlFileExtensionMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -20234,7 +20379,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignPropert
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -20243,8 +20388,9 @@ func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignPropert
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlFileExtensionMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlFileExtensionMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -20427,8 +20573,9 @@ func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_From_Url
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlFileNameMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, urlFileNameMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -20439,7 +20586,7 @@ func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_From_Url
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -20448,8 +20595,9 @@ func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_From_Url
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlFileNameMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlFileNameMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -20640,8 +20788,9 @@ func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_F
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlFileNameMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, urlFileNameMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -20652,7 +20801,7 @@ func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_F
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -20661,8 +20810,9 @@ func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_F
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlFileNameMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlFileNameMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -20845,8 +20995,9 @@ func (parameters *UrlPathMatchConditionParameters) AssignProperties_From_UrlPath
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlPathMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, urlPathMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -20857,7 +21008,7 @@ func (parameters *UrlPathMatchConditionParameters) AssignProperties_From_UrlPath
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -20866,8 +21017,9 @@ func (parameters *UrlPathMatchConditionParameters) AssignProperties_From_UrlPath
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlPathMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlPathMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -21058,8 +21210,9 @@ func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_From_
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlPathMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, urlPathMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -21070,7 +21223,7 @@ func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_From_
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -21079,8 +21232,9 @@ func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_From_
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlPathMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlPathMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -21302,24 +21456,27 @@ func (parameters *UrlRedirectActionParameters) AssignProperties_From_UrlRedirect
 
 	// DestinationProtocol
 	if source.DestinationProtocol != nil {
-		destinationProtocol := UrlRedirectActionParameters_DestinationProtocol(*source.DestinationProtocol)
-		parameters.DestinationProtocol = &destinationProtocol
+		destinationProtocol := *source.DestinationProtocol
+		destinationProtocolTemp := genruntime.ToEnum(destinationProtocol, urlRedirectActionParameters_DestinationProtocol_Values)
+		parameters.DestinationProtocol = &destinationProtocolTemp
 	} else {
 		parameters.DestinationProtocol = nil
 	}
 
 	// RedirectType
 	if source.RedirectType != nil {
-		redirectType := UrlRedirectActionParameters_RedirectType(*source.RedirectType)
-		parameters.RedirectType = &redirectType
+		redirectType := *source.RedirectType
+		redirectTypeTemp := genruntime.ToEnum(redirectType, urlRedirectActionParameters_RedirectType_Values)
+		parameters.RedirectType = &redirectTypeTemp
 	} else {
 		parameters.RedirectType = nil
 	}
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlRedirectActionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlRedirectActionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -21526,24 +21683,27 @@ func (parameters *UrlRedirectActionParameters_STATUS) AssignProperties_From_UrlR
 
 	// DestinationProtocol
 	if source.DestinationProtocol != nil {
-		destinationProtocol := UrlRedirectActionParameters_DestinationProtocol_STATUS(*source.DestinationProtocol)
-		parameters.DestinationProtocol = &destinationProtocol
+		destinationProtocol := *source.DestinationProtocol
+		destinationProtocolTemp := genruntime.ToEnum(destinationProtocol, urlRedirectActionParameters_DestinationProtocol_STATUS_Values)
+		parameters.DestinationProtocol = &destinationProtocolTemp
 	} else {
 		parameters.DestinationProtocol = nil
 	}
 
 	// RedirectType
 	if source.RedirectType != nil {
-		redirectType := UrlRedirectActionParameters_RedirectType_STATUS(*source.RedirectType)
-		parameters.RedirectType = &redirectType
+		redirectType := *source.RedirectType
+		redirectTypeTemp := genruntime.ToEnum(redirectType, urlRedirectActionParameters_RedirectType_STATUS_Values)
+		parameters.RedirectType = &redirectTypeTemp
 	} else {
 		parameters.RedirectType = nil
 	}
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlRedirectActionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlRedirectActionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -21716,8 +21876,9 @@ func (parameters *UrlRewriteActionParameters) AssignProperties_From_UrlRewriteAc
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlRewriteActionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlRewriteActionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -21868,8 +22029,9 @@ func (parameters *UrlRewriteActionParameters_STATUS) AssignProperties_From_UrlRe
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlRewriteActionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlRewriteActionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -22003,8 +22165,9 @@ func (parameters *UrlSigningActionParameters) AssignProperties_From_UrlSigningAc
 
 	// Algorithm
 	if source.Algorithm != nil {
-		algorithm := UrlSigningActionParameters_Algorithm(*source.Algorithm)
-		parameters.Algorithm = &algorithm
+		algorithm := *source.Algorithm
+		algorithmTemp := genruntime.ToEnum(algorithm, urlSigningActionParameters_Algorithm_Values)
+		parameters.Algorithm = &algorithmTemp
 	} else {
 		parameters.Algorithm = nil
 	}
@@ -22029,8 +22192,9 @@ func (parameters *UrlSigningActionParameters) AssignProperties_From_UrlSigningAc
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlSigningActionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlSigningActionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -22185,8 +22349,9 @@ func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_From_UrlSi
 
 	// Algorithm
 	if source.Algorithm != nil {
-		algorithm := UrlSigningActionParameters_Algorithm_STATUS(*source.Algorithm)
-		parameters.Algorithm = &algorithm
+		algorithm := *source.Algorithm
+		algorithmTemp := genruntime.ToEnum(algorithm, urlSigningActionParameters_Algorithm_STATUS_Values)
+		parameters.Algorithm = &algorithmTemp
 	} else {
 		parameters.Algorithm = nil
 	}
@@ -22211,8 +22376,9 @@ func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_From_UrlSi
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlSigningActionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlSigningActionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -22385,8 +22551,9 @@ func (configuration *CacheConfiguration) AssignProperties_From_CacheConfiguratio
 
 	// CacheBehavior
 	if source.CacheBehavior != nil {
-		cacheBehavior := CacheConfiguration_CacheBehavior(*source.CacheBehavior)
-		configuration.CacheBehavior = &cacheBehavior
+		cacheBehavior := *source.CacheBehavior
+		cacheBehaviorTemp := genruntime.ToEnum(cacheBehavior, cacheConfiguration_CacheBehavior_Values)
+		configuration.CacheBehavior = &cacheBehaviorTemp
 	} else {
 		configuration.CacheBehavior = nil
 	}
@@ -22396,8 +22563,9 @@ func (configuration *CacheConfiguration) AssignProperties_From_CacheConfiguratio
 
 	// IsCompressionEnabled
 	if source.IsCompressionEnabled != nil {
-		isCompressionEnabled := CacheConfiguration_IsCompressionEnabled(*source.IsCompressionEnabled)
-		configuration.IsCompressionEnabled = &isCompressionEnabled
+		isCompressionEnabled := *source.IsCompressionEnabled
+		isCompressionEnabledTemp := genruntime.ToEnum(isCompressionEnabled, cacheConfiguration_IsCompressionEnabled_Values)
+		configuration.IsCompressionEnabled = &isCompressionEnabledTemp
 	} else {
 		configuration.IsCompressionEnabled = nil
 	}
@@ -22407,8 +22575,9 @@ func (configuration *CacheConfiguration) AssignProperties_From_CacheConfiguratio
 
 	// QueryStringCachingBehavior
 	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := CacheConfiguration_QueryStringCachingBehavior(*source.QueryStringCachingBehavior)
-		configuration.QueryStringCachingBehavior = &queryStringCachingBehavior
+		queryStringCachingBehavior := *source.QueryStringCachingBehavior
+		queryStringCachingBehaviorTemp := genruntime.ToEnum(queryStringCachingBehavior, cacheConfiguration_QueryStringCachingBehavior_Values)
+		configuration.QueryStringCachingBehavior = &queryStringCachingBehaviorTemp
 	} else {
 		configuration.QueryStringCachingBehavior = nil
 	}
@@ -22575,8 +22744,9 @@ func (configuration *CacheConfiguration_STATUS) AssignProperties_From_CacheConfi
 
 	// CacheBehavior
 	if source.CacheBehavior != nil {
-		cacheBehavior := CacheConfiguration_CacheBehavior_STATUS(*source.CacheBehavior)
-		configuration.CacheBehavior = &cacheBehavior
+		cacheBehavior := *source.CacheBehavior
+		cacheBehaviorTemp := genruntime.ToEnum(cacheBehavior, cacheConfiguration_CacheBehavior_STATUS_Values)
+		configuration.CacheBehavior = &cacheBehaviorTemp
 	} else {
 		configuration.CacheBehavior = nil
 	}
@@ -22586,8 +22756,9 @@ func (configuration *CacheConfiguration_STATUS) AssignProperties_From_CacheConfi
 
 	// IsCompressionEnabled
 	if source.IsCompressionEnabled != nil {
-		isCompressionEnabled := CacheConfiguration_IsCompressionEnabled_STATUS(*source.IsCompressionEnabled)
-		configuration.IsCompressionEnabled = &isCompressionEnabled
+		isCompressionEnabled := *source.IsCompressionEnabled
+		isCompressionEnabledTemp := genruntime.ToEnum(isCompressionEnabled, cacheConfiguration_IsCompressionEnabled_STATUS_Values)
+		configuration.IsCompressionEnabled = &isCompressionEnabledTemp
 	} else {
 		configuration.IsCompressionEnabled = nil
 	}
@@ -22597,8 +22768,9 @@ func (configuration *CacheConfiguration_STATUS) AssignProperties_From_CacheConfi
 
 	// QueryStringCachingBehavior
 	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := CacheConfiguration_QueryStringCachingBehavior_STATUS(*source.QueryStringCachingBehavior)
-		configuration.QueryStringCachingBehavior = &queryStringCachingBehavior
+		queryStringCachingBehavior := *source.QueryStringCachingBehavior
+		queryStringCachingBehaviorTemp := genruntime.ToEnum(queryStringCachingBehavior, cacheConfiguration_QueryStringCachingBehavior_STATUS_Values)
+		configuration.QueryStringCachingBehavior = &queryStringCachingBehaviorTemp
 	} else {
 		configuration.QueryStringCachingBehavior = nil
 	}
@@ -22727,8 +22899,9 @@ func (override *OriginGroupOverride) AssignProperties_From_OriginGroupOverride(s
 
 	// ForwardingProtocol
 	if source.ForwardingProtocol != nil {
-		forwardingProtocol := OriginGroupOverride_ForwardingProtocol(*source.ForwardingProtocol)
-		override.ForwardingProtocol = &forwardingProtocol
+		forwardingProtocol := *source.ForwardingProtocol
+		forwardingProtocolTemp := genruntime.ToEnum(forwardingProtocol, originGroupOverride_ForwardingProtocol_Values)
+		override.ForwardingProtocol = &forwardingProtocolTemp
 	} else {
 		override.ForwardingProtocol = nil
 	}
@@ -22861,8 +23034,9 @@ func (override *OriginGroupOverride_STATUS) AssignProperties_From_OriginGroupOve
 
 	// ForwardingProtocol
 	if source.ForwardingProtocol != nil {
-		forwardingProtocol := OriginGroupOverride_ForwardingProtocol_STATUS(*source.ForwardingProtocol)
-		override.ForwardingProtocol = &forwardingProtocol
+		forwardingProtocol := *source.ForwardingProtocol
+		forwardingProtocolTemp := genruntime.ToEnum(forwardingProtocol, originGroupOverride_ForwardingProtocol_STATUS_Values)
+		override.ForwardingProtocol = &forwardingProtocolTemp
 	} else {
 		override.ForwardingProtocol = nil
 	}
@@ -22986,8 +23160,9 @@ func (identifier *UrlSigningParamIdentifier) AssignProperties_From_UrlSigningPar
 
 	// ParamIndicator
 	if source.ParamIndicator != nil {
-		paramIndicator := UrlSigningParamIdentifier_ParamIndicator(*source.ParamIndicator)
-		identifier.ParamIndicator = &paramIndicator
+		paramIndicator := *source.ParamIndicator
+		paramIndicatorTemp := genruntime.ToEnum(paramIndicator, urlSigningParamIdentifier_ParamIndicator_Values)
+		identifier.ParamIndicator = &paramIndicatorTemp
 	} else {
 		identifier.ParamIndicator = nil
 	}
@@ -23088,8 +23263,9 @@ func (identifier *UrlSigningParamIdentifier_STATUS) AssignProperties_From_UrlSig
 
 	// ParamIndicator
 	if source.ParamIndicator != nil {
-		paramIndicator := UrlSigningParamIdentifier_ParamIndicator_STATUS(*source.ParamIndicator)
-		identifier.ParamIndicator = &paramIndicator
+		paramIndicator := *source.ParamIndicator
+		paramIndicatorTemp := genruntime.ToEnum(paramIndicator, urlSigningParamIdentifier_ParamIndicator_STATUS_Values)
+		identifier.ParamIndicator = &paramIndicatorTemp
 	} else {
 		identifier.ParamIndicator = nil
 	}

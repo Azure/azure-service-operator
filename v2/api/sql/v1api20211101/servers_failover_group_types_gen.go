@@ -1032,8 +1032,9 @@ func (group *Servers_FailoverGroup_STATUS) AssignProperties_From_Servers_Failove
 
 	// ReplicationRole
 	if source.ReplicationRole != nil {
-		replicationRole := FailoverGroupProperties_ReplicationRole_STATUS(*source.ReplicationRole)
-		group.ReplicationRole = &replicationRole
+		replicationRole := *source.ReplicationRole
+		replicationRoleTemp := genruntime.ToEnum(replicationRole, failoverGroupProperties_ReplicationRole_STATUS_Values)
+		group.ReplicationRole = &replicationRoleTemp
 	} else {
 		group.ReplicationRole = nil
 	}
@@ -1148,6 +1149,12 @@ const (
 	FailoverGroupProperties_ReplicationRole_STATUS_Secondary = FailoverGroupProperties_ReplicationRole_STATUS("Secondary")
 )
 
+// Mapping from string to FailoverGroupProperties_ReplicationRole_STATUS
+var failoverGroupProperties_ReplicationRole_STATUS_Values = map[string]FailoverGroupProperties_ReplicationRole_STATUS{
+	"primary":   FailoverGroupProperties_ReplicationRole_STATUS_Primary,
+	"secondary": FailoverGroupProperties_ReplicationRole_STATUS_Secondary,
+}
+
 // Read-only endpoint of the failover group instance.
 type FailoverGroupReadOnlyEndpoint struct {
 	// FailoverPolicy: Failover policy of the read-only endpoint for the failover group.
@@ -1198,8 +1205,9 @@ func (endpoint *FailoverGroupReadOnlyEndpoint) AssignProperties_From_FailoverGro
 
 	// FailoverPolicy
 	if source.FailoverPolicy != nil {
-		failoverPolicy := FailoverGroupReadOnlyEndpoint_FailoverPolicy(*source.FailoverPolicy)
-		endpoint.FailoverPolicy = &failoverPolicy
+		failoverPolicy := *source.FailoverPolicy
+		failoverPolicyTemp := genruntime.ToEnum(failoverPolicy, failoverGroupReadOnlyEndpoint_FailoverPolicy_Values)
+		endpoint.FailoverPolicy = &failoverPolicyTemp
 	} else {
 		endpoint.FailoverPolicy = nil
 	}
@@ -1282,8 +1290,9 @@ func (endpoint *FailoverGroupReadOnlyEndpoint_STATUS) AssignProperties_From_Fail
 
 	// FailoverPolicy
 	if source.FailoverPolicy != nil {
-		failoverPolicy := FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS(*source.FailoverPolicy)
-		endpoint.FailoverPolicy = &failoverPolicy
+		failoverPolicy := *source.FailoverPolicy
+		failoverPolicyTemp := genruntime.ToEnum(failoverPolicy, failoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS_Values)
+		endpoint.FailoverPolicy = &failoverPolicyTemp
 	} else {
 		endpoint.FailoverPolicy = nil
 	}
@@ -1384,8 +1393,9 @@ func (endpoint *FailoverGroupReadWriteEndpoint) AssignProperties_From_FailoverGr
 
 	// FailoverPolicy
 	if source.FailoverPolicy != nil {
-		failoverPolicy := FailoverGroupReadWriteEndpoint_FailoverPolicy(*source.FailoverPolicy)
-		endpoint.FailoverPolicy = &failoverPolicy
+		failoverPolicy := *source.FailoverPolicy
+		failoverPolicyTemp := genruntime.ToEnum(failoverPolicy, failoverGroupReadWriteEndpoint_FailoverPolicy_Values)
+		endpoint.FailoverPolicy = &failoverPolicyTemp
 	} else {
 		endpoint.FailoverPolicy = nil
 	}
@@ -1488,8 +1498,9 @@ func (endpoint *FailoverGroupReadWriteEndpoint_STATUS) AssignProperties_From_Fai
 
 	// FailoverPolicy
 	if source.FailoverPolicy != nil {
-		failoverPolicy := FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS(*source.FailoverPolicy)
-		endpoint.FailoverPolicy = &failoverPolicy
+		failoverPolicy := *source.FailoverPolicy
+		failoverPolicyTemp := genruntime.ToEnum(failoverPolicy, failoverGroupReadWriteEndpoint_FailoverPolicy_STATUS_Values)
+		endpoint.FailoverPolicy = &failoverPolicyTemp
 	} else {
 		endpoint.FailoverPolicy = nil
 	}
@@ -1687,8 +1698,9 @@ func (info *PartnerInfo_STATUS) AssignProperties_From_PartnerInfo_STATUS(source 
 
 	// ReplicationRole
 	if source.ReplicationRole != nil {
-		replicationRole := PartnerInfo_ReplicationRole_STATUS(*source.ReplicationRole)
-		info.ReplicationRole = &replicationRole
+		replicationRole := *source.ReplicationRole
+		replicationRoleTemp := genruntime.ToEnum(replicationRole, partnerInfo_ReplicationRole_STATUS_Values)
+		info.ReplicationRole = &replicationRoleTemp
 	} else {
 		info.ReplicationRole = nil
 	}
@@ -1735,12 +1747,24 @@ const (
 	FailoverGroupReadOnlyEndpoint_FailoverPolicy_Enabled  = FailoverGroupReadOnlyEndpoint_FailoverPolicy("Enabled")
 )
 
+// Mapping from string to FailoverGroupReadOnlyEndpoint_FailoverPolicy
+var failoverGroupReadOnlyEndpoint_FailoverPolicy_Values = map[string]FailoverGroupReadOnlyEndpoint_FailoverPolicy{
+	"disabled": FailoverGroupReadOnlyEndpoint_FailoverPolicy_Disabled,
+	"enabled":  FailoverGroupReadOnlyEndpoint_FailoverPolicy_Enabled,
+}
+
 type FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS string
 
 const (
 	FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS_Disabled = FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS("Disabled")
 	FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS_Enabled  = FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS("Enabled")
 )
+
+// Mapping from string to FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS
+var failoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS_Values = map[string]FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS{
+	"disabled": FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS_Disabled,
+	"enabled":  FailoverGroupReadOnlyEndpoint_FailoverPolicy_STATUS_Enabled,
+}
 
 // +kubebuilder:validation:Enum={"Automatic","Manual"}
 type FailoverGroupReadWriteEndpoint_FailoverPolicy string
@@ -1750,6 +1774,12 @@ const (
 	FailoverGroupReadWriteEndpoint_FailoverPolicy_Manual    = FailoverGroupReadWriteEndpoint_FailoverPolicy("Manual")
 )
 
+// Mapping from string to FailoverGroupReadWriteEndpoint_FailoverPolicy
+var failoverGroupReadWriteEndpoint_FailoverPolicy_Values = map[string]FailoverGroupReadWriteEndpoint_FailoverPolicy{
+	"automatic": FailoverGroupReadWriteEndpoint_FailoverPolicy_Automatic,
+	"manual":    FailoverGroupReadWriteEndpoint_FailoverPolicy_Manual,
+}
+
 type FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS string
 
 const (
@@ -1757,12 +1787,24 @@ const (
 	FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS_Manual    = FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS("Manual")
 )
 
+// Mapping from string to FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS
+var failoverGroupReadWriteEndpoint_FailoverPolicy_STATUS_Values = map[string]FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS{
+	"automatic": FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS_Automatic,
+	"manual":    FailoverGroupReadWriteEndpoint_FailoverPolicy_STATUS_Manual,
+}
+
 type PartnerInfo_ReplicationRole_STATUS string
 
 const (
 	PartnerInfo_ReplicationRole_STATUS_Primary   = PartnerInfo_ReplicationRole_STATUS("Primary")
 	PartnerInfo_ReplicationRole_STATUS_Secondary = PartnerInfo_ReplicationRole_STATUS("Secondary")
 )
+
+// Mapping from string to PartnerInfo_ReplicationRole_STATUS
+var partnerInfo_ReplicationRole_STATUS_Values = map[string]PartnerInfo_ReplicationRole_STATUS{
+	"primary":   PartnerInfo_ReplicationRole_STATUS_Primary,
+	"secondary": PartnerInfo_ReplicationRole_STATUS_Secondary,
+}
 
 func init() {
 	SchemeBuilder.Register(&ServersFailoverGroup{}, &ServersFailoverGroupList{})

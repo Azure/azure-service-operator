@@ -94,7 +94,7 @@ fi
 
 # Ensure we have the right version of GO
 
-#doc# | Go | 1.20 | https://golang.org/doc/install #
+#doc# | Go | 1.22 | https://golang.org/doc/install #
 if ! command -v go > /dev/null 2>&1; then
     write-error "Go must be installed manually; see https://golang.org/doc/install"
     exit 1
@@ -104,7 +104,7 @@ GOVER=$(go version)
 write-info "Go version: ${GOVER[*]}"
 
 GOVERREGEX=".*go1.([0-9]+).([0-9]+).*"
-GOVERREQUIRED="go1.20.*"
+GOVERREQUIRED="go1.22.*"
 GOVERACTUAL=$(go version | { read _ _ ver _; echo "$ver"; })
 
 if ! [[ $GOVERACTUAL =~ $GOVERREGEX ]]; then
@@ -113,7 +113,7 @@ if ! [[ $GOVERACTUAL =~ $GOVERREGEX ]]; then
 fi
 
 GOMINORVER="${BASH_REMATCH[1]}"
-GOMINORREQUIRED=20
+GOMINORREQUIRED=22
 
 # We allow for Go versions above the min version, but prevent versions below. This is safe given Go's back-compat guarantees
 if ! [[ $GOMINORVER -ge $GOMINORREQUIRED ]]; then
@@ -179,11 +179,11 @@ go-install() {
     fi
 }
 
-#doc# | conversion-gen | v0.28.0 | https://pkg.go.dev/k8s.io/code-generator/cmd/conversion-gen |
-go-install conversion-gen k8s.io/code-generator/cmd/conversion-gen@v0.28.0
+#doc# | conversion-gen | v0.28.8 | https://pkg.go.dev/k8s.io/code-generator/cmd/conversion-gen |
+go-install conversion-gen k8s.io/code-generator/cmd/conversion-gen@v0.28.8
 
-#doc# | controller-gen | v0.13.0 | https://book.kubebuilder.io/reference/controller-gen |
-go-install controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen@v0.13.0
+#doc# | controller-gen | v0.14.0 | https://book.kubebuilder.io/reference/controller-gen |
+go-install controller-gen sigs.k8s.io/controller-tools/cmd/controller-gen@v0.14.0
 
 #doc# | kind | v0.20.0 | https://kind.sigs.k8s.io/ |
 go-install kind sigs.k8s.io/kind@v0.20.0

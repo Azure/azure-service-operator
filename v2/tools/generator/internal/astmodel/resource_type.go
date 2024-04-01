@@ -666,23 +666,24 @@ func (resource *ResourceType) AsDeclarations(
 		},
 	}
 
-	var declarations []dst.Decl
-	declarations = append(declarations, resourceDeclaration)
-	declarations = append(declarations, resource.InterfaceImplementer.AsDeclarations(codeGenerationContext, declContext.Name, nil)...)
+	resourceListDeclaration := resource.resourceListTypeDecls(codeGenerationContext, declContext.Name, declContext.Description)
 
-	decls, err := resource.generateMethodDecls(codeGenerationContext, declContext.Name)
+	interfaceDeclarations, err := resource.InterfaceImplementer.AsDeclarations(codeGenerationContext, declContext.Name, nil)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrapf(err, "failed to generate interface declarations for %s", declContext.Name)
 	}
 
-	declarations = append(
-		declarations,
-		decls...)
-	declarations = append(
-		declarations,
-		resource.resourceListTypeDecls(codeGenerationContext, declContext.Name, declContext.Description)...)
+	methodDeclarations, err := resource.generateMethodDecls(codeGenerationContext, declContext.Name)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to generate method declarations for %s", declContext.Name)
+	}
 
-	return declarations, nil
+	return astbuilder.Declarations(
+		resourceDeclaration,
+		interfaceDeclarations,
+		methodDeclarations,
+		resourceListDeclaration,
+	), nil
 }
 
 func (resource *ResourceType) generateMethodDecls(

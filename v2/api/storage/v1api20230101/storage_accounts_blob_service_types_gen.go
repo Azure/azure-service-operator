@@ -2318,8 +2318,9 @@ func (policy *LastAccessTimeTrackingPolicy) AssignProperties_From_LastAccessTime
 
 	// Name
 	if source.Name != nil {
-		name := LastAccessTimeTrackingPolicy_Name(*source.Name)
-		policy.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, lastAccessTimeTrackingPolicy_Name_Values)
+		policy.Name = &nameTemp
 	} else {
 		policy.Name = nil
 	}
@@ -2472,8 +2473,9 @@ func (policy *LastAccessTimeTrackingPolicy_STATUS) AssignProperties_From_LastAcc
 
 	// Name
 	if source.Name != nil {
-		name := LastAccessTimeTrackingPolicy_Name_STATUS(*source.Name)
-		policy.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, lastAccessTimeTrackingPolicy_Name_STATUS_Values)
+		policy.Name = &nameTemp
 	} else {
 		policy.Name = nil
 	}
@@ -2896,7 +2898,7 @@ func (rule *CorsRule) AssignProperties_From_CorsRule(source *v20230101s.CorsRule
 		for allowedMethodIndex, allowedMethodItem := range source.AllowedMethods {
 			// Shadow the loop variable to avoid aliasing
 			allowedMethodItem := allowedMethodItem
-			allowedMethodList[allowedMethodIndex] = CorsRule_AllowedMethods(allowedMethodItem)
+			allowedMethodList[allowedMethodIndex] = genruntime.ToEnum(allowedMethodItem, corsRule_AllowedMethods_Values)
 		}
 		rule.AllowedMethods = allowedMethodList
 	} else {
@@ -3068,7 +3070,7 @@ func (rule *CorsRule_STATUS) AssignProperties_From_CorsRule_STATUS(source *v2023
 		for allowedMethodIndex, allowedMethodItem := range source.AllowedMethods {
 			// Shadow the loop variable to avoid aliasing
 			allowedMethodItem := allowedMethodItem
-			allowedMethodList[allowedMethodIndex] = CorsRule_AllowedMethods_STATUS(allowedMethodItem)
+			allowedMethodList[allowedMethodIndex] = genruntime.ToEnum(allowedMethodItem, corsRule_AllowedMethods_STATUS_Values)
 		}
 		rule.AllowedMethods = allowedMethodList
 	} else {
@@ -3134,9 +3136,19 @@ type LastAccessTimeTrackingPolicy_Name string
 
 const LastAccessTimeTrackingPolicy_Name_AccessTimeTracking = LastAccessTimeTrackingPolicy_Name("AccessTimeTracking")
 
+// Mapping from string to LastAccessTimeTrackingPolicy_Name
+var lastAccessTimeTrackingPolicy_Name_Values = map[string]LastAccessTimeTrackingPolicy_Name{
+	"accesstimetracking": LastAccessTimeTrackingPolicy_Name_AccessTimeTracking,
+}
+
 type LastAccessTimeTrackingPolicy_Name_STATUS string
 
 const LastAccessTimeTrackingPolicy_Name_STATUS_AccessTimeTracking = LastAccessTimeTrackingPolicy_Name_STATUS("AccessTimeTracking")
+
+// Mapping from string to LastAccessTimeTrackingPolicy_Name_STATUS
+var lastAccessTimeTrackingPolicy_Name_STATUS_Values = map[string]LastAccessTimeTrackingPolicy_Name_STATUS{
+	"accesstimetracking": LastAccessTimeTrackingPolicy_Name_STATUS_AccessTimeTracking,
+}
 
 // +kubebuilder:validation:Enum={"CONNECT","DELETE","GET","HEAD","MERGE","OPTIONS","PATCH","POST","PUT","TRACE"}
 type CorsRule_AllowedMethods string
@@ -3154,6 +3166,20 @@ const (
 	CorsRule_AllowedMethods_TRACE   = CorsRule_AllowedMethods("TRACE")
 )
 
+// Mapping from string to CorsRule_AllowedMethods
+var corsRule_AllowedMethods_Values = map[string]CorsRule_AllowedMethods{
+	"connect": CorsRule_AllowedMethods_CONNECT,
+	"delete":  CorsRule_AllowedMethods_DELETE,
+	"get":     CorsRule_AllowedMethods_GET,
+	"head":    CorsRule_AllowedMethods_HEAD,
+	"merge":   CorsRule_AllowedMethods_MERGE,
+	"options": CorsRule_AllowedMethods_OPTIONS,
+	"patch":   CorsRule_AllowedMethods_PATCH,
+	"post":    CorsRule_AllowedMethods_POST,
+	"put":     CorsRule_AllowedMethods_PUT,
+	"trace":   CorsRule_AllowedMethods_TRACE,
+}
+
 type CorsRule_AllowedMethods_STATUS string
 
 const (
@@ -3168,6 +3194,20 @@ const (
 	CorsRule_AllowedMethods_STATUS_PUT     = CorsRule_AllowedMethods_STATUS("PUT")
 	CorsRule_AllowedMethods_STATUS_TRACE   = CorsRule_AllowedMethods_STATUS("TRACE")
 )
+
+// Mapping from string to CorsRule_AllowedMethods_STATUS
+var corsRule_AllowedMethods_STATUS_Values = map[string]CorsRule_AllowedMethods_STATUS{
+	"connect": CorsRule_AllowedMethods_STATUS_CONNECT,
+	"delete":  CorsRule_AllowedMethods_STATUS_DELETE,
+	"get":     CorsRule_AllowedMethods_STATUS_GET,
+	"head":    CorsRule_AllowedMethods_STATUS_HEAD,
+	"merge":   CorsRule_AllowedMethods_STATUS_MERGE,
+	"options": CorsRule_AllowedMethods_STATUS_OPTIONS,
+	"patch":   CorsRule_AllowedMethods_STATUS_PATCH,
+	"post":    CorsRule_AllowedMethods_STATUS_POST,
+	"put":     CorsRule_AllowedMethods_STATUS_PUT,
+	"trace":   CorsRule_AllowedMethods_STATUS_TRACE,
+}
 
 func init() {
 	SchemeBuilder.Register(&StorageAccountsBlobService{}, &StorageAccountsBlobServiceList{})

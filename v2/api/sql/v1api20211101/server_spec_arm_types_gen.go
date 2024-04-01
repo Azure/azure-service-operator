@@ -88,6 +88,14 @@ const (
 	ResourceIdentity_Type_UserAssigned               = ResourceIdentity_Type("UserAssigned")
 )
 
+// Mapping from string to ResourceIdentity_Type
+var resourceIdentity_Type_Values = map[string]ResourceIdentity_Type{
+	"none":                        ResourceIdentity_Type_None,
+	"systemassigned":              ResourceIdentity_Type_SystemAssigned,
+	"systemassigned,userassigned": ResourceIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                ResourceIdentity_Type_UserAssigned,
+}
+
 // Properties of a active directory administrator.
 type ServerExternalAdministrator_ARM struct {
 	// AdministratorType: Type of the sever administrator.

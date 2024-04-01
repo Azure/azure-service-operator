@@ -1295,8 +1295,9 @@ func (host *BastionHost_STATUS) AssignProperties_From_BastionHost_STATUS(source 
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := BastionHostProvisioningState_STATUS(*source.ProvisioningState)
-		host.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, bastionHostProvisioningState_STATUS_Values)
+		host.ProvisioningState = &provisioningStateTemp
 	} else {
 		host.ProvisioningState = nil
 	}
@@ -1575,8 +1576,9 @@ func (configuration *BastionHostIPConfiguration) AssignProperties_From_BastionHo
 
 	// PrivateIPAllocationMethod
 	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod(*source.PrivateIPAllocationMethod)
-		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
+		privateIPAllocationMethod := *source.PrivateIPAllocationMethod
+		privateIPAllocationMethodTemp := genruntime.ToEnum(privateIPAllocationMethod, iPAllocationMethod_Values)
+		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethodTemp
 	} else {
 		configuration.PrivateIPAllocationMethod = nil
 	}
@@ -1736,6 +1738,14 @@ const (
 	BastionHostProvisioningState_STATUS_Updating  = BastionHostProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to BastionHostProvisioningState_STATUS
+var bastionHostProvisioningState_STATUS_Values = map[string]BastionHostProvisioningState_STATUS{
+	"deleting":  BastionHostProvisioningState_STATUS_Deleting,
+	"failed":    BastionHostProvisioningState_STATUS_Failed,
+	"succeeded": BastionHostProvisioningState_STATUS_Succeeded,
+	"updating":  BastionHostProvisioningState_STATUS_Updating,
+}
+
 // The sku of this Bastion Host.
 type Sku struct {
 	// Name: The name of this Bastion Host.
@@ -1786,8 +1796,9 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20220701s.Sku) error {
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sku_Name_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}
@@ -1870,8 +1881,9 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20220701s.Sku_S
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name_STATUS(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sku_Name_STATUS_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}

@@ -18,8 +18,9 @@ func (test *Test) AssignProperties_From_Test(source *v20200101s.Test) error {
 
 	// MyEnum
 	if source.MyEnum != nil {
-		myEnum := Test_MyEnum(*source.MyEnum)
-		test.MyEnum = &myEnum
+		myEnum := *source.MyEnum
+		myEnumTemp := genruntime.ToEnum(myEnum, test_MyEnum_Values)
+		test.MyEnum = &myEnumTemp
 	} else {
 		test.MyEnum = nil
 	}
@@ -60,3 +61,10 @@ const (
 	Test_MyEnum_B    = Test_MyEnum("b")
 	Test_MyEnum_Star = Test_MyEnum("*")
 )
+
+// Mapping from string to Test_MyEnum
+var test_MyEnum_Values = map[string]Test_MyEnum{
+	"a": Test_MyEnum_A,
+	"b": Test_MyEnum_B,
+	"*": Test_MyEnum_Star,
+}

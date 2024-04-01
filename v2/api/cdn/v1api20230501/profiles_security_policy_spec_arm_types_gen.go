@@ -92,3 +92,8 @@ type SecurityPolicyWebApplicationFirewallAssociation_ARM struct {
 type SecurityPolicyWebApplicationFirewallParameters_Type string
 
 const SecurityPolicyWebApplicationFirewallParameters_Type_WebApplicationFirewall = SecurityPolicyWebApplicationFirewallParameters_Type("WebApplicationFirewall")
+
+// Mapping from string to SecurityPolicyWebApplicationFirewallParameters_Type
+var securityPolicyWebApplicationFirewallParameters_Type_Values = map[string]SecurityPolicyWebApplicationFirewallParameters_Type{
+	"webapplicationfirewall": SecurityPolicyWebApplicationFirewallParameters_Type_WebApplicationFirewall,
+}

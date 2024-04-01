@@ -620,8 +620,9 @@ func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_From_DiskEncryptio
 
 	// EncryptionType
 	if source.EncryptionType != nil {
-		encryptionType := DiskEncryptionSetType(*source.EncryptionType)
-		encryptionSet.EncryptionType = &encryptionType
+		encryptionType := *source.EncryptionType
+		encryptionTypeTemp := genruntime.ToEnum(encryptionType, diskEncryptionSetType_Values)
+		encryptionSet.EncryptionType = &encryptionTypeTemp
 	} else {
 		encryptionSet.EncryptionType = nil
 	}
@@ -1112,8 +1113,9 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_From_DiskEncrypt
 
 	// EncryptionType
 	if source.EncryptionType != nil {
-		encryptionType := DiskEncryptionSetType_STATUS(*source.EncryptionType)
-		encryptionSet.EncryptionType = &encryptionType
+		encryptionType := *source.EncryptionType
+		encryptionTypeTemp := genruntime.ToEnum(encryptionType, diskEncryptionSetType_STATUS_Values)
+		encryptionSet.EncryptionType = &encryptionTypeTemp
 	} else {
 		encryptionSet.EncryptionType = nil
 	}
@@ -1483,6 +1485,13 @@ const (
 	DiskEncryptionSetType_EncryptionAtRestWithPlatformAndCustomerKeys = DiskEncryptionSetType("EncryptionAtRestWithPlatformAndCustomerKeys")
 )
 
+// Mapping from string to DiskEncryptionSetType
+var diskEncryptionSetType_Values = map[string]DiskEncryptionSetType{
+	"confidentialvmencryptedwithcustomerkey":      DiskEncryptionSetType_ConfidentialVmEncryptedWithCustomerKey,
+	"encryptionatrestwithcustomerkey":             DiskEncryptionSetType_EncryptionAtRestWithCustomerKey,
+	"encryptionatrestwithplatformandcustomerkeys": DiskEncryptionSetType_EncryptionAtRestWithPlatformAndCustomerKeys,
+}
+
 // The type of key used to encrypt the data of the disk.
 type DiskEncryptionSetType_STATUS string
 
@@ -1491,6 +1500,13 @@ const (
 	DiskEncryptionSetType_STATUS_EncryptionAtRestWithCustomerKey             = DiskEncryptionSetType_STATUS("EncryptionAtRestWithCustomerKey")
 	DiskEncryptionSetType_STATUS_EncryptionAtRestWithPlatformAndCustomerKeys = DiskEncryptionSetType_STATUS("EncryptionAtRestWithPlatformAndCustomerKeys")
 )
+
+// Mapping from string to DiskEncryptionSetType_STATUS
+var diskEncryptionSetType_STATUS_Values = map[string]DiskEncryptionSetType_STATUS{
+	"confidentialvmencryptedwithcustomerkey":      DiskEncryptionSetType_STATUS_ConfidentialVmEncryptedWithCustomerKey,
+	"encryptionatrestwithcustomerkey":             DiskEncryptionSetType_STATUS_EncryptionAtRestWithCustomerKey,
+	"encryptionatrestwithplatformandcustomerkeys": DiskEncryptionSetType_STATUS_EncryptionAtRestWithPlatformAndCustomerKeys,
+}
 
 // The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used
 // to encrypt disks.
@@ -1563,8 +1579,9 @@ func (identity *EncryptionSetIdentity) AssignProperties_From_EncryptionSetIdenti
 
 	// Type
 	if source.Type != nil {
-		typeVar := EncryptionSetIdentity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, encryptionSetIdentity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -1742,8 +1759,9 @@ func (identity *EncryptionSetIdentity_STATUS) AssignProperties_From_EncryptionSe
 
 	// Type
 	if source.Type != nil {
-		typeVar := EncryptionSetIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, encryptionSetIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}

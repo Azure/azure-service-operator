@@ -831,8 +831,9 @@ func (zone *PrivateDnsZone_STATUS) AssignProperties_From_PrivateDnsZone_STATUS(s
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := PrivateZoneProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		zone.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, privateZoneProperties_ProvisioningState_STATUS_Values)
+		zone.ProvisioningState = &provisioningStateTemp
 	} else {
 		zone.ProvisioningState = nil
 	}
@@ -920,6 +921,16 @@ const (
 	PrivateZoneProperties_ProvisioningState_STATUS_Succeeded = PrivateZoneProperties_ProvisioningState_STATUS("Succeeded")
 	PrivateZoneProperties_ProvisioningState_STATUS_Updating  = PrivateZoneProperties_ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to PrivateZoneProperties_ProvisioningState_STATUS
+var privateZoneProperties_ProvisioningState_STATUS_Values = map[string]PrivateZoneProperties_ProvisioningState_STATUS{
+	"canceled":  PrivateZoneProperties_ProvisioningState_STATUS_Canceled,
+	"creating":  PrivateZoneProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  PrivateZoneProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    PrivateZoneProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": PrivateZoneProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  PrivateZoneProperties_ProvisioningState_STATUS_Updating,
+}
 
 func init() {
 	SchemeBuilder.Register(&PrivateDnsZone{}, &PrivateDnsZoneList{})

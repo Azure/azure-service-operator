@@ -1086,8 +1086,9 @@ func (machine *VirtualMachine_Spec) AssignProperties_From_VirtualMachine_Spec(so
 
 	// EvictionPolicy
 	if source.EvictionPolicy != nil {
-		evictionPolicy := EvictionPolicy(*source.EvictionPolicy)
-		machine.EvictionPolicy = &evictionPolicy
+		evictionPolicy := *source.EvictionPolicy
+		evictionPolicyTemp := genruntime.ToEnum(evictionPolicy, evictionPolicy_Values)
+		machine.EvictionPolicy = &evictionPolicyTemp
 	} else {
 		machine.EvictionPolicy = nil
 	}
@@ -1210,8 +1211,9 @@ func (machine *VirtualMachine_Spec) AssignProperties_From_VirtualMachine_Spec(so
 
 	// Priority
 	if source.Priority != nil {
-		priority := Priority(*source.Priority)
-		machine.Priority = &priority
+		priority := *source.Priority
+		priorityTemp := genruntime.ToEnum(priority, priority_Values)
+		machine.Priority = &priorityTemp
 	} else {
 		machine.Priority = nil
 	}
@@ -2152,8 +2154,9 @@ func (machine *VirtualMachine_STATUS) AssignProperties_From_VirtualMachine_STATU
 
 	// EvictionPolicy
 	if source.EvictionPolicy != nil {
-		evictionPolicy := EvictionPolicy_STATUS(*source.EvictionPolicy)
-		machine.EvictionPolicy = &evictionPolicy
+		evictionPolicy := *source.EvictionPolicy
+		evictionPolicyTemp := genruntime.ToEnum(evictionPolicy, evictionPolicy_STATUS_Values)
+		machine.EvictionPolicy = &evictionPolicyTemp
 	} else {
 		machine.EvictionPolicy = nil
 	}
@@ -2286,8 +2289,9 @@ func (machine *VirtualMachine_STATUS) AssignProperties_From_VirtualMachine_STATU
 
 	// Priority
 	if source.Priority != nil {
-		priority := Priority_STATUS(*source.Priority)
-		machine.Priority = &priority
+		priority := *source.Priority
+		priorityTemp := genruntime.ToEnum(priority, priority_STATUS_Values)
+		machine.Priority = &priorityTemp
 	} else {
 		machine.Priority = nil
 	}
@@ -3201,6 +3205,12 @@ const (
 	EvictionPolicy_Delete     = EvictionPolicy("Delete")
 )
 
+// Mapping from string to EvictionPolicy
+var evictionPolicy_Values = map[string]EvictionPolicy{
+	"deallocate": EvictionPolicy_Deallocate,
+	"delete":     EvictionPolicy_Delete,
+}
+
 // Specifies the eviction policy for the Azure Spot VM/VMSS
 type EvictionPolicy_STATUS string
 
@@ -3208,6 +3218,12 @@ const (
 	EvictionPolicy_STATUS_Deallocate = EvictionPolicy_STATUS("Deallocate")
 	EvictionPolicy_STATUS_Delete     = EvictionPolicy_STATUS("Delete")
 )
+
+// Mapping from string to EvictionPolicy_STATUS
+var evictionPolicy_STATUS_Values = map[string]EvictionPolicy_STATUS{
+	"deallocate": EvictionPolicy_STATUS_Deallocate,
+	"delete":     EvictionPolicy_STATUS_Delete,
+}
 
 // The complex type of the extended location.
 type ExtendedLocation struct {
@@ -3277,8 +3293,9 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType(*source.Type)
-		location.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, extendedLocationType_Values)
+		location.Type = &typeTemp
 	} else {
 		location.Type = nil
 	}
@@ -3361,8 +3378,9 @@ func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType_STATUS(*source.Type)
-		location.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, extendedLocationType_STATUS_Values)
+		location.Type = &typeTemp
 	} else {
 		location.Type = nil
 	}
@@ -3527,8 +3545,9 @@ func (profile *HardwareProfile_STATUS) AssignProperties_From_HardwareProfile_STA
 
 	// VmSize
 	if source.VmSize != nil {
-		vmSize := HardwareProfile_VmSize_STATUS(*source.VmSize)
-		profile.VmSize = &vmSize
+		vmSize := *source.VmSize
+		vmSizeTemp := genruntime.ToEnum(vmSize, hardwareProfile_VmSize_STATUS_Values)
+		profile.VmSize = &vmSizeTemp
 	} else {
 		profile.VmSize = nil
 	}
@@ -4732,6 +4751,13 @@ const (
 	Priority_Spot    = Priority("Spot")
 )
 
+// Mapping from string to Priority
+var priority_Values = map[string]Priority{
+	"low":     Priority_Low,
+	"regular": Priority_Regular,
+	"spot":    Priority_Spot,
+}
+
 // Specifies the priority for a standalone virtual machine or the virtual machines in the scale set.
 // 'Low' enum
 // will be deprecated in the future, please use 'Spot' as the enum to deploy Azure Spot VM/VMSS.
@@ -4742,6 +4768,13 @@ const (
 	Priority_STATUS_Regular = Priority_STATUS("Regular")
 	Priority_STATUS_Spot    = Priority_STATUS("Spot")
 )
+
+// Mapping from string to Priority_STATUS
+var priority_STATUS_Values = map[string]Priority_STATUS{
+	"low":     Priority_STATUS_Low,
+	"regular": Priority_STATUS_Regular,
+	"spot":    Priority_STATUS_Spot,
+}
 
 // Specifies the Security profile settings for the virtual machine or virtual machine scale set.
 type SecurityProfile struct {
@@ -4845,8 +4878,9 @@ func (profile *SecurityProfile) AssignProperties_From_SecurityProfile(source *v2
 
 	// SecurityType
 	if source.SecurityType != nil {
-		securityType := SecurityProfile_SecurityType(*source.SecurityType)
-		profile.SecurityType = &securityType
+		securityType := *source.SecurityType
+		securityTypeTemp := genruntime.ToEnum(securityType, securityProfile_SecurityType_Values)
+		profile.SecurityType = &securityTypeTemp
 	} else {
 		profile.SecurityType = nil
 	}
@@ -4982,8 +5016,9 @@ func (profile *SecurityProfile_STATUS) AssignProperties_From_SecurityProfile_STA
 
 	// SecurityType
 	if source.SecurityType != nil {
-		securityType := SecurityProfile_SecurityType_STATUS(*source.SecurityType)
-		profile.SecurityType = &securityType
+		securityType := *source.SecurityType
+		securityTypeTemp := genruntime.ToEnum(securityType, securityProfile_SecurityType_STATUS_Values)
+		profile.SecurityType = &securityTypeTemp
 	} else {
 		profile.SecurityType = nil
 	}
@@ -5998,8 +6033,9 @@ func (identity *VirtualMachineIdentity) AssignProperties_From_VirtualMachineIden
 
 	// Type
 	if source.Type != nil {
-		typeVar := VirtualMachineIdentity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, virtualMachineIdentity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -6149,8 +6185,9 @@ func (identity *VirtualMachineIdentity_STATUS) AssignProperties_From_VirtualMach
 
 	// Type
 	if source.Type != nil {
-		typeVar := VirtualMachineIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, virtualMachineIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -6491,8 +6528,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignProperties_From_VirtualMach
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
-		hyperVGeneration := VirtualMachineInstanceView_HyperVGeneration_STATUS(*source.HyperVGeneration)
-		view.HyperVGeneration = &hyperVGeneration
+		hyperVGeneration := *source.HyperVGeneration
+		hyperVGenerationTemp := genruntime.ToEnum(hyperVGeneration, virtualMachineInstanceView_HyperVGeneration_STATUS_Values)
+		view.HyperVGeneration = &hyperVGenerationTemp
 	} else {
 		view.HyperVGeneration = nil
 	}
@@ -7303,24 +7341,27 @@ func (disk *DataDisk) AssignProperties_From_DataDisk(source *v20201201s.DataDisk
 
 	// Caching
 	if source.Caching != nil {
-		caching := Caching(*source.Caching)
-		disk.Caching = &caching
+		caching := *source.Caching
+		cachingTemp := genruntime.ToEnum(caching, caching_Values)
+		disk.Caching = &cachingTemp
 	} else {
 		disk.Caching = nil
 	}
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := CreateOption(*source.CreateOption)
-		disk.CreateOption = &createOption
+		createOption := *source.CreateOption
+		createOptionTemp := genruntime.ToEnum(createOption, createOption_Values)
+		disk.CreateOption = &createOptionTemp
 	} else {
 		disk.CreateOption = nil
 	}
 
 	// DetachOption
 	if source.DetachOption != nil {
-		detachOption := DetachOption(*source.DetachOption)
-		disk.DetachOption = &detachOption
+		detachOption := *source.DetachOption
+		detachOptionTemp := genruntime.ToEnum(detachOption, detachOption_Values)
+		disk.DetachOption = &detachOptionTemp
 	} else {
 		disk.DetachOption = nil
 	}
@@ -7673,24 +7714,27 @@ func (disk *DataDisk_STATUS) AssignProperties_From_DataDisk_STATUS(source *v2020
 
 	// Caching
 	if source.Caching != nil {
-		caching := Caching_STATUS(*source.Caching)
-		disk.Caching = &caching
+		caching := *source.Caching
+		cachingTemp := genruntime.ToEnum(caching, caching_STATUS_Values)
+		disk.Caching = &cachingTemp
 	} else {
 		disk.Caching = nil
 	}
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := CreateOption_STATUS(*source.CreateOption)
-		disk.CreateOption = &createOption
+		createOption := *source.CreateOption
+		createOptionTemp := genruntime.ToEnum(createOption, createOption_STATUS_Values)
+		disk.CreateOption = &createOptionTemp
 	} else {
 		disk.CreateOption = nil
 	}
 
 	// DetachOption
 	if source.DetachOption != nil {
-		detachOption := DetachOption_STATUS(*source.DetachOption)
-		disk.DetachOption = &detachOption
+		detachOption := *source.DetachOption
+		detachOptionTemp := genruntime.ToEnum(detachOption, detachOption_STATUS_Values)
+		disk.DetachOption = &detachOptionTemp
 	} else {
 		disk.DetachOption = nil
 	}
@@ -8202,6 +8246,176 @@ const (
 	HardwareProfile_VmSize_STATUS_Standard_NV6       = HardwareProfile_VmSize_STATUS("Standard_NV6")
 )
 
+// Mapping from string to HardwareProfile_VmSize_STATUS
+var hardwareProfile_VmSize_STATUS_Values = map[string]HardwareProfile_VmSize_STATUS{
+	"basic_a0":            HardwareProfile_VmSize_STATUS_Basic_A0,
+	"basic_a1":            HardwareProfile_VmSize_STATUS_Basic_A1,
+	"basic_a2":            HardwareProfile_VmSize_STATUS_Basic_A2,
+	"basic_a3":            HardwareProfile_VmSize_STATUS_Basic_A3,
+	"basic_a4":            HardwareProfile_VmSize_STATUS_Basic_A4,
+	"standard_a0":         HardwareProfile_VmSize_STATUS_Standard_A0,
+	"standard_a1":         HardwareProfile_VmSize_STATUS_Standard_A1,
+	"standard_a10":        HardwareProfile_VmSize_STATUS_Standard_A10,
+	"standard_a11":        HardwareProfile_VmSize_STATUS_Standard_A11,
+	"standard_a1_v2":      HardwareProfile_VmSize_STATUS_Standard_A1_V2,
+	"standard_a2":         HardwareProfile_VmSize_STATUS_Standard_A2,
+	"standard_a2m_v2":     HardwareProfile_VmSize_STATUS_Standard_A2M_V2,
+	"standard_a2_v2":      HardwareProfile_VmSize_STATUS_Standard_A2_V2,
+	"standard_a3":         HardwareProfile_VmSize_STATUS_Standard_A3,
+	"standard_a4":         HardwareProfile_VmSize_STATUS_Standard_A4,
+	"standard_a4m_v2":     HardwareProfile_VmSize_STATUS_Standard_A4M_V2,
+	"standard_a4_v2":      HardwareProfile_VmSize_STATUS_Standard_A4_V2,
+	"standard_a5":         HardwareProfile_VmSize_STATUS_Standard_A5,
+	"standard_a6":         HardwareProfile_VmSize_STATUS_Standard_A6,
+	"standard_a7":         HardwareProfile_VmSize_STATUS_Standard_A7,
+	"standard_a8":         HardwareProfile_VmSize_STATUS_Standard_A8,
+	"standard_a8m_v2":     HardwareProfile_VmSize_STATUS_Standard_A8M_V2,
+	"standard_a8_v2":      HardwareProfile_VmSize_STATUS_Standard_A8_V2,
+	"standard_a9":         HardwareProfile_VmSize_STATUS_Standard_A9,
+	"standard_b1ms":       HardwareProfile_VmSize_STATUS_Standard_B1Ms,
+	"standard_b1s":        HardwareProfile_VmSize_STATUS_Standard_B1S,
+	"standard_b2ms":       HardwareProfile_VmSize_STATUS_Standard_B2Ms,
+	"standard_b2s":        HardwareProfile_VmSize_STATUS_Standard_B2S,
+	"standard_b4ms":       HardwareProfile_VmSize_STATUS_Standard_B4Ms,
+	"standard_b8ms":       HardwareProfile_VmSize_STATUS_Standard_B8Ms,
+	"standard_d1":         HardwareProfile_VmSize_STATUS_Standard_D1,
+	"standard_d11":        HardwareProfile_VmSize_STATUS_Standard_D11,
+	"standard_d11_v2":     HardwareProfile_VmSize_STATUS_Standard_D11_V2,
+	"standard_d12":        HardwareProfile_VmSize_STATUS_Standard_D12,
+	"standard_d12_v2":     HardwareProfile_VmSize_STATUS_Standard_D12_V2,
+	"standard_d13":        HardwareProfile_VmSize_STATUS_Standard_D13,
+	"standard_d13_v2":     HardwareProfile_VmSize_STATUS_Standard_D13_V2,
+	"standard_d14":        HardwareProfile_VmSize_STATUS_Standard_D14,
+	"standard_d14_v2":     HardwareProfile_VmSize_STATUS_Standard_D14_V2,
+	"standard_d15_v2":     HardwareProfile_VmSize_STATUS_Standard_D15_V2,
+	"standard_d16s_v3":    HardwareProfile_VmSize_STATUS_Standard_D16S_V3,
+	"standard_d16_v3":     HardwareProfile_VmSize_STATUS_Standard_D16_V3,
+	"standard_d1_v2":      HardwareProfile_VmSize_STATUS_Standard_D1_V2,
+	"standard_d2":         HardwareProfile_VmSize_STATUS_Standard_D2,
+	"standard_d2s_v3":     HardwareProfile_VmSize_STATUS_Standard_D2S_V3,
+	"standard_d2_v2":      HardwareProfile_VmSize_STATUS_Standard_D2_V2,
+	"standard_d2_v3":      HardwareProfile_VmSize_STATUS_Standard_D2_V3,
+	"standard_d3":         HardwareProfile_VmSize_STATUS_Standard_D3,
+	"standard_d32s_v3":    HardwareProfile_VmSize_STATUS_Standard_D32S_V3,
+	"standard_d32_v3":     HardwareProfile_VmSize_STATUS_Standard_D32_V3,
+	"standard_d3_v2":      HardwareProfile_VmSize_STATUS_Standard_D3_V2,
+	"standard_d4":         HardwareProfile_VmSize_STATUS_Standard_D4,
+	"standard_d4s_v3":     HardwareProfile_VmSize_STATUS_Standard_D4S_V3,
+	"standard_d4_v2":      HardwareProfile_VmSize_STATUS_Standard_D4_V2,
+	"standard_d4_v3":      HardwareProfile_VmSize_STATUS_Standard_D4_V3,
+	"standard_d5_v2":      HardwareProfile_VmSize_STATUS_Standard_D5_V2,
+	"standard_d64s_v3":    HardwareProfile_VmSize_STATUS_Standard_D64S_V3,
+	"standard_d64_v3":     HardwareProfile_VmSize_STATUS_Standard_D64_V3,
+	"standard_d8s_v3":     HardwareProfile_VmSize_STATUS_Standard_D8S_V3,
+	"standard_d8_v3":      HardwareProfile_VmSize_STATUS_Standard_D8_V3,
+	"standard_ds1":        HardwareProfile_VmSize_STATUS_Standard_DS1,
+	"standard_ds11":       HardwareProfile_VmSize_STATUS_Standard_DS11,
+	"standard_ds11_v2":    HardwareProfile_VmSize_STATUS_Standard_DS11_V2,
+	"standard_ds12":       HardwareProfile_VmSize_STATUS_Standard_DS12,
+	"standard_ds12_v2":    HardwareProfile_VmSize_STATUS_Standard_DS12_V2,
+	"standard_ds13":       HardwareProfile_VmSize_STATUS_Standard_DS13,
+	"standard_ds13-2_v2":  HardwareProfile_VmSize_STATUS_Standard_DS132_V2,
+	"standard_ds13-4_v2":  HardwareProfile_VmSize_STATUS_Standard_DS134_V2,
+	"standard_ds13_v2":    HardwareProfile_VmSize_STATUS_Standard_DS13_V2,
+	"standard_ds14":       HardwareProfile_VmSize_STATUS_Standard_DS14,
+	"standard_ds14-4_v2":  HardwareProfile_VmSize_STATUS_Standard_DS144_V2,
+	"standard_ds14-8_v2":  HardwareProfile_VmSize_STATUS_Standard_DS148_V2,
+	"standard_ds14_v2":    HardwareProfile_VmSize_STATUS_Standard_DS14_V2,
+	"standard_ds15_v2":    HardwareProfile_VmSize_STATUS_Standard_DS15_V2,
+	"standard_ds1_v2":     HardwareProfile_VmSize_STATUS_Standard_DS1_V2,
+	"standard_ds2":        HardwareProfile_VmSize_STATUS_Standard_DS2,
+	"standard_ds2_v2":     HardwareProfile_VmSize_STATUS_Standard_DS2_V2,
+	"standard_ds3":        HardwareProfile_VmSize_STATUS_Standard_DS3,
+	"standard_ds3_v2":     HardwareProfile_VmSize_STATUS_Standard_DS3_V2,
+	"standard_ds4":        HardwareProfile_VmSize_STATUS_Standard_DS4,
+	"standard_ds4_v2":     HardwareProfile_VmSize_STATUS_Standard_DS4_V2,
+	"standard_ds5_v2":     HardwareProfile_VmSize_STATUS_Standard_DS5_V2,
+	"standard_e16s_v3":    HardwareProfile_VmSize_STATUS_Standard_E16S_V3,
+	"standard_e16_v3":     HardwareProfile_VmSize_STATUS_Standard_E16_V3,
+	"standard_e2s_v3":     HardwareProfile_VmSize_STATUS_Standard_E2S_V3,
+	"standard_e2_v3":      HardwareProfile_VmSize_STATUS_Standard_E2_V3,
+	"standard_e32-16_v3":  HardwareProfile_VmSize_STATUS_Standard_E3216_V3,
+	"standard_e32-8s_v3":  HardwareProfile_VmSize_STATUS_Standard_E328S_V3,
+	"standard_e32s_v3":    HardwareProfile_VmSize_STATUS_Standard_E32S_V3,
+	"standard_e32_v3":     HardwareProfile_VmSize_STATUS_Standard_E32_V3,
+	"standard_e4s_v3":     HardwareProfile_VmSize_STATUS_Standard_E4S_V3,
+	"standard_e4_v3":      HardwareProfile_VmSize_STATUS_Standard_E4_V3,
+	"standard_e64-16s_v3": HardwareProfile_VmSize_STATUS_Standard_E6416S_V3,
+	"standard_e64-32s_v3": HardwareProfile_VmSize_STATUS_Standard_E6432S_V3,
+	"standard_e64s_v3":    HardwareProfile_VmSize_STATUS_Standard_E64S_V3,
+	"standard_e64_v3":     HardwareProfile_VmSize_STATUS_Standard_E64_V3,
+	"standard_e8s_v3":     HardwareProfile_VmSize_STATUS_Standard_E8S_V3,
+	"standard_e8_v3":      HardwareProfile_VmSize_STATUS_Standard_E8_V3,
+	"standard_f1":         HardwareProfile_VmSize_STATUS_Standard_F1,
+	"standard_f16":        HardwareProfile_VmSize_STATUS_Standard_F16,
+	"standard_f16s":       HardwareProfile_VmSize_STATUS_Standard_F16S,
+	"standard_f16s_v2":    HardwareProfile_VmSize_STATUS_Standard_F16S_V2,
+	"standard_f1s":        HardwareProfile_VmSize_STATUS_Standard_F1S,
+	"standard_f2":         HardwareProfile_VmSize_STATUS_Standard_F2,
+	"standard_f2s":        HardwareProfile_VmSize_STATUS_Standard_F2S,
+	"standard_f2s_v2":     HardwareProfile_VmSize_STATUS_Standard_F2S_V2,
+	"standard_f32s_v2":    HardwareProfile_VmSize_STATUS_Standard_F32S_V2,
+	"standard_f4":         HardwareProfile_VmSize_STATUS_Standard_F4,
+	"standard_f4s":        HardwareProfile_VmSize_STATUS_Standard_F4S,
+	"standard_f4s_v2":     HardwareProfile_VmSize_STATUS_Standard_F4S_V2,
+	"standard_f64s_v2":    HardwareProfile_VmSize_STATUS_Standard_F64S_V2,
+	"standard_f72s_v2":    HardwareProfile_VmSize_STATUS_Standard_F72S_V2,
+	"standard_f8":         HardwareProfile_VmSize_STATUS_Standard_F8,
+	"standard_f8s":        HardwareProfile_VmSize_STATUS_Standard_F8S,
+	"standard_f8s_v2":     HardwareProfile_VmSize_STATUS_Standard_F8S_V2,
+	"standard_g1":         HardwareProfile_VmSize_STATUS_Standard_G1,
+	"standard_g2":         HardwareProfile_VmSize_STATUS_Standard_G2,
+	"standard_g3":         HardwareProfile_VmSize_STATUS_Standard_G3,
+	"standard_g4":         HardwareProfile_VmSize_STATUS_Standard_G4,
+	"standard_g5":         HardwareProfile_VmSize_STATUS_Standard_G5,
+	"standard_gs1":        HardwareProfile_VmSize_STATUS_Standard_GS1,
+	"standard_gs2":        HardwareProfile_VmSize_STATUS_Standard_GS2,
+	"standard_gs3":        HardwareProfile_VmSize_STATUS_Standard_GS3,
+	"standard_gs4":        HardwareProfile_VmSize_STATUS_Standard_GS4,
+	"standard_gs4-4":      HardwareProfile_VmSize_STATUS_Standard_GS44,
+	"standard_gs4-8":      HardwareProfile_VmSize_STATUS_Standard_GS48,
+	"standard_gs5":        HardwareProfile_VmSize_STATUS_Standard_GS5,
+	"standard_gs5-16":     HardwareProfile_VmSize_STATUS_Standard_GS516,
+	"standard_gs5-8":      HardwareProfile_VmSize_STATUS_Standard_GS58,
+	"standard_h16":        HardwareProfile_VmSize_STATUS_Standard_H16,
+	"standard_h16m":       HardwareProfile_VmSize_STATUS_Standard_H16M,
+	"standard_h16mr":      HardwareProfile_VmSize_STATUS_Standard_H16Mr,
+	"standard_h16r":       HardwareProfile_VmSize_STATUS_Standard_H16R,
+	"standard_h8":         HardwareProfile_VmSize_STATUS_Standard_H8,
+	"standard_h8m":        HardwareProfile_VmSize_STATUS_Standard_H8M,
+	"standard_l16s":       HardwareProfile_VmSize_STATUS_Standard_L16S,
+	"standard_l32s":       HardwareProfile_VmSize_STATUS_Standard_L32S,
+	"standard_l4s":        HardwareProfile_VmSize_STATUS_Standard_L4S,
+	"standard_l8s":        HardwareProfile_VmSize_STATUS_Standard_L8S,
+	"standard_m128-32ms":  HardwareProfile_VmSize_STATUS_Standard_M12832Ms,
+	"standard_m128-64ms":  HardwareProfile_VmSize_STATUS_Standard_M12864Ms,
+	"standard_m128ms":     HardwareProfile_VmSize_STATUS_Standard_M128Ms,
+	"standard_m128s":      HardwareProfile_VmSize_STATUS_Standard_M128S,
+	"standard_m64-16ms":   HardwareProfile_VmSize_STATUS_Standard_M6416Ms,
+	"standard_m64-32ms":   HardwareProfile_VmSize_STATUS_Standard_M6432Ms,
+	"standard_m64ms":      HardwareProfile_VmSize_STATUS_Standard_M64Ms,
+	"standard_m64s":       HardwareProfile_VmSize_STATUS_Standard_M64S,
+	"standard_nc12":       HardwareProfile_VmSize_STATUS_Standard_NC12,
+	"standard_nc12s_v2":   HardwareProfile_VmSize_STATUS_Standard_NC12S_V2,
+	"standard_nc12s_v3":   HardwareProfile_VmSize_STATUS_Standard_NC12S_V3,
+	"standard_nc24":       HardwareProfile_VmSize_STATUS_Standard_NC24,
+	"standard_nc24r":      HardwareProfile_VmSize_STATUS_Standard_NC24R,
+	"standard_nc24rs_v2":  HardwareProfile_VmSize_STATUS_Standard_NC24Rs_V2,
+	"standard_nc24rs_v3":  HardwareProfile_VmSize_STATUS_Standard_NC24Rs_V3,
+	"standard_nc24s_v2":   HardwareProfile_VmSize_STATUS_Standard_NC24S_V2,
+	"standard_nc24s_v3":   HardwareProfile_VmSize_STATUS_Standard_NC24S_V3,
+	"standard_nc6":        HardwareProfile_VmSize_STATUS_Standard_NC6,
+	"standard_nc6s_v2":    HardwareProfile_VmSize_STATUS_Standard_NC6S_V2,
+	"standard_nc6s_v3":    HardwareProfile_VmSize_STATUS_Standard_NC6S_V3,
+	"standard_nd12s":      HardwareProfile_VmSize_STATUS_Standard_ND12S,
+	"standard_nd24rs":     HardwareProfile_VmSize_STATUS_Standard_ND24Rs,
+	"standard_nd24s":      HardwareProfile_VmSize_STATUS_Standard_ND24S,
+	"standard_nd6s":       HardwareProfile_VmSize_STATUS_Standard_ND6S,
+	"standard_nv12":       HardwareProfile_VmSize_STATUS_Standard_NV12,
+	"standard_nv24":       HardwareProfile_VmSize_STATUS_Standard_NV24,
+	"standard_nv6":        HardwareProfile_VmSize_STATUS_Standard_NV6,
+}
+
 // Specifies information about the image to use. You can specify information about platform images, marketplace images, or
 // virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual
 // machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set
@@ -8594,8 +8808,9 @@ func (status *InstanceViewStatus_STATUS) AssignProperties_From_InstanceViewStatu
 
 	// Level
 	if source.Level != nil {
-		level := InstanceViewStatus_Level_STATUS(*source.Level)
-		status.Level = &level
+		level := *source.Level
+		levelTemp := genruntime.ToEnum(level, instanceViewStatus_Level_STATUS_Values)
+		status.Level = &levelTemp
 	} else {
 		status.Level = nil
 	}
@@ -9141,8 +9356,9 @@ func (status *MaintenanceRedeployStatus_STATUS) AssignProperties_From_Maintenanc
 
 	// LastOperationResultCode
 	if source.LastOperationResultCode != nil {
-		lastOperationResultCode := MaintenanceRedeployStatus_LastOperationResultCode_STATUS(*source.LastOperationResultCode)
-		status.LastOperationResultCode = &lastOperationResultCode
+		lastOperationResultCode := *source.LastOperationResultCode
+		lastOperationResultCodeTemp := genruntime.ToEnum(lastOperationResultCode, maintenanceRedeployStatus_LastOperationResultCode_STATUS_Values)
+		status.LastOperationResultCode = &lastOperationResultCodeTemp
 	} else {
 		status.LastOperationResultCode = nil
 	}
@@ -9685,16 +9901,18 @@ func (disk *OSDisk) AssignProperties_From_OSDisk(source *v20201201s.OSDisk) erro
 
 	// Caching
 	if source.Caching != nil {
-		caching := Caching(*source.Caching)
-		disk.Caching = &caching
+		caching := *source.Caching
+		cachingTemp := genruntime.ToEnum(caching, caching_Values)
+		disk.Caching = &cachingTemp
 	} else {
 		disk.Caching = nil
 	}
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := CreateOption(*source.CreateOption)
-		disk.CreateOption = &createOption
+		createOption := *source.CreateOption
+		createOptionTemp := genruntime.ToEnum(createOption, createOption_Values)
+		disk.CreateOption = &createOptionTemp
 	} else {
 		disk.CreateOption = nil
 	}
@@ -9755,8 +9973,9 @@ func (disk *OSDisk) AssignProperties_From_OSDisk(source *v20201201s.OSDisk) erro
 
 	// OsType
 	if source.OsType != nil {
-		osType := OSDisk_OsType(*source.OsType)
-		disk.OsType = &osType
+		osType := *source.OsType
+		osTypeTemp := genruntime.ToEnum(osType, oSDisk_OsType_Values)
+		disk.OsType = &osTypeTemp
 	} else {
 		disk.OsType = nil
 	}
@@ -10070,16 +10289,18 @@ func (disk *OSDisk_STATUS) AssignProperties_From_OSDisk_STATUS(source *v20201201
 
 	// Caching
 	if source.Caching != nil {
-		caching := Caching_STATUS(*source.Caching)
-		disk.Caching = &caching
+		caching := *source.Caching
+		cachingTemp := genruntime.ToEnum(caching, caching_STATUS_Values)
+		disk.Caching = &cachingTemp
 	} else {
 		disk.Caching = nil
 	}
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := CreateOption_STATUS(*source.CreateOption)
-		disk.CreateOption = &createOption
+		createOption := *source.CreateOption
+		createOptionTemp := genruntime.ToEnum(createOption, createOption_STATUS_Values)
+		disk.CreateOption = &createOptionTemp
 	} else {
 		disk.CreateOption = nil
 	}
@@ -10140,8 +10361,9 @@ func (disk *OSDisk_STATUS) AssignProperties_From_OSDisk_STATUS(source *v20201201
 
 	// OsType
 	if source.OsType != nil {
-		osType := OSDisk_OsType_STATUS(*source.OsType)
-		disk.OsType = &osType
+		osType := *source.OsType
+		osTypeTemp := genruntime.ToEnum(osType, oSDisk_OsType_STATUS_Values)
+		disk.OsType = &osTypeTemp
 	} else {
 		disk.OsType = nil
 	}
@@ -10289,9 +10511,19 @@ type SecurityProfile_SecurityType string
 
 const SecurityProfile_SecurityType_TrustedLaunch = SecurityProfile_SecurityType("TrustedLaunch")
 
+// Mapping from string to SecurityProfile_SecurityType
+var securityProfile_SecurityType_Values = map[string]SecurityProfile_SecurityType{
+	"trustedlaunch": SecurityProfile_SecurityType_TrustedLaunch,
+}
+
 type SecurityProfile_SecurityType_STATUS string
 
 const SecurityProfile_SecurityType_STATUS_TrustedLaunch = SecurityProfile_SecurityType_STATUS("TrustedLaunch")
+
+// Mapping from string to SecurityProfile_SecurityType_STATUS
+var securityProfile_SecurityType_STATUS_Values = map[string]SecurityProfile_SecurityType_STATUS{
+	"trustedlaunch": SecurityProfile_SecurityType_STATUS_TrustedLaunch,
+}
 
 // Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
 // Minimum
@@ -11153,6 +11385,12 @@ const (
 	VirtualMachineInstanceView_HyperVGeneration_STATUS_V2 = VirtualMachineInstanceView_HyperVGeneration_STATUS("V2")
 )
 
+// Mapping from string to VirtualMachineInstanceView_HyperVGeneration_STATUS
+var virtualMachineInstanceView_HyperVGeneration_STATUS_Values = map[string]VirtualMachineInstanceView_HyperVGeneration_STATUS{
+	"v1": VirtualMachineInstanceView_HyperVGeneration_STATUS_V1,
+	"v2": VirtualMachineInstanceView_HyperVGeneration_STATUS_V2,
+}
+
 // The status of virtual machine patch operations.
 type VirtualMachinePatchStatus_STATUS struct {
 	// AvailablePatchSummary: The available patch summary of the latest assessment operation for the virtual machine.
@@ -11963,8 +12201,9 @@ func (content *AdditionalUnattendContent) AssignProperties_From_AdditionalUnatte
 
 	// ComponentName
 	if source.ComponentName != nil {
-		componentName := AdditionalUnattendContent_ComponentName(*source.ComponentName)
-		content.ComponentName = &componentName
+		componentName := *source.ComponentName
+		componentNameTemp := genruntime.ToEnum(componentName, additionalUnattendContent_ComponentName_Values)
+		content.ComponentName = &componentNameTemp
 	} else {
 		content.ComponentName = nil
 	}
@@ -11974,16 +12213,18 @@ func (content *AdditionalUnattendContent) AssignProperties_From_AdditionalUnatte
 
 	// PassName
 	if source.PassName != nil {
-		passName := AdditionalUnattendContent_PassName(*source.PassName)
-		content.PassName = &passName
+		passName := *source.PassName
+		passNameTemp := genruntime.ToEnum(passName, additionalUnattendContent_PassName_Values)
+		content.PassName = &passNameTemp
 	} else {
 		content.PassName = nil
 	}
 
 	// SettingName
 	if source.SettingName != nil {
-		settingName := AdditionalUnattendContent_SettingName(*source.SettingName)
-		content.SettingName = &settingName
+		settingName := *source.SettingName
+		settingNameTemp := genruntime.ToEnum(settingName, additionalUnattendContent_SettingName_Values)
+		content.SettingName = &settingNameTemp
 	} else {
 		content.SettingName = nil
 	}
@@ -12101,8 +12342,9 @@ func (content *AdditionalUnattendContent_STATUS) AssignProperties_From_Additiona
 
 	// ComponentName
 	if source.ComponentName != nil {
-		componentName := AdditionalUnattendContent_ComponentName_STATUS(*source.ComponentName)
-		content.ComponentName = &componentName
+		componentName := *source.ComponentName
+		componentNameTemp := genruntime.ToEnum(componentName, additionalUnattendContent_ComponentName_STATUS_Values)
+		content.ComponentName = &componentNameTemp
 	} else {
 		content.ComponentName = nil
 	}
@@ -12112,16 +12354,18 @@ func (content *AdditionalUnattendContent_STATUS) AssignProperties_From_Additiona
 
 	// PassName
 	if source.PassName != nil {
-		passName := AdditionalUnattendContent_PassName_STATUS(*source.PassName)
-		content.PassName = &passName
+		passName := *source.PassName
+		passNameTemp := genruntime.ToEnum(passName, additionalUnattendContent_PassName_STATUS_Values)
+		content.PassName = &passNameTemp
 	} else {
 		content.PassName = nil
 	}
 
 	// SettingName
 	if source.SettingName != nil {
-		settingName := AdditionalUnattendContent_SettingName_STATUS(*source.SettingName)
-		content.SettingName = &settingName
+		settingName := *source.SettingName
+		settingNameTemp := genruntime.ToEnum(settingName, additionalUnattendContent_SettingName_STATUS_Values)
+		content.SettingName = &settingNameTemp
 	} else {
 		content.SettingName = nil
 	}
@@ -12315,8 +12559,9 @@ func (summary *AvailablePatchSummary_STATUS) AssignProperties_From_AvailablePatc
 
 	// Status
 	if source.Status != nil {
-		status := AvailablePatchSummary_Status_STATUS(*source.Status)
-		summary.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, availablePatchSummary_Status_STATUS_Values)
+		summary.Status = &statusTemp
 	} else {
 		summary.Status = nil
 	}
@@ -12399,6 +12644,13 @@ const (
 	Caching_ReadWrite = Caching("ReadWrite")
 )
 
+// Mapping from string to Caching
+var caching_Values = map[string]Caching{
+	"none":      Caching_None,
+	"readonly":  Caching_ReadOnly,
+	"readwrite": Caching_ReadWrite,
+}
+
 // Specifies the caching requirements.
 // Possible values are:
 // None
@@ -12412,6 +12664,13 @@ const (
 	Caching_STATUS_ReadOnly  = Caching_STATUS("ReadOnly")
 	Caching_STATUS_ReadWrite = Caching_STATUS("ReadWrite")
 )
+
+// Mapping from string to Caching_STATUS
+var caching_STATUS_Values = map[string]Caching_STATUS{
+	"none":      Caching_STATUS_None,
+	"readonly":  Caching_STATUS_ReadOnly,
+	"readwrite": Caching_STATUS_ReadWrite,
+}
 
 // Specifies how the virtual machine should be created.
 // Possible values are:
@@ -12430,6 +12689,13 @@ const (
 	CreateOption_FromImage = CreateOption("FromImage")
 )
 
+// Mapping from string to CreateOption
+var createOption_Values = map[string]CreateOption{
+	"attach":    CreateOption_Attach,
+	"empty":     CreateOption_Empty,
+	"fromimage": CreateOption_FromImage,
+}
+
 // Specifies how the virtual machine should be created.
 // Possible values are:
 // Attach \u2013 This value
@@ -12446,6 +12712,13 @@ const (
 	CreateOption_STATUS_FromImage = CreateOption_STATUS("FromImage")
 )
 
+// Mapping from string to CreateOption_STATUS
+var createOption_STATUS_Values = map[string]CreateOption_STATUS{
+	"attach":    CreateOption_STATUS_Attach,
+	"empty":     CreateOption_STATUS_Empty,
+	"fromimage": CreateOption_STATUS_FromImage,
+}
+
 // Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from
 // the virtual machine. Supported values: ForceDetach.
 // detachOption: ForceDetach is applicable only for
@@ -12460,6 +12733,11 @@ type DetachOption string
 
 const DetachOption_ForceDetach = DetachOption("ForceDetach")
 
+// Mapping from string to DetachOption
+var detachOption_Values = map[string]DetachOption{
+	"forcedetach": DetachOption_ForceDetach,
+}
+
 // Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from
 // the virtual machine. Supported values: ForceDetach.
 // detachOption: ForceDetach is applicable only for
@@ -12472,6 +12750,11 @@ const DetachOption_ForceDetach = DetachOption("ForceDetach")
 type DetachOption_STATUS string
 
 const DetachOption_STATUS_ForceDetach = DetachOption_STATUS("ForceDetach")
+
+// Mapping from string to DetachOption_STATUS
+var detachOption_STATUS_Values = map[string]DetachOption_STATUS{
+	"forcedetach": DetachOption_STATUS_ForceDetach,
+}
 
 // Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
 // NOTE: The
@@ -12547,16 +12830,18 @@ func (settings *DiffDiskSettings) AssignProperties_From_DiffDiskSettings(source 
 
 	// Option
 	if source.Option != nil {
-		option := DiffDiskOption(*source.Option)
-		settings.Option = &option
+		option := *source.Option
+		optionTemp := genruntime.ToEnum(option, diffDiskOption_Values)
+		settings.Option = &optionTemp
 	} else {
 		settings.Option = nil
 	}
 
 	// Placement
 	if source.Placement != nil {
-		placement := DiffDiskPlacement(*source.Placement)
-		settings.Placement = &placement
+		placement := *source.Placement
+		placementTemp := genruntime.ToEnum(placement, diffDiskPlacement_Values)
+		settings.Placement = &placementTemp
 	} else {
 		settings.Placement = nil
 	}
@@ -12650,16 +12935,18 @@ func (settings *DiffDiskSettings_STATUS) AssignProperties_From_DiffDiskSettings_
 
 	// Option
 	if source.Option != nil {
-		option := DiffDiskOption_STATUS(*source.Option)
-		settings.Option = &option
+		option := *source.Option
+		optionTemp := genruntime.ToEnum(option, diffDiskOption_STATUS_Values)
+		settings.Option = &optionTemp
 	} else {
 		settings.Option = nil
 	}
 
 	// Placement
 	if source.Placement != nil {
-		placement := DiffDiskPlacement_STATUS(*source.Placement)
-		settings.Placement = &placement
+		placement := *source.Placement
+		placementTemp := genruntime.ToEnum(placement, diffDiskPlacement_STATUS_Values)
+		settings.Placement = &placementTemp
 	} else {
 		settings.Placement = nil
 	}
@@ -13033,6 +13320,13 @@ const (
 	InstanceViewStatus_Level_STATUS_Warning = InstanceViewStatus_Level_STATUS("Warning")
 )
 
+// Mapping from string to InstanceViewStatus_Level_STATUS
+var instanceViewStatus_Level_STATUS_Values = map[string]InstanceViewStatus_Level_STATUS{
+	"error":   InstanceViewStatus_Level_STATUS_Error,
+	"info":    InstanceViewStatus_Level_STATUS_Info,
+	"warning": InstanceViewStatus_Level_STATUS_Warning,
+}
+
 // Describes the properties of the last installed patch summary.
 type LastPatchInstallationSummary_STATUS struct {
 	// Error: The errors that were encountered during execution of the operation. The details array contains the list of them.
@@ -13212,8 +13506,9 @@ func (summary *LastPatchInstallationSummary_STATUS) AssignProperties_From_LastPa
 
 	// Status
 	if source.Status != nil {
-		status := LastPatchInstallationSummary_Status_STATUS(*source.Status)
-		summary.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, lastPatchInstallationSummary_Status_STATUS_Values)
+		summary.Status = &statusTemp
 	} else {
 		summary.Status = nil
 	}
@@ -13344,8 +13639,9 @@ func (settings *LinuxPatchSettings) AssignProperties_From_LinuxPatchSettings(sou
 
 	// PatchMode
 	if source.PatchMode != nil {
-		patchMode := LinuxPatchSettings_PatchMode(*source.PatchMode)
-		settings.PatchMode = &patchMode
+		patchMode := *source.PatchMode
+		patchModeTemp := genruntime.ToEnum(patchMode, linuxPatchSettings_PatchMode_Values)
+		settings.PatchMode = &patchModeTemp
 	} else {
 		settings.PatchMode = nil
 	}
@@ -13417,8 +13713,9 @@ func (settings *LinuxPatchSettings_STATUS) AssignProperties_From_LinuxPatchSetti
 
 	// PatchMode
 	if source.PatchMode != nil {
-		patchMode := LinuxPatchSettings_PatchMode_STATUS(*source.PatchMode)
-		settings.PatchMode = &patchMode
+		patchMode := *source.PatchMode
+		patchModeTemp := genruntime.ToEnum(patchMode, linuxPatchSettings_PatchMode_STATUS_Values)
+		settings.PatchMode = &patchModeTemp
 	} else {
 		settings.PatchMode = nil
 	}
@@ -13459,6 +13756,14 @@ const (
 	MaintenanceRedeployStatus_LastOperationResultCode_STATUS_None                 = MaintenanceRedeployStatus_LastOperationResultCode_STATUS("None")
 	MaintenanceRedeployStatus_LastOperationResultCode_STATUS_RetryLater           = MaintenanceRedeployStatus_LastOperationResultCode_STATUS("RetryLater")
 )
+
+// Mapping from string to MaintenanceRedeployStatus_LastOperationResultCode_STATUS
+var maintenanceRedeployStatus_LastOperationResultCode_STATUS_Values = map[string]MaintenanceRedeployStatus_LastOperationResultCode_STATUS{
+	"maintenanceaborted":   MaintenanceRedeployStatus_LastOperationResultCode_STATUS_MaintenanceAborted,
+	"maintenancecompleted": MaintenanceRedeployStatus_LastOperationResultCode_STATUS_MaintenanceCompleted,
+	"none":                 MaintenanceRedeployStatus_LastOperationResultCode_STATUS_None,
+	"retrylater":           MaintenanceRedeployStatus_LastOperationResultCode_STATUS_RetryLater,
+}
 
 // The parameters of a managed disk.
 type ManagedDiskParameters struct {
@@ -13571,8 +13876,9 @@ func (parameters *ManagedDiskParameters) AssignProperties_From_ManagedDiskParame
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType(*source.StorageAccountType)
-		parameters.StorageAccountType = &storageAccountType
+		storageAccountType := *source.StorageAccountType
+		storageAccountTypeTemp := genruntime.ToEnum(storageAccountType, storageAccountType_Values)
+		parameters.StorageAccountType = &storageAccountTypeTemp
 	} else {
 		parameters.StorageAccountType = nil
 	}
@@ -13700,8 +14006,9 @@ func (parameters *ManagedDiskParameters_STATUS) AssignProperties_From_ManagedDis
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType_STATUS(*source.StorageAccountType)
-		parameters.StorageAccountType = &storageAccountType
+		storageAccountType := *source.StorageAccountType
+		storageAccountTypeTemp := genruntime.ToEnum(storageAccountType, storageAccountType_STATUS_Values)
+		parameters.StorageAccountType = &storageAccountTypeTemp
 	} else {
 		parameters.StorageAccountType = nil
 	}
@@ -13757,12 +14064,24 @@ const (
 	OSDisk_OsType_Windows = OSDisk_OsType("Windows")
 )
 
+// Mapping from string to OSDisk_OsType
+var oSDisk_OsType_Values = map[string]OSDisk_OsType{
+	"linux":   OSDisk_OsType_Linux,
+	"windows": OSDisk_OsType_Windows,
+}
+
 type OSDisk_OsType_STATUS string
 
 const (
 	OSDisk_OsType_STATUS_Linux   = OSDisk_OsType_STATUS("Linux")
 	OSDisk_OsType_STATUS_Windows = OSDisk_OsType_STATUS("Windows")
 )
+
+// Mapping from string to OSDisk_OsType_STATUS
+var oSDisk_OsType_STATUS_Values = map[string]OSDisk_OsType_STATUS{
+	"linux":   OSDisk_OsType_STATUS_Linux,
+	"windows": OSDisk_OsType_STATUS_Windows,
+}
 
 // Specifies settings related to VM Guest Patching on Windows.
 type PatchSettings struct {
@@ -13846,8 +14165,9 @@ func (settings *PatchSettings) AssignProperties_From_PatchSettings(source *v2020
 
 	// PatchMode
 	if source.PatchMode != nil {
-		patchMode := PatchSettings_PatchMode(*source.PatchMode)
-		settings.PatchMode = &patchMode
+		patchMode := *source.PatchMode
+		patchModeTemp := genruntime.ToEnum(patchMode, patchSettings_PatchMode_Values)
+		settings.PatchMode = &patchModeTemp
 	} else {
 		settings.PatchMode = nil
 	}
@@ -13949,8 +14269,9 @@ func (settings *PatchSettings_STATUS) AssignProperties_From_PatchSettings_STATUS
 
 	// PatchMode
 	if source.PatchMode != nil {
-		patchMode := PatchSettings_PatchMode_STATUS(*source.PatchMode)
-		settings.PatchMode = &patchMode
+		patchMode := *source.PatchMode
+		patchModeTemp := genruntime.ToEnum(patchMode, patchSettings_PatchMode_STATUS_Values)
+		settings.PatchMode = &patchModeTemp
 	} else {
 		settings.PatchMode = nil
 	}
@@ -14842,18 +15163,38 @@ type AdditionalUnattendContent_ComponentName string
 
 const AdditionalUnattendContent_ComponentName_MicrosoftWindowsShellSetup = AdditionalUnattendContent_ComponentName("Microsoft-Windows-Shell-Setup")
 
+// Mapping from string to AdditionalUnattendContent_ComponentName
+var additionalUnattendContent_ComponentName_Values = map[string]AdditionalUnattendContent_ComponentName{
+	"microsoft-windows-shell-setup": AdditionalUnattendContent_ComponentName_MicrosoftWindowsShellSetup,
+}
+
 type AdditionalUnattendContent_ComponentName_STATUS string
 
 const AdditionalUnattendContent_ComponentName_STATUS_MicrosoftWindowsShellSetup = AdditionalUnattendContent_ComponentName_STATUS("Microsoft-Windows-Shell-Setup")
+
+// Mapping from string to AdditionalUnattendContent_ComponentName_STATUS
+var additionalUnattendContent_ComponentName_STATUS_Values = map[string]AdditionalUnattendContent_ComponentName_STATUS{
+	"microsoft-windows-shell-setup": AdditionalUnattendContent_ComponentName_STATUS_MicrosoftWindowsShellSetup,
+}
 
 // +kubebuilder:validation:Enum={"OobeSystem"}
 type AdditionalUnattendContent_PassName string
 
 const AdditionalUnattendContent_PassName_OobeSystem = AdditionalUnattendContent_PassName("OobeSystem")
 
+// Mapping from string to AdditionalUnattendContent_PassName
+var additionalUnattendContent_PassName_Values = map[string]AdditionalUnattendContent_PassName{
+	"oobesystem": AdditionalUnattendContent_PassName_OobeSystem,
+}
+
 type AdditionalUnattendContent_PassName_STATUS string
 
 const AdditionalUnattendContent_PassName_STATUS_OobeSystem = AdditionalUnattendContent_PassName_STATUS("OobeSystem")
+
+// Mapping from string to AdditionalUnattendContent_PassName_STATUS
+var additionalUnattendContent_PassName_STATUS_Values = map[string]AdditionalUnattendContent_PassName_STATUS{
+	"oobesystem": AdditionalUnattendContent_PassName_STATUS_OobeSystem,
+}
 
 // +kubebuilder:validation:Enum={"AutoLogon","FirstLogonCommands"}
 type AdditionalUnattendContent_SettingName string
@@ -14863,12 +15204,24 @@ const (
 	AdditionalUnattendContent_SettingName_FirstLogonCommands = AdditionalUnattendContent_SettingName("FirstLogonCommands")
 )
 
+// Mapping from string to AdditionalUnattendContent_SettingName
+var additionalUnattendContent_SettingName_Values = map[string]AdditionalUnattendContent_SettingName{
+	"autologon":          AdditionalUnattendContent_SettingName_AutoLogon,
+	"firstlogoncommands": AdditionalUnattendContent_SettingName_FirstLogonCommands,
+}
+
 type AdditionalUnattendContent_SettingName_STATUS string
 
 const (
 	AdditionalUnattendContent_SettingName_STATUS_AutoLogon          = AdditionalUnattendContent_SettingName_STATUS("AutoLogon")
 	AdditionalUnattendContent_SettingName_STATUS_FirstLogonCommands = AdditionalUnattendContent_SettingName_STATUS("FirstLogonCommands")
 )
+
+// Mapping from string to AdditionalUnattendContent_SettingName_STATUS
+var additionalUnattendContent_SettingName_STATUS_Values = map[string]AdditionalUnattendContent_SettingName_STATUS{
+	"autologon":          AdditionalUnattendContent_SettingName_STATUS_AutoLogon,
+	"firstlogoncommands": AdditionalUnattendContent_SettingName_STATUS_FirstLogonCommands,
+}
 
 // Api error.
 type ApiError_STATUS struct {
@@ -15056,16 +15409,35 @@ const (
 	AvailablePatchSummary_Status_STATUS_Unknown               = AvailablePatchSummary_Status_STATUS("Unknown")
 )
 
+// Mapping from string to AvailablePatchSummary_Status_STATUS
+var availablePatchSummary_Status_STATUS_Values = map[string]AvailablePatchSummary_Status_STATUS{
+	"completedwithwarnings": AvailablePatchSummary_Status_STATUS_CompletedWithWarnings,
+	"failed":                AvailablePatchSummary_Status_STATUS_Failed,
+	"inprogress":            AvailablePatchSummary_Status_STATUS_InProgress,
+	"succeeded":             AvailablePatchSummary_Status_STATUS_Succeeded,
+	"unknown":               AvailablePatchSummary_Status_STATUS_Unknown,
+}
+
 // Specifies the ephemeral disk option for operating system disk.
 // +kubebuilder:validation:Enum={"Local"}
 type DiffDiskOption string
 
 const DiffDiskOption_Local = DiffDiskOption("Local")
 
+// Mapping from string to DiffDiskOption
+var diffDiskOption_Values = map[string]DiffDiskOption{
+	"local": DiffDiskOption_Local,
+}
+
 // Specifies the ephemeral disk option for operating system disk.
 type DiffDiskOption_STATUS string
 
 const DiffDiskOption_STATUS_Local = DiffDiskOption_STATUS("Local")
+
+// Mapping from string to DiffDiskOption_STATUS
+var diffDiskOption_STATUS_Values = map[string]DiffDiskOption_STATUS{
+	"local": DiffDiskOption_STATUS_Local,
+}
 
 // Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to
 // choose the location i.e, cache disk or resource disk space for Ephemeral OS disk provisioning. For more information on
@@ -15080,6 +15452,12 @@ const (
 	DiffDiskPlacement_ResourceDisk = DiffDiskPlacement("ResourceDisk")
 )
 
+// Mapping from string to DiffDiskPlacement
+var diffDiskPlacement_Values = map[string]DiffDiskPlacement{
+	"cachedisk":    DiffDiskPlacement_CacheDisk,
+	"resourcedisk": DiffDiskPlacement_ResourceDisk,
+}
+
 // Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to
 // choose the location i.e, cache disk or resource disk space for Ephemeral OS disk provisioning. For more information on
 // Ephemeral OS disk size requirements, please refer Ephemeral OS disk size requirements for Windows VM at
@@ -15091,6 +15469,12 @@ const (
 	DiffDiskPlacement_STATUS_CacheDisk    = DiffDiskPlacement_STATUS("CacheDisk")
 	DiffDiskPlacement_STATUS_ResourceDisk = DiffDiskPlacement_STATUS("ResourceDisk")
 )
+
+// Mapping from string to DiffDiskPlacement_STATUS
+var diffDiskPlacement_STATUS_Values = map[string]DiffDiskPlacement_STATUS{
+	"cachedisk":    DiffDiskPlacement_STATUS_CacheDisk,
+	"resourcedisk": DiffDiskPlacement_STATUS_ResourceDisk,
+}
 
 // Describes a reference to Key Vault Key
 type KeyVaultKeyReference struct {
@@ -15544,6 +15928,15 @@ const (
 	LastPatchInstallationSummary_Status_STATUS_Unknown               = LastPatchInstallationSummary_Status_STATUS("Unknown")
 )
 
+// Mapping from string to LastPatchInstallationSummary_Status_STATUS
+var lastPatchInstallationSummary_Status_STATUS_Values = map[string]LastPatchInstallationSummary_Status_STATUS{
+	"completedwithwarnings": LastPatchInstallationSummary_Status_STATUS_CompletedWithWarnings,
+	"failed":                LastPatchInstallationSummary_Status_STATUS_Failed,
+	"inprogress":            LastPatchInstallationSummary_Status_STATUS_InProgress,
+	"succeeded":             LastPatchInstallationSummary_Status_STATUS_Succeeded,
+	"unknown":               LastPatchInstallationSummary_Status_STATUS_Unknown,
+}
+
 // +kubebuilder:validation:Enum={"AutomaticByPlatform","ImageDefault"}
 type LinuxPatchSettings_PatchMode string
 
@@ -15552,12 +15945,24 @@ const (
 	LinuxPatchSettings_PatchMode_ImageDefault        = LinuxPatchSettings_PatchMode("ImageDefault")
 )
 
+// Mapping from string to LinuxPatchSettings_PatchMode
+var linuxPatchSettings_PatchMode_Values = map[string]LinuxPatchSettings_PatchMode{
+	"automaticbyplatform": LinuxPatchSettings_PatchMode_AutomaticByPlatform,
+	"imagedefault":        LinuxPatchSettings_PatchMode_ImageDefault,
+}
+
 type LinuxPatchSettings_PatchMode_STATUS string
 
 const (
 	LinuxPatchSettings_PatchMode_STATUS_AutomaticByPlatform = LinuxPatchSettings_PatchMode_STATUS("AutomaticByPlatform")
 	LinuxPatchSettings_PatchMode_STATUS_ImageDefault        = LinuxPatchSettings_PatchMode_STATUS("ImageDefault")
 )
+
+// Mapping from string to LinuxPatchSettings_PatchMode_STATUS
+var linuxPatchSettings_PatchMode_STATUS_Values = map[string]LinuxPatchSettings_PatchMode_STATUS{
+	"automaticbyplatform": LinuxPatchSettings_PatchMode_STATUS_AutomaticByPlatform,
+	"imagedefault":        LinuxPatchSettings_PatchMode_STATUS_ImageDefault,
+}
 
 // +kubebuilder:validation:Enum={"AutomaticByOS","AutomaticByPlatform","Manual"}
 type PatchSettings_PatchMode string
@@ -15568,6 +15973,13 @@ const (
 	PatchSettings_PatchMode_Manual              = PatchSettings_PatchMode("Manual")
 )
 
+// Mapping from string to PatchSettings_PatchMode
+var patchSettings_PatchMode_Values = map[string]PatchSettings_PatchMode{
+	"automaticbyos":       PatchSettings_PatchMode_AutomaticByOS,
+	"automaticbyplatform": PatchSettings_PatchMode_AutomaticByPlatform,
+	"manual":              PatchSettings_PatchMode_Manual,
+}
+
 type PatchSettings_PatchMode_STATUS string
 
 const (
@@ -15575,6 +15987,13 @@ const (
 	PatchSettings_PatchMode_STATUS_AutomaticByPlatform = PatchSettings_PatchMode_STATUS("AutomaticByPlatform")
 	PatchSettings_PatchMode_STATUS_Manual              = PatchSettings_PatchMode_STATUS("Manual")
 )
+
+// Mapping from string to PatchSettings_PatchMode_STATUS
+var patchSettings_PatchMode_STATUS_Values = map[string]PatchSettings_PatchMode_STATUS{
+	"automaticbyos":       PatchSettings_PatchMode_STATUS_AutomaticByOS,
+	"automaticbyplatform": PatchSettings_PatchMode_STATUS_AutomaticByPlatform,
+	"manual":              PatchSettings_PatchMode_STATUS_Manual,
+}
 
 // Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed.
 type SshPublicKey_STATUS struct {
@@ -15771,6 +16190,16 @@ const (
 	StorageAccountType_UltraSSD_LRS    = StorageAccountType("UltraSSD_LRS")
 )
 
+// Mapping from string to StorageAccountType
+var storageAccountType_Values = map[string]StorageAccountType{
+	"premium_lrs":     StorageAccountType_Premium_LRS,
+	"premium_zrs":     StorageAccountType_Premium_ZRS,
+	"standardssd_lrs": StorageAccountType_StandardSSD_LRS,
+	"standardssd_zrs": StorageAccountType_StandardSSD_ZRS,
+	"standard_lrs":    StorageAccountType_Standard_LRS,
+	"ultrassd_lrs":    StorageAccountType_UltraSSD_LRS,
+}
+
 // Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks. It cannot
 // be used with OS Disk. Standard_LRS uses Standard HDD. StandardSSD_LRS uses Standard SSD. Premium_LRS uses Premium SSD.
 // UltraSSD_LRS uses Ultra disk. Premium_ZRS uses Premium SSD zone redundant storage. StandardSSD_ZRS uses Standard SSD
@@ -15787,6 +16216,16 @@ const (
 	StorageAccountType_STATUS_Standard_LRS    = StorageAccountType_STATUS("Standard_LRS")
 	StorageAccountType_STATUS_UltraSSD_LRS    = StorageAccountType_STATUS("UltraSSD_LRS")
 )
+
+// Mapping from string to StorageAccountType_STATUS
+var storageAccountType_STATUS_Values = map[string]StorageAccountType_STATUS{
+	"premium_lrs":     StorageAccountType_STATUS_Premium_LRS,
+	"premium_zrs":     StorageAccountType_STATUS_Premium_ZRS,
+	"standardssd_lrs": StorageAccountType_STATUS_StandardSSD_LRS,
+	"standardssd_zrs": StorageAccountType_STATUS_StandardSSD_ZRS,
+	"standard_lrs":    StorageAccountType_STATUS_Standard_LRS,
+	"ultrassd_lrs":    StorageAccountType_STATUS_UltraSSD_LRS,
+}
 
 // Describes Protocol and thumbprint of Windows Remote Management listener
 type WinRMListener struct {
@@ -15867,8 +16306,9 @@ func (listener *WinRMListener) AssignProperties_From_WinRMListener(source *v2020
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := WinRMListener_Protocol(*source.Protocol)
-		listener.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, winRMListener_Protocol_Values)
+		listener.Protocol = &protocolTemp
 	} else {
 		listener.Protocol = nil
 	}
@@ -15962,8 +16402,9 @@ func (listener *WinRMListener_STATUS) AssignProperties_From_WinRMListener_STATUS
 
 	// Protocol
 	if source.Protocol != nil {
-		protocol := WinRMListener_Protocol_STATUS(*source.Protocol)
-		listener.Protocol = &protocol
+		protocol := *source.Protocol
+		protocolTemp := genruntime.ToEnum(protocol, winRMListener_Protocol_STATUS_Values)
+		listener.Protocol = &protocolTemp
 	} else {
 		listener.Protocol = nil
 	}
@@ -16170,12 +16611,24 @@ const (
 	WinRMListener_Protocol_Https = WinRMListener_Protocol("Https")
 )
 
+// Mapping from string to WinRMListener_Protocol
+var winRMListener_Protocol_Values = map[string]WinRMListener_Protocol{
+	"http":  WinRMListener_Protocol_Http,
+	"https": WinRMListener_Protocol_Https,
+}
+
 type WinRMListener_Protocol_STATUS string
 
 const (
 	WinRMListener_Protocol_STATUS_Http  = WinRMListener_Protocol_STATUS("Http")
 	WinRMListener_Protocol_STATUS_Https = WinRMListener_Protocol_STATUS("Https")
 )
+
+// Mapping from string to WinRMListener_Protocol_STATUS
+var winRMListener_Protocol_STATUS_Values = map[string]WinRMListener_Protocol_STATUS{
+	"http":  WinRMListener_Protocol_STATUS_Http,
+	"https": WinRMListener_Protocol_STATUS_Https,
+}
 
 func init() {
 	SchemeBuilder.Register(&VirtualMachine{}, &VirtualMachineList{})

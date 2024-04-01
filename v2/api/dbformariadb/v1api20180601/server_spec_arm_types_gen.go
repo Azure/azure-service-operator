@@ -230,6 +230,13 @@ const (
 	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
 )
 
+// Mapping from string to Sku_Tier
+var sku_Tier_Values = map[string]Sku_Tier{
+	"basic":           Sku_Tier_Basic,
+	"generalpurpose":  Sku_Tier_GeneralPurpose,
+	"memoryoptimized": Sku_Tier_MemoryOptimized,
+}
+
 // Enforce a minimal Tls version for the server.
 // +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2","TLSEnforcementDisabled"}
 type MinimalTlsVersion string
@@ -241,6 +248,14 @@ const (
 	MinimalTlsVersion_TLSEnforcementDisabled = MinimalTlsVersion("TLSEnforcementDisabled")
 )
 
+// Mapping from string to MinimalTlsVersion
+var minimalTlsVersion_Values = map[string]MinimalTlsVersion{
+	"tls1_0":                 MinimalTlsVersion_TLS1_0,
+	"tls1_1":                 MinimalTlsVersion_TLS1_1,
+	"tls1_2":                 MinimalTlsVersion_TLS1_2,
+	"tlsenforcementdisabled": MinimalTlsVersion_TLSEnforcementDisabled,
+}
+
 // Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled'
 // or 'Disabled'
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
@@ -251,25 +266,51 @@ const (
 	PublicNetworkAccess_Enabled  = PublicNetworkAccess("Enabled")
 )
 
+// Mapping from string to PublicNetworkAccess
+var publicNetworkAccess_Values = map[string]PublicNetworkAccess{
+	"disabled": PublicNetworkAccess_Disabled,
+	"enabled":  PublicNetworkAccess_Enabled,
+}
+
 // +kubebuilder:validation:Enum={"Default"}
 type ServerPropertiesForDefaultCreate_CreateMode string
 
 const ServerPropertiesForDefaultCreate_CreateMode_Default = ServerPropertiesForDefaultCreate_CreateMode("Default")
+
+// Mapping from string to ServerPropertiesForDefaultCreate_CreateMode
+var serverPropertiesForDefaultCreate_CreateMode_Values = map[string]ServerPropertiesForDefaultCreate_CreateMode{
+	"default": ServerPropertiesForDefaultCreate_CreateMode_Default,
+}
 
 // +kubebuilder:validation:Enum={"GeoRestore"}
 type ServerPropertiesForGeoRestore_CreateMode string
 
 const ServerPropertiesForGeoRestore_CreateMode_GeoRestore = ServerPropertiesForGeoRestore_CreateMode("GeoRestore")
 
+// Mapping from string to ServerPropertiesForGeoRestore_CreateMode
+var serverPropertiesForGeoRestore_CreateMode_Values = map[string]ServerPropertiesForGeoRestore_CreateMode{
+	"georestore": ServerPropertiesForGeoRestore_CreateMode_GeoRestore,
+}
+
 // +kubebuilder:validation:Enum={"Replica"}
 type ServerPropertiesForReplica_CreateMode string
 
 const ServerPropertiesForReplica_CreateMode_Replica = ServerPropertiesForReplica_CreateMode("Replica")
 
+// Mapping from string to ServerPropertiesForReplica_CreateMode
+var serverPropertiesForReplica_CreateMode_Values = map[string]ServerPropertiesForReplica_CreateMode{
+	"replica": ServerPropertiesForReplica_CreateMode_Replica,
+}
+
 // +kubebuilder:validation:Enum={"PointInTimeRestore"}
 type ServerPropertiesForRestore_CreateMode string
 
 const ServerPropertiesForRestore_CreateMode_PointInTimeRestore = ServerPropertiesForRestore_CreateMode("PointInTimeRestore")
+
+// Mapping from string to ServerPropertiesForRestore_CreateMode
+var serverPropertiesForRestore_CreateMode_Values = map[string]ServerPropertiesForRestore_CreateMode{
+	"pointintimerestore": ServerPropertiesForRestore_CreateMode_PointInTimeRestore,
+}
 
 // The version of a server.
 // +kubebuilder:validation:Enum={"10.2","10.3"}
@@ -280,6 +321,12 @@ const (
 	ServerVersion_103 = ServerVersion("10.3")
 )
 
+// Mapping from string to ServerVersion
+var serverVersion_Values = map[string]ServerVersion{
+	"10.2": ServerVersion_102,
+	"10.3": ServerVersion_103,
+}
+
 // Enable ssl enforcement or not when connect to server.
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type SslEnforcement string
@@ -288,6 +335,12 @@ const (
 	SslEnforcement_Disabled = SslEnforcement("Disabled")
 	SslEnforcement_Enabled  = SslEnforcement("Enabled")
 )
+
+// Mapping from string to SslEnforcement
+var sslEnforcement_Values = map[string]SslEnforcement{
+	"disabled": SslEnforcement_Disabled,
+	"enabled":  SslEnforcement_Enabled,
+}
 
 // Storage Profile properties of a server
 type StorageProfile_ARM struct {
@@ -312,6 +365,12 @@ const (
 	StorageProfile_GeoRedundantBackup_Enabled  = StorageProfile_GeoRedundantBackup("Enabled")
 )
 
+// Mapping from string to StorageProfile_GeoRedundantBackup
+var storageProfile_GeoRedundantBackup_Values = map[string]StorageProfile_GeoRedundantBackup{
+	"disabled": StorageProfile_GeoRedundantBackup_Disabled,
+	"enabled":  StorageProfile_GeoRedundantBackup_Enabled,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type StorageProfile_StorageAutogrow string
 
@@ -319,3 +378,9 @@ const (
 	StorageProfile_StorageAutogrow_Disabled = StorageProfile_StorageAutogrow("Disabled")
 	StorageProfile_StorageAutogrow_Enabled  = StorageProfile_StorageAutogrow("Enabled")
 )
+
+// Mapping from string to StorageProfile_StorageAutogrow
+var storageProfile_StorageAutogrow_Values = map[string]StorageProfile_StorageAutogrow{
+	"disabled": StorageProfile_StorageAutogrow_Disabled,
+	"enabled":  StorageProfile_StorageAutogrow_Enabled,
+}

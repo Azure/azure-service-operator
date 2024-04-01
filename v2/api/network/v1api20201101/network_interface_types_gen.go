@@ -721,8 +721,9 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_From_NetworkInte
 
 	// NicType
 	if source.NicType != nil {
-		nicType := NetworkInterfacePropertiesFormat_NicType(*source.NicType)
-		networkInterface.NicType = &nicType
+		nicType := *source.NicType
+		nicTypeTemp := genruntime.ToEnum(nicType, networkInterfacePropertiesFormat_NicType_Values)
+		networkInterface.NicType = &nicTypeTemp
 	} else {
 		networkInterface.NicType = nil
 	}
@@ -1473,8 +1474,9 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 
 	// MigrationPhase
 	if source.MigrationPhase != nil {
-		migrationPhase := NetworkInterfacePropertiesFormat_MigrationPhase_STATUS(*source.MigrationPhase)
-		embedded.MigrationPhase = &migrationPhase
+		migrationPhase := *source.MigrationPhase
+		migrationPhaseTemp := genruntime.ToEnum(migrationPhase, networkInterfacePropertiesFormat_MigrationPhase_STATUS_Values)
+		embedded.MigrationPhase = &migrationPhaseTemp
 	} else {
 		embedded.MigrationPhase = nil
 	}
@@ -1496,8 +1498,9 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 
 	// NicType
 	if source.NicType != nil {
-		nicType := NetworkInterfacePropertiesFormat_NicType_STATUS(*source.NicType)
-		embedded.NicType = &nicType
+		nicType := *source.NicType
+		nicTypeTemp := genruntime.ToEnum(nicType, networkInterfacePropertiesFormat_NicType_STATUS_Values)
+		embedded.NicType = &nicTypeTemp
 	} else {
 		embedded.NicType = nil
 	}
@@ -1536,8 +1539,9 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		embedded.ProvisioningState = &provisioningStateTemp
 	} else {
 		embedded.ProvisioningState = nil
 	}
@@ -2409,16 +2413,18 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 
 	// PrivateIPAddressVersion
 	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := IPVersion(*source.PrivateIPAddressVersion)
-		embedded.PrivateIPAddressVersion = &privateIPAddressVersion
+		privateIPAddressVersion := *source.PrivateIPAddressVersion
+		privateIPAddressVersionTemp := genruntime.ToEnum(privateIPAddressVersion, iPVersion_Values)
+		embedded.PrivateIPAddressVersion = &privateIPAddressVersionTemp
 	} else {
 		embedded.PrivateIPAddressVersion = nil
 	}
 
 	// PrivateIPAllocationMethod
 	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod(*source.PrivateIPAllocationMethod)
-		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
+		privateIPAllocationMethod := *source.PrivateIPAllocationMethod
+		privateIPAllocationMethodTemp := genruntime.ToEnum(privateIPAllocationMethod, iPAllocationMethod_Values)
+		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethodTemp
 	} else {
 		embedded.PrivateIPAllocationMethod = nil
 	}
@@ -3125,16 +3131,18 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 
 	// PrivateIPAddressVersion
 	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := IPVersion_STATUS(*source.PrivateIPAddressVersion)
-		embedded.PrivateIPAddressVersion = &privateIPAddressVersion
+		privateIPAddressVersion := *source.PrivateIPAddressVersion
+		privateIPAddressVersionTemp := genruntime.ToEnum(privateIPAddressVersion, iPVersion_STATUS_Values)
+		embedded.PrivateIPAddressVersion = &privateIPAddressVersionTemp
 	} else {
 		embedded.PrivateIPAddressVersion = nil
 	}
 
 	// PrivateIPAllocationMethod
 	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod_STATUS(*source.PrivateIPAllocationMethod)
-		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
+		privateIPAllocationMethod := *source.PrivateIPAllocationMethod
+		privateIPAllocationMethodTemp := genruntime.ToEnum(privateIPAllocationMethod, iPAllocationMethod_STATUS_Values)
+		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethodTemp
 	} else {
 		embedded.PrivateIPAllocationMethod = nil
 	}
@@ -3153,8 +3161,9 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		embedded.ProvisioningState = &provisioningStateTemp
 	} else {
 		embedded.ProvisioningState = nil
 	}
@@ -3407,6 +3416,15 @@ const (
 	NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_Prepare   = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS("Prepare")
 )
 
+// Mapping from string to NetworkInterfacePropertiesFormat_MigrationPhase_STATUS
+var networkInterfacePropertiesFormat_MigrationPhase_STATUS_Values = map[string]NetworkInterfacePropertiesFormat_MigrationPhase_STATUS{
+	"abort":     NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_Abort,
+	"commit":    NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_Commit,
+	"committed": NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_Committed,
+	"none":      NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_None,
+	"prepare":   NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_Prepare,
+}
+
 // +kubebuilder:validation:Enum={"Elastic","Standard"}
 type NetworkInterfacePropertiesFormat_NicType string
 
@@ -3415,12 +3433,24 @@ const (
 	NetworkInterfacePropertiesFormat_NicType_Standard = NetworkInterfacePropertiesFormat_NicType("Standard")
 )
 
+// Mapping from string to NetworkInterfacePropertiesFormat_NicType
+var networkInterfacePropertiesFormat_NicType_Values = map[string]NetworkInterfacePropertiesFormat_NicType{
+	"elastic":  NetworkInterfacePropertiesFormat_NicType_Elastic,
+	"standard": NetworkInterfacePropertiesFormat_NicType_Standard,
+}
+
 type NetworkInterfacePropertiesFormat_NicType_STATUS string
 
 const (
 	NetworkInterfacePropertiesFormat_NicType_STATUS_Elastic  = NetworkInterfacePropertiesFormat_NicType_STATUS("Elastic")
 	NetworkInterfacePropertiesFormat_NicType_STATUS_Standard = NetworkInterfacePropertiesFormat_NicType_STATUS("Standard")
 )
+
+// Mapping from string to NetworkInterfacePropertiesFormat_NicType_STATUS
+var networkInterfacePropertiesFormat_NicType_STATUS_Values = map[string]NetworkInterfacePropertiesFormat_NicType_STATUS{
+	"elastic":  NetworkInterfacePropertiesFormat_NicType_STATUS_Elastic,
+	"standard": NetworkInterfacePropertiesFormat_NicType_STATUS_Standard,
+}
 
 // Tap configuration in a Network Interface.
 type NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded struct {

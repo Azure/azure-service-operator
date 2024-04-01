@@ -280,6 +280,14 @@ const (
 	ApiManagementServiceIdentity_Type_STATUS_UserAssigned               = ApiManagementServiceIdentity_Type_STATUS("UserAssigned")
 )
 
+// Mapping from string to ApiManagementServiceIdentity_Type_STATUS
+var apiManagementServiceIdentity_Type_STATUS_Values = map[string]ApiManagementServiceIdentity_Type_STATUS{
+	"none":                         ApiManagementServiceIdentity_Type_STATUS_None,
+	"systemassigned":               ApiManagementServiceIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned, userassigned": ApiManagementServiceIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 ApiManagementServiceIdentity_Type_STATUS_UserAssigned,
+}
+
 type ApiManagementServiceSkuProperties_Name_STATUS string
 
 const (
@@ -292,6 +300,18 @@ const (
 	ApiManagementServiceSkuProperties_Name_STATUS_Standard    = ApiManagementServiceSkuProperties_Name_STATUS("Standard")
 	ApiManagementServiceSkuProperties_Name_STATUS_StandardV2  = ApiManagementServiceSkuProperties_Name_STATUS("StandardV2")
 )
+
+// Mapping from string to ApiManagementServiceSkuProperties_Name_STATUS
+var apiManagementServiceSkuProperties_Name_STATUS_Values = map[string]ApiManagementServiceSkuProperties_Name_STATUS{
+	"basic":       ApiManagementServiceSkuProperties_Name_STATUS_Basic,
+	"basicv2":     ApiManagementServiceSkuProperties_Name_STATUS_BasicV2,
+	"consumption": ApiManagementServiceSkuProperties_Name_STATUS_Consumption,
+	"developer":   ApiManagementServiceSkuProperties_Name_STATUS_Developer,
+	"isolated":    ApiManagementServiceSkuProperties_Name_STATUS_Isolated,
+	"premium":     ApiManagementServiceSkuProperties_Name_STATUS_Premium,
+	"standard":    ApiManagementServiceSkuProperties_Name_STATUS_Standard,
+	"standardv2":  ApiManagementServiceSkuProperties_Name_STATUS_StandardV2,
+}
 
 // Control Plane Apis version constraint for the API Management service.
 type ApiVersionConstraint_STATUS_ARM struct {
@@ -383,6 +403,14 @@ const (
 	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
+// Mapping from string to SystemData_CreatedByType_STATUS
+var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType_STATUS{
+	"application":     SystemData_CreatedByType_STATUS_Application,
+	"key":             SystemData_CreatedByType_STATUS_Key,
+	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_CreatedByType_STATUS_User,
+}
+
 type SystemData_LastModifiedByType_STATUS string
 
 const (
@@ -391,6 +419,14 @@ const (
 	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
+
+// Mapping from string to SystemData_LastModifiedByType_STATUS
+var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModifiedByType_STATUS{
+	"application":     SystemData_LastModifiedByType_STATUS_Application,
+	"key":             SystemData_LastModifiedByType_STATUS_Key,
+	"managedidentity": SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+	"user":            SystemData_LastModifiedByType_STATUS_User,
+}
 
 type UserIdentityProperties_STATUS_ARM struct {
 	// ClientId: The client id of user assigned identity.

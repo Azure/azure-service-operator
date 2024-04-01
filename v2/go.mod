@@ -1,6 +1,8 @@
 module github.com/Azure/azure-service-operator/v2
 
-go 1.20
+go 1.21
+
+toolchain go1.21.8
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.10.0
@@ -27,12 +29,12 @@ require (
 	github.com/google/go-cmp v0.6.0
 	github.com/google/uuid v1.6.0
 	github.com/hbollon/go-edlib v1.6.0
-	github.com/jackc/pgx/v5 v5.5.3
+	github.com/jackc/pgx/v5 v5.5.5
 	github.com/kr/pretty v0.3.1
 	github.com/kylelemons/godebug v1.1.0
 	github.com/leanovate/gopter v0.2.9
 	github.com/microsoft/go-mssqldb v1.7.0
-	github.com/onsi/gomega v1.31.1
+	github.com/onsi/gomega v1.32.0
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.19.0
 	github.com/spf13/cobra v1.8.0
@@ -42,10 +44,10 @@ require (
 	golang.org/x/time v0.5.0
 	gopkg.in/dnaeon/go-vcr.v3 v3.2.0
 	gopkg.in/yaml.v2 v2.4.0
-	k8s.io/api v0.29.2
+	k8s.io/api v0.29.3
 	k8s.io/apiextensions-apiserver v0.29.2
-	k8s.io/apimachinery v0.29.2
-	k8s.io/client-go v0.29.2
+	k8s.io/apimachinery v0.29.3
+	k8s.io/client-go v0.29.3
 	k8s.io/klog/v2 v2.120.1
 	sigs.k8s.io/controller-runtime v0.17.2
 	sigs.k8s.io/yaml v1.4.0
@@ -75,7 +77,7 @@ require (
 	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
 	github.com/golang-sql/sqlexp v0.1.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
-	github.com/golang/protobuf v1.5.3 // indirect
+	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/cel-go v0.17.7 // indirect
 	github.com/google/gnostic-models v0.6.8 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect

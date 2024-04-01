@@ -953,8 +953,9 @@ func (scaleSet *VirtualMachineScaleSet_Spec) AssignProperties_From_VirtualMachin
 
 	// OrchestrationMode
 	if source.OrchestrationMode != nil {
-		orchestrationMode := OrchestrationMode(*source.OrchestrationMode)
-		scaleSet.OrchestrationMode = &orchestrationMode
+		orchestrationMode := *source.OrchestrationMode
+		orchestrationModeTemp := genruntime.ToEnum(orchestrationMode, orchestrationMode_Values)
+		scaleSet.OrchestrationMode = &orchestrationModeTemp
 	} else {
 		scaleSet.OrchestrationMode = nil
 	}
@@ -1800,8 +1801,9 @@ func (scaleSet *VirtualMachineScaleSet_STATUS) AssignProperties_From_VirtualMach
 
 	// OrchestrationMode
 	if source.OrchestrationMode != nil {
-		orchestrationMode := OrchestrationMode_STATUS(*source.OrchestrationMode)
-		scaleSet.OrchestrationMode = &orchestrationMode
+		orchestrationMode := *source.OrchestrationMode
+		orchestrationModeTemp := genruntime.ToEnum(orchestrationMode, orchestrationMode_STATUS_Values)
+		scaleSet.OrchestrationMode = &orchestrationModeTemp
 	} else {
 		scaleSet.OrchestrationMode = nil
 	}
@@ -2348,6 +2350,12 @@ const (
 	OrchestrationMode_Uniform  = OrchestrationMode("Uniform")
 )
 
+// Mapping from string to OrchestrationMode
+var orchestrationMode_Values = map[string]OrchestrationMode{
+	"flexible": OrchestrationMode_Flexible,
+	"uniform":  OrchestrationMode_Uniform,
+}
+
 // Specifies the orchestration mode for the virtual machine scale set.
 type OrchestrationMode_STATUS string
 
@@ -2355,6 +2363,12 @@ const (
 	OrchestrationMode_STATUS_Flexible = OrchestrationMode_STATUS("Flexible")
 	OrchestrationMode_STATUS_Uniform  = OrchestrationMode_STATUS("Uniform")
 )
+
+// Mapping from string to OrchestrationMode_STATUS
+var orchestrationMode_STATUS_Values = map[string]OrchestrationMode_STATUS{
+	"flexible": OrchestrationMode_STATUS_Flexible,
+	"uniform":  OrchestrationMode_STATUS_Uniform,
+}
 
 // Describes a scale-in policy for a virtual machine scale set.
 type ScaleInPolicy struct {
@@ -2418,7 +2432,7 @@ func (policy *ScaleInPolicy) AssignProperties_From_ScaleInPolicy(source *v202012
 		for ruleIndex, ruleItem := range source.Rules {
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
-			ruleList[ruleIndex] = ScaleInPolicy_Rules(ruleItem)
+			ruleList[ruleIndex] = genruntime.ToEnum(ruleItem, scaleInPolicy_Rules_Values)
 		}
 		policy.Rules = ruleList
 	} else {
@@ -2506,7 +2520,7 @@ func (policy *ScaleInPolicy_STATUS) AssignProperties_From_ScaleInPolicy_STATUS(s
 		for ruleIndex, ruleItem := range source.Rules {
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
-			ruleList[ruleIndex] = ScaleInPolicy_Rules_STATUS(ruleItem)
+			ruleList[ruleIndex] = genruntime.ToEnum(ruleItem, scaleInPolicy_Rules_STATUS_Values)
 		}
 		policy.Rules = ruleList
 	} else {
@@ -2873,8 +2887,9 @@ func (policy *UpgradePolicy) AssignProperties_From_UpgradePolicy(source *v202012
 
 	// Mode
 	if source.Mode != nil {
-		mode := UpgradePolicy_Mode(*source.Mode)
-		policy.Mode = &mode
+		mode := *source.Mode
+		modeTemp := genruntime.ToEnum(mode, upgradePolicy_Mode_Values)
+		policy.Mode = &modeTemp
 	} else {
 		policy.Mode = nil
 	}
@@ -3022,8 +3037,9 @@ func (policy *UpgradePolicy_STATUS) AssignProperties_From_UpgradePolicy_STATUS(s
 
 	// Mode
 	if source.Mode != nil {
-		mode := UpgradePolicy_Mode_STATUS(*source.Mode)
-		policy.Mode = &mode
+		mode := *source.Mode
+		modeTemp := genruntime.ToEnum(mode, upgradePolicy_Mode_STATUS_Values)
+		policy.Mode = &modeTemp
 	} else {
 		policy.Mode = nil
 	}
@@ -3162,8 +3178,9 @@ func (identity *VirtualMachineScaleSetIdentity) AssignProperties_From_VirtualMac
 
 	// Type
 	if source.Type != nil {
-		typeVar := VirtualMachineScaleSetIdentity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, virtualMachineScaleSetIdentity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -3313,8 +3330,9 @@ func (identity *VirtualMachineScaleSetIdentity_STATUS) AssignProperties_From_Vir
 
 	// Type
 	if source.Type != nil {
-		typeVar := VirtualMachineScaleSetIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, virtualMachineScaleSetIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -3702,8 +3720,9 @@ func (profile *VirtualMachineScaleSetVMProfile) AssignProperties_From_VirtualMac
 
 	// EvictionPolicy
 	if source.EvictionPolicy != nil {
-		evictionPolicy := EvictionPolicy(*source.EvictionPolicy)
-		profile.EvictionPolicy = &evictionPolicy
+		evictionPolicy := *source.EvictionPolicy
+		evictionPolicyTemp := genruntime.ToEnum(evictionPolicy, evictionPolicy_Values)
+		profile.EvictionPolicy = &evictionPolicyTemp
 	} else {
 		profile.EvictionPolicy = nil
 	}
@@ -3749,8 +3768,9 @@ func (profile *VirtualMachineScaleSetVMProfile) AssignProperties_From_VirtualMac
 
 	// Priority
 	if source.Priority != nil {
-		priority := Priority(*source.Priority)
-		profile.Priority = &priority
+		priority := *source.Priority
+		priorityTemp := genruntime.ToEnum(priority, priority_Values)
+		profile.Priority = &priorityTemp
 	} else {
 		profile.Priority = nil
 	}
@@ -4132,8 +4152,9 @@ func (profile *VirtualMachineScaleSetVMProfile_STATUS) AssignProperties_From_Vir
 
 	// EvictionPolicy
 	if source.EvictionPolicy != nil {
-		evictionPolicy := EvictionPolicy_STATUS(*source.EvictionPolicy)
-		profile.EvictionPolicy = &evictionPolicy
+		evictionPolicy := *source.EvictionPolicy
+		evictionPolicyTemp := genruntime.ToEnum(evictionPolicy, evictionPolicy_STATUS_Values)
+		profile.EvictionPolicy = &evictionPolicyTemp
 	} else {
 		profile.EvictionPolicy = nil
 	}
@@ -4179,8 +4200,9 @@ func (profile *VirtualMachineScaleSetVMProfile_STATUS) AssignProperties_From_Vir
 
 	// Priority
 	if source.Priority != nil {
-		priority := Priority_STATUS(*source.Priority)
-		profile.Priority = &priority
+		priority := *source.Priority
+		priorityTemp := genruntime.ToEnum(priority, priority_STATUS_Values)
+		profile.Priority = &priorityTemp
 	} else {
 		profile.Priority = nil
 	}
@@ -4989,6 +5011,13 @@ const (
 	ScaleInPolicy_Rules_OldestVM = ScaleInPolicy_Rules("OldestVM")
 )
 
+// Mapping from string to ScaleInPolicy_Rules
+var scaleInPolicy_Rules_Values = map[string]ScaleInPolicy_Rules{
+	"default":  ScaleInPolicy_Rules_Default,
+	"newestvm": ScaleInPolicy_Rules_NewestVM,
+	"oldestvm": ScaleInPolicy_Rules_OldestVM,
+}
+
 type ScaleInPolicy_Rules_STATUS string
 
 const (
@@ -4996,6 +5025,13 @@ const (
 	ScaleInPolicy_Rules_STATUS_NewestVM = ScaleInPolicy_Rules_STATUS("NewestVM")
 	ScaleInPolicy_Rules_STATUS_OldestVM = ScaleInPolicy_Rules_STATUS("OldestVM")
 )
+
+// Mapping from string to ScaleInPolicy_Rules_STATUS
+var scaleInPolicy_Rules_STATUS_Values = map[string]ScaleInPolicy_Rules_STATUS{
+	"default":  ScaleInPolicy_Rules_STATUS_Default,
+	"newestvm": ScaleInPolicy_Rules_STATUS_NewestVM,
+	"oldestvm": ScaleInPolicy_Rules_STATUS_OldestVM,
+}
 
 type ScheduledEventsProfile struct {
 	// TerminateNotificationProfile: Specifies Terminate Scheduled Event related configurations.
@@ -5187,6 +5223,13 @@ const (
 	UpgradePolicy_Mode_Rolling   = UpgradePolicy_Mode("Rolling")
 )
 
+// Mapping from string to UpgradePolicy_Mode
+var upgradePolicy_Mode_Values = map[string]UpgradePolicy_Mode{
+	"automatic": UpgradePolicy_Mode_Automatic,
+	"manual":    UpgradePolicy_Mode_Manual,
+	"rolling":   UpgradePolicy_Mode_Rolling,
+}
+
 type UpgradePolicy_Mode_STATUS string
 
 const (
@@ -5194,6 +5237,13 @@ const (
 	UpgradePolicy_Mode_STATUS_Manual    = UpgradePolicy_Mode_STATUS("Manual")
 	UpgradePolicy_Mode_STATUS_Rolling   = UpgradePolicy_Mode_STATUS("Rolling")
 )
+
+// Mapping from string to UpgradePolicy_Mode_STATUS
+var upgradePolicy_Mode_STATUS_Values = map[string]UpgradePolicy_Mode_STATUS{
+	"automatic": UpgradePolicy_Mode_STATUS_Automatic,
+	"manual":    UpgradePolicy_Mode_STATUS_Manual,
+	"rolling":   UpgradePolicy_Mode_STATUS_Rolling,
+}
 
 // Describes a virtual machine scale set extension profile.
 type VirtualMachineScaleSetExtensionProfile struct {
@@ -7291,16 +7341,18 @@ func (disk *VirtualMachineScaleSetDataDisk) AssignProperties_From_VirtualMachine
 
 	// Caching
 	if source.Caching != nil {
-		caching := Caching(*source.Caching)
-		disk.Caching = &caching
+		caching := *source.Caching
+		cachingTemp := genruntime.ToEnum(caching, caching_Values)
+		disk.Caching = &cachingTemp
 	} else {
 		disk.Caching = nil
 	}
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := CreateOption(*source.CreateOption)
-		disk.CreateOption = &createOption
+		createOption := *source.CreateOption
+		createOptionTemp := genruntime.ToEnum(createOption, createOption_Values)
+		disk.CreateOption = &createOptionTemp
 	} else {
 		disk.CreateOption = nil
 	}
@@ -7533,16 +7585,18 @@ func (disk *VirtualMachineScaleSetDataDisk_STATUS) AssignProperties_From_Virtual
 
 	// Caching
 	if source.Caching != nil {
-		caching := Caching_STATUS(*source.Caching)
-		disk.Caching = &caching
+		caching := *source.Caching
+		cachingTemp := genruntime.ToEnum(caching, caching_STATUS_Values)
+		disk.Caching = &cachingTemp
 	} else {
 		disk.Caching = nil
 	}
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := CreateOption_STATUS(*source.CreateOption)
-		disk.CreateOption = &createOption
+		createOption := *source.CreateOption
+		createOptionTemp := genruntime.ToEnum(createOption, createOption_STATUS_Values)
+		disk.CreateOption = &createOptionTemp
 	} else {
 		disk.CreateOption = nil
 	}
@@ -9238,16 +9292,18 @@ func (disk *VirtualMachineScaleSetOSDisk) AssignProperties_From_VirtualMachineSc
 
 	// Caching
 	if source.Caching != nil {
-		caching := Caching(*source.Caching)
-		disk.Caching = &caching
+		caching := *source.Caching
+		cachingTemp := genruntime.ToEnum(caching, caching_Values)
+		disk.Caching = &cachingTemp
 	} else {
 		disk.Caching = nil
 	}
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := CreateOption(*source.CreateOption)
-		disk.CreateOption = &createOption
+		createOption := *source.CreateOption
+		createOptionTemp := genruntime.ToEnum(createOption, createOption_Values)
+		disk.CreateOption = &createOptionTemp
 	} else {
 		disk.CreateOption = nil
 	}
@@ -9296,8 +9352,9 @@ func (disk *VirtualMachineScaleSetOSDisk) AssignProperties_From_VirtualMachineSc
 
 	// OsType
 	if source.OsType != nil {
-		osType := VirtualMachineScaleSetOSDisk_OsType(*source.OsType)
-		disk.OsType = &osType
+		osType := *source.OsType
+		osTypeTemp := genruntime.ToEnum(osType, virtualMachineScaleSetOSDisk_OsType_Values)
+		disk.OsType = &osTypeTemp
 	} else {
 		disk.OsType = nil
 	}
@@ -9555,16 +9612,18 @@ func (disk *VirtualMachineScaleSetOSDisk_STATUS) AssignProperties_From_VirtualMa
 
 	// Caching
 	if source.Caching != nil {
-		caching := Caching_STATUS(*source.Caching)
-		disk.Caching = &caching
+		caching := *source.Caching
+		cachingTemp := genruntime.ToEnum(caching, caching_STATUS_Values)
+		disk.Caching = &cachingTemp
 	} else {
 		disk.Caching = nil
 	}
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := CreateOption_STATUS(*source.CreateOption)
-		disk.CreateOption = &createOption
+		createOption := *source.CreateOption
+		createOptionTemp := genruntime.ToEnum(createOption, createOption_STATUS_Values)
+		disk.CreateOption = &createOptionTemp
 	} else {
 		disk.CreateOption = nil
 	}
@@ -9613,8 +9672,9 @@ func (disk *VirtualMachineScaleSetOSDisk_STATUS) AssignProperties_From_VirtualMa
 
 	// OsType
 	if source.OsType != nil {
-		osType := VirtualMachineScaleSetOSDisk_OsType_STATUS(*source.OsType)
-		disk.OsType = &osType
+		osType := *source.OsType
+		osTypeTemp := genruntime.ToEnum(osType, virtualMachineScaleSetOSDisk_OsType_STATUS_Values)
+		disk.OsType = &osTypeTemp
 	} else {
 		disk.OsType = nil
 	}
@@ -10069,8 +10129,9 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) AssignProperties_Fro
 
 	// PrivateIPAddressVersion
 	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion(*source.PrivateIPAddressVersion)
-		configuration.PrivateIPAddressVersion = &privateIPAddressVersion
+		privateIPAddressVersion := *source.PrivateIPAddressVersion
+		privateIPAddressVersionTemp := genruntime.ToEnum(privateIPAddressVersion, virtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_Values)
+		configuration.PrivateIPAddressVersion = &privateIPAddressVersionTemp
 	} else {
 		configuration.PrivateIPAddressVersion = nil
 	}
@@ -10509,8 +10570,9 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_STATUS) AssignPropert
 
 	// PrivateIPAddressVersion
 	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS(*source.PrivateIPAddressVersion)
-		configuration.PrivateIPAddressVersion = &privateIPAddressVersion
+		privateIPAddressVersion := *source.PrivateIPAddressVersion
+		privateIPAddressVersionTemp := genruntime.ToEnum(privateIPAddressVersion, virtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_Values)
+		configuration.PrivateIPAddressVersion = &privateIPAddressVersionTemp
 	} else {
 		configuration.PrivateIPAddressVersion = nil
 	}
@@ -10764,8 +10826,9 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters) AssignProperties_
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType(*source.StorageAccountType)
-		parameters.StorageAccountType = &storageAccountType
+		storageAccountType := *source.StorageAccountType
+		storageAccountTypeTemp := genruntime.ToEnum(storageAccountType, storageAccountType_Values)
+		parameters.StorageAccountType = &storageAccountTypeTemp
 	} else {
 		parameters.StorageAccountType = nil
 	}
@@ -10872,8 +10935,9 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters_STATUS) AssignProp
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType_STATUS(*source.StorageAccountType)
-		parameters.StorageAccountType = &storageAccountType
+		storageAccountType := *source.StorageAccountType
+		storageAccountTypeTemp := genruntime.ToEnum(storageAccountType, storageAccountType_STATUS_Values)
+		parameters.StorageAccountType = &storageAccountTypeTemp
 	} else {
 		parameters.StorageAccountType = nil
 	}
@@ -11056,12 +11120,24 @@ const (
 	VirtualMachineScaleSetOSDisk_OsType_Windows = VirtualMachineScaleSetOSDisk_OsType("Windows")
 )
 
+// Mapping from string to VirtualMachineScaleSetOSDisk_OsType
+var virtualMachineScaleSetOSDisk_OsType_Values = map[string]VirtualMachineScaleSetOSDisk_OsType{
+	"linux":   VirtualMachineScaleSetOSDisk_OsType_Linux,
+	"windows": VirtualMachineScaleSetOSDisk_OsType_Windows,
+}
+
 type VirtualMachineScaleSetOSDisk_OsType_STATUS string
 
 const (
 	VirtualMachineScaleSetOSDisk_OsType_STATUS_Linux   = VirtualMachineScaleSetOSDisk_OsType_STATUS("Linux")
 	VirtualMachineScaleSetOSDisk_OsType_STATUS_Windows = VirtualMachineScaleSetOSDisk_OsType_STATUS("Windows")
 )
+
+// Mapping from string to VirtualMachineScaleSetOSDisk_OsType_STATUS
+var virtualMachineScaleSetOSDisk_OsType_STATUS_Values = map[string]VirtualMachineScaleSetOSDisk_OsType_STATUS{
+	"linux":   VirtualMachineScaleSetOSDisk_OsType_STATUS_Linux,
+	"windows": VirtualMachineScaleSetOSDisk_OsType_STATUS_Windows,
+}
 
 // +kubebuilder:validation:Enum={"IPv4","IPv6"}
 type VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion string
@@ -11071,12 +11147,24 @@ const (
 	VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_IPv6 = VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion("IPv6")
 )
 
+// Mapping from string to VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion
+var virtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_Values = map[string]VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion{
+	"ipv4": VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_IPv4,
+	"ipv6": VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_IPv6,
+}
+
 type VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS string
 
 const (
 	VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_IPv4 = VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS("IPv4")
 	VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_IPv6 = VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS("IPv6")
 )
+
+// Mapping from string to VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS
+var virtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_Values = map[string]VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS{
+	"ipv4": VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_IPv4,
+	"ipv6": VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_IPv6,
+}
 
 // Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
 type VirtualMachineScaleSetPublicIPAddressConfiguration struct {
@@ -11280,8 +11368,9 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration) AssignP
 
 	// PublicIPAddressVersion
 	if source.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion(*source.PublicIPAddressVersion)
-		configuration.PublicIPAddressVersion = &publicIPAddressVersion
+		publicIPAddressVersion := *source.PublicIPAddressVersion
+		publicIPAddressVersionTemp := genruntime.ToEnum(publicIPAddressVersion, virtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_Values)
+		configuration.PublicIPAddressVersion = &publicIPAddressVersionTemp
 	} else {
 		configuration.PublicIPAddressVersion = nil
 	}
@@ -11520,8 +11609,9 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS) 
 
 	// PublicIPAddressVersion
 	if source.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS(*source.PublicIPAddressVersion)
-		configuration.PublicIPAddressVersion = &publicIPAddressVersion
+		publicIPAddressVersion := *source.PublicIPAddressVersion
+		publicIPAddressVersionTemp := genruntime.ToEnum(publicIPAddressVersion, virtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_Values)
+		configuration.PublicIPAddressVersion = &publicIPAddressVersionTemp
 	} else {
 		configuration.PublicIPAddressVersion = nil
 	}
@@ -11927,12 +12017,24 @@ const (
 	VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_IPv6 = VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion("IPv6")
 )
 
+// Mapping from string to VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion
+var virtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_Values = map[string]VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion{
+	"ipv4": VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_IPv4,
+	"ipv6": VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_IPv6,
+}
+
 type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS string
 
 const (
 	VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_IPv4 = VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS("IPv4")
 	VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_IPv6 = VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS("IPv6")
 )
+
+// Mapping from string to VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS
+var virtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_Values = map[string]VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS{
+	"ipv4": VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_IPv4,
+	"ipv6": VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_IPv6,
+}
 
 func init() {
 	SchemeBuilder.Register(&VirtualMachineScaleSet{}, &VirtualMachineScaleSetList{})

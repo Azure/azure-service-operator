@@ -1826,8 +1826,9 @@ func (serverfarm *Serverfarm_STATUS) AssignProperties_From_Serverfarm_STATUS(sou
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := Serverfarm_Properties_ProvisioningState_STATUS(*source.ProvisioningState)
-		serverfarm.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, serverfarm_Properties_ProvisioningState_STATUS_Values)
+		serverfarm.ProvisioningState = &provisioningStateTemp
 	} else {
 		serverfarm.ProvisioningState = nil
 	}
@@ -1860,8 +1861,9 @@ func (serverfarm *Serverfarm_STATUS) AssignProperties_From_Serverfarm_STATUS(sou
 
 	// Status
 	if source.Status != nil {
-		status := Serverfarm_Properties_Status_STATUS(*source.Status)
-		serverfarm.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, serverfarm_Properties_Status_STATUS_Values)
+		serverfarm.Status = &statusTemp
 	} else {
 		serverfarm.Status = nil
 	}
@@ -2633,6 +2635,15 @@ const (
 	Serverfarm_Properties_ProvisioningState_STATUS_Succeeded  = Serverfarm_Properties_ProvisioningState_STATUS("Succeeded")
 )
 
+// Mapping from string to Serverfarm_Properties_ProvisioningState_STATUS
+var serverfarm_Properties_ProvisioningState_STATUS_Values = map[string]Serverfarm_Properties_ProvisioningState_STATUS{
+	"canceled":   Serverfarm_Properties_ProvisioningState_STATUS_Canceled,
+	"deleting":   Serverfarm_Properties_ProvisioningState_STATUS_Deleting,
+	"failed":     Serverfarm_Properties_ProvisioningState_STATUS_Failed,
+	"inprogress": Serverfarm_Properties_ProvisioningState_STATUS_InProgress,
+	"succeeded":  Serverfarm_Properties_ProvisioningState_STATUS_Succeeded,
+}
+
 type Serverfarm_Properties_Status_STATUS string
 
 const (
@@ -2640,6 +2651,13 @@ const (
 	Serverfarm_Properties_Status_STATUS_Pending  = Serverfarm_Properties_Status_STATUS("Pending")
 	Serverfarm_Properties_Status_STATUS_Ready    = Serverfarm_Properties_Status_STATUS("Ready")
 )
+
+// Mapping from string to Serverfarm_Properties_Status_STATUS
+var serverfarm_Properties_Status_STATUS_Values = map[string]Serverfarm_Properties_Status_STATUS{
+	"creating": Serverfarm_Properties_Status_STATUS_Creating,
+	"pending":  Serverfarm_Properties_Status_STATUS_Pending,
+	"ready":    Serverfarm_Properties_Status_STATUS_Ready,
+}
 
 // Description of a SKU for a scalable resource.
 type SkuDescription struct {

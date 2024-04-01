@@ -861,16 +861,18 @@ func (profile *Profile_STATUS) AssignProperties_From_Profile_STATUS(source *v202
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProfileProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		profile.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, profileProperties_ProvisioningState_STATUS_Values)
+		profile.ProvisioningState = &provisioningStateTemp
 	} else {
 		profile.ProvisioningState = nil
 	}
 
 	// ResourceState
 	if source.ResourceState != nil {
-		resourceState := ProfileProperties_ResourceState_STATUS(*source.ResourceState)
-		profile.ResourceState = &resourceState
+		resourceState := *source.ResourceState
+		resourceStateTemp := genruntime.ToEnum(resourceState, profileProperties_ResourceState_STATUS_Values)
+		profile.ResourceState = &resourceStateTemp
 	} else {
 		profile.ResourceState = nil
 	}
@@ -1002,6 +1004,15 @@ const (
 	ProfileProperties_ProvisioningState_STATUS_Updating  = ProfileProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to ProfileProperties_ProvisioningState_STATUS
+var profileProperties_ProvisioningState_STATUS_Values = map[string]ProfileProperties_ProvisioningState_STATUS{
+	"creating":  ProfileProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  ProfileProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    ProfileProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": ProfileProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  ProfileProperties_ProvisioningState_STATUS_Updating,
+}
+
 type ProfileProperties_ResourceState_STATUS string
 
 const (
@@ -1010,6 +1021,14 @@ const (
 	ProfileProperties_ResourceState_STATUS_Deleting = ProfileProperties_ResourceState_STATUS("Deleting")
 	ProfileProperties_ResourceState_STATUS_Disabled = ProfileProperties_ResourceState_STATUS("Disabled")
 )
+
+// Mapping from string to ProfileProperties_ResourceState_STATUS
+var profileProperties_ResourceState_STATUS_Values = map[string]ProfileProperties_ResourceState_STATUS{
+	"active":   ProfileProperties_ResourceState_STATUS_Active,
+	"creating": ProfileProperties_ResourceState_STATUS_Creating,
+	"deleting": ProfileProperties_ResourceState_STATUS_Deleting,
+	"disabled": ProfileProperties_ResourceState_STATUS_Disabled,
+}
 
 // Standard_Verizon = The SKU name for a Standard Verizon CDN profile.
 // Premium_Verizon = The SKU name for a Premium Verizon
@@ -1084,8 +1103,9 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20210601s.Sku) error {
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sku_Name_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}
@@ -1176,8 +1196,9 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20210601s.Sku_S
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name_STATUS(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sku_Name_STATUS_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}
@@ -1296,8 +1317,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := IdentityType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, identityType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -1310,8 +1332,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := IdentityType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, identityType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}

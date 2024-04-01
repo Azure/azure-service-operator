@@ -88,6 +88,15 @@ const (
 	StorageAccount_Kind_Spec_StorageV2        = StorageAccount_Kind_Spec("StorageV2")
 )
 
+// Mapping from string to StorageAccount_Kind_Spec
+var storageAccount_Kind_Spec_Values = map[string]StorageAccount_Kind_Spec{
+	"blobstorage":      StorageAccount_Kind_Spec_BlobStorage,
+	"blockblobstorage": StorageAccount_Kind_Spec_BlockBlobStorage,
+	"filestorage":      StorageAccount_Kind_Spec_FileStorage,
+	"storage":          StorageAccount_Kind_Spec_Storage,
+	"storagev2":        StorageAccount_Kind_Spec_StorageV2,
+}
+
 // The parameters used to create the storage account.
 type StorageAccountPropertiesCreateParameters_ARM struct {
 	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium'
@@ -224,6 +233,11 @@ type ExtendedLocationType string
 
 const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
+// Mapping from string to ExtendedLocationType
+var extendedLocationType_Values = map[string]ExtendedLocationType{
+	"edgezone": ExtendedLocationType_EdgeZone,
+}
+
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
 type Identity_Type string
 
@@ -233,6 +247,14 @@ const (
 	Identity_Type_SystemAssignedUserAssigned = Identity_Type("SystemAssigned,UserAssigned")
 	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
+
+// Mapping from string to Identity_Type
+var identity_Type_Values = map[string]Identity_Type{
+	"none":                        Identity_Type_None,
+	"systemassigned":              Identity_Type_SystemAssigned,
+	"systemassigned,userassigned": Identity_Type_SystemAssignedUserAssigned,
+	"userassigned":                Identity_Type_UserAssigned,
+}
 
 // This property enables and defines account-level immutability. Enabling the feature auto-enables Blob Versioning.
 type ImmutableStorageAccount_ARM struct {
@@ -310,6 +332,18 @@ const (
 	SkuName_Standard_ZRS    = SkuName("Standard_ZRS")
 )
 
+// Mapping from string to SkuName
+var skuName_Values = map[string]SkuName{
+	"premium_lrs":     SkuName_Premium_LRS,
+	"premium_zrs":     SkuName_Premium_ZRS,
+	"standard_grs":    SkuName_Standard_GRS,
+	"standard_gzrs":   SkuName_Standard_GZRS,
+	"standard_lrs":    SkuName_Standard_LRS,
+	"standard_ragrs":  SkuName_Standard_RAGRS,
+	"standard_ragzrs": SkuName_Standard_RAGZRS,
+	"standard_zrs":    SkuName_Standard_ZRS,
+}
+
 // The SKU tier. This is based on the SKU name.
 // +kubebuilder:validation:Enum={"Premium","Standard"}
 type Tier string
@@ -318,6 +352,12 @@ const (
 	Tier_Premium  = Tier("Premium")
 	Tier_Standard = Tier("Standard")
 )
+
+// Mapping from string to Tier
+var tier_Values = map[string]Tier{
+	"premium":  Tier_Premium,
+	"standard": Tier_Standard,
+}
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails_ARM struct {

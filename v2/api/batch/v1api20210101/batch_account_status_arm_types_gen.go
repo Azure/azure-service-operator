@@ -113,6 +113,13 @@ const (
 	BatchAccountIdentity_Type_STATUS_UserAssigned   = BatchAccountIdentity_Type_STATUS("UserAssigned")
 )
 
+// Mapping from string to BatchAccountIdentity_Type_STATUS
+var batchAccountIdentity_Type_STATUS_Values = map[string]BatchAccountIdentity_Type_STATUS{
+	"none":           BatchAccountIdentity_Type_STATUS_None,
+	"systemassigned": BatchAccountIdentity_Type_STATUS_SystemAssigned,
+	"userassigned":   BatchAccountIdentity_Type_STATUS_UserAssigned,
+}
+
 type BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM struct {
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`

@@ -781,8 +781,9 @@ func (table *RouteTable_STATUS) AssignProperties_From_RouteTable_STATUS(source *
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		table.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		table.ProvisioningState = &provisioningStateTemp
 	} else {
 		table.ProvisioningState = nil
 	}

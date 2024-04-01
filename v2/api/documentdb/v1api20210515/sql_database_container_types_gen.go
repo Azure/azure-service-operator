@@ -1686,8 +1686,9 @@ func (policy *ConflictResolutionPolicy) AssignProperties_From_ConflictResolution
 
 	// Mode
 	if source.Mode != nil {
-		mode := ConflictResolutionPolicy_Mode(*source.Mode)
-		policy.Mode = &mode
+		mode := *source.Mode
+		modeTemp := genruntime.ToEnum(mode, conflictResolutionPolicy_Mode_Values)
+		policy.Mode = &modeTemp
 	} else {
 		policy.Mode = nil
 	}
@@ -1806,8 +1807,9 @@ func (policy *ConflictResolutionPolicy_STATUS) AssignProperties_From_ConflictRes
 
 	// Mode
 	if source.Mode != nil {
-		mode := ConflictResolutionPolicy_Mode_STATUS(*source.Mode)
-		policy.Mode = &mode
+		mode := *source.Mode
+		modeTemp := genruntime.ToEnum(mode, conflictResolutionPolicy_Mode_STATUS_Values)
+		policy.Mode = &modeTemp
 	} else {
 		policy.Mode = nil
 	}
@@ -1927,8 +1929,9 @@ func (partitionKey *ContainerPartitionKey) AssignProperties_From_ContainerPartit
 
 	// Kind
 	if source.Kind != nil {
-		kind := ContainerPartitionKey_Kind(*source.Kind)
-		partitionKey.Kind = &kind
+		kind := *source.Kind
+		kindTemp := genruntime.ToEnum(kind, containerPartitionKey_Kind_Values)
+		partitionKey.Kind = &kindTemp
 	} else {
 		partitionKey.Kind = nil
 	}
@@ -2071,8 +2074,9 @@ func (partitionKey *ContainerPartitionKey_STATUS) AssignProperties_From_Containe
 
 	// Kind
 	if source.Kind != nil {
-		kind := ContainerPartitionKey_Kind_STATUS(*source.Kind)
-		partitionKey.Kind = &kind
+		kind := *source.Kind
+		kindTemp := genruntime.ToEnum(kind, containerPartitionKey_Kind_STATUS_Values)
+		partitionKey.Kind = &kindTemp
 	} else {
 		partitionKey.Kind = nil
 	}
@@ -2366,8 +2370,9 @@ func (policy *IndexingPolicy) AssignProperties_From_IndexingPolicy(source *v2021
 
 	// IndexingMode
 	if source.IndexingMode != nil {
-		indexingMode := IndexingPolicy_IndexingMode(*source.IndexingMode)
-		policy.IndexingMode = &indexingMode
+		indexingMode := *source.IndexingMode
+		indexingModeTemp := genruntime.ToEnum(indexingMode, indexingPolicy_IndexingMode_Values)
+		policy.IndexingMode = &indexingModeTemp
 	} else {
 		policy.IndexingMode = nil
 	}
@@ -2785,8 +2790,9 @@ func (policy *IndexingPolicy_STATUS) AssignProperties_From_IndexingPolicy_STATUS
 
 	// IndexingMode
 	if source.IndexingMode != nil {
-		indexingMode := IndexingPolicy_IndexingMode_STATUS(*source.IndexingMode)
-		policy.IndexingMode = &indexingMode
+		indexingMode := *source.IndexingMode
+		indexingModeTemp := genruntime.ToEnum(indexingMode, indexingPolicy_IndexingMode_STATUS_Values)
+		policy.IndexingMode = &indexingModeTemp
 	} else {
 		policy.IndexingMode = nil
 	}
@@ -3225,8 +3231,9 @@ func (path *CompositePath) AssignProperties_From_CompositePath(source *v20210515
 
 	// Order
 	if source.Order != nil {
-		order := CompositePath_Order(*source.Order)
-		path.Order = &order
+		order := *source.Order
+		orderTemp := genruntime.ToEnum(order, compositePath_Order_Values)
+		path.Order = &orderTemp
 	} else {
 		path.Order = nil
 	}
@@ -3327,8 +3334,9 @@ func (path *CompositePath_STATUS) AssignProperties_From_CompositePath_STATUS(sou
 
 	// Order
 	if source.Order != nil {
-		order := CompositePath_Order_STATUS(*source.Order)
-		path.Order = &order
+		order := *source.Order
+		orderTemp := genruntime.ToEnum(order, compositePath_Order_STATUS_Values)
+		path.Order = &orderTemp
 	} else {
 		path.Order = nil
 	}
@@ -3850,7 +3858,7 @@ func (spatial *SpatialSpec) AssignProperties_From_SpatialSpec(source *v20210515s
 		for typeIndex, typeItem := range source.Types {
 			// Shadow the loop variable to avoid aliasing
 			typeItem := typeItem
-			typeList[typeIndex] = SpatialType(typeItem)
+			typeList[typeIndex] = genruntime.ToEnum(typeItem, spatialType_Values)
 		}
 		spatial.Types = typeList
 	} else {
@@ -3967,7 +3975,7 @@ func (spatial *SpatialSpec_STATUS) AssignProperties_From_SpatialSpec_STATUS(sour
 		for typeIndex, typeItem := range source.Types {
 			// Shadow the loop variable to avoid aliasing
 			typeItem := typeItem
-			typeList[typeIndex] = SpatialType_STATUS(typeItem)
+			typeList[typeIndex] = genruntime.ToEnum(typeItem, spatialType_STATUS_Values)
 		}
 		spatial.Types = typeList
 	} else {
@@ -4230,16 +4238,18 @@ func (indexes *Indexes) AssignProperties_From_Indexes(source *v20210515s.Indexes
 
 	// DataType
 	if source.DataType != nil {
-		dataType := Indexes_DataType(*source.DataType)
-		indexes.DataType = &dataType
+		dataType := *source.DataType
+		dataTypeTemp := genruntime.ToEnum(dataType, indexes_DataType_Values)
+		indexes.DataType = &dataTypeTemp
 	} else {
 		indexes.DataType = nil
 	}
 
 	// Kind
 	if source.Kind != nil {
-		kind := Indexes_Kind(*source.Kind)
-		indexes.Kind = &kind
+		kind := *source.Kind
+		kindTemp := genruntime.ToEnum(kind, indexes_Kind_Values)
+		indexes.Kind = &kindTemp
 	} else {
 		indexes.Kind = nil
 	}
@@ -4365,16 +4375,18 @@ func (indexes *Indexes_STATUS) AssignProperties_From_Indexes_STATUS(source *v202
 
 	// DataType
 	if source.DataType != nil {
-		dataType := Indexes_DataType_STATUS(*source.DataType)
-		indexes.DataType = &dataType
+		dataType := *source.DataType
+		dataTypeTemp := genruntime.ToEnum(dataType, indexes_DataType_STATUS_Values)
+		indexes.DataType = &dataTypeTemp
 	} else {
 		indexes.DataType = nil
 	}
 
 	// Kind
 	if source.Kind != nil {
-		kind := Indexes_Kind_STATUS(*source.Kind)
-		indexes.Kind = &kind
+		kind := *source.Kind
+		kindTemp := genruntime.ToEnum(kind, indexes_Kind_STATUS_Values)
+		indexes.Kind = &kindTemp
 	} else {
 		indexes.Kind = nil
 	}

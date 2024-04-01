@@ -907,16 +907,18 @@ func (pool *Workspaces_BigDataPool_Spec) AssignProperties_From_Workspaces_BigDat
 
 	// NodeSize
 	if source.NodeSize != nil {
-		nodeSize := BigDataPoolResourceProperties_NodeSize(*source.NodeSize)
-		pool.NodeSize = &nodeSize
+		nodeSize := *source.NodeSize
+		nodeSizeTemp := genruntime.ToEnum(nodeSize, bigDataPoolResourceProperties_NodeSize_Values)
+		pool.NodeSize = &nodeSizeTemp
 	} else {
 		pool.NodeSize = nil
 	}
 
 	// NodeSizeFamily
 	if source.NodeSizeFamily != nil {
-		nodeSizeFamily := BigDataPoolResourceProperties_NodeSizeFamily(*source.NodeSizeFamily)
-		pool.NodeSizeFamily = &nodeSizeFamily
+		nodeSizeFamily := *source.NodeSizeFamily
+		nodeSizeFamilyTemp := genruntime.ToEnum(nodeSizeFamily, bigDataPoolResourceProperties_NodeSizeFamily_Values)
+		pool.NodeSizeFamily = &nodeSizeFamilyTemp
 	} else {
 		pool.NodeSizeFamily = nil
 	}
@@ -1788,16 +1790,18 @@ func (pool *Workspaces_BigDataPool_STATUS) AssignProperties_From_Workspaces_BigD
 
 	// NodeSize
 	if source.NodeSize != nil {
-		nodeSize := BigDataPoolResourceProperties_NodeSize_STATUS(*source.NodeSize)
-		pool.NodeSize = &nodeSize
+		nodeSize := *source.NodeSize
+		nodeSizeTemp := genruntime.ToEnum(nodeSize, bigDataPoolResourceProperties_NodeSize_STATUS_Values)
+		pool.NodeSize = &nodeSizeTemp
 	} else {
 		pool.NodeSize = nil
 	}
 
 	// NodeSizeFamily
 	if source.NodeSizeFamily != nil {
-		nodeSizeFamily := BigDataPoolResourceProperties_NodeSizeFamily_STATUS(*source.NodeSizeFamily)
-		pool.NodeSizeFamily = &nodeSizeFamily
+		nodeSizeFamily := *source.NodeSizeFamily
+		nodeSizeFamilyTemp := genruntime.ToEnum(nodeSizeFamily, bigDataPoolResourceProperties_NodeSizeFamily_STATUS_Values)
+		pool.NodeSizeFamily = &nodeSizeFamilyTemp
 	} else {
 		pool.NodeSizeFamily = nil
 	}
@@ -2483,6 +2487,17 @@ const (
 	BigDataPoolResourceProperties_NodeSize_XXXLarge = BigDataPoolResourceProperties_NodeSize("XXXLarge")
 )
 
+// Mapping from string to BigDataPoolResourceProperties_NodeSize
+var bigDataPoolResourceProperties_NodeSize_Values = map[string]BigDataPoolResourceProperties_NodeSize{
+	"large":    BigDataPoolResourceProperties_NodeSize_Large,
+	"medium":   BigDataPoolResourceProperties_NodeSize_Medium,
+	"none":     BigDataPoolResourceProperties_NodeSize_None,
+	"small":    BigDataPoolResourceProperties_NodeSize_Small,
+	"xlarge":   BigDataPoolResourceProperties_NodeSize_XLarge,
+	"xxlarge":  BigDataPoolResourceProperties_NodeSize_XXLarge,
+	"xxxlarge": BigDataPoolResourceProperties_NodeSize_XXXLarge,
+}
+
 type BigDataPoolResourceProperties_NodeSize_STATUS string
 
 const (
@@ -2495,6 +2510,17 @@ const (
 	BigDataPoolResourceProperties_NodeSize_STATUS_XXXLarge = BigDataPoolResourceProperties_NodeSize_STATUS("XXXLarge")
 )
 
+// Mapping from string to BigDataPoolResourceProperties_NodeSize_STATUS
+var bigDataPoolResourceProperties_NodeSize_STATUS_Values = map[string]BigDataPoolResourceProperties_NodeSize_STATUS{
+	"large":    BigDataPoolResourceProperties_NodeSize_STATUS_Large,
+	"medium":   BigDataPoolResourceProperties_NodeSize_STATUS_Medium,
+	"none":     BigDataPoolResourceProperties_NodeSize_STATUS_None,
+	"small":    BigDataPoolResourceProperties_NodeSize_STATUS_Small,
+	"xlarge":   BigDataPoolResourceProperties_NodeSize_STATUS_XLarge,
+	"xxlarge":  BigDataPoolResourceProperties_NodeSize_STATUS_XXLarge,
+	"xxxlarge": BigDataPoolResourceProperties_NodeSize_STATUS_XXXLarge,
+}
+
 // +kubebuilder:validation:Enum={"HardwareAcceleratedFPGA","HardwareAcceleratedGPU","MemoryOptimized","None"}
 type BigDataPoolResourceProperties_NodeSizeFamily string
 
@@ -2505,6 +2531,14 @@ const (
 	BigDataPoolResourceProperties_NodeSizeFamily_None                    = BigDataPoolResourceProperties_NodeSizeFamily("None")
 )
 
+// Mapping from string to BigDataPoolResourceProperties_NodeSizeFamily
+var bigDataPoolResourceProperties_NodeSizeFamily_Values = map[string]BigDataPoolResourceProperties_NodeSizeFamily{
+	"hardwareacceleratedfpga": BigDataPoolResourceProperties_NodeSizeFamily_HardwareAcceleratedFPGA,
+	"hardwareacceleratedgpu":  BigDataPoolResourceProperties_NodeSizeFamily_HardwareAcceleratedGPU,
+	"memoryoptimized":         BigDataPoolResourceProperties_NodeSizeFamily_MemoryOptimized,
+	"none":                    BigDataPoolResourceProperties_NodeSizeFamily_None,
+}
+
 type BigDataPoolResourceProperties_NodeSizeFamily_STATUS string
 
 const (
@@ -2513,6 +2547,14 @@ const (
 	BigDataPoolResourceProperties_NodeSizeFamily_STATUS_MemoryOptimized         = BigDataPoolResourceProperties_NodeSizeFamily_STATUS("MemoryOptimized")
 	BigDataPoolResourceProperties_NodeSizeFamily_STATUS_None                    = BigDataPoolResourceProperties_NodeSizeFamily_STATUS("None")
 )
+
+// Mapping from string to BigDataPoolResourceProperties_NodeSizeFamily_STATUS
+var bigDataPoolResourceProperties_NodeSizeFamily_STATUS_Values = map[string]BigDataPoolResourceProperties_NodeSizeFamily_STATUS{
+	"hardwareacceleratedfpga": BigDataPoolResourceProperties_NodeSizeFamily_STATUS_HardwareAcceleratedFPGA,
+	"hardwareacceleratedgpu":  BigDataPoolResourceProperties_NodeSizeFamily_STATUS_HardwareAcceleratedGPU,
+	"memoryoptimized":         BigDataPoolResourceProperties_NodeSizeFamily_STATUS_MemoryOptimized,
+	"none":                    BigDataPoolResourceProperties_NodeSizeFamily_STATUS_None,
+}
 
 // Dynamic Executor Allocation Properties
 type DynamicExecutorAllocation struct {
@@ -3342,8 +3384,9 @@ func (properties *SparkConfigProperties) AssignProperties_From_SparkConfigProper
 
 	// ConfigurationType
 	if source.ConfigurationType != nil {
-		configurationType := SparkConfigProperties_ConfigurationType(*source.ConfigurationType)
-		properties.ConfigurationType = &configurationType
+		configurationType := *source.ConfigurationType
+		configurationTypeTemp := genruntime.ToEnum(configurationType, sparkConfigProperties_ConfigurationType_Values)
+		properties.ConfigurationType = &configurationTypeTemp
 	} else {
 		properties.ConfigurationType = nil
 	}
@@ -3471,8 +3514,9 @@ func (properties *SparkConfigProperties_STATUS) AssignProperties_From_SparkConfi
 
 	// ConfigurationType
 	if source.ConfigurationType != nil {
-		configurationType := SparkConfigProperties_ConfigurationType_STATUS(*source.ConfigurationType)
-		properties.ConfigurationType = &configurationType
+		configurationType := *source.ConfigurationType
+		configurationTypeTemp := genruntime.ToEnum(configurationType, sparkConfigProperties_ConfigurationType_STATUS_Values)
+		properties.ConfigurationType = &configurationTypeTemp
 	} else {
 		properties.ConfigurationType = nil
 	}
@@ -3531,12 +3575,24 @@ const (
 	SparkConfigProperties_ConfigurationType_File     = SparkConfigProperties_ConfigurationType("File")
 )
 
+// Mapping from string to SparkConfigProperties_ConfigurationType
+var sparkConfigProperties_ConfigurationType_Values = map[string]SparkConfigProperties_ConfigurationType{
+	"artifact": SparkConfigProperties_ConfigurationType_Artifact,
+	"file":     SparkConfigProperties_ConfigurationType_File,
+}
+
 type SparkConfigProperties_ConfigurationType_STATUS string
 
 const (
 	SparkConfigProperties_ConfigurationType_STATUS_Artifact = SparkConfigProperties_ConfigurationType_STATUS("Artifact")
 	SparkConfigProperties_ConfigurationType_STATUS_File     = SparkConfigProperties_ConfigurationType_STATUS("File")
 )
+
+// Mapping from string to SparkConfigProperties_ConfigurationType_STATUS
+var sparkConfigProperties_ConfigurationType_STATUS_Values = map[string]SparkConfigProperties_ConfigurationType_STATUS{
+	"artifact": SparkConfigProperties_ConfigurationType_STATUS_Artifact,
+	"file":     SparkConfigProperties_ConfigurationType_STATUS_File,
+}
 
 func init() {
 	SchemeBuilder.Register(&WorkspacesBigDataPool{}, &WorkspacesBigDataPoolList{})

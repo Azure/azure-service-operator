@@ -445,8 +445,9 @@ func (encryption *Servers_Databases_TransparentDataEncryption_Spec) AssignProper
 
 	// State
 	if source.State != nil {
-		state := TransparentDataEncryptionProperties_State(*source.State)
-		encryption.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, transparentDataEncryptionProperties_State_Values)
+		encryption.State = &stateTemp
 	} else {
 		encryption.State = nil
 	}
@@ -638,8 +639,9 @@ func (encryption *Servers_Databases_TransparentDataEncryption_STATUS) AssignProp
 
 	// State
 	if source.State != nil {
-		state := TransparentDataEncryptionProperties_State_STATUS(*source.State)
-		encryption.State = &state
+		state := *source.State
+		stateTemp := genruntime.ToEnum(state, transparentDataEncryptionProperties_State_STATUS_Values)
+		encryption.State = &stateTemp
 	} else {
 		encryption.State = nil
 	}
@@ -695,12 +697,24 @@ const (
 	TransparentDataEncryptionProperties_State_Enabled  = TransparentDataEncryptionProperties_State("Enabled")
 )
 
+// Mapping from string to TransparentDataEncryptionProperties_State
+var transparentDataEncryptionProperties_State_Values = map[string]TransparentDataEncryptionProperties_State{
+	"disabled": TransparentDataEncryptionProperties_State_Disabled,
+	"enabled":  TransparentDataEncryptionProperties_State_Enabled,
+}
+
 type TransparentDataEncryptionProperties_State_STATUS string
 
 const (
 	TransparentDataEncryptionProperties_State_STATUS_Disabled = TransparentDataEncryptionProperties_State_STATUS("Disabled")
 	TransparentDataEncryptionProperties_State_STATUS_Enabled  = TransparentDataEncryptionProperties_State_STATUS("Enabled")
 )
+
+// Mapping from string to TransparentDataEncryptionProperties_State_STATUS
+var transparentDataEncryptionProperties_State_STATUS_Values = map[string]TransparentDataEncryptionProperties_State_STATUS{
+	"disabled": TransparentDataEncryptionProperties_State_STATUS_Disabled,
+	"enabled":  TransparentDataEncryptionProperties_State_STATUS_Enabled,
+}
 
 func init() {
 	SchemeBuilder.Register(&ServersDatabasesTransparentDataEncryption{}, &ServersDatabasesTransparentDataEncryptionList{})

@@ -761,8 +761,9 @@ func (service *SearchService_Spec) AssignProperties_From_SearchService_Spec(sour
 
 	// HostingMode
 	if source.HostingMode != nil {
-		hostingMode := SearchServiceProperties_HostingMode(*source.HostingMode)
-		service.HostingMode = &hostingMode
+		hostingMode := *source.HostingMode
+		hostingModeTemp := genruntime.ToEnum(hostingMode, searchServiceProperties_HostingMode_Values)
+		service.HostingMode = &hostingModeTemp
 	} else {
 		service.HostingMode = nil
 	}
@@ -824,8 +825,9 @@ func (service *SearchService_Spec) AssignProperties_From_SearchService_Spec(sour
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := SearchServiceProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		service.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, searchServiceProperties_PublicNetworkAccess_Values)
+		service.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		service.PublicNetworkAccess = nil
 	}
@@ -1520,8 +1522,9 @@ func (service *SearchService_STATUS) AssignProperties_From_SearchService_STATUS(
 
 	// HostingMode
 	if source.HostingMode != nil {
-		hostingMode := SearchServiceProperties_HostingMode_STATUS(*source.HostingMode)
-		service.HostingMode = &hostingMode
+		hostingMode := *source.HostingMode
+		hostingModeTemp := genruntime.ToEnum(hostingMode, searchServiceProperties_HostingMode_STATUS_Values)
+		service.HostingMode = &hostingModeTemp
 	} else {
 		service.HostingMode = nil
 	}
@@ -1582,16 +1585,18 @@ func (service *SearchService_STATUS) AssignProperties_From_SearchService_STATUS(
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := SearchServiceProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		service.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, searchServiceProperties_ProvisioningState_STATUS_Values)
+		service.ProvisioningState = &provisioningStateTemp
 	} else {
 		service.ProvisioningState = nil
 	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := SearchServiceProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-		service.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, searchServiceProperties_PublicNetworkAccess_STATUS_Values)
+		service.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		service.PublicNetworkAccess = nil
 	}
@@ -1631,8 +1636,9 @@ func (service *SearchService_STATUS) AssignProperties_From_SearchService_STATUS(
 
 	// Status
 	if source.Status != nil {
-		status := SearchServiceProperties_Status_STATUS(*source.Status)
-		service.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, searchServiceProperties_Status_STATUS_Values)
+		service.Status = &statusTemp
 	} else {
 		service.Status = nil
 	}
@@ -2123,8 +2129,9 @@ func (withCmk *EncryptionWithCmk) AssignProperties_From_EncryptionWithCmk(source
 
 	// Enforcement
 	if source.Enforcement != nil {
-		enforcement := EncryptionWithCmk_Enforcement(*source.Enforcement)
-		withCmk.Enforcement = &enforcement
+		enforcement := *source.Enforcement
+		enforcementTemp := genruntime.ToEnum(enforcement, encryptionWithCmk_Enforcement_Values)
+		withCmk.Enforcement = &enforcementTemp
 	} else {
 		withCmk.Enforcement = nil
 	}
@@ -2219,16 +2226,18 @@ func (withCmk *EncryptionWithCmk_STATUS) AssignProperties_From_EncryptionWithCmk
 
 	// EncryptionComplianceStatus
 	if source.EncryptionComplianceStatus != nil {
-		encryptionComplianceStatus := EncryptionWithCmk_EncryptionComplianceStatus_STATUS(*source.EncryptionComplianceStatus)
-		withCmk.EncryptionComplianceStatus = &encryptionComplianceStatus
+		encryptionComplianceStatus := *source.EncryptionComplianceStatus
+		encryptionComplianceStatusTemp := genruntime.ToEnum(encryptionComplianceStatus, encryptionWithCmk_EncryptionComplianceStatus_STATUS_Values)
+		withCmk.EncryptionComplianceStatus = &encryptionComplianceStatusTemp
 	} else {
 		withCmk.EncryptionComplianceStatus = nil
 	}
 
 	// Enforcement
 	if source.Enforcement != nil {
-		enforcement := EncryptionWithCmk_Enforcement_STATUS(*source.Enforcement)
-		withCmk.Enforcement = &enforcement
+		enforcement := *source.Enforcement
+		enforcementTemp := genruntime.ToEnum(enforcement, encryptionWithCmk_Enforcement_STATUS_Values)
+		withCmk.Enforcement = &enforcementTemp
 	} else {
 		withCmk.Enforcement = nil
 	}
@@ -2320,8 +2329,9 @@ func (identity *Identity) AssignProperties_From_Identity(source *v20220901s.Iden
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, identity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2428,8 +2438,9 @@ func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *v
 
 	// Type
 	if source.Type != nil {
-		typeVar := Identity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, identity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2824,12 +2835,24 @@ const (
 	SearchServiceProperties_HostingMode_HighDensity = SearchServiceProperties_HostingMode("highDensity")
 )
 
+// Mapping from string to SearchServiceProperties_HostingMode
+var searchServiceProperties_HostingMode_Values = map[string]SearchServiceProperties_HostingMode{
+	"default":     SearchServiceProperties_HostingMode_Default,
+	"highdensity": SearchServiceProperties_HostingMode_HighDensity,
+}
+
 type SearchServiceProperties_HostingMode_STATUS string
 
 const (
 	SearchServiceProperties_HostingMode_STATUS_Default     = SearchServiceProperties_HostingMode_STATUS("default")
 	SearchServiceProperties_HostingMode_STATUS_HighDensity = SearchServiceProperties_HostingMode_STATUS("highDensity")
 )
+
+// Mapping from string to SearchServiceProperties_HostingMode_STATUS
+var searchServiceProperties_HostingMode_STATUS_Values = map[string]SearchServiceProperties_HostingMode_STATUS{
+	"default":     SearchServiceProperties_HostingMode_STATUS_Default,
+	"highdensity": SearchServiceProperties_HostingMode_STATUS_HighDensity,
+}
 
 type SearchServiceProperties_ProvisioningState_STATUS string
 
@@ -2839,6 +2862,13 @@ const (
 	SearchServiceProperties_ProvisioningState_STATUS_Succeeded    = SearchServiceProperties_ProvisioningState_STATUS("succeeded")
 )
 
+// Mapping from string to SearchServiceProperties_ProvisioningState_STATUS
+var searchServiceProperties_ProvisioningState_STATUS_Values = map[string]SearchServiceProperties_ProvisioningState_STATUS{
+	"failed":       SearchServiceProperties_ProvisioningState_STATUS_Failed,
+	"provisioning": SearchServiceProperties_ProvisioningState_STATUS_Provisioning,
+	"succeeded":    SearchServiceProperties_ProvisioningState_STATUS_Succeeded,
+}
+
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type SearchServiceProperties_PublicNetworkAccess string
 
@@ -2847,12 +2877,24 @@ const (
 	SearchServiceProperties_PublicNetworkAccess_Enabled  = SearchServiceProperties_PublicNetworkAccess("enabled")
 )
 
+// Mapping from string to SearchServiceProperties_PublicNetworkAccess
+var searchServiceProperties_PublicNetworkAccess_Values = map[string]SearchServiceProperties_PublicNetworkAccess{
+	"disabled": SearchServiceProperties_PublicNetworkAccess_Disabled,
+	"enabled":  SearchServiceProperties_PublicNetworkAccess_Enabled,
+}
+
 type SearchServiceProperties_PublicNetworkAccess_STATUS string
 
 const (
 	SearchServiceProperties_PublicNetworkAccess_STATUS_Disabled = SearchServiceProperties_PublicNetworkAccess_STATUS("disabled")
 	SearchServiceProperties_PublicNetworkAccess_STATUS_Enabled  = SearchServiceProperties_PublicNetworkAccess_STATUS("enabled")
 )
+
+// Mapping from string to SearchServiceProperties_PublicNetworkAccess_STATUS
+var searchServiceProperties_PublicNetworkAccess_STATUS_Values = map[string]SearchServiceProperties_PublicNetworkAccess_STATUS{
+	"disabled": SearchServiceProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  SearchServiceProperties_PublicNetworkAccess_STATUS_Enabled,
+}
 
 type SearchServiceProperties_Status_STATUS string
 
@@ -2864,6 +2906,16 @@ const (
 	SearchServiceProperties_Status_STATUS_Provisioning = SearchServiceProperties_Status_STATUS("provisioning")
 	SearchServiceProperties_Status_STATUS_Running      = SearchServiceProperties_Status_STATUS("running")
 )
+
+// Mapping from string to SearchServiceProperties_Status_STATUS
+var searchServiceProperties_Status_STATUS_Values = map[string]SearchServiceProperties_Status_STATUS{
+	"degraded":     SearchServiceProperties_Status_STATUS_Degraded,
+	"deleting":     SearchServiceProperties_Status_STATUS_Deleting,
+	"disabled":     SearchServiceProperties_Status_STATUS_Disabled,
+	"error":        SearchServiceProperties_Status_STATUS_Error,
+	"provisioning": SearchServiceProperties_Status_STATUS_Provisioning,
+	"running":      SearchServiceProperties_Status_STATUS_Running,
+}
 
 // Describes a Shared Private Link Resource managed by the Azure Cognitive Search service.
 type SharedPrivateLinkResource_STATUS struct {
@@ -2980,8 +3032,9 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20220901s.Sku) error {
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sku_Name_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}
@@ -3069,8 +3122,9 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20220901s.Sku_S
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name_STATUS(*source.Name)
-		sku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, sku_Name_STATUS_Values)
+		sku.Name = &nameTemp
 	} else {
 		sku.Name = nil
 	}
@@ -3154,8 +3208,9 @@ func (option *DataPlaneAadOrApiKeyAuthOption) AssignProperties_From_DataPlaneAad
 
 	// AadAuthFailureMode
 	if source.AadAuthFailureMode != nil {
-		aadAuthFailureMode := DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode(*source.AadAuthFailureMode)
-		option.AadAuthFailureMode = &aadAuthFailureMode
+		aadAuthFailureMode := *source.AadAuthFailureMode
+		aadAuthFailureModeTemp := genruntime.ToEnum(aadAuthFailureMode, dataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_Values)
+		option.AadAuthFailureMode = &aadAuthFailureModeTemp
 	} else {
 		option.AadAuthFailureMode = nil
 	}
@@ -3239,8 +3294,9 @@ func (option *DataPlaneAadOrApiKeyAuthOption_STATUS) AssignProperties_From_DataP
 
 	// AadAuthFailureMode
 	if source.AadAuthFailureMode != nil {
-		aadAuthFailureMode := DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS(*source.AadAuthFailureMode)
-		option.AadAuthFailureMode = &aadAuthFailureMode
+		aadAuthFailureMode := *source.AadAuthFailureMode
+		aadAuthFailureModeTemp := genruntime.ToEnum(aadAuthFailureMode, dataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_Values)
+		option.AadAuthFailureMode = &aadAuthFailureModeTemp
 	} else {
 		option.AadAuthFailureMode = nil
 	}
@@ -3280,6 +3336,12 @@ const (
 	EncryptionWithCmk_EncryptionComplianceStatus_STATUS_NonCompliant = EncryptionWithCmk_EncryptionComplianceStatus_STATUS("NonCompliant")
 )
 
+// Mapping from string to EncryptionWithCmk_EncryptionComplianceStatus_STATUS
+var encryptionWithCmk_EncryptionComplianceStatus_STATUS_Values = map[string]EncryptionWithCmk_EncryptionComplianceStatus_STATUS{
+	"compliant":    EncryptionWithCmk_EncryptionComplianceStatus_STATUS_Compliant,
+	"noncompliant": EncryptionWithCmk_EncryptionComplianceStatus_STATUS_NonCompliant,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled","Unspecified"}
 type EncryptionWithCmk_Enforcement string
 
@@ -3289,6 +3351,13 @@ const (
 	EncryptionWithCmk_Enforcement_Unspecified = EncryptionWithCmk_Enforcement("Unspecified")
 )
 
+// Mapping from string to EncryptionWithCmk_Enforcement
+var encryptionWithCmk_Enforcement_Values = map[string]EncryptionWithCmk_Enforcement{
+	"disabled":    EncryptionWithCmk_Enforcement_Disabled,
+	"enabled":     EncryptionWithCmk_Enforcement_Enabled,
+	"unspecified": EncryptionWithCmk_Enforcement_Unspecified,
+}
+
 type EncryptionWithCmk_Enforcement_STATUS string
 
 const (
@@ -3296,6 +3365,13 @@ const (
 	EncryptionWithCmk_Enforcement_STATUS_Enabled     = EncryptionWithCmk_Enforcement_STATUS("Enabled")
 	EncryptionWithCmk_Enforcement_STATUS_Unspecified = EncryptionWithCmk_Enforcement_STATUS("Unspecified")
 )
+
+// Mapping from string to EncryptionWithCmk_Enforcement_STATUS
+var encryptionWithCmk_Enforcement_STATUS_Values = map[string]EncryptionWithCmk_Enforcement_STATUS{
+	"disabled":    EncryptionWithCmk_Enforcement_STATUS_Disabled,
+	"enabled":     EncryptionWithCmk_Enforcement_STATUS_Enabled,
+	"unspecified": EncryptionWithCmk_Enforcement_STATUS_Unspecified,
+}
 
 // The IP restriction rule of the Azure Cognitive Search service.
 type IpRule struct {
@@ -3534,12 +3610,24 @@ const (
 	DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_Http403                    = DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode("http403")
 )
 
+// Mapping from string to DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode
+var dataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_Values = map[string]DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode{
+	"http401withbearerchallenge": DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_Http401WithBearerChallenge,
+	"http403":                    DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_Http403,
+}
+
 type DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS string
 
 const (
 	DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_Http401WithBearerChallenge = DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS("http401WithBearerChallenge")
 	DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_Http403                    = DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS("http403")
 )
+
+// Mapping from string to DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS
+var dataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_Values = map[string]DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS{
+	"http401withbearerchallenge": DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_Http401WithBearerChallenge,
+	"http403":                    DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS_Http403,
+}
 
 func init() {
 	SchemeBuilder.Register(&SearchService{}, &SearchServiceList{})

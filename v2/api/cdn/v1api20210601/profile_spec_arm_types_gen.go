@@ -92,3 +92,20 @@ const (
 	Sku_Name_Standard_Microsoft                 = Sku_Name("Standard_Microsoft")
 	Sku_Name_Standard_Verizon                   = Sku_Name("Standard_Verizon")
 )
+
+// Mapping from string to Sku_Name
+var sku_Name_Values = map[string]Sku_Name{
+	"custom_verizon":                     Sku_Name_Custom_Verizon,
+	"premium_azurefrontdoor":             Sku_Name_Premium_AzureFrontDoor,
+	"premium_verizon":                    Sku_Name_Premium_Verizon,
+	"standardplus_955bandwidth_chinacdn": Sku_Name_StandardPlus_955BandWidth_ChinaCdn,
+	"standardplus_avgbandwidth_chinacdn": Sku_Name_StandardPlus_AvgBandWidth_ChinaCdn,
+	"standardplus_chinacdn":              Sku_Name_StandardPlus_ChinaCdn,
+	"standard_955bandwidth_chinacdn":     Sku_Name_Standard_955BandWidth_ChinaCdn,
+	"standard_akamai":                    Sku_Name_Standard_Akamai,
+	"standard_avgbandwidth_chinacdn":     Sku_Name_Standard_AvgBandWidth_ChinaCdn,
+	"standard_azurefrontdoor":            Sku_Name_Standard_AzureFrontDoor,
+	"standard_chinacdn":                  Sku_Name_Standard_ChinaCdn,
+	"standard_microsoft":                 Sku_Name_Standard_Microsoft,
+	"standard_verizon":                   Sku_Name_Standard_Verizon,
+}

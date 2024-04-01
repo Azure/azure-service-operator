@@ -80,6 +80,13 @@ const (
 	BatchAccountIdentity_Type_UserAssigned   = BatchAccountIdentity_Type("UserAssigned")
 )
 
+// Mapping from string to BatchAccountIdentity_Type
+var batchAccountIdentity_Type_Values = map[string]BatchAccountIdentity_Type{
+	"none":           BatchAccountIdentity_Type_None,
+	"systemassigned": BatchAccountIdentity_Type_SystemAssigned,
+	"userassigned":   BatchAccountIdentity_Type_UserAssigned,
+}
+
 // Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft
 // managed key. For additional control, a customer-managed key can be used instead.
 type EncryptionProperties_ARM struct {

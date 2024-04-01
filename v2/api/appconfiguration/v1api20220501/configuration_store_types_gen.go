@@ -700,8 +700,9 @@ func (store *ConfigurationStore_Spec) AssignProperties_From_ConfigurationStore_S
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ConfigurationStoreProperties_CreateMode(*source.CreateMode)
-		store.CreateMode = &createMode
+		createMode := *source.CreateMode
+		createModeTemp := genruntime.ToEnum(createMode, configurationStoreProperties_CreateMode_Values)
+		store.CreateMode = &createModeTemp
 	} else {
 		store.CreateMode = nil
 	}
@@ -771,8 +772,9 @@ func (store *ConfigurationStore_Spec) AssignProperties_From_ConfigurationStore_S
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := ConfigurationStoreProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		store.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, configurationStoreProperties_PublicNetworkAccess_Values)
+		store.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		store.PublicNetworkAccess = nil
 	}
@@ -1352,8 +1354,9 @@ func (store *ConfigurationStore_STATUS) AssignProperties_From_ConfigurationStore
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ConfigurationStoreProperties_CreateMode_STATUS(*source.CreateMode)
-		store.CreateMode = &createMode
+		createMode := *source.CreateMode
+		createModeTemp := genruntime.ToEnum(createMode, configurationStoreProperties_CreateMode_STATUS_Values)
+		store.CreateMode = &createModeTemp
 	} else {
 		store.CreateMode = nil
 	}
@@ -1433,16 +1436,18 @@ func (store *ConfigurationStore_STATUS) AssignProperties_From_ConfigurationStore
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ConfigurationStoreProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		store.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, configurationStoreProperties_ProvisioningState_STATUS_Values)
+		store.ProvisioningState = &provisioningStateTemp
 	} else {
 		store.ProvisioningState = nil
 	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := ConfigurationStoreProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-		store.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, configurationStoreProperties_PublicNetworkAccess_STATUS_Values)
+		store.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		store.PublicNetworkAccess = nil
 	}
@@ -1694,12 +1699,24 @@ const (
 	ConfigurationStoreProperties_CreateMode_Recover = ConfigurationStoreProperties_CreateMode("Recover")
 )
 
+// Mapping from string to ConfigurationStoreProperties_CreateMode
+var configurationStoreProperties_CreateMode_Values = map[string]ConfigurationStoreProperties_CreateMode{
+	"default": ConfigurationStoreProperties_CreateMode_Default,
+	"recover": ConfigurationStoreProperties_CreateMode_Recover,
+}
+
 type ConfigurationStoreProperties_CreateMode_STATUS string
 
 const (
 	ConfigurationStoreProperties_CreateMode_STATUS_Default = ConfigurationStoreProperties_CreateMode_STATUS("Default")
 	ConfigurationStoreProperties_CreateMode_STATUS_Recover = ConfigurationStoreProperties_CreateMode_STATUS("Recover")
 )
+
+// Mapping from string to ConfigurationStoreProperties_CreateMode_STATUS
+var configurationStoreProperties_CreateMode_STATUS_Values = map[string]ConfigurationStoreProperties_CreateMode_STATUS{
+	"default": ConfigurationStoreProperties_CreateMode_STATUS_Default,
+	"recover": ConfigurationStoreProperties_CreateMode_STATUS_Recover,
+}
 
 type ConfigurationStoreProperties_ProvisioningState_STATUS string
 
@@ -1712,6 +1729,16 @@ const (
 	ConfigurationStoreProperties_ProvisioningState_STATUS_Updating  = ConfigurationStoreProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to ConfigurationStoreProperties_ProvisioningState_STATUS
+var configurationStoreProperties_ProvisioningState_STATUS_Values = map[string]ConfigurationStoreProperties_ProvisioningState_STATUS{
+	"canceled":  ConfigurationStoreProperties_ProvisioningState_STATUS_Canceled,
+	"creating":  ConfigurationStoreProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  ConfigurationStoreProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    ConfigurationStoreProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": ConfigurationStoreProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  ConfigurationStoreProperties_ProvisioningState_STATUS_Updating,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ConfigurationStoreProperties_PublicNetworkAccess string
 
@@ -1720,12 +1747,24 @@ const (
 	ConfigurationStoreProperties_PublicNetworkAccess_Enabled  = ConfigurationStoreProperties_PublicNetworkAccess("Enabled")
 )
 
+// Mapping from string to ConfigurationStoreProperties_PublicNetworkAccess
+var configurationStoreProperties_PublicNetworkAccess_Values = map[string]ConfigurationStoreProperties_PublicNetworkAccess{
+	"disabled": ConfigurationStoreProperties_PublicNetworkAccess_Disabled,
+	"enabled":  ConfigurationStoreProperties_PublicNetworkAccess_Enabled,
+}
+
 type ConfigurationStoreProperties_PublicNetworkAccess_STATUS string
 
 const (
 	ConfigurationStoreProperties_PublicNetworkAccess_STATUS_Disabled = ConfigurationStoreProperties_PublicNetworkAccess_STATUS("Disabled")
 	ConfigurationStoreProperties_PublicNetworkAccess_STATUS_Enabled  = ConfigurationStoreProperties_PublicNetworkAccess_STATUS("Enabled")
 )
+
+// Mapping from string to ConfigurationStoreProperties_PublicNetworkAccess_STATUS
+var configurationStoreProperties_PublicNetworkAccess_STATUS_Values = map[string]ConfigurationStoreProperties_PublicNetworkAccess_STATUS{
+	"disabled": ConfigurationStoreProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  ConfigurationStoreProperties_PublicNetworkAccess_STATUS_Enabled,
+}
 
 // The encryption settings for a configuration store.
 type EncryptionProperties struct {
@@ -2057,8 +2096,9 @@ func (identity *ResourceIdentity) AssignProperties_From_ResourceIdentity(source 
 
 	// Type
 	if source.Type != nil {
-		typeVar := ResourceIdentity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, resourceIdentity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2233,8 +2273,9 @@ func (identity *ResourceIdentity_STATUS) AssignProperties_From_ResourceIdentity_
 
 	// Type
 	if source.Type != nil {
-		typeVar := ResourceIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, resourceIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2584,8 +2625,9 @@ func (data *SystemData) AssignProperties_From_SystemData(source *v20220501s.Syst
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -2598,8 +2640,9 @@ func (data *SystemData) AssignProperties_From_SystemData(source *v20220501s.Syst
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -2773,8 +2816,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -2787,8 +2831,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}

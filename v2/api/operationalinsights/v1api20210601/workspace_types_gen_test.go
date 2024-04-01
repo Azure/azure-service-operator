@@ -1066,12 +1066,12 @@ func WorkspaceSkuGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWorkspaceSku(gens map[string]gopter.Gen) {
 	gens["CapacityReservationLevel"] = gen.PtrOf(gen.OneConstOf(
 		WorkspaceSku_CapacityReservationLevel_100,
-		WorkspaceSku_CapacityReservationLevel_1000,
 		WorkspaceSku_CapacityReservationLevel_200,
-		WorkspaceSku_CapacityReservationLevel_2000,
 		WorkspaceSku_CapacityReservationLevel_300,
 		WorkspaceSku_CapacityReservationLevel_400,
 		WorkspaceSku_CapacityReservationLevel_500,
+		WorkspaceSku_CapacityReservationLevel_1000,
+		WorkspaceSku_CapacityReservationLevel_2000,
 		WorkspaceSku_CapacityReservationLevel_5000))
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		WorkspaceSku_Name_CapacityReservation,
@@ -1186,12 +1186,12 @@ func WorkspaceSku_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWorkspaceSku_STATUS(gens map[string]gopter.Gen) {
 	gens["CapacityReservationLevel"] = gen.PtrOf(gen.OneConstOf(
 		WorkspaceSku_CapacityReservationLevel_STATUS_100,
-		WorkspaceSku_CapacityReservationLevel_STATUS_1000,
 		WorkspaceSku_CapacityReservationLevel_STATUS_200,
-		WorkspaceSku_CapacityReservationLevel_STATUS_2000,
 		WorkspaceSku_CapacityReservationLevel_STATUS_300,
 		WorkspaceSku_CapacityReservationLevel_STATUS_400,
 		WorkspaceSku_CapacityReservationLevel_STATUS_500,
+		WorkspaceSku_CapacityReservationLevel_STATUS_1000,
+		WorkspaceSku_CapacityReservationLevel_STATUS_2000,
 		WorkspaceSku_CapacityReservationLevel_STATUS_5000))
 	gens["LastSkuUpdate"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(

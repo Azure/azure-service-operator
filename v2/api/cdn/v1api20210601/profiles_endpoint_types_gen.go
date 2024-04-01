@@ -884,8 +884,9 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_From_Profiles_Endpoint_
 
 	// OptimizationType
 	if source.OptimizationType != nil {
-		optimizationType := OptimizationType(*source.OptimizationType)
-		endpoint.OptimizationType = &optimizationType
+		optimizationType := *source.OptimizationType
+		optimizationTypeTemp := genruntime.ToEnum(optimizationType, optimizationType_Values)
+		endpoint.OptimizationType = &optimizationTypeTemp
 	} else {
 		endpoint.OptimizationType = nil
 	}
@@ -945,8 +946,9 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_From_Profiles_Endpoint_
 
 	// QueryStringCachingBehavior
 	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := QueryStringCachingBehavior(*source.QueryStringCachingBehavior)
-		endpoint.QueryStringCachingBehavior = &queryStringCachingBehavior
+		queryStringCachingBehavior := *source.QueryStringCachingBehavior
+		queryStringCachingBehaviorTemp := genruntime.ToEnum(queryStringCachingBehavior, queryStringCachingBehavior_Values)
+		endpoint.QueryStringCachingBehavior = &queryStringCachingBehaviorTemp
 	} else {
 		endpoint.QueryStringCachingBehavior = nil
 	}
@@ -1898,8 +1900,9 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_From_Profiles_Endpoin
 
 	// OptimizationType
 	if source.OptimizationType != nil {
-		optimizationType := OptimizationType_STATUS(*source.OptimizationType)
-		endpoint.OptimizationType = &optimizationType
+		optimizationType := *source.OptimizationType
+		optimizationTypeTemp := genruntime.ToEnum(optimizationType, optimizationType_STATUS_Values)
+		endpoint.OptimizationType = &optimizationTypeTemp
 	} else {
 		endpoint.OptimizationType = nil
 	}
@@ -1951,24 +1954,27 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_From_Profiles_Endpoin
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := EndpointProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		endpoint.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, endpointProperties_ProvisioningState_STATUS_Values)
+		endpoint.ProvisioningState = &provisioningStateTemp
 	} else {
 		endpoint.ProvisioningState = nil
 	}
 
 	// QueryStringCachingBehavior
 	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := QueryStringCachingBehavior_STATUS(*source.QueryStringCachingBehavior)
-		endpoint.QueryStringCachingBehavior = &queryStringCachingBehavior
+		queryStringCachingBehavior := *source.QueryStringCachingBehavior
+		queryStringCachingBehaviorTemp := genruntime.ToEnum(queryStringCachingBehavior, queryStringCachingBehavior_STATUS_Values)
+		endpoint.QueryStringCachingBehavior = &queryStringCachingBehaviorTemp
 	} else {
 		endpoint.QueryStringCachingBehavior = nil
 	}
 
 	// ResourceState
 	if source.ResourceState != nil {
-		resourceState := EndpointProperties_ResourceState_STATUS(*source.ResourceState)
-		endpoint.ResourceState = &resourceState
+		resourceState := *source.ResourceState
+		resourceStateTemp := genruntime.ToEnum(resourceState, endpointProperties_ResourceState_STATUS_Values)
+		endpoint.ResourceState = &resourceStateTemp
 	} else {
 		endpoint.ResourceState = nil
 	}
@@ -3057,8 +3063,9 @@ func (origin *DeepCreatedOrigin_STATUS) AssignProperties_From_DeepCreatedOrigin_
 
 	// PrivateEndpointStatus
 	if source.PrivateEndpointStatus != nil {
-		privateEndpointStatus := PrivateEndpointStatus_STATUS(*source.PrivateEndpointStatus)
-		origin.PrivateEndpointStatus = &privateEndpointStatus
+		privateEndpointStatus := *source.PrivateEndpointStatus
+		privateEndpointStatusTemp := genruntime.ToEnum(privateEndpointStatus, privateEndpointStatus_STATUS_Values)
+		origin.PrivateEndpointStatus = &privateEndpointStatusTemp
 	} else {
 		origin.PrivateEndpointStatus = nil
 	}
@@ -3978,6 +3985,15 @@ const (
 	EndpointProperties_ProvisioningState_STATUS_Updating  = EndpointProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to EndpointProperties_ProvisioningState_STATUS
+var endpointProperties_ProvisioningState_STATUS_Values = map[string]EndpointProperties_ProvisioningState_STATUS{
+	"creating":  EndpointProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  EndpointProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    EndpointProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": EndpointProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  EndpointProperties_ProvisioningState_STATUS_Updating,
+}
+
 type EndpointProperties_ResourceState_STATUS string
 
 const (
@@ -3988,6 +4004,16 @@ const (
 	EndpointProperties_ResourceState_STATUS_Stopped  = EndpointProperties_ResourceState_STATUS("Stopped")
 	EndpointProperties_ResourceState_STATUS_Stopping = EndpointProperties_ResourceState_STATUS("Stopping")
 )
+
+// Mapping from string to EndpointProperties_ResourceState_STATUS
+var endpointProperties_ResourceState_STATUS_Values = map[string]EndpointProperties_ResourceState_STATUS{
+	"creating": EndpointProperties_ResourceState_STATUS_Creating,
+	"deleting": EndpointProperties_ResourceState_STATUS_Deleting,
+	"running":  EndpointProperties_ResourceState_STATUS_Running,
+	"starting": EndpointProperties_ResourceState_STATUS_Starting,
+	"stopped":  EndpointProperties_ResourceState_STATUS_Stopped,
+	"stopping": EndpointProperties_ResourceState_STATUS_Stopping,
+}
 
 type EndpointProperties_WebApplicationFirewallPolicyLink struct {
 	// Reference: Resource ID.
@@ -4226,8 +4252,9 @@ func (filter *GeoFilter) AssignProperties_From_GeoFilter(source *v20210601s.GeoF
 
 	// Action
 	if source.Action != nil {
-		action := GeoFilter_Action(*source.Action)
-		filter.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, geoFilter_Action_Values)
+		filter.Action = &actionTemp
 	} else {
 		filter.Action = nil
 	}
@@ -4345,8 +4372,9 @@ func (filter *GeoFilter_STATUS) AssignProperties_From_GeoFilter_STATUS(source *v
 
 	// Action
 	if source.Action != nil {
-		action := GeoFilter_Action_STATUS(*source.Action)
-		filter.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, geoFilter_Action_STATUS_Values)
+		filter.Action = &actionTemp
 	} else {
 		filter.Action = nil
 	}
@@ -4404,6 +4432,15 @@ const (
 	OptimizationType_VideoOnDemandMediaStreaming = OptimizationType("VideoOnDemandMediaStreaming")
 )
 
+// Mapping from string to OptimizationType
+var optimizationType_Values = map[string]OptimizationType{
+	"dynamicsiteacceleration":     OptimizationType_DynamicSiteAcceleration,
+	"generalmediastreaming":       OptimizationType_GeneralMediaStreaming,
+	"generalwebdelivery":          OptimizationType_GeneralWebDelivery,
+	"largefiledownload":           OptimizationType_LargeFileDownload,
+	"videoondemandmediastreaming": OptimizationType_VideoOnDemandMediaStreaming,
+}
+
 // Specifies what scenario the customer wants this CDN endpoint to optimize, e.g. Download, Media services. With this
 // information we can apply scenario driven optimization.
 type OptimizationType_STATUS string
@@ -4415,6 +4452,15 @@ const (
 	OptimizationType_STATUS_LargeFileDownload           = OptimizationType_STATUS("LargeFileDownload")
 	OptimizationType_STATUS_VideoOnDemandMediaStreaming = OptimizationType_STATUS("VideoOnDemandMediaStreaming")
 )
+
+// Mapping from string to OptimizationType_STATUS
+var optimizationType_STATUS_Values = map[string]OptimizationType_STATUS{
+	"dynamicsiteacceleration":     OptimizationType_STATUS_DynamicSiteAcceleration,
+	"generalmediastreaming":       OptimizationType_STATUS_GeneralMediaStreaming,
+	"generalwebdelivery":          OptimizationType_STATUS_GeneralWebDelivery,
+	"largefiledownload":           OptimizationType_STATUS_LargeFileDownload,
+	"videoondemandmediastreaming": OptimizationType_STATUS_VideoOnDemandMediaStreaming,
+}
 
 // Defines how CDN caches requests that include query strings. You can ignore any query strings when caching, bypass
 // caching to prevent requests that contain query strings from being cached, or cache every request with a unique URL.
@@ -4428,6 +4474,14 @@ const (
 	QueryStringCachingBehavior_UseQueryString    = QueryStringCachingBehavior("UseQueryString")
 )
 
+// Mapping from string to QueryStringCachingBehavior
+var queryStringCachingBehavior_Values = map[string]QueryStringCachingBehavior{
+	"bypasscaching":     QueryStringCachingBehavior_BypassCaching,
+	"ignorequerystring": QueryStringCachingBehavior_IgnoreQueryString,
+	"notset":            QueryStringCachingBehavior_NotSet,
+	"usequerystring":    QueryStringCachingBehavior_UseQueryString,
+}
+
 // Defines how CDN caches requests that include query strings. You can ignore any query strings when caching, bypass
 // caching to prevent requests that contain query strings from being cached, or cache every request with a unique URL.
 type QueryStringCachingBehavior_STATUS string
@@ -4438,6 +4492,14 @@ const (
 	QueryStringCachingBehavior_STATUS_NotSet            = QueryStringCachingBehavior_STATUS("NotSet")
 	QueryStringCachingBehavior_STATUS_UseQueryString    = QueryStringCachingBehavior_STATUS("UseQueryString")
 )
+
+// Mapping from string to QueryStringCachingBehavior_STATUS
+var queryStringCachingBehavior_STATUS_Values = map[string]QueryStringCachingBehavior_STATUS{
+	"bypasscaching":     QueryStringCachingBehavior_STATUS_BypassCaching,
+	"ignorequerystring": QueryStringCachingBehavior_STATUS_IgnoreQueryString,
+	"notset":            QueryStringCachingBehavior_STATUS_NotSet,
+	"usequerystring":    QueryStringCachingBehavior_STATUS_UseQueryString,
+}
 
 // Reference to another resource.
 type ResourceReference struct {
@@ -5280,12 +5342,24 @@ const (
 	GeoFilter_Action_Block = GeoFilter_Action("Block")
 )
 
+// Mapping from string to GeoFilter_Action
+var geoFilter_Action_Values = map[string]GeoFilter_Action{
+	"allow": GeoFilter_Action_Allow,
+	"block": GeoFilter_Action_Block,
+}
+
 type GeoFilter_Action_STATUS string
 
 const (
 	GeoFilter_Action_STATUS_Allow = GeoFilter_Action_STATUS("Allow")
 	GeoFilter_Action_STATUS_Block = GeoFilter_Action_STATUS("Block")
 )
+
+// Mapping from string to GeoFilter_Action_STATUS
+var geoFilter_Action_STATUS_Values = map[string]GeoFilter_Action_STATUS{
+	"allow": GeoFilter_Action_STATUS_Allow,
+	"block": GeoFilter_Action_STATUS_Block,
+}
 
 // The JSON object that contains the properties to send health probes to origin.
 type HealthProbeParameters struct {
@@ -5395,16 +5469,18 @@ func (parameters *HealthProbeParameters) AssignProperties_From_HealthProbeParame
 
 	// ProbeProtocol
 	if source.ProbeProtocol != nil {
-		probeProtocol := HealthProbeParameters_ProbeProtocol(*source.ProbeProtocol)
-		parameters.ProbeProtocol = &probeProtocol
+		probeProtocol := *source.ProbeProtocol
+		probeProtocolTemp := genruntime.ToEnum(probeProtocol, healthProbeParameters_ProbeProtocol_Values)
+		parameters.ProbeProtocol = &probeProtocolTemp
 	} else {
 		parameters.ProbeProtocol = nil
 	}
 
 	// ProbeRequestType
 	if source.ProbeRequestType != nil {
-		probeRequestType := HealthProbeParameters_ProbeRequestType(*source.ProbeRequestType)
-		parameters.ProbeRequestType = &probeRequestType
+		probeRequestType := *source.ProbeRequestType
+		probeRequestTypeTemp := genruntime.ToEnum(probeRequestType, healthProbeParameters_ProbeRequestType_Values)
+		parameters.ProbeRequestType = &probeRequestTypeTemp
 	} else {
 		parameters.ProbeRequestType = nil
 	}
@@ -5558,16 +5634,18 @@ func (parameters *HealthProbeParameters_STATUS) AssignProperties_From_HealthProb
 
 	// ProbeProtocol
 	if source.ProbeProtocol != nil {
-		probeProtocol := HealthProbeParameters_ProbeProtocol_STATUS(*source.ProbeProtocol)
-		parameters.ProbeProtocol = &probeProtocol
+		probeProtocol := *source.ProbeProtocol
+		probeProtocolTemp := genruntime.ToEnum(probeProtocol, healthProbeParameters_ProbeProtocol_STATUS_Values)
+		parameters.ProbeProtocol = &probeProtocolTemp
 	} else {
 		parameters.ProbeProtocol = nil
 	}
 
 	// ProbeRequestType
 	if source.ProbeRequestType != nil {
-		probeRequestType := HealthProbeParameters_ProbeRequestType_STATUS(*source.ProbeRequestType)
-		parameters.ProbeRequestType = &probeRequestType
+		probeRequestType := *source.ProbeRequestType
+		probeRequestTypeTemp := genruntime.ToEnum(probeRequestType, healthProbeParameters_ProbeRequestType_STATUS_Values)
+		parameters.ProbeRequestType = &probeRequestTypeTemp
 	} else {
 		parameters.ProbeRequestType = nil
 	}
@@ -5756,8 +5834,9 @@ func (parameters *KeyVaultSigningKeyParameters) AssignProperties_From_KeyVaultSi
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := KeyVaultSigningKeyParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, keyVaultSigningKeyParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -5928,8 +6007,9 @@ func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignProperties_From_Key
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := KeyVaultSigningKeyParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, keyVaultSigningKeyParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -5990,6 +6070,15 @@ const (
 	PrivateEndpointStatus_STATUS_Rejected     = PrivateEndpointStatus_STATUS("Rejected")
 	PrivateEndpointStatus_STATUS_Timeout      = PrivateEndpointStatus_STATUS("Timeout")
 )
+
+// Mapping from string to PrivateEndpointStatus_STATUS
+var privateEndpointStatus_STATUS_Values = map[string]PrivateEndpointStatus_STATUS{
+	"approved":     PrivateEndpointStatus_STATUS_Approved,
+	"disconnected": PrivateEndpointStatus_STATUS_Disconnected,
+	"pending":      PrivateEndpointStatus_STATUS_Pending,
+	"rejected":     PrivateEndpointStatus_STATUS_Rejected,
+	"timeout":      PrivateEndpointStatus_STATUS_Timeout,
+}
 
 // The JSON object that contains the properties to determine origin health using real requests/responses.
 type ResponseBasedOriginErrorDetectionParameters struct {
@@ -6099,8 +6188,9 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_
 
 	// ResponseBasedDetectedErrorTypes
 	if source.ResponseBasedDetectedErrorTypes != nil {
-		responseBasedDetectedErrorType := ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes(*source.ResponseBasedDetectedErrorTypes)
-		parameters.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorType
+		responseBasedDetectedErrorType := *source.ResponseBasedDetectedErrorTypes
+		responseBasedDetectedErrorTypeTemp := genruntime.ToEnum(responseBasedDetectedErrorType, responseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_Values)
+		parameters.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorTypeTemp
 	} else {
 		parameters.ResponseBasedDetectedErrorTypes = nil
 	}
@@ -6284,8 +6374,9 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProp
 
 	// ResponseBasedDetectedErrorTypes
 	if source.ResponseBasedDetectedErrorTypes != nil {
-		responseBasedDetectedErrorType := ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS(*source.ResponseBasedDetectedErrorTypes)
-		parameters.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorType
+		responseBasedDetectedErrorType := *source.ResponseBasedDetectedErrorTypes
+		responseBasedDetectedErrorTypeTemp := genruntime.ToEnum(responseBasedDetectedErrorType, responseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS_Values)
+		parameters.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorTypeTemp
 	} else {
 		parameters.ResponseBasedDetectedErrorTypes = nil
 	}
@@ -9303,6 +9394,13 @@ const (
 	HealthProbeParameters_ProbeProtocol_NotSet = HealthProbeParameters_ProbeProtocol("NotSet")
 )
 
+// Mapping from string to HealthProbeParameters_ProbeProtocol
+var healthProbeParameters_ProbeProtocol_Values = map[string]HealthProbeParameters_ProbeProtocol{
+	"http":   HealthProbeParameters_ProbeProtocol_Http,
+	"https":  HealthProbeParameters_ProbeProtocol_Https,
+	"notset": HealthProbeParameters_ProbeProtocol_NotSet,
+}
+
 type HealthProbeParameters_ProbeProtocol_STATUS string
 
 const (
@@ -9310,6 +9408,13 @@ const (
 	HealthProbeParameters_ProbeProtocol_STATUS_Https  = HealthProbeParameters_ProbeProtocol_STATUS("Https")
 	HealthProbeParameters_ProbeProtocol_STATUS_NotSet = HealthProbeParameters_ProbeProtocol_STATUS("NotSet")
 )
+
+// Mapping from string to HealthProbeParameters_ProbeProtocol_STATUS
+var healthProbeParameters_ProbeProtocol_STATUS_Values = map[string]HealthProbeParameters_ProbeProtocol_STATUS{
+	"http":   HealthProbeParameters_ProbeProtocol_STATUS_Http,
+	"https":  HealthProbeParameters_ProbeProtocol_STATUS_Https,
+	"notset": HealthProbeParameters_ProbeProtocol_STATUS_NotSet,
+}
 
 // +kubebuilder:validation:Enum={"GET","HEAD","NotSet"}
 type HealthProbeParameters_ProbeRequestType string
@@ -9320,6 +9425,13 @@ const (
 	HealthProbeParameters_ProbeRequestType_NotSet = HealthProbeParameters_ProbeRequestType("NotSet")
 )
 
+// Mapping from string to HealthProbeParameters_ProbeRequestType
+var healthProbeParameters_ProbeRequestType_Values = map[string]HealthProbeParameters_ProbeRequestType{
+	"get":    HealthProbeParameters_ProbeRequestType_GET,
+	"head":   HealthProbeParameters_ProbeRequestType_HEAD,
+	"notset": HealthProbeParameters_ProbeRequestType_NotSet,
+}
+
 type HealthProbeParameters_ProbeRequestType_STATUS string
 
 const (
@@ -9327,6 +9439,13 @@ const (
 	HealthProbeParameters_ProbeRequestType_STATUS_HEAD   = HealthProbeParameters_ProbeRequestType_STATUS("HEAD")
 	HealthProbeParameters_ProbeRequestType_STATUS_NotSet = HealthProbeParameters_ProbeRequestType_STATUS("NotSet")
 )
+
+// Mapping from string to HealthProbeParameters_ProbeRequestType_STATUS
+var healthProbeParameters_ProbeRequestType_STATUS_Values = map[string]HealthProbeParameters_ProbeRequestType_STATUS{
+	"get":    HealthProbeParameters_ProbeRequestType_STATUS_GET,
+	"head":   HealthProbeParameters_ProbeRequestType_STATUS_HEAD,
+	"notset": HealthProbeParameters_ProbeRequestType_STATUS_NotSet,
+}
 
 // The JSON object that represents the range for http status codes
 type HttpErrorRangeParameters struct {
@@ -9549,9 +9668,19 @@ type KeyVaultSigningKeyParameters_TypeName string
 
 const KeyVaultSigningKeyParameters_TypeName_KeyVaultSigningKeyParameters = KeyVaultSigningKeyParameters_TypeName("KeyVaultSigningKeyParameters")
 
+// Mapping from string to KeyVaultSigningKeyParameters_TypeName
+var keyVaultSigningKeyParameters_TypeName_Values = map[string]KeyVaultSigningKeyParameters_TypeName{
+	"keyvaultsigningkeyparameters": KeyVaultSigningKeyParameters_TypeName_KeyVaultSigningKeyParameters,
+}
+
 type KeyVaultSigningKeyParameters_TypeName_STATUS string
 
 const KeyVaultSigningKeyParameters_TypeName_STATUS_KeyVaultSigningKeyParameters = KeyVaultSigningKeyParameters_TypeName_STATUS("KeyVaultSigningKeyParameters")
+
+// Mapping from string to KeyVaultSigningKeyParameters_TypeName_STATUS
+var keyVaultSigningKeyParameters_TypeName_STATUS_Values = map[string]KeyVaultSigningKeyParameters_TypeName_STATUS{
+	"keyvaultsigningkeyparameters": KeyVaultSigningKeyParameters_TypeName_STATUS_KeyVaultSigningKeyParameters,
+}
 
 // +kubebuilder:validation:Enum={"None","TcpAndHttpErrors","TcpErrorsOnly"}
 type ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes string
@@ -9562,6 +9691,13 @@ const (
 	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_TcpErrorsOnly    = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes("TcpErrorsOnly")
 )
 
+// Mapping from string to ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes
+var responseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_Values = map[string]ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes{
+	"none":             ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_None,
+	"tcpandhttperrors": ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_TcpAndHttpErrors,
+	"tcperrorsonly":    ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_TcpErrorsOnly,
+}
+
 type ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS string
 
 const (
@@ -9569,6 +9705,13 @@ const (
 	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS_TcpAndHttpErrors = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS("TcpAndHttpErrors")
 	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS_TcpErrorsOnly    = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS("TcpErrorsOnly")
 )
+
+// Mapping from string to ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS
+var responseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS_Values = map[string]ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS{
+	"none":             ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS_None,
+	"tcpandhttperrors": ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS_TcpAndHttpErrors,
+	"tcperrorsonly":    ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS_TcpErrorsOnly,
+}
 
 type DeliveryRuleCacheExpirationAction struct {
 	// +kubebuilder:validation:Required
@@ -9641,8 +9784,9 @@ func (action *DeliveryRuleCacheExpirationAction) AssignProperties_From_DeliveryR
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCacheExpirationAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleCacheExpirationAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -9771,8 +9915,9 @@ func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_From_De
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCacheExpirationAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleCacheExpirationAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -9900,8 +10045,9 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_From_Deliv
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCacheKeyQueryStringAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleCacheKeyQueryStringAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -10030,8 +10176,9 @@ func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCacheKeyQueryStringAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleCacheKeyQueryStringAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -10159,8 +10306,9 @@ func (condition *DeliveryRuleClientPortCondition) AssignProperties_From_Delivery
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleClientPortCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleClientPortCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -10289,8 +10437,9 @@ func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_From_D
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleClientPortCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleClientPortCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -10418,8 +10567,9 @@ func (condition *DeliveryRuleCookiesCondition) AssignProperties_From_DeliveryRul
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCookiesCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleCookiesCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -10548,8 +10698,9 @@ func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_From_Deli
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleCookiesCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleCookiesCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -10677,8 +10828,9 @@ func (condition *DeliveryRuleHostNameCondition) AssignProperties_From_DeliveryRu
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleHostNameCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleHostNameCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -10807,8 +10959,9 @@ func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_From_Del
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleHostNameCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleHostNameCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -10936,8 +11089,9 @@ func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_From_Deliver
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleHttpVersionCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleHttpVersionCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -11066,8 +11220,9 @@ func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_From_
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleHttpVersionCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleHttpVersionCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -11195,8 +11350,9 @@ func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_From_DeliveryRu
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleIsDeviceCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleIsDeviceCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -11325,8 +11481,9 @@ func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_From_Del
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleIsDeviceCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleIsDeviceCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -11454,8 +11611,9 @@ func (condition *DeliveryRulePostArgsCondition) AssignProperties_From_DeliveryRu
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRulePostArgsCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRulePostArgsCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -11584,8 +11742,9 @@ func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_From_Del
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRulePostArgsCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRulePostArgsCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -11713,8 +11872,9 @@ func (condition *DeliveryRuleQueryStringCondition) AssignProperties_From_Deliver
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleQueryStringCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleQueryStringCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -11843,8 +12003,9 @@ func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_From_
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleQueryStringCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleQueryStringCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -11972,8 +12133,9 @@ func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_From_Deliv
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRemoteAddressCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRemoteAddressCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -12102,8 +12264,9 @@ func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRemoteAddressCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRemoteAddressCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -12231,8 +12394,9 @@ func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_From_Deliver
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestBodyCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestBodyCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -12361,8 +12525,9 @@ func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_From_
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestBodyCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestBodyCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -12490,8 +12655,9 @@ func (action *DeliveryRuleRequestHeaderAction) AssignProperties_From_DeliveryRul
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestHeaderAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestHeaderAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -12620,8 +12786,9 @@ func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_From_Deli
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestHeaderAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestHeaderAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -12749,8 +12916,9 @@ func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_From_Deliv
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestHeaderCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestHeaderCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -12879,8 +13047,9 @@ func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestHeaderCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestHeaderCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -13008,8 +13177,9 @@ func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_From_Deliv
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestMethodCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestMethodCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -13138,8 +13308,9 @@ func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestMethodCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestMethodCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -13267,8 +13438,9 @@ func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_From_Deliv
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestSchemeCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestSchemeCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -13397,8 +13569,9 @@ func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestSchemeCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestSchemeCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -13526,8 +13699,9 @@ func (condition *DeliveryRuleRequestUriCondition) AssignProperties_From_Delivery
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestUriCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestUriCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -13656,8 +13830,9 @@ func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_From_D
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRequestUriCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRequestUriCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -13785,8 +13960,9 @@ func (action *DeliveryRuleResponseHeaderAction) AssignProperties_From_DeliveryRu
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleResponseHeaderAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleResponseHeaderAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -13915,8 +14091,9 @@ func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_From_Del
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleResponseHeaderAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleResponseHeaderAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -14044,8 +14221,9 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRouteConfigurationOverrideAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRouteConfigurationOverrideAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -14174,8 +14352,9 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignPropert
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleRouteConfigurationOverrideAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -14303,8 +14482,9 @@ func (condition *DeliveryRuleServerPortCondition) AssignProperties_From_Delivery
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleServerPortCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleServerPortCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -14433,8 +14613,9 @@ func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_From_D
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleServerPortCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleServerPortCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -14562,8 +14743,9 @@ func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_From_Delivery
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleSocketAddrCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleSocketAddrCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -14692,8 +14874,9 @@ func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_From_D
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleSocketAddrCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleSocketAddrCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -14821,8 +15004,9 @@ func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_From_Deliver
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleSslProtocolCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleSslProtocolCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -14951,8 +15135,9 @@ func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_From_
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleSslProtocolCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleSslProtocolCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -15080,8 +15265,9 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_From_De
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlFileExtensionCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleUrlFileExtensionCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -15210,8 +15396,9 @@ func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlFileExtensionCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleUrlFileExtensionCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -15339,8 +15526,9 @@ func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_From_Deliver
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlFileNameCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleUrlFileNameCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -15469,8 +15657,9 @@ func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_From_
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlFileNameCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleUrlFileNameCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -15598,8 +15787,9 @@ func (condition *DeliveryRuleUrlPathCondition) AssignProperties_From_DeliveryRul
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlPathCondition_Name(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleUrlPathCondition_Name_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -15728,8 +15918,9 @@ func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_From_Deli
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleUrlPathCondition_Name_STATUS(*source.Name)
-		condition.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, deliveryRuleUrlPathCondition_Name_STATUS_Values)
+		condition.Name = &nameTemp
 	} else {
 		condition.Name = nil
 	}
@@ -15857,8 +16048,9 @@ func (action *OriginGroupOverrideAction) AssignProperties_From_OriginGroupOverri
 
 	// Name
 	if source.Name != nil {
-		name := OriginGroupOverrideAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, originGroupOverrideAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -15987,8 +16179,9 @@ func (action *OriginGroupOverrideAction_STATUS) AssignProperties_From_OriginGrou
 
 	// Name
 	if source.Name != nil {
-		name := OriginGroupOverrideAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, originGroupOverrideAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -16116,8 +16309,9 @@ func (action *UrlRedirectAction) AssignProperties_From_UrlRedirectAction(source 
 
 	// Name
 	if source.Name != nil {
-		name := UrlRedirectAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, urlRedirectAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -16246,8 +16440,9 @@ func (action *UrlRedirectAction_STATUS) AssignProperties_From_UrlRedirectAction_
 
 	// Name
 	if source.Name != nil {
-		name := UrlRedirectAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, urlRedirectAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -16375,8 +16570,9 @@ func (action *UrlRewriteAction) AssignProperties_From_UrlRewriteAction(source *v
 
 	// Name
 	if source.Name != nil {
-		name := UrlRewriteAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, urlRewriteAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -16505,8 +16701,9 @@ func (action *UrlRewriteAction_STATUS) AssignProperties_From_UrlRewriteAction_ST
 
 	// Name
 	if source.Name != nil {
-		name := UrlRewriteAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, urlRewriteAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -16634,8 +16831,9 @@ func (action *UrlSigningAction) AssignProperties_From_UrlSigningAction(source *v
 
 	// Name
 	if source.Name != nil {
-		name := UrlSigningAction_Name(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, urlSigningAction_Name_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -16764,8 +16962,9 @@ func (action *UrlSigningAction_STATUS) AssignProperties_From_UrlSigningAction_ST
 
 	// Name
 	if source.Name != nil {
-		name := UrlSigningAction_Name_STATUS(*source.Name)
-		action.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, urlSigningAction_Name_STATUS_Values)
+		action.Name = &nameTemp
 	} else {
 		action.Name = nil
 	}
@@ -16919,8 +17118,9 @@ func (parameters *CacheExpirationActionParameters) AssignProperties_From_CacheEx
 
 	// CacheBehavior
 	if source.CacheBehavior != nil {
-		cacheBehavior := CacheExpirationActionParameters_CacheBehavior(*source.CacheBehavior)
-		parameters.CacheBehavior = &cacheBehavior
+		cacheBehavior := *source.CacheBehavior
+		cacheBehaviorTemp := genruntime.ToEnum(cacheBehavior, cacheExpirationActionParameters_CacheBehavior_Values)
+		parameters.CacheBehavior = &cacheBehaviorTemp
 	} else {
 		parameters.CacheBehavior = nil
 	}
@@ -16930,16 +17130,18 @@ func (parameters *CacheExpirationActionParameters) AssignProperties_From_CacheEx
 
 	// CacheType
 	if source.CacheType != nil {
-		cacheType := CacheExpirationActionParameters_CacheType(*source.CacheType)
-		parameters.CacheType = &cacheType
+		cacheType := *source.CacheType
+		cacheTypeTemp := genruntime.ToEnum(cacheType, cacheExpirationActionParameters_CacheType_Values)
+		parameters.CacheType = &cacheTypeTemp
 	} else {
 		parameters.CacheType = nil
 	}
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CacheExpirationActionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, cacheExpirationActionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -17085,8 +17287,9 @@ func (parameters *CacheExpirationActionParameters_STATUS) AssignProperties_From_
 
 	// CacheBehavior
 	if source.CacheBehavior != nil {
-		cacheBehavior := CacheExpirationActionParameters_CacheBehavior_STATUS(*source.CacheBehavior)
-		parameters.CacheBehavior = &cacheBehavior
+		cacheBehavior := *source.CacheBehavior
+		cacheBehaviorTemp := genruntime.ToEnum(cacheBehavior, cacheExpirationActionParameters_CacheBehavior_STATUS_Values)
+		parameters.CacheBehavior = &cacheBehaviorTemp
 	} else {
 		parameters.CacheBehavior = nil
 	}
@@ -17096,16 +17299,18 @@ func (parameters *CacheExpirationActionParameters_STATUS) AssignProperties_From_
 
 	// CacheType
 	if source.CacheType != nil {
-		cacheType := CacheExpirationActionParameters_CacheType_STATUS(*source.CacheType)
-		parameters.CacheType = &cacheType
+		cacheType := *source.CacheType
+		cacheTypeTemp := genruntime.ToEnum(cacheType, cacheExpirationActionParameters_CacheType_STATUS_Values)
+		parameters.CacheType = &cacheTypeTemp
 	} else {
 		parameters.CacheType = nil
 	}
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CacheExpirationActionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, cacheExpirationActionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -17241,16 +17446,18 @@ func (parameters *CacheKeyQueryStringActionParameters) AssignProperties_From_Cac
 
 	// QueryStringBehavior
 	if source.QueryStringBehavior != nil {
-		queryStringBehavior := CacheKeyQueryStringActionParameters_QueryStringBehavior(*source.QueryStringBehavior)
-		parameters.QueryStringBehavior = &queryStringBehavior
+		queryStringBehavior := *source.QueryStringBehavior
+		queryStringBehaviorTemp := genruntime.ToEnum(queryStringBehavior, cacheKeyQueryStringActionParameters_QueryStringBehavior_Values)
+		parameters.QueryStringBehavior = &queryStringBehaviorTemp
 	} else {
 		parameters.QueryStringBehavior = nil
 	}
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CacheKeyQueryStringActionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, cacheKeyQueryStringActionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -17374,16 +17581,18 @@ func (parameters *CacheKeyQueryStringActionParameters_STATUS) AssignProperties_F
 
 	// QueryStringBehavior
 	if source.QueryStringBehavior != nil {
-		queryStringBehavior := CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS(*source.QueryStringBehavior)
-		parameters.QueryStringBehavior = &queryStringBehavior
+		queryStringBehavior := *source.QueryStringBehavior
+		queryStringBehaviorTemp := genruntime.ToEnum(queryStringBehavior, cacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_Values)
+		parameters.QueryStringBehavior = &queryStringBehaviorTemp
 	} else {
 		parameters.QueryStringBehavior = nil
 	}
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CacheKeyQueryStringActionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, cacheKeyQueryStringActionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -17545,8 +17754,9 @@ func (parameters *ClientPortMatchConditionParameters) AssignProperties_From_Clie
 
 	// Operator
 	if source.Operator != nil {
-		operator := ClientPortMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, clientPortMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -17557,7 +17767,7 @@ func (parameters *ClientPortMatchConditionParameters) AssignProperties_From_Clie
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -17566,8 +17776,9 @@ func (parameters *ClientPortMatchConditionParameters) AssignProperties_From_Clie
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := ClientPortMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, clientPortMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -17758,8 +17969,9 @@ func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_Fr
 
 	// Operator
 	if source.Operator != nil {
-		operator := ClientPortMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, clientPortMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -17770,7 +17982,7 @@ func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_Fr
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -17779,8 +17991,9 @@ func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_Fr
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := ClientPortMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, clientPortMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -17978,8 +18191,9 @@ func (parameters *CookiesMatchConditionParameters) AssignProperties_From_Cookies
 
 	// Operator
 	if source.Operator != nil {
-		operator := CookiesMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, cookiesMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -17993,7 +18207,7 @@ func (parameters *CookiesMatchConditionParameters) AssignProperties_From_Cookies
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -18002,8 +18216,9 @@ func (parameters *CookiesMatchConditionParameters) AssignProperties_From_Cookies
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CookiesMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, cookiesMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -18209,8 +18424,9 @@ func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_From_
 
 	// Operator
 	if source.Operator != nil {
-		operator := CookiesMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, cookiesMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -18224,7 +18440,7 @@ func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_From_
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -18233,8 +18449,9 @@ func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_From_
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := CookiesMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, cookiesMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -18307,216 +18524,456 @@ type DeliveryRuleCacheExpirationAction_Name string
 
 const DeliveryRuleCacheExpirationAction_Name_CacheExpiration = DeliveryRuleCacheExpirationAction_Name("CacheExpiration")
 
+// Mapping from string to DeliveryRuleCacheExpirationAction_Name
+var deliveryRuleCacheExpirationAction_Name_Values = map[string]DeliveryRuleCacheExpirationAction_Name{
+	"cacheexpiration": DeliveryRuleCacheExpirationAction_Name_CacheExpiration,
+}
+
 type DeliveryRuleCacheExpirationAction_Name_STATUS string
 
 const DeliveryRuleCacheExpirationAction_Name_STATUS_CacheExpiration = DeliveryRuleCacheExpirationAction_Name_STATUS("CacheExpiration")
+
+// Mapping from string to DeliveryRuleCacheExpirationAction_Name_STATUS
+var deliveryRuleCacheExpirationAction_Name_STATUS_Values = map[string]DeliveryRuleCacheExpirationAction_Name_STATUS{
+	"cacheexpiration": DeliveryRuleCacheExpirationAction_Name_STATUS_CacheExpiration,
+}
 
 // +kubebuilder:validation:Enum={"CacheKeyQueryString"}
 type DeliveryRuleCacheKeyQueryStringAction_Name string
 
 const DeliveryRuleCacheKeyQueryStringAction_Name_CacheKeyQueryString = DeliveryRuleCacheKeyQueryStringAction_Name("CacheKeyQueryString")
 
+// Mapping from string to DeliveryRuleCacheKeyQueryStringAction_Name
+var deliveryRuleCacheKeyQueryStringAction_Name_Values = map[string]DeliveryRuleCacheKeyQueryStringAction_Name{
+	"cachekeyquerystring": DeliveryRuleCacheKeyQueryStringAction_Name_CacheKeyQueryString,
+}
+
 type DeliveryRuleCacheKeyQueryStringAction_Name_STATUS string
 
 const DeliveryRuleCacheKeyQueryStringAction_Name_STATUS_CacheKeyQueryString = DeliveryRuleCacheKeyQueryStringAction_Name_STATUS("CacheKeyQueryString")
+
+// Mapping from string to DeliveryRuleCacheKeyQueryStringAction_Name_STATUS
+var deliveryRuleCacheKeyQueryStringAction_Name_STATUS_Values = map[string]DeliveryRuleCacheKeyQueryStringAction_Name_STATUS{
+	"cachekeyquerystring": DeliveryRuleCacheKeyQueryStringAction_Name_STATUS_CacheKeyQueryString,
+}
 
 // +kubebuilder:validation:Enum={"ClientPort"}
 type DeliveryRuleClientPortCondition_Name string
 
 const DeliveryRuleClientPortCondition_Name_ClientPort = DeliveryRuleClientPortCondition_Name("ClientPort")
 
+// Mapping from string to DeliveryRuleClientPortCondition_Name
+var deliveryRuleClientPortCondition_Name_Values = map[string]DeliveryRuleClientPortCondition_Name{
+	"clientport": DeliveryRuleClientPortCondition_Name_ClientPort,
+}
+
 type DeliveryRuleClientPortCondition_Name_STATUS string
 
 const DeliveryRuleClientPortCondition_Name_STATUS_ClientPort = DeliveryRuleClientPortCondition_Name_STATUS("ClientPort")
+
+// Mapping from string to DeliveryRuleClientPortCondition_Name_STATUS
+var deliveryRuleClientPortCondition_Name_STATUS_Values = map[string]DeliveryRuleClientPortCondition_Name_STATUS{
+	"clientport": DeliveryRuleClientPortCondition_Name_STATUS_ClientPort,
+}
 
 // +kubebuilder:validation:Enum={"Cookies"}
 type DeliveryRuleCookiesCondition_Name string
 
 const DeliveryRuleCookiesCondition_Name_Cookies = DeliveryRuleCookiesCondition_Name("Cookies")
 
+// Mapping from string to DeliveryRuleCookiesCondition_Name
+var deliveryRuleCookiesCondition_Name_Values = map[string]DeliveryRuleCookiesCondition_Name{
+	"cookies": DeliveryRuleCookiesCondition_Name_Cookies,
+}
+
 type DeliveryRuleCookiesCondition_Name_STATUS string
 
 const DeliveryRuleCookiesCondition_Name_STATUS_Cookies = DeliveryRuleCookiesCondition_Name_STATUS("Cookies")
+
+// Mapping from string to DeliveryRuleCookiesCondition_Name_STATUS
+var deliveryRuleCookiesCondition_Name_STATUS_Values = map[string]DeliveryRuleCookiesCondition_Name_STATUS{
+	"cookies": DeliveryRuleCookiesCondition_Name_STATUS_Cookies,
+}
 
 // +kubebuilder:validation:Enum={"HostName"}
 type DeliveryRuleHostNameCondition_Name string
 
 const DeliveryRuleHostNameCondition_Name_HostName = DeliveryRuleHostNameCondition_Name("HostName")
 
+// Mapping from string to DeliveryRuleHostNameCondition_Name
+var deliveryRuleHostNameCondition_Name_Values = map[string]DeliveryRuleHostNameCondition_Name{
+	"hostname": DeliveryRuleHostNameCondition_Name_HostName,
+}
+
 type DeliveryRuleHostNameCondition_Name_STATUS string
 
 const DeliveryRuleHostNameCondition_Name_STATUS_HostName = DeliveryRuleHostNameCondition_Name_STATUS("HostName")
+
+// Mapping from string to DeliveryRuleHostNameCondition_Name_STATUS
+var deliveryRuleHostNameCondition_Name_STATUS_Values = map[string]DeliveryRuleHostNameCondition_Name_STATUS{
+	"hostname": DeliveryRuleHostNameCondition_Name_STATUS_HostName,
+}
 
 // +kubebuilder:validation:Enum={"HttpVersion"}
 type DeliveryRuleHttpVersionCondition_Name string
 
 const DeliveryRuleHttpVersionCondition_Name_HttpVersion = DeliveryRuleHttpVersionCondition_Name("HttpVersion")
 
+// Mapping from string to DeliveryRuleHttpVersionCondition_Name
+var deliveryRuleHttpVersionCondition_Name_Values = map[string]DeliveryRuleHttpVersionCondition_Name{
+	"httpversion": DeliveryRuleHttpVersionCondition_Name_HttpVersion,
+}
+
 type DeliveryRuleHttpVersionCondition_Name_STATUS string
 
 const DeliveryRuleHttpVersionCondition_Name_STATUS_HttpVersion = DeliveryRuleHttpVersionCondition_Name_STATUS("HttpVersion")
+
+// Mapping from string to DeliveryRuleHttpVersionCondition_Name_STATUS
+var deliveryRuleHttpVersionCondition_Name_STATUS_Values = map[string]DeliveryRuleHttpVersionCondition_Name_STATUS{
+	"httpversion": DeliveryRuleHttpVersionCondition_Name_STATUS_HttpVersion,
+}
 
 // +kubebuilder:validation:Enum={"IsDevice"}
 type DeliveryRuleIsDeviceCondition_Name string
 
 const DeliveryRuleIsDeviceCondition_Name_IsDevice = DeliveryRuleIsDeviceCondition_Name("IsDevice")
 
+// Mapping from string to DeliveryRuleIsDeviceCondition_Name
+var deliveryRuleIsDeviceCondition_Name_Values = map[string]DeliveryRuleIsDeviceCondition_Name{
+	"isdevice": DeliveryRuleIsDeviceCondition_Name_IsDevice,
+}
+
 type DeliveryRuleIsDeviceCondition_Name_STATUS string
 
 const DeliveryRuleIsDeviceCondition_Name_STATUS_IsDevice = DeliveryRuleIsDeviceCondition_Name_STATUS("IsDevice")
+
+// Mapping from string to DeliveryRuleIsDeviceCondition_Name_STATUS
+var deliveryRuleIsDeviceCondition_Name_STATUS_Values = map[string]DeliveryRuleIsDeviceCondition_Name_STATUS{
+	"isdevice": DeliveryRuleIsDeviceCondition_Name_STATUS_IsDevice,
+}
 
 // +kubebuilder:validation:Enum={"PostArgs"}
 type DeliveryRulePostArgsCondition_Name string
 
 const DeliveryRulePostArgsCondition_Name_PostArgs = DeliveryRulePostArgsCondition_Name("PostArgs")
 
+// Mapping from string to DeliveryRulePostArgsCondition_Name
+var deliveryRulePostArgsCondition_Name_Values = map[string]DeliveryRulePostArgsCondition_Name{
+	"postargs": DeliveryRulePostArgsCondition_Name_PostArgs,
+}
+
 type DeliveryRulePostArgsCondition_Name_STATUS string
 
 const DeliveryRulePostArgsCondition_Name_STATUS_PostArgs = DeliveryRulePostArgsCondition_Name_STATUS("PostArgs")
+
+// Mapping from string to DeliveryRulePostArgsCondition_Name_STATUS
+var deliveryRulePostArgsCondition_Name_STATUS_Values = map[string]DeliveryRulePostArgsCondition_Name_STATUS{
+	"postargs": DeliveryRulePostArgsCondition_Name_STATUS_PostArgs,
+}
 
 // +kubebuilder:validation:Enum={"QueryString"}
 type DeliveryRuleQueryStringCondition_Name string
 
 const DeliveryRuleQueryStringCondition_Name_QueryString = DeliveryRuleQueryStringCondition_Name("QueryString")
 
+// Mapping from string to DeliveryRuleQueryStringCondition_Name
+var deliveryRuleQueryStringCondition_Name_Values = map[string]DeliveryRuleQueryStringCondition_Name{
+	"querystring": DeliveryRuleQueryStringCondition_Name_QueryString,
+}
+
 type DeliveryRuleQueryStringCondition_Name_STATUS string
 
 const DeliveryRuleQueryStringCondition_Name_STATUS_QueryString = DeliveryRuleQueryStringCondition_Name_STATUS("QueryString")
+
+// Mapping from string to DeliveryRuleQueryStringCondition_Name_STATUS
+var deliveryRuleQueryStringCondition_Name_STATUS_Values = map[string]DeliveryRuleQueryStringCondition_Name_STATUS{
+	"querystring": DeliveryRuleQueryStringCondition_Name_STATUS_QueryString,
+}
 
 // +kubebuilder:validation:Enum={"RemoteAddress"}
 type DeliveryRuleRemoteAddressCondition_Name string
 
 const DeliveryRuleRemoteAddressCondition_Name_RemoteAddress = DeliveryRuleRemoteAddressCondition_Name("RemoteAddress")
 
+// Mapping from string to DeliveryRuleRemoteAddressCondition_Name
+var deliveryRuleRemoteAddressCondition_Name_Values = map[string]DeliveryRuleRemoteAddressCondition_Name{
+	"remoteaddress": DeliveryRuleRemoteAddressCondition_Name_RemoteAddress,
+}
+
 type DeliveryRuleRemoteAddressCondition_Name_STATUS string
 
 const DeliveryRuleRemoteAddressCondition_Name_STATUS_RemoteAddress = DeliveryRuleRemoteAddressCondition_Name_STATUS("RemoteAddress")
+
+// Mapping from string to DeliveryRuleRemoteAddressCondition_Name_STATUS
+var deliveryRuleRemoteAddressCondition_Name_STATUS_Values = map[string]DeliveryRuleRemoteAddressCondition_Name_STATUS{
+	"remoteaddress": DeliveryRuleRemoteAddressCondition_Name_STATUS_RemoteAddress,
+}
 
 // +kubebuilder:validation:Enum={"RequestBody"}
 type DeliveryRuleRequestBodyCondition_Name string
 
 const DeliveryRuleRequestBodyCondition_Name_RequestBody = DeliveryRuleRequestBodyCondition_Name("RequestBody")
 
+// Mapping from string to DeliveryRuleRequestBodyCondition_Name
+var deliveryRuleRequestBodyCondition_Name_Values = map[string]DeliveryRuleRequestBodyCondition_Name{
+	"requestbody": DeliveryRuleRequestBodyCondition_Name_RequestBody,
+}
+
 type DeliveryRuleRequestBodyCondition_Name_STATUS string
 
 const DeliveryRuleRequestBodyCondition_Name_STATUS_RequestBody = DeliveryRuleRequestBodyCondition_Name_STATUS("RequestBody")
+
+// Mapping from string to DeliveryRuleRequestBodyCondition_Name_STATUS
+var deliveryRuleRequestBodyCondition_Name_STATUS_Values = map[string]DeliveryRuleRequestBodyCondition_Name_STATUS{
+	"requestbody": DeliveryRuleRequestBodyCondition_Name_STATUS_RequestBody,
+}
 
 // +kubebuilder:validation:Enum={"ModifyRequestHeader"}
 type DeliveryRuleRequestHeaderAction_Name string
 
 const DeliveryRuleRequestHeaderAction_Name_ModifyRequestHeader = DeliveryRuleRequestHeaderAction_Name("ModifyRequestHeader")
 
+// Mapping from string to DeliveryRuleRequestHeaderAction_Name
+var deliveryRuleRequestHeaderAction_Name_Values = map[string]DeliveryRuleRequestHeaderAction_Name{
+	"modifyrequestheader": DeliveryRuleRequestHeaderAction_Name_ModifyRequestHeader,
+}
+
 type DeliveryRuleRequestHeaderAction_Name_STATUS string
 
 const DeliveryRuleRequestHeaderAction_Name_STATUS_ModifyRequestHeader = DeliveryRuleRequestHeaderAction_Name_STATUS("ModifyRequestHeader")
+
+// Mapping from string to DeliveryRuleRequestHeaderAction_Name_STATUS
+var deliveryRuleRequestHeaderAction_Name_STATUS_Values = map[string]DeliveryRuleRequestHeaderAction_Name_STATUS{
+	"modifyrequestheader": DeliveryRuleRequestHeaderAction_Name_STATUS_ModifyRequestHeader,
+}
 
 // +kubebuilder:validation:Enum={"RequestHeader"}
 type DeliveryRuleRequestHeaderCondition_Name string
 
 const DeliveryRuleRequestHeaderCondition_Name_RequestHeader = DeliveryRuleRequestHeaderCondition_Name("RequestHeader")
 
+// Mapping from string to DeliveryRuleRequestHeaderCondition_Name
+var deliveryRuleRequestHeaderCondition_Name_Values = map[string]DeliveryRuleRequestHeaderCondition_Name{
+	"requestheader": DeliveryRuleRequestHeaderCondition_Name_RequestHeader,
+}
+
 type DeliveryRuleRequestHeaderCondition_Name_STATUS string
 
 const DeliveryRuleRequestHeaderCondition_Name_STATUS_RequestHeader = DeliveryRuleRequestHeaderCondition_Name_STATUS("RequestHeader")
+
+// Mapping from string to DeliveryRuleRequestHeaderCondition_Name_STATUS
+var deliveryRuleRequestHeaderCondition_Name_STATUS_Values = map[string]DeliveryRuleRequestHeaderCondition_Name_STATUS{
+	"requestheader": DeliveryRuleRequestHeaderCondition_Name_STATUS_RequestHeader,
+}
 
 // +kubebuilder:validation:Enum={"RequestMethod"}
 type DeliveryRuleRequestMethodCondition_Name string
 
 const DeliveryRuleRequestMethodCondition_Name_RequestMethod = DeliveryRuleRequestMethodCondition_Name("RequestMethod")
 
+// Mapping from string to DeliveryRuleRequestMethodCondition_Name
+var deliveryRuleRequestMethodCondition_Name_Values = map[string]DeliveryRuleRequestMethodCondition_Name{
+	"requestmethod": DeliveryRuleRequestMethodCondition_Name_RequestMethod,
+}
+
 type DeliveryRuleRequestMethodCondition_Name_STATUS string
 
 const DeliveryRuleRequestMethodCondition_Name_STATUS_RequestMethod = DeliveryRuleRequestMethodCondition_Name_STATUS("RequestMethod")
+
+// Mapping from string to DeliveryRuleRequestMethodCondition_Name_STATUS
+var deliveryRuleRequestMethodCondition_Name_STATUS_Values = map[string]DeliveryRuleRequestMethodCondition_Name_STATUS{
+	"requestmethod": DeliveryRuleRequestMethodCondition_Name_STATUS_RequestMethod,
+}
 
 // +kubebuilder:validation:Enum={"RequestScheme"}
 type DeliveryRuleRequestSchemeCondition_Name string
 
 const DeliveryRuleRequestSchemeCondition_Name_RequestScheme = DeliveryRuleRequestSchemeCondition_Name("RequestScheme")
 
+// Mapping from string to DeliveryRuleRequestSchemeCondition_Name
+var deliveryRuleRequestSchemeCondition_Name_Values = map[string]DeliveryRuleRequestSchemeCondition_Name{
+	"requestscheme": DeliveryRuleRequestSchemeCondition_Name_RequestScheme,
+}
+
 type DeliveryRuleRequestSchemeCondition_Name_STATUS string
 
 const DeliveryRuleRequestSchemeCondition_Name_STATUS_RequestScheme = DeliveryRuleRequestSchemeCondition_Name_STATUS("RequestScheme")
+
+// Mapping from string to DeliveryRuleRequestSchemeCondition_Name_STATUS
+var deliveryRuleRequestSchemeCondition_Name_STATUS_Values = map[string]DeliveryRuleRequestSchemeCondition_Name_STATUS{
+	"requestscheme": DeliveryRuleRequestSchemeCondition_Name_STATUS_RequestScheme,
+}
 
 // +kubebuilder:validation:Enum={"RequestUri"}
 type DeliveryRuleRequestUriCondition_Name string
 
 const DeliveryRuleRequestUriCondition_Name_RequestUri = DeliveryRuleRequestUriCondition_Name("RequestUri")
 
+// Mapping from string to DeliveryRuleRequestUriCondition_Name
+var deliveryRuleRequestUriCondition_Name_Values = map[string]DeliveryRuleRequestUriCondition_Name{
+	"requesturi": DeliveryRuleRequestUriCondition_Name_RequestUri,
+}
+
 type DeliveryRuleRequestUriCondition_Name_STATUS string
 
 const DeliveryRuleRequestUriCondition_Name_STATUS_RequestUri = DeliveryRuleRequestUriCondition_Name_STATUS("RequestUri")
+
+// Mapping from string to DeliveryRuleRequestUriCondition_Name_STATUS
+var deliveryRuleRequestUriCondition_Name_STATUS_Values = map[string]DeliveryRuleRequestUriCondition_Name_STATUS{
+	"requesturi": DeliveryRuleRequestUriCondition_Name_STATUS_RequestUri,
+}
 
 // +kubebuilder:validation:Enum={"ModifyResponseHeader"}
 type DeliveryRuleResponseHeaderAction_Name string
 
 const DeliveryRuleResponseHeaderAction_Name_ModifyResponseHeader = DeliveryRuleResponseHeaderAction_Name("ModifyResponseHeader")
 
+// Mapping from string to DeliveryRuleResponseHeaderAction_Name
+var deliveryRuleResponseHeaderAction_Name_Values = map[string]DeliveryRuleResponseHeaderAction_Name{
+	"modifyresponseheader": DeliveryRuleResponseHeaderAction_Name_ModifyResponseHeader,
+}
+
 type DeliveryRuleResponseHeaderAction_Name_STATUS string
 
 const DeliveryRuleResponseHeaderAction_Name_STATUS_ModifyResponseHeader = DeliveryRuleResponseHeaderAction_Name_STATUS("ModifyResponseHeader")
+
+// Mapping from string to DeliveryRuleResponseHeaderAction_Name_STATUS
+var deliveryRuleResponseHeaderAction_Name_STATUS_Values = map[string]DeliveryRuleResponseHeaderAction_Name_STATUS{
+	"modifyresponseheader": DeliveryRuleResponseHeaderAction_Name_STATUS_ModifyResponseHeader,
+}
 
 // +kubebuilder:validation:Enum={"RouteConfigurationOverride"}
 type DeliveryRuleRouteConfigurationOverrideAction_Name string
 
 const DeliveryRuleRouteConfigurationOverrideAction_Name_RouteConfigurationOverride = DeliveryRuleRouteConfigurationOverrideAction_Name("RouteConfigurationOverride")
 
+// Mapping from string to DeliveryRuleRouteConfigurationOverrideAction_Name
+var deliveryRuleRouteConfigurationOverrideAction_Name_Values = map[string]DeliveryRuleRouteConfigurationOverrideAction_Name{
+	"routeconfigurationoverride": DeliveryRuleRouteConfigurationOverrideAction_Name_RouteConfigurationOverride,
+}
+
 type DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS string
 
 const DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS_RouteConfigurationOverride = DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS("RouteConfigurationOverride")
+
+// Mapping from string to DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS
+var deliveryRuleRouteConfigurationOverrideAction_Name_STATUS_Values = map[string]DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS{
+	"routeconfigurationoverride": DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS_RouteConfigurationOverride,
+}
 
 // +kubebuilder:validation:Enum={"ServerPort"}
 type DeliveryRuleServerPortCondition_Name string
 
 const DeliveryRuleServerPortCondition_Name_ServerPort = DeliveryRuleServerPortCondition_Name("ServerPort")
 
+// Mapping from string to DeliveryRuleServerPortCondition_Name
+var deliveryRuleServerPortCondition_Name_Values = map[string]DeliveryRuleServerPortCondition_Name{
+	"serverport": DeliveryRuleServerPortCondition_Name_ServerPort,
+}
+
 type DeliveryRuleServerPortCondition_Name_STATUS string
 
 const DeliveryRuleServerPortCondition_Name_STATUS_ServerPort = DeliveryRuleServerPortCondition_Name_STATUS("ServerPort")
+
+// Mapping from string to DeliveryRuleServerPortCondition_Name_STATUS
+var deliveryRuleServerPortCondition_Name_STATUS_Values = map[string]DeliveryRuleServerPortCondition_Name_STATUS{
+	"serverport": DeliveryRuleServerPortCondition_Name_STATUS_ServerPort,
+}
 
 // +kubebuilder:validation:Enum={"SocketAddr"}
 type DeliveryRuleSocketAddrCondition_Name string
 
 const DeliveryRuleSocketAddrCondition_Name_SocketAddr = DeliveryRuleSocketAddrCondition_Name("SocketAddr")
 
+// Mapping from string to DeliveryRuleSocketAddrCondition_Name
+var deliveryRuleSocketAddrCondition_Name_Values = map[string]DeliveryRuleSocketAddrCondition_Name{
+	"socketaddr": DeliveryRuleSocketAddrCondition_Name_SocketAddr,
+}
+
 type DeliveryRuleSocketAddrCondition_Name_STATUS string
 
 const DeliveryRuleSocketAddrCondition_Name_STATUS_SocketAddr = DeliveryRuleSocketAddrCondition_Name_STATUS("SocketAddr")
+
+// Mapping from string to DeliveryRuleSocketAddrCondition_Name_STATUS
+var deliveryRuleSocketAddrCondition_Name_STATUS_Values = map[string]DeliveryRuleSocketAddrCondition_Name_STATUS{
+	"socketaddr": DeliveryRuleSocketAddrCondition_Name_STATUS_SocketAddr,
+}
 
 // +kubebuilder:validation:Enum={"SslProtocol"}
 type DeliveryRuleSslProtocolCondition_Name string
 
 const DeliveryRuleSslProtocolCondition_Name_SslProtocol = DeliveryRuleSslProtocolCondition_Name("SslProtocol")
 
+// Mapping from string to DeliveryRuleSslProtocolCondition_Name
+var deliveryRuleSslProtocolCondition_Name_Values = map[string]DeliveryRuleSslProtocolCondition_Name{
+	"sslprotocol": DeliveryRuleSslProtocolCondition_Name_SslProtocol,
+}
+
 type DeliveryRuleSslProtocolCondition_Name_STATUS string
 
 const DeliveryRuleSslProtocolCondition_Name_STATUS_SslProtocol = DeliveryRuleSslProtocolCondition_Name_STATUS("SslProtocol")
+
+// Mapping from string to DeliveryRuleSslProtocolCondition_Name_STATUS
+var deliveryRuleSslProtocolCondition_Name_STATUS_Values = map[string]DeliveryRuleSslProtocolCondition_Name_STATUS{
+	"sslprotocol": DeliveryRuleSslProtocolCondition_Name_STATUS_SslProtocol,
+}
 
 // +kubebuilder:validation:Enum={"UrlFileExtension"}
 type DeliveryRuleUrlFileExtensionCondition_Name string
 
 const DeliveryRuleUrlFileExtensionCondition_Name_UrlFileExtension = DeliveryRuleUrlFileExtensionCondition_Name("UrlFileExtension")
 
+// Mapping from string to DeliveryRuleUrlFileExtensionCondition_Name
+var deliveryRuleUrlFileExtensionCondition_Name_Values = map[string]DeliveryRuleUrlFileExtensionCondition_Name{
+	"urlfileextension": DeliveryRuleUrlFileExtensionCondition_Name_UrlFileExtension,
+}
+
 type DeliveryRuleUrlFileExtensionCondition_Name_STATUS string
 
 const DeliveryRuleUrlFileExtensionCondition_Name_STATUS_UrlFileExtension = DeliveryRuleUrlFileExtensionCondition_Name_STATUS("UrlFileExtension")
+
+// Mapping from string to DeliveryRuleUrlFileExtensionCondition_Name_STATUS
+var deliveryRuleUrlFileExtensionCondition_Name_STATUS_Values = map[string]DeliveryRuleUrlFileExtensionCondition_Name_STATUS{
+	"urlfileextension": DeliveryRuleUrlFileExtensionCondition_Name_STATUS_UrlFileExtension,
+}
 
 // +kubebuilder:validation:Enum={"UrlFileName"}
 type DeliveryRuleUrlFileNameCondition_Name string
 
 const DeliveryRuleUrlFileNameCondition_Name_UrlFileName = DeliveryRuleUrlFileNameCondition_Name("UrlFileName")
 
+// Mapping from string to DeliveryRuleUrlFileNameCondition_Name
+var deliveryRuleUrlFileNameCondition_Name_Values = map[string]DeliveryRuleUrlFileNameCondition_Name{
+	"urlfilename": DeliveryRuleUrlFileNameCondition_Name_UrlFileName,
+}
+
 type DeliveryRuleUrlFileNameCondition_Name_STATUS string
 
 const DeliveryRuleUrlFileNameCondition_Name_STATUS_UrlFileName = DeliveryRuleUrlFileNameCondition_Name_STATUS("UrlFileName")
+
+// Mapping from string to DeliveryRuleUrlFileNameCondition_Name_STATUS
+var deliveryRuleUrlFileNameCondition_Name_STATUS_Values = map[string]DeliveryRuleUrlFileNameCondition_Name_STATUS{
+	"urlfilename": DeliveryRuleUrlFileNameCondition_Name_STATUS_UrlFileName,
+}
 
 // +kubebuilder:validation:Enum={"UrlPath"}
 type DeliveryRuleUrlPathCondition_Name string
 
 const DeliveryRuleUrlPathCondition_Name_UrlPath = DeliveryRuleUrlPathCondition_Name("UrlPath")
 
+// Mapping from string to DeliveryRuleUrlPathCondition_Name
+var deliveryRuleUrlPathCondition_Name_Values = map[string]DeliveryRuleUrlPathCondition_Name{
+	"urlpath": DeliveryRuleUrlPathCondition_Name_UrlPath,
+}
+
 type DeliveryRuleUrlPathCondition_Name_STATUS string
 
 const DeliveryRuleUrlPathCondition_Name_STATUS_UrlPath = DeliveryRuleUrlPathCondition_Name_STATUS("UrlPath")
+
+// Mapping from string to DeliveryRuleUrlPathCondition_Name_STATUS
+var deliveryRuleUrlPathCondition_Name_STATUS_Values = map[string]DeliveryRuleUrlPathCondition_Name_STATUS{
+	"urlpath": DeliveryRuleUrlPathCondition_Name_STATUS_UrlPath,
+}
 
 // Defines the parameters for the request header action.
 type HeaderActionParameters struct {
@@ -18615,8 +19072,9 @@ func (parameters *HeaderActionParameters) AssignProperties_From_HeaderActionPara
 
 	// HeaderAction
 	if source.HeaderAction != nil {
-		headerAction := HeaderActionParameters_HeaderAction(*source.HeaderAction)
-		parameters.HeaderAction = &headerAction
+		headerAction := *source.HeaderAction
+		headerActionTemp := genruntime.ToEnum(headerAction, headerActionParameters_HeaderAction_Values)
+		parameters.HeaderAction = &headerActionTemp
 	} else {
 		parameters.HeaderAction = nil
 	}
@@ -18626,8 +19084,9 @@ func (parameters *HeaderActionParameters) AssignProperties_From_HeaderActionPara
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HeaderActionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, headerActionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -18766,8 +19225,9 @@ func (parameters *HeaderActionParameters_STATUS) AssignProperties_From_HeaderAct
 
 	// HeaderAction
 	if source.HeaderAction != nil {
-		headerAction := HeaderActionParameters_HeaderAction_STATUS(*source.HeaderAction)
-		parameters.HeaderAction = &headerAction
+		headerAction := *source.HeaderAction
+		headerActionTemp := genruntime.ToEnum(headerAction, headerActionParameters_HeaderAction_STATUS_Values)
+		parameters.HeaderAction = &headerActionTemp
 	} else {
 		parameters.HeaderAction = nil
 	}
@@ -18777,8 +19237,9 @@ func (parameters *HeaderActionParameters_STATUS) AssignProperties_From_HeaderAct
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HeaderActionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, headerActionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -18946,8 +19407,9 @@ func (parameters *HostNameMatchConditionParameters) AssignProperties_From_HostNa
 
 	// Operator
 	if source.Operator != nil {
-		operator := HostNameMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, hostNameMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -18958,7 +19420,7 @@ func (parameters *HostNameMatchConditionParameters) AssignProperties_From_HostNa
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -18967,8 +19429,9 @@ func (parameters *HostNameMatchConditionParameters) AssignProperties_From_HostNa
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HostNameMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, hostNameMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -19159,8 +19622,9 @@ func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_From
 
 	// Operator
 	if source.Operator != nil {
-		operator := HostNameMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, hostNameMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -19171,7 +19635,7 @@ func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_From
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -19180,8 +19644,9 @@ func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_From
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HostNameMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, hostNameMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -19364,8 +19829,9 @@ func (parameters *HttpVersionMatchConditionParameters) AssignProperties_From_Htt
 
 	// Operator
 	if source.Operator != nil {
-		operator := HttpVersionMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, httpVersionMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -19376,7 +19842,7 @@ func (parameters *HttpVersionMatchConditionParameters) AssignProperties_From_Htt
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -19385,8 +19851,9 @@ func (parameters *HttpVersionMatchConditionParameters) AssignProperties_From_Htt
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HttpVersionMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, httpVersionMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -19577,8 +20044,9 @@ func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_F
 
 	// Operator
 	if source.Operator != nil {
-		operator := HttpVersionMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, httpVersionMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -19589,7 +20057,7 @@ func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_F
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -19598,8 +20066,9 @@ func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_F
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := HttpVersionMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, httpVersionMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -19775,7 +20244,7 @@ func (parameters *IsDeviceMatchConditionParameters) AssignProperties_From_IsDevi
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = IsDeviceMatchConditionParameters_MatchValues(matchValueItem)
+			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, isDeviceMatchConditionParameters_MatchValues_Values)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -19792,8 +20261,9 @@ func (parameters *IsDeviceMatchConditionParameters) AssignProperties_From_IsDevi
 
 	// Operator
 	if source.Operator != nil {
-		operator := IsDeviceMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, isDeviceMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -19804,7 +20274,7 @@ func (parameters *IsDeviceMatchConditionParameters) AssignProperties_From_IsDevi
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -19813,8 +20283,9 @@ func (parameters *IsDeviceMatchConditionParameters) AssignProperties_From_IsDevi
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := IsDeviceMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, isDeviceMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -20019,7 +20490,7 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_From
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = IsDeviceMatchConditionParameters_MatchValues_STATUS(matchValueItem)
+			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, isDeviceMatchConditionParameters_MatchValues_STATUS_Values)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -20036,8 +20507,9 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_From
 
 	// Operator
 	if source.Operator != nil {
-		operator := IsDeviceMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, isDeviceMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -20048,7 +20520,7 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_From
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -20057,8 +20529,9 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_From
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := IsDeviceMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, isDeviceMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -20138,9 +20611,19 @@ type OriginGroupOverrideAction_Name string
 
 const OriginGroupOverrideAction_Name_OriginGroupOverride = OriginGroupOverrideAction_Name("OriginGroupOverride")
 
+// Mapping from string to OriginGroupOverrideAction_Name
+var originGroupOverrideAction_Name_Values = map[string]OriginGroupOverrideAction_Name{
+	"origingroupoverride": OriginGroupOverrideAction_Name_OriginGroupOverride,
+}
+
 type OriginGroupOverrideAction_Name_STATUS string
 
 const OriginGroupOverrideAction_Name_STATUS_OriginGroupOverride = OriginGroupOverrideAction_Name_STATUS("OriginGroupOverride")
+
+// Mapping from string to OriginGroupOverrideAction_Name_STATUS
+var originGroupOverrideAction_Name_STATUS_Values = map[string]OriginGroupOverrideAction_Name_STATUS{
+	"origingroupoverride": OriginGroupOverrideAction_Name_STATUS_OriginGroupOverride,
+}
 
 // Defines the parameters for the origin group override action.
 type OriginGroupOverrideActionParameters struct {
@@ -20229,8 +20712,9 @@ func (parameters *OriginGroupOverrideActionParameters) AssignProperties_From_Ori
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := OriginGroupOverrideActionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, originGroupOverrideActionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -20361,8 +20845,9 @@ func (parameters *OriginGroupOverrideActionParameters_STATUS) AssignProperties_F
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := OriginGroupOverrideActionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, originGroupOverrideActionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -20540,8 +21025,9 @@ func (parameters *PostArgsMatchConditionParameters) AssignProperties_From_PostAr
 
 	// Operator
 	if source.Operator != nil {
-		operator := PostArgsMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, postArgsMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -20555,7 +21041,7 @@ func (parameters *PostArgsMatchConditionParameters) AssignProperties_From_PostAr
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -20564,8 +21050,9 @@ func (parameters *PostArgsMatchConditionParameters) AssignProperties_From_PostAr
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := PostArgsMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, postArgsMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -20771,8 +21258,9 @@ func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_From
 
 	// Operator
 	if source.Operator != nil {
-		operator := PostArgsMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, postArgsMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -20786,7 +21274,7 @@ func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_From
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -20795,8 +21283,9 @@ func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_From
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := PostArgsMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, postArgsMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -20982,8 +21471,9 @@ func (parameters *QueryStringMatchConditionParameters) AssignProperties_From_Que
 
 	// Operator
 	if source.Operator != nil {
-		operator := QueryStringMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, queryStringMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -20994,7 +21484,7 @@ func (parameters *QueryStringMatchConditionParameters) AssignProperties_From_Que
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -21003,8 +21493,9 @@ func (parameters *QueryStringMatchConditionParameters) AssignProperties_From_Que
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := QueryStringMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, queryStringMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -21195,8 +21686,9 @@ func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_F
 
 	// Operator
 	if source.Operator != nil {
-		operator := QueryStringMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, queryStringMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -21207,7 +21699,7 @@ func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_F
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -21216,8 +21708,9 @@ func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_F
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := QueryStringMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, queryStringMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -21401,8 +21894,9 @@ func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_From_R
 
 	// Operator
 	if source.Operator != nil {
-		operator := RemoteAddressMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, remoteAddressMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -21413,7 +21907,7 @@ func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_From_R
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -21422,8 +21916,9 @@ func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_From_R
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RemoteAddressMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, remoteAddressMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -21615,8 +22110,9 @@ func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties
 
 	// Operator
 	if source.Operator != nil {
-		operator := RemoteAddressMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, remoteAddressMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -21627,7 +22123,7 @@ func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -21636,8 +22132,9 @@ func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RemoteAddressMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, remoteAddressMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -21820,8 +22317,9 @@ func (parameters *RequestBodyMatchConditionParameters) AssignProperties_From_Req
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestBodyMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestBodyMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -21832,7 +22330,7 @@ func (parameters *RequestBodyMatchConditionParameters) AssignProperties_From_Req
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -21841,8 +22339,9 @@ func (parameters *RequestBodyMatchConditionParameters) AssignProperties_From_Req
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestBodyMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestBodyMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -22033,8 +22532,9 @@ func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_F
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestBodyMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestBodyMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -22045,7 +22545,7 @@ func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_F
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -22054,8 +22554,9 @@ func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_F
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestBodyMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestBodyMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -22253,8 +22754,9 @@ func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_From_R
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestHeaderMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestHeaderMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -22268,7 +22770,7 @@ func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_From_R
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -22277,8 +22779,9 @@ func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_From_R
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestHeaderMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestHeaderMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -22484,8 +22987,9 @@ func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestHeaderMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestHeaderMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -22499,7 +23003,7 @@ func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -22508,8 +23012,9 @@ func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestHeaderMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestHeaderMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -22688,7 +23193,7 @@ func (parameters *RequestMethodMatchConditionParameters) AssignProperties_From_R
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = RequestMethodMatchConditionParameters_MatchValues(matchValueItem)
+			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, requestMethodMatchConditionParameters_MatchValues_Values)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -22705,8 +23210,9 @@ func (parameters *RequestMethodMatchConditionParameters) AssignProperties_From_R
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestMethodMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestMethodMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -22717,7 +23223,7 @@ func (parameters *RequestMethodMatchConditionParameters) AssignProperties_From_R
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -22726,8 +23232,9 @@ func (parameters *RequestMethodMatchConditionParameters) AssignProperties_From_R
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestMethodMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestMethodMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -22932,7 +23439,7 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = RequestMethodMatchConditionParameters_MatchValues_STATUS(matchValueItem)
+			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, requestMethodMatchConditionParameters_MatchValues_STATUS_Values)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -22949,8 +23456,9 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestMethodMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestMethodMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -22961,7 +23469,7 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -22970,8 +23478,9 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestMethodMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestMethodMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -23157,7 +23666,7 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_From_R
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = RequestSchemeMatchConditionParameters_MatchValues(matchValueItem)
+			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, requestSchemeMatchConditionParameters_MatchValues_Values)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -23174,8 +23683,9 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_From_R
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestSchemeMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestSchemeMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -23186,7 +23696,7 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_From_R
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -23195,8 +23705,9 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_From_R
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestSchemeMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestSchemeMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -23401,7 +23912,7 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = RequestSchemeMatchConditionParameters_MatchValues_STATUS(matchValueItem)
+			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, requestSchemeMatchConditionParameters_MatchValues_STATUS_Values)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -23418,8 +23929,9 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestSchemeMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestSchemeMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -23430,7 +23942,7 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -23439,8 +23951,9 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestSchemeMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestSchemeMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -23633,8 +24146,9 @@ func (parameters *RequestUriMatchConditionParameters) AssignProperties_From_Requ
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestUriMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestUriMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -23645,7 +24159,7 @@ func (parameters *RequestUriMatchConditionParameters) AssignProperties_From_Requ
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -23654,8 +24168,9 @@ func (parameters *RequestUriMatchConditionParameters) AssignProperties_From_Requ
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestUriMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestUriMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -23846,8 +24361,9 @@ func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_Fr
 
 	// Operator
 	if source.Operator != nil {
-		operator := RequestUriMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, requestUriMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -23858,7 +24374,7 @@ func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_Fr
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -23867,8 +24383,9 @@ func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_Fr
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RequestUriMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, requestUriMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -24057,8 +24574,9 @@ func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_F
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RouteConfigurationOverrideActionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, routeConfigurationOverrideActionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -24241,8 +24759,9 @@ func (parameters *RouteConfigurationOverrideActionParameters_STATUS) AssignPrope
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := RouteConfigurationOverrideActionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, routeConfigurationOverrideActionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -24417,8 +24936,9 @@ func (parameters *ServerPortMatchConditionParameters) AssignProperties_From_Serv
 
 	// Operator
 	if source.Operator != nil {
-		operator := ServerPortMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, serverPortMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -24429,7 +24949,7 @@ func (parameters *ServerPortMatchConditionParameters) AssignProperties_From_Serv
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -24438,8 +24958,9 @@ func (parameters *ServerPortMatchConditionParameters) AssignProperties_From_Serv
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := ServerPortMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, serverPortMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -24630,8 +25151,9 @@ func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_Fr
 
 	// Operator
 	if source.Operator != nil {
-		operator := ServerPortMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, serverPortMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -24642,7 +25164,7 @@ func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_Fr
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -24651,8 +25173,9 @@ func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_Fr
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := ServerPortMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, serverPortMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -24835,8 +25358,9 @@ func (parameters *SocketAddrMatchConditionParameters) AssignProperties_From_Sock
 
 	// Operator
 	if source.Operator != nil {
-		operator := SocketAddrMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, socketAddrMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -24847,7 +25371,7 @@ func (parameters *SocketAddrMatchConditionParameters) AssignProperties_From_Sock
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -24856,8 +25380,9 @@ func (parameters *SocketAddrMatchConditionParameters) AssignProperties_From_Sock
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := SocketAddrMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, socketAddrMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -25048,8 +25573,9 @@ func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_Fr
 
 	// Operator
 	if source.Operator != nil {
-		operator := SocketAddrMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, socketAddrMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -25060,7 +25586,7 @@ func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_Fr
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -25069,8 +25595,9 @@ func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_Fr
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := SocketAddrMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, socketAddrMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -25246,7 +25773,7 @@ func (parameters *SslProtocolMatchConditionParameters) AssignProperties_From_Ssl
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = SslProtocol(matchValueItem)
+			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, sslProtocol_Values)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -25263,8 +25790,9 @@ func (parameters *SslProtocolMatchConditionParameters) AssignProperties_From_Ssl
 
 	// Operator
 	if source.Operator != nil {
-		operator := SslProtocolMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, sslProtocolMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -25275,7 +25803,7 @@ func (parameters *SslProtocolMatchConditionParameters) AssignProperties_From_Ssl
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -25284,8 +25812,9 @@ func (parameters *SslProtocolMatchConditionParameters) AssignProperties_From_Ssl
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := SslProtocolMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, sslProtocolMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -25490,7 +26019,7 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_F
 		for matchValueIndex, matchValueItem := range source.MatchValues {
 			// Shadow the loop variable to avoid aliasing
 			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = SslProtocol_STATUS(matchValueItem)
+			matchValueList[matchValueIndex] = genruntime.ToEnum(matchValueItem, sslProtocol_STATUS_Values)
 		}
 		parameters.MatchValues = matchValueList
 	} else {
@@ -25507,8 +26036,9 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_F
 
 	// Operator
 	if source.Operator != nil {
-		operator := SslProtocolMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, sslProtocolMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -25519,7 +26049,7 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_F
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -25528,8 +26058,9 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_F
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := SslProtocolMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, sslProtocolMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -25722,8 +26253,9 @@ func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_Fro
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlFileExtensionMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, urlFileExtensionMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -25734,7 +26266,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_Fro
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -25743,8 +26275,9 @@ func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_Fro
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlFileExtensionMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlFileExtensionMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -25935,8 +26468,9 @@ func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignPropert
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlFileExtensionMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, urlFileExtensionMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -25947,7 +26481,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignPropert
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -25956,8 +26490,9 @@ func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignPropert
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlFileExtensionMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlFileExtensionMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -26140,8 +26675,9 @@ func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_From_Url
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlFileNameMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, urlFileNameMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -26152,7 +26688,7 @@ func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_From_Url
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -26161,8 +26697,9 @@ func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_From_Url
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlFileNameMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlFileNameMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -26353,8 +26890,9 @@ func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_F
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlFileNameMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, urlFileNameMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -26365,7 +26903,7 @@ func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_F
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -26374,8 +26912,9 @@ func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_F
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlFileNameMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlFileNameMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -26558,8 +27097,9 @@ func (parameters *UrlPathMatchConditionParameters) AssignProperties_From_UrlPath
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlPathMatchConditionParameters_Operator(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, urlPathMatchConditionParameters_Operator_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -26570,7 +27110,7 @@ func (parameters *UrlPathMatchConditionParameters) AssignProperties_From_UrlPath
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -26579,8 +27119,9 @@ func (parameters *UrlPathMatchConditionParameters) AssignProperties_From_UrlPath
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlPathMatchConditionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlPathMatchConditionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -26771,8 +27312,9 @@ func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_From_
 
 	// Operator
 	if source.Operator != nil {
-		operator := UrlPathMatchConditionParameters_Operator_STATUS(*source.Operator)
-		parameters.Operator = &operator
+		operator := *source.Operator
+		operatorTemp := genruntime.ToEnum(operator, urlPathMatchConditionParameters_Operator_STATUS_Values)
+		parameters.Operator = &operatorTemp
 	} else {
 		parameters.Operator = nil
 	}
@@ -26783,7 +27325,7 @@ func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_From_
 		for transformIndex, transformItem := range source.Transforms {
 			// Shadow the loop variable to avoid aliasing
 			transformItem := transformItem
-			transformList[transformIndex] = Transform_STATUS(transformItem)
+			transformList[transformIndex] = genruntime.ToEnum(transformItem, transform_STATUS_Values)
 		}
 		parameters.Transforms = transformList
 	} else {
@@ -26792,8 +27334,9 @@ func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_From_
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlPathMatchConditionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlPathMatchConditionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -26863,9 +27406,19 @@ type UrlRedirectAction_Name string
 
 const UrlRedirectAction_Name_UrlRedirect = UrlRedirectAction_Name("UrlRedirect")
 
+// Mapping from string to UrlRedirectAction_Name
+var urlRedirectAction_Name_Values = map[string]UrlRedirectAction_Name{
+	"urlredirect": UrlRedirectAction_Name_UrlRedirect,
+}
+
 type UrlRedirectAction_Name_STATUS string
 
 const UrlRedirectAction_Name_STATUS_UrlRedirect = UrlRedirectAction_Name_STATUS("UrlRedirect")
+
+// Mapping from string to UrlRedirectAction_Name_STATUS
+var urlRedirectAction_Name_STATUS_Values = map[string]UrlRedirectAction_Name_STATUS{
+	"urlredirect": UrlRedirectAction_Name_STATUS_UrlRedirect,
+}
 
 // Defines the parameters for the url redirect action.
 type UrlRedirectActionParameters struct {
@@ -27024,24 +27577,27 @@ func (parameters *UrlRedirectActionParameters) AssignProperties_From_UrlRedirect
 
 	// DestinationProtocol
 	if source.DestinationProtocol != nil {
-		destinationProtocol := UrlRedirectActionParameters_DestinationProtocol(*source.DestinationProtocol)
-		parameters.DestinationProtocol = &destinationProtocol
+		destinationProtocol := *source.DestinationProtocol
+		destinationProtocolTemp := genruntime.ToEnum(destinationProtocol, urlRedirectActionParameters_DestinationProtocol_Values)
+		parameters.DestinationProtocol = &destinationProtocolTemp
 	} else {
 		parameters.DestinationProtocol = nil
 	}
 
 	// RedirectType
 	if source.RedirectType != nil {
-		redirectType := UrlRedirectActionParameters_RedirectType(*source.RedirectType)
-		parameters.RedirectType = &redirectType
+		redirectType := *source.RedirectType
+		redirectTypeTemp := genruntime.ToEnum(redirectType, urlRedirectActionParameters_RedirectType_Values)
+		parameters.RedirectType = &redirectTypeTemp
 	} else {
 		parameters.RedirectType = nil
 	}
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlRedirectActionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlRedirectActionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -27248,24 +27804,27 @@ func (parameters *UrlRedirectActionParameters_STATUS) AssignProperties_From_UrlR
 
 	// DestinationProtocol
 	if source.DestinationProtocol != nil {
-		destinationProtocol := UrlRedirectActionParameters_DestinationProtocol_STATUS(*source.DestinationProtocol)
-		parameters.DestinationProtocol = &destinationProtocol
+		destinationProtocol := *source.DestinationProtocol
+		destinationProtocolTemp := genruntime.ToEnum(destinationProtocol, urlRedirectActionParameters_DestinationProtocol_STATUS_Values)
+		parameters.DestinationProtocol = &destinationProtocolTemp
 	} else {
 		parameters.DestinationProtocol = nil
 	}
 
 	// RedirectType
 	if source.RedirectType != nil {
-		redirectType := UrlRedirectActionParameters_RedirectType_STATUS(*source.RedirectType)
-		parameters.RedirectType = &redirectType
+		redirectType := *source.RedirectType
+		redirectTypeTemp := genruntime.ToEnum(redirectType, urlRedirectActionParameters_RedirectType_STATUS_Values)
+		parameters.RedirectType = &redirectTypeTemp
 	} else {
 		parameters.RedirectType = nil
 	}
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlRedirectActionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlRedirectActionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -27331,9 +27890,19 @@ type UrlRewriteAction_Name string
 
 const UrlRewriteAction_Name_UrlRewrite = UrlRewriteAction_Name("UrlRewrite")
 
+// Mapping from string to UrlRewriteAction_Name
+var urlRewriteAction_Name_Values = map[string]UrlRewriteAction_Name{
+	"urlrewrite": UrlRewriteAction_Name_UrlRewrite,
+}
+
 type UrlRewriteAction_Name_STATUS string
 
 const UrlRewriteAction_Name_STATUS_UrlRewrite = UrlRewriteAction_Name_STATUS("UrlRewrite")
+
+// Mapping from string to UrlRewriteAction_Name_STATUS
+var urlRewriteAction_Name_STATUS_Values = map[string]UrlRewriteAction_Name_STATUS{
+	"urlrewrite": UrlRewriteAction_Name_STATUS_UrlRewrite,
+}
 
 // Defines the parameters for the url rewrite action.
 type UrlRewriteActionParameters struct {
@@ -27447,8 +28016,9 @@ func (parameters *UrlRewriteActionParameters) AssignProperties_From_UrlRewriteAc
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlRewriteActionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlRewriteActionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -27599,8 +28169,9 @@ func (parameters *UrlRewriteActionParameters_STATUS) AssignProperties_From_UrlRe
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlRewriteActionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlRewriteActionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -27652,9 +28223,19 @@ type UrlSigningAction_Name string
 
 const UrlSigningAction_Name_UrlSigning = UrlSigningAction_Name("UrlSigning")
 
+// Mapping from string to UrlSigningAction_Name
+var urlSigningAction_Name_Values = map[string]UrlSigningAction_Name{
+	"urlsigning": UrlSigningAction_Name_UrlSigning,
+}
+
 type UrlSigningAction_Name_STATUS string
 
 const UrlSigningAction_Name_STATUS_UrlSigning = UrlSigningAction_Name_STATUS("UrlSigning")
+
+// Mapping from string to UrlSigningAction_Name_STATUS
+var urlSigningAction_Name_STATUS_Values = map[string]UrlSigningAction_Name_STATUS{
+	"urlsigning": UrlSigningAction_Name_STATUS_UrlSigning,
+}
 
 // Defines the parameters for the Url Signing action.
 type UrlSigningActionParameters struct {
@@ -27743,8 +28324,9 @@ func (parameters *UrlSigningActionParameters) AssignProperties_From_UrlSigningAc
 
 	// Algorithm
 	if source.Algorithm != nil {
-		algorithm := UrlSigningActionParameters_Algorithm(*source.Algorithm)
-		parameters.Algorithm = &algorithm
+		algorithm := *source.Algorithm
+		algorithmTemp := genruntime.ToEnum(algorithm, urlSigningActionParameters_Algorithm_Values)
+		parameters.Algorithm = &algorithmTemp
 	} else {
 		parameters.Algorithm = nil
 	}
@@ -27769,8 +28351,9 @@ func (parameters *UrlSigningActionParameters) AssignProperties_From_UrlSigningAc
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlSigningActionParameters_TypeName(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlSigningActionParameters_TypeName_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -27925,8 +28508,9 @@ func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_From_UrlSi
 
 	// Algorithm
 	if source.Algorithm != nil {
-		algorithm := UrlSigningActionParameters_Algorithm_STATUS(*source.Algorithm)
-		parameters.Algorithm = &algorithm
+		algorithm := *source.Algorithm
+		algorithmTemp := genruntime.ToEnum(algorithm, urlSigningActionParameters_Algorithm_STATUS_Values)
+		parameters.Algorithm = &algorithmTemp
 	} else {
 		parameters.Algorithm = nil
 	}
@@ -27951,8 +28535,9 @@ func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_From_UrlSi
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := UrlSigningActionParameters_TypeName_STATUS(*source.TypeName)
-		parameters.TypeName = &typeName
+		typeName := *source.TypeName
+		typeNameTemp := genruntime.ToEnum(typeName, urlSigningActionParameters_TypeName_STATUS_Values)
+		parameters.TypeName = &typeNameTemp
 	} else {
 		parameters.TypeName = nil
 	}
@@ -28125,8 +28710,9 @@ func (configuration *CacheConfiguration) AssignProperties_From_CacheConfiguratio
 
 	// CacheBehavior
 	if source.CacheBehavior != nil {
-		cacheBehavior := CacheConfiguration_CacheBehavior(*source.CacheBehavior)
-		configuration.CacheBehavior = &cacheBehavior
+		cacheBehavior := *source.CacheBehavior
+		cacheBehaviorTemp := genruntime.ToEnum(cacheBehavior, cacheConfiguration_CacheBehavior_Values)
+		configuration.CacheBehavior = &cacheBehaviorTemp
 	} else {
 		configuration.CacheBehavior = nil
 	}
@@ -28136,8 +28722,9 @@ func (configuration *CacheConfiguration) AssignProperties_From_CacheConfiguratio
 
 	// IsCompressionEnabled
 	if source.IsCompressionEnabled != nil {
-		isCompressionEnabled := CacheConfiguration_IsCompressionEnabled(*source.IsCompressionEnabled)
-		configuration.IsCompressionEnabled = &isCompressionEnabled
+		isCompressionEnabled := *source.IsCompressionEnabled
+		isCompressionEnabledTemp := genruntime.ToEnum(isCompressionEnabled, cacheConfiguration_IsCompressionEnabled_Values)
+		configuration.IsCompressionEnabled = &isCompressionEnabledTemp
 	} else {
 		configuration.IsCompressionEnabled = nil
 	}
@@ -28147,8 +28734,9 @@ func (configuration *CacheConfiguration) AssignProperties_From_CacheConfiguratio
 
 	// QueryStringCachingBehavior
 	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := CacheConfiguration_QueryStringCachingBehavior(*source.QueryStringCachingBehavior)
-		configuration.QueryStringCachingBehavior = &queryStringCachingBehavior
+		queryStringCachingBehavior := *source.QueryStringCachingBehavior
+		queryStringCachingBehaviorTemp := genruntime.ToEnum(queryStringCachingBehavior, cacheConfiguration_QueryStringCachingBehavior_Values)
+		configuration.QueryStringCachingBehavior = &queryStringCachingBehaviorTemp
 	} else {
 		configuration.QueryStringCachingBehavior = nil
 	}
@@ -28315,8 +28903,9 @@ func (configuration *CacheConfiguration_STATUS) AssignProperties_From_CacheConfi
 
 	// CacheBehavior
 	if source.CacheBehavior != nil {
-		cacheBehavior := CacheConfiguration_CacheBehavior_STATUS(*source.CacheBehavior)
-		configuration.CacheBehavior = &cacheBehavior
+		cacheBehavior := *source.CacheBehavior
+		cacheBehaviorTemp := genruntime.ToEnum(cacheBehavior, cacheConfiguration_CacheBehavior_STATUS_Values)
+		configuration.CacheBehavior = &cacheBehaviorTemp
 	} else {
 		configuration.CacheBehavior = nil
 	}
@@ -28326,8 +28915,9 @@ func (configuration *CacheConfiguration_STATUS) AssignProperties_From_CacheConfi
 
 	// IsCompressionEnabled
 	if source.IsCompressionEnabled != nil {
-		isCompressionEnabled := CacheConfiguration_IsCompressionEnabled_STATUS(*source.IsCompressionEnabled)
-		configuration.IsCompressionEnabled = &isCompressionEnabled
+		isCompressionEnabled := *source.IsCompressionEnabled
+		isCompressionEnabledTemp := genruntime.ToEnum(isCompressionEnabled, cacheConfiguration_IsCompressionEnabled_STATUS_Values)
+		configuration.IsCompressionEnabled = &isCompressionEnabledTemp
 	} else {
 		configuration.IsCompressionEnabled = nil
 	}
@@ -28337,8 +28927,9 @@ func (configuration *CacheConfiguration_STATUS) AssignProperties_From_CacheConfi
 
 	// QueryStringCachingBehavior
 	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := CacheConfiguration_QueryStringCachingBehavior_STATUS(*source.QueryStringCachingBehavior)
-		configuration.QueryStringCachingBehavior = &queryStringCachingBehavior
+		queryStringCachingBehavior := *source.QueryStringCachingBehavior
+		queryStringCachingBehaviorTemp := genruntime.ToEnum(queryStringCachingBehavior, cacheConfiguration_QueryStringCachingBehavior_STATUS_Values)
+		configuration.QueryStringCachingBehavior = &queryStringCachingBehaviorTemp
 	} else {
 		configuration.QueryStringCachingBehavior = nil
 	}
@@ -28402,6 +28993,13 @@ const (
 	CacheExpirationActionParameters_CacheBehavior_SetIfMissing = CacheExpirationActionParameters_CacheBehavior("SetIfMissing")
 )
 
+// Mapping from string to CacheExpirationActionParameters_CacheBehavior
+var cacheExpirationActionParameters_CacheBehavior_Values = map[string]CacheExpirationActionParameters_CacheBehavior{
+	"bypasscache":  CacheExpirationActionParameters_CacheBehavior_BypassCache,
+	"override":     CacheExpirationActionParameters_CacheBehavior_Override,
+	"setifmissing": CacheExpirationActionParameters_CacheBehavior_SetIfMissing,
+}
+
 type CacheExpirationActionParameters_CacheBehavior_STATUS string
 
 const (
@@ -28410,23 +29008,50 @@ const (
 	CacheExpirationActionParameters_CacheBehavior_STATUS_SetIfMissing = CacheExpirationActionParameters_CacheBehavior_STATUS("SetIfMissing")
 )
 
+// Mapping from string to CacheExpirationActionParameters_CacheBehavior_STATUS
+var cacheExpirationActionParameters_CacheBehavior_STATUS_Values = map[string]CacheExpirationActionParameters_CacheBehavior_STATUS{
+	"bypasscache":  CacheExpirationActionParameters_CacheBehavior_STATUS_BypassCache,
+	"override":     CacheExpirationActionParameters_CacheBehavior_STATUS_Override,
+	"setifmissing": CacheExpirationActionParameters_CacheBehavior_STATUS_SetIfMissing,
+}
+
 // +kubebuilder:validation:Enum={"All"}
 type CacheExpirationActionParameters_CacheType string
 
 const CacheExpirationActionParameters_CacheType_All = CacheExpirationActionParameters_CacheType("All")
 
+// Mapping from string to CacheExpirationActionParameters_CacheType
+var cacheExpirationActionParameters_CacheType_Values = map[string]CacheExpirationActionParameters_CacheType{
+	"all": CacheExpirationActionParameters_CacheType_All,
+}
+
 type CacheExpirationActionParameters_CacheType_STATUS string
 
 const CacheExpirationActionParameters_CacheType_STATUS_All = CacheExpirationActionParameters_CacheType_STATUS("All")
+
+// Mapping from string to CacheExpirationActionParameters_CacheType_STATUS
+var cacheExpirationActionParameters_CacheType_STATUS_Values = map[string]CacheExpirationActionParameters_CacheType_STATUS{
+	"all": CacheExpirationActionParameters_CacheType_STATUS_All,
+}
 
 // +kubebuilder:validation:Enum={"DeliveryRuleCacheExpirationActionParameters"}
 type CacheExpirationActionParameters_TypeName string
 
 const CacheExpirationActionParameters_TypeName_DeliveryRuleCacheExpirationActionParameters = CacheExpirationActionParameters_TypeName("DeliveryRuleCacheExpirationActionParameters")
 
+// Mapping from string to CacheExpirationActionParameters_TypeName
+var cacheExpirationActionParameters_TypeName_Values = map[string]CacheExpirationActionParameters_TypeName{
+	"deliveryrulecacheexpirationactionparameters": CacheExpirationActionParameters_TypeName_DeliveryRuleCacheExpirationActionParameters,
+}
+
 type CacheExpirationActionParameters_TypeName_STATUS string
 
 const CacheExpirationActionParameters_TypeName_STATUS_DeliveryRuleCacheExpirationActionParameters = CacheExpirationActionParameters_TypeName_STATUS("DeliveryRuleCacheExpirationActionParameters")
+
+// Mapping from string to CacheExpirationActionParameters_TypeName_STATUS
+var cacheExpirationActionParameters_TypeName_STATUS_Values = map[string]CacheExpirationActionParameters_TypeName_STATUS{
+	"deliveryrulecacheexpirationactionparameters": CacheExpirationActionParameters_TypeName_STATUS_DeliveryRuleCacheExpirationActionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Exclude","ExcludeAll","Include","IncludeAll"}
 type CacheKeyQueryStringActionParameters_QueryStringBehavior string
@@ -28438,6 +29063,14 @@ const (
 	CacheKeyQueryStringActionParameters_QueryStringBehavior_IncludeAll = CacheKeyQueryStringActionParameters_QueryStringBehavior("IncludeAll")
 )
 
+// Mapping from string to CacheKeyQueryStringActionParameters_QueryStringBehavior
+var cacheKeyQueryStringActionParameters_QueryStringBehavior_Values = map[string]CacheKeyQueryStringActionParameters_QueryStringBehavior{
+	"exclude":    CacheKeyQueryStringActionParameters_QueryStringBehavior_Exclude,
+	"excludeall": CacheKeyQueryStringActionParameters_QueryStringBehavior_ExcludeAll,
+	"include":    CacheKeyQueryStringActionParameters_QueryStringBehavior_Include,
+	"includeall": CacheKeyQueryStringActionParameters_QueryStringBehavior_IncludeAll,
+}
+
 type CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS string
 
 const (
@@ -28447,14 +29080,32 @@ const (
 	CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_IncludeAll = CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS("IncludeAll")
 )
 
+// Mapping from string to CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS
+var cacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_Values = map[string]CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS{
+	"exclude":    CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_Exclude,
+	"excludeall": CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_ExcludeAll,
+	"include":    CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_Include,
+	"includeall": CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_IncludeAll,
+}
+
 // +kubebuilder:validation:Enum={"DeliveryRuleCacheKeyQueryStringBehaviorActionParameters"}
 type CacheKeyQueryStringActionParameters_TypeName string
 
 const CacheKeyQueryStringActionParameters_TypeName_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters = CacheKeyQueryStringActionParameters_TypeName("DeliveryRuleCacheKeyQueryStringBehaviorActionParameters")
 
+// Mapping from string to CacheKeyQueryStringActionParameters_TypeName
+var cacheKeyQueryStringActionParameters_TypeName_Values = map[string]CacheKeyQueryStringActionParameters_TypeName{
+	"deliveryrulecachekeyquerystringbehavioractionparameters": CacheKeyQueryStringActionParameters_TypeName_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters,
+}
+
 type CacheKeyQueryStringActionParameters_TypeName_STATUS string
 
 const CacheKeyQueryStringActionParameters_TypeName_STATUS_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters = CacheKeyQueryStringActionParameters_TypeName_STATUS("DeliveryRuleCacheKeyQueryStringBehaviorActionParameters")
+
+// Mapping from string to CacheKeyQueryStringActionParameters_TypeName_STATUS
+var cacheKeyQueryStringActionParameters_TypeName_STATUS_Values = map[string]CacheKeyQueryStringActionParameters_TypeName_STATUS{
+	"deliveryrulecachekeyquerystringbehavioractionparameters": CacheKeyQueryStringActionParameters_TypeName_STATUS_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type ClientPortMatchConditionParameters_Operator string
@@ -28472,6 +29123,20 @@ const (
 	ClientPortMatchConditionParameters_Operator_RegEx              = ClientPortMatchConditionParameters_Operator("RegEx")
 )
 
+// Mapping from string to ClientPortMatchConditionParameters_Operator
+var clientPortMatchConditionParameters_Operator_Values = map[string]ClientPortMatchConditionParameters_Operator{
+	"any":                ClientPortMatchConditionParameters_Operator_Any,
+	"beginswith":         ClientPortMatchConditionParameters_Operator_BeginsWith,
+	"contains":           ClientPortMatchConditionParameters_Operator_Contains,
+	"endswith":           ClientPortMatchConditionParameters_Operator_EndsWith,
+	"equal":              ClientPortMatchConditionParameters_Operator_Equal,
+	"greaterthan":        ClientPortMatchConditionParameters_Operator_GreaterThan,
+	"greaterthanorequal": ClientPortMatchConditionParameters_Operator_GreaterThanOrEqual,
+	"lessthan":           ClientPortMatchConditionParameters_Operator_LessThan,
+	"lessthanorequal":    ClientPortMatchConditionParameters_Operator_LessThanOrEqual,
+	"regex":              ClientPortMatchConditionParameters_Operator_RegEx,
+}
+
 type ClientPortMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -28487,14 +29152,38 @@ const (
 	ClientPortMatchConditionParameters_Operator_STATUS_RegEx              = ClientPortMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to ClientPortMatchConditionParameters_Operator_STATUS
+var clientPortMatchConditionParameters_Operator_STATUS_Values = map[string]ClientPortMatchConditionParameters_Operator_STATUS{
+	"any":                ClientPortMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         ClientPortMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           ClientPortMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           ClientPortMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              ClientPortMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        ClientPortMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": ClientPortMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           ClientPortMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    ClientPortMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              ClientPortMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 // +kubebuilder:validation:Enum={"DeliveryRuleClientPortConditionParameters"}
 type ClientPortMatchConditionParameters_TypeName string
 
 const ClientPortMatchConditionParameters_TypeName_DeliveryRuleClientPortConditionParameters = ClientPortMatchConditionParameters_TypeName("DeliveryRuleClientPortConditionParameters")
 
+// Mapping from string to ClientPortMatchConditionParameters_TypeName
+var clientPortMatchConditionParameters_TypeName_Values = map[string]ClientPortMatchConditionParameters_TypeName{
+	"deliveryruleclientportconditionparameters": ClientPortMatchConditionParameters_TypeName_DeliveryRuleClientPortConditionParameters,
+}
+
 type ClientPortMatchConditionParameters_TypeName_STATUS string
 
 const ClientPortMatchConditionParameters_TypeName_STATUS_DeliveryRuleClientPortConditionParameters = ClientPortMatchConditionParameters_TypeName_STATUS("DeliveryRuleClientPortConditionParameters")
+
+// Mapping from string to ClientPortMatchConditionParameters_TypeName_STATUS
+var clientPortMatchConditionParameters_TypeName_STATUS_Values = map[string]ClientPortMatchConditionParameters_TypeName_STATUS{
+	"deliveryruleclientportconditionparameters": ClientPortMatchConditionParameters_TypeName_STATUS_DeliveryRuleClientPortConditionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type CookiesMatchConditionParameters_Operator string
@@ -28512,6 +29201,20 @@ const (
 	CookiesMatchConditionParameters_Operator_RegEx              = CookiesMatchConditionParameters_Operator("RegEx")
 )
 
+// Mapping from string to CookiesMatchConditionParameters_Operator
+var cookiesMatchConditionParameters_Operator_Values = map[string]CookiesMatchConditionParameters_Operator{
+	"any":                CookiesMatchConditionParameters_Operator_Any,
+	"beginswith":         CookiesMatchConditionParameters_Operator_BeginsWith,
+	"contains":           CookiesMatchConditionParameters_Operator_Contains,
+	"endswith":           CookiesMatchConditionParameters_Operator_EndsWith,
+	"equal":              CookiesMatchConditionParameters_Operator_Equal,
+	"greaterthan":        CookiesMatchConditionParameters_Operator_GreaterThan,
+	"greaterthanorequal": CookiesMatchConditionParameters_Operator_GreaterThanOrEqual,
+	"lessthan":           CookiesMatchConditionParameters_Operator_LessThan,
+	"lessthanorequal":    CookiesMatchConditionParameters_Operator_LessThanOrEqual,
+	"regex":              CookiesMatchConditionParameters_Operator_RegEx,
+}
+
 type CookiesMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -28527,14 +29230,38 @@ const (
 	CookiesMatchConditionParameters_Operator_STATUS_RegEx              = CookiesMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to CookiesMatchConditionParameters_Operator_STATUS
+var cookiesMatchConditionParameters_Operator_STATUS_Values = map[string]CookiesMatchConditionParameters_Operator_STATUS{
+	"any":                CookiesMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         CookiesMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           CookiesMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           CookiesMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              CookiesMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        CookiesMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": CookiesMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           CookiesMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    CookiesMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              CookiesMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 // +kubebuilder:validation:Enum={"DeliveryRuleCookiesConditionParameters"}
 type CookiesMatchConditionParameters_TypeName string
 
 const CookiesMatchConditionParameters_TypeName_DeliveryRuleCookiesConditionParameters = CookiesMatchConditionParameters_TypeName("DeliveryRuleCookiesConditionParameters")
 
+// Mapping from string to CookiesMatchConditionParameters_TypeName
+var cookiesMatchConditionParameters_TypeName_Values = map[string]CookiesMatchConditionParameters_TypeName{
+	"deliveryrulecookiesconditionparameters": CookiesMatchConditionParameters_TypeName_DeliveryRuleCookiesConditionParameters,
+}
+
 type CookiesMatchConditionParameters_TypeName_STATUS string
 
 const CookiesMatchConditionParameters_TypeName_STATUS_DeliveryRuleCookiesConditionParameters = CookiesMatchConditionParameters_TypeName_STATUS("DeliveryRuleCookiesConditionParameters")
+
+// Mapping from string to CookiesMatchConditionParameters_TypeName_STATUS
+var cookiesMatchConditionParameters_TypeName_STATUS_Values = map[string]CookiesMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulecookiesconditionparameters": CookiesMatchConditionParameters_TypeName_STATUS_DeliveryRuleCookiesConditionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Append","Delete","Overwrite"}
 type HeaderActionParameters_HeaderAction string
@@ -28545,6 +29272,13 @@ const (
 	HeaderActionParameters_HeaderAction_Overwrite = HeaderActionParameters_HeaderAction("Overwrite")
 )
 
+// Mapping from string to HeaderActionParameters_HeaderAction
+var headerActionParameters_HeaderAction_Values = map[string]HeaderActionParameters_HeaderAction{
+	"append":    HeaderActionParameters_HeaderAction_Append,
+	"delete":    HeaderActionParameters_HeaderAction_Delete,
+	"overwrite": HeaderActionParameters_HeaderAction_Overwrite,
+}
+
 type HeaderActionParameters_HeaderAction_STATUS string
 
 const (
@@ -28553,14 +29287,31 @@ const (
 	HeaderActionParameters_HeaderAction_STATUS_Overwrite = HeaderActionParameters_HeaderAction_STATUS("Overwrite")
 )
 
+// Mapping from string to HeaderActionParameters_HeaderAction_STATUS
+var headerActionParameters_HeaderAction_STATUS_Values = map[string]HeaderActionParameters_HeaderAction_STATUS{
+	"append":    HeaderActionParameters_HeaderAction_STATUS_Append,
+	"delete":    HeaderActionParameters_HeaderAction_STATUS_Delete,
+	"overwrite": HeaderActionParameters_HeaderAction_STATUS_Overwrite,
+}
+
 // +kubebuilder:validation:Enum={"DeliveryRuleHeaderActionParameters"}
 type HeaderActionParameters_TypeName string
 
 const HeaderActionParameters_TypeName_DeliveryRuleHeaderActionParameters = HeaderActionParameters_TypeName("DeliveryRuleHeaderActionParameters")
 
+// Mapping from string to HeaderActionParameters_TypeName
+var headerActionParameters_TypeName_Values = map[string]HeaderActionParameters_TypeName{
+	"deliveryruleheaderactionparameters": HeaderActionParameters_TypeName_DeliveryRuleHeaderActionParameters,
+}
+
 type HeaderActionParameters_TypeName_STATUS string
 
 const HeaderActionParameters_TypeName_STATUS_DeliveryRuleHeaderActionParameters = HeaderActionParameters_TypeName_STATUS("DeliveryRuleHeaderActionParameters")
+
+// Mapping from string to HeaderActionParameters_TypeName_STATUS
+var headerActionParameters_TypeName_STATUS_Values = map[string]HeaderActionParameters_TypeName_STATUS{
+	"deliveryruleheaderactionparameters": HeaderActionParameters_TypeName_STATUS_DeliveryRuleHeaderActionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type HostNameMatchConditionParameters_Operator string
@@ -28578,6 +29329,20 @@ const (
 	HostNameMatchConditionParameters_Operator_RegEx              = HostNameMatchConditionParameters_Operator("RegEx")
 )
 
+// Mapping from string to HostNameMatchConditionParameters_Operator
+var hostNameMatchConditionParameters_Operator_Values = map[string]HostNameMatchConditionParameters_Operator{
+	"any":                HostNameMatchConditionParameters_Operator_Any,
+	"beginswith":         HostNameMatchConditionParameters_Operator_BeginsWith,
+	"contains":           HostNameMatchConditionParameters_Operator_Contains,
+	"endswith":           HostNameMatchConditionParameters_Operator_EndsWith,
+	"equal":              HostNameMatchConditionParameters_Operator_Equal,
+	"greaterthan":        HostNameMatchConditionParameters_Operator_GreaterThan,
+	"greaterthanorequal": HostNameMatchConditionParameters_Operator_GreaterThanOrEqual,
+	"lessthan":           HostNameMatchConditionParameters_Operator_LessThan,
+	"lessthanorequal":    HostNameMatchConditionParameters_Operator_LessThanOrEqual,
+	"regex":              HostNameMatchConditionParameters_Operator_RegEx,
+}
+
 type HostNameMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -28593,32 +29358,76 @@ const (
 	HostNameMatchConditionParameters_Operator_STATUS_RegEx              = HostNameMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to HostNameMatchConditionParameters_Operator_STATUS
+var hostNameMatchConditionParameters_Operator_STATUS_Values = map[string]HostNameMatchConditionParameters_Operator_STATUS{
+	"any":                HostNameMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         HostNameMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           HostNameMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           HostNameMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              HostNameMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        HostNameMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": HostNameMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           HostNameMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    HostNameMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              HostNameMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 // +kubebuilder:validation:Enum={"DeliveryRuleHostNameConditionParameters"}
 type HostNameMatchConditionParameters_TypeName string
 
 const HostNameMatchConditionParameters_TypeName_DeliveryRuleHostNameConditionParameters = HostNameMatchConditionParameters_TypeName("DeliveryRuleHostNameConditionParameters")
 
+// Mapping from string to HostNameMatchConditionParameters_TypeName
+var hostNameMatchConditionParameters_TypeName_Values = map[string]HostNameMatchConditionParameters_TypeName{
+	"deliveryrulehostnameconditionparameters": HostNameMatchConditionParameters_TypeName_DeliveryRuleHostNameConditionParameters,
+}
+
 type HostNameMatchConditionParameters_TypeName_STATUS string
 
 const HostNameMatchConditionParameters_TypeName_STATUS_DeliveryRuleHostNameConditionParameters = HostNameMatchConditionParameters_TypeName_STATUS("DeliveryRuleHostNameConditionParameters")
+
+// Mapping from string to HostNameMatchConditionParameters_TypeName_STATUS
+var hostNameMatchConditionParameters_TypeName_STATUS_Values = map[string]HostNameMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulehostnameconditionparameters": HostNameMatchConditionParameters_TypeName_STATUS_DeliveryRuleHostNameConditionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Equal"}
 type HttpVersionMatchConditionParameters_Operator string
 
 const HttpVersionMatchConditionParameters_Operator_Equal = HttpVersionMatchConditionParameters_Operator("Equal")
 
+// Mapping from string to HttpVersionMatchConditionParameters_Operator
+var httpVersionMatchConditionParameters_Operator_Values = map[string]HttpVersionMatchConditionParameters_Operator{
+	"equal": HttpVersionMatchConditionParameters_Operator_Equal,
+}
+
 type HttpVersionMatchConditionParameters_Operator_STATUS string
 
 const HttpVersionMatchConditionParameters_Operator_STATUS_Equal = HttpVersionMatchConditionParameters_Operator_STATUS("Equal")
+
+// Mapping from string to HttpVersionMatchConditionParameters_Operator_STATUS
+var httpVersionMatchConditionParameters_Operator_STATUS_Values = map[string]HttpVersionMatchConditionParameters_Operator_STATUS{
+	"equal": HttpVersionMatchConditionParameters_Operator_STATUS_Equal,
+}
 
 // +kubebuilder:validation:Enum={"DeliveryRuleHttpVersionConditionParameters"}
 type HttpVersionMatchConditionParameters_TypeName string
 
 const HttpVersionMatchConditionParameters_TypeName_DeliveryRuleHttpVersionConditionParameters = HttpVersionMatchConditionParameters_TypeName("DeliveryRuleHttpVersionConditionParameters")
 
+// Mapping from string to HttpVersionMatchConditionParameters_TypeName
+var httpVersionMatchConditionParameters_TypeName_Values = map[string]HttpVersionMatchConditionParameters_TypeName{
+	"deliveryrulehttpversionconditionparameters": HttpVersionMatchConditionParameters_TypeName_DeliveryRuleHttpVersionConditionParameters,
+}
+
 type HttpVersionMatchConditionParameters_TypeName_STATUS string
 
 const HttpVersionMatchConditionParameters_TypeName_STATUS_DeliveryRuleHttpVersionConditionParameters = HttpVersionMatchConditionParameters_TypeName_STATUS("DeliveryRuleHttpVersionConditionParameters")
+
+// Mapping from string to HttpVersionMatchConditionParameters_TypeName_STATUS
+var httpVersionMatchConditionParameters_TypeName_STATUS_Values = map[string]HttpVersionMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulehttpversionconditionparameters": HttpVersionMatchConditionParameters_TypeName_STATUS_DeliveryRuleHttpVersionConditionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Desktop","Mobile"}
 type IsDeviceMatchConditionParameters_MatchValues string
@@ -28628,6 +29437,12 @@ const (
 	IsDeviceMatchConditionParameters_MatchValues_Mobile  = IsDeviceMatchConditionParameters_MatchValues("Mobile")
 )
 
+// Mapping from string to IsDeviceMatchConditionParameters_MatchValues
+var isDeviceMatchConditionParameters_MatchValues_Values = map[string]IsDeviceMatchConditionParameters_MatchValues{
+	"desktop": IsDeviceMatchConditionParameters_MatchValues_Desktop,
+	"mobile":  IsDeviceMatchConditionParameters_MatchValues_Mobile,
+}
+
 type IsDeviceMatchConditionParameters_MatchValues_STATUS string
 
 const (
@@ -28635,23 +29450,49 @@ const (
 	IsDeviceMatchConditionParameters_MatchValues_STATUS_Mobile  = IsDeviceMatchConditionParameters_MatchValues_STATUS("Mobile")
 )
 
+// Mapping from string to IsDeviceMatchConditionParameters_MatchValues_STATUS
+var isDeviceMatchConditionParameters_MatchValues_STATUS_Values = map[string]IsDeviceMatchConditionParameters_MatchValues_STATUS{
+	"desktop": IsDeviceMatchConditionParameters_MatchValues_STATUS_Desktop,
+	"mobile":  IsDeviceMatchConditionParameters_MatchValues_STATUS_Mobile,
+}
+
 // +kubebuilder:validation:Enum={"Equal"}
 type IsDeviceMatchConditionParameters_Operator string
 
 const IsDeviceMatchConditionParameters_Operator_Equal = IsDeviceMatchConditionParameters_Operator("Equal")
 
+// Mapping from string to IsDeviceMatchConditionParameters_Operator
+var isDeviceMatchConditionParameters_Operator_Values = map[string]IsDeviceMatchConditionParameters_Operator{
+	"equal": IsDeviceMatchConditionParameters_Operator_Equal,
+}
+
 type IsDeviceMatchConditionParameters_Operator_STATUS string
 
 const IsDeviceMatchConditionParameters_Operator_STATUS_Equal = IsDeviceMatchConditionParameters_Operator_STATUS("Equal")
+
+// Mapping from string to IsDeviceMatchConditionParameters_Operator_STATUS
+var isDeviceMatchConditionParameters_Operator_STATUS_Values = map[string]IsDeviceMatchConditionParameters_Operator_STATUS{
+	"equal": IsDeviceMatchConditionParameters_Operator_STATUS_Equal,
+}
 
 // +kubebuilder:validation:Enum={"DeliveryRuleIsDeviceConditionParameters"}
 type IsDeviceMatchConditionParameters_TypeName string
 
 const IsDeviceMatchConditionParameters_TypeName_DeliveryRuleIsDeviceConditionParameters = IsDeviceMatchConditionParameters_TypeName("DeliveryRuleIsDeviceConditionParameters")
 
+// Mapping from string to IsDeviceMatchConditionParameters_TypeName
+var isDeviceMatchConditionParameters_TypeName_Values = map[string]IsDeviceMatchConditionParameters_TypeName{
+	"deliveryruleisdeviceconditionparameters": IsDeviceMatchConditionParameters_TypeName_DeliveryRuleIsDeviceConditionParameters,
+}
+
 type IsDeviceMatchConditionParameters_TypeName_STATUS string
 
 const IsDeviceMatchConditionParameters_TypeName_STATUS_DeliveryRuleIsDeviceConditionParameters = IsDeviceMatchConditionParameters_TypeName_STATUS("DeliveryRuleIsDeviceConditionParameters")
+
+// Mapping from string to IsDeviceMatchConditionParameters_TypeName_STATUS
+var isDeviceMatchConditionParameters_TypeName_STATUS_Values = map[string]IsDeviceMatchConditionParameters_TypeName_STATUS{
+	"deliveryruleisdeviceconditionparameters": IsDeviceMatchConditionParameters_TypeName_STATUS_DeliveryRuleIsDeviceConditionParameters,
+}
 
 // Defines the parameters for the origin group override configuration.
 type OriginGroupOverride struct {
@@ -28727,8 +29568,9 @@ func (override *OriginGroupOverride) AssignProperties_From_OriginGroupOverride(s
 
 	// ForwardingProtocol
 	if source.ForwardingProtocol != nil {
-		forwardingProtocol := OriginGroupOverride_ForwardingProtocol(*source.ForwardingProtocol)
-		override.ForwardingProtocol = &forwardingProtocol
+		forwardingProtocol := *source.ForwardingProtocol
+		forwardingProtocolTemp := genruntime.ToEnum(forwardingProtocol, originGroupOverride_ForwardingProtocol_Values)
+		override.ForwardingProtocol = &forwardingProtocolTemp
 	} else {
 		override.ForwardingProtocol = nil
 	}
@@ -28861,8 +29703,9 @@ func (override *OriginGroupOverride_STATUS) AssignProperties_From_OriginGroupOve
 
 	// ForwardingProtocol
 	if source.ForwardingProtocol != nil {
-		forwardingProtocol := OriginGroupOverride_ForwardingProtocol_STATUS(*source.ForwardingProtocol)
-		override.ForwardingProtocol = &forwardingProtocol
+		forwardingProtocol := *source.ForwardingProtocol
+		forwardingProtocolTemp := genruntime.ToEnum(forwardingProtocol, originGroupOverride_ForwardingProtocol_STATUS_Values)
+		override.ForwardingProtocol = &forwardingProtocolTemp
 	} else {
 		override.ForwardingProtocol = nil
 	}
@@ -28924,9 +29767,19 @@ type OriginGroupOverrideActionParameters_TypeName string
 
 const OriginGroupOverrideActionParameters_TypeName_DeliveryRuleOriginGroupOverrideActionParameters = OriginGroupOverrideActionParameters_TypeName("DeliveryRuleOriginGroupOverrideActionParameters")
 
+// Mapping from string to OriginGroupOverrideActionParameters_TypeName
+var originGroupOverrideActionParameters_TypeName_Values = map[string]OriginGroupOverrideActionParameters_TypeName{
+	"deliveryruleorigingroupoverrideactionparameters": OriginGroupOverrideActionParameters_TypeName_DeliveryRuleOriginGroupOverrideActionParameters,
+}
+
 type OriginGroupOverrideActionParameters_TypeName_STATUS string
 
 const OriginGroupOverrideActionParameters_TypeName_STATUS_DeliveryRuleOriginGroupOverrideActionParameters = OriginGroupOverrideActionParameters_TypeName_STATUS("DeliveryRuleOriginGroupOverrideActionParameters")
+
+// Mapping from string to OriginGroupOverrideActionParameters_TypeName_STATUS
+var originGroupOverrideActionParameters_TypeName_STATUS_Values = map[string]OriginGroupOverrideActionParameters_TypeName_STATUS{
+	"deliveryruleorigingroupoverrideactionparameters": OriginGroupOverrideActionParameters_TypeName_STATUS_DeliveryRuleOriginGroupOverrideActionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type PostArgsMatchConditionParameters_Operator string
@@ -28944,6 +29797,20 @@ const (
 	PostArgsMatchConditionParameters_Operator_RegEx              = PostArgsMatchConditionParameters_Operator("RegEx")
 )
 
+// Mapping from string to PostArgsMatchConditionParameters_Operator
+var postArgsMatchConditionParameters_Operator_Values = map[string]PostArgsMatchConditionParameters_Operator{
+	"any":                PostArgsMatchConditionParameters_Operator_Any,
+	"beginswith":         PostArgsMatchConditionParameters_Operator_BeginsWith,
+	"contains":           PostArgsMatchConditionParameters_Operator_Contains,
+	"endswith":           PostArgsMatchConditionParameters_Operator_EndsWith,
+	"equal":              PostArgsMatchConditionParameters_Operator_Equal,
+	"greaterthan":        PostArgsMatchConditionParameters_Operator_GreaterThan,
+	"greaterthanorequal": PostArgsMatchConditionParameters_Operator_GreaterThanOrEqual,
+	"lessthan":           PostArgsMatchConditionParameters_Operator_LessThan,
+	"lessthanorequal":    PostArgsMatchConditionParameters_Operator_LessThanOrEqual,
+	"regex":              PostArgsMatchConditionParameters_Operator_RegEx,
+}
+
 type PostArgsMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -28959,14 +29826,38 @@ const (
 	PostArgsMatchConditionParameters_Operator_STATUS_RegEx              = PostArgsMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to PostArgsMatchConditionParameters_Operator_STATUS
+var postArgsMatchConditionParameters_Operator_STATUS_Values = map[string]PostArgsMatchConditionParameters_Operator_STATUS{
+	"any":                PostArgsMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         PostArgsMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           PostArgsMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           PostArgsMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              PostArgsMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        PostArgsMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": PostArgsMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           PostArgsMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    PostArgsMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              PostArgsMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 // +kubebuilder:validation:Enum={"DeliveryRulePostArgsConditionParameters"}
 type PostArgsMatchConditionParameters_TypeName string
 
 const PostArgsMatchConditionParameters_TypeName_DeliveryRulePostArgsConditionParameters = PostArgsMatchConditionParameters_TypeName("DeliveryRulePostArgsConditionParameters")
 
+// Mapping from string to PostArgsMatchConditionParameters_TypeName
+var postArgsMatchConditionParameters_TypeName_Values = map[string]PostArgsMatchConditionParameters_TypeName{
+	"deliveryrulepostargsconditionparameters": PostArgsMatchConditionParameters_TypeName_DeliveryRulePostArgsConditionParameters,
+}
+
 type PostArgsMatchConditionParameters_TypeName_STATUS string
 
 const PostArgsMatchConditionParameters_TypeName_STATUS_DeliveryRulePostArgsConditionParameters = PostArgsMatchConditionParameters_TypeName_STATUS("DeliveryRulePostArgsConditionParameters")
+
+// Mapping from string to PostArgsMatchConditionParameters_TypeName_STATUS
+var postArgsMatchConditionParameters_TypeName_STATUS_Values = map[string]PostArgsMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulepostargsconditionparameters": PostArgsMatchConditionParameters_TypeName_STATUS_DeliveryRulePostArgsConditionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type QueryStringMatchConditionParameters_Operator string
@@ -28984,6 +29875,20 @@ const (
 	QueryStringMatchConditionParameters_Operator_RegEx              = QueryStringMatchConditionParameters_Operator("RegEx")
 )
 
+// Mapping from string to QueryStringMatchConditionParameters_Operator
+var queryStringMatchConditionParameters_Operator_Values = map[string]QueryStringMatchConditionParameters_Operator{
+	"any":                QueryStringMatchConditionParameters_Operator_Any,
+	"beginswith":         QueryStringMatchConditionParameters_Operator_BeginsWith,
+	"contains":           QueryStringMatchConditionParameters_Operator_Contains,
+	"endswith":           QueryStringMatchConditionParameters_Operator_EndsWith,
+	"equal":              QueryStringMatchConditionParameters_Operator_Equal,
+	"greaterthan":        QueryStringMatchConditionParameters_Operator_GreaterThan,
+	"greaterthanorequal": QueryStringMatchConditionParameters_Operator_GreaterThanOrEqual,
+	"lessthan":           QueryStringMatchConditionParameters_Operator_LessThan,
+	"lessthanorequal":    QueryStringMatchConditionParameters_Operator_LessThanOrEqual,
+	"regex":              QueryStringMatchConditionParameters_Operator_RegEx,
+}
+
 type QueryStringMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -28999,14 +29904,38 @@ const (
 	QueryStringMatchConditionParameters_Operator_STATUS_RegEx              = QueryStringMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to QueryStringMatchConditionParameters_Operator_STATUS
+var queryStringMatchConditionParameters_Operator_STATUS_Values = map[string]QueryStringMatchConditionParameters_Operator_STATUS{
+	"any":                QueryStringMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         QueryStringMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           QueryStringMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           QueryStringMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              QueryStringMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        QueryStringMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": QueryStringMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           QueryStringMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    QueryStringMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              QueryStringMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 // +kubebuilder:validation:Enum={"DeliveryRuleQueryStringConditionParameters"}
 type QueryStringMatchConditionParameters_TypeName string
 
 const QueryStringMatchConditionParameters_TypeName_DeliveryRuleQueryStringConditionParameters = QueryStringMatchConditionParameters_TypeName("DeliveryRuleQueryStringConditionParameters")
 
+// Mapping from string to QueryStringMatchConditionParameters_TypeName
+var queryStringMatchConditionParameters_TypeName_Values = map[string]QueryStringMatchConditionParameters_TypeName{
+	"deliveryrulequerystringconditionparameters": QueryStringMatchConditionParameters_TypeName_DeliveryRuleQueryStringConditionParameters,
+}
+
 type QueryStringMatchConditionParameters_TypeName_STATUS string
 
 const QueryStringMatchConditionParameters_TypeName_STATUS_DeliveryRuleQueryStringConditionParameters = QueryStringMatchConditionParameters_TypeName_STATUS("DeliveryRuleQueryStringConditionParameters")
+
+// Mapping from string to QueryStringMatchConditionParameters_TypeName_STATUS
+var queryStringMatchConditionParameters_TypeName_STATUS_Values = map[string]QueryStringMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulequerystringconditionparameters": QueryStringMatchConditionParameters_TypeName_STATUS_DeliveryRuleQueryStringConditionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Any","GeoMatch","IPMatch"}
 type RemoteAddressMatchConditionParameters_Operator string
@@ -29017,6 +29946,13 @@ const (
 	RemoteAddressMatchConditionParameters_Operator_IPMatch  = RemoteAddressMatchConditionParameters_Operator("IPMatch")
 )
 
+// Mapping from string to RemoteAddressMatchConditionParameters_Operator
+var remoteAddressMatchConditionParameters_Operator_Values = map[string]RemoteAddressMatchConditionParameters_Operator{
+	"any":      RemoteAddressMatchConditionParameters_Operator_Any,
+	"geomatch": RemoteAddressMatchConditionParameters_Operator_GeoMatch,
+	"ipmatch":  RemoteAddressMatchConditionParameters_Operator_IPMatch,
+}
+
 type RemoteAddressMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29025,14 +29961,31 @@ const (
 	RemoteAddressMatchConditionParameters_Operator_STATUS_IPMatch  = RemoteAddressMatchConditionParameters_Operator_STATUS("IPMatch")
 )
 
+// Mapping from string to RemoteAddressMatchConditionParameters_Operator_STATUS
+var remoteAddressMatchConditionParameters_Operator_STATUS_Values = map[string]RemoteAddressMatchConditionParameters_Operator_STATUS{
+	"any":      RemoteAddressMatchConditionParameters_Operator_STATUS_Any,
+	"geomatch": RemoteAddressMatchConditionParameters_Operator_STATUS_GeoMatch,
+	"ipmatch":  RemoteAddressMatchConditionParameters_Operator_STATUS_IPMatch,
+}
+
 // +kubebuilder:validation:Enum={"DeliveryRuleRemoteAddressConditionParameters"}
 type RemoteAddressMatchConditionParameters_TypeName string
 
 const RemoteAddressMatchConditionParameters_TypeName_DeliveryRuleRemoteAddressConditionParameters = RemoteAddressMatchConditionParameters_TypeName("DeliveryRuleRemoteAddressConditionParameters")
 
+// Mapping from string to RemoteAddressMatchConditionParameters_TypeName
+var remoteAddressMatchConditionParameters_TypeName_Values = map[string]RemoteAddressMatchConditionParameters_TypeName{
+	"deliveryruleremoteaddressconditionparameters": RemoteAddressMatchConditionParameters_TypeName_DeliveryRuleRemoteAddressConditionParameters,
+}
+
 type RemoteAddressMatchConditionParameters_TypeName_STATUS string
 
 const RemoteAddressMatchConditionParameters_TypeName_STATUS_DeliveryRuleRemoteAddressConditionParameters = RemoteAddressMatchConditionParameters_TypeName_STATUS("DeliveryRuleRemoteAddressConditionParameters")
+
+// Mapping from string to RemoteAddressMatchConditionParameters_TypeName_STATUS
+var remoteAddressMatchConditionParameters_TypeName_STATUS_Values = map[string]RemoteAddressMatchConditionParameters_TypeName_STATUS{
+	"deliveryruleremoteaddressconditionparameters": RemoteAddressMatchConditionParameters_TypeName_STATUS_DeliveryRuleRemoteAddressConditionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type RequestBodyMatchConditionParameters_Operator string
@@ -29050,6 +30003,20 @@ const (
 	RequestBodyMatchConditionParameters_Operator_RegEx              = RequestBodyMatchConditionParameters_Operator("RegEx")
 )
 
+// Mapping from string to RequestBodyMatchConditionParameters_Operator
+var requestBodyMatchConditionParameters_Operator_Values = map[string]RequestBodyMatchConditionParameters_Operator{
+	"any":                RequestBodyMatchConditionParameters_Operator_Any,
+	"beginswith":         RequestBodyMatchConditionParameters_Operator_BeginsWith,
+	"contains":           RequestBodyMatchConditionParameters_Operator_Contains,
+	"endswith":           RequestBodyMatchConditionParameters_Operator_EndsWith,
+	"equal":              RequestBodyMatchConditionParameters_Operator_Equal,
+	"greaterthan":        RequestBodyMatchConditionParameters_Operator_GreaterThan,
+	"greaterthanorequal": RequestBodyMatchConditionParameters_Operator_GreaterThanOrEqual,
+	"lessthan":           RequestBodyMatchConditionParameters_Operator_LessThan,
+	"lessthanorequal":    RequestBodyMatchConditionParameters_Operator_LessThanOrEqual,
+	"regex":              RequestBodyMatchConditionParameters_Operator_RegEx,
+}
+
 type RequestBodyMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29065,14 +30032,38 @@ const (
 	RequestBodyMatchConditionParameters_Operator_STATUS_RegEx              = RequestBodyMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to RequestBodyMatchConditionParameters_Operator_STATUS
+var requestBodyMatchConditionParameters_Operator_STATUS_Values = map[string]RequestBodyMatchConditionParameters_Operator_STATUS{
+	"any":                RequestBodyMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         RequestBodyMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           RequestBodyMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           RequestBodyMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              RequestBodyMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        RequestBodyMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": RequestBodyMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           RequestBodyMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    RequestBodyMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              RequestBodyMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestBodyConditionParameters"}
 type RequestBodyMatchConditionParameters_TypeName string
 
 const RequestBodyMatchConditionParameters_TypeName_DeliveryRuleRequestBodyConditionParameters = RequestBodyMatchConditionParameters_TypeName("DeliveryRuleRequestBodyConditionParameters")
 
+// Mapping from string to RequestBodyMatchConditionParameters_TypeName
+var requestBodyMatchConditionParameters_TypeName_Values = map[string]RequestBodyMatchConditionParameters_TypeName{
+	"deliveryrulerequestbodyconditionparameters": RequestBodyMatchConditionParameters_TypeName_DeliveryRuleRequestBodyConditionParameters,
+}
+
 type RequestBodyMatchConditionParameters_TypeName_STATUS string
 
 const RequestBodyMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestBodyConditionParameters = RequestBodyMatchConditionParameters_TypeName_STATUS("DeliveryRuleRequestBodyConditionParameters")
+
+// Mapping from string to RequestBodyMatchConditionParameters_TypeName_STATUS
+var requestBodyMatchConditionParameters_TypeName_STATUS_Values = map[string]RequestBodyMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulerequestbodyconditionparameters": RequestBodyMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestBodyConditionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type RequestHeaderMatchConditionParameters_Operator string
@@ -29090,6 +30081,20 @@ const (
 	RequestHeaderMatchConditionParameters_Operator_RegEx              = RequestHeaderMatchConditionParameters_Operator("RegEx")
 )
 
+// Mapping from string to RequestHeaderMatchConditionParameters_Operator
+var requestHeaderMatchConditionParameters_Operator_Values = map[string]RequestHeaderMatchConditionParameters_Operator{
+	"any":                RequestHeaderMatchConditionParameters_Operator_Any,
+	"beginswith":         RequestHeaderMatchConditionParameters_Operator_BeginsWith,
+	"contains":           RequestHeaderMatchConditionParameters_Operator_Contains,
+	"endswith":           RequestHeaderMatchConditionParameters_Operator_EndsWith,
+	"equal":              RequestHeaderMatchConditionParameters_Operator_Equal,
+	"greaterthan":        RequestHeaderMatchConditionParameters_Operator_GreaterThan,
+	"greaterthanorequal": RequestHeaderMatchConditionParameters_Operator_GreaterThanOrEqual,
+	"lessthan":           RequestHeaderMatchConditionParameters_Operator_LessThan,
+	"lessthanorequal":    RequestHeaderMatchConditionParameters_Operator_LessThanOrEqual,
+	"regex":              RequestHeaderMatchConditionParameters_Operator_RegEx,
+}
+
 type RequestHeaderMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29105,14 +30110,38 @@ const (
 	RequestHeaderMatchConditionParameters_Operator_STATUS_RegEx              = RequestHeaderMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to RequestHeaderMatchConditionParameters_Operator_STATUS
+var requestHeaderMatchConditionParameters_Operator_STATUS_Values = map[string]RequestHeaderMatchConditionParameters_Operator_STATUS{
+	"any":                RequestHeaderMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         RequestHeaderMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           RequestHeaderMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           RequestHeaderMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              RequestHeaderMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        RequestHeaderMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": RequestHeaderMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           RequestHeaderMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    RequestHeaderMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              RequestHeaderMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestHeaderConditionParameters"}
 type RequestHeaderMatchConditionParameters_TypeName string
 
 const RequestHeaderMatchConditionParameters_TypeName_DeliveryRuleRequestHeaderConditionParameters = RequestHeaderMatchConditionParameters_TypeName("DeliveryRuleRequestHeaderConditionParameters")
 
+// Mapping from string to RequestHeaderMatchConditionParameters_TypeName
+var requestHeaderMatchConditionParameters_TypeName_Values = map[string]RequestHeaderMatchConditionParameters_TypeName{
+	"deliveryrulerequestheaderconditionparameters": RequestHeaderMatchConditionParameters_TypeName_DeliveryRuleRequestHeaderConditionParameters,
+}
+
 type RequestHeaderMatchConditionParameters_TypeName_STATUS string
 
 const RequestHeaderMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestHeaderConditionParameters = RequestHeaderMatchConditionParameters_TypeName_STATUS("DeliveryRuleRequestHeaderConditionParameters")
+
+// Mapping from string to RequestHeaderMatchConditionParameters_TypeName_STATUS
+var requestHeaderMatchConditionParameters_TypeName_STATUS_Values = map[string]RequestHeaderMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulerequestheaderconditionparameters": RequestHeaderMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestHeaderConditionParameters,
+}
 
 // +kubebuilder:validation:Enum={"DELETE","GET","HEAD","OPTIONS","POST","PUT","TRACE"}
 type RequestMethodMatchConditionParameters_MatchValues string
@@ -29127,6 +30156,17 @@ const (
 	RequestMethodMatchConditionParameters_MatchValues_TRACE   = RequestMethodMatchConditionParameters_MatchValues("TRACE")
 )
 
+// Mapping from string to RequestMethodMatchConditionParameters_MatchValues
+var requestMethodMatchConditionParameters_MatchValues_Values = map[string]RequestMethodMatchConditionParameters_MatchValues{
+	"delete":  RequestMethodMatchConditionParameters_MatchValues_DELETE,
+	"get":     RequestMethodMatchConditionParameters_MatchValues_GET,
+	"head":    RequestMethodMatchConditionParameters_MatchValues_HEAD,
+	"options": RequestMethodMatchConditionParameters_MatchValues_OPTIONS,
+	"post":    RequestMethodMatchConditionParameters_MatchValues_POST,
+	"put":     RequestMethodMatchConditionParameters_MatchValues_PUT,
+	"trace":   RequestMethodMatchConditionParameters_MatchValues_TRACE,
+}
+
 type RequestMethodMatchConditionParameters_MatchValues_STATUS string
 
 const (
@@ -29139,23 +30179,54 @@ const (
 	RequestMethodMatchConditionParameters_MatchValues_STATUS_TRACE   = RequestMethodMatchConditionParameters_MatchValues_STATUS("TRACE")
 )
 
+// Mapping from string to RequestMethodMatchConditionParameters_MatchValues_STATUS
+var requestMethodMatchConditionParameters_MatchValues_STATUS_Values = map[string]RequestMethodMatchConditionParameters_MatchValues_STATUS{
+	"delete":  RequestMethodMatchConditionParameters_MatchValues_STATUS_DELETE,
+	"get":     RequestMethodMatchConditionParameters_MatchValues_STATUS_GET,
+	"head":    RequestMethodMatchConditionParameters_MatchValues_STATUS_HEAD,
+	"options": RequestMethodMatchConditionParameters_MatchValues_STATUS_OPTIONS,
+	"post":    RequestMethodMatchConditionParameters_MatchValues_STATUS_POST,
+	"put":     RequestMethodMatchConditionParameters_MatchValues_STATUS_PUT,
+	"trace":   RequestMethodMatchConditionParameters_MatchValues_STATUS_TRACE,
+}
+
 // +kubebuilder:validation:Enum={"Equal"}
 type RequestMethodMatchConditionParameters_Operator string
 
 const RequestMethodMatchConditionParameters_Operator_Equal = RequestMethodMatchConditionParameters_Operator("Equal")
 
+// Mapping from string to RequestMethodMatchConditionParameters_Operator
+var requestMethodMatchConditionParameters_Operator_Values = map[string]RequestMethodMatchConditionParameters_Operator{
+	"equal": RequestMethodMatchConditionParameters_Operator_Equal,
+}
+
 type RequestMethodMatchConditionParameters_Operator_STATUS string
 
 const RequestMethodMatchConditionParameters_Operator_STATUS_Equal = RequestMethodMatchConditionParameters_Operator_STATUS("Equal")
+
+// Mapping from string to RequestMethodMatchConditionParameters_Operator_STATUS
+var requestMethodMatchConditionParameters_Operator_STATUS_Values = map[string]RequestMethodMatchConditionParameters_Operator_STATUS{
+	"equal": RequestMethodMatchConditionParameters_Operator_STATUS_Equal,
+}
 
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestMethodConditionParameters"}
 type RequestMethodMatchConditionParameters_TypeName string
 
 const RequestMethodMatchConditionParameters_TypeName_DeliveryRuleRequestMethodConditionParameters = RequestMethodMatchConditionParameters_TypeName("DeliveryRuleRequestMethodConditionParameters")
 
+// Mapping from string to RequestMethodMatchConditionParameters_TypeName
+var requestMethodMatchConditionParameters_TypeName_Values = map[string]RequestMethodMatchConditionParameters_TypeName{
+	"deliveryrulerequestmethodconditionparameters": RequestMethodMatchConditionParameters_TypeName_DeliveryRuleRequestMethodConditionParameters,
+}
+
 type RequestMethodMatchConditionParameters_TypeName_STATUS string
 
 const RequestMethodMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestMethodConditionParameters = RequestMethodMatchConditionParameters_TypeName_STATUS("DeliveryRuleRequestMethodConditionParameters")
+
+// Mapping from string to RequestMethodMatchConditionParameters_TypeName_STATUS
+var requestMethodMatchConditionParameters_TypeName_STATUS_Values = map[string]RequestMethodMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulerequestmethodconditionparameters": RequestMethodMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestMethodConditionParameters,
+}
 
 // +kubebuilder:validation:Enum={"HTTP","HTTPS"}
 type RequestSchemeMatchConditionParameters_MatchValues string
@@ -29165,6 +30236,12 @@ const (
 	RequestSchemeMatchConditionParameters_MatchValues_HTTPS = RequestSchemeMatchConditionParameters_MatchValues("HTTPS")
 )
 
+// Mapping from string to RequestSchemeMatchConditionParameters_MatchValues
+var requestSchemeMatchConditionParameters_MatchValues_Values = map[string]RequestSchemeMatchConditionParameters_MatchValues{
+	"http":  RequestSchemeMatchConditionParameters_MatchValues_HTTP,
+	"https": RequestSchemeMatchConditionParameters_MatchValues_HTTPS,
+}
+
 type RequestSchemeMatchConditionParameters_MatchValues_STATUS string
 
 const (
@@ -29172,23 +30249,49 @@ const (
 	RequestSchemeMatchConditionParameters_MatchValues_STATUS_HTTPS = RequestSchemeMatchConditionParameters_MatchValues_STATUS("HTTPS")
 )
 
+// Mapping from string to RequestSchemeMatchConditionParameters_MatchValues_STATUS
+var requestSchemeMatchConditionParameters_MatchValues_STATUS_Values = map[string]RequestSchemeMatchConditionParameters_MatchValues_STATUS{
+	"http":  RequestSchemeMatchConditionParameters_MatchValues_STATUS_HTTP,
+	"https": RequestSchemeMatchConditionParameters_MatchValues_STATUS_HTTPS,
+}
+
 // +kubebuilder:validation:Enum={"Equal"}
 type RequestSchemeMatchConditionParameters_Operator string
 
 const RequestSchemeMatchConditionParameters_Operator_Equal = RequestSchemeMatchConditionParameters_Operator("Equal")
 
+// Mapping from string to RequestSchemeMatchConditionParameters_Operator
+var requestSchemeMatchConditionParameters_Operator_Values = map[string]RequestSchemeMatchConditionParameters_Operator{
+	"equal": RequestSchemeMatchConditionParameters_Operator_Equal,
+}
+
 type RequestSchemeMatchConditionParameters_Operator_STATUS string
 
 const RequestSchemeMatchConditionParameters_Operator_STATUS_Equal = RequestSchemeMatchConditionParameters_Operator_STATUS("Equal")
+
+// Mapping from string to RequestSchemeMatchConditionParameters_Operator_STATUS
+var requestSchemeMatchConditionParameters_Operator_STATUS_Values = map[string]RequestSchemeMatchConditionParameters_Operator_STATUS{
+	"equal": RequestSchemeMatchConditionParameters_Operator_STATUS_Equal,
+}
 
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestSchemeConditionParameters"}
 type RequestSchemeMatchConditionParameters_TypeName string
 
 const RequestSchemeMatchConditionParameters_TypeName_DeliveryRuleRequestSchemeConditionParameters = RequestSchemeMatchConditionParameters_TypeName("DeliveryRuleRequestSchemeConditionParameters")
 
+// Mapping from string to RequestSchemeMatchConditionParameters_TypeName
+var requestSchemeMatchConditionParameters_TypeName_Values = map[string]RequestSchemeMatchConditionParameters_TypeName{
+	"deliveryrulerequestschemeconditionparameters": RequestSchemeMatchConditionParameters_TypeName_DeliveryRuleRequestSchemeConditionParameters,
+}
+
 type RequestSchemeMatchConditionParameters_TypeName_STATUS string
 
 const RequestSchemeMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestSchemeConditionParameters = RequestSchemeMatchConditionParameters_TypeName_STATUS("DeliveryRuleRequestSchemeConditionParameters")
+
+// Mapping from string to RequestSchemeMatchConditionParameters_TypeName_STATUS
+var requestSchemeMatchConditionParameters_TypeName_STATUS_Values = map[string]RequestSchemeMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulerequestschemeconditionparameters": RequestSchemeMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestSchemeConditionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type RequestUriMatchConditionParameters_Operator string
@@ -29206,6 +30309,20 @@ const (
 	RequestUriMatchConditionParameters_Operator_RegEx              = RequestUriMatchConditionParameters_Operator("RegEx")
 )
 
+// Mapping from string to RequestUriMatchConditionParameters_Operator
+var requestUriMatchConditionParameters_Operator_Values = map[string]RequestUriMatchConditionParameters_Operator{
+	"any":                RequestUriMatchConditionParameters_Operator_Any,
+	"beginswith":         RequestUriMatchConditionParameters_Operator_BeginsWith,
+	"contains":           RequestUriMatchConditionParameters_Operator_Contains,
+	"endswith":           RequestUriMatchConditionParameters_Operator_EndsWith,
+	"equal":              RequestUriMatchConditionParameters_Operator_Equal,
+	"greaterthan":        RequestUriMatchConditionParameters_Operator_GreaterThan,
+	"greaterthanorequal": RequestUriMatchConditionParameters_Operator_GreaterThanOrEqual,
+	"lessthan":           RequestUriMatchConditionParameters_Operator_LessThan,
+	"lessthanorequal":    RequestUriMatchConditionParameters_Operator_LessThanOrEqual,
+	"regex":              RequestUriMatchConditionParameters_Operator_RegEx,
+}
+
 type RequestUriMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29221,23 +30338,57 @@ const (
 	RequestUriMatchConditionParameters_Operator_STATUS_RegEx              = RequestUriMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to RequestUriMatchConditionParameters_Operator_STATUS
+var requestUriMatchConditionParameters_Operator_STATUS_Values = map[string]RequestUriMatchConditionParameters_Operator_STATUS{
+	"any":                RequestUriMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         RequestUriMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           RequestUriMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           RequestUriMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              RequestUriMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        RequestUriMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": RequestUriMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           RequestUriMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    RequestUriMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              RequestUriMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestUriConditionParameters"}
 type RequestUriMatchConditionParameters_TypeName string
 
 const RequestUriMatchConditionParameters_TypeName_DeliveryRuleRequestUriConditionParameters = RequestUriMatchConditionParameters_TypeName("DeliveryRuleRequestUriConditionParameters")
 
+// Mapping from string to RequestUriMatchConditionParameters_TypeName
+var requestUriMatchConditionParameters_TypeName_Values = map[string]RequestUriMatchConditionParameters_TypeName{
+	"deliveryrulerequesturiconditionparameters": RequestUriMatchConditionParameters_TypeName_DeliveryRuleRequestUriConditionParameters,
+}
+
 type RequestUriMatchConditionParameters_TypeName_STATUS string
 
 const RequestUriMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestUriConditionParameters = RequestUriMatchConditionParameters_TypeName_STATUS("DeliveryRuleRequestUriConditionParameters")
+
+// Mapping from string to RequestUriMatchConditionParameters_TypeName_STATUS
+var requestUriMatchConditionParameters_TypeName_STATUS_Values = map[string]RequestUriMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulerequesturiconditionparameters": RequestUriMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestUriConditionParameters,
+}
 
 // +kubebuilder:validation:Enum={"DeliveryRuleRouteConfigurationOverrideActionParameters"}
 type RouteConfigurationOverrideActionParameters_TypeName string
 
 const RouteConfigurationOverrideActionParameters_TypeName_DeliveryRuleRouteConfigurationOverrideActionParameters = RouteConfigurationOverrideActionParameters_TypeName("DeliveryRuleRouteConfigurationOverrideActionParameters")
 
+// Mapping from string to RouteConfigurationOverrideActionParameters_TypeName
+var routeConfigurationOverrideActionParameters_TypeName_Values = map[string]RouteConfigurationOverrideActionParameters_TypeName{
+	"deliveryrulerouteconfigurationoverrideactionparameters": RouteConfigurationOverrideActionParameters_TypeName_DeliveryRuleRouteConfigurationOverrideActionParameters,
+}
+
 type RouteConfigurationOverrideActionParameters_TypeName_STATUS string
 
 const RouteConfigurationOverrideActionParameters_TypeName_STATUS_DeliveryRuleRouteConfigurationOverrideActionParameters = RouteConfigurationOverrideActionParameters_TypeName_STATUS("DeliveryRuleRouteConfigurationOverrideActionParameters")
+
+// Mapping from string to RouteConfigurationOverrideActionParameters_TypeName_STATUS
+var routeConfigurationOverrideActionParameters_TypeName_STATUS_Values = map[string]RouteConfigurationOverrideActionParameters_TypeName_STATUS{
+	"deliveryrulerouteconfigurationoverrideactionparameters": RouteConfigurationOverrideActionParameters_TypeName_STATUS_DeliveryRuleRouteConfigurationOverrideActionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type ServerPortMatchConditionParameters_Operator string
@@ -29255,6 +30406,20 @@ const (
 	ServerPortMatchConditionParameters_Operator_RegEx              = ServerPortMatchConditionParameters_Operator("RegEx")
 )
 
+// Mapping from string to ServerPortMatchConditionParameters_Operator
+var serverPortMatchConditionParameters_Operator_Values = map[string]ServerPortMatchConditionParameters_Operator{
+	"any":                ServerPortMatchConditionParameters_Operator_Any,
+	"beginswith":         ServerPortMatchConditionParameters_Operator_BeginsWith,
+	"contains":           ServerPortMatchConditionParameters_Operator_Contains,
+	"endswith":           ServerPortMatchConditionParameters_Operator_EndsWith,
+	"equal":              ServerPortMatchConditionParameters_Operator_Equal,
+	"greaterthan":        ServerPortMatchConditionParameters_Operator_GreaterThan,
+	"greaterthanorequal": ServerPortMatchConditionParameters_Operator_GreaterThanOrEqual,
+	"lessthan":           ServerPortMatchConditionParameters_Operator_LessThan,
+	"lessthanorequal":    ServerPortMatchConditionParameters_Operator_LessThanOrEqual,
+	"regex":              ServerPortMatchConditionParameters_Operator_RegEx,
+}
+
 type ServerPortMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29270,14 +30435,38 @@ const (
 	ServerPortMatchConditionParameters_Operator_STATUS_RegEx              = ServerPortMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to ServerPortMatchConditionParameters_Operator_STATUS
+var serverPortMatchConditionParameters_Operator_STATUS_Values = map[string]ServerPortMatchConditionParameters_Operator_STATUS{
+	"any":                ServerPortMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         ServerPortMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           ServerPortMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           ServerPortMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              ServerPortMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        ServerPortMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": ServerPortMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           ServerPortMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    ServerPortMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              ServerPortMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 // +kubebuilder:validation:Enum={"DeliveryRuleServerPortConditionParameters"}
 type ServerPortMatchConditionParameters_TypeName string
 
 const ServerPortMatchConditionParameters_TypeName_DeliveryRuleServerPortConditionParameters = ServerPortMatchConditionParameters_TypeName("DeliveryRuleServerPortConditionParameters")
 
+// Mapping from string to ServerPortMatchConditionParameters_TypeName
+var serverPortMatchConditionParameters_TypeName_Values = map[string]ServerPortMatchConditionParameters_TypeName{
+	"deliveryruleserverportconditionparameters": ServerPortMatchConditionParameters_TypeName_DeliveryRuleServerPortConditionParameters,
+}
+
 type ServerPortMatchConditionParameters_TypeName_STATUS string
 
 const ServerPortMatchConditionParameters_TypeName_STATUS_DeliveryRuleServerPortConditionParameters = ServerPortMatchConditionParameters_TypeName_STATUS("DeliveryRuleServerPortConditionParameters")
+
+// Mapping from string to ServerPortMatchConditionParameters_TypeName_STATUS
+var serverPortMatchConditionParameters_TypeName_STATUS_Values = map[string]ServerPortMatchConditionParameters_TypeName_STATUS{
+	"deliveryruleserverportconditionparameters": ServerPortMatchConditionParameters_TypeName_STATUS_DeliveryRuleServerPortConditionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Any","IPMatch"}
 type SocketAddrMatchConditionParameters_Operator string
@@ -29287,6 +30476,12 @@ const (
 	SocketAddrMatchConditionParameters_Operator_IPMatch = SocketAddrMatchConditionParameters_Operator("IPMatch")
 )
 
+// Mapping from string to SocketAddrMatchConditionParameters_Operator
+var socketAddrMatchConditionParameters_Operator_Values = map[string]SocketAddrMatchConditionParameters_Operator{
+	"any":     SocketAddrMatchConditionParameters_Operator_Any,
+	"ipmatch": SocketAddrMatchConditionParameters_Operator_IPMatch,
+}
+
 type SocketAddrMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29294,14 +30489,30 @@ const (
 	SocketAddrMatchConditionParameters_Operator_STATUS_IPMatch = SocketAddrMatchConditionParameters_Operator_STATUS("IPMatch")
 )
 
+// Mapping from string to SocketAddrMatchConditionParameters_Operator_STATUS
+var socketAddrMatchConditionParameters_Operator_STATUS_Values = map[string]SocketAddrMatchConditionParameters_Operator_STATUS{
+	"any":     SocketAddrMatchConditionParameters_Operator_STATUS_Any,
+	"ipmatch": SocketAddrMatchConditionParameters_Operator_STATUS_IPMatch,
+}
+
 // +kubebuilder:validation:Enum={"DeliveryRuleSocketAddrConditionParameters"}
 type SocketAddrMatchConditionParameters_TypeName string
 
 const SocketAddrMatchConditionParameters_TypeName_DeliveryRuleSocketAddrConditionParameters = SocketAddrMatchConditionParameters_TypeName("DeliveryRuleSocketAddrConditionParameters")
 
+// Mapping from string to SocketAddrMatchConditionParameters_TypeName
+var socketAddrMatchConditionParameters_TypeName_Values = map[string]SocketAddrMatchConditionParameters_TypeName{
+	"deliveryrulesocketaddrconditionparameters": SocketAddrMatchConditionParameters_TypeName_DeliveryRuleSocketAddrConditionParameters,
+}
+
 type SocketAddrMatchConditionParameters_TypeName_STATUS string
 
 const SocketAddrMatchConditionParameters_TypeName_STATUS_DeliveryRuleSocketAddrConditionParameters = SocketAddrMatchConditionParameters_TypeName_STATUS("DeliveryRuleSocketAddrConditionParameters")
+
+// Mapping from string to SocketAddrMatchConditionParameters_TypeName_STATUS
+var socketAddrMatchConditionParameters_TypeName_STATUS_Values = map[string]SocketAddrMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulesocketaddrconditionparameters": SocketAddrMatchConditionParameters_TypeName_STATUS_DeliveryRuleSocketAddrConditionParameters,
+}
 
 // The protocol of an established TLS connection.
 // +kubebuilder:validation:Enum={"TLSv1","TLSv1.1","TLSv1.2"}
@@ -29313,6 +30524,13 @@ const (
 	SslProtocol_TLSv12 = SslProtocol("TLSv1.2")
 )
 
+// Mapping from string to SslProtocol
+var sslProtocol_Values = map[string]SslProtocol{
+	"tlsv1":   SslProtocol_TLSv1,
+	"tlsv1.1": SslProtocol_TLSv11,
+	"tlsv1.2": SslProtocol_TLSv12,
+}
+
 // The protocol of an established TLS connection.
 type SslProtocol_STATUS string
 
@@ -29322,23 +30540,50 @@ const (
 	SslProtocol_STATUS_TLSv12 = SslProtocol_STATUS("TLSv1.2")
 )
 
+// Mapping from string to SslProtocol_STATUS
+var sslProtocol_STATUS_Values = map[string]SslProtocol_STATUS{
+	"tlsv1":   SslProtocol_STATUS_TLSv1,
+	"tlsv1.1": SslProtocol_STATUS_TLSv11,
+	"tlsv1.2": SslProtocol_STATUS_TLSv12,
+}
+
 // +kubebuilder:validation:Enum={"Equal"}
 type SslProtocolMatchConditionParameters_Operator string
 
 const SslProtocolMatchConditionParameters_Operator_Equal = SslProtocolMatchConditionParameters_Operator("Equal")
 
+// Mapping from string to SslProtocolMatchConditionParameters_Operator
+var sslProtocolMatchConditionParameters_Operator_Values = map[string]SslProtocolMatchConditionParameters_Operator{
+	"equal": SslProtocolMatchConditionParameters_Operator_Equal,
+}
+
 type SslProtocolMatchConditionParameters_Operator_STATUS string
 
 const SslProtocolMatchConditionParameters_Operator_STATUS_Equal = SslProtocolMatchConditionParameters_Operator_STATUS("Equal")
+
+// Mapping from string to SslProtocolMatchConditionParameters_Operator_STATUS
+var sslProtocolMatchConditionParameters_Operator_STATUS_Values = map[string]SslProtocolMatchConditionParameters_Operator_STATUS{
+	"equal": SslProtocolMatchConditionParameters_Operator_STATUS_Equal,
+}
 
 // +kubebuilder:validation:Enum={"DeliveryRuleSslProtocolConditionParameters"}
 type SslProtocolMatchConditionParameters_TypeName string
 
 const SslProtocolMatchConditionParameters_TypeName_DeliveryRuleSslProtocolConditionParameters = SslProtocolMatchConditionParameters_TypeName("DeliveryRuleSslProtocolConditionParameters")
 
+// Mapping from string to SslProtocolMatchConditionParameters_TypeName
+var sslProtocolMatchConditionParameters_TypeName_Values = map[string]SslProtocolMatchConditionParameters_TypeName{
+	"deliveryrulesslprotocolconditionparameters": SslProtocolMatchConditionParameters_TypeName_DeliveryRuleSslProtocolConditionParameters,
+}
+
 type SslProtocolMatchConditionParameters_TypeName_STATUS string
 
 const SslProtocolMatchConditionParameters_TypeName_STATUS_DeliveryRuleSslProtocolConditionParameters = SslProtocolMatchConditionParameters_TypeName_STATUS("DeliveryRuleSslProtocolConditionParameters")
+
+// Mapping from string to SslProtocolMatchConditionParameters_TypeName_STATUS
+var sslProtocolMatchConditionParameters_TypeName_STATUS_Values = map[string]SslProtocolMatchConditionParameters_TypeName_STATUS{
+	"deliveryrulesslprotocolconditionparameters": SslProtocolMatchConditionParameters_TypeName_STATUS_DeliveryRuleSslProtocolConditionParameters,
+}
 
 // Describes what transforms are applied before matching
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
@@ -29353,6 +30598,16 @@ const (
 	Transform_UrlEncode   = Transform("UrlEncode")
 )
 
+// Mapping from string to Transform
+var transform_Values = map[string]Transform{
+	"lowercase":   Transform_Lowercase,
+	"removenulls": Transform_RemoveNulls,
+	"trim":        Transform_Trim,
+	"uppercase":   Transform_Uppercase,
+	"urldecode":   Transform_UrlDecode,
+	"urlencode":   Transform_UrlEncode,
+}
+
 // Describes what transforms are applied before matching
 type Transform_STATUS string
 
@@ -29364,6 +30619,16 @@ const (
 	Transform_STATUS_UrlDecode   = Transform_STATUS("UrlDecode")
 	Transform_STATUS_UrlEncode   = Transform_STATUS("UrlEncode")
 )
+
+// Mapping from string to Transform_STATUS
+var transform_STATUS_Values = map[string]Transform_STATUS{
+	"lowercase":   Transform_STATUS_Lowercase,
+	"removenulls": Transform_STATUS_RemoveNulls,
+	"trim":        Transform_STATUS_Trim,
+	"uppercase":   Transform_STATUS_Uppercase,
+	"urldecode":   Transform_STATUS_UrlDecode,
+	"urlencode":   Transform_STATUS_UrlEncode,
+}
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type UrlFileExtensionMatchConditionParameters_Operator string
@@ -29381,6 +30646,20 @@ const (
 	UrlFileExtensionMatchConditionParameters_Operator_RegEx              = UrlFileExtensionMatchConditionParameters_Operator("RegEx")
 )
 
+// Mapping from string to UrlFileExtensionMatchConditionParameters_Operator
+var urlFileExtensionMatchConditionParameters_Operator_Values = map[string]UrlFileExtensionMatchConditionParameters_Operator{
+	"any":                UrlFileExtensionMatchConditionParameters_Operator_Any,
+	"beginswith":         UrlFileExtensionMatchConditionParameters_Operator_BeginsWith,
+	"contains":           UrlFileExtensionMatchConditionParameters_Operator_Contains,
+	"endswith":           UrlFileExtensionMatchConditionParameters_Operator_EndsWith,
+	"equal":              UrlFileExtensionMatchConditionParameters_Operator_Equal,
+	"greaterthan":        UrlFileExtensionMatchConditionParameters_Operator_GreaterThan,
+	"greaterthanorequal": UrlFileExtensionMatchConditionParameters_Operator_GreaterThanOrEqual,
+	"lessthan":           UrlFileExtensionMatchConditionParameters_Operator_LessThan,
+	"lessthanorequal":    UrlFileExtensionMatchConditionParameters_Operator_LessThanOrEqual,
+	"regex":              UrlFileExtensionMatchConditionParameters_Operator_RegEx,
+}
+
 type UrlFileExtensionMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29396,14 +30675,38 @@ const (
 	UrlFileExtensionMatchConditionParameters_Operator_STATUS_RegEx              = UrlFileExtensionMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to UrlFileExtensionMatchConditionParameters_Operator_STATUS
+var urlFileExtensionMatchConditionParameters_Operator_STATUS_Values = map[string]UrlFileExtensionMatchConditionParameters_Operator_STATUS{
+	"any":                UrlFileExtensionMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         UrlFileExtensionMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           UrlFileExtensionMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           UrlFileExtensionMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              UrlFileExtensionMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        UrlFileExtensionMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": UrlFileExtensionMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           UrlFileExtensionMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    UrlFileExtensionMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              UrlFileExtensionMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlFileExtensionMatchConditionParameters"}
 type UrlFileExtensionMatchConditionParameters_TypeName string
 
 const UrlFileExtensionMatchConditionParameters_TypeName_DeliveryRuleUrlFileExtensionMatchConditionParameters = UrlFileExtensionMatchConditionParameters_TypeName("DeliveryRuleUrlFileExtensionMatchConditionParameters")
 
+// Mapping from string to UrlFileExtensionMatchConditionParameters_TypeName
+var urlFileExtensionMatchConditionParameters_TypeName_Values = map[string]UrlFileExtensionMatchConditionParameters_TypeName{
+	"deliveryruleurlfileextensionmatchconditionparameters": UrlFileExtensionMatchConditionParameters_TypeName_DeliveryRuleUrlFileExtensionMatchConditionParameters,
+}
+
 type UrlFileExtensionMatchConditionParameters_TypeName_STATUS string
 
 const UrlFileExtensionMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlFileExtensionMatchConditionParameters = UrlFileExtensionMatchConditionParameters_TypeName_STATUS("DeliveryRuleUrlFileExtensionMatchConditionParameters")
+
+// Mapping from string to UrlFileExtensionMatchConditionParameters_TypeName_STATUS
+var urlFileExtensionMatchConditionParameters_TypeName_STATUS_Values = map[string]UrlFileExtensionMatchConditionParameters_TypeName_STATUS{
+	"deliveryruleurlfileextensionmatchconditionparameters": UrlFileExtensionMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlFileExtensionMatchConditionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type UrlFileNameMatchConditionParameters_Operator string
@@ -29421,6 +30724,20 @@ const (
 	UrlFileNameMatchConditionParameters_Operator_RegEx              = UrlFileNameMatchConditionParameters_Operator("RegEx")
 )
 
+// Mapping from string to UrlFileNameMatchConditionParameters_Operator
+var urlFileNameMatchConditionParameters_Operator_Values = map[string]UrlFileNameMatchConditionParameters_Operator{
+	"any":                UrlFileNameMatchConditionParameters_Operator_Any,
+	"beginswith":         UrlFileNameMatchConditionParameters_Operator_BeginsWith,
+	"contains":           UrlFileNameMatchConditionParameters_Operator_Contains,
+	"endswith":           UrlFileNameMatchConditionParameters_Operator_EndsWith,
+	"equal":              UrlFileNameMatchConditionParameters_Operator_Equal,
+	"greaterthan":        UrlFileNameMatchConditionParameters_Operator_GreaterThan,
+	"greaterthanorequal": UrlFileNameMatchConditionParameters_Operator_GreaterThanOrEqual,
+	"lessthan":           UrlFileNameMatchConditionParameters_Operator_LessThan,
+	"lessthanorequal":    UrlFileNameMatchConditionParameters_Operator_LessThanOrEqual,
+	"regex":              UrlFileNameMatchConditionParameters_Operator_RegEx,
+}
+
 type UrlFileNameMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29436,14 +30753,38 @@ const (
 	UrlFileNameMatchConditionParameters_Operator_STATUS_RegEx              = UrlFileNameMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to UrlFileNameMatchConditionParameters_Operator_STATUS
+var urlFileNameMatchConditionParameters_Operator_STATUS_Values = map[string]UrlFileNameMatchConditionParameters_Operator_STATUS{
+	"any":                UrlFileNameMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         UrlFileNameMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           UrlFileNameMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           UrlFileNameMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              UrlFileNameMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        UrlFileNameMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": UrlFileNameMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           UrlFileNameMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    UrlFileNameMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              UrlFileNameMatchConditionParameters_Operator_STATUS_RegEx,
+}
+
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlFilenameConditionParameters"}
 type UrlFileNameMatchConditionParameters_TypeName string
 
 const UrlFileNameMatchConditionParameters_TypeName_DeliveryRuleUrlFilenameConditionParameters = UrlFileNameMatchConditionParameters_TypeName("DeliveryRuleUrlFilenameConditionParameters")
 
+// Mapping from string to UrlFileNameMatchConditionParameters_TypeName
+var urlFileNameMatchConditionParameters_TypeName_Values = map[string]UrlFileNameMatchConditionParameters_TypeName{
+	"deliveryruleurlfilenameconditionparameters": UrlFileNameMatchConditionParameters_TypeName_DeliveryRuleUrlFilenameConditionParameters,
+}
+
 type UrlFileNameMatchConditionParameters_TypeName_STATUS string
 
 const UrlFileNameMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlFilenameConditionParameters = UrlFileNameMatchConditionParameters_TypeName_STATUS("DeliveryRuleUrlFilenameConditionParameters")
+
+// Mapping from string to UrlFileNameMatchConditionParameters_TypeName_STATUS
+var urlFileNameMatchConditionParameters_TypeName_STATUS_Values = map[string]UrlFileNameMatchConditionParameters_TypeName_STATUS{
+	"deliveryruleurlfilenameconditionparameters": UrlFileNameMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlFilenameConditionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx","Wildcard"}
 type UrlPathMatchConditionParameters_Operator string
@@ -29462,6 +30803,21 @@ const (
 	UrlPathMatchConditionParameters_Operator_Wildcard           = UrlPathMatchConditionParameters_Operator("Wildcard")
 )
 
+// Mapping from string to UrlPathMatchConditionParameters_Operator
+var urlPathMatchConditionParameters_Operator_Values = map[string]UrlPathMatchConditionParameters_Operator{
+	"any":                UrlPathMatchConditionParameters_Operator_Any,
+	"beginswith":         UrlPathMatchConditionParameters_Operator_BeginsWith,
+	"contains":           UrlPathMatchConditionParameters_Operator_Contains,
+	"endswith":           UrlPathMatchConditionParameters_Operator_EndsWith,
+	"equal":              UrlPathMatchConditionParameters_Operator_Equal,
+	"greaterthan":        UrlPathMatchConditionParameters_Operator_GreaterThan,
+	"greaterthanorequal": UrlPathMatchConditionParameters_Operator_GreaterThanOrEqual,
+	"lessthan":           UrlPathMatchConditionParameters_Operator_LessThan,
+	"lessthanorequal":    UrlPathMatchConditionParameters_Operator_LessThanOrEqual,
+	"regex":              UrlPathMatchConditionParameters_Operator_RegEx,
+	"wildcard":           UrlPathMatchConditionParameters_Operator_Wildcard,
+}
+
 type UrlPathMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29478,14 +30834,39 @@ const (
 	UrlPathMatchConditionParameters_Operator_STATUS_Wildcard           = UrlPathMatchConditionParameters_Operator_STATUS("Wildcard")
 )
 
+// Mapping from string to UrlPathMatchConditionParameters_Operator_STATUS
+var urlPathMatchConditionParameters_Operator_STATUS_Values = map[string]UrlPathMatchConditionParameters_Operator_STATUS{
+	"any":                UrlPathMatchConditionParameters_Operator_STATUS_Any,
+	"beginswith":         UrlPathMatchConditionParameters_Operator_STATUS_BeginsWith,
+	"contains":           UrlPathMatchConditionParameters_Operator_STATUS_Contains,
+	"endswith":           UrlPathMatchConditionParameters_Operator_STATUS_EndsWith,
+	"equal":              UrlPathMatchConditionParameters_Operator_STATUS_Equal,
+	"greaterthan":        UrlPathMatchConditionParameters_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": UrlPathMatchConditionParameters_Operator_STATUS_GreaterThanOrEqual,
+	"lessthan":           UrlPathMatchConditionParameters_Operator_STATUS_LessThan,
+	"lessthanorequal":    UrlPathMatchConditionParameters_Operator_STATUS_LessThanOrEqual,
+	"regex":              UrlPathMatchConditionParameters_Operator_STATUS_RegEx,
+	"wildcard":           UrlPathMatchConditionParameters_Operator_STATUS_Wildcard,
+}
+
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlPathMatchConditionParameters"}
 type UrlPathMatchConditionParameters_TypeName string
 
 const UrlPathMatchConditionParameters_TypeName_DeliveryRuleUrlPathMatchConditionParameters = UrlPathMatchConditionParameters_TypeName("DeliveryRuleUrlPathMatchConditionParameters")
 
+// Mapping from string to UrlPathMatchConditionParameters_TypeName
+var urlPathMatchConditionParameters_TypeName_Values = map[string]UrlPathMatchConditionParameters_TypeName{
+	"deliveryruleurlpathmatchconditionparameters": UrlPathMatchConditionParameters_TypeName_DeliveryRuleUrlPathMatchConditionParameters,
+}
+
 type UrlPathMatchConditionParameters_TypeName_STATUS string
 
 const UrlPathMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlPathMatchConditionParameters = UrlPathMatchConditionParameters_TypeName_STATUS("DeliveryRuleUrlPathMatchConditionParameters")
+
+// Mapping from string to UrlPathMatchConditionParameters_TypeName_STATUS
+var urlPathMatchConditionParameters_TypeName_STATUS_Values = map[string]UrlPathMatchConditionParameters_TypeName_STATUS{
+	"deliveryruleurlpathmatchconditionparameters": UrlPathMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlPathMatchConditionParameters,
+}
 
 // +kubebuilder:validation:Enum={"Http","Https","MatchRequest"}
 type UrlRedirectActionParameters_DestinationProtocol string
@@ -29496,6 +30877,13 @@ const (
 	UrlRedirectActionParameters_DestinationProtocol_MatchRequest = UrlRedirectActionParameters_DestinationProtocol("MatchRequest")
 )
 
+// Mapping from string to UrlRedirectActionParameters_DestinationProtocol
+var urlRedirectActionParameters_DestinationProtocol_Values = map[string]UrlRedirectActionParameters_DestinationProtocol{
+	"http":         UrlRedirectActionParameters_DestinationProtocol_Http,
+	"https":        UrlRedirectActionParameters_DestinationProtocol_Https,
+	"matchrequest": UrlRedirectActionParameters_DestinationProtocol_MatchRequest,
+}
+
 type UrlRedirectActionParameters_DestinationProtocol_STATUS string
 
 const (
@@ -29503,6 +30891,13 @@ const (
 	UrlRedirectActionParameters_DestinationProtocol_STATUS_Https        = UrlRedirectActionParameters_DestinationProtocol_STATUS("Https")
 	UrlRedirectActionParameters_DestinationProtocol_STATUS_MatchRequest = UrlRedirectActionParameters_DestinationProtocol_STATUS("MatchRequest")
 )
+
+// Mapping from string to UrlRedirectActionParameters_DestinationProtocol_STATUS
+var urlRedirectActionParameters_DestinationProtocol_STATUS_Values = map[string]UrlRedirectActionParameters_DestinationProtocol_STATUS{
+	"http":         UrlRedirectActionParameters_DestinationProtocol_STATUS_Http,
+	"https":        UrlRedirectActionParameters_DestinationProtocol_STATUS_Https,
+	"matchrequest": UrlRedirectActionParameters_DestinationProtocol_STATUS_MatchRequest,
+}
 
 // +kubebuilder:validation:Enum={"Found","Moved","PermanentRedirect","TemporaryRedirect"}
 type UrlRedirectActionParameters_RedirectType string
@@ -29514,6 +30909,14 @@ const (
 	UrlRedirectActionParameters_RedirectType_TemporaryRedirect = UrlRedirectActionParameters_RedirectType("TemporaryRedirect")
 )
 
+// Mapping from string to UrlRedirectActionParameters_RedirectType
+var urlRedirectActionParameters_RedirectType_Values = map[string]UrlRedirectActionParameters_RedirectType{
+	"found":             UrlRedirectActionParameters_RedirectType_Found,
+	"moved":             UrlRedirectActionParameters_RedirectType_Moved,
+	"permanentredirect": UrlRedirectActionParameters_RedirectType_PermanentRedirect,
+	"temporaryredirect": UrlRedirectActionParameters_RedirectType_TemporaryRedirect,
+}
+
 type UrlRedirectActionParameters_RedirectType_STATUS string
 
 const (
@@ -29523,41 +30926,89 @@ const (
 	UrlRedirectActionParameters_RedirectType_STATUS_TemporaryRedirect = UrlRedirectActionParameters_RedirectType_STATUS("TemporaryRedirect")
 )
 
+// Mapping from string to UrlRedirectActionParameters_RedirectType_STATUS
+var urlRedirectActionParameters_RedirectType_STATUS_Values = map[string]UrlRedirectActionParameters_RedirectType_STATUS{
+	"found":             UrlRedirectActionParameters_RedirectType_STATUS_Found,
+	"moved":             UrlRedirectActionParameters_RedirectType_STATUS_Moved,
+	"permanentredirect": UrlRedirectActionParameters_RedirectType_STATUS_PermanentRedirect,
+	"temporaryredirect": UrlRedirectActionParameters_RedirectType_STATUS_TemporaryRedirect,
+}
+
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlRedirectActionParameters"}
 type UrlRedirectActionParameters_TypeName string
 
 const UrlRedirectActionParameters_TypeName_DeliveryRuleUrlRedirectActionParameters = UrlRedirectActionParameters_TypeName("DeliveryRuleUrlRedirectActionParameters")
 
+// Mapping from string to UrlRedirectActionParameters_TypeName
+var urlRedirectActionParameters_TypeName_Values = map[string]UrlRedirectActionParameters_TypeName{
+	"deliveryruleurlredirectactionparameters": UrlRedirectActionParameters_TypeName_DeliveryRuleUrlRedirectActionParameters,
+}
+
 type UrlRedirectActionParameters_TypeName_STATUS string
 
 const UrlRedirectActionParameters_TypeName_STATUS_DeliveryRuleUrlRedirectActionParameters = UrlRedirectActionParameters_TypeName_STATUS("DeliveryRuleUrlRedirectActionParameters")
+
+// Mapping from string to UrlRedirectActionParameters_TypeName_STATUS
+var urlRedirectActionParameters_TypeName_STATUS_Values = map[string]UrlRedirectActionParameters_TypeName_STATUS{
+	"deliveryruleurlredirectactionparameters": UrlRedirectActionParameters_TypeName_STATUS_DeliveryRuleUrlRedirectActionParameters,
+}
 
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlRewriteActionParameters"}
 type UrlRewriteActionParameters_TypeName string
 
 const UrlRewriteActionParameters_TypeName_DeliveryRuleUrlRewriteActionParameters = UrlRewriteActionParameters_TypeName("DeliveryRuleUrlRewriteActionParameters")
 
+// Mapping from string to UrlRewriteActionParameters_TypeName
+var urlRewriteActionParameters_TypeName_Values = map[string]UrlRewriteActionParameters_TypeName{
+	"deliveryruleurlrewriteactionparameters": UrlRewriteActionParameters_TypeName_DeliveryRuleUrlRewriteActionParameters,
+}
+
 type UrlRewriteActionParameters_TypeName_STATUS string
 
 const UrlRewriteActionParameters_TypeName_STATUS_DeliveryRuleUrlRewriteActionParameters = UrlRewriteActionParameters_TypeName_STATUS("DeliveryRuleUrlRewriteActionParameters")
+
+// Mapping from string to UrlRewriteActionParameters_TypeName_STATUS
+var urlRewriteActionParameters_TypeName_STATUS_Values = map[string]UrlRewriteActionParameters_TypeName_STATUS{
+	"deliveryruleurlrewriteactionparameters": UrlRewriteActionParameters_TypeName_STATUS_DeliveryRuleUrlRewriteActionParameters,
+}
 
 // +kubebuilder:validation:Enum={"SHA256"}
 type UrlSigningActionParameters_Algorithm string
 
 const UrlSigningActionParameters_Algorithm_SHA256 = UrlSigningActionParameters_Algorithm("SHA256")
 
+// Mapping from string to UrlSigningActionParameters_Algorithm
+var urlSigningActionParameters_Algorithm_Values = map[string]UrlSigningActionParameters_Algorithm{
+	"sha256": UrlSigningActionParameters_Algorithm_SHA256,
+}
+
 type UrlSigningActionParameters_Algorithm_STATUS string
 
 const UrlSigningActionParameters_Algorithm_STATUS_SHA256 = UrlSigningActionParameters_Algorithm_STATUS("SHA256")
+
+// Mapping from string to UrlSigningActionParameters_Algorithm_STATUS
+var urlSigningActionParameters_Algorithm_STATUS_Values = map[string]UrlSigningActionParameters_Algorithm_STATUS{
+	"sha256": UrlSigningActionParameters_Algorithm_STATUS_SHA256,
+}
 
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlSigningActionParameters"}
 type UrlSigningActionParameters_TypeName string
 
 const UrlSigningActionParameters_TypeName_DeliveryRuleUrlSigningActionParameters = UrlSigningActionParameters_TypeName("DeliveryRuleUrlSigningActionParameters")
 
+// Mapping from string to UrlSigningActionParameters_TypeName
+var urlSigningActionParameters_TypeName_Values = map[string]UrlSigningActionParameters_TypeName{
+	"deliveryruleurlsigningactionparameters": UrlSigningActionParameters_TypeName_DeliveryRuleUrlSigningActionParameters,
+}
+
 type UrlSigningActionParameters_TypeName_STATUS string
 
 const UrlSigningActionParameters_TypeName_STATUS_DeliveryRuleUrlSigningActionParameters = UrlSigningActionParameters_TypeName_STATUS("DeliveryRuleUrlSigningActionParameters")
+
+// Mapping from string to UrlSigningActionParameters_TypeName_STATUS
+var urlSigningActionParameters_TypeName_STATUS_Values = map[string]UrlSigningActionParameters_TypeName_STATUS{
+	"deliveryruleurlsigningactionparameters": UrlSigningActionParameters_TypeName_STATUS_DeliveryRuleUrlSigningActionParameters,
+}
 
 // Defines how to identify a parameter for a specific purpose e.g. expires
 type UrlSigningParamIdentifier struct {
@@ -29626,8 +31077,9 @@ func (identifier *UrlSigningParamIdentifier) AssignProperties_From_UrlSigningPar
 
 	// ParamIndicator
 	if source.ParamIndicator != nil {
-		paramIndicator := UrlSigningParamIdentifier_ParamIndicator(*source.ParamIndicator)
-		identifier.ParamIndicator = &paramIndicator
+		paramIndicator := *source.ParamIndicator
+		paramIndicatorTemp := genruntime.ToEnum(paramIndicator, urlSigningParamIdentifier_ParamIndicator_Values)
+		identifier.ParamIndicator = &paramIndicatorTemp
 	} else {
 		identifier.ParamIndicator = nil
 	}
@@ -29728,8 +31180,9 @@ func (identifier *UrlSigningParamIdentifier_STATUS) AssignProperties_From_UrlSig
 
 	// ParamIndicator
 	if source.ParamIndicator != nil {
-		paramIndicator := UrlSigningParamIdentifier_ParamIndicator_STATUS(*source.ParamIndicator)
-		identifier.ParamIndicator = &paramIndicator
+		paramIndicator := *source.ParamIndicator
+		paramIndicatorTemp := genruntime.ToEnum(paramIndicator, urlSigningParamIdentifier_ParamIndicator_STATUS_Values)
+		identifier.ParamIndicator = &paramIndicatorTemp
 	} else {
 		identifier.ParamIndicator = nil
 	}
@@ -29777,6 +31230,13 @@ const (
 	CacheConfiguration_CacheBehavior_OverrideIfOriginMissing = CacheConfiguration_CacheBehavior("OverrideIfOriginMissing")
 )
 
+// Mapping from string to CacheConfiguration_CacheBehavior
+var cacheConfiguration_CacheBehavior_Values = map[string]CacheConfiguration_CacheBehavior{
+	"honororigin":             CacheConfiguration_CacheBehavior_HonorOrigin,
+	"overridealways":          CacheConfiguration_CacheBehavior_OverrideAlways,
+	"overrideiforiginmissing": CacheConfiguration_CacheBehavior_OverrideIfOriginMissing,
+}
+
 type CacheConfiguration_CacheBehavior_STATUS string
 
 const (
@@ -29784,6 +31244,13 @@ const (
 	CacheConfiguration_CacheBehavior_STATUS_OverrideAlways          = CacheConfiguration_CacheBehavior_STATUS("OverrideAlways")
 	CacheConfiguration_CacheBehavior_STATUS_OverrideIfOriginMissing = CacheConfiguration_CacheBehavior_STATUS("OverrideIfOriginMissing")
 )
+
+// Mapping from string to CacheConfiguration_CacheBehavior_STATUS
+var cacheConfiguration_CacheBehavior_STATUS_Values = map[string]CacheConfiguration_CacheBehavior_STATUS{
+	"honororigin":             CacheConfiguration_CacheBehavior_STATUS_HonorOrigin,
+	"overridealways":          CacheConfiguration_CacheBehavior_STATUS_OverrideAlways,
+	"overrideiforiginmissing": CacheConfiguration_CacheBehavior_STATUS_OverrideIfOriginMissing,
+}
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type CacheConfiguration_IsCompressionEnabled string
@@ -29793,12 +31260,24 @@ const (
 	CacheConfiguration_IsCompressionEnabled_Enabled  = CacheConfiguration_IsCompressionEnabled("Enabled")
 )
 
+// Mapping from string to CacheConfiguration_IsCompressionEnabled
+var cacheConfiguration_IsCompressionEnabled_Values = map[string]CacheConfiguration_IsCompressionEnabled{
+	"disabled": CacheConfiguration_IsCompressionEnabled_Disabled,
+	"enabled":  CacheConfiguration_IsCompressionEnabled_Enabled,
+}
+
 type CacheConfiguration_IsCompressionEnabled_STATUS string
 
 const (
 	CacheConfiguration_IsCompressionEnabled_STATUS_Disabled = CacheConfiguration_IsCompressionEnabled_STATUS("Disabled")
 	CacheConfiguration_IsCompressionEnabled_STATUS_Enabled  = CacheConfiguration_IsCompressionEnabled_STATUS("Enabled")
 )
+
+// Mapping from string to CacheConfiguration_IsCompressionEnabled_STATUS
+var cacheConfiguration_IsCompressionEnabled_STATUS_Values = map[string]CacheConfiguration_IsCompressionEnabled_STATUS{
+	"disabled": CacheConfiguration_IsCompressionEnabled_STATUS_Disabled,
+	"enabled":  CacheConfiguration_IsCompressionEnabled_STATUS_Enabled,
+}
 
 // +kubebuilder:validation:Enum={"IgnoreQueryString","IgnoreSpecifiedQueryStrings","IncludeSpecifiedQueryStrings","UseQueryString"}
 type CacheConfiguration_QueryStringCachingBehavior string
@@ -29810,6 +31289,14 @@ const (
 	CacheConfiguration_QueryStringCachingBehavior_UseQueryString               = CacheConfiguration_QueryStringCachingBehavior("UseQueryString")
 )
 
+// Mapping from string to CacheConfiguration_QueryStringCachingBehavior
+var cacheConfiguration_QueryStringCachingBehavior_Values = map[string]CacheConfiguration_QueryStringCachingBehavior{
+	"ignorequerystring":            CacheConfiguration_QueryStringCachingBehavior_IgnoreQueryString,
+	"ignorespecifiedquerystrings":  CacheConfiguration_QueryStringCachingBehavior_IgnoreSpecifiedQueryStrings,
+	"includespecifiedquerystrings": CacheConfiguration_QueryStringCachingBehavior_IncludeSpecifiedQueryStrings,
+	"usequerystring":               CacheConfiguration_QueryStringCachingBehavior_UseQueryString,
+}
+
 type CacheConfiguration_QueryStringCachingBehavior_STATUS string
 
 const (
@@ -29818,6 +31305,14 @@ const (
 	CacheConfiguration_QueryStringCachingBehavior_STATUS_IncludeSpecifiedQueryStrings = CacheConfiguration_QueryStringCachingBehavior_STATUS("IncludeSpecifiedQueryStrings")
 	CacheConfiguration_QueryStringCachingBehavior_STATUS_UseQueryString               = CacheConfiguration_QueryStringCachingBehavior_STATUS("UseQueryString")
 )
+
+// Mapping from string to CacheConfiguration_QueryStringCachingBehavior_STATUS
+var cacheConfiguration_QueryStringCachingBehavior_STATUS_Values = map[string]CacheConfiguration_QueryStringCachingBehavior_STATUS{
+	"ignorequerystring":            CacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreQueryString,
+	"ignorespecifiedquerystrings":  CacheConfiguration_QueryStringCachingBehavior_STATUS_IgnoreSpecifiedQueryStrings,
+	"includespecifiedquerystrings": CacheConfiguration_QueryStringCachingBehavior_STATUS_IncludeSpecifiedQueryStrings,
+	"usequerystring":               CacheConfiguration_QueryStringCachingBehavior_STATUS_UseQueryString,
+}
 
 // +kubebuilder:validation:Enum={"HttpOnly","HttpsOnly","MatchRequest"}
 type OriginGroupOverride_ForwardingProtocol string
@@ -29828,6 +31323,13 @@ const (
 	OriginGroupOverride_ForwardingProtocol_MatchRequest = OriginGroupOverride_ForwardingProtocol("MatchRequest")
 )
 
+// Mapping from string to OriginGroupOverride_ForwardingProtocol
+var originGroupOverride_ForwardingProtocol_Values = map[string]OriginGroupOverride_ForwardingProtocol{
+	"httponly":     OriginGroupOverride_ForwardingProtocol_HttpOnly,
+	"httpsonly":    OriginGroupOverride_ForwardingProtocol_HttpsOnly,
+	"matchrequest": OriginGroupOverride_ForwardingProtocol_MatchRequest,
+}
+
 type OriginGroupOverride_ForwardingProtocol_STATUS string
 
 const (
@@ -29835,6 +31337,13 @@ const (
 	OriginGroupOverride_ForwardingProtocol_STATUS_HttpsOnly    = OriginGroupOverride_ForwardingProtocol_STATUS("HttpsOnly")
 	OriginGroupOverride_ForwardingProtocol_STATUS_MatchRequest = OriginGroupOverride_ForwardingProtocol_STATUS("MatchRequest")
 )
+
+// Mapping from string to OriginGroupOverride_ForwardingProtocol_STATUS
+var originGroupOverride_ForwardingProtocol_STATUS_Values = map[string]OriginGroupOverride_ForwardingProtocol_STATUS{
+	"httponly":     OriginGroupOverride_ForwardingProtocol_STATUS_HttpOnly,
+	"httpsonly":    OriginGroupOverride_ForwardingProtocol_STATUS_HttpsOnly,
+	"matchrequest": OriginGroupOverride_ForwardingProtocol_STATUS_MatchRequest,
+}
 
 // +kubebuilder:validation:Enum={"Expires","KeyId","Signature"}
 type UrlSigningParamIdentifier_ParamIndicator string
@@ -29845,6 +31354,13 @@ const (
 	UrlSigningParamIdentifier_ParamIndicator_Signature = UrlSigningParamIdentifier_ParamIndicator("Signature")
 )
 
+// Mapping from string to UrlSigningParamIdentifier_ParamIndicator
+var urlSigningParamIdentifier_ParamIndicator_Values = map[string]UrlSigningParamIdentifier_ParamIndicator{
+	"expires":   UrlSigningParamIdentifier_ParamIndicator_Expires,
+	"keyid":     UrlSigningParamIdentifier_ParamIndicator_KeyId,
+	"signature": UrlSigningParamIdentifier_ParamIndicator_Signature,
+}
+
 type UrlSigningParamIdentifier_ParamIndicator_STATUS string
 
 const (
@@ -29852,6 +31368,13 @@ const (
 	UrlSigningParamIdentifier_ParamIndicator_STATUS_KeyId     = UrlSigningParamIdentifier_ParamIndicator_STATUS("KeyId")
 	UrlSigningParamIdentifier_ParamIndicator_STATUS_Signature = UrlSigningParamIdentifier_ParamIndicator_STATUS("Signature")
 )
+
+// Mapping from string to UrlSigningParamIdentifier_ParamIndicator_STATUS
+var urlSigningParamIdentifier_ParamIndicator_STATUS_Values = map[string]UrlSigningParamIdentifier_ParamIndicator_STATUS{
+	"expires":   UrlSigningParamIdentifier_ParamIndicator_STATUS_Expires,
+	"keyid":     UrlSigningParamIdentifier_ParamIndicator_STATUS_KeyId,
+	"signature": UrlSigningParamIdentifier_ParamIndicator_STATUS_Signature,
+}
 
 func init() {
 	SchemeBuilder.Register(&ProfilesEndpoint{}, &ProfilesEndpointList{})

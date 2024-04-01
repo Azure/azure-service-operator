@@ -184,6 +184,11 @@ type ExtendedLocationType string
 
 const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
+// Mapping from string to ExtendedLocationType
+var extendedLocationType_Values = map[string]ExtendedLocationType{
+	"edgezone": ExtendedLocationType_EdgeZone,
+}
+
 // Describes a scale-in policy for a virtual machine scale set.
 type ScaleInPolicy_ARM struct {
 	// Rules: The rules to be followed when scaling-in a virtual machine scale set.
@@ -233,6 +238,14 @@ const (
 	VirtualMachineScaleSetIdentity_Type_SystemAssignedUserAssigned = VirtualMachineScaleSetIdentity_Type("SystemAssigned, UserAssigned")
 	VirtualMachineScaleSetIdentity_Type_UserAssigned               = VirtualMachineScaleSetIdentity_Type("UserAssigned")
 )
+
+// Mapping from string to VirtualMachineScaleSetIdentity_Type
+var virtualMachineScaleSetIdentity_Type_Values = map[string]VirtualMachineScaleSetIdentity_Type{
+	"none":                         VirtualMachineScaleSetIdentity_Type_None,
+	"systemassigned":               VirtualMachineScaleSetIdentity_Type_SystemAssigned,
+	"systemassigned, userassigned": VirtualMachineScaleSetIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 VirtualMachineScaleSetIdentity_Type_UserAssigned,
+}
 
 // Describes a virtual machine scale set virtual machine profile.
 type VirtualMachineScaleSetVMProfile_ARM struct {

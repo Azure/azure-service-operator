@@ -230,6 +230,12 @@ const (
 	ServerProperties_PublicNetworkAccess_Enabled  = ServerProperties_PublicNetworkAccess("Enabled")
 )
 
+// Mapping from string to ServerProperties_PublicNetworkAccess
+var serverProperties_PublicNetworkAccess_Values = map[string]ServerProperties_PublicNetworkAccess{
+	"disabled": ServerProperties_PublicNetworkAccess_Disabled,
+	"enabled":  ServerProperties_PublicNetworkAccess_Enabled,
+}
+
 type ServerProperties_PublicNetworkAccess_STATUS string
 
 const (
@@ -237,12 +243,24 @@ const (
 	ServerProperties_PublicNetworkAccess_STATUS_Enabled  = ServerProperties_PublicNetworkAccess_STATUS("Enabled")
 )
 
+// Mapping from string to ServerProperties_PublicNetworkAccess_STATUS
+var serverProperties_PublicNetworkAccess_STATUS_Values = map[string]ServerProperties_PublicNetworkAccess_STATUS{
+	"disabled": ServerProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  ServerProperties_PublicNetworkAccess_STATUS_Enabled,
+}
+
 type ServerProperties_WorkspaceFeature_STATUS string
 
 const (
 	ServerProperties_WorkspaceFeature_STATUS_Connected    = ServerProperties_WorkspaceFeature_STATUS("Connected")
 	ServerProperties_WorkspaceFeature_STATUS_Disconnected = ServerProperties_WorkspaceFeature_STATUS("Disconnected")
 )
+
+// Mapping from string to ServerProperties_WorkspaceFeature_STATUS
+var serverProperties_WorkspaceFeature_STATUS_Values = map[string]ServerProperties_WorkspaceFeature_STATUS{
+	"connected":    ServerProperties_WorkspaceFeature_STATUS_Connected,
+	"disconnected": ServerProperties_WorkspaceFeature_STATUS_Disconnected,
+}
 
 // Properties of a private endpoint connection.
 type PrivateEndpointConnectionProperties_STATUS struct {
@@ -266,6 +284,14 @@ const (
 	ResourceIdentity_Type_UserAssigned               = ResourceIdentity_Type("UserAssigned")
 )
 
+// Mapping from string to ResourceIdentity_Type
+var resourceIdentity_Type_Values = map[string]ResourceIdentity_Type{
+	"none":                        ResourceIdentity_Type_None,
+	"systemassigned":              ResourceIdentity_Type_SystemAssigned,
+	"systemassigned,userassigned": ResourceIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                ResourceIdentity_Type_UserAssigned,
+}
+
 type ResourceIdentity_Type_STATUS string
 
 const (
@@ -275,14 +301,32 @@ const (
 	ResourceIdentity_Type_STATUS_UserAssigned               = ResourceIdentity_Type_STATUS("UserAssigned")
 )
 
+// Mapping from string to ResourceIdentity_Type_STATUS
+var resourceIdentity_Type_STATUS_Values = map[string]ResourceIdentity_Type_STATUS{
+	"none":                        ResourceIdentity_Type_STATUS_None,
+	"systemassigned":              ResourceIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned,userassigned": ResourceIdentity_Type_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                ResourceIdentity_Type_STATUS_UserAssigned,
+}
+
 // +kubebuilder:validation:Enum={"ActiveDirectory"}
 type ServerExternalAdministrator_AdministratorType string
 
 const ServerExternalAdministrator_AdministratorType_ActiveDirectory = ServerExternalAdministrator_AdministratorType("ActiveDirectory")
 
+// Mapping from string to ServerExternalAdministrator_AdministratorType
+var serverExternalAdministrator_AdministratorType_Values = map[string]ServerExternalAdministrator_AdministratorType{
+	"activedirectory": ServerExternalAdministrator_AdministratorType_ActiveDirectory,
+}
+
 type ServerExternalAdministrator_AdministratorType_STATUS string
 
 const ServerExternalAdministrator_AdministratorType_STATUS_ActiveDirectory = ServerExternalAdministrator_AdministratorType_STATUS("ActiveDirectory")
+
+// Mapping from string to ServerExternalAdministrator_AdministratorType_STATUS
+var serverExternalAdministrator_AdministratorType_STATUS_Values = map[string]ServerExternalAdministrator_AdministratorType_STATUS{
+	"activedirectory": ServerExternalAdministrator_AdministratorType_STATUS_ActiveDirectory,
+}
 
 // +kubebuilder:validation:Enum={"Application","Group","User"}
 type ServerExternalAdministrator_PrincipalType string
@@ -293,6 +337,13 @@ const (
 	ServerExternalAdministrator_PrincipalType_User        = ServerExternalAdministrator_PrincipalType("User")
 )
 
+// Mapping from string to ServerExternalAdministrator_PrincipalType
+var serverExternalAdministrator_PrincipalType_Values = map[string]ServerExternalAdministrator_PrincipalType{
+	"application": ServerExternalAdministrator_PrincipalType_Application,
+	"group":       ServerExternalAdministrator_PrincipalType_Group,
+	"user":        ServerExternalAdministrator_PrincipalType_User,
+}
+
 type ServerExternalAdministrator_PrincipalType_STATUS string
 
 const (
@@ -300,6 +351,13 @@ const (
 	ServerExternalAdministrator_PrincipalType_STATUS_Group       = ServerExternalAdministrator_PrincipalType_STATUS("Group")
 	ServerExternalAdministrator_PrincipalType_STATUS_User        = ServerExternalAdministrator_PrincipalType_STATUS("User")
 )
+
+// Mapping from string to ServerExternalAdministrator_PrincipalType_STATUS
+var serverExternalAdministrator_PrincipalType_STATUS_Values = map[string]ServerExternalAdministrator_PrincipalType_STATUS{
+	"application": ServerExternalAdministrator_PrincipalType_STATUS_Application,
+	"group":       ServerExternalAdministrator_PrincipalType_STATUS_Group,
+	"user":        ServerExternalAdministrator_PrincipalType_STATUS_User,
+}
 
 // Azure Active Directory identity configuration for a resource.
 type UserIdentity_STATUS struct {
@@ -319,6 +377,15 @@ const (
 	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Ready     = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Ready")
 	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Rejecting = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Rejecting")
 )
+
+// Mapping from string to PrivateEndpointConnectionProperties_ProvisioningState_STATUS
+var privateEndpointConnectionProperties_ProvisioningState_STATUS_Values = map[string]PrivateEndpointConnectionProperties_ProvisioningState_STATUS{
+	"approving": PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Approving,
+	"dropping":  PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Dropping,
+	"failed":    PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Failed,
+	"ready":     PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Ready,
+	"rejecting": PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Rejecting,
+}
 
 type PrivateEndpointProperty_STATUS struct {
 	// Id: Resource id of the private endpoint.
@@ -340,6 +407,11 @@ type PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS string
 
 const PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_None = PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS("None")
 
+// Mapping from string to PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS
+var privateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_Values = map[string]PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS{
+	"none": PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_None,
+}
+
 type PrivateLinkServiceConnectionStateProperty_Status_STATUS string
 
 const (
@@ -348,6 +420,14 @@ const (
 	PrivateLinkServiceConnectionStateProperty_Status_STATUS_Pending      = PrivateLinkServiceConnectionStateProperty_Status_STATUS("Pending")
 	PrivateLinkServiceConnectionStateProperty_Status_STATUS_Rejected     = PrivateLinkServiceConnectionStateProperty_Status_STATUS("Rejected")
 )
+
+// Mapping from string to PrivateLinkServiceConnectionStateProperty_Status_STATUS
+var privateLinkServiceConnectionStateProperty_Status_STATUS_Values = map[string]PrivateLinkServiceConnectionStateProperty_Status_STATUS{
+	"approved":     PrivateLinkServiceConnectionStateProperty_Status_STATUS_Approved,
+	"disconnected": PrivateLinkServiceConnectionStateProperty_Status_STATUS_Disconnected,
+	"pending":      PrivateLinkServiceConnectionStateProperty_Status_STATUS_Pending,
+	"rejected":     PrivateLinkServiceConnectionStateProperty_Status_STATUS_Rejected,
+}
 
 func init() {
 	SchemeBuilder.Register(&Server{}, &ServerList{})

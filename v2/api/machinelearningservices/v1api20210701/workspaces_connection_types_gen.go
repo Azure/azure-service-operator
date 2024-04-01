@@ -542,8 +542,9 @@ func (connection *Workspaces_Connection_Spec) AssignProperties_From_Workspaces_C
 
 	// ValueFormat
 	if source.ValueFormat != nil {
-		valueFormat := WorkspaceConnectionProps_ValueFormat(*source.ValueFormat)
-		connection.ValueFormat = &valueFormat
+		valueFormat := *source.ValueFormat
+		valueFormatTemp := genruntime.ToEnum(valueFormat, workspaceConnectionProps_ValueFormat_Values)
+		connection.ValueFormat = &valueFormatTemp
 	} else {
 		connection.ValueFormat = nil
 	}
@@ -830,8 +831,9 @@ func (connection *Workspaces_Connection_STATUS) AssignProperties_From_Workspaces
 
 	// ValueFormat
 	if source.ValueFormat != nil {
-		valueFormat := WorkspaceConnectionProps_ValueFormat_STATUS(*source.ValueFormat)
-		connection.ValueFormat = &valueFormat
+		valueFormat := *source.ValueFormat
+		valueFormatTemp := genruntime.ToEnum(valueFormat, workspaceConnectionProps_ValueFormat_STATUS_Values)
+		connection.ValueFormat = &valueFormatTemp
 	} else {
 		connection.ValueFormat = nil
 	}
@@ -893,9 +895,19 @@ type WorkspaceConnectionProps_ValueFormat string
 
 const WorkspaceConnectionProps_ValueFormat_JSON = WorkspaceConnectionProps_ValueFormat("JSON")
 
+// Mapping from string to WorkspaceConnectionProps_ValueFormat
+var workspaceConnectionProps_ValueFormat_Values = map[string]WorkspaceConnectionProps_ValueFormat{
+	"json": WorkspaceConnectionProps_ValueFormat_JSON,
+}
+
 type WorkspaceConnectionProps_ValueFormat_STATUS string
 
 const WorkspaceConnectionProps_ValueFormat_STATUS_JSON = WorkspaceConnectionProps_ValueFormat_STATUS("JSON")
+
+// Mapping from string to WorkspaceConnectionProps_ValueFormat_STATUS
+var workspaceConnectionProps_ValueFormat_STATUS_Values = map[string]WorkspaceConnectionProps_ValueFormat_STATUS{
+	"json": WorkspaceConnectionProps_ValueFormat_STATUS_JSON,
+}
 
 func init() {
 	SchemeBuilder.Register(&WorkspacesConnection{}, &WorkspacesConnectionList{})

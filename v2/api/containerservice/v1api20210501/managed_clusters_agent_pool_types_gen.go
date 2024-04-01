@@ -1104,8 +1104,9 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 
 	// GpuInstanceProfile
 	if source.GpuInstanceProfile != nil {
-		gpuInstanceProfile := GPUInstanceProfile(*source.GpuInstanceProfile)
-		pool.GpuInstanceProfile = &gpuInstanceProfile
+		gpuInstanceProfile := *source.GpuInstanceProfile
+		gpuInstanceProfileTemp := genruntime.ToEnum(gpuInstanceProfile, gPUInstanceProfile_Values)
+		pool.GpuInstanceProfile = &gpuInstanceProfileTemp
 	} else {
 		pool.GpuInstanceProfile = nil
 	}
@@ -1124,8 +1125,9 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 
 	// KubeletDiskType
 	if source.KubeletDiskType != nil {
-		kubeletDiskType := KubeletDiskType(*source.KubeletDiskType)
-		pool.KubeletDiskType = &kubeletDiskType
+		kubeletDiskType := *source.KubeletDiskType
+		kubeletDiskTypeTemp := genruntime.ToEnum(kubeletDiskType, kubeletDiskType_Values)
+		pool.KubeletDiskType = &kubeletDiskTypeTemp
 	} else {
 		pool.KubeletDiskType = nil
 	}
@@ -1153,8 +1155,9 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 
 	// Mode
 	if source.Mode != nil {
-		mode := AgentPoolMode(*source.Mode)
-		pool.Mode = &mode
+		mode := *source.Mode
+		modeTemp := genruntime.ToEnum(mode, agentPoolMode_Values)
+		pool.Mode = &modeTemp
 	} else {
 		pool.Mode = nil
 	}
@@ -1186,24 +1189,27 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 
 	// OsDiskType
 	if source.OsDiskType != nil {
-		osDiskType := OSDiskType(*source.OsDiskType)
-		pool.OsDiskType = &osDiskType
+		osDiskType := *source.OsDiskType
+		osDiskTypeTemp := genruntime.ToEnum(osDiskType, oSDiskType_Values)
+		pool.OsDiskType = &osDiskTypeTemp
 	} else {
 		pool.OsDiskType = nil
 	}
 
 	// OsSKU
 	if source.OsSKU != nil {
-		osSKU := OSSKU(*source.OsSKU)
-		pool.OsSKU = &osSKU
+		osSKU := *source.OsSKU
+		osSKUTemp := genruntime.ToEnum(osSKU, oSSKU_Values)
+		pool.OsSKU = &osSKUTemp
 	} else {
 		pool.OsSKU = nil
 	}
 
 	// OsType
 	if source.OsType != nil {
-		osType := OSType(*source.OsType)
-		pool.OsType = &osType
+		osType := *source.OsType
+		osTypeTemp := genruntime.ToEnum(osType, oSType_Values)
+		pool.OsType = &osTypeTemp
 	} else {
 		pool.OsType = nil
 	}
@@ -1229,16 +1235,18 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 
 	// ScaleSetEvictionPolicy
 	if source.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := ScaleSetEvictionPolicy(*source.ScaleSetEvictionPolicy)
-		pool.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
+		scaleSetEvictionPolicy := *source.ScaleSetEvictionPolicy
+		scaleSetEvictionPolicyTemp := genruntime.ToEnum(scaleSetEvictionPolicy, scaleSetEvictionPolicy_Values)
+		pool.ScaleSetEvictionPolicy = &scaleSetEvictionPolicyTemp
 	} else {
 		pool.ScaleSetEvictionPolicy = nil
 	}
 
 	// ScaleSetPriority
 	if source.ScaleSetPriority != nil {
-		scaleSetPriority := ScaleSetPriority(*source.ScaleSetPriority)
-		pool.ScaleSetPriority = &scaleSetPriority
+		scaleSetPriority := *source.ScaleSetPriority
+		scaleSetPriorityTemp := genruntime.ToEnum(scaleSetPriority, scaleSetPriority_Values)
+		pool.ScaleSetPriority = &scaleSetPriorityTemp
 	} else {
 		pool.ScaleSetPriority = nil
 	}
@@ -1256,8 +1264,9 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 
 	// Type
 	if source.Type != nil {
-		typeVar := AgentPoolType(*source.Type)
-		pool.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, agentPoolType_Values)
+		pool.Type = &typeTemp
 	} else {
 		pool.Type = nil
 	}
@@ -2185,8 +2194,9 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 
 	// GpuInstanceProfile
 	if source.GpuInstanceProfile != nil {
-		gpuInstanceProfile := GPUInstanceProfile_STATUS(*source.GpuInstanceProfile)
-		pool.GpuInstanceProfile = &gpuInstanceProfile
+		gpuInstanceProfile := *source.GpuInstanceProfile
+		gpuInstanceProfileTemp := genruntime.ToEnum(gpuInstanceProfile, gPUInstanceProfile_STATUS_Values)
+		pool.GpuInstanceProfile = &gpuInstanceProfileTemp
 	} else {
 		pool.GpuInstanceProfile = nil
 	}
@@ -2208,8 +2218,9 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 
 	// KubeletDiskType
 	if source.KubeletDiskType != nil {
-		kubeletDiskType := KubeletDiskType_STATUS(*source.KubeletDiskType)
-		pool.KubeletDiskType = &kubeletDiskType
+		kubeletDiskType := *source.KubeletDiskType
+		kubeletDiskTypeTemp := genruntime.ToEnum(kubeletDiskType, kubeletDiskType_STATUS_Values)
+		pool.KubeletDiskType = &kubeletDiskTypeTemp
 	} else {
 		pool.KubeletDiskType = nil
 	}
@@ -2237,8 +2248,9 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 
 	// Mode
 	if source.Mode != nil {
-		mode := AgentPoolMode_STATUS(*source.Mode)
-		pool.Mode = &mode
+		mode := *source.Mode
+		modeTemp := genruntime.ToEnum(mode, agentPoolMode_STATUS_Values)
+		pool.Mode = &modeTemp
 	} else {
 		pool.Mode = nil
 	}
@@ -2266,24 +2278,27 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 
 	// OsDiskType
 	if source.OsDiskType != nil {
-		osDiskType := OSDiskType_STATUS(*source.OsDiskType)
-		pool.OsDiskType = &osDiskType
+		osDiskType := *source.OsDiskType
+		osDiskTypeTemp := genruntime.ToEnum(osDiskType, oSDiskType_STATUS_Values)
+		pool.OsDiskType = &osDiskTypeTemp
 	} else {
 		pool.OsDiskType = nil
 	}
 
 	// OsSKU
 	if source.OsSKU != nil {
-		osSKU := OSSKU_STATUS(*source.OsSKU)
-		pool.OsSKU = &osSKU
+		osSKU := *source.OsSKU
+		osSKUTemp := genruntime.ToEnum(osSKU, oSSKU_STATUS_Values)
+		pool.OsSKU = &osSKUTemp
 	} else {
 		pool.OsSKU = nil
 	}
 
 	// OsType
 	if source.OsType != nil {
-		osType := OSType_STATUS(*source.OsType)
-		pool.OsType = &osType
+		osType := *source.OsType
+		osTypeTemp := genruntime.ToEnum(osType, oSType_STATUS_Values)
+		pool.OsType = &osTypeTemp
 	} else {
 		pool.OsType = nil
 	}
@@ -2305,8 +2320,9 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 
 	// PropertiesType
 	if source.PropertiesType != nil {
-		propertiesType := AgentPoolType_STATUS(*source.PropertiesType)
-		pool.PropertiesType = &propertiesType
+		propertiesType := *source.PropertiesType
+		propertiesTypeTemp := genruntime.ToEnum(propertiesType, agentPoolType_STATUS_Values)
+		pool.PropertiesType = &propertiesTypeTemp
 	} else {
 		pool.PropertiesType = nil
 	}
@@ -2319,16 +2335,18 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 
 	// ScaleSetEvictionPolicy
 	if source.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := ScaleSetEvictionPolicy_STATUS(*source.ScaleSetEvictionPolicy)
-		pool.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
+		scaleSetEvictionPolicy := *source.ScaleSetEvictionPolicy
+		scaleSetEvictionPolicyTemp := genruntime.ToEnum(scaleSetEvictionPolicy, scaleSetEvictionPolicy_STATUS_Values)
+		pool.ScaleSetEvictionPolicy = &scaleSetEvictionPolicyTemp
 	} else {
 		pool.ScaleSetEvictionPolicy = nil
 	}
 
 	// ScaleSetPriority
 	if source.ScaleSetPriority != nil {
-		scaleSetPriority := ScaleSetPriority_STATUS(*source.ScaleSetPriority)
-		pool.ScaleSetPriority = &scaleSetPriority
+		scaleSetPriority := *source.ScaleSetPriority
+		scaleSetPriorityTemp := genruntime.ToEnum(scaleSetPriority, scaleSetPriority_STATUS_Values)
+		pool.ScaleSetPriority = &scaleSetPriorityTemp
 	} else {
 		pool.ScaleSetPriority = nil
 	}
@@ -2626,6 +2644,12 @@ const (
 	AgentPoolMode_User   = AgentPoolMode("User")
 )
 
+// Mapping from string to AgentPoolMode
+var agentPoolMode_Values = map[string]AgentPoolMode{
+	"system": AgentPoolMode_System,
+	"user":   AgentPoolMode_User,
+}
+
 // A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions
 // and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
 type AgentPoolMode_STATUS string
@@ -2634,6 +2658,12 @@ const (
 	AgentPoolMode_STATUS_System = AgentPoolMode_STATUS("System")
 	AgentPoolMode_STATUS_User   = AgentPoolMode_STATUS("User")
 )
+
+// Mapping from string to AgentPoolMode_STATUS
+var agentPoolMode_STATUS_Values = map[string]AgentPoolMode_STATUS{
+	"system": AgentPoolMode_STATUS_System,
+	"user":   AgentPoolMode_STATUS_User,
+}
 
 // The type of Agent Pool.
 // +kubebuilder:validation:Enum={"AvailabilitySet","VirtualMachineScaleSets"}
@@ -2644,6 +2674,12 @@ const (
 	AgentPoolType_VirtualMachineScaleSets = AgentPoolType("VirtualMachineScaleSets")
 )
 
+// Mapping from string to AgentPoolType
+var agentPoolType_Values = map[string]AgentPoolType{
+	"availabilityset":         AgentPoolType_AvailabilitySet,
+	"virtualmachinescalesets": AgentPoolType_VirtualMachineScaleSets,
+}
+
 // The type of Agent Pool.
 type AgentPoolType_STATUS string
 
@@ -2651,6 +2687,12 @@ const (
 	AgentPoolType_STATUS_AvailabilitySet         = AgentPoolType_STATUS("AvailabilitySet")
 	AgentPoolType_STATUS_VirtualMachineScaleSets = AgentPoolType_STATUS("VirtualMachineScaleSets")
 )
+
+// Mapping from string to AgentPoolType_STATUS
+var agentPoolType_STATUS_Values = map[string]AgentPoolType_STATUS{
+	"availabilityset":         AgentPoolType_STATUS_AvailabilitySet,
+	"virtualmachinescalesets": AgentPoolType_STATUS_VirtualMachineScaleSets,
+}
 
 // Settings for upgrading an agentpool
 type AgentPoolUpgradeSettings struct {
@@ -2807,6 +2849,15 @@ const (
 	GPUInstanceProfile_MIG7G = GPUInstanceProfile("MIG7g")
 )
 
+// Mapping from string to GPUInstanceProfile
+var gPUInstanceProfile_Values = map[string]GPUInstanceProfile{
+	"mig1g": GPUInstanceProfile_MIG1G,
+	"mig2g": GPUInstanceProfile_MIG2G,
+	"mig3g": GPUInstanceProfile_MIG3G,
+	"mig4g": GPUInstanceProfile_MIG4G,
+	"mig7g": GPUInstanceProfile_MIG7G,
+}
+
 // GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
 type GPUInstanceProfile_STATUS string
 
@@ -2817,6 +2868,15 @@ const (
 	GPUInstanceProfile_STATUS_MIG4G = GPUInstanceProfile_STATUS("MIG4g")
 	GPUInstanceProfile_STATUS_MIG7G = GPUInstanceProfile_STATUS("MIG7g")
 )
+
+// Mapping from string to GPUInstanceProfile_STATUS
+var gPUInstanceProfile_STATUS_Values = map[string]GPUInstanceProfile_STATUS{
+	"mig1g": GPUInstanceProfile_STATUS_MIG1G,
+	"mig2g": GPUInstanceProfile_STATUS_MIG2G,
+	"mig3g": GPUInstanceProfile_STATUS_MIG3G,
+	"mig4g": GPUInstanceProfile_STATUS_MIG4G,
+	"mig7g": GPUInstanceProfile_STATUS_MIG7G,
+}
 
 // See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfig struct {
@@ -3380,6 +3440,12 @@ const (
 	KubeletDiskType_Temporary = KubeletDiskType("Temporary")
 )
 
+// Mapping from string to KubeletDiskType
+var kubeletDiskType_Values = map[string]KubeletDiskType{
+	"os":        KubeletDiskType_OS,
+	"temporary": KubeletDiskType_Temporary,
+}
+
 // Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.
 type KubeletDiskType_STATUS string
 
@@ -3387,6 +3453,12 @@ const (
 	KubeletDiskType_STATUS_OS        = KubeletDiskType_STATUS("OS")
 	KubeletDiskType_STATUS_Temporary = KubeletDiskType_STATUS("Temporary")
 )
+
+// Mapping from string to KubeletDiskType_STATUS
+var kubeletDiskType_STATUS_Values = map[string]KubeletDiskType_STATUS{
+	"os":        KubeletDiskType_STATUS_OS,
+	"temporary": KubeletDiskType_STATUS_Temporary,
+}
 
 // See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfig struct {
@@ -3698,6 +3770,12 @@ const (
 	OSDiskType_Managed   = OSDiskType("Managed")
 )
 
+// Mapping from string to OSDiskType
+var oSDiskType_Values = map[string]OSDiskType{
+	"ephemeral": OSDiskType_Ephemeral,
+	"managed":   OSDiskType_Managed,
+}
+
 // The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise,
 // defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral
 // OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
@@ -3708,6 +3786,12 @@ const (
 	OSDiskType_STATUS_Managed   = OSDiskType_STATUS("Managed")
 )
 
+// Mapping from string to OSDiskType_STATUS
+var oSDiskType_STATUS_Values = map[string]OSDiskType_STATUS{
+	"ephemeral": OSDiskType_STATUS_Ephemeral,
+	"managed":   OSDiskType_STATUS_Managed,
+}
+
 // Specifies an OS SKU. This value must not be specified if OSType is Windows.
 // +kubebuilder:validation:Enum={"CBLMariner","Ubuntu"}
 type OSSKU string
@@ -3717,6 +3801,12 @@ const (
 	OSSKU_Ubuntu     = OSSKU("Ubuntu")
 )
 
+// Mapping from string to OSSKU
+var oSSKU_Values = map[string]OSSKU{
+	"cblmariner": OSSKU_CBLMariner,
+	"ubuntu":     OSSKU_Ubuntu,
+}
+
 // Specifies an OS SKU. This value must not be specified if OSType is Windows.
 type OSSKU_STATUS string
 
@@ -3724,6 +3814,12 @@ const (
 	OSSKU_STATUS_CBLMariner = OSSKU_STATUS("CBLMariner")
 	OSSKU_STATUS_Ubuntu     = OSSKU_STATUS("Ubuntu")
 )
+
+// Mapping from string to OSSKU_STATUS
+var oSSKU_STATUS_Values = map[string]OSSKU_STATUS{
+	"cblmariner": OSSKU_STATUS_CBLMariner,
+	"ubuntu":     OSSKU_STATUS_Ubuntu,
+}
 
 // The operating system type. The default is Linux.
 // +kubebuilder:validation:Enum={"Linux","Windows"}
@@ -3734,6 +3830,12 @@ const (
 	OSType_Windows = OSType("Windows")
 )
 
+// Mapping from string to OSType
+var oSType_Values = map[string]OSType{
+	"linux":   OSType_Linux,
+	"windows": OSType_Windows,
+}
+
 // The operating system type. The default is Linux.
 type OSType_STATUS string
 
@@ -3741,6 +3843,12 @@ const (
 	OSType_STATUS_Linux   = OSType_STATUS("Linux")
 	OSType_STATUS_Windows = OSType_STATUS("Windows")
 )
+
+// Mapping from string to OSType_STATUS
+var oSType_STATUS_Values = map[string]OSType_STATUS{
+	"linux":   OSType_STATUS_Linux,
+	"windows": OSType_STATUS_Windows,
+}
 
 // The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information
 // about eviction see [spot VMs](https://docs.microsoft.com/azure/virtual-machines/spot-vms)
@@ -3752,6 +3860,12 @@ const (
 	ScaleSetEvictionPolicy_Delete     = ScaleSetEvictionPolicy("Delete")
 )
 
+// Mapping from string to ScaleSetEvictionPolicy
+var scaleSetEvictionPolicy_Values = map[string]ScaleSetEvictionPolicy{
+	"deallocate": ScaleSetEvictionPolicy_Deallocate,
+	"delete":     ScaleSetEvictionPolicy_Delete,
+}
+
 // The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information
 // about eviction see [spot VMs](https://docs.microsoft.com/azure/virtual-machines/spot-vms)
 type ScaleSetEvictionPolicy_STATUS string
@@ -3760,6 +3874,12 @@ const (
 	ScaleSetEvictionPolicy_STATUS_Deallocate = ScaleSetEvictionPolicy_STATUS("Deallocate")
 	ScaleSetEvictionPolicy_STATUS_Delete     = ScaleSetEvictionPolicy_STATUS("Delete")
 )
+
+// Mapping from string to ScaleSetEvictionPolicy_STATUS
+var scaleSetEvictionPolicy_STATUS_Values = map[string]ScaleSetEvictionPolicy_STATUS{
+	"deallocate": ScaleSetEvictionPolicy_STATUS_Deallocate,
+	"delete":     ScaleSetEvictionPolicy_STATUS_Delete,
+}
 
 // The Virtual Machine Scale Set priority.
 // +kubebuilder:validation:Enum={"Regular","Spot"}
@@ -3770,6 +3890,12 @@ const (
 	ScaleSetPriority_Spot    = ScaleSetPriority("Spot")
 )
 
+// Mapping from string to ScaleSetPriority
+var scaleSetPriority_Values = map[string]ScaleSetPriority{
+	"regular": ScaleSetPriority_Regular,
+	"spot":    ScaleSetPriority_Spot,
+}
+
 // The Virtual Machine Scale Set priority.
 type ScaleSetPriority_STATUS string
 
@@ -3777,6 +3903,12 @@ const (
 	ScaleSetPriority_STATUS_Regular = ScaleSetPriority_STATUS("Regular")
 	ScaleSetPriority_STATUS_Spot    = ScaleSetPriority_STATUS("Spot")
 )
+
+// Mapping from string to ScaleSetPriority_STATUS
+var scaleSetPriority_STATUS_Values = map[string]ScaleSetPriority_STATUS{
+	"regular": ScaleSetPriority_STATUS_Regular,
+	"spot":    ScaleSetPriority_STATUS_Spot,
+}
 
 // Sysctl settings for Linux agent nodes.
 type SysctlConfig struct {

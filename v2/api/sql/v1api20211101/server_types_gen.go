@@ -802,16 +802,18 @@ func (server *Server_Spec) AssignProperties_From_Server_Spec(source *v20211101s.
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := ServerProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		server.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, serverProperties_PublicNetworkAccess_Values)
+		server.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		server.PublicNetworkAccess = nil
 	}
 
 	// RestrictOutboundNetworkAccess
 	if source.RestrictOutboundNetworkAccess != nil {
-		restrictOutboundNetworkAccess := ServerProperties_RestrictOutboundNetworkAccess(*source.RestrictOutboundNetworkAccess)
-		server.RestrictOutboundNetworkAccess = &restrictOutboundNetworkAccess
+		restrictOutboundNetworkAccess := *source.RestrictOutboundNetworkAccess
+		restrictOutboundNetworkAccessTemp := genruntime.ToEnum(restrictOutboundNetworkAccess, serverProperties_RestrictOutboundNetworkAccess_Values)
+		server.RestrictOutboundNetworkAccess = &restrictOutboundNetworkAccessTemp
 	} else {
 		server.RestrictOutboundNetworkAccess = nil
 	}
@@ -1432,16 +1434,18 @@ func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *v202111
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := ServerProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-		server.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, serverProperties_PublicNetworkAccess_STATUS_Values)
+		server.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		server.PublicNetworkAccess = nil
 	}
 
 	// RestrictOutboundNetworkAccess
 	if source.RestrictOutboundNetworkAccess != nil {
-		restrictOutboundNetworkAccess := ServerProperties_RestrictOutboundNetworkAccess_STATUS(*source.RestrictOutboundNetworkAccess)
-		server.RestrictOutboundNetworkAccess = &restrictOutboundNetworkAccess
+		restrictOutboundNetworkAccess := *source.RestrictOutboundNetworkAccess
+		restrictOutboundNetworkAccessTemp := genruntime.ToEnum(restrictOutboundNetworkAccess, serverProperties_RestrictOutboundNetworkAccess_STATUS_Values)
+		server.RestrictOutboundNetworkAccess = &restrictOutboundNetworkAccessTemp
 	} else {
 		server.RestrictOutboundNetworkAccess = nil
 	}
@@ -1460,8 +1464,9 @@ func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *v202111
 
 	// WorkspaceFeature
 	if source.WorkspaceFeature != nil {
-		workspaceFeature := ServerProperties_WorkspaceFeature_STATUS(*source.WorkspaceFeature)
-		server.WorkspaceFeature = &workspaceFeature
+		workspaceFeature := *source.WorkspaceFeature
+		workspaceFeatureTemp := genruntime.ToEnum(workspaceFeature, serverProperties_WorkspaceFeature_STATUS_Values)
+		server.WorkspaceFeature = &workspaceFeatureTemp
 	} else {
 		server.WorkspaceFeature = nil
 	}
@@ -1664,8 +1669,9 @@ func (identity *ResourceIdentity) AssignProperties_From_ResourceIdentity(source 
 
 	// Type
 	if source.Type != nil {
-		typeVar := ResourceIdentity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, resourceIdentity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -1837,8 +1843,9 @@ func (identity *ResourceIdentity_STATUS) AssignProperties_From_ResourceIdentity_
 
 	// Type
 	if source.Type != nil {
-		typeVar := ResourceIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, resourceIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -2040,8 +2047,9 @@ func (administrator *ServerExternalAdministrator) AssignProperties_From_ServerEx
 
 	// AdministratorType
 	if source.AdministratorType != nil {
-		administratorType := ServerExternalAdministrator_AdministratorType(*source.AdministratorType)
-		administrator.AdministratorType = &administratorType
+		administratorType := *source.AdministratorType
+		administratorTypeTemp := genruntime.ToEnum(administratorType, serverExternalAdministrator_AdministratorType_Values)
+		administrator.AdministratorType = &administratorTypeTemp
 	} else {
 		administrator.AdministratorType = nil
 	}
@@ -2059,8 +2067,9 @@ func (administrator *ServerExternalAdministrator) AssignProperties_From_ServerEx
 
 	// PrincipalType
 	if source.PrincipalType != nil {
-		principalType := ServerExternalAdministrator_PrincipalType(*source.PrincipalType)
-		administrator.PrincipalType = &principalType
+		principalType := *source.PrincipalType
+		principalTypeTemp := genruntime.ToEnum(principalType, serverExternalAdministrator_PrincipalType_Values)
+		administrator.PrincipalType = &principalTypeTemp
 	} else {
 		administrator.PrincipalType = nil
 	}
@@ -2274,8 +2283,9 @@ func (administrator *ServerExternalAdministrator_STATUS) AssignProperties_From_S
 
 	// AdministratorType
 	if source.AdministratorType != nil {
-		administratorType := ServerExternalAdministrator_AdministratorType_STATUS(*source.AdministratorType)
-		administrator.AdministratorType = &administratorType
+		administratorType := *source.AdministratorType
+		administratorTypeTemp := genruntime.ToEnum(administratorType, serverExternalAdministrator_AdministratorType_STATUS_Values)
+		administrator.AdministratorType = &administratorTypeTemp
 	} else {
 		administrator.AdministratorType = nil
 	}
@@ -2293,8 +2303,9 @@ func (administrator *ServerExternalAdministrator_STATUS) AssignProperties_From_S
 
 	// PrincipalType
 	if source.PrincipalType != nil {
-		principalType := ServerExternalAdministrator_PrincipalType_STATUS(*source.PrincipalType)
-		administrator.PrincipalType = &principalType
+		principalType := *source.PrincipalType
+		principalTypeTemp := genruntime.ToEnum(principalType, serverExternalAdministrator_PrincipalType_STATUS_Values)
+		administrator.PrincipalType = &principalTypeTemp
 	} else {
 		administrator.PrincipalType = nil
 	}
@@ -2516,12 +2527,24 @@ const (
 	ServerProperties_PublicNetworkAccess_Enabled  = ServerProperties_PublicNetworkAccess("Enabled")
 )
 
+// Mapping from string to ServerProperties_PublicNetworkAccess
+var serverProperties_PublicNetworkAccess_Values = map[string]ServerProperties_PublicNetworkAccess{
+	"disabled": ServerProperties_PublicNetworkAccess_Disabled,
+	"enabled":  ServerProperties_PublicNetworkAccess_Enabled,
+}
+
 type ServerProperties_PublicNetworkAccess_STATUS string
 
 const (
 	ServerProperties_PublicNetworkAccess_STATUS_Disabled = ServerProperties_PublicNetworkAccess_STATUS("Disabled")
 	ServerProperties_PublicNetworkAccess_STATUS_Enabled  = ServerProperties_PublicNetworkAccess_STATUS("Enabled")
 )
+
+// Mapping from string to ServerProperties_PublicNetworkAccess_STATUS
+var serverProperties_PublicNetworkAccess_STATUS_Values = map[string]ServerProperties_PublicNetworkAccess_STATUS{
+	"disabled": ServerProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  ServerProperties_PublicNetworkAccess_STATUS_Enabled,
+}
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ServerProperties_RestrictOutboundNetworkAccess string
@@ -2531,6 +2554,12 @@ const (
 	ServerProperties_RestrictOutboundNetworkAccess_Enabled  = ServerProperties_RestrictOutboundNetworkAccess("Enabled")
 )
 
+// Mapping from string to ServerProperties_RestrictOutboundNetworkAccess
+var serverProperties_RestrictOutboundNetworkAccess_Values = map[string]ServerProperties_RestrictOutboundNetworkAccess{
+	"disabled": ServerProperties_RestrictOutboundNetworkAccess_Disabled,
+	"enabled":  ServerProperties_RestrictOutboundNetworkAccess_Enabled,
+}
+
 type ServerProperties_RestrictOutboundNetworkAccess_STATUS string
 
 const (
@@ -2538,12 +2567,24 @@ const (
 	ServerProperties_RestrictOutboundNetworkAccess_STATUS_Enabled  = ServerProperties_RestrictOutboundNetworkAccess_STATUS("Enabled")
 )
 
+// Mapping from string to ServerProperties_RestrictOutboundNetworkAccess_STATUS
+var serverProperties_RestrictOutboundNetworkAccess_STATUS_Values = map[string]ServerProperties_RestrictOutboundNetworkAccess_STATUS{
+	"disabled": ServerProperties_RestrictOutboundNetworkAccess_STATUS_Disabled,
+	"enabled":  ServerProperties_RestrictOutboundNetworkAccess_STATUS_Enabled,
+}
+
 type ServerProperties_WorkspaceFeature_STATUS string
 
 const (
 	ServerProperties_WorkspaceFeature_STATUS_Connected    = ServerProperties_WorkspaceFeature_STATUS("Connected")
 	ServerProperties_WorkspaceFeature_STATUS_Disconnected = ServerProperties_WorkspaceFeature_STATUS("Disconnected")
 )
+
+// Mapping from string to ServerProperties_WorkspaceFeature_STATUS
+var serverProperties_WorkspaceFeature_STATUS_Values = map[string]ServerProperties_WorkspaceFeature_STATUS{
+	"connected":    ServerProperties_WorkspaceFeature_STATUS_Connected,
+	"disconnected": ServerProperties_WorkspaceFeature_STATUS_Disconnected,
+}
 
 // Properties of a private endpoint connection.
 type PrivateEndpointConnectionProperties_STATUS struct {
@@ -2643,8 +2684,9 @@ func (properties *PrivateEndpointConnectionProperties_STATUS) AssignProperties_F
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := PrivateEndpointConnectionProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		properties.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, privateEndpointConnectionProperties_ProvisioningState_STATUS_Values)
+		properties.ProvisioningState = &provisioningStateTemp
 	} else {
 		properties.ProvisioningState = nil
 	}
@@ -2709,9 +2751,19 @@ type ServerExternalAdministrator_AdministratorType string
 
 const ServerExternalAdministrator_AdministratorType_ActiveDirectory = ServerExternalAdministrator_AdministratorType("ActiveDirectory")
 
+// Mapping from string to ServerExternalAdministrator_AdministratorType
+var serverExternalAdministrator_AdministratorType_Values = map[string]ServerExternalAdministrator_AdministratorType{
+	"activedirectory": ServerExternalAdministrator_AdministratorType_ActiveDirectory,
+}
+
 type ServerExternalAdministrator_AdministratorType_STATUS string
 
 const ServerExternalAdministrator_AdministratorType_STATUS_ActiveDirectory = ServerExternalAdministrator_AdministratorType_STATUS("ActiveDirectory")
+
+// Mapping from string to ServerExternalAdministrator_AdministratorType_STATUS
+var serverExternalAdministrator_AdministratorType_STATUS_Values = map[string]ServerExternalAdministrator_AdministratorType_STATUS{
+	"activedirectory": ServerExternalAdministrator_AdministratorType_STATUS_ActiveDirectory,
+}
 
 // +kubebuilder:validation:Enum={"Application","Group","User"}
 type ServerExternalAdministrator_PrincipalType string
@@ -2722,6 +2774,13 @@ const (
 	ServerExternalAdministrator_PrincipalType_User        = ServerExternalAdministrator_PrincipalType("User")
 )
 
+// Mapping from string to ServerExternalAdministrator_PrincipalType
+var serverExternalAdministrator_PrincipalType_Values = map[string]ServerExternalAdministrator_PrincipalType{
+	"application": ServerExternalAdministrator_PrincipalType_Application,
+	"group":       ServerExternalAdministrator_PrincipalType_Group,
+	"user":        ServerExternalAdministrator_PrincipalType_User,
+}
+
 type ServerExternalAdministrator_PrincipalType_STATUS string
 
 const (
@@ -2729,6 +2788,13 @@ const (
 	ServerExternalAdministrator_PrincipalType_STATUS_Group       = ServerExternalAdministrator_PrincipalType_STATUS("Group")
 	ServerExternalAdministrator_PrincipalType_STATUS_User        = ServerExternalAdministrator_PrincipalType_STATUS("User")
 )
+
+// Mapping from string to ServerExternalAdministrator_PrincipalType_STATUS
+var serverExternalAdministrator_PrincipalType_STATUS_Values = map[string]ServerExternalAdministrator_PrincipalType_STATUS{
+	"application": ServerExternalAdministrator_PrincipalType_STATUS_Application,
+	"group":       ServerExternalAdministrator_PrincipalType_STATUS_Group,
+	"user":        ServerExternalAdministrator_PrincipalType_STATUS_User,
+}
 
 type ServerOperatorConfigMaps struct {
 	// FullyQualifiedDomainName: indicates where the FullyQualifiedDomainName config map should be placed. If omitted, no
@@ -2893,6 +2959,15 @@ const (
 	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Rejecting = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Rejecting")
 )
 
+// Mapping from string to PrivateEndpointConnectionProperties_ProvisioningState_STATUS
+var privateEndpointConnectionProperties_ProvisioningState_STATUS_Values = map[string]PrivateEndpointConnectionProperties_ProvisioningState_STATUS{
+	"approving": PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Approving,
+	"dropping":  PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Dropping,
+	"failed":    PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Failed,
+	"ready":     PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Ready,
+	"rejecting": PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Rejecting,
+}
+
 type PrivateEndpointProperty_STATUS struct {
 	// Id: Resource id of the private endpoint.
 	Id *string `json:"id,omitempty"`
@@ -3003,8 +3078,9 @@ func (property *PrivateLinkServiceConnectionStateProperty_STATUS) AssignProperti
 
 	// ActionsRequired
 	if source.ActionsRequired != nil {
-		actionsRequired := PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS(*source.ActionsRequired)
-		property.ActionsRequired = &actionsRequired
+		actionsRequired := *source.ActionsRequired
+		actionsRequiredTemp := genruntime.ToEnum(actionsRequired, privateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_Values)
+		property.ActionsRequired = &actionsRequiredTemp
 	} else {
 		property.ActionsRequired = nil
 	}
@@ -3014,8 +3090,9 @@ func (property *PrivateLinkServiceConnectionStateProperty_STATUS) AssignProperti
 
 	// Status
 	if source.Status != nil {
-		status := PrivateLinkServiceConnectionStateProperty_Status_STATUS(*source.Status)
-		property.Status = &status
+		status := *source.Status
+		statusTemp := genruntime.ToEnum(status, privateLinkServiceConnectionStateProperty_Status_STATUS_Values)
+		property.Status = &statusTemp
 	} else {
 		property.Status = nil
 	}
@@ -3063,6 +3140,11 @@ type PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS string
 
 const PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_None = PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS("None")
 
+// Mapping from string to PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS
+var privateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_Values = map[string]PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS{
+	"none": PrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_None,
+}
+
 type PrivateLinkServiceConnectionStateProperty_Status_STATUS string
 
 const (
@@ -3071,6 +3153,14 @@ const (
 	PrivateLinkServiceConnectionStateProperty_Status_STATUS_Pending      = PrivateLinkServiceConnectionStateProperty_Status_STATUS("Pending")
 	PrivateLinkServiceConnectionStateProperty_Status_STATUS_Rejected     = PrivateLinkServiceConnectionStateProperty_Status_STATUS("Rejected")
 )
+
+// Mapping from string to PrivateLinkServiceConnectionStateProperty_Status_STATUS
+var privateLinkServiceConnectionStateProperty_Status_STATUS_Values = map[string]PrivateLinkServiceConnectionStateProperty_Status_STATUS{
+	"approved":     PrivateLinkServiceConnectionStateProperty_Status_STATUS_Approved,
+	"disconnected": PrivateLinkServiceConnectionStateProperty_Status_STATUS_Disconnected,
+	"pending":      PrivateLinkServiceConnectionStateProperty_Status_STATUS_Pending,
+	"rejected":     PrivateLinkServiceConnectionStateProperty_Status_STATUS_Rejected,
+}
 
 func init() {
 	SchemeBuilder.Register(&Server{}, &ServerList{})

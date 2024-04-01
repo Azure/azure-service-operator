@@ -1196,8 +1196,9 @@ func (identity *ArmIdentity) AssignProperties_From_ArmIdentity(source *v20210702
 
 	// Type
 	if source.Type != nil {
-		typeVar := ArmIdentity_Type(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, armIdentity_Type_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -1366,8 +1367,9 @@ func (identity *ArmIdentity_STATUS) AssignProperties_From_ArmIdentity_STATUS(sou
 
 	// Type
 	if source.Type != nil {
-		typeVar := ArmIdentity_Type_STATUS(*source.Type)
-		identity.Type = &typeVar
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, armIdentity_Type_STATUS_Values)
+		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
 	}
@@ -1995,8 +1997,9 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 
 	// Features
 	if source.Features != nil {
-		feature := IotHubProperties_Features(*source.Features)
-		properties.Features = &feature
+		feature := *source.Features
+		featureTemp := genruntime.ToEnum(feature, iotHubProperties_Features_Values)
+		properties.Features = &featureTemp
 	} else {
 		properties.Features = nil
 	}
@@ -2054,8 +2057,9 @@ func (properties *IotHubProperties) AssignProperties_From_IotHubProperties(sourc
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := IotHubProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		properties.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, iotHubProperties_PublicNetworkAccess_Values)
+		properties.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		properties.PublicNetworkAccess = nil
 	}
@@ -2918,8 +2922,9 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 
 	// Features
 	if source.Features != nil {
-		feature := IotHubProperties_Features_STATUS(*source.Features)
-		properties.Features = &feature
+		feature := *source.Features
+		featureTemp := genruntime.ToEnum(feature, iotHubProperties_Features_STATUS_Values)
+		properties.Features = &featureTemp
 	} else {
 		properties.Features = nil
 	}
@@ -3019,8 +3024,9 @@ func (properties *IotHubProperties_STATUS) AssignProperties_From_IotHubPropertie
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := IotHubProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-		properties.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, iotHubProperties_PublicNetworkAccess_STATUS_Values)
+		properties.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		properties.PublicNetworkAccess = nil
 	}
@@ -3400,8 +3406,9 @@ func (info *IotHubSkuInfo) AssignProperties_From_IotHubSkuInfo(source *v20210702
 
 	// Name
 	if source.Name != nil {
-		name := IotHubSkuInfo_Name(*source.Name)
-		info.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, iotHubSkuInfo_Name_Values)
+		info.Name = &nameTemp
 	} else {
 		info.Name = nil
 	}
@@ -3512,16 +3519,18 @@ func (info *IotHubSkuInfo_STATUS) AssignProperties_From_IotHubSkuInfo_STATUS(sou
 
 	// Name
 	if source.Name != nil {
-		name := IotHubSkuInfo_Name_STATUS(*source.Name)
-		info.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, iotHubSkuInfo_Name_STATUS_Values)
+		info.Name = &nameTemp
 	} else {
 		info.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := IotHubSkuInfo_Tier_STATUS(*source.Tier)
-		info.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, iotHubSkuInfo_Tier_STATUS_Values)
+		info.Tier = &tierTemp
 	} else {
 		info.Tier = nil
 	}
@@ -3651,8 +3660,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType_STATUS(*source.CreatedByType)
-		data.CreatedByType = &createdByType
+		createdByType := *source.CreatedByType
+		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_STATUS_Values)
+		data.CreatedByType = &createdByTypeTemp
 	} else {
 		data.CreatedByType = nil
 	}
@@ -3665,8 +3675,9 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType_STATUS(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
+		lastModifiedByType := *source.LastModifiedByType
+		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_STATUS_Values)
+		data.LastModifiedByType = &lastModifiedByTypeTemp
 	} else {
 		data.LastModifiedByType = nil
 	}
@@ -4369,8 +4380,9 @@ func (description *IotHubLocationDescription_STATUS) AssignProperties_From_IotHu
 
 	// Role
 	if source.Role != nil {
-		role := IotHubLocationDescription_Role_STATUS(*source.Role)
-		description.Role = &role
+		role := *source.Role
+		roleTemp := genruntime.ToEnum(role, iotHubLocationDescription_Role_STATUS_Values)
+		description.Role = &roleTemp
 	} else {
 		description.Role = nil
 	}
@@ -4714,8 +4726,9 @@ func (rule *IpFilterRule) AssignProperties_From_IpFilterRule(source *v20210702s.
 
 	// Action
 	if source.Action != nil {
-		action := IpFilterRule_Action(*source.Action)
-		rule.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, ipFilterRule_Action_Values)
+		rule.Action = &actionTemp
 	} else {
 		rule.Action = nil
 	}
@@ -4834,8 +4847,9 @@ func (rule *IpFilterRule_STATUS) AssignProperties_From_IpFilterRule_STATUS(sourc
 
 	// Action
 	if source.Action != nil {
-		action := IpFilterRule_Action_STATUS(*source.Action)
-		rule.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, ipFilterRule_Action_STATUS_Values)
+		rule.Action = &actionTemp
 	} else {
 		rule.Action = nil
 	}
@@ -5219,8 +5233,9 @@ func (properties *NetworkRuleSetProperties) AssignProperties_From_NetworkRuleSet
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		defaultAction := NetworkRuleSetProperties_DefaultAction(*source.DefaultAction)
-		properties.DefaultAction = &defaultAction
+		defaultAction := *source.DefaultAction
+		defaultActionTemp := genruntime.ToEnum(defaultAction, networkRuleSetProperties_DefaultAction_Values)
+		properties.DefaultAction = &defaultActionTemp
 	} else {
 		properties.DefaultAction = nil
 	}
@@ -5403,8 +5418,9 @@ func (properties *NetworkRuleSetProperties_STATUS) AssignProperties_From_Network
 
 	// DefaultAction
 	if source.DefaultAction != nil {
-		defaultAction := NetworkRuleSetProperties_DefaultAction_STATUS(*source.DefaultAction)
-		properties.DefaultAction = &defaultAction
+		defaultAction := *source.DefaultAction
+		defaultActionTemp := genruntime.ToEnum(defaultAction, networkRuleSetProperties_DefaultAction_STATUS_Values)
+		properties.DefaultAction = &defaultActionTemp
 	} else {
 		properties.DefaultAction = nil
 	}
@@ -6174,8 +6190,9 @@ func (rule *SharedAccessSignatureAuthorizationRule) AssignProperties_From_Shared
 
 	// Rights
 	if source.Rights != nil {
-		right := SharedAccessSignatureAuthorizationRule_Rights(*source.Rights)
-		rule.Rights = &right
+		right := *source.Rights
+		rightTemp := genruntime.ToEnum(right, sharedAccessSignatureAuthorizationRule_Rights_Values)
+		rule.Rights = &rightTemp
 	} else {
 		rule.Rights = nil
 	}
@@ -6276,8 +6293,9 @@ func (rule *SharedAccessSignatureAuthorizationRule_STATUS) AssignProperties_From
 
 	// Rights
 	if source.Rights != nil {
-		right := SharedAccessSignatureAuthorizationRule_Rights_STATUS(*source.Rights)
-		rule.Rights = &right
+		right := *source.Rights
+		rightTemp := genruntime.ToEnum(right, sharedAccessSignatureAuthorizationRule_Rights_STATUS_Values)
+		rule.Rights = &rightTemp
 	} else {
 		rule.Rights = nil
 	}
@@ -6436,8 +6454,9 @@ func (properties *StorageEndpointProperties) AssignProperties_From_StorageEndpoi
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
-		authenticationType := StorageEndpointProperties_AuthenticationType(*source.AuthenticationType)
-		properties.AuthenticationType = &authenticationType
+		authenticationType := *source.AuthenticationType
+		authenticationTypeTemp := genruntime.ToEnum(authenticationType, storageEndpointProperties_AuthenticationType_Values)
+		properties.AuthenticationType = &authenticationTypeTemp
 	} else {
 		properties.AuthenticationType = nil
 	}
@@ -6624,8 +6643,9 @@ func (properties *StorageEndpointProperties_STATUS) AssignProperties_From_Storag
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
-		authenticationType := StorageEndpointProperties_AuthenticationType_STATUS(*source.AuthenticationType)
-		properties.AuthenticationType = &authenticationType
+		authenticationType := *source.AuthenticationType
+		authenticationTypeTemp := genruntime.ToEnum(authenticationType, storageEndpointProperties_AuthenticationType_STATUS_Values)
+		properties.AuthenticationType = &authenticationTypeTemp
 	} else {
 		properties.AuthenticationType = nil
 	}
@@ -7124,7 +7144,8 @@ func (properties *FallbackRouteProperties) AssignProperties_From_FallbackRoutePr
 
 	// Source
 	if source.Source != nil {
-		sourceTemp := FallbackRouteProperties_Source(*source.Source)
+		sourceValue := *source.Source
+		sourceTemp := genruntime.ToEnum(sourceValue, fallbackRouteProperties_Source_Values)
 		properties.Source = &sourceTemp
 	} else {
 		properties.Source = nil
@@ -7318,7 +7339,8 @@ func (properties *FallbackRouteProperties_STATUS) AssignProperties_From_Fallback
 
 	// Source
 	if source.Source != nil {
-		sourceTemp := FallbackRouteProperties_Source_STATUS(*source.Source)
+		sourceValue := *source.Source
+		sourceTemp := genruntime.ToEnum(sourceValue, fallbackRouteProperties_Source_STATUS_Values)
 		properties.Source = &sourceTemp
 	} else {
 		properties.Source = nil
@@ -7838,8 +7860,9 @@ func (rule *NetworkRuleSetIpRule) AssignProperties_From_NetworkRuleSetIpRule(sou
 
 	// Action
 	if source.Action != nil {
-		action := NetworkRuleSetIpRule_Action(*source.Action)
-		rule.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, networkRuleSetIpRule_Action_Values)
+		rule.Action = &actionTemp
 	} else {
 		rule.Action = nil
 	}
@@ -7958,8 +7981,9 @@ func (rule *NetworkRuleSetIpRule_STATUS) AssignProperties_From_NetworkRuleSetIpR
 
 	// Action
 	if source.Action != nil {
-		action := NetworkRuleSetIpRule_Action_STATUS(*source.Action)
-		rule.Action = &action
+		action := *source.Action
+		actionTemp := genruntime.ToEnum(action, networkRuleSetIpRule_Action_STATUS_Values)
+		rule.Action = &actionTemp
 	} else {
 		rule.Action = nil
 	}
@@ -8154,7 +8178,8 @@ func (properties *RouteProperties) AssignProperties_From_RouteProperties(source 
 
 	// Source
 	if source.Source != nil {
-		sourceTemp := RouteProperties_Source(*source.Source)
+		sourceValue := *source.Source
+		sourceTemp := genruntime.ToEnum(sourceValue, routeProperties_Source_Values)
 		properties.Source = &sourceTemp
 	} else {
 		properties.Source = nil
@@ -8357,7 +8382,8 @@ func (properties *RouteProperties_STATUS) AssignProperties_From_RouteProperties_
 
 	// Source
 	if source.Source != nil {
-		sourceTemp := RouteProperties_Source_STATUS(*source.Source)
+		sourceValue := *source.Source
+		sourceTemp := genruntime.ToEnum(sourceValue, routeProperties_Source_STATUS_Values)
 		properties.Source = &sourceTemp
 	} else {
 		properties.Source = nil
@@ -9205,8 +9231,9 @@ func (properties *RoutingEventHubProperties) AssignProperties_From_RoutingEventH
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
-		authenticationType := RoutingEventHubProperties_AuthenticationType(*source.AuthenticationType)
-		properties.AuthenticationType = &authenticationType
+		authenticationType := *source.AuthenticationType
+		authenticationTypeTemp := genruntime.ToEnum(authenticationType, routingEventHubProperties_AuthenticationType_Values)
+		properties.AuthenticationType = &authenticationTypeTemp
 	} else {
 		properties.AuthenticationType = nil
 	}
@@ -9495,8 +9522,9 @@ func (properties *RoutingEventHubProperties_STATUS) AssignProperties_From_Routin
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
-		authenticationType := RoutingEventHubProperties_AuthenticationType_STATUS(*source.AuthenticationType)
-		properties.AuthenticationType = &authenticationType
+		authenticationType := *source.AuthenticationType
+		authenticationTypeTemp := genruntime.ToEnum(authenticationType, routingEventHubProperties_AuthenticationType_STATUS_Values)
+		properties.AuthenticationType = &authenticationTypeTemp
 	} else {
 		properties.AuthenticationType = nil
 	}
@@ -9772,8 +9800,9 @@ func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_Fro
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
-		authenticationType := RoutingServiceBusQueueEndpointProperties_AuthenticationType(*source.AuthenticationType)
-		properties.AuthenticationType = &authenticationType
+		authenticationType := *source.AuthenticationType
+		authenticationTypeTemp := genruntime.ToEnum(authenticationType, routingServiceBusQueueEndpointProperties_AuthenticationType_Values)
+		properties.AuthenticationType = &authenticationTypeTemp
 	} else {
 		properties.AuthenticationType = nil
 	}
@@ -10062,8 +10091,9 @@ func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignPropert
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
-		authenticationType := RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS(*source.AuthenticationType)
-		properties.AuthenticationType = &authenticationType
+		authenticationType := *source.AuthenticationType
+		authenticationTypeTemp := genruntime.ToEnum(authenticationType, routingServiceBusQueueEndpointProperties_AuthenticationType_STATUS_Values)
+		properties.AuthenticationType = &authenticationTypeTemp
 	} else {
 		properties.AuthenticationType = nil
 	}
@@ -10339,8 +10369,9 @@ func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_Fro
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
-		authenticationType := RoutingServiceBusTopicEndpointProperties_AuthenticationType(*source.AuthenticationType)
-		properties.AuthenticationType = &authenticationType
+		authenticationType := *source.AuthenticationType
+		authenticationTypeTemp := genruntime.ToEnum(authenticationType, routingServiceBusTopicEndpointProperties_AuthenticationType_Values)
+		properties.AuthenticationType = &authenticationTypeTemp
 	} else {
 		properties.AuthenticationType = nil
 	}
@@ -10629,8 +10660,9 @@ func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignPropert
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
-		authenticationType := RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS(*source.AuthenticationType)
-		properties.AuthenticationType = &authenticationType
+		authenticationType := *source.AuthenticationType
+		authenticationTypeTemp := genruntime.ToEnum(authenticationType, routingServiceBusTopicEndpointProperties_AuthenticationType_STATUS_Values)
+		properties.AuthenticationType = &authenticationTypeTemp
 	} else {
 		properties.AuthenticationType = nil
 	}
@@ -10975,8 +11007,9 @@ func (properties *RoutingStorageContainerProperties) AssignProperties_From_Routi
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
-		authenticationType := RoutingStorageContainerProperties_AuthenticationType(*source.AuthenticationType)
-		properties.AuthenticationType = &authenticationType
+		authenticationType := *source.AuthenticationType
+		authenticationTypeTemp := genruntime.ToEnum(authenticationType, routingStorageContainerProperties_AuthenticationType_Values)
+		properties.AuthenticationType = &authenticationTypeTemp
 	} else {
 		properties.AuthenticationType = nil
 	}
@@ -11002,8 +11035,9 @@ func (properties *RoutingStorageContainerProperties) AssignProperties_From_Routi
 
 	// Encoding
 	if source.Encoding != nil {
-		encoding := RoutingStorageContainerProperties_Encoding(*source.Encoding)
-		properties.Encoding = &encoding
+		encoding := *source.Encoding
+		encodingTemp := genruntime.ToEnum(encoding, routingStorageContainerProperties_Encoding_Values)
+		properties.Encoding = &encodingTemp
 	} else {
 		properties.Encoding = nil
 	}
@@ -11386,8 +11420,9 @@ func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_Fro
 
 	// AuthenticationType
 	if source.AuthenticationType != nil {
-		authenticationType := RoutingStorageContainerProperties_AuthenticationType_STATUS(*source.AuthenticationType)
-		properties.AuthenticationType = &authenticationType
+		authenticationType := *source.AuthenticationType
+		authenticationTypeTemp := genruntime.ToEnum(authenticationType, routingStorageContainerProperties_AuthenticationType_STATUS_Values)
+		properties.AuthenticationType = &authenticationTypeTemp
 	} else {
 		properties.AuthenticationType = nil
 	}
@@ -11400,8 +11435,9 @@ func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_Fro
 
 	// Encoding
 	if source.Encoding != nil {
-		encoding := RoutingStorageContainerProperties_Encoding_STATUS(*source.Encoding)
-		properties.Encoding = &encoding
+		encoding := *source.Encoding
+		encodingTemp := genruntime.ToEnum(encoding, routingStorageContainerProperties_Encoding_STATUS_Values)
+		properties.Encoding = &encodingTemp
 	} else {
 		properties.Encoding = nil
 	}

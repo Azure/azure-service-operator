@@ -135,6 +135,14 @@ const (
 	ArmIdentity_Type_UserAssigned               = ArmIdentity_Type("UserAssigned")
 )
 
+// Mapping from string to ArmIdentity_Type
+var armIdentity_Type_Values = map[string]ArmIdentity_Type{
+	"none":                         ArmIdentity_Type_None,
+	"systemassigned":               ArmIdentity_Type_SystemAssigned,
+	"systemassigned, userassigned": ArmIdentity_Type_SystemAssignedUserAssigned,
+	"userassigned":                 ArmIdentity_Type_UserAssigned,
+}
+
 // The IoT hub cloud-to-device messaging properties.
 type CloudToDeviceProperties_ARM struct {
 	// DefaultTtlAsIso8601: The default time to live for cloud-to-device messages in the device queue. See:
@@ -168,6 +176,12 @@ const (
 	IotHubProperties_Features_None             = IotHubProperties_Features("None")
 )
 
+// Mapping from string to IotHubProperties_Features
+var iotHubProperties_Features_Values = map[string]IotHubProperties_Features{
+	"devicemanagement": IotHubProperties_Features_DeviceManagement,
+	"none":             IotHubProperties_Features_None,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type IotHubProperties_PublicNetworkAccess string
 
@@ -175,6 +189,12 @@ const (
 	IotHubProperties_PublicNetworkAccess_Disabled = IotHubProperties_PublicNetworkAccess("Disabled")
 	IotHubProperties_PublicNetworkAccess_Enabled  = IotHubProperties_PublicNetworkAccess("Enabled")
 )
+
+// Mapping from string to IotHubProperties_PublicNetworkAccess
+var iotHubProperties_PublicNetworkAccess_Values = map[string]IotHubProperties_PublicNetworkAccess{
+	"disabled": IotHubProperties_PublicNetworkAccess_Disabled,
+	"enabled":  IotHubProperties_PublicNetworkAccess_Enabled,
+}
 
 // +kubebuilder:validation:Enum={"B1","B2","B3","F1","S1","S2","S3"}
 type IotHubSkuInfo_Name string
@@ -188,6 +208,17 @@ const (
 	IotHubSkuInfo_Name_S2 = IotHubSkuInfo_Name("S2")
 	IotHubSkuInfo_Name_S3 = IotHubSkuInfo_Name("S3")
 )
+
+// Mapping from string to IotHubSkuInfo_Name
+var iotHubSkuInfo_Name_Values = map[string]IotHubSkuInfo_Name{
+	"b1": IotHubSkuInfo_Name_B1,
+	"b2": IotHubSkuInfo_Name_B2,
+	"b3": IotHubSkuInfo_Name_B3,
+	"f1": IotHubSkuInfo_Name_F1,
+	"s1": IotHubSkuInfo_Name_S1,
+	"s2": IotHubSkuInfo_Name_S2,
+	"s3": IotHubSkuInfo_Name_S3,
+}
 
 // The IP filter rules for the IoT hub.
 type IpFilterRule_ARM struct {
@@ -339,6 +370,12 @@ const (
 	IpFilterRule_Action_Reject = IpFilterRule_Action("Reject")
 )
 
+// Mapping from string to IpFilterRule_Action
+var ipFilterRule_Action_Values = map[string]IpFilterRule_Action{
+	"accept": IpFilterRule_Action_Accept,
+	"reject": IpFilterRule_Action_Reject,
+}
+
 // The properties of the Managed identity.
 type ManagedIdentity_ARM struct {
 	// UserAssignedIdentity: The user assigned identity.
@@ -364,6 +401,12 @@ const (
 	NetworkRuleSetProperties_DefaultAction_Allow = NetworkRuleSetProperties_DefaultAction("Allow")
 	NetworkRuleSetProperties_DefaultAction_Deny  = NetworkRuleSetProperties_DefaultAction("Deny")
 )
+
+// Mapping from string to NetworkRuleSetProperties_DefaultAction
+var networkRuleSetProperties_DefaultAction_Values = map[string]NetworkRuleSetProperties_DefaultAction{
+	"allow": NetworkRuleSetProperties_DefaultAction_Allow,
+	"deny":  NetworkRuleSetProperties_DefaultAction_Deny,
+}
 
 // The properties of a routing rule that your IoT hub uses to route messages to endpoints.
 type RouteProperties_ARM struct {
@@ -427,6 +470,25 @@ const (
 	SharedAccessSignatureAuthorizationRule_Rights_ServiceConnectDeviceConnect                          = SharedAccessSignatureAuthorizationRule_Rights("ServiceConnect, DeviceConnect")
 )
 
+// Mapping from string to SharedAccessSignatureAuthorizationRule_Rights
+var sharedAccessSignatureAuthorizationRule_Rights_Values = map[string]SharedAccessSignatureAuthorizationRule_Rights{
+	"deviceconnect":                                              SharedAccessSignatureAuthorizationRule_Rights_DeviceConnect,
+	"registryread":                                               SharedAccessSignatureAuthorizationRule_Rights_RegistryRead,
+	"registryread, deviceconnect":                                SharedAccessSignatureAuthorizationRule_Rights_RegistryReadDeviceConnect,
+	"registryread, registrywrite":                                SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWrite,
+	"registryread, registrywrite, deviceconnect":                 SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteDeviceConnect,
+	"registryread, registrywrite, serviceconnect":                SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteServiceConnect,
+	"registryread, registrywrite, serviceconnect, deviceconnect": SharedAccessSignatureAuthorizationRule_Rights_RegistryReadRegistryWriteServiceConnectDeviceConnect,
+	"registryread, serviceconnect":                               SharedAccessSignatureAuthorizationRule_Rights_RegistryReadServiceConnect,
+	"registryread, serviceconnect, deviceconnect":                SharedAccessSignatureAuthorizationRule_Rights_RegistryReadServiceConnectDeviceConnect,
+	"registrywrite":                                              SharedAccessSignatureAuthorizationRule_Rights_RegistryWrite,
+	"registrywrite, deviceconnect":                               SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteDeviceConnect,
+	"registrywrite, serviceconnect":                              SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteServiceConnect,
+	"registrywrite, serviceconnect, deviceconnect":               SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteServiceConnectDeviceConnect,
+	"serviceconnect":                                             SharedAccessSignatureAuthorizationRule_Rights_ServiceConnect,
+	"serviceconnect, deviceconnect":                              SharedAccessSignatureAuthorizationRule_Rights_ServiceConnectDeviceConnect,
+}
+
 // +kubebuilder:validation:Enum={"identityBased","keyBased"}
 type StorageEndpointProperties_AuthenticationType string
 
@@ -435,15 +497,31 @@ const (
 	StorageEndpointProperties_AuthenticationType_KeyBased      = StorageEndpointProperties_AuthenticationType("keyBased")
 )
 
+// Mapping from string to StorageEndpointProperties_AuthenticationType
+var storageEndpointProperties_AuthenticationType_Values = map[string]StorageEndpointProperties_AuthenticationType{
+	"identitybased": StorageEndpointProperties_AuthenticationType_IdentityBased,
+	"keybased":      StorageEndpointProperties_AuthenticationType_KeyBased,
+}
+
 // +kubebuilder:validation:Enum={"DeviceMessages"}
 type FallbackRouteProperties_Source string
 
 const FallbackRouteProperties_Source_DeviceMessages = FallbackRouteProperties_Source("DeviceMessages")
 
+// Mapping from string to FallbackRouteProperties_Source
+var fallbackRouteProperties_Source_Values = map[string]FallbackRouteProperties_Source{
+	"devicemessages": FallbackRouteProperties_Source_DeviceMessages,
+}
+
 // +kubebuilder:validation:Enum={"Allow"}
 type NetworkRuleSetIpRule_Action string
 
 const NetworkRuleSetIpRule_Action_Allow = NetworkRuleSetIpRule_Action("Allow")
+
+// Mapping from string to NetworkRuleSetIpRule_Action
+var networkRuleSetIpRule_Action_Values = map[string]NetworkRuleSetIpRule_Action{
+	"allow": NetworkRuleSetIpRule_Action_Allow,
+}
 
 // +kubebuilder:validation:Enum={"DeviceConnectionStateEvents","DeviceJobLifecycleEvents","DeviceLifecycleEvents","DeviceMessages","Invalid","TwinChangeEvents"}
 type RouteProperties_Source string
@@ -456,6 +534,16 @@ const (
 	RouteProperties_Source_Invalid                     = RouteProperties_Source("Invalid")
 	RouteProperties_Source_TwinChangeEvents            = RouteProperties_Source("TwinChangeEvents")
 )
+
+// Mapping from string to RouteProperties_Source
+var routeProperties_Source_Values = map[string]RouteProperties_Source{
+	"deviceconnectionstateevents": RouteProperties_Source_DeviceConnectionStateEvents,
+	"devicejoblifecycleevents":    RouteProperties_Source_DeviceJobLifecycleEvents,
+	"devicelifecycleevents":       RouteProperties_Source_DeviceLifecycleEvents,
+	"devicemessages":              RouteProperties_Source_DeviceMessages,
+	"invalid":                     RouteProperties_Source_Invalid,
+	"twinchangeevents":            RouteProperties_Source_TwinChangeEvents,
+}
 
 // The properties related to an event hub endpoint.
 type RoutingEventHubProperties_ARM struct {
@@ -601,6 +689,12 @@ const (
 	RoutingEventHubProperties_AuthenticationType_KeyBased      = RoutingEventHubProperties_AuthenticationType("keyBased")
 )
 
+// Mapping from string to RoutingEventHubProperties_AuthenticationType
+var routingEventHubProperties_AuthenticationType_Values = map[string]RoutingEventHubProperties_AuthenticationType{
+	"identitybased": RoutingEventHubProperties_AuthenticationType_IdentityBased,
+	"keybased":      RoutingEventHubProperties_AuthenticationType_KeyBased,
+}
+
 // +kubebuilder:validation:Enum={"identityBased","keyBased"}
 type RoutingServiceBusQueueEndpointProperties_AuthenticationType string
 
@@ -608,6 +702,12 @@ const (
 	RoutingServiceBusQueueEndpointProperties_AuthenticationType_IdentityBased = RoutingServiceBusQueueEndpointProperties_AuthenticationType("identityBased")
 	RoutingServiceBusQueueEndpointProperties_AuthenticationType_KeyBased      = RoutingServiceBusQueueEndpointProperties_AuthenticationType("keyBased")
 )
+
+// Mapping from string to RoutingServiceBusQueueEndpointProperties_AuthenticationType
+var routingServiceBusQueueEndpointProperties_AuthenticationType_Values = map[string]RoutingServiceBusQueueEndpointProperties_AuthenticationType{
+	"identitybased": RoutingServiceBusQueueEndpointProperties_AuthenticationType_IdentityBased,
+	"keybased":      RoutingServiceBusQueueEndpointProperties_AuthenticationType_KeyBased,
+}
 
 // +kubebuilder:validation:Enum={"identityBased","keyBased"}
 type RoutingServiceBusTopicEndpointProperties_AuthenticationType string
@@ -617,6 +717,12 @@ const (
 	RoutingServiceBusTopicEndpointProperties_AuthenticationType_KeyBased      = RoutingServiceBusTopicEndpointProperties_AuthenticationType("keyBased")
 )
 
+// Mapping from string to RoutingServiceBusTopicEndpointProperties_AuthenticationType
+var routingServiceBusTopicEndpointProperties_AuthenticationType_Values = map[string]RoutingServiceBusTopicEndpointProperties_AuthenticationType{
+	"identitybased": RoutingServiceBusTopicEndpointProperties_AuthenticationType_IdentityBased,
+	"keybased":      RoutingServiceBusTopicEndpointProperties_AuthenticationType_KeyBased,
+}
+
 // +kubebuilder:validation:Enum={"identityBased","keyBased"}
 type RoutingStorageContainerProperties_AuthenticationType string
 
@@ -624,6 +730,12 @@ const (
 	RoutingStorageContainerProperties_AuthenticationType_IdentityBased = RoutingStorageContainerProperties_AuthenticationType("identityBased")
 	RoutingStorageContainerProperties_AuthenticationType_KeyBased      = RoutingStorageContainerProperties_AuthenticationType("keyBased")
 )
+
+// Mapping from string to RoutingStorageContainerProperties_AuthenticationType
+var routingStorageContainerProperties_AuthenticationType_Values = map[string]RoutingStorageContainerProperties_AuthenticationType{
+	"identitybased": RoutingStorageContainerProperties_AuthenticationType_IdentityBased,
+	"keybased":      RoutingStorageContainerProperties_AuthenticationType_KeyBased,
+}
 
 // +kubebuilder:validation:Enum={"Avro","AvroDeflate","JSON"}
 type RoutingStorageContainerProperties_Encoding string
@@ -633,3 +745,10 @@ const (
 	RoutingStorageContainerProperties_Encoding_AvroDeflate = RoutingStorageContainerProperties_Encoding("AvroDeflate")
 	RoutingStorageContainerProperties_Encoding_JSON        = RoutingStorageContainerProperties_Encoding("JSON")
 )
+
+// Mapping from string to RoutingStorageContainerProperties_Encoding
+var routingStorageContainerProperties_Encoding_Values = map[string]RoutingStorageContainerProperties_Encoding{
+	"avro":        RoutingStorageContainerProperties_Encoding_Avro,
+	"avrodeflate": RoutingStorageContainerProperties_Encoding_AvroDeflate,
+	"json":        RoutingStorageContainerProperties_Encoding_JSON,
+}

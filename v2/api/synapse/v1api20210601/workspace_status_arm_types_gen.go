@@ -149,6 +149,13 @@ const (
 	ManagedIdentity_Type_STATUS_SystemAssignedUserAssigned = ManagedIdentity_Type_STATUS("SystemAssigned,UserAssigned")
 )
 
+// Mapping from string to ManagedIdentity_Type_STATUS
+var managedIdentity_Type_STATUS_Values = map[string]ManagedIdentity_Type_STATUS{
+	"none":                        ManagedIdentity_Type_STATUS_None,
+	"systemassigned":              ManagedIdentity_Type_STATUS_SystemAssigned,
+	"systemassigned,userassigned": ManagedIdentity_Type_STATUS_SystemAssignedUserAssigned,
+}
+
 // Managed Virtual Network Settings
 type ManagedVirtualNetworkSettings_STATUS_ARM struct {
 	// AllowedAadTenantIdsForLinking: Allowed Aad Tenant Ids For Linking

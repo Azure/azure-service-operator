@@ -17,6 +17,7 @@ var (
 	JsonReference    = MakeExternalPackageReference("encoding/json")
 	OSReference      = MakeExternalPackageReference("os")
 	ReflectReference = MakeExternalPackageReference("reflect")
+	StringsReference = MakeExternalPackageReference("strings")
 	TestingReference = MakeExternalPackageReference("testing")
 	ContextReference = MakeExternalPackageReference("context")
 

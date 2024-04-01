@@ -693,24 +693,27 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v2
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := WorkspaceProperties_ProvisioningState(*source.ProvisioningState)
-		workspace.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, workspaceProperties_ProvisioningState_Values)
+		workspace.ProvisioningState = &provisioningStateTemp
 	} else {
 		workspace.ProvisioningState = nil
 	}
 
 	// PublicNetworkAccessForIngestion
 	if source.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := PublicNetworkAccessType(*source.PublicNetworkAccessForIngestion)
-		workspace.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
+		publicNetworkAccessForIngestion := *source.PublicNetworkAccessForIngestion
+		publicNetworkAccessForIngestionTemp := genruntime.ToEnum(publicNetworkAccessForIngestion, publicNetworkAccessType_Values)
+		workspace.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestionTemp
 	} else {
 		workspace.PublicNetworkAccessForIngestion = nil
 	}
 
 	// PublicNetworkAccessForQuery
 	if source.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := PublicNetworkAccessType(*source.PublicNetworkAccessForQuery)
-		workspace.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
+		publicNetworkAccessForQuery := *source.PublicNetworkAccessForQuery
+		publicNetworkAccessForQueryTemp := genruntime.ToEnum(publicNetworkAccessForQuery, publicNetworkAccessType_Values)
+		workspace.PublicNetworkAccessForQuery = &publicNetworkAccessForQueryTemp
 	} else {
 		workspace.PublicNetworkAccessForQuery = nil
 	}
@@ -1318,24 +1321,27 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := WorkspaceProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		workspace.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, workspaceProperties_ProvisioningState_STATUS_Values)
+		workspace.ProvisioningState = &provisioningStateTemp
 	} else {
 		workspace.ProvisioningState = nil
 	}
 
 	// PublicNetworkAccessForIngestion
 	if source.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := PublicNetworkAccessType_STATUS(*source.PublicNetworkAccessForIngestion)
-		workspace.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
+		publicNetworkAccessForIngestion := *source.PublicNetworkAccessForIngestion
+		publicNetworkAccessForIngestionTemp := genruntime.ToEnum(publicNetworkAccessForIngestion, publicNetworkAccessType_STATUS_Values)
+		workspace.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestionTemp
 	} else {
 		workspace.PublicNetworkAccessForIngestion = nil
 	}
 
 	// PublicNetworkAccessForQuery
 	if source.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := PublicNetworkAccessType_STATUS(*source.PublicNetworkAccessForQuery)
-		workspace.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
+		publicNetworkAccessForQuery := *source.PublicNetworkAccessForQuery
+		publicNetworkAccessForQueryTemp := genruntime.ToEnum(publicNetworkAccessForQuery, publicNetworkAccessType_STATUS_Values)
+		workspace.PublicNetworkAccessForQuery = &publicNetworkAccessForQueryTemp
 	} else {
 		workspace.PublicNetworkAccessForQuery = nil
 	}
@@ -1595,6 +1601,12 @@ const (
 	PublicNetworkAccessType_Enabled  = PublicNetworkAccessType("Enabled")
 )
 
+// Mapping from string to PublicNetworkAccessType
+var publicNetworkAccessType_Values = map[string]PublicNetworkAccessType{
+	"disabled": PublicNetworkAccessType_Disabled,
+	"enabled":  PublicNetworkAccessType_Enabled,
+}
+
 // The network access type for operating on the Log Analytics Workspace. By default it is Enabled
 type PublicNetworkAccessType_STATUS string
 
@@ -1602,6 +1614,12 @@ const (
 	PublicNetworkAccessType_STATUS_Disabled = PublicNetworkAccessType_STATUS("Disabled")
 	PublicNetworkAccessType_STATUS_Enabled  = PublicNetworkAccessType_STATUS("Enabled")
 )
+
+// Mapping from string to PublicNetworkAccessType_STATUS
+var publicNetworkAccessType_STATUS_Values = map[string]PublicNetworkAccessType_STATUS{
+	"disabled": PublicNetworkAccessType_STATUS_Disabled,
+	"enabled":  PublicNetworkAccessType_STATUS_Enabled,
+}
 
 // The daily volume cap for ingestion.
 type WorkspaceCapping struct {
@@ -1763,8 +1781,9 @@ func (capping *WorkspaceCapping_STATUS) AssignProperties_From_WorkspaceCapping_S
 
 	// DataIngestionStatus
 	if source.DataIngestionStatus != nil {
-		dataIngestionStatus := WorkspaceCapping_DataIngestionStatus_STATUS(*source.DataIngestionStatus)
-		capping.DataIngestionStatus = &dataIngestionStatus
+		dataIngestionStatus := *source.DataIngestionStatus
+		dataIngestionStatusTemp := genruntime.ToEnum(dataIngestionStatus, workspaceCapping_DataIngestionStatus_STATUS_Values)
+		capping.DataIngestionStatus = &dataIngestionStatusTemp
 	} else {
 		capping.DataIngestionStatus = nil
 	}
@@ -2238,6 +2257,17 @@ const (
 	WorkspaceProperties_ProvisioningState_Updating            = WorkspaceProperties_ProvisioningState("Updating")
 )
 
+// Mapping from string to WorkspaceProperties_ProvisioningState
+var workspaceProperties_ProvisioningState_Values = map[string]WorkspaceProperties_ProvisioningState{
+	"canceled":            WorkspaceProperties_ProvisioningState_Canceled,
+	"creating":            WorkspaceProperties_ProvisioningState_Creating,
+	"deleting":            WorkspaceProperties_ProvisioningState_Deleting,
+	"failed":              WorkspaceProperties_ProvisioningState_Failed,
+	"provisioningaccount": WorkspaceProperties_ProvisioningState_ProvisioningAccount,
+	"succeeded":           WorkspaceProperties_ProvisioningState_Succeeded,
+	"updating":            WorkspaceProperties_ProvisioningState_Updating,
+}
+
 type WorkspaceProperties_ProvisioningState_STATUS string
 
 const (
@@ -2249,6 +2279,17 @@ const (
 	WorkspaceProperties_ProvisioningState_STATUS_Succeeded           = WorkspaceProperties_ProvisioningState_STATUS("Succeeded")
 	WorkspaceProperties_ProvisioningState_STATUS_Updating            = WorkspaceProperties_ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to WorkspaceProperties_ProvisioningState_STATUS
+var workspaceProperties_ProvisioningState_STATUS_Values = map[string]WorkspaceProperties_ProvisioningState_STATUS{
+	"canceled":            WorkspaceProperties_ProvisioningState_STATUS_Canceled,
+	"creating":            WorkspaceProperties_ProvisioningState_STATUS_Creating,
+	"deleting":            WorkspaceProperties_ProvisioningState_STATUS_Deleting,
+	"failed":              WorkspaceProperties_ProvisioningState_STATUS_Failed,
+	"provisioningaccount": WorkspaceProperties_ProvisioningState_STATUS_ProvisioningAccount,
+	"succeeded":           WorkspaceProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":            WorkspaceProperties_ProvisioningState_STATUS_Updating,
+}
 
 // The SKU (tier) of a workspace.
 type WorkspaceSku struct {
@@ -2325,8 +2366,9 @@ func (workspaceSku *WorkspaceSku) AssignProperties_From_WorkspaceSku(source *v20
 
 	// Name
 	if source.Name != nil {
-		name := WorkspaceSku_Name(*source.Name)
-		workspaceSku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, workspaceSku_Name_Values)
+		workspaceSku.Name = &nameTemp
 	} else {
 		workspaceSku.Name = nil
 	}
@@ -2455,8 +2497,9 @@ func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_From_WorkspaceSku_STAT
 
 	// Name
 	if source.Name != nil {
-		name := WorkspaceSku_Name_STATUS(*source.Name)
-		workspaceSku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, workspaceSku_Name_STATUS_Values)
+		workspaceSku.Name = &nameTemp
 	} else {
 		workspaceSku.Name = nil
 	}
@@ -2511,17 +2554,27 @@ const (
 	WorkspaceCapping_DataIngestionStatus_STATUS_SubscriptionSuspended = WorkspaceCapping_DataIngestionStatus_STATUS("SubscriptionSuspended")
 )
 
-// +kubebuilder:validation:Enum={100,1000,200,2000,300,400,500,5000}
+// Mapping from string to WorkspaceCapping_DataIngestionStatus_STATUS
+var workspaceCapping_DataIngestionStatus_STATUS_Values = map[string]WorkspaceCapping_DataIngestionStatus_STATUS{
+	"approachingquota":      WorkspaceCapping_DataIngestionStatus_STATUS_ApproachingQuota,
+	"forceoff":              WorkspaceCapping_DataIngestionStatus_STATUS_ForceOff,
+	"forceon":               WorkspaceCapping_DataIngestionStatus_STATUS_ForceOn,
+	"overquota":             WorkspaceCapping_DataIngestionStatus_STATUS_OverQuota,
+	"respectquota":          WorkspaceCapping_DataIngestionStatus_STATUS_RespectQuota,
+	"subscriptionsuspended": WorkspaceCapping_DataIngestionStatus_STATUS_SubscriptionSuspended,
+}
+
+// +kubebuilder:validation:Enum={100,200,300,400,500,1000,2000,5000}
 type WorkspaceSku_CapacityReservationLevel int
 
 const (
 	WorkspaceSku_CapacityReservationLevel_100  = WorkspaceSku_CapacityReservationLevel(100)
-	WorkspaceSku_CapacityReservationLevel_1000 = WorkspaceSku_CapacityReservationLevel(1000)
 	WorkspaceSku_CapacityReservationLevel_200  = WorkspaceSku_CapacityReservationLevel(200)
-	WorkspaceSku_CapacityReservationLevel_2000 = WorkspaceSku_CapacityReservationLevel(2000)
 	WorkspaceSku_CapacityReservationLevel_300  = WorkspaceSku_CapacityReservationLevel(300)
 	WorkspaceSku_CapacityReservationLevel_400  = WorkspaceSku_CapacityReservationLevel(400)
 	WorkspaceSku_CapacityReservationLevel_500  = WorkspaceSku_CapacityReservationLevel(500)
+	WorkspaceSku_CapacityReservationLevel_1000 = WorkspaceSku_CapacityReservationLevel(1000)
+	WorkspaceSku_CapacityReservationLevel_2000 = WorkspaceSku_CapacityReservationLevel(2000)
 	WorkspaceSku_CapacityReservationLevel_5000 = WorkspaceSku_CapacityReservationLevel(5000)
 )
 
@@ -2529,12 +2582,12 @@ type WorkspaceSku_CapacityReservationLevel_STATUS int
 
 const (
 	WorkspaceSku_CapacityReservationLevel_STATUS_100  = WorkspaceSku_CapacityReservationLevel_STATUS(100)
-	WorkspaceSku_CapacityReservationLevel_STATUS_1000 = WorkspaceSku_CapacityReservationLevel_STATUS(1000)
 	WorkspaceSku_CapacityReservationLevel_STATUS_200  = WorkspaceSku_CapacityReservationLevel_STATUS(200)
-	WorkspaceSku_CapacityReservationLevel_STATUS_2000 = WorkspaceSku_CapacityReservationLevel_STATUS(2000)
 	WorkspaceSku_CapacityReservationLevel_STATUS_300  = WorkspaceSku_CapacityReservationLevel_STATUS(300)
 	WorkspaceSku_CapacityReservationLevel_STATUS_400  = WorkspaceSku_CapacityReservationLevel_STATUS(400)
 	WorkspaceSku_CapacityReservationLevel_STATUS_500  = WorkspaceSku_CapacityReservationLevel_STATUS(500)
+	WorkspaceSku_CapacityReservationLevel_STATUS_1000 = WorkspaceSku_CapacityReservationLevel_STATUS(1000)
+	WorkspaceSku_CapacityReservationLevel_STATUS_2000 = WorkspaceSku_CapacityReservationLevel_STATUS(2000)
 	WorkspaceSku_CapacityReservationLevel_STATUS_5000 = WorkspaceSku_CapacityReservationLevel_STATUS(5000)
 )
 
@@ -2552,6 +2605,18 @@ const (
 	WorkspaceSku_Name_Standard            = WorkspaceSku_Name("Standard")
 )
 
+// Mapping from string to WorkspaceSku_Name
+var workspaceSku_Name_Values = map[string]WorkspaceSku_Name{
+	"capacityreservation": WorkspaceSku_Name_CapacityReservation,
+	"free":                WorkspaceSku_Name_Free,
+	"lacluster":           WorkspaceSku_Name_LACluster,
+	"pergb2018":           WorkspaceSku_Name_PerGB2018,
+	"pernode":             WorkspaceSku_Name_PerNode,
+	"premium":             WorkspaceSku_Name_Premium,
+	"standalone":          WorkspaceSku_Name_Standalone,
+	"standard":            WorkspaceSku_Name_Standard,
+}
+
 type WorkspaceSku_Name_STATUS string
 
 const (
@@ -2564,6 +2629,18 @@ const (
 	WorkspaceSku_Name_STATUS_Standalone          = WorkspaceSku_Name_STATUS("Standalone")
 	WorkspaceSku_Name_STATUS_Standard            = WorkspaceSku_Name_STATUS("Standard")
 )
+
+// Mapping from string to WorkspaceSku_Name_STATUS
+var workspaceSku_Name_STATUS_Values = map[string]WorkspaceSku_Name_STATUS{
+	"capacityreservation": WorkspaceSku_Name_STATUS_CapacityReservation,
+	"free":                WorkspaceSku_Name_STATUS_Free,
+	"lacluster":           WorkspaceSku_Name_STATUS_LACluster,
+	"pergb2018":           WorkspaceSku_Name_STATUS_PerGB2018,
+	"pernode":             WorkspaceSku_Name_STATUS_PerNode,
+	"premium":             WorkspaceSku_Name_STATUS_Premium,
+	"standalone":          WorkspaceSku_Name_STATUS_Standalone,
+	"standard":            WorkspaceSku_Name_STATUS_Standard,
+}
 
 func init() {
 	SchemeBuilder.Register(&Workspace{}, &WorkspaceList{})

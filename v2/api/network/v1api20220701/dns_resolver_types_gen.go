@@ -818,8 +818,9 @@ func (resolver *DnsResolver_STATUS) AssignProperties_From_DnsResolver_STATUS(sou
 
 	// DnsResolverState
 	if source.DnsResolverState != nil {
-		dnsResolverState := DnsResolverProperties_DnsResolverState_STATUS(*source.DnsResolverState)
-		resolver.DnsResolverState = &dnsResolverState
+		dnsResolverState := *source.DnsResolverState
+		dnsResolverStateTemp := genruntime.ToEnum(dnsResolverState, dnsResolverProperties_DnsResolverState_STATUS_Values)
+		resolver.DnsResolverState = &dnsResolverStateTemp
 	} else {
 		resolver.DnsResolverState = nil
 	}
@@ -838,8 +839,9 @@ func (resolver *DnsResolver_STATUS) AssignProperties_From_DnsResolver_STATUS(sou
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := DnsresolverProvisioningState_STATUS(*source.ProvisioningState)
-		resolver.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, dnsresolverProvisioningState_STATUS_Values)
+		resolver.ProvisioningState = &provisioningStateTemp
 	} else {
 		resolver.ProvisioningState = nil
 	}
@@ -967,6 +969,12 @@ const (
 	DnsResolverProperties_DnsResolverState_STATUS_Connected    = DnsResolverProperties_DnsResolverState_STATUS("Connected")
 	DnsResolverProperties_DnsResolverState_STATUS_Disconnected = DnsResolverProperties_DnsResolverState_STATUS("Disconnected")
 )
+
+// Mapping from string to DnsResolverProperties_DnsResolverState_STATUS
+var dnsResolverProperties_DnsResolverState_STATUS_Values = map[string]DnsResolverProperties_DnsResolverState_STATUS{
+	"connected":    DnsResolverProperties_DnsResolverState_STATUS_Connected,
+	"disconnected": DnsResolverProperties_DnsResolverState_STATUS_Disconnected,
+}
 
 func init() {
 	SchemeBuilder.Register(&DnsResolver{}, &DnsResolverList{})

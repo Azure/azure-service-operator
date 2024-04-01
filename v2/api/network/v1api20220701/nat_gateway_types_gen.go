@@ -1069,8 +1069,9 @@ func (gateway *NatGateway_STATUS) AssignProperties_From_NatGateway_STATUS(source
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ApplicationGatewayProvisioningState_STATUS(*source.ProvisioningState)
-		gateway.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, applicationGatewayProvisioningState_STATUS_Values)
+		gateway.ProvisioningState = &provisioningStateTemp
 	} else {
 		gateway.ProvisioningState = nil
 	}
@@ -1327,8 +1328,9 @@ func (gatewaySku *NatGatewaySku) AssignProperties_From_NatGatewaySku(source *v20
 
 	// Name
 	if source.Name != nil {
-		name := NatGatewaySku_Name(*source.Name)
-		gatewaySku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, natGatewaySku_Name_Values)
+		gatewaySku.Name = &nameTemp
 	} else {
 		gatewaySku.Name = nil
 	}
@@ -1411,8 +1413,9 @@ func (gatewaySku *NatGatewaySku_STATUS) AssignProperties_From_NatGatewaySku_STAT
 
 	// Name
 	if source.Name != nil {
-		name := NatGatewaySku_Name_STATUS(*source.Name)
-		gatewaySku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, natGatewaySku_Name_STATUS_Values)
+		gatewaySku.Name = &nameTemp
 	} else {
 		gatewaySku.Name = nil
 	}

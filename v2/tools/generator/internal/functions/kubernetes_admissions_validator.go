@@ -274,7 +274,7 @@ func (v *ValidatorBuilder) validateBody(
 	appendFuncCall := astbuilder.CallFunc("append", dst.NewIdent(validationsIdent), astbuilder.CallQualifiedFunc(runtimeValidatorIdent, overrideFunctionName))
 	appendFuncCall.Ellipsis = true
 
-	body := []dst.Stmt{
+	body := astbuilder.Statements(
 		astbuilder.ShortDeclaration(
 			validationsIdent,
 			astbuilder.CallQualifiedFunc(receiverIdent, implFunctionName)),
@@ -286,7 +286,7 @@ func (v *ValidatorBuilder) validateBody(
 			// Not using astbuilder.AppendList here as we want to tack on a "..." at the end
 			astbuilder.SimpleAssignment(dst.NewIdent(validationsIdent), appendFuncCall)),
 		astbuilder.Returns(astbuilder.CallQualifiedFunc(astmodel.GenRuntimeReference.PackageName(), validationFunctionName, args...)),
-	}
+	)
 
 	return body
 }

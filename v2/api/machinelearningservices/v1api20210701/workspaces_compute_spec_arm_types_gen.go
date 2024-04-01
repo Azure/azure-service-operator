@@ -352,6 +352,11 @@ type AKS_ComputeType string
 
 const AKS_ComputeType_AKS = AKS_ComputeType("AKS")
 
+// Mapping from string to AKS_ComputeType
+var aKS_ComputeType_Values = map[string]AKS_ComputeType{
+	"aks": AKS_ComputeType_AKS,
+}
+
 type AKS_Properties_ARM struct {
 	// AgentCount: Number of agents
 	AgentCount *int `json:"agentCount,omitempty"`
@@ -382,6 +387,11 @@ type AKS_Properties_ARM struct {
 type AmlCompute_ComputeType string
 
 const AmlCompute_ComputeType_AmlCompute = AmlCompute_ComputeType("AmlCompute")
+
+// Mapping from string to AmlCompute_ComputeType
+var amlCompute_ComputeType_Values = map[string]AmlCompute_ComputeType{
+	"amlcompute": AmlCompute_ComputeType_AmlCompute,
+}
 
 // AML Compute properties
 type AmlComputeProperties_ARM struct {
@@ -427,6 +437,11 @@ type ComputeInstance_ComputeType string
 
 const ComputeInstance_ComputeType_ComputeInstance = ComputeInstance_ComputeType("ComputeInstance")
 
+// Mapping from string to ComputeInstance_ComputeType
+var computeInstance_ComputeType_Values = map[string]ComputeInstance_ComputeType{
+	"computeinstance": ComputeInstance_ComputeType_ComputeInstance,
+}
+
 // Compute Instance properties
 type ComputeInstanceProperties_ARM struct {
 	// ApplicationSharingPolicy: Policy for sharing applications on this compute instance among users of parent workspace. If
@@ -458,6 +473,11 @@ type Databricks_ComputeType string
 
 const Databricks_ComputeType_Databricks = Databricks_ComputeType("Databricks")
 
+// Mapping from string to Databricks_ComputeType
+var databricks_ComputeType_Values = map[string]Databricks_ComputeType{
+	"databricks": Databricks_ComputeType_Databricks,
+}
+
 // Properties of Databricks
 type DatabricksProperties_ARM struct {
 	// DatabricksAccessToken: Databricks access token
@@ -472,10 +492,20 @@ type DataFactory_ComputeType string
 
 const DataFactory_ComputeType_DataFactory = DataFactory_ComputeType("DataFactory")
 
+// Mapping from string to DataFactory_ComputeType
+var dataFactory_ComputeType_Values = map[string]DataFactory_ComputeType{
+	"datafactory": DataFactory_ComputeType_DataFactory,
+}
+
 // +kubebuilder:validation:Enum={"DataLakeAnalytics"}
 type DataLakeAnalytics_ComputeType string
 
 const DataLakeAnalytics_ComputeType_DataLakeAnalytics = DataLakeAnalytics_ComputeType("DataLakeAnalytics")
+
+// Mapping from string to DataLakeAnalytics_ComputeType
+var dataLakeAnalytics_ComputeType_Values = map[string]DataLakeAnalytics_ComputeType{
+	"datalakeanalytics": DataLakeAnalytics_ComputeType_DataLakeAnalytics,
+}
 
 type DataLakeAnalytics_Properties_ARM struct {
 	// DataLakeStoreAccountName: DataLake Store Account Name
@@ -486,6 +516,11 @@ type DataLakeAnalytics_Properties_ARM struct {
 type HDInsight_ComputeType string
 
 const HDInsight_ComputeType_HDInsight = HDInsight_ComputeType("HDInsight")
+
+// Mapping from string to HDInsight_ComputeType
+var hDInsight_ComputeType_Values = map[string]HDInsight_ComputeType{
+	"hdinsight": HDInsight_ComputeType_HDInsight,
+}
 
 // HDInsight compute properties
 type HDInsightProperties_ARM struct {
@@ -503,6 +538,11 @@ type HDInsightProperties_ARM struct {
 type Kubernetes_ComputeType string
 
 const Kubernetes_ComputeType_Kubernetes = Kubernetes_ComputeType("Kubernetes")
+
+// Mapping from string to Kubernetes_ComputeType
+var kubernetes_ComputeType_Values = map[string]Kubernetes_ComputeType{
+	"kubernetes": Kubernetes_ComputeType_Kubernetes,
+}
 
 // Kubernetes properties
 type KubernetesProperties_ARM struct {
@@ -535,6 +575,11 @@ type KubernetesProperties_ARM struct {
 type SynapseSpark_ComputeType string
 
 const SynapseSpark_ComputeType_SynapseSpark = SynapseSpark_ComputeType("SynapseSpark")
+
+// Mapping from string to SynapseSpark_ComputeType
+var synapseSpark_ComputeType_Values = map[string]SynapseSpark_ComputeType{
+	"synapsespark": SynapseSpark_ComputeType_SynapseSpark,
+}
 
 type SynapseSpark_Properties_ARM struct {
 	// AutoPauseProperties: Auto pause properties.
@@ -573,6 +618,11 @@ type VirtualMachine_ComputeType string
 
 const VirtualMachine_ComputeType_VirtualMachine = VirtualMachine_ComputeType("VirtualMachine")
 
+// Mapping from string to VirtualMachine_ComputeType
+var virtualMachine_ComputeType_Values = map[string]VirtualMachine_ComputeType{
+	"virtualmachine": VirtualMachine_ComputeType_VirtualMachine,
+}
+
 type VirtualMachine_Properties_ARM struct {
 	// Address: Public IP address of the virtual machine.
 	Address *string `json:"address,omitempty"`
@@ -599,6 +649,13 @@ const (
 	AKS_Properties_ClusterPurpose_FastProd  = AKS_Properties_ClusterPurpose("FastProd")
 )
 
+// Mapping from string to AKS_Properties_ClusterPurpose
+var aKS_Properties_ClusterPurpose_Values = map[string]AKS_Properties_ClusterPurpose{
+	"denseprod": AKS_Properties_ClusterPurpose_DenseProd,
+	"devtest":   AKS_Properties_ClusterPurpose_DevTest,
+	"fastprod":  AKS_Properties_ClusterPurpose_FastProd,
+}
+
 // +kubebuilder:validation:Enum={"InternalLoadBalancer","PublicIp"}
 type AKS_Properties_LoadBalancerType string
 
@@ -606,6 +663,12 @@ const (
 	AKS_Properties_LoadBalancerType_InternalLoadBalancer = AKS_Properties_LoadBalancerType("InternalLoadBalancer")
 	AKS_Properties_LoadBalancerType_PublicIp             = AKS_Properties_LoadBalancerType("PublicIp")
 )
+
+// Mapping from string to AKS_Properties_LoadBalancerType
+var aKS_Properties_LoadBalancerType_Values = map[string]AKS_Properties_LoadBalancerType{
+	"internalloadbalancer": AKS_Properties_LoadBalancerType_InternalLoadBalancer,
+	"publicip":             AKS_Properties_LoadBalancerType_PublicIp,
+}
 
 // Advance configuration for AKS networking
 type AksNetworkingConfiguration_ARM struct {
@@ -631,6 +694,12 @@ const (
 	AmlComputeProperties_OsType_Windows = AmlComputeProperties_OsType("Windows")
 )
 
+// Mapping from string to AmlComputeProperties_OsType
+var amlComputeProperties_OsType_Values = map[string]AmlComputeProperties_OsType{
+	"linux":   AmlComputeProperties_OsType_Linux,
+	"windows": AmlComputeProperties_OsType_Windows,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled","NotSpecified"}
 type AmlComputeProperties_RemoteLoginPortPublicAccess string
 
@@ -640,6 +709,13 @@ const (
 	AmlComputeProperties_RemoteLoginPortPublicAccess_NotSpecified = AmlComputeProperties_RemoteLoginPortPublicAccess("NotSpecified")
 )
 
+// Mapping from string to AmlComputeProperties_RemoteLoginPortPublicAccess
+var amlComputeProperties_RemoteLoginPortPublicAccess_Values = map[string]AmlComputeProperties_RemoteLoginPortPublicAccess{
+	"disabled":     AmlComputeProperties_RemoteLoginPortPublicAccess_Disabled,
+	"enabled":      AmlComputeProperties_RemoteLoginPortPublicAccess_Enabled,
+	"notspecified": AmlComputeProperties_RemoteLoginPortPublicAccess_NotSpecified,
+}
+
 // +kubebuilder:validation:Enum={"Dedicated","LowPriority"}
 type AmlComputeProperties_VmPriority string
 
@@ -647,6 +723,12 @@ const (
 	AmlComputeProperties_VmPriority_Dedicated   = AmlComputeProperties_VmPriority("Dedicated")
 	AmlComputeProperties_VmPriority_LowPriority = AmlComputeProperties_VmPriority("LowPriority")
 )
+
+// Mapping from string to AmlComputeProperties_VmPriority
+var amlComputeProperties_VmPriority_Values = map[string]AmlComputeProperties_VmPriority{
+	"dedicated":   AmlComputeProperties_VmPriority_Dedicated,
+	"lowpriority": AmlComputeProperties_VmPriority_LowPriority,
+}
 
 // Auto pause properties
 type AutoPauseProperties_ARM struct {
@@ -669,10 +751,21 @@ const (
 	ComputeInstanceProperties_ApplicationSharingPolicy_Shared   = ComputeInstanceProperties_ApplicationSharingPolicy("Shared")
 )
 
+// Mapping from string to ComputeInstanceProperties_ApplicationSharingPolicy
+var computeInstanceProperties_ApplicationSharingPolicy_Values = map[string]ComputeInstanceProperties_ApplicationSharingPolicy{
+	"personal": ComputeInstanceProperties_ApplicationSharingPolicy_Personal,
+	"shared":   ComputeInstanceProperties_ApplicationSharingPolicy_Shared,
+}
+
 // +kubebuilder:validation:Enum={"personal"}
 type ComputeInstanceProperties_ComputeInstanceAuthorizationType string
 
 const ComputeInstanceProperties_ComputeInstanceAuthorizationType_Personal = ComputeInstanceProperties_ComputeInstanceAuthorizationType("personal")
+
+// Mapping from string to ComputeInstanceProperties_ComputeInstanceAuthorizationType
+var computeInstanceProperties_ComputeInstanceAuthorizationType_Values = map[string]ComputeInstanceProperties_ComputeInstanceAuthorizationType{
+	"personal": ComputeInstanceProperties_ComputeInstanceAuthorizationType_Personal,
+}
 
 // Specifies policy and settings for SSH access.
 type ComputeInstanceSshSettings_ARM struct {
@@ -794,6 +887,12 @@ const (
 	ComputeInstanceSshSettings_SshPublicAccess_Enabled  = ComputeInstanceSshSettings_SshPublicAccess("Enabled")
 )
 
+// Mapping from string to ComputeInstanceSshSettings_SshPublicAccess
+var computeInstanceSshSettings_SshPublicAccess_Values = map[string]ComputeInstanceSshSettings_SshPublicAccess{
+	"disabled": ComputeInstanceSshSettings_SshPublicAccess_Disabled,
+	"enabled":  ComputeInstanceSshSettings_SshPublicAccess_Enabled,
+}
+
 type InstanceTypeSchema_Resources_ARM struct {
 	// Limits: Resource limits for this instance type
 	Limits map[string]string `json:"limits,omitempty"`
@@ -819,6 +918,13 @@ const (
 	SslConfiguration_Status_Disabled = SslConfiguration_Status("Disabled")
 	SslConfiguration_Status_Enabled  = SslConfiguration_Status("Enabled")
 )
+
+// Mapping from string to SslConfiguration_Status
+var sslConfiguration_Status_Values = map[string]SslConfiguration_Status{
+	"auto":     SslConfiguration_Status_Auto,
+	"disabled": SslConfiguration_Status_Disabled,
+	"enabled":  SslConfiguration_Status_Enabled,
+}
 
 // Script reference
 type ScriptReference_ARM struct {

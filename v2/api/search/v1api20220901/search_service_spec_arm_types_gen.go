@@ -118,6 +118,12 @@ const (
 	Identity_Type_SystemAssigned = Identity_Type("SystemAssigned")
 )
 
+// Mapping from string to Identity_Type
+var identity_Type_Values = map[string]Identity_Type{
+	"none":           Identity_Type_None,
+	"systemassigned": Identity_Type_SystemAssigned,
+}
+
 // Network specific rules that determine how the Azure Cognitive Search service may be reached.
 type NetworkRuleSet_ARM struct {
 	// IpRules: A list of IP restriction rules that defines the inbound network(s) with allowing access to the search service
@@ -139,6 +145,17 @@ const (
 	Sku_Name_Storage_Optimized_L1 = Sku_Name("storage_optimized_l1")
 	Sku_Name_Storage_Optimized_L2 = Sku_Name("storage_optimized_l2")
 )
+
+// Mapping from string to Sku_Name
+var sku_Name_Values = map[string]Sku_Name{
+	"basic":                Sku_Name_Basic,
+	"free":                 Sku_Name_Free,
+	"standard":             Sku_Name_Standard,
+	"standard2":            Sku_Name_Standard2,
+	"standard3":            Sku_Name_Standard3,
+	"storage_optimized_l1": Sku_Name_Storage_Optimized_L1,
+	"storage_optimized_l2": Sku_Name_Storage_Optimized_L2,
+}
 
 // Indicates that either the API key or an access token from Azure Active Directory can be used for authentication.
 type DataPlaneAadOrApiKeyAuthOption_ARM struct {

@@ -710,8 +710,9 @@ func (prefix *PublicIPPrefix_Spec) AssignProperties_From_PublicIPPrefix_Spec(sou
 
 	// PublicIPAddressVersion
 	if source.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := IPVersion(*source.PublicIPAddressVersion)
-		prefix.PublicIPAddressVersion = &publicIPAddressVersion
+		publicIPAddressVersion := *source.PublicIPAddressVersion
+		publicIPAddressVersionTemp := genruntime.ToEnum(publicIPAddressVersion, iPVersion_Values)
+		prefix.PublicIPAddressVersion = &publicIPAddressVersionTemp
 	} else {
 		prefix.PublicIPAddressVersion = nil
 	}
@@ -1359,16 +1360,18 @@ func (prefix *PublicIPPrefix_STATUS) AssignProperties_From_PublicIPPrefix_STATUS
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := PublicIpPrefixProvisioningState_STATUS(*source.ProvisioningState)
-		prefix.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, publicIpPrefixProvisioningState_STATUS_Values)
+		prefix.ProvisioningState = &provisioningStateTemp
 	} else {
 		prefix.ProvisioningState = nil
 	}
 
 	// PublicIPAddressVersion
 	if source.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := IPVersion_STATUS(*source.PublicIPAddressVersion)
-		prefix.PublicIPAddressVersion = &publicIPAddressVersion
+		publicIPAddressVersion := *source.PublicIPAddressVersion
+		publicIPAddressVersionTemp := genruntime.ToEnum(publicIPAddressVersion, iPVersion_STATUS_Values)
+		prefix.PublicIPAddressVersion = &publicIPAddressVersionTemp
 	} else {
 		prefix.PublicIPAddressVersion = nil
 	}
@@ -1771,6 +1774,12 @@ const (
 	IPVersion_IPv6 = IPVersion("IPv6")
 )
 
+// Mapping from string to IPVersion
+var iPVersion_Values = map[string]IPVersion{
+	"ipv4": IPVersion_IPv4,
+	"ipv6": IPVersion_IPv6,
+}
+
 // IP address version.
 type IPVersion_STATUS string
 
@@ -1778,6 +1787,12 @@ const (
 	IPVersion_STATUS_IPv4 = IPVersion_STATUS("IPv4")
 	IPVersion_STATUS_IPv6 = IPVersion_STATUS("IPv6")
 )
+
+// Mapping from string to IPVersion_STATUS
+var iPVersion_STATUS_Values = map[string]IPVersion_STATUS{
+	"ipv4": IPVersion_STATUS_IPv4,
+	"ipv6": IPVersion_STATUS_IPv6,
+}
 
 // Nat Gateway resource.
 type NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded struct {
@@ -1947,6 +1962,14 @@ const (
 	PublicIpPrefixProvisioningState_STATUS_Updating  = PublicIpPrefixProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to PublicIpPrefixProvisioningState_STATUS
+var publicIpPrefixProvisioningState_STATUS_Values = map[string]PublicIpPrefixProvisioningState_STATUS{
+	"deleting":  PublicIpPrefixProvisioningState_STATUS_Deleting,
+	"failed":    PublicIpPrefixProvisioningState_STATUS_Failed,
+	"succeeded": PublicIpPrefixProvisioningState_STATUS_Succeeded,
+	"updating":  PublicIpPrefixProvisioningState_STATUS_Updating,
+}
+
 // SKU of a public IP prefix.
 type PublicIPPrefixSku struct {
 	// Name: Name of a public IP prefix SKU.
@@ -2012,16 +2035,18 @@ func (prefixSku *PublicIPPrefixSku) AssignProperties_From_PublicIPPrefixSku(sour
 
 	// Name
 	if source.Name != nil {
-		name := PublicIPPrefixSku_Name(*source.Name)
-		prefixSku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, publicIPPrefixSku_Name_Values)
+		prefixSku.Name = &nameTemp
 	} else {
 		prefixSku.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := PublicIPPrefixSku_Tier(*source.Tier)
-		prefixSku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, publicIPPrefixSku_Tier_Values)
+		prefixSku.Tier = &tierTemp
 	} else {
 		prefixSku.Tier = nil
 	}
@@ -2129,16 +2154,18 @@ func (prefixSku *PublicIPPrefixSku_STATUS) AssignProperties_From_PublicIPPrefixS
 
 	// Name
 	if source.Name != nil {
-		name := PublicIPPrefixSku_Name_STATUS(*source.Name)
-		prefixSku.Name = &name
+		name := *source.Name
+		nameTemp := genruntime.ToEnum(name, publicIPPrefixSku_Name_STATUS_Values)
+		prefixSku.Name = &nameTemp
 	} else {
 		prefixSku.Name = nil
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := PublicIPPrefixSku_Tier_STATUS(*source.Tier)
-		prefixSku.Tier = &tier
+		tier := *source.Tier
+		tierTemp := genruntime.ToEnum(tier, publicIPPrefixSku_Tier_STATUS_Values)
+		prefixSku.Tier = &tierTemp
 	} else {
 		prefixSku.Tier = nil
 	}

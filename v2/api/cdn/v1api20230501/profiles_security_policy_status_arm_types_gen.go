@@ -45,6 +45,14 @@ const (
 	SecurityPolicyProperties_DeploymentStatus_STATUS_Succeeded  = SecurityPolicyProperties_DeploymentStatus_STATUS("Succeeded")
 )
 
+// Mapping from string to SecurityPolicyProperties_DeploymentStatus_STATUS
+var securityPolicyProperties_DeploymentStatus_STATUS_Values = map[string]SecurityPolicyProperties_DeploymentStatus_STATUS{
+	"failed":     SecurityPolicyProperties_DeploymentStatus_STATUS_Failed,
+	"inprogress": SecurityPolicyProperties_DeploymentStatus_STATUS_InProgress,
+	"notstarted": SecurityPolicyProperties_DeploymentStatus_STATUS_NotStarted,
+	"succeeded":  SecurityPolicyProperties_DeploymentStatus_STATUS_Succeeded,
+}
+
 type SecurityPolicyProperties_ProvisioningState_STATUS string
 
 const (
@@ -54,6 +62,15 @@ const (
 	SecurityPolicyProperties_ProvisioningState_STATUS_Succeeded = SecurityPolicyProperties_ProvisioningState_STATUS("Succeeded")
 	SecurityPolicyProperties_ProvisioningState_STATUS_Updating  = SecurityPolicyProperties_ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to SecurityPolicyProperties_ProvisioningState_STATUS
+var securityPolicyProperties_ProvisioningState_STATUS_Values = map[string]SecurityPolicyProperties_ProvisioningState_STATUS{
+	"creating":  SecurityPolicyProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  SecurityPolicyProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    SecurityPolicyProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": SecurityPolicyProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  SecurityPolicyProperties_ProvisioningState_STATUS_Updating,
+}
 
 type SecurityPolicyPropertiesParameters_STATUS_ARM struct {
 	// WebApplicationFirewall: Mutually exclusive with all other properties
@@ -108,6 +125,11 @@ type SecurityPolicyWebApplicationFirewallAssociation_STATUS_ARM struct {
 type SecurityPolicyWebApplicationFirewallParameters_Type_STATUS string
 
 const SecurityPolicyWebApplicationFirewallParameters_Type_STATUS_WebApplicationFirewall = SecurityPolicyWebApplicationFirewallParameters_Type_STATUS("WebApplicationFirewall")
+
+// Mapping from string to SecurityPolicyWebApplicationFirewallParameters_Type_STATUS
+var securityPolicyWebApplicationFirewallParameters_Type_STATUS_Values = map[string]SecurityPolicyWebApplicationFirewallParameters_Type_STATUS{
+	"webapplicationfirewall": SecurityPolicyWebApplicationFirewallParameters_Type_STATUS_WebApplicationFirewall,
+}
 
 // Reference to another resource along with its state.
 type ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded_ARM struct {

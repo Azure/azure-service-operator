@@ -105,6 +105,14 @@ const (
 	SecretProperties_DeploymentStatus_STATUS_Succeeded  = SecretProperties_DeploymentStatus_STATUS("Succeeded")
 )
 
+// Mapping from string to SecretProperties_DeploymentStatus_STATUS
+var secretProperties_DeploymentStatus_STATUS_Values = map[string]SecretProperties_DeploymentStatus_STATUS{
+	"failed":     SecretProperties_DeploymentStatus_STATUS_Failed,
+	"inprogress": SecretProperties_DeploymentStatus_STATUS_InProgress,
+	"notstarted": SecretProperties_DeploymentStatus_STATUS_NotStarted,
+	"succeeded":  SecretProperties_DeploymentStatus_STATUS_Succeeded,
+}
+
 type SecretProperties_ProvisioningState_STATUS string
 
 const (
@@ -114,6 +122,15 @@ const (
 	SecretProperties_ProvisioningState_STATUS_Succeeded = SecretProperties_ProvisioningState_STATUS("Succeeded")
 	SecretProperties_ProvisioningState_STATUS_Updating  = SecretProperties_ProvisioningState_STATUS("Updating")
 )
+
+// Mapping from string to SecretProperties_ProvisioningState_STATUS
+var secretProperties_ProvisioningState_STATUS_Values = map[string]SecretProperties_ProvisioningState_STATUS{
+	"creating":  SecretProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  SecretProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    SecretProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": SecretProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  SecretProperties_ProvisioningState_STATUS_Updating,
+}
 
 type AzureFirstPartyManagedCertificateParameters_STATUS_ARM struct {
 	// CertificateAuthority: Certificate issuing authority.
@@ -192,14 +209,34 @@ type AzureFirstPartyManagedCertificateParameters_Type_STATUS string
 
 const AzureFirstPartyManagedCertificateParameters_Type_STATUS_AzureFirstPartyManagedCertificate = AzureFirstPartyManagedCertificateParameters_Type_STATUS("AzureFirstPartyManagedCertificate")
 
+// Mapping from string to AzureFirstPartyManagedCertificateParameters_Type_STATUS
+var azureFirstPartyManagedCertificateParameters_Type_STATUS_Values = map[string]AzureFirstPartyManagedCertificateParameters_Type_STATUS{
+	"azurefirstpartymanagedcertificate": AzureFirstPartyManagedCertificateParameters_Type_STATUS_AzureFirstPartyManagedCertificate,
+}
+
 type CustomerCertificateParameters_Type_STATUS string
 
 const CustomerCertificateParameters_Type_STATUS_CustomerCertificate = CustomerCertificateParameters_Type_STATUS("CustomerCertificate")
+
+// Mapping from string to CustomerCertificateParameters_Type_STATUS
+var customerCertificateParameters_Type_STATUS_Values = map[string]CustomerCertificateParameters_Type_STATUS{
+	"customercertificate": CustomerCertificateParameters_Type_STATUS_CustomerCertificate,
+}
 
 type ManagedCertificateParameters_Type_STATUS string
 
 const ManagedCertificateParameters_Type_STATUS_ManagedCertificate = ManagedCertificateParameters_Type_STATUS("ManagedCertificate")
 
+// Mapping from string to ManagedCertificateParameters_Type_STATUS
+var managedCertificateParameters_Type_STATUS_Values = map[string]ManagedCertificateParameters_Type_STATUS{
+	"managedcertificate": ManagedCertificateParameters_Type_STATUS_ManagedCertificate,
+}
+
 type UrlSigningKeyParameters_Type_STATUS string
 
 const UrlSigningKeyParameters_Type_STATUS_UrlSigningKey = UrlSigningKeyParameters_Type_STATUS("UrlSigningKey")
+
+// Mapping from string to UrlSigningKeyParameters_Type_STATUS
+var urlSigningKeyParameters_Type_STATUS_Values = map[string]UrlSigningKeyParameters_Type_STATUS{
+	"urlsigningkey": UrlSigningKeyParameters_Type_STATUS_UrlSigningKey,
+}

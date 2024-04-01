@@ -125,6 +125,14 @@ const (
 	ManagedServiceIdentityType_STATUS_UserAssigned               = ManagedServiceIdentityType_STATUS("UserAssigned")
 )
 
+// Mapping from string to ManagedServiceIdentityType_STATUS
+var managedServiceIdentityType_STATUS_Values = map[string]ManagedServiceIdentityType_STATUS{
+	"none":                         ManagedServiceIdentityType_STATUS_None,
+	"systemassigned":               ManagedServiceIdentityType_STATUS_SystemAssigned,
+	"systemassigned, userassigned": ManagedServiceIdentityType_STATUS_SystemAssignedUserAssigned,
+	"userassigned":                 ManagedServiceIdentityType_STATUS_UserAssigned,
+}
+
 // The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -

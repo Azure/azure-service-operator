@@ -641,8 +641,9 @@ func (topic *Topic_Spec) AssignProperties_From_Topic_Spec(source *v20200601s.Top
 
 	// InputSchema
 	if source.InputSchema != nil {
-		inputSchema := TopicProperties_InputSchema(*source.InputSchema)
-		topic.InputSchema = &inputSchema
+		inputSchema := *source.InputSchema
+		inputSchemaTemp := genruntime.ToEnum(inputSchema, topicProperties_InputSchema_Values)
+		topic.InputSchema = &inputSchemaTemp
 	} else {
 		topic.InputSchema = nil
 	}
@@ -684,8 +685,9 @@ func (topic *Topic_Spec) AssignProperties_From_Topic_Spec(source *v20200601s.Top
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := TopicProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		topic.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, topicProperties_PublicNetworkAccess_Values)
+		topic.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		topic.PublicNetworkAccess = nil
 	}
@@ -1138,8 +1140,9 @@ func (topic *Topic_STATUS) AssignProperties_From_Topic_STATUS(source *v20200601s
 
 	// InputSchema
 	if source.InputSchema != nil {
-		inputSchema := TopicProperties_InputSchema_STATUS(*source.InputSchema)
-		topic.InputSchema = &inputSchema
+		inputSchema := *source.InputSchema
+		inputSchemaTemp := genruntime.ToEnum(inputSchema, topicProperties_InputSchema_STATUS_Values)
+		topic.InputSchema = &inputSchemaTemp
 	} else {
 		topic.InputSchema = nil
 	}
@@ -1185,16 +1188,18 @@ func (topic *Topic_STATUS) AssignProperties_From_Topic_STATUS(source *v20200601s
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := TopicProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		topic.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, topicProperties_ProvisioningState_STATUS_Values)
+		topic.ProvisioningState = &provisioningStateTemp
 	} else {
 		topic.ProvisioningState = nil
 	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := TopicProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
-		topic.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := *source.PublicNetworkAccess
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, topicProperties_PublicNetworkAccess_STATUS_Values)
+		topic.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		topic.PublicNetworkAccess = nil
 	}
@@ -1492,6 +1497,13 @@ const (
 	TopicProperties_InputSchema_EventGridSchema      = TopicProperties_InputSchema("EventGridSchema")
 )
 
+// Mapping from string to TopicProperties_InputSchema
+var topicProperties_InputSchema_Values = map[string]TopicProperties_InputSchema{
+	"cloudeventschemav1_0": TopicProperties_InputSchema_CloudEventSchemaV1_0,
+	"customeventschema":    TopicProperties_InputSchema_CustomEventSchema,
+	"eventgridschema":      TopicProperties_InputSchema_EventGridSchema,
+}
+
 type TopicProperties_InputSchema_STATUS string
 
 const (
@@ -1499,6 +1511,13 @@ const (
 	TopicProperties_InputSchema_STATUS_CustomEventSchema    = TopicProperties_InputSchema_STATUS("CustomEventSchema")
 	TopicProperties_InputSchema_STATUS_EventGridSchema      = TopicProperties_InputSchema_STATUS("EventGridSchema")
 )
+
+// Mapping from string to TopicProperties_InputSchema_STATUS
+var topicProperties_InputSchema_STATUS_Values = map[string]TopicProperties_InputSchema_STATUS{
+	"cloudeventschemav1_0": TopicProperties_InputSchema_STATUS_CloudEventSchemaV1_0,
+	"customeventschema":    TopicProperties_InputSchema_STATUS_CustomEventSchema,
+	"eventgridschema":      TopicProperties_InputSchema_STATUS_EventGridSchema,
+}
 
 type TopicProperties_ProvisioningState_STATUS string
 
@@ -1511,6 +1530,16 @@ const (
 	TopicProperties_ProvisioningState_STATUS_Updating  = TopicProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Mapping from string to TopicProperties_ProvisioningState_STATUS
+var topicProperties_ProvisioningState_STATUS_Values = map[string]TopicProperties_ProvisioningState_STATUS{
+	"canceled":  TopicProperties_ProvisioningState_STATUS_Canceled,
+	"creating":  TopicProperties_ProvisioningState_STATUS_Creating,
+	"deleting":  TopicProperties_ProvisioningState_STATUS_Deleting,
+	"failed":    TopicProperties_ProvisioningState_STATUS_Failed,
+	"succeeded": TopicProperties_ProvisioningState_STATUS_Succeeded,
+	"updating":  TopicProperties_ProvisioningState_STATUS_Updating,
+}
+
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type TopicProperties_PublicNetworkAccess string
 
@@ -1519,12 +1548,24 @@ const (
 	TopicProperties_PublicNetworkAccess_Enabled  = TopicProperties_PublicNetworkAccess("Enabled")
 )
 
+// Mapping from string to TopicProperties_PublicNetworkAccess
+var topicProperties_PublicNetworkAccess_Values = map[string]TopicProperties_PublicNetworkAccess{
+	"disabled": TopicProperties_PublicNetworkAccess_Disabled,
+	"enabled":  TopicProperties_PublicNetworkAccess_Enabled,
+}
+
 type TopicProperties_PublicNetworkAccess_STATUS string
 
 const (
 	TopicProperties_PublicNetworkAccess_STATUS_Disabled = TopicProperties_PublicNetworkAccess_STATUS("Disabled")
 	TopicProperties_PublicNetworkAccess_STATUS_Enabled  = TopicProperties_PublicNetworkAccess_STATUS("Enabled")
 )
+
+// Mapping from string to TopicProperties_PublicNetworkAccess_STATUS
+var topicProperties_PublicNetworkAccess_STATUS_Values = map[string]TopicProperties_PublicNetworkAccess_STATUS{
+	"disabled": TopicProperties_PublicNetworkAccess_STATUS_Disabled,
+	"enabled":  TopicProperties_PublicNetworkAccess_STATUS_Enabled,
+}
 
 type TopicOperatorConfigMaps struct {
 	// Endpoint: indicates where the Endpoint config map should be placed. If omitted, no config map will be created.

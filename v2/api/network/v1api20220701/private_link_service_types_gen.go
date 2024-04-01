@@ -1439,8 +1439,9 @@ func (embedded *PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ApplicationGatewayProvisioningState_STATUS(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, applicationGatewayProvisioningState_STATUS_Values)
+		embedded.ProvisioningState = &provisioningStateTemp
 	} else {
 		embedded.ProvisioningState = nil
 	}
@@ -2072,16 +2073,18 @@ func (configuration *PrivateLinkServiceIpConfiguration) AssignProperties_From_Pr
 
 	// PrivateIPAddressVersion
 	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := IPVersion(*source.PrivateIPAddressVersion)
-		configuration.PrivateIPAddressVersion = &privateIPAddressVersion
+		privateIPAddressVersion := *source.PrivateIPAddressVersion
+		privateIPAddressVersionTemp := genruntime.ToEnum(privateIPAddressVersion, iPVersion_Values)
+		configuration.PrivateIPAddressVersion = &privateIPAddressVersionTemp
 	} else {
 		configuration.PrivateIPAddressVersion = nil
 	}
 
 	// PrivateIPAllocationMethod
 	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod(*source.PrivateIPAllocationMethod)
-		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
+		privateIPAllocationMethod := *source.PrivateIPAllocationMethod
+		privateIPAllocationMethodTemp := genruntime.ToEnum(privateIPAllocationMethod, iPAllocationMethod_Values)
+		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethodTemp
 	} else {
 		configuration.PrivateIPAllocationMethod = nil
 	}
@@ -2368,24 +2371,27 @@ func (configuration *PrivateLinkServiceIpConfiguration_STATUS) AssignProperties_
 
 	// PrivateIPAddressVersion
 	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := IPVersion_STATUS(*source.PrivateIPAddressVersion)
-		configuration.PrivateIPAddressVersion = &privateIPAddressVersion
+		privateIPAddressVersion := *source.PrivateIPAddressVersion
+		privateIPAddressVersionTemp := genruntime.ToEnum(privateIPAddressVersion, iPVersion_STATUS_Values)
+		configuration.PrivateIPAddressVersion = &privateIPAddressVersionTemp
 	} else {
 		configuration.PrivateIPAddressVersion = nil
 	}
 
 	// PrivateIPAllocationMethod
 	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod_STATUS(*source.PrivateIPAllocationMethod)
-		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
+		privateIPAllocationMethod := *source.PrivateIPAllocationMethod
+		privateIPAllocationMethodTemp := genruntime.ToEnum(privateIPAllocationMethod, iPAllocationMethod_STATUS_Values)
+		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethodTemp
 	} else {
 		configuration.PrivateIPAllocationMethod = nil
 	}
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ApplicationGatewayProvisioningState_STATUS(*source.ProvisioningState)
-		configuration.ProvisioningState = &provisioningState
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, applicationGatewayProvisioningState_STATUS_Values)
+		configuration.ProvisioningState = &provisioningStateTemp
 	} else {
 		configuration.ProvisioningState = nil
 	}
@@ -2684,6 +2690,12 @@ const (
 	IPAllocationMethod_STATUS_Dynamic = IPAllocationMethod_STATUS("Dynamic")
 	IPAllocationMethod_STATUS_Static  = IPAllocationMethod_STATUS("Static")
 )
+
+// Mapping from string to IPAllocationMethod_STATUS
+var iPAllocationMethod_STATUS_Values = map[string]IPAllocationMethod_STATUS{
+	"dynamic": IPAllocationMethod_STATUS_Dynamic,
+	"static":  IPAllocationMethod_STATUS_Static,
+}
 
 type PrivateLinkServiceOperatorConfigMaps struct {
 	// Alias: indicates where the Alias config map should be placed. If omitted, no config map will be created.

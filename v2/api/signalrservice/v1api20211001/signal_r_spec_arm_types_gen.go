@@ -76,6 +76,12 @@ const (
 	ServiceKind_SignalR       = ServiceKind("SignalR")
 )
 
+// Mapping from string to ServiceKind
+var serviceKind_Values = map[string]ServiceKind{
+	"rawwebsockets": ServiceKind_RawWebSockets,
+	"signalr":       ServiceKind_SignalR,
+}
+
 // A class that describes the properties of the resource
 type SignalRProperties_ARM struct {
 	// Cors: Cross-Origin Resource Sharing (CORS) settings.
@@ -125,6 +131,13 @@ const (
 	ManagedIdentityType_SystemAssigned = ManagedIdentityType("SystemAssigned")
 	ManagedIdentityType_UserAssigned   = ManagedIdentityType("UserAssigned")
 )
+
+// Mapping from string to ManagedIdentityType
+var managedIdentityType_Values = map[string]ManagedIdentityType{
+	"none":           ManagedIdentityType_None,
+	"systemassigned": ManagedIdentityType_SystemAssigned,
+	"userassigned":   ManagedIdentityType_UserAssigned,
+}
 
 // Resource log configuration of a Microsoft.SignalRService resource.
 type ResourceLogConfiguration_ARM struct {
@@ -190,6 +203,14 @@ const (
 	SignalRSkuTier_Premium  = SignalRSkuTier("Premium")
 	SignalRSkuTier_Standard = SignalRSkuTier("Standard")
 )
+
+// Mapping from string to SignalRSkuTier
+var signalRSkuTier_Values = map[string]SignalRSkuTier{
+	"basic":    SignalRSkuTier_Basic,
+	"free":     SignalRSkuTier_Free,
+	"premium":  SignalRSkuTier_Premium,
+	"standard": SignalRSkuTier_Standard,
+}
 
 // TLS settings for the resource
 type SignalRTlsSettings_ARM struct {

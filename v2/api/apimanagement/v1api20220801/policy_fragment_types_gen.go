@@ -503,8 +503,9 @@ func (fragment *Service_PolicyFragment_Spec) AssignProperties_From_Service_Polic
 
 	// Format
 	if source.Format != nil {
-		format := PolicyFragmentContractProperties_Format(*source.Format)
-		fragment.Format = &format
+		format := *source.Format
+		formatTemp := genruntime.ToEnum(format, policyFragmentContractProperties_Format_Values)
+		fragment.Format = &formatTemp
 	} else {
 		fragment.Format = nil
 	}
@@ -759,8 +760,9 @@ func (fragment *Service_PolicyFragment_STATUS) AssignProperties_From_Service_Pol
 
 	// Format
 	if source.Format != nil {
-		format := PolicyFragmentContractProperties_Format_STATUS(*source.Format)
-		fragment.Format = &format
+		format := *source.Format
+		formatTemp := genruntime.ToEnum(format, policyFragmentContractProperties_Format_STATUS_Values)
+		fragment.Format = &formatTemp
 	} else {
 		fragment.Format = nil
 	}
@@ -831,12 +833,24 @@ const (
 	PolicyFragmentContractProperties_Format_Xml    = PolicyFragmentContractProperties_Format("xml")
 )
 
+// Mapping from string to PolicyFragmentContractProperties_Format
+var policyFragmentContractProperties_Format_Values = map[string]PolicyFragmentContractProperties_Format{
+	"rawxml": PolicyFragmentContractProperties_Format_Rawxml,
+	"xml":    PolicyFragmentContractProperties_Format_Xml,
+}
+
 type PolicyFragmentContractProperties_Format_STATUS string
 
 const (
 	PolicyFragmentContractProperties_Format_STATUS_Rawxml = PolicyFragmentContractProperties_Format_STATUS("rawxml")
 	PolicyFragmentContractProperties_Format_STATUS_Xml    = PolicyFragmentContractProperties_Format_STATUS("xml")
 )
+
+// Mapping from string to PolicyFragmentContractProperties_Format_STATUS
+var policyFragmentContractProperties_Format_STATUS_Values = map[string]PolicyFragmentContractProperties_Format_STATUS{
+	"rawxml": PolicyFragmentContractProperties_Format_STATUS_Rawxml,
+	"xml":    PolicyFragmentContractProperties_Format_STATUS_Xml,
+}
 
 func init() {
 	SchemeBuilder.Register(&PolicyFragment{}, &PolicyFragmentList{})

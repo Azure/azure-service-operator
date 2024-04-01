@@ -120,6 +120,13 @@ const (
 	Sku_Name_STATUS_Standard_AzureFrontDoor = Sku_Name_STATUS("Standard_AzureFrontDoor")
 )
 
+// Mapping from string to Sku_Name_STATUS
+var sku_Name_STATUS_Values = map[string]Sku_Name_STATUS{
+	"classic_azurefrontdoor":  Sku_Name_STATUS_Classic_AzureFrontDoor,
+	"premium_azurefrontdoor":  Sku_Name_STATUS_Premium_AzureFrontDoor,
+	"standard_azurefrontdoor": Sku_Name_STATUS_Standard_AzureFrontDoor,
+}
+
 type WebApplicationFirewallPolicyProperties_ResourceState_STATUS string
 
 const (
@@ -130,6 +137,16 @@ const (
 	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabled   = WebApplicationFirewallPolicyProperties_ResourceState_STATUS("Enabled")
 	WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabling  = WebApplicationFirewallPolicyProperties_ResourceState_STATUS("Enabling")
 )
+
+// Mapping from string to WebApplicationFirewallPolicyProperties_ResourceState_STATUS
+var webApplicationFirewallPolicyProperties_ResourceState_STATUS_Values = map[string]WebApplicationFirewallPolicyProperties_ResourceState_STATUS{
+	"creating":  WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Creating,
+	"deleting":  WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Deleting,
+	"disabled":  WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabled,
+	"disabling": WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabling,
+	"enabled":   WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabled,
+	"enabling":  WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabling,
+}
 
 // Defines contents of a web application rule
 type CustomRule_STATUS_ARM struct {
@@ -183,6 +200,12 @@ const (
 	PolicySettings_EnabledState_STATUS_Enabled  = PolicySettings_EnabledState_STATUS("Enabled")
 )
 
+// Mapping from string to PolicySettings_EnabledState_STATUS
+var policySettings_EnabledState_STATUS_Values = map[string]PolicySettings_EnabledState_STATUS{
+	"disabled": PolicySettings_EnabledState_STATUS_Disabled,
+	"enabled":  PolicySettings_EnabledState_STATUS_Enabled,
+}
+
 type PolicySettings_Mode_STATUS string
 
 const (
@@ -190,12 +213,24 @@ const (
 	PolicySettings_Mode_STATUS_Prevention = PolicySettings_Mode_STATUS("Prevention")
 )
 
+// Mapping from string to PolicySettings_Mode_STATUS
+var policySettings_Mode_STATUS_Values = map[string]PolicySettings_Mode_STATUS{
+	"detection":  PolicySettings_Mode_STATUS_Detection,
+	"prevention": PolicySettings_Mode_STATUS_Prevention,
+}
+
 type PolicySettings_RequestBodyCheck_STATUS string
 
 const (
 	PolicySettings_RequestBodyCheck_STATUS_Disabled = PolicySettings_RequestBodyCheck_STATUS("Disabled")
 	PolicySettings_RequestBodyCheck_STATUS_Enabled  = PolicySettings_RequestBodyCheck_STATUS("Enabled")
 )
+
+// Mapping from string to PolicySettings_RequestBodyCheck_STATUS
+var policySettings_RequestBodyCheck_STATUS_Values = map[string]PolicySettings_RequestBodyCheck_STATUS{
+	"disabled": PolicySettings_RequestBodyCheck_STATUS_Disabled,
+	"enabled":  PolicySettings_RequestBodyCheck_STATUS_Enabled,
+}
 
 // Defines the action to take on rule match.
 type ActionType_STATUS string
@@ -208,6 +243,15 @@ const (
 	ActionType_STATUS_Redirect       = ActionType_STATUS("Redirect")
 )
 
+// Mapping from string to ActionType_STATUS
+var actionType_STATUS_Values = map[string]ActionType_STATUS{
+	"allow":          ActionType_STATUS_Allow,
+	"anomalyscoring": ActionType_STATUS_AnomalyScoring,
+	"block":          ActionType_STATUS_Block,
+	"log":            ActionType_STATUS_Log,
+	"redirect":       ActionType_STATUS_Redirect,
+}
+
 type CustomRule_EnabledState_STATUS string
 
 const (
@@ -215,12 +259,24 @@ const (
 	CustomRule_EnabledState_STATUS_Enabled  = CustomRule_EnabledState_STATUS("Enabled")
 )
 
+// Mapping from string to CustomRule_EnabledState_STATUS
+var customRule_EnabledState_STATUS_Values = map[string]CustomRule_EnabledState_STATUS{
+	"disabled": CustomRule_EnabledState_STATUS_Disabled,
+	"enabled":  CustomRule_EnabledState_STATUS_Enabled,
+}
+
 type CustomRule_RuleType_STATUS string
 
 const (
 	CustomRule_RuleType_STATUS_MatchRule     = CustomRule_RuleType_STATUS("MatchRule")
 	CustomRule_RuleType_STATUS_RateLimitRule = CustomRule_RuleType_STATUS("RateLimitRule")
 )
+
+// Mapping from string to CustomRule_RuleType_STATUS
+var customRule_RuleType_STATUS_Values = map[string]CustomRule_RuleType_STATUS{
+	"matchrule":     CustomRule_RuleType_STATUS_MatchRule,
+	"ratelimitrule": CustomRule_RuleType_STATUS_RateLimitRule,
+}
 
 // Exclude variables from managed rule evaluation.
 type ManagedRuleExclusion_STATUS_ARM struct {
@@ -256,6 +312,13 @@ const (
 	ManagedRuleSetActionType_STATUS_Redirect = ManagedRuleSetActionType_STATUS("Redirect")
 )
 
+// Mapping from string to ManagedRuleSetActionType_STATUS
+var managedRuleSetActionType_STATUS_Values = map[string]ManagedRuleSetActionType_STATUS{
+	"block":    ManagedRuleSetActionType_STATUS_Block,
+	"log":      ManagedRuleSetActionType_STATUS_Log,
+	"redirect": ManagedRuleSetActionType_STATUS_Redirect,
+}
+
 // Define a match condition.
 type MatchCondition_STATUS_ARM struct {
 	// MatchValue: List of possible match values.
@@ -288,6 +351,15 @@ const (
 	ManagedRuleExclusion_MatchVariable_STATUS_RequestHeaderNames      = ManagedRuleExclusion_MatchVariable_STATUS("RequestHeaderNames")
 )
 
+// Mapping from string to ManagedRuleExclusion_MatchVariable_STATUS
+var managedRuleExclusion_MatchVariable_STATUS_Values = map[string]ManagedRuleExclusion_MatchVariable_STATUS{
+	"querystringargnames":     ManagedRuleExclusion_MatchVariable_STATUS_QueryStringArgNames,
+	"requestbodyjsonargnames": ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyJsonArgNames,
+	"requestbodypostargnames": ManagedRuleExclusion_MatchVariable_STATUS_RequestBodyPostArgNames,
+	"requestcookienames":      ManagedRuleExclusion_MatchVariable_STATUS_RequestCookieNames,
+	"requestheadernames":      ManagedRuleExclusion_MatchVariable_STATUS_RequestHeaderNames,
+}
+
 type ManagedRuleExclusion_SelectorMatchOperator_STATUS string
 
 const (
@@ -297,6 +369,15 @@ const (
 	ManagedRuleExclusion_SelectorMatchOperator_STATUS_EqualsAny  = ManagedRuleExclusion_SelectorMatchOperator_STATUS("EqualsAny")
 	ManagedRuleExclusion_SelectorMatchOperator_STATUS_StartsWith = ManagedRuleExclusion_SelectorMatchOperator_STATUS("StartsWith")
 )
+
+// Mapping from string to ManagedRuleExclusion_SelectorMatchOperator_STATUS
+var managedRuleExclusion_SelectorMatchOperator_STATUS_Values = map[string]ManagedRuleExclusion_SelectorMatchOperator_STATUS{
+	"contains":   ManagedRuleExclusion_SelectorMatchOperator_STATUS_Contains,
+	"endswith":   ManagedRuleExclusion_SelectorMatchOperator_STATUS_EndsWith,
+	"equals":     ManagedRuleExclusion_SelectorMatchOperator_STATUS_Equals,
+	"equalsany":  ManagedRuleExclusion_SelectorMatchOperator_STATUS_EqualsAny,
+	"startswith": ManagedRuleExclusion_SelectorMatchOperator_STATUS_StartsWith,
+}
 
 // Defines a managed rule group override setting.
 type ManagedRuleOverride_STATUS_ARM struct {
@@ -327,6 +408,19 @@ const (
 	MatchCondition_MatchVariable_STATUS_SocketAddr    = MatchCondition_MatchVariable_STATUS("SocketAddr")
 )
 
+// Mapping from string to MatchCondition_MatchVariable_STATUS
+var matchCondition_MatchVariable_STATUS_Values = map[string]MatchCondition_MatchVariable_STATUS{
+	"cookies":       MatchCondition_MatchVariable_STATUS_Cookies,
+	"postargs":      MatchCondition_MatchVariable_STATUS_PostArgs,
+	"querystring":   MatchCondition_MatchVariable_STATUS_QueryString,
+	"remoteaddr":    MatchCondition_MatchVariable_STATUS_RemoteAddr,
+	"requestbody":   MatchCondition_MatchVariable_STATUS_RequestBody,
+	"requestheader": MatchCondition_MatchVariable_STATUS_RequestHeader,
+	"requestmethod": MatchCondition_MatchVariable_STATUS_RequestMethod,
+	"requesturi":    MatchCondition_MatchVariable_STATUS_RequestUri,
+	"socketaddr":    MatchCondition_MatchVariable_STATUS_SocketAddr,
+}
+
 type MatchCondition_Operator_STATUS string
 
 const (
@@ -344,6 +438,22 @@ const (
 	MatchCondition_Operator_STATUS_RegEx              = MatchCondition_Operator_STATUS("RegEx")
 )
 
+// Mapping from string to MatchCondition_Operator_STATUS
+var matchCondition_Operator_STATUS_Values = map[string]MatchCondition_Operator_STATUS{
+	"any":                MatchCondition_Operator_STATUS_Any,
+	"beginswith":         MatchCondition_Operator_STATUS_BeginsWith,
+	"contains":           MatchCondition_Operator_STATUS_Contains,
+	"endswith":           MatchCondition_Operator_STATUS_EndsWith,
+	"equal":              MatchCondition_Operator_STATUS_Equal,
+	"geomatch":           MatchCondition_Operator_STATUS_GeoMatch,
+	"greaterthan":        MatchCondition_Operator_STATUS_GreaterThan,
+	"greaterthanorequal": MatchCondition_Operator_STATUS_GreaterThanOrEqual,
+	"ipmatch":            MatchCondition_Operator_STATUS_IPMatch,
+	"lessthan":           MatchCondition_Operator_STATUS_LessThan,
+	"lessthanorequal":    MatchCondition_Operator_STATUS_LessThanOrEqual,
+	"regex":              MatchCondition_Operator_STATUS_RegEx,
+}
+
 // Describes what transforms applied before matching.
 type TransformType_STATUS string
 
@@ -356,6 +466,16 @@ const (
 	TransformType_STATUS_UrlEncode   = TransformType_STATUS("UrlEncode")
 )
 
+// Mapping from string to TransformType_STATUS
+var transformType_STATUS_Values = map[string]TransformType_STATUS{
+	"lowercase":   TransformType_STATUS_Lowercase,
+	"removenulls": TransformType_STATUS_RemoveNulls,
+	"trim":        TransformType_STATUS_Trim,
+	"uppercase":   TransformType_STATUS_Uppercase,
+	"urldecode":   TransformType_STATUS_UrlDecode,
+	"urlencode":   TransformType_STATUS_UrlEncode,
+}
+
 // Describes if the managed rule is in enabled or disabled state.
 type ManagedRuleEnabledState_STATUS string
 
@@ -363,3 +483,9 @@ const (
 	ManagedRuleEnabledState_STATUS_Disabled = ManagedRuleEnabledState_STATUS("Disabled")
 	ManagedRuleEnabledState_STATUS_Enabled  = ManagedRuleEnabledState_STATUS("Enabled")
 )
+
+// Mapping from string to ManagedRuleEnabledState_STATUS
+var managedRuleEnabledState_STATUS_Values = map[string]ManagedRuleEnabledState_STATUS{
+	"disabled": ManagedRuleEnabledState_STATUS_Disabled,
+	"enabled":  ManagedRuleEnabledState_STATUS_Enabled,
+}
