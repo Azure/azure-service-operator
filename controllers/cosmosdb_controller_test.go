@@ -34,7 +34,7 @@ func TestCosmosDBHappyPath(t *testing.T) {
 			Namespace: namespace,
 		},
 		Spec: v1alpha1.CosmosDBSpec{
-			Location:      "westus3", // WestUS2 is currently full // tc.resourceGroupLocation,
+			Location:      "eastus", // WestUS2 is currently full // tc.resourceGroupLocation,
 			ResourceGroup: tc.resourceGroupName,
 			Kind:          v1alpha1.CosmosDBKindGlobalDocumentDB,
 			Properties: v1alpha1.CosmosDBProperties{

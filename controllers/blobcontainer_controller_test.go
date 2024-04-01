@@ -12,16 +12,15 @@ import (
 
 	s "github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-04-01/storage"
 	"github.com/Azure/go-autorest/autorest/to"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
-
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 )
 
-func TestBlobContainerControlleNoResourceGroup(t *testing.T) {
+func TestBlobContainerControllerNoResourceGroup(t *testing.T) {
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
@@ -33,7 +32,7 @@ func TestBlobContainerControlleNoResourceGroup(t *testing.T) {
 	// Add any setup steps that needs to be executed before each test
 	rgLocation = tc.resourceGroupLocation
 	saName = GenerateAlphaNumTestResourceName("blobsa")
-	containerAccessLevel = s.PublicAccessContainer
+	containerAccessLevel = s.PublicAccessNone
 
 	blobContainerName := GenerateTestResourceNameWithRandom("bc", 10)
 	resourceGroupName := GenerateTestResourceNameWithRandom("rg", 10)

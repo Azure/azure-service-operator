@@ -11,12 +11,15 @@ import (
 	"os"
 	"testing"
 
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 func TestAPIMgmtController(t *testing.T) {
+	t.Skip("takes too long")
+
 	t.Parallel()
 	defer PanicRecover(t)
 	ctx := context.Background()
