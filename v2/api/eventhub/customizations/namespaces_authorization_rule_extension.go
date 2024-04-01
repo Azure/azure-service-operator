@@ -18,6 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
@@ -68,7 +69,6 @@ func (ext *NamespacesAuthorizationRuleExtension) ExportKubernetesResources(
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to retreive response")
 		}
-
 	}
 
 	secretSlice, err := namespacesAuthorizationRuleSecretsToWrite(typedObj, res.AccessKeys)
@@ -104,10 +104,10 @@ func namespacesAuthorizationRuleSecretsToWrite(obj *storage.NamespacesAuthorizat
 
 	collector := secrets.NewCollector(obj.Namespace)
 
-	collector.AddValue(operatorSpecSecrets.PrimaryKey, *keys.PrimaryKey)
-	collector.AddValue(operatorSpecSecrets.SecondaryKey, *keys.SecondaryKey)
-	collector.AddValue(operatorSpecSecrets.PrimaryConnectionString, *keys.PrimaryConnectionString)
-	collector.AddValue(operatorSpecSecrets.SecondaryConnectionString, *keys.SecondaryConnectionString)
+	collector.AddValue(operatorSpecSecrets.PrimaryKey, to.Value(keys.PrimaryKey))
+	collector.AddValue(operatorSpecSecrets.SecondaryKey, to.Value(keys.SecondaryKey))
+	collector.AddValue(operatorSpecSecrets.PrimaryConnectionString, to.Value(keys.PrimaryConnectionString))
+	collector.AddValue(operatorSpecSecrets.SecondaryConnectionString, to.Value(keys.SecondaryConnectionString))
 
 	return collector.Values()
 }
