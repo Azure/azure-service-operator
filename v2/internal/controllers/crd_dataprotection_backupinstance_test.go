@@ -47,7 +47,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 			AgentPoolProfiles: []akscluster.ManagedClusterAgentPoolProfile{
 				{
 					Name:   to.Ptr("agentpool"),
-					Count:  to.Ptr(2),
+					Count:  to.Ptr(3),
 					VmSize: to.Ptr("Standard_B4ms"),
 					OsType: &osType,
 					OsSKU:  &osSKU,
@@ -157,7 +157,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 				Key:  extPrincipalIdKey,
 			},
 			RoleDefinitionReference: &genruntime.ResourceReference{
-				ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe", tc.AzureSubscription), // This is StorageBlobDataContributorRole
+				ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab", tc.AzureSubscription), // This is Storage Account Contributor Role
 			},
 		},
 	}
