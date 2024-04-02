@@ -126,7 +126,9 @@ type Datasource_ARM struct {
 
 	// ResourceType: Resource Type of Datasource.
 	ResourceType *string `json:"resourceType,omitempty"`
-	ResourceUri  *string `json:"resourceUri,omitempty"`
+
+	// ResourceUri: Uri of the resource.
+	ResourceUri *string `json:"resourceUri,omitempty"`
 }
 
 // DatasourceSet details of datasource to be backed up
@@ -149,7 +151,9 @@ type DatasourceSet_ARM struct {
 
 	// ResourceType: Resource Type of Datasource.
 	ResourceType *string `json:"resourceType,omitempty"`
-	ResourceUri  *string `json:"resourceUri,omitempty"`
+
+	// ResourceUri: Uri of the resource.
+	ResourceUri *string `json:"resourceUri,omitempty"`
 }
 
 type IdentityDetails_ARM struct {

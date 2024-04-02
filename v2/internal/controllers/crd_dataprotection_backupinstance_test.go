@@ -19,6 +19,7 @@ import (
 	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
 	akscluster "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
+	kubernetesconfiguration "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 )
 
@@ -222,22 +223,22 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 				ObjectType:   to.Ptr("BackupInstance"),
 				FriendlyName: to.Ptr(biName),
 				DataSourceInfo: &dataprotection.Datasource{
-					ObjectType:           to.Ptr("Datasource"),
-					DatasourceType:       to.Ptr(cluster.GetType()),
-					ResourceUriReference: tc.MakeReferenceFromResource(cluster),
-					ResourceName:         to.Ptr(cluster.AzureName()),
-					ResourceLocation:     cluster.Spec.Location,
-					ResourceType:         to.Ptr(cluster.GetType()),
-					ResourceReference:    tc.MakeReferenceFromResource(cluster),
+					ObjectType:        to.Ptr("Datasource"),
+					DatasourceType:    to.Ptr(cluster.GetType()),
+					ResourceUri:       cluster.Status.Id,
+					ResourceName:      to.Ptr(cluster.AzureName()),
+					ResourceLocation:  cluster.Spec.Location,
+					ResourceType:      to.Ptr(cluster.GetType()),
+					ResourceReference: tc.MakeReferenceFromResource(cluster),
 				},
 				DataSourceSetInfo: &dataprotection.DatasourceSet{
-					ObjectType:           to.Ptr("DatasourceSet"),
-					DatasourceType:       to.Ptr(cluster.GetType()),
-					ResourceUriReference: tc.MakeReferenceFromResource(cluster),
-					ResourceName:         to.Ptr(cluster.AzureName()),
-					ResourceType:         to.Ptr(cluster.GetType()),
-					ResourceLocation:     cluster.Spec.Location,
-					ResourceReference:    tc.MakeReferenceFromResource(cluster),
+					ObjectType:        to.Ptr("DatasourceSet"),
+					DatasourceType:    to.Ptr(cluster.GetType()),
+					ResourceUri:       cluster.Status.Id,
+					ResourceName:      to.Ptr(cluster.AzureName()),
+					ResourceType:      to.Ptr(cluster.GetType()),
+					ResourceLocation:  cluster.Spec.Location,
+					ResourceReference: tc.MakeReferenceFromResource(cluster),
 				},
 				PolicyInfo: &dataprotection.PolicyInfo{
 					PolicyReference: tc.MakeReferenceFromResource(backupPolicy),

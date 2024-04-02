@@ -3611,9 +3611,9 @@ func (in *Datasource) DeepCopyInto(out *Datasource) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.ResourceUriReference != nil {
-		in, out := &in.ResourceUriReference, &out.ResourceUriReference
-		*out = new(genruntime.ResourceReference)
+	if in.ResourceUri != nil {
+		in, out := &in.ResourceUri, &out.ResourceUri
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -3666,9 +3666,9 @@ func (in *DatasourceSet) DeepCopyInto(out *DatasourceSet) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.ResourceUriReference != nil {
-		in, out := &in.ResourceUriReference, &out.ResourceUriReference
-		*out = new(genruntime.ResourceReference)
+	if in.ResourceUri != nil {
+		in, out := &in.ResourceUri, &out.ResourceUri
+		*out = new(string)
 		**out = **in
 	}
 }

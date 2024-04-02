@@ -1718,13 +1718,9 @@ objectModelConfiguration:
       DatasourceSet:
         ResourceID:
           $armReference: true
-        ResourceUri:
-          $armReference: true
       Datasource:
         ResourceID:
           $armReference: true
-        ResourceUri:
-          $armReference: true  
       PolicyInfo:
         PolicyId:
           $armReference: true

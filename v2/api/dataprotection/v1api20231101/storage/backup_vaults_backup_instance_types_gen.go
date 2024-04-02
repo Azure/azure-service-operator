@@ -266,9 +266,7 @@ type Datasource struct {
 	// be the ID created by backup service via Fabric/Vault.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceID" json:"resourceReference,omitempty"`
 	ResourceType      *string                       `json:"resourceType,omitempty"`
-
-	// ResourceUriReference: Uri of the resource.
-	ResourceUriReference *genruntime.ResourceReference `armReference:"ResourceUri" json:"resourceUriReference,omitempty"`
+	ResourceUri       *string                       `json:"resourceUri,omitempty"`
 }
 
 // Storage version of v1api20231101.Datasource_STATUS
@@ -300,9 +298,7 @@ type DatasourceSet struct {
 	// be the ID created by backup service via Fabric/Vault.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceID" json:"resourceReference,omitempty"`
 	ResourceType      *string                       `json:"resourceType,omitempty"`
-
-	// ResourceUriReference: Uri of the resource.
-	ResourceUriReference *genruntime.ResourceReference `armReference:"ResourceUri" json:"resourceUriReference,omitempty"`
+	ResourceUri       *string                       `json:"resourceUri,omitempty"`
 }
 
 // Storage version of v1api20231101.DatasourceSet_STATUS
