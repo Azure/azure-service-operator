@@ -146,18 +146,16 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 				if err != nil {
 					return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), err
 				} else {
-					log.V(Debug).Info(fmt.Sprintf("########################## httpPollingResp is  %q ##########################", resp))
+					log.V(Debug).Info(fmt.Sprintf("########################## Polling Response is  %q ##########################", resp))
 				}
 
 				if poller.Done() {
 					log.V(Debug).Info("########################## Polling is completed ##########################")
-
 					resp, err := poller.Result(ctx)
-
 					if err != nil {
 						return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), err
 					} else {
-						log.V(Debug).Info(fmt.Sprintf("########################## httpPollingResult is  %q ##########################", resp))
+						log.V(Debug).Info(fmt.Sprintf("########################## Polling Result is  %q ##########################", resp))
 						ClearPollerResumeToken(obj, log)
 					}
 				}
