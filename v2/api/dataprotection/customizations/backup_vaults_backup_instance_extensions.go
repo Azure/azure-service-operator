@@ -41,7 +41,7 @@ var nonRetryableStates = set.Make(
 )
 
 const (
-	BackupInstancePollerResumeTokenAnnotation = "dataprotection.azure.com/backupinstance/poller-resume-token"
+	BackupInstancePollerResumeTokenAnnotation = "serviceoperator.azure.com/bi-poller-resume-token"
 )
 
 func GetPollerResumeToken(obj genruntime.MetaObject, log logr.Logger) (string, bool) {
@@ -136,15 +136,13 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 				if err != nil {
 					return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), err
 				} else {
-					log.V(Debug).Info(fmt.Sprintf("########################## Setting ResumeToken:  %q ##########################", resumeToken))
 					SetPollerResumeToken(obj, resumeToken, log)
-					GetPollerResumeToken(obj, log)
 				}
 				if poller.Done() {
+					log.V(Debug).Info("########################## Polling is completed ##########################")
 					ClearPollerResumeToken(obj, log)
-				} else {
-					return next(ctx, obj, owner, resolver, armClient, log)
 				}
+				log.V(Debug).Info("########################## Polling is in-progress ##########################")
 			}
 		}
 	}
