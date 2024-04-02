@@ -6,6 +6,7 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -14,8 +15,11 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
+	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
 	akscluster "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20231001"
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 )
 
 func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
@@ -42,7 +46,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 			AgentPoolProfiles: []akscluster.ManagedClusterAgentPoolProfile{
 				{
 					Name:   to.Ptr("agentpool"),
-					Count:  to.Ptr(1),
+					Count:  to.Ptr(2),
 					VmSize: to.Ptr("Standard_B4ms"),
 					OsType: &osType,
 					OsSKU:  &osSKU,
@@ -80,133 +84,133 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	}
 
 	backupPolicy := newBackupPolicy(tc, backupVault, "asotestbackuppolicy")
-	/*
-		// create storage account and blob container
 
-		acct := newStorageAccount(tc, rg)
+	// create storage account and blob container
 
-		blobService := &storage.StorageAccountsBlobService{
-			ObjectMeta: tc.MakeObjectMeta("blobservice"),
-			Spec: storage.StorageAccounts_BlobService_Spec{
-				Owner: testcommon.AsOwner(acct),
-			},
-		}
+	acct := newStorageAccount(tc, rg)
 
-		blobContainer := &storage.StorageAccountsBlobServicesContainer{
-			ObjectMeta: tc.MakeObjectMeta("velero"),
-			Spec: storage.StorageAccounts_BlobServices_Container_Spec{
-				Owner: testcommon.AsOwner(blobService),
-			},
-		}
+	blobService := &storage.StorageAccountsBlobService{
+		ObjectMeta: tc.MakeObjectMeta("blobservice"),
+		Spec: storage.StorageAccounts_BlobService_Spec{
+			Owner: testcommon.AsOwner(acct),
+		},
+	}
 
-		// create extension
-		extConfigMapName := "ext-configmap"
-		extPrincipalIdKey := "principalId"
-		extension := &kubernetesconfiguration.Extension{
-			ObjectMeta: tc.MakeObjectMeta("extension"),
-			Spec: kubernetesconfiguration.Extension_Spec{
-				ReleaseTrain:  to.Ptr("stable"),
-				ExtensionType: to.Ptr("microsoft.dataprotection.kubernetes"),
-				Owner:         tc.AsExtensionOwner(cluster),
-				Scope: &kubernetesconfiguration.Scope{
-					Cluster: &kubernetesconfiguration.ScopeCluster{
-						ReleaseNamespace: to.Ptr("dataprotection-microsoft"),
-					},
-				},
-				ConfigurationSettings: map[string]string{
-					"configuration.backupStorageLocation.bucket":                blobContainer.Name,
-					"configuration.backupStorageLocation.config.resourceGroup":  rg.Name,
-					"configuration.backupStorageLocation.config.storageAccount": acct.Name,
-					"configuration.backupStorageLocation.config.subscriptionId": tc.AzureSubscription,
-					"credentials.tenantId":                                      tc.AzureTenant,
-				},
-				OperatorSpec: &kubernetesconfiguration.ExtensionOperatorSpec{
-					ConfigMaps: &kubernetesconfiguration.ExtensionOperatorConfigMaps{
-						PrincipalId: &genruntime.ConfigMapDestination{Name: extConfigMapName, Key: extPrincipalIdKey},
-					},
+	blobContainer := &storage.StorageAccountsBlobServicesContainer{
+		ObjectMeta: tc.MakeObjectMeta("velero"),
+		Spec: storage.StorageAccounts_BlobServices_Container_Spec{
+			Owner: testcommon.AsOwner(blobService),
+		},
+	}
+
+	// create extension
+	extConfigMapName := "ext-configmap"
+	extPrincipalIdKey := "principalId"
+	extension := &kubernetesconfiguration.Extension{
+		ObjectMeta: tc.MakeObjectMeta("extension"),
+		Spec: kubernetesconfiguration.Extension_Spec{
+			ReleaseTrain:  to.Ptr("stable"),
+			ExtensionType: to.Ptr("microsoft.dataprotection.kubernetes"),
+			Owner:         tc.AsExtensionOwner(cluster),
+			Scope: &kubernetesconfiguration.Scope{
+				Cluster: &kubernetesconfiguration.ScopeCluster{
+					ReleaseNamespace: to.Ptr("dataprotection-microsoft"),
 				},
 			},
-		}
-
-		// create TA role binding
-		trustedAccessRoleBinding := &aks.TrustedAccessRoleBinding{
-			ObjectMeta: tc.MakeObjectMetaWithName("tarb"),
-			Spec: aks.ManagedClusters_TrustedAccessRoleBinding_Spec{
-				Owner: testcommon.AsOwner(cluster),
-				Roles: []string{
-					"Microsoft.DataProtection/backupVaults/backup-operator",
-				},
-				SourceResourceReference: tc.MakeReferenceFromResource(backupVault),
+			ConfigurationSettings: map[string]string{
+				"configuration.backupStorageLocation.bucket":                blobContainer.Name,
+				"configuration.backupStorageLocation.config.resourceGroup":  rg.Name,
+				"configuration.backupStorageLocation.config.storageAccount": acct.Name,
+				"configuration.backupStorageLocation.config.subscriptionId": tc.AzureSubscription,
+				"credentials.tenantId":                                      tc.AzureTenant,
 			},
-		}
-
-		// give permission to extension msi over SA
-		extenstionRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
-		tc.Expect(err).ToNot(HaveOccurred())
-		extenstionRoleAssignment := &authorization.RoleAssignment{
-			ObjectMeta: tc.MakeObjectMeta(extenstionRoleAssignmentGUID.String()),
-			Spec: authorization.RoleAssignment_Spec{
-				Owner: tc.AsExtensionOwner(acct),
-				PrincipalIdFromConfig: &genruntime.ConfigMapReference{
-					Name: extConfigMapName,
-					Key:  extPrincipalIdKey,
-				},
-				RoleDefinitionReference: &genruntime.ResourceReference{
-					ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab", tc.AzureSubscription), // This is Storage Account Contributor Role
+			OperatorSpec: &kubernetesconfiguration.ExtensionOperatorSpec{
+				ConfigMaps: &kubernetesconfiguration.ExtensionOperatorConfigMaps{
+					PrincipalId: &genruntime.ConfigMapDestination{Name: extConfigMapName, Key: extPrincipalIdKey},
 				},
 			},
-		}
+		},
+	}
 
-		// give read permission to vault msi over cluster
-		clusterRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
-		tc.Expect(err).ToNot(HaveOccurred())
-		clusterRoleAssignment := &authorization.RoleAssignment{
-			ObjectMeta: tc.MakeObjectMeta(clusterRoleAssignmentGUID.String()),
-			Spec: authorization.RoleAssignment_Spec{
-				Owner: tc.AsExtensionOwner(cluster),
-				PrincipalIdFromConfig: &genruntime.ConfigMapReference{
-					Name: backupVaultConfigMapName,
-					Key:  backupVaultPrincipalIdKey,
-				},
-				RoleDefinitionReference: &genruntime.ResourceReference{
-					ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7", tc.AzureSubscription), // This is Reader Role
-				},
+	// create TA role binding
+	trustedAccessRoleBinding := &aks.TrustedAccessRoleBinding{
+		ObjectMeta: tc.MakeObjectMetaWithName("tarb"),
+		Spec: aks.ManagedClusters_TrustedAccessRoleBinding_Spec{
+			Owner: testcommon.AsOwner(cluster),
+			Roles: []string{
+				"Microsoft.DataProtection/backupVaults/backup-operator",
 			},
-		}
+			SourceResourceReference: tc.MakeReferenceFromResource(backupVault),
+		},
+	}
 
-		// give cluster msi access over snapshot rg for pv creation
-		clusterMSIRoleAssignmentAssignmentGUID, err := tc.Namer.GenerateUUID()
-		tc.Expect(err).ToNot(HaveOccurred())
-		clusterMSIRoleAssignment := &authorization.RoleAssignment{
-			ObjectMeta: tc.MakeObjectMeta(clusterMSIRoleAssignmentAssignmentGUID.String()),
-			Spec: authorization.RoleAssignment_Spec{
-				Owner: tc.AsExtensionOwner(rg),
-				PrincipalIdFromConfig: &genruntime.ConfigMapReference{
-					Name: clusterConfigMapName,
-					Key:  clusterPrincipalIdKey,
-				},
-				RoleDefinitionReference: &genruntime.ResourceReference{
-					ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is Contributor Role
-				},
+	// give permission to extension msi over SA
+	extenstionRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
+	tc.Expect(err).ToNot(HaveOccurred())
+	extenstionRoleAssignment := &authorization.RoleAssignment{
+		ObjectMeta: tc.MakeObjectMeta(extenstionRoleAssignmentGUID.String()),
+		Spec: authorization.RoleAssignment_Spec{
+			Owner: tc.AsExtensionOwner(acct),
+			PrincipalIdFromConfig: &genruntime.ConfigMapReference{
+				Name: extConfigMapName,
+				Key:  extPrincipalIdKey,
 			},
-		}
+			RoleDefinitionReference: &genruntime.ResourceReference{
+				ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab", tc.AzureSubscription), // This is Storage Account Contributor Role
+			},
+		},
+	}
 
-		// give read permission to vault msi over SRG
-		snapshotRGRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
-		tc.Expect(err).ToNot(HaveOccurred())
-		snapshotRGRoleAssignment := &authorization.RoleAssignment{
-			ObjectMeta: tc.MakeObjectMeta(snapshotRGRoleAssignmentGUID.String()),
-			Spec: authorization.RoleAssignment_Spec{
-				Owner: tc.AsExtensionOwner(rg),
-				PrincipalIdFromConfig: &genruntime.ConfigMapReference{
-					Name: backupVaultConfigMapName,
-					Key:  backupVaultPrincipalIdKey,
-				},
-				RoleDefinitionReference: &genruntime.ResourceReference{
-					ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7", tc.AzureSubscription), // This is Reader Role
-				},
+	// give read permission to vault msi over cluster
+	clusterRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
+	tc.Expect(err).ToNot(HaveOccurred())
+	clusterRoleAssignment := &authorization.RoleAssignment{
+		ObjectMeta: tc.MakeObjectMeta(clusterRoleAssignmentGUID.String()),
+		Spec: authorization.RoleAssignment_Spec{
+			Owner: tc.AsExtensionOwner(cluster),
+			PrincipalIdFromConfig: &genruntime.ConfigMapReference{
+				Name: backupVaultConfigMapName,
+				Key:  backupVaultPrincipalIdKey,
 			},
-		}*/
+			RoleDefinitionReference: &genruntime.ResourceReference{
+				ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7", tc.AzureSubscription), // This is Reader Role
+			},
+		},
+	}
+
+	// give cluster msi access over snapshot rg for pv creation
+	clusterMSIRoleAssignmentAssignmentGUID, err := tc.Namer.GenerateUUID()
+	tc.Expect(err).ToNot(HaveOccurred())
+	clusterMSIRoleAssignment := &authorization.RoleAssignment{
+		ObjectMeta: tc.MakeObjectMeta(clusterMSIRoleAssignmentAssignmentGUID.String()),
+		Spec: authorization.RoleAssignment_Spec{
+			Owner: tc.AsExtensionOwner(rg),
+			PrincipalIdFromConfig: &genruntime.ConfigMapReference{
+				Name: clusterConfigMapName,
+				Key:  clusterPrincipalIdKey,
+			},
+			RoleDefinitionReference: &genruntime.ResourceReference{
+				ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is Contributor Role
+			},
+		},
+	}
+
+	// give read permission to vault msi over SRG
+	snapshotRGRoleAssignmentGUID, err := tc.Namer.GenerateUUID()
+	tc.Expect(err).ToNot(HaveOccurred())
+	snapshotRGRoleAssignment := &authorization.RoleAssignment{
+		ObjectMeta: tc.MakeObjectMeta(snapshotRGRoleAssignmentGUID.String()),
+		Spec: authorization.RoleAssignment_Spec{
+			Owner: tc.AsExtensionOwner(rg),
+			PrincipalIdFromConfig: &genruntime.ConfigMapReference{
+				Name: backupVaultConfigMapName,
+				Key:  backupVaultPrincipalIdKey,
+			},
+			RoleDefinitionReference: &genruntime.ResourceReference{
+				ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7", tc.AzureSubscription), // This is Reader Role
+			},
+		},
+	}
 
 	//create backup instance
 	biName := "asotestbackupinstance"
@@ -262,25 +266,19 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 		},
 	}
 
-	// tc.CreateResourcesAndWait(
-	// 	cluster,
-	// 	acct,
-	// 	blobService,
-	// 	blobContainer,
-	// 	backupVault,
-	// 	backupPolicy,
-	// 	extension,
-	// 	trustedAccessRoleBinding,
-	// 	extenstionRoleAssignment,
-	// 	clusterRoleAssignment,
-	// 	clusterMSIRoleAssignment,
-	// 	snapshotRGRoleAssignment,
-	// 	backupInstance)
-
 	tc.CreateResourcesAndWait(
 		cluster,
+		acct,
+		blobService,
+		blobContainer,
 		backupVault,
 		backupPolicy,
+		extension,
+		trustedAccessRoleBinding,
+		extenstionRoleAssignment,
+		clusterRoleAssignment,
+		clusterMSIRoleAssignment,
+		snapshotRGRoleAssignment,
 		backupInstance)
 
 	objectKey := client.ObjectKeyFromObject(backupInstance)

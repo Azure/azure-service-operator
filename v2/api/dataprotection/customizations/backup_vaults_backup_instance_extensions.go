@@ -47,7 +47,6 @@ const (
 func GetPollerResumeToken(obj genruntime.MetaObject, log logr.Logger) (string, bool) {
 	log.V(Debug).Info("########################## GetPollerResumeToken ##########################")
 	token, hasResumeToken := obj.GetAnnotations()[BackupInstancePollerResumeTokenAnnotation]
-	//log.V(Debug).Info(fmt.Sprintf("########################## pollerResumeToken is  %q ##########################", token))
 	return token, hasResumeToken
 }
 
@@ -128,7 +127,6 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 				poller, err := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, &armdataprotection.BackupInstancesClientBeginSyncBackupInstanceOptions{
 					ResumeToken: pollerResumeToken,
 				})
-
 				if err != nil {
 					return extensions.PostReconcileCheckResultFailure("Failed Polling for BeginSyncBackupInstance to get the result"), err
 				}
@@ -142,21 +140,17 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 					}
 				}
 
-				resp, err := poller.Poll(ctx)
-				if err != nil {
-					return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), err
-				} else {
-					log.V(Debug).Info(fmt.Sprintf("########################## Polling Response is  %q ##########################", resp))
+				_, pollErr := poller.Poll(ctx)
+				if pollErr != nil {
+					return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), pollErr
 				}
 
 				if poller.Done() {
 					log.V(Debug).Info("########################## Polling is completed ##########################")
-					resp, err := poller.Result(ctx)
+					ClearPollerResumeToken(obj, log)
+					_, err := poller.Result(ctx)
 					if err != nil {
 						return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), err
-					} else {
-						log.V(Debug).Info(fmt.Sprintf("########################## Polling Result is  %q ##########################", resp))
-						ClearPollerResumeToken(obj, log)
 					}
 				}
 				log.V(Debug).Info("########################## Polling is in-progress ##########################")
