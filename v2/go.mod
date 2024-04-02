@@ -1,6 +1,8 @@
 module github.com/Azure/azure-service-operator/v2
 
-go 1.20
+go 1.21
+
+toolchain go1.21.8
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.10.0
@@ -10,6 +12,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice v1.0.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos v1.0.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid v1.0.0
+	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventhub/armeventhub v1.2.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iothub/armiothub v1.3.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault v1.4.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearning/armmachinelearning v1.0.0
@@ -22,7 +25,7 @@ require (
 	github.com/benbjohnson/clock v1.3.5
 	github.com/dnaeon/go-vcr v1.2.0
 	github.com/go-logr/logr v1.4.1
-	github.com/go-sql-driver/mysql v1.8.0
+	github.com/go-sql-driver/mysql v1.8.1
 	github.com/google/go-cmp v0.6.0
 	github.com/google/uuid v1.6.0
 	github.com/hbollon/go-edlib v1.6.0

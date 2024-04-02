@@ -208,7 +208,7 @@ func (namespace *Namespace) ValidateUpdate(old runtime.Object) (admission.Warnin
 
 // createValidations validates the creation of the resource
 func (namespace *Namespace) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){namespace.validateResourceReferences, namespace.validateOwnerReference}
+	return []func() (admission.Warnings, error){namespace.validateResourceReferences, namespace.validateOwnerReference, namespace.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,6 +226,9 @@ func (namespace *Namespace) updateValidations() []func(old runtime.Object) (admi
 		func(old runtime.Object) (admission.Warnings, error) {
 			return namespace.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return namespace.validateSecretDestinations()
+		},
 	}
 }
 
@@ -241,6 +244,23 @@ func (namespace *Namespace) validateResourceReferences() (admission.Warnings, er
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (namespace *Namespace) validateSecretDestinations() (admission.Warnings, error) {
+	if namespace.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	if namespace.Spec.OperatorSpec.Secrets == nil {
+		return nil, nil
+	}
+	toValidate := []*genruntime.SecretDestination{
+		namespace.Spec.OperatorSpec.Secrets.PrimaryConnectionString,
+		namespace.Spec.OperatorSpec.Secrets.PrimaryKey,
+		namespace.Spec.OperatorSpec.Secrets.SecondaryConnectionString,
+		namespace.Spec.OperatorSpec.Secrets.SecondaryKey,
+	}
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -364,6 +384,10 @@ type Namespace_Spec struct {
 	// MaximumThroughputUnits: Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20
 	// throughput units. ( '0' if AutoInflateEnabled = true)
 	MaximumThroughputUnits *int `json:"maximumThroughputUnits,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *NamespaceOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -574,6 +598,8 @@ func (namespace *Namespace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	namespace.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
@@ -733,6 +759,18 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *v2
 	// MaximumThroughputUnits
 	namespace.MaximumThroughputUnits = genruntime.ClonePointerToInt(source.MaximumThroughputUnits)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec NamespaceOperatorSpec
+		err := operatorSpec.AssignProperties_From_NamespaceOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NamespaceOperatorSpec() to populate field OperatorSpec")
+		}
+		namespace.OperatorSpec = &operatorSpec
+	} else {
+		namespace.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -840,6 +878,18 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 
 	// MaximumThroughputUnits
 	destination.MaximumThroughputUnits = genruntime.ClonePointerToInt(namespace.MaximumThroughputUnits)
+
+	// OperatorSpec
+	if namespace.OperatorSpec != nil {
+		var operatorSpec v20211101s.NamespaceOperatorSpec
+		err := namespace.OperatorSpec.AssignProperties_To_NamespaceOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NamespaceOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = namespace.OriginalVersion()
@@ -2328,6 +2378,59 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 	return nil
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespaceOperatorSpec struct {
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *NamespaceOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignProperties_From_NamespaceOperatorSpec populates our NamespaceOperatorSpec from the provided source NamespaceOperatorSpec
+func (operator *NamespaceOperatorSpec) AssignProperties_From_NamespaceOperatorSpec(source *v20211101s.NamespaceOperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret NamespaceOperatorSecrets
+		err := secret.AssignProperties_From_NamespaceOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NamespaceOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NamespaceOperatorSpec populates the provided destination NamespaceOperatorSpec from our NamespaceOperatorSpec
+func (operator *NamespaceOperatorSpec) AssignProperties_To_NamespaceOperatorSpec(destination *v20211101s.NamespaceOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v20211101s.NamespaceOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_NamespaceOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NamespaceOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Properties of the PrivateEndpointConnection.
 type PrivateEndpointConnection_STATUS struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
@@ -3162,6 +3265,111 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 
 	// KeyVersion
 	destination.KeyVersion = genruntime.ClonePointerToString(properties.KeyVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type NamespaceOperatorSecrets struct {
+	// PrimaryConnectionString: indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret
+	// will not be retrieved from Azure.
+	PrimaryConnectionString *genruntime.SecretDestination `json:"primaryConnectionString,omitempty"`
+
+	// PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
+	// Azure.
+	PrimaryKey *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+
+	// SecondaryConnectionString: indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret
+	// will not be retrieved from Azure.
+	SecondaryConnectionString *genruntime.SecretDestination `json:"secondaryConnectionString,omitempty"`
+
+	// SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
+	SecondaryKey *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
+}
+
+// AssignProperties_From_NamespaceOperatorSecrets populates our NamespaceOperatorSecrets from the provided source NamespaceOperatorSecrets
+func (secrets *NamespaceOperatorSecrets) AssignProperties_From_NamespaceOperatorSecrets(source *v20211101s.NamespaceOperatorSecrets) error {
+
+	// PrimaryConnectionString
+	if source.PrimaryConnectionString != nil {
+		primaryConnectionString := source.PrimaryConnectionString.Copy()
+		secrets.PrimaryConnectionString = &primaryConnectionString
+	} else {
+		secrets.PrimaryConnectionString = nil
+	}
+
+	// PrimaryKey
+	if source.PrimaryKey != nil {
+		primaryKey := source.PrimaryKey.Copy()
+		secrets.PrimaryKey = &primaryKey
+	} else {
+		secrets.PrimaryKey = nil
+	}
+
+	// SecondaryConnectionString
+	if source.SecondaryConnectionString != nil {
+		secondaryConnectionString := source.SecondaryConnectionString.Copy()
+		secrets.SecondaryConnectionString = &secondaryConnectionString
+	} else {
+		secrets.SecondaryConnectionString = nil
+	}
+
+	// SecondaryKey
+	if source.SecondaryKey != nil {
+		secondaryKey := source.SecondaryKey.Copy()
+		secrets.SecondaryKey = &secondaryKey
+	} else {
+		secrets.SecondaryKey = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NamespaceOperatorSecrets populates the provided destination NamespaceOperatorSecrets from our NamespaceOperatorSecrets
+func (secrets *NamespaceOperatorSecrets) AssignProperties_To_NamespaceOperatorSecrets(destination *v20211101s.NamespaceOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PrimaryConnectionString
+	if secrets.PrimaryConnectionString != nil {
+		primaryConnectionString := secrets.PrimaryConnectionString.Copy()
+		destination.PrimaryConnectionString = &primaryConnectionString
+	} else {
+		destination.PrimaryConnectionString = nil
+	}
+
+	// PrimaryKey
+	if secrets.PrimaryKey != nil {
+		primaryKey := secrets.PrimaryKey.Copy()
+		destination.PrimaryKey = &primaryKey
+	} else {
+		destination.PrimaryKey = nil
+	}
+
+	// SecondaryConnectionString
+	if secrets.SecondaryConnectionString != nil {
+		secondaryConnectionString := secrets.SecondaryConnectionString.Copy()
+		destination.SecondaryConnectionString = &secondaryConnectionString
+	} else {
+		destination.SecondaryConnectionString = nil
+	}
+
+	// SecondaryKey
+	if secrets.SecondaryKey != nil {
+		secondaryKey := secrets.SecondaryKey.Copy()
+		destination.SecondaryKey = &secondaryKey
+	} else {
+		destination.SecondaryKey = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

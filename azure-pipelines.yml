@@ -72,7 +72,7 @@ jobs:
       displayName: 'Validate Source'
       continueOnError: 'false'
 
-
+    # TODO: Tried to update to Go 1.22 but failed, see https://github.com/microsoft/azure-pipelines-tasks/issues/19690
     - task: GoTool@0
       displayName: Get Go 1.20
       condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))

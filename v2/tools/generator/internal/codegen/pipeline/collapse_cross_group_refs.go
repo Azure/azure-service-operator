@@ -18,16 +18,16 @@ const CollapseCrossGroupReferencesStageID = "collapseCrossGroupReferences"
 
 // CollapseCrossGroupReferences finds and removes references between API groups. This isn't particularly common
 // but does occur in a few instances, for example from Microsoft.Compute -> Microsoft.Compute.Extensions.
-func CollapseCrossGroupReferences() *Stage {
-	return NewLegacyStage(
+func CollapseCrossGroupReferences(idFactory astmodel.IdentifierFactory) *Stage {
+	return NewStage(
 		CollapseCrossGroupReferencesStageID,
 		"Find and remove cross group references",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			resources := astmodel.FindResourceDefinitions(definitions)
+		func(ctx context.Context, state *State) (*State, error) {
+			resources := astmodel.FindResourceDefinitions(state.Definitions())
 			result := make(astmodel.TypeDefinitionSet)
 
 			for name, def := range resources {
-				walker := newTypeWalker(definitions, name)
+				walker := newTypeWalker(idFactory, state.Definitions(), name)
 				updatedTypes, err := walker.Walk(def)
 				if err != nil {
 					return nil, errors.Wrapf(err, "failed walking definitions")
@@ -41,21 +41,33 @@ func CollapseCrossGroupReferences() *Stage {
 				}
 			}
 
-			return result, nil
+			return state.WithDefinitions(result), nil
 		})
 }
 
 func newTypeWalker(
+	idFactory astmodel.IdentifierFactory,
 	definitions astmodel.TypeDefinitionSet,
 	resourceName astmodel.InternalTypeName,
 ) *astmodel.TypeWalker[any] {
 	visitor := astmodel.TypeVisitorBuilder[any]{}.Build()
 	walker := astmodel.NewTypeWalker(definitions, visitor)
+
 	walker.AfterVisit = func(original astmodel.TypeDefinition, updated astmodel.TypeDefinition, ctx interface{}) (astmodel.TypeDefinition, error) {
 		if !resourceName.PackageReference().Equals(updated.Name().PackageReference()) {
-			// Note: If we ever find this generating colliding names, we might need to introduce a unique suffix.
-			// For now though it doesn't seem to, so preserving the shorter names as they are clearer.
-			updated = updated.WithName(astmodel.MakeInternalTypeName(resourceName.InternalPackageReference(), updated.Name().Name()))
+
+			newName := astmodel.MakeInternalTypeName(resourceName.InternalPackageReference(), updated.Name().Name())
+			if existingDef, ok := definitions[newName]; ok {
+				if !astmodel.TypeEquals(existingDef.Type(), updated.Type()) {
+					// There exists a type with this name already and it doesn't match this types shape. This is rare
+					// but happens in a few instances. One example instance is Fleet + AKS which both have a
+					// UserAssignedIdentity type that have slightly different shapes.
+					// We disambiguate by including the name of the cross-resource pkg the type came from in the name of the type
+					disambiguator := idFactory.CreateIdentifier(updated.Name().InternalPackageReference().Group(), astmodel.Exported)
+					newName = astmodel.MakeInternalTypeName(resourceName.InternalPackageReference(), disambiguator+updated.Name().Name())
+				}
+			}
+			updated = updated.WithName(newName)
 		}
 		return astmodel.IdentityAfterVisit(original, updated, ctx)
 	}

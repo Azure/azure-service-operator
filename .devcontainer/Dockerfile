@@ -1,7 +1,7 @@
-# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.137.0/containers/go/.devcontainer/base.Dockerfile
+# See here for image contents: https://github.com/devcontainers/images/blob/main/src/go/.devcontainer/Dockerfile
 
 # This is pinned to a particular version of go:
-FROM mcr.microsoft.com/vscode/devcontainers/go:0-1.20
+FROM mcr.microsoft.com/devcontainers/go:1.22
 
 # https://docs.docker.com/engine/reference/builder/#automatic-platform-args-in-the-global-scope
 ARG TARGETARCH
