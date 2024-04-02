@@ -42,7 +42,7 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 			AgentPoolProfiles: []akscluster.ManagedClusterAgentPoolProfile{
 				{
 					Name:   to.Ptr("agentpool"),
-					Count:  to.Ptr(2),
+					Count:  to.Ptr(1),
 					VmSize: to.Ptr("Standard_B4ms"),
 					OsType: &osType,
 					OsSKU:  &osSKU,

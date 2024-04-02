@@ -129,18 +129,38 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 				poller, clientSyncErr := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, &armdataprotection.BackupInstancesClientBeginSyncBackupInstanceOptions{
 					ResumeToken: pollerResumeToken,
 				})
+
 				if clientSyncErr != nil {
 					return extensions.PostReconcileCheckResultFailure("Failed Polling for BeginSyncBackupInstance to get the result"), err
 				}
-				resumeToken, err := poller.ResumeToken()
+
+				if pollerResumeToken == "" {
+					resumeToken, err := poller.ResumeToken()
+					if err != nil {
+						return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), err
+					} else {
+						SetPollerResumeToken(obj, resumeToken, log)
+					}
+				}
+
+				resp, err := poller.Poll(ctx)
 				if err != nil {
 					return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), err
 				} else {
-					SetPollerResumeToken(obj, resumeToken, log)
+					log.V(Debug).Info(fmt.Sprintf("########################## httpPollingResp is  %q ##########################", resp))
 				}
+
 				if poller.Done() {
 					log.V(Debug).Info("########################## Polling is completed ##########################")
-					ClearPollerResumeToken(obj, log)
+
+					resp, err := poller.Result(ctx)
+
+					if err != nil {
+						return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), err
+					} else {
+						log.V(Debug).Info(fmt.Sprintf("########################## httpPollingResult is  %q ##########################", resp))
+						ClearPollerResumeToken(obj, log)
+					}
 				}
 				log.V(Debug).Info("########################## Polling is in-progress ##########################")
 			}
