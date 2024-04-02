@@ -45,20 +45,20 @@ const (
 )
 
 func GetPollerResumeToken(obj genruntime.MetaObject, log logr.Logger) (string, bool) {
-	log.V(Debug).Info("########################## GetPollerResumeToken for BeginSyncBackupInstance ##########################")
+	log.V(Debug).Info("########################## GetPollerResumeToken ##########################")
 	token, hasResumeToken := obj.GetAnnotations()[BackupInstancePollerResumeTokenAnnotation]
-	log.V(Debug).Info(fmt.Sprintf("########################## pollerResumeToken is  %q ##########################", token))
+	//log.V(Debug).Info(fmt.Sprintf("########################## pollerResumeToken is  %q ##########################", token))
 	return token, hasResumeToken
 }
 
 func SetPollerResumeToken(obj genruntime.MetaObject, token string, log logr.Logger) {
-	log.V(Debug).Info("########################## SetPollerResumeToken for BeginSyncBackupInstance ##########################")
+	log.V(Debug).Info("########################## SetPollerResumeToken ##########################")
 	genruntime.AddAnnotation(obj, BackupInstancePollerResumeTokenAnnotation, token)
 }
 
 // ClearPollerResumeToken clears the poller resume token and ID annotations
 func ClearPollerResumeToken(obj genruntime.MetaObject, log logr.Logger) {
-	log.V(Debug).Info("########################## ClearPollerResumeToken for BeginSyncBackupInstance ##########################")
+	log.V(Debug).Info("########################## ClearPollerResumeToken ##########################")
 	genruntime.RemoveAnnotation(obj, BackupInstancePollerResumeTokenAnnotation)
 }
 
@@ -110,7 +110,6 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 				rg := id.ResourceGroupName
 				vaultName := id.Parent.Name
 
-				log.V(Debug).Info("########################## Starting NewClientFactory  ##########################")
 				clientFactory, err := armdataprotection.NewClientFactory(subscription, armClient.Creds(), armClient.ClientOptions())
 				if err != nil {
 					return extensions.PostReconcileCheckResultFailure("failed to create armdataprotection client"), err
@@ -126,18 +125,18 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 
 				log.V(Debug).Info("########################## Starting BeginSyncBackupInstance ##########################")
 
-				poller, clientSyncErr := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, &armdataprotection.BackupInstancesClientBeginSyncBackupInstanceOptions{
+				poller, err := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, &armdataprotection.BackupInstancesClientBeginSyncBackupInstanceOptions{
 					ResumeToken: pollerResumeToken,
 				})
 
-				if clientSyncErr != nil {
+				if err != nil {
 					return extensions.PostReconcileCheckResultFailure("Failed Polling for BeginSyncBackupInstance to get the result"), err
 				}
 
 				if pollerResumeToken == "" {
-					resumeToken, err := poller.ResumeToken()
-					if err != nil {
-						return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), err
+					resumeToken, resumeTokenErr := poller.ResumeToken()
+					if resumeTokenErr != nil {
+						return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), resumeTokenErr
 					} else {
 						SetPollerResumeToken(obj, resumeToken, log)
 					}
