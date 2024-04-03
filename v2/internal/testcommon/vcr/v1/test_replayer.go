@@ -91,7 +91,7 @@ func NewTestPlayer(
 		}
 
 		r.Body = io.NopCloser(&b)
-		return b.String() == "" || vcr.HideRecordingData(b.String()) == i.Body
+		return b.String() == "" || vcr.HideRecordingData(creds.DummyAzureIDs(), b.String()) == i.Body
 	})
 
 	return &player{

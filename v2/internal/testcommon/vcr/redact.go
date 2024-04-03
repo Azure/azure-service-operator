@@ -8,7 +8,15 @@ package vcr
 import (
 	"net/http"
 	"regexp"
+	"strings"
+
+	"github.com/google/uuid"
+
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 )
+
+var nilGuid = uuid.Nil.String()
 
 // requestHeadersToRemove is the list of request headers to remove when recording or replaying.
 var requestHeadersToRemove = []string{
@@ -19,9 +27,20 @@ var requestHeadersToRemove = []string{
 	"User-Agent",
 }
 
-func RedactRequestHeaders(headers http.Header) {
+func RedactRequestHeaders(azureIDs creds.AzureIDs, headers http.Header) {
 	for _, header := range requestHeadersToRemove {
 		delete(headers, header)
+	}
+
+	// Hide sensitive request headers
+	for _, values := range headers {
+		for i := range values {
+			values[i] = strings.ReplaceAll(values[i], azureIDs.SubscriptionID, nilGuid)
+			values[i] = strings.ReplaceAll(values[i], azureIDs.TenantID, nilGuid)
+			if azureIDs.BillingInvoiceID != "" {
+				values[i] = strings.ReplaceAll(values[i], azureIDs.BillingInvoiceID, creds.DummyBillingId)
+			}
+		}
 	}
 }
 
@@ -44,21 +63,50 @@ var responseHeadersToRemove = []string{
 	"Date",
 }
 
-func RedactResponseHeaders(headers http.Header) {
+func RedactResponseHeaders(azureIDs creds.AzureIDs, headers http.Header) {
 	for _, header := range responseHeadersToRemove {
 		delete(headers, header)
 	}
+
+	// Hide sensitive response headers
+	for key, values := range headers {
+		for i := range values {
+			values[i] = strings.ReplaceAll(values[i], azureIDs.SubscriptionID, nilGuid)
+			values[i] = strings.ReplaceAll(values[i], azureIDs.TenantID, nilGuid)
+			if azureIDs.BillingInvoiceID != "" {
+				values[i] = strings.ReplaceAll(values[i], azureIDs.BillingInvoiceID, creds.DummyBillingId)
+			}
+		}
+
+		// Hide the base request URL in the AzureOperation and Location headers
+		if key == genericarmclient.AsyncOperationHeader || key == genericarmclient.LocationHeader {
+			for i := range values {
+				values[i] = HideURLData(azureIDs, values[i])
+			}
+		}
+	}
 }
 
-func HideRecordingData(s string) string {
-	result := hideDates(s)
-	result = hideSSHKeys(result)
-	result = hidePasswords(result)
-	result = hideKubeConfigs(result)
-	result = hideKeys(result)
-	result = hideCustomKeys(result)
+func HideRecordingData(azureIDs creds.AzureIDs, s string) string {
+	// Hide the subscription ID
+	s = strings.ReplaceAll(s, azureIDs.SubscriptionID, nilGuid)
 
-	return result
+	// Hide the tenant ID
+	s = strings.ReplaceAll(s, azureIDs.TenantID, nilGuid)
+
+	// Hide the billing ID
+	if azureIDs.BillingInvoiceID != "" {
+		s = strings.ReplaceAll(s, azureIDs.BillingInvoiceID, creds.DummyBillingId)
+	}
+
+	s = hideDates(s)
+	s = hideSSHKeys(s)
+	s = hidePasswords(s)
+	s = hideKubeConfigs(s)
+	s = hideKeys(s)
+	s = hideCustomKeys(s)
+
+	return s
 }
 
 var dateMatcher = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)
@@ -114,13 +162,25 @@ func hideCustomKeys(s string) string {
 	})
 }
 
-func HideURLData(s string) string {
-	return HideBaseRequestURL(s)
+func HideURLData(azureIDs creds.AzureIDs, s string) string {
+	s = hideBaseRequestURL(s)
+
+	s = strings.ReplaceAll(s, azureIDs.SubscriptionID, nilGuid)
+
+	// Hide the tenant ID
+	s = strings.ReplaceAll(s, azureIDs.TenantID, nilGuid)
+
+	// Hide the billing ID
+	if azureIDs.BillingInvoiceID != "" {
+		s = strings.ReplaceAll(s, azureIDs.BillingInvoiceID, creds.DummyBillingId)
+	}
+
+	return s
 }
 
 // baseURLMatcher matches the base part of a URL
 var baseURLMatcher = regexp.MustCompile(`^https://[^/]+/`)
 
-func HideBaseRequestURL(s string) string {
+func hideBaseRequestURL(s string) string {
 	return baseURLMatcher.ReplaceAllLiteralString(s, `https://management.azure.com/`)
 }
