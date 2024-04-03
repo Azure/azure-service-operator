@@ -16,6 +16,7 @@ import (
 	"github.com/pkg/errors"
 	"gopkg.in/dnaeon/go-vcr.v3/cassette"
 
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -74,7 +75,7 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 
 		// Apply the same body filtering that we do in recordings so that the diffs don't show things
 		// that we've just removed
-		sentBodyString = vcr.HideRecordingData(string(bodyBytes))
+		sentBodyString = vcr.HideRecordingData(creds.DummyAzureIDs(), string(bodyBytes))
 	}
 
 	// find all request bodies for the specified method/URL combination
@@ -125,7 +126,7 @@ func (w errorTranslation) findMatchingBodies(r *http.Request) []string {
 	urlString := r.URL.String()
 	var result []string
 	for _, interaction := range w.ensureCassette().Interactions {
-		if urlString == interaction.Request.RequestURI && r.Method == interaction.Request.Method &&
+		if urlString == interaction.Request.URL && r.Method == interaction.Request.Method &&
 			r.Header.Get(COUNT_HEADER) == interaction.Request.Headers.Get(COUNT_HEADER) {
 			result = append(result, interaction.Request.Body)
 		}

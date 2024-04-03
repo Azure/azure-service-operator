@@ -19,6 +19,7 @@ import (
 
 	"github.com/go-logr/logr"
 
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 )
 
@@ -162,6 +163,7 @@ func Test_ReplayRoundTripper_WhenCombinedWithTrackingRoundTripper_GivesDesiredRe
 
 	// Act
 	replayer := AddTrackingHeaders(
+		creds.DummyAzureIDs(),
 		NewReplayRoundTripper(fake, logr.Discard()))
 
 	// Assert - first PUT to create the resource works

@@ -14,9 +14,11 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 	"github.com/go-logr/logr"
 	"gopkg.in/dnaeon/go-vcr.v3/cassette"
+
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 )
 
 // replayRoundTripper wraps an inner round tripper and replays requests in order to improve the resilience of ASO tests.
@@ -141,7 +143,7 @@ func (replayer *replayRoundTripper) hashOfBody(request *http.Request) string {
 	}
 
 	// Apply the same body filtering that we do in recordings so that the hash is consistent
-	bodyString := vcr.HideRecordingData(string(body.Bytes()))
+	bodyString := vcr.HideRecordingData(creds.DummyAzureIDs(), string(body.Bytes()))
 
 	// Calculate a hash based on body string
 	hash := sha256.Sum256([]byte(bodyString))
