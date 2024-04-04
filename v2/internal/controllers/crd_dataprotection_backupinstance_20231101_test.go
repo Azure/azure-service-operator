@@ -77,14 +77,14 @@ func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
 	// create vault and policy
 	backupVaultConfigMapName := "backupvault-configmap"
 	backupVaultPrincipalIdKey := "principalId"
-	backupVault := newBackupVault(tc, rg, "asotestbackupvault")
+	backupVault := newBackupVault20231101(tc, rg, "asotestbackupvault")
 	backupVault.Spec.OperatorSpec = &dataprotection.BackupVaultOperatorSpec{
 		ConfigMaps: &dataprotection.BackupVaultOperatorConfigMaps{
 			PrincipalId: &genruntime.ConfigMapDestination{Name: backupVaultConfigMapName, Key: backupVaultPrincipalIdKey},
 		},
 	}
 
-	backupPolicy := newBackupPolicy(tc, backupVault, "asotestbackuppolicy")
+	backupPolicy := newBackupPolicy20231101(tc, backupVault, "asotestbackuppolicy")
 
 	// create storage account and blob container
 

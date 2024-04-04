@@ -13,8 +13,9 @@ import (
 	. "github.com/onsi/gomega"
 
 	// The dataprotection package contains types and functions related to dataprotection resources.
-	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
+	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+
 	// The testcommon package includes common testing utilities.
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	// The to package includes utilities for converting values to pointers.
@@ -43,19 +44,13 @@ func newBackupVault(tc *testcommon.KubePerTestContext, rg *resources.ResourceGro
 						Type:          to.Ptr(dataprotection.StorageSetting_Type_LocallyRedundant),
 					},
 				},
-				SecuritySettings: &dataprotection.SecuritySettings{
-					SoftDeleteSettings: &dataprotection.SoftDeleteSettings{
-						State: to.Ptr(dataprotection.SoftDeleteSettings_State_Off),
-					},
-				},
 			},
 		},
 	}
-
 	return backupVault
 }
 
-func Test_Dataprotection_Backupvault_CRUD(t *testing.T) {
+func Test_Dataprotection_Backupvault_20230101_CRUD(t *testing.T) {
 	// indicates that this test function can run in parallel with other tests
 	t.Parallel()
 
