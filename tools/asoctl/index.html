@@ -30,7 +30,7 @@
 <meta itemprop="name" content="asoctl">
 <meta itemprop="description" content="Azure Service Operator Controller">
 
-<meta itemprop="wordCount" content="930">
+<meta itemprop="wordCount" content="1023">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="asoctl"/>
 <meta name="twitter:description" content="Azure Service Operator Controller"/>
@@ -110,6 +110,29 @@
   <a href="/azure-service-operator/guide/upgrading/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidefrequently-asked-questions-li">
   <a href="/azure-service-operator/guide/frequently-asked-questions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideasov1-asov2-migration-li">
+  <a href="/azure-service-operator/guide/asov1-asov2-migration/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideasov1-asov2-migration"><span class="">ASOv1 to ASOv2 migration guide</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql-li">
+  <a href="/azure-service-operator/guide/asov1-asov2-migration/azuresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql"><span class="">Azure SQL</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationdatabaseusers-li">
+  <a href="/azure-service-operator/guide/asov1-asov2-migration/databaseusers/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationdatabaseusers"><span class="">Database Users</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationeventhub-li">
+  <a href="/azure-service-operator/guide/asov1-asov2-migration/eventhub/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationeventhub"><span class="">EventHub</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationmysql-li">
+  <a href="/azure-service-operator/guide/asov1-asov2-migration/mysql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationmysql"><span class="">MySQL</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationpostgresql-li">
+  <a href="/azure-service-operator/guide/asov1-asov2-migration/postgresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationpostgresql"><span class="">PostgreSQL</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationredis-li">
+  <a href="/azure-service-operator/guide/asov1-asov2-migration/redis/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationredis"><span class="">Redis</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationstorage-li">
+  <a href="/azure-service-operator/guide/asov1-asov2-migration/storage/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationstorage"><span class="">Storage Account</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer-li">
+  <a href="/azure-service-operator/guide/asov1-asov2-migration/storagecontainer/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer"><span class="">Storage Container</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideuninstalling-li">
+  <a href="/azure-service-operator/guide/uninstalling/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideuninstalling"><span class="">Uninstalling</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations understood by the operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideauthentication-li">
@@ -156,8 +179,6 @@
   <a href="/azure-service-operator/guide/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemetrics"><span class="">Metrics</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconfigmaps-li">
   <a href="/azure-service-operator/guide/configmaps/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideuninstalling-li">
-  <a href="/azure-service-operator/guide/uninstalling/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideuninstalling"><span class="">Uninstalling</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatortutorials-li">
@@ -840,10 +861,15 @@ Usage:
   asoctl import azure-resource &lt;ARM/ID/of/resource&gt; <span style="color:#f92672">[</span>flags<span style="color:#f92672">]</span>
 
 Flags:
-  -h, --help            help <span style="color:#66d9ef">for</span> azure-resource
-  -o, --output string   Write ARM resource CRD to a file
+  -a, --annotations strings    Add the specified annotations to the imported resources. Multiple comma-separated annotations can be specified <span style="color:#f92672">(</span>example.com/myannotation<span style="color:#f92672">=</span>foo,example.com/myannotation2<span style="color:#f92672">=</span>bar<span style="color:#f92672">)</span> or the --annotations <span style="color:#f92672">(</span>-a<span style="color:#f92672">)</span> argument can be used multiple times <span style="color:#f92672">(</span>-a example.com/myannotation<span style="color:#f92672">=</span>foo -a example.com/myannotation2<span style="color:#f92672">=</span>bar<span style="color:#f92672">)</span>
+  -h, --help                   help <span style="color:#66d9ef">for</span> azure-resource
+  -l, --labels strings         Add the specified labels to the imported resources. Multiple comma-separated labels can be specified <span style="color:#f92672">(</span>example.com/mylabel<span style="color:#f92672">=</span>foo,example.com/mylabel2<span style="color:#f92672">=</span>bar<span style="color:#f92672">)</span> or the --labels <span style="color:#f92672">(</span>-l<span style="color:#f92672">)</span> argument can be used multiple times <span style="color:#f92672">(</span>-l example.com/mylabel<span style="color:#f92672">=</span>foo -l example.com/mylabel2<span style="color:#f92672">=</span>bar<span style="color:#f92672">)</span>
+  -n, --namespace string       Write the imported resources to the specified namespace
+  -o, --output string          Write ARM resource CRDs to a single file
+  -f, --output-folder string   Write ARM resource CRDs to individual files in a folder
 
 Global Flags:
+      --quiet     Silence most logging
       --verbose   Enable verbose logging
 </code></pre></div><p>The <code>asoctl import azure-resource</code> command will accept any number of ARM resource Ids.</p>
 <p>Each ARM resource will be scanned for supported child or extension resources, and all the results combined together into a single YAML file. If <code>asoctl</code> encounters a resource type that it doesn&rsquo;t support, details will be logged.</p>

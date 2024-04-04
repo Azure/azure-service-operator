@@ -14,9 +14,13 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/frequently-asked-questions/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/tools/asoctl/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/uninstalling/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tools/generator/</loc>
   </url><url>
@@ -116,6 +120,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/azuresql/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/v1api20210101/</loc>
@@ -196,6 +202,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/defaulter-validator/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/databaseusers/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/datafactory/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/datafactory/v1api20180601/</loc>
@@ -245,6 +253,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/eventgrid/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/eventgrid/v1api20200601/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/eventhub/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/eventhub/</loc>
   </url><url>
@@ -298,6 +308,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/authentication/multitenant-deployment/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/mysql/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network.frontdoor/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/</loc>
@@ -319,6 +331,10 @@
     <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights/v1api20210601/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/postgresql/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/redis/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/authentication/reducing-access/</loc>
   </url><url>
@@ -358,6 +374,10 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/storage/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/storagecontainer/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v1api20210401/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v1api20220901/</loc>
@@ -383,8 +403,6 @@
     <loc>https://azure.github.io/azure-service-operator/tutorials/tutorial-redis/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/uninstalling/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/web/</loc>
   </url><url>

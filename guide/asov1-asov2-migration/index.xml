@@ -1,0 +1,439 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Azure Service Operator – ASOv1 to ASOv2 migration guide</title>
+    <link>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/</link>
+    <description>Recent content in ASOv1 to ASOv2 migration guide on Azure Service Operator</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	  <atom:link href="https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Guide: Azure SQL</title>
+      <link>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/azuresql/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/azuresql/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;secrets&#34;&gt;Secrets&lt;/h2&gt;
+&lt;p&gt;ASOv1 &lt;code&gt;AzureSqlServer&lt;/code&gt; creates a Kubernetes secret associated with the SQL server:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl get secrets -n ns1
+
+azuresqlserver-azuresql-migration-sample-1   Opaque   5      22h
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This secret has the following 5 keys:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Key&lt;/th&gt;
+&lt;th&gt;Source&lt;/th&gt;
+&lt;th&gt;ASOv2 equivalent&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;azureSqlServerName&lt;/td&gt;
+&lt;td&gt;User&lt;/td&gt;
+&lt;td&gt;None (see &lt;code&gt;.spec.operatorSpec.configMaps.fullyQualifiedDomainName&lt;/code&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;fullyQualifiedServerName&lt;/td&gt;
+&lt;td&gt;Azure&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.spec.operatorSpec.configMaps.fullyQualifiedDomainName&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;fullyQualifiedUsername&lt;/td&gt;
+&lt;td&gt;ASOv1 generated&lt;/td&gt;
+&lt;td&gt;None&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;password&lt;/td&gt;
+&lt;td&gt;ASOv1 generated&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.spec.administratorPassword&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;username&lt;/td&gt;
+&lt;td&gt;ASOv1 generated&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.spec.administratorLogin&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Unlike ASOv1, ASOv2 does not automatically generate any usernames or passwords. It is up to you to manage and generate
+usernames and passwords. You can continue using the ASOv1 generated username and password when you switch from ASOv1 to ASOv2,
+as shown below.&lt;/p&gt;
+&lt;p&gt;Example ASOv2 YAML snippet for exporting FQDN to configmap:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#f92672&#34;&gt;operatorSpec&lt;/span&gt;:
+    &lt;span style=&#34;color:#f92672&#34;&gt;configMaps&lt;/span&gt;:
+      &lt;span style=&#34;color:#f92672&#34;&gt;fullyQualifiedDomainName&lt;/span&gt;:
+        &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;azuresqlserver-azuresql-migration-sample-1-asov2&lt;/span&gt;
+        &lt;span style=&#34;color:#f92672&#34;&gt;key&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;fullyQualifiedServerName&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Example ASOv2 YAML snippet for configuring the server username and password:&lt;/p&gt;
+&lt;p&gt;ASOv2 doesn&amp;rsquo;t classify the administrator account name as a secret, so it will be automatically
+included in the YAML after running &lt;code&gt;asoctl&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;We recommend making a &lt;em&gt;new&lt;/em&gt; secret containing just the server password. You can produce this secret by copying
+the value from the ASOv1 secret &lt;code&gt;password&lt;/code&gt; key into a new secret. In this example we&amp;rsquo;d create a new secret named
+&lt;code&gt;azuresqlserver-azuresql-migration-sample-admin-pw&lt;/code&gt; containing the &lt;code&gt;password&lt;/code&gt; key with value from the ASOv1 secret
+&lt;code&gt;azuresqlserver-azuresql-migration-sample-1&lt;/code&gt; &lt;code&gt;password&lt;/code&gt; key.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#f92672&#34;&gt;administratorLogin&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;myusername &lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# This value will be automatically populated by asoctl&lt;/span&gt;
+  &lt;span style=&#34;color:#f92672&#34;&gt;administratorLoginPassword&lt;/span&gt;: 
+    &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;azuresqlserver-azuresql-migration-sample-admin-pw&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;key&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;password&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Once you&amp;rsquo;ve applied the above, make sure to update your applications to depend on the new configmap
+written by ASOv2 (&lt;code&gt;azuresqlserver-azuresql-migration-sample-1-asov2&lt;/code&gt;), and the new secret written by you
+(&lt;code&gt;azuresqlserver-azuresql-migration-sample-admin-pw&lt;/code&gt;).&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Guide: Database Users</title>
+      <link>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/databaseusers/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/databaseusers/</guid>
+      <description>
+        
+        
+        &lt;p&gt;ASOv1 supports 3 types of database user:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Azure SQL&lt;/li&gt;
+&lt;li&gt;MySQL&lt;/li&gt;
+&lt;li&gt;PostgreSQL&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Unlike other resources, these users do not exist as first class entities in the Azure API. This means
+that &lt;code&gt;asoctl&lt;/code&gt; will not import them.&lt;/p&gt;
+&lt;p&gt;To migrate database users from ASOv1 to ASOv2, you must manually transform the ASOv1 DatabaseUser shape
+into the ASOv2 shape.&lt;/p&gt;
+&lt;h2 id=&#34;azure-sql&#34;&gt;Azure SQL&lt;/h2&gt;
+&lt;p&gt;ASOv1 &lt;code&gt;AzureSQLUser&lt;/code&gt; &lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/config/samples/azure_v1alpha1_azuresqluser.yaml&#34;&gt;example&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;ASOv2 &lt;code&gt;sql.azure.com/User&lt;/code&gt; &lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/v2/samples/sql/v1api/v1api/v1_user.yaml&#34;&gt;example&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;mysql&#34;&gt;MySQL&lt;/h2&gt;
+&lt;p&gt;ASOv1 &lt;code&gt;MySQLUser&lt;/code&gt; &lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/config/samples/azure_v1alpha2_mysqluser.yaml&#34;&gt;example&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;ASOv1 &lt;code&gt;MySQLAADUser&lt;/code&gt; &lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/config/samples/azure_v1alpha2_mysqlaaduser.yaml&#34;&gt;example&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;ASOv2 &lt;code&gt;dbformysql.azure.com/User&lt;/code&gt; &lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api/v1_user.yaml&#34;&gt;example&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;ASOv2 &lt;code&gt;dbformysql.azure.com/User&lt;/code&gt; in AAD configuration &lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api/v1_user_aad.yaml&#34;&gt;example&lt;/a&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Note that MySQL Flexible server has certain requirements for how it is set up to work with AAD &lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api/v1_user_aad.yaml#L3&#34;&gt;here&lt;/a&gt;.
+So not only do you need to create the user in ASOv2 you must also ensure that the FlexibleServer has the right
+&lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api/v1api20220101_flexibleserversadministrator.yaml&#34;&gt;FlexibleServerAdministrator&lt;/a&gt; configured, with the right permissions.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;postgresql&#34;&gt;PostgreSQL&lt;/h2&gt;
+&lt;p&gt;ASOv1 &lt;code&gt;PostgreSQLUser&lt;/code&gt; &lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/config/samples/azure_v1alpha1_postgresqluser.yaml&#34;&gt;example&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;ASOv2 &lt;code&gt;dbforpostgresql.azure.com/User&lt;/code&gt; &lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbforpostgresql/v1api/v1_user.yaml&#34;&gt;example&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Guide: EventHub</title>
+      <link>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/eventhub/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/eventhub/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;secrets&#34;&gt;Secrets&lt;/h2&gt;
+&lt;p&gt;ASOv1 &lt;code&gt;EventHubs&lt;/code&gt; save a Kubernetes secret:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl get secrets -n ns1
+
+eventhub-eventhub-sample-1                   Opaque   7      22h
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This secret has the following 7 keys:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Key&lt;/th&gt;
+&lt;th&gt;Source&lt;/th&gt;
+&lt;th&gt;ASOv2 equivalent&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;eventhubName&lt;/td&gt;
+&lt;td&gt;User&lt;/td&gt;
+&lt;td&gt;None&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;eventhubNamespace&lt;/td&gt;
+&lt;td&gt;User&lt;/td&gt;
+&lt;td&gt;None&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;primaryConnectionString&lt;/td&gt;
+&lt;td&gt;Azure&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.spec.operatorSpec.secrets.primaryConnectionString&lt;/code&gt; (added in ASO v2.7.0)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;primaryKey&lt;/td&gt;
+&lt;td&gt;Azure&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.spec.operatorSpec.secrets.primaryKey&lt;/code&gt; (added in ASO v2.7.0)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;secondaryConnectionString&lt;/td&gt;
+&lt;td&gt;Azure&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.spec.operatorSpec.secrets.secondaryConnectionString&lt;/code&gt; (added in ASO v2.7.0)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;secondaryKey&lt;/td&gt;
+&lt;td&gt;Azure&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.spec.operatorSpec.secrets.secondaryKey&lt;/code&gt; (added in ASO v2.7.0)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;sharedaccessKey&lt;/td&gt;
+&lt;td&gt;Azure&lt;/td&gt;
+&lt;td&gt;None, see ASOv2 &lt;a href=&#34;https://azure.github.io/azure-service-operator/reference/eventhub/v1api20211101/#eventhub.azure.com/v1api20211101.NamespacesAuthorizationRule&#34;&gt;NamespacesAuthorizationRules&lt;/a&gt; for exporting keys for any authorization rule except the default &lt;code&gt;RootManageSharedAccessKey&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Guide: MySQL</title>
+      <link>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/mysql/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/mysql/</guid>
+      <description>
+        
+        
+        &lt;p&gt;ASOv1 supports MySQL single server, which is
+&lt;a href=&#34;https://learn.microsoft.com/azure/mysql/single-server/whats-happening-to-mysql-single-server&#34;&gt;being deprecated&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;ASOv2 does &lt;em&gt;not&lt;/em&gt; support MySQL single server, but it does support MySQL Flexible Server (the single server replacement).&lt;/p&gt;
+&lt;p&gt;Migration from ASOv1 to ASOv2 for these resources is a two-step process:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Migrate from Single Server to Flexible Server.&lt;/li&gt;
+&lt;li&gt;Import the Flexible Server into ASOv2.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;migrate-from-single-server-to-flexible-server&#34;&gt;Migrate from Single Server to Flexible Server&lt;/h3&gt;
+&lt;p&gt;Annotate your ASOv1 MySQL single servers in Kubernetes with the &lt;code&gt;skipreconcile=true&lt;/code&gt; annotation, and then
+follow the &lt;a href=&#34;https://learn.microsoft.com/azure/mysql/single-server/whats-happening-to-mysql-single-server#migrate-from-single-server-to-flexible-server&#34;&gt;migration guide&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Once the migration has been complete, use &lt;a href=&#34;../../../tools/asoctl/&#34;&gt;asoctl&lt;/a&gt; to import the new Flexible Server resource from
+Azure following the standard process defined in the &lt;a href=&#34;../&#34;&gt;ASOv1 to ASOv2 migration guide&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;secrets&#34;&gt;Secrets&lt;/h2&gt;
+&lt;p&gt;ASOv1 &lt;code&gt;MySQLServer&lt;/code&gt; saves a Kubernetes secret:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl get secrets -n ns1
+
+mysqlserver-mysqlserver-migration           Opaque   5      17h
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This secret has the following 5 keys:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Key&lt;/th&gt;
+&lt;th&gt;Source&lt;/th&gt;
+&lt;th&gt;ASOv2 equivalent&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;fullyQualifiedServerName&lt;/td&gt;
+&lt;td&gt;User&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.spec.operatorSpec.secrets.fullyQualifiedDomainName&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;fullyQualifiedUsername&lt;/td&gt;
+&lt;td&gt;User&lt;/td&gt;
+&lt;td&gt;None&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;mySqlServerName&lt;/td&gt;
+&lt;td&gt;User&lt;/td&gt;
+&lt;td&gt;None (see &lt;code&gt;.spec.operatorSpec.secrets.fullyQualifiedDomainName&lt;/code&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;password&lt;/td&gt;
+&lt;td&gt;ASOv1 generated&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.spec.administratorLoginPassword&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;username&lt;/td&gt;
+&lt;td&gt;ASOv1 generated&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.spec.operatorSpec.configMaps.administratorLogin&lt;/code&gt; (added in ASO v2.7.0)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Guide: PostgreSQL</title>
+      <link>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/postgresql/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/postgresql/</guid>
+      <description>
+        
+        
+        &lt;p&gt;ASOv1 supports PostgreSQL single server, which is
+&lt;a href=&#34;https://azure.microsoft.com/updates/azure-database-for-postgresql-single-server-will-be-retired-migrate-to-flexible-server-by-28-march-2025/&#34;&gt;being deprecated&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;ASOv2 does &lt;em&gt;not&lt;/em&gt; support PostgreSQL single server, but it does support PostgreSQL Flexible Server
+(the single server replacement).&lt;/p&gt;
+&lt;p&gt;Migration from ASOv1 to ASOv2 for these resources is a two-step process:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Migrate from Single Server to Flexible Server.&lt;/li&gt;
+&lt;li&gt;Import the Flexible Server into ASOv2.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;migrate-from-single-server-to-flexible-server&#34;&gt;Migrate from Single Server to Flexible Server&lt;/h3&gt;
+&lt;p&gt;Annotate your ASOv1 PostgreSQL single servers in Kubernetes with the &lt;code&gt;skipreconcile=true&lt;/code&gt; annotation,
+and then follow the
+&lt;a href=&#34;https://learn.microsoft.com/azure/postgresql/migrate/migration-service/concepts-migration-service-postgresql&#34;&gt;migration guide&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Once the migration has been complete, use &lt;a href=&#34;../../../tools/asoctl/&#34;&gt;asoctl&lt;/a&gt; to import the new Flexible Server resource from
+Azure following the standard process defined in the &lt;a href=&#34;../&#34;&gt;ASOv1 to ASOv2 migration guide&lt;/a&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Guide: Redis</title>
+      <link>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/redis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/redis/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;secrets&#34;&gt;Secrets&lt;/h2&gt;
+&lt;p&gt;ASOv1 &lt;code&gt;RedisCaches&lt;/code&gt; save a Kubernetes secret:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl get secrets -n ns1
+
+rediscache-rediscache-sample-1               Opaque   2      9s
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This secret has the following 2 keys:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Key&lt;/th&gt;
+&lt;th&gt;Source&lt;/th&gt;
+&lt;th&gt;ASOv2 equivalent&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;primaryKey&lt;/td&gt;
+&lt;td&gt;Azure&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.spec.operatorSpec.secrets.primaryKey&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;secondaryKey&lt;/td&gt;
+&lt;td&gt;Azure&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.spec.operatorSpec.secrets.secondaryKey&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Example ASOv2 YAML snippet:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#f92672&#34;&gt;operatorSpec&lt;/span&gt;:
+    &lt;span style=&#34;color:#f92672&#34;&gt;secrets&lt;/span&gt;:
+      &lt;span style=&#34;color:#f92672&#34;&gt;primaryKey&lt;/span&gt;:
+        &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;rediscache-rediscache-sample-1-asov2&lt;/span&gt;
+        &lt;span style=&#34;color:#f92672&#34;&gt;key&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;primarykey&lt;/span&gt;
+      &lt;span style=&#34;color:#f92672&#34;&gt;key1&lt;/span&gt;:
+        &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;rediscache-rediscache-sample-1-asov2&lt;/span&gt;
+        &lt;span style=&#34;color:#f92672&#34;&gt;key&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;secondaryKey&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Once you&amp;rsquo;ve applied the above, make sure to update your applications to depend on the new secret
+written by ASOv2.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Guide: Storage Account</title>
+      <link>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/storage/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/storage/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;secrets&#34;&gt;Secrets&lt;/h2&gt;
+&lt;p&gt;ASOv1 &lt;code&gt;StorageAccounts&lt;/code&gt; save a Kubernetes secret:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl get secrets -n ns1
+
+storageaccount-cutoverteststorage1           Opaque   5      17h
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This secret has the following 5 keys:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Key&lt;/th&gt;
+&lt;th&gt;Source&lt;/th&gt;
+&lt;th&gt;ASOv2 equivalent&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;StorageAccountName&lt;/td&gt;
+&lt;td&gt;User&lt;/td&gt;
+&lt;td&gt;None&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;connectionString0&lt;/td&gt;
+&lt;td&gt;Azure&lt;/td&gt;
+&lt;td&gt;None (see &lt;code&gt;.spec.operatorSpec.secrets.key1&lt;/code&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;key0&lt;/td&gt;
+&lt;td&gt;Azure&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.spec.operatorSpec.secrets.key1&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;connectionString1&lt;/td&gt;
+&lt;td&gt;Azure&lt;/td&gt;
+&lt;td&gt;None (see &lt;code&gt;.spec.operatorSpec.secrets.key2&lt;/code&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;key1&lt;/td&gt;
+&lt;td&gt;Azure&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.spec.operatorSpec.secrets.key2&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Instead of full connection strings, ASOv2 exposes individual endpoints such as &lt;code&gt;blobEndpoint&lt;/code&gt;, which you can use to
+craft a connection string.&lt;/p&gt;
+&lt;p&gt;Example ASOv2 YAML snippet:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;spec&lt;/span&gt;:
+  &lt;span style=&#34;color:#f92672&#34;&gt;operatorSpec&lt;/span&gt;:
+    &lt;span style=&#34;color:#f92672&#34;&gt;secrets&lt;/span&gt;:
+      &lt;span style=&#34;color:#f92672&#34;&gt;blobEndpoint&lt;/span&gt;:
+        &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;storageaccount-cutoverteststorage1-asov2&lt;/span&gt;
+        &lt;span style=&#34;color:#f92672&#34;&gt;key&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;blobEndpoint&lt;/span&gt;
+      &lt;span style=&#34;color:#f92672&#34;&gt;key1&lt;/span&gt;:
+        &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;storageaccount-cutoverteststorage1-asov2&lt;/span&gt;
+        &lt;span style=&#34;color:#f92672&#34;&gt;key&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;key0 &lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# Matches the name the ASOv1 generated secret used&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Once you&amp;rsquo;ve applied the above, make sure to update your applications to depend on the new secret
+written by ASOv2.&lt;/p&gt;
+&lt;p&gt;TODO: How to work around connection string issues?&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;init container? &lt;a href=&#34;https://stackoverflow.com/questions/77748779/how-to-prepare-environment-variables-with-init-containers-in-a-kubernetes-deploy&#34;&gt;https://stackoverflow.com/questions/77748779/how-to-prepare-environment-variables-with-init-containers-in-a-kubernetes-deploy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Support &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/3446?&#34;&gt;https://github.com/Azure/azure-service-operator/issues/3446?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Modify the command of the container itself to run a script first?&lt;/li&gt;
+&lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Guide: Storage Container</title>
+      <link>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/storagecontainer/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/guide/asov1-asov2-migration/storagecontainer/</guid>
+      <description>
+        
+        
+        &lt;p&gt;No additional handling is needed above what &lt;code&gt;asoctl&lt;/code&gt; automatically imports. Just apply the imported resource!&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
