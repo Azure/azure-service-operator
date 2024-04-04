@@ -7,6 +7,7 @@ package customizations
 
 import (
 	"context"
+	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos"
 	"github.com/go-logr/logr"
@@ -20,6 +21,8 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
@@ -120,4 +123,43 @@ func secretsToWrite(obj *documentdb.DatabaseAccount, accessKeys armcosmos.Databa
 	collector.AddValue(operatorSpecSecrets.DocumentEndpoint, to.Value(obj.Status.DocumentEndpoint))
 
 	return collector.Values()
+}
+
+var _ extensions.ErrorClassifier = &DatabaseAccountExtension{}
+
+// ClassifyError evaluates the provided error, returning whether it is fatal or can be retried.
+// A "ServiceUnavailable" error would usually be retryable, but in the case of DatabaseAccount, when coupled with
+// a "high demand" message, it means that the region is capacity constrained and cannot have DatabseAccounts allocated.
+// If we retry on this error CosmosDB will start returning a new BadRequest error stating
+// DatabaseAccount is in a failed provisioning state because the previous attempt to create it was not successful.
+// Please delete the previous instance before attempting to recreate this account."
+// Since we can't retry anyway, we mark the original ServiceUnavailable error as fatal so the user has a clearer error message.
+// cloudError is the error returned from ARM.
+// apiVersion is the ARM API version used for the request.
+// log is a logger than can be used for telemetry.
+// next is the next implementation to call.
+func (ext *DatabaseAccountExtension) ClassifyError(
+	cloudError *genericarmclient.CloudError,
+	apiVersion string,
+	log logr.Logger,
+	next extensions.ErrorClassifierFunc,
+) (core.CloudErrorDetails, error) {
+	details, err := next(cloudError)
+	if err != nil {
+		return core.CloudErrorDetails{}, err
+	}
+
+	if isCapacityError(cloudError) {
+		details.Classification = core.ErrorFatal
+	}
+
+	return details, nil
+}
+
+func isCapacityError(err *genericarmclient.CloudError) bool {
+	if err == nil {
+		return false
+	}
+
+	return err.Code() == "ServiceUnavailable" && strings.Contains(err.Message(), "currently experiencing high demand")
 }
