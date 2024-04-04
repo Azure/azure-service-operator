@@ -51,13 +51,13 @@ func GetPollerResumeToken(obj genruntime.MetaObject, log logr.Logger) (string, b
 }
 
 func SetPollerResumeToken(obj genruntime.MetaObject, token string, log logr.Logger) {
-	log.V(Debug).Info("########################## SetPollerResumeToken ##########################")
+	log.V(Debug).Info("SetPollerResumeToken")
 	genruntime.AddAnnotation(obj, BackupInstancePollerResumeTokenAnnotation, token)
 }
 
 // ClearPollerResumeToken clears the poller resume token and ID annotations
 func ClearPollerResumeToken(obj genruntime.MetaObject, log logr.Logger) {
-	log.V(Debug).Info("########################## ClearPollerResumeToken ##########################")
+	log.V(Debug).Info("ClearPollerResumeToken")
 	genruntime.RemoveAnnotation(obj, BackupInstancePollerResumeTokenAnnotation)
 }
 
@@ -70,7 +70,7 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 	log logr.Logger,
 	next extensions.PostReconcileCheckFunc,
 ) (extensions.PostReconcileCheckResult, error) {
-	log.V(Debug).Info("########################## Starting Post-reconcilation for Backup Instance ##########################")
+	log.V(Debug).Info("Starting Post-reconcilation for Backup Instance")
 	backupInstance, ok := obj.(*dataprotection.BackupVaultsBackupInstance)
 	if !ok {
 		return extensions.PostReconcileCheckResult{},
@@ -89,11 +89,11 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 		backupInstance.Status.Properties.ProtectionStatus.Status != nil {
 
 		protectionStatus := *backupInstance.Status.Properties.ProtectionStatus.Status
-		log.V(Debug).Info(fmt.Sprintf("########################## Protection Status is  %q ##########################", protectionStatus))
+		log.V(Debug).Info(fmt.Sprintf("Protection Status is  %q", protectionStatus))
 
 		// return success for reconcilation if the state is non-retryable
 		if nonRetryableStates.Contains(protectionStatus) {
-			log.V(Debug).Info("########################## Returning PostReconcileCheckResultSuccess ##########################")
+			log.V(Debug).Info("Returning PostReconcileCheckResultSuccess")
 			return extensions.PostReconcileCheckResultSuccess(), nil
 		}
 
@@ -101,7 +101,7 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 		if protectionStatus == "ProtectionError" {
 			var protectionStatusErrorCode string
 			protectionStatusErrorCode = strings.ToLower(*backupInstance.Status.Properties.ProtectionStatus.ErrorDetails.Code)
-			log.V(Debug).Info(fmt.Sprintf("########################## Protection Error code is  %q ##########################", protectionStatusErrorCode))
+			log.V(Debug).Info(fmt.Sprintf("Protection Error code is  %q", protectionStatusErrorCode))
 
 			if protectionStatusErrorCode != "" && strings.Contains(protectionStatusErrorCode, "usererror") {
 				id, _ := genruntime.GetAndParseResourceID(backupInstance)
@@ -122,7 +122,7 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 
 				// BeginSyncBackupInstance is in-progress - poller resume token is available
 
-				log.V(Debug).Info("########################## Starting BeginSyncBackupInstance ##########################")
+				log.V(Debug).Info("Starting BeginSyncBackupInstance")
 
 				poller, err := clientFactory.NewBackupInstancesClient().BeginSyncBackupInstance(ctx, rg, vaultName, backupInstance.AzureName(), parameters, &armdataprotection.BackupInstancesClientBeginSyncBackupInstanceOptions{
 					ResumeToken: pollerResumeToken,
@@ -146,14 +146,14 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 				}
 
 				if poller.Done() {
-					log.V(Debug).Info("########################## Polling is completed ##########################")
+					log.V(Debug).Info("Polling is completed")
 					ClearPollerResumeToken(obj, log)
 					_, err := poller.Result(ctx)
 					if err != nil {
 						return extensions.PostReconcileCheckResultFailure("couldn't create PUT resume token for resource"), err
 					}
 				}
-				log.V(Debug).Info("########################## Polling is in-progress ##########################")
+				log.V(Debug).Info("Polling is in-progress")
 			}
 		}
 	}
@@ -169,7 +169,7 @@ func (ext *BackupVaultsBackupInstanceExtension) PreReconcileCheck(
 	log logr.Logger,
 	_ extensions.PreReconcileCheckFunc,
 ) (extensions.PreReconcileCheckResult, error) {
-	log.V(Debug).Info("########################## Starting Pre-reconcilation for Backup Instance ##########################")
+	log.V(Debug).Info("Starting Pre-reconcilation for Backup Instance")
 	backupInstance, ok := obj.(*dataprotection.BackupVaultsBackupInstance)
 	if !ok {
 		return extensions.PreReconcileCheckResult{},
@@ -180,7 +180,7 @@ func (ext *BackupVaultsBackupInstanceExtension) PreReconcileCheck(
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = backupInstance
 
-	log.V(Debug).Info("########################## Ending Pre-reconcilation for Backup Instance ##########################")
+	log.V(Debug).Info("Ending Pre-reconcilation for Backup Instance")
 
 	return extensions.ProceedWithReconcile(), nil
 }
