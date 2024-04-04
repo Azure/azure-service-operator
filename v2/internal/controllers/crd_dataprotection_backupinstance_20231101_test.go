@@ -23,7 +23,7 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 )
 
-func Test_Dataprotection_Backupinstace_CRUD(t *testing.T) {
+func Test_Dataprotection_Backupinstace_20231101_CRUD(t *testing.T) {
 	// indicates that this test function can run in parallel with other tests
 	t.Parallel()
 
