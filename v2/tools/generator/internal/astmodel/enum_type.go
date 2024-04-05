@@ -182,7 +182,7 @@ func (enum *EnumType) createMappingDeclaration(
 	if err != nil {
 		return nil, errors.Wrap(err, "creating name expression")
 	}
-	
+
 	literal := astbuilder.NewMapLiteral(
 		baseTypeExpr,
 		nameExpr)

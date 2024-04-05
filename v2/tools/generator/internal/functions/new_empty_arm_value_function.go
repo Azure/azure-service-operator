@@ -39,7 +39,7 @@ func newEmptyARMValueBody(instanceType astmodel.TypeName) ObjectFunctionHandler 
 		if err != nil {
 			return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
 		}
-		
+
 		receiverTypeExpr := astbuilder.PointerTo(receiverType)
 
 		instance := astbuilder.NewCompositeLiteralBuilder(dst.NewIdent(instanceType.Name()))

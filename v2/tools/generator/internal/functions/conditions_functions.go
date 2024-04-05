@@ -6,8 +6,9 @@
 package functions
 
 import (
-	"github.com/pkg/errors"
 	"go/token"
+
+	"github.com/pkg/errors"
 
 	"github.com/dave/dst"
 
@@ -48,7 +49,7 @@ func GetConditionsFunction(
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating type expression for %s", astmodel.ConditionsType)
 	}
-	
+
 	fn.AddReturn(conditionsTypeExpr)
 
 	return fn.DefineFunc(), nil

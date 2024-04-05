@@ -46,7 +46,7 @@ func createGetSpecFunction(
 	if err != nil {
 		return nil, errors.Wrap(err, "creating type expression for ConvertibleSpecInterface")
 	}
-	
+
 	fn.AddReturn(convertibleSpecInterfaceExpr)
 	fn.AddComments("returns the specification of this resource")
 

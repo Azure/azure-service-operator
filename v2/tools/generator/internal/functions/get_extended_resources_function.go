@@ -6,8 +6,9 @@
 package functions
 
 import (
-	"github.com/pkg/errors"
 	"reflect"
+
+	"github.com/pkg/errors"
 
 	"github.com/dave/dst"
 	"golang.org/x/exp/slices"
@@ -106,7 +107,8 @@ func (ext *GetExtendedResourcesFunction) AsFunc(
 
 	// Iterate through the resourceType versions and add them to the KubernetesResource literal slice
 	for _, resource := range ext.resources {
-		resourceExpr, err := resource.AsTypeExpr(codeGenerationContext)
+		var resourceExpr dst.Expr
+		resourceExpr, err = resource.AsTypeExpr(codeGenerationContext)
 		if err != nil {
 			return nil, errors.Wrapf(err, "creating type expression for %s", resource)
 		}

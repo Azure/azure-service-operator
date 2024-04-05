@@ -7,6 +7,7 @@ package functions
 
 import (
 	"fmt"
+
 	"github.com/pkg/errors"
 
 	"github.com/dave/dst"
@@ -145,7 +146,7 @@ func (fn *ChainedConversionFunction) AsFunc(
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating parameter type expression for %s", parameterName)
 	}
-	
+
 	funcDetails.AddParameter(parameterName, parameterTypeExpr)
 
 	funcDetails.AddReturns("error")
