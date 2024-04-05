@@ -7,18 +7,15 @@ package v3
 
 import (
 	"net/http"
-	"strings"
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/go-logr/logr"
-	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"gopkg.in/dnaeon/go-vcr.v3/cassette"
 	"gopkg.in/dnaeon/go-vcr.v3/recorder"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 )
@@ -32,8 +29,6 @@ type recorderDetails struct {
 	cfg          config.Values
 	log          logr.Logger
 }
-
-var nilGuid = uuid.Nil.String()
 
 func NewTestRecorder(
 	cassetteName string,
@@ -73,9 +68,7 @@ func NewTestRecorder(
 		// if we are replaying, we won't need auth
 		// and we use a dummy subscription ID/tenant ID
 		credentials = creds.MockTokenCredential{}
-		azureIDs.TenantID = nilGuid
-		azureIDs.SubscriptionID = nilGuid
-		azureIDs.BillingInvoiceID = creds.DummyBillingId
+		azureIDs = creds.DummyAzureIDs()
 
 		// Force these values to be the default
 		cfg.ResourceManagerEndpoint = config.DefaultEndpoint
@@ -124,71 +117,19 @@ func NewTestRecorder(
 }
 
 // redactRecording is a BeforeSaveHook that rewrites data in the cassette
-// This incldues hiding the SubscriptionID, TenantID, and BillingInvoiceID, but is not
-// a a security measure but intended to make the tests updateable from
+// This includes hiding the SubscriptionID, TenantID, and BillingInvoiceID. This is
+// to make the tests updatable from
 // any subscription, so a contributor can update the tests against their own sub.
 func redactRecording(
 	azureIDs creds.AzureIDs,
 ) recorder.HookFunc {
-	hide := func(s string, id string, replacement string) string {
-		return strings.ReplaceAll(s, id, replacement)
-	}
-
 	return func(i *cassette.Interaction) error {
-		// Note that this changes the cassette in-place so there's no return needed
-		hideCassetteString := func(cas *cassette.Interaction, id string, replacement string) {
-			i.Request.Body = hide(cas.Request.Body, id, replacement)
-			i.Response.Body = hide(cas.Response.Body, id, replacement)
-			i.Request.URL = hide(cas.Request.URL, id, replacement)
-		}
+		i.Request.Body = vcr.HideRecordingData(azureIDs, i.Request.Body)
+		i.Response.Body = vcr.HideRecordingData(azureIDs, i.Response.Body)
+		i.Request.URL = vcr.HideURLData(azureIDs, i.Request.URL)
 
-		// Hide the subscription ID
-		hideCassetteString(i, azureIDs.SubscriptionID, nilGuid)
-
-		// Hide the tenant ID
-		hideCassetteString(i, azureIDs.TenantID, nilGuid)
-
-		// Hide the billing ID
-		if azureIDs.BillingInvoiceID != "" {
-			hideCassetteString(i, azureIDs.BillingInvoiceID, creds.DummyBillingId)
-		}
-
-		// Hiding other sensitive fields
-		i.Request.Body = vcr.HideRecordingData(i.Request.Body)
-		i.Response.Body = vcr.HideRecordingData(i.Response.Body)
-		i.Request.URL = vcr.HideURLData(i.Request.URL)
-
-		// Hide sensitive request headers
-		for _, values := range i.Request.Headers {
-			for i := range values {
-				values[i] = hide(values[i], azureIDs.SubscriptionID, nilGuid)
-				values[i] = hide(values[i], azureIDs.TenantID, nilGuid)
-				if azureIDs.BillingInvoiceID != "" {
-					values[i] = hide(values[i], azureIDs.BillingInvoiceID, creds.DummyBillingId)
-				}
-			}
-		}
-
-		// Hide sensitive response headers
-		for key, values := range i.Response.Headers {
-			for i := range values {
-				values[i] = hide(values[i], azureIDs.SubscriptionID, nilGuid)
-				values[i] = hide(values[i], azureIDs.TenantID, nilGuid)
-				if azureIDs.BillingInvoiceID != "" {
-					values[i] = hide(values[i], azureIDs.BillingInvoiceID, creds.DummyBillingId)
-				}
-			}
-
-			// Hide the base request URL in the AzureOperation and Location headers
-			if key == genericarmclient.AsyncOperationHeader || key == genericarmclient.LocationHeader {
-				for i := range values {
-					values[i] = vcr.HideBaseRequestURL(values[i])
-				}
-			}
-		}
-
-		vcr.RedactRequestHeaders(i.Request.Headers)
-		vcr.RedactResponseHeaders(i.Response.Headers)
+		vcr.RedactRequestHeaders(azureIDs, i.Request.Headers)
+		vcr.RedactResponseHeaders(azureIDs, i.Response.Headers)
 
 		return nil
 	}
@@ -224,7 +165,7 @@ func (r *recorderDetails) IsReplaying() bool {
 func (r *recorderDetails) CreateClient(t *testing.T) *http.Client {
 	withReplay := NewReplayRoundTripper(r.recorder, r.log)
 	withErrorTranslation := translateErrors(withReplay, r.cassetteName, t)
-	withTrackingHeaders := AddTrackingHeaders(withErrorTranslation)
+	withTrackingHeaders := AddTrackingHeaders(r.ids, withErrorTranslation)
 
 	return &http.Client{
 		Transport: withTrackingHeaders,

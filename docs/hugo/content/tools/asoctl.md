@@ -166,10 +166,15 @@ Usage:
   asoctl import azure-resource <ARM/ID/of/resource> [flags]
 
 Flags:
-  -h, --help            help for azure-resource
-  -o, --output string   Write ARM resource CRD to a file
+  -a, --annotations strings    Add the specified annotations to the imported resources. Multiple comma-separated annotations can be specified (example.com/myannotation=foo,example.com/myannotation2=bar) or the --annotations (-a) argument can be used multiple times (-a example.com/myannotation=foo -a example.com/myannotation2=bar)
+  -h, --help                   help for azure-resource
+  -l, --labels strings         Add the specified labels to the imported resources. Multiple comma-separated labels can be specified (example.com/mylabel=foo,example.com/mylabel2=bar) or the --labels (-l) argument can be used multiple times (-l example.com/mylabel=foo -l example.com/mylabel2=bar)
+  -n, --namespace string       Write the imported resources to the specified namespace
+  -o, --output string          Write ARM resource CRDs to a single file
+  -f, --output-folder string   Write ARM resource CRDs to individual files in a folder
 
 Global Flags:
+      --quiet     Silence most logging
       --verbose   Enable verbose logging
 ```
 

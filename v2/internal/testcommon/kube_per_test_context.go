@@ -726,9 +726,12 @@ type Subtest struct {
 func (tc *KubePerTestContext) RunSubtests(tests ...Subtest) {
 	for _, test := range tests {
 		test := test
-		tc.T.Run(test.Name, func(t *testing.T) {
+		passed := tc.T.Run(test.Name, func(t *testing.T) {
 			test.Test(tc.Subtest(t))
 		})
+		if !passed {
+			tc.T.Fatalf("subtest %s failed", test.Name)
+		}
 	}
 }
 
@@ -741,15 +744,22 @@ func (tc *KubePerTestContext) RunParallelSubtests(tests ...Subtest) {
 	// so "subtests" will run and complete, then all the subtests will run
 	// in parallel, and then "subtests" will finish. ¯\_(ツ)_/¯
 	// See: https://blog.golang.org/subtests#TOC_7.2.
+	allPassed := true
 	tc.T.Run("subtests", func(t *testing.T) {
 		for _, test := range tests {
 			test := test
-			t.Run(test.Name, func(t *testing.T) {
+			passed := t.Run(test.Name, func(t *testing.T) {
 				t.Parallel()
 				test.Test(tc.Subtest(t))
 			})
+
+			allPassed = allPassed && passed
 		}
 	})
+
+	if !allPassed {
+		tc.T.Fatalf("one or more subtests failed")
+	}
 }
 
 func (tc *KubePerTestContext) AsExtensionOwner(obj client.Object) *genruntime.ArbitraryOwnerReference {

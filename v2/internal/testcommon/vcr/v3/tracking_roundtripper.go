@@ -13,6 +13,7 @@ import (
 	"net/http"
 	"sync"
 
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/vcr"
 )
 
@@ -35,11 +36,13 @@ type requestCounter struct {
 
 	countsMutex sync.Mutex
 	counts      map[string]uint32
+	azureIDs    creds.AzureIDs
 }
 
-func AddTrackingHeaders(inner http.RoundTripper) *requestCounter {
+func AddTrackingHeaders(ids creds.AzureIDs, inner http.RoundTripper) *requestCounter {
 	return &requestCounter{
 		inner:       inner,
+		azureIDs:    ids,
 		counts:      make(map[string]uint32),
 		countsMutex: sync.Mutex{},
 	}
@@ -94,7 +97,7 @@ func (rt *requestCounter) addContentHeaders(request *http.Request) {
 	}
 
 	// Apply the same body filtering that we do in recordings so that the hash is consistent
-	bodyString := vcr.HideRecordingData(string(body.Bytes()))
+	bodyString := vcr.HideRecordingData(rt.azureIDs, string(body.Bytes()))
 
 	// Calculate a hash based on body string
 	hash := sha256.Sum256([]byte(bodyString))

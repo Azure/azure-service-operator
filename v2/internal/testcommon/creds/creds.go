@@ -10,6 +10,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -65,6 +66,14 @@ func GetCreds() (azcore.TokenCredential, AzureIDs, error) {
 	cachedCreds = creds
 	cachedIds = ids
 	return creds, ids, nil
+}
+
+func DummyAzureIDs() AzureIDs {
+	return AzureIDs{
+		SubscriptionID:   uuid.Nil.String(),
+		TenantID:         uuid.Nil.String(),
+		BillingInvoiceID: DummyBillingId,
+	}
 }
 
 // newScopedCredentialSecret is the internal factory used to create credential secrets
