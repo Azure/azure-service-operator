@@ -12,5 +12,5 @@ spec:
     name: ext-configmap
     key: principalId
   roleDefinitionReference:
-    # This ARM ID represents "StorageBlobDataContributorRole"
-    armId: /subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe
+    # This ARM ID represents "Storage Account Contributor Role"
+    armId: /subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/17d1049b-9a84-46fb-8f53-869881c3d3ab

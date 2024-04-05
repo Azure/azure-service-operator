@@ -24,10 +24,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
 
-var (
-	_ extensions.PreReconciliationChecker  = &BackupVaultsBackupInstanceExtension{}
-	_ extensions.PostReconciliationChecker = &BackupVaultsBackupInstanceExtension{}
-)
+var _ extensions.PostReconciliationChecker = &BackupVaultsBackupInstanceExtension{}
 
 var nonRetryableStates = set.Make(
 	"ConfiguringProtectionFailed",
@@ -45,7 +42,7 @@ const (
 )
 
 func GetPollerResumeToken(obj genruntime.MetaObject, log logr.Logger) (string, bool) {
-	log.V(Debug).Info("########################## GetPollerResumeToken ##########################")
+	log.V(Debug).Info("GetPollerResumeToken")
 	token, hasResumeToken := obj.GetAnnotations()[BackupInstancePollerResumeTokenAnnotation]
 	return token, hasResumeToken
 }
@@ -94,7 +91,7 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 		// return success for reconcilation if the state is non-retryable
 		if nonRetryableStates.Contains(protectionStatus) {
 			log.V(Debug).Info("Returning PostReconcileCheckResultSuccess")
-			return extensions.PostReconcileCheckResultSuccess(), nil
+			return next(ctx, obj, owner, resolver, armClient, log)
 		}
 
 		// call sync api only when protection status is ProtectionError and error code is usererror
@@ -158,29 +155,4 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 		}
 	}
 	return extensions.PostReconcileCheckResultFailure("Backup Instance is in non terminal state"), nil
-}
-
-func (ext *BackupVaultsBackupInstanceExtension) PreReconcileCheck(
-	ctx context.Context,
-	obj genruntime.MetaObject,
-	owner genruntime.MetaObject,
-	_ *resolver.Resolver,
-	armClient *genericarmclient.GenericClient,
-	log logr.Logger,
-	_ extensions.PreReconcileCheckFunc,
-) (extensions.PreReconcileCheckResult, error) {
-	log.V(Debug).Info("Starting Pre-reconcilation for Backup Instance")
-	backupInstance, ok := obj.(*dataprotection.BackupVaultsBackupInstance)
-	if !ok {
-		return extensions.PreReconcileCheckResult{},
-			errors.Errorf("cannot run on unknown resource type %T, expected *dataprotection.BackupVaultsBackupInstance", obj)
-	}
-
-	// Type assert that we are the hub type. This will fail to compile if
-	// the hub type has been changed but this extension has not
-	var _ conversion.Hub = backupInstance
-
-	log.V(Debug).Info("Ending Pre-reconcilation for Backup Instance")
-
-	return extensions.ProceedWithReconcile(), nil
 }
