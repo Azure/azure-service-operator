@@ -108,9 +108,11 @@ func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 	refsSlice := processSamples(samples.RefsMap)
 	samplesSlice := processSamples(samples.SamplesMap)
 
+	combinedSlice := append(refsSlice, samplesSlice...)
+
 	// Check if we have any references for the samples beforehand and Create them
-	tc.CreateResourcesAndWait(refsSlice...)
-	tc.CreateResourcesAndWait(samplesSlice...)
+	tc.CreateResourcesAndWait(combinedSlice...)
+	//tc.CreateResourcesAndWait(samplesSlice...)
 
 	tc.DeleteResourceAndWait(rg)
 }
