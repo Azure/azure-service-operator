@@ -6,10 +6,10 @@
 package astmodel
 
 import (
-	"github.com/pkg/errors"
 	"strings"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 )

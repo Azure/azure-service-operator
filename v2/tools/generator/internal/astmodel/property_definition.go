@@ -7,11 +7,11 @@ package astmodel
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
 	"sort"
 	"strings"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"

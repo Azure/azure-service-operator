@@ -6,7 +6,6 @@
 package astmodel
 
 import (
-	"github.com/pkg/errors"
 	"go/token"
 	"sort"
 	"strings"
@@ -14,6 +13,7 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
