@@ -124,7 +124,10 @@ func (tc *ResourceConversionTestCase) AsFuncs(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 ) ([]dst.Decl, error) {
 	testRunner := tc.createTestRunner(codeGenerationContext)
-	testMethod := tc.createTestMethod(receiver, codeGenerationContext)
+	testMethod, err := tc.createTestMethod(receiver, codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating test method for %s", tc.subject.Name())
+	}
 
 	return []dst.Decl{
 		testRunner,
@@ -265,7 +268,7 @@ func (tc *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.
 func (tc *ResourceConversionTestCase) createTestMethod(
 	subject astmodel.TypeName,
 	codegenContext *astmodel.CodeGenerationContext,
-) dst.Decl {
+) (dst.Decl, error) {
 	const (
 		errId        = "err"
 		hubId        = "hub"
@@ -291,7 +294,11 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 	astbuilder.AddComment(&assignCopied.Decorations().Start, "// Copy subject to make sure conversion doesn't modify it")
 
 	// var hub OtherType
-	hubExpr := tc.toFn.Hub().AsTypeExpr(codegenContext)
+	hubExpr, err := tc.toFn.Hub().AsTypeExpr(codegenContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", tc.toFn.Hub())
+	}
+
 	declareOther := astbuilder.LocalVariableDeclaration(
 		hubId,
 		hubExpr,
@@ -312,7 +319,11 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 		astbuilder.CallQualifiedFunc("err", "Error"))
 
 	// var result OurType
-	subjectExpr := subject.AsTypeExpr(codegenContext)
+	subjectExpr, err := subject.AsTypeExpr(codegenContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", subject)
+	}
+
 	declareResult := astbuilder.LocalVariableDeclaration(
 		actualId,
 		subjectExpr,
@@ -392,14 +403,18 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 			ret),
 	}
 
-	subjectExpr = tc.subject.AsTypeExpr(codegenContext)
+	subjectExpr, err = tc.subject.AsTypeExpr(codegenContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", tc.subject)
+	}
+
 	fn.AddParameter("subject", subjectExpr)
 	fn.AddComments(fmt.Sprintf(
 		"tests if a specific instance of %s round trips to the hub storage version and back losslessly",
 		tc.subject.Name()))
 	fn.AddReturns("string")
 
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 func (tc *ResourceConversionTestCase) idOfTestMethod() string {
