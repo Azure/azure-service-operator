@@ -297,7 +297,7 @@ More information on the naming convention can be found in that folders [README](
 
 ### Record the test passing
 
-See [the code generator README](../#running-integration-tests) for how to run tests and record their HTTP interactions to allow replay.
+See [the code generator test README](../testing/#running-integration-tests) for how to run tests and record their HTTP interactions to allow replay.
 
 ## Add a new sample
 
