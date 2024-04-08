@@ -34,38 +34,45 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── TenantId: *string
 │       └── Type: *string
-└── FlexibleServersConfiguration: Resource
-    ├── Owner: dbformysql/v1api20220101.FlexibleServer
-    ├── Spec: Object (7 properties)
-    │   ├── AzureName: string
-    │   ├── CurrentValue: *string
-    │   ├── OriginalVersion: string
-    │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── Source: *string
-    │   └── Value: *string
-    └── Status: Object (17 properties)
-        ├── AllowedValues: *string
-        ├── Conditions: conditions.Condition[]
-        ├── CurrentValue: *string
-        ├── DataType: *string
-        ├── DefaultValue: *string
-        ├── Description: *string
-        ├── DocumentationLink: *string
-        ├── Id: *string
-        ├── IsConfigPendingRestart: *string
-        ├── IsDynamicConfig: *string
-        ├── IsReadOnly: *string
-        ├── Name: *string
-        ├── PropertyBag: genruntime.PropertyBag
-        ├── Source: *string
-        ├── SystemData: *Object (7 properties)
-        │   ├── CreatedAt: *string
-        │   ├── CreatedBy: *string
-        │   ├── CreatedByType: *string
-        │   ├── LastModifiedAt: *string
-        │   ├── LastModifiedBy: *string
-        │   ├── LastModifiedByType: *string
-        │   └── PropertyBag: genruntime.PropertyBag
-        ├── Type: *string
-        └── Value: *string
+├── FlexibleServersConfiguration: Resource
+│   ├── Owner: dbformysql/v1api20220101.FlexibleServer
+│   ├── Spec: Object (7 properties)
+│   │   ├── AzureName: string
+│   │   ├── CurrentValue: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Source: *string
+│   │   └── Value: *string
+│   └── Status: Object (17 properties)
+│       ├── AllowedValues: *string
+│       ├── Conditions: conditions.Condition[]
+│       ├── CurrentValue: *string
+│       ├── DataType: *string
+│       ├── DefaultValue: *string
+│       ├── Description: *string
+│       ├── DocumentationLink: *string
+│       ├── Id: *string
+│       ├── IsConfigPendingRestart: *string
+│       ├── IsDynamicConfig: *string
+│       ├── IsReadOnly: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Source: *string
+│       ├── SystemData: *Object (7 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Type: *string
+│       └── Value: *string
+├── augmentConversionForFlexibleServersAdministrator: Interface
+├── augmentConversionForFlexibleServersConfiguration: Interface
+├── augmentConversionForFlexibleServers_Administrator_STATUS: Interface
+├── augmentConversionForFlexibleServers_Administrator_Spec: Interface
+├── augmentConversionForFlexibleServers_Configuration_STATUS: Interface
+├── augmentConversionForFlexibleServers_Configuration_Spec: Interface
+└── augmentConversionForSystemData_STATUS: Interface
