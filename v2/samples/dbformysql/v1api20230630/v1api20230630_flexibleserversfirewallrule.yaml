@@ -1,0 +1,10 @@
+apiVersion: dbformysql.azure.com/v1api20230630
+kind: FlexibleServersFirewallRule
+metadata:
+  name: samplemysql-fwrule
+  namespace: default
+spec:
+  owner:
+    name: samplemysql
+  startIpAddress: 1.2.3.4
+  endIpAddress: 1.2.3.4

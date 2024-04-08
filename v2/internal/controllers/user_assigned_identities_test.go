@@ -86,7 +86,7 @@ func Test_MySQLServerWithKubernetesReferenceUserAssignedIdentity(t *testing.T) {
 	adminPasswordKey := "adminPassword"
 	adminPasswordSecretRef := createPasswordSecret(secretName, adminPasswordKey, tc)
 
-	flexibleServer, _ := newFlexibleServer(tc, rg, adminPasswordSecretRef)
+	flexibleServer, _ := newFlexibleServer20210501(tc, rg, adminPasswordSecretRef)
 	flexibleServer.Spec.Identity = &mysql.Identity{
 		Type: to.Ptr(mysql.Identity_Type_UserAssigned),
 		UserAssignedIdentities: []mysql.UserAssignedIdentityDetails{
