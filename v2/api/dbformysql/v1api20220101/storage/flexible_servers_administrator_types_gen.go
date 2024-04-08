@@ -4,19 +4,18 @@
 package storage
 
 import (
+	"fmt"
+	v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=dbformysql.azure.com,resources=flexibleserversadministrators,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=dbformysql.azure.com,resources={flexibleserversadministrators/status,flexibleserversadministrators/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -42,6 +41,28 @@ func (administrator *FlexibleServersAdministrator) GetConditions() conditions.Co
 // SetConditions sets the conditions on the resource status
 func (administrator *FlexibleServersAdministrator) SetConditions(conditions conditions.Conditions) {
 	administrator.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &FlexibleServersAdministrator{}
+
+// ConvertFrom populates our FlexibleServersAdministrator from the provided hub FlexibleServersAdministrator
+func (administrator *FlexibleServersAdministrator) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v20230630s.FlexibleServersAdministrator)
+	if !ok {
+		return fmt.Errorf("expected dbformysql/v1api20230630/storage/FlexibleServersAdministrator but received %T instead", hub)
+	}
+
+	return administrator.AssignProperties_From_FlexibleServersAdministrator(source)
+}
+
+// ConvertTo populates the provided hub FlexibleServersAdministrator from our FlexibleServersAdministrator
+func (administrator *FlexibleServersAdministrator) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v20230630s.FlexibleServersAdministrator)
+	if !ok {
+		return fmt.Errorf("expected dbformysql/v1api20230630/storage/FlexibleServersAdministrator but received %T instead", hub)
+	}
+
+	return administrator.AssignProperties_To_FlexibleServersAdministrator(destination)
 }
 
 var _ genruntime.KubernetesResource = &FlexibleServersAdministrator{}
@@ -115,8 +136,75 @@ func (administrator *FlexibleServersAdministrator) SetStatus(status genruntime.C
 	return nil
 }
 
-// Hub marks that this FlexibleServersAdministrator is the hub type for conversion
-func (administrator *FlexibleServersAdministrator) Hub() {}
+// AssignProperties_From_FlexibleServersAdministrator populates our FlexibleServersAdministrator from the provided source FlexibleServersAdministrator
+func (administrator *FlexibleServersAdministrator) AssignProperties_From_FlexibleServersAdministrator(source *v20230630s.FlexibleServersAdministrator) error {
+
+	// ObjectMeta
+	administrator.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec FlexibleServers_Administrator_Spec
+	err := spec.AssignProperties_From_FlexibleServers_Administrator_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_FlexibleServers_Administrator_Spec() to populate field Spec")
+	}
+	administrator.Spec = spec
+
+	// Status
+	var status FlexibleServers_Administrator_STATUS
+	err = status.AssignProperties_From_FlexibleServers_Administrator_STATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_FlexibleServers_Administrator_STATUS() to populate field Status")
+	}
+	administrator.Status = status
+
+	// Invoke the augmentConversionForFlexibleServersAdministrator interface (if implemented) to customize the conversion
+	var administratorAsAny any = administrator
+	if augmentedAdministrator, ok := administratorAsAny.(augmentConversionForFlexibleServersAdministrator); ok {
+		err := augmentedAdministrator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FlexibleServersAdministrator populates the provided destination FlexibleServersAdministrator from our FlexibleServersAdministrator
+func (administrator *FlexibleServersAdministrator) AssignProperties_To_FlexibleServersAdministrator(destination *v20230630s.FlexibleServersAdministrator) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *administrator.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v20230630s.FlexibleServers_Administrator_Spec
+	err := administrator.Spec.AssignProperties_To_FlexibleServers_Administrator_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Administrator_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v20230630s.FlexibleServers_Administrator_STATUS
+	err = administrator.Status.AssignProperties_To_FlexibleServers_Administrator_STATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Administrator_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForFlexibleServersAdministrator interface (if implemented) to customize the conversion
+	var administratorAsAny any = administrator
+	if augmentedAdministrator, ok := administratorAsAny.(augmentConversionForFlexibleServersAdministrator); ok {
+		err := augmentedAdministrator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (administrator *FlexibleServersAdministrator) OriginalGVK() *schema.GroupVersionKind {
@@ -144,6 +232,11 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-01-01")
 
+type augmentConversionForFlexibleServersAdministrator interface {
+	AssignPropertiesFrom(src *v20230630s.FlexibleServersAdministrator) error
+	AssignPropertiesTo(dst *v20230630s.FlexibleServersAdministrator) error
+}
+
 // Storage version of v1api20220101.FlexibleServers_Administrator_Spec
 type FlexibleServers_Administrator_Spec struct {
 	AdministratorType *string `json:"administratorType,omitempty"`
@@ -169,20 +262,194 @@ var _ genruntime.ConvertibleSpec = &FlexibleServers_Administrator_Spec{}
 
 // ConvertSpecFrom populates our FlexibleServers_Administrator_Spec from the provided source
 func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == administrator {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v20230630s.FlexibleServers_Administrator_Spec)
+	if ok {
+		// Populate our instance from source
+		return administrator.AssignProperties_From_FlexibleServers_Administrator_Spec(src)
 	}
 
-	return source.ConvertSpecTo(administrator)
+	// Convert to an intermediate form
+	src = &v20230630s.FlexibleServers_Administrator_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = administrator.AssignProperties_From_FlexibleServers_Administrator_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our FlexibleServers_Administrator_Spec
 func (administrator *FlexibleServers_Administrator_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == administrator {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v20230630s.FlexibleServers_Administrator_Spec)
+	if ok {
+		// Populate destination from our instance
+		return administrator.AssignProperties_To_FlexibleServers_Administrator_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(administrator)
+	// Convert to an intermediate form
+	dst = &v20230630s.FlexibleServers_Administrator_Spec{}
+	err := administrator.AssignProperties_To_FlexibleServers_Administrator_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_FlexibleServers_Administrator_Spec populates our FlexibleServers_Administrator_Spec from the provided source FlexibleServers_Administrator_Spec
+func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_From_FlexibleServers_Administrator_Spec(source *v20230630s.FlexibleServers_Administrator_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdministratorType
+	administrator.AdministratorType = genruntime.ClonePointerToString(source.AdministratorType)
+
+	// IdentityResourceReference
+	if source.IdentityResourceReference != nil {
+		identityResourceReference := source.IdentityResourceReference.Copy()
+		administrator.IdentityResourceReference = &identityResourceReference
+	} else {
+		administrator.IdentityResourceReference = nil
+	}
+
+	// Login
+	administrator.Login = genruntime.ClonePointerToString(source.Login)
+
+	// OriginalVersion
+	administrator.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		administrator.Owner = &owner
+	} else {
+		administrator.Owner = nil
+	}
+
+	// Sid
+	administrator.Sid = genruntime.ClonePointerToString(source.Sid)
+
+	// SidFromConfig
+	if source.SidFromConfig != nil {
+		sidFromConfig := source.SidFromConfig.Copy()
+		administrator.SidFromConfig = &sidFromConfig
+	} else {
+		administrator.SidFromConfig = nil
+	}
+
+	// TenantId
+	administrator.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// TenantIdFromConfig
+	if source.TenantIdFromConfig != nil {
+		tenantIdFromConfig := source.TenantIdFromConfig.Copy()
+		administrator.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		administrator.TenantIdFromConfig = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		administrator.PropertyBag = propertyBag
+	} else {
+		administrator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFlexibleServers_Administrator_Spec interface (if implemented) to customize the conversion
+	var administratorAsAny any = administrator
+	if augmentedAdministrator, ok := administratorAsAny.(augmentConversionForFlexibleServers_Administrator_Spec); ok {
+		err := augmentedAdministrator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FlexibleServers_Administrator_Spec populates the provided destination FlexibleServers_Administrator_Spec from our FlexibleServers_Administrator_Spec
+func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_To_FlexibleServers_Administrator_Spec(destination *v20230630s.FlexibleServers_Administrator_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(administrator.PropertyBag)
+
+	// AdministratorType
+	destination.AdministratorType = genruntime.ClonePointerToString(administrator.AdministratorType)
+
+	// IdentityResourceReference
+	if administrator.IdentityResourceReference != nil {
+		identityResourceReference := administrator.IdentityResourceReference.Copy()
+		destination.IdentityResourceReference = &identityResourceReference
+	} else {
+		destination.IdentityResourceReference = nil
+	}
+
+	// Login
+	destination.Login = genruntime.ClonePointerToString(administrator.Login)
+
+	// OriginalVersion
+	destination.OriginalVersion = administrator.OriginalVersion
+
+	// Owner
+	if administrator.Owner != nil {
+		owner := administrator.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Sid
+	destination.Sid = genruntime.ClonePointerToString(administrator.Sid)
+
+	// SidFromConfig
+	if administrator.SidFromConfig != nil {
+		sidFromConfig := administrator.SidFromConfig.Copy()
+		destination.SidFromConfig = &sidFromConfig
+	} else {
+		destination.SidFromConfig = nil
+	}
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(administrator.TenantId)
+
+	// TenantIdFromConfig
+	if administrator.TenantIdFromConfig != nil {
+		tenantIdFromConfig := administrator.TenantIdFromConfig.Copy()
+		destination.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		destination.TenantIdFromConfig = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFlexibleServers_Administrator_Spec interface (if implemented) to customize the conversion
+	var administratorAsAny any = administrator
+	if augmentedAdministrator, ok := administratorAsAny.(augmentConversionForFlexibleServers_Administrator_Spec); ok {
+		err := augmentedAdministrator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20220101.FlexibleServers_Administrator_STATUS
@@ -204,20 +471,188 @@ var _ genruntime.ConvertibleStatus = &FlexibleServers_Administrator_STATUS{}
 
 // ConvertStatusFrom populates our FlexibleServers_Administrator_STATUS from the provided source
 func (administrator *FlexibleServers_Administrator_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == administrator {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v20230630s.FlexibleServers_Administrator_STATUS)
+	if ok {
+		// Populate our instance from source
+		return administrator.AssignProperties_From_FlexibleServers_Administrator_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(administrator)
+	// Convert to an intermediate form
+	src = &v20230630s.FlexibleServers_Administrator_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = administrator.AssignProperties_From_FlexibleServers_Administrator_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our FlexibleServers_Administrator_STATUS
 func (administrator *FlexibleServers_Administrator_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == administrator {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v20230630s.FlexibleServers_Administrator_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return administrator.AssignProperties_To_FlexibleServers_Administrator_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(administrator)
+	// Convert to an intermediate form
+	dst = &v20230630s.FlexibleServers_Administrator_STATUS{}
+	err := administrator.AssignProperties_To_FlexibleServers_Administrator_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_FlexibleServers_Administrator_STATUS populates our FlexibleServers_Administrator_STATUS from the provided source FlexibleServers_Administrator_STATUS
+func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_From_FlexibleServers_Administrator_STATUS(source *v20230630s.FlexibleServers_Administrator_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdministratorType
+	administrator.AdministratorType = genruntime.ClonePointerToString(source.AdministratorType)
+
+	// Conditions
+	administrator.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	administrator.Id = genruntime.ClonePointerToString(source.Id)
+
+	// IdentityResourceId
+	administrator.IdentityResourceId = genruntime.ClonePointerToString(source.IdentityResourceId)
+
+	// Login
+	administrator.Login = genruntime.ClonePointerToString(source.Login)
+
+	// Name
+	administrator.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Sid
+	administrator.Sid = genruntime.ClonePointerToString(source.Sid)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		administrator.SystemData = &systemDatum
+	} else {
+		administrator.SystemData = nil
+	}
+
+	// TenantId
+	administrator.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// Type
+	administrator.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		administrator.PropertyBag = propertyBag
+	} else {
+		administrator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFlexibleServers_Administrator_STATUS interface (if implemented) to customize the conversion
+	var administratorAsAny any = administrator
+	if augmentedAdministrator, ok := administratorAsAny.(augmentConversionForFlexibleServers_Administrator_STATUS); ok {
+		err := augmentedAdministrator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FlexibleServers_Administrator_STATUS populates the provided destination FlexibleServers_Administrator_STATUS from our FlexibleServers_Administrator_STATUS
+func (administrator *FlexibleServers_Administrator_STATUS) AssignProperties_To_FlexibleServers_Administrator_STATUS(destination *v20230630s.FlexibleServers_Administrator_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(administrator.PropertyBag)
+
+	// AdministratorType
+	destination.AdministratorType = genruntime.ClonePointerToString(administrator.AdministratorType)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(administrator.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(administrator.Id)
+
+	// IdentityResourceId
+	destination.IdentityResourceId = genruntime.ClonePointerToString(administrator.IdentityResourceId)
+
+	// Login
+	destination.Login = genruntime.ClonePointerToString(administrator.Login)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(administrator.Name)
+
+	// Sid
+	destination.Sid = genruntime.ClonePointerToString(administrator.Sid)
+
+	// SystemData
+	if administrator.SystemData != nil {
+		var systemDatum v20230630s.SystemData_STATUS
+		err := administrator.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(administrator.TenantId)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(administrator.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFlexibleServers_Administrator_STATUS interface (if implemented) to customize the conversion
+	var administratorAsAny any = administrator
+	if augmentedAdministrator, ok := administratorAsAny.(augmentConversionForFlexibleServers_Administrator_STATUS); ok {
+		err := augmentedAdministrator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForFlexibleServers_Administrator_Spec interface {
+	AssignPropertiesFrom(src *v20230630s.FlexibleServers_Administrator_Spec) error
+	AssignPropertiesTo(dst *v20230630s.FlexibleServers_Administrator_Spec) error
+}
+
+type augmentConversionForFlexibleServers_Administrator_STATUS interface {
+	AssignPropertiesFrom(src *v20230630s.FlexibleServers_Administrator_STATUS) error
+	AssignPropertiesTo(dst *v20230630s.FlexibleServers_Administrator_STATUS) error
 }
 
 // Storage version of v1api20220101.SystemData_STATUS
@@ -230,6 +665,97 @@ type SystemData_STATUS struct {
 	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20230630s.SystemData_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CreatedAt
+	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
+
+	// CreatedBy
+	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
+
+	// CreatedByType
+	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
+
+	// LastModifiedAt
+	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
+
+	// LastModifiedBy
+	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
+
+	// LastModifiedByType
+	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		data.PropertyBag = propertyBag
+	} else {
+		data.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
+	var dataAsAny any = data
+	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
+		err := augmentedData.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20230630s.SystemData_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
+
+	// CreatedAt
+	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
+
+	// CreatedBy
+	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
+
+	// CreatedByType
+	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
+
+	// LastModifiedAt
+	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
+
+	// LastModifiedBy
+	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
+
+	// LastModifiedByType
+	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
+	var dataAsAny any = data
+	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
+		err := augmentedData.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForSystemData_STATUS interface {
+	AssignPropertiesFrom(src *v20230630s.SystemData_STATUS) error
+	AssignPropertiesTo(dst *v20230630s.SystemData_STATUS) error
 }
 
 func init() {
