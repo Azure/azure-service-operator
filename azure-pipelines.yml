@@ -4,6 +4,10 @@ trigger:
   branches:
     # Run automatically ONLY on GitHub Merge Queue branches
     include: [ 'gh-readonly-queue/*' ]
+  paths:
+    exclude:
+      - docs/*
+      - v2
 
 # PR Section describes what happens on PR
 pr:
