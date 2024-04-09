@@ -4,17 +4,17 @@ trigger:
   branches:
     # Run automatically ONLY on GitHub Merge Queue branches
     include: [ 'gh-readonly-queue/*' ]
-  paths:
-    exclude:
-      - docs
-      - v2
-      - azure-pipelines.yml
 
 # PR Section describes what happens on PR
 pr:
   branches:
     include:
     - main
+  paths:
+    exclude:
+      - docs/
+      - v2/
+      - azure-pipelines.yml
 
 resources:
 - repo: self
