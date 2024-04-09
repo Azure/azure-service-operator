@@ -14,7 +14,6 @@ pr:
     exclude:
       - docs/
       - v2/
-      - azure-pipelines.yml
 
 resources:
 - repo: self
