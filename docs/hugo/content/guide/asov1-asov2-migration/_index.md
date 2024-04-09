@@ -296,7 +296,7 @@ in Kubernetes with `kubectl delete`.
   `kubectl get resourcegroups` is ambiguous. Kubernetes will use ASOv1's `resourcegroup` asuming it was installed first.
    If ASOv1 and ASOv2 are installed into the same cluster, we recommend using the fully specified name for querying 
    resourcegroups from ASOv2:  `kubectl get resourcegroup.resources.azure.com`.
-- ASOv2 does not support keyVault secrets. TODO: Alternatives?
+- ASOv2 does not support keyVault secrets.
 - ASOv2 does not support MySQL single server or PostgreSQL single server, as these are being deprecated. 
   See [MySQL](./mysql/) and [PostgreSQL](./postgresql/) for more details.
 
