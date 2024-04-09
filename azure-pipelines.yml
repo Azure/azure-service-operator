@@ -8,6 +8,7 @@ trigger:
     exclude:
       - docs
       - v2
+      - azure-pipelines.yml
 
 # PR Section describes what happens on PR
 pr:
