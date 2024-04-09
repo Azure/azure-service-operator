@@ -6,7 +6,7 @@ trigger:
     include: [ 'gh-readonly-queue/*' ]
   paths:
     exclude:
-      - docs/*
+      - docs
       - v2
 
 # PR Section describes what happens on PR
