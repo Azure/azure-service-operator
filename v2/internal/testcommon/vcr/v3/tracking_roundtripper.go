@@ -52,7 +52,7 @@ var _ http.RoundTripper = &requestCounter{}
 
 func (rt *requestCounter) RoundTrip(req *http.Request) (*http.Response, error) {
 	if rt.useHash(req) {
-		rt.addContentHeaders(req)
+		rt.addHashHeader(req)
 	} else {
 		rt.addCountHeader(req)
 	}
@@ -86,8 +86,8 @@ func (rt *requestCounter) addCountHeader(req *http.Request) {
 	req.Header.Set(COUNT_HEADER, fmt.Sprintf("%d", count))
 }
 
-// addContentHeaders adds headers to the request based on the content of the request body
-func (rt *requestCounter) addContentHeaders(request *http.Request) {
+// addHashHeader adds a header to the request based on a hash of the content of the request body
+func (rt *requestCounter) addHashHeader(request *http.Request) {
 	// Read all the content of the request body
 	var body bytes.Buffer
 	_, err := body.ReadFrom(request.Body)
@@ -102,22 +102,12 @@ func (rt *requestCounter) addContentHeaders(request *http.Request) {
 	// Calculate a hash based on body string
 	hash := sha256.Sum256([]byte(bodyString))
 
-	// Format hash as a hex string
-	hashString := fmt.Sprintf("%x", hash)
-
-	// Allocate a number based on the hash (not the URL)
-	rt.countsMutex.Lock()
-	count := rt.counts[hashString]
-	rt.counts[hashString] = count + 1
-	rt.countsMutex.Unlock()
-
 	// Set the headers
 	if request.Header == nil {
 		request.Header = make(http.Header)
 	}
 
 	request.Header.Set(HASH_HEADER, fmt.Sprintf("%x", hash))
-	request.Header.Set(COUNT_HEADER, fmt.Sprintf("%d", count))
 
 	// Reset the body so it can be read again
 	request.Body = io.NopCloser(&body)
