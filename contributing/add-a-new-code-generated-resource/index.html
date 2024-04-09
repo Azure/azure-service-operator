@@ -33,7 +33,7 @@ What resources can be code generated? Any ARM resource can be generated. If you&
 <meta itemprop="description" content="This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out this PR if you&rsquo;d like to see what the end product looks like.
 What resources can be code generated? Any ARM resource can be generated. If you&rsquo;re not sure if the resource you are interested in is an ARM resource, check if it is defined in a resource-manager folder in the Azure REST API specs repo.">
 
-<meta itemprop="wordCount" content="2028">
+<meta itemprop="wordCount" content="2029">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Adding a new code generated resource to ASO v2"/>
 <meta name="twitter:description" content="This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out this PR if you&rsquo;d like to see what the end product looks like.
@@ -555,6 +555,10 @@ What resources can be code generated? Any ARM resource can be generated. If you&
   <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingdependencies-li">
   <a href="/azure-service-operator/contributing/dependencies/" title="Developer Dependencies" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingdependencies"><span class="">Dependencies</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingrunning-a-development-version-li">
+  <a href="/azure-service-operator/contributing/running-a-development-version/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingrunning-a-development-version"><span class="">Running a Development Version</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingtesting-li">
+  <a href="/azure-service-operator/contributing/testing/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingtesting"><span class="">Testing</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
@@ -947,7 +951,7 @@ scussion with the team first.</p>
 <pre tabindex="0"><code>&lt;group&gt;_&lt;subject&gt;_&lt;scenario&gt;_&lt;version&gt;_test.go
 </code></pre><p>More information on the naming convention can be found in that folders <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/internal/controllers/README.md">README</a>.</p>
 <h3 id="record-the-test-passing">Record the test passing</h3>
-<p>See <a href="../#running-integration-tests">the code generator README</a> for how to run tests and record their HTTP interactions to allow replay.</p>
+<p>See <a href="../testing/#running-integration-tests">the code generator test README</a> for how to run tests and record their HTTP interactions to allow replay.</p>
 <h2 id="add-a-new-sample">Add a new sample</h2>
 <p>The samples are located in the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples">samples directory</a>. There should be at least one sample for each kind of supported resource. These currently need to be added manually. It&rsquo;s possible in the future we will automatically generate samples similar to how we automatically generate CRDs and types, but that doesn&rsquo;t happen today.</p>
 <h2 id="run-test-for-added-sample-and-commit-the-recording">Run test for added sample and commit the recording</h2>

@@ -575,6 +575,10 @@ ASOv1 MySQLAADUser example."/>
   <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingdependencies-li">
   <a href="/azure-service-operator/contributing/dependencies/" title="Developer Dependencies" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingdependencies"><span class="">Dependencies</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingrunning-a-development-version-li">
+  <a href="/azure-service-operator/contributing/running-a-development-version/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingrunning-a-development-version"><span class="">Running a Development Version</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingtesting-li">
+  <a href="/azure-service-operator/contributing/testing/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingtesting"><span class="">Testing</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
@@ -764,7 +768,7 @@ into the ASOv2 shape.</p>
 <ul>
 <li>Note that MySQL Flexible server has certain requirements for how it is set up to work with AAD <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api/v1_user_aad.yaml#L3">here</a>.
 So not only do you need to create the user in ASOv2 you must also ensure that the FlexibleServer has the right
-<a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api/v1api20220101_flexibleserversadministrator.yaml">FlexibleServerAdministrator</a> configured, with the right permissions.</li>
+<a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversadministrator.yaml">FlexibleServerAdministrator</a> configured, with the right permissions.</li>
 </ul>
 <h2 id="postgresql">PostgreSQL</h2>
 <p>ASOv1 <code>PostgreSQLUser</code> <a href="https://github.com/Azure/azure-service-operator/blob/main/config/samples/azure_v1alpha1_postgresqluser.yaml">example</a>.</p>

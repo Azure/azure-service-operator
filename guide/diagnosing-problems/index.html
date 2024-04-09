@@ -33,7 +33,7 @@ You can confirm this with kubectl describe pod -n azureserviceoperator-system --
 <meta itemprop="description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
 You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the &ldquo;Error: secret &ldquo;aso-controller-settings&rdquo; not found&rdquo; event in the describe output:">
 
-<meta itemprop="wordCount" content="576">
+<meta itemprop="wordCount" content="666">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Diagnosing problems"/>
 <meta name="twitter:description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
@@ -555,6 +555,10 @@ You can confirm this with kubectl describe pod -n azureserviceoperator-system --
   <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingdependencies-li">
   <a href="/azure-service-operator/contributing/dependencies/" title="Developer Dependencies" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingdependencies"><span class="">Dependencies</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingrunning-a-development-version-li">
+  <a href="/azure-service-operator/contributing/running-a-development-version/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingrunning-a-development-version"><span class="">Running a Development Version</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingtesting-li">
+  <a href="/azure-service-operator/contributing/testing/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingtesting"><span class="">Testing</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
@@ -668,6 +672,7 @@ You can confirm this with kubectl describe pod -n azureserviceoperator-system --
       <ul>
         <li><a href="#resource-with-no-ready-condition-set">Resource with no Ready condition set</a></li>
         <li><a href="#resource-stuck-deleting">Resource stuck deleting</a></li>
+        <li><a href="#resource-reports-webhook-error-when-applied">Resource reports webhook error when applied</a></li>
       </ul>
     </li>
     <li><a href="#getting-aso-controller-pod-logs">Getting ASO controller pod logs</a>
@@ -784,6 +789,13 @@ but from time to time that protection may be imperfect.</p>
 <p>If you see this problem, the resource wasn&rsquo;t ever created successfully in Azure and so it is safe to instruct ASO to
 skip deletion of the Azure resource. This can be done by adding the <code>serviceoperator.azure.com/reconcile-policy: skip</code>
 annotation to the resource in your cluster.</p>
+<h3 id="resource-reports-webhook-error-when-applied">Resource reports webhook error when applied</h3>
+<p>The error may look like this:</p>
+<pre tabindex="0"><code>&quot;Error from server (InternalError): error when creating &quot;/tmp/asd&quot;: Internal error occurred: failed calling webhook&quot;
+</code></pre><p>This may be caused by ASO pod restarts, which you can check via <code>kubectl get pods -n azureserviceoperator-system</code>. If
+you&rsquo;re seeing the ASO pod restart periodically check its logs to see if something is causing it to exit. A common cause
+of this is installing too many CRDs on a free tier AKS cluster overloading the API Server. See
+<a href="../crd-management/">CRD management</a> for more details.</p>
 <h2 id="getting-aso-controller-pod-logs">Getting ASO controller pod logs</h2>
 <p>The last stop when investigating most issues is to look at the ASO pod logs. We expect that
 most resource issues can be resolved using the resources .status.conditions without resorting to

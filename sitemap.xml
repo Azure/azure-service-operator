@@ -348,6 +348,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/running-a-development-version/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/search/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/search/v1api20220901/</loc>
@@ -393,6 +395,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/synapse/v1api20210601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tags/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/testing/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tutorials/tutorial-cosmosdb/</loc>
   </url><url>

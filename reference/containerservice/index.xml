@@ -69460,9 +69460,7 @@ ManagedClusterUpgradeType
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Type: The upgrade type.
-Full requires the KubernetesVersion property to be set.
-NodeImageOnly requires the KubernetesVersion property not to be set.&lt;/p&gt;
+&lt;p&gt;Type: ManagedClusterUpgradeType is the type of upgrade to be applied.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -69504,9 +69502,7 @@ ManagedClusterUpgradeType
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Type: The upgrade type.
-Full requires the KubernetesVersion property to be set.
-NodeImageOnly requires the KubernetesVersion property not to be set.&lt;/p&gt;
+&lt;p&gt;Type: ManagedClusterUpgradeType is the type of upgrade to be applied.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -69548,9 +69544,7 @@ ManagedClusterUpgradeType_STATUS
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Type: The upgrade type.
-Full requires the KubernetesVersion property to be set.
-NodeImageOnly requires the KubernetesVersion property not to be set.&lt;/p&gt;
+&lt;p&gt;Type: ManagedClusterUpgradeType is the type of upgrade to be applied.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -69592,9 +69586,7 @@ ManagedClusterUpgradeType_STATUS
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Type: The upgrade type.
-Full requires the KubernetesVersion property to be set.
-NodeImageOnly requires the KubernetesVersion property not to be set.&lt;/p&gt;
+&lt;p&gt;Type: ManagedClusterUpgradeType is the type of upgrade to be applied.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;

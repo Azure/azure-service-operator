@@ -124,7 +124,7 @@ into the ASOv2 shape.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Note that MySQL Flexible server has certain requirements for how it is set up to work with AAD &lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api/v1_user_aad.yaml#L3&#34;&gt;here&lt;/a&gt;.
 So not only do you need to create the user in ASOv2 you must also ensure that the FlexibleServer has the right
-&lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api/v1api20220101_flexibleserversadministrator.yaml&#34;&gt;FlexibleServerAdministrator&lt;/a&gt; configured, with the right permissions.&lt;/li&gt;
+&lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversadministrator.yaml&#34;&gt;FlexibleServerAdministrator&lt;/a&gt; configured, with the right permissions.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;postgresql&#34;&gt;PostgreSQL&lt;/h2&gt;
 &lt;p&gt;ASOv1 &lt;code&gt;PostgreSQLUser&lt;/code&gt; &lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/config/samples/azure_v1alpha1_postgresqluser.yaml&#34;&gt;example&lt;/a&gt;.&lt;/p&gt;

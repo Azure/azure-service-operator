@@ -547,6 +547,10 @@
   <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingdependencies-li">
   <a href="/azure-service-operator/contributing/dependencies/" title="Developer Dependencies" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingdependencies"><span class="">Dependencies</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingrunning-a-development-version-li">
+  <a href="/azure-service-operator/contributing/running-a-development-version/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingrunning-a-development-version"><span class="">Running a Development Version</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingtesting-li">
+  <a href="/azure-service-operator/contributing/testing/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingtesting"><span class="">Testing</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
@@ -653,14 +657,6 @@
   <ul>
     <li><a href="#related-pages">Related pages</a></li>
     <li><a href="#directory-structure-of-the-operator">Directory structure of the operator</a></li>
-    <li><a href="#running-integration-tests">Running integration tests</a>
-      <ul>
-        <li><a href="#recordreplay">Record/replay</a></li>
-        <li><a href="#running-live-tests">Running live tests</a></li>
-        <li><a href="#running-a-single-test">Running a single test</a></li>
-      </ul>
-    </li>
-    <li><a href="#running-the-operator-locally">Running the operator locally</a></li>
     <li><a href="#submitting-a-pull-request">Submitting a pull request</a></li>
     <li><a href="#common-problems-and-their-solutions">Common problems and their solutions</a>
       <ul>
@@ -706,7 +702,7 @@
             
 <div class="td-content">
 	<h1>Contributing to Azure Service Operator v2</h1>
-  <div class="lead">How to contribute new resources to Azure Service Operator v2</div>
+	<div class="lead">How to contribute new resources to Azure Service Operator v2</div>
 	<header class="article-meta">
 		
 
@@ -721,12 +717,14 @@
   
 
 		
-	</header>
+	</header>    
 	<h2 id="related-pages">Related pages</h2>
 <ul>
 <li><a href="/azure-service-operator/contributing/developer-setup/">Developer Setup</a>.</li>
 <li><a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/">Adding a new code-generator resource</a>.</li>
 <li><a href="/azure-service-operator/contributing/generator-overview/">Generator code overview</a>.</li>
+<li><a href="/azure-service-operator/contributing/running-a-development-version/">Running a development version of ASO</a>.</li>
+<li><a href="/azure-service-operator/contributing/testing/">Testing</a>.</li>
 </ul>
 <h2 id="directory-structure-of-the-operator">Directory structure of the operator</h2>
 <p>Key folders of note include:</p>
@@ -737,45 +735,6 @@
 </ul>
 <p><img src="images/aso-v2-structure.svg" alt="Overview"></p>
 <p>The size of each dot reflects the size of the file; the legend in the corner shows the meaning of colour.</p>
-<h2 id="running-integration-tests">Running integration tests</h2>
-<p>Basic use: run <code>task controller:test-integration-envtest</code>.</p>
-<h3 id="recordreplay">Record/replay</h3>
-<p>The task <code>controller:test-integration-envtest</code> runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources. (This uses the <a href="https://github.com/dnaeon/go-vcr">go-vcr</a> library.) If you change the controller or other code in such a way that the required requests/responses from ARM change, you will need to update the recordings.</p>
-<p>To do this, delete the recordings for the failing tests (under <code>{test-dir}/recordings/{test-name}.yml</code>), and re-run <code>controller:test-integration-envtest</code>. If the test passes, a new recording will be saved, which you can commit to include with your change. All authentication and subscription information is removed from the recording.</p>
-<p>To run the test and produce a new recording you will need to have set the required authentication environment variables for an Azure Service Principal: <code>AZURE_SUBSCRIPTION_ID</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code>, and <code>AZURE_CLIENT_SECRET</code>. This Service Principal will need access to the subscription to create and delete resources.</p>
-<p>A few tests also need the <code>TEST_BILLING_ID</code> variable set to a valid Azure Billing ID when running in record mode. In replay mode this variable is never required. Note that the billing ID is redacted from all recording files so that the resulting file can be replayed by anybody, even somebody who does not know the Billing ID the test was recorded with.</p>
-<p>Some Azure resources take longer to provision or delete than the default test timeout of 15m. To change the timeout, set <code>TIMEOUT</code> to a suitable value when running task. For example, to give your test a 60m timeout, use:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">TIMEOUT<span style="color:#f92672">=</span>60m task controller:test-integration-envtest
-</code></pre></div><p>If you need to create a new Azure Service Principal, run the following commands:</p>
-<pre tabindex="0"><code class="language-console" data-lang="console">$ az login
-… follow the instructions …
-$ az account set --subscription {the subscription ID you would like to use}
-Creating a role assignment under the scope of &quot;/subscriptions/{subscription ID you chose}&quot;
-…
-$ az ad sp create-for-rbac --role contributor --name {the name you would like to use}
-{
-  &quot;appId&quot;: &quot;…&quot;,
-  &quot;displayName&quot;: &quot;{name you chose}&quot;,
-  &quot;name&quot;: &quot;{name you chose}&quot;,
-  &quot;password&quot;: &quot;…&quot;,
-  &quot;tenant&quot;: &quot;…&quot;
-}
-</code></pre><p>The output contains <code>appId</code> (<code>AZURE_CLIENT_ID</code>), <code>password</code> (<code>AZURE_CLIENT_SECRET</code>), and <code>tenant</code> (<code>AZURE_TENANT_ID</code>). Store these somewhere safe as the password cannot be viewed again, only reset. The Service Principal will be created as a “contributor” to your subscription which means it can create and delete resources, so <strong>ensure you keep the secrets secure</strong>.</p>
-<h3 id="running-live-tests">Running live tests</h3>
-<p>If you want to skip all recordings and run all tests directly against live Azure resources, you can use the <code>controller:test-integration-envtest-live</code> task. This will also require you to set the authentication environment variables, as detailed above.</p>
-<h3 id="running-a-single-test">Running a single test</h3>
-<p>By default <code>task controller:test-integration-envtest</code> and its variants run all tests. This is often undesirable as you may just be working on a single feature or test. In order to run a subset of tests, use the <code>TEST_FILTER</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">TEST_FILTER<span style="color:#f92672">=</span>&lt;test_name_regex&gt; task controller:test-integration-envtest
-</code></pre></div><h2 id="running-the-operator-locally">Running the operator locally</h2>
-<p>If you would like to try something out but do not want to write an integration test, you can run the operation locally in a <a href="https://kind.sigs.k8s.io">kind</a> cluster.</p>
-<p>Before launching <code>kind</code>, make sure that your shell has the <code>AZURE_SUBSCRIPTION_ID</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code>, and <code>AZURE_CLIENT_SECRET</code> environment variables set. See <a href="#recordreplay">above</a> for more details about them.</p>
-<p>Once you&rsquo;ve set the environment variables above, run one of the following commands to create a <code>kind</code> cluster:</p>
-<ol>
-<li>Service Principal authentication cluster: <code>task controller:kind-create-with-service-principal</code>.</li>
-<li>AAD Pod Identity authentication enabled cluster (emulates Managed Identity): <code>controller:kind-create-with-podidentity</code>.</li>
-</ol>
-<p>You can use <code>kubectl</code> to interact with the local <code>kind</code> cluster.</p>
-<p>When you&rsquo;re done with the local cluster, tear it down with <code>task controller:kind-delete</code>.</p>
 <h2 id="submitting-a-pull-request">Submitting a pull request</h2>
 <p>Pull requests opened from forks of the azure-service-operator repository will initially have a <code>skipped</code> <code>Validate Pull Request / integration-tests</code> check which
 will prevent merging even if all other checks pass. Once a maintainer has looked at your PR and determined it is ready they will comment <code>/ok-to-test sha=&lt;sha&gt;</code>
@@ -789,64 +748,11 @@ to kick off an integration test pass. If this check passes along with the other 
 <p>This git repo contains submodules. This error occurs when the submodules are missing, possibly because the repo was not cloned with <code>--recurse-submodules</code>.</p>
 <p>To resolve this problem, run <code>git submodule init</code> and <code>git submodule update</code> and then try building again.</p>
 
-        <div class="section-index">
-    
-    
-    
-    
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/contributing/developer-setup/">Developer Setup</a>
-                </h5>
-                <p>How to set up your developer environment for Azure Service Operator v2</p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/">Adding a new code generated resource to ASO v2</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/contributing/generator-overview/">Code Generator</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/contributing/create-a-new-release/">Creating a new release</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/contributing/dependencies/">Developer Dependencies</a>
-                </h5>
-                <p></p>
-            </div>
-        
-    
+	
+	
+	
 </div>
 
-	
-	
-	
-</div>
 
           </main>
         </div>

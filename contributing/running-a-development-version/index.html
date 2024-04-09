@@ -18,22 +18,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Tutorial: Redis Votes | Azure Service Operator</title>
-<meta name="description" content="Follow the guided example to create a simple voting application backed by Redis. The Redis cache is hosted in Azure but created easily via kubectl and Azure Service Operator!">
-<meta property="og:title" content="Tutorial: Redis Votes" />
-<meta property="og:description" content="Follow the guided example to create a simple voting application backed by Redis. The Redis cache is hosted in Azure but created easily via kubectl and Azure Service Operator!" />
+<title>Running a Development Version | Azure Service Operator</title>
+<meta name="description" content="Locally If you would like to try something out but do not want to write an integration test, you can run your local version of the operator locally in a kind cluster.
+Before launching kind, make sure that your shell has the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID, and AZURE_CLIENT_SECRET environment variables set. See testing for more details about them.
+Once you&amp;rsquo;ve set the environment variables above, run one of the following commands to create a kind cluster:">
+<meta property="og:title" content="Running a Development Version" />
+<meta property="og:description" content="Locally If you would like to try something out but do not want to write an integration test, you can run your local version of the operator locally in a kind cluster.
+Before launching kind, make sure that your shell has the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID, and AZURE_CLIENT_SECRET environment variables set. See testing for more details about them.
+Once you&rsquo;ve set the environment variables above, run one of the following commands to create a kind cluster:" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/tutorials/tutorial-redis/" /><meta property="article:section" content="tutorials" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/running-a-development-version/" /><meta property="article:section" content="contributing" />
 
 
 
-<meta itemprop="name" content="Tutorial: Redis Votes">
-<meta itemprop="description" content="Follow the guided example to create a simple voting application backed by Redis. The Redis cache is hosted in Azure but created easily via kubectl and Azure Service Operator!">
+<meta itemprop="name" content="Running a Development Version">
+<meta itemprop="description" content="Locally If you would like to try something out but do not want to write an integration test, you can run your local version of the operator locally in a kind cluster.
+Before launching kind, make sure that your shell has the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID, and AZURE_CLIENT_SECRET environment variables set. See testing for more details about them.
+Once you&rsquo;ve set the environment variables above, run one of the following commands to create a kind cluster:">
 
-<meta itemprop="wordCount" content="29">
+<meta itemprop="wordCount" content="234">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Tutorial: Redis Votes"/>
-<meta name="twitter:description" content="Follow the guided example to create a simple voting application backed by Redis. The Redis cache is hosted in Azure but created easily via kubectl and Azure Service Operator!"/>
+<meta name="twitter:title" content="Running a Development Version"/>
+<meta name="twitter:description" content="Locally If you would like to try something out but do not want to write an integration test, you can run your local version of the operator locally in a kind cluster.
+Before launching kind, make sure that your shell has the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID, and AZURE_CLIENT_SECRET environment variables set. See testing for more details about them.
+Once you&rsquo;ve set the environment variables above, run one of the following commands to create a kind cluster:"/>
 
 
 
@@ -57,7 +65,7 @@
         <a class="nav-link" href="/azure-service-operator/guide/"><span>Guide</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link active" href="/azure-service-operator/tutorials/"><span class="active">Tutorials</span></a>
+        <a class="nav-link" href="/azure-service-operator/tutorials/"><span>Tutorials</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
         <a class="nav-link" href="/azure-service-operator/tools/"><span>Tools</span></a>
@@ -66,7 +74,7 @@
         <a class="nav-link" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
+        <a class="nav-link active" href="/azure-service-operator/contributing/"><span class="active">Contributing</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
         <a class="nav-link" href="/azure-service-operator/design/"><span>Design</span></a>
@@ -181,17 +189,17 @@
   <a href="/azure-service-operator/guide/configmaps/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatortutorials-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatortutorials-li">
   <a href="/azure-service-operator/tutorials/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatortutorials"><span class="">Tutorials</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatortutorialstutorial-cosmosdb-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatortutorialstutorial-cosmosdb-li">
   <a href="/azure-service-operator/tutorials/tutorial-cosmosdb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortutorialstutorial-cosmosdb"><span class="">Tutorial: CosmosDB to-do List</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatortutorialstutorial-cosmosdb-managed-identity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatortutorialstutorial-cosmosdb-managed-identity-li">
   <a href="/azure-service-operator/tutorials/tutorial-cosmosdb-managed-identity/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortutorialstutorial-cosmosdb-managed-identity"><span class="">Tutorial: CosmosDB to-do List with Managed Identity</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatortutorialstutorial-postgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatortutorialstutorial-postgresql-li">
   <a href="/azure-service-operator/tutorials/tutorial-postgresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortutorialstutorial-postgresql"><span class="">Tutorial: PostgreSQL Votes</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatortutorialstutorial-redis-li">
-  <a href="/azure-service-operator/tutorials/tutorial-redis/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortutorialstutorial-redis"><span class="td-sidebar-nav-active-item">Tutorial: Redis Votes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatortutorialstutorial-redis-li">
+  <a href="/azure-service-operator/tutorials/tutorial-redis/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortutorialstutorial-redis"><span class="">Tutorial: Redis Votes</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatortools-li">
@@ -538,22 +546,22 @@
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorcontributing-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorcontributing-li">
   <a href="/azure-service-operator/contributing/" title="Contributing to Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributing"><span class="">Contributing</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingdeveloper-setup-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingdeveloper-setup-li">
   <a href="/azure-service-operator/contributing/developer-setup/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingdeveloper-setup"><span class="">Developer Setup</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
   <a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/" title="Adding a new code generated resource to ASO v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource"><span class="">Add a resource</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributinggenerator-overview-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributinggenerator-overview-li">
   <a href="/azure-service-operator/contributing/generator-overview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributinggenerator-overview"><span class="">Code Generator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingcreate-a-new-release-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingcreate-a-new-release-li">
   <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingdependencies-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingdependencies-li">
   <a href="/azure-service-operator/contributing/dependencies/" title="Developer Dependencies" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingdependencies"><span class="">Dependencies</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingrunning-a-development-version-li">
-  <a href="/azure-service-operator/contributing/running-a-development-version/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingrunning-a-development-version"><span class="">Running a Development Version</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingtesting-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorcontributingrunning-a-development-version-li">
+  <a href="/azure-service-operator/contributing/running-a-development-version/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingrunning-a-development-version"><span class="td-sidebar-nav-active-item">Running a Development Version</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingtesting-li">
   <a href="/azure-service-operator/contributing/testing/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingtesting"><span class="">Testing</span></a>
 </li>
   </ul>
@@ -656,7 +664,15 @@
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#locally">Locally</a></li>
+    <li><a href="#on-aks">On AKS</a></li>
+  </ul>
+</nav>
+      </div>
+    
             
 
 	
@@ -685,16 +701,16 @@
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/tutorials/">Tutorials</a>
+    <a href="https://azure.github.io/azure-service-operator/contributing/">Contributing</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/tutorials/tutorial-redis/" aria-disabled="true" class="btn-link disabled">Tutorial: Redis Votes</a>
+    <a href="https://azure.github.io/azure-service-operator/contributing/running-a-development-version/" aria-disabled="true" class="btn-link disabled">Running a Development Version</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Tutorial: Redis Votes</h1>
+	<h1>Running a Development Version</h1>
 	
 	<header class="article-meta">
 		
@@ -711,9 +727,34 @@
 
 		
 	</header>    
-	<p>Follow the <a href="https://github.com/Azure-Samples/azure-service-operator-samples/tree/master/azure-votes-redis">guided example</a>
-to create a simple voting application backed by Redis.
-The Redis cache is hosted in Azure but created easily via <code>kubectl</code> and Azure Service Operator!</p>
+	<h2 id="locally">Locally</h2>
+<p>If you would like to try something out but do not want to write an integration test, you can run your local version of the
+operator locally in a <a href="https://kind.sigs.k8s.io">kind</a> cluster.</p>
+<p>Before launching <code>kind</code>, make sure that your shell has the <code>AZURE_SUBSCRIPTION_ID</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code>,
+and <code>AZURE_CLIENT_SECRET</code> environment variables set. See <a href="../testing/#recordreplay">testing</a> for more details about them.</p>
+<p>Once you&rsquo;ve set the environment variables above, run one of the following commands to create a <code>kind</code> cluster:</p>
+<ol>
+<li>Service Principal authentication cluster: <code>task controller:kind-create-with-service-principal</code>.</li>
+<li>AAD Pod Identity authentication enabled cluster (emulates Managed Identity): <code>controller:kind-create-with-podidentity</code>.</li>
+</ol>
+<p>You can use <code>kubectl</code> to interact with the local <code>kind</code> cluster.</p>
+<p>When you&rsquo;re done with the local cluster, tear it down with <code>task controller:kind-delete</code>.</p>
+<h2 id="on-aks">On AKS</h2>
+<p>Sometimes running in <code>kind</code> does not suffice and a real cluster is needed. The <code>task controller:aks-create-helm-install</code>
+will perform the following actions:</p>
+<ul>
+<li>Create an AKS cluster named <code>{{.HOSTNAME}}-aso-aks</code> in a resource group <code>{{.HOSTNAME}}-aso-rg</code>. These resources
+are created in the subscription set in the <code>AZURE_SUBSCRIPTION_ID</code> environment variable.
+<ul>
+<li>By default, the cluster is created in <code>westus3</code>, but that can be overridden by specifying the <code>LOCATION</code> variable to
+the <code>task</code> command like so: <code>task controller:aks-create-helm-install LOCATION=mylocation</code></li>
+</ul>
+</li>
+<li>Create an ACR in the <code>{{.HOSTNAME}}-aso-rg</code> associated with the AKS cluster.</li>
+<li>Install <code>cert-manager</code> into the cluster (required for ASO).</li>
+<li>Build and push your local container image into the ACR.</li>
+<li>Install ASO into the cluster, using the ACR image as the source for the controller pod.</li>
+</ul>
 
 	
 	

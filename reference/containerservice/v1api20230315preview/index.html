@@ -39,7 +39,7 @@
     ErrorAdditionalInfo_STATUS   (Appears on:ErrorDetail_STATUS, ErrorDetail_STATUS_Unrolled)  The resource management error additional info.
     Field Description      info  map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON     Info: The additional info.">
 
-<meta itemprop="wordCount" content="4474">
+<meta itemprop="wordCount" content="4430">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="containerservice.azure.com/v1api20230315preview"/>
 <meta name="twitter:description" content="containerservice.azure.com/v1api20230315preview  Package v1api20230315preview contains API Schema definitions for the containerservice v1api20230315preview API group
@@ -563,6 +563,10 @@
   <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingdependencies-li">
   <a href="/azure-service-operator/contributing/dependencies/" title="Developer Dependencies" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingdependencies"><span class="">Dependencies</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingrunning-a-development-version-li">
+  <a href="/azure-service-operator/contributing/running-a-development-version/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingrunning-a-development-version"><span class="">Running a Development Version</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingtesting-li">
+  <a href="/azure-service-operator/contributing/testing/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingtesting"><span class="">Testing</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
@@ -3150,9 +3154,7 @@ ManagedClusterUpgradeType
 </em>
 </td>
 <td>
-<p>Type: The upgrade type.
-Full requires the KubernetesVersion property to be set.
-NodeImageOnly requires the KubernetesVersion property not to be set.</p>
+<p>Type: ManagedClusterUpgradeType is the type of upgrade to be applied.</p>
 </td>
 </tr>
 </tbody>
@@ -3194,9 +3196,7 @@ ManagedClusterUpgradeType
 </em>
 </td>
 <td>
-<p>Type: The upgrade type.
-Full requires the KubernetesVersion property to be set.
-NodeImageOnly requires the KubernetesVersion property not to be set.</p>
+<p>Type: ManagedClusterUpgradeType is the type of upgrade to be applied.</p>
 </td>
 </tr>
 </tbody>
@@ -3238,9 +3238,7 @@ ManagedClusterUpgradeType_STATUS
 </em>
 </td>
 <td>
-<p>Type: The upgrade type.
-Full requires the KubernetesVersion property to be set.
-NodeImageOnly requires the KubernetesVersion property not to be set.</p>
+<p>Type: ManagedClusterUpgradeType is the type of upgrade to be applied.</p>
 </td>
 </tr>
 </tbody>
@@ -3282,9 +3280,7 @@ ManagedClusterUpgradeType_STATUS
 </em>
 </td>
 <td>
-<p>Type: The upgrade type.
-Full requires the KubernetesVersion property to be set.
-NodeImageOnly requires the KubernetesVersion property not to be set.</p>
+<p>Type: ManagedClusterUpgradeType is the type of upgrade to be applied.</p>
 </td>
 </tr>
 </tbody>
