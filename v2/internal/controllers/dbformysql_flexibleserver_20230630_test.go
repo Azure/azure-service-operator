@@ -11,8 +11,7 @@ import (
 	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
 
-	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
-	mysql20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
+	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -20,7 +19,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
+func Test_DBForMySQL_FlexibleServer_20230630_CRUD(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
@@ -31,7 +30,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	adminPasswordKey := "adminPassword"
 	adminPasswordSecretRef := createPasswordSecret(secretName, adminPasswordKey, tc)
 
-	flexibleServer, fqdnSecret := newFlexibleServer(tc, rg, adminPasswordSecretRef)
+	flexibleServer, fqdnSecret := newFlexibleServer20230630(tc, rg, adminPasswordSecretRef)
 
 	tc.CreateResourceAndWait(flexibleServer)
 
@@ -58,7 +57,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "MySQL Flexible servers AAD Administrators CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				MySQLFlexibleServer_AADAdmin_CRUD(tc, rg, flexibleServer)
+				MySQLFlexibleServer_AADAdmin_20230630_CRUD(tc, rg, flexibleServer)
 			},
 		},
 	)
@@ -67,19 +66,19 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "MySQL Flexible servers configuration CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				MySQLFlexibleServer_Configuration_CRUD(tc, flexibleServer)
+				MySQLFlexibleServer_Configuration_20230630_CRUD(tc, flexibleServer)
 			},
 		},
 		testcommon.Subtest{
 			Name: "MySQL Flexible servers database CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				MySQLFlexibleServer_Database_CRUD(tc, flexibleServer)
+				MySQLFlexibleServer_Database_20230630_CRUD(tc, flexibleServer)
 			},
 		},
 		testcommon.Subtest{
 			Name: "MySQL Flexible servers firewall CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				MySQLFlexibleServer_FirewallRule_CRUD(tc, flexibleServer)
+				MySQLFlexibleServer_FirewallRule_20230630_CRUD(tc, flexibleServer)
 			},
 		},
 	)
@@ -93,9 +92,9 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func newFlexibleServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminPasswordSecretRef genruntime.SecretReference) (*mysql.FlexibleServer, string) {
+func newFlexibleServer20230630(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminPasswordSecretRef genruntime.SecretReference) (*mysql.FlexibleServer, string) {
 	version := mysql.ServerVersion_8021
-	tier := mysql.Sku_Tier_GeneralPurpose
+	tier := mysql.MySQLServerSku_Tier_GeneralPurpose
 	fqdnSecret := "fqdnsecret"
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
@@ -103,7 +102,7 @@ func newFlexibleServer(tc *testcommon.KubePerTestContext, rg *resources.Resource
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
-			Sku: &mysql.Sku{
+			Sku: &mysql.MySQLServerSku{
 				Name: to.Ptr("Standard_D4ds_v4"),
 				Tier: &tier,
 			},
@@ -123,7 +122,7 @@ func newFlexibleServer(tc *testcommon.KubePerTestContext, rg *resources.Resource
 	return flexibleServer, fqdnSecret
 }
 
-func MySQLFlexibleServer_Database_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *mysql.FlexibleServer) {
+func MySQLFlexibleServer_Database_20230630_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *mysql.FlexibleServer) {
 	// The RP doesn't like databases with hyphens in the name,
 	// although it doesn't give nice errors to point this out
 	database := &mysql.FlexibleServersDatabase{
@@ -139,7 +138,7 @@ func MySQLFlexibleServer_Database_CRUD(tc *testcommon.KubePerTestContext, flexib
 	tc.Expect(database.Status.Id).ToNot(BeNil())
 }
 
-func MySQLFlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *mysql.FlexibleServer) {
+func MySQLFlexibleServer_FirewallRule_20230630_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *mysql.FlexibleServer) {
 	rule := &mysql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("fwrule"),
 		Spec: mysql.FlexibleServers_FirewallRule_Spec{
@@ -163,7 +162,7 @@ func MySQLFlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, fl
 	// tc.Expect(rule.Status.Id).ToNot(BeNil())
 }
 
-func MySQLFlexibleServer_AADAdmin_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, server *mysql.FlexibleServer) {
+func MySQLFlexibleServer_AADAdmin_20230630_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, server *mysql.FlexibleServer) {
 	// Create a managed identity to serve as aad admin
 	configMapName := "my-configmap"
 	clientIDKey := "clientId"
@@ -194,8 +193,8 @@ func MySQLFlexibleServer_AADAdmin_CRUD(tc *testcommon.KubePerTestContext, rg *re
 
 	// Update the server to use the managed identity as its UMI
 	old := server.DeepCopy()
-	server.Spec.Identity = &mysql.Identity{
-		Type: to.Ptr(mysql.Identity_Type_UserAssigned),
+	server.Spec.Identity = &mysql.MySQLServerIdentity{
+		Type: to.Ptr(mysql.MySQLServerIdentity_Type_UserAssigned),
 		UserAssignedIdentities: []mysql.UserAssignedIdentityDetails{
 			{
 				Reference: *tc.MakeReferenceFromResource(mi),
@@ -205,10 +204,10 @@ func MySQLFlexibleServer_AADAdmin_CRUD(tc *testcommon.KubePerTestContext, rg *re
 
 	tc.PatchResourceAndWait(old, server)
 
-	aadAdmin := mysql20220101.AdministratorProperties_AdministratorType_ActiveDirectory
-	admin := &mysql20220101.FlexibleServersAdministrator{
+	aadAdmin := mysql.AdministratorProperties_AdministratorType_ActiveDirectory
+	admin := &mysql.FlexibleServersAdministrator{
 		ObjectMeta: tc.MakeObjectMeta("aadadmin"),
-		Spec: mysql20220101.FlexibleServers_Administrator_Spec{
+		Spec: mysql.FlexibleServers_Administrator_Spec{
 			Owner:             testcommon.AsOwner(server),
 			AdministratorType: &aadAdmin,
 			Login:             &mi.Name,
@@ -230,13 +229,13 @@ func MySQLFlexibleServer_AADAdmin_CRUD(tc *testcommon.KubePerTestContext, rg *re
 	tc.Expect(admin.Status.Id).ToNot(BeNil())
 }
 
-func MySQLFlexibleServer_Configuration_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *mysql.FlexibleServer) {
-	configuration := &mysql20220101.FlexibleServersConfiguration{
+func MySQLFlexibleServer_Configuration_20230630_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *mysql.FlexibleServer) {
+	configuration := &mysql.FlexibleServersConfiguration{
 		ObjectMeta: tc.MakeObjectMetaWithName("maxconnections"),
-		Spec: mysql20220101.FlexibleServers_Configuration_Spec{
+		Spec: mysql.FlexibleServers_Configuration_Spec{
 			AzureName: "max_connections",
 			Owner:     testcommon.AsOwner(flexibleServer),
-			Source:    to.Ptr(mysql20220101.ConfigurationProperties_Source_UserOverride),
+			Source:    to.Ptr(mysql.ConfigurationProperties_Source_UserOverride),
 			Value:     to.Ptr("20"),
 		},
 	}

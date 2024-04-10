@@ -30,7 +30,7 @@ ASOv2 `dbformysql.azure.com/User` [example](https://github.com/Azure/azure-servi
 ASOv2 `dbformysql.azure.com/User` in AAD configuration [example](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api/v1_user_aad.yaml).
 - Note that MySQL Flexible server has certain requirements for how it is set up to work with AAD [here](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api/v1_user_aad.yaml#L3).
   So not only do you need to create the user in ASOv2 you must also ensure that the FlexibleServer has the right 
-  [FlexibleServerAdministrator](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api/v1api20220101_flexibleserversadministrator.yaml) configured, with the right permissions. 
+  [FlexibleServerAdministrator](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversadministrator.yaml) configured, with the right permissions. 
 
 ## PostgreSQL
 
