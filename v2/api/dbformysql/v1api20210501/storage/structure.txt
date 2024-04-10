@@ -42,7 +42,11 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/storage
 │   │   │   ├── DelegatedSubnetResourceReference: *genruntime.ResourceReference
 │   │   │   ├── PrivateDnsZoneResourceReference: *genruntime.ResourceReference
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── OperatorSpec: *Object (3 properties)
+│   │   │   ├── ConfigMaps: *Object (3 properties)
+│   │   │   │   ├── AdministratorLogin: *genruntime.ConfigMapDestination
+│   │   │   │   ├── FullyQualifiedDomainName: *genruntime.ConfigMapDestination
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Secrets: *Object (2 properties)
 │   │   │       ├── FullyQualifiedDomainName: *genruntime.SecretDestination
@@ -184,4 +188,33 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/storage
 │       │   ├── LastModifiedByType: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
-└── augmentConversionForSystemData_STATUS: Interface
+├── augmentConversionForBackup: Interface
+├── augmentConversionForBackup_STATUS: Interface
+├── augmentConversionForDataEncryption: Interface
+├── augmentConversionForDataEncryption_STATUS: Interface
+├── augmentConversionForFlexibleServer: Interface
+├── augmentConversionForFlexibleServerOperatorConfigMaps: Interface
+├── augmentConversionForFlexibleServerOperatorSecrets: Interface
+├── augmentConversionForFlexibleServerOperatorSpec: Interface
+├── augmentConversionForFlexibleServer_STATUS: Interface
+├── augmentConversionForFlexibleServer_Spec: Interface
+├── augmentConversionForFlexibleServersDatabase: Interface
+├── augmentConversionForFlexibleServersFirewallRule: Interface
+├── augmentConversionForFlexibleServers_Database_STATUS: Interface
+├── augmentConversionForFlexibleServers_Database_Spec: Interface
+├── augmentConversionForFlexibleServers_FirewallRule_STATUS: Interface
+├── augmentConversionForFlexibleServers_FirewallRule_Spec: Interface
+├── augmentConversionForHighAvailability: Interface
+├── augmentConversionForHighAvailability_STATUS: Interface
+├── augmentConversionForIdentity: Interface
+├── augmentConversionForIdentity_STATUS: Interface
+├── augmentConversionForMaintenanceWindow: Interface
+├── augmentConversionForMaintenanceWindow_STATUS: Interface
+├── augmentConversionForNetwork: Interface
+├── augmentConversionForNetwork_STATUS: Interface
+├── augmentConversionForSku: Interface
+├── augmentConversionForSku_STATUS: Interface
+├── augmentConversionForStorage: Interface
+├── augmentConversionForStorage_STATUS: Interface
+├── augmentConversionForSystemData_STATUS: Interface
+└── augmentConversionForUserAssignedIdentityDetails: Interface

@@ -6,6 +6,7 @@ package v1api20210501
 import (
 	"encoding/json"
 	v20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/storage"
+	v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForFlexibleServersFirewallRule(subject FlexibleSer
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20210501s.FlexibleServersFirewallRule
+	var hub v20230630s.FlexibleServersFirewallRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

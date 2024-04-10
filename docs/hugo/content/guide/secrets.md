@@ -15,15 +15,15 @@ For example, in order to create a VM, you may want to specify an SSH password to
 The field in the `spec` will be a [SecretReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference),
 which refers to a particular Kubernetes `Secret` key.
 
-**Example (from [the MySQL FlexibleServer sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api/v1api20210501_flexibleserver.yaml)):**
+**Example (from [the MySQL FlexibleServer sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserver.yaml)):**
 ```yaml
-apiVersion: dbformysql.azure.com/v1alpha1api20210501
+apiVersion: dbformysql.azure.com/v1api20230630
 kind: FlexibleServer
 metadata:
   name: samplemysql
   namespace: default
 spec:
-  location: westus2
+  location: eastus
   owner:
     name: aso-sample-rg
   version: "8.0.21"

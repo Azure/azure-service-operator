@@ -1755,12 +1755,23 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.2
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
+        $generatedConfigs:
+          FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+          AdministratorLogin: $.Status.AdministratorLogin
       FlexibleServers_Database:
         $exportAs: FlexibleServersDatabase
         $supportedFrom: v2.0.0-alpha.2
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
+      Identity:
+        $nameInNextVersion: MySQLServerIdentity
+      Identity_STATUS:
+        $nameInNextVersion: MySQLServerIdentity_STATUS
+      Sku:
+        $nameInNextVersion: MySQLServerSku
+      Sku_STATUS:
+        $nameInNextVersion: MySQLServerSku_STATUS
       ServerProperties:
         SourceServerResourceId:
           $armReference: false # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here
@@ -1778,6 +1789,47 @@ objectModelConfiguration:
       FlexibleServers_Configuration:
         $exportAs: FlexibleServersConfiguration
         $supportedFrom: v2.1.0
+    2023-06-30:
+      DataEncryption:
+        GeoBackupUserAssignedIdentityId:
+          $armReference: true
+        PrimaryUserAssignedIdentityId:
+          $armReference: true
+      FlexibleServer:
+        $export: true
+        $supportedFrom: v2.7.0
+        $azureGeneratedSecrets:
+          - FullyQualifiedDomainName
+        $generatedConfigs:
+          FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+          AdministratorLogin: $.Status.AdministratorLogin
+      FlexibleServers_Administrator:
+        $exportAs: FlexibleServersAdministrator
+        $supportedFrom: v2.7.0
+      AdministratorProperties:
+        IdentityResourceId:
+          $armReference: true # TODO: Upstream to Swagger
+        Sid:
+          $importConfigMapMode: optional
+        TenantId:
+          $importConfigMapMode: optional
+      FlexibleServers_Configuration:
+        $exportAs: FlexibleServersConfiguration
+        $supportedFrom: v2.7.0
+      FlexibleServers_Database:
+        $exportAs: FlexibleServersDatabase
+        $supportedFrom: v2.7.0
+      FlexibleServers_FirewallRule:
+        $exportAs: FlexibleServersFirewallRule
+        $supportedFrom: v2.7.0
+      Network:
+        DelegatedSubnetResourceId:
+          $armReference: true
+        PrivateDnsZoneResourceId:
+          $armReference: true
+      ServerProperties:
+        SourceServerResourceId:
+          $armReference: true # TODO: probably need a conversion hook for this... don't merge without it
   dbforpostgresql:
     v1: # Handcrafted 
       User:
