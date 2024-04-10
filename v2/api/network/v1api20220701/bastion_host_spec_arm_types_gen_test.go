@@ -86,7 +86,9 @@ func BastionHost_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBastionHost_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForBastionHost_Spec_ARM is a factory method for creating gopter generators

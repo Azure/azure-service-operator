@@ -274,7 +274,9 @@ func DnsResolver_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDnsResolver_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDnsResolver_Spec is a factory method for creating gopter generators
@@ -403,7 +405,9 @@ func AddIndependentPropertyGeneratorsForDnsResolver_STATUS(gens map[string]gopte
 		DnsresolverProvisioningState_STATUS_Succeeded,
 		DnsresolverProvisioningState_STATUS_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

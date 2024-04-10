@@ -87,7 +87,9 @@ func AddIndependentPropertyGeneratorsForDiskEncryptionSet_STATUS_ARM(gens map[st
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -175,7 +177,9 @@ func AddIndependentPropertyGeneratorsForEncryptionSetIdentity_STATUS_ARM(gens ma
 
 // AddRelatedPropertyGeneratorsForEncryptionSetIdentity_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForEncryptionSetIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), EncryptionSetIdentity_UserAssignedIdentities_STATUS_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		EncryptionSetIdentity_UserAssignedIdentities_STATUS_ARMGenerator())
 }
 
 func Test_EncryptionSetProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

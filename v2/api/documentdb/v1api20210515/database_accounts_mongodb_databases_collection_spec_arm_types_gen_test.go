@@ -86,7 +86,9 @@ func DatabaseAccounts_MongodbDatabases_Collection_Spec_ARMGenerator() gopter.Gen
 func AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection_Spec_ARM is a factory method for creating gopter generators
@@ -225,7 +227,9 @@ func MongoDBCollectionResource_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForMongoDBCollectionResource_ARM(gens map[string]gopter.Gen) {
 	gens["AnalyticalStorageTtl"] = gen.PtrOf(gen.Int())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["ShardKey"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["ShardKey"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForMongoDBCollectionResource_ARM is a factory method for creating gopter generators

@@ -151,7 +151,9 @@ func AddIndependentPropertyGeneratorsForContainerGroup_Spec(gens map[string]gopt
 	gens["OsType"] = gen.PtrOf(gen.AlphaString())
 	gens["RestartPolicy"] = gen.PtrOf(gen.AlphaString())
 	gens["Sku"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -243,7 +245,9 @@ func AddIndependentPropertyGeneratorsForContainerGroup_STATUS(gens map[string]go
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["RestartPolicy"] = gen.PtrOf(gen.AlphaString())
 	gens["Sku"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
@@ -772,7 +776,9 @@ func AddIndependentPropertyGeneratorsForContainerGroupIdentity_STATUS(gens map[s
 
 // AddRelatedPropertyGeneratorsForContainerGroupIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForContainerGroupIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentities_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentities_STATUSGenerator())
 }
 
 func Test_ContainerGroupSubnetId_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1656,7 +1662,9 @@ func VolumeGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVolume is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVolume(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Secret"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Secret"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForVolume is a factory method for creating gopter generators
@@ -1732,7 +1740,9 @@ func Volume_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVolume_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVolume_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Secret"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Secret"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForVolume_STATUS is a factory method for creating gopter generators
@@ -2676,7 +2686,9 @@ func LogAnalyticsGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLogAnalytics is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLogAnalytics(gens map[string]gopter.Gen) {
 	gens["LogType"] = gen.PtrOf(gen.AlphaString())
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["WorkspaceId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2739,7 +2751,9 @@ func LogAnalytics_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLogAnalytics_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLogAnalytics_STATUS(gens map[string]gopter.Gen) {
 	gens["LogType"] = gen.PtrOf(gen.AlphaString())
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["WorkspaceId"] = gen.PtrOf(gen.AlphaString())
 }
 

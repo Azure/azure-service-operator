@@ -273,7 +273,9 @@ func Service_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForService_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForService_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["CustomProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["CustomProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["DeveloperPortalStatus"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableGateway"] = gen.PtrOf(gen.Bool())
 	gens["EnableClientCertificate"] = gen.PtrOf(gen.Bool())
@@ -286,7 +288,9 @@ func AddIndependentPropertyGeneratorsForService_Spec(gens map[string]gopter.Gen)
 	gens["PublisherEmail"] = gen.PtrOf(gen.AlphaString())
 	gens["PublisherName"] = gen.PtrOf(gen.AlphaString())
 	gens["Restore"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["VirtualNetworkType"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
@@ -412,7 +416,9 @@ func Service_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForService_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForService_STATUS(gens map[string]gopter.Gen) {
 	gens["CreatedAtUtc"] = gen.PtrOf(gen.AlphaString())
-	gens["CustomProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["CustomProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["DeveloperPortalStatus"] = gen.PtrOf(gen.AlphaString())
 	gens["DeveloperPortalUrl"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableGateway"] = gen.PtrOf(gen.Bool())
@@ -439,7 +445,9 @@ func AddIndependentPropertyGeneratorsForService_STATUS(gens map[string]gopter.Ge
 	gens["PublisherName"] = gen.PtrOf(gen.AlphaString())
 	gens["Restore"] = gen.PtrOf(gen.Bool())
 	gens["ScmUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TargetProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["VirtualNetworkType"] = gen.PtrOf(gen.AlphaString())
@@ -940,7 +948,9 @@ func AddIndependentPropertyGeneratorsForApiManagementServiceIdentity_STATUS(gens
 
 // AddRelatedPropertyGeneratorsForApiManagementServiceIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForApiManagementServiceIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserIdentityProperties_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserIdentityProperties_STATUSGenerator())
 }
 
 func Test_ApiManagementServiceSkuProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

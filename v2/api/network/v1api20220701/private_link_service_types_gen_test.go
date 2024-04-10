@@ -277,7 +277,9 @@ func AddIndependentPropertyGeneratorsForPrivateLinkService_Spec(gens map[string]
 	gens["EnableProxyProtocol"] = gen.PtrOf(gen.Bool())
 	gens["Fqdns"] = gen.SliceOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForPrivateLinkService_Spec is a factory method for creating gopter generators
@@ -411,7 +413,9 @@ func AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_PrivateLinkSer
 		ApplicationGatewayProvisioningState_STATUS_Failed,
 		ApplicationGatewayProvisioningState_STATUS_Succeeded,
 		ApplicationGatewayProvisioningState_STATUS_Updating))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

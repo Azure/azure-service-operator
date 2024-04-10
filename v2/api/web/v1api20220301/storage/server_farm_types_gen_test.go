@@ -157,7 +157,9 @@ func AddIndependentPropertyGeneratorsForServerfarm_Spec(gens map[string]gopter.G
 	gens["PerSiteScaling"] = gen.PtrOf(gen.Bool())
 	gens["Reserved"] = gen.PtrOf(gen.Bool())
 	gens["SpotExpirationTime"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TargetWorkerCount"] = gen.PtrOf(gen.Int())
 	gens["TargetWorkerSizeId"] = gen.PtrOf(gen.Int())
 	gens["WorkerTierName"] = gen.PtrOf(gen.AlphaString())
@@ -259,7 +261,9 @@ func AddIndependentPropertyGeneratorsForServerfarm_STATUS(gens map[string]gopter
 	gens["SpotExpirationTime"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.AlphaString())
 	gens["Subscription"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TargetWorkerCount"] = gen.PtrOf(gen.Int())
 	gens["TargetWorkerSizeId"] = gen.PtrOf(gen.Int())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())

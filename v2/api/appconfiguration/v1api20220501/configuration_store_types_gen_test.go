@@ -280,7 +280,9 @@ func AddIndependentPropertyGeneratorsForConfigurationStore_Spec(gens map[string]
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_PublicNetworkAccess_Disabled, ConfigurationStoreProperties_PublicNetworkAccess_Enabled))
 	gens["SoftDeleteRetentionInDays"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForConfigurationStore_Spec is a factory method for creating gopter generators
@@ -418,7 +420,9 @@ func AddIndependentPropertyGeneratorsForConfigurationStore_STATUS(gens map[strin
 		ConfigurationStoreProperties_ProvisioningState_STATUS_Updating))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ConfigurationStoreProperties_PublicNetworkAccess_STATUS_Disabled, ConfigurationStoreProperties_PublicNetworkAccess_STATUS_Enabled))
 	gens["SoftDeleteRetentionInDays"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1083,7 +1087,9 @@ func AddIndependentPropertyGeneratorsForResourceIdentity_STATUS(gens map[string]
 
 // AddRelatedPropertyGeneratorsForResourceIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForResourceIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserIdentity_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserIdentity_STATUSGenerator())
 }
 
 func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

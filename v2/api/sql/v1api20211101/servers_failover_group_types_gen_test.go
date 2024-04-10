@@ -275,7 +275,9 @@ func Servers_FailoverGroup_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForServers_FailoverGroup_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServers_FailoverGroup_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForServers_FailoverGroup_Spec is a factory method for creating gopter generators
@@ -400,7 +402,9 @@ func AddIndependentPropertyGeneratorsForServers_FailoverGroup_STATUS(gens map[st
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(FailoverGroupProperties_ReplicationRole_STATUS_Primary, FailoverGroupProperties_ReplicationRole_STATUS_Secondary))
 	gens["ReplicationState"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

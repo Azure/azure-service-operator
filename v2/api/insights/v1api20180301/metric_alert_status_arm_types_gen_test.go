@@ -87,7 +87,9 @@ func AddIndependentPropertyGeneratorsForMetricAlert_STATUS_ARM(gens map[string]g
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -241,7 +243,9 @@ func MetricAlertAction_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForMetricAlertAction_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMetricAlertAction_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ActionGroupId"] = gen.PtrOf(gen.AlphaString())
-	gens["WebHookProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["WebHookProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_MetricAlertCriteria_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

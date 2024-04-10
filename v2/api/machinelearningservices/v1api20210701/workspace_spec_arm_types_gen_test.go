@@ -85,7 +85,9 @@ func Workspace_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWorkspace_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForWorkspace_Spec_ARM is a factory method for creating gopter generators
@@ -171,7 +173,9 @@ func AddIndependentPropertyGeneratorsForIdentity_ARM(gens map[string]gopter.Gen)
 
 // AddRelatedPropertyGeneratorsForIdentity_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForIdentity_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityDetails_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentityDetails_ARMGenerator())
 }
 
 func Test_Sku_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

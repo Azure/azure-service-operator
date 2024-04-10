@@ -231,5 +231,7 @@ func AddIndependentPropertyGeneratorsForPutAliasRequestAdditionalProperties_ARM(
 	gens["ManagementGroupId"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionOwnerId"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionTenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }

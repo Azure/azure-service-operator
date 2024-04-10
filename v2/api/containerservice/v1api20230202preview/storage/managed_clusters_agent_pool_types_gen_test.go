@@ -292,7 +292,9 @@ func AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_Spec(gens map[
 	gens["MessageOfTheDay"] = gen.PtrOf(gen.AlphaString())
 	gens["MinCount"] = gen.PtrOf(gen.Int())
 	gens["Mode"] = gen.PtrOf(gen.AlphaString())
-	gens["NodeLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["NodeLabels"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
@@ -304,7 +306,9 @@ func AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_Spec(gens map[
 	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.AlphaString())
 	gens["ScaleSetPriority"] = gen.PtrOf(gen.AlphaString())
 	gens["SpotMaxPrice"] = gen.PtrOf(gen.Float64())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkloadRuntime"] = gen.PtrOf(gen.AlphaString())

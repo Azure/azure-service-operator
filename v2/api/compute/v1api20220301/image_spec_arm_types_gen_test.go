@@ -85,7 +85,9 @@ func Image_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForImage_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForImage_Spec_ARM is a factory method for creating gopter generators

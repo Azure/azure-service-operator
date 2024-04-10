@@ -152,7 +152,9 @@ func AddIndependentPropertyGeneratorsForTrafficmanagerprofile_Spec(gens map[stri
 	gens["MaxReturn"] = gen.PtrOf(gen.Int())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["ProfileStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TrafficRoutingMethod"] = gen.PtrOf(gen.AlphaString())
 	gens["TrafficViewEnrollmentStatus"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
@@ -238,7 +240,9 @@ func AddIndependentPropertyGeneratorsForTrafficmanagerprofile_STATUS(gens map[st
 	gens["MaxReturn"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProfileStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TrafficRoutingMethod"] = gen.PtrOf(gen.AlphaString())
 	gens["TrafficViewEnrollmentStatus"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())

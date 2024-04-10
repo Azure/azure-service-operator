@@ -177,7 +177,9 @@ func AddIndependentPropertyGeneratorsForAFDDomainProperties_STATUS_ARM(gens map[
 		AFDDomainProperties_DomainValidationState_STATUS_Submitting,
 		AFDDomainProperties_DomainValidationState_STATUS_TimedOut,
 		AFDDomainProperties_DomainValidationState_STATUS_Unknown))
-	gens["ExtendedProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["ExtendedProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["ProfileName"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(

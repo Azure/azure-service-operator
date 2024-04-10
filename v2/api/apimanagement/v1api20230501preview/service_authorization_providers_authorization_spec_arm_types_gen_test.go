@@ -152,5 +152,7 @@ func AuthorizationContractProperties_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAuthorizationContractProperties_ARM(gens map[string]gopter.Gen) {
 	gens["AuthorizationType"] = gen.PtrOf(gen.OneConstOf(AuthorizationContractProperties_AuthorizationType_OAuth2))
 	gens["Oauth2GrantType"] = gen.PtrOf(gen.OneConstOf(AuthorizationContractProperties_Oauth2GrantType_AuthorizationCode, AuthorizationContractProperties_Oauth2GrantType_ClientCredentials))
-	gens["Parameters"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Parameters"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }

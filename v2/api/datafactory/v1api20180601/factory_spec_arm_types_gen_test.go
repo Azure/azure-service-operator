@@ -85,7 +85,9 @@ func Factory_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForFactory_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForFactory_Spec_ARM is a factory method for creating gopter generators
@@ -166,7 +168,9 @@ func AddIndependentPropertyGeneratorsForFactoryIdentity_ARM(gens map[string]gopt
 
 // AddRelatedPropertyGeneratorsForFactoryIdentity_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFactoryIdentity_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityDetails_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentityDetails_ARMGenerator())
 }
 
 func Test_FactoryProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -242,7 +246,9 @@ func AddIndependentPropertyGeneratorsForFactoryProperties_ARM(gens map[string]go
 // AddRelatedPropertyGeneratorsForFactoryProperties_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFactoryProperties_ARM(gens map[string]gopter.Gen) {
 	gens["Encryption"] = gen.PtrOf(EncryptionConfiguration_ARMGenerator())
-	gens["GlobalParameters"] = gen.MapOf(gen.AlphaString(), GlobalParameterSpecification_ARMGenerator())
+	gens["GlobalParameters"] = gen.MapOf(
+		gen.AlphaString(),
+		GlobalParameterSpecification_ARMGenerator())
 	gens["PurviewConfiguration"] = gen.PtrOf(PurviewConfiguration_ARMGenerator())
 	gens["RepoConfiguration"] = gen.PtrOf(FactoryRepoConfiguration_ARMGenerator())
 }

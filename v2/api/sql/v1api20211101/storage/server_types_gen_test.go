@@ -153,7 +153,9 @@ func AddIndependentPropertyGeneratorsForServer_Spec(gens map[string]gopter.Gen) 
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["RestrictOutboundNetworkAccess"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -243,7 +245,9 @@ func AddIndependentPropertyGeneratorsForServer_STATUS(gens map[string]gopter.Gen
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["RestrictOutboundNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceFeature"] = gen.PtrOf(gen.AlphaString())
@@ -404,7 +408,9 @@ func AddIndependentPropertyGeneratorsForResourceIdentity_STATUS(gens map[string]
 
 // AddRelatedPropertyGeneratorsForResourceIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForResourceIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserIdentity_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserIdentity_STATUSGenerator())
 }
 
 func Test_ServerExternalAdministrator_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

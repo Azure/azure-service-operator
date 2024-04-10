@@ -282,7 +282,9 @@ func AddIndependentPropertyGeneratorsForStorageAccounts_FileServices_Share_Spec(
 		FileShareProperties_AccessTier_TransactionOptimized))
 	gens["AzureName"] = gen.AlphaString()
 	gens["EnabledProtocols"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_EnabledProtocols_NFS, FileShareProperties_EnabledProtocols_SMB))
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["RootSquash"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_RootSquash_AllSquash, FileShareProperties_RootSquash_NoRootSquash, FileShareProperties_RootSquash_RootSquash))
 	gens["ShareQuota"] = gen.PtrOf(gen.Int())
 }
@@ -422,7 +424,9 @@ func AddIndependentPropertyGeneratorsForStorageAccounts_FileServices_Share_STATU
 		FileShareProperties_LeaseState_STATUS_Expired,
 		FileShareProperties_LeaseState_STATUS_Leased))
 	gens["LeaseStatus"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_LeaseStatus_STATUS_Locked, FileShareProperties_LeaseStatus_STATUS_Unlocked))
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["RemainingRetentionDays"] = gen.PtrOf(gen.Int())
 	gens["RootSquash"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_RootSquash_STATUS_AllSquash, FileShareProperties_RootSquash_STATUS_NoRootSquash, FileShareProperties_RootSquash_STATUS_RootSquash))

@@ -277,7 +277,9 @@ func AddIndependentPropertyGeneratorsForAutoscalesetting_Spec(gens map[string]go
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TargetResourceLocation"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -402,7 +404,9 @@ func AddIndependentPropertyGeneratorsForAutoscalesetting_STATUS(gens map[string]
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PropertiesName"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TargetResourceLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["TargetResourceUri"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
@@ -2394,7 +2398,9 @@ func WebhookNotificationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForWebhookNotification is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWebhookNotification(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Properties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["ServiceUri"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2498,7 +2504,9 @@ func WebhookNotification_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForWebhookNotification_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWebhookNotification_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Properties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["ServiceUri"] = gen.PtrOf(gen.AlphaString())
 }
 

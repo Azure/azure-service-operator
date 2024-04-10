@@ -274,7 +274,9 @@ func Profiles_CustomDomain_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForProfiles_CustomDomain_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["ExtendedProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["ExtendedProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -409,7 +411,9 @@ func AddIndependentPropertyGeneratorsForProfiles_CustomDomain_STATUS(gens map[st
 		AFDDomainProperties_DomainValidationState_STATUS_Submitting,
 		AFDDomainProperties_DomainValidationState_STATUS_TimedOut,
 		AFDDomainProperties_DomainValidationState_STATUS_Unknown))
-	gens["ExtendedProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["ExtendedProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())

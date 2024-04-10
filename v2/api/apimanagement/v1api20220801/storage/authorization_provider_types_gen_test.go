@@ -499,6 +499,10 @@ func AuthorizationProviderOAuth2GrantTypes_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAuthorizationProviderOAuth2GrantTypes_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAuthorizationProviderOAuth2GrantTypes_STATUS(gens map[string]gopter.Gen) {
-	gens["AuthorizationCode"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["ClientCredentials"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["AuthorizationCode"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["ClientCredentials"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }

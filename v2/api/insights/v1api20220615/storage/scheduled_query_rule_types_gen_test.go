@@ -160,7 +160,9 @@ func AddIndependentPropertyGeneratorsForScheduledQueryRule_Spec(gens map[string]
 	gens["OverrideQueryTimeRange"] = gen.PtrOf(gen.AlphaString())
 	gens["Severity"] = gen.PtrOf(gen.Int())
 	gens["SkipQueryValidation"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TargetResourceTypes"] = gen.SliceOf(gen.AlphaString())
 	gens["WindowSize"] = gen.PtrOf(gen.AlphaString())
 }
@@ -257,7 +259,9 @@ func AddIndependentPropertyGeneratorsForScheduledQueryRule_STATUS(gens map[strin
 	gens["Scopes"] = gen.SliceOf(gen.AlphaString())
 	gens["Severity"] = gen.PtrOf(gen.Int())
 	gens["SkipQueryValidation"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TargetResourceTypes"] = gen.SliceOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["WindowSize"] = gen.PtrOf(gen.AlphaString())
@@ -327,7 +331,9 @@ func ActionsGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForActions is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForActions(gens map[string]gopter.Gen) {
-	gens["CustomProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["CustomProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_Actions_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -388,7 +394,9 @@ func Actions_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForActions_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForActions_STATUS(gens map[string]gopter.Gen) {
 	gens["ActionGroups"] = gen.SliceOf(gen.AlphaString())
-	gens["CustomProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["CustomProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_ScheduledQueryRuleCriteria_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -86,7 +86,9 @@ func DiskEncryptionSet_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDiskEncryptionSet_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDiskEncryptionSet_Spec_ARM is a factory method for creating gopter generators
@@ -171,7 +173,9 @@ func AddIndependentPropertyGeneratorsForEncryptionSetIdentity_ARM(gens map[strin
 
 // AddRelatedPropertyGeneratorsForEncryptionSetIdentity_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForEncryptionSetIdentity_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityDetails_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentityDetails_ARMGenerator())
 }
 
 func Test_EncryptionSetProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

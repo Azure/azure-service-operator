@@ -151,7 +151,9 @@ func AddIndependentPropertyGeneratorsForRegistry_Spec(gens map[string]gopter.Gen
 	gens["NetworkRuleBypassOptions"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["ZoneRedundancy"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -241,7 +243,9 @@ func AddIndependentPropertyGeneratorsForRegistry_STATUS(gens map[string]gopter.G
 	gens["NetworkRuleBypassOptions"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["ZoneRedundancy"] = gen.PtrOf(gen.AlphaString())
 }
@@ -557,7 +561,9 @@ func AddIndependentPropertyGeneratorsForIdentityProperties_STATUS(gens map[strin
 
 // AddRelatedPropertyGeneratorsForIdentityProperties_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForIdentityProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserIdentityProperties_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserIdentityProperties_STATUSGenerator())
 }
 
 func Test_NetworkRuleSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
