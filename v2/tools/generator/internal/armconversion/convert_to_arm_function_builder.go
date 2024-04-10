@@ -652,18 +652,18 @@ func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(
 	locals := params.Locals.Clone()
 
 	itemIdent := locals.CreateLocal("ident")
-	keyTypeExpr, kerr := destinationType.KeyType().AsTypeExpr(conversionBuilder.CodeGenerationContext)
-	if kerr != nil {
+	keyTypeExpr, err := destinationType.KeyType().AsTypeExpr(conversionBuilder.CodeGenerationContext)
+	if err != nil {
 		return nil,
-			errors.Wrapf(kerr,
+			errors.Wrapf(err,
 				"creating type expression for key type %s",
 				destinationType.KeyType())
 	}
 
-	valueTypeExpr, verr := destinationType.ValueType().AsTypeExpr(conversionBuilder.CodeGenerationContext)
-	if verr != nil {
+	valueTypeExpr, err := destinationType.ValueType().AsTypeExpr(conversionBuilder.CodeGenerationContext)
+	if err != nil {
 		return nil,
-			errors.Wrapf(verr,
+			errors.Wrapf(err,
 				"creating type expression for value type %s",
 				destinationType.ValueType())
 	}

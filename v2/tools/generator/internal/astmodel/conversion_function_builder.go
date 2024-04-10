@@ -417,14 +417,14 @@ func IdentityConvertComplexMapProperty(
 		return astbuilder.InsertMap(lhs, dst.NewIdent(keyIdent), rhs)
 	}
 
-	keyTypeExpr, kerr := destinationType.KeyType().AsTypeExpr(builder.CodeGenerationContext)
-	if kerr != nil {
-		return nil, errors.Wrap(kerr, "creating key type expression")
+	keyTypeExpr, err := destinationType.KeyType().AsTypeExpr(builder.CodeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating key type expression")
 	}
 
-	valueTypeExpr, verr := destinationType.ValueType().AsTypeExpr(builder.CodeGenerationContext)
-	if verr != nil {
-		return nil, errors.Wrap(verr, "creating value type expression")
+	valueTypeExpr, err := destinationType.ValueType().AsTypeExpr(builder.CodeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating value type expression")
 	}
 
 	makeMapStatement := astbuilder.AssignmentStatement(

@@ -1474,18 +1474,18 @@ func assignMapFromMap(
 		itemId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Value")
 		keyId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Key")
 
-		keyTypeExpr, kerr := destinationMap.KeyType().AsTypeExpr(generationContext)
-		if kerr != nil {
+		keyTypeExpr, err := destinationMap.KeyType().AsTypeExpr(generationContext)
+		if err != nil {
 			return nil, errors.Wrapf(
-				kerr,
+				err,
 				"creating map key type expression for %s",
 				astmodel.DebugDescription(destinationMap.KeyType()))
 		}
 
-		valueTypeExpr, verr := destinationMap.ValueType().AsTypeExpr(generationContext)
-		if verr != nil {
+		valueTypeExpr, err := destinationMap.ValueType().AsTypeExpr(generationContext)
+		if err != nil {
 			return nil, errors.Wrapf(
-				verr,
+				err,
 				"creating map value type expression for %s",
 				astmodel.DebugDescription(destinationMap.ValueType()))
 		}
