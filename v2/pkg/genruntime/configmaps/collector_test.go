@@ -78,6 +78,22 @@ func TestCollector_DestinationsDifferentConfigMap_DoesNotMerge(t *testing.T) {
 	g.Expect(result[1].Data["bar"]).To(Equal("value2"))
 }
 
+func TestCollector_MissingValue_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destination1 := &genruntime.ConfigMapDestination{
+		Name: "myconfig",
+		Key:  "foo",
+	}
+
+	collector := configmaps.NewCollector("ns")
+	collector.AddValue(destination1, "")
+
+	_, err := collector.Values()
+	g.Expect(err).To(HaveOccurred())
+}
+
 func TestCollector_SameDestinationSameKey_ReturnsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
