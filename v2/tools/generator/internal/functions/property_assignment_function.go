@@ -136,7 +136,11 @@ func (fn *PropertyAssignmentFunction) AsFunc(
 		fmt.Sprintf("populates the provided destination %s from our %s", fn.ParameterType().Name(), receiver.Name()))
 
 	// We always use a pointer receiver, so we can modify it
-	receiverType := astmodel.NewOptionalType(receiver).AsType(codeGenerationContext)
+	receiverType := astmodel.NewOptionalType(receiver)
+	receiverTypeExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	body, err := fn.generateBody(fn.receiverName, fn.parameterName, codeGenerationContext)
 	if err != nil {
@@ -145,14 +149,18 @@ func (fn *PropertyAssignmentFunction) AsFunc(
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: fn.receiverName,
-		ReceiverType:  receiverType,
+		ReceiverType:  receiverTypeExpr,
 		Name:          fn.Name(),
 		Body:          body,
 	}
 
-	funcDetails.AddParameter(
-		fn.parameterName,
-		astbuilder.PointerTo(fn.ParameterType().AsType(codeGenerationContext)))
+	parameterTypeExpr, err := astmodel.NewOptionalType(fn.ParameterType()).
+		AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating parameter type expression")
+	}
+
+	funcDetails.AddParameter(fn.parameterName, parameterTypeExpr)
 
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(description)
@@ -188,7 +196,10 @@ func (fn *PropertyAssignmentFunction) generateBody(
 	}
 
 	bagEpilogue := fn.propertyBagEpilogue(destination)
-	handleOverrideInterface := fn.handleAugmentationInterface(receiver, parameter, knownLocals, generationContext)
+	handleOverrideInterface, err := fn.handleAugmentationInterface(receiver, parameter, knownLocals, generationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "generating augmentation interface handling for %s", fn.Name())
+	}
 
 	return astbuilder.Statements(
 		bagPrologue,
@@ -299,12 +310,16 @@ func (fn *PropertyAssignmentFunction) handleAugmentationInterface(
 	parameter string,
 	knownLocals *astmodel.KnownLocalsSet,
 	generationContext *astmodel.CodeGenerationContext,
-) []dst.Stmt {
+) ([]dst.Stmt, error) {
 	if fn.augmentationInterface == nil {
-		return nil
+		return nil, nil
 	}
 
-	overrideInterface := fn.augmentationInterface.AsType(generationContext)
+	augmentationInterfaceExpr, err := fn.augmentationInterface.AsTypeExpr(generationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating augmentation interface type expression")
+	}
+
 	receiverAsAnyIdent := knownLocals.CreateLocal(receiver + "AsAny")
 
 	sourceAsAny := astbuilder.NewVariableAssignmentWithType(receiverAsAnyIdent, dst.NewIdent("any"), dst.NewIdent(receiver))
@@ -325,7 +340,7 @@ func (fn *PropertyAssignmentFunction) handleAugmentationInterface(
 
 	ifStmt := astbuilder.IfType(
 		dst.NewIdent(receiverAsAnyIdent),
-		overrideInterface,
+		augmentationInterfaceExpr,
 		augmentedReceiverIdent,
 		callAssignOverride,
 		returnIfNotNil)
@@ -334,7 +349,7 @@ func (fn *PropertyAssignmentFunction) handleAugmentationInterface(
 
 	return astbuilder.Statements(
 		sourceAsAny,
-		ifStmt)
+		ifStmt), nil
 }
 
 // generateAssignments generates a sequence of statements to copy information between the two types

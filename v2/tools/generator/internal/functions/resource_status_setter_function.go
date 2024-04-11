@@ -9,6 +9,7 @@ import (
 	"fmt"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -62,6 +63,10 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 ) (*dst.FuncDecl, error) {
 	receiverIdent := fn.idFactory.CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
+	receiverTypeExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	statusLocal := "st"
 	statusParameter := "status"
@@ -113,7 +118,7 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 
 	builder := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  receiverType.AsType(codeGenerationContext),
+		ReceiverType:  receiverTypeExpr,
 		Name:          "SetStatus",
 		Body: astbuilder.Statements(
 			simplePath,
@@ -124,8 +129,19 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 			returnNil),
 	}
 
-	builder.AddParameter(statusParameter, astmodel.ConvertibleStatusInterfaceType.AsType(codeGenerationContext))
-	builder.AddReturn(astmodel.ErrorType.AsType(codeGenerationContext))
+	convertibleStatusInterfaceTypeExpr, err := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating convertible status interface type expression")
+	}
+
+	builder.AddParameter(statusParameter, convertibleStatusInterfaceTypeExpr)
+
+	errorTypeExpr, err := astmodel.ErrorType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating error type expression")
+	}
+
+	builder.AddReturn(errorTypeExpr)
 
 	builder.AddComments("sets the status of this resource")
 

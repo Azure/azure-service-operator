@@ -86,10 +86,15 @@ func (f *IndexRegistrationFunction) AsFunc(
 	objName := "obj"
 
 	// obj, ok := rawObj.(*<type>)
+	resourceTypeNameExpr, err := f.resourceTypeName.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", f.resourceTypeName)
+	}
+
 	cast := astbuilder.TypeAssert(
 		dst.NewIdent(objName),
 		dst.NewIdent(rawObjName),
-		astbuilder.PointerTo(f.resourceTypeName.AsType(codeGenerationContext)))
+		astbuilder.PointerTo(resourceTypeNameExpr))
 
 	// if !ok { return nil }
 	checkAssert := astbuilder.ReturnIfNotOk(astbuilder.Nil())
@@ -99,7 +104,6 @@ func (f *IndexRegistrationFunction) AsFunc(
 	if f.isIndexSingleValue() {
 		stmts = f.singleValue(specSelector)
 	} else {
-		var err error
 		stmts, err = f.multipleValues(specSelector)
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to generate multiple value index registration function for %s", f.resourceTypeName)
@@ -114,7 +118,12 @@ func (f *IndexRegistrationFunction) AsFunc(
 			stmts),
 	}
 
-	fn.AddParameter(rawObjName, astmodel.ControllerRuntimeObjectType.AsType(codeGenerationContext))
+	controllerRuntimeObjectExpr, err := astmodel.ControllerRuntimeObjectType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating type expression for index registration function")
+	}
+
+	fn.AddParameter(rawObjName, controllerRuntimeObjectExpr)
 
 	fn.AddReturn(&dst.ArrayType{Elt: dst.NewIdent("string")})
 

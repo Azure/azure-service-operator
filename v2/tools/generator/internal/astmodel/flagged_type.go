@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
@@ -102,8 +103,13 @@ func (ft *FlaggedType) References() TypeNameSet {
 
 // AsType renders as a Go abstract syntax tree for a type
 // (yes this says ast.Expr but that is what the Go 'dst' package uses for types)
-func (ft *FlaggedType) AsType(ctx *CodeGenerationContext) dst.Expr {
-	return ft.element.AsType(ctx)
+func (ft *FlaggedType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
+	result, err := ft.element.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating inner expression for flagged type")
+	}
+
+	return result, nil
 }
 
 // AsDeclarations renders as a Go abstract syntax tree for a declaration

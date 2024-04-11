@@ -48,15 +48,15 @@ var ErrorType = &PrimitiveType{"error", "nil"}
 var _ Type = (*PrimitiveType)(nil)
 
 // AsType implements Type for PrimitiveType returning an abstract syntax tree
-func (prim *PrimitiveType) AsType(_ *CodeGenerationContext) dst.Expr {
-	return dst.NewIdent(prim.name)
+func (prim *PrimitiveType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
+	return dst.NewIdent(prim.name), nil
 }
 
 func (prim *PrimitiveType) AsDeclarations(
 	codeGenerationContext *CodeGenerationContext,
 	declContext DeclarationContext,
 ) ([]dst.Decl, error) {
-	return AsSimpleDeclarations(codeGenerationContext, declContext, prim), nil
+	return AsSimpleDeclarations(codeGenerationContext, declContext, prim)
 }
 
 // RequiredPackageReferences returns a list of package required by this

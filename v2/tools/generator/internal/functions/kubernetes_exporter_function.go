@@ -87,7 +87,10 @@ func (d *KubernetesExporterBuilder) exportKubernetesResources(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsType(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	configMapsReference := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeConfigMapsReference)
 
@@ -198,7 +201,7 @@ func (d *KubernetesExporterBuilder) exportKubernetesResources(
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Body: astbuilder.Statements(
 			collectorCreationStmt,
 			collectStmts,
@@ -207,12 +210,41 @@ func (d *KubernetesExporterBuilder) exportKubernetesResources(
 			sliceToClientObjectSlice),
 	}
 
-	fn.AddParameter("_", astmodel.ContextType.AsType(codeGenerationContext))
-	fn.AddParameter("_", astmodel.GenRuntimeMetaObjectType.AsType(codeGenerationContext))
-	fn.AddParameter("_", astmodel.NewOptionalType(astmodel.GenericClientType).AsType(codeGenerationContext))
-	fn.AddParameter("_", astmodel.LogrType.AsType(codeGenerationContext))
+	contextTypeExpr, err := astmodel.ContextType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating context type expression")
+	}
 
-	fn.AddReturn(&dst.ArrayType{Elt: astmodel.ControllerRuntimeObjectType.AsType(codeGenerationContext)})
+	fn.AddParameter("_", contextTypeExpr)
+
+	metaObjectTypeExpr, err := astmodel.GenRuntimeMetaObjectType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating meta object type expression")
+	}
+
+	fn.AddParameter("_", metaObjectTypeExpr)
+
+	clientTypeExpr, err := astmodel.NewOptionalType(astmodel.GenericClientType).AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating client type expression")
+	}
+
+	fn.AddParameter("_", clientTypeExpr)
+
+	logrTypeExpr, err := astmodel.LogrType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating logr type expression")
+	}
+
+	fn.AddParameter("_", logrTypeExpr)
+
+	objectArrayType, err := astmodel.NewArrayType(astmodel.ControllerRuntimeObjectType).
+		AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating object array type expression")
+	}
+
+	fn.AddReturn(objectArrayType)
 	fn.AddReturn(dst.NewIdent("error"))
 
 	fn.AddComments("defines a resource which can create other resources in Kubernetes.")

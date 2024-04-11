@@ -8,6 +8,8 @@ package functions
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
+
 	"github.com/dave/dst"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -128,16 +130,24 @@ func (fn *ChainedConversionFunction) AsFunc(
 	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
 
 	// We always use a pointer receiver, so we can modify it
-	receiverType := astmodel.NewOptionalType(receiver).AsType(codeGenerationContext)
+	receiverExpr, err := astmodel.NewOptionalType(receiver).AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating receiver type expression for %s", receiver)
+	}
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  receiverType,
+		ReceiverType:  receiverExpr,
 		Name:          fn.Name(),
 	}
 
 	parameterName := fn.direction.SelectString("source", "destination")
-	funcDetails.AddParameter(parameterName, fn.parameterType.AsType(codeGenerationContext))
+	parameterTypeExpr, err := fn.parameterType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating parameter type expression for %s", parameterName)
+	}
+
+	funcDetails.AddParameter(parameterName, parameterTypeExpr)
 
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(fn.declarationDocComment(receiver, parameterName))
@@ -178,7 +188,11 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 	local := dst.NewIdent(fn.localVariableId())
 	errIdent := dst.NewIdent("err")
 
-	intermediateType := fn.propertyAssignmentParameterType.AsType(generationContext)
+	intermediateType, err := fn.propertyAssignmentParameterType.AsTypeExpr(generationContext)
+	if err != nil {
+		// TODO: Modify bodyForConvert to return an error
+		panic(err)
+	}
 
 	// <local>, ok := <parameter>.(<intermediateType>)
 	typeAssert := astbuilder.TypeAssert(local, parameter, astbuilder.Dereference(intermediateType))

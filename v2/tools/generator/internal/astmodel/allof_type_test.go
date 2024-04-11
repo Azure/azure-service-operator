@@ -99,7 +99,8 @@ func TestAllOfAsTypePanics(t *testing.T) {
 
 	x := AllOfType{}
 	g.Expect(func() {
-		x.AsType(&CodeGenerationContext{})
+		_, err := x.AsTypeExpr(&CodeGenerationContext{})
+		g.Expect(err).To(BeNil()) // Unreachable, but keeps lint happy
 	}).To(PanicWith(MatchError(expectedAllOfPanic)))
 }
 

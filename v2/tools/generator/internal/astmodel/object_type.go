@@ -68,6 +68,11 @@ func (objectType *ObjectType) AsDeclarations(
 	codeGenerationContext *CodeGenerationContext,
 	declContext DeclarationContext,
 ) ([]dst.Decl, error) {
+	objectTypeExpr, err := objectType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating object type expression for %s", declContext.Name)
+	}
+
 	declaration := &dst.GenDecl{
 		Decs: dst.GenDeclDecorations{
 			NodeDecs: dst.NodeDecs{
@@ -79,7 +84,7 @@ func (objectType *ObjectType) AsDeclarations(
 		Specs: []dst.Spec{
 			&dst.TypeSpec{
 				Name: dst.NewIdent(declContext.Name.Name()),
-				Type: objectType.AsType(codeGenerationContext),
+				Type: objectTypeExpr,
 			},
 		},
 	}
@@ -241,15 +246,32 @@ func (objectType *ObjectType) HasFunctionWithName(name string) bool {
 }
 
 // AsType implements Type for ObjectType
-func (objectType *ObjectType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
+func (objectType *ObjectType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
 	embedded := objectType.EmbeddedProperties()
 	fields := make([]*dst.Field, 0, len(embedded))
+	var errs []error
 	for _, f := range embedded {
-		fields = append(fields, f.AsField(codeGenerationContext))
+		field, err := f.AsField(codeGenerationContext)
+		if err != nil {
+			errs = append(errs, errors.Wrapf(err, "creating field for embedded property %s", f.PropertyName()))
+			continue
+		}
+
+		fields = append(fields, field)
 	}
 
 	for _, f := range objectType.properties.AsSlice() {
-		fields = append(fields, f.AsField(codeGenerationContext))
+		field, err := f.AsField(codeGenerationContext)
+		if err != nil {
+			errs = append(errs, errors.Wrapf(err, "creating field for property %s", f.PropertyName()))
+			continue
+		}
+
+		fields = append(fields, field)
+	}
+
+	if len(errs) > 0 {
+		return nil, errors.Wrapf(kerrors.NewAggregate(errs), "creating fields for object type")
 	}
 
 	if len(fields) > 0 {
@@ -262,7 +284,7 @@ func (objectType *ObjectType) AsType(codeGenerationContext *CodeGenerationContex
 		Fields: &dst.FieldList{
 			List: fields,
 		},
-	}
+	}, nil
 }
 
 // AsZero renders an expression for the "zero" value of the type
