@@ -509,6 +509,7 @@ func UserAssignedIdentityOperatorSpecGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForUserAssignedIdentityOperatorSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForUserAssignedIdentityOperatorSpec(gens map[string]gopter.Gen) {
 	gens["ConfigMaps"] = gen.PtrOf(UserAssignedIdentityOperatorConfigMapsGenerator())
+	gens["Secrets"] = gen.PtrOf(UserAssignedIdentityOperatorSecretsGenerator())
 }
 
 func Test_UserAssignedIdentityOperatorConfigMaps_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -606,4 +607,101 @@ func UserAssignedIdentityOperatorConfigMapsGenerator() gopter.Gen {
 	userAssignedIdentityOperatorConfigMapsGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityOperatorConfigMaps{}), generators)
 
 	return userAssignedIdentityOperatorConfigMapsGenerator
+}
+
+func Test_UserAssignedIdentityOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from UserAssignedIdentityOperatorSecrets to UserAssignedIdentityOperatorSecrets via AssignProperties_To_UserAssignedIdentityOperatorSecrets & AssignProperties_From_UserAssignedIdentityOperatorSecrets returns original",
+		prop.ForAll(RunPropertyAssignmentTestForUserAssignedIdentityOperatorSecrets, UserAssignedIdentityOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForUserAssignedIdentityOperatorSecrets tests if a specific instance of UserAssignedIdentityOperatorSecrets can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForUserAssignedIdentityOperatorSecrets(subject UserAssignedIdentityOperatorSecrets) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230131s.UserAssignedIdentityOperatorSecrets
+	err := copied.AssignProperties_To_UserAssignedIdentityOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual UserAssignedIdentityOperatorSecrets
+	err = actual.AssignProperties_From_UserAssignedIdentityOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_UserAssignedIdentityOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of UserAssignedIdentityOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentityOperatorSecrets, UserAssignedIdentityOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForUserAssignedIdentityOperatorSecrets runs a test to see if a specific instance of UserAssignedIdentityOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForUserAssignedIdentityOperatorSecrets(subject UserAssignedIdentityOperatorSecrets) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual UserAssignedIdentityOperatorSecrets
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of UserAssignedIdentityOperatorSecrets instances for property testing - lazily instantiated by
+// UserAssignedIdentityOperatorSecretsGenerator()
+var userAssignedIdentityOperatorSecretsGenerator gopter.Gen
+
+// UserAssignedIdentityOperatorSecretsGenerator returns a generator of UserAssignedIdentityOperatorSecrets instances for property testing.
+func UserAssignedIdentityOperatorSecretsGenerator() gopter.Gen {
+	if userAssignedIdentityOperatorSecretsGenerator != nil {
+		return userAssignedIdentityOperatorSecretsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	userAssignedIdentityOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityOperatorSecrets{}), generators)
+
+	return userAssignedIdentityOperatorSecretsGenerator
 }

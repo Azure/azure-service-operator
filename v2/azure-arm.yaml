@@ -2208,6 +2208,10 @@ objectModelConfiguration:
       UserAssignedIdentity:
         $export: true
         $supportedFrom: v2.5.0
+        $azureGeneratedSecrets:
+          - ClientId
+          - PrincipalId
+          - TenantId
         $generatedConfigs:
           ClientId: $.Status.ClientId
           PrincipalId: $.Status.PrincipalId
