@@ -22,5 +22,5 @@ spec:
     configuration.backupStorageLocation.bucket: "asodpsamplecontainer"
     configuration.backupStorageLocation.config.resourceGroup: "aso-sample-rg"
     configuration.backupStorageLocation.config.storageAccount: "asodpsamplekubestorage"
-    configuration.backupStorageLocation.config.subscriptionId: "f0c630e0-2995-4853-b056-0b3c09cb673f"
-    credentials.tenantId: "72f988bf-86f1-41af-91ab-2d7cd011db47"
+    configuration.backupStorageLocation.config.subscriptionId: "00000000-0000-0000-0000-000000000000"
+    credentials.tenantId: "00000000-0000-0000-0000-000000000000"
