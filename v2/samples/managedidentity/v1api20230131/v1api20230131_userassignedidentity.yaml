@@ -7,3 +7,24 @@ spec:
   location: westcentralus
   owner:
     name: aso-sample-rg
+  operatorSpec:
+    configMaps:
+      clientId:
+        name: umi-cm
+        key: clientId
+      principalId:
+        name: umi-cm
+        key: principalId
+      tenantId:
+        name: umi-cm
+        key: tenantId
+    secrets:
+      clientId:
+        name: umi-secret
+        key: clientId
+      principalId:
+        name: umi-secret
+        key: principalId
+      tenantId:
+        name: umi-secret
+        key: tenantId
