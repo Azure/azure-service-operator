@@ -39,7 +39,7 @@
     Backup   (Appears on:FlexibleServer_Spec)  Storage Profile properties of a server
     Field Description      backupRetentionDays  int    BackupRetentionDays: Backup retention days for the server.">
 
-<meta itemprop="wordCount" content="4117">
+<meta itemprop="wordCount" content="4172">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="dbformysql.azure.com/v1api20210501"/>
 <meta name="twitter:description" content="dbformysql.azure.com/v1api20210501  Package v1api20210501 contains API Schema definitions for the dbformysql v1api20210501 API group
@@ -348,6 +348,8 @@
   <a href="/azure-service-operator/reference/dbformysql/v1api20210501/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20210501"><span class="td-sidebar-nav-active-item">dbformysql.azure.com/v1api20210501</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1api20220101-li">
   <a href="/azure-service-operator/reference/dbformysql/v1api20220101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20220101"><span class="">dbformysql.azure.com/v1api20220101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1api20230630-li">
+  <a href="/azure-service-operator/reference/dbformysql/v1api20230630/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20230630"><span class="">dbformysql.azure.com/v1api20230630</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
@@ -1807,6 +1809,51 @@ FlexibleServer_STATUS
 </tr>
 </tbody>
 </table>
+<h3 id="dbformysql.azure.com/v1api20210501.FlexibleServerOperatorConfigMaps">FlexibleServerOperatorConfigMaps
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1api20210501.FlexibleServerOperatorSpec">FlexibleServerOperatorSpec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>administratorLogin</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">
+genruntime.ConfigMapDestination
+</a>
+</em>
+</td>
+<td>
+<p>AdministratorLogin: indicates where the AdministratorLogin config map should be placed. If omitted, no config map will
+be created.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>fullyQualifiedDomainName</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">
+genruntime.ConfigMapDestination
+</a>
+</em>
+</td>
+<td>
+<p>FullyQualifiedDomainName: indicates where the FullyQualifiedDomainName config map should be placed. If omitted, no
+config map will be created.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="dbformysql.azure.com/v1api20210501.FlexibleServerOperatorSecrets">FlexibleServerOperatorSecrets
 </h3>
 <p>
@@ -1854,6 +1901,19 @@ will not be retrieved from Azure.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<code>configMaps</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1api20210501.FlexibleServerOperatorConfigMaps">
+FlexibleServerOperatorConfigMaps
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMaps: configures where to place operator written ConfigMaps.</p>
+</td>
+</tr>
 <tr>
 <td>
 <code>secrets</code><br/>
