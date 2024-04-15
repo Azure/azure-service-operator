@@ -82,7 +82,11 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	}
 
 	// getKnownStorageTypes() function
-	knownStorageTypes := r.createGetKnownStorageTypesFunc(codeGenContext)
+	knownStorageTypes, err := r.createGetKnownStorageTypesFunc(codeGenContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating %s function", "getKnownStorageTypes")
+	}
+
 	decls = append(decls, knownStorageTypes)
 
 	// getKnownTypes() function
@@ -95,12 +99,17 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	// createScheme() function
 	createSchemeFunc, err := r.createCreateSchemeFunc(codeGenContext)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "creating getKnownResourceExtensions function")
 	}
+
 	decls = append(decls, createSchemeFunc)
 
 	// Create Resource Extensions
-	resourceExtensionTypes := r.createGetResourceExtensions(codeGenContext)
+	resourceExtensionTypes, err := r.createGetResourceExtensions(codeGenContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating getKnownResourceExtensions function")
+	}
+
 	decls = append(decls, resourceExtensionTypes)
 
 	// All the index functions
@@ -224,7 +233,12 @@ func createGetKnownTypesFunc(
 			batch = batch[:0]
 		}
 
-		batch = append(batch, astbuilder.CallFunc("new", typeName.AsType(codeGenerationContext)))
+		typeNameExpr, err := typeName.AsTypeExpr(codeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating type expression for %s", typeName.Name())
+		}
+
+		batch = append(batch, astbuilder.CallFunc("new", typeNameExpr))
 		lastPkg = typeName.PackageReference()
 	}
 
@@ -273,22 +287,40 @@ func createGetKnownTypesFunc(
 //	}
 func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
-) dst.Decl {
+) (dst.Decl, error) {
 	funcName := "getKnownStorageTypes"
 	funcComment := "returns the list of storage types which can be reconciled."
 
 	resultIdent := dst.NewIdent("result")
+	resultType := astmodel.NewArrayType(
+		astmodel.NewOptionalType(
+			astmodel.StorageTypeRegistrationType))
+	resultTypeExpr, err := resultType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating type expression for StorageTypeRegistrationType")
+	}
+
 	resultVar := astbuilder.LocalVariableDeclaration(
 		resultIdent.String(),
-		astmodel.NewArrayType(astmodel.NewOptionalType(astmodel.StorageTypeRegistrationType)).AsType(codeGenerationContext),
+		resultTypeExpr,
 		"")
 
 	sort.Slice(r.storageVersionResources, orderByImportedTypeName(codeGenerationContext, r.storageVersionResources))
 
 	resourceAppendStatements := make([]dst.Stmt, 0, len(r.storageVersionResources))
 	for _, typeName := range r.storageVersionResources {
-		newStorageTypeBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.StorageTypeRegistrationType.AsType(codeGenerationContext))
-		newStorageTypeBuilder.AddField("Obj", astbuilder.CallFunc("new", typeName.AsType(codeGenerationContext)))
+		typeNameExpr, err := typeName.AsTypeExpr(codeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating type expression for %s", typeName.Name())
+		}
+
+		registrationTypeExpr, err := astmodel.StorageTypeRegistrationType.AsTypeExpr(codeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrap(err, "creating type expression for StorageTypeRegistrationType")
+		}
+
+		newStorageTypeBuilder := astbuilder.NewCompositeLiteralBuilder(registrationTypeExpr)
+		newStorageTypeBuilder.AddField("Obj", astbuilder.CallFunc("new", typeNameExpr))
 
 		// Register index functions (if needed):
 		// Indexes: []registration.Index{
@@ -298,11 +330,17 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 		//		}
 		//	}
 		if indexFuncs, ok := r.indexFunctions[typeName]; ok {
-			sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.IndexRegistrationType.AsType(codeGenerationContext), true)
+			var indexRegistrationTypeExpr dst.Expr
+			indexRegistrationTypeExpr, err = astmodel.IndexRegistrationType.AsTypeExpr(codeGenerationContext)
+			if err != nil {
+				return nil, errors.Wrap(err, "creating type expression for IndexRegistrationType")
+			}
+
+			sliceBuilder := astbuilder.NewSliceLiteralBuilder(indexRegistrationTypeExpr, true)
 			sort.Slice(indexFuncs, orderByFunctionName(indexFuncs))
 			if len(indexFuncs) > 0 {
 				for _, indexFunc := range indexFuncs {
-					newIndexFunctionBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.IndexRegistrationType.AsType(codeGenerationContext))
+					newIndexFunctionBuilder := astbuilder.NewCompositeLiteralBuilder(indexRegistrationTypeExpr)
 					newIndexFunctionBuilder.AddField("Key", astbuilder.StringLiteral(indexFunc.IndexKey()))
 					newIndexFunctionBuilder.AddField("Func", dst.NewIdent(indexFunc.Name()))
 					sliceBuilder.AddElement(newIndexFunctionBuilder.Build())
@@ -319,7 +357,11 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 		//			MakeEventHandler: <func>,
 		//		}
 		//	}
-		watches := r.makeWatchesExpr(typeName, codeGenerationContext)
+		watches, err := r.makeWatchesExpr(typeName, codeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating watches expression for %s", typeName.Name())
+		}
+
 		if watches != nil {
 			newStorageTypeBuilder.AddField("Watches", watches)
 		}
@@ -344,30 +386,42 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 	}
 
 	f.AddReturn(
-		astmodel.NewArrayType(
-			astmodel.NewOptionalType(astmodel.StorageTypeRegistrationType)).
-			AsType(codeGenerationContext))
+		resultTypeExpr)
 	f.AddComments(funcComment)
 
-	return f.DefineFunc()
+	return f.DefineFunc(), nil
 }
 
-func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel.CodeGenerationContext) dst.Decl {
+func (r *ResourceRegistrationFile) createGetResourceExtensions(
+	context *astmodel.CodeGenerationContext,
+) (dst.Decl, error) {
 	funcName := "getResourceExtensions"
 	funcComment := "returns a list of resource extensions"
 
 	sort.Slice(r.resourceExtensions, orderByImportedTypeName(context, r.resourceExtensions))
 	resultIdent := dst.NewIdent("result")
+	resultType := astmodel.NewArrayType(astmodel.ResourceExtensionType)
+	resultTypeExpr, err := resultType.AsTypeExpr(context)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating type expression for ResourceExtensionType")
+	}
+
 	resultVar := astbuilder.LocalVariableDeclaration(
 		resultIdent.String(),
-		astmodel.NewArrayType(astmodel.ResourceExtensionType).AsType(context),
+		resultTypeExpr,
 		"")
 
 	resourceAppendStatements := make([]dst.Stmt, 0, len(r.resourceExtensions))
 	for _, typeName := range r.resourceExtensions {
+		typeNameExpr, err := typeName.AsTypeExpr(context)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating type expression for %s", typeName.Name())
+		}
+
+		literalExpr := astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(typeNameExpr).Build())
 		appendStmt := astbuilder.AppendItemToSlice(
 			resultIdent,
-			astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(typeName.AsType(context)).Build()),
+			literalExpr,
 		)
 		resourceAppendStatements = append(resourceAppendStatements, appendStmt)
 	}
@@ -381,10 +435,10 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel
 		Body: body,
 	}
 
-	f.AddReturn(astmodel.NewArrayType(astmodel.ResourceExtensionType).AsType(context))
+	f.AddReturn(resultTypeExpr)
 	f.AddComments(funcComment)
 
-	return f.DefineFunc()
+	return f.DefineFunc(), nil
 }
 
 // createCreateSchemeFunc creates a createScheme() function like:
@@ -497,32 +551,45 @@ func (r *ResourceRegistrationFile) getImportedPackages() map[astmodel.PackageRef
 func (r *ResourceRegistrationFile) makeWatchesExpr(
 	typeName astmodel.InternalTypeName,
 	codeGenerationContext *astmodel.CodeGenerationContext,
-) dst.Expr {
-	secretWatchesExpr := r.makeSimpleWatchesExpr(
+) (dst.Expr, error) {
+	secretWatchesExpr, err := r.makeSimpleWatchesExpr(
 		typeName,
 		astmodel.SecretType,
 		"watchSecretsFactory",
 		r.secretPropertyKeys,
 		codeGenerationContext)
-	configMapWatchesExpr := r.makeSimpleWatchesExpr(
+	if err != nil {
+		return nil, errors.Wrap(err, "creating watches expression for secrets")
+	}
+
+	configMapWatchesExpr, err := r.makeSimpleWatchesExpr(
 		typeName,
 		astmodel.ConfigMapType,
 		"watchConfigMapsFactory",
 		r.configMapPropertyKeys,
 		codeGenerationContext)
-
-	if secretWatchesExpr == nil && configMapWatchesExpr == nil {
-		return nil
+	if err != nil {
+		return nil, errors.Wrap(err, "creating watches expression for configmaps")
 	}
 
-	sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext), true)
+	if secretWatchesExpr == nil && configMapWatchesExpr == nil {
+		return nil, nil
+	}
+
+	watchRegistrationTypeExpr, err := astmodel.WatchRegistrationType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating type expression for WatchRegistrationType")
+	}
+
+	sliceBuilder := astbuilder.NewSliceLiteralBuilder(watchRegistrationTypeExpr, true)
 	if secretWatchesExpr != nil {
 		sliceBuilder.AddElement(secretWatchesExpr)
 	}
 	if configMapWatchesExpr != nil {
 		sliceBuilder.AddElement(configMapWatchesExpr)
 	}
-	return sliceBuilder.Build()
+
+	return sliceBuilder.Build(), nil
 }
 
 // makeSimpleWatchesExpr generates code for a Watches expression:
@@ -537,21 +604,31 @@ func (r *ResourceRegistrationFile) makeSimpleWatchesExpr(
 	watchHelperFuncName string,
 	typeNameKeys map[astmodel.InternalTypeName][]string,
 	codeGenerationContext *astmodel.CodeGenerationContext,
-) dst.Expr {
+) (dst.Expr, error) {
 	keys, ok := typeNameKeys[typeName]
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	if len(keys) == 0 {
-		return nil
+		return nil, nil
 	}
 
-	newWatchBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext))
+	watchRegistrationTypeExpr, err := astmodel.WatchRegistrationType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating type expression for WatchRegistrationType")
+	}
+
+	newWatchBuilder := astbuilder.NewCompositeLiteralBuilder(watchRegistrationTypeExpr)
 	sort.Strings(keys)
 
+	fieldTypeExpr, err := fieldType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", fieldType.Name())
+	}
+
 	objectType := astbuilder.AddrOf(&dst.CompositeLit{
-		Type: fieldType.AsType(codeGenerationContext),
+		Type: fieldTypeExpr,
 	})
 	newWatchBuilder.AddField("Type", objectType)
 
@@ -560,13 +637,17 @@ func (r *ResourceRegistrationFile) makeSimpleWatchesExpr(
 		keyParams = append(keyParams, astbuilder.StringLiteral(key))
 	}
 
-	listTypeName := typeName.WithName(typeName.Name() + "List").AsType(codeGenerationContext)
+	listType := typeName.WithName(typeName.Name() + "List")
+	listTypeExpr, err := listType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", listType.Name())
+	}
 
 	eventHandler := astbuilder.CallFunc(
 		watchHelperFuncName,
 		astbuilder.SliceLiteral(dst.NewIdent("string"), keyParams...),
-		astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(listTypeName).Build()))
+		astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(listTypeExpr).Build()))
 	newWatchBuilder.AddField("MakeEventHandler", eventHandler)
 
-	return newWatchBuilder.Build()
+	return newWatchBuilder.Build(), nil
 }

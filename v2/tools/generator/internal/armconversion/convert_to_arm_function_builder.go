@@ -32,7 +32,12 @@ func newConvertToARMFunctionBuilder(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.InternalTypeName,
 	methodName string,
-) *convertToARMBuilder {
+) (*convertToARMBuilder, error) {
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+	}
+
 	result := &convertToARMBuilder{
 		conversionBuilder: conversionBuilder{
 			methodName:            methodName,
@@ -41,7 +46,7 @@ func newConvertToARMFunctionBuilder(
 			destinationType:       c.armType,
 			destinationTypeName:   c.armTypeName,
 			receiverIdent:         c.idFactory.CreateReceiver(receiver.Name()),
-			receiverTypeExpr:      receiver.AsType(codeGenerationContext),
+			receiverTypeExpr:      receiverExpr,
 			idFactory:             c.idFactory,
 			typeKind:              c.typeKind,
 			codeGenerationContext: codeGenerationContext,
@@ -79,7 +84,7 @@ func newConvertToARMFunctionBuilder(
 		result.propertiesByNameHandler,
 	}
 
-	return result
+	return result, nil
 }
 
 func (builder *convertToARMBuilder) functionDeclaration() (*dst.FuncDecl, error) {
@@ -95,7 +100,12 @@ func (builder *convertToARMBuilder) functionDeclaration() (*dst.FuncDecl, error)
 		Body:          body,
 	}
 
-	fn.AddParameter(resolvedParameterString, astmodel.ConvertToARMResolvedDetailsType.AsType(builder.codeGenerationContext))
+	convertToARMResolvedDetailsExpr, err := astmodel.ConvertToARMResolvedDetailsType.AsTypeExpr(builder.codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", astmodel.ConvertToARMResolvedDetailsType)
+	}
+
+	fn.AddParameter(resolvedParameterString, convertToARMResolvedDetailsExpr)
 	fn.AddReturns("interface{}", "error")
 	fn.AddComments("converts from a Kubernetes CRD object to an ARM object")
 
@@ -439,7 +449,15 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 	// Build the initializer for the to-prop (if needed)
 	var result []dst.Stmt
 	if needToInitializeToProp {
-		result = []dst.Stmt{builder.buildToPropInitializer(fromProps, toPropTypeName, toPropName)}
+		initializer, err := builder.buildToPropInitializer(fromProps, toPropTypeName, toPropName)
+		if err != nil {
+			return notHandled,
+				errors.Wrapf(err,
+					"unable to build initializer for property %s",
+					toPropName)
+		}
+
+		result = astbuilder.Statements(initializer)
 	}
 
 	// Copy each from-prop into the to-prop
@@ -505,7 +523,7 @@ func (builder *convertToARMBuilder) buildToPropInitializer(
 	fromProps []*astmodel.PropertyDefinition,
 	toPropTypeName astmodel.TypeName,
 	toPropName astmodel.PropertyName,
-) dst.Stmt {
+) (dst.Stmt, error) {
 	// build (x != nil, y != nil, …)
 	conditions := make([]dst.Expr, 0, len(fromProps))
 	for _, prop := range fromProps {
@@ -516,7 +534,12 @@ func (builder *convertToARMBuilder) buildToPropInitializer(
 	// build (x || y || …)
 	cond := astbuilder.JoinOr(conditions...)
 
-	literal := astbuilder.NewCompositeLiteralBuilder(toPropTypeName.AsType(builder.codeGenerationContext))
+	toPropTypeExpr, err := toPropTypeName.AsTypeExpr(builder.codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", toPropTypeName)
+	}
+
+	literal := astbuilder.NewCompositeLiteralBuilder(toPropTypeExpr)
 
 	// build if (conditions…) { target.prop = &TargetType{} }
 	return &dst.IfStmt{
@@ -527,7 +550,7 @@ func (builder *convertToARMBuilder) buildToPropInitializer(
 				string(toPropName),
 				token.ASSIGN,
 				astbuilder.AddrOf(literal.Build()))),
-	}
+	}, nil
 }
 
 func (builder *convertToARMBuilder) propertiesByNameHandler(
@@ -629,13 +652,26 @@ func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(
 	locals := params.Locals.Clone()
 
 	itemIdent := locals.CreateLocal("ident")
-	keyTypeAst := destinationType.KeyType().AsType(conversionBuilder.CodeGenerationContext)
-	valueTypeAst := destinationType.ValueType().AsType(conversionBuilder.CodeGenerationContext)
+	keyTypeExpr, err := destinationType.KeyType().AsTypeExpr(conversionBuilder.CodeGenerationContext)
+	if err != nil {
+		return nil,
+			errors.Wrapf(err,
+				"creating type expression for key type %s",
+				destinationType.KeyType())
+	}
+
+	valueTypeExpr, err := destinationType.ValueType().AsTypeExpr(conversionBuilder.CodeGenerationContext)
+	if err != nil {
+		return nil,
+			errors.Wrapf(err,
+				"creating type expression for value type %s",
+				destinationType.ValueType())
+	}
 
 	makeMapStatement := astbuilder.AssignmentStatement(
 		params.Destination,
 		token.ASSIGN,
-		astbuilder.MakeMapWithCapacity(keyTypeAst, valueTypeAst,
+		astbuilder.MakeMapWithCapacity(keyTypeExpr, valueTypeExpr,
 			astbuilder.CallFunc("len", params.Source)))
 
 	key := "key"
@@ -663,7 +699,7 @@ func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(
 				refProperty.PropertyName())
 	}
 
-	valueBuilder := astbuilder.NewCompositeLiteralBuilder(valueTypeAst).WithoutNewLines()
+	valueBuilder := astbuilder.NewCompositeLiteralBuilder(valueTypeExpr).WithoutNewLines()
 
 	conversion = append(
 		conversion,

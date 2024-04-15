@@ -343,7 +343,7 @@ func (resource *ResourceType) TestCases() []TestCase {
 }
 
 // AsType always panics because a resource has no direct AST representation
-func (resource *ResourceType) AsType(_ *CodeGenerationContext) dst.Expr {
+func (resource *ResourceType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
 	panic("a resource cannot be used directly as a type")
 }
 
@@ -593,19 +593,35 @@ func (resource *ResourceType) AsDeclarations(
 
 		then the Spec/Status properties
 	*/
+
 	var fields []*dst.Field
+	var errs []error
 	for _, property := range resource.EmbeddedProperties() {
-		f := property.AsField(codeGenerationContext)
+		f, err := property.AsField(codeGenerationContext)
+		if err != nil {
+			errs = append(errs, errors.Wrapf(err, "creating embedded field for %s", property.PropertyName()))
+			continue
+		}
+
 		if f != nil {
 			fields = append(fields, f)
 		}
 	}
 
 	for _, property := range resource.Properties().AsSlice() {
-		f := property.AsField(codeGenerationContext)
+		f, err := property.AsField(codeGenerationContext)
+		if err != nil {
+			errs = append(errs, errors.Wrapf(err, "creating field for %s", property.PropertyName()))
+			continue
+		}
+
 		if f != nil {
 			fields = append(fields, f)
 		}
+	}
+
+	if len(errs) > 0 {
+		return nil, errors.Wrapf(kerrors.NewAggregate(errs), "failed to generate fields for %s", declContext.Name)
 	}
 
 	if len(fields) > 0 {
@@ -666,16 +682,20 @@ func (resource *ResourceType) AsDeclarations(
 		},
 	}
 
-	resourceListDeclaration := resource.resourceListTypeDecls(codeGenerationContext, declContext.Name, declContext.Description)
+	resourceListDeclaration, err := resource.resourceListTypeDecls(
+		codeGenerationContext, declContext.Name, declContext.Description)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating resource list type for %s", declContext.Name)
+	}
 
 	interfaceDeclarations, err := resource.InterfaceImplementer.AsDeclarations(codeGenerationContext, declContext.Name, nil)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to generate interface declarations for %s", declContext.Name)
+		return nil, errors.Wrapf(err, "generating interface declarations for %s", declContext.Name)
 	}
 
 	methodDeclarations, err := resource.generateMethodDecls(codeGenerationContext, declContext.Name)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to generate method declarations for %s", declContext.Name)
+		return nil, errors.Wrapf(err, "generating method declarations for %s", declContext.Name)
 	}
 
 	return astbuilder.Declarations(
@@ -716,7 +736,7 @@ func (resource *ResourceType) resourceListTypeDecls(
 	codeGenerationContext *CodeGenerationContext,
 	resourceTypeName InternalTypeName,
 	description []string,
-) []dst.Decl {
+) ([]dst.Decl, error) {
 	typeName := resource.makeResourceListTypeName(resourceTypeName)
 
 	packageName := codeGenerationContext.MustGetImportedPackageName(MetaV1Reference)
@@ -727,10 +747,15 @@ func (resource *ResourceType) resourceListTypeDecls(
 	// We need an array of items
 	items := NewArrayType(resourceTypeName)
 
+	itemTypeExpr, err := items.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", items)
+	}
+
 	fields := []*dst.Field{
 		typeMetaField,
 		objectMetaField,
-		defineField("Items", items.AsType(codeGenerationContext), "`json:\"items\"`"),
+		defineField("Items", itemTypeExpr, "`json:\"items\"`"),
 	}
 
 	resourceTypeSpec := &dst.TypeSpec{
@@ -746,13 +771,13 @@ func (resource *ResourceType) resourceListTypeDecls(
 
 	astbuilder.AddUnwrappedComments(&comments, description)
 
-	return []dst.Decl{
-		&dst.GenDecl{
-			Tok:   token.TYPE,
-			Specs: []dst.Spec{resourceTypeSpec},
-			Decs:  dst.GenDeclDecorations{NodeDecs: dst.NodeDecs{Start: comments}},
-		},
+	decl := &dst.GenDecl{
+		Tok:   token.TYPE,
+		Specs: []dst.Spec{resourceTypeSpec},
+		Decs:  dst.GenDeclDecorations{NodeDecs: dst.NodeDecs{Start: comments}},
 	}
+
+	return astbuilder.Declarations(decl), nil
 }
 
 // SchemeTypes returns the types represented by this resource which must be registered

@@ -52,7 +52,8 @@ func TestOneOfAsTypePanics(t *testing.T) {
 
 	x := OneOfType{}
 	g.Expect(func() {
-		x.AsType(&CodeGenerationContext{})
+		_, err := x.AsTypeExpr(&CodeGenerationContext{})
+		g.Expect(err).To(HaveOccurred()) // Unreachable, but keeps lint happy
 	}).To(PanicWith(MatchError(expectedOneOfPanic)))
 }
 

@@ -9,6 +9,7 @@ import (
 	"fmt"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -59,6 +60,10 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 	jsonPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.JsonReference)
 
 	receiverName := f.idFactory.CreateReceiver(receiver.Name())
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+	}
 
 	props := f.oneOfObject.Properties().AsSlice()
 	statements := make([]dst.Stmt, 0, len(props))
@@ -84,7 +89,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 	fn := &astbuilder.FuncDetails{
 		Name:          f.Name(),
 		ReceiverIdent: receiverName,
-		ReceiverType:  receiver.AsType(codeGenerationContext),
+		ReceiverType:  receiverExpr,
 		Body:          statements,
 	}
 
