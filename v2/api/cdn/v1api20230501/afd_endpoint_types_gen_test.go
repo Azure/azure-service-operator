@@ -272,7 +272,9 @@ func AddIndependentPropertyGeneratorsForProfiles_AfdEndpoint_Spec(gens map[strin
 	gens["AzureName"] = gen.AlphaString()
 	gens["EnabledState"] = gen.PtrOf(gen.OneConstOf(AFDEndpointProperties_EnabledState_Disabled, AFDEndpointProperties_EnabledState_Enabled))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_Profiles_AfdEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -406,7 +408,9 @@ func AddIndependentPropertyGeneratorsForProfiles_AfdEndpoint_STATUS(gens map[str
 		AFDEndpointProperties_ProvisioningState_STATUS_Failed,
 		AFDEndpointProperties_ProvisioningState_STATUS_Succeeded,
 		AFDEndpointProperties_ProvisioningState_STATUS_Updating))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

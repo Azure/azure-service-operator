@@ -148,7 +148,9 @@ func AddIndependentPropertyGeneratorsForNatGateway_Spec(gens map[string]gopter.G
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -232,7 +234,9 @@ func AddIndependentPropertyGeneratorsForNatGateway_STATUS(gens map[string]gopter
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }

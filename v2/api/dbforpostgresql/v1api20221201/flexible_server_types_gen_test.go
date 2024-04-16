@@ -290,7 +290,9 @@ func AddIndependentPropertyGeneratorsForFlexibleServer_Spec(gens map[string]gopt
 		ReplicationRole_GeoAsyncReplica,
 		ReplicationRole_None,
 		ReplicationRole_Primary))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.OneConstOf(
 		ServerVersion_11,
 		ServerVersion_12,
@@ -451,7 +453,9 @@ func AddIndependentPropertyGeneratorsForFlexibleServer_STATUS(gens map[string]go
 		ServerProperties_State_STATUS_Stopped,
 		ServerProperties_State_STATUS_Stopping,
 		ServerProperties_State_STATUS_Updating))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.OneConstOf(
 		ServerVersion_STATUS_11,
@@ -2583,7 +2587,9 @@ func AddIndependentPropertyGeneratorsForUserAssignedIdentity_STATUS(gens map[str
 
 // AddRelatedPropertyGeneratorsForUserAssignedIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForUserAssignedIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserIdentity_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserIdentity_STATUSGenerator())
 }
 
 func Test_FlexibleServerOperatorConfigMaps_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

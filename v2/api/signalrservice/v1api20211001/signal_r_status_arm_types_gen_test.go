@@ -87,7 +87,9 @@ func AddIndependentPropertyGeneratorsForSignalR_STATUS_ARM(gens map[string]gopte
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ServiceKind_STATUS_RawWebSockets, ServiceKind_STATUS_SignalR))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -173,7 +175,9 @@ func AddIndependentPropertyGeneratorsForManagedIdentity_STATUS_ARM(gens map[stri
 
 // AddRelatedPropertyGeneratorsForManagedIdentity_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityProperty_STATUS_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentityProperty_STATUS_ARMGenerator())
 }
 
 func Test_ResourceSku_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -787,7 +791,9 @@ func AddIndependentPropertyGeneratorsForSignalRFeature_STATUS_ARM(gens map[strin
 		FeatureFlags_STATUS_EnableLiveTrace,
 		FeatureFlags_STATUS_EnableMessagingLogs,
 		FeatureFlags_STATUS_ServiceMode))
-	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Properties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 

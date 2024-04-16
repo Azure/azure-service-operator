@@ -282,8 +282,12 @@ func AddIndependentPropertyGeneratorsForRedis_Spec(gens map[string]gopter.Gen) {
 	gens["ReplicasPerPrimary"] = gen.PtrOf(gen.Int())
 	gens["ShardCount"] = gen.PtrOf(gen.Int())
 	gens["StaticIP"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["TenantSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["TenantSettings"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -431,8 +435,12 @@ func AddIndependentPropertyGeneratorsForRedis_STATUS(gens map[string]gopter.Gen)
 	gens["SslPort"] = gen.PtrOf(gen.Int())
 	gens["StaticIP"] = gen.PtrOf(gen.AlphaString())
 	gens["SubnetId"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["TenantSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["TenantSettings"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
@@ -688,7 +696,9 @@ func AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS(gens map[s
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentity_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentity_STATUSGenerator())
 }
 
 func Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

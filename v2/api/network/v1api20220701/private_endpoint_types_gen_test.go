@@ -276,7 +276,9 @@ func AddIndependentPropertyGeneratorsForPrivateEndpoint_Spec(gens map[string]gop
 	gens["AzureName"] = gen.AlphaString()
 	gens["CustomNetworkInterfaceName"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForPrivateEndpoint_Spec is a factory method for creating gopter generators
@@ -408,7 +410,9 @@ func AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS_PrivateEndpoint_S
 		ApplicationGatewayProvisioningState_STATUS_Failed,
 		ApplicationGatewayProvisioningState_STATUS_Succeeded,
 		ApplicationGatewayProvisioningState_STATUS_Updating))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

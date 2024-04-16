@@ -280,7 +280,9 @@ func AddIndependentPropertyGeneratorsForServer_Spec(gens map[string]gopter.Gen) 
 	gens["MinimalTlsVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerProperties_PublicNetworkAccess_Disabled, ServerProperties_PublicNetworkAccess_Enabled))
 	gens["RestrictOutboundNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerProperties_RestrictOutboundNetworkAccess_Disabled, ServerProperties_RestrictOutboundNetworkAccess_Enabled))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -412,7 +414,9 @@ func AddIndependentPropertyGeneratorsForServer_STATUS(gens map[string]gopter.Gen
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerProperties_PublicNetworkAccess_STATUS_Disabled, ServerProperties_PublicNetworkAccess_STATUS_Enabled))
 	gens["RestrictOutboundNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ServerProperties_RestrictOutboundNetworkAccess_STATUS_Disabled, ServerProperties_RestrictOutboundNetworkAccess_STATUS_Enabled))
 	gens["State"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceFeature"] = gen.PtrOf(gen.OneConstOf(ServerProperties_WorkspaceFeature_STATUS_Connected, ServerProperties_WorkspaceFeature_STATUS_Disconnected))
@@ -665,7 +669,9 @@ func AddIndependentPropertyGeneratorsForResourceIdentity_STATUS(gens map[string]
 
 // AddRelatedPropertyGeneratorsForResourceIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForResourceIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserIdentity_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserIdentity_STATUSGenerator())
 }
 
 func Test_ServerExternalAdministrator_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

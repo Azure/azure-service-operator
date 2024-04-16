@@ -150,5 +150,7 @@ func QueueProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForQueueProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForQueueProperties_ARM(gens map[string]gopter.Gen) {
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }

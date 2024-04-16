@@ -154,7 +154,9 @@ func AddIndependentPropertyGeneratorsForVirtualMachines_Extension_Spec(gens map[
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
 	gens["SuppressFailures"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["TypeHandlerVersion"] = gen.PtrOf(gen.AlphaString())
 }
@@ -242,7 +244,9 @@ func AddIndependentPropertyGeneratorsForVirtualMachines_Extension_STATUS(gens ma
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
 	gens["SuppressFailures"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["TypeHandlerVersion"] = gen.PtrOf(gen.AlphaString())
 }

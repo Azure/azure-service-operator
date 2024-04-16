@@ -276,7 +276,9 @@ func AddIndependentPropertyGeneratorsForProfile_Spec(gens map[string]gopter.Gen)
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
 	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForProfile_Spec is a factory method for creating gopter generators
@@ -400,7 +402,9 @@ func AddIndependentPropertyGeneratorsForProfile_STATUS(gens map[string]gopter.Ge
 	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceState"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

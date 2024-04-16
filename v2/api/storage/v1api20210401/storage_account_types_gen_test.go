@@ -291,7 +291,9 @@ func AddIndependentPropertyGeneratorsForStorageAccount_Spec(gens map[string]gopt
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_0, StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_1, StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_2))
 	gens["SupportsHttpsTrafficOnly"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForStorageAccount_Spec is a factory method for creating gopter generators
@@ -444,7 +446,9 @@ func AddIndependentPropertyGeneratorsForStorageAccount_STATUS(gens map[string]go
 	gens["StatusOfPrimary"] = gen.PtrOf(gen.OneConstOf(StorageAccountProperties_StatusOfPrimary_STATUS_Available, StorageAccountProperties_StatusOfPrimary_STATUS_Unavailable))
 	gens["StatusOfSecondary"] = gen.PtrOf(gen.OneConstOf(StorageAccountProperties_StatusOfSecondary_STATUS_Available, StorageAccountProperties_StatusOfSecondary_STATUS_Unavailable))
 	gens["SupportsHttpsTrafficOnly"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1951,7 +1955,9 @@ func AddIndependentPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.G
 
 // AddRelatedPropertyGeneratorsForIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentity_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentity_STATUSGenerator())
 }
 
 func Test_KeyCreationTime_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

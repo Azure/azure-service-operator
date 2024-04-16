@@ -275,13 +275,17 @@ func AddIndependentPropertyGeneratorsForFactory_Spec(gens map[string]gopter.Gen)
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(FactoryProperties_PublicNetworkAccess_Disabled, FactoryProperties_PublicNetworkAccess_Enabled))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForFactory_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFactory_Spec(gens map[string]gopter.Gen) {
 	gens["Encryption"] = gen.PtrOf(EncryptionConfigurationGenerator())
-	gens["GlobalParameters"] = gen.MapOf(gen.AlphaString(), GlobalParameterSpecificationGenerator())
+	gens["GlobalParameters"] = gen.MapOf(
+		gen.AlphaString(),
+		GlobalParameterSpecificationGenerator())
 	gens["Identity"] = gen.PtrOf(FactoryIdentityGenerator())
 	gens["PurviewConfiguration"] = gen.PtrOf(PurviewConfigurationGenerator())
 	gens["RepoConfiguration"] = gen.PtrOf(FactoryRepoConfigurationGenerator())
@@ -402,7 +406,9 @@ func AddIndependentPropertyGeneratorsForFactory_STATUS(gens map[string]gopter.Ge
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(FactoryProperties_PublicNetworkAccess_STATUS_Disabled, FactoryProperties_PublicNetworkAccess_STATUS_Enabled))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
@@ -410,7 +416,9 @@ func AddIndependentPropertyGeneratorsForFactory_STATUS(gens map[string]gopter.Ge
 // AddRelatedPropertyGeneratorsForFactory_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFactory_STATUS(gens map[string]gopter.Gen) {
 	gens["Encryption"] = gen.PtrOf(EncryptionConfiguration_STATUSGenerator())
-	gens["GlobalParameters"] = gen.MapOf(gen.AlphaString(), GlobalParameterSpecification_STATUSGenerator())
+	gens["GlobalParameters"] = gen.MapOf(
+		gen.AlphaString(),
+		GlobalParameterSpecification_STATUSGenerator())
 	gens["Identity"] = gen.PtrOf(FactoryIdentity_STATUSGenerator())
 	gens["PurviewConfiguration"] = gen.PtrOf(PurviewConfiguration_STATUSGenerator())
 	gens["RepoConfiguration"] = gen.PtrOf(FactoryRepoConfiguration_STATUSGenerator())

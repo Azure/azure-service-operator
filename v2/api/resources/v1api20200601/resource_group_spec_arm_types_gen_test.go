@@ -78,5 +78,7 @@ func AddIndependentPropertyGeneratorsForResourceGroup_Spec_ARM(gens map[string]g
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["ManagedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }

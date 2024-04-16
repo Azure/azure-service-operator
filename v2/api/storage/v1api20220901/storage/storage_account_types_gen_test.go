@@ -292,7 +292,9 @@ func AddIndependentPropertyGeneratorsForStorageAccount_Spec(gens map[string]gopt
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["SupportsHttpsTrafficOnly"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForStorageAccount_Spec is a factory method for creating gopter generators
@@ -447,7 +449,9 @@ func AddIndependentPropertyGeneratorsForStorageAccount_STATUS(gens map[string]go
 	gens["StatusOfPrimary"] = gen.PtrOf(gen.AlphaString())
 	gens["StatusOfSecondary"] = gen.PtrOf(gen.AlphaString())
 	gens["SupportsHttpsTrafficOnly"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1938,7 +1942,9 @@ func AddIndependentPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.G
 
 // AddRelatedPropertyGeneratorsForIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentity_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentity_STATUSGenerator())
 }
 
 func Test_ImmutableStorageAccount_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

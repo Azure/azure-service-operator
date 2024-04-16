@@ -152,7 +152,9 @@ func AddIndependentPropertyGeneratorsForMetricAlert_Spec(gens map[string]gopter.
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Severity"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TargetResourceRegion"] = gen.PtrOf(gen.AlphaString())
 	gens["TargetResourceType"] = gen.PtrOf(gen.AlphaString())
 	gens["WindowSize"] = gen.PtrOf(gen.AlphaString())
@@ -241,7 +243,9 @@ func AddIndependentPropertyGeneratorsForMetricAlert_STATUS(gens map[string]gopte
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Scopes"] = gen.SliceOf(gen.AlphaString())
 	gens["Severity"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TargetResourceRegion"] = gen.PtrOf(gen.AlphaString())
 	gens["TargetResourceType"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
@@ -312,7 +316,9 @@ func MetricAlertActionGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForMetricAlertAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMetricAlertAction(gens map[string]gopter.Gen) {
 	gens["ActionGroupId"] = gen.PtrOf(gen.AlphaString())
-	gens["WebHookProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["WebHookProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_MetricAlertAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -374,7 +380,9 @@ func MetricAlertAction_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForMetricAlertAction_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMetricAlertAction_STATUS(gens map[string]gopter.Gen) {
 	gens["ActionGroupId"] = gen.PtrOf(gen.AlphaString())
-	gens["WebHookProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["WebHookProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_MetricAlertCriteria_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

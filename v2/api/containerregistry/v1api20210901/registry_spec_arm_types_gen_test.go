@@ -85,7 +85,9 @@ func Registry_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRegistry_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForRegistry_Spec_ARM is a factory method for creating gopter generators
@@ -173,7 +175,9 @@ func AddIndependentPropertyGeneratorsForIdentityProperties_ARM(gens map[string]g
 
 // AddRelatedPropertyGeneratorsForIdentityProperties_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForIdentityProperties_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityDetails_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentityDetails_ARMGenerator())
 }
 
 func Test_RegistryProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

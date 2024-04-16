@@ -275,7 +275,9 @@ func Workspaces_Compute_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWorkspaces_Compute_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForWorkspaces_Compute_Spec is a factory method for creating gopter generators
@@ -398,7 +400,9 @@ func AddIndependentPropertyGeneratorsForWorkspaces_Compute_STATUS(gens map[strin
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -4821,7 +4825,9 @@ func AddIndependentPropertyGeneratorsForKubernetesProperties(gens map[string]gop
 
 // AddRelatedPropertyGeneratorsForKubernetesProperties is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForKubernetesProperties(gens map[string]gopter.Gen) {
-	gens["InstanceTypes"] = gen.MapOf(gen.AlphaString(), InstanceTypeSchemaGenerator())
+	gens["InstanceTypes"] = gen.MapOf(
+		gen.AlphaString(),
+		InstanceTypeSchemaGenerator())
 }
 
 func Test_KubernetesProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -4942,7 +4948,9 @@ func AddIndependentPropertyGeneratorsForKubernetesProperties_STATUS(gens map[str
 
 // AddRelatedPropertyGeneratorsForKubernetesProperties_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForKubernetesProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["InstanceTypes"] = gen.MapOf(gen.AlphaString(), InstanceTypeSchema_STATUSGenerator())
+	gens["InstanceTypes"] = gen.MapOf(
+		gen.AlphaString(),
+		InstanceTypeSchema_STATUSGenerator())
 }
 
 func Test_SynapseSpark_Properties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -6933,7 +6941,9 @@ func InstanceTypeSchemaGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInstanceTypeSchema is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInstanceTypeSchema(gens map[string]gopter.Gen) {
-	gens["NodeSelector"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["NodeSelector"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForInstanceTypeSchema is a factory method for creating gopter generators
@@ -7050,7 +7060,9 @@ func InstanceTypeSchema_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInstanceTypeSchema_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInstanceTypeSchema_STATUS(gens map[string]gopter.Gen) {
-	gens["NodeSelector"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["NodeSelector"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForInstanceTypeSchema_STATUS is a factory method for creating gopter generators
@@ -9449,8 +9461,12 @@ func InstanceTypeSchema_ResourcesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInstanceTypeSchema_Resources is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInstanceTypeSchema_Resources(gens map[string]gopter.Gen) {
-	gens["Limits"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Requests"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Limits"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Requests"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_InstanceTypeSchema_Resources_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -9553,8 +9569,12 @@ func InstanceTypeSchema_Resources_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInstanceTypeSchema_Resources_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInstanceTypeSchema_Resources_STATUS(gens map[string]gopter.Gen) {
-	gens["Limits"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Requests"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Limits"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Requests"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_ScriptsToExecute_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

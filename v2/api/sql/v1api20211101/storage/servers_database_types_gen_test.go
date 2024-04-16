@@ -165,7 +165,9 @@ func AddIndependentPropertyGeneratorsForServers_Database_Spec(gens map[string]go
 	gens["SampleName"] = gen.PtrOf(gen.AlphaString())
 	gens["SecondaryType"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceDatabaseDeletionDate"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
 }
 
@@ -284,7 +286,9 @@ func AddIndependentPropertyGeneratorsForServers_Database_STATUS(gens map[string]
 	gens["SourceDatabaseId"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
 }
@@ -443,7 +447,9 @@ func AddIndependentPropertyGeneratorsForDatabaseIdentity_STATUS(gens map[string]
 
 // AddRelatedPropertyGeneratorsForDatabaseIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), DatabaseUserIdentity_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		DatabaseUserIdentity_STATUSGenerator())
 }
 
 func Test_Sku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -276,7 +276,9 @@ func AddIndependentPropertyGeneratorsForBatchAccount_Spec(gens map[string]gopter
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(PoolAllocationMode_BatchService, PoolAllocationMode_UserSubscription))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForBatchAccount_Spec is a factory method for creating gopter generators
@@ -414,7 +416,9 @@ func AddIndependentPropertyGeneratorsForBatchAccount_STATUS(gens map[string]gopt
 		BatchAccountProperties_ProvisioningState_STATUS_Invalid,
 		BatchAccountProperties_ProvisioningState_STATUS_Succeeded))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_STATUS_Disabled, PublicNetworkAccessType_STATUS_Enabled))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -862,7 +866,9 @@ func AddIndependentPropertyGeneratorsForBatchAccountIdentity_STATUS(gens map[str
 
 // AddRelatedPropertyGeneratorsForBatchAccountIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBatchAccountIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), BatchAccountIdentity_UserAssignedIdentities_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		BatchAccountIdentity_UserAssignedIdentities_STATUSGenerator())
 }
 
 func Test_EncryptionProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

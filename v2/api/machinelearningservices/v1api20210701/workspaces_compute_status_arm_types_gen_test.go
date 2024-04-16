@@ -87,7 +87,9 @@ func AddIndependentPropertyGeneratorsForWorkspaces_Compute_STATUS_ARM(gens map[s
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1710,7 +1712,9 @@ func AddIndependentPropertyGeneratorsForKubernetesProperties_STATUS_ARM(gens map
 
 // AddRelatedPropertyGeneratorsForKubernetesProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForKubernetesProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["InstanceTypes"] = gen.MapOf(gen.AlphaString(), InstanceTypeSchema_STATUS_ARMGenerator())
+	gens["InstanceTypes"] = gen.MapOf(
+		gen.AlphaString(),
+		InstanceTypeSchema_STATUS_ARMGenerator())
 }
 
 func Test_SynapseSpark_Properties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2536,7 +2540,9 @@ func InstanceTypeSchema_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInstanceTypeSchema_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInstanceTypeSchema_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["NodeSelector"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["NodeSelector"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForInstanceTypeSchema_STATUS_ARM is a factory method for creating gopter generators
@@ -3428,8 +3434,12 @@ func InstanceTypeSchema_Resources_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInstanceTypeSchema_Resources_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInstanceTypeSchema_Resources_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Limits"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Requests"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Limits"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["Requests"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_ScriptsToExecute_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

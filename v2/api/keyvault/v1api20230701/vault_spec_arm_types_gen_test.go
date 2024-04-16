@@ -85,7 +85,9 @@ func Vault_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVault_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForVault_Spec_ARM is a factory method for creating gopter generators

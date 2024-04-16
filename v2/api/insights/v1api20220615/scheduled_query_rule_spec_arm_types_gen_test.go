@@ -87,7 +87,9 @@ func AddIndependentPropertyGeneratorsForScheduledQueryRule_Spec_ARM(gens map[str
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ScheduledQueryRule_Kind_Spec_LogAlert, ScheduledQueryRule_Kind_Spec_LogToMetric))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForScheduledQueryRule_Spec_ARM is a factory method for creating gopter generators
@@ -246,7 +248,9 @@ func Actions_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForActions_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForActions_ARM(gens map[string]gopter.Gen) {
 	gens["ActionGroups"] = gen.SliceOf(gen.AlphaString())
-	gens["CustomProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["CustomProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_ScheduledQueryRuleCriteria_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -267,7 +267,9 @@ func StorageAccounts_QueueServices_Queue_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageAccounts_QueueServices_Queue_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccounts_QueueServices_Queue_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_StorageAccounts_QueueServices_Queue_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -372,7 +374,9 @@ func StorageAccounts_QueueServices_Queue_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForStorageAccounts_QueueServices_Queue_STATUS(gens map[string]gopter.Gen) {
 	gens["ApproximateMessageCount"] = gen.PtrOf(gen.Int())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }

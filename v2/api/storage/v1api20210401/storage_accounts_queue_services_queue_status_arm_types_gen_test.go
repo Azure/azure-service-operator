@@ -153,5 +153,7 @@ func QueueProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForQueueProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForQueueProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ApproximateMessageCount"] = gen.PtrOf(gen.Int())
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }

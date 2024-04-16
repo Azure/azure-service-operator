@@ -277,7 +277,9 @@ func AddIndependentPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_Spe
 	gens["AzureName"] = gen.AlphaString()
 	gens["DomainName"] = gen.PtrOf(gen.AlphaString())
 	gens["ForwardingRuleState"] = gen.PtrOf(gen.OneConstOf(ForwardingRuleProperties_ForwardingRuleState_Disabled, ForwardingRuleProperties_ForwardingRuleState_Enabled))
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_Spec is a factory method for creating gopter generators
@@ -398,7 +400,9 @@ func AddIndependentPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_STA
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["ForwardingRuleState"] = gen.PtrOf(gen.OneConstOf(ForwardingRuleProperties_ForwardingRuleState_STATUS_Disabled, ForwardingRuleProperties_ForwardingRuleState_STATUS_Enabled))
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		DnsresolverProvisioningState_STATUS_Canceled,

@@ -274,7 +274,9 @@ func DnsZone_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDnsZone_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["ZoneType"] = gen.PtrOf(gen.OneConstOf(ZoneProperties_ZoneType_Private, ZoneProperties_ZoneType_Public))
 }
 
@@ -400,7 +402,9 @@ func AddIndependentPropertyGeneratorsForDnsZone_STATUS(gens map[string]gopter.Ge
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NameServers"] = gen.SliceOf(gen.AlphaString())
 	gens["NumberOfRecordSets"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["ZoneType"] = gen.PtrOf(gen.OneConstOf(ZoneProperties_ZoneType_STATUS_Private, ZoneProperties_ZoneType_STATUS_Public))
 }

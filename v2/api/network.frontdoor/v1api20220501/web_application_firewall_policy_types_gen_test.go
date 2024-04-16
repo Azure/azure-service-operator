@@ -277,7 +277,9 @@ func AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Sp
 	gens["AzureName"] = gen.AlphaString()
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Spec is a factory method for creating gopter generators
@@ -409,7 +411,9 @@ func AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_ST
 		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Disabling,
 		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabled,
 		WebApplicationFirewallPolicyProperties_ResourceState_STATUS_Enabling))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

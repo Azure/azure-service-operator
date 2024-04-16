@@ -88,7 +88,9 @@ func AddIndependentPropertyGeneratorsForDatabaseAccount_STATUS_ARM(gens map[stri
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DatabaseAccount_Kind_STATUS_GlobalDocumentDB, DatabaseAccount_Kind_STATUS_MongoDB, DatabaseAccount_Kind_STATUS_Parse))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -278,7 +280,9 @@ func AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(gens m
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARMGenerator())
 }
 
 func Test_AnalyticalStorageConfiguration_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -86,7 +86,9 @@ func AddIndependentPropertyGeneratorsForSignalR_Spec_ARM(gens map[string]gopter.
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ServiceKind_RawWebSockets, ServiceKind_SignalR))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForSignalR_Spec_ARM is a factory method for creating gopter generators
@@ -168,7 +170,9 @@ func AddIndependentPropertyGeneratorsForManagedIdentity_ARM(gens map[string]gopt
 
 // AddRelatedPropertyGeneratorsForManagedIdentity_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedIdentity_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityDetails_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentityDetails_ARMGenerator())
 }
 
 func Test_ResourceSku_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -564,7 +568,9 @@ func AddIndependentPropertyGeneratorsForSignalRFeature_ARM(gens map[string]gopte
 		FeatureFlags_EnableLiveTrace,
 		FeatureFlags_EnableMessagingLogs,
 		FeatureFlags_ServiceMode))
-	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Properties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 

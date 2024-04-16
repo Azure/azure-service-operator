@@ -160,7 +160,9 @@ func RecordSetProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRecordSetProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRecordSetProperties_ARM(gens map[string]gopter.Gen) {
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Ttl"] = gen.PtrOf(gen.Int())
 }
 

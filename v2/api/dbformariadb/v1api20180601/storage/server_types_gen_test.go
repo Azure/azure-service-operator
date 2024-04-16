@@ -147,7 +147,9 @@ func AddIndependentPropertyGeneratorsForServer_Spec(gens map[string]gopter.Gen) 
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForServer_Spec is a factory method for creating gopter generators
@@ -235,7 +237,9 @@ func AddIndependentPropertyGeneratorsForServer_STATUS(gens map[string]gopter.Gen
 	gens["ReplicaCapacity"] = gen.PtrOf(gen.Int())
 	gens["ReplicationRole"] = gen.PtrOf(gen.AlphaString())
 	gens["SslEnforcement"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["UserVisibleState"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())

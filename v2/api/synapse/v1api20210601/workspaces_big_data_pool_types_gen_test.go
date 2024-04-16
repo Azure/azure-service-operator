@@ -298,7 +298,9 @@ func AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_Spec(gens map[str
 	gens["SessionLevelPackagesEnabled"] = gen.PtrOf(gen.Bool())
 	gens["SparkEventsFolder"] = gen.PtrOf(gen.AlphaString())
 	gens["SparkVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForWorkspaces_BigDataPool_Spec is a factory method for creating gopter generators
@@ -447,7 +449,9 @@ func AddIndependentPropertyGeneratorsForWorkspaces_BigDataPool_STATUS(gens map[s
 	gens["SessionLevelPackagesEnabled"] = gen.PtrOf(gen.Bool())
 	gens["SparkEventsFolder"] = gen.PtrOf(gen.AlphaString())
 	gens["SparkVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

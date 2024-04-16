@@ -87,7 +87,9 @@ func AddIndependentPropertyGeneratorsForManagedCluster_STATUS_ARM(gens map[strin
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -236,8 +238,12 @@ func AddIndependentPropertyGeneratorsForManagedClusterIdentity_STATUS_ARM(gens m
 
 // AddRelatedPropertyGeneratorsForManagedClusterIdentity_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["DelegatedResources"] = gen.MapOf(gen.AlphaString(), DelegatedResource_STATUS_ARMGenerator())
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARMGenerator())
+	gens["DelegatedResources"] = gen.MapOf(
+		gen.AlphaString(),
+		DelegatedResource_STATUS_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARMGenerator())
 }
 
 func Test_ManagedClusterProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -329,14 +335,18 @@ func AddIndependentPropertyGeneratorsForManagedClusterProperties_STATUS_ARM(gens
 // AddRelatedPropertyGeneratorsForManagedClusterProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["AadProfile"] = gen.PtrOf(ManagedClusterAADProfile_STATUS_ARMGenerator())
-	gens["AddonProfiles"] = gen.MapOf(gen.AlphaString(), ManagedClusterAddonProfile_STATUS_ARMGenerator())
+	gens["AddonProfiles"] = gen.MapOf(
+		gen.AlphaString(),
+		ManagedClusterAddonProfile_STATUS_ARMGenerator())
 	gens["AgentPoolProfiles"] = gen.SliceOf(ManagedClusterAgentPoolProfile_STATUS_ARMGenerator())
 	gens["ApiServerAccessProfile"] = gen.PtrOf(ManagedClusterAPIServerAccessProfile_STATUS_ARMGenerator())
 	gens["AutoScalerProfile"] = gen.PtrOf(ManagedClusterProperties_AutoScalerProfile_STATUS_ARMGenerator())
 	gens["AutoUpgradeProfile"] = gen.PtrOf(ManagedClusterAutoUpgradeProfile_STATUS_ARMGenerator())
 	gens["AzureMonitorProfile"] = gen.PtrOf(ManagedClusterAzureMonitorProfile_STATUS_ARMGenerator())
 	gens["HttpProxyConfig"] = gen.PtrOf(ManagedClusterHTTPProxyConfig_STATUS_ARMGenerator())
-	gens["IdentityProfile"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentity_STATUS_ARMGenerator())
+	gens["IdentityProfile"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentity_STATUS_ARMGenerator())
 	gens["LinuxProfile"] = gen.PtrOf(ContainerServiceLinuxProfile_STATUS_ARMGenerator())
 	gens["NetworkProfile"] = gen.PtrOf(ContainerServiceNetworkProfile_STATUS_ARMGenerator())
 	gens["OidcIssuerProfile"] = gen.PtrOf(ManagedClusterOIDCIssuerProfile_STATUS_ARMGenerator())
@@ -914,7 +924,9 @@ func ManagedClusterAddonProfile_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterAddonProfile_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterAddonProfile_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Config"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Config"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
@@ -1013,7 +1025,9 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile_STATUS_AR
 	gens["Mode"] = gen.PtrOf(gen.OneConstOf(AgentPoolMode_STATUS_System, AgentPoolMode_STATUS_User))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeImageVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["NodeLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["NodeLabels"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["NodePublicIPPrefixID"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
@@ -1033,7 +1047,9 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile_STATUS_AR
 	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ScaleSetEvictionPolicy_STATUS_Deallocate, ScaleSetEvictionPolicy_STATUS_Delete))
 	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ScaleSetPriority_STATUS_Regular, ScaleSetPriority_STATUS_Spot))
 	gens["SpotMaxPrice"] = gen.PtrOf(gen.Float64())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(AgentPoolType_STATUS_AvailabilitySet, AgentPoolType_STATUS_VirtualMachineScaleSets))
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 	gens["VnetSubnetID"] = gen.PtrOf(gen.AlphaString())
@@ -2761,7 +2777,9 @@ func ManagedClusterPodIdentityException_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityException_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
-	gens["PodLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["PodLabels"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_ManagedClusterSecurityProfileDefender_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -4186,7 +4204,9 @@ func IstioEgressGateway_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIstioEgressGateway_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIstioEgressGateway_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["NodeSelector"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["NodeSelector"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_IstioIngressGateway_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

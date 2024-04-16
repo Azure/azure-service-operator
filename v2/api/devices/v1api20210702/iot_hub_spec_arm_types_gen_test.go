@@ -85,7 +85,9 @@ func IotHub_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIotHub_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForIotHub_Spec_ARM is a factory method for creating gopter generators
@@ -170,7 +172,9 @@ func AddIndependentPropertyGeneratorsForArmIdentity_ARM(gens map[string]gopter.G
 
 // AddRelatedPropertyGeneratorsForArmIdentity_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForArmIdentity_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityDetails_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentityDetails_ARMGenerator())
 }
 
 func Test_IotHubProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -257,12 +261,18 @@ func AddIndependentPropertyGeneratorsForIotHubProperties_ARM(gens map[string]gop
 func AddRelatedPropertyGeneratorsForIotHubProperties_ARM(gens map[string]gopter.Gen) {
 	gens["AuthorizationPolicies"] = gen.SliceOf(SharedAccessSignatureAuthorizationRule_ARMGenerator())
 	gens["CloudToDevice"] = gen.PtrOf(CloudToDeviceProperties_ARMGenerator())
-	gens["EventHubEndpoints"] = gen.MapOf(gen.AlphaString(), EventHubProperties_ARMGenerator())
+	gens["EventHubEndpoints"] = gen.MapOf(
+		gen.AlphaString(),
+		EventHubProperties_ARMGenerator())
 	gens["IpFilterRules"] = gen.SliceOf(IpFilterRule_ARMGenerator())
-	gens["MessagingEndpoints"] = gen.MapOf(gen.AlphaString(), MessagingEndpointProperties_ARMGenerator())
+	gens["MessagingEndpoints"] = gen.MapOf(
+		gen.AlphaString(),
+		MessagingEndpointProperties_ARMGenerator())
 	gens["NetworkRuleSets"] = gen.PtrOf(NetworkRuleSetProperties_ARMGenerator())
 	gens["Routing"] = gen.PtrOf(RoutingProperties_ARMGenerator())
-	gens["StorageEndpoints"] = gen.MapOf(gen.AlphaString(), StorageEndpointProperties_ARMGenerator())
+	gens["StorageEndpoints"] = gen.MapOf(
+		gen.AlphaString(),
+		StorageEndpointProperties_ARMGenerator())
 }
 
 func Test_IotHubSkuInfo_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

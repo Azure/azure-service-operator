@@ -154,7 +154,9 @@ func AddIndependentPropertyGeneratorsForBastionHost_Spec(gens map[string]gopter.
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["ScaleUnits"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForBastionHost_Spec is a factory method for creating gopter generators
@@ -241,7 +243,9 @@ func AddIndependentPropertyGeneratorsForBastionHost_STATUS(gens map[string]gopte
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["ScaleUnits"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
