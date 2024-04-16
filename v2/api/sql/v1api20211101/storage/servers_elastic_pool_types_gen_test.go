@@ -153,7 +153,9 @@ func AddIndependentPropertyGeneratorsForServers_ElasticPool_Spec(gens map[string
 	gens["MaxSizeBytes"] = gen.PtrOf(gen.Int())
 	gens["MinCapacity"] = gen.PtrOf(gen.Float64())
 	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
 }
 
@@ -241,7 +243,9 @@ func AddIndependentPropertyGeneratorsForServers_ElasticPool_STATUS(gens map[stri
 	gens["MinCapacity"] = gen.PtrOf(gen.Float64())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
 }

@@ -177,7 +177,9 @@ func AddIndependentPropertyGeneratorsForContainerProperties_STATUS_ARM(gens map[
 		ContainerProperties_LeaseState_STATUS_Expired,
 		ContainerProperties_LeaseState_STATUS_Leased))
 	gens["LeaseStatus"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_LeaseStatus_STATUS_Locked, ContainerProperties_LeaseStatus_STATUS_Unlocked))
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_PublicAccess_STATUS_Blob, ContainerProperties_PublicAccess_STATUS_Container, ContainerProperties_PublicAccess_STATUS_None))
 	gens["RemainingRetentionDays"] = gen.PtrOf(gen.Int())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())

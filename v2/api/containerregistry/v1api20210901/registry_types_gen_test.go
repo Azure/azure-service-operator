@@ -278,7 +278,9 @@ func AddIndependentPropertyGeneratorsForRegistry_Spec(gens map[string]gopter.Gen
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["NetworkRuleBypassOptions"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_NetworkRuleBypassOptions_AzureServices, RegistryProperties_NetworkRuleBypassOptions_None))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_PublicNetworkAccess_Disabled, RegistryProperties_PublicNetworkAccess_Enabled))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["ZoneRedundancy"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_ZoneRedundancy_Disabled, RegistryProperties_ZoneRedundancy_Enabled))
 }
 
@@ -416,7 +418,9 @@ func AddIndependentPropertyGeneratorsForRegistry_STATUS(gens map[string]gopter.G
 		RegistryProperties_ProvisioningState_STATUS_Succeeded,
 		RegistryProperties_ProvisioningState_STATUS_Updating))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_PublicNetworkAccess_STATUS_Disabled, RegistryProperties_PublicNetworkAccess_STATUS_Enabled))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["ZoneRedundancy"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_ZoneRedundancy_STATUS_Disabled, RegistryProperties_ZoneRedundancy_STATUS_Enabled))
 }
@@ -908,7 +912,9 @@ func AddIndependentPropertyGeneratorsForIdentityProperties_STATUS(gens map[strin
 
 // AddRelatedPropertyGeneratorsForIdentityProperties_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForIdentityProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserIdentityProperties_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserIdentityProperties_STATUSGenerator())
 }
 
 func Test_NetworkRuleSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

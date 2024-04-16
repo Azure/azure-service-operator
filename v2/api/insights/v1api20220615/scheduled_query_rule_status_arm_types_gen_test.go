@@ -89,7 +89,9 @@ func AddIndependentPropertyGeneratorsForScheduledQueryRule_STATUS_ARM(gens map[s
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ScheduledQueryRule_Kind_STATUS_LogAlert, ScheduledQueryRule_Kind_STATUS_LogToMetric))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -327,7 +329,9 @@ func Actions_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForActions_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForActions_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ActionGroups"] = gen.SliceOf(gen.AlphaString())
-	gens["CustomProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["CustomProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_ScheduledQueryRuleCriteria_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

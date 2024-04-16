@@ -87,7 +87,9 @@ func AddIndependentPropertyGeneratorsForProfile_STATUS_ARM(gens map[string]gopte
 	gens["Kind"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -177,7 +179,9 @@ func AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(gens m
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentity_STATUS_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentity_STATUS_ARMGenerator())
 }
 
 func Test_ProfileProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -238,7 +242,9 @@ func ProfileProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForProfileProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForProfileProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ExtendedProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["ExtendedProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["FrontDoorId"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(

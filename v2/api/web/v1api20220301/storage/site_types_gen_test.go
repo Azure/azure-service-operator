@@ -166,7 +166,9 @@ func AddIndependentPropertyGeneratorsForSite_Spec(gens map[string]gopter.Gen) {
 	gens["Reserved"] = gen.PtrOf(gen.Bool())
 	gens["ScmSiteAlsoStopped"] = gen.PtrOf(gen.Bool())
 	gens["StorageAccountRequired"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["VnetContentShareEnabled"] = gen.PtrOf(gen.Bool())
 	gens["VnetImagePullEnabled"] = gen.PtrOf(gen.Bool())
 	gens["VnetRouteAllEnabled"] = gen.PtrOf(gen.Bool())
@@ -305,7 +307,9 @@ func CloningInfoGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCloningInfo is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCloningInfo(gens map[string]gopter.Gen) {
-	gens["AppSettingsOverrides"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["AppSettingsOverrides"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["CloneCustomHostNames"] = gen.PtrOf(gen.Bool())
 	gens["CloneSourceControl"] = gen.PtrOf(gen.Bool())
 	gens["ConfigureLoadBalancing"] = gen.PtrOf(gen.Bool())
@@ -373,7 +377,9 @@ func CloningInfo_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCloningInfo_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCloningInfo_STATUS(gens map[string]gopter.Gen) {
-	gens["AppSettingsOverrides"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["AppSettingsOverrides"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["CloneCustomHostNames"] = gen.PtrOf(gen.Bool())
 	gens["CloneSourceControl"] = gen.PtrOf(gen.Bool())
 	gens["ConfigureLoadBalancing"] = gen.PtrOf(gen.Bool())
@@ -666,7 +672,9 @@ func AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS(gens map[s
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentity_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentity_STATUSGenerator())
 }
 
 func Test_SiteConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -730,7 +738,9 @@ func AddRelatedPropertyGeneratorsForSiteConfig(gens map[string]gopter.Gen) {
 	gens["ApiManagementConfig"] = gen.PtrOf(ApiManagementConfigGenerator())
 	gens["AppSettings"] = gen.SliceOf(NameValuePairGenerator())
 	gens["AutoHealRules"] = gen.PtrOf(AutoHealRulesGenerator())
-	gens["AzureStorageAccounts"] = gen.MapOf(gen.AlphaString(), AzureStorageInfoValueGenerator())
+	gens["AzureStorageAccounts"] = gen.MapOf(
+		gen.AlphaString(),
+		AzureStorageInfoValueGenerator())
 	gens["ConnectionStrings"] = gen.SliceOf(ConnStringInfoGenerator())
 	gens["Cors"] = gen.PtrOf(CorsSettingsGenerator())
 	gens["Experiments"] = gen.PtrOf(ExperimentsGenerator())
@@ -803,7 +813,9 @@ func AddRelatedPropertyGeneratorsForSiteConfig_STATUS(gens map[string]gopter.Gen
 	gens["ApiManagementConfig"] = gen.PtrOf(ApiManagementConfig_STATUSGenerator())
 	gens["AppSettings"] = gen.SliceOf(NameValuePair_STATUSGenerator())
 	gens["AutoHealRules"] = gen.PtrOf(AutoHealRules_STATUSGenerator())
-	gens["AzureStorageAccounts"] = gen.MapOf(gen.AlphaString(), AzureStorageInfoValue_STATUSGenerator())
+	gens["AzureStorageAccounts"] = gen.MapOf(
+		gen.AlphaString(),
+		AzureStorageInfoValue_STATUSGenerator())
 	gens["ConnectionStrings"] = gen.SliceOf(ConnStringInfo_STATUSGenerator())
 	gens["Cors"] = gen.PtrOf(CorsSettings_STATUSGenerator())
 	gens["Experiments"] = gen.PtrOf(Experiments_STATUSGenerator())
@@ -1921,7 +1933,9 @@ func IpSecurityRestrictionGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIpSecurityRestriction(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Headers"] = gen.MapOf(gen.AlphaString(), gen.SliceOf(gen.AlphaString()))
+	gens["Headers"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.SliceOf(gen.AlphaString()))
 	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Priority"] = gen.PtrOf(gen.Int())
@@ -1991,7 +2005,9 @@ func IpSecurityRestriction_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIpSecurityRestriction_STATUS(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Headers"] = gen.MapOf(gen.AlphaString(), gen.SliceOf(gen.AlphaString()))
+	gens["Headers"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.SliceOf(gen.AlphaString()))
 	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Priority"] = gen.PtrOf(gen.Int())

@@ -6,6 +6,7 @@ package v1api20210501
 import (
 	"encoding/json"
 	v20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/storage"
+	v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForFlexibleServer(subject FlexibleServer) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20210501s.FlexibleServer
+	var hub v20230630s.FlexibleServer
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -285,7 +286,9 @@ func AddIndependentPropertyGeneratorsForFlexibleServer_Spec(gens map[string]gopt
 	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(ReplicationRole_None, ReplicationRole_Replica, ReplicationRole_Source))
 	gens["RestorePointInTime"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_57, ServerVersion_8021))
 }
 
@@ -434,7 +437,9 @@ func AddIndependentPropertyGeneratorsForFlexibleServer_STATUS(gens map[string]go
 		ServerProperties_State_STATUS_Stopped,
 		ServerProperties_State_STATUS_Stopping,
 		ServerProperties_State_STATUS_Updating))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_STATUS_57, ServerVersion_STATUS_8021))
 }
@@ -970,6 +975,7 @@ func FlexibleServerOperatorSpecGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForFlexibleServerOperatorSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServerOperatorSpec(gens map[string]gopter.Gen) {
+	gens["ConfigMaps"] = gen.PtrOf(FlexibleServerOperatorConfigMapsGenerator())
 	gens["Secrets"] = gen.PtrOf(FlexibleServerOperatorSecretsGenerator())
 }
 
@@ -2345,6 +2351,103 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 		SystemData_LastModifiedByType_STATUS_Key,
 		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
 		SystemData_LastModifiedByType_STATUS_User))
+}
+
+func Test_FlexibleServerOperatorConfigMaps_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServerOperatorConfigMaps to FlexibleServerOperatorConfigMaps via AssignProperties_To_FlexibleServerOperatorConfigMaps & AssignProperties_From_FlexibleServerOperatorConfigMaps returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServerOperatorConfigMaps, FlexibleServerOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServerOperatorConfigMaps tests if a specific instance of FlexibleServerOperatorConfigMaps can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServerOperatorConfigMaps(subject FlexibleServerOperatorConfigMaps) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20210501s.FlexibleServerOperatorConfigMaps
+	err := copied.AssignProperties_To_FlexibleServerOperatorConfigMaps(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServerOperatorConfigMaps
+	err = actual.AssignProperties_From_FlexibleServerOperatorConfigMaps(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_FlexibleServerOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FlexibleServerOperatorConfigMaps via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFlexibleServerOperatorConfigMaps, FlexibleServerOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFlexibleServerOperatorConfigMaps runs a test to see if a specific instance of FlexibleServerOperatorConfigMaps round trips to JSON and back losslessly
+func RunJSONSerializationTestForFlexibleServerOperatorConfigMaps(subject FlexibleServerOperatorConfigMaps) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FlexibleServerOperatorConfigMaps
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FlexibleServerOperatorConfigMaps instances for property testing - lazily instantiated by
+// FlexibleServerOperatorConfigMapsGenerator()
+var flexibleServerOperatorConfigMapsGenerator gopter.Gen
+
+// FlexibleServerOperatorConfigMapsGenerator returns a generator of FlexibleServerOperatorConfigMaps instances for property testing.
+func FlexibleServerOperatorConfigMapsGenerator() gopter.Gen {
+	if flexibleServerOperatorConfigMapsGenerator != nil {
+		return flexibleServerOperatorConfigMapsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	flexibleServerOperatorConfigMapsGenerator = gen.Struct(reflect.TypeOf(FlexibleServerOperatorConfigMaps{}), generators)
+
+	return flexibleServerOperatorConfigMapsGenerator
 }
 
 func Test_FlexibleServerOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

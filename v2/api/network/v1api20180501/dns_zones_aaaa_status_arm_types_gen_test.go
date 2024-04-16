@@ -163,7 +163,9 @@ func RecordSetProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRecordSetProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRecordSetProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["TTL"] = gen.PtrOf(gen.Int())
 }

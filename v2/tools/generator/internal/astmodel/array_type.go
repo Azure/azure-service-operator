@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -46,14 +47,19 @@ func (array *ArrayType) WithElement(t Type) *ArrayType {
 var _ Type = (*ArrayType)(nil)
 
 func (array *ArrayType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error) {
-	return AsSimpleDeclarations(codeGenerationContext, declContext, array), nil
+	return AsSimpleDeclarations(codeGenerationContext, declContext, array)
 }
 
 // AsType renders the Go abstract syntax tree for an array type
-func (array *ArrayType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
-	return &dst.ArrayType{
-		Elt: array.element.AsType(codeGenerationContext),
+func (array *ArrayType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
+	elementExpr, err := array.element.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating array element type")
 	}
+
+	return &dst.ArrayType{
+		Elt: elementExpr,
+	}, nil
 }
 
 // AsZero renders an expression for the "zero" value of the array by calling make()

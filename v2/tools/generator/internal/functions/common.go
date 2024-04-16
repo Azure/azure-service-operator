@@ -7,6 +7,7 @@ package functions
 
 import (
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -47,16 +48,26 @@ func createBodyReturningValue(
 			receiverType = receiver
 		}
 
+		receiverExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating receiver expression for %s", receiverType)
+		}
+
 		fn := &astbuilder.FuncDetails{
 			Name:          methodName,
 			ReceiverIdent: receiverIdent,
-			ReceiverType:  receiverType.AsType(codeGenerationContext),
+			ReceiverType:  receiverExpr,
 			Params:        nil,
 			Body:          astbuilder.Statements(astbuilder.Returns(result)),
 		}
 
 		fn.AddComments(comment)
-		fn.AddReturn(returnType.AsType(codeGenerationContext))
+		returnTypeExpr, err := returnType.AsTypeExpr(codeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating type expression for %s", returnType)
+		}
+
+		fn.AddReturn(returnTypeExpr)
 
 		return fn.DefineFunc(), nil
 	}

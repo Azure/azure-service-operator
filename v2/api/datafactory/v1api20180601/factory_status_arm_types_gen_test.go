@@ -87,7 +87,9 @@ func AddIndependentPropertyGeneratorsForFactory_STATUS_ARM(gens map[string]gopte
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -236,7 +238,9 @@ func AddIndependentPropertyGeneratorsForFactoryProperties_STATUS_ARM(gens map[st
 // AddRelatedPropertyGeneratorsForFactoryProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFactoryProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Encryption"] = gen.PtrOf(EncryptionConfiguration_STATUS_ARMGenerator())
-	gens["GlobalParameters"] = gen.MapOf(gen.AlphaString(), GlobalParameterSpecification_STATUS_ARMGenerator())
+	gens["GlobalParameters"] = gen.MapOf(
+		gen.AlphaString(),
+		GlobalParameterSpecification_STATUS_ARMGenerator())
 	gens["PurviewConfiguration"] = gen.PtrOf(PurviewConfiguration_STATUS_ARMGenerator())
 	gens["RepoConfiguration"] = gen.PtrOf(FactoryRepoConfiguration_STATUS_ARMGenerator())
 }

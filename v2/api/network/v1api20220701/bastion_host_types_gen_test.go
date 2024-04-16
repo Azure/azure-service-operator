@@ -281,7 +281,9 @@ func AddIndependentPropertyGeneratorsForBastionHost_Spec(gens map[string]gopter.
 	gens["EnableTunneling"] = gen.PtrOf(gen.Bool())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["ScaleUnits"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForBastionHost_Spec is a factory method for creating gopter generators
@@ -414,7 +416,9 @@ func AddIndependentPropertyGeneratorsForBastionHost_STATUS(gens map[string]gopte
 		BastionHostProvisioningState_STATUS_Succeeded,
 		BastionHostProvisioningState_STATUS_Updating))
 	gens["ScaleUnits"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

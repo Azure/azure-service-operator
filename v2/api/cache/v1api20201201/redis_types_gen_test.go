@@ -283,8 +283,12 @@ func AddIndependentPropertyGeneratorsForRedis_Spec(gens map[string]gopter.Gen) {
 	gens["ReplicasPerPrimary"] = gen.PtrOf(gen.Int())
 	gens["ShardCount"] = gen.PtrOf(gen.Int())
 	gens["StaticIP"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["TenantSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["TenantSettings"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -431,8 +435,12 @@ func AddIndependentPropertyGeneratorsForRedis_STATUS(gens map[string]gopter.Gen)
 	gens["SslPort"] = gen.PtrOf(gen.Int())
 	gens["StaticIP"] = gen.PtrOf(gen.AlphaString())
 	gens["SubnetId"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["TenantSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["TenantSettings"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
@@ -649,7 +657,9 @@ func RedisCreateProperties_RedisConfigurationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedisCreateProperties_RedisConfiguration is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisCreateProperties_RedisConfiguration(gens map[string]gopter.Gen) {
-	gens["AdditionalProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["AdditionalProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["AofBackupEnabled"] = gen.PtrOf(gen.AlphaString())
 	gens["AofStorageConnectionString0"] = gen.PtrOf(gen.AlphaString())
 	gens["AofStorageConnectionString1"] = gen.PtrOf(gen.AlphaString())
@@ -1077,7 +1087,9 @@ func RedisProperties_RedisConfiguration_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedisProperties_RedisConfiguration_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisProperties_RedisConfiguration_STATUS(gens map[string]gopter.Gen) {
-	gens["AdditionalProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["AdditionalProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["AofBackupEnabled"] = gen.PtrOf(gen.AlphaString())
 	gens["AofStorageConnectionString0"] = gen.PtrOf(gen.AlphaString())
 	gens["AofStorageConnectionString1"] = gen.PtrOf(gen.AlphaString())

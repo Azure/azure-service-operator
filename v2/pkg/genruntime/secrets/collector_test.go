@@ -78,6 +78,22 @@ func TestCollector_DestinationsDifferentSecret_DoesNotMerge(t *testing.T) {
 	g.Expect(result[1].StringData["bar"]).To(Equal("secret2"))
 }
 
+func TestCollector_MissingValue_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destination1 := &genruntime.SecretDestination{
+		Name: "mysecret",
+		Key:  "foo",
+	}
+
+	collector := secrets.NewCollector("ns")
+	collector.AddValue(destination1, "")
+
+	_, err := collector.Values()
+	g.Expect(err).To(HaveOccurred())
+}
+
 func TestCollector_SameDestinationSameKey_ReturnsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)

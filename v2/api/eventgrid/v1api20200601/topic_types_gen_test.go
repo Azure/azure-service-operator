@@ -276,7 +276,9 @@ func AddIndependentPropertyGeneratorsForTopic_Spec(gens map[string]gopter.Gen) {
 	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(TopicProperties_InputSchema_CloudEventSchemaV1_0, TopicProperties_InputSchema_CustomEventSchema, TopicProperties_InputSchema_EventGridSchema))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicProperties_PublicNetworkAccess_Disabled, TopicProperties_PublicNetworkAccess_Enabled))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForTopic_Spec is a factory method for creating gopter generators
@@ -408,7 +410,9 @@ func AddIndependentPropertyGeneratorsForTopic_STATUS(gens map[string]gopter.Gen)
 		TopicProperties_ProvisioningState_STATUS_Succeeded,
 		TopicProperties_ProvisioningState_STATUS_Updating))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicProperties_PublicNetworkAccess_STATUS_Disabled, TopicProperties_PublicNetworkAccess_STATUS_Enabled))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

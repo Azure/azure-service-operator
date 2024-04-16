@@ -181,7 +181,9 @@ func AddIndependentPropertyGeneratorsForFileShareProperties_STATUS_ARM(gens map[
 		FileShareProperties_LeaseState_STATUS_Expired,
 		FileShareProperties_LeaseState_STATUS_Leased))
 	gens["LeaseStatus"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_LeaseStatus_STATUS_Locked, FileShareProperties_LeaseStatus_STATUS_Unlocked))
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["RemainingRetentionDays"] = gen.PtrOf(gen.Int())
 	gens["RootSquash"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_RootSquash_STATUS_AllSquash, FileShareProperties_RootSquash_STATUS_NoRootSquash, FileShareProperties_RootSquash_STATUS_RootSquash))
 	gens["ShareQuota"] = gen.PtrOf(gen.Int())

@@ -276,7 +276,9 @@ func DnsForwardingRuleset_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDnsForwardingRuleset_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDnsForwardingRuleset_Spec is a factory method for creating gopter generators
@@ -405,7 +407,9 @@ func AddIndependentPropertyGeneratorsForDnsForwardingRuleset_STATUS(gens map[str
 		DnsresolverProvisioningState_STATUS_Succeeded,
 		DnsresolverProvisioningState_STATUS_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

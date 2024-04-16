@@ -60,7 +60,6 @@ func createCallExpr(expr dst.Expr, arguments ...dst.Expr) *dst.CallExpr {
 	for _, e := range arguments {
 		if _, ok := e.(*dst.CallExpr); ok {
 			nestedCalls++
-			break
 		}
 	}
 

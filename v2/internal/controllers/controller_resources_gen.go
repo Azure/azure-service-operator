@@ -78,6 +78,8 @@ import (
 	dbformysql_v20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/storage"
 	dbformysql_v20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
 	dbformysql_v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage"
+	dbformysql_v20230630 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630"
+	dbformysql_v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
 	dbforpostgresql_customizations "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/customizations"
 	dbforpostgresql_v20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
 	dbforpostgresql_v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
@@ -544,24 +546,26 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(dbformysql_v20210501s.FlexibleServer),
+		Obj: new(dbformysql_v20230630s.FlexibleServer),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.administratorLoginPassword",
 				Func: indexDbformysqlFlexibleServerAdministratorLoginPassword,
 			},
+			{
+				Key:  ".spec.importSourceProperties.sasToken",
+				Func: indexDbformysqlFlexibleServerSasToken,
+			},
 		},
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.administratorLoginPassword"}, &dbformysql_v20210501s.FlexibleServerList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.administratorLoginPassword", ".spec.importSourceProperties.sasToken"}, &dbformysql_v20230630s.FlexibleServerList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20210501s.FlexibleServersDatabase)})
-	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20210501s.FlexibleServersFirewallRule)})
 	result = append(result, &registration.StorageType{
-		Obj: new(dbformysql_v20220101s.FlexibleServersAdministrator),
+		Obj: new(dbformysql_v20230630s.FlexibleServersAdministrator),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.sidFromConfig",
@@ -575,11 +579,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.sidFromConfig", ".spec.tenantIdFromConfig"}, &dbformysql_v20220101s.FlexibleServersAdministratorList{}),
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.sidFromConfig", ".spec.tenantIdFromConfig"}, &dbformysql_v20230630s.FlexibleServersAdministratorList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20220101s.FlexibleServersConfiguration)})
+	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20230630s.FlexibleServersConfiguration)})
+	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20230630s.FlexibleServersDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20230630s.FlexibleServersFirewallRule)})
 	result = append(result, &registration.StorageType{
 		Obj: new(dbforpostgresql_v20221201s.FlexibleServer),
 		Indexes: []registration.Index{
@@ -1189,8 +1195,14 @@ func getKnownTypes() []client.Object {
 		new(cache_v20201201s.RedisFirewallRule),
 		new(cache_v20201201s.RedisLinkedServer),
 		new(cache_v20201201s.RedisPatchSchedule))
-	result = append(result, new(cache_v20210301.RedisEnterprise), new(cache_v20210301.RedisEnterpriseDatabase))
-	result = append(result, new(cache_v20210301s.RedisEnterprise), new(cache_v20210301s.RedisEnterpriseDatabase))
+	result = append(
+		result,
+		new(cache_v20210301.RedisEnterprise),
+		new(cache_v20210301.RedisEnterpriseDatabase))
+	result = append(
+		result,
+		new(cache_v20210301s.RedisEnterprise),
+		new(cache_v20210301s.RedisEnterpriseDatabase))
 	result = append(
 		result,
 		new(cache_v20230401.Redis),
@@ -1203,10 +1215,22 @@ func getKnownTypes() []client.Object {
 		new(cache_v20230401s.RedisFirewallRule),
 		new(cache_v20230401s.RedisLinkedServer),
 		new(cache_v20230401s.RedisPatchSchedule))
-	result = append(result, new(cache_v20230701.RedisEnterprise), new(cache_v20230701.RedisEnterpriseDatabase))
-	result = append(result, new(cache_v20230701s.RedisEnterprise), new(cache_v20230701s.RedisEnterpriseDatabase))
-	result = append(result, new(cdn_v20210601.Profile), new(cdn_v20210601.ProfilesEndpoint))
-	result = append(result, new(cdn_v20210601s.Profile), new(cdn_v20210601s.ProfilesEndpoint))
+	result = append(
+		result,
+		new(cache_v20230701.RedisEnterprise),
+		new(cache_v20230701.RedisEnterpriseDatabase))
+	result = append(
+		result,
+		new(cache_v20230701s.RedisEnterprise),
+		new(cache_v20230701s.RedisEnterpriseDatabase))
+	result = append(
+		result,
+		new(cdn_v20210601.Profile),
+		new(cdn_v20210601.ProfilesEndpoint))
+	result = append(
+		result,
+		new(cdn_v20210601s.Profile),
+		new(cdn_v20210601s.ProfilesEndpoint))
 	result = append(
 		result,
 		new(cdn_v20230501.AfdCustomDomain),
@@ -1231,8 +1255,14 @@ func getKnownTypes() []client.Object {
 		new(cdn_v20230501s.RuleSet),
 		new(cdn_v20230501s.Secret),
 		new(cdn_v20230501s.SecurityPolicy))
-	result = append(result, new(compute_v20200930.Disk), new(compute_v20200930.Snapshot))
-	result = append(result, new(compute_v20200930s.Disk), new(compute_v20200930s.Snapshot))
+	result = append(
+		result,
+		new(compute_v20200930.Disk),
+		new(compute_v20200930.Snapshot))
+	result = append(
+		result,
+		new(compute_v20200930s.Disk),
+		new(compute_v20200930s.Snapshot))
 	result = append(
 		result,
 		new(compute_v20201201.VirtualMachine),
@@ -1267,10 +1297,22 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(containerinstance_v20211001s.ContainerGroup))
 	result = append(result, new(containerregistry_v20210901.Registry))
 	result = append(result, new(containerregistry_v20210901s.Registry))
-	result = append(result, new(containerservice_v20210501.ManagedCluster), new(containerservice_v20210501.ManagedClustersAgentPool))
-	result = append(result, new(containerservice_v20210501s.ManagedCluster), new(containerservice_v20210501s.ManagedClustersAgentPool))
-	result = append(result, new(containerservice_v20230201.ManagedCluster), new(containerservice_v20230201.ManagedClustersAgentPool))
-	result = append(result, new(containerservice_v20230201s.ManagedCluster), new(containerservice_v20230201s.ManagedClustersAgentPool))
+	result = append(
+		result,
+		new(containerservice_v20210501.ManagedCluster),
+		new(containerservice_v20210501.ManagedClustersAgentPool))
+	result = append(
+		result,
+		new(containerservice_v20210501s.ManagedCluster),
+		new(containerservice_v20210501s.ManagedClustersAgentPool))
+	result = append(
+		result,
+		new(containerservice_v20230201.ManagedCluster),
+		new(containerservice_v20230201.ManagedClustersAgentPool))
+	result = append(
+		result,
+		new(containerservice_v20230201s.ManagedCluster),
+		new(containerservice_v20230201s.ManagedClustersAgentPool))
 	result = append(
 		result,
 		new(containerservice_v20230202p.ManagedCluster),
@@ -1291,14 +1333,32 @@ func getKnownTypes() []client.Object {
 		new(containerservice_v20230315ps.Fleet),
 		new(containerservice_v20230315ps.FleetsMember),
 		new(containerservice_v20230315ps.FleetsUpdateRun))
-	result = append(result, new(containerservice_v20231001.ManagedCluster), new(containerservice_v20231001.ManagedClustersAgentPool))
-	result = append(result, new(containerservice_v20231001s.ManagedCluster), new(containerservice_v20231001s.ManagedClustersAgentPool))
-	result = append(result, new(containerservice_v20231102p.ManagedCluster), new(containerservice_v20231102p.ManagedClustersAgentPool))
-	result = append(result, new(containerservice_v20231102ps.ManagedCluster), new(containerservice_v20231102ps.ManagedClustersAgentPool))
+	result = append(
+		result,
+		new(containerservice_v20231001.ManagedCluster),
+		new(containerservice_v20231001.ManagedClustersAgentPool))
+	result = append(
+		result,
+		new(containerservice_v20231001s.ManagedCluster),
+		new(containerservice_v20231001s.ManagedClustersAgentPool))
+	result = append(
+		result,
+		new(containerservice_v20231102p.ManagedCluster),
+		new(containerservice_v20231102p.ManagedClustersAgentPool))
+	result = append(
+		result,
+		new(containerservice_v20231102ps.ManagedCluster),
+		new(containerservice_v20231102ps.ManagedClustersAgentPool))
 	result = append(result, new(datafactory_v20180601.Factory))
 	result = append(result, new(datafactory_v20180601s.Factory))
-	result = append(result, new(dataprotection_v20230101.BackupVault), new(dataprotection_v20230101.BackupVaultsBackupPolicy))
-	result = append(result, new(dataprotection_v20230101s.BackupVault), new(dataprotection_v20230101s.BackupVaultsBackupPolicy))
+	result = append(
+		result,
+		new(dataprotection_v20230101.BackupVault),
+		new(dataprotection_v20230101.BackupVaultsBackupPolicy))
+	result = append(
+		result,
+		new(dataprotection_v20230101s.BackupVault),
+		new(dataprotection_v20230101s.BackupVaultsBackupPolicy))
 	result = append(
 		result,
 		new(dbformariadb_v20180601.Configuration),
@@ -1319,8 +1379,28 @@ func getKnownTypes() []client.Object {
 		new(dbformysql_v20210501s.FlexibleServer),
 		new(dbformysql_v20210501s.FlexibleServersDatabase),
 		new(dbformysql_v20210501s.FlexibleServersFirewallRule))
-	result = append(result, new(dbformysql_v20220101.FlexibleServersAdministrator), new(dbformysql_v20220101.FlexibleServersConfiguration))
-	result = append(result, new(dbformysql_v20220101s.FlexibleServersAdministrator), new(dbformysql_v20220101s.FlexibleServersConfiguration))
+	result = append(
+		result,
+		new(dbformysql_v20220101.FlexibleServersAdministrator),
+		new(dbformysql_v20220101.FlexibleServersConfiguration))
+	result = append(
+		result,
+		new(dbformysql_v20220101s.FlexibleServersAdministrator),
+		new(dbformysql_v20220101s.FlexibleServersConfiguration))
+	result = append(
+		result,
+		new(dbformysql_v20230630.FlexibleServer),
+		new(dbformysql_v20230630.FlexibleServersAdministrator),
+		new(dbformysql_v20230630.FlexibleServersConfiguration),
+		new(dbformysql_v20230630.FlexibleServersDatabase),
+		new(dbformysql_v20230630.FlexibleServersFirewallRule))
+	result = append(
+		result,
+		new(dbformysql_v20230630s.FlexibleServer),
+		new(dbformysql_v20230630s.FlexibleServersAdministrator),
+		new(dbformysql_v20230630s.FlexibleServersConfiguration),
+		new(dbformysql_v20230630s.FlexibleServersDatabase),
+		new(dbformysql_v20230630s.FlexibleServersFirewallRule))
 	result = append(
 		result,
 		new(dbforpostgresql_v20210601.FlexibleServer),
@@ -1459,8 +1539,14 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(managedidentity_v20181130s.UserAssignedIdentity))
 	result = append(result, new(managedidentity_v20220131p.FederatedIdentityCredential))
 	result = append(result, new(managedidentity_v20220131ps.FederatedIdentityCredential))
-	result = append(result, new(managedidentity_v20230131.FederatedIdentityCredential), new(managedidentity_v20230131.UserAssignedIdentity))
-	result = append(result, new(managedidentity_v20230131s.FederatedIdentityCredential), new(managedidentity_v20230131s.UserAssignedIdentity))
+	result = append(
+		result,
+		new(managedidentity_v20230131.FederatedIdentityCredential),
+		new(managedidentity_v20230131.UserAssignedIdentity))
+	result = append(
+		result,
+		new(managedidentity_v20230131s.FederatedIdentityCredential),
+		new(managedidentity_v20230131s.UserAssignedIdentity))
 	result = append(
 		result,
 		new(network_v20180501.DnsZone),
@@ -1747,10 +1833,22 @@ func getKnownTypes() []client.Object {
 		new(storage_v20230101s.StorageAccountsTableServicesTable))
 	result = append(result, new(subscription_v20211001.Alias))
 	result = append(result, new(subscription_v20211001s.Alias))
-	result = append(result, new(synapse_v20210601.Workspace), new(synapse_v20210601.WorkspacesBigDataPool))
-	result = append(result, new(synapse_v20210601s.Workspace), new(synapse_v20210601s.WorkspacesBigDataPool))
-	result = append(result, new(web_v20220301.ServerFarm), new(web_v20220301.Site))
-	result = append(result, new(web_v20220301s.ServerFarm), new(web_v20220301s.Site))
+	result = append(
+		result,
+		new(synapse_v20210601.Workspace),
+		new(synapse_v20210601.WorkspacesBigDataPool))
+	result = append(
+		result,
+		new(synapse_v20210601s.Workspace),
+		new(synapse_v20210601s.WorkspacesBigDataPool))
+	result = append(
+		result,
+		new(web_v20220301.ServerFarm),
+		new(web_v20220301.Site))
+	result = append(
+		result,
+		new(web_v20220301s.ServerFarm),
+		new(web_v20220301s.Site))
 	return result
 }
 
@@ -1818,6 +1916,8 @@ func createScheme() *runtime.Scheme {
 	_ = dbformysql_v20210501s.AddToScheme(scheme)
 	_ = dbformysql_v20220101.AddToScheme(scheme)
 	_ = dbformysql_v20220101s.AddToScheme(scheme)
+	_ = dbformysql_v20230630.AddToScheme(scheme)
+	_ = dbformysql_v20230630s.AddToScheme(scheme)
 	_ = dbforpostgresql_v20210601.AddToScheme(scheme)
 	_ = dbforpostgresql_v20210601s.AddToScheme(scheme)
 	_ = dbforpostgresql_v20220120p.AddToScheme(scheme)
@@ -2616,9 +2716,9 @@ func indexDbformariadbServerAdministratorLoginPassword(rawObj client.Object) []s
 	return obj.Spec.Properties.Default.AdministratorLoginPassword.Index()
 }
 
-// indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysql_v20210501s.FlexibleServer .spec.administratorLoginPassword
+// indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysql_v20230630s.FlexibleServer .spec.administratorLoginPassword
 func indexDbformysqlFlexibleServerAdministratorLoginPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformysql_v20210501s.FlexibleServer)
+	obj, ok := rawObj.(*dbformysql_v20230630s.FlexibleServer)
 	if !ok {
 		return nil
 	}
@@ -2628,9 +2728,24 @@ func indexDbformysqlFlexibleServerAdministratorLoginPassword(rawObj client.Objec
 	return obj.Spec.AdministratorLoginPassword.Index()
 }
 
-// indexDbformysqlFlexibleServersAdministratorSidFromConfig an index function for dbformysql_v20220101s.FlexibleServersAdministrator .spec.sidFromConfig
+// indexDbformysqlFlexibleServerSasToken an index function for dbformysql_v20230630s.FlexibleServer .spec.importSourceProperties.sasToken
+func indexDbformysqlFlexibleServerSasToken(rawObj client.Object) []string {
+	obj, ok := rawObj.(*dbformysql_v20230630s.FlexibleServer)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ImportSourceProperties == nil {
+		return nil
+	}
+	if obj.Spec.ImportSourceProperties.SasToken == nil {
+		return nil
+	}
+	return obj.Spec.ImportSourceProperties.SasToken.Index()
+}
+
+// indexDbformysqlFlexibleServersAdministratorSidFromConfig an index function for dbformysql_v20230630s.FlexibleServersAdministrator .spec.sidFromConfig
 func indexDbformysqlFlexibleServersAdministratorSidFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformysql_v20220101s.FlexibleServersAdministrator)
+	obj, ok := rawObj.(*dbformysql_v20230630s.FlexibleServersAdministrator)
 	if !ok {
 		return nil
 	}
@@ -2640,9 +2755,9 @@ func indexDbformysqlFlexibleServersAdministratorSidFromConfig(rawObj client.Obje
 	return obj.Spec.SidFromConfig.Index()
 }
 
-// indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig an index function for dbformysql_v20220101s.FlexibleServersAdministrator .spec.tenantIdFromConfig
+// indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig an index function for dbformysql_v20230630s.FlexibleServersAdministrator .spec.tenantIdFromConfig
 func indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformysql_v20220101s.FlexibleServersAdministrator)
+	obj, ok := rawObj.(*dbformysql_v20230630s.FlexibleServersAdministrator)
 	if !ok {
 		return nil
 	}

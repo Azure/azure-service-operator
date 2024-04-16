@@ -154,7 +154,9 @@ func AddIndependentPropertyGeneratorsForVirtualMachine_Spec(gens map[string]gopt
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["PlatformFaultDomain"] = gen.PtrOf(gen.Int())
 	gens["Priority"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["UserData"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
@@ -258,7 +260,9 @@ func AddIndependentPropertyGeneratorsForVirtualMachine_STATUS(gens map[string]go
 	gens["PlatformFaultDomain"] = gen.PtrOf(gen.Int())
 	gens["Priority"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TimeCreated"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["UserData"] = gen.PtrOf(gen.AlphaString())
@@ -1961,7 +1965,9 @@ func AddIndependentPropertyGeneratorsForVirtualMachineExtension_STATUS(gens map[
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
 	gens["SuppressFailures"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["TypeHandlerVersion"] = gen.PtrOf(gen.AlphaString())
 }
@@ -2121,7 +2127,9 @@ func AddIndependentPropertyGeneratorsForVirtualMachineIdentity_STATUS(gens map[s
 
 // AddRelatedPropertyGeneratorsForVirtualMachineIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualMachineIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), VirtualMachineIdentity_UserAssignedIdentities_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		VirtualMachineIdentity_UserAssignedIdentities_STATUSGenerator())
 }
 
 func Test_VirtualMachineInstanceView_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

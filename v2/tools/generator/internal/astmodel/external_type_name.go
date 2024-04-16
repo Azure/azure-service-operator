@@ -44,14 +44,14 @@ func (tn ExternalTypeName) PackageReference() PackageReference {
 }
 
 func (tn ExternalTypeName) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error) {
-	return AsSimpleDeclarations(codeGenerationContext, declContext, tn), nil
+	return AsSimpleDeclarations(codeGenerationContext, declContext, tn)
 }
 
 // AsType implements Type for TypeName
-func (tn ExternalTypeName) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
+func (tn ExternalTypeName) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
 	// Need to ensure we include a selector for our external reference
 	packageName := codeGenerationContext.MustGetImportedPackageName(tn.packageReference)
-	return astbuilder.Selector(dst.NewIdent(packageName), tn.Name())
+	return astbuilder.Selector(dst.NewIdent(packageName), tn.Name()), nil
 }
 
 // AsZero renders an expression for the "zero" value of the type.

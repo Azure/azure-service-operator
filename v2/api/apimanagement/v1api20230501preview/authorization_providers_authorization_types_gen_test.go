@@ -384,7 +384,9 @@ func AddIndependentPropertyGeneratorsForService_AuthorizationProviders_Authoriza
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Oauth2GrantType"] = gen.PtrOf(gen.OneConstOf(AuthorizationContractProperties_Oauth2GrantType_STATUS_AuthorizationCode, AuthorizationContractProperties_Oauth2GrantType_STATUS_ClientCredentials))
-	gens["Parameters"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Parameters"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }

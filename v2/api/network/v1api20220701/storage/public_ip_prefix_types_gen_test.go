@@ -150,7 +150,9 @@ func AddIndependentPropertyGeneratorsForPublicIPPrefix_Spec(gens map[string]gopt
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["PrefixLength"] = gen.PtrOf(gen.Int())
 	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -239,7 +241,9 @@ func AddIndependentPropertyGeneratorsForPublicIPPrefix_STATUS(gens map[string]go
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }

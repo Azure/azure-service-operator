@@ -278,7 +278,9 @@ func AddIndependentPropertyGeneratorsForNetworkInterface_Spec(gens map[string]go
 	gens["EnableIPForwarding"] = gen.PtrOf(gen.Bool())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["NicType"] = gen.PtrOf(gen.OneConstOf(NetworkInterfacePropertiesFormat_NicType_Elastic, NetworkInterfacePropertiesFormat_NicType_Standard))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForNetworkInterface_Spec is a factory method for creating gopter generators
@@ -421,7 +423,9 @@ func AddIndependentPropertyGeneratorsForNetworkInterface_STATUS_NetworkInterface
 		ProvisioningState_STATUS_Succeeded,
 		ProvisioningState_STATUS_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

@@ -84,7 +84,10 @@ func armSpecInterfaceSimpleGetFunction(
 	castToString bool,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := fn.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsType(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", receiver.Name())
+	}
 
 	var result dst.Expr = astbuilder.Selector(dst.NewIdent(receiverIdent), propertyName)
 
@@ -100,7 +103,7 @@ func armSpecInterfaceSimpleGetFunction(
 	details := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.Dereference(receiverType),
+		ReceiverType:  astbuilder.Dereference(receiverExpr),
 		Body:          astbuilder.Statements(retResult),
 	}
 

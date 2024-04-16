@@ -283,7 +283,9 @@ func AddIndependentPropertyGeneratorsForTrafficmanagerprofile_Spec(gens map[stri
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxReturn"] = gen.PtrOf(gen.Int())
 	gens["ProfileStatus"] = gen.PtrOf(gen.OneConstOf(ProfileProperties_ProfileStatus_Disabled, ProfileProperties_ProfileStatus_Enabled))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TrafficRoutingMethod"] = gen.PtrOf(gen.OneConstOf(
 		ProfileProperties_TrafficRoutingMethod_Geographic,
 		ProfileProperties_TrafficRoutingMethod_MultiValue,
@@ -421,7 +423,9 @@ func AddIndependentPropertyGeneratorsForTrafficmanagerprofile_STATUS(gens map[st
 	gens["MaxReturn"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProfileStatus"] = gen.PtrOf(gen.OneConstOf(ProfileProperties_ProfileStatus_STATUS_Disabled, ProfileProperties_ProfileStatus_STATUS_Enabled))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TrafficRoutingMethod"] = gen.PtrOf(gen.OneConstOf(
 		ProfileProperties_TrafficRoutingMethod_STATUS_Geographic,
 		ProfileProperties_TrafficRoutingMethod_STATUS_MultiValue,

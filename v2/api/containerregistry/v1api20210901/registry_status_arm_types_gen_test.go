@@ -87,7 +87,9 @@ func AddIndependentPropertyGeneratorsForRegistry_STATUS_ARM(gens map[string]gopt
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -177,7 +179,9 @@ func AddIndependentPropertyGeneratorsForIdentityProperties_STATUS_ARM(gens map[s
 
 // AddRelatedPropertyGeneratorsForIdentityProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForIdentityProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserIdentityProperties_STATUS_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserIdentityProperties_STATUS_ARMGenerator())
 }
 
 func Test_RegistryProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

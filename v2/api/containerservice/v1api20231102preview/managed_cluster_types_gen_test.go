@@ -286,13 +286,17 @@ func AddIndependentPropertyGeneratorsForManagedCluster_Spec(gens map[string]gopt
 	gens["NodeResourceGroup"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(ManagedClusterProperties_PublicNetworkAccess_Disabled, ManagedClusterProperties_PublicNetworkAccess_Enabled, ManagedClusterProperties_PublicNetworkAccess_SecuredByPerimeter))
 	gens["SupportPlan"] = gen.PtrOf(gen.OneConstOf(KubernetesSupportPlan_AKSLongTermSupport, KubernetesSupportPlan_KubernetesOfficial))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForManagedCluster_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedCluster_Spec(gens map[string]gopter.Gen) {
 	gens["AadProfile"] = gen.PtrOf(ManagedClusterAADProfileGenerator())
-	gens["AddonProfiles"] = gen.MapOf(gen.AlphaString(), ManagedClusterAddonProfileGenerator())
+	gens["AddonProfiles"] = gen.MapOf(
+		gen.AlphaString(),
+		ManagedClusterAddonProfileGenerator())
 	gens["AgentPoolProfiles"] = gen.SliceOf(ManagedClusterAgentPoolProfileGenerator())
 	gens["AiToolchainOperatorProfile"] = gen.PtrOf(ManagedClusterAIToolchainOperatorProfileGenerator())
 	gens["ApiServerAccessProfile"] = gen.PtrOf(ManagedClusterAPIServerAccessProfileGenerator())
@@ -303,7 +307,9 @@ func AddRelatedPropertyGeneratorsForManagedCluster_Spec(gens map[string]gopter.G
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["HttpProxyConfig"] = gen.PtrOf(ManagedClusterHTTPProxyConfigGenerator())
 	gens["Identity"] = gen.PtrOf(ManagedClusterIdentityGenerator())
-	gens["IdentityProfile"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityGenerator())
+	gens["IdentityProfile"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentityGenerator())
 	gens["IngressProfile"] = gen.PtrOf(ManagedClusterIngressProfileGenerator())
 	gens["LinuxProfile"] = gen.PtrOf(ContainerServiceLinuxProfileGenerator())
 	gens["MetricsProfile"] = gen.PtrOf(ManagedClusterMetricsProfileGenerator())
@@ -426,7 +432,9 @@ func ManagedCluster_STATUSGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForManagedCluster_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedCluster_STATUS(gens map[string]gopter.Gen) {
 	gens["AadProfile"] = gen.PtrOf(ManagedClusterAADProfile_STATUSGenerator())
-	gens["AddonProfiles"] = gen.MapOf(gen.AlphaString(), ManagedClusterAddonProfile_STATUSGenerator())
+	gens["AddonProfiles"] = gen.MapOf(
+		gen.AlphaString(),
+		ManagedClusterAddonProfile_STATUSGenerator())
 	gens["AgentPoolProfiles"] = gen.SliceOf(ManagedClusterAgentPoolProfile_STATUSGenerator())
 	gens["AiToolchainOperatorProfile"] = gen.PtrOf(ManagedClusterAIToolchainOperatorProfile_STATUSGenerator())
 	gens["ApiServerAccessProfile"] = gen.PtrOf(ManagedClusterAPIServerAccessProfile_STATUSGenerator())
@@ -437,7 +445,9 @@ func AddRelatedPropertyGeneratorsForManagedCluster_STATUS(gens map[string]gopter
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
 	gens["HttpProxyConfig"] = gen.PtrOf(ManagedClusterHTTPProxyConfig_STATUSGenerator())
 	gens["Identity"] = gen.PtrOf(ManagedClusterIdentity_STATUSGenerator())
-	gens["IdentityProfile"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentity_STATUSGenerator())
+	gens["IdentityProfile"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentity_STATUSGenerator())
 	gens["IngressProfile"] = gen.PtrOf(ManagedClusterIngressProfile_STATUSGenerator())
 	gens["LinuxProfile"] = gen.PtrOf(ContainerServiceLinuxProfile_STATUSGenerator())
 	gens["MetricsProfile"] = gen.PtrOf(ManagedClusterMetricsProfile_STATUSGenerator())
@@ -1904,7 +1914,9 @@ func ManagedClusterAddonProfileGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterAddonProfile is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterAddonProfile(gens map[string]gopter.Gen) {
-	gens["Config"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Config"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
@@ -2017,7 +2029,9 @@ func ManagedClusterAddonProfile_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterAddonProfile_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterAddonProfile_STATUS(gens map[string]gopter.Gen) {
-	gens["Config"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Config"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
@@ -2157,7 +2171,9 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile(gens map[
 	gens["Mode"] = gen.PtrOf(gen.OneConstOf(AgentPoolMode_System, AgentPoolMode_User))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeInitializationTaints"] = gen.SliceOf(gen.AlphaString())
-	gens["NodeLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["NodeLabels"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["OsDiskSizeGB"] = gen.PtrOf(gen.Int().Map(func(it int) ContainerServiceOSDisk {
@@ -2177,7 +2193,9 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile(gens map[
 	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ScaleSetEvictionPolicy_Deallocate, ScaleSetEvictionPolicy_Delete))
 	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ScaleSetPriority_Regular, ScaleSetPriority_Spot))
 	gens["SpotMaxPrice"] = gen.PtrOf(gen.Float64())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(AgentPoolType_AvailabilitySet, AgentPoolType_VirtualMachineScaleSets, AgentPoolType_VirtualMachines))
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkloadRuntime"] = gen.PtrOf(gen.OneConstOf(WorkloadRuntime_KataMshvVmIsolation, WorkloadRuntime_OCIContainer, WorkloadRuntime_WasmWasi))
@@ -3498,7 +3516,9 @@ func AddIndependentPropertyGeneratorsForManagedClusterIdentity(gens map[string]g
 
 // AddRelatedPropertyGeneratorsForManagedClusterIdentity is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterIdentity(gens map[string]gopter.Gen) {
-	gens["DelegatedResources"] = gen.MapOf(gen.AlphaString(), DelegatedResourceGenerator())
+	gens["DelegatedResources"] = gen.MapOf(
+		gen.AlphaString(),
+		DelegatedResourceGenerator())
 	gens["UserAssignedIdentities"] = gen.SliceOf(UserAssignedIdentityDetailsGenerator())
 }
 
@@ -3618,8 +3638,12 @@ func AddIndependentPropertyGeneratorsForManagedClusterIdentity_STATUS(gens map[s
 
 // AddRelatedPropertyGeneratorsForManagedClusterIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["DelegatedResources"] = gen.MapOf(gen.AlphaString(), DelegatedResource_STATUSGenerator())
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), ManagedClusterIdentity_UserAssignedIdentities_STATUSGenerator())
+	gens["DelegatedResources"] = gen.MapOf(
+		gen.AlphaString(),
+		DelegatedResource_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		ManagedClusterIdentity_UserAssignedIdentities_STATUSGenerator())
 }
 
 func Test_ManagedClusterIngressProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -10745,7 +10769,9 @@ func ManagedClusterPodIdentityExceptionGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityException(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
-	gens["PodLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["PodLabels"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_ManagedClusterPodIdentityException_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -10850,7 +10876,9 @@ func ManagedClusterPodIdentityException_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityException_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
-	gens["PodLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["PodLabels"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_ManagedClusterSecurityProfileDefender_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -16978,7 +17006,9 @@ func IstioEgressGatewayGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIstioEgressGateway is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIstioEgressGateway(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["NodeSelector"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["NodeSelector"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_IstioEgressGateway_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -17082,7 +17112,9 @@ func IstioEgressGateway_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIstioEgressGateway_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIstioEgressGateway_STATUS(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["NodeSelector"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["NodeSelector"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_IstioIngressGateway_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

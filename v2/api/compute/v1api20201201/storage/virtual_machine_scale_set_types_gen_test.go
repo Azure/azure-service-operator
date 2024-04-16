@@ -282,7 +282,9 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSet_Spec(gens map[str
 	gens["Overprovision"] = gen.PtrOf(gen.Bool())
 	gens["PlatformFaultDomainCount"] = gen.PtrOf(gen.Int())
 	gens["SinglePlacementGroup"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["ZoneBalance"] = gen.PtrOf(gen.Bool())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
@@ -420,7 +422,9 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSet_STATUS(gens map[s
 	gens["PlatformFaultDomainCount"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["SinglePlacementGroup"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["UniqueId"] = gen.PtrOf(gen.AlphaString())
 	gens["ZoneBalance"] = gen.PtrOf(gen.Bool())
@@ -1531,7 +1535,9 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS(ge
 
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUSGenerator())
 }
 
 func Test_VirtualMachineScaleSetVMProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

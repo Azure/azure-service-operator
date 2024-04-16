@@ -7,6 +7,7 @@ package functions
 
 import (
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -71,10 +72,18 @@ func (o *OriginalGVKFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
-	gvkType := astmodel.GroupVersionKindType.AsType(codeGenerationContext)
+	gvkType, err := astmodel.GroupVersionKindType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", astmodel.GroupVersionKindType)
+	}
+
 	groupVersionPackageGlobal := dst.NewIdent("GroupVersion")
 
 	receiverName := o.idFactory.CreateReceiver(receiver.Name())
+	receiverTypeExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+	}
 
 	spec := astbuilder.Selector(dst.NewIdent(receiverName), "Spec")
 
@@ -92,7 +101,7 @@ func (o *OriginalGVKFunction) AsFunc(
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  astbuilder.PointerTo(receiver.AsType(codeGenerationContext)),
+		ReceiverType:  astbuilder.PointerTo(receiverTypeExpr),
 		Name:          o.Name(),
 		Body:          astbuilder.Statements(astbuilder.Returns(astbuilder.AddrOf(initGVK))),
 	}

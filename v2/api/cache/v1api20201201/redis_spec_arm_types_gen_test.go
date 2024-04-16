@@ -85,7 +85,9 @@ func Redis_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRedis_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -170,7 +172,9 @@ func AddIndependentPropertyGeneratorsForRedisCreateProperties_ARM(gens map[strin
 	gens["ShardCount"] = gen.PtrOf(gen.Int())
 	gens["StaticIP"] = gen.PtrOf(gen.AlphaString())
 	gens["SubnetId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["TenantSettings"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForRedisCreateProperties_ARM is a factory method for creating gopter generators
@@ -237,7 +241,9 @@ func RedisCreateProperties_RedisConfiguration_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedisCreateProperties_RedisConfiguration_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisCreateProperties_RedisConfiguration_ARM(gens map[string]gopter.Gen) {
-	gens["AdditionalProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["AdditionalProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["AofBackupEnabled"] = gen.PtrOf(gen.AlphaString())
 	gens["AofStorageConnectionString0"] = gen.PtrOf(gen.AlphaString())
 	gens["AofStorageConnectionString1"] = gen.PtrOf(gen.AlphaString())

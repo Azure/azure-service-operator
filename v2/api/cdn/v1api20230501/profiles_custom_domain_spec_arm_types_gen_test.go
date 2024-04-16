@@ -159,7 +159,9 @@ func AFDDomainProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAFDDomainProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAFDDomainProperties_ARM(gens map[string]gopter.Gen) {
-	gens["ExtendedProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["ExtendedProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 }
 

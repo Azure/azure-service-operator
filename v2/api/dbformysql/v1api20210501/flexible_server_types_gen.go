@@ -4,16 +4,21 @@
 package v1api20210501
 
 import (
+	"context"
 	"fmt"
 	v20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/storage"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -50,22 +55,36 @@ var _ conversion.Convertible = &FlexibleServer{}
 
 // ConvertFrom populates our FlexibleServer from the provided hub FlexibleServer
 func (server *FlexibleServer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210501s.FlexibleServer)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v1api20210501/storage/FlexibleServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210501s.FlexibleServer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return server.AssignProperties_From_FlexibleServer(source)
+	err = server.AssignProperties_From_FlexibleServer(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to server")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServer from our FlexibleServer
 func (server *FlexibleServer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210501s.FlexibleServer)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v1api20210501/storage/FlexibleServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210501s.FlexibleServer
+	err := server.AssignProperties_To_FlexibleServer(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from server")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return server.AssignProperties_To_FlexibleServer(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-dbformysql-azure-com-v1api20210501-flexibleserver,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleservers,verbs=create;update,versions=v1api20210501,name=default.v1api20210501.flexibleservers.dbformysql.azure.com,admissionReviewVersions=v1
@@ -91,15 +110,26 @@ func (server *FlexibleServer) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the FlexibleServer resource
 func (server *FlexibleServer) defaultImpl() { server.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &FlexibleServer{}
+var _ genruntime.KubernetesExporter = &FlexibleServer{}
 
-// InitializeSpec initializes the spec for this resource from the given status
-func (server *FlexibleServer) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FlexibleServer_STATUS); ok {
-		return server.Spec.Initialize_From_FlexibleServer_STATUS(s)
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (server *FlexibleServer) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(server.Namespace)
+	if server.Spec.OperatorSpec != nil && server.Spec.OperatorSpec.ConfigMaps != nil {
+		if server.Status.AdministratorLogin != nil {
+			collector.AddValue(server.Spec.OperatorSpec.ConfigMaps.AdministratorLogin, *server.Status.AdministratorLogin)
+		}
 	}
-
-	return fmt.Errorf("expected Status of type FlexibleServer_STATUS but received %T instead", status)
+	if server.Spec.OperatorSpec != nil && server.Spec.OperatorSpec.ConfigMaps != nil {
+		if server.Status.FullyQualifiedDomainName != nil {
+			collector.AddValue(server.Spec.OperatorSpec.ConfigMaps.FullyQualifiedDomainName, *server.Status.FullyQualifiedDomainName)
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &FlexibleServer{}
@@ -209,7 +239,7 @@ func (server *FlexibleServer) ValidateUpdate(old runtime.Object) (admission.Warn
 
 // createValidations validates the creation of the resource
 func (server *FlexibleServer) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){server.validateResourceReferences, server.validateOwnerReference, server.validateSecretDestinations}
+	return []func() (admission.Warnings, error){server.validateResourceReferences, server.validateOwnerReference, server.validateSecretDestinations, server.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -230,7 +260,25 @@ func (server *FlexibleServer) updateValidations() []func(old runtime.Object) (ad
 		func(old runtime.Object) (admission.Warnings, error) {
 			return server.validateSecretDestinations()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return server.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (server *FlexibleServer) validateConfigMapDestinations() (admission.Warnings, error) {
+	if server.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	if server.Spec.OperatorSpec.ConfigMaps == nil {
+		return nil, nil
+	}
+	toValidate := []*genruntime.ConfigMapDestination{
+		server.Spec.OperatorSpec.ConfigMaps.AdministratorLogin,
+		server.Spec.OperatorSpec.ConfigMaps.FullyQualifiedDomainName,
+	}
+	return genruntime.ValidateConfigMapDestinations(toValidate)
 }
 
 // validateOwnerReference validates the owner field
@@ -1198,151 +1246,6 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 	return nil
 }
 
-// Initialize_From_FlexibleServer_STATUS populates our FlexibleServer_Spec from the provided source FlexibleServer_STATUS
-func (server *FlexibleServer_Spec) Initialize_From_FlexibleServer_STATUS(source *FlexibleServer_STATUS) error {
-
-	// AdministratorLogin
-	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
-
-	// AvailabilityZone
-	server.AvailabilityZone = genruntime.ClonePointerToString(source.AvailabilityZone)
-
-	// Backup
-	if source.Backup != nil {
-		var backup Backup
-		err := backup.Initialize_From_Backup_STATUS(source.Backup)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Backup_STATUS() to populate field Backup")
-		}
-		server.Backup = &backup
-	} else {
-		server.Backup = nil
-	}
-
-	// CreateMode
-	if source.CreateMode != nil {
-		createMode := ServerProperties_CreateMode(*source.CreateMode)
-		server.CreateMode = &createMode
-	} else {
-		server.CreateMode = nil
-	}
-
-	// DataEncryption
-	if source.DataEncryption != nil {
-		var dataEncryption DataEncryption
-		err := dataEncryption.Initialize_From_DataEncryption_STATUS(source.DataEncryption)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DataEncryption_STATUS() to populate field DataEncryption")
-		}
-		server.DataEncryption = &dataEncryption
-	} else {
-		server.DataEncryption = nil
-	}
-
-	// HighAvailability
-	if source.HighAvailability != nil {
-		var highAvailability HighAvailability
-		err := highAvailability.Initialize_From_HighAvailability_STATUS(source.HighAvailability)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_HighAvailability_STATUS() to populate field HighAvailability")
-		}
-		server.HighAvailability = &highAvailability
-	} else {
-		server.HighAvailability = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity Identity
-		err := identity.Initialize_From_Identity_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Identity_STATUS() to populate field Identity")
-		}
-		server.Identity = &identity
-	} else {
-		server.Identity = nil
-	}
-
-	// Location
-	server.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MaintenanceWindow
-	if source.MaintenanceWindow != nil {
-		var maintenanceWindow MaintenanceWindow
-		err := maintenanceWindow.Initialize_From_MaintenanceWindow_STATUS(source.MaintenanceWindow)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_MaintenanceWindow_STATUS() to populate field MaintenanceWindow")
-		}
-		server.MaintenanceWindow = &maintenanceWindow
-	} else {
-		server.MaintenanceWindow = nil
-	}
-
-	// Network
-	if source.Network != nil {
-		var network Network
-		err := network.Initialize_From_Network_STATUS(source.Network)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Network_STATUS() to populate field Network")
-		}
-		server.Network = &network
-	} else {
-		server.Network = nil
-	}
-
-	// ReplicationRole
-	if source.ReplicationRole != nil {
-		replicationRole := ReplicationRole(*source.ReplicationRole)
-		server.ReplicationRole = &replicationRole
-	} else {
-		server.ReplicationRole = nil
-	}
-
-	// RestorePointInTime
-	server.RestorePointInTime = genruntime.ClonePointerToString(source.RestorePointInTime)
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		server.Sku = &sku
-	} else {
-		server.Sku = nil
-	}
-
-	// SourceServerResourceId
-	server.SourceServerResourceId = genruntime.ClonePointerToString(source.SourceServerResourceId)
-
-	// Storage
-	if source.Storage != nil {
-		var storage Storage
-		err := storage.Initialize_From_Storage_STATUS(source.Storage)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Storage_STATUS() to populate field Storage")
-		}
-		server.Storage = &storage
-	} else {
-		server.Storage = nil
-	}
-
-	// Tags
-	server.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Version
-	if source.Version != nil {
-		version := ServerVersion(*source.Version)
-		server.Version = &version
-	} else {
-		server.Version = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (server *FlexibleServer_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -2224,24 +2127,6 @@ func (backup *Backup) AssignProperties_To_Backup(destination *v20210501s.Backup)
 	return nil
 }
 
-// Initialize_From_Backup_STATUS populates our Backup from the provided source Backup_STATUS
-func (backup *Backup) Initialize_From_Backup_STATUS(source *Backup_STATUS) error {
-
-	// BackupRetentionDays
-	backup.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
-
-	// GeoRedundantBackup
-	if source.GeoRedundantBackup != nil {
-		geoRedundantBackup := EnableStatusEnum(*source.GeoRedundantBackup)
-		backup.GeoRedundantBackup = &geoRedundantBackup
-	} else {
-		backup.GeoRedundantBackup = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage Profile properties of a server
 type Backup_STATUS struct {
 	// BackupRetentionDays: Backup retention days for the server.
@@ -2532,43 +2417,6 @@ func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination
 	return nil
 }
 
-// Initialize_From_DataEncryption_STATUS populates our DataEncryption from the provided source DataEncryption_STATUS
-func (encryption *DataEncryption) Initialize_From_DataEncryption_STATUS(source *DataEncryption_STATUS) error {
-
-	// GeoBackupKeyURI
-	encryption.GeoBackupKeyURI = genruntime.ClonePointerToString(source.GeoBackupKeyURI)
-
-	// GeoBackupUserAssignedIdentityReference
-	if source.GeoBackupUserAssignedIdentityId != nil {
-		geoBackupUserAssignedIdentityReference := genruntime.CreateResourceReferenceFromARMID(*source.GeoBackupUserAssignedIdentityId)
-		encryption.GeoBackupUserAssignedIdentityReference = &geoBackupUserAssignedIdentityReference
-	} else {
-		encryption.GeoBackupUserAssignedIdentityReference = nil
-	}
-
-	// PrimaryKeyURI
-	encryption.PrimaryKeyURI = genruntime.ClonePointerToString(source.PrimaryKeyURI)
-
-	// PrimaryUserAssignedIdentityReference
-	if source.PrimaryUserAssignedIdentityId != nil {
-		primaryUserAssignedIdentityReference := genruntime.CreateResourceReferenceFromARMID(*source.PrimaryUserAssignedIdentityId)
-		encryption.PrimaryUserAssignedIdentityReference = &primaryUserAssignedIdentityReference
-	} else {
-		encryption.PrimaryUserAssignedIdentityReference = nil
-	}
-
-	// Type
-	if source.Type != nil {
-		typeVar := DataEncryption_Type(*source.Type)
-		encryption.Type = &typeVar
-	} else {
-		encryption.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The date encryption for cmk.
 type DataEncryption_STATUS struct {
 	// GeoBackupKeyURI: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
@@ -2702,12 +2550,27 @@ func (encryption *DataEncryption_STATUS) AssignProperties_To_DataEncryption_STAT
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type FlexibleServerOperatorSpec struct {
+	// ConfigMaps: configures where to place operator written ConfigMaps.
+	ConfigMaps *FlexibleServerOperatorConfigMaps `json:"configMaps,omitempty"`
+
 	// Secrets: configures where to place Azure generated secrets.
 	Secrets *FlexibleServerOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_FlexibleServerOperatorSpec populates our FlexibleServerOperatorSpec from the provided source FlexibleServerOperatorSpec
 func (operator *FlexibleServerOperatorSpec) AssignProperties_From_FlexibleServerOperatorSpec(source *v20210501s.FlexibleServerOperatorSpec) error {
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap FlexibleServerOperatorConfigMaps
+		err := configMap.AssignProperties_From_FlexibleServerOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_FlexibleServerOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
+	}
 
 	// Secrets
 	if source.Secrets != nil {
@@ -2729,6 +2592,18 @@ func (operator *FlexibleServerOperatorSpec) AssignProperties_From_FlexibleServer
 func (operator *FlexibleServerOperatorSpec) AssignProperties_To_FlexibleServerOperatorSpec(destination *v20210501s.FlexibleServerOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap v20210501s.FlexibleServerOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_FlexibleServerOperatorConfigMaps(&configMap)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_FlexibleServerOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
+	}
 
 	// Secrets
 	if operator.Secrets != nil {
@@ -2854,24 +2729,6 @@ func (availability *HighAvailability) AssignProperties_To_HighAvailability(desti
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_HighAvailability_STATUS populates our HighAvailability from the provided source HighAvailability_STATUS
-func (availability *HighAvailability) Initialize_From_HighAvailability_STATUS(source *HighAvailability_STATUS) error {
-
-	// Mode
-	if source.Mode != nil {
-		mode := HighAvailability_Mode(*source.Mode)
-		availability.Mode = &mode
-	} else {
-		availability.Mode = nil
-	}
-
-	// StandbyAvailabilityZone
-	availability.StandbyAvailabilityZone = genruntime.ClonePointerToString(source.StandbyAvailabilityZone)
 
 	// No error
 	return nil
@@ -3119,33 +2976,6 @@ func (identity *Identity) AssignProperties_To_Identity(destination *v20210501s.I
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Identity_STATUS populates our Identity from the provided source Identity_STATUS
-func (identity *Identity) Initialize_From_Identity_STATUS(source *Identity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := Identity_Type(*source.Type)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -3426,25 +3256,6 @@ func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destinati
 	return nil
 }
 
-// Initialize_From_MaintenanceWindow_STATUS populates our MaintenanceWindow from the provided source MaintenanceWindow_STATUS
-func (window *MaintenanceWindow) Initialize_From_MaintenanceWindow_STATUS(source *MaintenanceWindow_STATUS) error {
-
-	// CustomWindow
-	window.CustomWindow = genruntime.ClonePointerToString(source.CustomWindow)
-
-	// DayOfWeek
-	window.DayOfWeek = genruntime.ClonePointerToInt(source.DayOfWeek)
-
-	// StartHour
-	window.StartHour = genruntime.ClonePointerToInt(source.StartHour)
-
-	// StartMinute
-	window.StartMinute = genruntime.ClonePointerToInt(source.StartMinute)
-
-	// No error
-	return nil
-}
-
 // Maintenance window of a server.
 type MaintenanceWindow_STATUS struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
@@ -3658,29 +3469,6 @@ func (network *Network) AssignProperties_To_Network(destination *v20210501s.Netw
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Network_STATUS populates our Network from the provided source Network_STATUS
-func (network *Network) Initialize_From_Network_STATUS(source *Network_STATUS) error {
-
-	// DelegatedSubnetResourceReference
-	if source.DelegatedSubnetResourceId != nil {
-		delegatedSubnetResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.DelegatedSubnetResourceId)
-		network.DelegatedSubnetResourceReference = &delegatedSubnetResourceReference
-	} else {
-		network.DelegatedSubnetResourceReference = nil
-	}
-
-	// PrivateDnsZoneResourceReference
-	if source.PrivateDnsZoneResourceId != nil {
-		privateDnsZoneResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.PrivateDnsZoneResourceId)
-		network.PrivateDnsZoneResourceReference = &privateDnsZoneResourceReference
-	} else {
-		network.PrivateDnsZoneResourceReference = nil
 	}
 
 	// No error
@@ -4016,24 +3804,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210501s.Sku) error {
 	return nil
 }
 
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Name
-	sku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Tier
-	if source.Tier != nil {
-		tier := Sku_Tier(*source.Tier)
-		sku.Tier = &tier
-	} else {
-		sku.Tier = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Billing information related properties of a server.
 type Sku_STATUS struct {
 	// Name: The name of the sku, e.g. Standard_D32s_v3.
@@ -4241,27 +4011,6 @@ func (storage *Storage) AssignProperties_To_Storage(destination *v20210501s.Stor
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Storage_STATUS populates our Storage from the provided source Storage_STATUS
-func (storage *Storage) Initialize_From_Storage_STATUS(source *Storage_STATUS) error {
-
-	// AutoGrow
-	if source.AutoGrow != nil {
-		autoGrow := EnableStatusEnum(*source.AutoGrow)
-		storage.AutoGrow = &autoGrow
-	} else {
-		storage.AutoGrow = nil
-	}
-
-	// Iops
-	storage.Iops = genruntime.ClonePointerToInt(source.Iops)
-
-	// StorageSizeGB
-	storage.StorageSizeGB = genruntime.ClonePointerToInt(source.StorageSizeGB)
 
 	// No error
 	return nil
@@ -4592,6 +4341,71 @@ const (
 var enableStatusEnum_STATUS_Values = map[string]EnableStatusEnum_STATUS{
 	"disabled": EnableStatusEnum_STATUS_Disabled,
 	"enabled":  EnableStatusEnum_STATUS_Enabled,
+}
+
+type FlexibleServerOperatorConfigMaps struct {
+	// AdministratorLogin: indicates where the AdministratorLogin config map should be placed. If omitted, no config map will
+	// be created.
+	AdministratorLogin *genruntime.ConfigMapDestination `json:"administratorLogin,omitempty"`
+
+	// FullyQualifiedDomainName: indicates where the FullyQualifiedDomainName config map should be placed. If omitted, no
+	// config map will be created.
+	FullyQualifiedDomainName *genruntime.ConfigMapDestination `json:"fullyQualifiedDomainName,omitempty"`
+}
+
+// AssignProperties_From_FlexibleServerOperatorConfigMaps populates our FlexibleServerOperatorConfigMaps from the provided source FlexibleServerOperatorConfigMaps
+func (maps *FlexibleServerOperatorConfigMaps) AssignProperties_From_FlexibleServerOperatorConfigMaps(source *v20210501s.FlexibleServerOperatorConfigMaps) error {
+
+	// AdministratorLogin
+	if source.AdministratorLogin != nil {
+		administratorLogin := source.AdministratorLogin.Copy()
+		maps.AdministratorLogin = &administratorLogin
+	} else {
+		maps.AdministratorLogin = nil
+	}
+
+	// FullyQualifiedDomainName
+	if source.FullyQualifiedDomainName != nil {
+		fullyQualifiedDomainName := source.FullyQualifiedDomainName.Copy()
+		maps.FullyQualifiedDomainName = &fullyQualifiedDomainName
+	} else {
+		maps.FullyQualifiedDomainName = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FlexibleServerOperatorConfigMaps populates the provided destination FlexibleServerOperatorConfigMaps from our FlexibleServerOperatorConfigMaps
+func (maps *FlexibleServerOperatorConfigMaps) AssignProperties_To_FlexibleServerOperatorConfigMaps(destination *v20210501s.FlexibleServerOperatorConfigMaps) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AdministratorLogin
+	if maps.AdministratorLogin != nil {
+		administratorLogin := maps.AdministratorLogin.Copy()
+		destination.AdministratorLogin = &administratorLogin
+	} else {
+		destination.AdministratorLogin = nil
+	}
+
+	// FullyQualifiedDomainName
+	if maps.FullyQualifiedDomainName != nil {
+		fullyQualifiedDomainName := maps.FullyQualifiedDomainName.Copy()
+		destination.FullyQualifiedDomainName = &fullyQualifiedDomainName
+	} else {
+		destination.FullyQualifiedDomainName = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 type FlexibleServerOperatorSecrets struct {

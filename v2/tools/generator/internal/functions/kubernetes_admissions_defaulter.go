@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -112,7 +113,10 @@ func (d *DefaulterBuilder) localDefault(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsType(codeGenerationContext)
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	defaults := make([]dst.Stmt, 0, len(d.defaults))
 	for _, def := range d.defaults {
@@ -124,7 +128,7 @@ func (d *DefaulterBuilder) localDefault(
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
 		Body:          defaults,
 	}
 
@@ -139,11 +143,18 @@ func (d *DefaulterBuilder) defaultFunction(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
-	receiverType := receiver.AsType(codeGenerationContext)
+	receiverType, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
+
 	tempVarIdent := "temp"
 	runtimeDefaulterIdent := "runtimeDefaulter"
 
-	overrideInterfaceType := astmodel.GenRuntimeDefaulterInterfaceName.AsType(codeGenerationContext)
+	overrideInterfaceType, err := astmodel.GenRuntimeDefaulterInterfaceName.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating runtime defaulter interface type expression for method %s", methodName)
+	}
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,

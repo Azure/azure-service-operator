@@ -296,7 +296,9 @@ func AddIndependentPropertyGeneratorsForCorrelationFilter_STATUS_ARM(gens map[st
 	gens["CorrelationId"] = gen.PtrOf(gen.AlphaString())
 	gens["Label"] = gen.PtrOf(gen.AlphaString())
 	gens["MessageId"] = gen.PtrOf(gen.AlphaString())
-	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Properties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["ReplyTo"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplyToSessionId"] = gen.PtrOf(gen.AlphaString())
 	gens["RequiresPreprocessing"] = gen.PtrOf(gen.Bool())

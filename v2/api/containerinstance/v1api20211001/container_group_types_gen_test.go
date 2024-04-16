@@ -278,7 +278,9 @@ func AddIndependentPropertyGeneratorsForContainerGroup_Spec(gens map[string]gopt
 	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ContainerGroup_Properties_OsType_Spec_Linux, ContainerGroup_Properties_OsType_Spec_Windows))
 	gens["RestartPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerGroup_Properties_RestartPolicy_Spec_Always, ContainerGroup_Properties_RestartPolicy_Spec_Never, ContainerGroup_Properties_RestartPolicy_Spec_OnFailure))
 	gens["Sku"] = gen.PtrOf(gen.OneConstOf(ContainerGroupSku_Dedicated, ContainerGroupSku_Standard))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -412,7 +414,9 @@ func AddIndependentPropertyGeneratorsForContainerGroup_STATUS(gens map[string]go
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["RestartPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerGroup_Properties_RestartPolicy_STATUS_Always, ContainerGroup_Properties_RestartPolicy_STATUS_Never, ContainerGroup_Properties_RestartPolicy_STATUS_OnFailure))
 	gens["Sku"] = gen.PtrOf(gen.OneConstOf(ContainerGroupSku_STATUS_Dedicated, ContainerGroupSku_STATUS_Standard))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
@@ -1243,7 +1247,9 @@ func AddIndependentPropertyGeneratorsForContainerGroupIdentity_STATUS(gens map[s
 
 // AddRelatedPropertyGeneratorsForContainerGroupIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForContainerGroupIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentities_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentities_STATUSGenerator())
 }
 
 func Test_ContainerGroupSubnetId_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2683,7 +2689,9 @@ func VolumeGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVolume is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVolume(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Secret"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Secret"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForVolume is a factory method for creating gopter generators
@@ -2801,7 +2809,9 @@ func Volume_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVolume_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVolume_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Secret"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Secret"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForVolume_STATUS is a factory method for creating gopter generators
@@ -4333,7 +4343,9 @@ func LogAnalyticsGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLogAnalytics is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLogAnalytics(gens map[string]gopter.Gen) {
 	gens["LogType"] = gen.PtrOf(gen.OneConstOf(LogAnalytics_LogType_ContainerInsights, LogAnalytics_LogType_ContainerInstanceLogs))
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["WorkspaceId"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -4438,7 +4450,9 @@ func LogAnalytics_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLogAnalytics_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLogAnalytics_STATUS(gens map[string]gopter.Gen) {
 	gens["LogType"] = gen.PtrOf(gen.OneConstOf(LogAnalytics_LogType_STATUS_ContainerInsights, LogAnalytics_LogType_STATUS_ContainerInstanceLogs))
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["WorkspaceId"] = gen.PtrOf(gen.AlphaString())
 }
 

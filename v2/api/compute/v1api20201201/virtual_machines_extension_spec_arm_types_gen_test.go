@@ -86,7 +86,9 @@ func VirtualMachines_Extension_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVirtualMachines_Extension_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForVirtualMachines_Extension_Spec_ARM is a factory method for creating gopter generators
@@ -164,7 +166,9 @@ func AddIndependentPropertyGeneratorsForVirtualMachineExtensionProperties_ARM(ge
 	gens["AutoUpgradeMinorVersion"] = gen.PtrOf(gen.Bool())
 	gens["EnableAutomaticUpgrade"] = gen.PtrOf(gen.Bool())
 	gens["ForceUpdateTag"] = gen.PtrOf(gen.AlphaString())
-	gens["ProtectedSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["ProtectedSettings"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["TypeHandlerVersion"] = gen.PtrOf(gen.AlphaString())

@@ -84,14 +84,18 @@ func NewTestRecorder(
 
 		// verify custom request count header matches, if present
 		if header := r.Header.Get(COUNT_HEADER); header != "" {
-			if header != i.Headers.Get(COUNT_HEADER) {
+			interactionHeader := i.Headers.Get(COUNT_HEADER)
+			if header != interactionHeader {
+				log.Info("Request count header mismatch", COUNT_HEADER, header, "interaction", interactionHeader)
 				return false
 			}
 		}
 
 		// verify custom body hash header matches, if present
 		if header := r.Header.Get(HASH_HEADER); header != "" {
-			if header != i.Headers.Get(HASH_HEADER) {
+			interactionHeader := i.Headers.Get(HASH_HEADER)
+			if header != interactionHeader {
+				log.Info("Request body hash header mismatch", HASH_HEADER, header, "interaction", interactionHeader)
 				return false
 			}
 		}

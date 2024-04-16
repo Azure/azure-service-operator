@@ -67,7 +67,13 @@ func (c *Collector) errIfKeyExists(val *v1.Secret, key string) error {
 // been added going to the same secret (but with a different key) the new key is merged into the
 // existing secret.
 func (c *Collector) AddValue(dest *genruntime.SecretDestination, value string) {
-	if dest == nil || value == "" {
+	if dest == nil {
+		return
+	}
+
+	if value == "" {
+		// A dest was provided, but we couldn't find the key to match. This is an error
+		c.errors = append(c.errors, errors.Errorf("could not find secret to save to '%s'", dest.String()))
 		return
 	}
 

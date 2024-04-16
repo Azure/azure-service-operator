@@ -85,7 +85,9 @@ func Fleet_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForFleet_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForFleet_Spec_ARM is a factory method for creating gopter generators

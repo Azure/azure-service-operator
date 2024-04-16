@@ -49,22 +49,36 @@ var _ conversion.Convertible = &FlexibleServersAdministrator{}
 
 // ConvertFrom populates our FlexibleServersAdministrator from the provided hub FlexibleServersAdministrator
 func (administrator *FlexibleServersAdministrator) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220101s.FlexibleServersAdministrator)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v1api20220101/storage/FlexibleServersAdministrator but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20220101s.FlexibleServersAdministrator
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return administrator.AssignProperties_From_FlexibleServersAdministrator(source)
+	err = administrator.AssignProperties_From_FlexibleServersAdministrator(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to administrator")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServersAdministrator from our FlexibleServersAdministrator
 func (administrator *FlexibleServersAdministrator) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220101s.FlexibleServersAdministrator)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v1api20220101/storage/FlexibleServersAdministrator but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20220101s.FlexibleServersAdministrator
+	err := administrator.AssignProperties_To_FlexibleServersAdministrator(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from administrator")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return administrator.AssignProperties_To_FlexibleServersAdministrator(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-dbformysql-azure-com-v1api20220101-flexibleserversadministrator,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleserversadministrators,verbs=create;update,versions=v1api20220101,name=default.v1api20220101.flexibleserversadministrators.dbformysql.azure.com,admissionReviewVersions=v1
@@ -82,17 +96,6 @@ func (administrator *FlexibleServersAdministrator) Default() {
 
 // defaultImpl applies the code generated defaults to the FlexibleServersAdministrator resource
 func (administrator *FlexibleServersAdministrator) defaultImpl() {}
-
-var _ genruntime.ImportableResource = &FlexibleServersAdministrator{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (administrator *FlexibleServersAdministrator) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FlexibleServers_Administrator_STATUS); ok {
-		return administrator.Spec.Initialize_From_FlexibleServers_Administrator_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type FlexibleServers_Administrator_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &FlexibleServersAdministrator{}
 
@@ -662,38 +665,6 @@ func (administrator *FlexibleServers_Administrator_Spec) AssignProperties_To_Fle
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FlexibleServers_Administrator_STATUS populates our FlexibleServers_Administrator_Spec from the provided source FlexibleServers_Administrator_STATUS
-func (administrator *FlexibleServers_Administrator_Spec) Initialize_From_FlexibleServers_Administrator_STATUS(source *FlexibleServers_Administrator_STATUS) error {
-
-	// AdministratorType
-	if source.AdministratorType != nil {
-		administratorType := AdministratorProperties_AdministratorType(*source.AdministratorType)
-		administrator.AdministratorType = &administratorType
-	} else {
-		administrator.AdministratorType = nil
-	}
-
-	// IdentityResourceReference
-	if source.IdentityResourceId != nil {
-		identityResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.IdentityResourceId)
-		administrator.IdentityResourceReference = &identityResourceReference
-	} else {
-		administrator.IdentityResourceReference = nil
-	}
-
-	// Login
-	administrator.Login = genruntime.ClonePointerToString(source.Login)
-
-	// Sid
-	administrator.Sid = genruntime.ClonePointerToString(source.Sid)
-
-	// TenantId
-	administrator.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// No error
 	return nil

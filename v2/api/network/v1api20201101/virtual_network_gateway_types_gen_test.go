@@ -281,7 +281,9 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGateway_Spec(gens map[stri
 	gens["EnablePrivateIpAddress"] = gen.PtrOf(gen.Bool())
 	gens["GatewayType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormat_GatewayType_ExpressRoute, VirtualNetworkGatewayPropertiesFormat_GatewayType_LocalGateway, VirtualNetworkGatewayPropertiesFormat_GatewayType_Vpn))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Generation1, VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Generation2, VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_None))
 	gens["VpnType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormat_VpnType_PolicyBased, VirtualNetworkGatewayPropertiesFormat_VpnType_RouteBased))
 }
@@ -422,7 +424,9 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGateway_STATUS(gens map[st
 		ProvisioningState_STATUS_Succeeded,
 		ProvisioningState_STATUS_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["VNetExtendedLocationResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_Generation1, VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_Generation2, VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_None))

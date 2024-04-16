@@ -86,7 +86,9 @@ func ManagedCluster_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedCluster_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForManagedCluster_Spec_ARM is a factory method for creating gopter generators
@@ -231,8 +233,12 @@ func AddIndependentPropertyGeneratorsForManagedClusterIdentity_ARM(gens map[stri
 
 // AddRelatedPropertyGeneratorsForManagedClusterIdentity_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterIdentity_ARM(gens map[string]gopter.Gen) {
-	gens["DelegatedResources"] = gen.MapOf(gen.AlphaString(), DelegatedResource_ARMGenerator())
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityDetails_ARMGenerator())
+	gens["DelegatedResources"] = gen.MapOf(
+		gen.AlphaString(),
+		DelegatedResource_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentityDetails_ARMGenerator())
 }
 
 func Test_ManagedClusterProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -318,7 +324,9 @@ func AddIndependentPropertyGeneratorsForManagedClusterProperties_ARM(gens map[st
 // AddRelatedPropertyGeneratorsForManagedClusterProperties_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterProperties_ARM(gens map[string]gopter.Gen) {
 	gens["AadProfile"] = gen.PtrOf(ManagedClusterAADProfile_ARMGenerator())
-	gens["AddonProfiles"] = gen.MapOf(gen.AlphaString(), ManagedClusterAddonProfile_ARMGenerator())
+	gens["AddonProfiles"] = gen.MapOf(
+		gen.AlphaString(),
+		ManagedClusterAddonProfile_ARMGenerator())
 	gens["AgentPoolProfiles"] = gen.SliceOf(ManagedClusterAgentPoolProfile_ARMGenerator())
 	gens["AiToolchainOperatorProfile"] = gen.PtrOf(ManagedClusterAIToolchainOperatorProfile_ARMGenerator())
 	gens["ApiServerAccessProfile"] = gen.PtrOf(ManagedClusterAPIServerAccessProfile_ARMGenerator())
@@ -327,7 +335,9 @@ func AddRelatedPropertyGeneratorsForManagedClusterProperties_ARM(gens map[string
 	gens["AzureMonitorProfile"] = gen.PtrOf(ManagedClusterAzureMonitorProfile_ARMGenerator())
 	gens["CreationData"] = gen.PtrOf(CreationData_ARMGenerator())
 	gens["HttpProxyConfig"] = gen.PtrOf(ManagedClusterHTTPProxyConfig_ARMGenerator())
-	gens["IdentityProfile"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentity_ARMGenerator())
+	gens["IdentityProfile"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentity_ARMGenerator())
 	gens["IngressProfile"] = gen.PtrOf(ManagedClusterIngressProfile_ARMGenerator())
 	gens["LinuxProfile"] = gen.PtrOf(ContainerServiceLinuxProfile_ARMGenerator())
 	gens["MetricsProfile"] = gen.PtrOf(ManagedClusterMetricsProfile_ARMGenerator())
@@ -892,7 +902,9 @@ func ManagedClusterAddonProfile_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterAddonProfile_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterAddonProfile_ARM(gens map[string]gopter.Gen) {
-	gens["Config"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Config"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
@@ -987,7 +999,9 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile_ARM(gens 
 	gens["Mode"] = gen.PtrOf(gen.OneConstOf(AgentPoolMode_System, AgentPoolMode_User))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeInitializationTaints"] = gen.SliceOf(gen.AlphaString())
-	gens["NodeLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["NodeLabels"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["NodePublicIPPrefixID"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
@@ -1010,7 +1024,9 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile_ARM(gens 
 	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.OneConstOf(ScaleSetEvictionPolicy_Deallocate, ScaleSetEvictionPolicy_Delete))
 	gens["ScaleSetPriority"] = gen.PtrOf(gen.OneConstOf(ScaleSetPriority_Regular, ScaleSetPriority_Spot))
 	gens["SpotMaxPrice"] = gen.PtrOf(gen.Float64())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(AgentPoolType_AvailabilitySet, AgentPoolType_VirtualMachineScaleSets, AgentPoolType_VirtualMachines))
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 	gens["VnetSubnetID"] = gen.PtrOf(gen.AlphaString())
@@ -3325,7 +3341,9 @@ func ManagedClusterPodIdentityException_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityException_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
-	gens["PodLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["PodLabels"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_ManagedClusterSecurityProfileDefender_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -5136,7 +5154,9 @@ func IstioEgressGateway_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIstioEgressGateway_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIstioEgressGateway_ARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["NodeSelector"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["NodeSelector"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_IstioIngressGateway_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -277,7 +277,9 @@ func AddIndependentPropertyGeneratorsForVirtualNetwork_Spec(gens map[string]gopt
 	gens["EnableDdosProtection"] = gen.PtrOf(gen.Bool())
 	gens["EnableVmProtection"] = gen.PtrOf(gen.Bool())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetwork_Spec is a factory method for creating gopter generators
@@ -411,7 +413,9 @@ func AddIndependentPropertyGeneratorsForVirtualNetwork_STATUS(gens map[string]go
 		ProvisioningState_STATUS_Succeeded,
 		ProvisioningState_STATUS_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

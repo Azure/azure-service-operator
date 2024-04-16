@@ -274,7 +274,9 @@ func LoadBalancer_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForLoadBalancer_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForLoadBalancer_Spec is a factory method for creating gopter generators
@@ -409,7 +411,9 @@ func AddIndependentPropertyGeneratorsForLoadBalancer_STATUS(gens map[string]gopt
 		ProvisioningState_STATUS_Succeeded,
 		ProvisioningState_STATUS_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

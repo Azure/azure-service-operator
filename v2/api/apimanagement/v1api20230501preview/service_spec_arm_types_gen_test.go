@@ -85,7 +85,9 @@ func Service_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForService_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -172,7 +174,9 @@ func AddIndependentPropertyGeneratorsForApiManagementServiceIdentity_ARM(gens ma
 
 // AddRelatedPropertyGeneratorsForApiManagementServiceIdentity_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForApiManagementServiceIdentity_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityDetails_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentityDetails_ARMGenerator())
 }
 
 func Test_ApiManagementServiceProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -242,7 +246,9 @@ func ApiManagementServiceProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForApiManagementServiceProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApiManagementServiceProperties_ARM(gens map[string]gopter.Gen) {
-	gens["CustomProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["CustomProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["DeveloperPortalStatus"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_DeveloperPortalStatus_Disabled, ApiManagementServiceProperties_DeveloperPortalStatus_Enabled))
 	gens["DisableGateway"] = gen.PtrOf(gen.Bool())
 	gens["EnableClientCertificate"] = gen.PtrOf(gen.Bool())

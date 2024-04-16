@@ -86,7 +86,9 @@ func Servers_Database_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForServers_Database_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForServers_Database_Spec_ARM is a factory method for creating gopter generators
@@ -168,7 +170,9 @@ func AddIndependentPropertyGeneratorsForDatabaseIdentity_ARM(gens map[string]gop
 
 // AddRelatedPropertyGeneratorsForDatabaseIdentity_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseIdentity_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityDetails_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentityDetails_ARMGenerator())
 }
 
 func Test_DatabaseProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

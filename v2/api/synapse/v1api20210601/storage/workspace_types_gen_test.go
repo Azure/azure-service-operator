@@ -152,7 +152,9 @@ func AddIndependentPropertyGeneratorsForWorkspace_Spec(gens map[string]gopter.Ge
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["SqlAdministratorLogin"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TrustedServiceBypassEnabled"] = gen.PtrOf(gen.Bool())
 }
 
@@ -236,7 +238,9 @@ func Workspace_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWorkspace_STATUS(gens map[string]gopter.Gen) {
 	gens["AdlaResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureADOnlyAuthentication"] = gen.PtrOf(gen.Bool())
-	gens["ConnectivityEndpoints"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["ConnectivityEndpoints"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["ManagedResourceGroupName"] = gen.PtrOf(gen.AlphaString())
@@ -245,7 +249,9 @@ func AddIndependentPropertyGeneratorsForWorkspace_STATUS(gens map[string]gopter.
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["SqlAdministratorLogin"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TrustedServiceBypassEnabled"] = gen.PtrOf(gen.Bool())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceUID"] = gen.PtrOf(gen.AlphaString())
@@ -796,7 +802,9 @@ func AddIndependentPropertyGeneratorsForManagedIdentity_STATUS(gens map[string]g
 
 // AddRelatedPropertyGeneratorsForManagedIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedManagedIdentity_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedManagedIdentity_STATUSGenerator())
 }
 
 func Test_ManagedVirtualNetworkSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

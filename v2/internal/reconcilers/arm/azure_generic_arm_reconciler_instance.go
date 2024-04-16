@@ -525,7 +525,7 @@ func (r *azureDeploymentReconcilerInstance) MonitorResourceCreation(ctx context.
 
 	// Requeue to check again later
 	retryAfter := genericarmclient.GetRetryAfter(poller.RawResponse)
-	r.Log.V(Debug).Info("Resource not created yet, will check again", "requeueAfter", retryAfter)
+	r.Log.V(Debug).Info("Resource not created/updated yet, will check again", "requeueAfter", retryAfter)
 	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
 }
 

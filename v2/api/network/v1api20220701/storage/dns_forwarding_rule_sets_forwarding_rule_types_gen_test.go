@@ -149,7 +149,9 @@ func AddIndependentPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_Spe
 	gens["AzureName"] = gen.AlphaString()
 	gens["DomainName"] = gen.PtrOf(gen.AlphaString())
 	gens["ForwardingRuleState"] = gen.PtrOf(gen.AlphaString())
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 }
 
@@ -229,7 +231,9 @@ func AddIndependentPropertyGeneratorsForDnsForwardingRulesets_ForwardingRule_STA
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["ForwardingRuleState"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
