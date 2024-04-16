@@ -20,12 +20,10 @@
 
 <title>Credential Scope | Azure Service Operator</title>
 <meta name="description" content="When presented with multiple credential choices, the operator chooses the most specific one: resource scope takes precedence over namespace scope which takes precedence over global scope.
-Global scope The global credential resides in the aso-controller-settings secret deployed as part of operator deployment in operator&amp;rsquo;s namespace. This is the scope configured when configuring credentials via the Helm chart installation.
-When updating the aso-controller-settings secret, you must restart the operator pod for the updated secret to take effect.">
+Global scope Warning Be careful when using the global scope credential. A user in any namespace in your cluster will have the ability to do everything that the global credential can do. For security best practice we recommend using namespace scoped or resource scoped credentials.">
 <meta property="og:title" content="Credential Scope" />
 <meta property="og:description" content="When presented with multiple credential choices, the operator chooses the most specific one: resource scope takes precedence over namespace scope which takes precedence over global scope.
-Global scope The global credential resides in the aso-controller-settings secret deployed as part of operator deployment in operator&rsquo;s namespace. This is the scope configured when configuring credentials via the Helm chart installation.
-When updating the aso-controller-settings secret, you must restart the operator pod for the updated secret to take effect." />
+Global scope Warning Be careful when using the global scope credential. A user in any namespace in your cluster will have the ability to do everything that the global credential can do. For security best practice we recommend using namespace scoped or resource scoped credentials." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/authentication/credential-scope/" /><meta property="article:section" content="guide" />
 
@@ -33,15 +31,13 @@ When updating the aso-controller-settings secret, you must restart the operator 
 
 <meta itemprop="name" content="Credential Scope">
 <meta itemprop="description" content="When presented with multiple credential choices, the operator chooses the most specific one: resource scope takes precedence over namespace scope which takes precedence over global scope.
-Global scope The global credential resides in the aso-controller-settings secret deployed as part of operator deployment in operator&rsquo;s namespace. This is the scope configured when configuring credentials via the Helm chart installation.
-When updating the aso-controller-settings secret, you must restart the operator pod for the updated secret to take effect.">
+Global scope Warning Be careful when using the global scope credential. A user in any namespace in your cluster will have the ability to do everything that the global credential can do. For security best practice we recommend using namespace scoped or resource scoped credentials.">
 
-<meta itemprop="wordCount" content="227">
+<meta itemprop="wordCount" content="277">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Credential Scope"/>
 <meta name="twitter:description" content="When presented with multiple credential choices, the operator chooses the most specific one: resource scope takes precedence over namespace scope which takes precedence over global scope.
-Global scope The global credential resides in the aso-controller-settings secret deployed as part of operator deployment in operator&rsquo;s namespace. This is the scope configured when configuring credentials via the Helm chart installation.
-When updating the aso-controller-settings secret, you must restart the operator pod for the updated secret to take effect."/>
+Global scope Warning Be careful when using the global scope credential. A user in any namespace in your cluster will have the ability to do everything that the global credential can do. For security best practice we recommend using namespace scoped or resource scoped credentials."/>
 
 
 
@@ -154,6 +150,13 @@ When updating the aso-controller-settings secret, you must restart the operator 
   <a href="/azure-service-operator/guide/authentication/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationmultitenant-deployment"><span class="">Multitenancy</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideauthenticationreducing-access-li">
   <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebest-practices-li">
+  <a href="/azure-service-operator/guide/best-practices/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebest-practicessecurity-li">
+  <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
@@ -736,6 +739,17 @@ When updating the aso-controller-settings secret, you must restart the operator 
 	<p>When presented with multiple credential choices, the operator chooses the most specific one:
 <em>resource scope</em> takes precedence over <em>namespace scope</em> which takes precedence over <em>global scope</em>.</p>
 <h2 id="global-scope">Global scope</h2>
+
+
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">Warning</h4>
+
+    Be careful when using the global scope credential. A user in any namespace in your cluster will have the ability
+to do everything that the global credential can do. For security best practice we recommend using namespace scoped
+or resource scoped credentials. See <a href="/azure-service-operator/guide/best-practices/security/">security best practices</a> for more details.
+
+</div>
+
 <p>The global credential resides in the <code>aso-controller-settings</code> secret deployed as part of operator deployment in
 operator&rsquo;s namespace.
 This is the scope configured when configuring credentials via the Helm chart installation.</p>

@@ -126,6 +126,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/v1api20210101/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/best-practices/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cache/</loc>
@@ -355,6 +357,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/search/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/search/v1api20220901/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/best-practices/security/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/</loc>
   </url><url>

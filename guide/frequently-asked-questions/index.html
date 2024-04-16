@@ -19,25 +19,25 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>FAQ | Azure Service Operator</title>
-<meta name="description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&amp;rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly.
-What is the support model? Azure Service Operator is an officially supported Microsoft OSS product.">
+<meta name="description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&amp;rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly. For an up-to-date plan check the milestone tracker.
+How are CVEs dealt with?">
 <meta property="og:title" content="FAQ" />
-<meta property="og:description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly.
-What is the support model? Azure Service Operator is an officially supported Microsoft OSS product." />
+<meta property="og:description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly. For an up-to-date plan check the milestone tracker.
+How are CVEs dealt with?" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/frequently-asked-questions/" /><meta property="article:section" content="guide" />
 
 
 
 <meta itemprop="name" content="FAQ">
-<meta itemprop="description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly.
-What is the support model? Azure Service Operator is an officially supported Microsoft OSS product.">
+<meta itemprop="description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly. For an up-to-date plan check the milestone tracker.
+How are CVEs dealt with?">
 
-<meta itemprop="wordCount" content="1656">
+<meta itemprop="wordCount" content="1662">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="FAQ"/>
-<meta name="twitter:description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly.
-What is the support model? Azure Service Operator is an officially supported Microsoft OSS product."/>
+<meta name="twitter:description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly. For an up-to-date plan check the milestone tracker.
+How are CVEs dealt with?"/>
 
 
 
@@ -150,6 +150,13 @@ What is the support model? Azure Service Operator is an officially supported Mic
   <a href="/azure-service-operator/guide/authentication/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationmultitenant-deployment"><span class="">Multitenancy</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationreducing-access-li">
   <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebest-practices-li">
+  <a href="/azure-service-operator/guide/best-practices/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebest-practicessecurity-li">
+  <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
@@ -668,11 +675,11 @@ What is the support model? Azure Service Operator is an officially supported Mic
     <li><a href="#frequently-asked-questions">Frequently Asked Questions</a>
       <ul>
         <li><a href="#what-is-the-release-cadence">What is the release cadence?</a></li>
+        <li><a href="#how-are-cves-dealt-with">How are CVEs dealt with?</a></li>
         <li><a href="#what-is-the-support-model">What is the support model?</a></li>
         <li><a href="#does-aso-help-with-disaster-recovery-dr-of-resources-in-azure">Does ASO help with Disaster Recovery (DR) of resources in Azure?</a></li>
         <li><a href="#how-can-i-protect-against-accidentally-deleting-an-important-resource">How can I protect against accidentally deleting an important resource?</a></li>
-        <li><a href="#what-is-the-best-practice-for-transferring-aso-resources-from-one-cluster-to-another">What is the best practice for transferring ASO resources from one cluster to another?</a></li>
-        <li><a href="#what-is-the-best-practice-for-transferring-aso-resources-from-one-namespace-to-another">What is the best practice for transferring ASO resources from one namespace to another?</a></li>
+        <li><a href="#what-are-some-aso-best-practices">What are some ASO best practices?</a></li>
         <li><a href="#can-i-run-aso-in-active-active-mode">Can I run ASO in active-active mode?</a></li>
         <li><a href="#can-aso-be-used-with-iacgitops-tools">Can ASO be used with IAC/GitOps tools?</a></li>
         <li><a href="#whats-the-difference-between-aso-and-crossplaneio">What&rsquo;s the difference between ASO and Crossplane.io?</a></li>
@@ -746,7 +753,21 @@ What is the support model? Azure Service Operator is an officially supported Mic
 <h3 id="what-is-the-release-cadence">What is the release cadence?</h3>
 <p>We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen
 more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a
-release may happen more slowly.</p>
+release may happen more slowly. For an up-to-date plan check the
+<a href="https://github.com/Azure/azure-service-operator/milestones">milestone tracker</a>.</p>
+<h3 id="how-are-cves-dealt-with">How are CVEs dealt with?</h3>
+<p>The ASO controller container is built on <a href="https://github.com/GoogleContainerTools/distroless">distroless</a>, and as such
+has a relatively minimal surface area. Most CVEs that impact ASO are related to the Golang packages used by
+the controller.</p>
+<p>We scan for new CVEs weekly using <a href="https://github.com/aquasecurity/trivy">Trivy</a> and also get proactive updates via
+<a href="https://docs.github.com/code-security/dependabot/dependabot-alerts/about-dependabot-alerts">Dependabot</a>.</p>
+<p>CVEs are triaged according to their severity (Low, Moderate, High, Critical) and whether they are exploitable in ASO.
+Low and moderate severity issues will be fixed in the next minor release of ASO, high and critical severity CVEs that
+can be exploited in ASO will have a patch released for them.</p>
+<p>Note that we cannot patch CVEs for which there is no upstream fix. Only once an upstream fix has been released will ASO
+fix the CVE.</p>
+<p>Fixes are <em>not</em> backported to older versions of ASO. If you&rsquo;re running v2.5.0 and a CVE is fixed in v2.7.0, you must
+upgrade to v2.7.0 to get the fix.</p>
 <h3 id="what-is-the-support-model">What is the support model?</h3>
 <p>Azure Service Operator is an officially supported Microsoft OSS product. Currently, support is done via GitHub issues or
 the <code>azure-service-operator</code> channel of the <a href="https://kubernetes.slack.com/">Kubernetes Slack</a>. There are plans to integrate ASO into
@@ -762,21 +783,8 @@ If the underlying Azure Resource doesn&rsquo;t support DR (or the story is more 
 <li>You can manually add a finalizer to the resource which will not be removed except manually by you when ready to delete the resource, see <a href="https://kubernetes.io/blog/2021/05/14/using-finalizers-to-control-deletion/">this</a></li>
 </ol>
 <p>There&rsquo;s also a proposal for <a href="https://github.com/kubernetes/kubernetes/issues/10179">more general upstream support</a> on this topic, although there hasn&rsquo;t been movement on it in a while.</p>
-<h3 id="what-is-the-best-practice-for-transferring-aso-resources-from-one-cluster-to-another">What is the best practice for transferring ASO resources from one cluster to another?</h3>
-<p>There are two important tenets to remember when transferring resources between clusters:</p>
-<ol>
-<li>Don&rsquo;t accidentally delete the resources in Azure during the transfer.</li>
-<li>Don&rsquo;t have two instances of ASO fighting to reconcile the same resource to different states.</li>
-</ol>
-<p>Let&rsquo;s say that you want to migrate all of your ASO resources from cluster A to cluster B. We recommend the following pattern:</p>
-<ol>
-<li>Annotate the resources in cluster A with <a href="/azure-service-operator/guide/annotations/#serviceoperatorazurecomreconcile-policy">serviceoperator.azure.com/reconcile-policy: skip</a>. This prevents ASO in that cluster from updating or deleting those resources.</li>
-<li>Ensure that cluster B has ASO installed.</li>
-<li><code>kubectl apply</code> the resources into cluster B. We strongly recommend an infrastructure-as-code approach where you keep your original/goal-state ASO YAMLs around.</li>
-<li>Delete the resources in cluster A. Note that because of the <code>skip</code> annotation, this will not delete the backing Azure resources.</li>
-</ol>
-<h3 id="what-is-the-best-practice-for-transferring-aso-resources-from-one-namespace-to-another">What is the best practice for transferring ASO resources from one namespace to another?</h3>
-<p>See <a href="#what-is-the-best-practice-for-transferring-aso-resources-from-one-cluster-to-another">above</a>. The process is the same for moving between namespaces.</p>
+<h3 id="what-are-some-aso-best-practices">What are some ASO best practices?</h3>
+<p>See <a href="/azure-service-operator/guide/best-practices/">best practices</a>.</p>
 <h3 id="can-i-run-aso-in-active-active-mode">Can I run ASO in active-active mode?</h3>
 <p>This is where two different ASO instances manage the same resource in Azure.</p>
 <p>This <em>can</em> be done but is not recommended. The main risk here is the goal state between the two instances of the same resource differing, causing thrashing in Azure

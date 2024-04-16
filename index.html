@@ -144,6 +144,13 @@
   <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
 </li>
   </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebest-practices-li">
+  <a href="/azure-service-operator/guide/best-practices/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebest-practicessecurity-li">
+  <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
@@ -758,10 +765,7 @@ cert-manager-cainjector-bd5f9c764-gvxm4   1/1     Running   <span style="color:#
 cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   <span style="color:#ae81ff">0</span>          1m
 </code></pre></div><p>(Alternatively, you can wait for cert-manager to be ready with <code>cmctl check api --wait=2m</code> - see the <a href="https://cert-manager.io/docs/usage/cmctl/">cert-manager documentation</a> for more information about <code>cmctl</code>.)</p>
 <ol start="2">
-<li>
-<p>Create an Azure Service Principal. You&rsquo;ll need this to grant Azure Service Operator permissions to create resources in your subscription.</p>
-<p>First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:</p>
-</li>
+<li>Install <a href="https://github.com/Azure/azure-service-operator/tree/main/v2/charts">the latest <strong>v2+</strong> Helm chart</a>:</li>
 </ol>
 
 
@@ -803,94 +807,55 @@ cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   <span style="color:#
     </div>
     <div class="tab-body tab-pane fade show active"
         id="tabs-00-01" role="tabpanel" aria-labelled-by="tabs-00-01-tab">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ export AZURE_TENANT_ID<span style="color:#f92672">=</span>&lt;your-tenant-id-goes-here&gt;
-$ export AZURE_SUBSCRIPTION_ID<span style="color:#f92672">=</span>&lt;your-subscription-id-goes-here&gt;
-</code></pre></div>
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
+$ helm upgrade --install aso2 aso2/azure-service-operator <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --create-namespace <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --namespace<span style="color:#f92672">=</span>azureserviceoperator-system <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --set crdPattern<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&#39;</span>
+</code></pre></div><p>Note: <strong>bash</strong> requires the value for <code>crdPattern</code> to be quoted with <code>'</code> to avoid expansion of the wildcards.</p>
+
     </div>
     <div class="tab-body tab-pane fade"
         id="tabs-00-02" role="tabpanel" aria-labelled-by="tabs-00-02-tab">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS&gt; $AZURE_TENANT_ID=&lt;your-tenant-id-goes-here&gt;
-PS&gt; $AZURE_SUBSCRIPTION_ID=&lt;your-subscription-id-goes-here&gt;
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS&gt; helm repo add aso2 https<span style="color:#960050;background-color:#1e0010">:</span>//raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
+PS&gt; helm upgrade --install aso2 aso2/azure-service-operator `
+    --create-namespace `
+    --namespace=azureserviceoperator-system `
+    --set crdPattern=resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*
 </code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
         id="tabs-00-03" role="tabpanel" aria-labelled-by="tabs-00-03-tab">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmd" data-lang="cmd">C:\<span style="color:#75715e">&gt; SET AZURE_TENANT_ID=&lt;your-tenant-id-goes-here&gt;</span>
-C:\<span style="color:#75715e">&gt; SET AZURE_SUBSCRIPTION_ID=&lt;your-subscription-id-goes-here&gt;</span>
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmd" data-lang="cmd">C:\<span style="color:#75715e">&gt; helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts</span>
+C:\<span style="color:#75715e">&gt; helm upgrade --install aso2 aso2/azure-service-operator ^</span>
+    --create-namespace <span style="color:#ae81ff">^
+</span><span style="color:#ae81ff"> </span>   --namespace=azureserviceoperator-system <span style="color:#ae81ff">^
+</span><span style="color:#ae81ff"> </span>   --set crdPattern=resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*
 </code></pre></div>
     </div>
 </div>
 
-<p>You can find these values by using the Azure CLI: <code>az account show</code></p>
-<p>Next, create a service principal with Contributor permissions for your subscription.</p>
-<p>You can optionally use a service principal with a more restricted permission set
-(for example contributor to just a Resource Group), but that will restrict what you can
-do with ASO. See <a href="https://azure.github.io/azure-service-operator/guide/authentication/reducing-access/#using-a-credential-for-aso-with-reduced-permissions">using reduced permissions</a> for more details.</p>
 
 
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">Warning</h4>
 
+    Make sure to set the <code>crdPattern</code> variable to include the CRDs you are interested in using.
+You can use <code>--set crdPattern=*</code> to install all the CRDs, but be aware of the
+<a href="https://github.com/Azure/azure-service-operator/issues/2920">limits of the Kubernetes you are running</a>. <code>*</code> is <strong>not</strong>
+recommended on AKS Free-tier clusters.
+See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD management</a> for more details.
 
-
-<ul class="nav nav-tabs" id="tabs-1" role="tablist">
-  <li class="nav-item">
-      <a class="nav-link disabled"
-          id="tabs-01-00-tab" data-toggle="tab" href="#tabs-01-00" role="tab"
-          aria-controls="tabs-01-00" aria-selected="false">
-        <strong>Shell</strong>:
-      </a>
-    </li><li class="nav-item">
-      <a class="nav-link active"
-          id="tabs-01-01-tab" data-toggle="tab" href="#tabs-01-01" role="tab"
-          aria-controls="tabs-01-01" aria-selected="false">
-        bash
-      </a>
-    </li><li class="nav-item">
-      <a class="nav-link"
-          id="tabs-01-02-tab" data-toggle="tab" href="#tabs-01-02" role="tab"
-          aria-controls="tabs-01-02" aria-selected="false">
-        PowerShell
-      </a>
-    </li><li class="nav-item">
-      <a class="nav-link"
-          id="tabs-01-03-tab" data-toggle="tab" href="#tabs-01-03" role="tab"
-          aria-controls="tabs-01-03" aria-selected="false">
-        CMD
-      </a>
-    </li>
-</ul>
-
-<div class="tab-content" id="tabs-1-content">
-    <div class="tab-body tab-pane fade"
-        id="tabs-01-00" role="tabpanel" aria-labelled-by="tabs-01-00-tab">
-        
-    </div>
-    <div class="tab-body tab-pane fade show active"
-        id="tabs-01-01" role="tabpanel" aria-labelled-by="tabs-01-01-tab">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ az ad sp create-for-rbac -n azure-service-operator --role contributor <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
-</code></pre></div>
-    </div>
-    <div class="tab-body tab-pane fade"
-        id="tabs-01-02" role="tabpanel" aria-labelled-by="tabs-01-02-tab">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS&gt; az ad sp create-for-rbac -n azure-service-operator --role contributor `
-    --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
-</code></pre></div>
-    </div>
-    <div class="tab-body tab-pane fade"
-        id="tabs-01-03" role="tabpanel" aria-labelled-by="tabs-01-03-tab">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmd" data-lang="cmd">C:\<span style="color:#75715e">&gt; az ad sp create-for-rbac -n azure-service-operator --role contributor ^</span>
-    --scopes /subscriptions/%AZURE_SUBSCRIPTION_ID%
-</code></pre></div>
-    </div>
 </div>
 
-<p>This should give you output including the following:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#e6db74">&#34;appId&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxxx&#34;</span>,
-<span style="color:#e6db74">&#34;displayName&#34;</span>: <span style="color:#e6db74">&#34;azure-service-operator&#34;</span>,
-<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;http://azure-service-operator&#34;</span>,
-<span style="color:#e6db74">&#34;password&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxxxx&#34;</span>,
-<span style="color:#e6db74">&#34;tenant&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxxxxxx&#34;</span>
-</code></pre></div><p>Once you have created a service principal, set the following variables to your app ID and password values:</p>
+<p>Alternatively you can install from the <a href="https://azure.github.io/azure-service-operator/guide/installing-from-yaml/">release YAML directly</a>.</p>
+<ol start="3">
+<li>
+<p>Create an Azure Service Principal. You&rsquo;ll need this to grant Azure Service Operator permissions to create resources
+in your subscription.</p>
+<p>First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:</p>
+</li>
+</ol>
 
 
 
@@ -931,29 +896,29 @@ do with ASO. See <a href="https://azure.github.io/azure-service-operator/guide/a
     </div>
     <div class="tab-body tab-pane fade show active"
         id="tabs-02-01" role="tabpanel" aria-labelled-by="tabs-02-01-tab">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ export AZURE_CLIENT_ID<span style="color:#f92672">=</span>&lt;your-client-id&gt;         <span style="color:#75715e"># This is the appID from the service principal we created.</span>
-$ export AZURE_CLIENT_SECRET<span style="color:#f92672">=</span>&lt;your-client-secret&gt; <span style="color:#75715e"># This is the password from the service principal we created.</span>
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ export AZURE_TENANT_ID<span style="color:#f92672">=</span>&lt;your-tenant-id-goes-here&gt;
+$ export AZURE_SUBSCRIPTION_ID<span style="color:#f92672">=</span>&lt;your-subscription-id-goes-here&gt;
 </code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
         id="tabs-02-02" role="tabpanel" aria-labelled-by="tabs-02-02-tab">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS&gt; $AZURE_CLIENT_ID=&lt;your-client-id&gt;         <span style="color:#75715e"># This is the appID from the service principal we created.</span>
-PS&gt; $AZURE_CLIENT_SECRET=&lt;your-client-secret&gt; <span style="color:#75715e"># This is the password from the service principal we created.</span>
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS&gt; $AZURE_TENANT_ID=&lt;your-tenant-id-goes-here&gt;
+PS&gt; $AZURE_SUBSCRIPTION_ID=&lt;your-subscription-id-goes-here&gt;
 </code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
         id="tabs-02-03" role="tabpanel" aria-labelled-by="tabs-02-03-tab">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmd" data-lang="cmd">C:\<span style="color:#75715e">&gt; :: This is the appID from the service principal we created.</span>
-C:\<span style="color:#75715e">&gt; SET AZURE_CLIENT_ID=&lt;your-client-id&gt;         </span>
-C:\<span style="color:#75715e">&gt; :: This is the password from the service principal we created.</span>
-C:\<span style="color:#75715e">&gt; SET AZURE_CLIENT_SECRET=&lt;your-client-secret&gt; </span>
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmd" data-lang="cmd">C:\<span style="color:#75715e">&gt; SET AZURE_TENANT_ID=&lt;your-tenant-id-goes-here&gt;</span>
+C:\<span style="color:#75715e">&gt; SET AZURE_SUBSCRIPTION_ID=&lt;your-subscription-id-goes-here&gt;</span>
 </code></pre></div>
     </div>
 </div>
 
-<ol start="3">
-<li>Install <a href="https://github.com/Azure/azure-service-operator/tree/main/v2/charts">the latest <strong>v2+</strong> Helm chart</a>:</li>
-</ol>
+<p>You can find these values by using the Azure CLI: <code>az account show</code></p>
+<p>Next, create a service principal with Contributor permissions for your subscription.</p>
+<p>You can optionally use a service principal with a more restricted permission set
+(for example contributor to just a Resource Group), but that will restrict what you can
+do with ASO. See <a href="https://azure.github.io/azure-service-operator/guide/authentication/reducing-access/#using-a-credential-for-aso-with-reduced-permissions">using reduced permissions</a> for more details.</p>
 
 
 
@@ -994,61 +959,185 @@ C:\<span style="color:#75715e">&gt; SET AZURE_CLIENT_SECRET=&lt;your-client-secr
     </div>
     <div class="tab-body tab-pane fade show active"
         id="tabs-03-01" role="tabpanel" aria-labelled-by="tabs-03-01-tab">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
-$ helm upgrade --install aso2 aso2/azure-service-operator <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --create-namespace <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --namespace<span style="color:#f92672">=</span>azureserviceoperator-system <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --set azureSubscriptionID<span style="color:#f92672">=</span>$AZURE_SUBSCRIPTION_ID <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --set azureTenantID<span style="color:#f92672">=</span>$AZURE_TENANT_ID <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --set azureClientID<span style="color:#f92672">=</span>$AZURE_CLIENT_ID <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --set azureClientSecret<span style="color:#f92672">=</span>$AZURE_CLIENT_SECRET <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --set crdPattern<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&#39;</span>
-</code></pre></div><p>Note: <strong>bash</strong> requires the value for <code>crdPattern</code> to be quoted with <code>'</code> to avoid expansion of the wildcards.</p>
-
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ az ad sp create-for-rbac -n azure-service-operator --role contributor <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
+</code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
         id="tabs-03-02" role="tabpanel" aria-labelled-by="tabs-03-02-tab">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS&gt; helm repo add aso2 https<span style="color:#960050;background-color:#1e0010">:</span>//raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
-PS&gt; helm upgrade --install aso2 aso2/azure-service-operator `
-    --create-namespace `
-    --namespace=azureserviceoperator-system `
-    --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID `
-    --set azureTenantID=$AZURE_TENANT_ID `
-    --set azureClientID=$AZURE_CLIENT_ID `
-    --set azureClientSecret=$AZURE_CLIENT_SECRET `
-    --set crdPattern=resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS&gt; az ad sp create-for-rbac -n azure-service-operator --role contributor `
+    --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
 </code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
         id="tabs-03-03" role="tabpanel" aria-labelled-by="tabs-03-03-tab">
-        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmd" data-lang="cmd">C:\<span style="color:#75715e">&gt; helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts</span>
-C:\<span style="color:#75715e">&gt; helm upgrade --install aso2 aso2/azure-service-operator ^</span>
-    --create-namespace <span style="color:#ae81ff">^
-</span><span style="color:#ae81ff"> </span>   --namespace=azureserviceoperator-system <span style="color:#ae81ff">^
-</span><span style="color:#ae81ff"> </span>   --set azureSubscriptionID=%AZURE_SUBSCRIPTION_ID% <span style="color:#ae81ff">^
-</span><span style="color:#ae81ff"> </span>   --set azureTenantID=%AZURE_TENANT_ID% <span style="color:#ae81ff">^
-</span><span style="color:#ae81ff"> </span>   --set azureClientID=%AZURE_CLIENT_ID% <span style="color:#ae81ff">^
-</span><span style="color:#ae81ff"> </span>   --set azureClientSecret=%AZURE_CLIENT_SECRET% <span style="color:#ae81ff">^
-</span><span style="color:#ae81ff"> </span>   --set crdPattern=resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmd" data-lang="cmd">C:\<span style="color:#75715e">&gt; az ad sp create-for-rbac -n azure-service-operator --role contributor ^</span>
+    --scopes /subscriptions/%AZURE_SUBSCRIPTION_ID%
 </code></pre></div>
     </div>
 </div>
 
+<p>This should give you output including the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#e6db74">&#34;appId&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxxx&#34;</span>,
+<span style="color:#e6db74">&#34;displayName&#34;</span>: <span style="color:#e6db74">&#34;azure-service-operator&#34;</span>,
+<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;http://azure-service-operator&#34;</span>,
+<span style="color:#e6db74">&#34;password&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxxxx&#34;</span>,
+<span style="color:#e6db74">&#34;tenant&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxxxxxx&#34;</span>
+</code></pre></div><p>Once you have created a service principal, set the following variables to your app ID and password values:</p>
 
 
-<div class="alert alert-warning" role="alert">
-<h4 class="alert-heading">Warning</h4>
 
-    Make sure to set the <code>crdPattern</code> variable to include the CRDs you are interested in using.
-You can use <code>--set crdPattern=*</code> to install all the CRDs, but be aware of the
-<a href="https://github.com/Azure/azure-service-operator/issues/2920">limits of the Kubernetes you are running</a>. <code>*</code> is <strong>not</strong>
-recommended on AKS Free-tier clusters.
-See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD management</a> for more details.
 
+
+<ul class="nav nav-tabs" id="tabs-4" role="tablist">
+  <li class="nav-item">
+      <a class="nav-link disabled"
+          id="tabs-04-00-tab" data-toggle="tab" href="#tabs-04-00" role="tab"
+          aria-controls="tabs-04-00" aria-selected="false">
+        <strong>Shell</strong>:
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link active"
+          id="tabs-04-01-tab" data-toggle="tab" href="#tabs-04-01" role="tab"
+          aria-controls="tabs-04-01" aria-selected="false">
+        bash
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link"
+          id="tabs-04-02-tab" data-toggle="tab" href="#tabs-04-02" role="tab"
+          aria-controls="tabs-04-02" aria-selected="false">
+        PowerShell
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link"
+          id="tabs-04-03-tab" data-toggle="tab" href="#tabs-04-03" role="tab"
+          aria-controls="tabs-04-03" aria-selected="false">
+        CMD
+      </a>
+    </li>
+</ul>
+
+<div class="tab-content" id="tabs-4-content">
+    <div class="tab-body tab-pane fade"
+        id="tabs-04-00" role="tabpanel" aria-labelled-by="tabs-04-00-tab">
+        
+    </div>
+    <div class="tab-body tab-pane fade show active"
+        id="tabs-04-01" role="tabpanel" aria-labelled-by="tabs-04-01-tab">
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ export AZURE_CLIENT_ID<span style="color:#f92672">=</span>&lt;your-client-id&gt;         <span style="color:#75715e"># This is the appID from the service principal we created.</span>
+$ export AZURE_CLIENT_SECRET<span style="color:#f92672">=</span>&lt;your-client-secret&gt; <span style="color:#75715e"># This is the password from the service principal we created.</span>
+</code></pre></div>
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-04-02" role="tabpanel" aria-labelled-by="tabs-04-02-tab">
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS&gt; $AZURE_CLIENT_ID=&lt;your-client-id&gt;         <span style="color:#75715e"># This is the appID from the service principal we created.</span>
+PS&gt; $AZURE_CLIENT_SECRET=&lt;your-client-secret&gt; <span style="color:#75715e"># This is the password from the service principal we created.</span>
+</code></pre></div>
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-04-03" role="tabpanel" aria-labelled-by="tabs-04-03-tab">
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmd" data-lang="cmd">C:\<span style="color:#75715e">&gt; :: This is the appID from the service principal we created.</span>
+C:\<span style="color:#75715e">&gt; SET AZURE_CLIENT_ID=&lt;your-client-id&gt;         </span>
+C:\<span style="color:#75715e">&gt; :: This is the password from the service principal we created.</span>
+C:\<span style="color:#75715e">&gt; SET AZURE_CLIENT_SECRET=&lt;your-client-secret&gt; </span>
+</code></pre></div>
+    </div>
 </div>
 
-<p>Alternatively you can install from the <a href="https://azure.github.io/azure-service-operator/guide/installing-from-yaml/">release YAML directly</a>.</p>
-<p>To learn more about other authentication options, see the <a href="https://azure.github.io/azure-service-operator/guide/authentication/">authentication documentation</a>.</p>
+<p>Then create a secret named <code>aso-credential</code> in the namespace you&rsquo;d like to create ASO resources in.</p>
+
+
+
+
+
+
+
+<ul class="nav nav-tabs" id="tabs-5" role="tablist">
+  <li class="nav-item">
+      <a class="nav-link disabled"
+          id="tabs-05-00-tab" data-toggle="tab" href="#tabs-05-00" role="tab"
+          aria-controls="tabs-05-00" aria-selected="false">
+        <strong>Shell</strong>:
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link active"
+          id="tabs-05-01-tab" data-toggle="tab" href="#tabs-05-01" role="tab"
+          aria-controls="tabs-05-01" aria-selected="false">
+        bash
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link"
+          id="tabs-05-02-tab" data-toggle="tab" href="#tabs-05-02" role="tab"
+          aria-controls="tabs-05-02" aria-selected="false">
+        PowerShell
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link"
+          id="tabs-05-03-tab" data-toggle="tab" href="#tabs-05-03" role="tab"
+          aria-controls="tabs-05-03" aria-selected="false">
+        CMD
+      </a>
+    </li>
+</ul>
+
+<div class="tab-content" id="tabs-5-content">
+    <div class="tab-body tab-pane fade"
+        id="tabs-05-00" role="tabpanel" aria-labelled-by="tabs-05-00-tab">
+        
+    </div>
+    <div class="tab-body tab-pane fade show active"
+        id="tabs-05-01" role="tabpanel" aria-labelled-by="tabs-05-01-tab">
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: Secret
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74"> name: aso-credential
+</span><span style="color:#e6db74"> namespace: default
+</span><span style="color:#e6db74">stringData:
+</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
+</span><span style="color:#e6db74"> AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$AZURE_CLIENT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_SECRET: &#34;$AZURE_CLIENT_SECRET&#34;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div>
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-05-02" role="tabpanel" aria-labelled-by="tabs-05-02-tab">
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell"><span style="color:#e6db74">@&#34;
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: Secret
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74"> name: aso-credential
+</span><span style="color:#e6db74"> namespace: default
+</span><span style="color:#e6db74">stringData:
+</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
+</span><span style="color:#e6db74"> AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$AZURE_CLIENT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_SECRET: &#34;$AZURE_CLIENT_SECRET&#34;
+</span><span style="color:#e6db74">&#34;@</span> | kubectl apply <span style="color:#f92672">-f</span> -
+</code></pre></div>
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-05-03" role="tabpanel" aria-labelled-by="tabs-05-03-tab">
+        <p>Create a file named <code>secret.yaml</code> with the following content. Replace each of the variables such as
+<code>%AZURE_SUBSCRIPTION_ID%</code> with the subscription ID, <code>%AZURE_CLIENT_SECRET%</code> with the client secret and so on.</p>
+<pre tabindex="0"><code>apiVersion: v1
+kind: Secret
+metadata:
+ name: aso-credential
+ namespace: default
+stringData:
+ AZURE_SUBSCRIPTION_ID: &quot;%AZURE_SUBSCRIPTION_ID%&quot;
+ AZURE_TENANT_ID: &quot;%AZURE_TENANT_ID%&quot;
+ AZURE_CLIENT_ID: &quot;%AZURE_CLIENT_ID%&quot;
+ AZURE_CLIENT_SECRET: &quot;%AZURE_CLIENT_SECRET%&quot;
+</code></pre><p>Then run: <code>kubectl apply -f secret.yaml</code></p>
+
+    </div>
+</div>
+
+<p>To learn more about other authentication options, see the
+<a href="https://azure.github.io/azure-service-operator/guide/authentication/">authentication documentation</a>.</p>
 <h3 id="usage">Usage</h3>
 <p>Once the controller has been installed in your cluster, you should be able to see the ASO pod running.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pods -n azureserviceoperator-system
@@ -1056,7 +1145,8 @@ NAME                                                READY   STATUS    RESTARTS  
 azureserviceoperator-controller-manager-5b4bfc59df-lfpqf   2/2     Running   <span style="color:#ae81ff">0</span>          24s
 </code></pre></div><p>To view the logs for the running ASO controller, take note of the pod name shown above and then run the following command.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl logs -n azureserviceoperator-system azureserviceoperator-controller-manager-5b4bfc59df-lfpqf manager 
-</code></pre></div><p>Let&rsquo;s create an Azure ResourceGroup in westcentralus with the name &ldquo;aso-sample-rg&rdquo;. Create a file called <code>rg.yaml</code> with the following contents:</p>
+</code></pre></div><p>Let&rsquo;s create an Azure ResourceGroup in westcentralus with the name &ldquo;aso-sample-rg&rdquo;. Create a file called <code>rg.yaml</code>
+with the following contents:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">resources.azure.com/v1api20200601</span>
 <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ResourceGroup</span>
 <span style="color:#f92672">metadata</span>:

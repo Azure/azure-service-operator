@@ -36,7 +36,7 @@ kubectl get secrets -n ns1 storageaccount-cutoverteststorage1 Opaque 5 17h This 
 kubectl get secrets -n ns1 storageaccount-cutoverteststorage1 Opaque 5 17h This secret has the following 5 keys:
    Key Source ASOv2 equivalent     StorageAccountName User None   connectionString0 Azure None (see .spec.operatorSpec.secrets.key1)   key0 Azure .spec.operatorSpec.secrets.key1   connectionString1 Azure None (see .spec.operatorSpec.secrets.key2)   key1 Azure .spec.operatorSpec.secrets.key2    Instead of full connection strings, ASOv2 exposes individual endpoints such as blobEndpoint, which you can use to craft a connection string.">
 
-<meta itemprop="wordCount" content="138">
+<meta itemprop="wordCount" content="113">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Storage Account"/>
 <meta name="twitter:description" content="Secrets ASOv1 StorageAccounts save a Kubernetes secret:
@@ -154,6 +154,13 @@ kubectl get secrets -n ns1 storageaccount-cutoverteststorage1 Opaque 5 17h This 
   <a href="/azure-service-operator/guide/authentication/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationmultitenant-deployment"><span class="">Multitenancy</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationreducing-access-li">
   <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebest-practices-li">
+  <a href="/azure-service-operator/guide/best-practices/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebest-practicessecurity-li">
+  <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
@@ -787,12 +794,6 @@ craft a connection string.</p>
         <span style="color:#f92672">key</span>: <span style="color:#ae81ff">key0 </span> <span style="color:#75715e"># Matches the name the ASOv1 generated secret used</span>
 </code></pre></div><p>Once you&rsquo;ve applied the above, make sure to update your applications to depend on the new secret
 written by ASOv2.</p>
-<p>TODO: How to work around connection string issues?</p>
-<ol>
-<li>init container? <a href="https://stackoverflow.com/questions/77748779/how-to-prepare-environment-variables-with-init-containers-in-a-kubernetes-deploy">https://stackoverflow.com/questions/77748779/how-to-prepare-environment-variables-with-init-containers-in-a-kubernetes-deploy</a></li>
-<li>Support <a href="https://github.com/Azure/azure-service-operator/issues/3446?">https://github.com/Azure/azure-service-operator/issues/3446?</a></li>
-<li>Modify the command of the container itself to run a script first?</li>
-</ol>
 
 	
 	

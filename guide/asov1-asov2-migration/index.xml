@@ -411,12 +411,6 @@ craft a connection string.&lt;/p&gt;
         &lt;span style=&#34;color:#f92672&#34;&gt;key&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;key0 &lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# Matches the name the ASOv1 generated secret used&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Once you&amp;rsquo;ve applied the above, make sure to update your applications to depend on the new secret
 written by ASOv2.&lt;/p&gt;
-&lt;p&gt;TODO: How to work around connection string issues?&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;init container? &lt;a href=&#34;https://stackoverflow.com/questions/77748779/how-to-prepare-environment-variables-with-init-containers-in-a-kubernetes-deploy&#34;&gt;https://stackoverflow.com/questions/77748779/how-to-prepare-environment-variables-with-init-containers-in-a-kubernetes-deploy&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Support &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/3446?&#34;&gt;https://github.com/Azure/azure-service-operator/issues/3446?&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Modify the command of the container itself to run a script first?&lt;/li&gt;
-&lt;/ol&gt;
 
       </description>
     </item>
