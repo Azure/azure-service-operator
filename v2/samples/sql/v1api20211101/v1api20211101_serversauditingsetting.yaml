@@ -11,4 +11,4 @@ spec:
     key: key1
     name: sqlstoragesecret
   storageAccountSubscriptionId: 00000000-0000-0000-0000-000000000000
-  storageEndpoint: https://asotestsqlstorage.blob.core.windows.net/
+  storageEndpoint: https://asotestsqlstorageref.blob.core.windows.net/

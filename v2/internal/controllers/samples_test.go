@@ -102,15 +102,16 @@ func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 
 	tc.CreateResourceAndWait(rg)
 
-	// For secrets we need to look across refs and samples:
-	findRefsAndCreateSecrets(tc, samples.SamplesMap, samples.RefsMap)
-
 	refsSlice := processSamples(samples.RefsMap)
 	samplesSlice := processSamples(samples.SamplesMap)
 
-	// Check if we have any references for the samples beforehand and Create them
-	tc.CreateResourcesAndWait(refsSlice...)
-	tc.CreateResourcesAndWait(samplesSlice...)
+	resources := append(refsSlice, samplesSlice...)
+
+	// For secrets we need to look across refs and samples:
+	findRefsAndCreateSecrets(tc, resources)
+
+	// Create all the resources
+	tc.CreateResourcesAndWait(resources...)
 
 	tc.DeleteResourceAndWait(rg)
 }
@@ -128,19 +129,10 @@ func processSamples(samples map[string]client.Object) []client.Object {
 
 // findRefsAndCreateSecrets finds all references not matched by a corresponding genruntime.SecretDestination or hardcoded secret
 // and generates secrets which correspond to those references
-func findRefsAndCreateSecrets(tc *testcommon.KubePerTestContext, samples map[string]client.Object, refs map[string]client.Object) {
+func findRefsAndCreateSecrets(tc *testcommon.KubePerTestContext, resources []client.Object) {
 	allDestinations := set.Make[genruntime.SecretDestination]()
 	allReferences := set.Make[genruntime.SecretReference]()
 	allSecrets := set.Make[string]() // key is namespace + "/" + name
-
-	// Join samples and refs
-	resources := make([]client.Object, 0, len(samples)+len(refs))
-	for _, v := range samples {
-		resources = append(resources, v)
-	}
-	for _, v := range refs {
-		resources = append(resources, v)
-	}
 
 	for _, obj := range resources {
 		if secret, ok := obj.(*v1.Secret); ok {
