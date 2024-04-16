@@ -39,8 +39,3 @@ spec:
 
 Once you've applied the above, make sure to update your applications to depend on the new secret
 written by ASOv2.
-
-TODO: How to work around connection string issues?
-1. init container? https://stackoverflow.com/questions/77748779/how-to-prepare-environment-variables-with-init-containers-in-a-kubernetes-deploy
-2. Support https://github.com/Azure/azure-service-operator/issues/3446?
-3. Modify the command of the container itself to run a script first?

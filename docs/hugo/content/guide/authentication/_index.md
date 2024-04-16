@@ -22,7 +22,7 @@ Azure Service Operator supports four different styles of authentication today.
 
 Each supported credential type can be specified at one of three supported scopes:
 
-1. [Global]( {{< relref "credential-scope#global-scope" >}} ) - The credential applies to all resources managed by ASO.
+1. [Not recommended] [Global]( {{< relref "credential-scope#global-scope" >}} ) - The credential applies to all resources managed by ASO.
 2. [Namespace]( {{< relref "credential-scope#namespace-scope" >}} ) - The credential applies to all resources managed by ASO in that namespace.
 3. [Resource]( {{< relref "credential-scope#resource-scope" >}} ) - The credential applies to only the specific resource it is referenced on.
 
