@@ -686,9 +686,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20211101s.NamespacesEventhubsAuthorizationRule)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20211101s.NamespacesEventhubsConsumerGroup)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20180301s.MetricAlert)})
-	result = append(result, &registration.StorageType{Obj: new(insights_v20180501ps.Webtest)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20200202s.Component)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20220615s.ScheduledQueryRule)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20220615s.Webtest)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20221001s.AutoscaleSetting)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20230101s.ActionGroup)})
 	result = append(result, &registration.StorageType{
@@ -1513,8 +1513,14 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(insights_v20180501ps.Webtest))
 	result = append(result, new(insights_v20200202.Component))
 	result = append(result, new(insights_v20200202s.Component))
-	result = append(result, new(insights_v20220615.ScheduledQueryRule))
-	result = append(result, new(insights_v20220615s.ScheduledQueryRule))
+	result = append(
+		result,
+		new(insights_v20220615.ScheduledQueryRule),
+		new(insights_v20220615.Webtest))
+	result = append(
+		result,
+		new(insights_v20220615s.ScheduledQueryRule),
+		new(insights_v20220615s.Webtest))
 	result = append(result, new(insights_v20221001.AutoscaleSetting))
 	result = append(result, new(insights_v20221001s.AutoscaleSetting))
 	result = append(result, new(insights_v20230101.ActionGroup))

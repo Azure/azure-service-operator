@@ -11,8 +11,9 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	insightswebtest "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180501preview"
+	insightswebtest20180501preview "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180501preview"
 	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202"
+	insightswebtest20220615 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -42,11 +43,18 @@ func Test_Insights_Component_CRUD(t *testing.T) {
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
-			Name: "Insights WebTest CRUD",
+			Name: "Insights WebTest 20180501preview CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				Insights_WebTest_CRUD(tc, rg, component)
+				Insights_WebTest_20180501preview_CRUD(tc, rg, component)
 			},
-		})
+		},
+		testcommon.Subtest{
+			Name: "Insights WebTest 20220615 CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Insights_WebTest_20220615_CRUD(tc, rg, component)
+			},
+		},
+	)
 
 	tc.DeleteResourceAndWait(component)
 
@@ -59,7 +67,7 @@ func Test_Insights_Component_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, component *insights.Component) {
+func Insights_WebTest_20220615_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, component *insights.Component) {
 	horribleHiddenLink := fmt.Sprintf("hidden-link:%s", to.Value(component.Status.Id))
 
 	horribleTags := map[string]string{
@@ -69,10 +77,10 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 	// Create a webtest
 	om := tc.MakeObjectMeta("webtest")
 
-	kind := insightswebtest.WebTestProperties_Kind_Standard
-	webtest := &insightswebtest.Webtest{
+	kind := insightswebtest20220615.WebTestProperties_Kind_Standard
+	webtest := &insightswebtest20220615.Webtest{
 		ObjectMeta: om,
-		Spec: insightswebtest.Webtest_Spec{
+		Spec: insightswebtest20220615.Webtest_Spec{
 			Location:           tc.AzureRegion,
 			Owner:              testcommon.AsOwner(rg),
 			SyntheticMonitorId: &om.Name,
@@ -81,16 +89,16 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 			Enabled:            to.Ptr(true),
 			Frequency:          to.Ptr(300),
 			Kind:               &kind,
-			Locations: []insightswebtest.WebTestGeolocation{
+			Locations: []insightswebtest20220615.WebTestGeolocation{
 				{
 					Id: to.Ptr("us-ca-sjc-azr"), // This is US west...
 				},
 			},
-			Request: &insightswebtest.WebTestProperties_Request{
+			Request: &insightswebtest20220615.WebTestProperties_Request{
 				HttpVerb:   to.Ptr("GET"),
 				RequestUrl: to.Ptr("https://github.com/Azure/azure-service-operator"),
 			},
-			ValidationRules: &insightswebtest.WebTestProperties_ValidationRules{
+			ValidationRules: &insightswebtest20220615.WebTestProperties_ValidationRules{
 				ExpectedHttpStatusCode:        to.Ptr(200),
 				SSLCheck:                      to.Ptr(true),
 				SSLCertRemainingLifetimeCheck: to.Ptr(7),
@@ -100,7 +108,7 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 
 	tc.CreateResourceAndWait(webtest)
 
-	expectedKind := insightswebtest.WebTestProperties_Kind_STATUS_Standard
+	expectedKind := insightswebtest20220615.WebTestProperties_Kind_STATUS_Standard
 	tc.Expect(webtest.Status.Location).To(Equal(tc.AzureRegion))
 	tc.Expect(webtest.Status.Kind).To(Equal(&expectedKind))
 	tc.Expect(webtest.Status.Id).ToNot(BeNil())
@@ -118,7 +126,71 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(insightswebtest.APIVersion_Value))
+		string(insightswebtest20220615.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(exists).To(BeFalse())
+}
+
+func Insights_WebTest_20180501preview_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, component *insights.Component) {
+	horribleHiddenLink := fmt.Sprintf("hidden-link:%s", to.Value(component.Status.Id))
+
+	horribleTags := map[string]string{
+		horribleHiddenLink: "Resource",
+	}
+
+	// Create a webtest
+	om := tc.MakeObjectMeta("webtest")
+
+	kind := insightswebtest20180501preview.WebTestProperties_Kind_Standard
+	webtest := &insightswebtest20180501preview.Webtest{
+		ObjectMeta: om,
+		Spec: insightswebtest20180501preview.Webtest_Spec{
+			Location:           tc.AzureRegion,
+			Owner:              testcommon.AsOwner(rg),
+			SyntheticMonitorId: &om.Name,
+			Tags:               horribleTags,
+			Name:               to.Ptr("mywebtest"),
+			Enabled:            to.Ptr(true),
+			Frequency:          to.Ptr(300),
+			Kind:               &kind,
+			Locations: []insightswebtest20180501preview.WebTestGeolocation{
+				{
+					Id: to.Ptr("us-ca-sjc-azr"), // This is US west...
+				},
+			},
+			Request: &insightswebtest20180501preview.WebTestProperties_Request{
+				HttpVerb:   to.Ptr("GET"),
+				RequestUrl: to.Ptr("https://github.com/Azure/azure-service-operator"),
+			},
+			ValidationRules: &insightswebtest20180501preview.WebTestProperties_ValidationRules{
+				ExpectedHttpStatusCode:        to.Ptr(200),
+				SSLCheck:                      to.Ptr(true),
+				SSLCertRemainingLifetimeCheck: to.Ptr(7),
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(webtest)
+
+	expectedKind := insightswebtest20180501preview.WebTestProperties_Kind_STATUS_Standard
+	tc.Expect(webtest.Status.Location).To(Equal(tc.AzureRegion))
+	tc.Expect(webtest.Status.Kind).To(Equal(&expectedKind))
+	tc.Expect(webtest.Status.Id).ToNot(BeNil())
+	armId := *webtest.Status.Id
+
+	// Perform a simple patch.
+	old := webtest.DeepCopy()
+	webtest.Spec.Enabled = to.Ptr(false)
+	tc.PatchResourceAndWait(old, webtest)
+	tc.Expect(webtest.Status.Enabled).To(Equal(to.Ptr(false)))
+
+	tc.DeleteResourceAndWait(webtest)
+
+	// Ensure that the resource was really deleted in Azure
+	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
+		tc.Ctx,
+		armId,
+		string(insightswebtest20180501preview.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
