@@ -739,23 +739,58 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage
 │       │   └── Ts: *float64
 │       ├── Tags: map[string]string
 │       └── Type: *string
-└── SqlRoleAssignment: Resource
-    ├── Owner: documentdb/v1api20210515.DatabaseAccount
-    ├── Spec: Object (8 properties)
-    │   ├── AzureName: string
-    │   ├── OriginalVersion: string
-    │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── PrincipalId: *string
-    │   ├── PrincipalIdFromConfig: *genruntime.ConfigMapReference
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── RoleDefinitionId: *string
-    │   └── Scope: *string
-    └── Status: Object (8 properties)
-        ├── Conditions: conditions.Condition[]
-        ├── Id: *string
-        ├── Name: *string
-        ├── PrincipalId: *string
-        ├── PropertyBag: genruntime.PropertyBag
-        ├── RoleDefinitionId: *string
-        ├── Scope: *string
-        └── Type: *string
+├── SqlRoleAssignment: Resource
+│   ├── Owner: documentdb/v1api20210515.DatabaseAccount
+│   ├── Spec: Object (8 properties)
+│   │   ├── AzureName: string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PrincipalId: *string
+│   │   ├── PrincipalIdFromConfig: *genruntime.ConfigMapReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── RoleDefinitionId: *string
+│   │   └── Scope: *string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PrincipalId: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── RoleDefinitionId: *string
+│       ├── Scope: *string
+│       └── Type: *string
+├── augmentConversionForAnalyticalStorageConfiguration: Interface
+├── augmentConversionForAnalyticalStorageConfiguration_STATUS: Interface
+├── augmentConversionForApiProperties: Interface
+├── augmentConversionForApiProperties_STATUS: Interface
+├── augmentConversionForBackupPolicy: Interface
+├── augmentConversionForBackupPolicy_STATUS: Interface
+├── augmentConversionForCapability: Interface
+├── augmentConversionForCapability_STATUS: Interface
+├── augmentConversionForConsistencyPolicy: Interface
+├── augmentConversionForConsistencyPolicy_STATUS: Interface
+├── augmentConversionForContinuousModeBackupPolicy: Interface
+├── augmentConversionForContinuousModeBackupPolicy_STATUS: Interface
+├── augmentConversionForCorsPolicy: Interface
+├── augmentConversionForCorsPolicy_STATUS: Interface
+├── augmentConversionForDatabaseAccount: Interface
+├── augmentConversionForDatabaseAccountOperatorSecrets: Interface
+├── augmentConversionForDatabaseAccountOperatorSpec: Interface
+├── augmentConversionForDatabaseAccount_STATUS: Interface
+├── augmentConversionForDatabaseAccount_Spec: Interface
+├── augmentConversionForFailoverPolicy_STATUS: Interface
+├── augmentConversionForIpAddressOrRange: Interface
+├── augmentConversionForIpAddressOrRange_STATUS: Interface
+├── augmentConversionForLocation: Interface
+├── augmentConversionForLocation_STATUS: Interface
+├── augmentConversionForManagedServiceIdentity: Interface
+├── augmentConversionForManagedServiceIdentity_STATUS: Interface
+├── augmentConversionForManagedServiceIdentity_UserAssignedIdentities_STATUS: Interface
+├── augmentConversionForPeriodicModeBackupPolicy: Interface
+├── augmentConversionForPeriodicModeBackupPolicy_STATUS: Interface
+├── augmentConversionForPeriodicModeProperties: Interface
+├── augmentConversionForPeriodicModeProperties_STATUS: Interface
+├── augmentConversionForPrivateEndpointConnection_STATUS: Interface
+├── augmentConversionForUserAssignedIdentityDetails: Interface
+├── augmentConversionForVirtualNetworkRule: Interface
+└── augmentConversionForVirtualNetworkRule_STATUS: Interface

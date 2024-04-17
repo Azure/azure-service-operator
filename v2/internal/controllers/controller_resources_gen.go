@@ -97,6 +97,8 @@ import (
 	documentdb_customizations "github.com/Azure/azure-service-operator/v2/api/documentdb/customizations"
 	documentdb_v20210515 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515"
 	documentdb_v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515/storage"
+	documentdb_v20231115 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115"
+	documentdb_v20231115s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage"
 	eventgrid_customizations "github.com/Azure/azure-service-operator/v2/api/eventgrid/customizations"
 	eventgrid_v20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601"
 	eventgrid_v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
@@ -638,7 +640,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.DatabaseAccount)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.MongodbDatabase)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.MongodbDatabaseCollection)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.MongodbDatabaseCollectionThroughputSetting)})
@@ -665,6 +666,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.DatabaseAccount)})
 	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.Domain)})
 	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.DomainsTopic)})
 	result = append(result, &registration.StorageType{
@@ -1494,6 +1496,8 @@ func getKnownTypes() []client.Object {
 		new(documentdb_v20210515s.SqlDatabaseContainerUserDefinedFunction),
 		new(documentdb_v20210515s.SqlDatabaseThroughputSetting),
 		new(documentdb_v20210515s.SqlRoleAssignment))
+	result = append(result, new(documentdb_v20231115.DatabaseAccount))
+	result = append(result, new(documentdb_v20231115s.DatabaseAccount))
 	result = append(
 		result,
 		new(eventgrid_v20200601.Domain),
@@ -1951,6 +1955,8 @@ func createScheme() *runtime.Scheme {
 	_ = devices_v20210702s.AddToScheme(scheme)
 	_ = documentdb_v20210515.AddToScheme(scheme)
 	_ = documentdb_v20210515s.AddToScheme(scheme)
+	_ = documentdb_v20231115.AddToScheme(scheme)
+	_ = documentdb_v20231115s.AddToScheme(scheme)
 	_ = eventgrid_v20200601.AddToScheme(scheme)
 	_ = eventgrid_v20200601s.AddToScheme(scheme)
 	_ = eventhub_v20211101.AddToScheme(scheme)
