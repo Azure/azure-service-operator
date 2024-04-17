@@ -2046,6 +2046,20 @@ objectModelConfiguration:
       SqlUserDefinedFunctionResource:
         Id:
           $armReference: false
+    2023-11-15:
+      DatabaseAccount:
+        $export: true
+        $supportedFrom: v2.7.0
+        $azureGeneratedSecrets:
+          - PrimaryMasterKey
+          - SecondaryMasterKey
+          - PrimaryReadonlyMasterKey
+          - SecondaryReadonlyMasterKey
+          - DocumentEndpoint
+      DatabaseAccountCreateUpdateProperties:
+        NetworkAclBypassResourceIds:
+          $armReference: true
+
   eventgrid:
     2020-06-01:
       Domain:
