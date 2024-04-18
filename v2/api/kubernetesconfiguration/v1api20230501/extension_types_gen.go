@@ -4,16 +4,21 @@
 package v1api20230501
 
 import (
+	"context"
 	"fmt"
 	v20230501s "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501/storage"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -100,6 +105,25 @@ func (extension *Extension) InitializeSpec(status genruntime.ConvertibleStatus) 
 	}
 
 	return fmt.Errorf("expected Status of type Extension_STATUS but received %T instead", status)
+}
+
+var _ genruntime.KubernetesExporter = &Extension{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (extension *Extension) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(extension.Namespace)
+	if extension.Spec.OperatorSpec != nil && extension.Spec.OperatorSpec.ConfigMaps != nil {
+		if extension.Status.AksAssignedIdentity != nil {
+			if extension.Status.AksAssignedIdentity.PrincipalId != nil {
+				collector.AddValue(extension.Spec.OperatorSpec.ConfigMaps.PrincipalId, *extension.Status.AksAssignedIdentity.PrincipalId)
+			}
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &Extension{}
@@ -208,7 +232,7 @@ func (extension *Extension) ValidateUpdate(old runtime.Object) (admission.Warnin
 
 // createValidations validates the creation of the resource
 func (extension *Extension) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){extension.validateResourceReferences}
+	return []func() (admission.Warnings, error){extension.validateResourceReferences, extension.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -222,7 +246,25 @@ func (extension *Extension) updateValidations() []func(old runtime.Object) (admi
 		func(old runtime.Object) (admission.Warnings, error) {
 			return extension.validateResourceReferences()
 		},
-		extension.validateWriteOnceProperties}
+		extension.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return extension.validateConfigMapDestinations()
+		},
+	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
+func (extension *Extension) validateConfigMapDestinations() (admission.Warnings, error) {
+	if extension.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	if extension.Spec.OperatorSpec.ConfigMaps == nil {
+		return nil, nil
+	}
+	toValidate := []*genruntime.ConfigMapDestination{
+		extension.Spec.OperatorSpec.ConfigMaps.PrincipalId,
+	}
+	return genruntime.ValidateConfigMapDestinations(toValidate)
 }
 
 // validateResourceReferences validates all resource references
@@ -344,6 +386,10 @@ type Extension_Spec struct {
 
 	// Identity: Identity of the Extension resource
 	Identity *Identity `json:"identity,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ExtensionOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -544,6 +590,8 @@ func (extension *Extension_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		extension.Identity = &identity
 	}
 
+	// no assignment for property "OperatorSpec"
+
 	// Set property "Owner":
 	extension.Owner = &owner
 
@@ -707,6 +755,18 @@ func (extension *Extension_Spec) AssignProperties_From_Extension_Spec(source *v2
 		extension.Identity = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ExtensionOperatorSpec
+		err := operatorSpec.AssignProperties_From_ExtensionOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ExtensionOperatorSpec() to populate field OperatorSpec")
+		}
+		extension.OperatorSpec = &operatorSpec
+	} else {
+		extension.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -813,6 +873,18 @@ func (extension *Extension_Spec) AssignProperties_To_Extension_Spec(destination 
 		destination.Identity = &identity
 	} else {
 		destination.Identity = nil
+	}
+
+	// OperatorSpec
+	if extension.OperatorSpec != nil {
+		var operatorSpec v20230501s.ExtensionOperatorSpec
+		err := extension.OperatorSpec.AssignProperties_To_ExtensionOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ExtensionOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -2026,6 +2098,59 @@ func (identity *Extension_Properties_AksAssignedIdentity_STATUS) AssignPropertie
 		destination.Type = &typeVar
 	} else {
 		destination.Type = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ExtensionOperatorSpec struct {
+	// ConfigMaps: configures where to place operator written ConfigMaps.
+	ConfigMaps *ExtensionOperatorConfigMaps `json:"configMaps,omitempty"`
+}
+
+// AssignProperties_From_ExtensionOperatorSpec populates our ExtensionOperatorSpec from the provided source ExtensionOperatorSpec
+func (operator *ExtensionOperatorSpec) AssignProperties_From_ExtensionOperatorSpec(source *v20230501s.ExtensionOperatorSpec) error {
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap ExtensionOperatorConfigMaps
+		err := configMap.AssignProperties_From_ExtensionOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ExtensionOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ExtensionOperatorSpec populates the provided destination ExtensionOperatorSpec from our ExtensionOperatorSpec
+func (operator *ExtensionOperatorSpec) AssignProperties_To_ExtensionOperatorSpec(destination *v20230501s.ExtensionOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap v20230501s.ExtensionOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_ExtensionOperatorConfigMaps(&configMap)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ExtensionOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
 	}
 
 	// Update the property bag
@@ -3645,6 +3770,50 @@ const (
 var extension_Properties_AksAssignedIdentity_Type_STATUS_Values = map[string]Extension_Properties_AksAssignedIdentity_Type_STATUS{
 	"systemassigned": Extension_Properties_AksAssignedIdentity_Type_STATUS_SystemAssigned,
 	"userassigned":   Extension_Properties_AksAssignedIdentity_Type_STATUS_UserAssigned,
+}
+
+type ExtensionOperatorConfigMaps struct {
+	// PrincipalId: indicates where the PrincipalId config map should be placed. If omitted, no config map will be created.
+	PrincipalId *genruntime.ConfigMapDestination `json:"principalId,omitempty"`
+}
+
+// AssignProperties_From_ExtensionOperatorConfigMaps populates our ExtensionOperatorConfigMaps from the provided source ExtensionOperatorConfigMaps
+func (maps *ExtensionOperatorConfigMaps) AssignProperties_From_ExtensionOperatorConfigMaps(source *v20230501s.ExtensionOperatorConfigMaps) error {
+
+	// PrincipalId
+	if source.PrincipalId != nil {
+		principalId := source.PrincipalId.Copy()
+		maps.PrincipalId = &principalId
+	} else {
+		maps.PrincipalId = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ExtensionOperatorConfigMaps populates the provided destination ExtensionOperatorConfigMaps from our ExtensionOperatorConfigMaps
+func (maps *ExtensionOperatorConfigMaps) AssignProperties_To_ExtensionOperatorConfigMaps(destination *v20230501s.ExtensionOperatorConfigMaps) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PrincipalId
+	if maps.PrincipalId != nil {
+		principalId := maps.PrincipalId.Copy()
+		destination.PrincipalId = &principalId
+	} else {
+		destination.PrincipalId = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 type ExtensionStatus_Level_STATUS string

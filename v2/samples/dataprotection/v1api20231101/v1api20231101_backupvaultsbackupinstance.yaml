@@ -1,0 +1,55 @@
+# Samples in this directory are shared which are required to be deployed first as Prerequisites before deploying this sample backup instance yaml.
+# Prerequisites: https://learn.microsoft.com/azure/backup/azure-kubernetes-service-cluster-backup-concept
+# Permissions needed: https://learn.microsoft.com/azure/backup/azure-kubernetes-service-cluster-backup-concept#required-roles-and-permissions
+apiVersion: dataprotection.azure.com/v1api20231101
+kind: BackupVaultsBackupInstance
+metadata:
+  name: aso-sample-backupinstance
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-backupvault
+  properties:
+    objectType: BackupInstance
+    friendlyName: aso-sample-backupinstance
+    dataSourceInfo:
+      objectType: Datasource
+      datasourceType: Microsoft.ContainerService/managedClusters
+      resourceName: aso-sample-aks
+      resourceLocation: westus2
+      resourceType: Microsoft.ContainerService/managedClusters
+      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.ContainerService/managedClusters/aso-sample-aks
+      resourceReference:
+        name: aso-sample-aks
+        group: containerservice.azure.com
+        kind: ManagedCluster
+    dataSourceSetInfo:
+      objectType: DatasourceSet
+      datasourceType: Microsoft.ContainerService/managedClusters
+      resourceName: aso-sample-aks
+      resourceLocation: westus2
+      resourceType: Microsoft.ContainerService/managedClusters
+      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.ContainerService/managedClusters/aso-sample-aks
+      resourceReference:
+        name: aso-sample-aks
+        group: containerservice.azure.com
+        kind: ManagedCluster
+    policyInfo:
+      policyReference:
+        group: dataprotection.azure.com
+        kind: BackupVaultsBackupPolicy
+        name: aso-sample-backuppolicy
+      policyParameters:
+        dataStoreParametersList:
+          - azureOperationalStoreParameters:
+              objectType: AzureOperationalStoreParameters
+              resourceGroupReference:
+                name: aso-snapshot-rg
+                group: resources.azure.com
+                kind: ResourceGroup
+              dataStoreType: OperationalStore
+        backupDatasourceParametersList:
+          - kubernetesClusterBackupDatasourceParameters:
+              includeClusterScopeResources: true
+              snapshotVolumes: true
+              objectType: KubernetesClusterBackupDatasourceParameters

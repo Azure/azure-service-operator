@@ -1,0 +1,17 @@
+apiVersion: authorization.azure.com/v1api20220401
+kind: RoleAssignment
+metadata:
+  name: aso-sample-vaultsnapshotrg
+  namespace: default
+spec:
+  owner:
+    name: aso-snapshot-rg
+    group: resources.azure.com
+    kind: ResourceGroup
+  # This is the Principal ID of the AAD identity to which the role will be assigned
+  principalIdFromConfig:
+    name: backupvault-configmap
+    key: principalId
+  roleDefinitionReference:
+    # This ARM ID represents "Reader"
+    armId: /subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7

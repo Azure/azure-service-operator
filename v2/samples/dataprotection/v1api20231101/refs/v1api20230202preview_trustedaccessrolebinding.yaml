@@ -1,0 +1,14 @@
+apiVersion: containerservice.azure.com/v1api20230202preview
+kind: TrustedAccessRoleBinding
+metadata:
+  name: aso-sample-tarb
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-aks
+  roles:
+    - Microsoft.DataProtection/backupVaults/backup-operator
+  sourceResourceReference:
+    group: dataprotection.azure.com
+    kind: BackupVault
+    name: aso-sample-backupvault

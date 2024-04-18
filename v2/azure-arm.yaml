@@ -318,8 +318,8 @@ typeTransformers:
     remove: true
     because: This property should be marked readonly in Swagger
 
-  - name: BackupVaults_BackupInstance_Spec
-    group: dataprotection
+  - group: dataprotection
+    name: BackupVaults_BackupInstance_Spec
     property: SystemData
     remove: true
     because: This property should be marked readonly in Swagger
@@ -1522,6 +1522,7 @@ objectModelConfiguration:
           - UserCredentials
         $generatedConfigs:
           OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+          PrincipalId: $.Status.Identity.PrincipalId
       ManagedCluster_Spec:
         Tags:
           $payloadType: explicitEmptyCollections
@@ -1557,6 +1558,7 @@ objectModelConfiguration:
           - UserCredentials
         $generatedConfigs:
           OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+          PrincipalId: $.Status.Identity.PrincipalId
       ManagedCluster_Spec:
         Tags:
           $payloadType: explicitEmptyCollections
@@ -1615,6 +1617,7 @@ objectModelConfiguration:
           - UserCredentials
         $generatedConfigs:
           OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
+          PrincipalId: $.Status.Identity.PrincipalId
       ManagedCluster_Spec:
         Tags:
           $payloadType: explicitEmptyCollections
@@ -1695,9 +1698,35 @@ objectModelConfiguration:
       BackupVault: 
         $export: true 
         $supportedFrom: v2.2.0 
+        $generatedConfigs:
+          PrincipalId: $.Status.Identity.PrincipalId
       BackupVaults_BackupPolicy: 
         $exportAs: BackupVaultsBackupPolicy 
-        $supportedFrom: v2.2.0 
+        $supportedFrom: v2.2.0
+    2023-11-01: 
+      BackupVault: 
+        $export: true 
+        $supportedFrom: v2.7.0 
+        $generatedConfigs:
+          PrincipalId: $.Status.Identity.PrincipalId
+      BackupVaults_BackupPolicy: 
+        $exportAs: BackupVaultsBackupPolicy 
+        $supportedFrom: v2.7.0 
+      BackupVaults_BackupInstance: 
+        $exportAs: BackupVaultsBackupInstance 
+        $supportedFrom: v2.7.0 
+      DatasourceSet:
+        ResourceID:
+          $armReference: true
+      Datasource:
+        ResourceID:
+          $armReference: true
+      PolicyInfo:
+        PolicyId:
+          $armReference: true
+      AzureOperationalStoreParameters:
+        ResourceGroupId:
+          $armReference: true
   dbformariadb:
     2018-06-01:
       Server:
@@ -2191,6 +2220,8 @@ objectModelConfiguration:
       Extension:
         $export: true
         $supportedFrom: v2.4.0
+        $generatedConfigs:
+          PrincipalId: $.Status.AksAssignedIdentity.PrincipalId
   managedidentity:
     2018-11-30:
       UserAssignedIdentity:

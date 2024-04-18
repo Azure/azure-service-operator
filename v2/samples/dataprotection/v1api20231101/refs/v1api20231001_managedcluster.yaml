@@ -1,0 +1,30 @@
+apiVersion: containerservice.azure.com/v1api20231001
+kind: ManagedCluster
+metadata:
+  name: aso-sample-aks
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  dnsPrefix: aso
+  agentPoolProfiles:
+    - name: agentpool
+      count: 1
+      vmSize: Standard_B4ms
+      osType: Linux
+      osSKU: AzureLinux
+      mode: System
+  identity:
+    type: SystemAssigned
+  autoUpgradeProfile:
+    upgradeChannel: node-image
+  enableRBAC: true
+  addonProfiles:
+    azurepolicy:
+      enabled: true
+  operatorSpec:
+    configMaps:
+      principalId:
+        name: cluster-configmap
+        key: principalId

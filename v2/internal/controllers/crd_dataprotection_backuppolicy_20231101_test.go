@@ -13,14 +13,14 @@ import (
 	. "github.com/onsi/gomega"
 
 	// The dataprotection package contains types and functions related to dataprotection resources.
-	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
+	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
 	// The testcommon package includes common testing utilities.
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	// The to package includes utilities for converting values to pointers.
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-func newBackupPolicy(tc *testcommon.KubePerTestContext, backupVault *dataprotection.BackupVault, name string) *dataprotection.BackupVaultsBackupPolicy {
+func newBackupPolicy20231101(tc *testcommon.KubePerTestContext, backupVault *dataprotection.BackupVault, name string) *dataprotection.BackupVaultsBackupPolicy {
 	backupPolicy := &dataprotection.BackupVaultsBackupPolicy{
 		ObjectMeta: tc.MakeObjectMeta(name),
 		Spec: dataprotection.BackupVaults_BackupPolicy_Spec{
@@ -31,10 +31,10 @@ func newBackupPolicy(tc *testcommon.KubePerTestContext, backupVault *dataprotect
 					ObjectType:      to.Ptr(dataprotection.BackupPolicy_ObjectType_BackupPolicy),
 					PolicyRules: []dataprotection.BasePolicyRule{
 						{
-							AzureBackup: createAzureBackupRule(),
+							AzureBackup: createAzureBackupRule20231101(),
 						},
 						{
-							AzureRetention: createAzureRetentionRule(),
+							AzureRetention: createAzureRetentionRule20231101(),
 						},
 					},
 				},
@@ -44,7 +44,7 @@ func newBackupPolicy(tc *testcommon.KubePerTestContext, backupVault *dataprotect
 	return backupPolicy
 }
 
-func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
+func Test_Dataprotection_Backuppolicy_20231101_CRUD(t *testing.T) {
 	// indicates that this test function can run in parallel with other tests
 	t.Parallel()
 
@@ -53,13 +53,13 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Create a new backupvault resource
-	backupVault := newBackupVault(tc, rg, "asotestbackupvault")
+	backupVault := newBackupVault20231101(tc, rg, "asotestbackupvault")
 
 	// Note:
 	// It is mandatory to create a backupvault before creating a backuppolicy
 
 	// Create a BackupPolicy
-	backupPolicy := newBackupPolicy(tc, backupVault, "asotestbackuppolicy")
+	backupPolicy := newBackupPolicy20231101(tc, backupVault, "asotestbackuppolicy")
 
 	// Sequence of creating BackupVault and BackupPolicy is handled by ASO internally
 	tc.CreateResourcesAndWait(backupVault, backupPolicy)
@@ -110,7 +110,7 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 	// Delete the backuppolicy
 	tc.DeleteResourceAndWait(backupPolicy)
 
-	// Ensure that the resource group was really deleted in Azure
+	// Ensure that the resource was really deleted in Azure
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
@@ -121,7 +121,7 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 }
 
 // creating a new backup policy rule: AZURE_BACKUP_RULE
-func createAzureBackupRule() *dataprotection.AzureBackupRule {
+func createAzureBackupRule20231101() *dataprotection.AzureBackupRule {
 	azureBackupRule := &dataprotection.AzureBackupRule{
 		Name:       to.Ptr("BackupHourly"),
 		ObjectType: to.Ptr(dataprotection.AzureBackupRule_ObjectType_AzureBackupRule),
@@ -159,7 +159,7 @@ func createAzureBackupRule() *dataprotection.AzureBackupRule {
 }
 
 // creating a new retention policy rule: AZURE_RETENTION_RULE
-func createAzureRetentionRule() *dataprotection.AzureRetentionRule {
+func createAzureRetentionRule20231101() *dataprotection.AzureRetentionRule {
 	azureRetentionRule := &dataprotection.AzureRetentionRule{
 		Name:       to.Ptr("Default"),
 		ObjectType: to.Ptr(dataprotection.AzureRetentionRule_ObjectType_AzureRetentionRule),

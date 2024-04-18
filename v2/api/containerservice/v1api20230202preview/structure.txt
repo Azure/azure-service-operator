@@ -351,8 +351,9 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 │   │   ├── OidcIssuerProfile: *Object (1 property)
 │   │   │   └── Enabled: *bool
 │   │   ├── OperatorSpec: *Object (2 properties)
-│   │   │   ├── ConfigMaps: *Object (1 property)
-│   │   │   │   └── OIDCIssuerProfile: *genruntime.ConfigMapDestination
+│   │   │   ├── ConfigMaps: *Object (2 properties)
+│   │   │   │   ├── OIDCIssuerProfile: *genruntime.ConfigMapDestination
+│   │   │   │   └── PrincipalId: *genruntime.ConfigMapDestination
 │   │   │   └── Secrets: *Object (2 properties)
 │   │   │       ├── AdminCredentials: *genruntime.SecretDestination
 │   │   │       └── UserCredentials: *genruntime.SecretDestination

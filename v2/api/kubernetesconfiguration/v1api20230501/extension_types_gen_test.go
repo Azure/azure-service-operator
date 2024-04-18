@@ -286,6 +286,7 @@ func AddIndependentPropertyGeneratorsForExtension_Spec(gens map[string]gopter.Ge
 func AddRelatedPropertyGeneratorsForExtension_Spec(gens map[string]gopter.Gen) {
 	gens["AksAssignedIdentity"] = gen.PtrOf(Extension_Properties_AksAssignedIdentity_SpecGenerator())
 	gens["Identity"] = gen.PtrOf(IdentityGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(ExtensionOperatorSpecGenerator())
 	gens["Plan"] = gen.PtrOf(PlanGenerator())
 	gens["Scope"] = gen.PtrOf(ScopeGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
@@ -763,6 +764,109 @@ func AddIndependentPropertyGeneratorsForExtension_Properties_AksAssignedIdentity
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(Extension_Properties_AksAssignedIdentity_Type_STATUS_SystemAssigned, Extension_Properties_AksAssignedIdentity_Type_STATUS_UserAssigned))
+}
+
+func Test_ExtensionOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ExtensionOperatorSpec to ExtensionOperatorSpec via AssignProperties_To_ExtensionOperatorSpec & AssignProperties_From_ExtensionOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForExtensionOperatorSpec, ExtensionOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForExtensionOperatorSpec tests if a specific instance of ExtensionOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForExtensionOperatorSpec(subject ExtensionOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230501s.ExtensionOperatorSpec
+	err := copied.AssignProperties_To_ExtensionOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ExtensionOperatorSpec
+	err = actual.AssignProperties_From_ExtensionOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ExtensionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ExtensionOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForExtensionOperatorSpec, ExtensionOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForExtensionOperatorSpec runs a test to see if a specific instance of ExtensionOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForExtensionOperatorSpec(subject ExtensionOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ExtensionOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ExtensionOperatorSpec instances for property testing - lazily instantiated by
+// ExtensionOperatorSpecGenerator()
+var extensionOperatorSpecGenerator gopter.Gen
+
+// ExtensionOperatorSpecGenerator returns a generator of ExtensionOperatorSpec instances for property testing.
+func ExtensionOperatorSpecGenerator() gopter.Gen {
+	if extensionOperatorSpecGenerator != nil {
+		return extensionOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForExtensionOperatorSpec(generators)
+	extensionOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ExtensionOperatorSpec{}), generators)
+
+	return extensionOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForExtensionOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForExtensionOperatorSpec(gens map[string]gopter.Gen) {
+	gens["ConfigMaps"] = gen.PtrOf(ExtensionOperatorConfigMapsGenerator())
 }
 
 func Test_ExtensionStatus_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1946,6 +2050,103 @@ func AddIndependentPropertyGeneratorsForErrorDetail_STATUS_Unrolled(gens map[str
 // AddRelatedPropertyGeneratorsForErrorDetail_STATUS_Unrolled is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForErrorDetail_STATUS_Unrolled(gens map[string]gopter.Gen) {
 	gens["AdditionalInfo"] = gen.SliceOf(ErrorAdditionalInfo_STATUSGenerator())
+}
+
+func Test_ExtensionOperatorConfigMaps_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ExtensionOperatorConfigMaps to ExtensionOperatorConfigMaps via AssignProperties_To_ExtensionOperatorConfigMaps & AssignProperties_From_ExtensionOperatorConfigMaps returns original",
+		prop.ForAll(RunPropertyAssignmentTestForExtensionOperatorConfigMaps, ExtensionOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForExtensionOperatorConfigMaps tests if a specific instance of ExtensionOperatorConfigMaps can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForExtensionOperatorConfigMaps(subject ExtensionOperatorConfigMaps) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20230501s.ExtensionOperatorConfigMaps
+	err := copied.AssignProperties_To_ExtensionOperatorConfigMaps(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ExtensionOperatorConfigMaps
+	err = actual.AssignProperties_From_ExtensionOperatorConfigMaps(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ExtensionOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ExtensionOperatorConfigMaps via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForExtensionOperatorConfigMaps, ExtensionOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForExtensionOperatorConfigMaps runs a test to see if a specific instance of ExtensionOperatorConfigMaps round trips to JSON and back losslessly
+func RunJSONSerializationTestForExtensionOperatorConfigMaps(subject ExtensionOperatorConfigMaps) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ExtensionOperatorConfigMaps
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ExtensionOperatorConfigMaps instances for property testing - lazily instantiated by
+// ExtensionOperatorConfigMapsGenerator()
+var extensionOperatorConfigMapsGenerator gopter.Gen
+
+// ExtensionOperatorConfigMapsGenerator returns a generator of ExtensionOperatorConfigMaps instances for property testing.
+func ExtensionOperatorConfigMapsGenerator() gopter.Gen {
+	if extensionOperatorConfigMapsGenerator != nil {
+		return extensionOperatorConfigMapsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	extensionOperatorConfigMapsGenerator = gen.Struct(reflect.TypeOf(ExtensionOperatorConfigMaps{}), generators)
+
+	return extensionOperatorConfigMapsGenerator
 }
 
 func Test_ScopeCluster_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
