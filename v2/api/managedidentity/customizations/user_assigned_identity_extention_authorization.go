@@ -46,20 +46,11 @@ func (identity *UserAssignedIdentityExtension) ExportKubernetesResources(
 
 	collector := secrets.NewCollector(typedObj.Namespace)
 	if typedObj.Spec.OperatorSpec != nil && typedObj.Spec.OperatorSpec.Secrets != nil {
-		if typedObj.Status.ClientId != nil {
-			collector.AddValue(typedObj.Spec.OperatorSpec.Secrets.ClientId, *typedObj.Status.ClientId)
-		}
+		collector.AddValue(typedObj.Spec.OperatorSpec.Secrets.ClientId, *typedObj.Status.ClientId)
+		collector.AddValue(typedObj.Spec.OperatorSpec.Secrets.PrincipalId, *typedObj.Status.PrincipalId)
+		collector.AddValue(typedObj.Spec.OperatorSpec.Secrets.TenantId, *typedObj.Status.TenantId)
 	}
-	if typedObj.Spec.OperatorSpec != nil && typedObj.Spec.OperatorSpec.Secrets != nil {
-		if typedObj.Status.PrincipalId != nil {
-			collector.AddValue(typedObj.Spec.OperatorSpec.Secrets.PrincipalId, *typedObj.Status.PrincipalId)
-		}
-	}
-	if typedObj.Spec.OperatorSpec != nil && typedObj.Spec.OperatorSpec.Secrets != nil {
-		if typedObj.Status.TenantId != nil {
-			collector.AddValue(typedObj.Spec.OperatorSpec.Secrets.TenantId, *typedObj.Status.TenantId)
-		}
-	}
+
 	result, err := collector.Values()
 	if err != nil {
 		return nil, err
