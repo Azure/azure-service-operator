@@ -10,7 +10,7 @@ The aim for above approach was to:
 - include the group and kind to ensure that different kinds of resources get different UUIDs. This isn't entirely required by Azure, but it makes sense to avoid collisions between two resources of different types even if they have the same namespace and name.
 - include the owner group, kind, and name to avoid collisions between resources with the same name in different clusters that actually point to different Azure resources.
 
-However, the case where users have multiple clusters with resources in the same namespace, in each cluster having the same name and pointing to the same Azure resource was skipped.
+However, the case where users have multiple ASO instances in multiple clusters with resources in the same namespace, in each cluster having the same name and pointing to different Azure resource is not supported without the user manually giving each RoleAssignment its own UUID.
 The above issue can still be avoided by overriding the AzureName property with random uuids, however it's not consistent and user-friendly.
 
 Issue: [RoleAssignment UUID clashes](https://github.com/Azure/azure-service-operator/issues/3637)
