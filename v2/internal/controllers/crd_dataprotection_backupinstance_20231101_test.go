@@ -213,7 +213,7 @@ func Test_Dataprotection_Backupinstace_20231101_CRUD(t *testing.T) {
 		},
 	}
 
-	//create backup instance
+	// create backup instance
 	biName := "asotestbackupinstance"
 	backupInstance := &dataprotection.BackupVaultsBackupInstance{
 		ObjectMeta: tc.MakeObjectMeta(biName),

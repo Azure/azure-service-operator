@@ -88,7 +88,9 @@ func AddIndependentPropertyGeneratorsForBackupVaultResource_STATUS_ARM(gens map[
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -276,7 +278,9 @@ func AddIndependentPropertyGeneratorsForDppIdentityDetails_STATUS_ARM(gens map[s
 
 // AddRelatedPropertyGeneratorsForDppIdentityDetails_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDppIdentityDetails_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentity_STATUS_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentity_STATUS_ARMGenerator())
 }
 
 func Test_SystemData_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

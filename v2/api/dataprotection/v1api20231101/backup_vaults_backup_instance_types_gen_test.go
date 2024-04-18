@@ -275,7 +275,9 @@ func BackupVaults_BackupInstance_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForBackupVaults_BackupInstance_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackupVaults_BackupInstance_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForBackupVaults_BackupInstance_Spec is a factory method for creating gopter generators
@@ -394,7 +396,9 @@ func BackupVaults_BackupInstance_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBackupVaults_BackupInstance_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2035,7 +2039,9 @@ func AddIndependentPropertyGeneratorsForUserFacingError_STATUS(gens map[string]g
 	gens["IsRetryable"] = gen.PtrOf(gen.Bool())
 	gens["IsUserError"] = gen.PtrOf(gen.Bool())
 	gens["Message"] = gen.PtrOf(gen.AlphaString())
-	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Properties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["RecommendedAction"] = gen.SliceOf(gen.AlphaString())
 	gens["Target"] = gen.PtrOf(gen.AlphaString())
 }
@@ -2376,7 +2382,9 @@ func InnerError_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInnerError_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInnerError_STATUS(gens map[string]gopter.Gen) {
-	gens["AdditionalInfo"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["AdditionalInfo"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Code"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2939,7 +2947,9 @@ func AddIndependentPropertyGeneratorsForUserFacingError_STATUS_Unrolled(gens map
 	gens["IsRetryable"] = gen.PtrOf(gen.Bool())
 	gens["IsUserError"] = gen.PtrOf(gen.Bool())
 	gens["Message"] = gen.PtrOf(gen.AlphaString())
-	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Properties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["RecommendedAction"] = gen.SliceOf(gen.AlphaString())
 	gens["Target"] = gen.PtrOf(gen.AlphaString())
 }
@@ -3705,7 +3715,9 @@ func InnerError_STATUS_UnrolledGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInnerError_STATUS_Unrolled is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInnerError_STATUS_Unrolled(gens map[string]gopter.Gen) {
-	gens["AdditionalInfo"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["AdditionalInfo"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Code"] = gen.PtrOf(gen.AlphaString())
 }
 
