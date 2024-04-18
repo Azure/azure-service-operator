@@ -12,6 +12,7 @@ import (
 	v20230131s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/go-logr/logr"
@@ -46,9 +47,9 @@ func (identity *UserAssignedIdentityExtension) ExportKubernetesResources(
 
 	collector := secrets.NewCollector(typedObj.Namespace)
 	if typedObj.Spec.OperatorSpec != nil && typedObj.Spec.OperatorSpec.Secrets != nil {
-		collector.AddValue(typedObj.Spec.OperatorSpec.Secrets.ClientId, *typedObj.Status.ClientId)
-		collector.AddValue(typedObj.Spec.OperatorSpec.Secrets.PrincipalId, *typedObj.Status.PrincipalId)
-		collector.AddValue(typedObj.Spec.OperatorSpec.Secrets.TenantId, *typedObj.Status.TenantId)
+		collector.AddValue(typedObj.Spec.OperatorSpec.Secrets.ClientId, to.Value(typedObj.Status.ClientId))
+		collector.AddValue(typedObj.Spec.OperatorSpec.Secrets.PrincipalId, to.Value(typedObj.Status.PrincipalId))
+		collector.AddValue(typedObj.Spec.OperatorSpec.Secrets.TenantId, to.Value(typedObj.Status.TenantId))
 	}
 
 	result, err := collector.Values()
