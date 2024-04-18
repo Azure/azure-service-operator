@@ -86,7 +86,9 @@ func BackupVault_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBackupVault_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForBackupVault_Spec_ARM is a factory method for creating gopter generators
@@ -245,7 +247,9 @@ func AddIndependentPropertyGeneratorsForDppIdentityDetails_ARM(gens map[string]g
 
 // AddRelatedPropertyGeneratorsForDppIdentityDetails_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDppIdentityDetails_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityDetails_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentityDetails_ARMGenerator())
 }
 
 func Test_FeatureSettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

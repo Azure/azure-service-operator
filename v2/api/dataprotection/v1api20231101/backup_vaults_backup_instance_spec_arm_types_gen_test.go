@@ -85,7 +85,9 @@ func BackupVaults_BackupInstance_Spec_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForBackupVaults_BackupInstance_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackupVaults_BackupInstance_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForBackupVaults_BackupInstance_Spec_ARM is a factory method for creating gopter generators

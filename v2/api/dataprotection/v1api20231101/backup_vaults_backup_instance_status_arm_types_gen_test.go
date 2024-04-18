@@ -86,7 +86,9 @@ func BackupVaults_BackupInstance_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBackupVaults_BackupInstance_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -714,7 +716,9 @@ func AddIndependentPropertyGeneratorsForUserFacingError_STATUS_ARM(gens map[stri
 	gens["IsRetryable"] = gen.PtrOf(gen.Bool())
 	gens["IsUserError"] = gen.PtrOf(gen.Bool())
 	gens["Message"] = gen.PtrOf(gen.AlphaString())
-	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Properties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["RecommendedAction"] = gen.SliceOf(gen.AlphaString())
 	gens["Target"] = gen.PtrOf(gen.AlphaString())
 }
@@ -861,7 +865,9 @@ func InnerError_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInnerError_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInnerError_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["AdditionalInfo"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["AdditionalInfo"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Code"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1078,7 +1084,9 @@ func AddIndependentPropertyGeneratorsForUserFacingError_STATUS_Unrolled_ARM(gens
 	gens["IsRetryable"] = gen.PtrOf(gen.Bool())
 	gens["IsUserError"] = gen.PtrOf(gen.Bool())
 	gens["Message"] = gen.PtrOf(gen.AlphaString())
-	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Properties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["RecommendedAction"] = gen.SliceOf(gen.AlphaString())
 	gens["Target"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1348,7 +1356,9 @@ func InnerError_STATUS_Unrolled_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInnerError_STATUS_Unrolled_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInnerError_STATUS_Unrolled_ARM(gens map[string]gopter.Gen) {
-	gens["AdditionalInfo"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["AdditionalInfo"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Code"] = gen.PtrOf(gen.AlphaString())
 }
 
