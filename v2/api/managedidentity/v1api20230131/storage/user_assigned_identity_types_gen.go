@@ -248,6 +248,7 @@ func (identity *UserAssignedIdentity_STATUS) ConvertStatusTo(destination genrunt
 type UserAssignedIdentityOperatorSpec struct {
 	ConfigMaps  *UserAssignedIdentityOperatorConfigMaps `json:"configMaps,omitempty"`
 	PropertyBag genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
+	Secrets     *UserAssignedIdentityOperatorSecrets    `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20230131.UserAssignedIdentityOperatorConfigMaps
@@ -256,6 +257,14 @@ type UserAssignedIdentityOperatorConfigMaps struct {
 	PrincipalId *genruntime.ConfigMapDestination `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 	TenantId    *genruntime.ConfigMapDestination `json:"tenantId,omitempty"`
+}
+
+// Storage version of v1api20230131.UserAssignedIdentityOperatorSecrets
+type UserAssignedIdentityOperatorSecrets struct {
+	ClientId    *genruntime.SecretDestination `json:"clientId,omitempty"`
+	PrincipalId *genruntime.SecretDestination `json:"principalId,omitempty"`
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	TenantId    *genruntime.SecretDestination `json:"tenantId,omitempty"`
 }
 
 func init() {

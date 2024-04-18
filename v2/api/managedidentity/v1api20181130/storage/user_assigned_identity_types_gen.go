@@ -673,6 +673,13 @@ func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_From_UserAssi
 		operator.ConfigMaps = nil
 	}
 
+	// Secrets
+	if source.Secrets != nil {
+		propertyBag.Add("Secrets", *source.Secrets)
+	} else {
+		propertyBag.Remove("Secrets")
+	}
+
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		operator.PropertyBag = propertyBag
@@ -708,6 +715,19 @@ func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_To_UserAssign
 		destination.ConfigMaps = &configMap
 	} else {
 		destination.ConfigMaps = nil
+	}
+
+	// Secrets
+	if propertyBag.Contains("Secrets") {
+		var secret v20230131s.UserAssignedIdentityOperatorSecrets
+		err := propertyBag.Pull("Secrets", &secret)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'Secrets' from propertyBag")
+		}
+
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
 	}
 
 	// Update the property bag

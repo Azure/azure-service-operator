@@ -240,7 +240,7 @@ func (identity *UserAssignedIdentity) ValidateUpdate(old runtime.Object) (admiss
 
 // createValidations validates the creation of the resource
 func (identity *UserAssignedIdentity) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){identity.validateResourceReferences, identity.validateOwnerReference, identity.validateConfigMapDestinations}
+	return []func() (admission.Warnings, error){identity.validateResourceReferences, identity.validateOwnerReference, identity.validateSecretDestinations, identity.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -257,6 +257,9 @@ func (identity *UserAssignedIdentity) updateValidations() []func(old runtime.Obj
 		identity.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
 			return identity.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return identity.validateSecretDestinations()
 		},
 		func(old runtime.Object) (admission.Warnings, error) {
 			return identity.validateConfigMapDestinations()
@@ -292,6 +295,22 @@ func (identity *UserAssignedIdentity) validateResourceReferences() (admission.Wa
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (identity *UserAssignedIdentity) validateSecretDestinations() (admission.Warnings, error) {
+	if identity.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	if identity.Spec.OperatorSpec.Secrets == nil {
+		return nil, nil
+	}
+	toValidate := []*genruntime.SecretDestination{
+		identity.Spec.OperatorSpec.Secrets.ClientId,
+		identity.Spec.OperatorSpec.Secrets.PrincipalId,
+		identity.Spec.OperatorSpec.Secrets.TenantId,
+	}
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -902,6 +921,9 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIde
 type UserAssignedIdentityOperatorSpec struct {
 	// ConfigMaps: configures where to place operator written ConfigMaps.
 	ConfigMaps *UserAssignedIdentityOperatorConfigMaps `json:"configMaps,omitempty"`
+
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *UserAssignedIdentityOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_UserAssignedIdentityOperatorSpec populates our UserAssignedIdentityOperatorSpec from the provided source UserAssignedIdentityOperatorSpec
@@ -917,6 +939,18 @@ func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_From_UserAssi
 		operator.ConfigMaps = &configMap
 	} else {
 		operator.ConfigMaps = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret UserAssignedIdentityOperatorSecrets
+		err := secret.AssignProperties_From_UserAssignedIdentityOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
 	}
 
 	// No error
@@ -938,6 +972,18 @@ func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_To_UserAssign
 		destination.ConfigMaps = &configMap
 	} else {
 		destination.ConfigMaps = nil
+	}
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v20230131s.UserAssignedIdentityOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_UserAssignedIdentityOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
 	}
 
 	// Update the property bag
@@ -1017,6 +1063,89 @@ func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_To_UserAssi
 	// TenantId
 	if maps.TenantId != nil {
 		tenantId := maps.TenantId.Copy()
+		destination.TenantId = &tenantId
+	} else {
+		destination.TenantId = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type UserAssignedIdentityOperatorSecrets struct {
+	// ClientId: indicates where the ClientId secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	ClientId *genruntime.SecretDestination `json:"clientId,omitempty"`
+
+	// PrincipalId: indicates where the PrincipalId secret should be placed. If omitted, the secret will not be retrieved from
+	// Azure.
+	PrincipalId *genruntime.SecretDestination `json:"principalId,omitempty"`
+
+	// TenantId: indicates where the TenantId secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	TenantId *genruntime.SecretDestination `json:"tenantId,omitempty"`
+}
+
+// AssignProperties_From_UserAssignedIdentityOperatorSecrets populates our UserAssignedIdentityOperatorSecrets from the provided source UserAssignedIdentityOperatorSecrets
+func (secrets *UserAssignedIdentityOperatorSecrets) AssignProperties_From_UserAssignedIdentityOperatorSecrets(source *v20230131s.UserAssignedIdentityOperatorSecrets) error {
+
+	// ClientId
+	if source.ClientId != nil {
+		clientId := source.ClientId.Copy()
+		secrets.ClientId = &clientId
+	} else {
+		secrets.ClientId = nil
+	}
+
+	// PrincipalId
+	if source.PrincipalId != nil {
+		principalId := source.PrincipalId.Copy()
+		secrets.PrincipalId = &principalId
+	} else {
+		secrets.PrincipalId = nil
+	}
+
+	// TenantId
+	if source.TenantId != nil {
+		tenantId := source.TenantId.Copy()
+		secrets.TenantId = &tenantId
+	} else {
+		secrets.TenantId = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentityOperatorSecrets populates the provided destination UserAssignedIdentityOperatorSecrets from our UserAssignedIdentityOperatorSecrets
+func (secrets *UserAssignedIdentityOperatorSecrets) AssignProperties_To_UserAssignedIdentityOperatorSecrets(destination *v20230131s.UserAssignedIdentityOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ClientId
+	if secrets.ClientId != nil {
+		clientId := secrets.ClientId.Copy()
+		destination.ClientId = &clientId
+	} else {
+		destination.ClientId = nil
+	}
+
+	// PrincipalId
+	if secrets.PrincipalId != nil {
+		principalId := secrets.PrincipalId.Copy()
+		destination.PrincipalId = &principalId
+	} else {
+		destination.PrincipalId = nil
+	}
+
+	// TenantId
+	if secrets.TenantId != nil {
+		tenantId := secrets.TenantId.Copy()
 		destination.TenantId = &tenantId
 	} else {
 		destination.TenantId = nil
