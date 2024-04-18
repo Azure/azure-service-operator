@@ -292,11 +292,16 @@ func IdentityConvertComplexArrayProperty(
 		// TODO: The suffix here should maybe be configurable on the function builder?
 		innerDestinationIdent := locals.CreateLocal(params.NameHint, "Temp")
 		destination = dst.NewIdent(innerDestinationIdent)
+		destinationTypeExpr, err := destinationType.AsTypeExpr(builder.CodeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrap(err, "creating destination type expression")
+		}
+
 		results = append(
 			results,
 			astbuilder.LocalVariableDeclaration(
 				innerDestinationIdent,
-				destinationType.AsType(builder.CodeGenerationContext),
+				destinationTypeExpr,
 				""))
 	}
 
@@ -336,7 +341,12 @@ func IdentityConvertComplexArrayProperty(
 	// If we must forcibly construct empty collections, check if the destination is nil and if so, construct an empty collection
 	// This only applies for top-level collections (we don't forcibly construct nested collections)
 	if depth == 0 && builder.ShouldInitializeCollectionToEmpty(params.SourceProperty) {
-		emptySlice := astbuilder.SliceLiteral(destinationType.Element().AsType(builder.CodeGenerationContext))
+		destinationTypeExpr, err := destinationType.Element().AsTypeExpr(builder.CodeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrap(err, "creating destination type expression")
+		}
+
+		emptySlice := astbuilder.SliceLiteral(destinationTypeExpr)
 		assignEmpty := astbuilder.SimpleAssignment(params.GetDestination(), emptySlice)
 		astbuilder.AddComments(
 			&assignEmpty.Decs.Start,
@@ -407,13 +417,20 @@ func IdentityConvertComplexMapProperty(
 		return astbuilder.InsertMap(lhs, dst.NewIdent(keyIdent), rhs)
 	}
 
-	keyTypeAst := destinationType.KeyType().AsType(builder.CodeGenerationContext)
-	valueTypeAst := destinationType.ValueType().AsType(builder.CodeGenerationContext)
+	keyTypeExpr, err := destinationType.KeyType().AsTypeExpr(builder.CodeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating key type expression")
+	}
+
+	valueTypeExpr, err := destinationType.ValueType().AsTypeExpr(builder.CodeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating value type expression")
+	}
 
 	makeMapStatement := astbuilder.AssignmentStatement(
 		destination,
 		makeMapToken,
-		astbuilder.MakeMapWithCapacity(keyTypeAst, valueTypeAst,
+		astbuilder.MakeMapWithCapacity(keyTypeExpr, valueTypeExpr,
 			astbuilder.CallFunc("len", params.GetSource())))
 
 	conversion, err := builder.BuildConversion(
@@ -445,7 +462,7 @@ func IdentityConvertComplexMapProperty(
 	// This only applies for top-level collections (we don't forcibly construct nested collections)
 	var result *dst.IfStmt
 	if depth == 0 && builder.ShouldInitializeCollectionToEmpty(params.SourceProperty) {
-		emptyMap := astbuilder.MakeMap(keyTypeAst, valueTypeAst)
+		emptyMap := astbuilder.MakeMap(keyTypeExpr, valueTypeExpr)
 
 		assignEmpty := astbuilder.SimpleAssignment(params.GetDestination(), emptyMap)
 		astbuilder.AddComments(
@@ -580,8 +597,13 @@ func AssignToOptional(
 		return nil, nil // unable to build inner conversion
 	}
 
+	destinationTypeExpr, err := dstType.AsTypeExpr(builder.CodeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating destination type expression")
+	}
+
 	return astbuilder.Statements(
-		astbuilder.LocalVariableDeclaration(tmpLocal, dstType.AsType(builder.CodeGenerationContext), ""),
+		astbuilder.LocalVariableDeclaration(tmpLocal, destinationTypeExpr, ""),
 		conversion,
 		params.AssignmentHandlerOrDefault()(
 			params.GetDestination(),
@@ -644,7 +666,12 @@ func AssignFromOptional(
 	}
 
 	var result []dst.Stmt
-	result = append(result, astbuilder.LocalVariableDeclaration(tmpLocal, params.DestinationType.AsType(builder.CodeGenerationContext), ""))
+	destinationTypeExpr, err := params.DestinationType.AsTypeExpr(builder.CodeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating destination type expression")
+	}
+
+	result = append(result, astbuilder.LocalVariableDeclaration(tmpLocal, destinationTypeExpr, ""))
 	result = append(result, conversion...)
 	result = append(result, params.AssignmentHandlerOrDefault()(params.GetDestination(), dst.NewIdent(tmpLocal)))
 

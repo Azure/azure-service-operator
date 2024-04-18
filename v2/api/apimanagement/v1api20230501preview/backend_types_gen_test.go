@@ -739,8 +739,12 @@ func BackendCredentialsContractGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBackendCredentialsContract(gens map[string]gopter.Gen) {
 	gens["Certificate"] = gen.SliceOf(gen.AlphaString())
 	gens["CertificateIds"] = gen.SliceOf(gen.AlphaString())
-	gens["Header"] = gen.MapOf(gen.AlphaString(), gen.SliceOf(gen.AlphaString()))
-	gens["Query"] = gen.MapOf(gen.AlphaString(), gen.SliceOf(gen.AlphaString()))
+	gens["Header"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.SliceOf(gen.AlphaString()))
+	gens["Query"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.SliceOf(gen.AlphaString()))
 }
 
 // AddRelatedPropertyGeneratorsForBackendCredentialsContract is a factory method for creating gopter generators
@@ -859,8 +863,12 @@ func BackendCredentialsContract_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBackendCredentialsContract_STATUS(gens map[string]gopter.Gen) {
 	gens["Certificate"] = gen.SliceOf(gen.AlphaString())
 	gens["CertificateIds"] = gen.SliceOf(gen.AlphaString())
-	gens["Header"] = gen.MapOf(gen.AlphaString(), gen.SliceOf(gen.AlphaString()))
-	gens["Query"] = gen.MapOf(gen.AlphaString(), gen.SliceOf(gen.AlphaString()))
+	gens["Header"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.SliceOf(gen.AlphaString()))
+	gens["Query"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.SliceOf(gen.AlphaString()))
 }
 
 // AddRelatedPropertyGeneratorsForBackendCredentialsContract_STATUS is a factory method for creating gopter generators

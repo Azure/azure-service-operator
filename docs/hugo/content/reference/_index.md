@@ -270,13 +270,13 @@ Existing instances of *Single Server* can be migrated to *Azure Database for MyS
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                |
-|------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| FlexibleServer               | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserver.yaml)               |
-| FlexibleServersAdministrator | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversadministrator.yaml) |
-| FlexibleServersConfiguration | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversconfiguration.yaml) |
-| FlexibleServersDatabase      | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversdatabase.yaml)      |
-| FlexibleServersFirewallRule  | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversfirewallrule.yaml)  |
+| Resource                                                                                                                                                                           | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [FlexibleServer](https://azure.github.io/azure-service-operator/reference/dbformysql/v1api20230630/#dbformysql.azure.com/v1api20230630.FlexibleServer)                             | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserver.yaml)               |
+| [FlexibleServersAdministrator](https://azure.github.io/azure-service-operator/reference/dbformysql/v1api20230630/#dbformysql.azure.com/v1api20230630.FlexibleServersAdministrator) | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversadministrator.yaml) |
+| [FlexibleServersConfiguration](https://azure.github.io/azure-service-operator/reference/dbformysql/v1api20230630/#dbformysql.azure.com/v1api20230630.FlexibleServersConfiguration) | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversconfiguration.yaml) |
+| [FlexibleServersDatabase](https://azure.github.io/azure-service-operator/reference/dbformysql/v1api20230630/#dbformysql.azure.com/v1api20230630.FlexibleServersDatabase)           | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversdatabase.yaml)      |
+| [FlexibleServersFirewallRule](https://azure.github.io/azure-service-operator/reference/dbformysql/v1api20230630/#dbformysql.azure.com/v1api20230630.FlexibleServersFirewallRule)   | 2023-06-30  | v1api20230630 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserversfirewallrule.yaml)  |
 
 ### Released
 
@@ -389,6 +389,14 @@ These resource(s) are available for use in the current release of ASO. Different
 ## Insights
 
 To install the CRDs for these resources, your ASO configuration must include `insights.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                                                                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                 |
+|--------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------|
+| [Webtest](https://azure.github.io/azure-service-operator/reference/insights/v1api20220615/#insights.azure.com/v1api20220615.Webtest) | 2022-06-15  | v1api20220615 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20220615_webtest.yaml) |
 
 ### Released
 

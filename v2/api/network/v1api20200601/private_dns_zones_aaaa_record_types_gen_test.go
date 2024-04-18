@@ -276,7 +276,9 @@ func PrivateDnsZones_AAAA_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Ttl"] = gen.PtrOf(gen.Int())
 }
 
@@ -405,7 +407,9 @@ func AddIndependentPropertyGeneratorsForPrivateDnsZones_AAAA_STATUS(gens map[str
 	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IsAutoRegistered"] = gen.PtrOf(gen.Bool())
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Ttl"] = gen.PtrOf(gen.Int())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())

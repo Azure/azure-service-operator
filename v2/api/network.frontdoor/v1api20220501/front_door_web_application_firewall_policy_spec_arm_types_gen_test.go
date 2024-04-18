@@ -87,7 +87,9 @@ func AddIndependentPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Sp
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForFrontDoorWebApplicationFirewallPolicy_Spec_ARM is a factory method for creating gopter generators

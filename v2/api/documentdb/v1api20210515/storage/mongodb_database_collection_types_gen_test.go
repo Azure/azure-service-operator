@@ -149,7 +149,9 @@ func AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collec
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection_Spec is a factory method for creating gopter generators
@@ -228,7 +230,9 @@ func AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collec
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -309,7 +313,9 @@ func AddIndependentPropertyGeneratorsForMongoDBCollectionGetProperties_Resource_
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Rid"] = gen.PtrOf(gen.AlphaString())
-	gens["ShardKey"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["ShardKey"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Ts"] = gen.PtrOf(gen.Float64())
 }
 
@@ -387,7 +393,9 @@ func MongoDBCollectionResourceGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForMongoDBCollectionResource(gens map[string]gopter.Gen) {
 	gens["AnalyticalStorageTtl"] = gen.PtrOf(gen.Int())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["ShardKey"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["ShardKey"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForMongoDBCollectionResource is a factory method for creating gopter generators

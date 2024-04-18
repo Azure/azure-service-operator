@@ -2174,6 +2174,12 @@ objectModelConfiguration:
       ScheduledQueryRuleProperties:
         Scopes:
           $armReference: true
+      Webtest:
+        $export: true
+        $supportedFrom: v2.7.0
+      WebTestGeolocation:
+        Id:
+          $armReference: false
   keyvault:
     2021-04-01-preview:
       Vault:

@@ -279,7 +279,9 @@ func AddIndependentPropertyGeneratorsForStorageAccounts_BlobServices_Container_S
 	gens["DenyEncryptionScopeOverride"] = gen.PtrOf(gen.Bool())
 	gens["EnableNfsV3AllSquash"] = gen.PtrOf(gen.Bool())
 	gens["EnableNfsV3RootSquash"] = gen.PtrOf(gen.Bool())
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_PublicAccess_Blob, ContainerProperties_PublicAccess_Container, ContainerProperties_PublicAccess_None))
 }
 
@@ -416,7 +418,9 @@ func AddIndependentPropertyGeneratorsForStorageAccounts_BlobServices_Container_S
 		ContainerProperties_LeaseState_STATUS_Expired,
 		ContainerProperties_LeaseState_STATUS_Leased))
 	gens["LeaseStatus"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_LeaseStatus_STATUS_Locked, ContainerProperties_LeaseStatus_STATUS_Unlocked))
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_PublicAccess_STATUS_Blob, ContainerProperties_PublicAccess_STATUS_Container, ContainerProperties_PublicAccess_STATUS_None))
 	gens["RemainingRetentionDays"] = gen.PtrOf(gen.Int())

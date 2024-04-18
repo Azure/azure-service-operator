@@ -165,7 +165,9 @@ func AddIndependentPropertyGeneratorsForFileShareProperties_ARM(gens map[string]
 		FileShareProperties_AccessTier_Premium,
 		FileShareProperties_AccessTier_TransactionOptimized))
 	gens["EnabledProtocols"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_EnabledProtocols_NFS, FileShareProperties_EnabledProtocols_SMB))
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["RootSquash"] = gen.PtrOf(gen.OneConstOf(FileShareProperties_RootSquash_AllSquash, FileShareProperties_RootSquash_NoRootSquash, FileShareProperties_RootSquash_RootSquash))
 	gens["ShareQuota"] = gen.PtrOf(gen.Int())
 }

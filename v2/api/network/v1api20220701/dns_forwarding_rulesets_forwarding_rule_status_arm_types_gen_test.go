@@ -165,7 +165,9 @@ func ForwardingRuleProperties_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForForwardingRuleProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["DomainName"] = gen.PtrOf(gen.AlphaString())
 	gens["ForwardingRuleState"] = gen.PtrOf(gen.OneConstOf(ForwardingRuleProperties_ForwardingRuleState_STATUS_Disabled, ForwardingRuleProperties_ForwardingRuleState_STATUS_Enabled))
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
 		DnsresolverProvisioningState_STATUS_Canceled,
 		DnsresolverProvisioningState_STATUS_Creating,

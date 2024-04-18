@@ -273,7 +273,9 @@ func DnsZones_SRV_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDnsZones_SRV_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDnsZones_SRV_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TTL"] = gen.PtrOf(gen.Int())
 }
 
@@ -404,7 +406,9 @@ func AddIndependentPropertyGeneratorsForDnsZones_SRV_STATUS(gens map[string]gopt
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["TTL"] = gen.PtrOf(gen.Int())

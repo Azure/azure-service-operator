@@ -88,7 +88,9 @@ func AddIndependentPropertyGeneratorsForDisk_STATUS_ARM(gens map[string]gopter.G
 	gens["ManagedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["ManagedByExtended"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }

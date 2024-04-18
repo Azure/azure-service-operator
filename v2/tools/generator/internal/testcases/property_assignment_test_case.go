@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -44,7 +45,7 @@ func NewPropertyAssignmentTestCase(
 	for _, fn := range container.Functions() {
 		if !strings.HasPrefix(fn.Name(), conversions.AssignPropertiesMethodPrefix) {
 			// We're now using PropertyAssignment functions in other contexts, but only want to generate tests
-			// for the originals (and those only because we're allowing hand-written extensions that need testing).
+			// for the originals (and those only because we're allowing handwritten extensions that need testing).
 			continue
 		}
 
@@ -119,7 +120,10 @@ func (p *PropertyAssignmentTestCase) AsFuncs(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 ) ([]dst.Decl, error) {
 	testRunner := p.createTestRunner(codeGenerationContext)
-	testMethod := p.createTestMethod(receiver, codeGenerationContext)
+	testMethod, err := p.createTestMethod(receiver, codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating test method for %s", p.testName)
+	}
 
 	return []dst.Decl{
 		testRunner,
@@ -228,7 +232,7 @@ func (p *PropertyAssignmentTestCase) createTestRunner(codegenContext *astmodel.C
 func (p *PropertyAssignmentTestCase) createTestMethod(
 	subject astmodel.TypeName,
 	codegenContext *astmodel.CodeGenerationContext,
-) dst.Decl {
+) (dst.Decl, error) {
 	const (
 		errId        = "err"
 		copiedId     = "copied"
@@ -254,9 +258,14 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 	astbuilder.AddComment(&assignCopied.Decorations().Start, "// Copy subject to make sure assignment doesn't modify it")
 
 	// var other OtherType
+	parameterTypeExpr, err := p.toFn.ParameterType().AsTypeExpr(codegenContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", p.toFn.ParameterType())
+	}
+
 	declareOther := astbuilder.LocalVariableDeclaration(
 		otherId,
-		p.toFn.ParameterType().AsType(codegenContext),
+		parameterTypeExpr,
 		"// Use AssignPropertiesTo() for the first stage of conversion")
 	declareOther.Decorations().Before = dst.EmptyLine
 
@@ -274,9 +283,14 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 		astbuilder.CallQualifiedFunc("err", "Error"))
 
 	// var result OurType
+	subjectExpr, err := subject.AsTypeExpr(codegenContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", subject)
+	}
+
 	declareResult := astbuilder.LocalVariableDeclaration(
 		actualId,
-		subject.AsType(codegenContext),
+		subjectExpr,
 		"// Use AssignPropertiesFrom() to convert back to our original type")
 	declareResult.Decorations().Before = dst.EmptyLine
 
@@ -354,14 +368,19 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 			ret),
 	}
 
-	fn.AddParameter("subject", p.subject.AsType(codegenContext))
+	subjectExpr, err = p.subject.AsTypeExpr(codegenContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", p.subject)
+	}
+
+	fn.AddParameter("subject", subjectExpr)
 	fn.AddComments(fmt.Sprintf(
 		"tests if a specific instance of %s can be assigned to %s and back losslessly",
 		p.subject.Name(),
 		p.fromFn.ParameterType().PackageReference().PackageName()))
 	fn.AddReturns("string")
 
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 func (p *PropertyAssignmentTestCase) idOfTestMethod() string {

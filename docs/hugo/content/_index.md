@@ -52,7 +52,52 @@ cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   0          1m
 
 (Alternatively, you can wait for cert-manager to be ready with `cmctl check api --wait=2m` - see the [cert-manager documentation](https://cert-manager.io/docs/usage/cmctl/) for more information about `cmctl`.)
 
-2. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources in your subscription.
+2. Install [the latest **v2+** Helm chart](https://github.com/Azure/azure-service-operator/tree/main/v2/charts):
+
+{{< tabpane text=true left=true >}}
+{{% tab header="**Shell**:" disabled=true /%}}
+{{% tab header="bash" %}}
+``` bash
+$ helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
+$ helm upgrade --install aso2 aso2/azure-service-operator \
+    --create-namespace \
+    --namespace=azureserviceoperator-system \
+    --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
+```
+Note: **bash** requires the value for `crdPattern` to be quoted with `'` to avoid expansion of the wildcards.
+{{% /tab %}}
+{{% tab header="PowerShell" %}}
+``` powershell
+PS> helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
+PS> helm upgrade --install aso2 aso2/azure-service-operator `
+    --create-namespace `
+    --namespace=azureserviceoperator-system `
+    --set crdPattern=resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*
+```
+{{% /tab %}}
+{{% tab header="CMD" %}}
+``` cmd
+C:\> helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
+C:\> helm upgrade --install aso2 aso2/azure-service-operator ^
+    --create-namespace ^
+    --namespace=azureserviceoperator-system ^
+    --set crdPattern=resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*
+```
+{{% /tab %}}
+{{< /tabpane >}}
+
+{{% alert title="Warning" color="warning" %}}
+Make sure to set the `crdPattern` variable to include the CRDs you are interested in using.
+You can use `--set crdPattern=*` to install all the CRDs, but be aware of the
+[limits of the Kubernetes you are running](https://github.com/Azure/azure-service-operator/issues/2920). `*` is **not**
+recommended on AKS Free-tier clusters.
+See [CRD management](https://azure.github.io/azure-service-operator/guide/crd-management/) for more details.
+{{% /alert %}}
+
+   Alternatively you can install from the [release YAML directly](https://azure.github.io/azure-service-operator/guide/installing-from-yaml/).
+
+3. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources 
+   in your subscription.
 
    First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:
 
@@ -78,13 +123,13 @@ C:\> SET AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
 {{% /tab %}}
 {{< /tabpane >}}
 
-   You can find these values by using the Azure CLI: `az account show`
+You can find these values by using the Azure CLI: `az account show`
 
-   Next, create a service principal with Contributor permissions for your subscription.
+Next, create a service principal with Contributor permissions for your subscription.
 
-   You can optionally use a service principal with a more restricted permission set
-   (for example contributor to just a Resource Group), but that will restrict what you can
-   do with ASO. See [using reduced permissions](https://azure.github.io/azure-service-operator/guide/authentication/reducing-access/#using-a-credential-for-aso-with-reduced-permissions) for more details.
+You can optionally use a service principal with a more restricted permission set
+(for example contributor to just a Resource Group), but that will restrict what you can
+do with ASO. See [using reduced permissions](https://azure.github.io/azure-service-operator/guide/authentication/reducing-access/#using-a-credential-for-aso-with-reduced-permissions) for more details.
 
 {{< tabpane text=true left=true >}}
 {{% tab header="**Shell**:" disabled=true /%}}
@@ -144,63 +189,69 @@ C:\> SET AZURE_CLIENT_SECRET=<your-client-secret>
 {{% /tab %}}
 {{< /tabpane >}}
 
-3. Install [the latest **v2+** Helm chart](https://github.com/Azure/azure-service-operator/tree/main/v2/charts):
+Then create a secret named `aso-credential` in the namespace you'd like to create ASO resources in.
 
 {{< tabpane text=true left=true >}}
 {{% tab header="**Shell**:" disabled=true /%}}
 {{% tab header="bash" %}}
-``` bash
-$ helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
-$ helm upgrade --install aso2 aso2/azure-service-operator \
-    --create-namespace \
-    --namespace=azureserviceoperator-system \
-    --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-    --set azureTenantID=$AZURE_TENANT_ID \
-    --set azureClientID=$AZURE_CLIENT_ID \
-    --set azureClientSecret=$AZURE_CLIENT_SECRET \
-    --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+ name: aso-credential
+ namespace: default
+stringData:
+ AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
+ AZURE_TENANT_ID: "$AZURE_TENANT_ID"
+ AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
+ AZURE_CLIENT_SECRET: "$AZURE_CLIENT_SECRET"
+EOF
 ```
-Note: **bash** requires the value for `crdPattern` to be quoted with `'` to avoid expansion of the wildcards.
 {{% /tab %}}
+
 {{% tab header="PowerShell" %}}
-``` powershell
-PS> helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
-PS> helm upgrade --install aso2 aso2/azure-service-operator `
-    --create-namespace `
-    --namespace=azureserviceoperator-system `
-    --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID `
-    --set azureTenantID=$AZURE_TENANT_ID `
-    --set azureClientID=$AZURE_CLIENT_ID `
-    --set azureClientSecret=$AZURE_CLIENT_SECRET `
-    --set crdPattern=resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*
+```powershell
+@"
+apiVersion: v1
+kind: Secret
+metadata:
+ name: aso-credential
+ namespace: default
+stringData:
+ AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
+ AZURE_TENANT_ID: "$AZURE_TENANT_ID"
+ AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
+ AZURE_CLIENT_SECRET: "$AZURE_CLIENT_SECRET"
+"@ | kubectl apply -f -
 ```
 {{% /tab %}}
+
 {{% tab header="CMD" %}}
-``` cmd
-C:\> helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
-C:\> helm upgrade --install aso2 aso2/azure-service-operator ^
-    --create-namespace ^
-    --namespace=azureserviceoperator-system ^
-    --set azureSubscriptionID=%AZURE_SUBSCRIPTION_ID% ^
-    --set azureTenantID=%AZURE_TENANT_ID% ^
-    --set azureClientID=%AZURE_CLIENT_ID% ^
-    --set azureClientSecret=%AZURE_CLIENT_SECRET% ^
-    --set crdPattern=resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*
+
+Create a file named `secret.yaml` with the following content. Replace each of the variables such as
+`%AZURE_SUBSCRIPTION_ID%` with the subscription ID, `%AZURE_CLIENT_SECRET%` with the client secret and so on.
+
 ```
+apiVersion: v1
+kind: Secret
+metadata:
+ name: aso-credential
+ namespace: default
+stringData:
+ AZURE_SUBSCRIPTION_ID: "%AZURE_SUBSCRIPTION_ID%"
+ AZURE_TENANT_ID: "%AZURE_TENANT_ID%"
+ AZURE_CLIENT_ID: "%AZURE_CLIENT_ID%"
+ AZURE_CLIENT_SECRET: "%AZURE_CLIENT_SECRET%"
+```
+
+Then run: `kubectl apply -f secret.yaml`
+
 {{% /tab %}}
 {{< /tabpane >}}
 
-{{% alert title="Warning" color="warning" %}}
-Make sure to set the `crdPattern` variable to include the CRDs you are interested in using.
-You can use `--set crdPattern=*` to install all the CRDs, but be aware of the
-[limits of the Kubernetes you are running](https://github.com/Azure/azure-service-operator/issues/2920). `*` is **not**
-recommended on AKS Free-tier clusters.
-See [CRD management](https://azure.github.io/azure-service-operator/guide/crd-management/) for more details.
-{{% /alert %}}
-
-   Alternatively you can install from the [release YAML directly](https://azure.github.io/azure-service-operator/guide/installing-from-yaml/).
-
-   To learn more about other authentication options, see the [authentication documentation](https://azure.github.io/azure-service-operator/guide/authentication/).
+To learn more about other authentication options, see the 
+[authentication documentation](https://azure.github.io/azure-service-operator/guide/authentication/).
 
 ### Usage
 
@@ -218,7 +269,8 @@ To view the logs for the running ASO controller, take note of the pod name shown
 $ kubectl logs -n azureserviceoperator-system azureserviceoperator-controller-manager-5b4bfc59df-lfpqf manager 
 ```
 
-Let's create an Azure ResourceGroup in westcentralus with the name "aso-sample-rg". Create a file called `rg.yaml` with the following contents:
+Let's create an Azure ResourceGroup in westcentralus with the name "aso-sample-rg". Create a file called `rg.yaml` 
+with the following contents:
 
 ```yaml
 apiVersion: resources.azure.com/v1api20200601

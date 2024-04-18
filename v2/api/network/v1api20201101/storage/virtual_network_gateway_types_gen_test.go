@@ -154,7 +154,9 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGateway_Spec(gens map[stri
 	gens["GatewayType"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.AlphaString())
 	gens["VpnType"] = gen.PtrOf(gen.AlphaString())
 }
@@ -249,7 +251,9 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGateway_STATUS(gens map[st
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["VNetExtendedLocationResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.AlphaString())

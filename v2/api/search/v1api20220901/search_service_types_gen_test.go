@@ -279,7 +279,9 @@ func AddIndependentPropertyGeneratorsForSearchService_Spec(gens map[string]gopte
 	gens["PartitionCount"] = gen.PtrOf(gen.Int())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(SearchServiceProperties_PublicNetworkAccess_Disabled, SearchServiceProperties_PublicNetworkAccess_Enabled))
 	gens["ReplicaCount"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForSearchService_Spec is a factory method for creating gopter generators
@@ -418,7 +420,9 @@ func AddIndependentPropertyGeneratorsForSearchService_STATUS(gens map[string]gop
 		SearchServiceProperties_Status_STATUS_Provisioning,
 		SearchServiceProperties_Status_STATUS_Running))
 	gens["StatusDetails"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

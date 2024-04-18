@@ -158,7 +158,9 @@ func AddIndependentPropertyGeneratorsForProfiles_Endpoint_Spec(gens map[string]g
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
 	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForProfiles_Endpoint_Spec is a factory method for creating gopter generators
@@ -254,7 +256,9 @@ func AddIndependentPropertyGeneratorsForProfiles_Endpoint_STATUS(gens map[string
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceState"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

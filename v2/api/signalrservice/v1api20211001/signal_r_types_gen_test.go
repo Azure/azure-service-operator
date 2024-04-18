@@ -278,7 +278,9 @@ func AddIndependentPropertyGeneratorsForSignalR_Spec(gens map[string]gopter.Gen)
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ServiceKind_RawWebSockets, ServiceKind_SignalR))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForSignalR_Spec is a factory method for creating gopter generators
@@ -424,7 +426,9 @@ func AddIndependentPropertyGeneratorsForSignalR_STATUS(gens map[string]gopter.Ge
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicPort"] = gen.PtrOf(gen.Int())
 	gens["ServerPort"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
@@ -676,7 +680,9 @@ func AddIndependentPropertyGeneratorsForManagedIdentity_STATUS(gens map[string]g
 
 // AddRelatedPropertyGeneratorsForManagedIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityProperty_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentityProperty_STATUSGenerator())
 }
 
 func Test_PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1825,7 +1831,9 @@ func AddIndependentPropertyGeneratorsForSignalRFeature(gens map[string]gopter.Ge
 		FeatureFlags_EnableLiveTrace,
 		FeatureFlags_EnableMessagingLogs,
 		FeatureFlags_ServiceMode))
-	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Properties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1934,7 +1942,9 @@ func AddIndependentPropertyGeneratorsForSignalRFeature_STATUS(gens map[string]go
 		FeatureFlags_STATUS_EnableLiveTrace,
 		FeatureFlags_STATUS_EnableMessagingLogs,
 		FeatureFlags_STATUS_ServiceMode))
-	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Properties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 

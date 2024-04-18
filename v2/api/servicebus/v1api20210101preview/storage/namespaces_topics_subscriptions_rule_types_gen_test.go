@@ -720,7 +720,9 @@ func AddIndependentPropertyGeneratorsForCorrelationFilter(gens map[string]gopter
 	gens["CorrelationId"] = gen.PtrOf(gen.AlphaString())
 	gens["Label"] = gen.PtrOf(gen.AlphaString())
 	gens["MessageId"] = gen.PtrOf(gen.AlphaString())
-	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Properties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["ReplyTo"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplyToSessionId"] = gen.PtrOf(gen.AlphaString())
 	gens["RequiresPreprocessing"] = gen.PtrOf(gen.Bool())
@@ -832,7 +834,9 @@ func AddIndependentPropertyGeneratorsForCorrelationFilter_STATUS(gens map[string
 	gens["CorrelationId"] = gen.PtrOf(gen.AlphaString())
 	gens["Label"] = gen.PtrOf(gen.AlphaString())
 	gens["MessageId"] = gen.PtrOf(gen.AlphaString())
-	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Properties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["ReplyTo"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplyToSessionId"] = gen.PtrOf(gen.AlphaString())
 	gens["RequiresPreprocessing"] = gen.PtrOf(gen.Bool())

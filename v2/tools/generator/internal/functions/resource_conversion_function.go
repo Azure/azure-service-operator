@@ -9,6 +9,7 @@ import (
 	"fmt"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -58,7 +59,7 @@ var _ astmodel.Function = &ResourceConversionFunction{}
 
 // NewResourceConversionFunction creates a conversion function that populates our hub type from the current instance
 // hub is the TypeName of our hub type
-// propertyFuntion is the function we use to copy properties across
+// propertyFunction is the function we use to copy properties across
 func NewResourceConversionFunction(
 	hub astmodel.InternalTypeName,
 	propertyFunction *PropertyAssignmentFunction,
@@ -103,11 +104,15 @@ func (fn *ResourceConversionFunction) AsFunc(
 	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
 
 	// We always use a pointer receiver, so we can modify it
-	receiverType := astmodel.NewOptionalType(receiver).AsType(codeGenerationContext)
+	receiverType := astmodel.NewOptionalType(receiver)
+	receiverTypeExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  receiverType,
+		ReceiverType:  receiverTypeExpr,
 		Name:          fn.Name(),
 	}
 
@@ -119,11 +124,23 @@ func (fn *ResourceConversionFunction) AsFunc(
 
 	if astmodel.TypeEquals(fn.hub, fn.propertyFunction.ParameterType()) {
 		// Not using an intermediate step
-		funcDetails.Body = fn.directConversion(receiverName, codeGenerationContext)
+		body, err := fn.directConversion(receiverName, codeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrap(err, "creating direct conversion body")
+		}
+
+		funcDetails.Body = body
 	} else {
+		var body []dst.Stmt
+		var err error
 		fn.propertyFunction.direction.
-			WhenFrom(func() { funcDetails.Body = fn.indirectConversionFromHub(receiverName, codeGenerationContext) }).
-			WhenTo(func() { funcDetails.Body = fn.indirectConversionToHub(receiverName, codeGenerationContext) })
+			WhenFrom(func() { body, err = fn.indirectConversionFromHub(receiverName, codeGenerationContext) }).
+			WhenTo(func() { body, err = fn.indirectConversionToHub(receiverName, codeGenerationContext) })
+		if err != nil {
+			return nil, errors.Wrap(err, "creating indirect conversion body")
+		}
+
+		funcDetails.Body = body
 	}
 
 	return funcDetails.DefineFunc(), nil
@@ -150,7 +167,7 @@ func (fn *ResourceConversionFunction) Hub() astmodel.TypeName {
 // return <receiver>.AssignProperties(To|From)<type>(<local>)
 func (fn *ResourceConversionFunction) directConversion(
 	receiverName string, generationContext *astmodel.CodeGenerationContext,
-) []dst.Stmt {
+) ([]dst.Stmt, error) {
 	fmtPackage := generationContext.MustGetImportedPackageName(astmodel.FmtReference)
 
 	hubPackage := fn.hub.InternalPackageReference().FolderPath()
@@ -158,10 +175,15 @@ func (fn *ResourceConversionFunction) directConversion(
 	localIdent := dst.NewIdent(localId)
 	hubIdent := dst.NewIdent("hub")
 
+	hubExpr, err := fn.hub.AsTypeExpr(generationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", fn.hub)
+	}
+
 	assignLocal := astbuilder.TypeAssert(
 		localIdent,
 		hubIdent,
-		astbuilder.PointerTo(fn.hub.AsType(generationContext)))
+		astbuilder.PointerTo(hubExpr))
 
 	checkAssert := astbuilder.ReturnIfNotOk(
 		astbuilder.FormatError(
@@ -176,7 +198,7 @@ func (fn *ResourceConversionFunction) directConversion(
 	return astbuilder.Statements(
 		assignLocal,
 		checkAssert,
-		copyAndReturn)
+		copyAndReturn), nil
 }
 
 // indirectConversionFromHub generates a conversion when the type we know about isn't the hub type, but is closer to it
@@ -198,15 +220,19 @@ func (fn *ResourceConversionFunction) directConversion(
 // return nil
 func (fn *ResourceConversionFunction) indirectConversionFromHub(
 	receiverName string, generationContext *astmodel.CodeGenerationContext,
-) []dst.Stmt {
+) ([]dst.Stmt, error) {
 	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
 	localId := fn.localVariableId()
 	errIdent := dst.NewIdent("err")
 
 	intermediateType := fn.propertyFunction.ParameterType()
+	intermediateTypeExpr, err := intermediateType.AsTypeExpr(generationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating type expression for intermediate type")
+	}
 
 	declareLocal := astbuilder.LocalVariableDeclaration(
-		localId, intermediateType.AsType(generationContext), "// intermediate variable for conversion")
+		localId, intermediateTypeExpr, "// intermediate variable for conversion")
 	declareLocal.Decorations().Before = dst.NewLine
 
 	populateLocalFromHub := astbuilder.ShortDeclaration(
@@ -236,7 +262,7 @@ func (fn *ResourceConversionFunction) indirectConversionFromHub(
 		checkForErrorsPopulatingLocal,
 		populateReceiverFromLocal,
 		checkForErrorsPopulatingReceiver,
-		returnNil)
+		returnNil), nil
 }
 
 // indirectConversionToHub generates a conversion when the type we know about isn't the hub type, but is closer to it in
@@ -258,15 +284,19 @@ func (fn *ResourceConversionFunction) indirectConversionFromHub(
 // return nil
 func (fn *ResourceConversionFunction) indirectConversionToHub(
 	receiverName string, generationContext *astmodel.CodeGenerationContext,
-) []dst.Stmt {
+) ([]dst.Stmt, error) {
 	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
 	localId := fn.localVariableId()
 	errIdent := dst.NewIdent("err")
 
 	intermediateType := fn.propertyFunction.ParameterType()
+	intermediateTypeExpr, err := intermediateType.AsTypeExpr(generationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating type expression for intermediate type")
+	}
 
 	declareLocal := astbuilder.LocalVariableDeclaration(
-		localId, intermediateType.AsType(generationContext), "// intermediate variable for conversion")
+		localId, intermediateTypeExpr, "// intermediate variable for conversion")
 	declareLocal.Decorations().Before = dst.NewLine
 
 	populateLocalFromReceiver := astbuilder.ShortDeclaration(
@@ -294,7 +324,7 @@ func (fn *ResourceConversionFunction) indirectConversionToHub(
 		checkForErrorsPopulatingLocal,
 		populateHubFromLocal,
 		checkForErrorsPopulatingHub,
-		returnNil)
+		returnNil), nil
 }
 
 // localVariableId returns a good identifier to use for a local variable in our function,

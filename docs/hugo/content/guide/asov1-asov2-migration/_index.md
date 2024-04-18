@@ -33,23 +33,34 @@ kubectl api-resources --api-group cert-manager.io`
 ```
 should show `v1` resources.
 
-> ℹ️ **Note:** We strongly recommend ensuring that you're running the latest version of cert-manager 
-> (1.14.4 at the time this article was written).
+{{% alert title="Warning" color="warning" %}}
+Ensure that you've verified each ASOv1 resource you delete has the `skipreconcile=true` annotation before you delete it
+in Kubernetes or else the deletion will propagate to Azure and delete the underlying Azure resource as well, which you do not want.
+{{% /alert %}}
 
-> ℹ️ **Note:** We also recommend ensuring that ASOv1 is configured to use `cert-manager.io/v1` resources.
-> You can run `helm upgrade` and pass `--set certManagerResourcesAPIVersion=cert-manager.io/v1` to ensure ASOv1 is using
-> the v1 versions of the cert-manager resources.
+{{% alert title="Note" %}}
+We strongly recommend ensuring that you're running the latest version of cert-manager
+(1.14.4 at the time this article was written).
+{{% /alert %}}
+
+{{% alert title="Note" %}}
+We also recommend ensuring that ASOv1 is configured to use `cert-manager.io/v1` resources.
+You can run `helm upgrade` and pass `--set certManagerResourcesAPIVersion=cert-manager.io/v1` to ensure ASOv1 is using
+the v1 versions of the cert-manager resources.
+{{% /alert %}}
 
 ### Install ASOv2
 
 Follow the [standard instructions](../../#installation). We recommend you use the same credentials as ASOv1 is currently using.
 
-> ℹ️ **Note:** Make sure to follow the [guidelines](../crd-management/) for setting the `--crdPattern`. Configure ASOv2 
-> to only manage the CRDs which you need.
-> 
-> For example: if you are using storage accounts, resource groups, redis cache's, cosmosdbs, eventhubs, and SQL Azure, 
-> then you would configure 
-> `--set crdPattern='resources.azure.com/*;cache.azure.com/*;documentdb.azure.com/*;eventhub.azure.com/*;sql.azure.com/*;storage.azure.com/*'`
+{{% alert title="Note" %}}
+Make sure to follow the [guidelines](../crd-management/) for setting the `--crdPattern`. Configure ASOv2
+to only manage the CRDs which you need.
+
+For example: if you are using storage accounts, resource groups, redis cache's, cosmosdbs, eventhubs, and SQL Azure,
+then you would configure
+`--set crdPattern='resources.azure.com/*;cache.azure.com/*;documentdb.azure.com/*;eventhub.azure.com/*;sql.azure.com/*;storage.azure.com/*'`
+{{% /alert %}}
 
 ### Stop ASOv1 reconciliation
 
@@ -68,8 +79,10 @@ kubectl annotate $(kubectl api-resources -o name | grep azure.microsoft.com | pa
 
 Once you have annotated the resources, double-check that they all have the `skipreconcile` annotation. 
 
-> ⚠️ **Important**: If you delete an ASOv1 resource that does not have this annotation it will delete the underlying 
-> Azure resource which may cause downtime or an outage.
+{{% alert title="Warning" color="warning" %}}
+If you delete an ASOv1 resource that does not have this annotation it _**will**_ delete the underlying
+Azure resource which may cause downtime or an outage.
+{{% /alert %}}
 
 ### Use `asoctl` to import the resources from Azure into ASOv2
 
@@ -147,13 +160,17 @@ spec:
 
 Once you have `resources.yaml` locally, examine it to ensure that it has the resources you expect.
 
-> ℹ️ **Note**: `asoctl` is importing the resources from Azure. This means it will not preserve any Kubernetes labels/annotations
-> you have on your ASOv1 resources. If your resources need certain labels or annotations, add those to `resources.yaml` 
-> manually or use the `--annotation` and `--label` arguments to `asoctl`. 
+{{% alert title="Note" %}}
+`asoctl` is importing the resources from Azure. This means it cannot preserve any Kubernetes labels/annotations
+you have on your ASOv1 resources. If your resources need certain labels or annotations, add those to `resources.yaml`
+manually or use the `--annotation` and `--label` arguments to `asoctl`.
+{{% /alert %}}
 
-> ℹ️ **Note**: By default `asoctl` imports everything into the `default` namespace. Before applying any YAML
-> created by `asoctl`, ensure that the namespaces for the resources are correct. You can do this by manually 
-> modifying the YAML, using a tool such as Kustomize, or using the `--namespace` argument to `asoctl`.
+{{% alert title="Note" %}}
+By default `asoctl` imports everything into the `default` namespace. Before applying any YAML
+created by `asoctl`, ensure that the namespaces for the resources are correct. You can do this by manually
+modifying the YAML, using a tool such as Kustomize, or using the `--namespace` argument to `asoctl`.
+{{% /alert %}} 
 
 ### Configure `resources.yaml` to export the secrets you need from Azure
 
@@ -164,11 +181,13 @@ ASOv1 exports secrets from Azure according to the
 rules. ASOv1 always exports these secrets, there is no user configuration required on either the name of the secret or its values.
 In contrast, ASOv2 requires the user to opt-in to secret export, via the `spec.operatorSpec.secrets` property.
 
-> ℹ️ **Note**: ASOv2 also splits secrets/configuration into two categories: Secrets provided by you, and secrets generated 
-> by Azure. Exporting secrets from Azure is done via the `spec.operatorSpec.secrets`, while supplying secrets to Azure
-> is done by passing the reference to a secret key/value, such as via the 
-> [administratorLoginPassword field of Azure SQL](../../reference/sql/v1api20211101#sql.azure.com/v1api20211101.Server_Spec).
-> This means that there may be cases where a single secret in ASOv1 becomes 2 secrets in ASOv2, one for inputs and one for outputs.
+{{% alert title="Note" %}}
+ASOv2 also splits secrets into two categories: Secrets provided by you, and secrets generated
+by Azure. Exporting secrets from Azure is done via the `spec.operatorSpec.secrets`, while supplying secrets to Azure
+is done by passing the reference to a secret key/value, such as via the
+[administratorLoginPassword field of Azure SQL](../../reference/sql/v1api20211101#sql.azure.com/v1api20211101.Server_Spec).
+This means that there may be cases where a single secret in ASOv1 becomes 2 secrets in ASOv2, one for inputs and one for outputs.
+{{% /alert %}}
 
 You may need to configure `resouces.yaml` to export corresponding secrets. To determine if, for a given namespace, 
 there are secrets being written by ASOv1 and consumed by your applications, check the following two things:
@@ -206,13 +225,16 @@ Once you've identified the set of secrets which are exported by ASOv1 and which 
 configure ASOv2 to export similar secrets by using the `spec.operatorSpec.secrets` field. See [examples](#examples) for 
 examples of various resource types.
 
-> ℹ️ **Note:** It is strongly recommended that you export the ASOv2 secrets to a _different_ secret name than the 
-> ASOv1 secret. ASOv2 will not allow you to overwrite an existing secret with `spec.operatorSpec.secrets`. 
-> You'll get an error that looks like 
-> "cannot overwrite Secret ns1/storageaccount-cutoverteststorage1 which is not owned by StorageAccount.storage.azure.com
-> ns1/aso-migration-test-cutoverteststorage1".
-> Instead of overwriting the same secret, create a different secret with ASOv2 (recommend including a suffix to 
-> identify it such as -asov2). Then, when you're ready, swap your deployment to use the new ASOv2 secrets.
+
+{{% alert title="Note" %}}
+It is strongly recommended that you export the ASOv2 secrets to a _different_ secret name than the
+ASOv1 secret. ASOv2 will not allow you to overwrite an existing secret with `spec.operatorSpec.secrets`.
+You'll get an error that looks like
+"cannot overwrite Secret ns1/storageaccount-cutoverteststorage1 which is not owned by StorageAccount.storage.azure.com
+ns1/aso-migration-test-cutoverteststorage1".
+Instead of overwriting the same secret, create a different secret with ASOv2 (recommend including a suffix to
+identify it such as -asov2). Then, when you're ready, swap your deployment to use the new ASOv2 secrets.
+{{% /alert %}}
 
 ### Configure `resources.yaml` to source secret values from Kubernetes
 
@@ -246,11 +268,13 @@ This can be done automatically by `asoctl` during resource import with the
 `-annotation serviceoperator.azure.com/reconcile-policy=skip` argument or manually by modifying `resources.yaml` 
 afterward.
 
-> ⚠️ **Important:** Be _very_ careful issuing deletions of ASOv2 resources once you've imported them if they do not have 
-> the serviceoperator.azure.com/reconcile-policy=skip annotation. Just like ASOv1,
-> ASOv2 will delete the underlying Azure resource by default!
-> It is _strongly_ recommended that you use asoctl's `-annotation serviceoperator.azure.com/reconcile-policy=skip` flag 
-> and only remove that annotation a few resources at a time to ensure things are working as you expect.
+{{% alert title="Warning" color="warning" %}}
+Be _very_ careful issuing deletions of ASOv2 resources once you've imported them if they do not have
+the `serviceoperator.azure.com/reconcile-policy=skip` annotation. Just like ASOv1,
+ASOv2 _**will**_ delete the underlying Azure resource by default!
+It is _strongly_ recommended that you use asoctl's `-annotation serviceoperator.azure.com/reconcile-policy=skip` flag
+and only remove that annotation a few resources at a time to ensure things are working as you expect.
+{{% /alert %}}
 
 ### Apply `resources.yaml` to your cluster
 
@@ -276,8 +300,10 @@ to rely on the ASOv2 secrets.
 Once you've migrated the ASOv1 resources to ASOv2 and been running successfully for a while, you can delete the ASOv1 resources
 in Kubernetes with `kubectl delete`.
 
-> ⚠️ **Important:** Make sure that each ASOv1 resource you delete has the `skipreconcile=true` annotation before you delete it
-> in Kubernetes or else the deletion will propagate to Azure and delete the underlying Azure resource as well, which you do not want. 
+{{% alert title="Warning" color="warning" %}}
+Make sure that each ASOv1 resource you delete has the `skipreconcile=true` annotation before you delete it
+in Kubernetes or else the deletion will propagate to Azure and delete the underlying Azure resource as well, which you do not want.
+{{% /alert %}}
 
 ## Examples
 
@@ -296,7 +322,7 @@ in Kubernetes with `kubectl delete`.
   `kubectl get resourcegroups` is ambiguous. Kubernetes will use ASOv1's `resourcegroup` asuming it was installed first.
    If ASOv1 and ASOv2 are installed into the same cluster, we recommend using the fully specified name for querying 
    resourcegroups from ASOv2:  `kubectl get resourcegroup.resources.azure.com`.
-- ASOv2 does not support keyVault secrets. TODO: Alternatives?
+- ASOv2 does not support keyVault secrets.
 - ASOv2 does not support MySQL single server or PostgreSQL single server, as these are being deprecated. 
   See [MySQL](./mysql/) and [PostgreSQL](./postgresql/) for more details.
 

@@ -87,7 +87,9 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSet_STATUS_ARM(gens m
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
@@ -304,7 +306,9 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS_AR
 
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

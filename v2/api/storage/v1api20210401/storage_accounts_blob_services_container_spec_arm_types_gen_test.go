@@ -161,7 +161,9 @@ func ContainerProperties_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForContainerProperties_ARM(gens map[string]gopter.Gen) {
 	gens["DefaultEncryptionScope"] = gen.PtrOf(gen.AlphaString())
 	gens["DenyEncryptionScopeOverride"] = gen.PtrOf(gen.Bool())
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_PublicAccess_Blob, ContainerProperties_PublicAccess_Container, ContainerProperties_PublicAccess_None))
 }
 

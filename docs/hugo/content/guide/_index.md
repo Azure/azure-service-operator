@@ -94,5 +94,9 @@ How does ASO manage a [large number of CRDs]( {{< relref "crd-management" >}})?
 
 ASO exposes [metrics]( {{< relref "metrics" >}}) for Prometheus.
 
+### Best practices
+
+See [best practices]( {{< relref "best-practices" >}}) for ASO best practices.
+
 {{< /card >}}
 {{< /cardpane >}}

@@ -8,7 +8,27 @@ weight: -2
 
 We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen
 more quickly than that. If there haven't been any major changes (or there are ongoing major changes that are taking a long time) a 
-release may happen more slowly.
+release may happen more slowly. For an up-to-date plan check the 
+[milestone tracker](https://github.com/Azure/azure-service-operator/milestones).
+
+### How are CVEs dealt with?
+
+The ASO controller container is built on [distroless](https://github.com/GoogleContainerTools/distroless), and as such
+has a relatively minimal surface area. Most CVEs that impact ASO are related to the Golang packages used by 
+the controller.
+
+We scan for new CVEs weekly using [Trivy](https://github.com/aquasecurity/trivy) and also get proactive updates via 
+[Dependabot](https://docs.github.com/code-security/dependabot/dependabot-alerts/about-dependabot-alerts).
+
+CVEs are triaged according to their severity (Low, Moderate, High, Critical) and whether they are exploitable in ASO. 
+Low and moderate severity issues will be fixed in the next minor release of ASO, high and critical severity CVEs that 
+can be exploited in ASO will have a patch released for them.
+
+Note that we cannot patch CVEs for which there is no upstream fix. Only once an upstream fix has been released will ASO
+fix the CVE.
+
+Fixes are _not_ backported to older versions of ASO. If you're running v2.5.0 and a CVE is fixed in v2.7.0, you must
+upgrade to v2.7.0 to get the fix.
 
 ### What is the support model?
 
@@ -30,22 +50,9 @@ If the underlying Azure Resource doesn't support DR (or the story is more compli
 
 There's also a proposal for [more general upstream support](https://github.com/kubernetes/kubernetes/issues/10179) on this topic, although there hasn't been movement on it in a while.
 
-### What is the best practice for transferring ASO resources from one cluster to another?
+### What are some ASO best practices?
 
-There are two important tenets to remember when transferring resources between clusters:
-1. Don't accidentally delete the resources in Azure during the transfer.
-2. Don't have two instances of ASO fighting to reconcile the same resource to different states.
-
-Let's say that you want to migrate all of your ASO resources from cluster A to cluster B. We recommend the following pattern:
-
-1. Annotate the resources in cluster A with [serviceoperator.azure.com/reconcile-policy: skip]( {{< relref "annotations#serviceoperatorazurecomreconcile-policy" >}} ). This prevents ASO in that cluster from updating or deleting those resources.
-2. Ensure that cluster B has ASO installed.
-3. `kubectl apply` the resources into cluster B. We strongly recommend an infrastructure-as-code approach where you keep your original/goal-state ASO YAMLs around.
-4. Delete the resources in cluster A. Note that because of the `skip` annotation, this will not delete the backing Azure resources.
-
-### What is the best practice for transferring ASO resources from one namespace to another? 
-
-See [above](#what-is-the-best-practice-for-transferring-aso-resources-from-one-cluster-to-another). The process is the same for moving between namespaces.
+See [best practices]( {{< relref "best-practices" >}} ).
 
 ### Can I run ASO in active-active mode?
 

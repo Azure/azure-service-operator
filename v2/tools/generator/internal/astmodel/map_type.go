@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -64,15 +65,25 @@ func NewStringMapType(value Type) *MapType {
 var _ Type = (*MapType)(nil)
 
 func (m *MapType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error) {
-	return AsSimpleDeclarations(codeGenerationContext, declContext, m), nil
+	return AsSimpleDeclarations(codeGenerationContext, declContext, m)
 }
 
 // AsType implements Type for MapType to create the abstract syntax tree for a map
-func (m *MapType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
-	return &dst.MapType{
-		Key:   m.key.AsType(codeGenerationContext),
-		Value: m.value.AsType(codeGenerationContext),
+func (m *MapType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
+	keyExpr, err := m.key.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating map key type")
 	}
+
+	valueExpr, err := m.value.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating map value type")
+	}
+
+	return &dst.MapType{
+		Key:   keyExpr,
+		Value: valueExpr,
+	}, nil
 }
 
 // AsZero renders an expression for the "zero" value of a map by calling make()

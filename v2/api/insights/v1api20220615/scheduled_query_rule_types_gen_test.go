@@ -291,7 +291,9 @@ func AddIndependentPropertyGeneratorsForScheduledQueryRule_Spec(gens map[string]
 		ScheduledQueryRuleProperties_Severity_3,
 		ScheduledQueryRuleProperties_Severity_4))
 	gens["SkipQueryValidation"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TargetResourceTypes"] = gen.SliceOf(gen.AlphaString())
 	gens["WindowSize"] = gen.PtrOf(gen.AlphaString())
 }
@@ -435,7 +437,9 @@ func AddIndependentPropertyGeneratorsForScheduledQueryRule_STATUS(gens map[strin
 		ScheduledQueryRuleProperties_Severity_STATUS_3,
 		ScheduledQueryRuleProperties_Severity_STATUS_4))
 	gens["SkipQueryValidation"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TargetResourceTypes"] = gen.SliceOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["WindowSize"] = gen.PtrOf(gen.AlphaString())
@@ -547,7 +551,9 @@ func ActionsGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForActions is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForActions(gens map[string]gopter.Gen) {
-	gens["CustomProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["CustomProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_Actions_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -650,7 +656,9 @@ func Actions_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForActions_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForActions_STATUS(gens map[string]gopter.Gen) {
 	gens["ActionGroups"] = gen.SliceOf(gen.AlphaString())
-	gens["CustomProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["CustomProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 func Test_ScheduledQueryRuleCriteria_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

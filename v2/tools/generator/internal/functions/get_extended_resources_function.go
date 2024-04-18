@@ -8,6 +8,8 @@ package functions
 import (
 	"reflect"
 
+	"github.com/pkg/errors"
+
 	"github.com/dave/dst"
 	"golang.org/x/exp/slices"
 
@@ -96,21 +98,35 @@ func (ext *GetExtendedResourcesFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
-	krType := astmodel.NewArrayType(astmodel.KubernetesResourceType).AsType(codeGenerationContext)
+	krType, err := astmodel.NewArrayType(astmodel.KubernetesResourceType).AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", astmodel.KubernetesResourceType)
+	}
+
 	krLiteral := astbuilder.NewCompositeLiteralBuilder(krType).Build()
 
 	// Iterate through the resourceType versions and add them to the KubernetesResource literal slice
 	for _, resource := range ext.resources {
-		expr := astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(resource.AsType(codeGenerationContext)).Build())
+		var resourceExpr dst.Expr
+		resourceExpr, err = resource.AsTypeExpr(codeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating type expression for %s", resource)
+		}
+
+		expr := astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(resourceExpr).Build())
 		expr.Decs.Before = dst.NewLine
 		krLiteral.Elts = append(krLiteral.Elts, expr)
 	}
 
 	receiverName := ext.idFactory.CreateReceiver(receiver.Name())
+	receiverType, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating type expression for %s", receiver)
+	}
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  astbuilder.PointerTo(receiver.AsType(codeGenerationContext)),
+		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Name:          ExtendedResourcesFunctionName,
 		Body:          astbuilder.Statements(astbuilder.Returns(krLiteral)),
 	}

@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -121,17 +122,22 @@ func (optional *OptionalType) WithElement(t Type) Type {
 }
 
 func (optional *OptionalType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) ([]dst.Decl, error) {
-	return AsSimpleDeclarations(codeGenerationContext, declContext, optional), nil
+	return AsSimpleDeclarations(codeGenerationContext, declContext, optional)
 }
 
 // AsType renders the Go abstract syntax tree for an optional type
-func (optional *OptionalType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
+func (optional *OptionalType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
 	// Special case interface{} as it shouldn't be a pointer
-	if optional.element == AnyType {
-		return optional.element.AsType(codeGenerationContext)
+	elementExpr, err := optional.element.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating element for optional type")
 	}
 
-	return astbuilder.PointerTo(optional.element.AsType(codeGenerationContext))
+	if optional.element == AnyType {
+		return elementExpr, nil
+	}
+
+	return astbuilder.PointerTo(elementExpr), nil
 }
 
 // AsZero renders an expression for the "zero" value of the type

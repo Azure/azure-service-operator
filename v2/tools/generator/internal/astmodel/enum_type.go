@@ -98,7 +98,10 @@ func (enum *EnumType) AsDeclarations(
 		declContext.Validations)
 
 	valuesDeclaration := enum.createValuesDeclaration(declContext)
-	mapperDeclaration := enum.createMappingDeclaration(declContext.Name, codeGenerationContext)
+	mapperDeclaration, err := enum.createMappingDeclaration(declContext.Name, codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating mapping declaration")
+	}
 
 	return astbuilder.Declarations(
 		declareEnum,
@@ -113,9 +116,10 @@ func (enum *EnumType) createBaseDeclaration(
 	description []string,
 	validations []KubeBuilderValidation,
 ) dst.Decl {
+	baseTypeExpr, _ := enum.baseType.AsTypeExpr(codeGenerationContext)
 	typeSpecification := &dst.TypeSpec{
 		Name: dst.NewIdent(name.Name()),
-		Type: enum.baseType.AsType(codeGenerationContext),
+		Type: baseTypeExpr,
 	}
 
 	declaration := &dst.GenDecl{
@@ -163,15 +167,25 @@ func (enum *EnumType) createValuesDeclaration(
 func (enum *EnumType) createMappingDeclaration(
 	name InternalTypeName,
 	codeGenerationContext *CodeGenerationContext,
-) dst.Decl {
+) (dst.Decl, error) {
 	if !enum.NeedsMappingConversion(name) {
 		// We don't need a mapping conversion map for this enum
-		return nil
+		return nil, nil
+	}
+
+	baseTypeExpr, err := enum.baseType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating base type expression")
+	}
+
+	nameExpr, err := name.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating name expression")
 	}
 
 	literal := astbuilder.NewMapLiteral(
-		enum.baseType.AsType(codeGenerationContext),
-		name.AsType(codeGenerationContext))
+		baseTypeExpr,
+		nameExpr)
 
 	for _, v := range enum.options {
 		key := astbuilder.TextLiteral(strings.ToLower(v.Value))
@@ -189,7 +203,7 @@ func (enum *EnumType) createMappingDeclaration(
 		decl.Decorations().Start,
 		fmt.Sprintf("// Mapping from string to %s", name.Name()))
 
-	return decl
+	return decl, nil
 }
 
 func (enum *EnumType) createValueDeclaration(name TypeName, value EnumValue) dst.Spec {
@@ -204,7 +218,7 @@ func (enum *EnumType) createValueDeclaration(name TypeName, value EnumValue) dst
 }
 
 // AsType implements Type for EnumType
-func (enum *EnumType) AsType(_ *CodeGenerationContext) dst.Expr {
+func (enum *EnumType) AsTypeExpr(codeGenerationContext *CodeGenerationContext) (dst.Expr, error) {
 	// this should "never" happen as we name all enums; panic if it does
 	panic(errors.New("Emitting unnamed enum, something’s awry"))
 }

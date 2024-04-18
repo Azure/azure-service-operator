@@ -7,6 +7,7 @@ package test
 
 import (
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -54,14 +55,25 @@ func (fake *FakeFunction) AsFunc(
 	receiver astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
 	receiverName := fake.idFactory.CreateReceiver(receiver.Name())
+	receiverType := astmodel.NewOptionalType(receiver)
+	receiverTypeExpr, err := receiverType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating receiver type expression")
+	}
+
 	details := astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  astmodel.NewOptionalType(receiver).AsType(codeGenerationContext),
+		ReceiverType:  receiverTypeExpr,
 		Name:          fake.name,
 	}
 
 	if fake.TypeReturned != nil {
-		details.AddReturn(fake.TypeReturned.AsType(codeGenerationContext))
+		typeReturnedExpr, err := fake.TypeReturned.AsTypeExpr(codeGenerationContext)
+		if err != nil {
+			return nil, errors.Wrap(err, "creating type returned expression")
+		}
+
+		details.AddReturn(typeReturnedExpr)
 	}
 
 	return details.DefineFunc(), nil

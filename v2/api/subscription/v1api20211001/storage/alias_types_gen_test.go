@@ -377,7 +377,9 @@ func AddIndependentPropertyGeneratorsForSubscriptionAliasResponseProperties_STAT
 	gens["ResellerId"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionId"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionOwnerId"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Workload"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -507,5 +509,7 @@ func AddIndependentPropertyGeneratorsForPutAliasRequestAdditionalProperties(gens
 	gens["ManagementGroupId"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionOwnerId"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionTenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }

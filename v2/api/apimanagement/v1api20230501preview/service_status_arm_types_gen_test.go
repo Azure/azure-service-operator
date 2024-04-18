@@ -87,7 +87,9 @@ func AddIndependentPropertyGeneratorsForService_STATUS_ARM(gens map[string]gopte
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
@@ -178,7 +180,9 @@ func AddIndependentPropertyGeneratorsForApiManagementServiceIdentity_STATUS_ARM(
 
 // AddRelatedPropertyGeneratorsForApiManagementServiceIdentity_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForApiManagementServiceIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserIdentityProperties_STATUS_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserIdentityProperties_STATUS_ARMGenerator())
 }
 
 func Test_ApiManagementServiceProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -249,7 +253,9 @@ func ApiManagementServiceProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForApiManagementServiceProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApiManagementServiceProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["CreatedAtUtc"] = gen.PtrOf(gen.AlphaString())
-	gens["CustomProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["CustomProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["DeveloperPortalStatus"] = gen.PtrOf(gen.OneConstOf(ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_Disabled, ApiManagementServiceProperties_DeveloperPortalStatus_STATUS_Enabled))
 	gens["DeveloperPortalUrl"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableGateway"] = gen.PtrOf(gen.Bool())

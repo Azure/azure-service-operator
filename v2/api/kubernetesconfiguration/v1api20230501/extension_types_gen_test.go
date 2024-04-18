@@ -274,7 +274,9 @@ func Extension_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForExtension_Spec(gens map[string]gopter.Gen) {
 	gens["AutoUpgradeMinorVersion"] = gen.PtrOf(gen.Bool())
 	gens["AzureName"] = gen.AlphaString()
-	gens["ConfigurationSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["ConfigurationSettings"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["ExtensionType"] = gen.PtrOf(gen.AlphaString())
 	gens["ReleaseTrain"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
@@ -399,10 +401,16 @@ func Extension_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtension_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtension_STATUS(gens map[string]gopter.Gen) {
 	gens["AutoUpgradeMinorVersion"] = gen.PtrOf(gen.Bool())
-	gens["ConfigurationProtectedSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["ConfigurationSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["ConfigurationProtectedSettings"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
+	gens["ConfigurationSettings"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["CurrentVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["CustomLocationSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["CustomLocationSettings"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["ExtensionType"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IsSystemExtension"] = gen.PtrOf(gen.Bool())

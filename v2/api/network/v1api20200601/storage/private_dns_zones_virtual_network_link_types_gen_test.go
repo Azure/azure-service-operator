@@ -152,7 +152,9 @@ func AddIndependentPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_Spec(
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["RegistrationEnabled"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_Spec is a factory method for creating gopter generators
@@ -233,7 +235,9 @@ func AddIndependentPropertyGeneratorsForPrivateDnsZones_VirtualNetworkLink_STATU
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["RegistrationEnabled"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["VirtualNetworkLinkState"] = gen.PtrOf(gen.AlphaString())
 }

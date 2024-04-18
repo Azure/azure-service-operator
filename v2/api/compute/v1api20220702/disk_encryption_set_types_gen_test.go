@@ -278,7 +278,9 @@ func AddIndependentPropertyGeneratorsForDiskEncryptionSet_Spec(gens map[string]g
 	gens["FederatedClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["RotationToLatestKeyVersionEnabled"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDiskEncryptionSet_Spec is a factory method for creating gopter generators
@@ -404,7 +406,9 @@ func AddIndependentPropertyGeneratorsForDiskEncryptionSet_STATUS(gens map[string
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["RotationToLatestKeyVersionEnabled"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -776,7 +780,9 @@ func AddIndependentPropertyGeneratorsForEncryptionSetIdentity_STATUS(gens map[st
 
 // AddRelatedPropertyGeneratorsForEncryptionSetIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForEncryptionSetIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), EncryptionSetIdentity_UserAssignedIdentities_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		EncryptionSetIdentity_UserAssignedIdentities_STATUSGenerator())
 }
 
 func Test_KeyForDiskEncryptionSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

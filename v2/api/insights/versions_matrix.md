@@ -70,8 +70,8 @@
 | EmailReceiver_STATUS                                               |               |                      |               |               |               | v1api20230101 |
 | EventHubReceiver                                                   |               |                      |               |               |               | v1api20230101 |
 | EventHubReceiver_STATUS                                            |               |                      |               |               |               | v1api20230101 |
-| HeaderField                                                        |               | v1api20180501preview |               |               |               |               |
-| HeaderField_STATUS                                                 |               | v1api20180501preview |               |               |               |               |
+| HeaderField                                                        |               | v1api20180501preview |               | v1api20220615 |               |               |
+| HeaderField_STATUS                                                 |               | v1api20180501preview |               | v1api20220615 |               |               |
 | ItsmReceiver                                                       |               |                      |               |               |               | v1api20230101 |
 | ItsmReceiver_STATUS                                                |               |                      |               |               |               | v1api20230101 |
 | LogicAppReceiver                                                   |               |                      |               |               |               | v1api20230101 |
@@ -161,28 +161,28 @@
 | TimeWindow_STATUS                                                  |               |                      |               |               | v1api20221001 |               |
 | VoiceReceiver                                                      |               |                      |               |               |               | v1api20230101 |
 | VoiceReceiver_STATUS                                               |               |                      |               |               |               | v1api20230101 |
-| WebTestGeolocation                                                 |               | v1api20180501preview |               |               |               |               |
-| WebTestGeolocation_STATUS                                          |               | v1api20180501preview |               |               |               |               |
-| WebTestProperties                                                  |               | v1api20180501preview |               |               |               |               |
-| WebTestProperties_Configuration                                    |               | v1api20180501preview |               |               |               |               |
-| WebTestProperties_Configuration_STATUS                             |               | v1api20180501preview |               |               |               |               |
-| WebTestProperties_Kind                                             |               | v1api20180501preview |               |               |               |               |
-| WebTestProperties_Kind_STATUS                                      |               | v1api20180501preview |               |               |               |               |
-| WebTestProperties_Request                                          |               | v1api20180501preview |               |               |               |               |
-| WebTestProperties_Request_STATUS                                   |               | v1api20180501preview |               |               |               |               |
-| WebTestProperties_STATUS                                           |               | v1api20180501preview |               |               |               |               |
-| WebTestProperties_ValidationRules                                  |               | v1api20180501preview |               |               |               |               |
-| WebTestProperties_ValidationRules_ContentValidation                |               | v1api20180501preview |               |               |               |               |
-| WebTestProperties_ValidationRules_ContentValidation_STATUS         |               | v1api20180501preview |               |               |               |               |
-| WebTestProperties_ValidationRules_STATUS                           |               | v1api20180501preview |               |               |               |               |
+| WebTestGeolocation                                                 |               | v1api20180501preview |               | v1api20220615 |               |               |
+| WebTestGeolocation_STATUS                                          |               | v1api20180501preview |               | v1api20220615 |               |               |
+| WebTestProperties                                                  |               | v1api20180501preview |               | v1api20220615 |               |               |
+| WebTestProperties_Configuration                                    |               | v1api20180501preview |               | v1api20220615 |               |               |
+| WebTestProperties_Configuration_STATUS                             |               | v1api20180501preview |               | v1api20220615 |               |               |
+| WebTestProperties_Kind                                             |               | v1api20180501preview |               | v1api20220615 |               |               |
+| WebTestProperties_Kind_STATUS                                      |               | v1api20180501preview |               | v1api20220615 |               |               |
+| WebTestProperties_Request                                          |               | v1api20180501preview |               | v1api20220615 |               |               |
+| WebTestProperties_Request_STATUS                                   |               | v1api20180501preview |               | v1api20220615 |               |               |
+| WebTestProperties_STATUS                                           |               | v1api20180501preview |               | v1api20220615 |               |               |
+| WebTestProperties_ValidationRules                                  |               | v1api20180501preview |               | v1api20220615 |               |               |
+| WebTestProperties_ValidationRules_ContentValidation                |               | v1api20180501preview |               | v1api20220615 |               |               |
+| WebTestProperties_ValidationRules_ContentValidation_STATUS         |               | v1api20180501preview |               | v1api20220615 |               |               |
+| WebTestProperties_ValidationRules_STATUS                           |               | v1api20180501preview |               | v1api20220615 |               |               |
 | WebhookNotification                                                |               |                      |               |               | v1api20221001 |               |
 | WebhookNotification_STATUS                                         |               |                      |               |               | v1api20221001 |               |
 | WebhookReceiver                                                    |               |                      |               |               |               | v1api20230101 |
 | WebhookReceiver_STATUS                                             |               |                      |               |               |               | v1api20230101 |
-| Webtest                                                            |               | v1api20180501preview |               |               |               |               |
+| Webtest                                                            |               | v1api20180501preview |               | v1api20220615 |               |               |
 | WebtestLocationAvailabilityCriteria                                | v1api20180301 |                      |               |               |               |               |
 | WebtestLocationAvailabilityCriteria_OdataType                      | v1api20180301 |                      |               |               |               |               |
 | WebtestLocationAvailabilityCriteria_OdataType_STATUS               | v1api20180301 |                      |               |               |               |               |
 | WebtestLocationAvailabilityCriteria_STATUS                         | v1api20180301 |                      |               |               |               |               |
-| Webtest_STATUS                                                     |               | v1api20180501preview |               |               |               |               |
-| Webtest_Spec                                                       |               | v1api20180501preview |               |               |               |               |
+| Webtest_STATUS                                                     |               | v1api20180501preview |               | v1api20220615 |               |               |
+| Webtest_Spec                                                       |               | v1api20180501preview |               | v1api20220615 |               |               |

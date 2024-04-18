@@ -13,6 +13,7 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -207,7 +208,12 @@ func (file *FileDefinition) AsAst() (result *dst.File, err error) {
 	for _, defn := range file.definitions {
 		if resource, ok := defn.Type().(*ResourceType); ok {
 			for _, t := range resource.SchemeTypes(defn.Name()) {
-				literal := astbuilder.NewCompositeLiteralBuilder(t.AsType(codeGenContext))
+				tExpr, err := t.AsTypeExpr(codeGenContext)
+				if err != nil {
+					return nil, errors.Wrapf(err, "creating type expression for %s", t.Name())
+				}
+
+				literal := astbuilder.NewCompositeLiteralBuilder(tExpr)
 				exprs = append(exprs, astbuilder.AddrOf(literal.Build()))
 			}
 		}

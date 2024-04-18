@@ -6,11 +6,11 @@
 package conversions
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -61,8 +61,13 @@ func (b *PropertyBagMemberType) References() astmodel.TypeNameSet {
 }
 
 // AsType renders as our contained type
-func (b *PropertyBagMemberType) AsType(ctx *astmodel.CodeGenerationContext) dst.Expr {
-	return b.element.AsType(ctx)
+func (b *PropertyBagMemberType) AsTypeExpr(codeGenerationContext *astmodel.CodeGenerationContext) (dst.Expr, error) {
+	result, err := b.element.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "creating inner expression for property bag type")
+	}
+
+	return result, nil
 }
 
 // AsDeclarations panics because this is a metatype that will never be rendered

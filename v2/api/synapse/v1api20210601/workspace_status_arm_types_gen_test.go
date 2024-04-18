@@ -87,7 +87,9 @@ func AddIndependentPropertyGeneratorsForWorkspace_STATUS_ARM(gens map[string]gop
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -171,7 +173,9 @@ func AddIndependentPropertyGeneratorsForManagedIdentity_STATUS_ARM(gens map[stri
 
 // AddRelatedPropertyGeneratorsForManagedIdentity_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedManagedIdentity_STATUS_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedManagedIdentity_STATUS_ARMGenerator())
 }
 
 func Test_WorkspaceProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -243,7 +247,9 @@ func WorkspaceProperties_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWorkspaceProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["AdlaResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureADOnlyAuthentication"] = gen.PtrOf(gen.Bool())
-	gens["ConnectivityEndpoints"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["ConnectivityEndpoints"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["ManagedResourceGroupName"] = gen.PtrOf(gen.AlphaString())
 	gens["ManagedVirtualNetwork"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())

@@ -85,7 +85,9 @@ func Servers_FailoverGroup_Spec_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForServers_FailoverGroup_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServers_FailoverGroup_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForServers_FailoverGroup_Spec_ARM is a factory method for creating gopter generators

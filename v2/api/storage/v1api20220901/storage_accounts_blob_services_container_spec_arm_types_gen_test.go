@@ -163,7 +163,9 @@ func AddIndependentPropertyGeneratorsForContainerProperties_ARM(gens map[string]
 	gens["DenyEncryptionScopeOverride"] = gen.PtrOf(gen.Bool())
 	gens["EnableNfsV3AllSquash"] = gen.PtrOf(gen.Bool())
 	gens["EnableNfsV3RootSquash"] = gen.PtrOf(gen.Bool())
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_PublicAccess_Blob, ContainerProperties_PublicAccess_Container, ContainerProperties_PublicAccess_None))
 }
 

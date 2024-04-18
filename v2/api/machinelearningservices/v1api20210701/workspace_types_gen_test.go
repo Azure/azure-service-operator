@@ -281,7 +281,9 @@ func AddIndependentPropertyGeneratorsForWorkspace_Spec(gens map[string]gopter.Ge
 	gens["ImageBuildCompute"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccess_Disabled, WorkspaceProperties_PublicNetworkAccess_Enabled))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForWorkspace_Spec is a factory method for creating gopter generators
@@ -430,7 +432,9 @@ func AddIndependentPropertyGeneratorsForWorkspace_STATUS(gens map[string]gopter.
 	gens["ServiceProvisionedResourceGroup"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageAccount"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageHnsEnabled"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceId"] = gen.PtrOf(gen.AlphaString())
@@ -922,7 +926,9 @@ func AddIndependentPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.G
 
 // AddRelatedPropertyGeneratorsForIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentity_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentity_STATUSGenerator())
 }
 
 func Test_NotebookResourceInfo_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

@@ -86,7 +86,9 @@ func ContainerGroup_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForContainerGroup_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -257,7 +259,9 @@ func AddIndependentPropertyGeneratorsForContainerGroupIdentity_ARM(gens map[stri
 
 // AddRelatedPropertyGeneratorsForContainerGroupIdentity_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForContainerGroupIdentity_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityDetails_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentityDetails_ARMGenerator())
 }
 
 func Test_Container_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -927,7 +931,9 @@ func Volume_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVolume_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVolume_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Secret"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Secret"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForVolume_ARM is a factory method for creating gopter generators
@@ -1278,7 +1284,9 @@ func LogAnalytics_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLogAnalytics_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLogAnalytics_ARM(gens map[string]gopter.Gen) {
 	gens["LogType"] = gen.PtrOf(gen.OneConstOf(LogAnalytics_LogType_ContainerInsights, LogAnalytics_LogType_ContainerInstanceLogs))
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["WorkspaceId"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceKey"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceResourceId"] = gen.PtrOf(gen.AlphaString())

@@ -6,6 +6,7 @@ package v1api20180501preview
 import (
 	"encoding/json"
 	v20180501ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180501preview/storage"
+	v20220615s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForWebtest(subject Webtest) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20180501ps.Webtest
+	var hub v20220615s.Webtest
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -285,7 +286,9 @@ func AddIndependentPropertyGeneratorsForWebtest_Spec(gens map[string]gopter.Gen)
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["RetryEnabled"] = gen.PtrOf(gen.Bool())
 	gens["SyntheticMonitorId"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Timeout"] = gen.PtrOf(gen.Int())
 }
 
@@ -420,7 +423,9 @@ func AddIndependentPropertyGeneratorsForWebtest_STATUS(gens map[string]gopter.Ge
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["RetryEnabled"] = gen.PtrOf(gen.Bool())
 	gens["SyntheticMonitorId"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Timeout"] = gen.PtrOf(gen.Int())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }

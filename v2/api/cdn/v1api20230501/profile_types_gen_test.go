@@ -275,7 +275,9 @@ func AddIndependentPropertyGeneratorsForProfile_Spec(gens map[string]gopter.Gen)
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForProfile_Spec is a factory method for creating gopter generators
@@ -392,7 +394,9 @@ func Profile_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForProfile_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForProfile_STATUS(gens map[string]gopter.Gen) {
-	gens["ExtendedProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["ExtendedProperties"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["FrontDoorId"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.AlphaString())
@@ -415,7 +419,9 @@ func AddIndependentPropertyGeneratorsForProfile_STATUS(gens map[string]gopter.Ge
 		ProfileProperties_ResourceState_STATUS_Migrated,
 		ProfileProperties_ResourceState_STATUS_Migrating,
 		ProfileProperties_ResourceState_STATUS_PendingMigrationCommit))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -667,7 +673,9 @@ func AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUS(gens map[s
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentity_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentity_STATUSGenerator())
 }
 
 func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

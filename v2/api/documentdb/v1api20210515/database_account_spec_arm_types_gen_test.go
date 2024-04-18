@@ -87,7 +87,9 @@ func AddIndependentPropertyGeneratorsForDatabaseAccount_Spec_ARM(gens map[string
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DatabaseAccount_Kind_Spec_GlobalDocumentDB, DatabaseAccount_Kind_Spec_MongoDB, DatabaseAccount_Kind_Spec_Parse))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDatabaseAccount_Spec_ARM is a factory method for creating gopter generators
@@ -268,7 +270,9 @@ func AddIndependentPropertyGeneratorsForManagedServiceIdentity_ARM(gens map[stri
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentity_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedServiceIdentity_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityDetails_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentityDetails_ARMGenerator())
 }
 
 func Test_AnalyticalStorageConfiguration_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

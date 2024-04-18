@@ -280,7 +280,9 @@ func AddIndependentPropertyGeneratorsForNamespace_Spec(gens map[string]gopter.Ge
 	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(SBNamespaceProperties_MinimumTlsVersion_10, SBNamespaceProperties_MinimumTlsVersion_11, SBNamespaceProperties_MinimumTlsVersion_12))
 	gens["PremiumMessagingPartitions"] = gen.PtrOf(gen.Int())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(SBNamespaceProperties_PublicNetworkAccess_Disabled, SBNamespaceProperties_PublicNetworkAccess_Enabled, SBNamespaceProperties_PublicNetworkAccess_SecuredByPerimeter))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
 }
 
@@ -413,7 +415,9 @@ func AddIndependentPropertyGeneratorsForNamespace_STATUS(gens map[string]gopter.
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(SBNamespaceProperties_PublicNetworkAccess_STATUS_Disabled, SBNamespaceProperties_PublicNetworkAccess_STATUS_Enabled, SBNamespaceProperties_PublicNetworkAccess_STATUS_SecuredByPerimeter))
 	gens["ServiceBusEndpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Tags"] = gen.MapOf(
+		gen.AlphaString(),
+		gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["ZoneRedundant"] = gen.PtrOf(gen.Bool())
@@ -901,7 +905,9 @@ func AddIndependentPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.G
 
 // AddRelatedPropertyGeneratorsForIdentity_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentity_STATUSGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(
+		gen.AlphaString(),
+		UserAssignedIdentity_STATUSGenerator())
 }
 
 func Test_NamespaceOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
