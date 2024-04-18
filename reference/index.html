@@ -721,6 +721,7 @@
     </li>
     <li><a href="#dataprotection">DataProtection</a>
       <ul>
+        <li><a href="#next-release">Next Release</a></li>
         <li><a href="#released-11">Released</a></li>
       </ul>
     </li>
@@ -731,7 +732,7 @@
     </li>
     <li><a href="#dbformysql">DBforMySQL</a>
       <ul>
-        <li><a href="#next-release">Next Release</a></li>
+        <li><a href="#next-release-1">Next Release</a></li>
         <li><a href="#released-13">Released</a></li>
       </ul>
     </li>
@@ -762,7 +763,7 @@
     </li>
     <li><a href="#insights">Insights</a>
       <ul>
-        <li><a href="#next-release-1">Next Release</a></li>
+        <li><a href="#next-release-2">Next Release</a></li>
         <li><a href="#released-19">Released</a></li>
       </ul>
     </li>
@@ -1695,6 +1696,42 @@ grouped by the originating ARM service.
 </table>
 <h2 id="dataprotection">DataProtection</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>dataprotection.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>ARM Version</th>
+<th>CRD Version</th>
+<th>Supported From</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BackupVault</td>
+<td>2023-11-01</td>
+<td>v1api20231101</td>
+<td>v2.7.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dataprotection/v1api20231101/v1api20231101_backupvault.yaml">View</a></td>
+</tr>
+<tr>
+<td>BackupVaultsBackupInstance</td>
+<td>2023-11-01</td>
+<td>v1api20231101</td>
+<td>v2.7.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dataprotection/v1api20231101/v1api20231101_backupvaultsbackupinstance.yaml">View</a></td>
+</tr>
+<tr>
+<td>BackupVaultsBackupPolicy</td>
+<td>2023-11-01</td>
+<td>v1api20231101</td>
+<td>v2.7.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dataprotection/v1api20231101/v1api20231101_backupvaultsbackuppolicy.yaml">View</a></td>
+</tr>
+</tbody>
+</table>
 <h3 id="released-11">Released</h3>
 <p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
@@ -1713,14 +1750,14 @@ grouped by the originating ARM service.
 <td>2023-01-01</td>
 <td>v1api20230101</td>
 <td>v2.2.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dataprotection/v1api/v1api20230101_backupvault.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dataprotection/v1api20230101/v1api20230101_backupvault.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/dataprotection/v1api20230101/#dataprotection.azure.com/v1api20230101.BackupVaultsBackupPolicy">BackupVaultsBackupPolicy</a></td>
 <td>2023-01-01</td>
 <td>v1api20230101</td>
 <td>v2.2.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dataprotection/v1api/v1api20230101_backupvaultsbackuppolicy.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dataprotection/v1api20230101/v1api20230101_backupvaultsbackuppolicy.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -1766,7 +1803,7 @@ grouped by the originating ARM service.
 <p>To install the CRDs for these resources, your ASO configuration must include <code>dbformysql.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
 <p>Azure Database for MySQL - Single Server is on the retirement path and is <a href="https://learn.microsoft.com/en-us/azure/mysql/single-server/whats-happening-to-mysql-single-server">scheduled for retirement by September 16, 2024</a>. We will not be supporting it in ASO v2.</p>
 <p>Existing instances of <em>Single Server</em> can be migrated to <em>Azure Database for MySQL - Flexible Server</em> using the <a href="https://azure.microsoft.com/en-us/products/database-migration">Azure Database migration Service</a>.</p>
-<h3 id="next-release">Next Release</h3>
+<h3 id="next-release-1">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
 <thead>
@@ -2240,7 +2277,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="insights">Insights</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>insights.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-1">Next Release</h3>
+<h3 id="next-release-2">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
 <thead>
