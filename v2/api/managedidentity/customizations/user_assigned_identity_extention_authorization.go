@@ -44,8 +44,6 @@ func (identity *UserAssignedIdentityExtension) ExportKubernetesResources(
 		return nil, nil
 	}
 
-	// obj.Status.ClientId
-
 	collector := secrets.NewCollector(typedObj.Namespace)
 	if typedObj.Spec.OperatorSpec != nil && typedObj.Spec.OperatorSpec.Secrets != nil {
 		if typedObj.Status.ClientId != nil {
