@@ -1017,28 +1017,6 @@ func (options *CreateUpdateOptions) AssignProperties_To_CreateUpdateOptions(dest
 	return nil
 }
 
-// Initialize_From_OptionsResource_STATUS populates our CreateUpdateOptions from the provided source OptionsResource_STATUS
-func (options *CreateUpdateOptions) Initialize_From_OptionsResource_STATUS(source *OptionsResource_STATUS) error {
-
-	// AutoscaleSettings
-	if source.AutoscaleSettings != nil {
-		var autoscaleSetting AutoscaleSettings
-		err := autoscaleSetting.Initialize_From_AutoscaleSettings_STATUS(source.AutoscaleSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AutoscaleSettings_STATUS() to populate field AutoscaleSettings")
-		}
-		options.AutoscaleSettings = &autoscaleSetting
-	} else {
-		options.AutoscaleSettings = nil
-	}
-
-	// Throughput
-	options.Throughput = genruntime.ClonePointerToInt(source.Throughput)
-
-	// No error
-	return nil
-}
-
 type MongoDBDatabaseGetProperties_Resource_STATUS struct {
 	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
@@ -1393,16 +1371,6 @@ func (settings *AutoscaleSettings) AssignProperties_To_AutoscaleSettings(destina
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AutoscaleSettings_STATUS populates our AutoscaleSettings from the provided source AutoscaleSettings_STATUS
-func (settings *AutoscaleSettings) Initialize_From_AutoscaleSettings_STATUS(source *AutoscaleSettings_STATUS) error {
-
-	// MaxThroughput
-	settings.MaxThroughput = genruntime.ClonePointerToInt(source.MaxThroughput)
 
 	// No error
 	return nil

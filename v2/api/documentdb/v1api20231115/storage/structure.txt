@@ -455,8 +455,415 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage
 │       │   └── Ts: *float64
 │       ├── Tags: map[string]string
 │       └── Type: *string
-└── MongodbDatabaseThroughputSetting: Resource
-    ├── Owner: documentdb/v1api20231115.MongodbDatabase
+├── MongodbDatabaseThroughputSetting: Resource
+│   ├── Owner: documentdb/v1api20231115.MongodbDatabase
+│   ├── Spec: Object (6 properties)
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (3 properties)
+│   │   │   │   ├── AutoUpgradePolicy: *Object (2 properties)
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── ThroughputPolicy: *Object (3 properties)
+│   │   │   │   │       ├── IncrementPercent: *int
+│   │   │   │   │       ├── IsEnabled: *bool
+│   │   │   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   └── Tags: map[string]string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: *Object (10 properties)
+│       │   ├── AutoscaleSettings: *Object (4 properties)
+│       │   │   ├── AutoUpgradePolicy: *Object (2 properties)
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── ThroughputPolicy: *Object (3 properties)
+│       │   │   │       ├── IncrementPercent: *int
+│       │   │   │       ├── IsEnabled: *bool
+│       │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── MaxThroughput: *int
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── TargetMaxThroughput: *int
+│       │   ├── Etag: *string
+│       │   ├── InstantMaximumThroughput: *string
+│       │   ├── MinimumThroughput: *string
+│       │   ├── OfferReplacePending: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   ├── SoftAllowedMaximumThroughput: *string
+│       │   ├── Throughput: *int
+│       │   └── Ts: *float64
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── SqlDatabase: Resource
+│   ├── Owner: documentdb/v1api20231115.DatabaseAccount
+│   ├── Spec: Object (8 properties)
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (2 properties)
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: *Object (4 properties)
+│   │   │   ├── CreateMode: *string
+│   │   │   ├── Id: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── RestoreParameters: *Object (3 properties)
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       ├── RestoreSource: *string
+│   │   │       └── RestoreTimestampInUtc: *string
+│   │   └── Tags: map[string]string
+│   └── Status: Object (9 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Options: *Object (3 properties)
+│       │   ├── AutoscaleSettings: *Object (2 properties)
+│       │   │   ├── MaxThroughput: *int
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Throughput: *int
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: *Object (9 properties)
+│       │   ├── Colls: *string
+│       │   ├── CreateMode: *string
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RestoreParameters: *Object (3 properties)
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── RestoreSource: *string
+│       │   │   └── RestoreTimestampInUtc: *string
+│       │   ├── Rid: *string
+│       │   ├── Ts: *float64
+│       │   └── Users: *string
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainer: Resource
+│   ├── Owner: documentdb/v1api20231115.SqlDatabase
+│   ├── Spec: Object (8 properties)
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (2 properties)
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: *Object (12 properties)
+│   │   │   ├── AnalyticalStorageTtl: *int
+│   │   │   ├── ClientEncryptionPolicy: *Object (3 properties)
+│   │   │   │   ├── IncludedPaths: Object (5 properties)[]
+│   │   │   │   │   ├── ClientEncryptionKeyId: *string
+│   │   │   │   │   ├── EncryptionAlgorithm: *string
+│   │   │   │   │   ├── EncryptionType: *string
+│   │   │   │   │   ├── Path: *string
+│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── PolicyFormatVersion: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── ComputedProperties: Object (3 properties)[]
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Query: *string
+│   │   │   ├── ConflictResolutionPolicy: *Object (4 properties)
+│   │   │   │   ├── ConflictResolutionPath: *string
+│   │   │   │   ├── ConflictResolutionProcedure: *string
+│   │   │   │   ├── Mode: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── CreateMode: *string
+│   │   │   ├── DefaultTtl: *int
+│   │   │   ├── Id: *string
+│   │   │   ├── IndexingPolicy: *Object (7 properties)
+│   │   │   │   ├── Automatic: *bool
+│   │   │   │   ├── CompositeIndexes: Object (3 properties)[][]
+│   │   │   │   │   ├── Order: *string
+│   │   │   │   │   ├── Path: *string
+│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── ExcludedPaths: Object (2 properties)[]
+│   │   │   │   │   ├── Path: *string
+│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── IncludedPaths: Object (3 properties)[]
+│   │   │   │   │   ├── Indexes: Object (4 properties)[]
+│   │   │   │   │   │   ├── DataType: *string
+│   │   │   │   │   │   ├── Kind: *string
+│   │   │   │   │   │   ├── Precision: *int
+│   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   ├── Path: *string
+│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── IndexingMode: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── SpatialIndexes: Object (3 properties)[]
+│   │   │   │       ├── Path: *string
+│   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │       └── Types: string[]
+│   │   │   ├── PartitionKey: *Object (4 properties)
+│   │   │   │   ├── Kind: *string
+│   │   │   │   ├── Paths: string[]
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Version: *int
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── RestoreParameters: *Object (3 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── RestoreSource: *string
+│   │   │   │   └── RestoreTimestampInUtc: *string
+│   │   │   └── UniqueKeyPolicy: *Object (2 properties)
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── UniqueKeys: Object (2 properties)[]
+│   │   │           ├── Paths: string[]
+│   │   │           └── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: map[string]string
+│   └── Status: Object (9 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Options: *Object (3 properties)
+│       │   ├── AutoscaleSettings: *Object (2 properties)
+│       │   │   ├── MaxThroughput: *int
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Throughput: *int
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: *Object (15 properties)
+│       │   ├── AnalyticalStorageTtl: *int
+│       │   ├── ClientEncryptionPolicy: *Object (3 properties)
+│       │   │   ├── IncludedPaths: Object (5 properties)[]
+│       │   │   │   ├── ClientEncryptionKeyId: *string
+│       │   │   │   ├── EncryptionAlgorithm: *string
+│       │   │   │   ├── EncryptionType: *string
+│       │   │   │   ├── Path: *string
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── PolicyFormatVersion: *int
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── ComputedProperties: Object (3 properties)[]
+│       │   │   ├── Name: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Query: *string
+│       │   ├── ConflictResolutionPolicy: *Object (4 properties)
+│       │   │   ├── ConflictResolutionPath: *string
+│       │   │   ├── ConflictResolutionProcedure: *string
+│       │   │   ├── Mode: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── CreateMode: *string
+│       │   ├── DefaultTtl: *int
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── IndexingPolicy: *Object (7 properties)
+│       │   │   ├── Automatic: *bool
+│       │   │   ├── CompositeIndexes: Object (3 properties)[][]
+│       │   │   │   ├── Order: *string
+│       │   │   │   ├── Path: *string
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── ExcludedPaths: Object (2 properties)[]
+│       │   │   │   ├── Path: *string
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── IncludedPaths: Object (3 properties)[]
+│       │   │   │   ├── Indexes: Object (4 properties)[]
+│       │   │   │   │   ├── DataType: *string
+│       │   │   │   │   ├── Kind: *string
+│       │   │   │   │   ├── Precision: *int
+│       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   │   ├── Path: *string
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── IndexingMode: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── SpatialIndexes: Object (3 properties)[]
+│       │   │       ├── Path: *string
+│       │   │       ├── PropertyBag: genruntime.PropertyBag
+│       │   │       └── Types: string[]
+│       │   ├── PartitionKey: *Object (5 properties)
+│       │   │   ├── Kind: *string
+│       │   │   ├── Paths: string[]
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── SystemKey: *bool
+│       │   │   └── Version: *int
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RestoreParameters: *Object (3 properties)
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── RestoreSource: *string
+│       │   │   └── RestoreTimestampInUtc: *string
+│       │   ├── Rid: *string
+│       │   ├── Ts: *float64
+│       │   └── UniqueKeyPolicy: *Object (2 properties)
+│       │       ├── PropertyBag: genruntime.PropertyBag
+│       │       └── UniqueKeys: Object (2 properties)[]
+│       │           ├── Paths: string[]
+│       │           └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainerStoredProcedure: Resource
+│   ├── Owner: documentdb/v1api20231115.SqlDatabaseContainer
+│   ├── Spec: Object (8 properties)
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (2 properties)
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: *Object (3 properties)
+│   │   │   ├── Body: *string
+│   │   │   ├── Id: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: map[string]string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: *Object (6 properties)
+│       │   ├── Body: *string
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   └── Ts: *float64
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainerThroughputSetting: Resource
+│   ├── Owner: documentdb/v1api20231115.SqlDatabaseContainer
+│   ├── Spec: Object (6 properties)
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (3 properties)
+│   │   │   │   ├── AutoUpgradePolicy: *Object (2 properties)
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── ThroughputPolicy: *Object (3 properties)
+│   │   │   │   │       ├── IncrementPercent: *int
+│   │   │   │   │       ├── IsEnabled: *bool
+│   │   │   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   └── Tags: map[string]string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: *Object (10 properties)
+│       │   ├── AutoscaleSettings: *Object (4 properties)
+│       │   │   ├── AutoUpgradePolicy: *Object (2 properties)
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── ThroughputPolicy: *Object (3 properties)
+│       │   │   │       ├── IncrementPercent: *int
+│       │   │   │       ├── IsEnabled: *bool
+│       │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── MaxThroughput: *int
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── TargetMaxThroughput: *int
+│       │   ├── Etag: *string
+│       │   ├── InstantMaximumThroughput: *string
+│       │   ├── MinimumThroughput: *string
+│       │   ├── OfferReplacePending: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   ├── SoftAllowedMaximumThroughput: *string
+│       │   ├── Throughput: *int
+│       │   └── Ts: *float64
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainerTrigger: Resource
+│   ├── Owner: documentdb/v1api20231115.SqlDatabaseContainer
+│   ├── Spec: Object (8 properties)
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (2 properties)
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: *Object (5 properties)
+│   │   │   ├── Body: *string
+│   │   │   ├── Id: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── TriggerOperation: *string
+│   │   │   └── TriggerType: *string
+│   │   └── Tags: map[string]string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: *Object (8 properties)
+│       │   ├── Body: *string
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   ├── TriggerOperation: *string
+│       │   ├── TriggerType: *string
+│       │   └── Ts: *float64
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainerUserDefinedFunction: Resource
+│   ├── Owner: documentdb/v1api20231115.SqlDatabaseContainer
+│   ├── Spec: Object (8 properties)
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (2 properties)
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: *Object (3 properties)
+│   │   │   ├── Body: *string
+│   │   │   ├── Id: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: map[string]string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: *Object (6 properties)
+│       │   ├── Body: *string
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   └── Ts: *float64
+│       ├── Tags: map[string]string
+│       └── Type: *string
+└── SqlDatabaseThroughputSetting: Resource
+    ├── Owner: documentdb/v1api20231115.SqlDatabase
     ├── Spec: Object (6 properties)
     │   ├── Location: *string
     │   ├── OriginalVersion: string

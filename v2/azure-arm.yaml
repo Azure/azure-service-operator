@@ -2018,6 +2018,10 @@ objectModelConfiguration:
       DatabaseAccounts_SqlDatabases_ThroughputSetting:
         $exportAs: SqlDatabaseThroughputSetting
         $supportedFrom: v2.0.0-alpha.2
+      DatabaseAccounts_SqlRoleAssignment:
+        $exportAs: SqlRoleAssignment
+        $supportedFrom: v2.0.0-beta.3
+        $defaultAzureName: false
       MongoDBCollectionResource:
         Id:
           $armReference: false
@@ -2030,10 +2034,6 @@ objectModelConfiguration:
       SqlContainerResource:
         Id:
           $armReference: false
-      DatabaseAccounts_SqlRoleAssignment:
-        $exportAs: SqlRoleAssignment
-        $supportedFrom: v2.0.0-beta.3
-        $defaultAzureName: false
       SqlRoleAssignmentResource:
         PrincipalId:
           $importConfigMapMode: optional
@@ -2071,13 +2071,48 @@ objectModelConfiguration:
       DatabaseAccounts_MongodbDatabases_ThroughputSetting:
         $exportAs: MongodbDatabaseThroughputSetting
         $supportedFrom: v2.7.0
+      DatabaseAccounts_SqlDatabase:
+        $exportAs: SqlDatabase
+        $supportedFrom: v2.7.0
+      DatabaseAccounts_SqlDatabases_Container:
+        $exportAs: SqlDatabaseContainer
+        $supportedFrom: v2.7.0
+      DatabaseAccounts_SqlDatabases_Containers_StoredProcedure:
+        $exportAs: SqlDatabaseContainerStoredProcedure
+        $supportedFrom: v2.7.0
+      DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting:
+        $exportAs: SqlDatabaseContainerThroughputSetting
+        $supportedFrom: v2.7.0
+      DatabaseAccounts_SqlDatabases_Containers_Trigger:
+        $exportAs: SqlDatabaseContainerTrigger
+        $supportedFrom: v2.7.0
+      DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction:
+        $exportAs: SqlDatabaseContainerUserDefinedFunction
+        $supportedFrom: v2.7.0
+      DatabaseAccounts_SqlDatabases_ThroughputSetting:
+        $exportAs: SqlDatabaseThroughputSetting
+        $supportedFrom: v2.7.0
       MongoDBCollectionResource:
         Id:
           $armReference: false
       MongoDBDatabaseResource:
         Id:
           $armReference: false
-        
+      SqlDatabaseResource:
+        Id:
+          $armReference: false
+      SqlContainerResource:
+        Id:
+          $armReference: false
+      SqlTriggerResource:
+        Id:
+          $armReference: false
+      SqlStoredProcedureResource:
+        Id:
+          $armReference: false
+      SqlUserDefinedFunctionResource:
+        Id:
+          $armReference: false
   eventgrid:
     2020-06-01:
       Domain:

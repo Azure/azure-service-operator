@@ -30,24 +30,30 @@
 | Capability_STATUS                                                         | v1api20210515 | v1api20231115 |
 | Capacity                                                                  |               | v1api20231115 |
 | Capacity_STATUS                                                           |               | v1api20231115 |
-| CompositePath                                                             | v1api20210515 |               |
-| CompositePath_Order                                                       | v1api20210515 |               |
-| CompositePath_Order_STATUS                                                | v1api20210515 |               |
-| CompositePath_STATUS                                                      | v1api20210515 |               |
-| ConflictResolutionPolicy                                                  | v1api20210515 |               |
-| ConflictResolutionPolicy_Mode                                             | v1api20210515 |               |
-| ConflictResolutionPolicy_Mode_STATUS                                      | v1api20210515 |               |
-| ConflictResolutionPolicy_STATUS                                           | v1api20210515 |               |
+| ClientEncryptionIncludedPath                                              |               | v1api20231115 |
+| ClientEncryptionIncludedPath_STATUS                                       |               | v1api20231115 |
+| ClientEncryptionPolicy                                                    |               | v1api20231115 |
+| ClientEncryptionPolicy_STATUS                                             |               | v1api20231115 |
+| CompositePath                                                             | v1api20210515 | v1api20231115 |
+| CompositePath_Order                                                       | v1api20210515 | v1api20231115 |
+| CompositePath_Order_STATUS                                                | v1api20210515 | v1api20231115 |
+| CompositePath_STATUS                                                      | v1api20210515 | v1api20231115 |
+| ComputedProperty                                                          |               | v1api20231115 |
+| ComputedProperty_STATUS                                                   |               | v1api20231115 |
+| ConflictResolutionPolicy                                                  | v1api20210515 | v1api20231115 |
+| ConflictResolutionPolicy_Mode                                             | v1api20210515 | v1api20231115 |
+| ConflictResolutionPolicy_Mode_STATUS                                      | v1api20210515 | v1api20231115 |
+| ConflictResolutionPolicy_STATUS                                           | v1api20210515 | v1api20231115 |
 | ConnectorOffer                                                            | v1api20210515 | v1api20231115 |
 | ConnectorOffer_STATUS                                                     | v1api20210515 | v1api20231115 |
 | ConsistencyPolicy                                                         | v1api20210515 | v1api20231115 |
 | ConsistencyPolicy_DefaultConsistencyLevel                                 | v1api20210515 | v1api20231115 |
 | ConsistencyPolicy_DefaultConsistencyLevel_STATUS                          | v1api20210515 | v1api20231115 |
 | ConsistencyPolicy_STATUS                                                  | v1api20210515 | v1api20231115 |
-| ContainerPartitionKey                                                     | v1api20210515 |               |
-| ContainerPartitionKey_Kind                                                | v1api20210515 |               |
-| ContainerPartitionKey_Kind_STATUS                                         | v1api20210515 |               |
-| ContainerPartitionKey_STATUS                                              | v1api20210515 |               |
+| ContainerPartitionKey                                                     | v1api20210515 | v1api20231115 |
+| ContainerPartitionKey_Kind                                                | v1api20210515 | v1api20231115 |
+| ContainerPartitionKey_Kind_STATUS                                         | v1api20210515 | v1api20231115 |
+| ContainerPartitionKey_STATUS                                              | v1api20210515 | v1api20231115 |
 | ContinuousModeBackupPolicy                                                | v1api20210515 | v1api20231115 |
 | ContinuousModeBackupPolicy_STATUS                                         | v1api20210515 | v1api20231115 |
 | ContinuousModeBackupPolicy_Type                                           | v1api20210515 | v1api20231115 |
@@ -81,43 +87,43 @@
 | DatabaseAccounts_MongodbDatabases_ThroughputSetting_Name_Spec             | v1api20210515 | v1api20231115 |
 | DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS                | v1api20210515 | v1api20231115 |
 | DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec                  | v1api20210515 | v1api20231115 |
-| DatabaseAccounts_SqlDatabase_STATUS                                       | v1api20210515 |               |
-| DatabaseAccounts_SqlDatabase_Spec                                         | v1api20210515 |               |
-| DatabaseAccounts_SqlDatabases_Container_STATUS                            | v1api20210515 |               |
-| DatabaseAccounts_SqlDatabases_Container_Spec                              | v1api20210515 |               |
-| DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS           | v1api20210515 |               |
-| DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec             | v1api20210515 |               |
-| DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Name_Spec      | v1api20210515 |               |
-| DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS         | v1api20210515 |               |
-| DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec           | v1api20210515 |               |
-| DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS                   | v1api20210515 |               |
-| DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec                     | v1api20210515 |               |
-| DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS       | v1api20210515 |               |
-| DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec         | v1api20210515 |               |
-| DatabaseAccounts_SqlDatabases_ThroughputSetting_Name_Spec                 | v1api20210515 |               |
-| DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS                    | v1api20210515 |               |
-| DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec                      | v1api20210515 |               |
+| DatabaseAccounts_SqlDatabase_STATUS                                       | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_SqlDatabase_Spec                                         | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_SqlDatabases_Container_STATUS                            | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_SqlDatabases_Container_Spec                              | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS           | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec             | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Name_Spec      | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS         | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec           | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS                   | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec                     | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS       | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec         | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_SqlDatabases_ThroughputSetting_Name_Spec                 | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS                    | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec                      | v1api20210515 | v1api20231115 |
 | DatabaseAccounts_SqlRoleAssignment_STATUS                                 | v1api20210515 |               |
 | DatabaseAccounts_SqlRoleAssignment_Spec                                   | v1api20210515 |               |
 | DatabaseRestoreResource                                                   |               | v1api20231115 |
 | DatabaseRestoreResource_STATUS                                            |               | v1api20231115 |
-| ExcludedPath                                                              | v1api20210515 |               |
-| ExcludedPath_STATUS                                                       | v1api20210515 |               |
+| ExcludedPath                                                              | v1api20210515 | v1api20231115 |
+| ExcludedPath_STATUS                                                       | v1api20210515 | v1api20231115 |
 | FailoverPolicy_STATUS                                                     | v1api20210515 | v1api20231115 |
 | GremlinDatabaseRestoreResource                                            |               | v1api20231115 |
 | GremlinDatabaseRestoreResource_STATUS                                     |               | v1api20231115 |
-| IncludedPath                                                              | v1api20210515 |               |
-| IncludedPath_STATUS                                                       | v1api20210515 |               |
-| Indexes                                                                   | v1api20210515 |               |
-| Indexes_DataType                                                          | v1api20210515 |               |
-| Indexes_DataType_STATUS                                                   | v1api20210515 |               |
-| Indexes_Kind                                                              | v1api20210515 |               |
-| Indexes_Kind_STATUS                                                       | v1api20210515 |               |
-| Indexes_STATUS                                                            | v1api20210515 |               |
-| IndexingPolicy                                                            | v1api20210515 |               |
-| IndexingPolicy_IndexingMode                                               | v1api20210515 |               |
-| IndexingPolicy_IndexingMode_STATUS                                        | v1api20210515 |               |
-| IndexingPolicy_STATUS                                                     | v1api20210515 |               |
+| IncludedPath                                                              | v1api20210515 | v1api20231115 |
+| IncludedPath_STATUS                                                       | v1api20210515 | v1api20231115 |
+| Indexes                                                                   | v1api20210515 | v1api20231115 |
+| Indexes_DataType                                                          | v1api20210515 | v1api20231115 |
+| Indexes_DataType_STATUS                                                   | v1api20210515 | v1api20231115 |
+| Indexes_Kind                                                              | v1api20210515 | v1api20231115 |
+| Indexes_Kind_STATUS                                                       | v1api20210515 | v1api20231115 |
+| Indexes_STATUS                                                            | v1api20210515 | v1api20231115 |
+| IndexingPolicy                                                            | v1api20210515 | v1api20231115 |
+| IndexingPolicy_IndexingMode                                               | v1api20210515 | v1api20231115 |
+| IndexingPolicy_IndexingMode_STATUS                                        | v1api20210515 | v1api20231115 |
+| IndexingPolicy_STATUS                                                     | v1api20210515 | v1api20231115 |
 | IpAddressOrRange                                                          | v1api20210515 | v1api20231115 |
 | IpAddressOrRange_STATUS                                                   | v1api20210515 | v1api20231115 |
 | Location                                                                  | v1api20210515 | v1api20231115 |
@@ -165,44 +171,44 @@
 | RestoreParameters_RestoreMode                                             |               | v1api20231115 |
 | RestoreParameters_RestoreMode_STATUS                                      |               | v1api20231115 |
 | RestoreParameters_STATUS                                                  |               | v1api20231115 |
-| SpatialSpec                                                               | v1api20210515 |               |
-| SpatialSpec_STATUS                                                        | v1api20210515 |               |
-| SpatialType                                                               | v1api20210515 |               |
-| SpatialType_STATUS                                                        | v1api20210515 |               |
-| SqlContainerCreateUpdateProperties                                        | v1api20210515 |               |
-| SqlContainerGetProperties_Resource_STATUS                                 | v1api20210515 |               |
-| SqlContainerGetProperties_STATUS                                          | v1api20210515 |               |
-| SqlContainerResource                                                      | v1api20210515 |               |
-| SqlDatabase                                                               | v1api20210515 |               |
-| SqlDatabaseContainer                                                      | v1api20210515 |               |
-| SqlDatabaseContainerStoredProcedure                                       | v1api20210515 |               |
-| SqlDatabaseContainerThroughputSetting                                     | v1api20210515 |               |
-| SqlDatabaseContainerTrigger                                               | v1api20210515 |               |
-| SqlDatabaseContainerUserDefinedFunction                                   | v1api20210515 |               |
-| SqlDatabaseCreateUpdateProperties                                         | v1api20210515 |               |
-| SqlDatabaseGetProperties_Resource_STATUS                                  | v1api20210515 |               |
-| SqlDatabaseGetProperties_STATUS                                           | v1api20210515 |               |
-| SqlDatabaseResource                                                       | v1api20210515 |               |
-| SqlDatabaseThroughputSetting                                              | v1api20210515 |               |
+| SpatialSpec                                                               | v1api20210515 | v1api20231115 |
+| SpatialSpec_STATUS                                                        | v1api20210515 | v1api20231115 |
+| SpatialType                                                               | v1api20210515 | v1api20231115 |
+| SpatialType_STATUS                                                        | v1api20210515 | v1api20231115 |
+| SqlContainerCreateUpdateProperties                                        | v1api20210515 | v1api20231115 |
+| SqlContainerGetProperties_Resource_STATUS                                 | v1api20210515 | v1api20231115 |
+| SqlContainerGetProperties_STATUS                                          | v1api20210515 | v1api20231115 |
+| SqlContainerResource                                                      | v1api20210515 | v1api20231115 |
+| SqlDatabase                                                               | v1api20210515 | v1api20231115 |
+| SqlDatabaseContainer                                                      | v1api20210515 | v1api20231115 |
+| SqlDatabaseContainerStoredProcedure                                       | v1api20210515 | v1api20231115 |
+| SqlDatabaseContainerThroughputSetting                                     | v1api20210515 | v1api20231115 |
+| SqlDatabaseContainerTrigger                                               | v1api20210515 | v1api20231115 |
+| SqlDatabaseContainerUserDefinedFunction                                   | v1api20210515 | v1api20231115 |
+| SqlDatabaseCreateUpdateProperties                                         | v1api20210515 | v1api20231115 |
+| SqlDatabaseGetProperties_Resource_STATUS                                  | v1api20210515 | v1api20231115 |
+| SqlDatabaseGetProperties_STATUS                                           | v1api20210515 | v1api20231115 |
+| SqlDatabaseResource                                                       | v1api20210515 | v1api20231115 |
+| SqlDatabaseThroughputSetting                                              | v1api20210515 | v1api20231115 |
 | SqlRoleAssignment                                                         | v1api20210515 |               |
 | SqlRoleAssignmentResource                                                 | v1api20210515 |               |
 | SqlRoleAssignmentResource_STATUS                                          | v1api20210515 |               |
-| SqlStoredProcedureCreateUpdateProperties                                  | v1api20210515 |               |
-| SqlStoredProcedureGetProperties_Resource_STATUS                           | v1api20210515 |               |
-| SqlStoredProcedureGetProperties_STATUS                                    | v1api20210515 |               |
-| SqlStoredProcedureResource                                                | v1api20210515 |               |
-| SqlTriggerCreateUpdateProperties                                          | v1api20210515 |               |
-| SqlTriggerGetProperties_Resource_STATUS                                   | v1api20210515 |               |
-| SqlTriggerGetProperties_Resource_TriggerOperation_STATUS                  | v1api20210515 |               |
-| SqlTriggerGetProperties_Resource_TriggerType_STATUS                       | v1api20210515 |               |
-| SqlTriggerGetProperties_STATUS                                            | v1api20210515 |               |
-| SqlTriggerResource                                                        | v1api20210515 |               |
-| SqlTriggerResource_TriggerOperation                                       | v1api20210515 |               |
-| SqlTriggerResource_TriggerType                                            | v1api20210515 |               |
-| SqlUserDefinedFunctionCreateUpdateProperties                              | v1api20210515 |               |
-| SqlUserDefinedFunctionGetProperties_Resource_STATUS                       | v1api20210515 |               |
-| SqlUserDefinedFunctionGetProperties_STATUS                                | v1api20210515 |               |
-| SqlUserDefinedFunctionResource                                            | v1api20210515 |               |
+| SqlStoredProcedureCreateUpdateProperties                                  | v1api20210515 | v1api20231115 |
+| SqlStoredProcedureGetProperties_Resource_STATUS                           | v1api20210515 | v1api20231115 |
+| SqlStoredProcedureGetProperties_STATUS                                    | v1api20210515 | v1api20231115 |
+| SqlStoredProcedureResource                                                | v1api20210515 | v1api20231115 |
+| SqlTriggerCreateUpdateProperties                                          | v1api20210515 | v1api20231115 |
+| SqlTriggerGetProperties_Resource_STATUS                                   | v1api20210515 | v1api20231115 |
+| SqlTriggerGetProperties_Resource_TriggerOperation_STATUS                  | v1api20210515 | v1api20231115 |
+| SqlTriggerGetProperties_Resource_TriggerType_STATUS                       | v1api20210515 | v1api20231115 |
+| SqlTriggerGetProperties_STATUS                                            | v1api20210515 | v1api20231115 |
+| SqlTriggerResource                                                        | v1api20210515 | v1api20231115 |
+| SqlTriggerResource_TriggerOperation                                       | v1api20210515 | v1api20231115 |
+| SqlTriggerResource_TriggerType                                            | v1api20210515 | v1api20231115 |
+| SqlUserDefinedFunctionCreateUpdateProperties                              | v1api20210515 | v1api20231115 |
+| SqlUserDefinedFunctionGetProperties_Resource_STATUS                       | v1api20210515 | v1api20231115 |
+| SqlUserDefinedFunctionGetProperties_STATUS                                | v1api20210515 | v1api20231115 |
+| SqlUserDefinedFunctionResource                                            | v1api20210515 | v1api20231115 |
 | SystemData_CreatedByType_STATUS                                           |               | v1api20231115 |
 | SystemData_LastModifiedByType_STATUS                                      |               | v1api20231115 |
 | SystemData_STATUS                                                         |               | v1api20231115 |
@@ -212,10 +218,10 @@
 | ThroughputSettingsGetProperties_STATUS                                    | v1api20210515 | v1api20231115 |
 | ThroughputSettingsResource                                                | v1api20210515 | v1api20231115 |
 | ThroughputSettingsUpdateProperties                                        | v1api20210515 | v1api20231115 |
-| UniqueKey                                                                 | v1api20210515 |               |
-| UniqueKeyPolicy                                                           | v1api20210515 |               |
-| UniqueKeyPolicy_STATUS                                                    | v1api20210515 |               |
-| UniqueKey_STATUS                                                          | v1api20210515 |               |
+| UniqueKey                                                                 | v1api20210515 | v1api20231115 |
+| UniqueKeyPolicy                                                           | v1api20210515 | v1api20231115 |
+| UniqueKeyPolicy_STATUS                                                    | v1api20210515 | v1api20231115 |
+| UniqueKey_STATUS                                                          | v1api20210515 | v1api20231115 |
 | UserAssignedIdentityDetails                                               | v1api20210515 | v1api20231115 |
 | VirtualNetworkRule                                                        | v1api20210515 | v1api20231115 |
 | VirtualNetworkRule_STATUS                                                 | v1api20210515 | v1api20231115 |

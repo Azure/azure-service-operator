@@ -847,6 +847,378 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115
 │   │       │   └── MaxThroughput: *int
 │   │       └── Throughput: *int
 │   └── Tags: map[string]string
+├── DatabaseAccounts_SqlDatabase_STATUS_ARM: Object (6 properties)
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (2 properties)
+│   │   ├── Options: *Object (2 properties)
+│   │   │   ├── AutoscaleSettings: *Object (1 property)
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: *Object (8 properties)
+│   │       ├── Colls: *string
+│   │       ├── CreateMode: *Enum (2 values)
+│   │       │   ├── "Default"
+│   │       │   └── "Restore"
+│   │       ├── Etag: *string
+│   │       ├── Id: *string
+│   │       ├── RestoreParameters: *Object (2 properties)
+│   │       │   ├── RestoreSource: *string
+│   │       │   └── RestoreTimestampInUtc: *string
+│   │       ├── Rid: *string
+│   │       ├── Ts: *float64
+│   │       └── Users: *string
+│   ├── Tags: map[string]string
+│   └── Type: *string
+├── DatabaseAccounts_SqlDatabase_Spec_ARM: Object (4 properties)
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: *Object (2 properties)
+│   │   ├── Options: *Object (2 properties)
+│   │   │   ├── AutoscaleSettings: *Object (1 property)
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: *Object (3 properties)
+│   │       ├── CreateMode: *Enum (2 values)
+│   │       │   ├── "Default"
+│   │       │   └── "Restore"
+│   │       ├── Id: *string
+│   │       └── RestoreParameters: *Object (2 properties)
+│   │           ├── RestoreSource: *string
+│   │           └── RestoreTimestampInUtc: *string
+│   └── Tags: map[string]string
+├── DatabaseAccounts_SqlDatabases_Container_STATUS_ARM: Object (6 properties)
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (2 properties)
+│   │   ├── Options: *Object (2 properties)
+│   │   │   ├── AutoscaleSettings: *Object (1 property)
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: *Object (14 properties)
+│   │       ├── AnalyticalStorageTtl: *int
+│   │       ├── ClientEncryptionPolicy: *Object (2 properties)
+│   │       │   ├── IncludedPaths: Object (4 properties)[]
+│   │       │   │   ├── ClientEncryptionKeyId: *string
+│   │       │   │   ├── EncryptionAlgorithm: *string
+│   │       │   │   ├── EncryptionType: *string
+│   │       │   │   └── Path: *string
+│   │       │   └── PolicyFormatVersion: *int
+│   │       ├── ComputedProperties: Object (2 properties)[]
+│   │       │   ├── Name: *string
+│   │       │   └── Query: *string
+│   │       ├── ConflictResolutionPolicy: *Object (3 properties)
+│   │       │   ├── ConflictResolutionPath: *string
+│   │       │   ├── ConflictResolutionProcedure: *string
+│   │       │   └── Mode: *Enum (2 values)
+│   │       │       ├── "Custom"
+│   │       │       └── "LastWriterWins"
+│   │       ├── CreateMode: *Enum (2 values)
+│   │       │   ├── "Default"
+│   │       │   └── "Restore"
+│   │       ├── DefaultTtl: *int
+│   │       ├── Etag: *string
+│   │       ├── Id: *string
+│   │       ├── IndexingPolicy: *Object (6 properties)
+│   │       │   ├── Automatic: *bool
+│   │       │   ├── CompositeIndexes: Object (2 properties)[][]
+│   │       │   │   ├── Order: *Enum (2 values)
+│   │       │   │   │   ├── "ascending"
+│   │       │   │   │   └── "descending"
+│   │       │   │   └── Path: *string
+│   │       │   ├── ExcludedPaths: Object (1 property)[]
+│   │       │   │   └── Path: *string
+│   │       │   ├── IncludedPaths: Object (2 properties)[]
+│   │       │   │   ├── Indexes: Object (3 properties)[]
+│   │       │   │   │   ├── DataType: *Enum (6 values)
+│   │       │   │   │   │   ├── "LineString"
+│   │       │   │   │   │   ├── "MultiPolygon"
+│   │       │   │   │   │   ├── "Number"
+│   │       │   │   │   │   ├── "Point"
+│   │       │   │   │   │   ├── "Polygon"
+│   │       │   │   │   │   └── "String"
+│   │       │   │   │   ├── Kind: *Enum (3 values)
+│   │       │   │   │   │   ├── "Hash"
+│   │       │   │   │   │   ├── "Range"
+│   │       │   │   │   │   └── "Spatial"
+│   │       │   │   │   └── Precision: *int
+│   │       │   │   └── Path: *string
+│   │       │   ├── IndexingMode: *Enum (3 values)
+│   │       │   │   ├── "consistent"
+│   │       │   │   ├── "lazy"
+│   │       │   │   └── "none"
+│   │       │   └── SpatialIndexes: Object (2 properties)[]
+│   │       │       ├── Path: *string
+│   │       │       └── Types: Enum (4 values)[]
+│   │       │           ├── "LineString"
+│   │       │           ├── "MultiPolygon"
+│   │       │           ├── "Point"
+│   │       │           └── "Polygon"
+│   │       ├── PartitionKey: *Object (4 properties)
+│   │       │   ├── Kind: *Enum (3 values)
+│   │       │   │   ├── "Hash"
+│   │       │   │   ├── "MultiHash"
+│   │       │   │   └── "Range"
+│   │       │   ├── Paths: string[]
+│   │       │   ├── SystemKey: *bool
+│   │       │   └── Version: *int
+│   │       ├── RestoreParameters: *Object (2 properties)
+│   │       │   ├── RestoreSource: *string
+│   │       │   └── RestoreTimestampInUtc: *string
+│   │       ├── Rid: *string
+│   │       ├── Ts: *float64
+│   │       └── UniqueKeyPolicy: *Object (1 property)
+│   │           └── UniqueKeys: Object (1 property)[]
+│   │               └── Paths: string[]
+│   ├── Tags: map[string]string
+│   └── Type: *string
+├── DatabaseAccounts_SqlDatabases_Container_Spec_ARM: Object (4 properties)
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: *Object (2 properties)
+│   │   ├── Options: *Object (2 properties)
+│   │   │   ├── AutoscaleSettings: *Object (1 property)
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: *Object (11 properties)
+│   │       ├── AnalyticalStorageTtl: *int
+│   │       ├── ClientEncryptionPolicy: *Object (2 properties)
+│   │       │   ├── IncludedPaths: Object (4 properties)[]
+│   │       │   │   ├── ClientEncryptionKeyId: *string
+│   │       │   │   ├── EncryptionAlgorithm: *string
+│   │       │   │   ├── EncryptionType: *string
+│   │       │   │   └── Path: *string
+│   │       │   └── PolicyFormatVersion: *int
+│   │       ├── ComputedProperties: Object (2 properties)[]
+│   │       │   ├── Name: *string
+│   │       │   └── Query: *string
+│   │       ├── ConflictResolutionPolicy: *Object (3 properties)
+│   │       │   ├── ConflictResolutionPath: *string
+│   │       │   ├── ConflictResolutionProcedure: *string
+│   │       │   └── Mode: *Enum (2 values)
+│   │       │       ├── "Custom"
+│   │       │       └── "LastWriterWins"
+│   │       ├── CreateMode: *Enum (2 values)
+│   │       │   ├── "Default"
+│   │       │   └── "Restore"
+│   │       ├── DefaultTtl: *int
+│   │       ├── Id: *string
+│   │       ├── IndexingPolicy: *Object (6 properties)
+│   │       │   ├── Automatic: *bool
+│   │       │   ├── CompositeIndexes: Object (2 properties)[][]
+│   │       │   │   ├── Order: *Enum (2 values)
+│   │       │   │   │   ├── "ascending"
+│   │       │   │   │   └── "descending"
+│   │       │   │   └── Path: *string
+│   │       │   ├── ExcludedPaths: Object (1 property)[]
+│   │       │   │   └── Path: *string
+│   │       │   ├── IncludedPaths: Object (2 properties)[]
+│   │       │   │   ├── Indexes: Object (3 properties)[]
+│   │       │   │   │   ├── DataType: *Enum (6 values)
+│   │       │   │   │   │   ├── "LineString"
+│   │       │   │   │   │   ├── "MultiPolygon"
+│   │       │   │   │   │   ├── "Number"
+│   │       │   │   │   │   ├── "Point"
+│   │       │   │   │   │   ├── "Polygon"
+│   │       │   │   │   │   └── "String"
+│   │       │   │   │   ├── Kind: *Enum (3 values)
+│   │       │   │   │   │   ├── "Hash"
+│   │       │   │   │   │   ├── "Range"
+│   │       │   │   │   │   └── "Spatial"
+│   │       │   │   │   └── Precision: *int
+│   │       │   │   └── Path: *string
+│   │       │   ├── IndexingMode: *Enum (3 values)
+│   │       │   │   ├── "consistent"
+│   │       │   │   ├── "lazy"
+│   │       │   │   └── "none"
+│   │       │   └── SpatialIndexes: Object (2 properties)[]
+│   │       │       ├── Path: *string
+│   │       │       └── Types: Enum (4 values)[]
+│   │       │           ├── "LineString"
+│   │       │           ├── "MultiPolygon"
+│   │       │           ├── "Point"
+│   │       │           └── "Polygon"
+│   │       ├── PartitionKey: *Object (3 properties)
+│   │       │   ├── Kind: *Enum (3 values)
+│   │       │   │   ├── "Hash"
+│   │       │   │   ├── "MultiHash"
+│   │       │   │   └── "Range"
+│   │       │   ├── Paths: string[]
+│   │       │   └── Version: *int
+│   │       ├── RestoreParameters: *Object (2 properties)
+│   │       │   ├── RestoreSource: *string
+│   │       │   └── RestoreTimestampInUtc: *string
+│   │       └── UniqueKeyPolicy: *Object (1 property)
+│   │           └── UniqueKeys: Object (1 property)[]
+│   │               └── Paths: string[]
+│   └── Tags: map[string]string
+├── DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS_ARM: Object (6 properties)
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (1 property)
+│   │   └── Resource: *Object (5 properties)
+│   │       ├── Body: *string
+│   │       ├── Etag: *string
+│   │       ├── Id: *string
+│   │       ├── Rid: *string
+│   │       └── Ts: *float64
+│   ├── Tags: map[string]string
+│   └── Type: *string
+├── DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_ARM: Object (4 properties)
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: *Object (2 properties)
+│   │   ├── Options: *Object (2 properties)
+│   │   │   ├── AutoscaleSettings: *Object (1 property)
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: *Object (2 properties)
+│   │       ├── Body: *string
+│   │       └── Id: *string
+│   └── Tags: map[string]string
+├── DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS_ARM: Object (6 properties)
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (1 property)
+│   │   └── Resource: *Object (9 properties)
+│   │       ├── AutoscaleSettings: *Object (3 properties)
+│   │       │   ├── AutoUpgradePolicy: *Object (1 property)
+│   │       │   │   └── ThroughputPolicy: *Object (2 properties)
+│   │       │   │       ├── IncrementPercent: *int
+│   │       │   │       └── IsEnabled: *bool
+│   │       │   ├── MaxThroughput: *int
+│   │       │   └── TargetMaxThroughput: *int
+│   │       ├── Etag: *string
+│   │       ├── InstantMaximumThroughput: *string
+│   │       ├── MinimumThroughput: *string
+│   │       ├── OfferReplacePending: *string
+│   │       ├── Rid: *string
+│   │       ├── SoftAllowedMaximumThroughput: *string
+│   │       ├── Throughput: *int
+│   │       └── Ts: *float64
+│   ├── Tags: map[string]string
+│   └── Type: *string
+├── DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec_ARM: Object (4 properties)
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: *Object (1 property)
+│   │   └── Resource: *Object (2 properties)
+│   │       ├── AutoscaleSettings: *Object (2 properties)
+│   │       │   ├── AutoUpgradePolicy: *Object (1 property)
+│   │       │   │   └── ThroughputPolicy: *Object (2 properties)
+│   │       │   │       ├── IncrementPercent: *int
+│   │       │   │       └── IsEnabled: *bool
+│   │       │   └── MaxThroughput: *int
+│   │       └── Throughput: *int
+│   └── Tags: map[string]string
+├── DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS_ARM: Object (6 properties)
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (1 property)
+│   │   └── Resource: *Object (7 properties)
+│   │       ├── Body: *string
+│   │       ├── Etag: *string
+│   │       ├── Id: *string
+│   │       ├── Rid: *string
+│   │       ├── TriggerOperation: *Enum (5 values)
+│   │       │   ├── "All"
+│   │       │   ├── "Create"
+│   │       │   ├── "Delete"
+│   │       │   ├── "Replace"
+│   │       │   └── "Update"
+│   │       ├── TriggerType: *Enum (2 values)
+│   │       │   ├── "Post"
+│   │       │   └── "Pre"
+│   │       └── Ts: *float64
+│   ├── Tags: map[string]string
+│   └── Type: *string
+├── DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_ARM: Object (4 properties)
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: *Object (2 properties)
+│   │   ├── Options: *Object (2 properties)
+│   │   │   ├── AutoscaleSettings: *Object (1 property)
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: *Object (4 properties)
+│   │       ├── Body: *string
+│   │       ├── Id: *string
+│   │       ├── TriggerOperation: *Enum (5 values)
+│   │       │   ├── "All"
+│   │       │   ├── "Create"
+│   │       │   ├── "Delete"
+│   │       │   ├── "Replace"
+│   │       │   └── "Update"
+│   │       └── TriggerType: *Enum (2 values)
+│   │           ├── "Post"
+│   │           └── "Pre"
+│   └── Tags: map[string]string
+├── DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS_ARM: Object (6 properties)
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (1 property)
+│   │   └── Resource: *Object (5 properties)
+│   │       ├── Body: *string
+│   │       ├── Etag: *string
+│   │       ├── Id: *string
+│   │       ├── Rid: *string
+│   │       └── Ts: *float64
+│   ├── Tags: map[string]string
+│   └── Type: *string
+├── DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM: Object (4 properties)
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: *Object (2 properties)
+│   │   ├── Options: *Object (2 properties)
+│   │   │   ├── AutoscaleSettings: *Object (1 property)
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Resource: *Object (2 properties)
+│   │       ├── Body: *string
+│   │       └── Id: *string
+│   └── Tags: map[string]string
+├── DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS_ARM: Object (6 properties)
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (1 property)
+│   │   └── Resource: *Object (9 properties)
+│   │       ├── AutoscaleSettings: *Object (3 properties)
+│   │       │   ├── AutoUpgradePolicy: *Object (1 property)
+│   │       │   │   └── ThroughputPolicy: *Object (2 properties)
+│   │       │   │       ├── IncrementPercent: *int
+│   │       │   │       └── IsEnabled: *bool
+│   │       │   ├── MaxThroughput: *int
+│   │       │   └── TargetMaxThroughput: *int
+│   │       ├── Etag: *string
+│   │       ├── InstantMaximumThroughput: *string
+│   │       ├── MinimumThroughput: *string
+│   │       ├── OfferReplacePending: *string
+│   │       ├── Rid: *string
+│   │       ├── SoftAllowedMaximumThroughput: *string
+│   │       ├── Throughput: *int
+│   │       └── Ts: *float64
+│   ├── Tags: map[string]string
+│   └── Type: *string
+├── DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec_ARM: Object (4 properties)
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: *Object (1 property)
+│   │   └── Resource: *Object (2 properties)
+│   │       ├── AutoscaleSettings: *Object (2 properties)
+│   │       │   ├── AutoUpgradePolicy: *Object (1 property)
+│   │       │   │   └── ThroughputPolicy: *Object (2 properties)
+│   │       │   │       ├── IncrementPercent: *int
+│   │       │   │       └── IsEnabled: *bool
+│   │       │   └── MaxThroughput: *int
+│   │       └── Throughput: *int
+│   └── Tags: map[string]string
 ├── MongodbDatabase: Resource
 │   ├── Owner: DatabaseAccount
 │   ├── Spec: Object (6 properties)
@@ -982,8 +1354,396 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115
 │       │   └── Ts: *float64
 │       ├── Tags: map[string]string
 │       └── Type: *string
-└── MongodbDatabaseThroughputSetting: Resource
-    ├── Owner: MongodbDatabase
+├── MongodbDatabaseThroughputSetting: Resource
+│   ├── Owner: MongodbDatabase
+│   ├── Spec: Object (4 properties)
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: *Object (2 properties)
+│   │   │   ├── AutoscaleSettings: *Object (2 properties)
+│   │   │   │   ├── AutoUpgradePolicy: *Object (1 property)
+│   │   │   │   │   └── ThroughputPolicy: *Object (2 properties)
+│   │   │   │   │       ├── IncrementPercent: *int
+│   │   │   │   │       └── IsEnabled: *bool
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Tags: map[string]string
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Resource: *Object (9 properties)
+│       │   ├── AutoscaleSettings: *Object (3 properties)
+│       │   │   ├── AutoUpgradePolicy: *Object (1 property)
+│       │   │   │   └── ThroughputPolicy: *Object (2 properties)
+│       │   │   │       ├── IncrementPercent: *int
+│       │   │   │       └── IsEnabled: *bool
+│       │   │   ├── MaxThroughput: *int
+│       │   │   └── TargetMaxThroughput: *int
+│       │   ├── Etag: *string
+│       │   ├── InstantMaximumThroughput: *string
+│       │   ├── MinimumThroughput: *string
+│       │   ├── OfferReplacePending: *string
+│       │   ├── Rid: *string
+│       │   ├── SoftAllowedMaximumThroughput: *string
+│       │   ├── Throughput: *int
+│       │   └── Ts: *float64
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── SqlDatabase: Resource
+│   ├── Owner: DatabaseAccount
+│   ├── Spec: Object (6 properties)
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: *Object (2 properties)
+│   │   │   ├── AutoscaleSettings: *Object (1 property)
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: *Object (3 properties)
+│   │   │   ├── CreateMode: *Enum (2 values)
+│   │   │   │   ├── "Default"
+│   │   │   │   └── "Restore"
+│   │   │   ├── Id: *string
+│   │   │   └── RestoreParameters: *Object (2 properties)
+│   │   │       ├── RestoreSource: *string
+│   │   │       └── RestoreTimestampInUtc: *string
+│   │   └── Tags: map[string]string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Options: *Object (2 properties)
+│       │   ├── AutoscaleSettings: *Object (1 property)
+│       │   │   └── MaxThroughput: *int
+│       │   └── Throughput: *int
+│       ├── Resource: *Object (8 properties)
+│       │   ├── Colls: *string
+│       │   ├── CreateMode: *Enum (2 values)
+│       │   │   ├── "Default"
+│       │   │   └── "Restore"
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── RestoreParameters: *Object (2 properties)
+│       │   │   ├── RestoreSource: *string
+│       │   │   └── RestoreTimestampInUtc: *string
+│       │   ├── Rid: *string
+│       │   ├── Ts: *float64
+│       │   └── Users: *string
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainer: Resource
+│   ├── Owner: SqlDatabase
+│   ├── Spec: Object (6 properties)
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: *Object (2 properties)
+│   │   │   ├── AutoscaleSettings: *Object (1 property)
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: *Object (11 properties)
+│   │   │   ├── AnalyticalStorageTtl: *int
+│   │   │   ├── ClientEncryptionPolicy: *Object (2 properties)
+│   │   │   │   ├── IncludedPaths: Object (4 properties)[]
+│   │   │   │   │   ├── ClientEncryptionKeyId: *string
+│   │   │   │   │   ├── EncryptionAlgorithm: *string
+│   │   │   │   │   ├── EncryptionType: *string
+│   │   │   │   │   └── Path: *string
+│   │   │   │   └── PolicyFormatVersion: Validated<*int> (2 rules)
+│   │   │   │       ├── Rule 0: Maximum: 2
+│   │   │   │       └── Rule 1: Minimum: 1
+│   │   │   ├── ComputedProperties: Object (2 properties)[]
+│   │   │   │   ├── Name: *string
+│   │   │   │   └── Query: *string
+│   │   │   ├── ConflictResolutionPolicy: *Object (3 properties)
+│   │   │   │   ├── ConflictResolutionPath: *string
+│   │   │   │   ├── ConflictResolutionProcedure: *string
+│   │   │   │   └── Mode: *Enum (2 values)
+│   │   │   │       ├── "Custom"
+│   │   │   │       └── "LastWriterWins"
+│   │   │   ├── CreateMode: *Enum (2 values)
+│   │   │   │   ├── "Default"
+│   │   │   │   └── "Restore"
+│   │   │   ├── DefaultTtl: *int
+│   │   │   ├── Id: *string
+│   │   │   ├── IndexingPolicy: *Object (6 properties)
+│   │   │   │   ├── Automatic: *bool
+│   │   │   │   ├── CompositeIndexes: Object (2 properties)[][]
+│   │   │   │   │   ├── Order: *Enum (2 values)
+│   │   │   │   │   │   ├── "ascending"
+│   │   │   │   │   │   └── "descending"
+│   │   │   │   │   └── Path: *string
+│   │   │   │   ├── ExcludedPaths: Object (1 property)[]
+│   │   │   │   │   └── Path: *string
+│   │   │   │   ├── IncludedPaths: Object (2 properties)[]
+│   │   │   │   │   ├── Indexes: Object (3 properties)[]
+│   │   │   │   │   │   ├── DataType: *Enum (6 values)
+│   │   │   │   │   │   │   ├── "LineString"
+│   │   │   │   │   │   │   ├── "MultiPolygon"
+│   │   │   │   │   │   │   ├── "Number"
+│   │   │   │   │   │   │   ├── "Point"
+│   │   │   │   │   │   │   ├── "Polygon"
+│   │   │   │   │   │   │   └── "String"
+│   │   │   │   │   │   ├── Kind: *Enum (3 values)
+│   │   │   │   │   │   │   ├── "Hash"
+│   │   │   │   │   │   │   ├── "Range"
+│   │   │   │   │   │   │   └── "Spatial"
+│   │   │   │   │   │   └── Precision: *int
+│   │   │   │   │   └── Path: *string
+│   │   │   │   ├── IndexingMode: *Enum (3 values)
+│   │   │   │   │   ├── "consistent"
+│   │   │   │   │   ├── "lazy"
+│   │   │   │   │   └── "none"
+│   │   │   │   └── SpatialIndexes: Object (2 properties)[]
+│   │   │   │       ├── Path: *string
+│   │   │   │       └── Types: Enum (4 values)[]
+│   │   │   │           ├── "LineString"
+│   │   │   │           ├── "MultiPolygon"
+│   │   │   │           ├── "Point"
+│   │   │   │           └── "Polygon"
+│   │   │   ├── PartitionKey: *Object (3 properties)
+│   │   │   │   ├── Kind: *Enum (3 values)
+│   │   │   │   │   ├── "Hash"
+│   │   │   │   │   ├── "MultiHash"
+│   │   │   │   │   └── "Range"
+│   │   │   │   ├── Paths: string[]
+│   │   │   │   └── Version: Validated<*int> (2 rules)
+│   │   │   │       ├── Rule 0: Maximum: 2
+│   │   │   │       └── Rule 1: Minimum: 1
+│   │   │   ├── RestoreParameters: *Object (2 properties)
+│   │   │   │   ├── RestoreSource: *string
+│   │   │   │   └── RestoreTimestampInUtc: *string
+│   │   │   └── UniqueKeyPolicy: *Object (1 property)
+│   │   │       └── UniqueKeys: Object (1 property)[]
+│   │   │           └── Paths: string[]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Options: *Object (2 properties)
+│       │   ├── AutoscaleSettings: *Object (1 property)
+│       │   │   └── MaxThroughput: *int
+│       │   └── Throughput: *int
+│       ├── Resource: *Object (14 properties)
+│       │   ├── AnalyticalStorageTtl: *int
+│       │   ├── ClientEncryptionPolicy: *Object (2 properties)
+│       │   │   ├── IncludedPaths: Object (4 properties)[]
+│       │   │   │   ├── ClientEncryptionKeyId: *string
+│       │   │   │   ├── EncryptionAlgorithm: *string
+│       │   │   │   ├── EncryptionType: *string
+│       │   │   │   └── Path: *string
+│       │   │   └── PolicyFormatVersion: *int
+│       │   ├── ComputedProperties: Object (2 properties)[]
+│       │   │   ├── Name: *string
+│       │   │   └── Query: *string
+│       │   ├── ConflictResolutionPolicy: *Object (3 properties)
+│       │   │   ├── ConflictResolutionPath: *string
+│       │   │   ├── ConflictResolutionProcedure: *string
+│       │   │   └── Mode: *Enum (2 values)
+│       │   │       ├── "Custom"
+│       │   │       └── "LastWriterWins"
+│       │   ├── CreateMode: *Enum (2 values)
+│       │   │   ├── "Default"
+│       │   │   └── "Restore"
+│       │   ├── DefaultTtl: *int
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── IndexingPolicy: *Object (6 properties)
+│       │   │   ├── Automatic: *bool
+│       │   │   ├── CompositeIndexes: Object (2 properties)[][]
+│       │   │   │   ├── Order: *Enum (2 values)
+│       │   │   │   │   ├── "ascending"
+│       │   │   │   │   └── "descending"
+│       │   │   │   └── Path: *string
+│       │   │   ├── ExcludedPaths: Object (1 property)[]
+│       │   │   │   └── Path: *string
+│       │   │   ├── IncludedPaths: Object (2 properties)[]
+│       │   │   │   ├── Indexes: Object (3 properties)[]
+│       │   │   │   │   ├── DataType: *Enum (6 values)
+│       │   │   │   │   │   ├── "LineString"
+│       │   │   │   │   │   ├── "MultiPolygon"
+│       │   │   │   │   │   ├── "Number"
+│       │   │   │   │   │   ├── "Point"
+│       │   │   │   │   │   ├── "Polygon"
+│       │   │   │   │   │   └── "String"
+│       │   │   │   │   ├── Kind: *Enum (3 values)
+│       │   │   │   │   │   ├── "Hash"
+│       │   │   │   │   │   ├── "Range"
+│       │   │   │   │   │   └── "Spatial"
+│       │   │   │   │   └── Precision: *int
+│       │   │   │   └── Path: *string
+│       │   │   ├── IndexingMode: *Enum (3 values)
+│       │   │   │   ├── "consistent"
+│       │   │   │   ├── "lazy"
+│       │   │   │   └── "none"
+│       │   │   └── SpatialIndexes: Object (2 properties)[]
+│       │   │       ├── Path: *string
+│       │   │       └── Types: Enum (4 values)[]
+│       │   │           ├── "LineString"
+│       │   │           ├── "MultiPolygon"
+│       │   │           ├── "Point"
+│       │   │           └── "Polygon"
+│       │   ├── PartitionKey: *Object (4 properties)
+│       │   │   ├── Kind: *Enum (3 values)
+│       │   │   │   ├── "Hash"
+│       │   │   │   ├── "MultiHash"
+│       │   │   │   └── "Range"
+│       │   │   ├── Paths: string[]
+│       │   │   ├── SystemKey: *bool
+│       │   │   └── Version: *int
+│       │   ├── RestoreParameters: *Object (2 properties)
+│       │   │   ├── RestoreSource: *string
+│       │   │   └── RestoreTimestampInUtc: *string
+│       │   ├── Rid: *string
+│       │   ├── Ts: *float64
+│       │   └── UniqueKeyPolicy: *Object (1 property)
+│       │       └── UniqueKeys: Object (1 property)[]
+│       │           └── Paths: string[]
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainerStoredProcedure: Resource
+│   ├── Owner: SqlDatabaseContainer
+│   ├── Spec: Object (6 properties)
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: *Object (2 properties)
+│   │   │   ├── AutoscaleSettings: *Object (1 property)
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: *Object (2 properties)
+│   │   │   ├── Body: *string
+│   │   │   └── Id: *string
+│   │   └── Tags: map[string]string
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Resource: *Object (5 properties)
+│       │   ├── Body: *string
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Rid: *string
+│       │   └── Ts: *float64
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainerThroughputSetting: Resource
+│   ├── Owner: SqlDatabaseContainer
+│   ├── Spec: Object (4 properties)
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: *Object (2 properties)
+│   │   │   ├── AutoscaleSettings: *Object (2 properties)
+│   │   │   │   ├── AutoUpgradePolicy: *Object (1 property)
+│   │   │   │   │   └── ThroughputPolicy: *Object (2 properties)
+│   │   │   │   │       ├── IncrementPercent: *int
+│   │   │   │   │       └── IsEnabled: *bool
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   └── Tags: map[string]string
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Resource: *Object (9 properties)
+│       │   ├── AutoscaleSettings: *Object (3 properties)
+│       │   │   ├── AutoUpgradePolicy: *Object (1 property)
+│       │   │   │   └── ThroughputPolicy: *Object (2 properties)
+│       │   │   │       ├── IncrementPercent: *int
+│       │   │   │       └── IsEnabled: *bool
+│       │   │   ├── MaxThroughput: *int
+│       │   │   └── TargetMaxThroughput: *int
+│       │   ├── Etag: *string
+│       │   ├── InstantMaximumThroughput: *string
+│       │   ├── MinimumThroughput: *string
+│       │   ├── OfferReplacePending: *string
+│       │   ├── Rid: *string
+│       │   ├── SoftAllowedMaximumThroughput: *string
+│       │   ├── Throughput: *int
+│       │   └── Ts: *float64
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainerTrigger: Resource
+│   ├── Owner: SqlDatabaseContainer
+│   ├── Spec: Object (6 properties)
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: *Object (2 properties)
+│   │   │   ├── AutoscaleSettings: *Object (1 property)
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: *Object (4 properties)
+│   │   │   ├── Body: *string
+│   │   │   ├── Id: *string
+│   │   │   ├── TriggerOperation: *Enum (5 values)
+│   │   │   │   ├── "All"
+│   │   │   │   ├── "Create"
+│   │   │   │   ├── "Delete"
+│   │   │   │   ├── "Replace"
+│   │   │   │   └── "Update"
+│   │   │   └── TriggerType: *Enum (2 values)
+│   │   │       ├── "Post"
+│   │   │       └── "Pre"
+│   │   └── Tags: map[string]string
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Resource: *Object (7 properties)
+│       │   ├── Body: *string
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Rid: *string
+│       │   ├── TriggerOperation: *Enum (5 values)
+│       │   │   ├── "All"
+│       │   │   ├── "Create"
+│       │   │   ├── "Delete"
+│       │   │   ├── "Replace"
+│       │   │   └── "Update"
+│       │   ├── TriggerType: *Enum (2 values)
+│       │   │   ├── "Post"
+│       │   │   └── "Pre"
+│       │   └── Ts: *float64
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── SqlDatabaseContainerUserDefinedFunction: Resource
+│   ├── Owner: SqlDatabaseContainer
+│   ├── Spec: Object (6 properties)
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: *Object (2 properties)
+│   │   │   ├── AutoscaleSettings: *Object (1 property)
+│   │   │   │   └── MaxThroughput: *int
+│   │   │   └── Throughput: *int
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Resource: *Object (2 properties)
+│   │   │   ├── Body: *string
+│   │   │   └── Id: *string
+│   │   └── Tags: map[string]string
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Resource: *Object (5 properties)
+│       │   ├── Body: *string
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Rid: *string
+│       │   └── Ts: *float64
+│       ├── Tags: map[string]string
+│       └── Type: *string
+└── SqlDatabaseThroughputSetting: Resource
+    ├── Owner: SqlDatabase
     ├── Spec: Object (4 properties)
     │   ├── Location: *string
     │   ├── Owner: *genruntime.KnownResourceReference

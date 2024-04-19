@@ -49,22 +49,36 @@ var _ conversion.Convertible = &SqlDatabaseThroughputSetting{}
 
 // ConvertFrom populates our SqlDatabaseThroughputSetting from the provided hub SqlDatabaseThroughputSetting
 func (setting *SqlDatabaseThroughputSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210515s.SqlDatabaseThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20210515/storage/SqlDatabaseThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210515s.SqlDatabaseThroughputSetting
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return setting.AssignProperties_From_SqlDatabaseThroughputSetting(source)
+	err = setting.AssignProperties_From_SqlDatabaseThroughputSetting(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to setting")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlDatabaseThroughputSetting from our SqlDatabaseThroughputSetting
 func (setting *SqlDatabaseThroughputSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210515s.SqlDatabaseThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1api20210515/storage/SqlDatabaseThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210515s.SqlDatabaseThroughputSetting
+	err := setting.AssignProperties_To_SqlDatabaseThroughputSetting(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from setting")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return setting.AssignProperties_To_SqlDatabaseThroughputSetting(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1api20210515-sqldatabasethroughputsetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasethroughputsettings,verbs=create;update,versions=v1api20210515,name=default.v1api20210515.sqldatabasethroughputsettings.documentdb.azure.com,admissionReviewVersions=v1
@@ -82,17 +96,6 @@ func (setting *SqlDatabaseThroughputSetting) Default() {
 
 // defaultImpl applies the code generated defaults to the SqlDatabaseThroughputSetting resource
 func (setting *SqlDatabaseThroughputSetting) defaultImpl() {}
-
-var _ genruntime.ImportableResource = &SqlDatabaseThroughputSetting{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (setting *SqlDatabaseThroughputSetting) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS); ok {
-		return setting.Spec.Initialize_From_DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &SqlDatabaseThroughputSetting{}
 
@@ -546,31 +549,6 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) AssignPrope
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS populates our DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec from the provided source DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS
-func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) Initialize_From_DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS(source *DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS) error {
-
-	// Location
-	setting.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Resource
-	if source.Resource != nil {
-		var resource ThroughputSettingsResource
-		err := resource.Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS(source.Resource)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
-		}
-		setting.Resource = &resource
-	} else {
-		setting.Resource = nil
-	}
-
-	// Tags
-	setting.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil

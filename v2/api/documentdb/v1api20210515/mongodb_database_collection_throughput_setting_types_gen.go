@@ -1084,28 +1084,6 @@ func (resource *ThroughputSettingsResource) AssignProperties_To_ThroughputSettin
 	return nil
 }
 
-// Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS populates our ThroughputSettingsResource from the provided source ThroughputSettingsGetProperties_Resource_STATUS
-func (resource *ThroughputSettingsResource) Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS(source *ThroughputSettingsGetProperties_Resource_STATUS) error {
-
-	// AutoscaleSettings
-	if source.AutoscaleSettings != nil {
-		var autoscaleSetting AutoscaleSettingsResource
-		err := autoscaleSetting.Initialize_From_AutoscaleSettingsResource_STATUS(source.AutoscaleSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AutoscaleSettingsResource_STATUS() to populate field AutoscaleSettings")
-		}
-		resource.AutoscaleSettings = &autoscaleSetting
-	} else {
-		resource.AutoscaleSettings = nil
-	}
-
-	// Throughput
-	resource.Throughput = genruntime.ClonePointerToInt(source.Throughput)
-
-	// No error
-	return nil
-}
-
 // Cosmos DB provisioned throughput settings object
 type AutoscaleSettingsResource struct {
 	// AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
@@ -1224,28 +1202,6 @@ func (resource *AutoscaleSettingsResource) AssignProperties_To_AutoscaleSettings
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AutoscaleSettingsResource_STATUS populates our AutoscaleSettingsResource from the provided source AutoscaleSettingsResource_STATUS
-func (resource *AutoscaleSettingsResource) Initialize_From_AutoscaleSettingsResource_STATUS(source *AutoscaleSettingsResource_STATUS) error {
-
-	// AutoUpgradePolicy
-	if source.AutoUpgradePolicy != nil {
-		var autoUpgradePolicy AutoUpgradePolicyResource
-		err := autoUpgradePolicy.Initialize_From_AutoUpgradePolicyResource_STATUS(source.AutoUpgradePolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AutoUpgradePolicyResource_STATUS() to populate field AutoUpgradePolicy")
-		}
-		resource.AutoUpgradePolicy = &autoUpgradePolicy
-	} else {
-		resource.AutoUpgradePolicy = nil
-	}
-
-	// MaxThroughput
-	resource.MaxThroughput = genruntime.ClonePointerToInt(source.MaxThroughput)
 
 	// No error
 	return nil
@@ -1465,25 +1421,6 @@ func (resource *AutoUpgradePolicyResource) AssignProperties_To_AutoUpgradePolicy
 	return nil
 }
 
-// Initialize_From_AutoUpgradePolicyResource_STATUS populates our AutoUpgradePolicyResource from the provided source AutoUpgradePolicyResource_STATUS
-func (resource *AutoUpgradePolicyResource) Initialize_From_AutoUpgradePolicyResource_STATUS(source *AutoUpgradePolicyResource_STATUS) error {
-
-	// ThroughputPolicy
-	if source.ThroughputPolicy != nil {
-		var throughputPolicy ThroughputPolicyResource
-		err := throughputPolicy.Initialize_From_ThroughputPolicyResource_STATUS(source.ThroughputPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ThroughputPolicyResource_STATUS() to populate field ThroughputPolicy")
-		}
-		resource.ThroughputPolicy = &throughputPolicy
-	} else {
-		resource.ThroughputPolicy = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Cosmos DB resource auto-upgrade policy
 type AutoUpgradePolicyResource_STATUS struct {
 	// ThroughputPolicy: Represents throughput policy which service must adhere to for auto-upgrade
@@ -1665,24 +1602,6 @@ func (resource *ThroughputPolicyResource) AssignProperties_To_ThroughputPolicyRe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ThroughputPolicyResource_STATUS populates our ThroughputPolicyResource from the provided source ThroughputPolicyResource_STATUS
-func (resource *ThroughputPolicyResource) Initialize_From_ThroughputPolicyResource_STATUS(source *ThroughputPolicyResource_STATUS) error {
-
-	// IncrementPercent
-	resource.IncrementPercent = genruntime.ClonePointerToInt(source.IncrementPercent)
-
-	// IsEnabled
-	if source.IsEnabled != nil {
-		isEnabled := *source.IsEnabled
-		resource.IsEnabled = &isEnabled
-	} else {
-		resource.IsEnabled = nil
 	}
 
 	// No error
