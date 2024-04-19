@@ -2059,7 +2059,25 @@ objectModelConfiguration:
       DatabaseAccountCreateUpdateProperties:
         NetworkAclBypassResourceIds:
           $armReference: true
-
+      DatabaseAccounts_MongodbDatabase:
+        $exportAs: MongodbDatabase
+        $supportedFrom: v2.7.0
+      DatabaseAccounts_MongodbDatabases_Collection:
+        $exportAs: MongodbDatabaseCollection
+        $supportedFrom: v2.7.0
+      DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting:
+        $exportAs: MongodbDatabaseCollectionThroughputSetting
+        $supportedFrom: v2.7.0
+      DatabaseAccounts_MongodbDatabases_ThroughputSetting:
+        $exportAs: MongodbDatabaseThroughputSetting
+        $supportedFrom: v2.7.0
+      MongoDBCollectionResource:
+        Id:
+          $armReference: false
+      MongoDBDatabaseResource:
+        Id:
+          $armReference: false
+        
   eventgrid:
     2020-06-01:
       Domain:
