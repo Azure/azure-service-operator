@@ -10,12 +10,12 @@
 | ApiProperties_STATUS                                                      | v1api20210515 | v1api20231115 |
 | ApiProperties_ServerVersion                                               | v1api20210515 | v1api20231115 |
 | ApiProperties_ServerVersion_STATUS                                        | v1api20210515 | v1api20231115 |
-| AutoUpgradePolicyResource                                                 | v1api20210515 |               |
-| AutoUpgradePolicyResource_STATUS                                          | v1api20210515 |               |
-| AutoscaleSettings                                                         | v1api20210515 |               |
-| AutoscaleSettingsResource                                                 | v1api20210515 |               |
-| AutoscaleSettingsResource_STATUS                                          | v1api20210515 |               |
-| AutoscaleSettings_STATUS                                                  | v1api20210515 |               |
+| AutoUpgradePolicyResource                                                 | v1api20210515 | v1api20231115 |
+| AutoUpgradePolicyResource_STATUS                                          | v1api20210515 | v1api20231115 |
+| AutoscaleSettings                                                         | v1api20210515 | v1api20231115 |
+| AutoscaleSettingsResource                                                 | v1api20210515 | v1api20231115 |
+| AutoscaleSettingsResource_STATUS                                          | v1api20210515 | v1api20231115 |
+| AutoscaleSettings_STATUS                                                  | v1api20210515 | v1api20231115 |
 | BackupPolicy                                                              | v1api20210515 | v1api20231115 |
 | BackupPolicyMigrationState                                                |               | v1api20231115 |
 | BackupPolicyMigrationState_STATUS                                         |               | v1api20231115 |
@@ -60,7 +60,7 @@
 | CorsPolicy_STATUS                                                         | v1api20210515 | v1api20231115 |
 | CreateMode                                                                |               | v1api20231115 |
 | CreateMode_STATUS                                                         |               | v1api20231115 |
-| CreateUpdateOptions                                                       | v1api20210515 |               |
+| CreateUpdateOptions                                                       | v1api20210515 | v1api20231115 |
 | DatabaseAccount                                                           | v1api20210515 | v1api20231115 |
 | DatabaseAccountCreateUpdateProperties                                     | v1api20210515 | v1api20231115 |
 | DatabaseAccountGetProperties_STATUS                                       | v1api20210515 | v1api20231115 |
@@ -71,16 +71,16 @@
 | DatabaseAccount_Kind_Spec                                                 | v1api20210515 | v1api20231115 |
 | DatabaseAccount_STATUS                                                    | v1api20210515 | v1api20231115 |
 | DatabaseAccount_Spec                                                      | v1api20210515 | v1api20231115 |
-| DatabaseAccounts_MongodbDatabase_STATUS                                   | v1api20210515 |               |
-| DatabaseAccounts_MongodbDatabase_Spec                                     | v1api20210515 |               |
-| DatabaseAccounts_MongodbDatabases_Collection_STATUS                       | v1api20210515 |               |
-| DatabaseAccounts_MongodbDatabases_Collection_Spec                         | v1api20210515 |               |
-| DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Name_Spec | v1api20210515 |               |
-| DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS    | v1api20210515 |               |
-| DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec      | v1api20210515 |               |
-| DatabaseAccounts_MongodbDatabases_ThroughputSetting_Name_Spec             | v1api20210515 |               |
-| DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS                | v1api20210515 |               |
-| DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec                  | v1api20210515 |               |
+| DatabaseAccounts_MongodbDatabase_STATUS                                   | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_MongodbDatabase_Spec                                     | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_MongodbDatabases_Collection_STATUS                       | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_MongodbDatabases_Collection_Spec                         | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Name_Spec | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS    | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec      | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_MongodbDatabases_ThroughputSetting_Name_Spec             | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS                | v1api20210515 | v1api20231115 |
+| DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec                  | v1api20210515 | v1api20231115 |
 | DatabaseAccounts_SqlDatabase_STATUS                                       | v1api20210515 |               |
 | DatabaseAccounts_SqlDatabase_Spec                                         | v1api20210515 |               |
 | DatabaseAccounts_SqlDatabases_Container_STATUS                            | v1api20210515 |               |
@@ -129,27 +129,27 @@
 | ManagedServiceIdentity_UserAssignedIdentities_STATUS                      | v1api20210515 | v1api20231115 |
 | MinimalTlsVersion                                                         |               | v1api20231115 |
 | MinimalTlsVersion_STATUS                                                  |               | v1api20231115 |
-| MongoDBCollectionCreateUpdateProperties                                   | v1api20210515 |               |
-| MongoDBCollectionGetProperties_Resource_STATUS                            | v1api20210515 |               |
-| MongoDBCollectionGetProperties_STATUS                                     | v1api20210515 |               |
-| MongoDBCollectionResource                                                 | v1api20210515 |               |
-| MongoDBDatabaseCreateUpdateProperties                                     | v1api20210515 |               |
-| MongoDBDatabaseGetProperties_Resource_STATUS                              | v1api20210515 |               |
-| MongoDBDatabaseGetProperties_STATUS                                       | v1api20210515 |               |
-| MongoDBDatabaseResource                                                   | v1api20210515 |               |
-| MongoIndex                                                                | v1api20210515 |               |
-| MongoIndexKeys                                                            | v1api20210515 |               |
-| MongoIndexKeys_STATUS                                                     | v1api20210515 |               |
-| MongoIndexOptions                                                         | v1api20210515 |               |
-| MongoIndexOptions_STATUS                                                  | v1api20210515 |               |
-| MongoIndex_STATUS                                                         | v1api20210515 |               |
-| MongodbDatabase                                                           | v1api20210515 |               |
-| MongodbDatabaseCollection                                                 | v1api20210515 |               |
-| MongodbDatabaseCollectionThroughputSetting                                | v1api20210515 |               |
-| MongodbDatabaseThroughputSetting                                          | v1api20210515 |               |
+| MongoDBCollectionCreateUpdateProperties                                   | v1api20210515 | v1api20231115 |
+| MongoDBCollectionGetProperties_Resource_STATUS                            | v1api20210515 | v1api20231115 |
+| MongoDBCollectionGetProperties_STATUS                                     | v1api20210515 | v1api20231115 |
+| MongoDBCollectionResource                                                 | v1api20210515 | v1api20231115 |
+| MongoDBDatabaseCreateUpdateProperties                                     | v1api20210515 | v1api20231115 |
+| MongoDBDatabaseGetProperties_Resource_STATUS                              | v1api20210515 | v1api20231115 |
+| MongoDBDatabaseGetProperties_STATUS                                       | v1api20210515 | v1api20231115 |
+| MongoDBDatabaseResource                                                   | v1api20210515 | v1api20231115 |
+| MongoIndex                                                                | v1api20210515 | v1api20231115 |
+| MongoIndexKeys                                                            | v1api20210515 | v1api20231115 |
+| MongoIndexKeys_STATUS                                                     | v1api20210515 | v1api20231115 |
+| MongoIndexOptions                                                         | v1api20210515 | v1api20231115 |
+| MongoIndexOptions_STATUS                                                  | v1api20210515 | v1api20231115 |
+| MongoIndex_STATUS                                                         | v1api20210515 | v1api20231115 |
+| MongodbDatabase                                                           | v1api20210515 | v1api20231115 |
+| MongodbDatabaseCollection                                                 | v1api20210515 | v1api20231115 |
+| MongodbDatabaseCollectionThroughputSetting                                | v1api20210515 | v1api20231115 |
+| MongodbDatabaseThroughputSetting                                          | v1api20210515 | v1api20231115 |
 | NetworkAclBypass                                                          | v1api20210515 | v1api20231115 |
 | NetworkAclBypass_STATUS                                                   | v1api20210515 | v1api20231115 |
-| OptionsResource_STATUS                                                    | v1api20210515 |               |
+| OptionsResource_STATUS                                                    | v1api20210515 | v1api20231115 |
 | PeriodicModeBackupPolicy                                                  | v1api20210515 | v1api20231115 |
 | PeriodicModeBackupPolicy_STATUS                                           | v1api20210515 | v1api20231115 |
 | PeriodicModeBackupPolicy_Type                                             | v1api20210515 | v1api20231115 |
@@ -160,6 +160,8 @@
 | PublicNetworkAccess                                                       | v1api20210515 | v1api20231115 |
 | PublicNetworkAccess_STATUS                                                | v1api20210515 | v1api20231115 |
 | RestoreParameters                                                         |               | v1api20231115 |
+| RestoreParametersBase                                                     |               | v1api20231115 |
+| RestoreParametersBase_STATUS                                              |               | v1api20231115 |
 | RestoreParameters_RestoreMode                                             |               | v1api20231115 |
 | RestoreParameters_RestoreMode_STATUS                                      |               | v1api20231115 |
 | RestoreParameters_STATUS                                                  |               | v1api20231115 |
@@ -204,12 +206,12 @@
 | SystemData_CreatedByType_STATUS                                           |               | v1api20231115 |
 | SystemData_LastModifiedByType_STATUS                                      |               | v1api20231115 |
 | SystemData_STATUS                                                         |               | v1api20231115 |
-| ThroughputPolicyResource                                                  | v1api20210515 |               |
-| ThroughputPolicyResource_STATUS                                           | v1api20210515 |               |
-| ThroughputSettingsGetProperties_Resource_STATUS                           | v1api20210515 |               |
-| ThroughputSettingsGetProperties_STATUS                                    | v1api20210515 |               |
-| ThroughputSettingsResource                                                | v1api20210515 |               |
-| ThroughputSettingsUpdateProperties                                        | v1api20210515 |               |
+| ThroughputPolicyResource                                                  | v1api20210515 | v1api20231115 |
+| ThroughputPolicyResource_STATUS                                           | v1api20210515 | v1api20231115 |
+| ThroughputSettingsGetProperties_Resource_STATUS                           | v1api20210515 | v1api20231115 |
+| ThroughputSettingsGetProperties_STATUS                                    | v1api20210515 | v1api20231115 |
+| ThroughputSettingsResource                                                | v1api20210515 | v1api20231115 |
+| ThroughputSettingsUpdateProperties                                        | v1api20210515 | v1api20231115 |
 | UniqueKey                                                                 | v1api20210515 |               |
 | UniqueKeyPolicy                                                           | v1api20210515 |               |
 | UniqueKeyPolicy_STATUS                                                    | v1api20210515 |               |

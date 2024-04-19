@@ -640,10 +640,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.MongodbDatabase)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.MongodbDatabaseCollection)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.MongodbDatabaseCollectionThroughputSetting)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.MongodbDatabaseThroughputSetting)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.SqlDatabase)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.SqlDatabaseContainer)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.SqlDatabaseContainerStoredProcedure)})
@@ -667,6 +663,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.DatabaseAccount)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.MongodbDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.MongodbDatabaseCollection)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.MongodbDatabaseCollectionThroughputSetting)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.MongodbDatabaseThroughputSetting)})
 	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.Domain)})
 	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.DomainsTopic)})
 	result = append(result, &registration.StorageType{
@@ -1496,8 +1496,20 @@ func getKnownTypes() []client.Object {
 		new(documentdb_v20210515s.SqlDatabaseContainerUserDefinedFunction),
 		new(documentdb_v20210515s.SqlDatabaseThroughputSetting),
 		new(documentdb_v20210515s.SqlRoleAssignment))
-	result = append(result, new(documentdb_v20231115.DatabaseAccount))
-	result = append(result, new(documentdb_v20231115s.DatabaseAccount))
+	result = append(
+		result,
+		new(documentdb_v20231115.DatabaseAccount),
+		new(documentdb_v20231115.MongodbDatabase),
+		new(documentdb_v20231115.MongodbDatabaseCollection),
+		new(documentdb_v20231115.MongodbDatabaseCollectionThroughputSetting),
+		new(documentdb_v20231115.MongodbDatabaseThroughputSetting))
+	result = append(
+		result,
+		new(documentdb_v20231115s.DatabaseAccount),
+		new(documentdb_v20231115s.MongodbDatabase),
+		new(documentdb_v20231115s.MongodbDatabaseCollection),
+		new(documentdb_v20231115s.MongodbDatabaseCollectionThroughputSetting),
+		new(documentdb_v20231115s.MongodbDatabaseThroughputSetting))
 	result = append(
 		result,
 		new(eventgrid_v20200601.Domain),

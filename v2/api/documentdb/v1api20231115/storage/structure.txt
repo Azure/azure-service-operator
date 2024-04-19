@@ -2,290 +2,504 @@
 github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20231115/storage
 ├── APIVersion: Enum (1 value)
 │   └── "2023-11-15"
-└── DatabaseAccount: Resource
-    ├── Owner: resources/v1apiv20191001.ResourceGroup
-    ├── Spec: Object (40 properties)
-    │   ├── AnalyticalStorageConfiguration: *Object (2 properties)
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── SchemaType: *string
-    │   ├── ApiProperties: *Object (2 properties)
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── ServerVersion: *string
-    │   ├── AzureName: string
-    │   ├── BackupPolicy: *Object (3 properties)
-    │   │   ├── Continuous: *Object (4 properties)
-    │   │   │   ├── ContinuousModeProperties: *Object (2 properties)
-    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   │   └── Tier: *string
-    │   │   │   ├── MigrationState: *Object (4 properties)
-    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   │   ├── StartTime: *string
-    │   │   │   │   ├── Status: *string
-    │   │   │   │   └── TargetType: *string
-    │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   └── Type: *string
-    │   │   ├── Periodic: *Object (4 properties)
-    │   │   │   ├── MigrationState: *Object (4 properties)
-    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   │   ├── StartTime: *string
-    │   │   │   │   ├── Status: *string
-    │   │   │   │   └── TargetType: *string
-    │   │   │   ├── PeriodicModeProperties: *Object (4 properties)
-    │   │   │   │   ├── BackupIntervalInMinutes: *int
-    │   │   │   │   ├── BackupRetentionIntervalInHours: *int
-    │   │   │   │   ├── BackupStorageRedundancy: *string
-    │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   └── Type: *string
-    │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── Capabilities: Object (2 properties)[]
-    │   │   ├── Name: *string
-    │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── Capacity: *Object (2 properties)
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── TotalThroughputLimit: *int
-    │   ├── ConnectorOffer: *string
-    │   ├── ConsistencyPolicy: *Object (4 properties)
-    │   │   ├── DefaultConsistencyLevel: *string
-    │   │   ├── MaxIntervalInSeconds: *int
-    │   │   ├── MaxStalenessPrefix: *int
-    │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── Cors: Object (6 properties)[]
-    │   │   ├── AllowedHeaders: *string
-    │   │   ├── AllowedMethods: *string
-    │   │   ├── AllowedOrigins: *string
-    │   │   ├── ExposedHeaders: *string
-    │   │   ├── MaxAgeInSeconds: *int
-    │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── CreateMode: *string
-    │   ├── CustomerManagedKeyStatus: *string
-    │   ├── DatabaseAccountOfferType: *string
-    │   ├── DefaultIdentity: *string
-    │   ├── DisableKeyBasedMetadataWriteAccess: *bool
-    │   ├── DisableLocalAuth: *bool
-    │   ├── EnableAnalyticalStorage: *bool
-    │   ├── EnableAutomaticFailover: *bool
-    │   ├── EnableBurstCapacity: *bool
-    │   ├── EnableCassandraConnector: *bool
-    │   ├── EnableFreeTier: *bool
-    │   ├── EnableMultipleWriteLocations: *bool
-    │   ├── EnablePartitionMerge: *bool
-    │   ├── Identity: *Object (3 properties)
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   ├── Type: *string
-    │   │   └── UserAssignedIdentities: Object (2 properties)[]
-    │   │       ├── PropertyBag: genruntime.PropertyBag
-    │   │       └── Reference: genruntime.ResourceReference
-    │   ├── IpRules: Object (2 properties)[]
-    │   │   ├── IpAddressOrRange: *string
-    │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── IsVirtualNetworkFilterEnabled: *bool
-    │   ├── KeyVaultKeyUri: *string
-    │   ├── Kind: *string
+├── DatabaseAccount: Resource
+│   ├── Owner: resources/v1apiv20191001.ResourceGroup
+│   ├── Spec: Object (40 properties)
+│   │   ├── AnalyticalStorageConfiguration: *Object (2 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── SchemaType: *string
+│   │   ├── ApiProperties: *Object (2 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── ServerVersion: *string
+│   │   ├── AzureName: string
+│   │   ├── BackupPolicy: *Object (3 properties)
+│   │   │   ├── Continuous: *Object (4 properties)
+│   │   │   │   ├── ContinuousModeProperties: *Object (2 properties)
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Tier: *string
+│   │   │   │   ├── MigrationState: *Object (4 properties)
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   ├── StartTime: *string
+│   │   │   │   │   ├── Status: *string
+│   │   │   │   │   └── TargetType: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Type: *string
+│   │   │   ├── Periodic: *Object (4 properties)
+│   │   │   │   ├── MigrationState: *Object (4 properties)
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   ├── StartTime: *string
+│   │   │   │   │   ├── Status: *string
+│   │   │   │   │   └── TargetType: *string
+│   │   │   │   ├── PeriodicModeProperties: *Object (4 properties)
+│   │   │   │   │   ├── BackupIntervalInMinutes: *int
+│   │   │   │   │   ├── BackupRetentionIntervalInHours: *int
+│   │   │   │   │   ├── BackupStorageRedundancy: *string
+│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Type: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Capabilities: Object (2 properties)[]
+│   │   │   ├── Name: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Capacity: *Object (2 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── TotalThroughputLimit: *int
+│   │   ├── ConnectorOffer: *string
+│   │   ├── ConsistencyPolicy: *Object (4 properties)
+│   │   │   ├── DefaultConsistencyLevel: *string
+│   │   │   ├── MaxIntervalInSeconds: *int
+│   │   │   ├── MaxStalenessPrefix: *int
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Cors: Object (6 properties)[]
+│   │   │   ├── AllowedHeaders: *string
+│   │   │   ├── AllowedMethods: *string
+│   │   │   ├── AllowedOrigins: *string
+│   │   │   ├── ExposedHeaders: *string
+│   │   │   ├── MaxAgeInSeconds: *int
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── CreateMode: *string
+│   │   ├── CustomerManagedKeyStatus: *string
+│   │   ├── DatabaseAccountOfferType: *string
+│   │   ├── DefaultIdentity: *string
+│   │   ├── DisableKeyBasedMetadataWriteAccess: *bool
+│   │   ├── DisableLocalAuth: *bool
+│   │   ├── EnableAnalyticalStorage: *bool
+│   │   ├── EnableAutomaticFailover: *bool
+│   │   ├── EnableBurstCapacity: *bool
+│   │   ├── EnableCassandraConnector: *bool
+│   │   ├── EnableFreeTier: *bool
+│   │   ├── EnableMultipleWriteLocations: *bool
+│   │   ├── EnablePartitionMerge: *bool
+│   │   ├── Identity: *Object (3 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
+│   │   ├── IpRules: Object (2 properties)[]
+│   │   │   ├── IpAddressOrRange: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── IsVirtualNetworkFilterEnabled: *bool
+│   │   ├── KeyVaultKeyUri: *string
+│   │   ├── Kind: *string
+│   │   ├── Location: *string
+│   │   ├── Locations: Object (4 properties)[]
+│   │   │   ├── FailoverPriority: *int
+│   │   │   ├── IsZoneRedundant: *bool
+│   │   │   ├── LocationName: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── MinimalTlsVersion: *string
+│   │   ├── NetworkAclBypass: *string
+│   │   ├── NetworkAclBypassResourceReferences: genruntime.ResourceReference[]
+│   │   ├── OperatorSpec: *Object (2 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Secrets: *Object (6 properties)
+│   │   │       ├── DocumentEndpoint: *genruntime.SecretDestination
+│   │   │       ├── PrimaryMasterKey: *genruntime.SecretDestination
+│   │   │       ├── PrimaryReadonlyMasterKey: *genruntime.SecretDestination
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       ├── SecondaryMasterKey: *genruntime.SecretDestination
+│   │   │       └── SecondaryReadonlyMasterKey: *genruntime.SecretDestination
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── PublicNetworkAccess: *string
+│   │   ├── RestoreParameters: *Object (7 properties)
+│   │   │   ├── DatabasesToRestore: Object (3 properties)[]
+│   │   │   │   ├── CollectionNames: string[]
+│   │   │   │   ├── DatabaseName: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── GremlinDatabasesToRestore: Object (3 properties)[]
+│   │   │   │   ├── DatabaseName: *string
+│   │   │   │   ├── GraphNames: string[]
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── RestoreMode: *string
+│   │   │   ├── RestoreSource: *string
+│   │   │   ├── RestoreTimestampInUtc: *string
+│   │   │   └── TablesToRestore: string[]
+│   │   ├── Tags: map[string]string
+│   │   └── VirtualNetworkRules: Object (3 properties)[]
+│   │       ├── IgnoreMissingVNetServiceEndpoint: *bool
+│   │       ├── PropertyBag: genruntime.PropertyBag
+│   │       └── Reference: *genruntime.ResourceReference
+│   └── Status: Object (49 properties)
+│       ├── AnalyticalStorageConfiguration: *Object (2 properties)
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── SchemaType: *string
+│       ├── ApiProperties: *Object (2 properties)
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── ServerVersion: *string
+│       ├── BackupPolicy: *Object (3 properties)
+│       │   ├── Continuous: *Object (4 properties)
+│       │   │   ├── ContinuousModeProperties: *Object (2 properties)
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Tier: *string
+│       │   │   ├── MigrationState: *Object (4 properties)
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   ├── StartTime: *string
+│       │   │   │   ├── Status: *string
+│       │   │   │   └── TargetType: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Type: *string
+│       │   ├── Periodic: *Object (4 properties)
+│       │   │   ├── MigrationState: *Object (4 properties)
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   ├── StartTime: *string
+│       │   │   │   ├── Status: *string
+│       │   │   │   └── TargetType: *string
+│       │   │   ├── PeriodicModeProperties: *Object (4 properties)
+│       │   │   │   ├── BackupIntervalInMinutes: *int
+│       │   │   │   ├── BackupRetentionIntervalInHours: *int
+│       │   │   │   ├── BackupStorageRedundancy: *string
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Type: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Capabilities: Object (2 properties)[]
+│       │   ├── Name: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Capacity: *Object (2 properties)
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── TotalThroughputLimit: *int
+│       ├── Conditions: conditions.Condition[]
+│       ├── ConnectorOffer: *string
+│       ├── ConsistencyPolicy: *Object (4 properties)
+│       │   ├── DefaultConsistencyLevel: *string
+│       │   ├── MaxIntervalInSeconds: *int
+│       │   ├── MaxStalenessPrefix: *int
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Cors: Object (6 properties)[]
+│       │   ├── AllowedHeaders: *string
+│       │   ├── AllowedMethods: *string
+│       │   ├── AllowedOrigins: *string
+│       │   ├── ExposedHeaders: *string
+│       │   ├── MaxAgeInSeconds: *int
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── CreateMode: *string
+│       ├── CustomerManagedKeyStatus: *string
+│       ├── DatabaseAccountOfferType: *string
+│       ├── DefaultIdentity: *string
+│       ├── DisableKeyBasedMetadataWriteAccess: *bool
+│       ├── DisableLocalAuth: *bool
+│       ├── DocumentEndpoint: *string
+│       ├── EnableAnalyticalStorage: *bool
+│       ├── EnableAutomaticFailover: *bool
+│       ├── EnableBurstCapacity: *bool
+│       ├── EnableCassandraConnector: *bool
+│       ├── EnableFreeTier: *bool
+│       ├── EnableMultipleWriteLocations: *bool
+│       ├── EnablePartitionMerge: *bool
+│       ├── FailoverPolicies: Object (4 properties)[]
+│       │   ├── FailoverPriority: *int
+│       │   ├── Id: *string
+│       │   ├── LocationName: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Id: *string
+│       ├── Identity: *Object (5 properties)
+│       │   ├── PrincipalId: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── TenantId: *string
+│       │   ├── Type: *string
+│       │   └── UserAssignedIdentities: map[string]Object (3 properties)
+│       │       ├── ClientId: *string
+│       │       ├── PrincipalId: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── InstanceId: *string
+│       ├── IpRules: Object (2 properties)[]
+│       │   ├── IpAddressOrRange: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── IsVirtualNetworkFilterEnabled: *bool
+│       ├── KeyVaultKeyUri: *string
+│       ├── KeysMetadata: *Object (5 properties)
+│       │   ├── PrimaryMasterKey: *Object (2 properties)
+│       │   │   ├── GenerationTime: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PrimaryReadonlyMasterKey: *Object (2 properties)
+│       │   │   ├── GenerationTime: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── SecondaryMasterKey: *Object (2 properties)
+│       │   │   ├── GenerationTime: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   └── SecondaryReadonlyMasterKey: *Object (2 properties)
+│       │       ├── GenerationTime: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── Kind: *string
+│       ├── Location: *string
+│       ├── Locations: Object (7 properties)[]
+│       │   ├── DocumentEndpoint: *string
+│       │   ├── FailoverPriority: *int
+│       │   ├── Id: *string
+│       │   ├── IsZoneRedundant: *bool
+│       │   ├── LocationName: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── ProvisioningState: *string
+│       ├── MinimalTlsVersion: *string
+│       ├── Name: *string
+│       ├── NetworkAclBypass: *string
+│       ├── NetworkAclBypassResourceIds: string[]
+│       ├── PrivateEndpointConnections: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── PublicNetworkAccess: *string
+│       ├── ReadLocations: Object (7 properties)[]
+│       │   ├── DocumentEndpoint: *string
+│       │   ├── FailoverPriority: *int
+│       │   ├── Id: *string
+│       │   ├── IsZoneRedundant: *bool
+│       │   ├── LocationName: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── ProvisioningState: *string
+│       ├── RestoreParameters: *Object (7 properties)
+│       │   ├── DatabasesToRestore: Object (3 properties)[]
+│       │   │   ├── CollectionNames: string[]
+│       │   │   ├── DatabaseName: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── GremlinDatabasesToRestore: Object (3 properties)[]
+│       │   │   ├── DatabaseName: *string
+│       │   │   ├── GraphNames: string[]
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RestoreMode: *string
+│       │   ├── RestoreSource: *string
+│       │   ├── RestoreTimestampInUtc: *string
+│       │   └── TablesToRestore: string[]
+│       ├── SystemData: *Object (7 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: map[string]string
+│       ├── Type: *string
+│       ├── VirtualNetworkRules: Object (3 properties)[]
+│       │   ├── Id: *string
+│       │   ├── IgnoreMissingVNetServiceEndpoint: *bool
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       └── WriteLocations: Object (7 properties)[]
+│           ├── DocumentEndpoint: *string
+│           ├── FailoverPriority: *int
+│           ├── Id: *string
+│           ├── IsZoneRedundant: *bool
+│           ├── LocationName: *string
+│           ├── PropertyBag: genruntime.PropertyBag
+│           └── ProvisioningState: *string
+├── MongodbDatabase: Resource
+│   ├── Owner: documentdb/v1api20231115.DatabaseAccount
+│   ├── Spec: Object (8 properties)
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (2 properties)
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: *Object (4 properties)
+│   │   │   ├── CreateMode: *string
+│   │   │   ├── Id: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── RestoreParameters: *Object (3 properties)
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       ├── RestoreSource: *string
+│   │   │       └── RestoreTimestampInUtc: *string
+│   │   └── Tags: map[string]string
+│   └── Status: Object (9 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Options: *Object (3 properties)
+│       │   ├── AutoscaleSettings: *Object (2 properties)
+│       │   │   ├── MaxThroughput: *int
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Throughput: *int
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: *Object (7 properties)
+│       │   ├── CreateMode: *string
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RestoreParameters: *Object (3 properties)
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── RestoreSource: *string
+│       │   │   └── RestoreTimestampInUtc: *string
+│       │   ├── Rid: *string
+│       │   └── Ts: *float64
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── MongodbDatabaseCollection: Resource
+│   ├── Owner: documentdb/v1api20231115.MongodbDatabase
+│   ├── Spec: Object (8 properties)
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Options: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (2 properties)
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: *Object (7 properties)
+│   │   │   ├── AnalyticalStorageTtl: *int
+│   │   │   ├── CreateMode: *string
+│   │   │   ├── Id: *string
+│   │   │   ├── Indexes: Object (3 properties)[]
+│   │   │   │   ├── Key: *Object (2 properties)
+│   │   │   │   │   ├── Keys: string[]
+│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── Options: *Object (3 properties)
+│   │   │   │   │   ├── ExpireAfterSeconds: *int
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── Unique: *bool
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── RestoreParameters: *Object (3 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── RestoreSource: *string
+│   │   │   │   └── RestoreTimestampInUtc: *string
+│   │   │   └── ShardKey: map[string]string
+│   │   └── Tags: map[string]string
+│   └── Status: Object (9 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── Options: *Object (3 properties)
+│       │   ├── AutoscaleSettings: *Object (2 properties)
+│       │   │   ├── MaxThroughput: *int
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Throughput: *int
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: *Object (10 properties)
+│       │   ├── AnalyticalStorageTtl: *int
+│       │   ├── CreateMode: *string
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Indexes: Object (3 properties)[]
+│       │   │   ├── Key: *Object (2 properties)
+│       │   │   │   ├── Keys: string[]
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Options: *Object (3 properties)
+│       │   │   │   ├── ExpireAfterSeconds: *int
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Unique: *bool
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RestoreParameters: *Object (3 properties)
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── RestoreSource: *string
+│       │   │   └── RestoreTimestampInUtc: *string
+│       │   ├── Rid: *string
+│       │   ├── ShardKey: map[string]string
+│       │   └── Ts: *float64
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── MongodbDatabaseCollectionThroughputSetting: Resource
+│   ├── Owner: documentdb/v1api20231115.MongodbDatabaseCollection
+│   ├── Spec: Object (6 properties)
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Resource: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (3 properties)
+│   │   │   │   ├── AutoUpgradePolicy: *Object (2 properties)
+│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   │   └── ThroughputPolicy: *Object (3 properties)
+│   │   │   │   │       ├── IncrementPercent: *int
+│   │   │   │   │       ├── IsEnabled: *bool
+│   │   │   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── MaxThroughput: *int
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Throughput: *int
+│   │   └── Tags: map[string]string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Resource: *Object (10 properties)
+│       │   ├── AutoscaleSettings: *Object (4 properties)
+│       │   │   ├── AutoUpgradePolicy: *Object (2 properties)
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── ThroughputPolicy: *Object (3 properties)
+│       │   │   │       ├── IncrementPercent: *int
+│       │   │   │       ├── IsEnabled: *bool
+│       │   │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── MaxThroughput: *int
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── TargetMaxThroughput: *int
+│       │   ├── Etag: *string
+│       │   ├── InstantMaximumThroughput: *string
+│       │   ├── MinimumThroughput: *string
+│       │   ├── OfferReplacePending: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Rid: *string
+│       │   ├── SoftAllowedMaximumThroughput: *string
+│       │   ├── Throughput: *int
+│       │   └── Ts: *float64
+│       ├── Tags: map[string]string
+│       └── Type: *string
+└── MongodbDatabaseThroughputSetting: Resource
+    ├── Owner: documentdb/v1api20231115.MongodbDatabase
+    ├── Spec: Object (6 properties)
     │   ├── Location: *string
-    │   ├── Locations: Object (4 properties)[]
-    │   │   ├── FailoverPriority: *int
-    │   │   ├── IsZoneRedundant: *bool
-    │   │   ├── LocationName: *string
-    │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── MinimalTlsVersion: *string
-    │   ├── NetworkAclBypass: *string
-    │   ├── NetworkAclBypassResourceReferences: genruntime.ResourceReference[]
-    │   ├── OperatorSpec: *Object (2 properties)
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── Secrets: *Object (6 properties)
-    │   │       ├── DocumentEndpoint: *genruntime.SecretDestination
-    │   │       ├── PrimaryMasterKey: *genruntime.SecretDestination
-    │   │       ├── PrimaryReadonlyMasterKey: *genruntime.SecretDestination
-    │   │       ├── PropertyBag: genruntime.PropertyBag
-    │   │       ├── SecondaryMasterKey: *genruntime.SecretDestination
-    │   │       └── SecondaryReadonlyMasterKey: *genruntime.SecretDestination
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── PublicNetworkAccess: *string
-    │   ├── RestoreParameters: *Object (7 properties)
-    │   │   ├── DatabasesToRestore: Object (3 properties)[]
-    │   │   │   ├── CollectionNames: string[]
-    │   │   │   ├── DatabaseName: *string
-    │   │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │   ├── GremlinDatabasesToRestore: Object (3 properties)[]
-    │   │   │   ├── DatabaseName: *string
-    │   │   │   ├── GraphNames: string[]
+    │   ├── Resource: *Object (3 properties)
+    │   │   ├── AutoscaleSettings: *Object (3 properties)
+    │   │   │   ├── AutoUpgradePolicy: *Object (2 properties)
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── ThroughputPolicy: *Object (3 properties)
+    │   │   │   │       ├── IncrementPercent: *int
+    │   │   │   │       ├── IsEnabled: *bool
+    │   │   │   │       └── PropertyBag: genruntime.PropertyBag
+    │   │   │   ├── MaxThroughput: *int
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   ├── RestoreMode: *string
-    │   │   ├── RestoreSource: *string
-    │   │   ├── RestoreTimestampInUtc: *string
-    │   │   └── TablesToRestore: string[]
-    │   ├── Tags: map[string]string
-    │   └── VirtualNetworkRules: Object (3 properties)[]
-    │       ├── IgnoreMissingVNetServiceEndpoint: *bool
-    │       ├── PropertyBag: genruntime.PropertyBag
-    │       └── Reference: *genruntime.ResourceReference
-    └── Status: Object (49 properties)
-        ├── AnalyticalStorageConfiguration: *Object (2 properties)
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── SchemaType: *string
-        ├── ApiProperties: *Object (2 properties)
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── ServerVersion: *string
-        ├── BackupPolicy: *Object (3 properties)
-        │   ├── Continuous: *Object (4 properties)
-        │   │   ├── ContinuousModeProperties: *Object (2 properties)
-        │   │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   │   └── Tier: *string
-        │   │   ├── MigrationState: *Object (4 properties)
-        │   │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   │   ├── StartTime: *string
-        │   │   │   ├── Status: *string
-        │   │   │   └── TargetType: *string
-        │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   └── Type: *string
-        │   ├── Periodic: *Object (4 properties)
-        │   │   ├── MigrationState: *Object (4 properties)
-        │   │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   │   ├── StartTime: *string
-        │   │   │   ├── Status: *string
-        │   │   │   └── TargetType: *string
-        │   │   ├── PeriodicModeProperties: *Object (4 properties)
-        │   │   │   ├── BackupIntervalInMinutes: *int
-        │   │   │   ├── BackupRetentionIntervalInHours: *int
-        │   │   │   ├── BackupStorageRedundancy: *string
-        │   │   │   └── PropertyBag: genruntime.PropertyBag
-        │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   └── Type: *string
-        │   └── PropertyBag: genruntime.PropertyBag
-        ├── Capabilities: Object (2 properties)[]
-        │   ├── Name: *string
-        │   └── PropertyBag: genruntime.PropertyBag
-        ├── Capacity: *Object (2 properties)
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── TotalThroughputLimit: *int
+    │   │   └── Throughput: *int
+    │   └── Tags: map[string]string
+    └── Status: Object (8 properties)
         ├── Conditions: conditions.Condition[]
-        ├── ConnectorOffer: *string
-        ├── ConsistencyPolicy: *Object (4 properties)
-        │   ├── DefaultConsistencyLevel: *string
-        │   ├── MaxIntervalInSeconds: *int
-        │   ├── MaxStalenessPrefix: *int
-        │   └── PropertyBag: genruntime.PropertyBag
-        ├── Cors: Object (6 properties)[]
-        │   ├── AllowedHeaders: *string
-        │   ├── AllowedMethods: *string
-        │   ├── AllowedOrigins: *string
-        │   ├── ExposedHeaders: *string
-        │   ├── MaxAgeInSeconds: *int
-        │   └── PropertyBag: genruntime.PropertyBag
-        ├── CreateMode: *string
-        ├── CustomerManagedKeyStatus: *string
-        ├── DatabaseAccountOfferType: *string
-        ├── DefaultIdentity: *string
-        ├── DisableKeyBasedMetadataWriteAccess: *bool
-        ├── DisableLocalAuth: *bool
-        ├── DocumentEndpoint: *string
-        ├── EnableAnalyticalStorage: *bool
-        ├── EnableAutomaticFailover: *bool
-        ├── EnableBurstCapacity: *bool
-        ├── EnableCassandraConnector: *bool
-        ├── EnableFreeTier: *bool
-        ├── EnableMultipleWriteLocations: *bool
-        ├── EnablePartitionMerge: *bool
-        ├── FailoverPolicies: Object (4 properties)[]
-        │   ├── FailoverPriority: *int
-        │   ├── Id: *string
-        │   ├── LocationName: *string
-        │   └── PropertyBag: genruntime.PropertyBag
         ├── Id: *string
-        ├── Identity: *Object (5 properties)
-        │   ├── PrincipalId: *string
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   ├── TenantId: *string
-        │   ├── Type: *string
-        │   └── UserAssignedIdentities: map[string]Object (3 properties)
-        │       ├── ClientId: *string
-        │       ├── PrincipalId: *string
-        │       └── PropertyBag: genruntime.PropertyBag
-        ├── InstanceId: *string
-        ├── IpRules: Object (2 properties)[]
-        │   ├── IpAddressOrRange: *string
-        │   └── PropertyBag: genruntime.PropertyBag
-        ├── IsVirtualNetworkFilterEnabled: *bool
-        ├── KeyVaultKeyUri: *string
-        ├── KeysMetadata: *Object (5 properties)
-        │   ├── PrimaryMasterKey: *Object (2 properties)
-        │   │   ├── GenerationTime: *string
-        │   │   └── PropertyBag: genruntime.PropertyBag
-        │   ├── PrimaryReadonlyMasterKey: *Object (2 properties)
-        │   │   ├── GenerationTime: *string
-        │   │   └── PropertyBag: genruntime.PropertyBag
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   ├── SecondaryMasterKey: *Object (2 properties)
-        │   │   ├── GenerationTime: *string
-        │   │   └── PropertyBag: genruntime.PropertyBag
-        │   └── SecondaryReadonlyMasterKey: *Object (2 properties)
-        │       ├── GenerationTime: *string
-        │       └── PropertyBag: genruntime.PropertyBag
-        ├── Kind: *string
         ├── Location: *string
-        ├── Locations: Object (7 properties)[]
-        │   ├── DocumentEndpoint: *string
-        │   ├── FailoverPriority: *int
-        │   ├── Id: *string
-        │   ├── IsZoneRedundant: *bool
-        │   ├── LocationName: *string
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── ProvisioningState: *string
-        ├── MinimalTlsVersion: *string
         ├── Name: *string
-        ├── NetworkAclBypass: *string
-        ├── NetworkAclBypassResourceIds: string[]
-        ├── PrivateEndpointConnections: Object (2 properties)[]
-        │   ├── Id: *string
-        │   └── PropertyBag: genruntime.PropertyBag
         ├── PropertyBag: genruntime.PropertyBag
-        ├── ProvisioningState: *string
-        ├── PublicNetworkAccess: *string
-        ├── ReadLocations: Object (7 properties)[]
-        │   ├── DocumentEndpoint: *string
-        │   ├── FailoverPriority: *int
-        │   ├── Id: *string
-        │   ├── IsZoneRedundant: *bool
-        │   ├── LocationName: *string
+        ├── Resource: *Object (10 properties)
+        │   ├── AutoscaleSettings: *Object (4 properties)
+        │   │   ├── AutoUpgradePolicy: *Object (2 properties)
+        │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   └── ThroughputPolicy: *Object (3 properties)
+        │   │   │       ├── IncrementPercent: *int
+        │   │   │       ├── IsEnabled: *bool
+        │   │   │       └── PropertyBag: genruntime.PropertyBag
+        │   │   ├── MaxThroughput: *int
+        │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   └── TargetMaxThroughput: *int
+        │   ├── Etag: *string
+        │   ├── InstantMaximumThroughput: *string
+        │   ├── MinimumThroughput: *string
+        │   ├── OfferReplacePending: *string
         │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── ProvisioningState: *string
-        ├── RestoreParameters: *Object (7 properties)
-        │   ├── DatabasesToRestore: Object (3 properties)[]
-        │   │   ├── CollectionNames: string[]
-        │   │   ├── DatabaseName: *string
-        │   │   └── PropertyBag: genruntime.PropertyBag
-        │   ├── GremlinDatabasesToRestore: Object (3 properties)[]
-        │   │   ├── DatabaseName: *string
-        │   │   ├── GraphNames: string[]
-        │   │   └── PropertyBag: genruntime.PropertyBag
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   ├── RestoreMode: *string
-        │   ├── RestoreSource: *string
-        │   ├── RestoreTimestampInUtc: *string
-        │   └── TablesToRestore: string[]
-        ├── SystemData: *Object (7 properties)
-        │   ├── CreatedAt: *string
-        │   ├── CreatedBy: *string
-        │   ├── CreatedByType: *string
-        │   ├── LastModifiedAt: *string
-        │   ├── LastModifiedBy: *string
-        │   ├── LastModifiedByType: *string
-        │   └── PropertyBag: genruntime.PropertyBag
+        │   ├── Rid: *string
+        │   ├── SoftAllowedMaximumThroughput: *string
+        │   ├── Throughput: *int
+        │   └── Ts: *float64
         ├── Tags: map[string]string
-        ├── Type: *string
-        ├── VirtualNetworkRules: Object (3 properties)[]
-        │   ├── Id: *string
-        │   ├── IgnoreMissingVNetServiceEndpoint: *bool
-        │   └── PropertyBag: genruntime.PropertyBag
-        └── WriteLocations: Object (7 properties)[]
-            ├── DocumentEndpoint: *string
-            ├── FailoverPriority: *int
-            ├── Id: *string
-            ├── IsZoneRedundant: *bool
-            ├── LocationName: *string
-            ├── PropertyBag: genruntime.PropertyBag
-            └── ProvisioningState: *string
+        └── Type: *string
