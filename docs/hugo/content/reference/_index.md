@@ -339,9 +339,13 @@ To install the CRDs for these resources, your ASO configuration must include `do
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource        | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                           |
-|-----------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| DatabaseAccount | 2023-11-15  | v1api20231115 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20231115/v1api20231115_databaseaccount.yaml) |
+| Resource                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                           |
+|--------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| DatabaseAccount                            | 2023-11-15  | v1api20231115 | v2.7.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20231115/v1api20231115_databaseaccount.yaml) |
+| MongodbDatabase                            | 2023-11-15  | v1api20231115 | v2.7.0         | -                                                                                                                                                |
+| MongodbDatabaseCollection                  | 2023-11-15  | v1api20231115 | v2.7.0         | -                                                                                                                                                |
+| MongodbDatabaseCollectionThroughputSetting | 2023-11-15  | v1api20231115 | v2.7.0         | -                                                                                                                                                |
+| MongodbDatabaseThroughputSetting           | 2023-11-15  | v1api20231115 | v2.7.0         | -                                                                                                                                                |
 
 ### Released
 
