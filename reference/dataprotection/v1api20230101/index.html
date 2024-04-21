@@ -39,7 +39,7 @@
     AbsoluteDeleteOption   (Appears on:DeleteOption)      Field Description      duration  string    Duration: Duration of deletion after given timespan
     objectType  AbsoluteDeleteOption_ObjectType     ObjectType: Type of the specific object - used for deserializing">
 
-<meta itemprop="wordCount" content="5231">
+<meta itemprop="wordCount" content="5336">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="dataprotection.azure.com/v1api20230101"/>
 <meta name="twitter:description" content="dataprotection.azure.com/v1api20230101  Package v1api20230101 contains API Schema definitions for the dataprotection v1api20230101 API group
@@ -337,6 +337,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencedataprotectionv1api20230101-li">
   <a href="/azure-service-operator/reference/dataprotection/v1api20230101/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20230101"><span class="td-sidebar-nav-active-item">dataprotection.azure.com/v1api20230101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedataprotectionv1api20231101-li">
+  <a href="/azure-service-operator/reference/dataprotection/v1api20231101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20231101"><span class="">dataprotection.azure.com/v1api20231101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
@@ -2996,6 +2998,20 @@ string
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#dataprotection.azure.com/v1api20230101.BackupVaultOperatorSpec">
+BackupVaultOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -3046,6 +3062,67 @@ BackupVaultResource_STATUS
 </em>
 </td>
 <td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dataprotection.azure.com/v1api20230101.BackupVaultOperatorConfigMaps">BackupVaultOperatorConfigMaps
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVaultOperatorSpec">BackupVaultOperatorSpec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>principalId</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">
+genruntime.ConfigMapDestination
+</a>
+</em>
+</td>
+<td>
+<p>PrincipalId: indicates where the PrincipalId config map should be placed. If omitted, no config map will be created.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dataprotection.azure.com/v1api20230101.BackupVaultOperatorSpec">BackupVaultOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dataprotection.azure.com/v1api20230101.BackupVault_Spec">BackupVault_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMaps</code><br/>
+<em>
+<a href="#dataprotection.azure.com/v1api20230101.BackupVaultOperatorConfigMaps">
+BackupVaultOperatorConfigMaps
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMaps: configures where to place operator written ConfigMaps.</p>
 </td>
 </tr>
 </tbody>
@@ -3797,6 +3874,20 @@ string
 </td>
 <td>
 <p>Location: Resource location.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#dataprotection.azure.com/v1api20230101.BackupVaultOperatorSpec">
+BackupVaultOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
 </td>
 </tr>
 <tr>

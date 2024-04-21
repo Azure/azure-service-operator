@@ -36,7 +36,7 @@
  Resource Types:  APIVersion (string alias)      Value Description   &#34;2023-01-31&#34;
     FederatedIdentityCredential   Generator information: - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/stable/2023-01-31/ManagedIdentity.json - ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{resourceName}/&#x200b;federatedIdentityCredentials/&#x200b;{federatedIdentityCredentialResourceName}     Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.">
 
-<meta itemprop="wordCount" content="1394">
+<meta itemprop="wordCount" content="1472">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="managedidentity.azure.com/v1api20230131"/>
 <meta name="twitter:description" content="managedidentity.azure.com/v1api20230131  Package v1api20230131 contains API Schema definitions for the managedidentity v1api20230131 API group
@@ -333,6 +333,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20230101-li">
   <a href="/azure-service-operator/reference/dataprotection/v1api20230101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20230101"><span class="">dataprotection.azure.com/v1api20230101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20231101-li">
+  <a href="/azure-service-operator/reference/dataprotection/v1api20231101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20231101"><span class="">dataprotection.azure.com/v1api20231101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
@@ -1725,6 +1727,63 @@ genruntime.ConfigMapDestination
 </tr>
 </tbody>
 </table>
+<h3 id="managedidentity.azure.com/v1api20230131.UserAssignedIdentityOperatorSecrets">UserAssignedIdentityOperatorSecrets
+</h3>
+<p>
+(<em>Appears on:</em><a href="#managedidentity.azure.com/v1api20230131.UserAssignedIdentityOperatorSpec">UserAssignedIdentityOperatorSpec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>clientId</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>ClientId: indicates where the ClientId secret should be placed. If omitted, the secret will not be retrieved from Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>principalId</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>PrincipalId: indicates where the PrincipalId secret should be placed. If omitted, the secret will not be retrieved from
+Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tenantId</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>TenantId: indicates where the TenantId secret should be placed. If omitted, the secret will not be retrieved from Azure.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="managedidentity.azure.com/v1api20230131.UserAssignedIdentityOperatorSpec">UserAssignedIdentityOperatorSpec
 </h3>
 <p>
@@ -1752,6 +1811,19 @@ UserAssignedIdentityOperatorConfigMaps
 </td>
 <td>
 <p>ConfigMaps: configures where to place operator written ConfigMaps.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secrets</code><br/>
+<em>
+<a href="#managedidentity.azure.com/v1api20230131.UserAssignedIdentityOperatorSecrets">
+UserAssignedIdentityOperatorSecrets
+</a>
+</em>
+</td>
+<td>
+<p>Secrets: configures where to place Azure generated secrets.</p>
 </td>
 </tr>
 </tbody>

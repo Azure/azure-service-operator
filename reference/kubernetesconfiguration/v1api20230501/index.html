@@ -39,7 +39,7 @@
     ErrorAdditionalInfo_STATUS   (Appears on:ErrorDetail_STATUS, ErrorDetail_STATUS_Unrolled)  The resource management error additional info.
     Field Description      info  map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON     Info: The additional info.">
 
-<meta itemprop="wordCount" content="3036">
+<meta itemprop="wordCount" content="3141">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="kubernetesconfiguration.azure.com/v1api20230501"/>
 <meta name="twitter:description" content="kubernetesconfiguration.azure.com/v1api20230501  Package v1api20230501 contains API Schema definitions for the kubernetesconfiguration v1api20230501 API group
@@ -337,6 +337,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20230101-li">
   <a href="/azure-service-operator/reference/dataprotection/v1api20230101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20230101"><span class="">dataprotection.azure.com/v1api20230101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20231101-li">
+  <a href="/azure-service-operator/reference/dataprotection/v1api20231101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20231101"><span class="">dataprotection.azure.com/v1api20231101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
@@ -1250,6 +1252,20 @@ Identity
 </tr>
 <tr>
 <td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#kubernetesconfiguration.azure.com/v1api20230501.ExtensionOperatorSpec">
+ExtensionOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ArbitraryOwnerReference">
@@ -1340,6 +1356,67 @@ Extension_STATUS
 </em>
 </td>
 <td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="kubernetesconfiguration.azure.com/v1api20230501.ExtensionOperatorConfigMaps">ExtensionOperatorConfigMaps
+</h3>
+<p>
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.ExtensionOperatorSpec">ExtensionOperatorSpec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>principalId</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">
+genruntime.ConfigMapDestination
+</a>
+</em>
+</td>
+<td>
+<p>PrincipalId: indicates where the PrincipalId config map should be placed. If omitted, no config map will be created.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="kubernetesconfiguration.azure.com/v1api20230501.ExtensionOperatorSpec">ExtensionOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#kubernetesconfiguration.azure.com/v1api20230501.Extension_Spec">Extension_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>configMaps</code><br/>
+<em>
+<a href="#kubernetesconfiguration.azure.com/v1api20230501.ExtensionOperatorConfigMaps">
+ExtensionOperatorConfigMaps
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMaps: configures where to place operator written ConfigMaps.</p>
 </td>
 </tr>
 </tbody>
@@ -2514,6 +2591,20 @@ Identity
 </td>
 <td>
 <p>Identity: Identity of the Extension resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#kubernetesconfiguration.azure.com/v1api20230501.ExtensionOperatorSpec">
+ExtensionOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
 </td>
 </tr>
 <tr>

@@ -36,7 +36,7 @@
  Resource Types:  APIVersion (string alias)      Value Description   &#34;2023-02-01&#34;
     AgentPoolMode (string alias)  (Appears on:ManagedClusterAgentPoolProfile, ManagedClusterAgentPoolProfileProperties_ARM, ManagedClusterAgentPoolProfile_ARM, ManagedClusters_AgentPool_Spec)  A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools">
 
-<meta itemprop="wordCount" content="27660">
+<meta itemprop="wordCount" content="27680">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="containerservice.azure.com/v1api20230201"/>
 <meta name="twitter:description" content="containerservice.azure.com/v1api20230201  Package v1api20230201 contains API Schema definitions for the containerservice v1api20230201 API group
@@ -333,6 +333,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20230101-li">
   <a href="/azure-service-operator/reference/dataprotection/v1api20230101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20230101"><span class="">dataprotection.azure.com/v1api20230101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20231101-li">
+  <a href="/azure-service-operator/reference/dataprotection/v1api20231101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20231101"><span class="">dataprotection.azure.com/v1api20231101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
@@ -11378,6 +11380,19 @@ genruntime.ConfigMapDestination
 <td>
 <p>OIDCIssuerProfile: indicates where the OIDCIssuerProfile config map should be placed. If omitted, no config map will be
 created.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>principalId</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">
+genruntime.ConfigMapDestination
+</a>
+</em>
+</td>
+<td>
+<p>PrincipalId: indicates where the PrincipalId config map should be placed. If omitted, no config map will be created.</p>
 </td>
 </tr>
 </tbody>
