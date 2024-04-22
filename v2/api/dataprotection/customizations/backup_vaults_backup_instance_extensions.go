@@ -82,7 +82,7 @@ func (extension *BackupVaultsBackupInstanceExtension) PostReconcileCheck(
 	protectionStatus := *backupInstance.Status.Properties.ProtectionStatus.Status
 	log.V(Debug).Info(fmt.Sprintf("Protection Status is  %q", protectionStatus))
 
-	// return success for reconcilation if the state is non-retryable or success
+	// We only want to continue if protectionStatus == ProtectionError.
 	if !strings.EqualFold(protectionStatus, protectionError) {
 		log.V(Debug).Info("Returning PostReconcileCheckResultSuccess")
 		return next(ctx, obj, owner, resolver, armClient, log)

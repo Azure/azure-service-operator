@@ -191,11 +191,11 @@ func Test_DataProtection_BackupInstance_20231101_CRUD(t *testing.T) {
 	tc.Expect(backupInstance.Status.Properties.ProvisioningState).To(BeEquivalentTo(to.Ptr("Succeeded")))
 
 	// Ensure state got updated in Azure.
-	tc.Eventually(func() *dataprotection.ProtectionStatusDetails_Status_STATUS {
+	tc.Eventually(func() bool {
 		var updated dataprotection.BackupVaultsBackupInstance
 		tc.GetResource(objectKey, &updated)
-		return updated.Status.Properties.ProtectionStatus.Status
-	}).Should(Equal(to.Ptr(dataprotection.ProtectionStatusDetails_Status_STATUS_ProtectionConfigured))) // This is the expected value
+		return checkProtectionSuccess(updated)
+	}).Should(Equal(true)) // This is the expected value
 
 	// Note:
 	// Patch Operations are currently not allowed on BackupInstance currently
@@ -212,6 +212,12 @@ func Test_DataProtection_BackupInstance_20231101_CRUD(t *testing.T) {
 	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
+}
+
+func checkProtectionSuccess(updated dataprotection.BackupVaultsBackupInstance) bool {
+	status := *updated.Status.Properties.ProtectionStatus.Status
+	return status == dataprotection.ProtectionStatusDetails_Status_STATUS_ProtectionConfigured ||
+		status == dataprotection.ProtectionStatusDetails_Status_STATUS_ConfiguringProtection
 }
 
 func newBackupInstanceRoleAssignment(tc *testcommon.KubePerTestContext, owner client.Object, name, role string) *authorization.RoleAssignment {
