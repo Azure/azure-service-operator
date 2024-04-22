@@ -1,6 +1,7 @@
 ---
 title: Annotations understood by the operator
 linktitle: Annotations
+weight: 1 # This is the default weight if you just want to be ordered alphabetically
 ---
 
 ## Annotations specified by the user

@@ -1,5 +1,6 @@
 ---
 title: Metrics
+weight: 1 # This is the default weight if you just want to be ordered alphabetically
 ---
 
 Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing.

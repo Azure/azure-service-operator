@@ -1,5 +1,6 @@
 ---
 title: Sharing data through ConfigMaps
+weight: 1 # This is the default weight if you just want to be ordered alphabetically
 ---
 
 Resources supported by Azure Service Operator may support dynamic input in the form of reading a `ConfigMap`.

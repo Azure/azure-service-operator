@@ -1,5 +1,6 @@
 ---
 title: Conditions
+weight: 1 # This is the default weight if you just want to be ordered alphabetically
 ---
 Each resource reports a `Ready` condition in `.status.conditions`. It is also visible when you examine
 the resource with `kubectl get`, for example:
