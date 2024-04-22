@@ -640,13 +640,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.SqlDatabase)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.SqlDatabaseContainer)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.SqlDatabaseContainerStoredProcedure)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.SqlDatabaseContainerThroughputSetting)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.SqlDatabaseContainerTrigger)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.SqlDatabaseContainerUserDefinedFunction)})
-	result = append(result, &registration.StorageType{Obj: new(documentdb_v20210515s.SqlDatabaseThroughputSetting)})
 	result = append(result, &registration.StorageType{
 		Obj: new(documentdb_v20210515s.SqlRoleAssignment),
 		Indexes: []registration.Index{
@@ -667,6 +660,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.MongodbDatabaseCollection)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.MongodbDatabaseCollectionThroughputSetting)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.MongodbDatabaseThroughputSetting)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.SqlDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.SqlDatabaseContainer)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.SqlDatabaseContainerStoredProcedure)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.SqlDatabaseContainerThroughputSetting)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.SqlDatabaseContainerTrigger)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.SqlDatabaseContainerUserDefinedFunction)})
+	result = append(result, &registration.StorageType{Obj: new(documentdb_v20231115s.SqlDatabaseThroughputSetting)})
 	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.Domain)})
 	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.DomainsTopic)})
 	result = append(result, &registration.StorageType{
@@ -1502,14 +1502,28 @@ func getKnownTypes() []client.Object {
 		new(documentdb_v20231115.MongodbDatabase),
 		new(documentdb_v20231115.MongodbDatabaseCollection),
 		new(documentdb_v20231115.MongodbDatabaseCollectionThroughputSetting),
-		new(documentdb_v20231115.MongodbDatabaseThroughputSetting))
+		new(documentdb_v20231115.MongodbDatabaseThroughputSetting),
+		new(documentdb_v20231115.SqlDatabase),
+		new(documentdb_v20231115.SqlDatabaseContainer),
+		new(documentdb_v20231115.SqlDatabaseContainerStoredProcedure),
+		new(documentdb_v20231115.SqlDatabaseContainerThroughputSetting),
+		new(documentdb_v20231115.SqlDatabaseContainerTrigger),
+		new(documentdb_v20231115.SqlDatabaseContainerUserDefinedFunction),
+		new(documentdb_v20231115.SqlDatabaseThroughputSetting))
 	result = append(
 		result,
 		new(documentdb_v20231115s.DatabaseAccount),
 		new(documentdb_v20231115s.MongodbDatabase),
 		new(documentdb_v20231115s.MongodbDatabaseCollection),
 		new(documentdb_v20231115s.MongodbDatabaseCollectionThroughputSetting),
-		new(documentdb_v20231115s.MongodbDatabaseThroughputSetting))
+		new(documentdb_v20231115s.MongodbDatabaseThroughputSetting),
+		new(documentdb_v20231115s.SqlDatabase),
+		new(documentdb_v20231115s.SqlDatabaseContainer),
+		new(documentdb_v20231115s.SqlDatabaseContainerStoredProcedure),
+		new(documentdb_v20231115s.SqlDatabaseContainerThroughputSetting),
+		new(documentdb_v20231115s.SqlDatabaseContainerTrigger),
+		new(documentdb_v20231115s.SqlDatabaseContainerUserDefinedFunction),
+		new(documentdb_v20231115s.SqlDatabaseThroughputSetting))
 	result = append(
 		result,
 		new(eventgrid_v20200601.Domain),
