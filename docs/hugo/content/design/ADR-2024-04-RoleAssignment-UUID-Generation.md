@@ -41,7 +41,7 @@ We can use annotation below to control the name generation behaviour
 
 To use random uuid:
 ```yaml
-serviceoperator.azure.com/uuid-generation: random 
+serviceoperator.azure.com/uuid-generation: Random 
 ```
 
 To use deterministic uuid(default)
@@ -60,8 +60,14 @@ Adding subscriptionId as a seed string would make the resource names distinct ac
 
 **Pro**: User does not have to do anything
 
-**Con**: Moving resource with same name between multiple ASO instances would require a workaround
+**Con**: Moving resource with same name between older to newer ASO version would require a workaround
 **Con**: Webhooks don't have information about subscriptionID
+
+## Decision
+
+Recommendation: Option 2 - Using annotations
+
+We retain how the resource shape looks like and suggest using annotation for the users running into the edge case. 
 
 ## Status
 
