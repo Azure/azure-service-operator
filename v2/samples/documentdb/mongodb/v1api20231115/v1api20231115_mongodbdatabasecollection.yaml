@@ -6,7 +6,7 @@ metadata:
 spec:
   location: eastus
   owner:
-    name: sample-db-mongodb
+    name: sample-mongodb
   options:
     throughput: 400
   resource:
