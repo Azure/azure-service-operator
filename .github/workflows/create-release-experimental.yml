@@ -85,7 +85,7 @@ jobs:
             
             It is not recommended to run the experimental release for a long period of time, as the docker image referenced by the deployment is 
             `mcr.microsoft.com/k8s/azureserviceoperator:experimental`, which is always being updated. Test what you want to test and then uninstall the operator. 
-            Running the operator for long periods of time on the `:experimental` tag is not supported and will likely cause problems eventually.
+            Running the operator for long periods of time on the `experimental` tag is not supported and will likely cause problems eventually.
 
       - name: Docker login
         run: |

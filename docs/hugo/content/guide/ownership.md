@@ -46,7 +46,7 @@ and
 
 for an AKS `AgentPool`.
 
-### What Kubernetes resource owns the resource?
+### Which Kubernetes resource owns the resource?
 
 This is for [garbage collection](https://kubernetes.io/docs/concepts/architecture/garbage-collection).
 
@@ -61,7 +61,7 @@ resource and what Kubernetes resource owns it for garbage collection.
 
 ## Using ARM ID for ownership
 
-The `owner` field also supports pointing to an ARM ID rather than the Kubernetes resource. This mechanism of ownership
+The `owner` field supports pointing to an ARM ID rather than the Kubernetes resource. This mechanism of ownership
 exists to make using ASO alongside other resource management tools easier.
 
 ```
