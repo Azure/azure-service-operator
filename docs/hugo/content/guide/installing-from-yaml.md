@@ -7,13 +7,19 @@ weight: -4
 2. You have the `AZURE_SUBSCRIPTION_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_ID` and `AZURE_CLIENT_SECRET` environment variables set from the
    [installation instructions](../../#installation).
 
-## Installation
+## Installation (operator)
 
-1. Install [the latest **v2+** release](https://github.com/Azure/azure-service-operator/releases) of Azure Service Operator.
+1. Download and install the latest version of [asoctl]({{<relref "asoctl#installation">}}).
+2. Install [the latest **v2+** release](https://github.com/Azure/azure-service-operator/releases) of Azure Service Operator.
    ```bash
-   kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_v2.0.0.yaml
+   asoctl export template --version v2.6.0 --crd-pattern "<your pattern>" | kubectl apply -f -
    ```
-2. Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. 
+   
+   When specifying `--crd-pattern`, ensure you choose only the CRDs you need, for example: 
+   `--crd-pattern "resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*"`. 
+   For more information about what `--crd-pattern` means, see [CRD management in ASO]({{<relref "crd-management">}}).
+
+3. Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. 
    Make sure that you have the 4 environment variables from the [Helm installation instructions](../../#installation) set.
    To learn more about other authentication options, see the [authentication documentation](../authentication/):
    ```bash
@@ -31,9 +37,28 @@ weight: -4
    EOF
    ```
 
-## Troubleshooting
+## Installation (crds)
 
-### Metadata too long
+The operator manages its own CRDs by default, based on the `--crd-pattern` specified during installation.
+
+{{% alert title="Warning" color="warning" %}}
+If you specified `--crd-pattern` when installing ASO, you don't need to do any of the below.
+{{% /alert %}}
+
+If you don't want the operator to manage the CRDs itself, you can install the latest version of the CRDs yourself:
+
+```bash
+kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.6.0/azureserviceoperator_customresourcedefinitions_v2.6.0.yaml
+```
+
+{{% alert title="Warning" color="warning" %}}
+The azureserviceoperator_customresourcedefinitions_v2.6.0.yaml file contains _all_ the supported CRDs. We recommend filtering
+it locally to only the CRDs you want.
+{{% /alert %}}
+
+### Troubleshooting
+
+#### Metadata too long
 
 If you omit the `--server-side=true` flag from the `kubectl apply` command, you will see an error like the following:
 

@@ -17,11 +17,19 @@ Usage:
   asoctl [command]
 
 Available Commands:
+  clean       Clean Custom Resource Definitions (CRDs) prior to upgrade
   completion  Generate the autocompletion script for the specified shell
-  crd         Custom Resource Definition (CRD) related actions
+  export      Exports an ASO YAML file from a template
   help        Help about any command
-  import      imports ARM resources as YAML resource definitions
+  import      Imports ARM resources to YAML files containing ASO custom resource definitions
   version     Display version information
+
+Flags:
+      --quiet     Silence most logging
+      --verbose   Enable verbose logging
+  -h, --help      help for asoctl
+
+Use "asoctl [command] --help" for more information about a command.
 ```
 
 ## Installation
@@ -93,6 +101,46 @@ Append that directory to your `PATH` if desired.
 
 {{% /tab %}}
 {{< /tabpane >}}
+
+## Export template
+
+The `export template` commands helps render a YAML file from the raw ASO published with each release.
+
+```bash
+Template creates a YAML file from the specified ASO yaml template
+
+Usage:
+  asoctl export template [--source <string> |--version <string>] [--crd-pattern <string>|--raw] [flags]
+
+Examples:
+asoctl export template --version v2.6.0 --crd-pattern "resources.azure.com/*" --crd-pattern "containerservice.azure.com/*"
+
+With combined crd-pattern:
+asoctl export template --version v2.6.0 --crd-pattern "resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*"
+
+With remote source:
+asoctl export template --source https://github.com/Azure/azure-service-operator/releases/download/v2.6.0/azureserviceoperator_v2.6.0.yaml --crd-pattern "resources.azure.com/*" --crd-pattern "containerservice.azure.com/*"
+
+With local source:
+asoctl export template --source ~/Downloads/azureserviceoperator_v2.6.0.yaml --crd-pattern "resources.azure.com/*" --crd-pattern "containerservice.azure.com/*"
+
+Raw:
+asoctl export template --version v2.6.0  --raw
+
+With kubectl:
+asoctl export template --version v2.6.0 --crd-pattern "resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*" | kubectl apply -f -
+
+Flags:
+  -p, --crd-pattern strings   What new CRDs to install. Existing ASO CRDs in the cluster will always be upgraded even if crdPattern is empty. See https://azure.github.io/azure-service-operator/guide/crd-management/ for more details.
+  -h, --help                  help for template
+      --raw                   Export the YAML without any variable replacements
+  -s, --source string         File or URL path to the ASO YAML template. Use this if you've customized the base ASO YAML locally or are using a base YAML other than the one hosted at https://github.com/Azure/azure-service-operator/tags
+  -v, --version string        Release version to use.
+
+Global Flags:
+      --quiet     Silence most logging
+      --verbose   Enable verbose logging
+```
 
 ## Clean CRDs
 
