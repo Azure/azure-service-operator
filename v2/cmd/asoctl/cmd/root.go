@@ -8,11 +8,12 @@ package cmd
 import (
 	"context"
 
-	"github.com/Azure/azure-service-operator/v2/internal/version"
-	"github.com/Azure/azure-service-operator/v2/pkg/xcontext"
 	"github.com/go-logr/zerologr"
 	"github.com/rs/zerolog"
 	"github.com/spf13/cobra"
+
+	"github.com/Azure/azure-service-operator/v2/internal/version"
+	"github.com/Azure/azure-service-operator/v2/pkg/xcontext"
 )
 
 // Execute kicks off the command line
@@ -48,6 +49,7 @@ func newRootCommand() (*cobra.Command, error) {
 	cmds := []func() (*cobra.Command, error){
 		newCleanCommand,
 		newImportCommand,
+		newExportCommand,
 		version.NewCommand,
 	}
 
